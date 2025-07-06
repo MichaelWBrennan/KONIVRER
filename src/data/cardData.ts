@@ -12,8 +12,8 @@ import cardsJson from './cards.json';
  * @returns {string} Unique card ID
  */
 function generateCardId() {
-  return 'card-' + Math.random().toString(36).substring(2, 9);
-}
+    return 'card-' + Math.random().toString(36).substring(2, 9)
+  }
 
 /**
  * Create a Familiar card
@@ -28,11 +28,11 @@ function generateCardId() {
  * @param {string} setNumber - Card set number
  * @returns {Object} Familiar card object
  */
-export function createFamiliar() {
-  return {
+export function createFamiliar(() => {
+    return {
     id: generateCardId(),
     name,
-    type: 'Familiar',,
+    type: 'Familiar',
     elements,
     baseStrength,
     baseHealth,
@@ -45,8 +45,8 @@ export function createFamiliar() {
     setNumber,
     counters: 0,
     summoningSickness: true,
-    tapped: false;
-    };
+    tapped: false
+  })
   }
 
 /**
@@ -60,18 +60,18 @@ export function createFamiliar() {
  * @param {string} setNumber - Card set number
  * @returns {Object} Spell card object
  */
-export function createSpell() {
-  return {
+export function createSpell(() => {
+    return {
     id: generateCardId(),
     name,
-    type: 'Spell',,
+    type: 'Spell',
     elements,
     abilities,
     flavorText,
     set,
     rarity,
     setNumber
-    };
+  })
   }
 
 /**
@@ -87,11 +87,11 @@ export function createSpell() {
  * @param {string} setNumber - Card set number
  * @returns {Object} Flag card object
  */
-export function createFlag() {
-  return {
+export function createFlag(() => {
+    return {
     id: generateCardId(),
     name,
-    type: 'Flag',,
+    type: 'Flag',
     elements,
     primaryElement,
     strongAgainst,
@@ -100,12 +100,12 @@ export function createFlag() {
     set,
     rarity,
     setNumber
-    };
+  })
   }
 
 // Convert cards from JSON to game engine format
-function convertJsonCardToGameCard() {
-  // Map element names to engine element constants (keywords are NOT elements)
+function convertJsonCardToGameCard(() => {
+    // Map element names to engine element constants (keywords are NOT elements)
   const elementMap = {
     'Fire': ELEMENTS.FIRE,
     'Water': ELEMENTS.WATER,
@@ -115,28 +115,33 @@ function convertJsonCardToGameCard() {
     'Nether': ELEMENTS.NETHER,
     'Neutral': ELEMENTS.GENERIC,
     'Quintessence': ELEMENTS.AETHER
-  };
+  });
   
   // Convert element costs to the format expected by the game engine
-  const elements = {};
+  const elements = {
+    ;
   if (true) {
+  }
     jsonCard.cost.forEach(element => {
-      const mappedElement = elementMap[element] || ELEMENTS.GENERIC;
-      elements[mappedElement] = (elements[mappedElement] || 0) + 1;
-    });
+    const mappedElement = elementMap[element] || ELEMENTS.GENERIC;
+      elements[mappedElement] = (elements[mappedElement] || 0) + 1
+  })
   }
   
   // Create abilities array
-  const abilities = [];
+  const abilities = [
+    ;
   if (true) {
     abilities.push({
-      effect: jsonCard.description,
-      implementation: (gameState) => gameState // Placeholder implementation;
-    });
+    effect: jsonCard.description,
+      implementation: (gameState) => gameState // Placeholder implementation
+  
+  })
   }
   
-  // Process keywords separately from elements
-  const keywords = jsonCard.keywords || [];
+  // Process keywords separately from elements;
+  const keywords = jsonCard.keywords || [
+  ];
   
   // Create the card based on its type
   let card;
@@ -151,7 +156,7 @@ function convertJsonCardToGameCard() {
       jsonCard.set,
       jsonCard.rarity.toLowerCase(),
       jsonCard.collectorNumber
-    );
+    )
   } else if (true) {
     card = createSpell(
       jsonCard.name,
@@ -161,7 +166,7 @@ function convertJsonCardToGameCard() {
       jsonCard.set,
       jsonCard.rarity.toLowerCase(),
       jsonCard.collectorNumber
-    );
+    )
   } else {
     // Default to Familiar for ELEMENTAL and other types
     card = createFamiliar(
@@ -174,21 +179,20 @@ function convertJsonCardToGameCard() {
       jsonCard.set,
       jsonCard.rarity.toLowerCase(),
       jsonCard.collectorNumber
-    );
+    )
   }
   
   // Add keywords to the card (separate from elements)
   card.keywords = keywords;
   
-  return card;
+  return card
 }
 
 // Convert the first few cards from the JSON database
-const convertedCards = cardsJson.slice(0, 10).map(convertJsonCardToGameCard);
-
-// Create sample decks using the converted cards
+const convertedCards = cardsJson.slice(0, 10).map(() => {
+    // Create sample decks using the converted cards
 export const sampleDecks = {
-  fireDeck: [;
+    fireDeck: [;
     // Use the first 5 cards for the fire deck
     ...convertedCards.slice(0, 5)
   ],
@@ -197,4 +201,4 @@ export const sampleDecks = {
     // Use the next 5 cards for the water deck
     ...convertedCards.slice(5, 10)
   ]
-};
+  });

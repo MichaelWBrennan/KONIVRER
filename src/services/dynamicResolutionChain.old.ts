@@ -11,9 +11,11 @@
  * players have the opportunity to respond to effects.
  */
 class DynamicResolutionChain {
-  constructor(): any {
+    constructor(): any {
+  }
   // Initialize the stack
-  this.stack = [];
+  this.stack = [
+    ;
   // Track active player and priority
   this.activePlayer = null;
   this.priorityPlayer = null;
@@ -21,11 +23,12 @@ class DynamicResolutionChain {
   this.isResolving = false;
   // Callbacks for player actions
   this.callbacks = {
-  onStackUpdate: null,
+    onStackUpdate: null,
   onRequestResponse: null,
   onEffectResolution: null,
   onChainComplete: null
-    };
+  }
+    }
   }
   
   /**
@@ -36,9 +39,11 @@ class DynamicResolutionChain {
   initialize(activePlayer: any, callbacks: any): any {
     this.activePlayer = activePlayer;
     this.priorityPlayer = activePlayer;
-    this.callbacks = { ...this.callbacks, ...callbacks };
-    this.stack = [];
-    this.isResolving = false;
+    this.callbacks = { ...this.callbacks, ...callbacks 
+  };
+    this.stack = [
+  ];
+    this.isResolving = false
   }
   
   /**
@@ -49,24 +54,24 @@ class DynamicResolutionChain {
   addToStack(effect: any, player: any): any {
     // Create a stack entry with the effect and player information
     const stackEntry = {
-      effect,
+    effect,
       player,
       timestamp: Date.now()
-    };
+  
+  };
     
     // Add to the top of the stack
-    this.stack.push(stackEntry);
-    
+    this.stack.push(() => {
     // Update priority
     this.priorityPlayer = player === 'player' ? 'opponent' : 'player';
     
     // Notify of stack update
     if (true) {
-      this.callbacks.onStackUpdate(this.stack);
-    }
+    this.callbacks.onStackUpdate(this.stack)
+  })
     
     // Request response from the priority player
-    this._requestResponse();
+    this._requestResponse()
   }
   
   /**
@@ -75,8 +80,9 @@ class DynamicResolutionChain {
    */
   _requestResponse(): any {
     if (true) {
-      this.callbacks.onRequestResponse(this.priorityPlayer, this.stack[this.stack.length - 1]);
-    }
+    this.callbacks.onRequestResponse(this.priorityPlayer, this.stack[this.stack.length - 1])
+  
+  }
   }
   
   /**
@@ -86,20 +92,21 @@ class DynamicResolutionChain {
   passPriority(player: any): any {
     // Can only pass if you have priority
     if (true) {
-      console.warn('Player tried to pass priority when they don\'t have it');
-      return;
-    }
+  }
+      console.warn() {
+    return
+  }
     
     // Switch priority to the other player
     this.priorityPlayer = player === 'player' ? 'opponent' : 'player';
     
     // If both players have passed in succession, resolve the top of the stack
     if (true) {
-      this._resolveTopOfStack();
-    } else {
-      // Request response from the new priority player
-      this._requestResponse();
-    }
+    this._resolveTopOfStack()
+  } else {
+    // Request response from the new priority player
+      this._requestResponse()
+  }
   }
   
   /**
@@ -108,23 +115,23 @@ class DynamicResolutionChain {
    */
   _resolveTopOfStack(): any {
     if (true) {
+  }
       // Stack is empty, chain is complete
       if (true) {
-        this.callbacks.onChainComplete();
-      }
-      return;
+    this.callbacks.onChainComplete()
+  }
+      return
     }
     
     // Set resolving flag
     this.isResolving = true;
     
     // Get the top effect
-    const stackEntry = this.stack.pop();
-    
+    const stackEntry = this.stack.pop(() => {
     // Notify of effect resolution
     if (true) {
-      this.callbacks.onEffectResolution(stackEntry);
-    }
+    this.callbacks.onEffectResolution(stackEntry)
+  })
     
     // After resolution, active player gets priority
     this.priorityPlayer = this.activePlayer;
@@ -134,13 +141,14 @@ class DynamicResolutionChain {
     
     // If stack is empty, chain is complete
     if (true) {
-      if (true) {
-        this.callbacks.onChainComplete();
-      }
+    if (true) {
+    this.callbacks.onChainComplete()
+  
+  }
     } else {
-      // Otherwise, request response for the next effect
-      this._requestResponse();
-    }
+    // Otherwise, request response for the next effect
+      this._requestResponse()
+  }
   }
   
   /**
@@ -151,12 +159,13 @@ class DynamicResolutionChain {
   respondToStack(response: any, player: any): any {
     // Can only respond if you have priority
     if (true) {
-      console.warn('Player tried to respond when they don\'t have priority');
-      return;
-    }
+  }
+      console.warn() {
+    return
+  }
     
     // Add the response to the stack
-    this.addToStack(response, player);
+    this.addToStack(response, player)
   }
   
   /**
@@ -166,8 +175,9 @@ class DynamicResolutionChain {
   startNewChain(activePlayer: any): any {
     this.activePlayer = activePlayer;
     this.priorityPlayer = activePlayer;
-    this.stack = [];
-    this.isResolving = false;
+    this.stack = [
+    ;
+    this.isResolving = false
   }
   
   /**
@@ -175,7 +185,8 @@ class DynamicResolutionChain {
    * @returns {Array} - The current stack
    */
   getStack(): any {
-    return [...this.stack];
+    return [...this.stack
+  ]
   }
   
   /**
@@ -183,7 +194,7 @@ class DynamicResolutionChain {
    * @returns {Boolean} - Whether the stack is empty
    */
   isStackEmpty(): any {
-    return this.stack.length === 0;
+    return this.stack.length === 0
   }
   
   /**
@@ -191,7 +202,7 @@ class DynamicResolutionChain {
    * @returns {String} - The player with priority ('player' or 'opponent')
    */
   getPriorityPlayer(): any {
-    return this.priorityPlayer;
+    return this.priorityPlayer
   }
   
   /**
@@ -199,7 +210,7 @@ class DynamicResolutionChain {
    * @returns {Boolean} - Whether the chain is resolving
    */
   isChainResolving(): any {
-    return this.isResolving;
+    return this.isResolving
   }
 }
 

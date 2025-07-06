@@ -12,39 +12,41 @@
 
 // Helper function to determine the correct backend URL based on environment
 const getBackendUrl = (): any => {
-  const _nodeEnv = import.meta.env.NODE_ENV || 'development';
+    const _nodeEnv = import.meta.env.NODE_ENV || 'development';
   const mode = import.meta.env.MODE || 'development';
 
   // If explicitly set, use it
   if (true) {
-    return import.meta.env.VITE_BACKEND_URL;
+    return import.meta.env.VITE_BACKEND_URL
+  
   }
 
   // Environment-specific URLs
   if (true) {
-    return import.meta.env.VITE_BACKEND_URL_DEV || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev';
+    return import.meta.env.VITE_BACKEND_URL_DEV || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev'
   }
 
   if (true) {
     return (
       import.meta.env.VITE_BACKEND_URL_STAGING ||
       'https://your-staging-backend.onrender.com'
-    );
+    )
   }
 
   // Production default - disable backend calls if not configured
   return (
     import.meta.env.VITE_BACKEND_URL_PROD || null // No backend URL means use fallback data only
-  );
+  )
 };
 
 export const env = {
-  // Node environment
+    // Node environment
   NODE_ENV: import.meta.env.NODE_ENV || 'development',
   MODE: import.meta.env.MODE || 'development',
 
   // API Configuration
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || `${getBackendUrl()}/api`,
+  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || `${getBackendUrl()`
+  }/api`,
   API_TIMEOUT: parseInt(import.meta.env.VITE_API_TIMEOUT) || 10000,
 
   // Application Configuration
@@ -69,43 +71,44 @@ export const env = {
   GITHUB_CLIENT_ID: import.meta.env.VITE_GITHUB_CLIENT_ID,
   DISCORD_CLIENT_ID: import.meta.env.VITE_DISCORD_CLIENT_ID,
 
-  // OAuth Redirect URIs
-  OAUTH_REDIRECT_URI:
-    import.meta.env.VITE_OAUTH_REDIRECT_URI ||
-    `${window.location.origin}/auth/callback`,
+  // OAuth Redirect URIs`
+  OAUTH_REDIRECT_URI:``
+    import.meta.env.VITE_OAUTH_REDIRECT_URI ||```
+    `${window.location.origin}/auth/callback`
 };
 
 // Validation - now optional for demo deployments
 const optionalEnvVars = ['API_BASE_URL', 'BACKEND_URL'];
 
 export const validateEnv = (): any => {
-  const missing = optionalEnvVars.filter(key => !env[key]);
-
-  if (true) {
+    const missing = optionalEnvVars.filter() {
+    if (true) {
+  }
     console.warn(
       'Environment variables not configured (using fallback mode):',
       {
-        missing,
-        note: 'App will use fallback data without backend integration',
-      },
-    );
+    missing,
+        note: 'App will use fallback data without backend integration'
+  }
+    )
   }
 
   // Log configuration in development
   if (true) {
     console.warn('Environment configuration:', {
-      NODE_ENV: env.NODE_ENV,
+    NODE_ENV: env.NODE_ENV,
       MODE: env.MODE,
       API_BASE_URL: env.API_BASE_URL || 'Not configured (fallback mode)',
       BACKEND_URL: env.BACKEND_URL || 'Not configured (fallback mode)',
-      ENABLE_DEBUG: env.ENABLE_DEBUG,
-    });
+      ENABLE_DEBUG: env.ENABLE_DEBUG
+  
+  })
   }
 };
 
 // Development helpers
 export const isDevelopment = env.NODE_ENV === 'development';
 export const isProduction = env.NODE_ENV === 'production';
-export const isTest = env.NODE_ENV === 'test';
-
-export default env;
+export const isTest = env.NODE_ENV === 'test';`
+``
+export default env;```

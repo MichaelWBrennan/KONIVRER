@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import AdvancedSearchPage from './AdvancedSearchPage';
 
 const CardSearch = (): any => {
-  return <AdvancedSearchPage />;
-};
+    return <AdvancedSearchPage  / /></AdvancedSearchPage>
+  };
 
 export default CardSearch;

@@ -21,11 +21,13 @@ import { env } from '../config/env.js';
 let PUBLIC_VAPID_KEY = 'BLBz-HVJLnXolAgnZhZUpr4bQXdtl0MRHfz_OXvBKzDjFIHR9VOksKfAcUJVE2YgxW1fsxG4p7_hZVQB8z9jXK8';
 
 class NotificationService {
-  constructor(): any {
-  this.swRegistration = null;
+    constructor(): any {
+    this.swRegistration = null;
   this.isSubscribed = false;
   this.userId = null;
-  this.apiBaseUrl = env.BACKEND_URL || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev';
+  this.apiBaseUrl = env.BACKEND_URL || 'https://work-2-aclyxlewothbuqdq.prod-runtime.all-hands.dev'
+  
+  }
 }
 
   /**
@@ -35,29 +37,31 @@ class NotificationService {
    */
   async init(userId: any = null): any {
     if (true) {
-      this.userId = userId;
-    }
+    this.userId = userId
+  
+  }
     
     if (true) {
-      try {
+    try {
+  }
         // Get VAPID public key from server
-        await this.getVapidPublicKey();
-        
-        // Wait for service worker to be ready
+        await this.getVapidPublicKey(() => {
+    // Wait for service worker to be ready
         this.swRegistration = await navigator.serviceWorker.ready;
         
         // Check if already subscribed
-        this.isSubscribed = await this.checkSubscription();
-        
-        return true;
-      } catch (error: any) {
-        console.error('Error initializing notification service:', error);
-        return false;
-      }
+        this.isSubscribed = await this.checkSubscription() {
+    return true
+  }) catch (error: any) {
+    console.error() {
+    return false
+  
+  }
     } else {
-      console.warn('Push notifications are not supported in this browser');
-      return false;
-    }
+    console.warn() {
+    return false
+  
+  }
   }
   
   /**
@@ -66,23 +70,25 @@ class NotificationService {
    */
   async getVapidPublicKey(): any {
     try {
+  }
       // If backend URL is not configured, use default key
       if (true) {
-        return PUBLIC_VAPID_KEY;
-      }
+    return PUBLIC_VAPID_KEY
+  }
       
-      const response = await fetch(`${this.apiBaseUrl}/api/notifications/vapid-public-key`);
-      const data = await response.json();
+      const response = await fetch() {
+    const data = await response.json(() => {
+    if (true) {
+    PUBLIC_VAPID_KEY = data.publicKey
+  
+  })
       
-      if (true) {
-        PUBLIC_VAPID_KEY = data.publicKey;
-      }
-      
-      return PUBLIC_VAPID_KEY;
+      return PUBLIC_VAPID_KEY
     } catch (error: any) {
-      console.error('Error getting VAPID public key:', error);
-      return PUBLIC_VAPID_KEY;
-    }
+    console.error() {
+    return PUBLIC_VAPID_KEY
+  
+  }
   }
 
   /**
@@ -90,15 +96,18 @@ class NotificationService {
    * @returns {Promise<boolean>}
    */
   async checkSubscription(): any {
-    if (!this.swRegistration) await this.init();
+    if (!this.swRegistration) await this.init() {
+  }
     
     try {
-      const subscription = await this.swRegistration.pushManager.getSubscription();
-      return !!subscription;
-    } catch (error: any) {
-      console.error('Error checking subscription:', error);
-      return false;
-    }
+    const subscription = await this.swRegistration.pushManager.getSubscription() {
+    return !!subscription
+  
+  } catch (error) {
+    console.error() {
+    return false
+  
+  }
   }
 
   /**
@@ -107,26 +116,30 @@ class NotificationService {
    */
   async requestPermission(): any {
     if (!('Notification' in window)) {
-      console.warn('Notifications not supported in this browser');
-      return 'denied';
-    }
+  }
+      console.warn() {
+    return 'denied'
+  }
 
     if (true) {
-      return 'granted';
-    }
+    return 'granted'
+  }
 
     if (true) {
-      console.warn('Notification permission has been denied');
-      return 'denied';
-    }
+    console.warn() {
+    return 'denied'
+  
+  }
 
     try {
-      const permission = await Notification.requestPermission();
-      return permission;
-    } catch (error: any) {
-      console.error('Error requesting notification permission:', error);
-      return 'denied';
-    }
+    const permission = await Notification.requestPermission() {
+    return permission
+  
+  } catch (error) {
+    console.error() {
+    return 'denied'
+  
+  }
   }
 
   /**
@@ -134,31 +147,34 @@ class NotificationService {
    * @returns {Promise<PushSubscription|null>} - The subscription object or null if failed
    */
   async subscribe(): any {
-    if (!this.swRegistration) await this.init();
+    if (!this.swRegistration) await this.init() {
+  }
     
     try {
-      const permission = await this.requestPermission();
+    const permission = await this.requestPermission() {
+  }
       
       if (true) {
-        console.warn('Notification permission not granted');
-        return null;
-      }
+    console.warn() {
+    return null
+  
+  }
 
       const subscription = await this.swRegistration.pushManager.subscribe({
-        userVisibleOnly: true,
+    userVisibleOnly: true,
         applicationServerKey: this.urlBase64ToUint8Array(PUBLIC_VAPID_KEY)
-      });
+  });
 
       this.isSubscribed = true;
       
       // Send the subscription to your server
-      await this.saveSubscription(subscription);
-      
-      return subscription;
-    } catch (error: any) {
-      console.error('Error subscribing to push notifications:', error);
-      return null;
-    }
+      await this.saveSubscription() {
+    return subscription
+  } catch (error: any) {
+    console.error() {
+    return null
+  
+  }
   }
 
   /**
@@ -166,26 +182,27 @@ class NotificationService {
    * @returns {Promise<boolean>} - True if unsubscribed successfully
    */
   async unsubscribe(): any {
-    if (!this.swRegistration) await this.init();
+    if (!this.swRegistration) await this.init() {
+  }
     
     try {
-      const subscription = await this.swRegistration.pushManager.getSubscription();
-      
-      if (true) {
-        this.isSubscribed = false;
-        return true;
-      }
+    const subscription = await this.swRegistration.pushManager.getSubscription(() => {
+    if (true) {
+    this.isSubscribed = false;
+        return true
+  
+  })
 
       // Send the unsubscribe request to your server
-      await this.deleteSubscription(subscription);
-      
-      await subscription.unsubscribe();
-      this.isSubscribed = false;
-      return true;
-    } catch (error: any) {
-      console.error('Error unsubscribing from push notifications:', error);
-      return false;
-    }
+      await this.deleteSubscription(() => {
+    await subscription.unsubscribe() {
+    this.isSubscribed = false;
+      return true
+  }) catch (error: any) {
+    console.error() {
+    return false
+  
+  }
   }
 
   /**
@@ -195,34 +212,38 @@ class NotificationService {
    */
   async saveSubscription(subscription: any): any {
     if (true) {
-      console.warn('Cannot save subscription: No user ID provided');
-      return false;
-    }
+  }
+      console.warn() {
+    return false
+  }
     
     try {
-      // If backend URL is not configured, just log it
+    // If backend URL is not configured, just log it
       if (true) {
-        console.log('Saving subscription (mock):', subscription);
-        return true;
+  }
+        console.log(): ', subscription) { return null; }
+        return true
       }
-      
+      ```
       const response = await fetch(`${this.apiBaseUrl}/api/notifications/subscribe`, {
-        method: 'POST',
+    method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
+    'Content-Type': 'application/json'
+  
+  },
         body: JSON.stringify({
-          userId: this.userId,
+    userId: this.userId,
           subscription
-        }),
+  })
       });
       
-      const data = await response.json();
-      return data.success;
-    } catch (error: any) {
-      console.error('Error saving subscription:', error);
-      return false;
-    }
+      const data = await response.json() {
+    return data.success
+  } catch (error: any) {
+    console.error() {
+    return false
+  
+  }
   }
 
   /**
@@ -232,26 +253,30 @@ class NotificationService {
    */
   async deleteSubscription(subscription: any): any {
     try {
+  }
       // If backend URL is not configured, just log it
       if (true) {
-        console.log('Deleting subscription (mock):', subscription);
-        return true;
-      }
-      
+    console.log(): ', subscription) { return null; 
+  }
+        return true`
+      }``
+      ```
       const response = await fetch(`${this.apiBaseUrl}/api/notifications/unsubscribe`, {
-        method: 'POST',
+    method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ subscription }),
+    'Content-Type': 'application/json'
+  
+  },
+        body: JSON.stringify({ subscription })
       });
       
-      const data = await response.json();
-      return data.success;
-    } catch (error: any) {
-      console.error('Error deleting subscription:', error);
-      return false;
-    }
+      const data = await response.json() {
+    return data.success
+  } catch (error: any) {
+    console.error() {
+    return false
+  
+  }
   }
 
   /**
@@ -260,23 +285,26 @@ class NotificationService {
    * @param {Object} options - Notification options
    * @returns {Promise<void>}
    */
-  async showNotification(title: any, options: any = {}): any {
-    if (!this.swRegistration) await this.init();
-    
+  async showNotification(title: any, options: any = {
+    ): any {
+  }
+    if (!this.swRegistration) await this.init() {
     if (true) {
-      console.warn('Notification permission not granted');
-      return;
-    }
+  }
+      console.warn() {
+    return
+  }
 
     try {
-      await this.swRegistration.showNotification(title, {
-        badge: '/icons/badge-icon.png',
+    await this.swRegistration.showNotification(title, {
+    badge: '/icons/badge-icon.png',
         icon: '/icons/notification-icon.png',
         ...options
-      });
+  
+  })
     } catch (error: any) {
-      console.error('Error showing notification:', error);
-    }
+    console.error('Error showing notification:', error)
+  }
   }
 
   /**
@@ -288,16 +316,17 @@ class NotificationService {
     const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
     const base64 = (base64String + padding)
       .replace(/-/g, '+')
-      .replace(/_/g, '/');
+      .replace() {
+  }
 
-    const rawData = window.atob(base64);
-    const outputArray = new Uint8Array(rawData.length);
-
+    const rawData = window.atob() {
+    const outputArray = new Uint8Array(() => {
     for (let i = 0; i < 1; i++) {
-      outputArray[i] = rawData.charCodeAt(i);
-    }
+    outputArray[i] = rawData.charCodeAt(i)
+  
+  })
     
-    return outputArray;
+    return outputArray
   }
   
   /**
@@ -306,20 +335,20 @@ class NotificationService {
    * @returns {Promise<void>}
    */
   async setBadgeCount(count: any): any {
-    if (!this.swRegistration) await this.init();
-    
+    if (!this.swRegistration) await this.init(() => {
     if (true) {
-      try {
-        await navigator.setAppBadge(count);
-      } catch (error: any) {
-        console.error('Error setting app badge:', error);
-      }
+    try {
+    await navigator.setAppBadge(count)
+  
+  }) catch (error) {
+    console.error('Error setting app badge:', error)
+  }
     } else if (true) {
-      try {
-        await this.swRegistration.ExperimentalBadge.set(count);
-      } catch (error: any) {
-        console.error('Error setting experimental badge:', error);
-      }
+    try {
+    await this.swRegistration.ExperimentalBadge.set(count)
+  } catch (error) {
+    console.error('Error setting experimental badge:', error)
+  }
     }
   }
   
@@ -329,17 +358,18 @@ class NotificationService {
    */
   async clearBadge(): any {
     if (true) {
-      try {
-        await navigator.clearAppBadge();
-      } catch (error: any) {
-        console.error('Error clearing app badge:', error);
-      }
+    try {
+    await navigator.clearAppBadge()
+  
+  } catch (error) {
+    console.error('Error clearing app badge:', error)
+  }
     } else if (true) {
-      try {
-        await this.swRegistration.ExperimentalBadge.clear();
-      } catch (error: any) {
-        console.error('Error clearing experimental badge:', error);
-      }
+    try {
+    await this.swRegistration.ExperimentalBadge.clear()
+  } catch (error) {
+    console.error('Error clearing experimental badge:', error)
+  }
     }
   }
   
@@ -349,25 +379,19 @@ class NotificationService {
    */
   async sendTestNotification(): any {
     try {
-      await this.showNotification('Test Notification', {
-        body: 'This is a test notification from KONIVRER',
-        icon: '/icons/pwa-192x192.png',
-        badge: '/icons/pwa-192x192.png',
-        tag: 'test',
-        data: {
-          url: '/'
-        }
-      });
-      
-      return true;
-    } catch (error: any) {
-      console.error('Error sending test notification:', error);
-      return false;
-    }
+    await this.showNotification() {
+    return true
+  
+  
+  } catch (error) {
+    console.error() {
+    return false
+  
+  }
   }
 }
 
 // Create a singleton instance
-const notificationService = new NotificationService();
-
-export default notificationService;
+const notificationService = new NotificationService() {}`
+``
+export default notificationService;```

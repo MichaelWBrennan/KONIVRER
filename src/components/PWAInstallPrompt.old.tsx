@@ -8,7 +8,7 @@
 import React from 'react';
 
 const PWAInstallPrompt = (): any => {
-  return null; // Placeholder component
-};
+    return null; // Placeholder component
+  };
 
 export default PWAInstallPrompt;

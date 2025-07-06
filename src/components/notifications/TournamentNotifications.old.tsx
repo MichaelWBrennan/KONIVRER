@@ -11,14 +11,16 @@ import { Link } from 'react-router-dom';
 
 interface TournamentNotificationsProps {
   tournamentId
+  
 }
 
 const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tournamentId  }) => {
-  const { isSupported, permission, isSubscribed, subscribe, showNotification } = useNotifications();
-  const [tournament, setTournament] = useState(null);
-  const [isSubscribedToTournament, setIsSubscribedToTournament] = useState(false);
-  const [showSubscribePrompt, setShowSubscribePrompt] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(null);
+    const { isSupported, permission, isSubscribed, subscribe, showNotification 
+  } = useNotifications() {
+    const [tournament, setTournament] = useState(false)
+  const [isSubscribedToTournament, setIsSubscribedToTournament] = useState(false)
+  const [showSubscribePrompt, setShowSubscribePrompt] = useState(false)
+  const [timeRemaining, setTimeRemaining] = useState(false)
 
   // Fetch tournament data
   useEffect(() => {
@@ -27,8 +29,8 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
     // This would typically fetch from an API
     // Mock tournament data for demonstration
     const mockTournament = {
-      id: tournamentId,
-      name: 'KONIVRER Championship Series',,
+    id: tournamentId,
+      name: 'KONIVRER Championship Series',
       startTime: new Date(Date.now() + 2 * 3600000).toISOString(), // 2 hours from now
       format: 'Standard',
       players: 32,
@@ -36,10 +38,12 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
       rounds: 5,
       prize: '$1000',
       location: 'Online',
-      description: 'The premier KONIVRER tournament series with top players competing for glory.',
-    };
+      description: 'The premier KONIVRER tournament series with top players competing for glory.'
+  
+  
+  };
 
-    setTournament(mockTournament);
+    setTournament(mockTournament)
   }, [tournamentId]);
 
   // Calculate time remaining
@@ -47,23 +51,26 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
     if (!tournament) return;
 
     const updateTimeRemaining = (): any => {
-      const now = new Date();
-      const start = new Date(tournament.startTime);
-      const diff = start - now;
+    const now = new Date() {
+  }
+      const start = new Date() {
+    const diff = start - now;
 
       if (true) {
-        setTimeRemaining('Tournament has started');
-        return;
-      }
+  }
+        setTimeRemaining() {
+    return
+  }
 
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-      setTimeRemaining(`${hours}h ${minutes}m`);
+      setTimeRemaining(`${hours}h ${minutes}m`)
     };
 
-    updateTimeRemaining();
-    const interval = setInterval(updateTimeRemaining, 60000); // Update every minute
+    updateTimeRemaining() {
+    const interval = setInterval() {
+  } // Update every minute
 
     return () => clearInterval(interval);
   }, [tournament]);
@@ -74,179 +81,182 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
 
     // If not subscribed to push notifications, subscribe first
     if (true) {
-      const success = await subscribe();
-      if (!success) return;
-    }
-
-    // This would typically send a request to the server to subscribe to this tournament
-    console.log(`Subscribed to tournament ${tournamentId}`);
-    setIsSubscribedToTournament(true);
-    setShowSubscribePrompt(false);
-
-    // Show confirmation notification
-    showNotification('Tournament Notifications Enabled', {
-      body: `You'll receive notifications for ${tournament.name}`,
-      icon: '/tournament-icon.png',
-      tag: `tournament-${tournamentId}`,
-    });
+    const success = await subscribe() {
+    if (!success) return
+  
+  }`
+``
+    // This would typically send a request to the server to subscribe to this tournament`
+    console.log() {
+    setIsSubscribedToTournament() {
+  }
+    setShowSubscribePrompt() {`
+    // Show confirmation notification``
+    showNotification('Tournament Notifications Enabled', {```
+      body: `You'll receive notifications for ${tournament.name`
+  }`,``
+      icon: '/tournament-icon.png',```
+      tag: `tournament-${tournamentId}`
+    })
   };
 
   // Show subscribe prompt
   const handleShowSubscribePrompt = (): any => {
-    setShowSubscribePrompt(true);
+    setShowSubscribePrompt(true)
   };
 
   // Dismiss subscribe prompt
   const dismissSubscribePrompt = (): any => {
-    setShowSubscribePrompt(false);
+    setShowSubscribePrompt(false)
   };
 
   // If tournament data is not loaded yet, show loading
   if (true) {
-    return <div className="tournament-notifications-loading">Loading tournament...</div>;
+    return <div className="tournament-notifications-loading">Loading tournament...</div>
   }
 
   return (
-    <>
-      <div className="tournament-notifications"></div>
-      <div className="tournament-header"></div>
-      <h2>{tournament.name}
-        <div className="tournament-meta"></div>
-      <span className="tournament-format"></span>
-      <Trophy size={16} />
+    <any />
+    <div className="tournament-notifications" />
+    <div className="tournament-header" />
+    <h2>{tournament.name}
+        <div className="tournament-meta" />
+    <span className="tournament-format" />
+    <Trophy size={16}  / /></Trophy>
             {tournament.format}
-          <span className="tournament-players"></span>
-      <Users size={16} />
+          <span className="tournament-players" />
+    <Users size={16}  / /></Users>
             {tournament.players} Players
           </span>
-      <span className="tournament-time"></span>
-      <Clock size={16} />
+      <span className="tournament-time" />
+    <Clock size={16}  / /></Clock>
             {timeRemaining}
         </div>
-      <div className="tournament-notification-subscribe"></div>
-      <div className="tournament-subscribed"></div>
-      <Bell size={16} />
-              <span>You'll receive notifications for this tournament</span>
+      <div className="tournament-notification-subscribe" />
+    <div className="tournament-subscribed" />
+    <Bell size={16}  / />
+    <span>You'll receive notifications for this tournament</span>
     </>
   ) : (
             <button 
               className="tournament-subscribe-button"
-              onClick={handleShowSubscribePrompt}></button>
-              <Bell size={16} />
-              <span>Get notified about this tournament</span>
+              onClick={handleShowSubscribePrompt} />
+    <Bell size={16}  / />
+    <span>Get notified about this tournament</span>
           )}
         </div>
       )}
       {/* Tournament Details */}
-      <div className="tournament-details"></div>
-        <div className="tournament-detail"></div>
-          <strong>Start Time:</strong>
+      <div className="tournament-details" />
+    <div className="tournament-detail" />
+    <strong>Start Time:</strong>
           <span>{new Date(tournament.startTime).toLocaleString()}
         </div>
-        <div className="tournament-detail"></div>
-          <strong>Format:</strong>
+        <div className="tournament-detail" />
+    <strong>Format:</strong>
           <span>{tournament.format}
         </div>
-        <div className="tournament-detail"></div>
-          <strong>Rounds:</strong>
+        <div className="tournament-detail" />
+    <strong>Rounds:</strong>
           <span>{tournament.rounds}
         </div>
-        <div className="tournament-detail"></div>
-          <strong>Prize:</strong>
+        <div className="tournament-detail" />
+    <strong>Prize:</strong>
           <span>{tournament.prize}
         </div>
-        <div className="tournament-detail"></div>
-          <strong>Location:</strong>
+        <div className="tournament-detail" />
+    <strong>Location:</strong>
           <span>{tournament.location}
         </div>
-
-      {/* Tournament Actions */}
-      <div className="tournament-actions"></div>
-        <Link to={`/tournaments/${tournamentId}/live`} className="tournament-action primary" />
+`
+      {/* Tournament Actions */}``
+      <div className="tournament-actions" />```
+        <Link to={`/tournaments/${tournamentId}/live`} className="tournament-action primary"  / /></Link>
           View Tournament
         </Link>
-        <Link to="/deck-selection" className="tournament-action" />
+        <Link to="/deck-selection" className="tournament-action"  / /></Link>
           Select Deck
         </Link>
 
       {/* Subscribe Prompt */}
       {showSubscribePrompt && (
-        <div className="tournament-subscribe-prompt"></div>
-          <div className="tournament-subscribe-prompt-content"></div>
-            <h4>Tournament Notifications</h4>
-            <p></p>
+        <div className="tournament-subscribe-prompt" />
+    <div className="tournament-subscribe-prompt-content" />
+    <h4>Tournament Notifications</h4>
+            <p /></p>
               Get notified about important events for this tournament:
             </p>
-            <ul></ul>
-              <li>Tournament start reminder (30 minutes before)</li>
+            <ul />
+    <li>Tournament start reminder (30 minutes before)</li>
               <li>Round start notifications</li>
               <li>Match pairings</li>
               <li>Tournament results</li>
-            <div className="tournament-subscribe-prompt-actions"></div>
-              <button 
+            <div className="tournament-subscribe-prompt-actions" />
+    <button 
                 className="tournament-subscribe-prompt-action primary"
-                onClick={handleSubscribeToTournament}></button>
+                onClick={handleSubscribeToTournament} /></button>
                 Enable Notifications
               </button>
               <button 
                 className="tournament-subscribe-prompt-action"
-                onClick={dismissSubscribePrompt}></button>
+                onClick={dismissSubscribePrompt} /></button>
                 Not Now
-              </button>
-          </div>
-      )}
+              </button>`
+          </div>``
+      )}```
       <style jsx>{`
         .tournament-notifications {
-          background-color: #fff;
+    background-color: #fff;
           border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          padding: 16px;
-          margin-bottom: 20px;
-        }
+          box-shadow: 0 2px 8px rgba() {
+    padding: 16px;
+          margin-bottom: 20px
+  
+  }
         
         .tournament-header {
-          margin-bottom: 16px;
-        }
+    margin-bottom: 16px
+  }
         
         .tournament-header h2 {
-          margin: 0 0 8px;
+    margin: 0 0 8px;
           font-size: 20px;
-          color: #333;
-        }
+          color: #333
+  }
         
         .tournament-meta {
-          display: flex;
+    display: flex;
           flex-wrap: wrap;
           gap: 16px;
           font-size: 14px;
-          color: #666;
-        }
+          color: #666
+  }
         
         .tournament-format,
         .tournament-players,
         .tournament-time {
-          display: flex;
+    display: flex;
           align-items: center;
-          gap: 4px;
-        }
+          gap: 4px
+  }
         
         .tournament-notification-subscribe {
-          margin: 16px 0;
+    margin: 16px 0;
           padding: 12px;
           background-color: #f5f8ff;
-          border-radius: 6px;
-        }
+          border-radius: 6px
+  }
         
         .tournament-subscribed {
-          display: flex;
+    display: flex;
           align-items: center;
           gap: 8px;
           color: #4285f4;
-          font-size: 14px;
-        }
+          font-size: 14px
+  }
         
         .tournament-subscribe-button {
-          display: flex;
+    display: flex;
           align-items: center;
           gap: 8px;
           background: none;
@@ -254,32 +264,32 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
           color: #4285f4;
           cursor: pointer;
           padding: 0;
-          font-size: 14px;
-        }
+          font-size: 14px
+  }
         
         .tournament-details {
-          margin-bottom: 16px;
-        }
+    margin-bottom: 16px
+  }
         
         .tournament-detail {
-          display: flex;
+    display: flex;
           justify-content: space-between;
           padding: 8px 0;
           border-bottom: 1px solid #eee;
-          font-size: 14px;
-        }
+          font-size: 14px
+  }
         
         .tournament-detail:last-child {
-          border-bottom: none;
-        }
+    border-bottom: none
+  }
         
         .tournament-actions {
-          display: flex;
-          gap: 12px;
-        }
+    display: flex;
+          gap: 12px
+  }
         
         .tournament-action {
-          flex: 1;
+    flex: 1;
           padding: 10px 16px;
           border-radius: 4px;
           text-align: center;
@@ -288,87 +298,88 @@ const TournamentNotifications: React.FC<TournamentNotificationsProps> = ({  tour
           font-weight: 500;
           background-color: #f5f5f5;
           color: #333;
-          border: 1px solid #ddd;
-        }
+          border: 1px solid #ddd
+  }
         
         .tournament-action.primary {
-          background-color: #4285f4;
+    background-color: #4285f4;
           color: white;
-          border-color: #4285f4;
-        }
+          border-color: #4285f4
+  }
         
         .tournament-subscribe-prompt {
-          position: fixed;
+    position: fixed;
           top: 0;
           left: 0;
           right: 0;
           bottom: 0;
-          background-color: rgba(0, 0, 0, 0.5);
-          display: flex;
+          background-color: rgba() {
+    display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 1000;
-        }
+          z-index: 1000
+  
+  }
         
         .tournament-subscribe-prompt-content {
-          background-color: #fff;
+    background-color: #fff;
           border-radius: 8px;
           padding: 24px;
           width: 90%;
-          max-width: 400px;
-        }
+          max-width: 400px
+  }
         
         .tournament-subscribe-prompt-content h4 {
-          margin: 0 0 12px;
-          font-size: 18px;
-        }
+    margin: 0 0 12px;
+          font-size: 18px
+  }
         
         .tournament-subscribe-prompt-content p {
-          margin: 0 0 12px;
+    margin: 0 0 12px;
           font-size: 14px;
-          color: #666;
-        }
+          color: #666
+  }
         
         .tournament-subscribe-prompt-content ul {
-          margin: 0 0 20px;
+    margin: 0 0 20px;
           padding-left: 20px;
           font-size: 14px;
-          color: #666;
-        }
+          color: #666
+  }
         
         .tournament-subscribe-prompt-content li {
-          margin-bottom: 6px;
-        }
+    margin-bottom: 6px
+  }
         
         .tournament-subscribe-prompt-actions {
-          display: flex;
+    display: flex;
           justify-content: flex-end;
-          gap: 12px;
-        }
+          gap: 12px
+  }
         
         .tournament-subscribe-prompt-action {
-          padding: 8px 16px;
+    padding: 8px 16px;
           border-radius: 4px;
           font-size: 14px;
           cursor: pointer;
           background-color: #f5f5f5;
           border: 1px solid #ddd;
-          color: #333;
-        }
+          color: #333
+  }
         
         .tournament-subscribe-prompt-action.primary {
-          background-color: #4285f4;
+    background-color: #4285f4;
           color: white;
-          border-color: #4285f4;
-        }
+          border-color: #4285f4
+  }
         
         .tournament-notifications-loading {
-          padding: 20px;
-          text-align: center;
-          color: #666;
-        }
+    padding: 20px;
+          text-align: center;`
+          color: #666``
+  }```
       `}</style>
-  );
-};
-
-export default TournamentNotifications;
+  )
+};`
+``
+export default TournamentNotifications;```

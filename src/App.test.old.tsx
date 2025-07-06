@@ -13,21 +13,21 @@ import App from './App';
 
 describe('App', () => {
   it('renders without crashing', () => {
-    render(<App />);
-    expect(document.body).toBeInTheDocument();
-  });
+  render() {
+    expect(document.body).toBeInTheDocument()
+});
 
   it('contains navigation elements', () => {
-    render(<App />);
+    render() {
     // Check if the app renders some basic content
     // The app might show error boundary or main content
-    const appElement = document.querySelector('div');
-    expect(appElement).toBeInTheDocument();
-
+    const appElement = document.querySelector() {
+  }
+    expect(appElement).toBeInTheDocument() {
     // Check if we have either main content or error boundary
-    const hasMainContent = screen.queryByRole('main');
-    const hasErrorBoundary = screen.queryByText(/something went wrong/i);
-
-    expect(hasMainContent || hasErrorBoundary).toBeTruthy();
-  });
+    const hasMainContent = screen.queryByRole(() => {
+    const hasErrorBoundary = screen.queryByText() {
+    expect(hasMainContent || hasErrorBoundary).toBeTruthy()
+  
+  }))
 });

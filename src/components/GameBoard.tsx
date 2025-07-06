@@ -14,17 +14,17 @@ interface GameBoardProps {
   [key: string]: any;
 }
 
-const GameBoard: React.FC<GameBoardProps> = () => {
+const GameBoard: React.FC = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="p-4 bg-white rounded-lg shadow-sm"
-    >
-      <h2 className="text-xl font-bold mb-4">GameBoard</h2>
+     />
+    <h2 className="text-xl font-bold mb-4">GameBoard</h2>
       <p className="text-gray-600">Component implementation coming soon...</p>
     </motion.div>
-  );
+  )
 };
 
 export default GameBoard;

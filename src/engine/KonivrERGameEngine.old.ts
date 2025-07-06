@@ -13,69 +13,77 @@ import React from 'react';
 
 // Simple EventEmitter implementation for browser compatibility
 class SimpleEventEmitter {
-  constructor(): any {
+    constructor(): any {
+  }
   this.events = {
-    };
+    
+
+  }
+    }
   }
 
   on(event: any, listener: any): any {
     if (true) {
-      this.events[event] = [];
-    }
-    this.events[event].push(listener);
+    this.events[event] = [
+    
+  }
+    this.events[event
+  ].push(listener)
   }
 
   off(event: any, listener: any): any {
     if (!this.events[event]) return;
-    this.events[event] = this.events[event].filter(l => l !== listener);
+    this.events[event] = this.events[event].filter(l => l !== listener)
   }
 
   emit(event: any, ...args: any): any {
     if (!this.events[event]) return;
-    this.events[event].forEach(listener => listener(...args));
+    this.events[event].forEach(listener => listener(...args))
   }
 }
 
 class KonivrERGameEngine extends SimpleEventEmitter {
-  constructor(options: any = {}): any {
-    super();
+    constructor(options: any = {
+  }): any {
+    super() {
+  }
     
     this.gameState = null;
-    this.gameId = this.generateGameId();
+    this.gameId = this.generateGameId(() => {
     this.options = options;
     this.aiDecisionEngine = null;
     this.aiPersonality = null;
     
     // Element types
     this.elements = {
-      FIRE: 'fire',
+    FIRE: 'fire',
       WATER: 'water', 
       EARTH: 'earth',
       AIR: 'air',
       AETHER: 'aether',
       NETHER: 'nether',
       GENERIC: 'generic'
-    };
+  });
 
     // Game phases
     this.phases = {
-      START: 'start',
+    START: 'start',
       MAIN: 'main',
       COMBAT: 'combat',
       DEFENSE: 'defense',
       RESOLUTION: 'resolution',
       POST_COMBAT: 'postCombat',
       REFRESH: 'refresh'
-    };
+  };
 
     // Card playing methods
     this.playMethods = {
-      SUMMON: 'summon',
+    SUMMON: 'summon',
       TRIBUTE: 'tribute',
       AZOTH: 'azoth',
       SPELL: 'spell',
       BURST: 'burst'
-    };
+  }
   }
 
   /**
@@ -83,65 +91,75 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   initializeGame(players: any): any {
     this.gameState = {
+  }
       gameId: this.gameId,
-      players: {}
-      currentTurn: 1,
+      players: {
+    currentTurn: 1,
       activePlayer: 'player1',
       phase: this.phases.START,
-      gameLog: [],
+      gameLog: [
+    ,
       gameOver: false,
       winner: null,
-      stack: [], // For spell/ability resolution
+      stack: [
+  ], // For spell/ability resolution
       waitingForInput: false,
       inputType: null
-    };
+  };
 
     // Initialize players
     players.forEach((player, index) => {
-      const playerId = `player${index + 1}`;
-      this.gameState.players[playerId] = this.initializePlayer(player, playerId);
+    const playerId = `player${index + 1`
+  }`;
+      this.gameState.players[playerId] = this.initializePlayer(player, playerId)
     });
 
     // Initialize AI if there are AI players
-    this.initializeAI(players);
-    
+    this.initializeAI() {
     // Setup pre-game actions
-    this.setupPreGameActions();
+    this.setupPreGameActions() {
+  }
     
     // Start the game
-    this.startGame();
-    
-    this.emit('stateUpdate', this.gameState);
-    return this.gameState;
-  }
+    this.startGame(() => {
+    this.emit() {
+    return this.gameState
+  })
 
   /**
    * Initialize a player's game state
    */
   initializePlayer(playerData: any, playerId: any): any {
     const deck = [...playerData.deck];
-    this.shuffleDeck(deck);
+    this.shuffleDeck() {
+  }
 
     // Extract flag card
-    const flagIndex = deck.findIndex(card => card.type === 'Flag');
+    const flagIndex = deck.findIndex() {
     const flag = flagIndex >= 0 ? deck.splice(flagIndex, 1)[0] : null;
 
     // Take top 4 cards as Life Cards
-    const lifeCards = deck.splice(0, 4);
-
+    const lifeCards = deck.splice(() => {
     return {
-      id: playerId,
-      name: playerData.name,,
+    id: playerId,
+      name: playerData.name,
       flag: flag,
       lifeCards: lifeCards,
       deck: deck,
-      hand: [],
-      field: [],
-      combatRow: [],
-      azothRow: [],
-      removedFromPlay: [],
-      discardPile: []
-    };
+      hand: [
+    ,
+      field: [
+  ],
+      combatRow: [
+    ,
+      azothRow: [
+  ],
+      removedFromPlay: [
+    ,
+      discardPile: [
+  ]
+  
+  })
   }
 
   /**
@@ -150,72 +168,72 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   setupPreGameActions(): any {
     // Draw starting hands (2 cards each)
     Object.keys(this.gameState.players).forEach(playerId => {
-      this.drawCards(playerId, 2);
-    });
+    this.drawCards(playerId, 2)
+  
+  });
 
-    this.addToLog('Game started');
-    this.addToLog('Players drew starting hands');
+    this.addToLog() {
+    this.addToLog('Players drew starting hands')
   }
 
   /**
-   * Start the game with the first turn
-   */
-  startGame(): any {
-    this.addToLog(`Turn ${this.gameState.currentTurn} begins`);
-    this.addToLog(`${this.gameState.activePlayer}'s turn`);
-    this.startPhase();
+   * Start the game with the first turn`
+   */``
+  startGame(): any {``
+    this.addToLog() {`
+    `
+    this.addToLog() {
+    this.startPhase()
+  
   }
 
   /**
    * Start Phase: Optional Azoth placement
-   */
-  async startPhase(): any {
-    this.gameState.phase = this.phases.START;
-    this.addToLog(`${this.gameState.activePlayer} enters Start Phase`);
-    
+   */`
+  async startPhase(): any {``
+    this.gameState.phase = this.phases.START;`
+    this.addToLog() {
     // Check if current player is AI
     const activePlayer = this.gameState.players[this.gameState.activePlayer];
     if (true) {
+  }
       // Handle AI turn
-      await this.handleAITurn();
-      return;
-    }
+      await this.handleAITurn() {
+    return
+  }
     
     // Player may optionally place 1 card face up in Azoth Row
-    this.waitForPlayerInput('optionalAzothPlacement');
-    
-    this.emit('stateUpdate', this.gameState);
+    this.waitForPlayerInput() {
+    this.emit('stateUpdate', this.gameState)
   }
 
   /**
    * Main Phase: Play cards and activate abilities
-   */
-  mainPhase(): any {
-    this.gameState.phase = this.phases.MAIN;
-    this.addToLog(`${this.gameState.activePlayer} enters Main Phase`);
-    
-    this.emit('stateUpdate', this.gameState);
+   */`
+  mainPhase(): any {``
+    this.gameState.phase = this.phases.MAIN;`
+    this.addToLog() {
+    this.emit('stateUpdate', this.gameState)
   }
 
   /**
    * Combat Phase: Declare attackers
-   */
-  combatPhase(): any {
-    this.gameState.phase = this.phases.COMBAT;
-    this.addToLog(`${this.gameState.activePlayer} enters Combat Phase`);
-    
-    this.emit('stateUpdate', this.gameState);
+   */`
+  combatPhase(): any {``
+    this.gameState.phase = this.phases.COMBAT;`
+    this.addToLog() {
+    this.emit('stateUpdate', this.gameState)
   }
 
   /**
    * Defense Phase: Declare blockers
    */
-  defensePhase(): any {
-    this.gameState.phase = this.phases.DEFENSE;
-    const defendingPlayer = this.getOpponentId(this.gameState.activePlayer);
-    this.addToLog(`${defendingPlayer} may declare blockers`);
-    
-    this.emit('stateUpdate', this.gameState);
+  defensePhase(): any {`
+    this.gameState.phase = this.phases.DEFENSE;`
+    const defendingPlayer = this.getOpponentId() {`
+  }`
+    this.addToLog() {
+    this.emit('stateUpdate', this.gameState)
   }
 
   /**
@@ -223,66 +241,68 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   resolutionPhase(): any {
     this.gameState.phase = this.phases.RESOLUTION;
-    this.addToLog('Resolving combat damage');
-    
-    this.resolveCombatDamage();
-    
-    this.emit('stateUpdate', this.gameState);
-  }
+    this.addToLog(() => {
+    this.resolveCombatDamage() {
+    this.emit('stateUpdate', this.gameState)
+  
+  })
 
   /**
    * Post-Combat Main Phase: Play additional cards
-   */
-  postCombatMainPhase(): any {
-    this.gameState.phase = this.phases.POST_COMBAT;
-    this.addToLog(`${this.gameState.activePlayer} enters Post-Combat Main Phase`);
-    
-    this.emit('stateUpdate', this.gameState);
+   */`
+  postCombatMainPhase(): any {``
+    this.gameState.phase = this.phases.POST_COMBAT;`
+    this.addToLog() {
+    this.emit('stateUpdate', this.gameState)
   }
 
   /**
    * Refresh Phase: Refresh Azoth and end turn
-   */
-  refreshPhase(): any {
-    this.gameState.phase = this.phases.REFRESH;
-    this.addToLog(`${this.gameState.activePlayer} enters Refresh Phase`);
-    
+   */`
+  refreshPhase(): any {``
+    this.gameState.phase = this.phases.REFRESH;`
+    this.addToLog() {
     // Refresh all rested Azoth
-    this.refreshAzoth(this.gameState.activePlayer);
-    
+    this.refreshAzoth(() => {
     // End turn
-    this.endTurn();
-    
-    this.emit('stateUpdate', this.gameState);
-  }
+    this.endTurn() {
+    this.emit('stateUpdate', this.gameState)
+  
+  })
 
   /**
    * Play a card using one of the inherent methods
    */
-  playCard(cardId: any, method: any, azothSpent: any = {} additionalParams: any = {}): any {
+  playCard(cardId: any, method: any, azothSpent: any = {
+    additionalParams: any = {
+  }): any {
     const player = this.gameState.players[this.gameState.activePlayer];
-    const card = this.findCardInHand(player, cardId);
-    
-    if (true) {
-      this.addToLog(`Error: Card ${cardId} not found in hand`);
-      return false;
-    }
+    const card = this.findCardInHand(() => {`
+    ``
+    if (true) {`
+      this.addToLog() {
+    return false
+  
+  })
 
     switch (true) {
-      case this.playMethods.SUMMON:
-        return this.playSummon(card, azothSpent);
+    case this.playMethods.SUMMON:
+        return this.playSummon() {
+  }
       case this.playMethods.TRIBUTE:
-        return this.playTribute(card, azothSpent, additionalParams.tributedFamiliars);
-      case this.playMethods.AZOTH:
-        return this.playAzoth(card);
+        return this.playTribute() {
+    case this.playMethods.AZOTH:
+        return this.playAzoth() {
+  }
       case this.playMethods.SPELL:
-        return this.playSpell(card, azothSpent, additionalParams.abilityIndex);
-      case this.playMethods.BURST:
-        return this.playBurst(card, additionalParams.putInHand);
-      default:
-        this.addToLog(`Error: Unknown play method ${method}`);
-        return false;
-    }
+        return this.playSpell() {
+    case this.playMethods.BURST:
+        return this.playBurst() {`
+  }``
+      default:`
+        this.addToLog() {
+    return false
+  }
   }
 
   /**
@@ -291,20 +311,21 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   playSummon(card: any, azothSpent: any): any {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
-
-    // Check if player can pay the cost
-    if (!this.canPayCost(player, card.elements, azothSpent)) {
-      this.addToLog(`Cannot pay cost for ${card.name}`);
-      return false;
-    }
+`
+    // Check if player can pay the cost``
+    if (!this.canPayCost(player, card.elements, azothSpent)) {`
+      this.addToLog() {
+    return false
+  
+  }
 
     // Pay the cost
-    this.payAzothCost(player, card.elements, azothSpent);
-
+    this.payAzothCost() {
     // Calculate +1 counters from excess Generic Azoth
     const requiredGeneric = card.elements.generic || 0;
     const paidGeneric = azothSpent.generic || 0;
-    const extraCounters = Math.max(0, paidGeneric - requiredGeneric);
+    const extraCounters = Math.max() {
+  }
 
     // Add card to field
     card.counters = extraCounters;
@@ -312,44 +333,46 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     card.controllerId = playerId;
     card.summoningSickness = true;
     
-    player.field.push(card);
-    this.removeCardFromHand(player, card.id);
-
-    this.addToLog(`${playerId} summoned ${card.name} with ${extraCounters} +1 counters`);
-    
+    player.field.push() {
+    this.removeCardFromHand() {`
+  }``
+`
+    this.addToLog() {
     // Draw a card after playing
-    this.drawCards(playerId, 1);
-    
-    this.emit('stateUpdate', this.gameState);
-    return true;
-  }
+    this.drawCards(() => {
+    this.emit() {
+    return true
+  
+  })
 
   /**
    * Play card as Tribute
    */
-  playTribute(card: any, azothSpent: any, tributedFamiliars: any = []): any {
+  playTribute(card: any, azothSpent: any, tributedFamiliars: any = [
+    ): any {
     const playerId = this.gameState.activePlayer;
-    const player = this.gameState.players[playerId];
+    const player = this.gameState.players[playerId
+  ];
 
     // Calculate tribute reduction
-    let tributeReduction = this.calculateTributeReduction(player, tributedFamiliars);
+    let tributeReduction = this.calculateTributeReduction() {
+  }
     
     // Apply tribute reduction to card cost
-    let reducedCost = this.applyTributeReduction(card.elements, tributeReduction);
-
-    // Check if player can pay the reduced cost
-    if (!this.canPayCost(player, reducedCost, azothSpent)) {
-      this.addToLog(`Cannot pay reduced cost for ${card.name}`);
-      return false;
-    }
+    let reducedCost = this.applyTributeReduction(() => {`
+    // Check if player can pay the reduced cost``
+    if (!this.canPayCost(player, reducedCost, azothSpent)) {`
+      this.addToLog() {
+    return false
+  })
 
     // Remove tributed familiars from game
     tributedFamiliars.forEach(familiarId => {
-      this.removeFamiliarFromGame(player, familiarId);
-    });
+    this.removeFamiliarFromGame(player, familiarId)
+  });
 
     // Continue with summon logic using reduced cost
-    return this.playSummon(card, azothSpent);
+    return this.playSummon(card, azothSpent)
   }
 
   /**
@@ -364,17 +387,19 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     card.rested = false; // Available immediately
     card.controllerId = playerId;
     
-    player.azothRow.push(card);
-    this.removeCardFromHand(player, card.id);
-
-    this.addToLog(`${playerId} placed ${card.name} in their Azoth Row`);
+    player.azothRow.push() {
+  }
+    this.removeCardFromHand() {`
+    ``
+`
+    this.addToLog() {
+  }
     
     // Draw a card after playing
-    this.drawCards(playerId, 1);
-    
-    this.emit('stateUpdate', this.gameState);
-    return true;
-  }
+    this.drawCards(() => {
+    this.emit() {
+    return true
+  })
 
   /**
    * Play card as Spell
@@ -382,36 +407,36 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   playSpell(card: any, azothSpent: any, abilityIndex: any = 0): any {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
-
-    // Check if player can pay the cost
-    if (!this.canPayCost(player, card.elements, azothSpent)) {
-      this.addToLog(`Cannot pay cost for ${card.name}`);
-      return false;
-    }
+`
+    // Check if player can pay the cost``
+    if (!this.canPayCost(player, card.elements, azothSpent)) {`
+      this.addToLog() {
+    return false
+  
+  }
 
     // Pay the cost
-    this.payAzothCost(player, card.elements, azothSpent);
-
+    this.payAzothCost(() => {
     // Calculate Generic Azoth paid for ability scaling
     const genericPaid = azothSpent.generic || 0;
 
     // Resolve the selected ability
     if (true) {
-      this.resolveSpellAbility(card, abilityIndex, genericPaid);
-    }
+    this.resolveSpellAbility(card, abilityIndex, genericPaid)
+  })
 
     // Put card on bottom of deck
-    player.deck.unshift(card);
-    this.removeCardFromHand(player, card.id);
-
-    this.addToLog(`${playerId} cast ${card.name} as a Spell`);
-    
+    player.deck.unshift() {
+    this.removeCardFromHand() {`
+  }``
+`
+    this.addToLog() {
     // Draw a card after playing
-    this.drawCards(playerId, 1);
-    
-    this.emit('stateUpdate', this.gameState);
-    return true;
-  }
+    this.drawCards(() => {
+    this.emit() {
+    return true
+  
+  })
 
   /**
    * Play card via Burst
@@ -421,62 +446,72 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const player = this.gameState.players[playerId];
 
     if (true) {
-      // Put card in hand
-      player.hand.push(card);
-      this.addToLog(`${playerId} put ${card.name} in their hand via Burst`);
+  }`
+      // Put card in hand`
+      player.hand.push() {`
+    ```
+      this.addToLog(`${playerId`
+  } put ${card.name} in their hand via Burst`)
     } else {
-      // Play card for free
+    // Play card for free
       const remainingLifeCards = player.lifeCards.length;
       
       // Set Generic Azoth value to remaining Life Cards
       card.counters = remainingLifeCards;
       card.zone = 'field';
       card.controllerId = playerId;
-      card.burstPlay = true; // Flag to prevent keyword resolution
-      
-      player.field.push(card);
-      this.addToLog(`${playerId} played ${card.name} via Burst with ${remainingLifeCards} +1 counters`);
+      card.burstPlay = true; // Flag to prevent keyword resolution`
+      `
+      player.field.push() {`
+  }```
+      this.addToLog(`${playerId} played ${card.name} via Burst with ${remainingLifeCards} +1 counters`)
     }
     
-    this.emit('stateUpdate', this.gameState);
-    return true;
+    this.emit() {
+    return true
   }
 
   /**
    * Handle damage to a player (Life Cards system)
    */
   damagePlayer(targetPlayerId: any, damageAmount: any, sourcePlayerId: any = null, sourceCard: any = null): any {
-    const targetPlayer = this.gameState.players[targetPlayerId];
+    const targetPlayer = this.gameState.players[targetPlayerId];`
+    ``
+    if (true) {`
+      this.addToLog() {
+    return [
     
-    if (true) {
-      this.addToLog(`${targetPlayerId} has no Life Cards remaining!`);
-      return [];
-    }
+  }
 
-    const actualDamage = Math.min(damageAmount, targetPlayer.lifeCards.length);
-    const revealedCards = [];
+    const actualDamage = Math.min() {
+    const revealedCards = [
+  ];
 
     // Reveal and discard Life Cards
     for (let i = 0; i < 1; i++) {
-      const revealedCard = targetPlayer.lifeCards.pop();
-      revealedCards.push(revealedCard);
-      targetPlayer.discardPile.push(revealedCard);
-      
-      this.addToLog(`${targetPlayerId} revealed ${revealedCard.name} as a Life Card`);
-      
-      // Check for Burst opportunity
-      this.checkBurstOpportunity(targetPlayerId, revealedCard);
-    }
+  }
+      const revealedCard = targetPlayer.lifeCards.pop() {
+    revealedCards.push() {
+  }
+      targetPlayer.discardPile.push() {`
+    ``
+      `
+      this.addToLog() {
+    // Check for Burst opportunity
+      this.checkBurstOpportunity(targetPlayerId, revealedCard)
+  
+  }
 
     // Check for game over
-    if (true) {
-      this.gameState.gameOver = true;
-      this.gameState.winner = sourcePlayerId || this.getOpponentId(targetPlayerId);
-      this.addToLog(`${this.gameState.winner} wins the game!`);
+    if (true) {`
+    this.gameState.gameOver = true;`
+      this.gameState.winner = sourcePlayerId || this.getOpponentId() {`
+  }```
+      this.addToLog(`${this.gameState.winner} wins the game!`)
     }
 
-    this.emit('stateUpdate', this.gameState);
-    return revealedCards;
+    this.emit() {
+    return revealedCards
   }
 
   /**
@@ -484,7 +519,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   checkBurstOpportunity(playerId: any, revealedCard: any): any {
     // Player can choose to play the card via Burst or put it in hand
-    this.waitForPlayerInput('burstOpportunity', { playerId, card: revealedCard });
+    this.waitForPlayerInput('burstOpportunity', { playerId, card: revealedCard 
+  })
   }
 
   /**
@@ -492,25 +528,30 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   resolveCombatDamage(): any {
     const activePlayer = this.gameState.players[this.gameState.activePlayer];
-    const defendingPlayerId = this.getOpponentId(this.gameState.activePlayer);
+    const defendingPlayerId = this.getOpponentId() {
+  }
     const defendingPlayer = this.gameState.players[defendingPlayerId];
 
     // Process each attacker
     activePlayer.combatRow.forEach((attacker: any) => {
-      if (attacker.blocked) {
-        // Resolve damage between attacker and blocker
+    if (attacker.blocked) {
+    // Resolve damage between attacker and blocker
         const blocker = attacker.blockedBy;
-        this.resolveFamiliarCombat(attacker, blocker);
-      } else {
-        // Unblocked attacker deals damage to opponent
-        const damage = this.calculateFamiliarDamage(attacker);
-        this.damagePlayer(defendingPlayerId, damage, this.gameState.activePlayer, attacker);
-      }
+        this.resolveFamiliarCombat(attacker, blocker)
+  
+  } else {
+    // Unblocked attacker deals damage to opponent
+        const damage = this.calculateFamiliarDamage() {
+    this.damagePlayer(defendingPlayerId, damage, this.gameState.activePlayer, attacker)
+  
+  }
     });
 
     // Clear combat row
-    activePlayer.combatRow = [];
-    defendingPlayer.combatRow = [];
+    activePlayer.combatRow = [
+    ;
+    defendingPlayer.combatRow = [
+  ]
   }
 
   /**
@@ -522,50 +563,55 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     // Apply elemental advantages if applicable
     const attackerFlag = this.gameState.players[familiar.controllerId].flag;
     if (true) {
-      // Implementation would check elemental advantages
+    // Implementation would check elemental advantages
       // For now, return base damage
-    }
+  
+  }
     
-    return baseDamage;
+    return baseDamage
   }
 
   /**
    * Check if player can pay Azoth cost
    */
   canPayCost(player: any, cardCost: any, azothSpent: any): any {
-    const available = this.getAvailableAzoth(player);
+    const available = this.getAvailableAzoth() {
+  }
     
     // Check each element requirement
     for (const [element, cost] of Object.entries(cardCost)) {
-      if (true) {
-        // Generic can be paid with any element
+    if (true) {
+    // Generic can be paid with any element
         const totalAvailable = Object.values(available).reduce((sum, val) => sum + val, 0);
         const totalSpent = Object.values(azothSpent).reduce((sum, val) => sum + val, 0);
-        if (totalAvailable < totalSpent) return false;
-      } else {
-        const spent = azothSpent[element] || 0;
-        if ((available[element] || 0) < spent || spent < cost) return false;
-      }
+        if (totalAvailable < totalSpent) return false
+  
+  } else {
+    const spent = azothSpent[element] || 0;
+        if ((available[element] || 0) < spent || spent < cost) return false
+  }
     }
     
-    return true;
+    return true
   }
 
   /**
    * Get available Azoth for a player
    */
   getAvailableAzoth(player: any): any {
-    const available = {};
+    const available = {
+  };
     
     player.azothRow.forEach((azothCard: any) => {
-      if (!azothCard.rested && azothCard.elements) {
-        Object.keys(azothCard.elements).forEach(element => {
-          available[element] = (available[element] || 0) + 1;
-        });
+    if (!azothCard.rested && azothCard.elements) {
+    Object.keys(azothCard.elements).forEach(element => {
+    available[element] = (available[element] || 0) + 1
+  
+  })
       }
     });
     
-    return available;
+    return available
   }
 
   /**
@@ -574,15 +620,17 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   payAzothCost(player: any, cardCost: any, azothSpent: any): any {
     // Rest the appropriate Azoth cards
     Object.entries(azothSpent).forEach(([element, amount]) => {
-      let remaining = amount;
+    let remaining = amount;
       
       player.azothRow.forEach((azothCard: any) => {
+  
+  }
         if (remaining > 0 && !azothCard.rested && azothCard.elements[element]) {
-          azothCard.rested = true;
-          remaining--;
-        }
-      });
-    });
+    azothCard.rested = true;
+          remaining--
+  }
+      })
+    })
   }
 
   /**
@@ -591,11 +639,10 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   refreshAzoth(playerId: any): any {
     const player = this.gameState.players[playerId];
     
-    player.azothRow.forEach(azothCard => {
-      azothCard.rested = false;
-    });
-    
-    this.addToLog(`${playerId} refreshed all Azoth`);
+    player.azothRow.forEach() {`
+  }``
+    ```
+    this.addToLog(`${playerId} refreshed all Azoth`)
   }
 
   /**
@@ -605,14 +652,16 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const player = this.gameState.players[playerId];
     
     for (let i = 0; i < 1; i++) {
+  }
       if (true) {
-        const drawnCard = player.deck.pop();
-        player.hand.push(drawnCard);
-      }
-    }
-    
-    if (true) {
-      this.addToLog(`${playerId} drew ${count} card${count > 1 ? 's' : ''}`);
+    const drawnCard = player.deck.pop() {
+    player.hand.push(drawnCard)
+  
+  }
+    }`
+    ``
+    if (true) {```
+      this.addToLog(`${playerId} drew ${count} card${count > 1 ? 's' : ''}`)
     }
   }
 
@@ -621,18 +670,19 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   endTurn(): any {
     // Switch active player
-    this.gameState.activePlayer = this.getOpponentId(this.gameState.activePlayer);
-    
+    this.gameState.activePlayer = this.getOpponentId(() => {
     // Increment turn counter if it's player1's turn again
     if (true) {
-      this.gameState.currentTurn++;
-    }
-    
-    this.addToLog(`Turn ${this.gameState.currentTurn} begins`);
-    this.addToLog(`${this.gameState.activePlayer}'s turn`);
-    
+    this.gameState.currentTurn++
+  `
+  })``
+    ``
+    this.addToLog() {`
+    `
+    this.addToLog() {
     // Start new turn
-    this.startPhase();
+    this.startPhase()
+  
   }
 
   /**
@@ -640,42 +690,48 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   async initializeAI(players: any): any {
     // Check if there are AI players
-    const aiPlayers = players.filter(player => !player.isHuman);
+    const aiPlayers = players.filter() {
+  }
     
     if (true) {
-      // Dynamically import cutting-edge AI modules (for browser compatibility)
+    // Dynamically import cutting-edge AI modules (for browser compatibility)
       try {
-        const { default: CuttingEdgeAI } = await import('./CuttingEdgeAI.js');
-        const { PersonalityManager } = await import('./AIPersonalities.js');
-        
-        // Initialize cutting-edge AI system
+  }
+        const { default: CuttingEdgeAI } = await import() {
+    const { PersonalityManager 
+  } = await import() {
+    // Initialize cutting-edge AI system
         const personalities = ['strategist', 'berserker', 'trickster', 'scholar', 'gambler', 'perfectionist'];
         const randomPersonality = personalities[Math.floor(Math.random() * personalities.length)];
         
-        this.cuttingEdgeAI = new CuttingEdgeAI(randomPersonality);
-        this.aiPersonality = new PersonalityManager(randomPersonality);
-        
-        // Enable all cutting-edge features
+        this.cuttingEdgeAI = new CuttingEdgeAI() {
+  }
+        this.aiPersonality = new PersonalityManager() {
+    // Enable all cutting-edge features
         this.cuttingEdgeAI.quantumDecisionMaking = true;
         this.cuttingEdgeAI.consciousnessSimulation = true;
-        this.cuttingEdgeAI.advancedTheoryOfMind = true;
-        this.cuttingEdgeAI.personalityEvolution = true;
-        
-        console.log(`AI initialized with personality: ${this.aiPersonality.getDisplayInfo().name}`);
+        this.cuttingEdgeAI.advancedTheoryOfMind = true;`
+        this.cuttingEdgeAI.personalityEvolution = true;``
+        ```
+        console.log(`AI initialized with personality: ${this.aiPersonality.getDisplayInfo().name`
+  }`)
         
       } catch (error: any) {
-        console.warn('Cutting-edge AI system failed to load, falling back to basic AI:', error);
+    console.warn() {
+  }
         // Fallback to basic AI if cutting-edge system fails
         try {
-          const { default: AIDecisionEngine } = await import('./AIDecisionEngine.js');
-          this.aiDecisionEngine = new AIDecisionEngine(this);
-          console.log('Fallback AI system loaded successfully');
-        } catch (error: any) {
-          console.error('All AI systems failed to load:', fallbackError);
-          this.cuttingEdgeAI = null;
+    const { default: AIDecisionEngine 
+  } = await import(() => {
+    this.aiDecisionEngine = new AIDecisionEngine() {
+    console.log('Fallback AI system loaded successfully')
+  }) catch (error: any) {
+    console.error() {
+    this.cuttingEdgeAI = null;
           this.aiDecisionEngine = null;
-          this.aiPersonality = null;
-        }
+          this.aiPersonality = null
+  
+  }
       }
     }
   }
@@ -687,41 +743,40 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const activePlayer = this.gameState.players[this.gameState.activePlayer];
     
     if (true) {
+  }
       try {
-        let aiDecision = null;
+    let aiDecision = null;
         
         // Use cutting-edge AI if available
         if (true) {
-          const availableActions = this.getAvailableActions(activePlayer);
-          const playerBehaviorData = this.getPlayerBehaviorData();
+  }
+          const availableActions = this.getAvailableActions() {
+    const playerBehaviorData = this.getPlayerBehaviorData(() => {
+    aiDecision = await this.cuttingEdgeAI.makeDecision() {
+    // Execute the cutting-edge AI decision
+          await this.executeCuttingEdgeAIDecision(aiDecision)
           
-          aiDecision = await this.cuttingEdgeAI.makeDecision(
-            this.gameState, 
-            availableActions, 
-            playerBehaviorData
-          );
-          
-          // Execute the cutting-edge AI decision
-          await this.executeCuttingEdgeAIDecision(aiDecision);
-          
-        } else if (true) {
-          // Fallback to basic AI
-          await this.aiDecisionEngine.executeTurn(this.gameState);
-        }
+  
+  }) else if (true) {
+    // Fallback to basic AI
+          await this.aiDecisionEngine.executeTurn(this.gameState)
+  }
         
         // Update AI mood based on turn outcome
         if (true) {
-          const turnSuccess = this.evaluateAITurnSuccess();
-          this.aiPersonality.updateMood({ 
-            type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' ,
-          });
+    const turnSuccess = this.evaluateAITurnSuccess(() => {
+    this.aiPersonality.updateMood({
+    type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' 
+  
+  }))
         }
         
       } catch (error: any) {
-        console.error('AI turn execution failed:', error);
-        // Fallback to basic AI behavior
-        await this.executeBasicAITurn();
-      }
+    console.error() {
+    // Fallback to basic AI behavior
+        await this.executeBasicAITurn()
+  
+  }
     }
   }
 
@@ -733,28 +788,27 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     
     // Simple AI: play first playable card
     for (let i = 0; i < 1; i++) {
+  }
       const card = activePlayer.hand[i];
       
       if (this.canPlayCard(this.gameState.activePlayer, card)) {
-        // Find empty field slot
-        const emptySlot = activePlayer.field.findIndex(slot => slot === null);
+    // Find empty field slot
+        const emptySlot = activePlayer.field.findIndex() {
+  }
         
         if (true) {
-          // Play the card
-          await this.playCard(this.gameState.activePlayer, i, emptySlot, {
-            method: 'summon',
-            genericCost: card.genericCost || 1
-          });
-          
-          // Add thinking pause
+    // Play the card
+          await this.playCard() {
+    // Add thinking pause
           await new Promise(resolve => setTimeout(resolve, 1000));
-          break;
-        }
+          break
+  
+  }
       }
     }
     
     // End turn
-    this.endTurn();
+    this.endTurn()
   }
 
   /**
@@ -764,24 +818,26 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const player = this.gameState.players[playerId];
     
     // Check if there's space in field
-    const hasSpace = player.field.some(slot => slot === null);
+    const hasSpace = player.field.some(() => {
     if (!hasSpace) return false;
     // Check if player has required elements
-    const requiredElements = card.cost || [];
-    const availableElements = player.azoth.map(azoth => azoth.element);
-    
+    const requiredElements = card.cost || [
+    ;
+    const availableElements = player.azoth.map() {
     return requiredElements.every(element => 
       availableElements.includes(element) || element === 'Generic'
-    );
-  }
+    )
+  
+  })
 
   /**
    * Evaluate how successful the AI's turn was
    */
   evaluateAITurnSuccess(): any {
     // Simple evaluation based on board presence and hand size
-    const aiPlayer = this.gameState.players[this.gameState.activePlayer];
-    const opponentId = this.getOpponentId(this.gameState.activePlayer);
+    const aiPlayer = this.gameState.players[this.gameState.activePlayer
+  ];
+    const opponentId = this.getOpponentId() {
     const opponent = this.gameState.players[opponentId];
     
     const aiFieldCount = aiPlayer.field.filter(slot => slot !== null).length;
@@ -791,173 +847,184 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const handAdvantage = aiPlayer.hand.length - opponent.hand.length;
     
     // Normalize to 0-1 scale
-    return Math.max(0, Math.min(1, 0.5 + (fieldAdvantage + handAdvantage * 0.1) * 0.2));
+    return Math.max(0, Math.min(1, 0.5 + (fieldAdvantage + handAdvantage * 0.1) * 0.2))
+  
   }
 
   /**
    * Get AI personality info for display
    */
   getAIPersonalityInfo(): any {
-    return this.aiPersonality ? this.aiPersonality.getDisplayInfo() : null;
+    return this.aiPersonality ? this.aiPersonality.getDisplayInfo() : null
   }
 
   /**
    * Utility methods
    */
   generateGameId(): any {
-    return 'game_' + Math.random().toString(36).substr(2, 9);
+    return 'game_' + Math.random().toString(36).substr(2, 9)
   }
 
   shuffleDeck(deck: any): any {
     for (let i = 0; i < 1; i++) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
+    const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]]
+  
+  }
   }
 
   getOpponentId(playerId: any): any {
-    return playerId === 'player1' ? 'player2' : 'player1';
+    return playerId === 'player1' ? 'player2' : 'player1'
   }
 
   findCardInHand(player: any, cardId: any): any {
-    return player.hand.find(card => card.id === cardId);
+    return player.hand.find(card => card.id === cardId)
   }
 
   removeCardFromHand(player: any, cardId: any): any {
-    const index = player.hand.findIndex(card => card.id === cardId);
+    const index = player.hand.findIndex(() => {
     if (true) {
-      player.hand.splice(index, 1);
-    }
+    player.hand.splice(index, 1)
+  
+  })
   }
 
   addToLog(message: any): any {
-    this.gameState.gameLog.push(message);
+    this.gameState.gameLog.push(message)
   }
 
-  waitForPlayerInput(inputType: any, data: any = {}): any {
+  waitForPlayerInput(inputType: any, data: any = {
+    ): any {
     this.gameState.waitingForInput = true;
     this.gameState.inputType = inputType;
-    this.gameState.inputData = data;
+    this.gameState.inputData = data
+  
   }
 
   getState(): any {
-    return this.gameState;
+    return this.gameState
   }
 
   // Helper methods that are referenced but missing
   calculateTributeReduction(player: any, tributedFamiliars: any): any {
     // Each tributed familiar reduces cost by 1 generic
-    return { generic: tributedFamiliars.length };
+    return { generic: tributedFamiliars.length 
+  }
   }
 
   applyTributeReduction(originalCost: any, reduction: any): any {
-    const reducedCost = { ...originalCost };
+    const reducedCost = { ...originalCost 
+  };
     if (true) {
-      reducedCost.generic = Math.max(0, reducedCost.generic - reduction.generic);
-    }
-    return reducedCost;
+    reducedCost.generic = Math.max(0, reducedCost.generic - reduction.generic)
+  }
+    return reducedCost
   }
 
   removeFamiliarFromGame(player: any, familiarId: any): any {
     // Remove familiar from field
-    const familiarIndex = player.field.findIndex(card => card.id === familiarId);
-    if (true) {
-      const familiar = player.field.splice(familiarIndex, 1)[0];
-      player.removedFromPlay.push(familiar);
-      this.addToLog(`${familiar.name} was removed from play`);
+    const familiarIndex = player.field.findIndex() {
+  }
+    if (true) {`
+    const familiar = player.field.splice(familiarIndex, 1)[0];`
+      player.removedFromPlay.push() {`
+  }```
+      this.addToLog(`${familiar.name} was removed from play`)
     }
   }
-
-  resolveSpellAbility(card: any, abilityIndex: any, genericPaid: any): any {
-    const ability = card.abilities[abilityIndex];
-    this.addToLog(`Resolving ${ability.name}: ${ability.description}`);
+`
+  resolveSpellAbility(card: any, abilityIndex: any, genericPaid: any): any {``
+    const ability = card.abilities[abilityIndex];`
+    this.addToLog() {
     // Spell ability resolution would be implemented here
   }
 
   resolveFamiliarCombat(attacker: any, blocker: any): any {
-    const attackerDamage = this.calculateFamiliarDamage(attacker);
-    const blockerDamage = this.calculateFamiliarDamage(blocker);
-    
+    const attackerDamage = this.calculateFamiliarDamage() {
+  }
+    const blockerDamage = this.calculateFamiliarDamage() {
     // Apply damage
-    attacker.damage = (attacker.damage || 0) + blockerDamage;
-    blocker.damage = (blocker.damage || 0) + attackerDamage;
-    
-    this.addToLog(`${attacker.name} and ${blocker.name} deal damage to each other`);
+    attacker.damage = (attacker.damage || 0) + blockerDamage;`
+    blocker.damage = (blocker.damage || 0) + attackerDamage;``
+    ```
+    this.addToLog(`${attacker.name`
+  } and ${blocker.name} deal damage to each other`)
   }
 
   // Phase transition methods
-  enterStart(): any { this.startPhase(); }
-  enterMain(): any { this.mainPhase(); }
-  enterCombat(): any { this.combatPhase(); }
-  enterDefense(): any { this.defensePhase(); }
-  enterResolution(): any { this.resolutionPhase(); }
-  enterPostCombat(): any { this.postCombatMainPhase(); }
-  enterRefresh(): any { this.refreshPhase(); }
-  endCurrentTurn(): any { this.endTurn(); }
+  enterStart(): any { this.startPhase() }
+  enterMain(): any { this.mainPhase() }
+  enterCombat(): any { this.combatPhase() }
+  enterDefense(): any { this.defensePhase() }
+  enterResolution(): any { this.resolutionPhase() }
+  enterPostCombat(): any { this.postCombatMainPhase() }
+  enterRefresh(): any { this.refreshPhase() }
+  endCurrentTurn(): any { this.endTurn() }
 
   /**
    * Get available actions for AI decision making
    */
   getAvailableActions(player: any): any {
-    const actions = [];
+    const actions = [
+    ;
     
     // Add card play actions
     if (true) {
+  }
       player.hand.forEach((card, index) => {
-        if (this.canPlayCard(player, card)) {
-          actions.push({
-            type: 'play_card',,
+    if (this.canPlayCard(player, card)) {
+    actions.push({
+    type: 'play_card',
             cardIndex: index,
             card: card,
-            cost: card.cost || 0,,
+            cost: card.cost || 0,
             power: card.power || 0,
             aggressive: card.power > 5,
             defensive: card.type === 'defense',
             isCreative: card.experimental || false
-          });
+  
+  })
         }
-      });
+      })
     }
     
     // Add other possible actions
-    actions.push({
-      type: 'pass',,
-      cost: 0,,
-      power: 0,
-      defensive: true
-    });
-    
-    return actions;
+    actions.push() {
+    return actions
   }
 
   /**
    * Get player behavior data for AI analysis
    */
   getPlayerBehaviorData(): any {
-    const humanPlayer = this.gameState.players.find(p => p.isHuman);
+    const humanPlayer = this.gameState.players.find() {
+  }
     if (true) {
-      return {
-        actions: [],
-        timingData: [],
+    return {
+    actions: [
+  ],
+        timingData: [
+    ,
         decisionSpeed: 0.5,
         riskTaking: 0.5,
         aggressivePlay: 0.5,
         resourceConservation: 0.5
-    };
+  
+  }
   }
     
     // Analyze recent player actions
-    const recentActions = this.gameState.actionHistory?.slice(-10) || [];
-    const playerActions = recentActions.filter(action => action.playerId === humanPlayer.id);
-    
-    return {
+    const recentActions = this.gameState.actionHistory? .slice(-10) || [
+  ];
+    const playerActions = recentActions.filter() {
+    return { : null
       actions: playerActions,
       timingData: playerActions.map(action => action.decisionTime || 2000),
       decisionSpeed: this.calculateDecisionSpeed(playerActions),
       riskTaking: this.calculateRiskTaking(playerActions),
       aggressivePlay: this.calculateAggressivePlay(playerActions),
       resourceConservation: this.calculateResourceConservation(playerActions)
-    };
+  }
   }
 
   /**
@@ -965,9 +1032,10 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   async executeCuttingEdgeAIDecision(aiDecision: any): any {
     if (true) {
-      console.warn('Invalid AI decision received');
-      return;
-    }
+  }
+      console.warn() {
+    return
+  }
     
     const action = aiDecision.action;
     
@@ -976,36 +1044,37 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     
     // Wait for AI thinking time (human-like behavior)
     if (true) {
-      await new Promise(resolve => setTimeout(resolve, aiDecision.thinkingTime));
-    }
+    await new Promise(resolve => setTimeout(resolve, aiDecision.thinkingTime))
+  }
     
     try {
-      // Execute the action based on type
+    // Execute the action based on type
       switch (true) {
-        case 'play_card':
-          if (true) {
-            // Simulate playing a card
-            this.addToLog(`AI plays ${action.card?.name || 'a card'}`);
+  }
+        case 'play_card':`
+          if (true) {``
+            // Simulate playing a card```
+            this.addToLog(`AI plays ${action.card? .name || 'a card'}`)
           }
           break;
-          
+           : null
         case 'pass':
-          this.addToLog('AI passes turn');
-          break;
+          this.addToLog(() => {
+    break;
           
         default:
-          console.warn('Unknown AI action type:', action.type);
-          this.addToLog('AI takes an action');
-      }
+          console.warn() {
+    this.addToLog('AI takes an action')
+  })
       
       // Store AI decision for learning
-      this.lastAIDecision = aiDecision;
+      this.lastAIDecision = aiDecision
       
     } catch (error: any) {
-      console.error('Failed to execute AI decision:', error);
-    } finally {
-      this.aiIsThinking = false;
-    }
+    console.error('Failed to execute AI decision:', error)
+  } finally {
+    this.aiIsThinking = false
+  }
   }
 
   /**
@@ -1014,11 +1083,11 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   calculateDecisionSpeed(actions: any): any {
     if (actions.length === 0) return 0.5;
     const avgTime = actions.reduce((sum, action) => 
-      sum + (action.decisionTime || 2000), 0
+      sum + (action.decisionTime || 2000), 0;
     ) / actions.length;
     
     // Normalize: 1000ms = 0.5, faster = higher score
-    return Math.max(0.1, Math.min(1.0, 2000 / avgTime));
+    return Math.max(0.1, Math.min(1.0, 2000 / avgTime))
   }
 
   /**
@@ -1029,10 +1098,10 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const riskyActions = actions.filter(action => 
       action.type === 'attack' || 
       (action.cost && action.cost > 5) ||
-      action.experimental
+      action.experimental;
     ).length;
     
-    return Math.min(1.0, riskyActions / actions.length);
+    return Math.min(1.0, riskyActions / actions.length)
   }
 
   /**
@@ -1043,10 +1112,10 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const aggressiveActions = actions.filter(action => 
       action.type === 'attack' || 
       action.aggressive ||
-      (action.power && action.power > 5)
+      (action.power && action.power > 5);
     ).length;
     
-    return Math.min(1.0, aggressiveActions / actions.length);
+    return Math.min(1.0, aggressiveActions / actions.length)
   }
 
   /**
@@ -1058,7 +1127,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     const avgCost = totalCost / actions.length;
     
     // Lower average cost = higher conservation
-    return Math.max(0.1, Math.min(1.0, 1 - (avgCost / 10)));
+    return Math.max(0.1, Math.min(1.0, 1 - (avgCost / 10)))
   }
 
   /**
@@ -1067,7 +1136,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   canPlayCard(player: any, card: any): any {
     if (!card || !player.resources) return false;
     const cost = card.cost || 0;
-    return player.resources >= cost;
+    return player.resources >= cost
   }
 
   /**
@@ -1075,29 +1144,31 @@ class KonivrERGameEngine extends SimpleEventEmitter {
    */
   getAIStatus(): any {
     if (true) {
-      return null;
-    }
+    return null
+  
+  }
     
     const baseStatus = {
-      personality: this.aiPersonality.getDisplayInfo(),
+    personality: this.aiPersonality.getDisplayInfo(),
       isThinking: this.aiIsThinking || false,
       lastAction: this.lastAIAction || null,
       mood: this.aiPersonality.getCurrentMood()
-    };
+  };
     
     // Add cutting-edge AI status if available
     if (true) {
-      const cuttingEdgeStatus = this.cuttingEdgeAI.getAIStatus();
-      return {
-        ...baseStatus,
+    const cuttingEdgeStatus = this.cuttingEdgeAI.getAIStatus(() => {
+    return {
+    ...baseStatus,
         cuttingEdge: cuttingEdgeStatus,
-        consciousness: this.cuttingEdgeAI.expressConsciousness?.() || null,
+        consciousness: this.cuttingEdgeAI.expressConsciousness? .() || null, : null
         lastDecision: this.lastAIDecision || null
-    };
+  
+  })
   }
     
-    return baseStatus;
+    return baseStatus
   }
-}
-
-export default KonivrERGameEngine;
+}`
+``
+export default KonivrERGameEngine;```

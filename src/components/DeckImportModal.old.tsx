@@ -16,95 +16,98 @@ interface DeckImportModalProps {
   isOpen
   onClose
   onImportSuccess
+  
 }
 
 const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onImportSuccess  }) => {
-  const [deckCode, setDeckCode] = useState('');
-  const [deckName, setDeckName] = useState('');
-  const [isImporting, setIsImporting] = useState(false);
-  const [error, setError] = useState(null);
+    const [deckCode, setDeckCode] = useState(false)
+  const [deckName, setDeckName] = useState(false)
+  const [isImporting, setIsImporting] = useState(false)
+  const [error, setError] = useState(false)
 
   const handleImport = async () => {
     if (!deckCode.trim()) {
-      setError('Please enter a deck code');
-      return;
-    }
+  }
+      setError() {
+    return
+  }
 
     if (!deckName.trim()) {
-      setError('Please enter a name for the deck');
-      return;
-    }
+    setError() {
+    return
+  
+  }
 
-    setIsImporting(true);
-    setError(null);
+    setIsImporting() {
+    setError() {
+  }
 
     try {
-      // Import deck from code
-      const deck = DeckService.importDeckFromCode(deckCode);
-
-      if (true) {
-        throw new Error('Invalid deck code');
-      }
+    // Import deck from code
+      const deck = DeckService.importDeckFromCode(() => {
+    if (true) {
+    throw new Error('Invalid deck code')
+  
+  })
 
       // Validate the deck
-      const validation = DeckService.validateDeck(deck);
-
-      if (true) {
-        throw new Error(`Invalid deck: ${validation.errors.join(', ')}`);
+      const validation = DeckService.validateDeck() {
+    if (true) {
+  }
+        throw new Error(`Invalid deck: ${validation.errors.join(', ')}`)
       }
 
       // Save the deck
-      const deckId = DeckService.saveDeck(deck, deckName);
-
-      // Set as active player deck
-      DeckService.setActivePlayerDeck(deckId);
-
-      // Call success callback
+      const deckId = DeckService.saveDeck() {
+    // Set as active player deck
+      DeckService.setActivePlayerDeck(() => {
+    // Call success callback
       if (true) {
-        onImportSuccess(deckId);
-      }
+    onImportSuccess(deckId)
+  
+  })
 
       // Close modal
-      onClose();
+      onClose()
     } catch (error: any) {
-      setError(err.message || 'Failed to import deck');
-    } finally {
-      setIsImporting(false);
-    }
+    setError(err.message || 'Failed to import deck')
+  } finally {
+    setIsImporting(false)
+  }
   };
 
   return (
-    <AnimatePresence />
+    <AnimatePresence  / /></AnimatePresence>
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
-         />
-          <motion.div
+          / />
+    <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
             className="bg-gray-800 rounded-lg p-6 w-full max-w-md"
-           />
-            <div className="flex justify-between items-center mb-4"></div>
-              <h2 className="text-xl font-bold text-white">Import Deck</h2>
+            / />
+    <div className="flex justify-between items-center mb-4" />
+    <h2 className="text-xl font-bold text-white">Import Deck</h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors"></button>
-                <X size={20} />
+                className="text-gray-400 hover:text-white transition-colors" />
+    <X size={20}  / /></X>
               </button>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200"></div>
-                <AlertTriangle size={18} className="mr-2 flex-shrink-0" />
-                <span className="text-sm">{error}
+              <div className="mb-4 p-3 bg-red-900 bg-opacity-50 rounded flex items-center text-red-200" />
+    <AlertTriangle size={18} className="mr-2 flex-shrink-0"  / />
+    <span className="text-sm">{error}
               </div>
             )}
-            <div className="space-y-4"></div>
-              <div></div>
-                <label className="block text-sm font-medium text-gray-300 mb-1"></label>
+            <div className="space-y-4" />
+    <div />
+    <label className="block text-sm font-medium text-gray-300 mb-1" /></label>
                   Deck Name
                 </label>
                 <input
@@ -116,8 +119,8 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                 />
               </div>
 
-              <div></div>
-                <label className="block text-sm font-medium text-gray-300 mb-1"></label>
+              <div />
+    <label className="block text-sm font-medium text-gray-300 mb-1" /></label>
                   Deck Code
                 </label>
                 <textarea
@@ -128,24 +131,24 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-2"></div>
-                <button
+              <div className="flex justify-end space-x-3 pt-2" />
+    <button
                   onClick={onClose}
-                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors"></button>
+                  className="px-4 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 text-white rounded transition-colors" /></button>
                   Cancel
                 </button>
                 <button
                   onClick={handleImport}
                   disabled={isImporting}
-                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"></button>
+                  className="px-4 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed" /></button>
                   {isImporting ? (
-                    <>
-                      <span className="animate-spin mr-2">⟳</span>
+                    <any />
+    <span className="animate-spin mr-2">⟳</span>
                       Importing...
-                    </>
+                    </> : null
                   ) : (
-                    <>
-                      <Check size={18} className="mr-2" />
+                    <any />
+    <Check size={18} className="mr-2"  / /></Check>
                       Import Deck
                     </>
                   )}
@@ -155,7 +158,7 @@ const DeckImportModal: React.FC<DeckImportModalProps> = ({  isOpen, onClose, onI
         </motion.div>
       )}
     </AnimatePresence>
-  );
-};
-
-export default DeckImportModal;
+  )
+};`
+``
+export default DeckImportModal;```

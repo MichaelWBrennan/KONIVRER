@@ -7,9 +7,11 @@
 
 // Enhanced Ranking Engine - Placeholder
 export class EnhancedRankingEngine {
-  static calculateRanking(): any {
-  // Placeholder method
-  return [];
+    static calculateRanking(): any {
+    // Placeholder method
+  return []
+  
+  }
 }
 }
 

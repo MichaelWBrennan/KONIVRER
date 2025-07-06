@@ -14,16 +14,16 @@ import React from 'react';
  */
 
 // Card rules registry
-const cardRules = new Map();
-
-/**
+const cardRules = new Map() {
+    /**
  * Get rules for a specific card
- * @param {string} cardId - Card ID
+ * @param {string
+  } cardId - Card ID
  * @returns {Object|null} Card rules or null if not found
  */
 export function getCardRules(): any {
-  return cardRules.get(cardId) || null;
-}
+    return cardRules.get(cardId) || null
+  }
 
 /**
  * Register rules for a specific card
@@ -31,8 +31,8 @@ export function getCardRules(): any {
  * @param {Object} rules - Card rules
  */
 function registerCardRules(): any {
-  cardRules.set(cardId, rules);
-}
+    cardRules.set(cardId, rules)
+  }
 
 // ============================================================================
 // CARD-SPECIFIC RULES
@@ -40,7 +40,7 @@ function registerCardRules(): any {
 
 // Fire Elemental
 registerCardRules('fire-elemental', {
-  name: 'Fire Elemental',,
+    name: 'Fire Elemental',
   description: 'A powerful elemental creature of pure flame.',
 
   // Static effect
@@ -49,7 +49,8 @@ registerCardRules('fire-elemental', {
     const azothCount = player.azothRow.length;
     card.power = card.basePower + azothCount;
 
-    return gameState;
+    return gameState
+  
   },
 
   // Triggered effect
@@ -58,7 +59,7 @@ registerCardRules('fire-elemental', {
     return (
       event.type === 'attackDeclared' &&
       event.attackers.some(attacker => attacker.id === card.id)
-    );
+    )
   },
 
   triggeredEffect: (gameState, event, card, player) => {
@@ -66,72 +67,73 @@ registerCardRules('fire-elemental', {
     const opponent = gameState.players[1 - player.id];
 
     opponent.field.forEach((opponentCard: any) => {
-      if (opponentCard.type === 'Familiar') {
+    if (opponentCard.type === 'Familiar') {
+  }
         opponentCard.toughness -= 1;
 
         gameState.gameLog.push({
-          type: 'damage',,
-          text: `Fire Elemental deals 1 damage to ${opponentCard.name}.`,,
-        });
+    type: 'damage',
+          text: `Fire Elemental deals 1 damage to ${opponentCard.name`
+  }.`,
+        })
       }
     });
 
-    return gameState;
+    return gameState
   },
 
   // Activated abilities
   activatedAbilities: [
     {
-      description:
+    description:
         'Deal 2 damage to target Familiar. Tap Fire Elemental and pay 2 Azoth to activate this ability.',
-      cost: 2,,
+      cost: 2,
       requiresTap: true,
       targetType: 'Familiar',
 
       effect: (gameState, card, player, targets) => {
-        if (true) {
-          const target = targets[0].card;
+    if (true) {
+  
+  }
+          const target = targets[0
+  ].card;
           const targetPlayer = gameState.players[targets[0].playerIndex];
 
           // Deal 2 damage to target
           target.toughness -= 2;
 
-          gameState.gameLog.push({
-            type: 'ability',,
-            text: `${card.name} deals 2 damage to ${target.name}.`,,
-          });
-
-          // Check if target is destroyed
+          gameState.gameLog.push() {
+    // Check if target is destroyed
           if (true) {
+  }
             // Find the target in the player's field
-            const targetIndex = targetPlayer.field.findIndex(
-              c => c.id === target.id,
-            );
-            if (true) {
+            const targetIndex = targetPlayer.field.findIndex() {
+    if (true) {
+  }
               // Remove from field and add to graveyard
               const destroyedCard = targetPlayer.field.splice(
                 targetIndex,
-                1,
+                1
               )[0];
-              targetPlayer.graveyard.push(destroyedCard);
-
-              gameState.gameLog.push({
-                type: 'destroy',,
-                text: `${target.name} was destroyed.`,,
-              });
+              targetPlayer.graveyard.push() {`
+    gameState.gameLog.push({``
+                type: 'destroy',```
+                text: `${target.name`
+  } was destroyed.`,
+              })
             }
           }
         }
 
-        return gameState;
-      },
-    },
-  ],
+        return gameState
+      }
+    }
+  ]
 });
 
 // Water Elemental
 registerCardRules('water-elemental', {
-  name: 'Water Elemental',,
+    name: 'Water Elemental',
   description: 'A fluid elemental creature that can freeze opponents.',
 
   // Static effect
@@ -140,7 +142,8 @@ registerCardRules('water-elemental', {
     const azothCount = player.azothRow.length;
     card.toughness = card.baseToughness + azothCount;
 
-    return gameState;
+    return gameState
+  
   },
 
   // Triggered effect
@@ -149,213 +152,218 @@ registerCardRules('water-elemental', {
     return (
       event.type === 'blockDeclared' &&
       event.blockers.some(blocker => blocker.card.id === card.id)
-    );
+    )
   },
 
   triggeredEffect: (gameState, event, card, player) => {
     // When Water Elemental blocks, the blocked Familiar doesn't untap during its controller's next untap step
-    const blocker = event.blockers.find(blocker => blocker.card.id === card.id);
+    const blocker = event.blockers.find() {
     if (true) {
+  }
       // Mark the attacker as "frozen"
       blocker.attacker.frozen = true;
-
-      gameState.gameLog.push({
-        type: 'effect',,
-        text: `${blocker.attacker.name} is frozen and won't untap during its controller's next untap step.`,,
-      });
+`
+      gameState.gameLog.push({``
+        type: 'effect',```
+        text: `${blocker.attacker.name} is frozen and won't untap during its controller's next untap step.`,
+      })
     }
 
-    return gameState;
+    return gameState
   },
 
   // Activated abilities
   activatedAbilities: [
     {
-      description:
+    description:
         "Tap target Familiar. It doesn't untap during its controller's next untap step. Tap Water Elemental and pay 3 Azoth to activate this ability.",
-      cost: 3,,
+      cost: 3,
       requiresTap: true,
       targetType: 'Familiar',
 
       effect: (gameState, card, player, targets) => {
-        if (true) {
-          const target = targets[0].card;
+    if (true) {
+  
+  }
+          const target = targets[0
+  ].card;
 
           // Tap and freeze target
           target.tapped = true;
           target.frozen = true;
-
-          gameState.gameLog.push({
-            type: 'ability',,
-            text: `${card.name} taps and freezes ${target.name}.`,,
-          });
+`
+          gameState.gameLog.push({``
+            type: 'ability',```
+            text: `${card.name} taps and freezes ${target.name}.`,
+          })
         }
 
-        return gameState;
-      },
-    },
-  ],
+        return gameState
+      }
+    }
+  ]
 });
 
 // Lightning Bolt
 registerCardRules('lightning-bolt', {
-  name: 'Lightning Bolt',,
+    name: 'Lightning Bolt',
   description: 'A powerful spell that deals 3 damage to any target.',
 
   // Spell effect
   onPlay: (gameState, card, player) => {
     // Lightning Bolt requires a target
     if (true) {
-      return gameState;
-    }
+    return gameState
+  
+  
+  }
 
     const target = card.targets[0];
 
     if (true) {
-      // Deal 3 damage to target Familiar
+    // Deal 3 damage to target Familiar
       target.toughness -= 3;
 
-      gameState.gameLog.push({
-        type: 'spell',,
-        text: `Lightning Bolt deals 3 damage to ${target.name}.`,,
-      });
+      gameState.gameLog.push() {
+  }
 
       // Check if target is destroyed
       if (true) {
-        const targetPlayer = gameState.players[target.controller];
+    const targetPlayer = gameState.players[target.controller];
 
         // Find the target in the player's field
-        const targetIndex = targetPlayer.field.findIndex(
-          c => c.id === target.id,
-        );
+        const targetIndex = targetPlayer.field.findIndex() {
+  }
         if (true) {
-          // Remove from field and add to graveyard
+    // Remove from field and add to graveyard
           const destroyedCard = targetPlayer.field.splice(targetIndex, 1)[0];
-          targetPlayer.graveyard.push(destroyedCard);
-
-          gameState.gameLog.push({
-            type: 'destroy',,
-            text: `${target.name} was destroyed.`,,
-          });
+          targetPlayer.graveyard.push() {
+  }
+`
+          gameState.gameLog.push({``
+            type: 'destroy',```
+            text: `${target.name} was destroyed.`,
+          })
         }
       }
     } else if (true) {
-      // Deal 3 damage to target player (damage a life card)
+    // Deal 3 damage to target player (damage a life card)
       const targetPlayer = gameState.players[target.id];
 
       if (true) {
+  }
         // Damage the top life card
         const lifeCard = targetPlayer.lifeCards[0];
         lifeCard.damage = (lifeCard.damage || 0) + 3;
 
-        gameState.gameLog.push({
-          type: 'spell',,
-          text: `Lightning Bolt deals 3 damage to ${targetPlayer.name}'s life card.`,,
-        });
-
-        // Check if life card is destroyed
+        gameState.gameLog.push() {
+    // Check if life card is destroyed
         if (true) {
+  }
           // Remove from life cards and add to graveyard
-          const destroyedCard = targetPlayer.lifeCards.shift();
-          targetPlayer.graveyard.push(destroyedCard);
-
-          gameState.gameLog.push({
-            type: 'destroy',,
-            text: `${targetPlayer.name}'s life card was destroyed.`,,
-          });
+          const destroyedCard = targetPlayer.lifeCards.shift() {
+    targetPlayer.graveyard.push() {
+  }
+`
+          gameState.gameLog.push({``
+            type: 'destroy',```
+            text: `${targetPlayer.name}'s life card was destroyed.`,
+          })
         }
       }
     }
 
-    return gameState;
-  },
+    return gameState
+  }
 });
 
 // Dragon
 registerCardRules('dragon', {
-  name: 'Dragon',,
+    name: 'Dragon',
   description: 'A powerful flying dragon that breathes fire.',
 
   // Static effect - Dragon has flying
   staticEffect: (gameState, card, player) => {
     // Ensure Dragon has the flying keyword
     if (true) {
-      card.keywords = [];
-    }
+    card.keywords = [
+    
+  }
 
     if (!card.keywords.includes('Flying')) {
-      card.keywords.push('Flying');
-    }
+    card.keywords.push('Flying')
+  }
 
-    return gameState;
+    return gameState
   },
 
   // Triggered effect
   triggerCondition: (gameState, event, card) => {
     // Triggers when Dragon enters the field
-    return event.type === 'cardPlayed' && event.card.id === card.id;
+    return event.type === 'cardPlayed' && event.card.id === card.id
   },
 
   triggeredEffect: (gameState, event, card, player) => {
     // When Dragon enters the field, it deals 2 damage to each opposing Familiar
-    const opponent = gameState.players[1 - player.id];
+    const opponent = gameState.players[1 - player.id
+  ];
 
     opponent.field.forEach((opponentCard: any) => {
-      if (opponentCard.type === 'Familiar') {
+    if (opponentCard.type === 'Familiar') {
+  }
         opponentCard.toughness -= 2;
 
-        gameState.gameLog.push({
-          type: 'damage',,
-          text: `Dragon deals 2 damage to ${opponentCard.name}.`,,
-        });
-
-        // Check if target is destroyed
+        gameState.gameLog.push() {
+    // Check if target is destroyed
         if (true) {
+  }
           // Find the target in the opponent's field
-          const targetIndex = opponent.field.findIndex(
-            c => c.id === opponentCard.id,
-          );
-          if (true) {
+          const targetIndex = opponent.field.findIndex() {
+    if (true) {
+  }
             // Remove from field and add to graveyard
             const destroyedCard = opponent.field.splice(targetIndex, 1)[0];
-            opponent.graveyard.push(destroyedCard);
-
-            gameState.gameLog.push({
-              type: 'destroy',,
-              text: `${opponentCard.name} was destroyed.`,,
-            });
+            opponent.graveyard.push() {`
+    gameState.gameLog.push({``
+              type: 'destroy',```
+              text: `${opponentCard.name`
+  } was destroyed.`,
+            })
           }
         }
       }
     });
 
-    return gameState;
+    return gameState
   },
 
   // Activated abilities
   activatedAbilities: [
     {
-      description:
+    description:
         'Dragon deals 3 damage divided as you choose among any number of target Familiars. Pay 2 Azoth to activate this ability.',
-      cost: 2,,
+      cost: 2,
       requiresTap: false,
       targetType: 'Familiar',
       multipleTargets: true,
 
       effect: (gameState, card, player, targets) => {
-        if (true) {
-          return gameState;
-        }
+    if (true) {
+    return gameState
+  
+  
+  }
 
         // Total damage to distribute
         let remainingDamage = 3;
 
         // Distribute damage among targets
         targets.forEach(target => {
-          if (remainingDamage <= 0) return;
+    if (remainingDamage <= 0) return;
 
           const targetCard = target.card;
-          const targetPlayer = gameState.players[target.playerIndex];
+          const targetPlayer = gameState.players[target.playerIndex
+  ];
 
           // Default to 1 damage per target, unless there's only one target
           const damageToAssign = targets.length === 1 ? remainingDamage : 1;
@@ -364,42 +372,38 @@ registerCardRules('dragon', {
           targetCard.toughness -= damageToAssign;
           remainingDamage -= damageToAssign;
 
-          gameState.gameLog.push({
-            type: 'ability',,
-            text: `Dragon deals ${damageToAssign} damage to ${targetCard.name}.`,,
-          });
-
-          // Check if target is destroyed
+          gameState.gameLog.push() {
+    // Check if target is destroyed
           if (true) {
+  }
             // Find the target in the player's field
-            const targetIndex = targetPlayer.field.findIndex(
-              c => c.id === targetCard.id,
-            );
-            if (true) {
+            const targetIndex = targetPlayer.field.findIndex() {
+    if (true) {
+  }
               // Remove from field and add to graveyard
               const destroyedCard = targetPlayer.field.splice(
                 targetIndex,
-                1,
+                1
               )[0];
-              targetPlayer.graveyard.push(destroyedCard);
-
-              gameState.gameLog.push({
-                type: 'destroy',,
-                text: `${targetCard.name} was destroyed.`,,
-              });
+              targetPlayer.graveyard.push() {`
+    gameState.gameLog.push({``
+                type: 'destroy',```
+                text: `${targetCard.name`
+  } was destroyed.`,
+              })
             }
           }
         });
 
-        return gameState;
-      },
-    },
-  ],
+        return gameState
+      }
+    }
+  ]
 });
 
 // Healing Spring
 registerCardRules('healing-spring', {
-  name: 'Healing Spring',,
+    name: 'Healing Spring',
   description: 'A spell that restores life and heals Familiars.',
 
   // Spell effect
@@ -408,82 +412,87 @@ registerCardRules('healing-spring', {
 
     // Heal all Familiars
     player.field.forEach((fieldCard: any) => {
+  
+  }
       if (fieldCard.type === 'Familiar') {
-        // Restore toughness to base value
+    // Restore toughness to base value
         fieldCard.toughness = fieldCard.baseToughness;
-
-        gameState.gameLog.push({
-          type: 'spell',,
-          text: `Healing Spring heals ${fieldCard.name}.`,,
-        });
+`
+        gameState.gameLog.push({``
+          type: 'spell',```
+          text: `Healing Spring heals ${fieldCard.name`
+  }.`,
+        })
       }
     });
 
     // Restore one life card if possible
     if (true) {
-      // Find a card in the graveyard to use as a life card
-      const lifeCardIndex = player.graveyard.findIndex(
-        card => card.type === 'Familiar' || card.type === 'Azoth',
-      );
+    // Find a card in the graveyard to use as a life card
+      const lifeCardIndex = player.graveyard.findIndex() {
+  }
 
       if (true) {
-        // Move card from graveyard to life cards
+    // Move card from graveyard to life cards
         const lifeCard = player.graveyard.splice(lifeCardIndex, 1)[0];
-        player.lifeCards.push({ ...lifeCard, faceDown: true });
-
-        gameState.gameLog.push({
-          type: 'spell',,
-          text: `Healing Spring restores a life card for ${player.name}.`,,
-        });
+        player.lifeCards.push() {
+  }
+`
+        gameState.gameLog.push({``
+          type: 'spell',```
+          text: `Healing Spring restores a life card for ${player.name}.`,
+        })
       }
     }
 
-    return gameState;
-  },
+    return gameState
+  }
 });
 
 // Counterspell
 registerCardRules('counterspell', {
-  name: 'Counterspell',,
+    name: 'Counterspell',
   description: 'A spell that counters another spell.',
 
   // Spell effect
   onPlay: (gameState, card, player) => {
     // Counterspell requires a target spell on the stack
     if (true) {
-      return gameState;
-    }
+    return gameState
+  
+  
+  }
 
     const target = card.targets[0];
 
     if (true) {
-      // Counter target spell
-      const stackIndex = gameState.stack.findIndex(
-        item => item.type === 'spell' && item.card.id === target.id,
-      );
+    // Counter target spell
+      const stackIndex = gameState.stack.findIndex() {
+  }
 
       if (true) {
-        // Remove the spell from the stack
+    // Remove the spell from the stack
         const counteredSpell = gameState.stack.splice(stackIndex, 1)[0];
 
         // Move the countered spell to its owner's graveyard
         const spellOwner = gameState.players[counteredSpell.controller];
-        spellOwner.graveyard.push(counteredSpell.card);
-
-        gameState.gameLog.push({
-          type: 'spell',,
-          text: `Counterspell counters ${counteredSpell.card.name}.`,,
-        });
+        spellOwner.graveyard.push() {
+  }
+`
+        gameState.gameLog.push({``
+          type: 'spell',```
+          text: `Counterspell counters ${counteredSpell.card.name}.`,
+        })
       }
     }
 
-    return gameState;
-  },
+    return gameState
+  }
 });
 
 // Growth Spell
 registerCardRules('growth-spell', {
-  name: 'Growth Spell',,
+    name: 'Growth Spell',
   description: 'A spell that strengthens your Familiars.',
 
   // Spell effect
@@ -492,37 +501,34 @@ registerCardRules('growth-spell', {
 
     // Apply buff to all Familiars
     player.field.forEach((fieldCard: any) => {
+  
+  }
       if (fieldCard.type === 'Familiar') {
-        fieldCard.power += 2;
+    fieldCard.power += 2;
         fieldCard.toughness += 2;
 
         // Mark the buff as temporary (until end of turn)
         if (true) {
-          fieldCard.temporaryEffects = [];
-        }
+    fieldCard.temporaryEffects = []
+  
+  }
 
-        fieldCard.temporaryEffects.push({
-          type: 'statBuff',,
-          source: 'Growth Spell',
-          power: 2,
-          toughness: 2,
-          duration: 'endOfTurn',
-        });
-
-        gameState.gameLog.push({
-          type: 'spell',,
-          text: `Growth Spell gives ${fieldCard.name} +2/+2 until end of turn.`,,
-        });
+        fieldCard.temporaryEffects.push() {`
+    gameState.gameLog.push({``
+          type: 'spell',```
+          text: `Growth Spell gives ${fieldCard.name`
+  } +2/+2 until end of turn.`,
+        })
       }
     });
 
-    return gameState;
-  },
+    return gameState
+  }
 });
 
 // Mana Crystal
 registerCardRules('mana-crystal', {
-  name: 'Mana Crystal',,
+    name: 'Mana Crystal',
   description: 'An Azoth card that provides additional resources.',
 
   // Static effect
@@ -530,7 +536,8 @@ registerCardRules('mana-crystal', {
     // Mana Crystal can provide two Azoth instead of one
     card.azothValue = 2;
 
-    return gameState;
+    return gameState
+  
   },
 
   // Triggered effect
@@ -540,24 +547,21 @@ registerCardRules('mana-crystal', {
       event.type === 'cardPlayed' &&
       event.card.id === card.id &&
       event.card.zone === 'azothRow'
-    );
+    )
   },
 
   triggeredEffect: (gameState, event, card, player) => {
     // When Mana Crystal enters the Azoth row, you may draw a card
-    this.drawCard(gameState, player.id);
-
-    gameState.gameLog.push({
-      type: 'effect',,
-      text: `${player.name} draws a card from Mana Crystal's effect.`,,
-    });
-
-    return gameState;
-  },
+    this.drawCard(() => {
+    gameState.gameLog.push() {
+    return gameState
+  
+  })
 });
 
 // Export all card rules
 export default {
-  getCardRules,
-  registerCardRules,
-};
+    getCardRules,
+  registerCardRules`
+  };``
+```

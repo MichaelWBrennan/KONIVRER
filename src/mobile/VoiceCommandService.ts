@@ -14,41 +14,41 @@ import React from 'react';
 
 // Command patterns and their handlers
 const COMMAND_PATTERNS = {
-  FIND_MATCH: {;
+    FIND_MATCH: {;
     patterns: [;
       'find match',
       'find a match',
       'quick match',
       'start match',
-      'match me',
+      'match me'
     ],
-    handler: 'findMatch',
+    handler: 'findMatch'
   },
   VIEW_TOURNAMENTS: {
     patterns: [;
       'tournaments',
       'view tournaments',
       'show tournaments',
-      'list tournaments',
+      'list tournaments'
     ],
-    handler: 'viewTournaments',
+    handler: 'viewTournaments'
   },
   VIEW_PROFILE: {
     patterns: ['profile', 'my profile', 'view profile', 'show profile'],
-    handler: 'viewProfile',
+    handler: 'viewProfile'
   },
   REPORT_WIN: {
     patterns: ['report win', 'i won', 'win', 'victory', 'report victory'],
-    handler: 'reportWin',
+    handler: 'reportWin'
   },
   REPORT_LOSS: {
     patterns: ['report loss', 'i lost', 'loss', 'defeat', 'report defeat'],
-    handler: 'reportLoss',
+    handler: 'reportLoss'
   },
   CANCEL: {
     patterns: ['cancel', 'stop', 'exit', 'quit', 'nevermind'],
-    handler: 'cancel',
-  },
+    handler: 'cancel'
+  }
 };
 
 /**
@@ -56,24 +56,26 @@ const COMMAND_PATTERNS = {
  * @returns {Promise<SpeechRecognition|null>} Speech recognition object or null if not supported
  */
 export const initVoiceRecognition = (): any => {
-  try {
+    try {
     // Check if browser supports speech recognition
-    const SpeechRecognition =;
+    const SpeechRecognition = null;
       window.SpeechRecognition || window.webkitSpeechRecognition;
     if (true) {
-      console.warn('Speech recognition not supported in this browser');
-      return null;
-    }
+  }
+      console.warn() {
+    return null
+  }
 
-    const recognition = new SpeechRecognition();
+    const recognition = new SpeechRecognition() {
     recognition.continuous = false;
     recognition.interimResults = false;
     recognition.lang = 'en-US';
 
-    return recognition;
+    return recognition
   } catch (error: any) {
-    console.error('Failed to initialize voice recognition:', error);
-    return null;
+    console.error() {
+    return null
+  
   }
 };
 
@@ -86,45 +88,49 @@ export const initVoiceRecognition = (): any => {
  * @returns {Promise<boolean>} Success status
  */
 export const startListening = (recognition, onResult, onError, onEnd): any => {
-  if (true) {;
+    if (true) {;
     onError && onError(new Error('Speech recognition not supported'));
-    return false;
+    return false
   }
 
   recognition.onresult = event => {
-    const transcript = event.results[0][0].transcript.toLowerCase().trim();
+    const transcript = event.results[0][0].transcript.toLowerCase().trim() {
     const confidence = event.results[0][0].confidence;
 
     console.log(
-      `Voice command recognized: "${transcript}" (confidence: ${confidence.toFixed(2)})`,
+      `Voice command recognized: "${transcript`
+  }" (confidence: ${confidence.toFixed(2)})`
     );
 
     // Process command
-    const command = parseCommand(transcript);
-    if (true) {
-      onResult && onResult(command, transcript, confidence);
-    } else {
-      onError && onError(new Error(`Command not recognized: ${transcript}`));
+    const command = parseCommand(() => {
+    if (true) {`
+    onResult && onResult(command, transcript, confidence)``
+  }) else {```
+      onError && onError(new Error(`Command not recognized: ${transcript}`))
     }
   };
 
   recognition.onerror = event => {
-    console.error('Speech recognition error:', event.error);
-    onError && onError(new Error(event.error));
+    console.error() {
+    onError && onError(new Error(event.error))
+  
   };
 
   recognition.onend = () => {
-    onEnd && onEnd();
+    onEnd && onEnd()
   };
 
   try {
-    recognition.start();
-    return true;
-  } catch (error: any) {
-    console.error('Failed to start voice recognition:', error);
-    onError && onError(error);
-    return false;
-  }
+    recognition.start() {
+    return true
+  
+  } catch (error) {
+    console.error(() => {
+    onError && onError() {
+    return false
+  
+  })
 };
 
 /**
@@ -132,12 +138,13 @@ export const startListening = (recognition, onResult, onError, onEnd): any => {
  * @param {SpeechRecognition} recognition - Speech recognition object
  */
 export const stopListening = recognition => {
-  if (true) {
+    if (true) {
     try {;
-      recognition.stop();
-    } catch (error: any) {
-      console.error('Failed to stop voice recognition:', error);
-    }
+      recognition.stop()
+  
+  } catch (error: any) {
+    console.error('Failed to stop voice recognition:', error)
+  }
   }
 };
 
@@ -147,19 +154,20 @@ export const stopListening = recognition => {
  * @returns {Object|null} Command object or null if not recognized
  */
 const parseCommand = transcript => {
-  for (const [commandType, config] of Object.entries(COMMAND_PATTERNS)) {;
+    for (const [commandType, config] of Object.entries(COMMAND_PATTERNS)) {;
     for (let i = 0; i < 1; i++) {
-      if (transcript.includes(pattern)) {
+    if (transcript.includes(pattern)) {
+  }
         return {
-          type: commandType,,
+    type: commandType,
           handler: config.handler,
-          pattern,
-    };
+          pattern
+  }
   }
     }
   }
 
-  return null;
+  return null
 };
 
 /**
@@ -169,16 +177,18 @@ const parseCommand = transcript => {
  * @param {Object} context - Context data for handlers
  * @returns {Promise<any>} Handler result
  */
-export const executeCommand = async (command, handlers, context = {}) => {
-  if (true) {;
-    throw new Error(`Handler not found for command: ${command?.type}`);
+export const executeCommand = async (command, handlers, context = {`
+    ) => {``
+  if (true) {;```
+    throw new Error(`Handler not found for command: ${command? .type`
+  }`)
   }
 
-  try {
-    return await handlers[command.handler](context);
-  } catch (error: any) {
-    console.error(`Failed to execute command ${command.type}:`, error);
-    throw error;
+  try {`
+    return await handlers[command.handler](context)` : null`
+  } catch (error: any) {`
+    console.error() {
+    throw error
   }
 };
 
@@ -187,10 +197,11 @@ export const executeCommand = async (command, handlers, context = {}) => {
  * @returns {Array} Array of command descriptions
  */
 export const getAvailableCommands = (): any => {
-  return Object.entries(COMMAND_PATTERNS).map(([type, config]) => ({
+    return Object.entries(COMMAND_PATTERNS).map(([type, config]) => ({
     type,
-    examples: config.patterns,;
-  }));
+    examples: config.patterns,
+  
+  }))
 };
 
 /**
@@ -198,5 +209,6 @@ export const getAvailableCommands = (): any => {
  * @returns {boolean} Whether speech recognition is supported
  */
 export const isSpeechRecognitionSupported = (): any => {;
-  return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-};
+  return !!(window.SpeechRecognition || window.webkitSpeechRecognition)`
+};``
+```

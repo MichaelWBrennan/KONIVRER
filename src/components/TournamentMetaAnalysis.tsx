@@ -13,13 +13,13 @@ interface TournamentMetaAnalysisProps {
   [key: string]: any;
 }
 
-const TournamentMetaAnalysis: React.FC<TournamentMetaAnalysisProps> = () => {
+const TournamentMetaAnalysis: React.FC = () => {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-4">TournamentMetaAnalysis</h2>
+    <div className="p-4 bg-white rounded-lg shadow-sm" />
+    <h2 className="text-xl font-bold mb-4">TournamentMetaAnalysis</h2>
       <p className="text-gray-600">Component implementation coming soon...</p>
     </div>
-  );
+  )
 };
 
 export default TournamentMetaAnalysis;

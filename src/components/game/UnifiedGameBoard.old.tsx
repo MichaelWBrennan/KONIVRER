@@ -60,11 +60,12 @@ interface UnifiedGameBoardProps {
   onExit?: () => void;
   
   // Style variant
-  variant?: 'standard' | 'enhanced' | 'konivrer' | 'arena';
+  variant?: 'standard' | 'enhanced' | 'konivrer' | 'arena'
+  
 }
 
 const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
-  // Default props
+    // Default props
   gameEngine,
   playerData,
   opponentData,
@@ -75,27 +76,28 @@ const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
   aiStatus = null,
   onExit,
   variant = 'standard'
-}) => {
-  // Common state
-  const [gameState, setGameState] = useState(null);
-  const [showLog, setShowLog] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [previewCard, setPreviewCard] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [showAIMetrics, setShowAIMetrics] = useState(false);
+  }) => {
+    // Common state
+  const [gameState, setGameState] = useState(false)
+  const [showLog, setShowLog] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
+  const [selectedCard, setSelectedCard] = useState(false)
+  const [previewCard, setPreviewCard] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [showAIMetrics, setShowAIMetrics] = useState(false)
   
   // Arena-specific state
-  const aiRef = useRef<any>(variant === 'arena' ? new AdaptiveAI() : null);
-  const drcRef = useRef<any>(variant === 'arena' ? new DynamicResolutionChain() : null);
-  const [gamePhase, setGamePhase] = useState('start');
-  const [turn, setTurn] = useState(1);
-  const [activePlayer, setActivePlayer] = useState('player');
+  const aiRef = useRef<any>(variant === 'arena' ? new AdaptiveAI(): null) { return null; 
+  }
+  const drcRef = useRef<any>(variant === 'arena' ? new DynamicResolutionChain(): null) { return null; }
+  const [gamePhase, setGamePhase] = useState(false)
+  const [turn, setTurn] = useState(false)
+  const [activePlayer, setActivePlayer] = useState(false)
   
   // Game context (for enhanced variant)
-  const gameContext = variant === 'enhanced' ? useGame() : null;
+  const gameContext = variant === 'enhanced' ? useGame(): null { return null; }
   
   // Refs
   const boardRef = useRef<HTMLDivElement>(null);
@@ -104,90 +106,66 @@ const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
   useEffect(() => {
     // Initialize game state based on variant
     if (gameEngine) {
-      const initialState = gameEngine.getGameState();
-      setGameState(initialState);
-      
-      // Subscribe to game state changes
+    const initialState = gameEngine.getGameState() {
+  }
+      setGameState(() => {
+    // Subscribe to game state changes
       const unsubscribe = gameEngine.subscribe((newState) => {
-        setGameState(newState);
-      });
+    setGameState(newState)
+  }));
       
-      return () => unsubscribe();
-    }
+      return () => unsubscribe()
+    };
   }, [gameEngine, variant]);
   
   // Toggle fullscreen
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      boardRef.current?.requestFullscreen().catch(err => {
-        console.error(`Error attempting to enable fullscreen: ${err.message}`);
-      });
+    boardRef.current? .requestFullscreen().catch(err => { : null
+        console.error(`Error attempting to enable fullscreen: ${err.message`
+  }`)
+      })
     } else {
-      document.exitFullscreen();
-    }
-    setIsFullscreen(!isFullscreen);
+    document.exitFullscreen()
+  }
+    setIsFullscreen(!isFullscreen)
   };
   
   // Handle card selection
   const handleCardSelect = (card) => {
-    setSelectedCard(card);
-    setPreviewCard(card);
+    setSelectedCard() {
+    setPreviewCard(card)
+  
   };
   
   // Handle card preview
   const handleCardPreview = (card) => {
-    setPreviewCard(card);
+    setPreviewCard(card)
   };
   
   // Render game controls based on variant
   const renderGameControls = () => {
     switch (variant) {
-      case 'konivrer':
-        return (
-          <div className="game-controls konivrer">
-            {/* KonivrER specific controls */}
-            <div className="phase-controls">
-              <button className={gamePhase === 'start' ? 'active' : ''}>Start</button>
-              <button className={gamePhase === 'main' ? 'active' : ''}>Main</button>
-              <button className={gamePhase === 'combat' ? 'active' : ''}>Combat</button>
-              <button className={gamePhase === 'refresh' ? 'active' : ''}>Refresh</button>
-            </div>
-            <div className="action-buttons">
-              <button className="primary">End Phase</button>
-              <button>Pass Priority</button>
-            </div>
-          </div>
-        );
+    case 'konivrer':
+        return() {
+  }
         
       case 'arena':
+        return() {
+    case 'enhanced':
         return (
-          <div className="game-controls arena">
-            {/* Arena style controls */}
-            <div className="turn-indicator">
-              <Clock size={16} />
-              <span>Turn {turn}</span>
-            </div>
-            <div className="phase-controls">
-              <button className="primary">End Turn</button>
-              <button>Pass</button>
-              <button>Auto-Pass</button>
-            </div>
-          </div>
-        );
-        
-      case 'enhanced':
-        return (
-          <div className="game-controls enhanced">
-            {/* Enhanced controls with AI metrics */}
-            <div className="phase-controls">
-              <button className="primary">End Phase</button>
+          <div className="game-controls enhanced" /></div>
+            {/* Enhanced controls with AI metrics */
+  }
+            <div className="phase-controls" />
+    <button className="primary">End Phase</button>
               <button>Pass</button>
             </div>
             {aiTestingEnabled && (
-              <div className="ai-controls">
-                <button onClick={() => setShowAIMetrics(!showAIMetrics)}>
-                  <Brain size={16} />
-                  <span>AI Metrics</span>
+              <div className="ai-controls" />
+    <button onClick={() => setShowAIMetrics(!showAIMetrics)}>
+                  <Brain size={16}  / />
+    <span>AI Metrics</span>
                 </button>
               </div>
             )}
@@ -196,181 +174,124 @@ const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
         
       default:
         return (
-          <div className="game-controls standard">
+          <div className="game-controls standard" /></div>
             {/* Standard controls */}
-            <div className="phase-controls">
-              <button className="primary">End Phase</button>
+            <div className="phase-controls" />
+    <button className="primary">End Phase</button>
               <button>Pass</button>
             </div>
           </div>
-        );
+        )
     }
   };
   
   // Render player zones based on variant
   const renderPlayerZones = () => {
     switch (variant) {
-      case 'konivrer':
-        return (
-          <>
-            <div className="player-area opponent">
-              <div className="player-info">
-                {/* Opponent info */}
-              </div>
-              <FlagZone player="opponent" />
-              <LifeCardsZone player="opponent" />
-              <Field player="opponent" />
-              <CombatRow player="opponent" />
-              <AzothRow player="opponent" />
-              <Hand player="opponent" isHidden={!isSpectator} />
-              <Deck player="opponent" />
-              <RemovedFromPlay player="opponent" />
-            </div>
-            
-            <div className="player-area self">
-              <div className="player-info">
-                {/* Player info */}
-              </div>
-              <FlagZone player="self" />
-              <LifeCardsZone player="self" />
-              <Field player="self" />
-              <CombatRow player="self" />
-              <AzothRow player="self" />
-              <Hand player="self" />
-              <Deck player="self" />
-              <RemovedFromPlay player="self" />
-            </div>
-          </>
-        );
+    case 'konivrer':
+        return() {
+  }
         
       case 'arena':
+        return() {
+    default:
         return (
-          <>
-            <div className="player-area opponent arena-style">
-              <div className="player-info arena">
-                {/* Arena-style opponent info */}
-              </div>
-              <div className="battlefield opponent">
-                {/* Opponent battlefield */}
-              </div>
-              <div className="hand-area opponent">
-                {/* Opponent hand */}
-              </div>
-            </div>
-            
-            <div className="player-area self arena-style">
-              <div className="hand-area self">
-                {/* Player hand */}
-              </div>
-              <div className="battlefield self">
-                {/* Player battlefield */}
-              </div>
-              <div className="player-info arena">
-                {/* Arena-style player info */}
-              </div>
-            </div>
-          </>
-        );
-        
-      default:
-        return (
-          <>
-            <PlayerZone 
+          <any />
+    <PlayerZone 
               player="opponent"
-              data={opponentData}
+              data={opponentData
+  }
               isOpponent={true}
               onCardSelect={handleCardSelect}
               onCardPreview={handleCardPreview}
-            />
-            
-            <PlayerZone 
+             / />
+    <PlayerZone 
               player="self"
               data={playerData}
               isOpponent={false}
               onCardSelect={handleCardSelect}
               onCardPreview={handleCardPreview}
-            />
+             / /></PlayerZone>
           </>
-        );
+        )
     }
   };
   
-  return (
-    <div 
-      ref={boardRef}
+  return (`
+    <div ``
+      ref={boardRef}```
       className={`game-board-container ${variant} ${isFullscreen ? 'fullscreen' : ''}`}
-    >
+     /></div>
       {/* Top Bar */}
-      <div className="top-bar">
-        <div className="left-controls">
-          <button onClick={() => setShowMenu(!showMenu)}>
-            <Menu size={20} />
+      <div className="top-bar" />
+    <div className="left-controls" />
+    <button onClick={() => setShowMenu(!showMenu)}>
+            <Menu size={20}  / /></Menu>
           </button>
           <button onClick={() => setShowLog(!showLog)}>
-            <MessageSquare size={20} />
+            <MessageSquare size={20}  / /></MessageSquare>
           </button>
         </div>
         
-        <div className="center-info">
+        <div className="center-info" /></div>
           {variant !== 'arena' && (
-            <div className="phase-indicator">
+            <div className="phase-indicator" /></div>
               {gamePhase && <span>{gamePhase.toUpperCase()}</span>}
             </div>
           )}
         </div>
         
-        <div className="right-controls">
-          <button onClick={() => setIsMuted(!isMuted)}>
-            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        <div className="right-controls" />
+    <button onClick={() => setIsMuted(!isMuted)}>
+            {isMuted ? <VolumeX size={20}  /> : <Volume2 size={20}  />}
           </button>
-          <button onClick={toggleFullscreen}>
-            {isFullscreen ? <Minimize2 size={20} /> : <Maximize2 size={20} />}
+          <button onClick={toggleFullscreen} /></button>
+            {isFullscreen ? <Minimize2 size={20}  /> : <Maximize2 size={20}  />}
           </button>
           <button onClick={() => setShowSettings(!showSettings)}>
-            <Settings size={20} />
+            <Settings size={20}  / /></Settings>
           </button>
         </div>
       </div>
       
       {/* Main Board */}
-      <div className="game-board">
+      <div className="game-board" /></div>
         {renderPlayerZones()}
         
         {/* Card Preview */}
         {previewCard && (
-          <div className="card-preview">
+          <div className="card-preview" /></div>
             {/* Card preview content */}
           </div>
         )}
         
         {/* AI Display for enhanced variant */}
         {variant === 'enhanced' && aiTestingEnabled && showAIMetrics && (
-          <CuttingEdgeAIDisplay aiStatus={aiStatus} />
+          <CuttingEdgeAIDisplay aiStatus={aiStatus}  / /></CuttingEdgeAIDisplay>
         )}
       </div>
       
       {/* Game Controls */}
-      <div className="controls-container">
+      <div className="controls-container" /></div>
         {renderGameControls()}
       </div>
       
       {/* Game Log */}
-      <AnimatePresence>
+      <AnimatePresence /></AnimatePresence>
         {showLog && (
           <motion.div 
             className="game-log"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 20 }},
-          >
-            <div className="log-header">
-              <h3>Game Log</h3>
+            transition={{ type: 'spring', damping: 20 }}, any />
+    <div className="log-header" />
+    <h3>Game Log</h3>
               <button onClick={() => setShowLog(false)}>
-                <X size={20} />
+                <X size={20}  / /></X>
               </button>
             </div>
-            <div className="log-content">
+            <div className="log-content" /></div>
               {/* Log entries */}
             </div>
           </motion.div>
@@ -378,7 +299,7 @@ const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
       </AnimatePresence>
       
       {/* Game Menu */}
-      <AnimatePresence>
+      <AnimatePresence /></AnimatePresence>
         {showMenu && (
           <GameMenu 
             onClose={() => setShowMenu(false)}
@@ -388,28 +309,28 @@ const UnifiedGameBoard: React.FC<UnifiedGameBoardProps> = ({
       </AnimatePresence>
       
       {/* Settings Panel */}
-      <AnimatePresence>
+      <AnimatePresence /></AnimatePresence>
         {showSettings && (
           <motion.div 
             className="settings-panel"
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-          >
-            <div className="settings-header">
-              <h3>Settings</h3>
+           />
+    <div className="settings-header" />
+    <h3>Settings</h3>
               <button onClick={() => setShowSettings(false)}>
-                <X size={20} />
+                <X size={20}  / /></X>
               </button>
             </div>
-            <div className="settings-content">
+            <div className="settings-content" /></div>
               {/* Settings options */}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
     </div>
-  );
-};
-
-export default UnifiedGameBoard;
+  )
+};`
+``
+export default UnifiedGameBoard;```

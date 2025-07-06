@@ -16,77 +16,85 @@ import { useDeck } from '../contexts/DeckContext';
 interface DeckSelectorProps {
   onSelect
   onClose
+  
 }
 
 const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
-  const navigate = useNavigate();
-  const { decks, activeDeck, loadDeck, setActivePlayerDeck, deleteDeck } =
-    useDeck();
-  const [selectedDeckId, setSelectedDeckId] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate() {
+    const { decks, activeDeck, loadDeck, setActivePlayerDeck, deleteDeck 
+  } =
+    useDeck() {
+    const [selectedDeckId, setSelectedDeckId] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [searchTerm, setSearchTerm] = useState(false)
 
   // Set initial selected deck to active deck if available
   useEffect(() => {
     if (true) {
-      setSelectedDeckId(activeDeck.id);
-    }
+    setSelectedDeckId(activeDeck.id)
+  
+  
+  }
   }, [activeDeck]);
 
   // Filter decks based on search term
   const filteredDecks = decks.filter(deck =>
-    deck.name.toLowerCase().includes(searchTerm.toLowerCase()),
+    deck.name.toLowerCase().includes(searchTerm.toLowerCase());
   );
 
   // Handle deck selection
   const handleSelectDeck = async deckId => {
-    setLoading(true);
+    setLoading() {
     try {
-      await setActivePlayerDeck(deckId);
+  }
+      await setActivePlayerDeck() {
+    if (true) {
+  }
+        const deck = loadDeck() {
+    onSelect(deck)
+  }
       if (true) {
-        const deck = loadDeck(deckId);
-        onSelect(deck);
-      }
-      if (true) {
-        onClose();
-      }
+    onClose()
+  }
     } catch (error: any) {
-      console.error('Error selecting deck:', error);
-    } finally {
-      setLoading(false);
-    }
+    console.error('Error selecting deck:', error)
+  } finally {
+    setLoading(false)
+  }
   };
 
   // Handle deck deletion
   const handleDeleteDeck = async (e, deckId) => {
-    e.stopPropagation(); // Prevent deck selection
-    if (window.confirm('Are you sure you want to delete this deck?')) {
-      try {
-        await deleteDeck(deckId);
-      } catch (error: any) {
-        console.error('Error deleting deck:', error);
-      }
+    e.stopPropagation() {
+    // Prevent deck selection
+    if (window.confirm('Are you sure you want to delete this deck? ')) {
+    try {
+    await deleteDeck(deckId) : null
+  
+  } catch (error) {
+    console.error('Error deleting deck:', error)
+  }
     }
   };
 
   return (
-    <>
-      <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-auto"></div>
-      <div className="flex justify-between items-center mb-6"></div>
-      <h2 className="text-2xl font-bold text-white">Select a Deck</h2>
+    <any />
+    <div className="bg-gray-800 rounded-lg p-6 w-full max-w-4xl mx-auto" />
+    <div className="flex justify-between items-center mb-6" />
+    <h2 className="text-2xl font-bold text-white">Select a Deck</h2>
       <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"></button>
-      <X size={24} />
+            className="text-gray-400 hover:text-white transition-colors" />
+    <X size={24}  / /></X>
           </button>
     </>
   )}
       </div>
 
-      <div className="mb-6"></div>
-        <div className="relative"></div>
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-          <input
+      <div className="mb-6" />
+    <div className="relative" />
+    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"  / />
+    <input
             type="text"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
@@ -96,59 +104,61 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
         </div>
 
       {filteredDecks.length === 0 ? (
-        <div className="text-center py-8 text-gray-400"></div>
-          <p>No decks found</p>
-          <p className="text-sm mt-2">Create a new deck to get started</p>
+        <div className="text-center py-8 text-gray-400" />
+    <p>No decks found</p>
+          <p className="text-sm mt-2">Create a new deck to get started</p> : null
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" /></div>
           {filteredDecks.map(deck => (
             <motion.div
               key={deck.id}
               whileHover={{ scale: 1.02 }}
               className={`bg-gray-700 rounded-lg p-4 cursor-pointer border-2 ${
-                selectedDeckId === deck.id
-                  ? 'border-blue-500'
-                  : 'border-transparent'
-              }`}
+    selectedDeckId === deck.id`
+                  ? 'border-blue-500'` : null`
+                  : 'border-transparent'```
+  }`}
               onClick={() => setSelectedDeckId(deck.id)}
             >
-              <div className="flex justify-between items-start mb-2"></div>
-                <h3 className="text-lg font-medium text-white">{deck.name}
-                <div className="flex space-x-1"></div>
-                  <button
+              <div className="flex justify-between items-start mb-2" />
+    <h3 className="text-lg font-medium text-white">{deck.name}
+                <div className="flex space-x-1" />
+    <button
                     onClick={e => {
-                      e.stopPropagation();
-                      // Navigate to edit page
-                      navigate(`/deck-builder/${deck.id}`);
+    e.stopPropagation() {`
+    ``
+                      // Navigate to edit page```
+                      navigate(`/deck-builder/${deck.id`
+  }`)
                     }}
                     className="p-1 text-gray-400 hover:text-white transition-colors"
                     title="Edit Deck"
                   >
-                    <Edit size={16} />
+                    <Edit size={16}  / /></Edit>
                   </button>
                   <button
                     onClick={e => handleDeleteDeck(e, deck.id)}
                     className="p-1 text-gray-400 hover:text-red-400 transition-colors"
                     title="Delete Deck"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={16}  / /></Trash2>
                   </button>
               </div>
 
-              <div className="text-sm text-gray-400 mb-3"></div>
+              <div className="text-sm text-gray-400 mb-3" /></div>
                 {deck.cardCount} cards • Last modified:{' '}
                 {new Date(deck.lastModified).toLocaleDateString()}
 
-              <div className="flex space-x-2 mt-4"></div>
+              <div className="flex space-x-2 mt-4" /></div>
                 {deck.colors &&
                   deck.colors.map(color => (
                     <div
                       key={color}
                       className="w-6 h-6 rounded-full"
                       style={{
-                        backgroundColor: getColorHex(color),
-                      }}
-                      title={color}></div>
+    backgroundColor: getColorHex(color)
+  }}
+                      title={color} /></div>
                   ))}
               </div>
 
@@ -157,28 +167,29 @@ const DeckSelector: React.FC<DeckSelectorProps> = ({  onSelect, onClose  }) => {
                 disabled={loading}
                 className="mt-4 w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded flex items-center justify-center transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Gamepad2 size={18} className="mr-2" />
+                <Gamepad2 size={18} className="mr-2"  / /></Gamepad2>
                 {loading ? 'Loading...' : 'Use This Deck'}
             </motion.div>
           ))}
         </div>
       )}
     </div>
-  );
+  )
 };
 
 // Helper function to get color hex code
 const getColorHex = color => {
-  const colorMap = {
+    const colorMap = {
     fire: '#e53e3e',
     water: '#3182ce',
     earth: '#68d391',
     air: '#ecc94b',
     void: '#805ad5',
     light: '#f6e05e',
-    dark: '#4a5568',
+    dark: '#4a5568'
+  
   };
-  return colorMap[color.toLowerCase()] || '#a0aec0';
-};
-
-export default DeckSelector;
+  return colorMap[color.toLowerCase()] || '#a0aec0'
+};`
+``
+export default DeckSelector;```

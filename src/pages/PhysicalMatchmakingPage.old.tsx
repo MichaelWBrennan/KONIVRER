@@ -11,24 +11,24 @@ import { PhysicalMatchmakingProvider } from '../contexts/PhysicalMatchmakingCont
 import '../styles/ancient-esoteric-theme.css';
 import '../styles/esoteric-theme.css';
 const PhysicalMatchmakingPage = (): any => {
-  return (
-    <>
-      <div className="ancient-theme"></div>
-      <div className="page-header"><p className="text-center mb-8 text-accent-primary"></p>
+    return (
+    <any />
+    <div className="ancient-theme" />
+    <div className="page-header"><p className="text-center mb-8 text-accent-primary" /></p>
       </p>
-        <div className="text-center mb-6"></div>
-      <span className="bg-green-600 text-white px-4 py-0 whitespace-nowrap rounded-full inline-block"></span>
+        <div className="text-center mb-6" />
+    <span className="bg-green-600 text-white px-4 py-0 whitespace-nowrap rounded-full inline-block" /></span>
       </span>
       </div>
-      <div className="grid grid-cols-1 gap-8"></div>
-      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700"></div>
-      <PhysicalMatchmakingProvider />
-            <PhysicalMatchmakingApp />
+      <div className="grid grid-cols-1 gap-8" />
+    <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700" />
+    <PhysicalMatchmakingProvider  / />
+    <PhysicalMatchmakingApp  / /></PhysicalMatchmakingApp>
           </PhysicalMatchmakingProvider>
-      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700"></div>
-      <EnhancedPhysicalMatchmaking />
+      <div className="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 border border-gray-700" />
+    <EnhancedPhysicalMatchmaking  / /></EnhancedPhysicalMatchmaking>
         </div>
     </>
-  );
-};
+  )
+  };
 export default PhysicalMatchmakingPage;

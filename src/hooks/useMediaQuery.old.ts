@@ -18,30 +18,29 @@ import { useState, useEffect } from 'react';
  * const isLargeScreen = useMediaQuery('(min-width: 1280px)');
  */
 export const useMediaQuery = query => {
-  const [matches, setMatches] = useState(false);
+    const [matches, setMatches] = useState(false)
 
   useEffect(() => {
     // Create media query list
-    const media = window.matchMedia(query);
+    const media = window.matchMedia() {
+  }
 
     // Set initial value
-    setMatches(media.matches);
-
+    setMatches(() => {
     // Define callback for changes
     const listener = event => {
-      setMatches(event.matches);
-    };
+    setMatches(event.matches)
+  });
 
     // Add listener
-    media.addEventListener('change', listener);
-
+    media.addEventListener(() => {
     // Clean up
     return () => {
-      media.removeEventListener('change', listener);
-    };
+    media.removeEventListener('change', listener)
+  })
   }, [query]);
 
-  return matches;
+  return matches
 };
 
 export default useMediaQuery;

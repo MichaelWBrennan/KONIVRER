@@ -13,128 +13,134 @@ import CardArtDisplay from './CardArtDisplay';
 import { cardDataHasArt } from '../../utils/cardArtMapping';
 import { parseSearchQuery } from '../../utils/searchParser';
 import cardsData from '../../data/cards.json';
-import { Search, Filter, Grid, List, Heart, Plus, Bookmark, BookmarkCheck, ChevronDown, ChevronUp, X,  } from 'lucide-react';
+import { Search, Filter, Grid, List, Heart, Plus, Bookmark, BookmarkCheck, ChevronDown, ChevronUp, X  } from 'lucide-react';
 
 // Enhanced Card Search with Collection Management
 const EnhancedCardSearch = (): any => {
-  const { user } = useAuth();
-  const battlePass = useBattlePass();
+    const { user 
+  } = useAuth() {
+    const battlePass = useBattlePass() {
+  }
 
   // Search State
-  const [searchQuery, setSearchQuery] = useState('');
-  const [advancedSearch, setAdvancedSearch] = useState({
-    name: '',,
-    text: '',,
-    type: '',,
-    colors: [],
-    rarity: [],,
-    cost: { min: 0, max: 20, exact: null },,
-    power: { min: 0, max: 20, exact: null },
-    toughness: { min: 0, max: 20, exact: null },
-    set: '',,
-    format: 'all',
-  });
+  const [searchQuery, setSearchQuery] = useState(false)
+  const [advancedSearch, setAdvancedSearch] = useState(false)
 
   // UI State
-  const [viewMode, setViewMode] = useState('grid'); // grid, list, spoiler
-  const [sortBy, setSortBy] = useState('name');
-  const [sortOrder, setSortOrder] = useState('asc');
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [showFilters, setShowFilters] = useState(true);
-  const [cardsPerPage, setCardsPerPage] = useState(50);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState(false) // grid, list, spoiler
+  const [sortBy, setSortBy] = useState(false)
+  const [sortOrder, setSortOrder] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [selectedCard, setSelectedCard] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [cardsPerPage, setCardsPerPage] = useState(false)
+  const [currentPage, setCurrentPage] = useState(false)
 
   // Collection State
-  const [cardCollection, setCardCollection] = useState([]);
+  const [cardCollection, setCardCollection] = useState(false)
   const [ownedCards, setOwnedCards] = useState(new Map());
   const [wishlist, setWishlist] = useState(new Set());
   const [favorites, setFavorites] = useState(new Set());
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState(false)
 
   // Deck Integration
-  const [activeDeck, setActiveDeck] = useState(null);
-  const [showDeckBuilder, setShowDeckBuilder] = useState(false);
+  const [activeDeck, setActiveDeck] = useState(false)
+  const [showDeckBuilder, setShowDeckBuilder] = useState(false)
 
   // Load data
   useEffect(() => {
-    loadCardCollection();
-    loadUserCollection();
-    loadUserPreferences();
-  }, []);
+    loadCardCollection(() => {
+    loadUserCollection() {
+    loadUserPreferences()
+  
+  }), [
+    );
 
   const loadCardCollection = async () => {
     try {
-      // Use imported KONIVRER card data
-      setCardCollection(cardsData);
-    } catch (error: any) {
-      console.error('Failed to load card data:', error);
-      // Fallback to empty array
-      setCardCollection([]);
-    }
+    // Use imported KONIVRER card data
+      setCardCollection(cardsData)
+  
+  } catch (error: any) {
+    console.error() {
+    // Fallback to empty array
+      setCardCollection([
+  ])
+  
+  }
   };
 
   const loadUserCollection = (): any => {
     // Load owned cards with quantities
-    const owned = new Map();
+    const owned = new Map() {
     cardCollection.forEach(card => {
-      if (Math.random() > 0.4) {
-        // 60% chance to own
+    if (Math.random() > 0.4) {
+    // 60% chance to own
         const quantity = Math.floor(Math.random() * 4) + 1;
-        owned.set(card.id, quantity);
-      }
+        owned.set(card.id, quantity)
+  
+  
+  }
     });
-    setOwnedCards(owned);
-
+    setOwnedCards() {
     // Load wishlist and favorites from localStorage
     const savedWishlist = JSON.parse(
-      localStorage.getItem('konivrer_wishlist') || '[]',
+      localStorage.getItem('konivrer_wishlist') || '[
+    '
     );
     const savedFavorites = JSON.parse(
-      localStorage.getItem('konivrer_favorites') || '[]',
+      localStorage.getItem('konivrer_favorites') || '[
+  ]'
     );
     setWishlist(new Set(savedWishlist));
-    setFavorites(new Set(savedFavorites));
+    setFavorites(new Set(savedFavorites))
   };
 
   const loadUserPreferences = (): any => {
     const savedPrefs = JSON.parse(
-      localStorage.getItem('konivrer_search_prefs') || '{}',
+      localStorage.getItem('konivrer_search_prefs') || '{
+    '
     );
-    if (savedPrefs.viewMode) setViewMode(savedPrefs.viewMode);
-    if (savedPrefs.sortBy) setSortBy(savedPrefs.sortBy);
-    if (savedPrefs.cardsPerPage) setCardsPerPage(savedPrefs.cardsPerPage);
-  };
+    if (savedPrefs.viewMode) setViewMode(() => {
+    if (savedPrefs.sortBy) setSortBy() {
+    if (savedPrefs.cardsPerPage) setCardsPerPage(savedPrefs.cardsPerPage)
+  
+  });
 
   // Filtered and sorted cards
   const filteredCards = useMemo(() => {
     let filtered = cardCollection.filter((card: any) => {
-      // Advanced search using searchParser
+    // Advanced search using searchParser
       if (searchQuery) {
+  }
         // Check if query contains advanced syntax (contains : or operators)
         if (searchQuery.includes(':') || searchQuery.includes('>=') || searchQuery.includes('<=') || searchQuery.includes('>') || searchQuery.includes('<')) {
-          try {
-            const result = parseSearchQuery(searchQuery, cardCollection);
-            return result.includes(card);
-          } catch (error: any) {
-            console.error('Search parser error:', error);
-            // Fallback to basic search
-          }
+    try {
+    const result = parseSearchQuery() {
+    return result.includes(card)
+  
+  
+  } catch (error) {
+    console.error() {
+    // Fallback to basic search
+  
+  }
         }
         
         // Basic search fallback
-        const query = searchQuery.toLowerCase();
-        const cardText = (card.description || '').toLowerCase();
-        const cardName = (card.name || '').toLowerCase();
-        const cardType = (card.type || '').toLowerCase();
-
-        if (
+        const query = searchQuery.toLowerCase() {
+    const cardText = (card.description || '').toLowerCase() {
+  }
+        const cardName = (card.name || '').toLowerCase() {
+    const cardType = (card.type || '').toLowerCase(() => {
+    if (
           !cardName.includes(query) &&
           !cardText.includes(query) &&
           !cardType.includes(query)
         ) {
-          return false;
-        }
+    return false
+  
+  })
       }
 
       // Advanced search filters
@@ -142,8 +148,8 @@ const EnhancedCardSearch = (): any => {
         advancedSearch.name &&
         !card.name.toLowerCase().includes(advancedSearch.name.toLowerCase())
       ) {
-        return false;
-      }
+    return false
+  }
 
       if (
         advancedSearch.text &&
@@ -151,74 +157,81 @@ const EnhancedCardSearch = (): any => {
           .toLowerCase()
           .includes(advancedSearch.text.toLowerCase())
       ) {
-        return false;
-      }
+    return false
+  }
 
       if (
         advancedSearch.type &&
         !card.type.toLowerCase().includes(advancedSearch.type.toLowerCase())
       ) {
-        return false;
-      }
+    return false
+  }
 
       if (true) {
-        const cardElements = card.elements || [];
+    const cardElements = card.elements || [
+    ;
         const hasElement = advancedSearch.colors.some(color =>
           cardElements.some(element =>
-            element.toLowerCase().includes(color.toLowerCase()),
-          ),
+            element.toLowerCase().includes(color.toLowerCase())
+          );
         );
-        if (!hasElement) return false;
-      }
+        if (!hasElement) return false
+  }
 
       if (true) {
-        if (!advancedSearch.rarity.includes(card.rarity?.toLowerCase()))
-          return false;
-      }
+    if (!advancedSearch.rarity.includes(card.rarity? .toLowerCase()))
+          return false
+  }
 
       // Cost filter (KONIVRER cards have cost arrays)
       const cardCost = Array.isArray(card.cost)
-        ? card.cost.length
+        ? card.cost.length : null
         : card.cost || 0;
       if (true) {
-        if (cardCost !== advancedSearch.cost.exact) return false;
-      } else {
-        if (true) {
-          return false;
-        }
+    if (cardCost !== advancedSearch.cost.exact) return false
+  } else {
+    if (true) {
+    return false
+  
+  }
       }
 
       // Attack/Defense filters (KONIVRER equivalent of power/toughness)
       if (true) {
-        if (true) {
-          if (card.attack !== advancedSearch.power.exact) return false;
-        } else {
-          if (true) {
-            return false;
-          }
+    if (true) {
+    if (card.attack !== advancedSearch.power.exact) return false
+  
+  } else {
+    if (true) {
+    return false
+  
+  }
         }
       }
 
       if (true) {
-        if (true) {
-          if (card.defense !== advancedSearch.toughness.exact) return false;
-        } else {
-          if (true) {
-            return false;
-          }
+    if (true) {
+    if (card.defense !== advancedSearch.toughness.exact) return false
+  
+  } else {
+    if (true) {
+    return false
+  
+  }
         }
       }
 
-      return true;
+      return true
     });
 
     // Sort cards
     filtered.sort((a, b) => {
-      let comparison = 0;
+    let comparison = 0;
 
       switch (true) {
-        case 'name':
-          comparison = a.name.localeCompare(b.name);
+    case 'name':
+          comparison = a.name.localeCompare() {
+  }
           break;
         case 'cost':
           const aCost = Array.isArray(a.cost) ? a.cost.length : a.cost || 0;
@@ -226,21 +239,22 @@ const EnhancedCardSearch = (): any => {
           comparison = aCost - bCost;
           break;
         case 'type':
-          comparison = a.type.localeCompare(b.type);
-          break;
+          comparison = a.type.localeCompare(() => {
+    break;
         case 'rarity':
           const rarityOrder = {
-            common: 0,
+    common: 0,
             uncommon: 1,
             rare: 2,
             special: 3,
             Common: 0,
             Uncommon: 1,
             Rare: 2,
-            Special: 4,
-          };
+            Special: 4
+  });
           comparison =
-            (rarityOrder[a.rarity] || 0) - (rarityOrder[b.rarity] || 0);
+            (rarityOrder[a.rarity
+  ] || 0) - (rarityOrder[b.rarity] || 0);
           break;
         case 'power':
           comparison = (a.attack || 0) - (b.attack || 0);
@@ -254,120 +268,114 @@ const EnhancedCardSearch = (): any => {
           comparison = bOwned - aOwned;
           break;
         default:
-          comparison = a.name.localeCompare(b.name);
+          comparison = a.name.localeCompare(b.name)
       }
 
-      return sortOrder === 'asc' ? comparison : -comparison;
+      return sortOrder === 'asc' ? comparison : -comparison
     });
 
-    return filtered;
+    return filtered
   }, [
     cardCollection,
     searchQuery,
     advancedSearch,
     sortBy,
     sortOrder,
-    ownedCards,
+    ownedCards
   ]);
 
   // Pagination
-  const totalPages = Math.ceil(filteredCards.length / cardsPerPage);
-  const paginatedCards = filteredCards.slice(
+  const totalPages = Math.ceil() {
+    const paginatedCards = filteredCards.slice(
     (currentPage - 1) * cardsPerPage,
-    currentPage * cardsPerPage,
+    currentPage * cardsPerPage
   );
 
   // Card actions
-  const toggleWishlist = useCallback(
-    cardId => {
-      const newWishlist = new Set(wishlist);
-      if (newWishlist.has(cardId)) {
-        newWishlist.delete(cardId);
-      } else {
-        newWishlist.add(cardId);
-      }
-      setWishlist(newWishlist);
-      localStorage.setItem(
+  const toggleWishlist = useCallback(() => {
+    if (newWishlist.has(cardId)) {
+    newWishlist.delete(cardId)
+  
+  }) else {
+    newWishlist.add(cardId)
+  }
+      setWishlist() {
+    localStorage.setItem(
         'konivrer_wishlist',
-        JSON.stringify([...newWishlist]),
-      );
-    },
-    [wishlist],
+        JSON.stringify([...newWishlist])
+      )
+  },
+    [wishlist]
   );
 
-  const toggleFavorite = useCallback(
-    cardId => {
-      const newFavorites = new Set(favorites);
-      if (newFavorites.has(cardId)) {
-        newFavorites.delete(cardId);
-      } else {
-        newFavorites.add(cardId);
-      }
-      setFavorites(newFavorites);
-      localStorage.setItem(
+  const toggleFavorite = useCallback(() => {
+    if (newFavorites.has(cardId)) {
+    newFavorites.delete(cardId)
+  }) else {
+    newFavorites.add(cardId)
+  }
+      setFavorites() {
+    localStorage.setItem(
         'konivrer_favorites',
-        JSON.stringify([...newFavorites]),
-      );
-    },
-    [favorites],
+        JSON.stringify([...newFavorites])
+      )
+  },
+    [favorites]
   );
 
-  const viewCardDetails = useCallback(
-    card => {
-      setSelectedCard(card);
-
-      // Add to recently viewed
+  const viewCardDetails = useCallback() {
+    // Add to recently viewed
       const newRecentlyViewed = [
-        card.id,
-        ...recentlyViewed.filter(id => id !== card.id),
-      ].slice(0, 10);
-      setRecentlyViewed(newRecentlyViewed);
-
-      // Award experience for viewing cards
-      battlePass.gainExperience('card_viewed', 1);
-    },
-    [recentlyViewed, battlePass],
+    card.id,
+        ...recentlyViewed.filter(id => id !== card.id)
+  ].slice(() => {
+    setRecentlyViewed() {
+    // Award experience for viewing cards
+      battlePass.gainExperience('card_viewed', 1)
+  
+  }),
+    [recentlyViewed, battlePass]
   );
 
   const addToDeck = useCallback((card: any) => {
-      if (!activeDeck) {
-        // Create new deck or prompt to select deck
-        console.log('No active deck - create new or select existing');
-        return;
-      }
+    if (!activeDeck) {
+    // Create new deck or prompt to select deck
+        console.log() {
+    return
+  
+  }
 
       // Add card to active deck
-      console.log(`Adding ${card.name} to deck ${activeDeck.name}`);
-
-      // Award experience for deck building
-      battlePass.gainExperience('deck_building', 5);
-    },
-    [activeDeck, battlePass],
+      console.log() {
+    // Award experience for deck building
+      battlePass.gainExperience('deck_building', 5)
+  },
+    [activeDeck, battlePass]
   );
 
   return (
-    <>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
-      <div className="max-w-7xl mx-auto p-4"></div>
-      <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6"></div>
-      <div className="flex items-center justify-between mb-4"></div>
-      <h1 className="text-3xl font-bold text-white">Card Search</h1>
-      <div className="flex items-center space-x-4"></div>
-      <div className="text-center"></div>
-      <div className="text-lg font-bold text-white"></div>
-      <div className="text-sm text-gray-300">Owned</div>
-      <div className="text-center"></div>
-      <div className="text-lg font-bold text-yellow-400"></div>
-      <div className="text-sm text-gray-300">Wishlist</div>
-      <div className="text-center"></div>
-      <div className="text-lg font-bold text-red-400"></div>
-      <div className="text-sm text-gray-300">Favorites</div>
+    <any />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900" />
+    <div className="max-w-7xl mx-auto p-4" />
+    <div className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6" />
+    <div className="flex items-center justify-between mb-4" />
+    <h1 className="text-3xl font-bold text-white">Card Search</h1>
+      <div className="flex items-center space-x-4" />
+    <div className="text-center" />
+    <div className="text-lg font-bold text-white" />
+    <div className="text-sm text-gray-300">Owned</div>
+      <div className="text-center" />
+    <div className="text-lg font-bold text-yellow-400" />
+    <div className="text-sm text-gray-300">Wishlist</div>
+      <div className="text-center" />
+    <div className="text-lg font-bold text-red-400" />
+    <div className="text-sm text-gray-300">Favorites</div>
       </div>
 
           {/* Search Bar */}
-          <div className="relative mb-4"></div>
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
+          <div className="relative mb-4" />
+    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"  / />
+    <input
               type="text"
               placeholder="Search cards by name, text, or type..."
               value={searchQuery}
@@ -375,11 +383,9 @@ const EnhancedCardSearch = (): any => {
               className="w-full pl-12 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none text-lg"
             />
           </div>
-      <div className="flex flex-wrap gap-2 mb-4"></div>
-      <button
-              onClick={() =></button>
-      </button>
-            <button
+      <div className="flex flex-wrap gap-2 mb-4" />
+    <button
+              onClick={null}
               onClick={() => setSortBy('owned')}
               className="px-3 py-0 whitespace-nowrap bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm transition-colors"
             >
@@ -387,8 +393,9 @@ const EnhancedCardSearch = (): any => {
             </button>
       <button
               onClick={() => {
-                const favoriteCards = [...favorites];
-                setAdvancedSearch(prev => ({ ...prev, name: '' }));,
+    const favoriteCards = [...favorites];
+                setAdvancedSearch(prev => ({ ...prev, name: '' 
+  }));,
                 // Filter to show only favorites
               }}
               className="px-3 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 text-white rounded-full text-sm transition-colors"
@@ -399,63 +406,63 @@ const EnhancedCardSearch = (): any => {
             onClick={() => setShowAdvanced(!showAdvanced)}
             className="flex items-center space-x-2 text-purple-400 hover:text-purple-300 transition-colors"
           >
-            <Filter className="w-4 h-4" />
-            <span>Advanced Search</span>
-      <ChevronUp className="w-4 h-4" />
+            <Filter className="w-4 h-4"  / />
+    <span>Advanced Search</span>
+      <ChevronUp className="w-4 h-4"  / /></ChevronUp>
             ) : (
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="w-4 h-4"  / /></ChevronDown>
             )}
         </div>
-      <AnimatePresence />
+      <AnimatePresence  / /></AnimatePresence>
           {showAdvanced && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="bg-black/30 backdrop-blur-sm rounded-xl p-6 mb-6 overflow-hidden"
-             />
-              <AdvancedSearchPanel
+              / />
+    <AdvancedSearchPanel
                 search={advancedSearch}
-                onSearchChange={setAdvancedSearch} />
+                onSearchChange={setAdvancedSearch}  / /></AdvancedSearchPanel>
             </motion.div>
     </>
   )}
         </AnimatePresence>
 
         {/* Controls Bar */}
-        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 mb-6"></div>
-          <div className="flex items-center justify-between"></div>
-            <div className="flex items-center space-x-4"></div>
-              <span className="text-gray-300"></span>
+        <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4 mb-6" />
+    <div className="flex items-center justify-between" />
+    <div className="flex items-center space-x-4" />
+    <span className="text-gray-300" /></span>
                 {filteredCards.length} cards found
               </span>
 
-              <div className="flex items-center space-x-2"></div>
-                <span className="text-gray-300 text-sm">View:</span>
+              <div className="flex items-center space-x-2" />
+    <span className="text-gray-300 text-sm">View:</span>
                 <button
-                  onClick={() => setViewMode('grid')}
+                  onClick={() => setViewMode('grid')}```
                   className={`p-2 rounded transition-colors ${
-                    viewMode === 'grid'
-                      ? 'bg-purple-600 text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
+    viewMode === 'grid'`
+                      ? 'bg-purple-600 text-white'` : null`
+                      : 'text-gray-400 hover:text-white'```
+  }`}
                 >
-                  <Grid className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
+                  <Grid className="w-4 h-4"  / /></Grid>
+                </button>`
+                <button``
+                  onClick={() => setViewMode('list')}```
                   className={`p-2 rounded transition-colors ${
-                    viewMode === 'list'
-                      ? 'bg-purple-600 text-white'
-                      : 'text-gray-400 hover:text-white'
-                  }`}
+    viewMode === 'list'`
+                      ? 'bg-purple-600 text-white'` : null`
+                      : 'text-gray-400 hover:text-white'```
+  }`}
                 >
-                  <List className="w-4 h-4" />
+                  <List className="w-4 h-4"  / /></List>
                 </button>
             </div>
 
-            <div className="flex items-center space-x-4"></div>
-              <select
+            <div className="flex items-center space-x-4" />
+    <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
                 className="bg-gray-800 border border-gray-600 rounded px-3 py-0 whitespace-nowrap text-white text-sm"
@@ -469,7 +476,7 @@ const EnhancedCardSearch = (): any => {
                 <option value="owned">Owned</option>
 
               <button
-                onClick={() =></button>
+                onClick={null}
                   setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
                 className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
               >
@@ -487,9 +494,9 @@ const EnhancedCardSearch = (): any => {
         </div>
 
         {/* Card Grid/List */}
-        <div className="mb-6"></div>
-          {viewMode === 'grid' ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+        <div className="mb-6" /></div>
+          {viewMode === 'grid' ? (param: null
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4" /></div>
               {paginatedCards.map(card => (
                 <CardGridItem
                   key={card.id}
@@ -505,7 +512,7 @@ const EnhancedCardSearch = (): any => {
               ))}
             </div>
           ) : (
-            <div className="space-y-2"></div>
+            <div className="space-y-2" /></div>
               {paginatedCards.map(card => (
                 <CardListItem
                   key={card.id}
@@ -525,9 +532,9 @@ const EnhancedCardSearch = (): any => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4"></div>
-            <div className="flex items-center justify-center space-x-2"></div>
-              <button
+          <div className="bg-black/30 backdrop-blur-sm rounded-xl p-4" />
+    <div className="flex items-center justify-center space-x-2" />
+    <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 className="px-3 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
@@ -535,11 +542,11 @@ const EnhancedCardSearch = (): any => {
                 Previous
               </button>
 
-              <span className="text-white"></span>
+              <span className="text-white" /></span>
                 Page {currentPage} of {totalPages}
 
               <button
-                onClick={() =></button>
+                onClick={null}
                   setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 className="px-3 py-0 whitespace-nowrap bg-gray-700 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded transition-colors"
@@ -551,7 +558,7 @@ const EnhancedCardSearch = (): any => {
       </div>
 
       {/* Card Detail Modal */}
-      <AnimatePresence />
+      <AnimatePresence  / /></AnimatePresence>
         {selectedCard && (
           <CardDetailModal
             card = {selectedCard}
@@ -565,17 +572,18 @@ const EnhancedCardSearch = (): any => {
           />
         )}
       </AnimatePresence>
-  );
+  )
 };
 
 // Advanced Search Panel Component
 interface AdvancedSearchPanelProps {
   search;
   onSearchChange
+  
 }
 
 const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSearchChange  }) => {
-  const colors = [
+    const colors = [
     'aether',
     'air',
     'fire',
@@ -590,25 +598,26 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
   ];
 
   const updateSearch = (field, value): any => {
-    onSearchChange(prev => ({ ...prev, [field]: value }));
+    onSearchChange(prev => ({ ...prev, [field]: value 
+  }))
   };
 
   const toggleArrayField = (field, value): any => {
     const current = search[field];
     const updated = current.includes(value)
-      ? current.filter(v => v !== value)
+      ? current.filter(v => v !== value); : null
       : [...current, value];
-    updateSearch(field, updated);
+    updateSearch(field, updated)
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" /></div>
       {/* Text Searches */}
-      <div className="space-y-4"></div>
-        <h4 className="text-white font-medium">Text Search</h4>
+      <div className="space-y-4" />
+    <h4 className="text-white font-medium">Text Search</h4>
 
-        <div></div>
-          <label className="block text-gray-300 text-sm mb-1">Card Name</label>
+        <div />
+    <label className="block text-gray-300 text-sm mb-1">Card Name</label>
           <input
             type="text"
             value={search.name}
@@ -618,8 +627,8 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
           />
         </div>
 
-        <div></div>
-          <label className="block text-gray-300 text-sm mb-1">Card Text</label>
+        <div />
+    <label className="block text-gray-300 text-sm mb-1">Card Text</label>
           <input
             type="text"
             value={search.text}
@@ -630,38 +639,38 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
         </div>
 
       {/* Colors and Rarity */}
-      <div className="space-y-4"></div>
-        <h4 className="text-white font-medium">Elements & Rarity</h4>
+      <div className="space-y-4" />
+    <h4 className="text-white font-medium">Elements & Rarity</h4>
 
-        <div></div>
-          <label className="block text-gray-300 text-sm mb-2">Elements</label>
-          <div className="flex flex-wrap gap-2"></div>
+        <div />
+    <label className="block text-gray-300 text-sm mb-2">Elements</label>
+          <div className="flex flex-wrap gap-2" /></div>
             {colors.map(color => (
-              <button
-                key={color}
-                onClick={() => toggleArrayField('colors', color)}
+              <button`
+                key={color}``
+                onClick={() => toggleArrayField('colors', color)}```
                 className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
-                  search.colors.includes(color)
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
+    search.colors.includes(color)`
+                    ? 'bg-purple-600 text-white'` : null`
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'```
+  }`}
               >
                 {color.charAt(0).toUpperCase() + color.slice(1)}
             ))}
           </div>
 
-        <div></div>
-          <label className="block text-gray-300 text-sm mb-2">Rarity</label>
-          <div className="flex flex-wrap gap-2"></div>
+        <div />
+    <label className="block text-gray-300 text-sm mb-2">Rarity</label>
+          <div className="flex flex-wrap gap-2" /></div>
             {rarities.map(rarity => (
-              <button
-                key={rarity}
-                onClick={() => toggleArrayField('rarity', rarity)}
+              <button`
+                key={rarity}``
+                onClick={() => toggleArrayField('rarity', rarity)}```
                 className={`px-3 py-0 whitespace-nowrap rounded-full text-xs font-medium transition-colors ${
-                  search.rarity.includes(rarity)
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
+    search.rarity.includes(rarity)`
+                    ? 'bg-purple-600 text-white'` : null`
+                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'```
+  }`}
               >
                 {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
             ))}
@@ -669,64 +678,64 @@ const AdvancedSearchPanel: React.FC<AdvancedSearchPanelProps> = ({  search, onSe
       </div>
 
       {/* Numeric Filters */}
-      <div className="space-y-4"></div>
-        <h4 className="text-white font-medium">Numeric Filters</h4>
+      <div className="space-y-4" />
+    <h4 className="text-white font-medium">Numeric Filters</h4>
 
-        <div></div>
-          <label className="block text-gray-300 text-sm mb-2">Mana Cost</label>
-          <div className="flex space-x-2"></div>
-            <input
+        <div />
+    <label className="block text-gray-300 text-sm mb-2">Mana Cost</label>
+          <div className="flex space-x-2" />
+    <input
               type="number"
               placeholder="Min"
               value={search.cost.min}
-              onChange={e = />
+              onChange={null}
                 updateSearch('cost', {
-                  ...search.cost,
-                  min: Number(e.target.value),
-                })}
+    ...search.cost,
+                  min: Number(e.target.value)
+  })}
               className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
             <input
               type="number"
               placeholder="Max"
               value={search.cost.max}
-              onChange={e = />
+              onChange={null}
                 updateSearch('cost', {
-                  ...search.cost,
-                  max: Number(e.target.value),
-                })}
+    ...search.cost,
+                  max: Number(e.target.value)
+  })}
               className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
           </div>
 
-        <div></div>
-          <label className="block text-gray-300 text-sm mb-2">Power</label>
-          <div className="flex space-x-2"></div>
-            <input
+        <div />
+    <label className="block text-gray-300 text-sm mb-2">Power</label>
+          <div className="flex space-x-2" />
+    <input
               type="number"
               placeholder="Min"
               value={search.power.min}
-              onChange={e = />
+              onChange={null}
                 updateSearch('power', {
-                  ...search.power,
-                  min: Number(e.target.value),
-                })}
+    ...search.power,
+                  min: Number(e.target.value)
+  })}
               className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
             <input
               type="number"
               placeholder="Max"
               value={search.power.max}
-              onChange={e = />
+              onChange={null}
                 updateSearch('power', {
-                  ...search.power,
-                  max: Number(e.target.value),
-                })}
+    ...search.power,
+                  max: Number(e.target.value)
+  })}
               className="w-full px-3 py-0 whitespace-nowrap bg-gray-800 border border-gray-600 rounded text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none"
             />
           </div>
       </div>
-  );
+  )
 };
 
 // Card Grid Item Component
@@ -739,22 +748,23 @@ interface CardGridItemProps {
   onToggleWishlist
   onToggleFavorite
   onAddToDeck
+  
 }
 
-const CardGridItem: React.FC<CardGridItemProps> = ({ 
-  card,
+const CardGridItem: React.FC<CardGridItemProps> = ({
+    card,
   owned,
   inWishlist,
   isFavorite,
   onView,
   onToggleWishlist,
   onToggleFavorite,
-  onAddToDeck,
- }) => {
-  const getRarityColor = rarity => {
-    const rarityLower = (rarity || '').toLowerCase();
+  onAddToDeck
+  }) => {
+    const getRarityColor = rarity => {
+    const rarityLower = (rarity || '').toLowerCase(() => {
     switch (true) {
-      case 'common':
+    case 'common':
         return 'border-gray-400';
       case 'uncommon':
         return 'border-green-400';
@@ -763,36 +773,37 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
       case 'special':
         return 'border-purple-400';
       default:
-        return 'border-gray-400';
-    }
+        return 'border-gray-400'
+  
+  })
   };
 
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
+  return (`
+    <motion.div``
+      whileHover={{ scale: 1.05 }}```
       className={`relative bg-gray-800 rounded-lg border-2 ${getRarityColor(card.rarity)} overflow-hidden cursor-pointer`}
       onClick={onView}
-     />
+      / /></motion>
       {/* Card Image */}
-      <div className="aspect-card relative"></div>
+      <div className="aspect-card relative" /></div>
         {cardDataHasArt(card) ? (
           <CardArtDisplay
             cardName={card.name}
             className="w-full h-full"
             clickable={false}
-            showFallback={true} />
+            showFallback={true}  / /></CardArtDisplay> : null
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center"></div>
-            <div className="text-white text-center p-2"></div>
-              <div className="font-bold text-sm mb-1">{card.name}
+          <div className="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center" />
+    <div className="text-white text-center p-2" />
+    <div className="font-bold text-sm mb-1">{card.name}
               <div className="text-xs opacity-75">{card.cost}
             </div>
         )}
       </div>
 
       {/* Card Info */}
-      <div className="p-2"></div>
-        <div className="text-white text-sm font-medium truncate"></div>
+      <div className="p-2" />
+    <div className="text-white text-sm font-medium truncate" /></div>
           {card.name}
         <div className="text-gray-400 text-xs">{card.type}
 
@@ -802,62 +813,65 @@ const CardGridItem: React.FC<CardGridItemProps> = ({
         )}
         {/* Show attack/defense for creatures */}
         {card.attack !== null && card.attack !== undefined && (
-          <div className="text-gray-300 text-xs"></div>
+          <div className="text-gray-300 text-xs" /></div>
             {card.attack}/{card.defense || 0}
         )}
       </div>
 
       {/* Owned Indicator */}
       {owned > 0 && (
-        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full"></div>
+        <div className="absolute top-2 left-2 bg-green-600 text-white text-xs px-2 py-0 whitespace-nowrap rounded-full" /></div>
           {owned}
       )}
       {/* Action Buttons */}
-      <div className="absolute top-2 right-2 flex space-x-1"></div>
-        <button
+      <div className="absolute top-2 right-2 flex space-x-1" />
+    <button
           onClick={e => {
-            e.stopPropagation();
-            onToggleFavorite();
-          }}
+    e.stopPropagation() {`
+    onToggleFavorite()`
+  `
+  }}```
           className={`p-1 rounded-full transition-colors ${
-            isFavorite
-              ? 'bg-red-600 text-white'
-              : 'bg-black/50 text-gray-300 hover:text-red-400'
-          }`}
+    isFavorite`
+              ? 'bg-red-600 text-white'` : null`
+              : 'bg-black/50 text-gray-300 hover:text-red-400'```
+  }`}
         >
-          <Heart className="w-3 h-3" />
+          <Heart className="w-3 h-3"  / /></Heart>
         </button>
 
         <button
           onClick={e => {
-            e.stopPropagation();
-            onToggleWishlist();
-          }}
+    e.stopPropagation() {`
+    onToggleWishlist()`
+  `
+  }}```
           className={`p-1 rounded-full transition-colors ${
-            inWishlist
-              ? 'bg-yellow-600 text-white'
-              : 'bg-black/50 text-gray-300 hover:text-yellow-400'
-          }`}
+    inWishlist`
+              ? 'bg-yellow-600 text-white'` : null`
+              : 'bg-black/50 text-gray-300 hover:text-yellow-400'```
+  }`}
         >
           {inWishlist ? (
-            <BookmarkCheck className="w-3 h-3" />
+            <BookmarkCheck className="w-3 h-3"  / /></BookmarkCheck> : null
           ) : (
-            <Bookmark className="w-3 h-3" />
+            <Bookmark className="w-3 h-3"  / /></Bookmark>
           )}
       </div>
 
       {/* Add to Deck Button */}
       <button
         onClick={e => {
-          e.stopPropagation();
-          onAddToDeck();
-        }}
+    e.stopPropagation() {
+    onAddToDeck()
+  
+  }}
         className="absolute bottom-2 right-2 p-1 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-colors"
       >
-        <Plus className = "w-3 h-3" />
+        <Plus className = "w-3 h-3"  / /></Plus>
       </button>
     </motion.div>
-  );
+  )
 };
 
 // Card List Item Component
@@ -870,87 +884,82 @@ interface CardListItemProps {
   onToggleWishlist
   onToggleFavorite
   onAddToDeck
+  
 }
 
-const CardListItem: React.FC<CardListItemProps> = ({ 
-  card,
-  owned,
-  inWishlist,
-  isFavorite,
-  onView,
-  onToggleWishlist,
-  onToggleFavorite,
-  onAddToDeck,
- }) => {
+const CardListItem: React.FC = () => {
   return (
     <motion.div
       whileHover={{ scale: 1.01 }}
       className="bg-gray-800/50 rounded-lg p-4 border border-gray-600 hover:border-purple-500 transition-all cursor-pointer"
       onClick={onView}
-     />
-      <div className="flex items-center justify-between"></div>
-        <div className="flex items-center space-x-4"></div>
-          <div className="w-12 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded flex items-center justify-center"></div>
-            <span className="text-white text-xs font-bold">{card.cost}
+      / />
+    <div className="flex items-center justify-between" />
+    <div className="flex items-center space-x-4" />
+    <div className="w-12 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded flex items-center justify-center" />
+    <span className="text-white text-xs font-bold">{card.cost}
           </div>
 
-          <div></div>
-            <div className="text-white font-medium">{card.name}
+          <div />
+    <div className="text-white font-medium">{card.name}
             <div className="text-gray-400 text-sm">{card.type}
             {card.type === 'creature' && (
-              <div className="text-gray-300 text-sm"></div>
+              <div className="text-gray-300 text-sm" /></div>
                 {card.power}/{card.toughness}
             )}
           </div>
 
-        <div className="flex items-center space-x-2"></div>
+        <div className="flex items-center space-x-2" /></div>
           {owned > 0 && (
-            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded"></span>
+            <span className="bg-green-600 text-white text-sm px-2 py-0 whitespace-nowrap rounded" /></span>
               Owned: {owned}
           )}
           <button
             onClick={e => {
-              e.stopPropagation();
-              onToggleFavorite();
-            }}
+    e.stopPropagation() {`
+    onToggleFavorite()`
+  `
+  }}```
             className={`p-2 rounded transition-colors ${
-              isFavorite
-                ? 'bg-red-600 text-white'
-                : 'text-gray-400 hover:text-red-400'
-            }`}
+    isFavorite`
+                ? 'bg-red-600 text-white'` : null`
+                : 'text-gray-400 hover:text-red-400'```
+  }`}
           >
-            <Heart className="w-4 h-4" />
+            <Heart className="w-4 h-4"  / /></Heart>
           </button>
 
           <button
             onClick={e => {
-              e.stopPropagation();
-              onToggleWishlist();
-            }}
+    e.stopPropagation() {`
+    onToggleWishlist()`
+  `
+  }}```
             className={`p-2 rounded transition-colors ${
-              inWishlist
-                ? 'bg-yellow-600 text-white'
-                : 'text-gray-400 hover:text-yellow-400'
-            }`}
+    inWishlist`
+                ? 'bg-yellow-600 text-white'` : null`
+                : 'text-gray-400 hover:text-yellow-400'```
+  }`}
           >
             {inWishlist ? (
-              <BookmarkCheck className="w-4 h-4" />
+              <BookmarkCheck className="w-4 h-4"  / /></BookmarkCheck> : null
             ) : (
-              <Bookmark className="w-4 h-4" />
+              <Bookmark className="w-4 h-4"  / /></Bookmark>
             )}
 
           <button
             onClick={e => {
-              e.stopPropagation();
-              onAddToDeck();
-            }}
+    e.stopPropagation() {
+    onAddToDeck()
+  
+  }}
             className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded transition-colors"
           >
-            <Plus className = "w-4 h-4" />
+            <Plus className = "w-4 h-4"  / /></Plus>
           </button>
       </div>
     </motion.div>
-  );
+  )
 };
 
 // Card Detail Modal Component
@@ -963,18 +972,10 @@ interface CardDetailModalProps {
   onToggleWishlist
   onToggleFavorite
   onAddToDeck
+  
 }
 
-const CardDetailModal: React.FC<CardDetailModalProps> = ({ 
-  card,
-  owned,
-  inWishlist,
-  isFavorite,
-  onClose,
-  onToggleWishlist,
-  onToggleFavorite,
-  onAddToDeck,
- }) => {
+const CardDetailModal: React.FC = () => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -982,95 +983,95 @@ const CardDetailModal: React.FC<CardDetailModalProps> = ({
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
-     />
-      <motion.div
+      / />
+    <motion.div
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.8, opacity: 0 }}
         onClick={e => e.stopPropagation()}
         className="bg-gray-800 rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto"
       >
-        <div className="flex justify-between items-start mb-4"></div>
-          <h2 className="text-2xl font-bold text-white">{card.name}
+        <div className="flex justify-between items-start mb-4" />
+    <h2 className="text-2xl font-bold text-white">{card.name}
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-white transition-colors"></button>
-            <X className="w-6 h-6" />
+            className="p-2 text-gray-400 hover:text-white transition-colors" />
+    <X className="w-6 h-6"  / /></X>
           </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6" /></div>
           {/* Card Image */}
-          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center"></div>
-            <div className="text-white text-center p-4"></div>
-              <div className="text-2xl font-bold mb-2">{card.name}
+          <div className="aspect-card bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg flex items-center justify-center" />
+    <div className="text-white text-center p-4" />
+    <div className="text-2xl font-bold mb-2">{card.name}
               <div className="text-lg">{card.cost}
             </div>
 
           {/* Card Details */}
-          <div className="space-y-4"></div>
-            <div></div>
-              <h3 className="text-white font-medium mb-2">Details</h3>
-              <div className="space-y-2 text-gray-300"></div>
-                <div>Type: {card.type}
+          <div className="space-y-4" />
+    <div />
+    <h3 className="text-white font-medium mb-2">Details</h3>
+              <div className="space-y-2 text-gray-300" />
+    <div>Type: {card.type}
                 <div>Rarity: {card.rarity}
                 <div>Cost: {card.cost}
                 {card.type === 'creature' && (
-                  <div></div>
+                  <div /></div>
                     Power/Toughness: {card.power}/{card.toughness}
                 )}
                 <div>Elements: {(card.elements || []).join(', ')}
               </div>
 
-            <div></div>
-              <h3 className="text-white font-medium mb-2">Card Text</h3>
+            <div />
+    <h3 className="text-white font-medium mb-2">Card Text</h3>
               <p className="text-gray-300">{card.text}
             </div>
 
-            <div></div>
-              <h3 className="text-white font-medium mb-2">Collection</h3>
-              <div className="text-gray-300"></div>
+            <div />`
+    <h3 className="text-white font-medium mb-2">Collection</h3>``
+              <div className="text-gray-300" />```
                 {owned > 0 ? `You own ${owned} copies` : 'Not in collection'}
               </div>
 
             {/* Action Buttons */}
-            <div className="flex space-x-2"></div>
-              <button
-                onClick={onToggleFavorite}
+            <div className="flex space-x-2" />`
+    <button``
+                onClick={onToggleFavorite}```
                 className={`flex items-center space-x-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
-                  isFavorite
-                    ? 'bg-red-600 hover:bg-red-700 text-white'
-                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                }`}></button>
-                <Heart className="w-4 h-4" />
-                <span>{isFavorite ? 'Unfavorite' : 'Favorite'}
+    isFavorite`
+                    ? 'bg-red-600 hover:bg-red-700 text-white'``
+                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300'```
+  }`} />
+    <Heart className="w-4 h-4"  / />
+    <span>{isFavorite ? 'Unfavorite' : 'Favorite'}
               </button>
-
-              <button
-                onClick={onToggleWishlist}
+`
+              <button``
+                onClick={onToggleWishlist}```
                 className={`flex items-center space-x-2 px-4 py-0 whitespace-nowrap rounded-lg transition-colors ${
-                  inWishlist
-                    ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
-                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                }`}></button>
+    inWishlist`
+                    ? 'bg-yellow-600 hover:bg-yellow-700 text-white'``
+                    : 'bg-gray-700 hover:bg-gray-600 text-gray-300'```
+  }`} /></button>
                 {inWishlist ? (
-                  <BookmarkCheck className="w-4 h-4" />
+                  <BookmarkCheck className="w-4 h-4"  / /></BookmarkCheck> : null
                 ) : (
-                  <Bookmark className="w-4 h-4" />
+                  <Bookmark className="w-4 h-4"  / /></Bookmark>
                 )}
-                <span></span>
+                <span /></span>
                   {inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
               </button>
 
               <button
                 onClick={onAddToDeck}
-                className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"></button>
-                <Plus className="w-4 h-4" />
-                <span>Add to Deck</span>
+                className="flex items-center space-x-2 px-4 py-0 whitespace-nowrap bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors" />
+    <Plus className="w-4 h-4"  / />
+    <span>Add to Deck</span>
             </div>
         </div>
       </motion.div>
     </motion.div>
-  );
-};
-
-export default EnhancedCardSearch;
+  )
+};`
+``
+export default EnhancedCardSearch;```

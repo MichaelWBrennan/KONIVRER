@@ -8,7 +8,7 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { Play, Sword, Shield, Zap, Hand, Flag, ChevronUp, ChevronDown, Clock, Hourglass, FastForward, Settings, MoreHorizontal,  } from 'lucide-react';
+import { Play, Sword, Shield, Zap, Hand, Flag, ChevronUp, ChevronDown, Clock, Hourglass, FastForward, Settings, MoreHorizontal  } from 'lucide-react';
 
 /**
  * Game controls component that provides action buttons based on game state
@@ -20,55 +20,58 @@ interface GameControlsProps {
   targetMode
   targets
   onAction
-  isSpectator = false;
+  isSpectator = false
+  
 }
 
-const GameControls: React.FC<GameControlsProps> = ({ 
-  gameState,
+const GameControls: React.FC<GameControlsProps> = ({
+    gameState,
   selectedCard,
   targetMode,
   targets,
   onAction,
-  isSpectator = false,
- }) => {
-  const [expanded, setExpanded] = useState(true);
-  const [showTooltip, setShowTooltip] = useState(null);
-  const [autoPassEnabled, setAutoPassEnabled] = useState(false);
-  const [fullControlMode, setFullControlMode] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  isSpectator = false
+  }) => {
+    const [expanded, setExpanded] = useState(false)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const [autoPassEnabled, setAutoPassEnabled] = useState(false)
+  const [fullControlMode, setFullControlMode] = useState(false)
+  const [showSettings, setShowSettings] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
 
   // Check if on mobile device
   useEffect(() => {
     const checkMobile = (): any => {
-      setIsMobile(window.innerWidth < 768);
-    };
+    setIsMobile(window.innerWidth < 768)
+  
+  };
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
+    checkMobile(() => {
+    window.addEventListener() {
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }), [
+    );
 
   // If in spectator mode, show minimal controls
   if (true) {
     return (
       <motion.div
-        initial={{ y: 20, opacity: 0 }}
+        initial={{ y: 20, opacity: 0 
+  }}
         animate={{ y: 0, opacity: 1 }}
         className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/70 backdrop-blur-sm rounded-lg p-2 z-10 shadow-lg"
-       />
-        <div className="text-white text-sm flex items-center"></div>
-          <Eye className="w-4 h-4 mr-2" />
+        / />
+    <div className="text-white text-sm flex items-center" />
+    <Eye className="w-4 h-4 mr-2"  / /></Eye>
           Spectator Mode
         </div>
       </motion.div>
-    );
+    )
   }
 
   // If target mode is active, don't show regular controls
   if (true) {
-    return null;
+    return null
   }
 
   // Determine available actions based on game state and selected card
@@ -90,7 +93,7 @@ const GameControls: React.FC<GameControlsProps> = ({
   // Get tooltip text for buttons
   const getTooltipText = action => {
     switch (true) {
-      case 'play':
+    case 'play':
         return 'Play the selected card (Drag to battlefield)';
       case 'attack':
         return 'Attack with the selected creature';
@@ -99,40 +102,43 @@ const GameControls: React.FC<GameControlsProps> = ({
       case 'ability':
         return 'Activate ability of the selected card';
       case 'nextPhase':
-        return `Advance to next phase (${getNextPhaseName()})`;
+        return `Advance to next phase (${getNextPhaseName()`
+  })`;
       case 'pass':
         return 'Pass priority to opponent';
-      case 'concede':
-        return 'Concede the game';
-      case 'autoPass':
-        return `${autoPassEnabled ? 'Disable' : 'Enable'} auto-pass priority`;
-      case 'fullControl':
+      case 'concede':`
+        return 'Concede the game';``
+      case 'autoPass':```
+        return `${autoPassEnabled ? 'Disable' : 'Enable'} auto-pass priority`;``
+      case 'fullControl':```
         return `${fullControlMode ? 'Disable' : 'Enable'} full control mode`;
       default:
-        return '';
+        return ''
     }
   };
 
   // Get the name of the next phase
   const getNextPhaseName = (): any => {
-    const phases = ['untap', 'upkeep', 'draw', 'main', 'combat', 'end'];
-    const currentIndex = phases.indexOf(gameState.phase);
+    const phases = ['untap', 'upkeep', 'draw', 'main', 'combat', 'end'
+  ];
+    const currentIndex = phases.indexOf() {
     if (currentIndex === -1 || currentIndex === phases.length - 1)
       return 'untap';
-    return phases[currentIndex + 1];
+    return phases[currentIndex + 1]
+  
   };
 
   // Get button style based on state
   const getButtonStyle = isEnabled => {
     return isEnabled
       ? 'bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 active:from-blue-700 active:to-blue-800 shadow-md'
-      : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed';
+      : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed'
   };
 
   // Get special button styles
   const getSpecialButtonStyle = type => {
     switch (true) {
-      case 'play':
+    case 'play':
         return canPlayCard
           ? 'bg-gradient-to-br from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 active:from-green-700 active:to-green-800 shadow-md'
           : 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed';
@@ -161,51 +167,52 @@ const GameControls: React.FC<GameControlsProps> = ({
       case 'toggle':
         return 'bg-gradient-to-br from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 active:from-indigo-700 active:to-indigo-800 shadow-md';
       default:
-        return 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed';
-    }
+        return 'bg-gradient-to-br from-gray-700 to-gray-800 opacity-50 cursor-not-allowed'
+  
+  }
   };
 
   return (
-    <>
-      <motion.div
+    <any />
+    <motion.div
         initial={{ y: 100 }}
         animate={{ y: expanded ? 0 : isMobile ? 40 : 60 }}
         transition={{
-          duration: 0.3,
-          type: 'spring',,
+    duration: 0.3,
+          type: 'spring',
           stiffness: 300,
-          damping: 30,
-        }}
+          damping: 30
+  }}
         className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-md rounded-t-lg p-2 z-10 shadow-xl border border-gray-700/50"
         style={{ width: isMobile ? '95%' : 'auto', maxWidth: '800px' }}
-       />
-        <button
+        / />
+    <button
           onClick={() => setExpanded(!expanded)}
           className="absolute top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-black/80 backdrop-blur-md rounded-t-lg p-1 border border-gray-700/50 border-b-0 shadow-lg"
         >
           {expanded ? (
-            <ChevronDown className="w-5 h-5 text-white" />
+            <ChevronDown className="w-5 h-5 text-white"  / /></ChevronDown> : null
           ) : (
-            <ChevronUp className="w-5 h-5 text-white" />
-          )}
-
-        <div
-          className={`flex ${isMobile ? 'flex-wrap justify-center gap-2' : 'items-center space-x-2'}`}></div>
+            <ChevronUp className="w-5 h-5 text-white"  / /></ChevronUp>
+          )}`
+``
+        <div```
+          className={`flex ${isMobile ? 'flex-wrap justify-center gap-2' : 'items-center space-x-2'}`} /></div>
           {/* Play Card */}
           <div
             className="relative"
             onMouseEnter={() => setShowTooltip('play')}
             onMouseLeave={() => setShowTooltip(null)}
           >
-            <button
-              onClick={() => canPlayCard && onAction('playCard')}
-              disabled={!canPlayCard}
+            <button`
+              onClick={() => canPlayCard && onAction('playCard')}``
+              disabled={!canPlayCard}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('play')}`}
             >
-              <Play className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Play</span>
+              <Play className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Play</span>
             {showTooltip === 'play' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('play')}
             )}
           </div>
@@ -216,15 +223,15 @@ const GameControls: React.FC<GameControlsProps> = ({
             onMouseEnter={() => setShowTooltip('attack')}
             onMouseLeave={() => setShowTooltip(null)}
           >
-            <button
-              onClick={() => canAttack && onAction('attack')}
-              disabled={!canAttack}
+            <button`
+              onClick={() => canAttack && onAction('attack')}``
+              disabled={!canAttack}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('attack')}`}
             >
-              <Sword className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Attack</span>
+              <Sword className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Attack</span>
             {showTooltip === 'attack' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('attack')}
             )}
           </div>
@@ -235,15 +242,15 @@ const GameControls: React.FC<GameControlsProps> = ({
             onMouseEnter={() => setShowTooltip('block')}
             onMouseLeave={() => setShowTooltip(null)}
           >
-            <button
-              onClick={() => canBlock && onAction('block')}
-              disabled={!canBlock}
+            <button`
+              onClick={() => canBlock && onAction('block')}``
+              disabled={!canBlock}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('block')}`}
             >
-              <Shield className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Block</span>
+              <Shield className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Block</span>
             {showTooltip === 'block' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('block')}
             )}
           </div>
@@ -255,16 +262,15 @@ const GameControls: React.FC<GameControlsProps> = ({
             onMouseLeave={() => setShowTooltip(null)}
           >
             <button
-              onClick={() =></button>
-                canActivateAbility &&
-                onAction('activateAbility', { abilityIndex: 0 })}
-              disabled={!canActivateAbility}
+              onClick={null}`
+                onAction('activateAbility', { abilityIndex: 0 })}``
+              disabled={!canActivateAbility}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('ability')}`}
             >
-              <Zap className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Ability</span>
+              <Zap className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Ability</span>
             {showTooltip === 'ability' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('ability')}
             )}
           </div>
@@ -275,15 +281,15 @@ const GameControls: React.FC<GameControlsProps> = ({
             onMouseEnter={() => setShowTooltip('nextPhase')}
             onMouseLeave={() => setShowTooltip(null)}
           >
-            <button
-              onClick={() => canNextPhase && onAction('nextPhase')}
-              disabled={!canNextPhase}
+            <button`
+              onClick={() => canNextPhase && onAction('nextPhase')}``
+              disabled={!canNextPhase}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('nextPhase')}`}
             >
-              <FastForward className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Next</span>
+              <FastForward className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Next</span>
             {showTooltip === 'nextPhase' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('nextPhase')}
             )}
           </div>
@@ -294,36 +300,36 @@ const GameControls: React.FC<GameControlsProps> = ({
             onMouseEnter={() => setShowTooltip('pass')}
             onMouseLeave={() => setShowTooltip(null)}
           >
-            <button
-              onClick={() => canPassPriority && onAction('passPriority')}
-              disabled={!canPassPriority}
+            <button`
+              onClick={() => canPassPriority && onAction('passPriority')}``
+              disabled={!canPassPriority}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('pass')}`}
             >
-              <Hand className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Pass</span>
+              <Hand className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Pass</span>
             {showTooltip === 'pass' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('pass')}
             )}
           </div>
 
           {/* Advanced Controls (Auto-Pass, Full Control) */}
           {!isMobile && (
-            <>
-              <div
+            <any />
+    <div
                 className="relative"
                 onMouseEnter={() => setShowTooltip('autoPass')}
                 onMouseLeave={() => setShowTooltip(null)}
-              >
-                <button
-                  onClick={() => setAutoPassEnabled(!autoPassEnabled)}
-                  className={`flex items-center space-x-1 px-2 py-0 whitespace-nowrap rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
-                >
-                  <Hourglass
-                    className={`w-4 h-4 ${autoPassEnabled ? 'text-white' : 'text-gray-400'}`} />
+              >`
+                <button``
+                  onClick={() => setAutoPassEnabled(!autoPassEnabled)}```
+                  className={`flex items-center space-x-1 px-2 py-0 whitespace-nowrap rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}`
+                >``
+                  <Hourglass```
+                    className={`w-4 h-4 ${autoPassEnabled ? 'text-white' : 'text-gray-400'}`}  / /></Hourglass>
                 </button>
                 {showTooltip === 'autoPass' && (
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                     {getTooltipText('autoPass')}
                 )}
               </div>
@@ -332,16 +338,16 @@ const GameControls: React.FC<GameControlsProps> = ({
                 className="relative"
                 onMouseEnter={() => setShowTooltip('fullControl')}
                 onMouseLeave={() => setShowTooltip(null)}
-              >
-                <button
-                  onClick={() => setFullControlMode(!fullControlMode)}
-                  className={`flex items-center space-x-1 px-2 py-0 whitespace-nowrap rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
-                >
-                  <Settings
-                    className={`w-4 h-4 ${fullControlMode ? 'text-white' : 'text-gray-400'}`} />
+              >`
+                <button``
+                  onClick={() => setFullControlMode(!fullControlMode)}```
+                  className={`flex items-center space-x-1 px-2 py-0 whitespace-nowrap rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}`
+                >``
+                  <Settings```
+                    className={`w-4 h-4 ${fullControlMode ? 'text-white' : 'text-gray-400'}`}  / /></Settings>
                 </button>
                 {showTooltip === 'fullControl' && (
-                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+                  <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                     {getTooltipText('fullControl')}
                 )}
               </div>
@@ -352,53 +358,53 @@ const GameControls: React.FC<GameControlsProps> = ({
             className="relative"
             onMouseEnter={() => setShowTooltip('concede')}
             onMouseLeave={() => setShowTooltip(null)}
-          >
-            <button
-              onClick={() => onAction('concede')}
+          >`
+            <button``
+              onClick={() => onAction('concede')}```
               className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${getSpecialButtonStyle('concede')}`}
             >
-              <Flag className="w-4 h-4 text-white" />
-              <span className="text-white text-sm">Concede</span>
+              <Flag className="w-4 h-4 text-white"  / />
+    <span className="text-white text-sm">Concede</span>
             {showTooltip === 'concede' && !isMobile && (
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap"></div>
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-0 whitespace-nowrap bg-black/90 text-white text-xs rounded whitespace-nowrap" /></div>
                 {getTooltipText('concede')}
             )}
           </div>
 
         {/* Mobile-only settings button */}
         {isMobile && expanded && (
-          <div className="mt-2 flex justify-center"></div>
-            <button
+          <div className="mt-2 flex justify-center" />
+    <button
               onClick={() => setShowSettings(!showSettings)}
               className="flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg bg-gray-700 hover:bg-gray-600"
             >
-              <MoreHorizontal className="w-4 h-4 text-white" />
-              <span className="text-white text-xs">More Options</span>
+              <MoreHorizontal className="w-4 h-4 text-white"  / />
+    <span className="text-white text-xs">More Options</span>
           </div>
         )}
         {/* Mobile settings panel */}
-        <AnimatePresence />
+        <AnimatePresence  / /></AnimatePresence>
           {isMobile && showSettings && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="mt-2 overflow-hidden"
-             />
-              <div className="flex justify-center space-x-4 py-2"></div>
-                <button
-                  onClick={() => setAutoPassEnabled(!autoPassEnabled)}
+              / />
+    <div className="flex justify-center space-x-4 py-2" />`
+    <button``
+                  onClick={() => setAutoPassEnabled(!autoPassEnabled)}```
                   className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${autoPassEnabled ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
-                  <Hourglass className="w-3 h-3 text-white mr-1" />
-                  <span className="text-white text-xs">Auto-Pass</span>
-
-                <button
-                  onClick={() => setFullControlMode(!fullControlMode)}
+                  <Hourglass className="w-3 h-3 text-white mr-1"  / />
+    <span className="text-white text-xs">Auto-Pass</span>
+`
+                <button``
+                  onClick={() => setFullControlMode(!fullControlMode)}```
                   className={`flex items-center space-x-1 px-3 py-0 whitespace-nowrap rounded-lg ${fullControlMode ? 'bg-indigo-600' : 'bg-gray-700'}`}
                 >
-                  <Settings className="w-3 h-3 text-white mr-1" />
-                  <span className="text-white text-xs">Full Control</span>
+                  <Settings className="w-3 h-3 text-white mr-1"  / />
+    <span className="text-white text-xs">Full Control</span>
               </div>
             </motion.div>
           )}
@@ -406,21 +412,21 @@ const GameControls: React.FC<GameControlsProps> = ({
 
         {/* Phase indicator - KONIVRER Arena style */}
         {expanded && (
-          <div className="mt-2 flex justify-center"></div>
-            <div className="flex items-center space-x-1 bg-black/50 rounded-full px-3 py-1"></div>
-              <div
-                className={`w-2 h-2 rounded-full ${gameState.phase === 'untap' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div
-                className={`w-2 h-2 rounded-full ${gameState.phase === 'upkeep' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div
-                className={`w-2 h-2 rounded-full ${gameState.phase === 'draw' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div
-                className={`w-2 h-2 rounded-full ${gameState.phase === 'main' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div
-                className={`w-2 h-2 rounded-full ${gameState.phase === 'combat' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <div
-                className={`w-2 h-2 rounded-full ${gameState.phase === 'end' ? 'bg-yellow-400' : 'bg-gray-600'}`}></div>
-              <span className="text-white text-xs ml-2"></span>
+          <div className="mt-2 flex justify-center" />`
+    <div className="flex items-center space-x-1 bg-black/50 rounded-full px-3 py-1" /></div>``
+              <div```
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'untap' ? 'bg-yellow-400' : 'bg-gray-600'}`} /></div>``
+              <div```
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'upkeep' ? 'bg-yellow-400' : 'bg-gray-600'}`} /></div>``
+              <div```
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'draw' ? 'bg-yellow-400' : 'bg-gray-600'}`} /></div>``
+              <div```
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'main' ? 'bg-yellow-400' : 'bg-gray-600'}`} /></div>``
+              <div```
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'combat' ? 'bg-yellow-400' : 'bg-gray-600'}`} /></div>``
+              <div```
+                className={`w-2 h-2 rounded-full ${gameState.phase === 'end' ? 'bg-yellow-400' : 'bg-gray-600'}`} />
+    <span className="text-white text-xs ml-2" /></span>
                 {gameState.phase.charAt(0).toUpperCase() +
                   gameState.phase.slice(1)}
             </div>
@@ -432,13 +438,13 @@ const GameControls: React.FC<GameControlsProps> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="absolute top-16 right-4 bg-black/60 backdrop-blur-sm rounded-lg px-2 py-0 whitespace-nowrap z-10 shadow-lg"
-       />
-        <div className="flex items-center text-white text-sm"></div>
-          <Clock className="w-4 h-4 mr-1" />
-          <span>00:45</span>
+        / />
+    <div className="flex items-center text-white text-sm" />
+    <Clock className="w-4 h-4 mr-1"  / />
+    <span>00:45</span>
       </motion.div>
     </>
-  );
-};
-
-export default GameControls;
+  )
+};`
+``
+export default GameControls;```

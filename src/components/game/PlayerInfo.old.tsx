@@ -7,7 +7,7 @@ import React from 'react';
  * Licensed under the MIT License
  */
 
-import { User, Heart, Zap, Award, Crown, Clock,  } from 'lucide-react';
+import { User, Heart, Zap, Award, Crown, Clock  } from 'lucide-react';
 
 /**
  * Displays player information including avatar, name, and resources
@@ -17,20 +17,22 @@ interface PlayerInfoProps {
   player
   gameState
   isOpponent
+  
 }
 
 const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent  }) => {
-  if (!gameState) return null;
-  const { lifeCards, azoth, deck, hand } = gameState;
+    if (!gameState) return null;
+  const { lifeCards, azoth, deck, hand 
+  } = gameState;
   const playerName = player?.name || (isOpponent ? 'Opponent' : 'You');
-  const avatarUrl = player?.avatarUrl;
+  const avatarUrl = player? .avatarUrl;
   const playerRank = player?.rank || 'Bronze';
   const isActive = gameState.isActive;
 
-  // Get rank badge color
+  // Get rank badge color : null
   const getRankColor = (): any => {
     switch (playerRank.toLowerCase()) {
-      case 'mythic':
+    case 'mythic':
         return 'from-orange-400 to-red-600';
       case 'diamond':
         return 'from-blue-300 to-blue-600';
@@ -42,8 +44,9 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
         return 'from-gray-300 to-gray-500';
       case 'bronze':
       default:
-        return 'from-amber-700 to-amber-900';
-    }
+        return 'from-amber-700 to-amber-900'
+  
+  }
   };
 
   return (
@@ -52,30 +55,29 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
       initial={{ opacity: 0, y: isOpponent ? -20 : 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`bg-black/70 backdrop-blur-md rounded-lg p-2 flex items-center space-x-3 shadow-lg ${
-        isActive ? 'ring-2 ring-yellow-500/50' : ''
+      className={null}
       }`}
-     />
+      / /></motion>
       {/* Player Avatar with Rank Badge */}
-      <div className="relative"></div>
-        <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center border-2 border-gray-600 shadow-inner"></div>
+      <div className="relative" />
+    <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center border-2 border-gray-600 shadow-inner" /></div>
           {avatarUrl ? (
             <img
               src={avatarUrl}
               alt={playerName}
-              className="w-full h-full object-cover" />
+              className="w-full h-full object-cover"  / /></img> : null
           ) : (
-            <User className="w-7 h-7 text-gray-300" />
+            <User className="w-7 h-7 text-gray-300"  / /></User>
           )}
         </div>
-
-        {/* Rank Badge */}
-        <div
-          className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br ${getRankColor()} flex items-center justify-center shadow-lg border border-gray-800`}></div>
+`
+        {/* Rank Badge */}``
+        <div```
+          className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br ${getRankColor()} flex items-center justify-center shadow-lg border border-gray-800`} /></div>
           {playerRank.toLowerCase() === 'mythic' ? (
-            <Crown className="w-3 h-3 text-white" />
+            <Crown className="w-3 h-3 text-white"  / /></Crown> : null
           ) : (
-            <Award className="w-3 h-3 text-white" />
+            <Award className="w-3 h-3 text-white"  / /></Award>
           )}
 
         {/* Active Player Indicator */}
@@ -83,26 +85,26 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
           <motion.div
             className="absolute -top-1 -left-1 w-4 h-4 bg-yellow-500 rounded-full"
             animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }} />
+            transition={{ duration: 1.5, repeat: Infinity }}  / /></motion>
         )}
       </div>
 
       {/* Player Info */}
-      <div></div>
-        <div className="text-white font-medium text-sm flex items-center"></div>
+      <div />
+    <div className="text-white font-medium text-sm flex items-center" /></div>
           {playerName}
-          {isActive && <Clock className="w-3 h-3 text-yellow-400 ml-1" />}
+          {isActive && <Clock className="w-3 h-3 text-yellow-400 ml-1"  />}
 
         {/* Resources */}
-        <div className="flex items-center space-x-2 mt-1"></div>
+        <div className="flex items-center space-x-2 mt-1" /></div>
           {/* Life */}
           <motion.div
             className="flex items-center space-x-1 bg-gradient-to-r from-red-900/70 to-red-800/70 rounded-full px-2 py-0.5 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-           />
-            <Heart className="w-3 h-3 text-red-400" />
-            <span className="text-white text-xs font-medium"></span>
+            / />
+    <Heart className="w-3 h-3 text-red-400"  / />
+    <span className="text-white text-xs font-medium" /></span>
               {lifeCards.length}
           </motion.div>
 
@@ -111,9 +113,9 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             className="flex items-center space-x-1 bg-gradient-to-r from-yellow-800/70 to-yellow-700/70 rounded-full px-2 py-0.5 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-           />
-            <Zap className="w-3 h-3 text-yellow-400" />
-            <span className="text-white text-xs font-medium">{azoth}
+            / />
+    <Zap className="w-3 h-3 text-yellow-400"  / />
+    <span className="text-white text-xs font-medium">{azoth}
           </motion.div>
 
           {/* Cards in Hand */}
@@ -121,24 +123,24 @@ const PlayerInfo: React.FC<PlayerInfoProps> = ({  player, gameState, isOpponent 
             className="flex items-center space-x-1 bg-gradient-to-r from-blue-900/70 to-blue-800/70 rounded-full px-2 py-0.5 shadow-sm"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-           />
-            <span className="text-white text-xs font-medium"></span>
+            / />
+    <span className="text-white text-xs font-medium" /></span>
               {hand.length}
           </motion.div>
         </div>
 
       {/* Deck Count */}
-      <div className="ml-1"></div>
-        <motion.div
+      <div className="ml-1" />
+    <motion.div
           className="flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg px-2 py-0 whitespace-nowrap shadow-inner"
           whileHover={{ scale: 1.05 }}
-         />
-          <span className="text-white text-xs font-bold">{deck.length}
+          / />
+    <span className="text-white text-xs font-bold">{deck.length}
           <span className="text-gray-400 text-[8px]">DECK</span>
         </motion.div>
       </div>
     </motion.div>
-  );
-};
-
-export default PlayerInfo;
+  )
+};`
+``
+export default PlayerInfo;```

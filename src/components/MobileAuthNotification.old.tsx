@@ -8,7 +8,7 @@
 import React from 'react';
 
 const MobileAuthNotification = (): any => {
-  return null; // Placeholder component
-};
+    return null; // Placeholder component
+  };
 
 export default MobileAuthNotification;

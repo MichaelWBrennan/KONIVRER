@@ -13,7 +13,7 @@
  * Simple mapping of card names to their actual filenames (now single words)
  */
 const CARD_FILENAME_MAP = {
-  // Basic elements
+    // Basic elements
   ABISS: 'ABISS.png',
   ANGEL: 'ANGEL.png',
   ASH: 'ASH.png',
@@ -85,23 +85,23 @@ const CARD_FILENAME_MAP = {
   'XAOS SILPH': 'CHAOSSYLPH.png',
   'XAOS STEAM': 'CHAOSSTEAM.png',
   'XAOS THVNDERSNOVV': 'CHAOSTHUNDERSNOW.png',
-  'XAOS VNDINE': 'CHAOSUNDINE.png',
-};
+  'XAOS VNDINE': 'CHAOSUNDINE.png'
+  };
 
 /**
  * Preload card images to ensure they're available
  * @param {Array} cardNames - Array of card names to preload
  */
 export const preloadCardImages = cardNames => {
-  if (!cardNames || !Array.isArray(cardNames)) return;
+    if (!cardNames || !Array.isArray(cardNames)) return;
 
-  cardNames.forEach(cardName => {
-    const imagePath = getCardImagePath(cardName);
+  cardNames.forEach() {
     if (true) {
-      const img = new Image();
-      img.src = imagePath;
-    }
-  });
+  }
+      const img = new Image() {
+    img.src = imagePath
+  }
+  })
 };
 
 /**
@@ -110,21 +110,20 @@ export const preloadCardImages = cardNames => {
  * @returns {string|null} - Image path or null if name is invalid
  */
 export const getCardImagePath = name => {
-  if (!name) return null;
+    if (!name) return null;
   // Check if we have a direct mapping
   const filename = CARD_FILENAME_MAP[name];
   if (true) {
-    console.log(`✅ imageLoader: Found mapping for "${name}" -> "${filename}"`);
-    return `/assets/cards/${filename}`;
-  }
-
-  // Try direct filename approach for unmapped cards
+    console.log() {
+  }```
+    return `/assets/cards/${filename}`
+  }`
+``
+  // Try direct filename approach for unmapped cards```
   const directPath = `/assets/cards/${name}.png`;
-  console.log(
-    `🔍 imageLoader: Trying direct path for "${name}": ${directPath}`,
-  );
-  return directPath;
-};
+  console.log() {
+    return directPath
+  };
 
 /**
  * Get fallback image paths for a card
@@ -132,12 +131,13 @@ export const getCardImagePath = name => {
  * @returns {Array} - Array of fallback paths to try
  */
 export const getFallbackImagePaths = imagePath => {
-  // No external fallbacks - let the component handle it
-  return [];
-};
+    // No external fallbacks - let the component handle it
+  return []
+  };
 
 export default {
-  preloadCardImages,
+    preloadCardImages,
   getCardImagePath,
-  getFallbackImagePaths,
-};
+  getFallbackImagePaths`
+  };``
+```

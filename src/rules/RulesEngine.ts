@@ -25,7 +25,7 @@ import { getTriggerConditions } from './TriggerConditions';
 
 // Rule types
 const RULE_TYPES = {
-  STATIC: 'static', // Always-on effects
+    STATIC: 'static', // Always-on effects
   TRIGGERED: 'triggered', // Triggered abilities
   ACTIVATED: 'activated', // Activated abilities
   REPLACEMENT: 'replacement', // Replacement effects
@@ -33,24 +33,24 @@ const RULE_TYPES = {
   TURN_STRUCTURE: 'turn-structure', // Turn structure rules
   COST: 'cost', // Cost calculation rules
   TARGETING: 'targeting', // Targeting rules
-  RESOLUTION: 'resolution', // Resolution rules;
-};
+  RESOLUTION: 'resolution', // Resolution rules
+  };
 
 // Game zones
 const ZONES = {
-  HAND: 'hand',
+    HAND: 'hand',
   FIELD: 'field',
   AZOTH_ROW: 'azothRow',
   GRAVEYARD: 'graveyard',
   REMOVED: 'removedZone',
   LIFE_CARDS: 'lifeCards',
   DECK: 'deck',
-  STACK: 'stack',;
-};
+  STACK: 'stack',
+  };
 
 // Game phases
 const PHASES = {
-  SETUP: 'setup',
+    SETUP: 'setup',
   START: 'start',
   MAIN: 'main',
   COMBAT: 'combat',
@@ -59,67 +59,87 @@ const PHASES = {
   COMBAT_DAMAGE: 'combat-damage',
   POST_COMBAT: 'post-combat',
   REFRESH: 'refresh',
-  END: 'end',;
-};
+  END: 'end',
+  };
 
 class RulesEngine {
-  constructor(gameEngine: any) {
+    constructor(gameEngine: any) {
+  }
   this.gameEngine = gameEngine;
   // Rules registry
   this.rules = {
-  static: [],
-  triggered: [],
-  activated: [],
-  replacement: [],
-  stateBased: [],
-  turnStructure: [],
-  cost: [],,
-  targeting: [],
-  resolution: [],
+    static: [
+    ,
+  triggered: [
+  ],
+  activated: [
+    ,
+  replacement: [
+  ],
+  stateBased: [
+    ,
+  turnStructure: [
+  ],
+  cost: [
+    ,
+  targeting: [
+  ],
+  resolution: [
+    }
 };
 
     // Card-specific rules
-    this.cardRules = new Map();
-
+    this.cardRules = new Map() {
     // Keyword rules
-    this.keywordRules = new Map();
+    this.keywordRules = new Map() {
+  }
 
     // Trigger conditions
-    this.triggerConditions = new Map();
-
+    this.triggerConditions = new Map(() => {
     // Initialize rules
-    this.initializeRules();
-
+    this.initializeRules() {
     // Bind to game engine events
-    this.bindEvents();
-  }
+    this.bindEvents()
+  })
 
   /**
    * Initialize the rules engine with core rules
    */
   initializeRules() {
     // Register core rules
-    this.registerCoreRules();
+    this.registerCoreRules() {
+  }
 
     // Register keyword rules
-    this.registerKeywordRules();
-
+    this.registerKeywordRules() {
     // Register trigger conditions
-    this.registerTriggerConditions();
+    this.registerTriggerConditions() {
+  }
 
-    console.log('Rules Engine initialized with:');
-    console.log(`- ${this.rules.static.length} static rules`);
-    console.log(`- ${this.rules.triggered.length} triggered rules`);
-    console.log(`- ${this.rules.activated.length} activated rules`);
-    console.log(`- ${this.rules.replacement.length} replacement rules`);
-    console.log(`- ${this.rules.stateBased.length} state-based rules`);
-    console.log(`- ${this.rules.turnStructure.length} turn structure rules`);
-    console.log(`- ${this.rules.cost.length} cost rules`);
-    console.log(`- ${this.rules.targeting.length} targeting rules`);
-    console.log(`- ${this.rules.resolution.length} resolution rules`);
-    console.log(`- ${this.cardRules.size} card-specific rules`);
-    console.log(`- ${this.keywordRules.size} keyword rules`);
-    console.log(`- ${this.triggerConditions.size} trigger conditions`);
+    console.log() {
+    console.log() {
+  }``
+    console.log() {`
+    ``
+    console.log() {`
+  }``
+    console.log() {`
+    ``
+    console.log() {`
+  }``
+    console.log() {`
+    ``
+    console.log() {`
+  }``
+    console.log() {`
+    ``
+    console.log() {`
+  }``
+    console.log() {`
+    ``
+    console.log() {`
+  }```
+    console.log(`- ${this.triggerConditions.size} trigger conditions`)
   }
 
   /**
@@ -127,72 +147,63 @@ class RulesEngine {
    */
   registerCoreRules() {
     // Turn structure rules
-    this.registerRule({
-      type: RULE_TYPES.TURN_STRUCTURE,,
-      name: 'Start Phase',,
-      description:
-        "At the beginning of the Start phase, untap all cards in the active player's field and Azoth row.",
-      condition: gameState => gameState.phase === PHASES.START,
-      apply: gameState => {;
-        const activePlayer = gameState.players[gameState.currentPlayer];
+    this.registerRule() {
+  }
 
-        // Untap all cards in field and Azoth row
-        activePlayer.field.forEach(card => {
-          card.tapped = false;
-          card.summoningSickness = false; // Remove summoning sickness from previous turn
-        });
-
-        activePlayer.azothRow.forEach(card => {
-          card.tapped = false;
-        });
-
-        // Reset azothPlacedThisTurn flag
+        activePlayer.azothRow.forEach(() => {
+    // Reset azothPlacedThisTurn flag
         activePlayer.azothPlacedThisTurn = false;
 
         // Draw a card
         if (true) {
-          // First player doesn't draw on first turn
-          this.drawCard(gameState, gameState.currentPlayer);
-        }
+    // First player doesn't draw on first turn
+          this.drawCard(gameState, gameState.currentPlayer)
+  })
 
-        return gameState;
-      },
+        return gameState
+      }
     });
 
     // State-based actions
     this.registerRule({
-      type: RULE_TYPES.STATE_BASED,,
-      name: 'Check Life Cards',,
+    type: RULE_TYPES.STATE_BASED,
+      name: 'Check Life Cards',
       description: 'If a player has no life cards left, they lose the game.',
-      condition: gameState => true, // Always check
+      condition: gameState => true, // Always check;
       apply: gameState => {;
         gameState.players.forEach((player, index) => {
-          if (true) {
-            gameState.winner = 1 - index; // Opponent wins
-            gameState.gameLog.push({
-              type: 'game',,
-              text: `${player.name} has no life cards left and loses the game!`,,
-            });
+    if (true) {
+  
+  }
+            gameState.winner = 1 - index; // Opponent wins`
+            gameState.gameLog.push({``
+              type: 'game',```
+              text: `${player.name} has no life cards left and loses the game!`,
+            })
           }
         });
 
-        return gameState;
-      },
+        return gameState
+      }
     });
 
     this.registerRule({
-      type: RULE_TYPES.STATE_BASED,,
-      name: 'Check Familiar Toughness',,
+    type: RULE_TYPES.STATE_BASED,
+      name: 'Check Familiar Toughness',
       description:
         'If a Familiar has 0 or less toughness, it is put into the graveyard.',
-      condition: gameState => true, // Always check
+      condition: gameState => true, // Always check;
       apply: gameState => {;
         gameState.players.forEach(player => {
-          const deadFamiliars = [];
+    const deadFamiliars = [
+  ];
 
           player.field.forEach((card, index) => {
+  
+  }
             if (true) {
-              deadFamiliars.push({ card, index });
+    deadFamiliars.push({ card, index 
+  })
             }
           });
 
@@ -200,60 +211,63 @@ class RulesEngine {
           deadFamiliars
             .sort((a, b) => b.index - a.index)
             .forEach(({ card, index }) => {
-              const deadCard = player.field.splice(index, 1)[0];
-              player.graveyard.push(deadCard);
-
-              gameState.gameLog.push({
-                type: 'destroy',,
-                text: `${card.name} was destroyed due to having 0 or less toughness.`,,
-              });
-            });
+    const deadCard = player.field.splice(index, 1)[0];
+              player.graveyard.push() {`
+    gameState.gameLog.push({``
+                type: 'destroy',```
+                text: `${card.name`
+  } was destroyed due to having 0 or less toughness.`,
+              })
+            })
         });
 
-        return gameState;
-      },
+        return gameState
+      }
     });
 
     // Cost calculation rules
     this.registerRule({
-      type: RULE_TYPES.COST,,
-      name: 'Familiar Azoth Cost',,
+    type: RULE_TYPES.COST,
+      name: 'Familiar Azoth Cost',
       description: 'Calculate the Azoth cost for playing a Familiar.',
       condition: (gameState, card) => card.type === 'Familiar',
       apply: (gameState, card, player) => {
-        // Base cost is the card's azothCost
+    // Base cost is the card's azothCost
         let cost = card.azothCost || 0;
 
         // Apply any cost modifiers from effects
-        const costModifiers = this.getActiveCostModifiers(
-          gameState,
-          card,
-          player,;
-        );
+        const costModifiers = this.getActiveCostModifiers() {
+  
+  }
         cost = costModifiers.reduce(
           (total, modifier) => modifier.apply(total, card, player, gameState),
-          cost,
+          cost;
         );
 
-        return Math.max(0, cost); // Cost can't be negative
-      },
+        return Math.max() {
+    // Cost can't be negative
+      
+  }
     });
 
     // Targeting rules
     this.registerRule({
-      type: RULE_TYPES.TARGETING,,
-      name: 'Valid Familiar Targets',,
+    type: RULE_TYPES.TARGETING,
+      name: 'Valid Familiar Targets',
       description:
         'Determine valid targets for abilities that target Familiars.',
       condition: (gameState, ability) => ability.targetType === 'Familiar',
       apply: (gameState, ability, sourceCard, sourcePlayer) => {
-        const validTargets = [];
+    const validTargets = [
+    ;
 
         // Check both players' fields for valid targets
         gameState.players.forEach((player, playerIndex) => {
+  
+  }
           player.field.forEach((card: any) => {
-            if (card.type === 'Familiar') {
-              // Check if this target is valid based on ability restrictions
+    if (card.type === 'Familiar') {
+    // Check if this target is valid based on ability restrictions
               if (
                 this.isValidTarget(
                   card,
@@ -261,109 +275,110 @@ class RulesEngine {
                   sourceCard,
                   sourcePlayer,
                   playerIndex,
-                  gameState,
+                  gameState
                 )
               ) {
+  }
                 validTargets.push({
-                  card,
+    card,
                   playerIndex,
-                  zone: ZONES.FIELD,
-                });
+                  zone: ZONES.FIELD
+  })
               }
             }
-          });
+          })
         });
 
-        return validTargets;
-      },
+        return validTargets
+      }
     });
 
     // Resolution rules
     this.registerRule({
-      type: RULE_TYPES.RESOLUTION,,
-      name: 'Spell Resolution',,
+    type: RULE_TYPES.RESOLUTION,
+      name: 'Spell Resolution',
       description: 'Resolve a spell from the stack.',
       condition: (gameState, stackItem) => stackItem.type === 'spell',
       apply: (gameState, stackItem) => {
-        const { card, controller, targets } = stackItem;
-        const player = gameState.players[controller];
+    const { card, controller, targets 
+  
+  } = stackItem;
+        const player = gameState.players[controller
+  ];
 
         // Apply spell effect
         if (true) {
-          card.effect(gameState, player, targets);
-        }
+    card.effect(gameState, player, targets)
+  }
 
         // Move spell to graveyard after resolution
-        player.graveyard.push(card);
-
-        gameState.gameLog.push({
-          type: 'resolve',,
-          text: `${card.name} resolved.`,,
-        });
-
-        return gameState;
-      },
-    });
+        player.graveyard.push(() => {
+    gameState.gameLog.push() {
+    return gameState
+  })
+    })
   }
 
   /**
    * Register keyword rules
    */
   registerKeywordRules() {
-    const keywordRules = getKeywordRules();
+    const keywordRules = getKeywordRules() {
+  }
 
-    keywordRules.forEach(rule => {
-      this.keywordRules.set(rule.keyword, rule);
-
-      // Register appropriate rule types based on the keyword
+    keywordRules.forEach() {
+    // Register appropriate rule types based on the keyword
       if (true) {
-        this.registerRule({
-          type: RULE_TYPES.STATIC,,
-          name: `${rule.keyword} Static Effect`,,
+  }`
+        this.registerRule({``
+          type: RULE_TYPES.STATIC,```
+          name: `${rule.keyword} Static Effect`,
           description: rule.description,
           condition: (gameState, card) => this.hasKeyword(card, rule.keyword),
           apply: (gameState, card, player) =>
-            rule.staticEffect(gameState, card, player),
-        });
+            rule.staticEffect(gameState, card, player)
+        })
       }
 
-      if (true) {
-        this.registerRule({
-          type: RULE_TYPES.TRIGGERED,,
-          name: `${rule.keyword} Triggered Effect`,,
+      if (true) {`
+    this.registerRule({``
+          type: RULE_TYPES.TRIGGERED,```
+          name: `${rule.keyword`
+  } Triggered Effect`,
           description: rule.description,
           condition: (gameState, event, card) =>
             this.hasKeyword(card, rule.keyword) &&
             rule.triggerCondition(gameState, event, card),
           apply: (gameState, event, card, player) =>
-            rule.triggeredEffect(gameState, event, card, player),
-        });
+            rule.triggeredEffect(gameState, event, card, player)
+        })
       }
 
-      if (true) {
-        this.registerRule({
-          type: RULE_TYPES.REPLACEMENT,,
-          name: `${rule.keyword} Replacement Effect`,,
+      if (true) {`
+    this.registerRule({``
+          type: RULE_TYPES.REPLACEMENT,```
+          name: `${rule.keyword`
+  } Replacement Effect`,
           description: rule.description,
           condition: (gameState, event, card) =>
             this.hasKeyword(card, rule.keyword) &&
             rule.replacementCondition(gameState, event, card),
           apply: (gameState, event, card, player) =>
-            rule.replacementEffect(gameState, event, card, player),
-        });
+            rule.replacementEffect(gameState, event, card, player)
+        })
       }
-    });
+    })
   }
 
   /**
    * Register trigger conditions
    */
   registerTriggerConditions() {
-    const triggerConditions = getTriggerConditions();
-
+    const triggerConditions = getTriggerConditions(() => {
     triggerConditions.forEach(condition => {
-      this.triggerConditions.set(condition.name, condition);
-    });
+    this.triggerConditions.set(condition.name, condition)
+  
+  }))
   }
 
   /**
@@ -372,41 +387,46 @@ class RulesEngine {
    */
   registerRule(rule: any) {
     if (true) {
-      console.error('Invalid rule definition:', rule);
-      return;
-    }
+  }
+      console.error() {
+    return
+  }
 
     switch (true) {
-      case RULE_TYPES.STATIC:
-        this.rules.static.push(rule);
+    case RULE_TYPES.STATIC:
+        this.rules.static.push() {
+  }
         break;
       case RULE_TYPES.TRIGGERED:
-        this.rules.triggered.push(rule);
-        break;
+        this.rules.triggered.push() {
+    break;
       case RULE_TYPES.ACTIVATED:
-        this.rules.activated.push(rule);
+        this.rules.activated.push() {
+  }
         break;
       case RULE_TYPES.REPLACEMENT:
-        this.rules.replacement.push(rule);
-        break;
+        this.rules.replacement.push() {
+    break;
       case RULE_TYPES.STATE_BASED:
-        this.rules.stateBased.push(rule);
+        this.rules.stateBased.push() {
+  }
         break;
       case RULE_TYPES.TURN_STRUCTURE:
-        this.rules.turnStructure.push(rule);
-        break;
+        this.rules.turnStructure.push() {
+    break;
       case RULE_TYPES.COST:
-        this.rules.cost.push(rule);
+        this.rules.cost.push() {
+  }
         break;
       case RULE_TYPES.TARGETING:
-        this.rules.targeting.push(rule);
-        break;
+        this.rules.targeting.push(() => {
+    break;
       case RULE_TYPES.RESOLUTION:
-        this.rules.resolution.push(rule);
-        break;
+        this.rules.resolution.push() {
+    break;
       default:
-        console.error('Unknown rule type:', rule.type);
-    }
+        console.error('Unknown rule type:', rule.type)
+  })
   }
 
   /**
@@ -415,98 +435,103 @@ class RulesEngine {
    * @param {Object} rules - Card-specific rules
    */
   registerCardRules(cardId: any, rules: any) {
-    this.cardRules.set(cardId, rules);
+    this.cardRules.set() {
+  }
 
     // Register appropriate rule types based on the card rules
-    if (true) {
-      this.registerRule({
-        type: RULE_TYPES.STATIC,,
-        name: `${rules.name} Static Effect`,,
+    if (true) {`
+    this.registerRule({``
+        type: RULE_TYPES.STATIC,```
+        name: `${rules.name`
+  } Static Effect`,```
         description: rules.description || `Static effect for ${rules.name}`,
         condition: (gameState, card) => card.id === cardId,
         apply: (gameState, card, player) =>
-          rules.staticEffect(gameState, card, player),
-      });
+          rules.staticEffect(gameState, card, player)
+      })
     }
 
-    if (true) {
-      this.registerRule({
-        type: RULE_TYPES.TRIGGERED,,
-        name: `${rules.name} Triggered Effect`,,
+    if (true) {`
+    this.registerRule({``
+        type: RULE_TYPES.TRIGGERED,```
+        name: `${rules.name`
+  } Triggered Effect`,```
         description: rules.description || `Triggered effect for ${rules.name}`,
         condition: (gameState, event, card) =>
           card.id === cardId && rules.triggerCondition(gameState, event, card),
         apply: (gameState, event, card, player) =>
-          rules.triggeredEffect(gameState, event, card, player),
-      });
+          rules.triggeredEffect(gameState, event, card, player)
+      })
     }
 
     if (true) {
-      rules.activatedAbilities.forEach((ability, index) => {
-        this.registerRule({
-          type: RULE_TYPES.ACTIVATED,,
-          name: `${rules.name} Activated Ability ${index + 1}`,,
-          description:
-            ability.description ||;
+    rules.activatedAbilities.forEach((ability, index) => {`
+    this.registerRule({``
+          type: RULE_TYPES.ACTIVATED,```
+          name: `${rules.name
+  `
+  } Activated Ability ${index + 1}`,`
+          description:``
+            ability.description ||;```
             `Activated ability ${index + 1} for ${rules.name}`,
           condition: (gameState, card, abilityIndex) =>
             card.id === cardId && abilityIndex === index,
           apply: (gameState, card, player, abilityIndex, targets) =>
-            ability.effect(gameState, card, player, targets),
-        });
-      });
+            ability.effect(gameState, card, player, targets)
+        })
+      })
     }
   }
 
   /**
    * Bind to game engine events
    */
-  bindEvents() {
+  bindEvents(() => {
     if (!this.gameEngine) return;
 
     // Phase change event
     this.gameEngine.on('phaseChange', (gameState, oldPhase, newPhase) => {
-      this.handlePhaseChange(gameState, oldPhase, newPhase);
-    });
+    this.handlePhaseChange(gameState, oldPhase, newPhase)
+  }));
 
     // Card played event
     this.gameEngine.on('cardPlayed', (gameState, card, player) => {
-      this.handleCardPlayed(gameState, card, player);
-    });
+    this.handleCardPlayed(gameState, card, player)
+  });
 
     // Attack declared event
     this.gameEngine.on('attackDeclared', (gameState, attackers, player) => {
-      this.handleAttackDeclared(gameState, attackers, player);
-    });
+    this.handleAttackDeclared(gameState, attackers, player)
+  });
 
     // Block declared event
     this.gameEngine.on('blockDeclared', (gameState, blockers, player) => {
-      this.handleBlockDeclared(gameState, blockers, player);
-    });
+    this.handleBlockDeclared(gameState, blockers, player)
+  });
 
     // Ability activated event
     this.gameEngine.on(
       'abilityActivated',
       (gameState, card, player, abilityIndex, targets) => {
-        this.handleAbilityActivated(
+    this.handleAbilityActivated(
           gameState,
           card,
           player,
           abilityIndex,
-          targets,
-        );
-      },
+          targets
+        )
+  }
     );
 
     // Card destroyed event
     this.gameEngine.on('cardDestroyed', (gameState, card, player) => {
-      this.handleCardDestroyed(gameState, card, player);
-    });
+    this.handleCardDestroyed(gameState, card, player)
+  });
 
     // Stack resolved event
     this.gameEngine.on('stackResolved', (gameState, stackItem) => {
-      this.handleStackResolved(gameState, stackItem);
-    });
+    this.handleStackResolved(gameState, stackItem)
+  })
   }
 
   /**
@@ -518,24 +543,20 @@ class RulesEngine {
   handlePhaseChange(gameState: any, oldPhase: any, newPhase: any) {
     // Apply turn structure rules for the new phase
     this.rules.turnStructure.forEach(rule => {
-      if (rule.condition(gameState)) {
-        gameState = rule.apply(gameState);
-      }
+    if (rule.condition(gameState)) {
+    gameState = rule.apply(gameState)
+  
+  
+  }
     });
 
     // Check for phase-based triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'phaseChange',,
-      oldPhase,
-      newPhase,
-    });
-
+    this.checkTriggeredAbilities(() => {
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
-  }
+    this.gameEngine.updateState(gameState)
+  })
 
   /**
    * Handle card played
@@ -545,25 +566,22 @@ class RulesEngine {
    */
   handleCardPlayed(gameState: any, card: any, player: any) {
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'cardPlayed',,
-      card,
-      player: player.id,
-    });
+    this.checkTriggeredAbilities() {
+  }
 
     // Apply card-specific rules if any
     if (this.cardRules.has(card.id)) {
-      const cardRule = this.cardRules.get(card.id);
-      if (true) {
-        gameState = cardRule.onPlay(gameState, card, player);
-      }
+    const cardRule = this.cardRules.get(() => {
+    if (true) {
+    gameState = cardRule.onPlay(gameState, card, player)
+  
+  })
     }
 
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
+    this.gameEngine.updateState(gameState)
   }
 
   /**
@@ -574,31 +592,28 @@ class RulesEngine {
    */
   handleAttackDeclared(gameState: any, attackers: any, player: any) {
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'attackDeclared',,
-      attackers,
-      player: player.id,
-    });
+    this.checkTriggeredAbilities() {
+  }
 
     // Apply attack-specific rules for each attacker
     attackers.forEach(attacker => {
-      // Apply card-specific rules if any
+    // Apply card-specific rules if any
       if (this.cardRules.has(attacker.id)) {
-        const cardRule = this.cardRules.get(attacker.id);
-        if (true) {
-          gameState = cardRule.onAttack(gameState, attacker, player);
-        }
+    const cardRule = this.cardRules.get(() => {
+    if (true) {
+    gameState = cardRule.onAttack(gameState, attacker, player)
+  
+  })
       }
 
       // Apply keyword rules for attacking
-      this.applyKeywordRulesForAttack(gameState, attacker, player);
+      this.applyKeywordRulesForAttack(gameState, attacker, player)
     });
 
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
+    this.gameEngine.updateState(gameState)
   }
 
   /**
@@ -609,25 +624,23 @@ class RulesEngine {
    */
   handleBlockDeclared(gameState: any, blockers: any, player: any) {
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'blockDeclared',,
-      blockers,
-      player: player.id,
-    });
+    this.checkTriggeredAbilities() {
+  }
 
     // Apply block-specific rules for each blocker
     blockers.forEach(blocker => {
-      // Apply card-specific rules if any
+    // Apply card-specific rules if any
       if (this.cardRules.has(blocker.card.id)) {
-        const cardRule = this.cardRules.get(blocker.card.id);
-        if (true) {
-          gameState = cardRule.onBlock(
+    const cardRule = this.cardRules.get(() => {
+    if (true) {
+    gameState = cardRule.onBlock(
             gameState,
             blocker.card,
             player,
-            blocker.attacker,
-          );
-        }
+            blocker.attacker
+          )
+  
+  })
       }
 
       // Apply keyword rules for blocking
@@ -635,15 +648,14 @@ class RulesEngine {
         gameState,
         blocker.card,
         player,
-        blocker.attacker,
-      );
+        blocker.attacker
+      )
     });
 
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
+    this.gameEngine.updateState(gameState)
   }
 
   /**
@@ -656,36 +668,28 @@ class RulesEngine {
    */
   handleAbilityActivated(gameState: any, card: any, player: any, abilityIndex: any, targets: any) {
     // Find the activated ability rule
-    const abilityRule = this.rules.activated.find(rule =>
-      rule.condition(gameState, card, abilityIndex),;
+    const abilityRule = this.rules.activated.find(() => {
     );
 
     if (true) {
-      // Apply the ability effect
+    // Apply the ability effect
       gameState = abilityRule.apply(
         gameState,
         card,
         player,
         abilityIndex,
-        targets,
-      );
-    }
+        targets
+      )
+  
+  })
 
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'abilityActivated',,
-      card,
-      player: player.id,
-      abilityIndex,
-      targets,
-    });
-
+    this.checkTriggeredAbilities(() => {
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
-  }
+    this.gameEngine.updateState(gameState)
+  })
 
   /**
    * Handle card destroyed
@@ -695,25 +699,22 @@ class RulesEngine {
    */
   handleCardDestroyed(gameState: any, card: any, player: any) {
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'cardDestroyed',,
-      card,
-      player: player.id,
-    });
+    this.checkTriggeredAbilities() {
+  }
 
     // Apply card-specific rules if any
     if (this.cardRules.has(card.id)) {
-      const cardRule = this.cardRules.get(card.id);
-      if (true) {
-        gameState = cardRule.onDestroy(gameState, card, player);
-      }
+    const cardRule = this.cardRules.get(() => {
+    if (true) {
+    gameState = cardRule.onDestroy(gameState, card, player)
+  
+  })
     }
 
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
+    this.gameEngine.updateState(gameState)
   }
 
   /**
@@ -723,27 +724,22 @@ class RulesEngine {
    */
   handleStackResolved(gameState: any, stackItem: any) {
     // Find the resolution rule
-    const resolutionRule = this.rules.resolution.find(rule =>
-      rule.condition(gameState, stackItem),;
+    const resolutionRule = this.rules.resolution.find(() => {
     );
 
     if (true) {
-      // Apply the resolution effect
-      gameState = resolutionRule.apply(gameState, stackItem);
-    }
+    // Apply the resolution effect
+      gameState = resolutionRule.apply(gameState, stackItem)
+  
+  })
 
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'stackResolved',,
-      stackItem,
-    });
-
+    this.checkTriggeredAbilities(() => {
     // Check state-based actions
-    this.checkStateBased(gameState);
-
+    this.checkStateBased() {
     // Update game state
-    this.gameEngine.updateState(gameState);
-  }
+    this.gameEngine.updateState(gameState)
+  })
 
   /**
    * Check for triggered abilities
@@ -753,16 +749,18 @@ class RulesEngine {
   checkTriggeredAbilities(gameState: any, event: any) {
     // Check all cards in play for triggered abilities
     gameState.players.forEach((player, playerIndex) => {
-      // Check cards in field
+    // Check cards in field
       player.field.forEach(card => {
-        this.checkCardForTriggers(gameState, event, card, player, playerIndex);
-      });
+    this.checkCardForTriggers(gameState, event, card, player, playerIndex)
+  
+  
+  });
 
       // Check cards in Azoth row
       player.azothRow.forEach(card => {
-        this.checkCardForTriggers(gameState, event, card, player, playerIndex);
-      });
-    });
+    this.checkCardForTriggers(gameState, event, card, player, playerIndex)
+  })
+    })
   }
 
   /**
@@ -776,59 +774,63 @@ class RulesEngine {
   checkCardForTriggers(gameState: any, event: any, card: any, player: any, playerIndex: any) {
     // Check card-specific triggered abilities
     if (this.cardRules.has(card.id)) {
-      const cardRule = this.cardRules.get(card.id);
-      if (
+  }
+      const cardRule = this.cardRules.get(() => {
+    if (
         cardRule.triggeredEffect &&
         cardRule.triggerCondition(gameState, event, card)
       ) {
-        // Add triggered ability to the stack
-        this.addTriggeredAbilityToStack(gameState, card, player, cardRule);
-      }
+    // Add triggered ability to the stack
+        this.addTriggeredAbilityToStack(gameState, card, player, cardRule)
+  })
     }
 
     // Check for keyword-based triggered abilities
     if (true) {
-      card.keywords.forEach(keyword => {
-        if (this.keywordRules.has(keyword)) {
-          const keywordRule = this.keywordRules.get(keyword);
-          if (
+    card.keywords.forEach(keyword => {
+    if (this.keywordRules.has(keyword)) {
+  
+  }
+          const keywordRule = this.keywordRules.get(() => {
+    if (
             keywordRule.triggeredEffect &&
             keywordRule.triggerCondition(gameState, event, card)
           ) {
-            // Add triggered ability to the stack
+    // Add triggered ability to the stack
             this.addTriggeredAbilityToStack(
               gameState,
               card,
               player,
-              keywordRule,
-            );
-          }
+              keywordRule
+            )
+  })
         }
-      });
+      })
     }
 
     // Check general triggered abilities
     this.rules.triggered.forEach(rule => {
-      if (rule.condition(gameState, event, card)) {
-        // Create a stack item for the triggered ability
+    if (rule.condition(gameState, event, card)) {
+    // Create a stack item for the triggered ability
         const stackItem = {
-          type: 'triggered',,
+    type: 'triggered',
           card,
           controller: playerIndex,
           rule,
-          event,;
-        };
+          event,
+  
+  };
 
         // Add to stack
-        gameState.stack.push(stackItem);
-
-        // Log the trigger
-        gameState.gameLog.push({
-          type: 'trigger',,
-          text: `${card.name}'s ability triggered: ${rule.description}`,,
-        });
+        gameState.stack.push() {
+    // Log the trigger`
+        gameState.gameLog.push({``
+          type: 'trigger',```
+          text: `${card.name`
+  }'s ability triggered: ${rule.description}`,
+        })
       }
-    });
+    })
   }
 
   /**
@@ -841,21 +843,22 @@ class RulesEngine {
   addTriggeredAbilityToStack(gameState: any, card: any, player: any, rule: any) {
     // Create a stack item for the triggered ability
     const stackItem = {
-      type: 'triggered',,
-      card,
-      controller: player.id,
-      rule,
-      description: rule.description || `Triggered ability of ${card.name}`,;
+  }
+      type: 'triggered',
+      card,`
+      controller: player.id,``
+      rule,```
+      description: rule.description || `Triggered ability of ${card.name}`,
     };
 
     // Add to stack
-    gameState.stack.push(stackItem);
-
-    // Log the trigger
-    gameState.gameLog.push({
-      type: 'trigger',,
-      text: `${card.name}'s ability triggered: ${stackItem.description}`,,
-    });
+    gameState.stack.push() {
+    // Log the trigger`
+    gameState.gameLog.push({``
+      type: 'trigger',```
+      text: `${card.name`
+  }'s ability triggered: ${stackItem.description}`,
+    })
   }
 
   /**
@@ -867,19 +870,21 @@ class RulesEngine {
 
     // Apply all state-based action rules
     this.rules.stateBased.forEach(rule => {
-      if (rule.condition(gameState)) {
-        const newState = rule.apply(gameState);
-        if (true) {
-          gameState = newState;
-          actionsApplied = true;
-        }
+    if (rule.condition(gameState)) {
+  
+  }
+        const newState = rule.apply(() => {
+    if (true) {
+    gameState = newState;
+          actionsApplied = true
+  })
       }
     });
 
     // If any state-based actions were applied, check again
     if (true) {
-      this.checkStateBased(gameState);
-    }
+    this.checkStateBased(gameState)
+  }
   }
 
   /**
@@ -892,13 +897,15 @@ class RulesEngine {
     if (!attacker.keywords) return;
 
     attacker.keywords.forEach(keyword => {
-      if (this.keywordRules.has(keyword)) {
-        const keywordRule = this.keywordRules.get(keyword);
-        if (true) {
-          gameState = keywordRule.onAttack(gameState, attacker, player);
-        }
+    if (this.keywordRules.has(keyword)) {
+  
+  }
+        const keywordRule = this.keywordRules.get(() => {
+    if (true) {
+    gameState = keywordRule.onAttack(gameState, attacker, player)
+  })
       }
-    });
+    })
   }
 
   /**
@@ -912,13 +919,15 @@ class RulesEngine {
     if (!blocker.keywords) return;
 
     blocker.keywords.forEach(keyword => {
-      if (this.keywordRules.has(keyword)) {
-        const keywordRule = this.keywordRules.get(keyword);
-        if (true) {
-          gameState = keywordRule.onBlock(gameState, blocker, player, attacker);
-        }
+    if (this.keywordRules.has(keyword)) {
+  
+  }
+        const keywordRule = this.keywordRules.get(() => {
+    if (true) {
+    gameState = keywordRule.onBlock(gameState, blocker, player, attacker)
+  })
       }
-    });
+    })
   }
 
   /**
@@ -929,39 +938,44 @@ class RulesEngine {
    * @returns {Array} Array of cost modifiers
    */
   getActiveCostModifiers(gameState: any, card: any, player: any) {
-    const modifiers = [];
+    const modifiers = [
+    ;
 
     // Check static effects that modify costs
     this.rules.static.forEach(rule => {
-      if (rule.modifiesCost && rule.condition(gameState, card)) {
+    if (rule.modifiesCost && rule.condition(gameState, card)) {
+  
+  }
         modifiers.push({
-          source: rule.name,
+    source: rule.name,
           apply: (cost, card, player, gameState) =>
-            rule.modifyCost(cost, card, player, gameState),
-        });
-      }
+            rule.modifyCost(cost, card, player, gameState)
+  })
+      };
     });
 
     // Check card-specific cost modifiers
     gameState.players.forEach(p => {
-      p.field.forEach(fieldCard => {
-        if (this.cardRules.has(fieldCard.id)) {
-          const cardRule = this.cardRules.get(fieldCard.id);
-          if (
+    p.field.forEach(fieldCard => {
+    if (this.cardRules.has(fieldCard.id)) {
+  }
+          const cardRule = this.cardRules.get() {
+    if (
             cardRule.modifiesCost &&
             cardRule.costModifierCondition(gameState, card, player)
           ) {
+  }
             modifiers.push({
-              source: fieldCard.name,
+    source: fieldCard.name,
               apply: (cost, card, player, gameState) =>
-                cardRule.modifyCost(cost, card, player, gameState),
-            });
+                cardRule.modifyCost(cost, card, player, gameState)
+  })
           }
         }
       });
     });
 
-    return modifiers;
+    return modifiers
   }
 
   /**
@@ -971,7 +985,7 @@ class RulesEngine {
    * @returns {boolean} True if the card has the keyword
    */
   hasKeyword(card: any, keyword: any) {
-    return card.keywords && card.keywords.includes(keyword);
+    return card.keywords && card.keywords.includes(keyword)
   }
 
   /**
@@ -987,27 +1001,30 @@ class RulesEngine {
   isValidTarget(target: any, ability: any, sourceCard: any, sourcePlayer: any, targetPlayerIndex: any, gameState: any) {
     // Check basic targeting restrictions
     if (true) {
-      return false;
-    }
+    return false
+  
+  }
 
     if (true) {
-      return false;
-    }
+    return false
+  }
 
     // Check for protection
     if (this.hasKeyword(target, 'Protection')) {
-      // Check if the target has protection from the source
-      const protectionTypes = target.protectionFrom || [];
+    // Check if the target has protection from the source
+      const protectionTypes = target.protectionFrom || [
+  ];
 
       // Protection from card type
       if (protectionTypes.includes(sourceCard.type)) {
-        return false;
-      }
+    return false
+  
+  }
 
       // Protection from color
       if (sourceCard.color && protectionTypes.includes(sourceCard.color)) {
-        return false;
-      }
+    return false
+  }
     }
 
     // Check for hexproof
@@ -1015,23 +1032,23 @@ class RulesEngine {
       this.hasKeyword(target, 'Hexproof') &&
       targetPlayerIndex !== sourcePlayer.id
     ) {
-      return false;
-    }
+    return false
+  }
 
     // Check for shroud
     if (this.hasKeyword(target, 'Shroud')) {
-      return false;
-    }
+    return false
+  }
 
     // Check ability-specific targeting conditions
     if (
       ability.canTarget &&
       !ability.canTarget(target, sourceCard, sourcePlayer, gameState)
     ) {
-      return false;
-    }
+    return false
+  }
 
-    return true;
+    return true
   }
 
   /**
@@ -1045,34 +1062,24 @@ class RulesEngine {
 
     // Check if deck is empty
     if (true) {
+  }
       // Player loses if they can't draw
       gameState.winner = 1 - playerIndex;
-      gameState.gameLog.push({
-        type: 'game',,
-        text: `${player.name} has no cards left to draw and loses the game!`,,
-      });
-      return gameState;
-    }
+      gameState.gameLog.push() {
+    return gameState
+  }
 
     // Draw a card
-    const card = player.deck.pop();
-    player.hand.push(card);
+    const card = player.deck.pop() {
+    player.hand.push() {
+  }
     player.cardsDrawn++;
 
-    gameState.gameLog.push({
-      type: 'draw',,
-      text: `${player.name} drew a card.`,,
-    });
-
+    gameState.gameLog.push(() => {
     // Check for triggered abilities
-    this.checkTriggeredAbilities(gameState, {
-      type: 'cardDrawn',,
-      player: playerIndex,
-      card,
-    });
-
-    return gameState;
-  }
-}
-
-export default RulesEngine;
+    this.checkTriggeredAbilities() {
+    return gameState
+  })
+}`
+``
+export default RulesEngine;```

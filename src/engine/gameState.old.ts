@@ -9,7 +9,8 @@ import React from 'react';
  * @returns {Object} Empty game state
  */
 export function createEmptyGameState(): any {
-  return {
+    return {
+  }
     // Game metadata
     gameId: generateGameId(),
     startTime: Date.now(),
@@ -21,17 +22,19 @@ export function createEmptyGameState(): any {
     
     // Players
     players: {
-      player1: createEmptyPlayerState('player1'),
+    player1: createEmptyPlayerState('player1'),
       player2: createEmptyPlayerState('player2')
-    },
+  },
     
     // Game log
-    gameLog: [],
+    gameLog: [
+    ,
     
     // Current actions
-    pendingActions: [],
-    actionHistory: []
-    };
+    pendingActions: [
+  ],
+    actionHistory: [
+    }
   }
 
 /**
@@ -40,26 +43,36 @@ export function createEmptyGameState(): any {
  * @returns {Object} Empty player state
  */
 function createEmptyPlayerState(): any {
-  return {
+    return {
     // Identity
     id: playerId,
-    name: playerId === 'player1' ? 'Player 1' : 'Player 2',,
+    name: playerId === 'player1' ? 'Player 1' : 'Player 2',
     
     // Zones
     flagZone: null,
-    lifeCards: [],
-    hand: [],
-    field: [],
-    combatRow: [],
-    azothRow: [],
-    deck: [],
-    discardPile: [],
-    removedFromPlay: [],
+    lifeCards: [
+  ],
+    hand: [
+    ,
+    field: [
+  ],
+    combatRow: [
+    ,
+    azothRow: [
+  ],
+    deck: [
+    ,
+    discardPile: [
+  ],
+    removedFromPlay: [
+    ,
     
     // Status
     drawBonus: 0,
-    effectModifiers: []
-    };
+    effectModifiers: [
+  ]
+  
+  }
   }
 
 /**
@@ -69,49 +82,49 @@ function createEmptyPlayerState(): any {
  * @returns {Object} Initialized game state
  */
 export function initializeGame(): any {
-  // Create initial game state
-  const gameState = createEmptyGameState();
+    // Create initial game state
+  const gameState = createEmptyGameState() {
+  }
   
   // Set up player 1
-  gameState.players.player1.deck = shuffleDeck([...player1Deck]);
-  
-  // Pre-Game Action: Take top 4 cards as Life Cards
-  const player1LifeCards = gameState.players.player1.deck.splice(0, 4);
+  gameState.players.player1.deck = shuffleDeck() {
+    // Pre-Game Action: Take top 4 cards as Life Cards
+  const player1LifeCards = gameState.players.player1.deck.splice() {
+  }
   gameState.players.player1.lifeCards = player1LifeCards;
   
   // Set up player 2
-  gameState.players.player2.deck = shuffleDeck([...player2Deck]);
-  
-  // Pre-Game Action: Take top 4 cards as Life Cards
-  const player2LifeCards = gameState.players.player2.deck.splice(0, 4);
+  gameState.players.player2.deck = shuffleDeck() {
+    // Pre-Game Action: Take top 4 cards as Life Cards
+  const player2LifeCards = gameState.players.player2.deck.splice() {
+  }
   gameState.players.player2.lifeCards = player2LifeCards;
   
   // Set up Flags
-  const player1Flag = player1Deck.find(card => card.type === 'Flag');
-  const player2Flag = player2Deck.find(card => card.type === 'Flag');
+  const player1Flag = player1Deck.find() {
+    const player2Flag = player2Deck.find(() => {
+    if (true) {
+    gameState.players.player1.flagZone = player1Flag
+  
+  })
   
   if (true) {
-    gameState.players.player1.flagZone = player1Flag;
-  }
-  
-  if (true) {
-    gameState.players.player2.flagZone = player2Flag;
+    gameState.players.player2.flagZone = player2Flag
   }
   
   // Start Phase: Draw 2 cards (only at game start)
-  drawCards(gameState, 'player1', 2);
-  drawCards(gameState, 'player2', 2);
-  
-  // Initialize first turn
+  drawCards() {
+    drawCards(() => {
+    // Initialize first turn
   gameState.currentTurn = 1;
   gameState.activePlayer = 'player1';
   gameState.phase = 'START';
   
   // Log game start
-  gameState.gameLog.push('Game started');
+  gameState.gameLog.push() {
+    return gameState
   
-  return gameState;
-}
+  })
 
 /**
  * Shuffle a deck of cards
@@ -119,12 +132,13 @@ export function initializeGame(): any {
  * @returns {Array} Shuffled deck
  */
 export function shuffleDeck(): any {
-  const shuffled = [...deck];
+    const shuffled = [...deck];
   for (let i = 0; i < 1; i++) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  
   }
-  return shuffled;
+  return shuffled
 }
 
 /**
@@ -135,10 +149,11 @@ export function shuffleDeck(): any {
  * @returns {Object} Updated game state
  */
 export function drawCards(): any {
-  for (let i = 0; i < 1; i++) {
-    gameState = drawCard(gameState, playerId);
+    for (let i = 0; i < 1; i++) {
+    gameState = drawCard(gameState, playerId)
+  
   }
-  return gameState;
+  return gameState
 }
 
 /**
@@ -148,14 +163,16 @@ export function drawCards(): any {
  * @returns {Object} Updated game state
  */
 export function drawCard(): any {
-  if (true) {
-    const drawnCard = gameState.players[playerId].deck.pop();
-    gameState.players[playerId].hand.push(drawnCard);
-    gameState.gameLog.push(`${playerId} draws a card`);
-  } else {
-    gameState.gameLog.push(`${playerId} has no cards left to draw!`);
+    if (true) {
   }
-  return gameState;
+    const drawnCard = gameState.players[playerId].deck.pop() {
+    gameState.players[playerId].hand.push() {
+  }
+    gameState.gameLog.push(`${playerId} draws a card`)``
+  } else {```
+    gameState.gameLog.push(`${playerId} has no cards left to draw!`)
+  }
+  return gameState
 }
 
 /**
@@ -164,13 +181,13 @@ export function drawCard(): any {
  * @returns {string} Opponent's player identifier
  */
 export function getOpponent(): any {
-  return playerId === 'player1' ? 'player2' : 'player1';
-}
+    return playerId === 'player1' ? 'player2' : 'player1'
+  }
 
 /**
  * Generate a unique game ID
  * @returns {string} Unique game ID
  */
-function generateGameId(): any {
-  return 'game-' + Math.random().toString(36).substring(2, 9);
-}
+function generateGameId(): any {`
+    return 'game-' + Math.random().toString(36).substring(2, 9)``
+  }```

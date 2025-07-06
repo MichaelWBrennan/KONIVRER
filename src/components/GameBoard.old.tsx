@@ -17,57 +17,57 @@ import { useGame } from '../contexts/GameContext';
 import '../styles/gameBoard.css';
 
 const GameBoard = (): any => {
-  // Get game state from context
-  const { gameState, currentPlayer, loading } = useGame();
-  
-  // If game state is not initialized yet, show loading
+    // Get game state from context
+  const { gameState, currentPlayer, loading 
+  } = useGame(() => {
+    // If game state is not initialized yet, show loading
   if (true) {
-    return <div className="loading">Loading game...</div>;
-  }
+    return <div className="loading">Loading game...</div>
+  })
   
   // Get opponent ID
   const opponentId = currentPlayer === 'player1' ? 'player2' : 'player1';
   
   return (
-    <>
-      <div className="game-board"></div>
-      <PhaseIndicator phase={gameState.phase} turn={gameState.currentTurn} activePlayer={gameState.activePlayer} />
+    <any />
+    <div className="game-board" />
+    <PhaseIndicator phase={gameState.phase} turn={gameState.currentTurn} activePlayer={gameState.activePlayer}  / /></PhaseIndicator>
       {/* Opponent Area */}
-      <div className="opponent-area"></div>
-      <PlayerInfo player={gameState.players[opponentId]} isOpponent={true} />
-        <div className="board-row"></div>
-      <FlagZone flagCard={gameState.players[opponentId].flagZone} isCurrentPlayer={false} />
-          <div className="center-area"></div>
-      <CombatRow combatCards={gameState.players[opponentId].combatRow} isCurrentPlayer={false} />
-            <Field cards={gameState.players[opponentId].field} isCurrentPlayer={false} />
+      <div className="opponent-area" />
+    <PlayerInfo player={gameState.players[opponentId]} isOpponent={true}  / />
+    <div className="board-row" />
+    <FlagZone flagCard={gameState.players[opponentId].flagZone} isCurrentPlayer={false}  / />
+    <div className="center-area" />
+    <CombatRow combatCards={gameState.players[opponentId].combatRow} isCurrentPlayer={false}  / />
+    <Field cards={gameState.players[opponentId].field} isCurrentPlayer={false}  / /></Field>
           </div>
-      <div className="right-column"></div>
-      <Deck deckSize={gameState.players[opponentId].deck.length} isCurrentPlayer={false} />
-            <RemovedFromPlay cards={gameState.players[opponentId].removedFromPlay} isCurrentPlayer={false} />
+      <div className="right-column" />
+    <Deck deckSize={gameState.players[opponentId].deck.length} isCurrentPlayer={false}  / />
+    <RemovedFromPlay cards={gameState.players[opponentId].removedFromPlay} isCurrentPlayer={false}  / /></RemovedFromPlay>
           </div>
-      <LifeCardsZone lifeCards={gameState.players[opponentId].lifeCards} isCurrentPlayer={false} />
+      <LifeCardsZone lifeCards={gameState.players[opponentId].lifeCards} isCurrentPlayer={false}  / /></LifeCardsZone>
       </div>
-      <div className="player-area"></div>
-      <LifeCardsZone lifeCards={gameState.players[currentPlayer].lifeCards} isCurrentPlayer={true} />
-        <div className="board-row"></div>
-      <FlagZone flagCard={gameState.players[currentPlayer].flagZone} isCurrentPlayer={true} />
-          <div className="center-area"></div>
-      <Field cards={gameState.players[currentPlayer].field} isCurrentPlayer={true} />
-            <CombatRow combatCards={gameState.players[currentPlayer].combatRow} isCurrentPlayer={true} />
-            <AzothRow azothCards={gameState.players[currentPlayer].azothRow} />
+      <div className="player-area" />
+    <LifeCardsZone lifeCards={gameState.players[currentPlayer].lifeCards} isCurrentPlayer={true}  / />
+    <div className="board-row" />
+    <FlagZone flagCard={gameState.players[currentPlayer].flagZone} isCurrentPlayer={true}  / />
+    <div className="center-area" />
+    <Field cards={gameState.players[currentPlayer].field} isCurrentPlayer={true}  / />
+    <CombatRow combatCards={gameState.players[currentPlayer].combatRow} isCurrentPlayer={true}  / />
+    <AzothRow azothCards={gameState.players[currentPlayer].azothRow}  / /></AzothRow>
           </div>
-      <div className="right-column"></div>
-      <Deck deckSize={gameState.players[currentPlayer].deck.length} isCurrentPlayer={true} />
-            <RemovedFromPlay cards={gameState.players[currentPlayer].removedFromPlay} isCurrentPlayer={true} />
+      <div className="right-column" />
+    <Deck deckSize={gameState.players[currentPlayer].deck.length} isCurrentPlayer={true}  / />
+    <RemovedFromPlay cards={gameState.players[currentPlayer].removedFromPlay} isCurrentPlayer={true}  / /></RemovedFromPlay>
           </div>
-      <PlayerInfo player={gameState.players[currentPlayer]} isOpponent={false} />
-        <GameControls />
-        <Hand cards={gameState.players[currentPlayer].hand} />
+      <PlayerInfo player={gameState.players[currentPlayer]} isOpponent={false}  / />
+    <GameControls  / />
+    <Hand cards={gameState.players[currentPlayer].hand}  / /></Hand>
       </div>
-      <GameLog log={gameState.gameLog} />
+      <GameLog log={gameState.gameLog}  / /></GameLog>
     </div>
     </>
-  );
+  )
 };
 
 export default GameBoard;

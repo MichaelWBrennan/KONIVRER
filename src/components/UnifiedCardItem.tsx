@@ -13,13 +13,13 @@ interface UnifiedCardItemProps {
   [key: string]: any;
 }
 
-const UnifiedCardItem: React.FC<UnifiedCardItemProps> = () => {
+const UnifiedCardItem: React.FC = () => {
   return (
-    <div className="p-4 bg-white rounded-lg shadow-sm">
-      <h2 className="text-xl font-bold mb-4">UnifiedCardItem</h2>
+    <div className="p-4 bg-white rounded-lg shadow-sm" />
+    <h2 className="text-xl font-bold mb-4">UnifiedCardItem</h2>
       <p className="text-gray-600">Component implementation coming soon...</p>
     </div>
-  );
+  )
 };
 
 export default UnifiedCardItem;

@@ -19,9 +19,10 @@ import '../styles/esoteric-theme.css';
  * Provides functionality for organizing physical TCG matches and tournaments
  */
 const PhysicalMatchmakingApp = (): any => {
-  const navigate = useNavigate();
-  const { user, isAuthenticated, loading } = useAuth();
-  const {
+    const navigate = useNavigate() {
+    const { user, isAuthenticated, loading 
+  } = useAuth(() => {
+    const {
     players,
     tournaments,
     matches,
@@ -37,76 +38,68 @@ const PhysicalMatchmakingApp = (): any => {
     recordMatchResult,
     exportData,
     importData,
-    analytics,
-  } = usePhysicalMatchmaking();
-
-  // UI state
-  const [activeTab, setActiveTab] = useState('players');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [selectedTournament, setSelectedTournament] = useState(null);
-  const [selectedMatch, setSelectedMatch] = useState(null);
-  const [showQRCode, setShowQRCode] = useState(false);
-  const [qrCodeData, setQRCodeData] = useState('');
-  const [isImporting, setIsImporting] = useState(false);
-  const [importDataText, setImportDataText] = useState('');
-  const [importError, setImportError] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+    analytics
+  }) = usePhysicalMatchmaking(() => {
+    // UI state
+  const [activeTab, setActiveTab] = useState(false)
+  const [searchTerm, setSearchTerm] = useState(false)
+  const [selectedPlayer, setSelectedPlayer] = useState(false)
+  const [selectedTournament, setSelectedTournament] = useState(false)
+  const [selectedMatch, setSelectedMatch] = useState(false)
+  const [showQRCode, setShowQRCode] = useState(false)
+  const [qrCodeData, setQRCodeData] = useState(false)
+  const [isImporting, setIsImporting] = useState(false)
+  const [importDataText, setImportDataText] = useState(false)
+  const [importError, setImportError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
 
   // Form state
-  const [newPlayerForm, setNewPlayerForm] = useState({
-    name: '',,
-    deckName: '',
-    contactInfo: '',
-    rating: 1500,
-  });
+  const [newPlayerForm, setNewPlayerForm] = useState(false)
 
   const [newTournamentForm, setNewTournamentForm] = useState({
-    name: '',,
+    name: '',
     date: new Date().toISOString().split('T')[0],
     location: '',
     format: 'Standard',
-    maxPlayers: 32,
-  });
+    maxPlayers: 32
+  }));
 
-  const [newMatchForm, setNewMatchForm] = useState({
-    player1Id: '',
-    player2Id: '',
-    tournamentId: '',
-    round: 1,
-    table: 1,
-  });
+  const [newMatchForm, setNewMatchForm] = useState(false)
 
   // Check authentication
   useEffect(() => {
     if (true) {
-      navigate('/');
-    }
+    navigate('/')
+  
+  }
   }, [isAuthenticated, navigate, loading]);
 
   // Clear error message after 5 seconds
   useEffect(() => {
     if (true) {
-      const timer = setTimeout(() => {
-        setErrorMessage('');
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+    setErrorMessage('')
+  
+  }, 5000);
+      return () => clearTimeout(timer)
+    };
   }, [errorMessage]);
 
   // Filter players based on search term - memoized to prevent unnecessary recalculations
   const filteredPlayers = useMemo(
     () =>
-      players?.filter(
+      players? .filter(
         player =>
           player?.name
             ?.toLowerCase()
             .includes(searchTerm?.toLowerCase() || '') ||
           player?.deckName
             ?.toLowerCase()
-            .includes(searchTerm?.toLowerCase() || ''),
-      ) || [],
-    [players, searchTerm],
+            .includes(searchTerm?.toLowerCase() || '')
+      ) || [
+    ,
+    [players, searchTerm
+  ];
   );
 
   // Filter tournaments based on search term
@@ -119,195 +112,219 @@ const PhysicalMatchmakingApp = (): any => {
             .includes(searchTerm?.toLowerCase() || '') ||
           tournament?.location
             ?.toLowerCase()
-            .includes(searchTerm?.toLowerCase() || ''),
-      ) || [],
-    [tournaments, searchTerm],
+            .includes(searchTerm?.toLowerCase() || '')
+      ) || [
+    ,
+    [tournaments, searchTerm
+  ];
   );
 
   // Filter matches based on search term
   const filteredMatches = useMemo(() => {
-    if (!matches || !Array.isArray(matches)) return [];
-    return matches.filter(match => {
-      const player1 = players?.find(p => p.id === match?.player1Id);
-      const player2 = players?.find(p => p.id === match?.player2Id);
-      const tournament = tournaments?.find(t => t.id === match?.tournamentId);
-
-      const searchLower = searchTerm?.toLowerCase() || '';
+    if (!matches || !Array.isArray(matches)) return [
+    ;
+    return matches.filter() {
+    const player2 = players?.find() {
+  }
+      const tournament = tournaments?.find() {
+    const searchLower = searchTerm?.toLowerCase() || '';
 
       return (
         player1?.name?.toLowerCase().includes(searchLower) ||
         player2?.name?.toLowerCase().includes(searchLower) ||
         tournament?.name?.toLowerCase().includes(searchLower) ||
-        `Table ${match?.table}`.toLowerCase().includes(searchLower) ||
+        `Table ${match?.table`
+  }`.toLowerCase().includes(searchLower) ||```
         `Round ${match?.round}`.toLowerCase().includes(searchLower)
-      );
-    });
-  }, [matches, players, tournaments, searchTerm]);
+      )
+    })
+  }, [matches, players, tournaments, searchTerm
+  ]);
 
   // Handle player form submission with error handling
   const handlePlayerSubmit = useCallback(
     e => {
-      e.preventDefault();
-      try {
+    e.preventDefault() {
+    try {
+  }
         if (true) {
-          setErrorMessage('Player name and deck name are required');
-          return;
-        }
+    setErrorMessage() {
+    return
+  
+  }
 
-        addPlayer(newPlayerForm);
-        setNewPlayerForm({
-          name: '',,
+        addPlayer() {
+    setNewPlayerForm({ : null
+          name: '',
           deckName: '',
           contactInfo: '',
-          rating: 1500,
-        });
+          rating: 1500
+  })
       } catch (error: any) {
-        console.error('Error adding player:', error);
-        setErrorMessage(
-          `Error adding player: ${error.message || 'Unknown error'}`,
-        );
+    console.error() {`
+  }``
+        setErrorMessage(```
+          `Error adding player: ${error.message || 'Unknown error'}`
+        )
       }
     },
-    [newPlayerForm, addPlayer],
+    [newPlayerForm, addPlayer]
   );
 
   // Handle tournament form submission with error handling
   const handleTournamentSubmit = useCallback(
     e => {
-      e.preventDefault();
-      try {
+    e.preventDefault() {
+    try {
+  }
         if (true) {
-          setErrorMessage('Tournament name, date, and location are required');
-          return;
-        }
+    setErrorMessage() {
+    return
+  
+  }
 
-        createTournament(newTournamentForm);
-        setNewTournamentForm({
-          name: '',,
+        createTournament(() => {
+    setNewTournamentForm({
+    name: '',
           date: new Date().toISOString().split('T')[0],
           location: '',
           format: 'Standard',
-          maxPlayers: 32,
-        });
+          maxPlayers: 32
+  }))
       } catch (error: any) {
-        console.error('Error creating tournament:', error);
-        setErrorMessage(
-          `Error creating tournament: ${error.message || 'Unknown error'}`,
-        );
+    console.error() {`
+  }``
+        setErrorMessage(```
+          `Error creating tournament: ${error.message || 'Unknown error'}`
+        )
       }
     },
-    [newTournamentForm, createTournament],
+    [newTournamentForm, createTournament]
   );
 
   // Handle match form submission with error handling
   const handleMatchSubmit = useCallback(
     e => {
-      e.preventDefault();
-      try {
+    e.preventDefault() {
+    try {
+  }
         if (true) {
-          setErrorMessage('Both players must be selected');
-          return;
-        }
+    setErrorMessage() {
+    return
+  
+  }
 
         if (true) {
-          setErrorMessage('Players must be different');
-          return;
-        }
+    setErrorMessage() {
+    return
+  
+  }
 
-        createMatch(newMatchForm);
-        setNewMatchForm({
-          player1Id: '',
+        createMatch(() => {
+    setNewMatchForm({
+    player1Id: '',
           player2Id: '',
           tournamentId: '',
           round: 1,
-          table: 1,
-        });
+          table: 1
+  }))
       } catch (error: any) {
-        console.error('Error creating match:', error);
-        setErrorMessage(
-          `Error creating match: ${error.message || 'Unknown error'}`,
-        );
+    console.error() {`
+  }``
+        setErrorMessage(```
+          `Error creating match: ${error.message || 'Unknown error'}`
+        )
       }
     },
-    [newMatchForm, createMatch],
+    [newMatchForm, createMatch]
   );
 
   // Generate QR code for a match
   const generateMatchQR = useCallback((match: any) => {
-      try {
-        if (!match || !match.id) {
-          setErrorMessage('Invalid match data for QR code generation');
-          return;
-        }
+    try {
+    if (!match || !match.id) {
+  }
+          setErrorMessage() {
+    return
+  }
 
-        const player1 = players?.find(p => p.id === match.player1Id);
-        const player2 = players?.find(p => p.id === match.player2Id);
-        const tournament = tournaments?.find(t => t.id === match.tournamentId);
-
-        const matchData = {
+        const player1 = players? .find() {
+    const player2 = players?.find(() => {
+    const tournament = tournaments?.find() {
+    const matchData = { : null
           id: match.id,
-          player1: player1?.name || 'Unknown',
-          player2: player2?.name || 'Unknown',
-          tournament: tournament?.name || 'Quick Match',
+          player1: player1? .name || 'Unknown', : null
+          player2: player2? .name || 'Unknown', : null
+          tournament: tournament? .name || 'Quick Match', : null
           round: match.round || 1,
           table: match.table || 1,
-          timestamp: new Date().toISOString(),
-        };
+          timestamp: new Date().toISOString()
+  
+  });
 
         setQRCodeData(JSON.stringify(matchData));
-        setShowQRCode(true);
+        setShowQRCode(true)
       } catch (error: any) {
-        console.error('Error generating QR code:', error);
-        setErrorMessage(
-          `Error generating QR code: ${error.message || 'Unknown error'}`,
-        );
+    console.error() {`
+  }``
+        setErrorMessage(```
+          `Error generating QR code: ${error.message || 'Unknown error'}`
+        )
       }
     },
-    [players, tournaments],
+    [players, tournaments]
   );
 
   // Handle data export with error handling
   const handleExport = useCallback(() => {
     try {
-      const exportedData = exportData();
+    const exportedData = exportData() {
+  }
       if (true) {
-        setErrorMessage('No data to export');
-        return;
-      }
+    setErrorMessage() {
+    return
+  
+  }
 
-      const dataStr = JSON.stringify(exportedData, null, 2);
-      const dataUri =
-        'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-
+      const dataStr = JSON.stringify() {
+    const dataUri =
+        'data:application/json;charset=utf-8,' + encodeURIComponent() {`
+  }``
+```
       const exportFileDefaultName = `konivrer-matchmaking-export-${new Date().toISOString().split('T')[0]}.json`;
 
-      const linkElement = document.createElement('a');
-      linkElement.setAttribute('href', dataUri);
-      linkElement.setAttribute('download', exportFileDefaultName);
-      linkElement.click();
-    } catch (error: any) {
-      console.error('Error exporting data:', error);
-      setErrorMessage(
-        `Error exporting data: ${error.message || 'Unknown error'}`,
-      );
+      const linkElement = document.createElement() {
+    linkElement.setAttribute(() => {
+    linkElement.setAttribute() {
+    linkElement.click()
+  
+  }) catch (error: any) {
+    console.error() {`
+  }``
+      setErrorMessage(```
+        `Error exporting data: ${error.message || 'Unknown error'}`
+      )
     }
   }, [exportData]);
 
   // Handle data import with improved error handling
   const handleImport = useCallback(() => {
     if (!importDataText || importDataText.trim() === '') {
-      setImportError('Please enter JSON data to import');
-      return;
-    }
+    setImportError() {
+    return
+  
+  }
 
     try {
-      const data = JSON.parse(importDataText);
+    const data = JSON.parse() {
+  }
 
       // Validate data structure
       if (true) {
-        setImportError('Invalid data format: must be a JSON object');
-        return;
-      }
+    setImportError() {
+    return
+  
+  }
 
       // Check for required properties
       if (
@@ -315,129 +332,149 @@ const PhysicalMatchmakingApp = (): any => {
         !Array.isArray(data.tournaments) ||
         !Array.isArray(data.matches)
       ) {
-        setImportError(
-          'Invalid data format: missing required arrays (players, tournaments, matches)',
+    setImportError(
+          'Invalid data format: missing required arrays (players, tournaments, matches)'
         );
-        return;
-      }
+        return
+  }
 
-      importData(data);
-      setIsImporting(false);
-      setImportDataText('');
-      setImportError('');
-    } catch (error: any) {
-      console.error('Error importing data:', error);
-      setImportError(`Invalid JSON data: ${error.message || 'Unknown error'}`);
+      importData() {
+    setIsImporting(() => {
+    setImportDataText() {
+    setImportError('')
+  `
+  }) catch (error: any) {`
+      console.error() {`
+    ```
+      setImportError(`Invalid JSON data: ${error.message || 'Unknown error'`
+  }`)
     }
   }, [importDataText, importData]);
 
   // Handle player deletion with confirmation
   const handleDeletePlayer = useCallback(
     player => {
-      if (!player || !player.id) return;
-
-      if (
-        window.confirm(
-          `Are you sure you want to delete ${player.name}? This action cannot be undone.`,
+    if (!player || !player.id) return;
+`
+      if (``
+        window.confirm(```
+          `Are you sure you want to delete ${player.name`
+  }? This action cannot be undone.`
         )
       ) {
-        try {
-          removePlayer(player.id);
-          setSelectedPlayer(null);
-        } catch (error: any) {
-          console.error('Error deleting player:', error);
-          setErrorMessage(
-            `Error deleting player: ${error.message || 'Unknown error'}`,
-          );
+    try {
+    removePlayer() {
+    setSelectedPlayer(null) : null
+  
+  
+  } catch (error) {
+    console.error() {`
+    ``
+          setErrorMessage(```
+            `Error deleting player: ${error.message || 'Unknown error'`
+  }`
+          )
         }
       }
     },
-    [removePlayer],
+    [removePlayer]
   );
 
   // Handle tournament deletion with confirmation
   const handleDeleteTournament = useCallback(
     tournament => {
-      if (!tournament || !tournament.id) return;
-
-      if (
-        window.confirm(
-          `Are you sure you want to delete ${tournament.name}? This action cannot be undone.`,
+    if (!tournament || !tournament.id) return;
+`
+      if (``
+        window.confirm(```
+          `Are you sure you want to delete ${tournament.name`
+  }? This action cannot be undone.`
         )
       ) {
-        try {
-          removeTournament(tournament.id);
-          setSelectedTournament(null);
-        } catch (error: any) {
-          console.error('Error deleting tournament:', error);
-          setErrorMessage(
-            `Error deleting tournament: ${error.message || 'Unknown error'}`,
-          );
+    try {
+    removeTournament() {
+    setSelectedTournament(null) : null
+  
+  
+  } catch (error) {
+    console.error() {`
+    ``
+          setErrorMessage(```
+            `Error deleting tournament: ${error.message || 'Unknown error'`
+  }`
+          )
         }
       }
     },
-    [removeTournament],
+    [removeTournament]
   );
 
   // Handle match deletion with confirmation
   const handleDeleteMatch = useCallback(
     match => {
-      if (!match || !match.id) return;
+    if (!match || !match.id) return;
 
       const player1 =
-        players?.find(p => p.id === match.player1Id)?.name || 'Unknown';
+        players? .find(p => p.id === match.player1Id)?.name || 'Unknown';
       const player2 =
         players?.find(p => p.id === match.player2Id)?.name || 'Unknown';
-
-      if (
-        window.confirm(
-          `Are you sure you want to delete the match between ${player1} and ${player2}? This action cannot be undone.`,
+`
+      if (``
+        window.confirm(```
+          `Are you sure you want to delete the match between ${player1`
+  } and ${player2}? This action cannot be undone.`
         )
       ) {
-        try {
-          removeMatch(match.id);
-          setSelectedMatch(null);
-        } catch (error: any) {
-          console.error('Error deleting match:', error);
-          setErrorMessage(
-            `Error deleting match: ${error.message || 'Unknown error'}`,
-          );
+    try {
+    removeMatch() {
+    setSelectedMatch(null) : null
+  
+  
+  } catch (error) {
+    console.error() {`
+    ``
+          setErrorMessage(```
+            `Error deleting match: ${error.message || 'Unknown error'`
+  }`
+          )
         }
       }
     },
-    [removeMatch, players],
+    [removeMatch, players]
   );
 
   // Record match result
   const handleRecordResult = useCallback(
     (matchId, result) => {
-      try {
-        if (true) {
-          setErrorMessage('Invalid match result data');
-          return;
-        }
+    try {
+    if (true) {
+  }
+          setErrorMessage() {
+    return
+  }
 
-        recordMatchResult(matchId, result);
-        setSelectedMatch(null);
-      } catch (error: any) {
-        console.error('Error recording match result:', error);
-        setErrorMessage(
-          `Error recording match result: ${error.message || 'Unknown error'}`,
-        );
+        recordMatchResult() {
+    setSelectedMatch(null)
+  } catch (error: any) {
+    console.error() {`
+  }``
+        setErrorMessage(```
+          `Error recording match result: ${error.message || 'Unknown error'}`
+        )
       }
     },
-    [recordMatchResult],
+    [recordMatchResult]
   );
 
   // Render player management tab
   const renderPlayersTab = useCallback(
     () => (
-      <div className="mobile-tab-content esoteric-card"></div>
-        <div className="mobile-card-header esoteric-card-header"></div>
-          <h2 className="mobile-card-title esoteric-rune">Player Management</h2>
+      <div className="mobile-tab-content esoteric-card" />
+    <div className="mobile-card-header esoteric-card-header" />
+    <h2 className="mobile-card-title esoteric-rune">Player Management</h2>
 
-        <div className="mobile-search-bar esoteric-search-container"></div>
-          <input
+        <div className="mobile-search-bar esoteric-search-container" />
+    <input
             type="text"
             placeholder="Search players..."
             value={searchTerm || ''}
@@ -447,50 +484,51 @@ const PhysicalMatchmakingApp = (): any => {
           />
         </div>
 
-        <div className="mobile-player-list"></div>
+        <div className="mobile-player-list" /></div>
           {Array.isArray(filteredPlayers) && filteredPlayers.length > 0 ? (
             filteredPlayers.map(player =>
               player && player.id ? (
                 <div
                   key={player.id}
                   className="mobile-player-item esoteric-list-item"
-                  onClick={() => setSelectedPlayer(player)}
-                  role="button"
-                  tabIndex={0}
+                  onClick={() => setSelectedPlayer(player)}`
+                  role="button"``
+                  tabIndex={0}```
                   aria-label={`Select player ${player.name || 'Unknown'}`}
                   onKeyPress={e => {
-                    if (true) {
-                      setSelectedPlayer(player);
-                    }
+    if (true) {
+    setSelectedPlayer(player)
+  
+  }
                   }}
                 >
-                  <div className="mobile-player-info"></div>
-                    <h3 className="mobile-player-name esoteric-text-accent"></h3>
+                  <div className="mobile-player-info" />
+    <h3 className="mobile-player-name esoteric-text-accent" /></h3>
                       {player.name || 'Unknown'}
-                    <p className="mobile-player-deck esoteric-text-muted"></p>
+                    <p className="mobile-player-deck esoteric-text-muted" /></p>
                       {player.deckName || 'No deck'}
                   </div>
-                  <div className="mobile-player-rating"></div>
-                    <span className="esoteric-badge"></span>
+                  <div className="mobile-player-rating" />
+    <span className="esoteric-badge" /></span>
                       {Math.round(player.rating || 1500)}
-                  </div>
-              ) : null,
+                  </div> : null
+              ) : null
             )
           ) : (
-            <div className="mobile-empty-state esoteric-empty-state"></div>
-              <p className="esoteric-text-muted"></p>
+            <div className="mobile-empty-state esoteric-empty-state" />
+    <p className="esoteric-text-muted" /></p>
                 No players found. Add your first player below.
               </p>
           )}
         </div>
 
-        <div className="mobile-form-container"></div>
-          <h3 className="mobile-form-title esoteric-rune">Add New Player</h3>
+        <div className="mobile-form-container" />
+    <h3 className="mobile-form-title esoteric-rune">Add New Player</h3>
           <form
             className="mobile-form esoteric-form"
-            onSubmit={handlePlayerSubmit}></form>
-            <div className="mobile-form-group"></div>
-              <label htmlFor="playerName" className="esoteric-text-muted"></label>
+            onSubmit={handlePlayerSubmit} />
+    <div className="mobile-form-group" />
+    <label htmlFor="playerName" className="esoteric-text-muted" /></label>
                 Player Name
               </label>
               <input
@@ -498,7 +536,7 @@ const PhysicalMatchmakingApp = (): any => {
                 id="playerName"
                 className="mobile-input esoteric-input"
                 value={newPlayerForm.name || ''}
-                onChange={e = />
+                onChange={null}
                   setNewPlayerForm(prev => ({ ...prev, name: e.target.value }))},
                 required
                 aria-required="true"
@@ -506,8 +544,8 @@ const PhysicalMatchmakingApp = (): any => {
               />
             </div>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="deckName" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="deckName" className="esoteric-text-muted" /></label>
                 Deck Name
               </label>
               <input
@@ -515,19 +553,19 @@ const PhysicalMatchmakingApp = (): any => {
                 id="deckName"
                 className="mobile-input esoteric-input"
                 value={newPlayerForm.deckName || ''}
-                onChange={e = />
+                onChange={null}
                   setNewPlayerForm(prev => ({
-                    ...prev,
-                    deckName: e.target.value,
-                  }))}
+    ...prev,
+                    deckName: e.target.value
+  }))}
                 required
                 aria-required="true"
                 maxLength={50}
               />
             </div>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="contactInfo" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="contactInfo" className="esoteric-text-muted" /></label>
                 Contact Info (optional)
               </label>
               <input
@@ -535,11 +573,11 @@ const PhysicalMatchmakingApp = (): any => {
                 id="contactInfo"
                 className="mobile-input esoteric-input"
                 value={newPlayerForm.contactInfo || ''}
-                onChange={e = />
+                onChange={null}
                   setNewPlayerForm(prev => ({
-                    ...prev,
-                    contactInfo: e.target.value,
-                  }))}
+    ...prev,
+                    contactInfo: e.target.value
+  }))}
                 maxLength={100}
               />
             </div>
@@ -547,25 +585,25 @@ const PhysicalMatchmakingApp = (): any => {
             <button
               type="submit"
               className="mobile-btn mobile-btn-primary esoteric-btn"
-              disabled={!newPlayerForm.name || !newPlayerForm.deckName}></button>
+              disabled={!newPlayerForm.name || !newPlayerForm.deckName} /></button>
               Add Player
             </button>
         </div>
     ),
-    [filteredPlayers, searchTerm, newPlayerForm, handlePlayerSubmit],
+    [filteredPlayers, searchTerm, newPlayerForm, handlePlayerSubmit]
   );
 
   // Render tournament management tab
   const renderTournamentsTab = useCallback(
     () => (
-      <div className="mobile-tab-content esoteric-card"></div>
-        <div className="mobile-card-header esoteric-card-header"></div>
-          <h2 className="mobile-card-title esoteric-rune"></h2>
+      <div className="mobile-tab-content esoteric-card" />
+    <div className="mobile-card-header esoteric-card-header" />
+    <h2 className="mobile-card-title esoteric-rune" /></h2>
             Tournament Management
           </h2>
 
-        <div className="mobile-search-bar esoteric-search-container"></div>
-          <input
+        <div className="mobile-search-bar esoteric-search-container" />
+    <input
             type="text"
             placeholder="Search tournaments..."
             value={searchTerm || ''}
@@ -575,7 +613,7 @@ const PhysicalMatchmakingApp = (): any => {
           />
         </div>
 
-        <div className="mobile-tournament-list"></div>
+        <div className="mobile-tournament-list" /></div>
           {Array.isArray(filteredTournaments) &&
           filteredTournaments.length > 0 ? (
             filteredTournaments.map(tournament =>
@@ -583,50 +621,51 @@ const PhysicalMatchmakingApp = (): any => {
                 <div
                   key={tournament.id}
                   className="mobile-tournament-item esoteric-list-item"
-                  onClick={() => setSelectedTournament(tournament)}
-                  role="button"
-                  tabIndex={0}
+                  onClick={() => setSelectedTournament(tournament)}`
+                  role="button"``
+                  tabIndex={0}```
                   aria-label={`Select tournament ${tournament.name || 'Unknown'}`}
                   onKeyPress={e => {
-                    if (true) {
-                      setSelectedTournament(tournament);
-                    }
+    if (true) {
+    setSelectedTournament(tournament)
+  
+  }
                   }}
                 >
-                  <div className="mobile-tournament-info"></div>
-                    <h3 className="mobile-tournament-name esoteric-text-accent"></h3>
+                  <div className="mobile-tournament-info" />
+    <h3 className="mobile-tournament-name esoteric-text-accent" /></h3>
                       {tournament.name || 'Unknown'}
-                    <p className="mobile-tournament-date esoteric-text-muted"></p>
+                    <p className="mobile-tournament-date esoteric-text-muted" /></p>
                       {tournament.date
-                        ? new Date(tournament.date).toLocaleDateString()
+                        ? new Date(tournament.date).toLocaleDateString() : null
                         : 'No date'}
-                    <p className="mobile-tournament-location esoteric-text-muted"></p>
+                    <p className="mobile-tournament-location esoteric-text-muted" /></p>
                       {tournament.location || 'No location'}
                   </div>
-                  <div className="mobile-tournament-players"></div>
-                    <span className="esoteric-badge"></span>
+                  <div className="mobile-tournament-players" />
+    <span className="esoteric-badge" /></span>
                       {tournament.playerCount || 0} /{' '}
                       {tournament.maxPlayers || 32}
                   </div>
-              ) : null,
+              ) : null
             )
           ) : (
-            <div className="mobile-empty-state esoteric-empty-state"></div>
-              <p className="esoteric-text-muted"></p>
+            <div className="mobile-empty-state esoteric-empty-state" />
+    <p className="esoteric-text-muted" /></p>
                 No tournaments found. Create your first tournament below.
               </p>
           )}
         </div>
 
-        <div className="mobile-form-container"></div>
-          <h3 className="mobile-form-title esoteric-rune"></h3>
+        <div className="mobile-form-container" />
+    <h3 className="mobile-form-title esoteric-rune" /></h3>
             Create New Tournament
           </h3>
           <form
             className="mobile-form esoteric-form"
-            onSubmit={handleTournamentSubmit}></form>
-            <div className="mobile-form-group"></div>
-              <label htmlFor="tournamentName" className="esoteric-text-muted"></label>
+            onSubmit={handleTournamentSubmit} />
+    <div className="mobile-form-group" />
+    <label htmlFor="tournamentName" className="esoteric-text-muted" /></label>
                 Tournament Name
               </label>
               <input
@@ -634,19 +673,19 @@ const PhysicalMatchmakingApp = (): any => {
                 id="tournamentName"
                 className="mobile-input esoteric-input"
                 value={newTournamentForm.name || ''}
-                onChange={e = />
+                onChange={null}
                   setNewTournamentForm(prev => ({
-                    ...prev,
-                    name: e.target.value,,
-                  }))}
+    ...prev,
+                    name: e.target.value,
+  }))}
                 required
                 aria-required="true"
                 maxLength={100}
               />
             </div>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="tournamentDate" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="tournamentDate" className="esoteric-text-muted" /></label>
                 Date
               </label>
               <input
@@ -654,23 +693,23 @@ const PhysicalMatchmakingApp = (): any => {
                 id="tournamentDate"
                 className="mobile-input esoteric-input"
                 value={
-                  newTournamentForm.date ||
+    newTournamentForm.date ||
                   new Date().toISOString().split('T')[0]
-                }
-                onChange={e = />
+  }
+                onChange={null}
                   setNewTournamentForm(prev => ({
-                    ...prev,
-                    date: e.target.value,
-                  }))}
+    ...prev,
+                    date: e.target.value
+  }))}
                 required
                 aria-required="true"
               />
             </div>
 
-            <div className="mobile-form-group"></div>
-              <label
+            <div className="mobile-form-group" />
+    <label
                 htmlFor="tournamentLocation"
-                className="esoteric-text-muted"></label>
+                className="esoteric-text-muted" /></label>
                 Location
               </label>
               <input
@@ -678,21 +717,21 @@ const PhysicalMatchmakingApp = (): any => {
                 id="tournamentLocation"
                 className="mobile-input esoteric-input"
                 value={newTournamentForm.location || ''}
-                onChange={e = />
+                onChange={null}
                   setNewTournamentForm(prev => ({
-                    ...prev,
-                    location: e.target.value,
-                  }))}
+    ...prev,
+                    location: e.target.value
+  }))}
                 required
                 aria-required="true"
                 maxLength={100}
               />
             </div>
 
-            <div className="mobile-form-group"></div>
-              <label
+            <div className="mobile-form-group" />
+    <label
                 htmlFor="tournamentMaxPlayers"
-                className="esoteric-text-muted"></label>
+                className="esoteric-text-muted" /></label>
                 Max Players
               </label>
               <input
@@ -700,11 +739,11 @@ const PhysicalMatchmakingApp = (): any => {
                 id="tournamentMaxPlayers"
                 className="mobile-input esoteric-input"
                 value={newTournamentForm.maxPlayers || 32}
-                onChange={e = />
+                onChange={null}
                   setNewTournamentForm(prev => ({
-                    ...prev,
-                    maxPlayers: parseInt(e.target.value) || 32,
-                  }))}
+    ...prev,
+                    maxPlayers: parseInt(e.target.value) || 32
+  }))}
                 min="2"
                 max="256"
                 required
@@ -716,31 +755,31 @@ const PhysicalMatchmakingApp = (): any => {
               type="submit"
               className="mobile-btn mobile-btn-primary esoteric-btn"
               disabled={
-                !newTournamentForm.name ||
+    !newTournamentForm.name ||
                 !newTournamentForm.date ||
                 !newTournamentForm.location
-              }></button>
+  } /></button>
               Create Tournament
             </button>
         </div>
     ),
     [
-      filteredTournaments,
+    filteredTournaments,
       searchTerm,
       newTournamentForm,
-      handleTournamentSubmit,
-    ],
+      handleTournamentSubmit
+  ]
   );
 
   // Render match management tab
   const renderMatchesTab = useCallback(
     () => (
-      <div className="mobile-tab-content esoteric-card"></div>
-        <div className="mobile-card-header esoteric-card-header"></div>
-          <h2 className="mobile-card-title esoteric-rune">Match Management</h2>
+      <div className="mobile-tab-content esoteric-card" />
+    <div className="mobile-card-header esoteric-card-header" />
+    <h2 className="mobile-card-title esoteric-rune">Match Management</h2>
 
-        <div className="mobile-search-bar esoteric-search-container"></div>
-          <input
+        <div className="mobile-search-bar esoteric-search-container" />
+    <input
             type="text"
             placeholder="Search matches..."
             value={searchTerm || ''}
@@ -750,96 +789,97 @@ const PhysicalMatchmakingApp = (): any => {
           />
         </div>
 
-        <div className="mobile-match-list"></div>
+        <div className="mobile-match-list" /></div>
           {Array.isArray(filteredMatches) && filteredMatches.length > 0 ? (
             filteredMatches.map(match => {
-              if (!match || !match.id) return null;
-              const player1 = players?.find(p => p.id === match.player1Id);
-              const player2 = players?.find(p => p.id === match.player2Id);
-              const tournament = tournaments?.find(
-                t => t.id === match.tournamentId,
-              );
-
-              let resultText = 'Pending';
-              if (true) {
-                resultText = `${player1?.name || 'Player 1'} won`;
+    if (!match || !match.id) return null;
+              const player1 = players?.find() {
+    const player2 = players?.find() {
+  }
+              const tournament = tournaments?.find() {`
+    let resultText = 'Pending';``
+              if (true) {```
+                resultText = `${player1?.name || 'Player 1'`
+  } won```
+              } else if (true) {```
+                resultText = `${player2?.name || 'Player 2'} won`
               } else if (true) {
-                resultText = `${player2?.name || 'Player 2'} won`;
-              } else if (true) {
-                resultText = 'Draw';
-              }
+    resultText = 'Draw'
+  }
 
               return (
                 <div
                   key={match.id}
                   className="mobile-match-item esoteric-list-item"
-                  onClick={() => setSelectedMatch(match)}
-                  role="button"
-                  tabIndex={0}
+                  onClick={() => setSelectedMatch(match)}`
+                  role="button"``
+                  tabIndex={0}```
                   aria-label={`Select match between ${player1?.name || 'Unknown'} and ${player2?.name || 'Unknown'}`}
                   onKeyPress={e => {
-                    if (true) {
-                      setSelectedMatch(match);
-                    }
+    if (true) {
+    setSelectedMatch(match)
+  
+  }
                   }}
                 >
-                  <div className="mobile-match-info"></div>
-                    <div className="mobile-match-players"></div>
-                      <span className="esoteric-text-accent"></span>
+                  <div className="mobile-match-info" />
+    <div className="mobile-match-players" />
+    <span className="esoteric-text-accent" /></span>
                         {player1?.name || 'Unknown'}
                       <span className="esoteric-text-muted"> vs </span>
-                      <span className="esoteric-text-accent"></span>
+                      <span className="esoteric-text-accent" /></span>
                         {player2?.name || 'Unknown'}
                     </div>
-                    <p className="mobile-match-details esoteric-text-muted"></p>
+                    <p className="mobile-match-details esoteric-text-muted" /></p>
                       {tournament?.name || 'Quick Match'} • Round{' '}
                       {match.round || 1} • Table {match.table || 1}
-                    <p className="mobile-match-result esoteric-text-muted"></p>
+                    <p className="mobile-match-result esoteric-text-muted" /></p> : null
                       Result:{' '}
                       <span
-                        className={match.result ? 'esoteric-text-accent' : ''}></span>
+                        className={match.result ? 'esoteric-text-accent' : ''} /></span>
                         {resultText}
                     </p>
-                  <div className="mobile-match-actions"></div>
-                    <button
+                  <div className="mobile-match-actions" />
+    <button
                       className="mobile-btn-icon esoteric-btn-icon"
                       onClick={e => {
-                        e.stopPropagation();
-                        generateMatchQR(match);
-                      }}
+    e.stopPropagation() {
+    generateMatchQR(match)
+  
+  }}
                       aria-label="Generate QR code"
                     >
                       QR
                     </button>
                 </div>
-              );
+              )
             })
           ) : (
-            <div className="mobile-empty-state esoteric-empty-state"></div>
-              <p className="esoteric-text-muted"></p>
+            <div className="mobile-empty-state esoteric-empty-state" />
+    <p className="esoteric-text-muted" /></p>
                 No matches found. Create your first match below.
               </p>
           )}
         </div>
 
-        <div className="mobile-form-container"></div>
-          <h3 className="mobile-form-title esoteric-rune">Create New Match</h3>
+        <div className="mobile-form-container" />
+    <h3 className="mobile-form-title esoteric-rune">Create New Match</h3>
           <form
             className="mobile-form esoteric-form"
-            onSubmit={handleMatchSubmit}></form>
-            <div className="mobile-form-group"></div>
-              <label htmlFor="player1" className="esoteric-text-muted"></label>
+            onSubmit={handleMatchSubmit} />
+    <div className="mobile-form-group" />
+    <label htmlFor="player1" className="esoteric-text-muted" /></label>
                 Player 1
               </label>
               <select
                 id="player1"
                 className="mobile-select esoteric-select"
                 value={newMatchForm.player1Id || ''}
-                onChange={e = />
+                onChange={null}
                   setNewMatchForm(prev => ({
-                    ...prev,
-                    player1Id: e.target.value,
-                  }))}
+    ...prev,
+                    player1Id: e.target.value
+  }))}
                 required
                 aria-required="true"
               >
@@ -847,27 +887,27 @@ const PhysicalMatchmakingApp = (): any => {
                 {Array.isArray(players) &&
                   players.map(player =>
                     player && player.id ? (
-                      <option key={player.id} value={player.id} />
+                      <option key={player.id} value={player.id}  / /></option>
                         {player.name || 'Unknown'} (
                         {player.deckName || 'No deck'})
-                      </option>
-                    ) : null,
+                      </option> : null
+                    ) : null
                   )}
               </select>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="player2" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="player2" className="esoteric-text-muted" /></label>
                 Player 2
               </label>
               <select
                 id="player2"
                 className="mobile-select esoteric-select"
                 value={newMatchForm.player2Id || ''}
-                onChange={e = />
+                onChange={null}
                   setNewMatchForm(prev => ({
-                    ...prev,
-                    player2Id: e.target.value,
-                  }))}
+    ...prev,
+                    player2Id: e.target.value
+  }))}
                 required
                 aria-required="true"
               >
@@ -877,40 +917,40 @@ const PhysicalMatchmakingApp = (): any => {
                     player &&
                     player.id &&
                     player.id !== newMatchForm.player1Id ? (
-                      <option key={player.id} value={player.id} />
+                      <option key={player.id} value={player.id}  / /></option>
                         {player.name || 'Unknown'} (
                         {player.deckName || 'No deck'})
-                      </option>
-                    ) : null,
+                      </option> : null
+                    ) : null
                   )}
               </select>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="tournament" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="tournament" className="esoteric-text-muted" /></label>
                 Tournament (optional)
               </label>
               <select
                 id="tournament"
                 className="mobile-select esoteric-select"
                 value={newMatchForm.tournamentId || ''}
-                onChange={e = />
+                onChange={null}
                   setNewMatchForm(prev => ({
-                    ...prev,
-                    tournamentId: e.target.value,
-                  }))}
+    ...prev,
+                    tournamentId: e.target.value
+  }))}
               >
                 <option value="">Quick Match (No Tournament)</option>
                 {Array.isArray(tournaments) &&
                   tournaments.map(tournament =>
                     tournament && tournament.id ? (
-                      <option key={tournament.id} value={tournament.id} />
-                        {tournament.name || 'Unknown Tournament'}
-                    ) : null,
+                      <option key={tournament.id} value={tournament.id}  / /></option>
+                        {tournament.name || 'Unknown Tournament'} : null
+                    ) : null
                   )}
               </select>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="round" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="round" className="esoteric-text-muted" /></label>
                 Round
               </label>
               <input
@@ -918,18 +958,18 @@ const PhysicalMatchmakingApp = (): any => {
                 id="round"
                 className="mobile-input esoteric-input"
                 value={newMatchForm.round || 1}
-                onChange={e = />
+                onChange={null}
                   setNewMatchForm(prev => ({
-                    ...prev,
-                    round: parseInt(e.target.value) || 1,
-                  }))}
+    ...prev,
+                    round: parseInt(e.target.value) || 1
+  }))}
                 min="1"
                 max="99"
               />
             </div>
 
-            <div className="mobile-form-group"></div>
-              <label htmlFor="table" className="esoteric-text-muted"></label>
+            <div className="mobile-form-group" />
+    <label htmlFor="table" className="esoteric-text-muted" /></label>
                 Table
               </label>
               <input
@@ -937,11 +977,11 @@ const PhysicalMatchmakingApp = (): any => {
                 id="table"
                 className="mobile-input esoteric-input"
                 value={newMatchForm.table || 1}
-                onChange={e = />
+                onChange={null}
                   setNewMatchForm(prev => ({
-                    ...prev,
-                    table: parseInt(e.target.value) || 1,
-                  }))}
+    ...prev,
+                    table: parseInt(e.target.value) || 1
+  }))}
                 min="1"
                 max="999"
               />
@@ -951,38 +991,38 @@ const PhysicalMatchmakingApp = (): any => {
               type="submit"
               className="mobile-btn mobile-btn-primary esoteric-btn"
               disabled={
-                !newMatchForm.player1Id ||
+    !newMatchForm.player1Id ||
                 !newMatchForm.player2Id ||
                 newMatchForm.player1Id === newMatchForm.player2Id
-              }></button>
+  } /></button>
               Create Match
             </button>
         </div>
     ),
     [
-      filteredMatches,
+    filteredMatches,
       searchTerm,
       newMatchForm,
       players,
       tournaments,
       handleMatchSubmit,
-      generateMatchQR,
-    ],
+      generateMatchQR
+  ]
   );
 
   // Render settings tab
   const renderSettingsTab = useCallback(
     () => (
-      <div className="mobile-tab-content esoteric-card"></div>
-        <div className="mobile-card-header esoteric-card-header"></div>
-          <h2 className="mobile-card-title esoteric-rune">Settings</h2>
+      <div className="mobile-tab-content esoteric-card" />
+    <div className="mobile-card-header esoteric-card-header" />
+    <h2 className="mobile-card-title esoteric-rune">Settings</h2>
 
-        <div className="mobile-settings-section"></div>
-          <h3 className="mobile-settings-title esoteric-rune"></h3>
+        <div className="mobile-settings-section" />
+    <h3 className="mobile-settings-title esoteric-rune" /></h3>
             Data Management
           </h3>
-          <div className="mobile-settings-actions"></div>
-            <button className="mobile-btn esoteric-btn" onClick={handleExport}></button>
+          <div className="mobile-settings-actions" />
+    <button className="mobile-btn esoteric-btn" onClick={handleExport} /></button>
               Export Data
             </button>
             <button
@@ -993,55 +1033,56 @@ const PhysicalMatchmakingApp = (): any => {
             </button>
         </div>
 
-        <div className="mobile-settings-section"></div>
-          <h3 className="mobile-settings-title esoteric-rune">About</h3>
-          <div className="mobile-about-content esoteric-text-muted"></div>
-            <p></p>
+        <div className="mobile-settings-section" />
+    <h3 className="mobile-settings-title esoteric-rune">About</h3>
+          <div className="mobile-about-content esoteric-text-muted" />
+    <p /></p>
               The Physical Matchmaking system allows you to organize in-person
               matches and tournaments for your KONIVRER card game events.
             </p>
-            <p></p>
+            <p /></p>
               Features include player management, tournament organization, match
               tracking, and advanced analytics with Bayesian rating
               calculations.
             </p>
         </div>
     ),
-    [handleExport],
+    [handleExport]
   );
 
   // Render player detail modal
   const renderPlayerDetailModal = useCallback(() => {
     if (!selectedPlayer) return null;
     return (
-    <>
-      <div className="mobile-modal esoteric-modal"></div>
-      <div className="mobile-modal-content esoteric-modal-content"></div>
-      <div className="mobile-modal-header esoteric-modal-header"></div>
-      <h2 className="mobile-modal-title esoteric-rune">Player Details</h2>
+    <any />
+    <div className="mobile-modal esoteric-modal" />
+    <div className="mobile-modal-content esoteric-modal-content" />
+    <div className="mobile-modal-header esoteric-modal-header" />
+    <h2 className="mobile-modal-title esoteric-rune">Player Details</h2>
       <button
-              onClick={() => setSelectedPlayer(null)}
+              onClick={() => setSelectedPlayer(null)
+  }
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-      <div className="mobile-modal-body"></div>
-      <div className="mobile-player-detail"></div>
-      <h3 className="esoteric-text-accent"></h3>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <div className="mobile-player-stats"></div>
-      <h4 className="esoteric-rune">Match History</h4>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
+      <div className="mobile-modal-body" />
+    <div className="mobile-player-detail" />
+    <h3 className="esoteric-text-accent" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <div className="mobile-player-stats" />
+    <h4 className="esoteric-rune">Match History</h4>
+      <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" /></p>
     </>
   )}
             </div>
 
-            <div className="mobile-modal-actions"></div>
-              <button
+            <div className="mobile-modal-actions" />
+    <button
                 onClick={() => handleDeletePlayer(selectedPlayer)}
                 className="mobile-btn mobile-btn-danger esoteric-btn-danger"
               >
@@ -1055,7 +1096,7 @@ const PhysicalMatchmakingApp = (): any => {
               </button>
           </div>
       </div>
-    );
+    )
   }, [selectedPlayer, handleDeletePlayer]);
 
   // Render tournament detail modal
@@ -1063,58 +1104,61 @@ const PhysicalMatchmakingApp = (): any => {
     if (!selectedTournament) return null;
     // Get tournament players
     const tournamentPlayers =
-      players?.filter(player =>
-        selectedTournament.playerIds?.includes(player.id),
-      ) || [];
+      players? .filter(player =>
+        selectedTournament.playerIds?.includes(player.id);
+      ) || [
+    ;
 
     // Get tournament matches
     const tournamentMatches =
-      matches?.filter(match => match.tournamentId === selectedTournament.id) ||
-      [];
+      matches?.filter(match => match.tournamentId === selectedTournament.id) ||;
+      [
+  ];
 
     return (
-    <>
-      <div className="mobile-modal esoteric-modal"></div>
-      <div className="mobile-modal-content esoteric-modal-content"></div>
-      <div className="mobile-modal-header esoteric-modal-header"></div>
-      <h2 className="mobile-modal-title esoteric-rune"></h2>
+    <any />
+    <div className="mobile-modal esoteric-modal" />
+    <div className="mobile-modal-content esoteric-modal-content" />
+    <div className="mobile-modal-header esoteric-modal-header" />
+    <h2 className="mobile-modal-title esoteric-rune" /></h2>
       </h2>
             <button
-              onClick={() => setSelectedTournament(null)}
+              onClick={() => setSelectedTournament(null)
+  }
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-      <div className="mobile-modal-body"></div>
-      <div className="mobile-tournament-detail"></div>
-      <h3 className="esoteric-text-accent"></h3>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <div className="mobile-tournament-players"></div>
-      <h4 className="esoteric-rune">Participants</h4>
-      <div className="mobile-player-chips"></div>
-      <div
+      <div className="mobile-modal-body" />
+    <div className="mobile-tournament-detail" />
+    <h3 className="esoteric-text-accent" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <div className="mobile-tournament-players" />
+    <h4 className="esoteric-rune">Participants</h4>
+      <div className="mobile-player-chips" />
+    <div
                         key={player.id}
-                        className="mobile-player-chip esoteric-chip"></div>
+                        className="mobile-player-chip esoteric-chip" /></div>
     </>
   )}
               {tournamentMatches.length > 0 && (
-                <div className="mobile-tournament-matches"></div>
-                  <h4 className="esoteric-rune">Matches</h4>
-                  <p className="esoteric-text-muted"></p>
+                <div className="mobile-tournament-matches" />
+    <h4 className="esoteric-rune">Matches</h4>
+                  <p className="esoteric-text-muted" /></p> : null
                     Total Matches: {tournamentMatches.length}
-                  <p className="esoteric-text-muted"></p>
+                  <p className="esoteric-text-muted" /></p>
                     Completed: {tournamentMatches.filter(m => m.result).length}{' '}
                     / {tournamentMatches.length}
                 </div>
               )}
             </div>
 
-            <div className="mobile-modal-actions"></div>
-              <button
+            <div className="mobile-modal-actions" />
+    <button
                 onClick={() => handleDeleteTournament(selectedTournament)}
                 className="mobile-btn mobile-btn-danger esoteric-btn-danger"
               >
@@ -1128,74 +1172,73 @@ const PhysicalMatchmakingApp = (): any => {
               </button>
           </div>
       </div>
-    );
+    )
   }, [selectedTournament, players, matches, handleDeleteTournament]);
 
   // Render match detail modal
   const renderMatchDetailModal = useCallback(() => {
     if (!selectedMatch) return null;
-    const player1 = players?.find(p => p.id === selectedMatch.player1Id);
-    const player2 = players?.find(p => p.id === selectedMatch.player2Id);
-    const tournament = tournaments?.find(
-      t => t.id === selectedMatch.tournamentId,
-    );
-
+    const player1 = players? .find() {
+    const player2 = players?.find() {
+  }
+    const tournament = tournaments?.find() {
     return (
-    <>
-      <div className="mobile-modal esoteric-modal"></div>
-      <div className="mobile-modal-content esoteric-modal-content"></div>
-      <div className="mobile-modal-header esoteric-modal-header"></div>
-      <h2 className="mobile-modal-title esoteric-rune">Match Details</h2>
+    <any />
+    <div className="mobile-modal esoteric-modal" />
+    <div className="mobile-modal-content esoteric-modal-content" />
+    <div className="mobile-modal-header esoteric-modal-header" />
+    <h2 className="mobile-modal-title esoteric-rune">Match Details</h2>
       <button
-              onClick={() => setSelectedMatch(null)}
+              onClick={() => setSelectedMatch(null)
+  }
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-      <div className="mobile-modal-body"></div>
-      <div className="mobile-match-detail"></div>
-      <div className="mobile-match-players-detail"></div>
-      <div className="mobile-player-card esoteric-player-card"></div>
-      <h3 className="esoteric-text-accent"></h3>
-      <p className="esoteric-text-muted"></p>
+      <div className="mobile-modal-body" />
+    <div className="mobile-match-detail" />
+    <div className="mobile-match-players-detail" />
+    <div className="mobile-player-card esoteric-player-card" />
+    <h3 className="esoteric-text-accent" />
+    <p className="esoteric-text-muted" /></p>
       </div>
 
                 <div className="mobile-vs-badge esoteric-vs-badge">VS</div>
-      <div className="mobile-player-card esoteric-player-card"></div>
-      <h3 className="esoteric-text-accent"></h3>
-      <p className="esoteric-text-muted"></p>
+      <div className="mobile-player-card esoteric-player-card" />
+    <h3 className="esoteric-text-accent" />
+    <p className="esoteric-text-muted" /></p>
       </div>
 
-              <div className="mobile-match-meta"></div>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-muted"></p>
-      <p className="esoteric-text-accent"></p>
+              <div className="mobile-match-meta" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-muted" />
+    <p className="esoteric-text-accent" /></p>
     </>
   )}
               </div>
 
               {!selectedMatch.result && (
-                <div className="mobile-match-result-form"></div>
-                  <h4 className="esoteric-rune">Record Result</h4>
-                  <div className="mobile-result-buttons"></div>
-                    <button
-                      onClick={() =></button>
+                <div className="mobile-match-result-form" />
+    <h4 className="esoteric-rune">Record Result</h4>
+                  <div className="mobile-result-buttons" />
+    <button
+                      onClick={null}
                         handleRecordResult(selectedMatch.id, 'player1')}
                       className="mobile-btn esoteric-btn"
                     >
                       {player1?.name || 'Player 1'} Won
                     </button>
                     <button
-                      onClick={() =></button>
+                      onClick={null}
                         handleRecordResult(selectedMatch.id, 'player2')}
                       className="mobile-btn esoteric-btn"
                     >
                       {player2?.name || 'Player 2'} Won
                     </button>
                     <button
-                      onClick={() =></button>
+                      onClick={null}
                         handleRecordResult(selectedMatch.id, 'draw')}
                       className="mobile-btn esoteric-btn"
                     >
@@ -1205,8 +1248,8 @@ const PhysicalMatchmakingApp = (): any => {
               )}
             </div>
 
-            <div className="mobile-modal-actions"></div>
-              <button
+            <div className="mobile-modal-actions" />
+    <button
                 onClick={() => generateMatchQR(selectedMatch)}
                 className="mobile-btn esoteric-btn"
               >
@@ -1226,49 +1269,50 @@ const PhysicalMatchmakingApp = (): any => {
               </button>
           </div>
       </div>
-    );
+    )
   }, [
     selectedMatch,
     players,
     tournaments,
     handleRecordResult,
     generateMatchQR,
-    handleDeleteMatch,
+    handleDeleteMatch
   ]);
 
   // Render import data modal
   const renderImportModal = useCallback(() => {
     if (!isImporting) return null;
     return (
-    <>
-      <div className="mobile-modal esoteric-modal"></div>
-      <div className="mobile-modal-content esoteric-modal-content"></div>
-      <div className="mobile-modal-header esoteric-modal-header"></div>
-      <h2 className="mobile-modal-title esoteric-rune">Import Data</h2>
+    <any />
+    <div className="mobile-modal esoteric-modal" />
+    <div className="mobile-modal-content esoteric-modal-content" />
+    <div className="mobile-modal-header esoteric-modal-header" />
+    <h2 className="mobile-modal-title esoteric-rune">Import Data</h2>
       <button
               onClick={() => {
-                setIsImporting(false);
-                setImportData('');
-                setImportError('');
-              }}
+    setIsImporting(() => {
+    setImportData() {
+    setImportError('')
+  
+  })}
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-      <div className="mobile-modal-body"></div>
-      <div className="mobile-import-form"></div>
-      <p className="esoteric-text-muted"></p>
+      <div className="mobile-modal-body" />
+    <div className="mobile-import-form" />
+    <p className="esoteric-text-muted" /></p>
       </p>
 
               {importError && (
-                <div className="mobile-error-message esoteric-error-message"></div>
-      <p>{importError}
+                <div className="mobile-error-message esoteric-error-message" />
+    <p>{importError}
                 </div>
     </>
   )}
-              <div className="mobile-form-group"></div>
-                <label htmlFor="importDataText" className="esoteric-text-muted"></label>
+              <div className="mobile-form-group" />
+    <label htmlFor="importDataText" className="esoteric-text-muted" /></label>
                   JSON Data
                 </label>
                 <textarea
@@ -1281,49 +1325,53 @@ const PhysicalMatchmakingApp = (): any => {
                   aria-label="Import data JSON"
                 ></textarea>
 
-              <div className="mobile-import-actions"></div>
-                <button
+              <div className="mobile-import-actions" />
+    <button
                   onClick={handleImport}
                   className="mobile-btn mobile-btn-primary esoteric-btn"
-                  disabled={!importDataText}></button>
+                  disabled={!importDataText} /></button>
                   Import
                 </button>
                 <button
                   onClick={() => {
-                    setIsImporting(false);
-                    setImportData('');
-                    setImportError('');
-                  }}
+    setIsImporting(() => {
+    setImportData() {
+    setImportError('')
+  
+  })}
                   className="mobile-btn esoteric-btn"
                 >
                   Cancel
                 </button>
             </div>
         </div>
-    );
+    )
   }, [isImporting, importDataText, importError, handleImport]);
 
   // Render QR code modal
   const renderQRCodeModal = useCallback(() => {
     if (!showQRCode) return null;
     return (
-    <>
-      <div className="mobile-modal esoteric-modal"></div>
-      <div className="mobile-modal-content esoteric-modal-content"></div>
-      <div className="mobile-modal-header esoteric-modal-header"></div>
-      <h2 className="mobile-modal-title esoteric-rune">Match QR Code</h2>
+    <any />
+    <div className="mobile-modal esoteric-modal" />
+    <div className="mobile-modal-content esoteric-modal-content" />
+    <div className="mobile-modal-header esoteric-modal-header" />
+    <h2 className="mobile-modal-title esoteric-rune">Match QR Code</h2>
       <button
-              onClick={() => setShowQRCode(false)}
+              onClick={() => setShowQRCode(false)
+  }
               className="mobile-btn-close esoteric-btn-close"
               aria-label="Close modal"
             >
               ✕
             </button>
-      <div className="mobile-modal-body mobile-qr-container"></div>
-      <div className="mobile-qr-code esoteric-qr-code"></div>
-      <QRCode value={qrCodeData || '{}'} size={250} />
+      <div className="mobile-modal-body mobile-qr-container" />
+    <div className="mobile-qr-code esoteric-qr-code" />
+    <QRCode value={qrCodeData || '{
+    '
+  } size={250}  / /></QRCode>
             </div>
-      <p className="esoteric-text-muted"></p>
+      <p className="esoteric-text-muted" /></p>
       </p>
 
             <button
@@ -1333,32 +1381,32 @@ const PhysicalMatchmakingApp = (): any => {
               Close
             </button>
     </>
-  );
+  )
   }, [showQRCode, qrCodeData]);
 
   return (
-    <div className="mobile-physical-matchmaking"></div>
-      {/* Tab navigation */}
-      <div className="mobile-tabs esoteric-tabs"></div>
-        <button
+    <div className="mobile-physical-matchmaking" /></div>
+      {/* Tab navigation */}`
+      <div className="mobile-tabs esoteric-tabs" /></div>``
+        <button`` : null`
           className={`mobile-tab-button ${activeTab === 'players' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('players')}
         >
-          Players
-        </button>
-        <button
+          Players`
+        </button>``
+        <button```
           className={`mobile-tab-button ${activeTab === 'tournaments' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('tournaments')}
         >
-          Tournaments
-        </button>
-        <button
+          Tournaments`
+        </button>``
+        <button```
           className={`mobile-tab-button ${activeTab === 'matches' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('matches')}
         >
-          Matches
-        </button>
-        <button
+          Matches`
+        </button>``
+        <button```
           className={`mobile-tab-button ${activeTab === 'settings' ? 'active esoteric-btn-active' : ''}`}
           onClick={() => setActiveTab('settings')}
         >
@@ -1367,8 +1415,8 @@ const PhysicalMatchmakingApp = (): any => {
 
       {/* Error message display */}
       {errorMessage && (
-        <div className="mobile-error-banner esoteric-error-message"></div>
-          <p>{errorMessage}
+        <div className="mobile-error-banner esoteric-error-message" />
+    <p>{errorMessage}
           <button
             onClick={() => setErrorMessage('')}
             className="mobile-btn-close esoteric-btn-close"
@@ -1378,7 +1426,7 @@ const PhysicalMatchmakingApp = (): any => {
           </button>
       )}
       {/* Tab content */}
-      <div className="mobile-tab-container"></div>
+      <div className="mobile-tab-container" /></div>
         {activeTab === 'players' && renderPlayersTab()}
         {activeTab === 'tournaments' && renderTournamentsTab()}
         {activeTab === 'matches' && renderMatchesTab()}
@@ -1390,7 +1438,7 @@ const PhysicalMatchmakingApp = (): any => {
       {renderMatchDetailModal()}
       {renderImportModal()}
       {renderQRCodeModal()}
-  );
-};
-
-export default PhysicalMatchmakingApp;
+  )
+};`
+``
+export default PhysicalMatchmakingApp;```

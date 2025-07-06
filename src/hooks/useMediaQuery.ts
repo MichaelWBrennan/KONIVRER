@@ -1,47 +1,27 @@
-/**
- * KONIVRER Deck Database
- *
- * Copyright (c) 2024 KONIVRER Deck Database
- * Licensed under the MIT License
- */
-
 import { useState, useEffect } from 'react';
 
 /**
- * Custom hook for responsive design
- * @param {string} query - CSS media query string
- * @returns {boolean} - Whether the media query matches
- *
- * Example usage:
- * const isMobile = useMediaQuery('(max-width: 768px)');
- * const isTablet = useMediaQuery('(max-width: 1024px)');
- * const isLargeScreen = useMediaQuery('(min-width: 1280px)');
+ * Custom hook for media queries
+ * @param query - The media query string
+ * @returns boolean indicating if the query matches
  */
-export const useMediaQuery = query => {
+export const useMediaQuery = (query: string): boolean => {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    // Create media query list
-    const media = window.matchMedia(query);
+    const mediaQuery = window.matchMedia(query);
+    setMatches(mediaQuery.matches);
 
-    // Set initial value
-    setMatches(media.matches);
-
-    // Define callback for changes
-    const listener = event => {
+    const handler = (event: MediaQueryListEvent) => {
       setMatches(event.matches);
     };
 
-    // Add listener
-    media.addEventListener('change', listener);
-
-    // Clean up
+    mediaQuery.addEventListener('change', handler);
+    
     return () => {
-      media.removeEventListener('change', listener);
+      mediaQuery.removeEventListener('change', handler);
     };
   }, [query]);
 
   return matches;
 };
-
-export default useMediaQuery;

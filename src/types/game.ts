@@ -5,25 +5,35 @@ export interface GameState {
   activePlayer: 'player' | 'opponent';
   playerLifeCards: number;
   opponentLifeCards: number;
-  playerField: Card[];
-  opponentField: Card[];
-  playerCombatRow: Card[];
-  opponentCombatRow: Card[];
-  playerAzoth: Card[];
-  opponentAzoth: Card[];
-  playerHand: Card[];
+  playerField: Card[
+    ;
+  opponentField: Card[
+  ];
+  playerCombatRow: Card[
+    ;
+  opponentCombatRow: Card[
+  ];
+  playerAzoth: Card[
+    ;
+  opponentAzoth: Card[
+  ];
+  playerHand: Card[
+    ;
   opponentHandCount: number;
   playerDeckCount: number;
   opponentDeckCount: number;
-  playerRemovedFromPlay: Card[];
-  opponentRemovedFromPlay: Card[];
+  playerRemovedFromPlay: Card[
+  ];
+  opponentRemovedFromPlay: Card[]
+  
 }
 
 export interface GameAction {
   type: string;,
   payload: any;
   playerId: string;
-  timestamp: Date;
+  timestamp: Date
+  
 }
 
 export interface Player {
@@ -32,5 +42,6 @@ export interface Player {
   avatar?: string;
   rating: number;
   wins: number;
-  losses: number;
+  losses: number
+  
 }

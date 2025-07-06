@@ -14,17 +14,17 @@ interface DeckStatsProps {
   [key: string]: any;
 }
 
-const DeckStats: React.FC<DeckStatsProps> = () => {
+const DeckStats: React.FC = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="p-4 bg-white rounded-lg shadow-sm"
-    >
-      <h2 className="text-xl font-bold mb-4">DeckStats</h2>
+     />
+    <h2 className="text-xl font-bold mb-4">DeckStats</h2>
       <p className="text-gray-600">Component implementation coming soon...</p>
     </motion.div>
-  );
+  )
 };
 
 export default DeckStats;

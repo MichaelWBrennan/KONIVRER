@@ -5,30 +5,31 @@ import '../../styles/zones.css';
 
 interface AzothRowProps {
   azothCards
+  
 }
 
-const AzothRow: React.FC<AzothRowProps> = ({  azothCards  }) => {
+const AzothRow: React.FC = () => {
   return (
-    <>
-      <div className="azoth-row"></div>
-      <div className="zone-label">AZOTH ROW</div>
-      <div className="cards-container"></div>
-      <div className="empty-zone">No Azoth</div>
+    <any />
+    <div className="azoth-row" />
+    <div className="zone-label">AZOTH ROW</div>
+      <div className="cards-container" />
+    <div className="empty-zone">No Azoth</div>
     </>
   ) : (
           azothCards.map(card => (
             <div 
               key={card.id} 
-              className={`azoth-card ${card.rested ? 'rested' : ''}`}
-              title={`${card.name} - ${card.elementType} Azoth`}></div>
-              <UnifiedCard variant="standard" card={card} location="azoth" />
-              <div className="element-indicator"></div>
+              className={`azoth-card ${card.rested ? 'rested' : ''}`}```
+              title={`${card.name} - ${card.elementType} Azoth`} />
+    <UnifiedCard variant="standard" card={card} location="azoth"  / />
+    <div className="element-indicator" /></div>
                 {ELEMENT_SYMBOLS[card.elementType]}
             </div>
           ))
         )}
       </div>
-  );
-};
-
-export default AzothRow;
+  )
+};`
+``
+export default AzothRow;```
