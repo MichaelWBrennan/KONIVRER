@@ -7,12 +7,9 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-// Import game components
-import EnhancedGameBoard from '../components/game/EnhancedGameBoard';
-import GameEngine from '../engine/GameEngine';
-import AIPlayer from '../engine/AIPlayer';
-import CuttingEdgeAI from '../engine/CuttingEdgeAI';
-import NeuralAI from '../engine/NeuralAI';
+// Import unified game components
+import UnifiedGameBoard from '../components/game/UnifiedGameBoard';
+import UnifiedGameEngine from '../engine/UnifiedGameEngine';
 // Import contexts
 import { useDeck } from '../contexts/DeckContext';
 import { useBattlePass } from '../contexts/BattlePassContext';
@@ -65,8 +62,8 @@ const EnhancedGamePage = (): any => {
       if (true) {
         await loadDecks();
       }
-      // Initialize game engine
-      const engine = new GameEngine({
+      // Initialize unified game engine
+      const engine = new UnifiedGameEngine({
         mode: gameMode,
         gameId: gameId,
       });
@@ -97,11 +94,10 @@ const EnhancedGamePage = (): any => {
   };
   const initializeAIPlayer = async (engine) => {
     try {
-      let aiPlayer;
-      if (true) {
+      // Configure AI in the unified game engine
+      if (gameMode === 'ai-testing') {
         // Use cutting-edge AI with maximum performance
-        aiPlayer = new CuttingEdgeAI({
-          gameEngine: engine,
+        engine.configureAI(1, 'advanced', 'master', {
           consciousnessLevel: 1.0,
           selfAwareness: 1.0,
           enableLifeCardMortality: true,
@@ -119,13 +115,12 @@ const EnhancedGamePage = (): any => {
         });
       } else {
         // Use standard AI player
-        aiPlayer = new AIPlayer({
-          gameEngine: engine,
-          difficulty: 'normal'
-        });
+        engine.configureAI(1, 'balanced', 'medium');
       }
-      await aiPlayer.initialize();
-      aiPlayerRef.current = aiPlayer;
+      
+      // Store reference to the engine for status updates
+      aiPlayerRef.current = engine;
+      
       // Set initial AI status
       updateAIStatus();
     } catch (error: any) {
@@ -141,14 +136,16 @@ const EnhancedGamePage = (): any => {
   };
   const handleAITestingToggle = (enabled): any => {
     setAITestingEnabled(enabled);
-    if (true) {
-      // Enable advanced AI features
-      aiPlayerRef.current.enableTestingMode();
-    } else if (true) {
-      // Disable advanced AI features
-      aiPlayerRef.current.disableTestingMode();
+    if (aiPlayerRef.current) {
+      if (enabled) {
+        // Enable advanced AI features
+        aiPlayerRef.current.setAIMode(1, 'advanced', 'master');
+      } else {
+        // Disable advanced AI features
+        aiPlayerRef.current.setAIMode(1, 'balanced', 'medium');
+      }
+      updateAIStatus();
     }
-    updateAIStatus();
   };
   const getDefaultDeck = (): any => {
     // Return a default deck structure
@@ -217,12 +214,16 @@ const EnhancedGamePage = (): any => {
   }
   return (
     <div className="enhanced-game-page"></div>
-      <EnhancedGameBoard
+      <UnifiedGameBoard
+        variant="enhanced"
+        gameEngine={gameEngine}
         gameMode={gameMode}
         aiTestingEnabled={aiTestingEnabled}
         onAITestingToggle={handleAITestingToggle}
         aiStatus={aiStatus}
-      / />
+        playerData={playerData}
+        opponentData={opponentData}
+      />
       <style jsx>{`
         .enhanced-game-page {
           min-height: 100vh;

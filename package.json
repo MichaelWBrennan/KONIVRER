@@ -51,7 +51,7 @@
     "security:scan": "npm audit && tsx scripts/security-check.ts",
     "security:full": "npm run security:audit && npm run security:check",
     "quality:check": "bash scripts/quality-check.sh",
-    "performance:optimize": "tsx scripts/optimize-performance.ts",
+    "performance:optimize": "tsx scripts/unified-optimize.ts --performance-only",
     "build:analyze": "vite build --mode production && open dist/stats.html",
     "bundle:analyze": "vite build --mode production && open dist/stats.html",
     "optimize": "npm run lint:fix && npm run format && npm run build:analyze",
@@ -95,7 +95,7 @@
     "dev:auto": "npm run automation:start:bg && npm run dev",
     "build:auto": "npm run automation:run:full",
     "deploy:auto": "npm run automation:run:full && npm run deploy",
-    "deploy": "node scripts/optimize-and-deploy.js"
+    "deploy": "tsx scripts/unified-optimize.ts --deploy"
   },
   "keywords": [
     "konivrer",

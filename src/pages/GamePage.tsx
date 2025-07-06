@@ -8,9 +8,8 @@ import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 // import { motion } from 'framer-motion';
-import GameBoard from '../components/game/GameBoard';
-import GameEngine from '../engine/GameEngine';
-import AIPlayer from '../engine/AIPlayer';
+import UnifiedGameBoard from '../components/game/UnifiedGameBoard';
+import UnifiedGameEngine from '../engine/UnifiedGameEngine';
 import NetworkManager from '../engine/NetworkManager';
 import CardAnimationSystem from '../animations/CardAnimations';
 import RulesEngine from '../rules/RulesEngine';
@@ -126,7 +125,7 @@ const GamePage = (): any => {
             }
           },
         };
-        const engine = new GameEngine(engineOptions);
+        const engine = new UnifiedGameEngine(engineOptions);
         // Initialize animation system
         setLoadingProgress(20);
         setLoadingStage('Initializing Animation System');
@@ -154,8 +153,11 @@ const GamePage = (): any => {
           case 'ai':
             // AI game mode
             setLoadingStage('Initializing AI Opponent');
-            const aiPlayer = new AIPlayer(engine, 1);
-            engine.setAIOpponent(aiPlayer);
+            // AIPlayer is now integrated into UnifiedGameEngine
+            const aiPersonality = 'balanced';
+            const aiDifficulty = 'medium';
+            engine.configureAI(1, aiPersonality, aiDifficulty);
+            // AI opponent is already configured
             setLoadingProgress(50);
             setLoadingStage('Loading Player Deck');
             // Load player deck
@@ -463,7 +465,8 @@ const GamePage = (): any => {
   }
   return (
     <div className="h-screen w-full overflow-hidden"></div>
-      <GameBoard
+      <UnifiedGameBoard
+        variant="standard"
         gameEngine={gameEngine}
         playerData={playerData}
         opponentData={opponentData}

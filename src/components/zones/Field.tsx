@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Card';
+import UnifiedCard from '../UnifiedCard';
 import '../../styles/zones.css';
 
 interface FieldProps {
@@ -17,7 +17,7 @@ const Field: React.FC<FieldProps> = ({  cards, isCurrentPlayer  }) => {
         ) : (
           cards.map(card => (
             <div key={card.id} className="field-card"></div>
-              <Card card={card} location="field" / />
+              <UnifiedCard variant="standard" card={card} location="field" />
             </div>
           ))
         )}
