@@ -229,64 +229,68 @@ const Home = (): any => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white"></div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
       {/* Top Navigation Bar */}
-      <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4" />
-        <div className="container mx-auto flex justify-between items-center"></div>
+      <header className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 py-2 px-4">
+        <div className="container mx-auto flex justify-between items-center">
           {/* Logo and Title */}
-          <div className="flex items-center"></div>
-            <div className="mr-4 text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent"></div>
+          <div className="flex items-center">
+            <div className="mr-4 text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
               KONIVRER
             </div>
+          </div>
           
           {/* Player Info */}
-          <div className="flex items-center space-x-6"></div>
+          <div className="flex items-center space-x-6">
             {/* Currency */}
-            <div className="flex items-center space-x-4"></div>
-              <div className="flex items-center"></div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center">
                 <div className="w-5 h-5 rounded-full bg-yellow-500 mr-2"></div>
-                <span>{playerGold.toLocaleString()}
+                <span>{playerGold.toLocaleString()}</span>
               </div>
-              <div className="flex items-center"></div>
+              <div className="flex items-center">
                 <div className="w-5 h-5 rounded-full bg-purple-500 mr-2"></div>
-                <span>{playerGems.toLocaleString()}
+                <span>{playerGems.toLocaleString()}</span>
               </div>
+            </div>
             
             {/* Wildcards */}
-            <div className="hidden md:flex items-center space-x-2"></div>
-              <div className="flex items-center"></div>
+            <div className="hidden md:flex items-center space-x-2">
+              <div className="flex items-center">
                 <div className="w-4 h-4 rounded-full bg-gray-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.common}
+                <span className="text-sm">{playerWildcards.common}</span>
               </div>
-              <div className="flex items-center"></div>
+              <div className="flex items-center">
                 <div className="w-4 h-4 rounded-full bg-blue-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.uncommon}
+                <span className="text-sm">{playerWildcards.uncommon}</span>
               </div>
-              <div className="flex items-center"></div>
+              <div className="flex items-center">
                 <div className="w-4 h-4 rounded-full bg-yellow-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.rare}
+                <span className="text-sm">{playerWildcards.rare}</span>
               </div>
-              <div className="flex items-center"></div>
+              <div className="flex items-center">
                 <div className="w-4 h-4 rounded-full bg-orange-400 mr-1"></div>
-                <span className="text-sm">{playerWildcards.mythic}
+                <span className="text-sm">{playerWildcards.mythic}</span>
               </div>
+            </div>
             
             {/* Notifications */}
-            <button className="relative p-2 rounded-full hover:bg-gray-700"></button>
-              <Bell size={20} / />
+            <button className="relative p-2 rounded-full hover:bg-gray-700">
+              <Bell size={20} />
               {notifications > 0 && (
-                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center"></span>
+                <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex items-center justify-center">
                   {notifications}
+                </span>
               )}
             </button>
             
             {/* Profile */}
-            <div className="flex items-center"></div>
-              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-2"></div>
-                <User size={16} / />
+            <div className="flex items-center">
+              <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center mr-2">
+                <User size={16} />
               </div>
-              <span className="hidden md:inline">{playerName}
-              <span className="ml-2 text-xs text-gray-400">Lvl {playerLevel}
+              <span className="hidden md:inline">{playerName}</span>
+              <span className="ml-2 text-xs text-gray-400">Lvl {playerLevel}</span>
             </div>
             
             {/* Menu Button */}
@@ -296,7 +300,9 @@ const Home = (): any => {
             >
               {showMenu ? <X size={20} /> : <Menu size={20} />}
             </button>
+          </div>
         </div>
+      </header>
       
       {/* Main Content */}
       <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
@@ -539,71 +545,79 @@ const Home = (): any => {
           
           {/* Daily Rewards Banner */}
           {!dailyRewardsClaimed && (
-            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6"></div>
-              <div className="flex justify-between items-center"></div>
-                <div></div>
+            <div className="bg-gradient-to-r from-blue-900 to-purple-900 rounded-xl p-4 my-6">
+              <div className="flex justify-between items-center">
+                <div>
                   <h3 className="text-xl font-medium mb-1">Daily Rewards Available!</h3>
                   <p className="text-gray-300 text-sm">Claim your daily rewards and get bonus gold.</p>
+                </div>
                 <button 
                   onClick={handleClaimDailyRewards}
                   className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-medium rounded-lg transition-colors"
-                 />
+                >
                   Claim
                 </button>
+              </div>
             </div>
           )}
           {/* Featured Events */}
-          <div className="mb-6"></div>
-            <div className="flex justify-between items-center mb-4"></div>
+          <div className="mb-6">
+            <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">Featured Events</h2>
-              <Link to="/events" className="text-blue-400 hover:text-blue-300 flex items-center" />
+              <Link to="/events" className="text-blue-400 hover:text-blue-300 flex items-center">
                 <span className="text-sm">View All</span>
-                <ChevronRight size={16} / />
+                <ChevronRight size={16} />
               </Link>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {featuredEvents.map(event => (
-                <div key={event.id} className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group"></div>
-                  <div className="h-32 bg-gradient-to-r from-blue-900 to-purple-900 relative"></div>
-                    <div className="absolute inset-0 flex items-center justify-center"></div>
-                      <span className="text-xl font-bold">{event.name}
+                <div key={event.id} className="bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group">
+                  <div className="h-32 bg-gradient-to-r from-blue-900 to-purple-900 relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-xl font-bold">{event.name}</span>
                     </div>
-                    <div className="absolute top-2 right-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs"></div>
+                    <div className="absolute top-2 right-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs">
                       {event.format}
-                    <div className="absolute bottom-2 left-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs flex items-center"></div>
-                      <Clock size={12} className="mr-1" / />
-                      <span>Ends in {event.endDate}
                     </div>
+                    <div className="absolute bottom-2 left-2 bg-gray-800/80 backdrop-blur-sm rounded-full px-2 py-1 text-xs flex items-center">
+                      <Clock size={12} className="mr-1" />
+                      <span>Ends in {event.endDate}</span>
+                    </div>
+                  </div>
                   
-                  <div className="p-4"></div>
-                    <div className="flex justify-between items-center mb-3"></div>
-                      <span className="text-sm text-gray-400">{event.type}
-                      <div className="flex items-center space-x-2"></div>
-                        <div className="flex items-center"></div>
+                  <div className="p-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm text-gray-400">{event.type}</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center">
                           <div className="w-3 h-3 rounded-full bg-yellow-500 mr-1"></div>
-                          <span className="text-xs">{event.entryFee.gold}
+                          <span className="text-xs">{event.entryFee.gold}</span>
                         </div>
-                        <div className="flex items-center"></div>
+                        <div className="flex items-center">
                           <div className="w-3 h-3 rounded-full bg-purple-500 mr-1"></div>
-                          <span className="text-xs">{event.entryFee.gems}
+                          <span className="text-xs">{event.entryFee.gems}</span>
                         </div>
+                      </div>
                     </div>
                     
-                    <div className="flex items-center text-xs text-gray-300 mb-3"></div>
-                      <Award size={14} className="mr-1" / />
-                      <span>{event.rewards}
+                    <div className="flex items-center text-xs text-gray-300 mb-3">
+                      <Award size={14} className="mr-1" />
+                      <span>{event.rewards}</span>
                     </div>
                     
-                    <button className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium"></button>
+                    <button className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors text-sm font-medium">
                       Join Event
                     </button>
+                  </div>
                 </div>
               ))}
             </div>
+          </div>
         </div>
       
       {/* Game Menu Overlay */}
-      <AnimatePresence />
+      <AnimatePresence>
         {showMenu && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -619,54 +633,58 @@ const Home = (): any => {
               className="bg-gray-800 rounded-xl p-6 w-full max-w-md"
               onClick={e => e.stopPropagation()}
             >
-              <div className="flex justify-between items-center mb-6"></div>
+              <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">Game Menu</h2>
                 <button 
                   onClick={() => setShowMenu(false)}
                   className="p-2 hover:bg-gray-700 rounded-full"
                 >
-                  <X size={20} / />
+                  <X size={20} />
                 </button>
+              </div>
               
-              <div className="space-y-3"></div>
-                <Link to="/play" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <Play size={20} / />
+              <div className="space-y-3">
+                <Link to="/play" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <Play size={20} />
                   <span>Play</span>
-                
-                <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <Package size={20} / />
+                </Link>
+                <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <Package size={20} />
                   <span>Cards</span>
-                
-                <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <Shield size={20} / />
+                </Link>
+                <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <Shield size={20} />
                   <span>Decks</span>
-                
-                <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <Calendar size={20} / />
+                </Link>
+                <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <Calendar size={20} />
                   <span>Events</span>
-                
-                <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <DollarSign size={20} / />
+                </Link>
+                <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <DollarSign size={20} />
                   <span>Store</span>
-                
-                <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <User size={20} / />
+                </Link>
+                <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <User size={20} />
                   <span>Profile</span>
-                
+                </Link>
                 <div className="h-px bg-gray-700 my-3"></div>
                 
-                <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-                  <Settings size={20} / />
+                <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+                  <Settings size={20} />
                   <span>Settings</span>
-                
-                <button className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors w-full text-left"></button>
-                  <LogOut size={20} / />
+                </Link>
+                <button className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors w-full text-left">
+                  <LogOut size={20} />
                   <span>Logout</span>
+                </button>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
+    </div>
   );
 };
 
