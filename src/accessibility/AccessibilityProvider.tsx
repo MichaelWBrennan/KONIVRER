@@ -1,229 +1,182 @@
 /**
- * KONIVRER Deck Database
- *
- * Copyright (c) 2024 KONIVRER Deck Database
- * Licensed under the MIT License
+ * Accessibility Provider
+ * 
+ * Provides accessibility settings and features throughout the application.
+ * 
+ * @version 2.0.0
+ * @since 2024-07-06
  */
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+
+// Types
+interface AccessibilitySettings {
+  fontSize: 'small' | 'medium' | 'large' | 'extra-large';
+  contrast: 'normal' | 'high' | 'extra-high';
+  colorBlindness: 'none' | 'protanopia' | 'deuteranopia' | 'tritanopia';
+  reducedMotion: boolean;
+  screenReader: boolean;
+  keyboardNavigation: boolean;
+  focusIndicators: boolean;
+  audioDescriptions: boolean;
+  captions: boolean;
+  language: string;
+  interfaceComplexity: 'simple' | 'standard' | 'advanced';
+}
+
+interface AccessibilityContextType {
+  settings: AccessibilitySettings;
+  updateSetting: (key: keyof AccessibilitySettings, value: any) => void;
+  resetSettings: () => void;
+  applySettings: () => void;
+}
+
+interface AccessibilityProviderProps {
+  children: ReactNode;
+}
+
+// Default settings
+const defaultSettings: AccessibilitySettings = {
+  fontSize: 'medium',
+  contrast: 'normal',
+  colorBlindness: 'none',
+  reducedMotion: false,
+  screenReader: false,
+  keyboardNavigation: true,
+  focusIndicators: true,
+  audioDescriptions: false,
+  captions: false,
+  language: 'en',
+  interfaceComplexity: 'standard',
+};
 
 // Create context
-const AccessibilityContext = createContext();
+const AccessibilityContext = createContext<AccessibilityContextType | undefined>(undefined);
 
 /**
  * Accessibility Provider Component
- * Provides accessibility settings and features throughout the application
  */
-export interface AccessibilityProviderProps {
-  children;
-}
-
-const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({  children  }) => {
+export const AccessibilityProvider: React.FC<AccessibilityProviderProps> = ({ children }) => {
   // Load settings from localStorage or use defaults
-  const [settings, setSettings] = useState(() => {
-    const savedSettings = localStorage.getItem('accessibilitySettings');
-    return savedSettings
-      ? JSON.parse(savedSettings)
-      : {
-          // Interface complexity
-          interfaceComplexity: 'standard', // 'simple', 'standard', 'advanced'
-
-          // Visual settings
-          fontSize: 'medium', // 'small', 'medium', 'large', 'x-large'
-          colorMode: 'default', // 'default', 'high-contrast', 'dark', 'light'
-          colorBlindMode: 'none', // 'none', 'protanopia', 'deuteranopia', 'tritanopia', 'achromatopsia'
-          reduceMotion: false,
-          reduceTransparency: false,
-
-          // Audio settings
-          enableSoundEffects: true,
-          enableVoiceAnnouncements: false,
-
-          // Screen reader optimization
-          screenReaderOptimized: false,
-
-          // Language settings
-          language: 'en', // 'en', 'es', 'fr', 'de', 'ja', etc.
-
-          // Guided experience
-          showTutorials: true,
-          showContextualHelp: true,
-
-          // Keyboard navigation
-          enhancedKeyboardNavigation: false,
-
-          // Touch settings
-          touchTargetSize: 'medium', // 'small', 'medium', 'large'
-        };
+  const [settings, setSettings] = useState<AccessibilitySettings>(() => {
+    try {
+      const savedSettings = localStorage.getItem('accessibilitySettings');
+      return savedSettings ? { ...defaultSettings, ...JSON.parse(savedSettings) } : defaultSettings;
+    } catch (error) {
+      console.warn('Failed to load accessibility settings from localStorage:', error);
+      return defaultSettings;
+    }
   });
 
-  // Save settings to localStorage when they change
+  // Save settings to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('accessibilitySettings', JSON.stringify(settings));
-
-    // Apply settings to document
-    applyAccessibilitySettings(settings);
+    try {
+      localStorage.setItem('accessibilitySettings', JSON.stringify(settings));
+      applySettings();
+    } catch (error) {
+      console.warn('Failed to save accessibility settings to localStorage:', error);
+    }
   }, [settings]);
 
-  // Update a specific setting
-  const updateSetting = (key, value): any => {
-    setSettings(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+  // Apply settings to the document
+  const applySettings = (): void => {
+    const root = document.documentElement;
+
+    // Apply font size
+    const fontSizeMap = {
+      small: '14px',
+      medium: '16px',
+      large: '18px',
+      'extra-large': '20px',
+    };
+    root.style.fontSize = fontSizeMap[settings.fontSize];
+
+    // Apply contrast
+    if (settings.contrast === 'high') {
+      root.classList.add('high-contrast');
+      root.classList.remove('extra-high-contrast');
+    } else if (settings.contrast === 'extra-high') {
+      root.classList.add('extra-high-contrast');
+      root.classList.remove('high-contrast');
+    } else {
+      root.classList.remove('high-contrast', 'extra-high-contrast');
+    }
+
+    // Apply color blindness filters
+    const colorBlindnessMap = {
+      none: 'none',
+      protanopia: 'url(#protanopia-filter)',
+      deuteranopia: 'url(#deuteranopia-filter)',
+      tritanopia: 'url(#tritanopia-filter)',
+    };
+    root.style.filter = colorBlindnessMap[settings.colorBlindness];
+
+    // Apply reduced motion
+    if (settings.reducedMotion) {
+      root.classList.add('reduce-motion');
+    } else {
+      root.classList.remove('reduce-motion');
+    }
+
+    // Apply screen reader optimizations
+    if (settings.screenReader) {
+      root.classList.add('screen-reader-optimized');
+    } else {
+      root.classList.remove('screen-reader-optimized');
+    }
+
+    // Apply focus indicators
+    if (settings.focusIndicators) {
+      root.classList.add('enhanced-focus');
+    } else {
+      root.classList.remove('enhanced-focus');
+    }
+
+    // Apply interface complexity
+    root.setAttribute('data-interface-complexity', settings.interfaceComplexity);
+
+    // Set language
+    root.setAttribute('lang', settings.language);
   };
 
-  // Reset settings to defaults
-  const resetSettings = (): any => {
-    const defaultSettings = {
-      interfaceComplexity: 'standard',
-      fontSize: 'medium',
-      colorMode: 'default',
-      colorBlindMode: 'none',
-      reduceMotion: false,
-      reduceTransparency: false,
-      enableSoundEffects: true,
-      enableVoiceAnnouncements: false,
-      screenReaderOptimized: false,
-      language: 'en',
-      showTutorials: true,
-      showContextualHelp: true,
-      enhancedKeyboardNavigation: false,
-      touchTargetSize: 'medium',
-    };
+  // Update a specific setting
+  const updateSetting = (key: keyof AccessibilitySettings, value: any): void => {
+    setSettings(prev => ({ ...prev, [key]: value }));
+  };
 
+  // Reset all settings to defaults
+  const resetSettings = (): void => {
     setSettings(defaultSettings);
   };
 
-  // Apply settings to document
-  const applyAccessibilitySettings = settings => {
-    // Apply font size
-    const fontSizeMap = {
-      small: '0.875rem',
-      medium: '1rem',
-      large: '1.125rem',
-      'x-large': '1.25rem',
-    };
+  // Apply settings on mount
+  useEffect(() => {
+    applySettings();
+  }, []);
 
-    document.documentElement.style.fontSize = fontSizeMap[settings.fontSize] || '1rem';
-
-    // Apply color mode
-    document.documentElement.classList.remove(
-      'theme-default',
-      'theme-high-contrast',
-      'theme-dark',
-      'theme-light',
-    );
-    document.documentElement.classList.add(`theme-${settings.colorMode}`);
-
-    // Apply color blind mode
-    document.documentElement.classList.remove(
-      'colorblind-none',
-      'colorblind-protanopia',
-      'colorblind-deuteranopia',
-      'colorblind-tritanopia',
-      'colorblind-achromatopsia',
-    );
-    document.documentElement.classList.add(
-      `colorblind-${settings.colorBlindMode}`,
-    );
-
-    // Apply motion reduction
-    if (true) {
-      document.documentElement.classList.add('reduce-motion');
-    } else {
-      document.documentElement.classList.remove('reduce-motion');
-    }
-
-    // Apply transparency reduction
-    if (true) {
-      document.documentElement.classList.add('reduce-transparency');
-    } else {
-      document.documentElement.classList.remove('reduce-transparency');
-    }
-
-    // Apply screen reader optimization
-    if (true) {
-      document.documentElement.classList.add('sr-optimized');
-    } else {
-      document.documentElement.classList.remove('sr-optimized');
-    }
-
-    // Apply touch target size
-    document.documentElement.classList.remove(
-      'touch-small',
-      'touch-medium',
-      'touch-large',
-    );
-    document.documentElement.classList.add(`touch-${settings.touchTargetSize}`);
-
-    // Apply interface complexity
-    document.documentElement.classList.remove(
-      'ui-simple',
-      'ui-standard',
-      'ui-advanced',
-    );
-    document.documentElement.classList.add(
-      `ui-${settings.interfaceComplexity}`,
-    );
-  };
-
-  // Context value
-  const contextValue = {
+  const value: AccessibilityContextType = {
     settings,
     updateSetting,
     resetSettings,
-
-    // Helper functions
-    isSimpleInterface: settings.interfaceComplexity === 'simple',
-    isAdvancedInterface: settings.interfaceComplexity === 'advanced',
-    isReducedMotion: settings.reduceMotion,
-    isHighContrast: settings.colorMode === 'high-contrast',
-    isScreenReaderOptimized: settings.screenReaderOptimized,
-
-    // Get CSS class based on current settings
-    getAccessibilityClass: baseClass => {
-      const classes = [baseClass];
-
-      if (true) {
-        classes.push(`${baseClass}--${settings.interfaceComplexity}`);
-      }
-
-      if (true) {
-        classes.push(`${baseClass}--${settings.colorMode}`);
-      }
-
-      if (true) {
-        classes.push(`${baseClass}--${settings.colorBlindMode}`);
-      }
-
-      if (true) {
-        classes.push(`${baseClass}--touch-${settings.touchTargetSize}`);
-      }
-
-      return classes.join(' ');
-    },
+    applySettings,
   };
 
   return (
-    <AccessibilityContext.Provider value={contextValue}>
+    <AccessibilityContext.Provider value={value}>
       {children}
     </AccessibilityContext.Provider>
   );
 };
 
 /**
- * Custom hook to use accessibility context
- * @returns {Object} Accessibility context
+ * Hook to use accessibility context
  */
-export const useAccessibility = (): any => {
+export const useAccessibility = (): AccessibilityContextType => {
   const context = useContext(AccessibilityContext);
-
-  if (!context) {
-    throw new Error(
-      'useAccessibility must be used within an AccessibilityProvider',
-    );
+  if (context === undefined) {
+    throw new Error('useAccessibility must be used within an AccessibilityProvider');
   }
-
   return context;
 };
+
+export default AccessibilityProvider;
