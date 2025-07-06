@@ -34,9 +34,110 @@ interface GameOptions {
   startingHandSize?: number;
 }
 
+interface Card {
+  id: string;
+  name: string;
+  type: string;
+  cost?: number;
+  power?: number;
+  health?: number;
+  abilities?: any[];
+  effects?: any[];
+  faceDown?: boolean;
+  [key: string]: any;
+}
+
+interface Player {
+  id: number;
+  name: string;
+  avatar?: string | null;
+  rank?: string;
+  rankTier?: number;
+  deck: Card[];
+  hand: Card[];
+  lifeCards: Card[];
+  field: Card[];
+  azothRow: Card[];
+  graveyard: Card[];
+  removedZone: Card[];
+  life: number;
+  azothAvailable: number;
+  azothPlacedThisTurn: boolean;
+  passedPriority: boolean;
+  mulligans: number;
+  timeRemaining: number | null;
+  flag?: string | null;
+  cardBack?: string;
+  avatarFrame?: string;
+  emotes?: any[];
+  cardsDrawn: number;
+  damageDealt: number;
+  creaturesSummoned: number;
+  spellsCast: number;
+}
+
+interface GameState {
+  gameId: string;
+  gameMode: string;
+  ranked: boolean;
+  settings: any;
+  turn: number;
+  phase: string;
+  currentPlayer: number | null;
+  activePlayer: number | null;
+  players: Player[];
+  stack: any[];
+  drcActive: boolean;
+  drcInitiator: number | null;
+  drcWaitingFor: number | null;
+  drcResponses: any[];
+  animations: any[];
+  triggers: any[];
+  gameLog: GameLogEntry[];
+  isOnline: boolean;
+  isAI: boolean;
+  winner: number | null;
+  waitingFor: number | null;
+  timer: number;
+  startTime: number;
+  lastActionTime: number;
+  performanceData: {
+    deviceType: string;
+    frameRate: number;
+    animationLevel: string;
+    performanceMode: string;
+    performanceIssues: boolean;
+  };
+}
+
+interface GameLogEntry {
+  type: string;
+  message: string;
+  timestamp: number;
+}
+
+interface GameInitOptions {
+  players: any[];
+  isOnline?: boolean;
+  isAI?: boolean;
+  gameMode?: string;
+  ranked?: boolean;
+  settings?: any;
+}
+
+interface AnimationSystem {
+  name?: string;
+  [key: string]: any;
+}
+
+interface RulesEngine {
+  name?: string;
+  [key: string]: any;
+}
+
 class GameEngine {
   // Core state
-  private gameState: any;
+  private gameState: GameState | null;
   private eventListeners: Record<string, Function[]>;
   private gameId: string;
   
@@ -59,8 +160,8 @@ class GameEngine {
   private startingHandSize: number;
   
   // Animation and rules systems
-  private animationSystem: any;
-  private rulesEngine: any;
+  private animationSystem: AnimationSystem | null;
+  private rulesEngine: RulesEngine | null;
   
   // Performance monitoring
   private lastFrameTime: number;
@@ -226,7 +327,7 @@ class GameEngine {
    * Set the animation system for the game engine
    * @param animationSystem - The animation system to use
    */
-  public setAnimationSystem(animationSystem: any): GameEngine {
+  public setAnimationSystem(animationSystem: AnimationSystem): GameEngine {
     this.animationSystem = animationSystem;
     console.log('Animation system set:', animationSystem.name || 'Unknown');
     return this;
@@ -236,7 +337,7 @@ class GameEngine {
    * Set the rules engine for the game engine
    * @param rulesEngine - The rules engine to use
    */
-  public setRulesEngine(rulesEngine: any): GameEngine {
+  public setRulesEngine(rulesEngine: RulesEngine): GameEngine {
     this.rulesEngine = rulesEngine;
     console.log('Rules engine set:', rulesEngine.name || 'Unknown');
     return this;
@@ -246,14 +347,7 @@ class GameEngine {
    * Initialize a new game with the given players and decks
    * @param options Game initialization options
    */
-  public initializeGame(options: {
-    players: any[];
-    isOnline?: boolean;
-    isAI?: boolean;
-    gameMode?: string;
-    ranked?: boolean;
-    settings?: any;
-  }): any {
+  public initializeGame(options: GameInitOptions): GameState {
     const {
       players,
       isOnline = false,
@@ -364,7 +458,7 @@ class GameEngine {
     };
 
     // Initial setup - draw life cards
-    this.gameState.players.forEach((player: any) => {
+    this.gameState.players.forEach((player: Player) => {
       // Draw 4 life cards
       for (let i = 0; i < 4; i++) {
         const card = player.deck.pop();
@@ -394,7 +488,7 @@ class GameEngine {
   /**
    * Shuffle a deck of cards
    */
-  private shuffleDeck(deck: any[]): any[] {
+  private shuffleDeck(deck: Card[]): Card[] {
     // Fisher-Yates shuffle algorithm
     for (let i = deck.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -434,7 +528,7 @@ class GameEngine {
   /**
    * Start the game after setup is complete
    */
-  public startGame(): any {
+  public startGame(): GameState {
     if (!this.gameState) {
       throw new Error('Game not initialized');
     }
@@ -460,7 +554,7 @@ class GameEngine {
    * @param actionType Type of action (play, summon, cast, attack, etc.)
    * @param actionData Data associated with the action
    */
-  public processAction(playerId: number, actionType: string, actionData: any): any {
+  public processAction(playerId: number, actionType: string, actionData: any): GameState {
     if (!this.gameState) {
       throw new Error('Game not initialized');
     }
@@ -505,9 +599,9 @@ class GameEngine {
   /**
    * Get a player by ID
    */
-  private getPlayerById(playerId: number): any {
+  private getPlayerById(playerId: number): Player | null {
     if (!this.gameState) return null;
-    return this.gameState.players.find((p: any) => p.id === playerId);
+    return this.gameState.players.find((p) => p.id === playerId) || null;
   }
 
   /**
@@ -515,351 +609,289 @@ class GameEngine {
    * @param playerId Player ID
    * @param cardId Card ID to place as Azoth
    */
-  private placeAzoth(playerId: number, cardId: string): any {
+  private placeAzoth(playerId: number, cardId: string): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
     const player = this.getPlayerById(playerId);
     if (!player) {
       throw new Error('Player not found');
     }
 
-    // In simultaneous mode, players can place Azoth at any time
-    // No phase restrictions
-
     // Find the card in hand
-    const cardIndex = player.hand.findIndex((card: any) => card.id === cardId);
+    const cardIndex = player.hand.findIndex((card) => card.id === cardId);
     if (cardIndex === -1) {
       throw new Error('Card not found in hand');
     }
-
-    // In simultaneous mode, players can place multiple Azoth
-    // No restriction on number of Azoth placed per turn
 
     // Remove from hand and add to Azoth row
     const card = player.hand.splice(cardIndex, 1)[0];
     player.azothRow.push(card);
     
+    // Increment available Azoth
+    player.azothAvailable += 1;
+    
     // Mark that player has placed Azoth this turn
     player.azothPlacedThisTurn = true;
-
-    // Log the action
-    this.addToGameLog('azoth', `${player.name} placed ${card.name} as Azoth`);
+    
+    // Log action
+    this.addToGameLog('action', `${player.name} placed ${card.name} as Azoth`);
     
     // Emit event
     this.emitEvent('azothPlaced', {
       playerId,
       card,
-      gameState: this.gameState
+      azothAvailable: player.azothAvailable
     });
     
     return this.gameState;
   }
 
   /**
-   * Summon a Familiar
+   * Summon a familiar
    * @param playerId Player ID
    * @param cardId Card ID to summon
-   * @param azothPaid Array of Azoth card IDs used to pay the cost
+   * @param azothPaid Azoth paid to summon the familiar
    */
-  private summonFamiliar(playerId: number, cardId: string, azothPaid: string[]): any {
+  private summonFamiliar(playerId: number, cardId: string, azothPaid: any): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
     const player = this.getPlayerById(playerId);
     if (!player) {
       throw new Error('Player not found');
     }
-    
+
     // Find the card in hand
-    const cardIndex = player.hand.findIndex((card: any) => card.id === cardId);
+    const cardIndex = player.hand.findIndex((card) => card.id === cardId);
     if (cardIndex === -1) {
       throw new Error('Card not found in hand');
     }
-    
+
     const card = player.hand[cardIndex];
     
-    // Check if card is a Familiar
-    if (card.type !== 'familiar') {
-      throw new Error('Card is not a Familiar');
+    // Check if player has enough Azoth
+    if (player.azothAvailable < (card.cost || 0)) {
+      throw new Error('Not enough Azoth');
     }
     
-    // Verify Azoth payment
-    this.verifyAzothPayment(player, card, azothPaid);
+    // Pay Azoth cost
+    player.azothAvailable -= (card.cost || 0);
     
-    // Remove from hand
+    // Remove from hand and add to field
     player.hand.splice(cardIndex, 1);
+    player.field.push(card);
     
-    // Calculate strength counters based on Azoth paid
-    const strengthPaid = azothPaid.reduce((total, azothId) => {
-      const azoth = player.azothRow.find((a: any) => a.id === azothId);
-      return total + (azoth.elements.includes('Strength') ? 1 : 0);
-    }, 0);
+    // Increment stats
+    player.creaturesSummoned += 1;
     
-    // Tap the Azoth cards used
-    azothPaid.forEach(azothId => {
-      const azoth = player.azothRow.find((a: any) => a.id === azothId);
-      if (azoth) {
-        azoth.tapped = true;
-      }
-    });
-    
-    // Create stack item for the familiar
-    const stackItem = {
-      type: 'creature',
-      card: {
-        ...card,
-        counters: strengthPaid,
-        summoningSickness: true, // Can't attack the turn it's summoned
-      },
-      controller: playerId,
-      targets: [],
-      timestamp: Date.now(),
-    };
-    
-    // Start a Dynamic Resolution Chain if not already in one
-    if (!this.gameState.drcActive) {
-      // This is a new DRC
-      this.startDynamicResolutionChain(playerId, stackItem);
-    } else {
-      // This is a response in an existing DRC
-      // Add to stack
-      this.gameState.stack.push(stackItem);
-      
-      // Log the action
-      this.addToGameLog('summon', `${player.name} summoned ${card.name} with ${strengthPaid} strength counters in response`);
-    }
+    // Log action
+    this.addToGameLog('action', `${player.name} summoned ${card.name}`);
     
     // Emit event
     this.emitEvent('familiarSummoned', {
       playerId,
       card,
-      strengthPaid,
-      gameState: this.gameState
+      azothPaid
     });
     
     return this.gameState;
   }
-  
-  /**
-   * Verify Azoth payment for a card
-   */
-  private verifyAzothPayment(player: any, card: any, azothPaid: string[]): void {
-    // This would be implemented with actual cost verification logic
-    // For now, just a stub
-  }
-  
-  /**
-   * Start a Dynamic Resolution Chain
-   */
-  private startDynamicResolutionChain(playerId: number, stackItem: any): void {
-    this.gameState.drcActive = true;
-    this.gameState.drcInitiator = playerId;
-    this.gameState.drcWaitingFor = 1 - playerId; // Other player
-    this.gameState.drcResponses = [];
-    this.gameState.stack.push(stackItem);
-    
-    // Log the action
-    this.addToGameLog('drc', `${this.getPlayerById(playerId).name} started a Dynamic Resolution Chain`);
-  }
 
   /**
-   * Cast a Spell
+   * Cast a spell
    * @param playerId Player ID
    * @param cardId Card ID to cast
-   * @param azothPaid Array of Azoth card IDs used to pay the cost
-   * @param targets Array of target objects (if required)
+   * @param azothPaid Azoth paid to cast the spell
+   * @param targets Targets for the spell
    */
-  private castSpell(playerId: number, cardId: string, azothPaid: string[], targets: any[] = []): any {
+  private castSpell(playerId: number, cardId: string, azothPaid: any, targets: any[]): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
     const player = this.getPlayerById(playerId);
     if (!player) {
       throw new Error('Player not found');
     }
-    
+
     // Find the card in hand
-    const cardIndex = player.hand.findIndex((card: any) => card.id === cardId);
+    const cardIndex = player.hand.findIndex((card) => card.id === cardId);
     if (cardIndex === -1) {
       throw new Error('Card not found in hand');
     }
-    
+
     const card = player.hand[cardIndex];
     
-    // Check if card is a Spell
-    if (card.type !== 'spell') {
-      throw new Error('Card is not a Spell');
+    // Check if player has enough Azoth
+    if (player.azothAvailable < (card.cost || 0)) {
+      throw new Error('Not enough Azoth');
     }
     
-    // Verify Azoth payment
-    this.verifyAzothPayment(player, card, azothPaid);
-    
-    // Verify targets if required
-    if (card.requiresTarget && (!targets || targets.length === 0)) {
-      throw new Error('Spell requires targets');
-    }
+    // Pay Azoth cost
+    player.azothAvailable -= (card.cost || 0);
     
     // Remove from hand
     player.hand.splice(cardIndex, 1);
     
-    // Tap the Azoth cards used
-    azothPaid.forEach(azothId => {
-      const azoth = player.azothRow.find((a: any) => a.id === azothId);
-      if (azoth) {
-        azoth.tapped = true;
-      }
-    });
+    // Add to graveyard (after resolving)
+    player.graveyard.push(card);
     
-    // Create stack item for the spell
-    const stackItem = {
-      type: 'spell',
-      card,
-      controller: playerId,
-      targets,
-      timestamp: Date.now(),
-    };
+    // Increment stats
+    player.spellsCast += 1;
     
-    // Start a Dynamic Resolution Chain if not already in one
-    if (!this.gameState.drcActive) {
-      // This is a new DRC
-      this.startDynamicResolutionChain(playerId, stackItem);
-    } else {
-      // This is a response in an existing DRC
-      // Add to stack
-      this.gameState.stack.push(stackItem);
-      
-      // Log the action
-      this.addToGameLog('cast', `${player.name} cast ${card.name} in response`);
-    }
+    // Log action
+    this.addToGameLog('action', `${player.name} cast ${card.name}`);
     
     // Emit event
     this.emitEvent('spellCast', {
       playerId,
       card,
-      targets,
-      gameState: this.gameState
+      azothPaid,
+      targets
     });
+    
+    // Resolve spell effects (would be more complex in real implementation)
     
     return this.gameState;
   }
 
   /**
-   * Declare attackers for combat
+   * Declare attackers
    * @param playerId Player ID
-   * @param attackers Array of card IDs that are attacking
+   * @param attackers Array of card IDs to attack with
    */
-  private declareAttack(playerId: number, attackers: string[]): any {
-    const player = this.getPlayerById(playerId);
-    if (!player) {
-      throw new Error('Player not found');
+  private declareAttack(playerId: number, attackers: string[]): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
     }
     
-    // Verify all attackers are valid
-    const attackingCards = attackers.map(attackerId => {
-      const attacker = player.field.find((card: any) => card.id === attackerId);
-      
-      if (!attacker) {
-        throw new Error(`Attacker ${attackerId} not found on field`);
-      }
-      
-      if (attacker.tapped) {
-        throw new Error(`Attacker ${attacker.name} is already tapped`);
-      }
-      
-      if (attacker.summoningSickness) {
-        throw new Error(`Attacker ${attacker.name} has summoning sickness`);
-      }
-      
-      return attacker;
-    });
-    
-    // Mark attackers as attacking and tap them
-    attackingCards.forEach(attacker => {
-      attacker.attacking = true;
-      attacker.tapped = true;
-    });
-    
-    // Set game state to waiting for blocks
-    this.gameState.phase = 'combat-blocks';
-    this.gameState.activePlayer = 1 - playerId; // Give priority to defender
-    this.gameState.waitingFor = 'blocks';
-    
-    // Log the action
-    this.addToGameLog('attack', `${player.name} declared ${attackers.length} attackers`);
-    
-    // Emit event
-    this.emitEvent('attackDeclared', {
-      playerId,
-      attackers: attackingCards,
-      gameState: this.gameState
-    });
+    // Implementation would go here
     
     return this.gameState;
   }
 
   /**
-   * Declare blockers for combat
+   * Declare blockers
    * @param playerId Player ID
-   * @param blockers Array of {blocker: cardId, attacker: cardId} pairs
+   * @param blockers Object mapping attacker IDs to blocker IDs
    */
-  private declareBlock(playerId: number, blockers: {blocker: string, attacker: string}[]): any {
-    const player = this.getPlayerById(playerId);
-    if (!player) {
-      throw new Error('Player not found');
+  private declareBlock(playerId: number, blockers: Record<string, string>): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
     }
     
-    const attacker = this.getPlayerById(1 - playerId);
-    if (!attacker) {
-      throw new Error('Attacker not found');
-    }
-    
-    // Check if in the correct phase
-    if (this.gameState.phase !== 'combat-blocks') {
-      throw new Error('Can only declare blocks during Combat-Blocks phase');
-    }
-    
-    // Check if it's the player's priority
-    if (this.gameState.activePlayer !== playerId) {
-      throw new Error('Not your priority to block');
-    }
-    
-    // Stub implementation - would be more complex in reality
-    
-    // Log the action
-    this.addToGameLog('block', `${player.name} declared ${blockers.length} blockers`);
-    
-    // Emit event
-    this.emitEvent('blockDeclared', {
-      playerId,
-      blockers,
-      gameState: this.gameState
-    });
+    // Implementation would go here
     
     return this.gameState;
   }
-  
+
   /**
    * Activate an ability on a card
+   * @param playerId Player ID
+   * @param cardId Card ID with the ability
+   * @param abilityIndex Index of the ability to activate
+   * @param targets Targets for the ability
    */
-  private activateAbility(playerId: number, cardId: string, abilityIndex: number, targets: any[] = []): any {
-    // Stub implementation
+  private activateAbility(playerId: number, cardId: string, abilityIndex: number, targets: any[]): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
+    // Implementation would go here
+    
     return this.gameState;
   }
-  
+
   /**
    * Pass priority in a Dynamic Resolution Chain
+   * @param playerId Player ID
    */
-  private passPriority(playerId: number): any {
-    // Stub implementation
+  private passPriority(playerId: number): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
+    // Implementation would go here
+    
     return this.gameState;
   }
-  
+
   /**
    * End the current phase
+   * @param playerId Player ID
    */
-  private endPhase(playerId: number): any {
-    // Stub implementation
+  private endPhase(playerId: number): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
+    // Implementation would go here
+    
     return this.gameState;
   }
-  
+
   /**
    * End the current turn
+   * @param playerId Player ID
    */
-  private endTurn(playerId: number): any {
-    // Stub implementation
+  private endTurn(playerId: number): GameState {
+    if (!this.gameState) {
+      throw new Error('Game not initialized');
+    }
+    
+    // Implementation would go here
+    
     return this.gameState;
+  }
+
+  /**
+   * Add an event listener
+   * @param eventType Type of event to listen for
+   * @param callback Function to call when event occurs
+   */
+  public addEventListener(eventType: string, callback: Function): void {
+    if (!this.eventListeners[eventType]) {
+      this.eventListeners[eventType] = [];
+    }
+    
+    this.eventListeners[eventType].push(callback);
+  }
+
+  /**
+   * Remove an event listener
+   * @param eventType Type of event
+   * @param callback Function to remove
+   */
+  public removeEventListener(eventType: string, callback: Function): void {
+    if (!this.eventListeners[eventType]) return;
+    
+    this.eventListeners[eventType] = this.eventListeners[eventType].filter(
+      listener => listener !== callback
+    );
+  }
+
+  /**
+   * Get the current game state
+   */
+  public getGameState(): GameState | null {
+    return this.gameState;
+  }
+
+  /**
+   * Get performance data
+   */
+  public getPerformanceData(): any {
+    return {
+      deviceType: this.deviceType,
+      frameRate: this.frameRate,
+      frameRateHistory: [...this.frameRateHistory],
+      animationLevel: this.animationLevel,
+      performanceMode: this.performanceMode,
+      performanceIssues: this.performanceIssues
+    };
   }
 }
 
