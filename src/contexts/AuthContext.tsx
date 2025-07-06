@@ -14,7 +14,7 @@ import {
   useCallback,
 } from 'react';
 import { z } from 'zod';
-import { initiateOAuth } from '../services/oauthService.js';
+import { initiateOAuth } from '../services/oauthService';
 
 // Validation schemas using Zod for type safety
 const UserSchema = z.object({
@@ -768,3 +768,5 @@ const AuthProvider: React.FC<AuthProviderProps> = ({  children  }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export { AuthProvider, AuthContext };
