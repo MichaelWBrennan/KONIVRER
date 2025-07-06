@@ -18,7 +18,7 @@ module.exports = {
     }
   },
   settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh', '@typescript-eslint'],
+  plugins: ['react-refresh', '@typescript-eslint', 'typescript-only'],
   rules: {
     'react-refresh/only-export-components': [
       'warn',
@@ -29,5 +29,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'warn',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'typescript-only/no-js-files': 'error',
   },
 };

@@ -16,11 +16,27 @@ If you need to convert JavaScript code to TypeScript, follow these steps:
 4. Create interfaces for object structures
 5. Use enums instead of string constants where appropriate
 
-You can also use our automated conversion tool:
+You can also use our automated conversion tools:
 
 ```bash
+# Basic conversion
 npm run convert:to-typescript
+
+# Advanced conversion with better type inference
+npm run convert:advanced
+
+# Advanced conversion with options
+npx ts-node scripts/advanced-typescript-conversion.ts --verbose --include "src"
 ```
+
+The advanced conversion tool provides better type inference and handles:
+- React components (both class and functional)
+- Node.js scripts
+- Complex object structures
+- Function parameters and return types
+- Variable declarations
+- Class properties
+- And more
 
 ## TypeScript Best Practices
 

@@ -50,8 +50,15 @@ jobs:
           # Install ts-node
           npm install -g ts-node
           
-          # Run conversion script
-          ts-node scripts/convert-to-typescript.ts
+          # Try advanced conversion first
+          echo "Running advanced TypeScript conversion..."
+          ts-node scripts/advanced-typescript-conversion.ts --verbose
+          
+          # If advanced conversion fails, try basic conversion
+          if find src -name "*.js" | grep -q .; then
+            echo "Advanced conversion failed. Trying basic conversion..."
+            ts-node scripts/convert-to-typescript.ts
+          fi
           
           # Check if conversion was successful
           if find src -name "*.js" | grep -q .; then
