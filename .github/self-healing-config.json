@@ -28,6 +28,21 @@
         "rollbackOnFailure": true
       },
       
+      "typescriptErrors": {
+        "enabled": true,
+        "autoFix": true,
+        "createPullRequest": true,
+        "scheduleFrequency": "daily",
+        "fixStrategies": [
+          "add-missing-types",
+          "fix-syntax-errors",
+          "create-interfaces",
+          "fix-implicit-any"
+        ],
+        "maxErrorsPerRun": 500,
+        "prioritizeFiles": true
+      },
+      
       "securityVulnerabilities": {
         "enabled": true,
         "autoUpdate": true,
