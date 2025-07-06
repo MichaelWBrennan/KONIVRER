@@ -299,74 +299,84 @@ const Home = (): any => {
         </div>
       
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6"></div>
+      <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-6">
         {/* Left Navigation */}
-        <div className="w-full md:w-64 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 h-fit"></div>
-          <nav className="space-y-2" />
-            <Link to="/play" className="flex items-center space-x-3 p-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors" />
-              <Play size={20} / />
+        <div className="w-full md:w-64 bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 h-fit">
+          <nav className="space-y-2">
+            <Link to="/play" className="flex items-center space-x-3 p-3 bg-blue-600 hover:bg-blue-500 rounded-lg transition-colors">
+              <Play size={20} />
               <span className="font-medium">Play</span>
+            </Link>
             
             <div className="h-px bg-gray-700 my-3"></div>
             
-            <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-              <Package size={20} / />
+            <Link to="/cards" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+              <Package size={20} />
               <span>Cards</span>
+            </Link>
             
-            <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-              <Shield size={20} / />
+            <Link to="/decks" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+              <Shield size={20} />
               <span>Decks</span>
+            </Link>
             
-            <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-              <Calendar size={20} / />
+            <Link to="/events" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+              <Calendar size={20} />
               <span>Events</span>
+            </Link>
             
-            <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-              <DollarSign size={20} / />
+            <Link to="/store" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+              <DollarSign size={20} />
               <span>Store</span>
+            </Link>
             
-            <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-              <User size={20} / />
+            <Link to="/profile" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+              <User size={20} />
               <span>Profile</span>
+            </Link>
             
             <div className="h-px bg-gray-700 my-3"></div>
             
-            <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors" />
-              <Settings size={20} / />
+            <Link to="/settings" className="flex items-center space-x-3 p-3 hover:bg-gray-700 rounded-lg transition-colors">
+              <Settings size={20} />
               <span>Settings</span>
+            </Link>
           </nav>
           
           {/* Daily Quests */}
-          <div className="mt-6"></div>
+          <div className="mt-6">
             <h3 className="text-lg font-medium mb-3">Daily Quests</h3>
-            <div className="space-y-3"></div>
+            <div className="space-y-3">
               {dailyQuests.map(quest => (
-                <div key={quest.id} className="bg-gray-700/50 rounded-lg p-3"></div>
-                  <div className="flex justify-between items-start mb-2"></div>
-                    <p className="text-sm">{quest.description}
-                    <div className="flex items-center"></div>
+                <div key={quest.id} className="bg-gray-700/50 rounded-lg p-3">
+                  <div className="flex justify-between items-start mb-2">
+                    <p className="text-sm">{quest.description}</p>
+                    <div className="flex items-center">
                       <div className="w-4 h-4 rounded-full bg-yellow-500 mr-1"></div>
-                      <span className="text-sm">{quest.reward.gold}
+                      <span className="text-sm">{quest.reward.gold}</span>
                     </div>
-                  <div className="w-full bg-gray-600 rounded-full h-2"></div>
+                  </div>
+                  <div className="w-full bg-gray-600 rounded-full h-2">
                     <div 
                       className="bg-blue-500 h-2 rounded-full" 
                       style={{ width: `${(quest.progress / quest.total) * 100}%` }}
-                     />
+                    ></div>
                   </div>
-                  <div className="text-xs text-gray-400 mt-1 text-right"></div>
+                  <div className="text-xs text-gray-400 mt-1 text-right">
                     {quest.progress}/{quest.total}
+                  </div>
                 </div>
               ))}
             </div>
+          </div>
         </div>
         
         {/* Main Content Area */}
-        <div className="flex-1"></div>
+        <div className="flex-1">
           {/* Blog Search and Filters */}
-          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6"></div>
-            <div className="relative mb-4"></div>
-              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" / />
+          <div className="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4 mb-6">
+            <div className="relative mb-4">
+              <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search blog posts..."
@@ -376,7 +386,7 @@ const Home = (): any => {
               />
             </div>
             
-            <div className="flex flex-wrap gap-2 mb-2"></div>
+            <div className="flex flex-wrap gap-2 mb-2">
               {categories.map(category => (
                 <button
                   key={category.id}
@@ -387,17 +397,17 @@ const Home = (): any => {
                       : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                   }`}
                 >
-                  <span>{category.name}
+                  <span>{category.name}</span>
                 </button>
               ))}
             </div>
             
-            <div className="flex justify-between items-center"></div>
-              <div className="text-sm text-gray-400"></div>
+            <div className="flex justify-between items-center">
+              <div className="text-sm text-gray-400">
                 Showing {filteredPosts.length} of {blogPosts.length} posts
               </div>
               
-              <div className="flex items-center space-x-3"></div>
+              <div className="flex items-center space-x-3">
                 <select
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value)}
@@ -407,42 +417,45 @@ const Home = (): any => {
                   <option value="popular">Most Popular</option>
                   <option value="likes">Most Liked</option>
                   <option value="comments">Most Discussed</option>
+                </select>
                 
-                <div className="flex items-center bg-gray-700 rounded-lg p-1"></div>
+                <div className="flex items-center bg-gray-700 rounded-lg p-1">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-1 rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
                   >
-                    <Grid size={16} / />
+                    <Grid size={16} />
                   </button>
                   <button
                     onClick={() => setViewMode('list')}
                     className={`p-1 rounded ${viewMode === 'list' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
                   >
-                    <List size={16} / />
+                    <List size={16} />
                   </button>
+                </div>
               </div>
+            </div>
           </div>
           
           {/* Blog Posts */}
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'}></div>
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-6' : 'space-y-6'}>
             {sortedPosts.map((post, index) => (
               <div
                 key={post.id}
                 className={`bg-gray-800/70 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-gray-750 transition-all group ${
                   post.featured ? 'ring-2 ring-blue-500/30' : ''
                 } ${viewMode === 'list' ? 'flex' : ''}`}
-               />
+              >
                 {/* Featured Image */}
-                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`}></div>
+                <div className={`relative ${viewMode === 'list' ? 'w-64 flex-shrink-0' : ''}`}>
                   <img
                     src={post.image}
                     alt={post.title}
                     className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
                       viewMode === 'list' ? 'h-full' : 'h-48'
                     }`}
-                  / />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" /></div>
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                   {/* Type Badge */}
                   <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-semibold text-white ${
                     post.category === 'releases' ? 'bg-blue-600' :
@@ -451,67 +464,75 @@ const Home = (): any => {
                     post.category === 'rules' ? 'bg-red-600' :
                     post.category === 'guides' ? 'bg-yellow-600' :
                     post.category === 'lore' ? 'bg-indigo-600' : 'bg-gray-600'
-                  }`} />
+                  }`}>
                     {post.type}
+                  </div>
                 </div>
                 
                 {/* Content */}
-                <div className="p-4 flex-1"></div>
-                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors" />
+                <div className="p-4 flex-1">
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
                     {post.title}
+                  </h3>
                   
-                  <p className="text-gray-300 text-sm mb-3 line-clamp-2"></p>
+                  <p className="text-gray-300 text-sm mb-3 line-clamp-2">
                     {post.excerpt}
+                  </p>
                   
-                  <div className="flex items-center mb-3"></div>
-                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden"></div>
-                      <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" / />
+                  <div className="flex items-center mb-3">
+                    <div className="w-8 h-8 rounded-full bg-gray-700 mr-2 overflow-hidden">
+                      <img src={post.author.avatar} alt={post.author.name} className="w-full h-full object-cover" />
                     </div>
-                    <div></div>
-                      <div className="text-sm font-medium">{post.author.name}
-                      <div className="text-xs text-gray-400">{post.author.role}
+                    <div>
+                      <div className="text-sm font-medium">{post.author.name}</div>
+                      <div className="text-xs text-gray-400">{post.author.role}</div>
                     </div>
-                  
-                  <div className="flex justify-between items-center text-xs text-gray-400"></div>
-                    <div className="flex items-center space-x-3"></div>
-                      <div className="flex items-center"></div>
-                        <CalendarIcon size={12} className="mr-1" / />
-                        <span>{formatDate(post.date)}
-                      </div>
-                      <div className="flex items-center"></div>
-                        <Clock size={12} className="mr-1" / />
-                        <span>{post.readTime}
-                      </div>
-                    
-                    <div className="flex items-center space-x-3"></div>
-                      <div className="flex items-center"></div>
-                        <Eye size={12} className="mr-1" / />
-                        <span>{post.views.toLocaleString()}
-                      </div>
-                      <div className="flex items-center"></div>
-                        <Heart size={12} className="mr-1" / />
-                        <span>{post.likes.toLocaleString()}
-                      </div>
-                      <div className="flex items-center"></div>
-                        <MessageSquare size={12} className="mr-1" / />
-                        <span>{post.comments.toLocaleString()}
-                      </div>
                   </div>
                   
-                  <div className="mt-4 flex justify-between items-center"></div>
-                    <Link to={`/blog/${post.id}`} className="text-blue-400 hover:text-blue-300 text-sm flex items-center" />
+                  <div className="flex justify-between items-center text-xs text-gray-400">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <CalendarIcon size={12} className="mr-1" />
+                        <span>{formatDate(post.date)}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Clock size={12} className="mr-1" />
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center">
+                        <Eye size={12} className="mr-1" />
+                        <span>{post.views.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Heart size={12} className="mr-1" />
+                        <span>{post.likes.toLocaleString()}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <MessageSquare size={12} className="mr-1" />
+                        <span>{post.comments.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4 flex justify-between items-center">
+                    <Link to={`/blog/${post.id}`} className="text-blue-400 hover:text-blue-300 text-sm flex items-center">
                       <span>Read More</span>
-                      <ExternalLink size={14} className="ml-1" / />
+                      <ExternalLink size={14} className="ml-1" />
                     </Link>
                     
-                    <div className="flex items-center space-x-2"></div>
-                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"></button>
-                        <Heart size={16} / />
+                    <div className="flex items-center space-x-2">
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white">
+                        <Heart size={16} />
                       </button>
-                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white"></button>
-                        <MessageSquare size={16} / />
+                      <button className="p-1.5 rounded-full hover:bg-gray-700 text-gray-400 hover:text-white">
+                        <MessageSquare size={16} />
                       </button>
+                    </div>
                   </div>
+                </div>
               </div>
             ))}
           </div>
