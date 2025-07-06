@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Enhanced Game Board
@@ -14,24 +15,11 @@ import React from 'react';
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import KonivrERCard from './KonivrERCard';
 import KonivrERGameControls from './KonivrERGameControls';
 import KonivrERPhaseIndicator from './KonivrERPhaseIndicator';
 import KonivrERGameLog from './KonivrERGameLog';
-import { 
-  Shield, 
-  Sword, 
-  Heart, 
-  Flame, 
-  Droplets, 
-  Mountain, 
-  Wind,
-  Sparkles,
-  Square,
-  Circle,
-  X
-} from 'lucide-react';
+import { Heart, Flame, Droplets, Mountain, Wind, Sparkles, Square, Circle } from 'lucide-react';
 
 interface KonivrERGameBoardProps {
   gameEngine

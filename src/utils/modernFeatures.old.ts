@@ -49,7 +49,6 @@ export class WebSocketManager {
   this.maxReconnectAttempts = 5;
   this.reconnectDelay = 1000;
   this.listeners = new Map();
-}
 
   connect(): any {
     try {
@@ -125,7 +124,6 @@ export class WebSocketManager {
       this.ws.close();
     }
   }
-}
 
 // Biometric Authentication
 export const isBiometricAvailable = (): any => {
@@ -185,7 +183,6 @@ export class CacheManager {
   constructor(): any {
   this.cache = new Map();
   this.ttl = new Map();
-}
 
   set(key: any, value: any, ttlMs: any = 300000): any {
     // 5 minutes default
@@ -214,7 +211,6 @@ export class CacheManager {
     this.set(key, data, ttlMs);
     return data;
   }
-}
 
 // Performance Monitoring
 export class PerformanceMonitor {
@@ -231,8 +227,8 @@ export class PerformanceMonitor {
   firstContentfulPaint:
   performance.getEntriesByName('first-contentful-paint')[0]
   ?.startTime || 0,
-};
-    }
+    };
+  }
     return null;
   }
 
@@ -254,11 +250,10 @@ export class PerformanceMonitor {
         resource: performance.getEntriesByType('resource'),
         measure: performance.getEntriesByType('measure'),
         mark: performance.getEntriesByType('mark'),
-      };
-    }
+    };
+  }
     return null;
   }
-}
 
 // Accessibility Helpers
 export const announceToScreenReader = message => {
@@ -311,7 +306,6 @@ export class I18nManager {
   this.locale = navigator.language || 'en-US';
   this.translations = new Map();
   this.fallbackLocale = 'en-US';
-}
 
   async loadTranslations(locale: any): any {
     try {
@@ -356,7 +350,6 @@ export class I18nManager {
       currency,
     }).format(amount);
   }
-}
 
 // Advanced Error Tracking
 export class ErrorTracker {
@@ -365,7 +358,6 @@ export class ErrorTracker {
   this.userId = null;
   this.sessionId = this.generateSessionId();
   this.setupGlobalErrorHandlers();
-}
 
   generateSessionId(): any {
     return (
@@ -426,7 +418,6 @@ export class ErrorTracker {
       console.error('Failed to send error to tracking service:', error);
     }
   }
-}
 
 // Device Detection and Capabilities
 export const getDeviceInfo = (): any => {
@@ -465,7 +456,6 @@ export const getDeviceInfo = (): any => {
 export class SecureStorage {
   constructor(encryptionKey: any): any {
   this.encryptionKey = encryptionKey;
-}
 
   async encrypt(data: any): any {
     const encoder = new TextEncoder();
@@ -537,8 +527,8 @@ export class SecureStorage {
   removeItem(key: any): any {
     localStorage.removeItem(key);
   }
-}
 
+}
 export default {
   registerServiceWorker,
   requestNotificationPermission,

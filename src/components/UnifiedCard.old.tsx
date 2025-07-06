@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Card Component
@@ -20,7 +21,6 @@ import React from 'react';
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
 // Import element and keyword systems
@@ -32,30 +32,7 @@ import '../styles/card.css';
 import '../styles/cardPreview.css';
 
 // Import icons
-import { 
-  Flame, 
-  Droplets, 
-  Mountain, 
-  Wind, 
-  Sparkles, 
-  Square, 
-  Circle,
-  Shield,
-  Sword,
-  Star,
-  Zap,
-  Crown,
-  Eye,
-  Clock,
-  Info,
-  X,
-  Maximize2,
-  AlertCircle,
-  Heart,
-  ArrowRight,
-  Plus,
-  Minus
-} from 'lucide-react';
+import { Flame, Droplets, Mountain, Wind, Sparkles, Square, Circle, Shield, Sword, Star, Zap, Crown, Clock, Info, X, Maximize2, AlertCircle } from 'lucide-react';
 
 // Unified interface for all card variants
 interface UnifiedCardProps {

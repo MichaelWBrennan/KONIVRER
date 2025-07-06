@@ -25,7 +25,7 @@ class DynamicResolutionChain {
   onRequestResponse: null,
   onEffectResolution: null,
   onChainComplete: null
-};
+    };
   }
   
   /**

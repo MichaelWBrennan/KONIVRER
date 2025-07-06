@@ -7,7 +7,6 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { CheckCircle, XCircle, AlertTriangle, Info, Book } from 'lucide-react';
 
 interface DeckValidatorProps {
   deck

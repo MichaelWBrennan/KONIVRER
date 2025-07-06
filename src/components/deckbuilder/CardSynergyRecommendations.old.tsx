@@ -8,7 +8,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import { Badge, Card, ListGroup, Button, Spinner } from 'react-bootstrap';
-import { Zap, TrendingUp, Target, Star, Info } from 'lucide-react';
 
 /**
  * Component that provides card synergy recommendations for the deck builder

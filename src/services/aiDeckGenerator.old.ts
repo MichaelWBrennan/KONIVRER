@@ -744,7 +744,7 @@ const generateGenericCard = (personality): any => {
         toughness: 2,
         text: 'When this creature enters the battlefield, draw a card.',
         image: '/api/placeholder/200/280'
-      };
+    };
   }
 };
 

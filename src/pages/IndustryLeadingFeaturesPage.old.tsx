@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -5,27 +6,7 @@
  * Licensed under the MIT License
  */
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Brain,
-  Zap,
-  Camera,
-  Monitor,
-  BarChart3,
-  Users,
-  Trophy,
-  Star,
-  Crown,
-  Sparkles,
-  Target,
-  TrendingUp,
-  Eye,
-  Mic,
-  Video,
-  Settings,
-  CheckCircle,
-  ArrowRight,
-} from 'lucide-react';
+import { Brain, Zap, Camera, BarChart3, Star, Sparkles, Target, TrendingUp, Video, CheckCircle, ArrowRight,  } from 'lucide-react';
 // Import our new components
 import MetaAdaptiveTournamentEngine from '../engine/MetaAdaptiveTournamentEngine';
 import AdvancedAnalyticsEngine from '../components/AdvancedAnalyticsEngine';

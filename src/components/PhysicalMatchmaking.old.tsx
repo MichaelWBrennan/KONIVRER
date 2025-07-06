@@ -6,25 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  Users,
-  Trophy,
-  Zap,
-  Settings,
-  X,
-  Wifi,
-  WifiOff,
-  Plus,
-  Edit,
-  Trash2,
-  QrCode,
-  Share2,
-  Clock,
-  Target,
-  Crown,
-  CheckCircle,
-  AlertTriangle,
-} from 'lucide-react';
+import { Users, Trophy, Zap, Settings, X, Wifi, WifiOff, Plus, Edit, Trash2, QrCode, Share2,  } from 'lucide-react';
 
 const PhysicalMatchmaking = (): any => {
   const [activeTab, setActiveTab] = useState('quickMatch');

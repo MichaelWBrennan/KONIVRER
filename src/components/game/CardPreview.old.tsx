@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -6,7 +7,6 @@ import React from 'react';
  * Licensed under the MIT License
  */
 
-import { motion, AnimatePresence } from 'framer-motion';
 import {
   Zap,
   Shield,

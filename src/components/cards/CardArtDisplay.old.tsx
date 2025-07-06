@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -7,8 +8,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ExternalLink, Eye } from 'lucide-react';
 import {
   getCardDetailUrl,
   hasCardData,

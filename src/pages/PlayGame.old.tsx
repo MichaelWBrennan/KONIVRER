@@ -10,20 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import MTGArenaStyleGameBoard from '../components/game/MTGArenaStyleGameBoard';
 import { AI_DIFFICULTY, AI_PERSONALITY, AI_ARCHETYPES } from '../services/aiOpponent';
 import { generateAIDeck } from '../services/aiDeckGenerator';
-import { 
-  Play, 
-  Users, 
-  Award, 
-  Clock, 
-  Shield, 
-  Sword, 
-  Zap, 
-  ArrowLeft,
-  Cpu,
-  Brain,
-  Bot,
-  AlertTriangle
-} from 'lucide-react';
+import { Play, Award, Shield, Sword, Zap, ArrowLeft, Cpu, Brain, Bot, AlertTriangle } from 'lucide-react';
 
 const PlayGame = (): any => {
   const navigate = useNavigate();

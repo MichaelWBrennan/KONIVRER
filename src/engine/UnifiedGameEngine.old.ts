@@ -130,8 +130,8 @@ export interface GameState {
     timeLimit?: number;
     allowMulligan: boolean;
     useElementalSystem: boolean;
-  };
-}
+    };
+  }
 
 export interface GameAction {
   type: string;
@@ -1389,7 +1389,6 @@ export class UnifiedGameEngine {
   public getActivePlayerId(): string {
     return this.getActivePlayer().id;
   }
-}
 
 // AI Decision Engine class
 class AIDecisionEngine {
@@ -1670,6 +1669,6 @@ class AIDecisionEngine {
     
     return decisions;
   }
-}
 
+}
 export default UnifiedGameEngine;

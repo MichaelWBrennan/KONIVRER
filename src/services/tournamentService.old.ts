@@ -195,8 +195,8 @@ class TournamentService {
                 bayesianUncertainty: Math.round(bayesianData.uncertainty),
                 conservativeRating: Math.round(bayesianData.conservativeRating),
                 bayesianRank: bayesianData.rank
-              };
-            }
+    };
+  }
             
             return serverStanding;
           });
@@ -231,8 +231,8 @@ class TournamentService {
           return {
             ...response.data,
             bayesian: bayesianAnalytics
-          };
-        }
+    };
+  }
       } catch (error: any) {
         console.warn('Failed to get Bayesian analytics:', bayesianError);
         // Continue with server analytics if Bayesian fails
@@ -259,8 +259,8 @@ class TournamentService {
         matchQualityAverage: 0,
         uncertaintyAverage: 0,
         archetypePerformance: {}
-      };
-    }
+    };
+  }
     
     // Calculate rating distribution
     const ratingBuckets = {
@@ -311,8 +311,8 @@ class TournamentService {
             draws: 0,
             averageRating: 0,
             totalRating: 0
-          };
-        }
+    };
+  }
         
         archetypePerformance[archetype].count++;
         archetypePerformance[archetype].totalRating += rating;

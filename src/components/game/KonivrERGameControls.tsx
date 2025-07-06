@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KonivrERGameControls Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface KonivrERGameControlsProps {
   [key: string]: any;
 }
 
-const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = (props) => {
+const KonivrERGameControls: React.FC<KonivrERGameControlsProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

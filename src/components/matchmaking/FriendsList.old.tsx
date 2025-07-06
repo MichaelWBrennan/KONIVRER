@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,17 +7,7 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  MessageCircle,
-  UserPlus,
-  Clock,
-  X,
-  UserMinus,
-  UserCheck,
-  Gamepad,
-  Search,
-} from 'lucide-react';
+import { MessageCircle, UserPlus, Clock, UserMinus, Gamepad, Search,  } from 'lucide-react';
 
 interface FriendsListProps {
   friends

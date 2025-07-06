@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -6,17 +7,7 @@ import React from 'react';
  * Licensed under the MIT License
  */
 
-import { motion } from 'framer-motion';
-import {
-  User,
-  Heart,
-  Zap,
-  Shield,
-  Award,
-  Crown,
-  Clock,
-  AlertCircle,
-} from 'lucide-react';
+import { User, Heart, Zap, Award, Crown, Clock,  } from 'lucide-react';
 
 /**
  * Displays player information including avatar, name, and resources

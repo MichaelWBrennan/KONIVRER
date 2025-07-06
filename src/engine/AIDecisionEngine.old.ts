@@ -21,7 +21,7 @@ class AIDecisionEngine {
   successfulPlays: [],
   failedPlays: [],
   playerCounters: []
-};
+    };
   }
 
   /**

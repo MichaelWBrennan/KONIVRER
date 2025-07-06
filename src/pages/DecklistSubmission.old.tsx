@@ -6,28 +6,10 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
-import {
-  Upload,
-  FileText,
-  Copy,
-  Plus,
-  Trash2,
-  Save,
-  Eye,
-  CheckCircle,
-  AlertCircle,
-  Download,
-  RefreshCw,
-  ArrowLeft,
-  Search,
-  Filter,
-  Settings,
-  Info
-} from 'lucide-react';
+import { Upload, FileText, Copy, Plus, Trash2, Save, Eye, CheckCircle, AlertCircle, RefreshCw, ArrowLeft } from 'lucide-react';
 const DecklistSubmission = (): any => {
   const { tournamentId } = useParams();
   const navigate = useNavigate();

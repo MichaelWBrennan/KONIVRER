@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,7 +7,6 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { RenderEngine } from '../engine/RenderEngine';
 import { AudioEngine } from '../engine/AudioEngine';
 import { AdvancedRulesEngine } from '../engine/AdvancedRulesEngine';

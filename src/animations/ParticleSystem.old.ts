@@ -305,7 +305,7 @@ export function createParticleSystem(): any {
     isRunning(): any {
       return isRunning;
     },
-  };
-}
+    };
+  }
 
 export default createParticleSystem;

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Home Page
@@ -14,48 +15,8 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  Play,
-  Users,
-  Package,
-  Settings,
-  Award,
-  Zap,
-  Shield,
-  Sword,
-  Gift,
-  Star,
-  Calendar,
-  MessageCircle,
-  DollarSign,
-  TrendingUp,
-  Clock,
-  User,
-  LogOut,
-  Bell,
-  Menu,
-  X,
-  ChevronRight,
-  Info,
-  Search,
-  Filter,
-  Grid,
-  List,
-  Heart,
-  MessageSquare,
-  Eye,
-  Calendar as CalendarIcon,
-  Tag,
-  ExternalLink,
-  Home,
-  Layers,
-  Book,
-  HelpCircle,
-  BarChart2,
-  Smartphone
-} from 'lucide-react';
+import { Play, Package, Settings, Award, Shield, Calendar, DollarSign, User, Bell, Menu, X, ChevronRight, Search, Grid, List, Heart, MessageSquare, Eye, Layers, Book, HelpCircle } from 'lucide-react';
 
 // Import hooks
 import { useMediaQuery } from '../hooks/useMediaQuery';

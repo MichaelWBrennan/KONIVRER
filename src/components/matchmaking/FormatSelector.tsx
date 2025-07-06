@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * FormatSelector Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface FormatSelectorProps {
   [key: string]: any;
 }
 
-const FormatSelector: React.FC<FormatSelectorProps> = (props) => {
+const FormatSelector: React.FC<FormatSelectorProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

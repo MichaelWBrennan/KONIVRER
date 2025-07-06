@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,21 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import {
-  Eye,
-  Type,
-  Monitor,
-  Volume2,
-  Keyboard,
-  Hand,
-  HelpCircle,
-  RotateCcw,
-  Check,
-  ChevronRight,
-  Globe,
-  MessageSquare,
-} from 'lucide-react';
+import { Eye, Monitor, Volume2, Keyboard, HelpCircle, RotateCcw, Check, ChevronRight, Globe, MessageSquare,  } from 'lucide-react';
 
 import { useAccessibility } from './AccessibilityProvider';
 

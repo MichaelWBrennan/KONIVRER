@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,21 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search,
-  Zap,
-  RefreshCw,
-  X,
-  Check,
-  Clock,
-  Mic,
-  Bell,
-  Settings,
-  ChevronRight,
-  Calendar,
-  Users,
-} from 'lucide-react';
+import { Zap, RefreshCw, X, Check, Clock, Mic, Bell, Settings, ChevronRight, Calendar, Users,  } from 'lucide-react';
 
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import ConfidenceBandedTier from '../components/matchmaking/ConfidenceBandedTier';

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -5,22 +6,7 @@
  * Licensed under the MIT License
  */
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search,
-  Filter,
-  Users,
-  Clock,
-  Settings,
-  ChevronDown,
-  ChevronUp,
-  Zap,
-  Shield,
-  BarChart2,
-  RefreshCw,
-  X,
-  Check,
-} from 'lucide-react';
+import { Search, Filter, Users, Settings, ChevronDown, ChevronUp, Zap, RefreshCw, X, Check,  } from 'lucide-react';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import EnhancedPlayerProfile from '../components/matchmaking/EnhancedPlayerProfile';
 import ConfidenceBandedTier from '../components/matchmaking/ConfidenceBandedTier';

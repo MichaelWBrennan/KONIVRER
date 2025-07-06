@@ -6,35 +6,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Users,
-  Search,
-  Clock,
-  Trophy,
-  Zap,
-  Settings,
-  Play,
-  X,
-  CheckCircle,
-  AlertCircle,
-  Wifi,
-  WifiOff,
-  Star,
-  Target,
-  Shield,
-  Swords,
-  Crown,
-  Timer,
-  MapPin,
-  Globe,
-  Plus,
-  Edit,
-  Trash2,
-  QrCode,
-  Share2,
-  Download,
-  Upload,
-} from 'lucide-react';
+import { Users, Search, Trophy, Zap, CheckCircle, Wifi, WifiOff, Target, Shield, Swords, Crown, Timer,  } from 'lucide-react';
 
 const MatchmakingSystem = (): any => {
   const [activeTab, setActiveTab] = useState('quickMatch');

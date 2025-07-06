@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -5,47 +6,12 @@
  * Licensed under the MIT License
  */
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import AdvancedAnalyticsDashboard from '../components/AdvancedAnalyticsDashboard';
 import InteractiveTournamentBracket from '../components/InteractiveTournamentBracket';
 import DeckArchetypeAnalyzer from '../components/DeckArchetypeAnalyzer';
 import EnhancedPhysicalMatchmaking from '../components/EnhancedPhysicalMatchmaking';
-import {
-  LayoutDashboard,
-  Trophy,
-  Layers,
-  Users,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Menu,
-  X,
-  Bell,
-  Search,
-  ChevronDown,
-  ChevronUp,
-  Zap,
-  Calendar,
-  Clock,
-  Sparkles,
-  Brain,
-  Database,
-  Shuffle,
-  BarChart2,
-  TrendingUp,
-  Swords,
-  Shield,
-  Scroll,
-  Eye,
-  Download,
-  Share2,
-  RefreshCw,
-  Loader,
-  AlertTriangle,
-  CheckCircle,
-  Info,
-} from 'lucide-react';
+import { LayoutDashboard, Trophy, Layers, Users, Settings, HelpCircle, Menu, X, Bell, Search, ChevronUp, Zap, Calendar, Sparkles, Swords, Scroll, Eye, Download, RefreshCw, Loader, AlertTriangle, CheckCircle, Info,  } from 'lucide-react';
 const AdvancedPhysicalMatchmakingPage = (): any => {
   const { players, tournaments, matches, isOfflineMode, toggleOfflineMode } =
     usePhysicalMatchmaking();

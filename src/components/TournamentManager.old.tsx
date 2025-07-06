@@ -6,38 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import {
-  Calendar,
-  Users,
-  Trophy,
-  Settings,
-  Plus,
-  Search,
-  Filter,
-  Download,
-  Upload,
-  Clock,
-  MapPin,
-  Star,
-  Award,
-  Target,
-  BarChart3,
-  FileText,
-  CheckCircle,
-  AlertCircle,
-  Play,
-  Pause,
-  Square,
-  Brain,
-  Zap,
-  TrendingUp,
-  Shuffle,
-  Activity,
-  Sliders,
-  Info,
-  ToggleLeft,
-  ToggleRight,
-} from 'lucide-react';
+import { Calendar, Users, Trophy, Settings, Plus, MapPin, Target, BarChart3, Play, Brain, Zap, TrendingUp, Shuffle, Activity, Sliders, Info, ToggleLeft, ToggleRight,  } from 'lucide-react';
 
 const TournamentManager = (): any => {
   const [activeTab, setActiveTab] = useState('dashboard');

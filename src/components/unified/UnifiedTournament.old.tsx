@@ -7,24 +7,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { 
-  Trophy, 
-  Users, 
-  Calendar, 
-  Clock, 
-  ChevronRight,
-  Award,
-  BarChart2,
-  User,
-  Loader2,
-  AlertCircle,
-  CheckCircle,
-  XCircle,
-  Info,
-  MessageSquare,
-  Bell,
-  BellOff
-} from 'lucide-react';
+import { Trophy, Users, Calendar, ChevronRight, BarChart2, User, Loader2, AlertCircle, CheckCircle, XCircle, Info, MessageSquare, Bell, BellOff } from 'lucide-react';
 import { useUnified } from '../../contexts/UnifiedContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useMessaging } from '../../contexts/MessagingContext';

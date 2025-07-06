@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,63 +7,7 @@
  */
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Users,
-  Search,
-  Clock,
-  Trophy,
-  Zap,
-  Settings,
-  Play,
-  X,
-  CheckCircle,
-  AlertCircle,
-  Wifi,
-  WifiOff,
-  Star,
-  Shield,
-  Timer,
-  MapPin,
-  Globe,
-  Plus,
-  Edit,
-  Trash2,
-  QrCode,
-  Share2,
-  Download,
-  Upload,
-  ChevronDown,
-  ChevronUp,
-  Filter,
-  BarChart,
-  Calendar,
-  User,
-  UserPlus,
-  MessageCircle,
-  Bell,
-  Headphones,
-  Video,
-  Mic,
-  MicOff,
-  Gamepad,
-  Award,
-  Sparkles,
-  Flame,
-  Bolt,
-  Hourglass,
-  Shuffle,
-  Repeat,
-  Layers,
-  Sliders,
-  Compass,
-  Crosshair,
-  Gauge,
-  Laptop,
-  Smartphone,
-  Tablet,
-  Monitor,
-} from 'lucide-react';
+import { Users, Clock, Trophy, Settings, Play, X, CheckCircle, Wifi, WifiOff, Shield, Globe, ChevronDown, ChevronUp, BarChart, Calendar, UserPlus, MessageCircle, Headphones, Flame, Laptop, Smartphone, Tablet,  } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useDeck } from '../contexts/DeckContext';
 import { useMediaQuery } from '../hooks/useMediaQuery';

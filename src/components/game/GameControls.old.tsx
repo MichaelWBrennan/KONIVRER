@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -7,28 +8,7 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Play,
-  SkipForward,
-  Sword,
-  Shield,
-  Zap,
-  Hand,
-  Flag,
-  X,
-  ChevronUp,
-  ChevronDown,
-  Clock,
-  Sparkles,
-  Hourglass,
-  FastForward,
-  Pause,
-  Settings,
-  Maximize,
-  Minimize,
-  MoreHorizontal,
-} from 'lucide-react';
+import { Play, Sword, Shield, Zap, Hand, Flag, ChevronUp, ChevronDown, Clock, Hourglass, FastForward, Settings, MoreHorizontal,  } from 'lucide-react';
 
 /**
  * Game controls component that provides action buttons based on game state

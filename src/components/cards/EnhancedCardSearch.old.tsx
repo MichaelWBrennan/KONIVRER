@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,44 +7,13 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import CardArtDisplay from './CardArtDisplay';
 import { cardDataHasArt } from '../../utils/cardArtMapping';
 import { parseSearchQuery } from '../../utils/searchParser';
 import cardsData from '../../data/cards.json';
-import {
-  Search,
-  Filter,
-  Grid,
-  List,
-  Eye,
-  Star,
-  Heart,
-  Plus,
-  Minus,
-  TrendingUp,
-  BarChart3,
-  Shuffle,
-  Download,
-  Share2,
-  Bookmark,
-  BookmarkCheck,
-  Zap,
-  Shield,
-  Sword,
-  Crown,
-  Gem,
-  Coins,
-  Target,
-  Sparkles,
-  ChevronDown,
-  ChevronUp,
-  X,
-  Info,
-  ExternalLink,
-} from 'lucide-react';
+import { Search, Filter, Grid, List, Heart, Plus, Bookmark, BookmarkCheck, ChevronDown, ChevronUp, X,  } from 'lucide-react';
 
 // Enhanced Card Search with Collection Management
 const EnhancedCardSearch = (): any => {

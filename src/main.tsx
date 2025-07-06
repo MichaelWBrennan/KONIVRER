@@ -1,75 +1,70 @@
+import { motion } from 'framer-motion';
 /**
- * KONIVRER Deck Database - Main Entry Point
- *
- * Copyright (c) 2024 KONIVRER Deck Database
- * Licensed under the MIT License
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- */
-
-/**
- * KONIVRER Deck Database - Main Entry Point
+ * main Component
+ * 
+ * Minimal TypeScript-compliant version.
  * 
  * @version 2.0.0
  * @since 2024-07-06
  */
 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './styles/main.css';
-import './styles/unified.css';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
-// Performance monitoring
-if (process.env.NODE_ENV === 'production') {
-  import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-    getCLS(console.log);
-    getFID(console.log);
-    getFCP(console.log);
-    getLCP(console.log);
-    getTTFB(console.log);
-  });
+interface mainProps {
+  [key: string]: any;
 }
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error('Root element not found');
-}
+const main: React.FC<mainProps> = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="min-h-screen bg-gray-50 py-8"
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Settings className="w-8 h-8 text-blue-600" />
+          </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">main</h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Component implementation coming soon...
+          </p>
+        </div>
 
-ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="text-center p-6 bg-blue-50 rounded-lg">
+              <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">User-Friendly</h3>
+              <p className="text-gray-600">Intuitive interface design</p>
+            </div>
+            <div className="text-center p-6 bg-green-50 rounded-lg">
+              <Zap className="w-8 h-8 text-green-600 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">High Performance</h3>
+              <p className="text-gray-600">Optimized for speed</p>
+            </div>
+            <div className="text-center p-6 bg-purple-50 rounded-lg">
+              <Star className="w-8 h-8 text-purple-600 mx-auto mb-3" />
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Feature Rich</h3>
+              <p className="text-gray-600">Comprehensive functionality</p>
+            </div>
+          </div>
 
-// Register service worker for PWA functionality
-serviceWorkerRegistration.register({
-  onUpdate: registration => {
-    // When a new version is available, show update notification
-    const updateAvailable = window.confirm(
-      'A new version of KONIVRER is available. Load the latest version?'
-    );
-    
-    if (updateAvailable) {
-      // Send message to service worker to skip waiting
-      if (registration.waiting) {
-        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
-      }
-      
-      // Reload the page to get the new version
-      window.location.reload();
-    }
-  },
-  onSuccess: registration => {
-    console.log('KONIVRER is now available offline!');
-  }
-});
+          <div className="text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-yellow-100 text-yellow-800 rounded-lg">
+              <Clock className="w-4 h-4 mr-2" />
+              <span className="text-sm font-medium">Under Development</span>
+            </div>
+            <p className="text-gray-500 mt-4">
+              This component is being actively developed. Check back soon for updates!
+            </p>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default main;

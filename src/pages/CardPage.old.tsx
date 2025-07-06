@@ -23,19 +23,7 @@
  */
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Star,
-  Plus,
-  Download,
-  Upload,
-  BarChart3,
-  TrendingUp,
-  MessageSquare,
-  Users,
-  Trophy,
-  Target,
-} from 'lucide-react';
+import {  } from 'lucide-react';
 import cardsData from '../data/cards.json';
 import {
   getArtNameFromCardData,

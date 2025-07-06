@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * AI Personality Display Component
@@ -6,8 +7,6 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, Zap, Shield, Sword, Target, Sparkles } from 'lucide-react';
 
 interface AIPersonalityDisplayProps {
   gameEngine

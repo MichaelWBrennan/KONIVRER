@@ -245,5 +245,5 @@ export function getDeckCompletionStatus(): any {
       uncommon: 13 - uncommonCards.length,
       rare: 2 - rareCards.length
     }
-  };
-}
+    };
+  }

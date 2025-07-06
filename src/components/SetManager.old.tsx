@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -7,7 +8,6 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import {
   Plus,
   Eye,

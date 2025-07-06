@@ -985,8 +985,8 @@ export class RankingEngine {
         complexity: 0.5,
         adaptability: 0.5,
         riskTaking: 0.5,
-      };
-    }
+    };
+  }
 
     // Gradually update playstyle metrics (80% existing, 20% new data)
     const learningRate = 0.2;
@@ -1081,8 +1081,8 @@ export class RankingEngine {
         rating: deckData.rating,
         uncertainty: deckData.uncertainty,
         gamesPlayed: deckData.gamesPlayed,
-      };
-    }
+    };
+  }
 
     // Return default values for new archetype
     return {
@@ -1201,8 +1201,8 @@ export class RankingEngine {
         peakMMR: this.playerData.mmr,
         gamesPlayed: 0,
         totalGameTime: 0,
-      };
-    }
+    };
+  }
 
     const seasonStats = this.playerData.seasonStats[seasonKey];
     seasonStats.gamesPlayed++;
@@ -1343,8 +1343,8 @@ export class RankingEngine {
           lp,
           tierName: tierData.name,
           color: tierData.color,
-        };
-      }
+    };
+  }
     }
 
     // Default to highest tier if skill exceeds all ranges

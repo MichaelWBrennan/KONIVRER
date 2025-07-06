@@ -64,8 +64,8 @@ export interface PaginatedResponse<T = unknown> extends ApiResponse<T[]> {
     readonly total: number;
     readonly hasNext: boolean;
     readonly hasPrev: boolean;
-  };
-}
+    };
+  }
 
 // Utility types
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

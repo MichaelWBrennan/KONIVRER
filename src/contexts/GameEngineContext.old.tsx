@@ -6,7 +6,6 @@
  */
 
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 // Advanced Game Engine Context for KONIVRER Arena-quality gameplay
 const GameEngineContext = createContext();

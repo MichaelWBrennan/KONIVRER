@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,8 +7,6 @@
  */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Plus, ArrowLeft } from 'lucide-react';
 import DeckSelector from '../components/DeckSelector';
 import { useDeck } from '../contexts/DeckContext';
 /**

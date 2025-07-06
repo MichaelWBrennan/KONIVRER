@@ -8,7 +8,6 @@
 import React from 'react';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import { ProgressBar, OverlayTrigger, Tooltip, Badge } from 'react-bootstrap';
-import { Target, Zap, Users, Shuffle, TrendingUp, Clock } from 'lucide-react';
 
 /**
  * Component that visualizes match quality and compatibility

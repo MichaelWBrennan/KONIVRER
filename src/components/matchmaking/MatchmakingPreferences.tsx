@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * MatchmakingPreferences Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface MatchmakingPreferencesProps {
   [key: string]: any;
 }
 
-const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = (props) => {
+const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

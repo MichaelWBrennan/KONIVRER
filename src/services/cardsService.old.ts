@@ -114,8 +114,8 @@ class CardsService {
           success: false,
           message: 'Backend not configured. Using local fallback data.',
           cards: fallbackCards,
-        };
-      }
+    };
+  }
 
       console.log('Requesting manual sync from Google Sheets...');
       const response = await apiClient.post('/cards/sync');
@@ -128,8 +128,8 @@ class CardsService {
           success: true,
           message: response.data.message,
           cards: response.data.cards,
-        };
-      }
+    };
+  }
 
       throw new Error(response.data.message || 'Sync failed');
     } catch (error: any) {
@@ -137,8 +137,8 @@ class CardsService {
       return {
         success: false,
         message: error.response?.data?.message || error.message,
-      };
-    }
+    };
+  }
   }
 
   /**
@@ -152,8 +152,8 @@ class CardsService {
           connected: false,
           message: 'Backend not configured. Using local fallback data.',
           error: 'No backend URL configured',
-        };
-      }
+    };
+  }
 
       const response = await apiClient.get('/cards/test-connection');
       return response.data;
@@ -162,8 +162,8 @@ class CardsService {
       return {
         connected: false,
         error: error.response?.data?.error || error.message,
-      };
-    }
+    };
+  }
   }
 
   /**

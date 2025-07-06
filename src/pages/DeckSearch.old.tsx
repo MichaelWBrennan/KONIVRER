@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -6,25 +7,7 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import {
-  Search,
-  Filter,
-  SortAsc,
-  SortDesc,
-  Grid,
-  List,
-  Eye,
-  Download,
-  Heart,
-  Star,
-  User,
-  Calendar,
-  BarChart3,
-  Zap,
-  Trophy,
-  Target,
-} from 'lucide-react';
+import { Search, Grid, List, Eye, Download, Heart, Star, User, Calendar, BarChart3,  } from 'lucide-react';
 import DeckMetaAnalysis from '../components/DeckMetaAnalysis';
 const DeckSearch = (): any => {
   const [searchTerm, setSearchTerm] = useState('');

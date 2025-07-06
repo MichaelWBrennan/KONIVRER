@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * Generic Cost Selector Component
@@ -7,8 +8,6 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Minus, Circle, Star } from 'lucide-react';
 
 interface GenericCostSelectorProps {
   card

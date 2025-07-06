@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Comprehensive Advanced Search
@@ -8,32 +9,7 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search,
-  ChevronDown,
-  ChevronUp,
-  X,
-  Filter,
-  Type,
-  Palette,
-  DollarSign,
-  Calendar,
-  Star,
-  User,
-  BookOpen,
-  Globe,
-  Settings,
-  Hash,
-  Zap,
-  Target,
-  Shield,
-  Sword,
-  Eye,
-  RotateCcw,
-  Plus,
-  Minus,
-} from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, X, Type, Palette, DollarSign, Calendar, Star, User, BookOpen, Globe, Settings, Hash, Zap, Target, Shield, Sword, RotateCcw, Plus, Minus,  } from 'lucide-react';
 
 const ComprehensiveAdvancedSearch = ({ onSearch, onClose, initialCriteria = {} }): any => {
   const [isExpanded, setIsExpanded] = useState(false);

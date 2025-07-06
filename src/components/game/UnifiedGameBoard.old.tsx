@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Game Board
@@ -13,7 +14,6 @@ import React from 'react';
  */
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 // Import components
 import PlayerZone from './PlayerZone';
@@ -37,43 +37,7 @@ import AdaptiveAI from '../../services/adaptiveAI';
 import { useGame } from '../../contexts/GameContext';
 
 // Import icons
-import { 
-  Settings,
-  Menu,
-  MessageSquare,
-  Maximize2,
-  Volume2,
-  VolumeX,
-  Eye,
-  EyeOff,
-  Sparkles,
-  Brain, 
-  Activity, 
-  Zap, 
-  X,
-  ChevronRight,
-  ChevronLeft,
-  Shield, 
-  Sword, 
-  Heart, 
-  Flame, 
-  Droplets, 
-  Mountain, 
-  Wind,
-  Square,
-  Circle,
-  Clock, 
-  User, 
-  MessageCircle, 
-  Minimize2,
-  RotateCcw,
-  Hand as HandIcon,
-  Plus,
-  Minus,
-  Flag,
-  Sun,
-  Moon
-} from 'lucide-react';
+import { Settings, Menu, MessageSquare, Maximize2, Volume2, VolumeX, Brain, X, Clock, Minimize2 } from 'lucide-react';
 
 // Import styles
 import '../../styles/gameBoard.css';

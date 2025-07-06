@@ -230,8 +230,8 @@ class AdaptiveAI {
         return {
           action: 'placeAzoth',
           card: cardForAzoth
-        };
-      }
+    };
+  }
     }
     
     return { action: 'pass' };

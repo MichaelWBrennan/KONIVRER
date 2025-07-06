@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -7,8 +8,6 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronDown, X, Clock } from 'lucide-react';
 
 /**
  * Displays the Dynamic Resolution Chain (DRC) and allows players to respond

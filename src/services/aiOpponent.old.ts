@@ -231,8 +231,8 @@ class AIOpponent {
       return {
         action: 'discard',
         card: cardToDiscard
-      };
-    }
+    };
+  }
     
     return { action: 'pass' };
   }
@@ -667,8 +667,8 @@ class AIOpponent {
               return {
                 action: 'play',
                 card: randomCard
-              };
-            }
+    };
+  }
           } else if (decision.action !== 'pass' && Math.random() < 0.3) {
             // Sometimes just pass when shouldn't
             return { action: 'pass' };

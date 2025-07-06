@@ -15,7 +15,7 @@ import React from 'react';
 class SimpleEventEmitter {
   constructor(): any {
   this.events = {
-};
+    };
   }
 
   on(event: any, listener: any): any {
@@ -943,8 +943,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         riskTaking: 0.5,
         aggressivePlay: 0.5,
         resourceConservation: 0.5
-      };
-    }
+    };
+  }
     
     // Analyze recent player actions
     const recentActions = this.gameState.actionHistory?.slice(-10) || [];
@@ -1093,8 +1093,8 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         cuttingEdge: cuttingEdgeStatus,
         consciousness: this.cuttingEdgeAI.expressConsciousness?.() || null,
         lastDecision: this.lastAIDecision || null
-      };
-    }
+    };
+  }
     
     return baseStatus;
   }

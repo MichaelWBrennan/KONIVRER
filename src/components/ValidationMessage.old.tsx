@@ -1,6 +1,5 @@
+import { motion } from 'framer-motion';
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, AlertCircle, Info } from 'lucide-react';
 import '../styles/validationMessage.css';
 
 interface ValidationMessageProps {

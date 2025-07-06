@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,8 +7,6 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Lightbulb, ChevronRight, ChevronLeft, X } from 'lucide-react';
 
 interface MatchmakingTipsProps {
   onClose

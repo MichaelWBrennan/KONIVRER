@@ -8,20 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { usePhysicalMatchmaking } from '../../contexts/PhysicalMatchmakingContext';
 import MatchQualityIndicator from '../matchmaking/MatchQualityIndicator';
-import {
-  Users,
-  Clock,
-  Shuffle,
-  Award,
-  AlertTriangle,
-  CheckCircle,
-  ChevronDown,
-  ChevronUp,
-  RefreshCw,
-  Zap,
-  Layers,
-  Filter,
-} from 'lucide-react';
+import { Users, Clock, Shuffle, Award, CheckCircle, ChevronDown, ChevronUp, RefreshCw, Zap, Layers, Filter,  } from 'lucide-react';
 
 /**
  * Tournament Manager Component

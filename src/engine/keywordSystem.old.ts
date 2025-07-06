@@ -386,8 +386,8 @@ export function getKeywordDisplayInfo(): any {
     name: keyword.toUpperCase(),
     symbol: KEYWORD_SYMBOLS[normalizedKeyword] || '?',
     description: KEYWORD_DESCRIPTIONS[normalizedKeyword] || 'Unknown keyword'
-  };
-}
+    };
+  }
 
 /**
  * Get amount of specific element used to pay for a card

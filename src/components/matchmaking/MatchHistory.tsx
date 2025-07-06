@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * MatchHistory Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface MatchHistoryProps {
   [key: string]: any;
 }
 
-const MatchHistory: React.FC<MatchHistoryProps> = (props) => {
+const MatchHistory: React.FC<MatchHistoryProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

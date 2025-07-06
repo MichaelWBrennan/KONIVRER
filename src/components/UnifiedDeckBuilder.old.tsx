@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Deck Builder
@@ -25,7 +26,6 @@ import React from 'react';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -34,59 +34,7 @@ import UnifiedCard from './UnifiedCard';
 import UnifiedCardSearch from './UnifiedCardSearch';
 
 // Import icons
-import {
-  Save,
-  Download,
-  Upload,
-  Copy,
-  Trash,
-  Plus,
-  Minus,
-  Check,
-  X,
-  Search,
-  Filter,
-  Settings,
-  ChevronDown,
-  ChevronUp,
-  ChevronRight,
-  ChevronLeft,
-  BarChart,
-  PieChart,
-  LineChart,
-  Zap,
-  Star,
-  Heart,
-  Bookmark,
-  Shuffle,
-  RefreshCw,
-  AlertCircle,
-  CheckCircle,
-  Info,
-  HelpCircle,
-  Flame,
-  Droplets,
-  Mountain,
-  Wind,
-  Sparkles,
-  Square,
-  Circle,
-  Layers,
-  List,
-  Grid,
-  FileText,
-  Edit,
-  Eye,
-  EyeOff,
-  Lock,
-  Unlock,
-  ArrowUp,
-  ArrowDown,
-  ArrowUpDown,
-  MoreHorizontal,
-  Menu,
-  Share
-} from 'lucide-react';
+import { Save, Download, Upload, Trash, Plus, Minus, X, Search, Filter, BarChart, Zap, Star, Bookmark, RefreshCw, AlertCircle, CheckCircle, Info, Flame, Droplets, Mountain, Wind, Sparkles, Square, Circle, Layers, List, Grid, Edit, MoreHorizontal } from 'lucide-react';
 
 // Types
 type CardType = 'Familiar' | 'Spell' | 'Flag' | 'Azoth';

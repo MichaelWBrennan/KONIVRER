@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -5,21 +6,12 @@
  * Licensed under the MIT License
  */
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import {
   CardArtGallery,
   CardArtPreview,
 } from '../components/cards/CardArtDisplay';
 import { getAllCardArtsWithData } from '../utils/cardArtMapping';
-import {
-  Grid,
-  List,
-  Search,
-  Filter,
-  Eye,
-  ExternalLink,
-  Database,
-} from 'lucide-react';
+import { Grid, Search, Filter, Eye, ExternalLink, Database,  } from 'lucide-react';
 /**
  * CardArtShowcase - Demo page to showcase the KONIVRER card arts
  */

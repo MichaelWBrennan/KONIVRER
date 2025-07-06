@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Unified Card Explorer
@@ -10,20 +11,7 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import {
-  Search,
-  Bot,
-  ChevronRight,
-  ChevronLeft,
-  Grid,
-  List,
-  TrendingUp,
-  Heart,
-  Eye,
-  Plus,
-  BookOpen,
-} from 'lucide-react';
+import { Search, Bot, ChevronRight, ChevronLeft, Grid, List, TrendingUp, Heart, BookOpen,  } from 'lucide-react';
 
 import { useData } from '../contexts/DataContext';
 import { useAuth } from '../contexts/AuthContext';

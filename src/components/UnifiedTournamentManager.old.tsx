@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Tournament Manager
@@ -26,58 +27,11 @@ import React from 'react';
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useAuth } from '../contexts/AuthContext';
 
 // Import icons
-import {
-  Calendar,
-  Users,
-  Award,
-  Clock,
-  MapPin,
-  Edit,
-  Trash,
-  Plus,
-  Check,
-  X,
-  ChevronDown,
-  ChevronUp,
-  ChevronRight,
-  Search,
-  Filter,
-  Settings,
-  Copy,
-  Share,
-  Download,
-  Upload,
-  Save,
-  RefreshCw,
-  AlertCircle,
-  CheckCircle,
-  Info,
-  HelpCircle,
-  Zap,
-  Shield,
-  Star,
-  Trophy,
-  Flag,
-  Clipboard,
-  Printer,
-  FileText,
-  User,
-  UserPlus,
-  UserCheck,
-  UserX,
-  MessageSquare,
-  Bell,
-  BellOff,
-  Menu,
-  MoreHorizontal,
-  ExternalLink,
-  Loader
-} from 'lucide-react';
+import { Calendar, Users, Award, Clock, MapPin, Edit, Trash, Plus, Check, X, ChevronDown, ChevronUp, ChevronRight, Search, Filter, Settings, Copy, Download, RefreshCw, AlertCircle, CheckCircle, Info, Zap, Trophy, Printer, FileText, User, UserPlus, UserCheck, UserX, Loader } from 'lucide-react';
 
 // Tournament types
 type TournamentFormat = 'swiss' | 'single-elimination' | 'double-elimination' | 'round-robin' | 'custom';

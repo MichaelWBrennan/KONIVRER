@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * MessagingContext Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface MessagingContextProps {
   [key: string]: any;
 }
 
-const MessagingContext: React.FC<MessagingContextProps> = (props) => {
+const MessagingContext: React.FC<MessagingContextProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

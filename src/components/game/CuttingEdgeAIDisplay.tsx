@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * CuttingEdgeAIDisplay Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface CuttingEdgeAIDisplayProps {
   [key: string]: any;
 }
 
-const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = (props) => {
+const CuttingEdgeAIDisplay: React.FC<CuttingEdgeAIDisplayProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

@@ -8,43 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { BaseComponentProps } from '../types';
-import {
-  Home,
-  Database,
-  BookOpen,
-  User,
-  Users,
-  Menu,
-  X,
-  Trophy,
-  Shield,
-  LogIn,
-  LogOut,
-  Settings,
-  Layers,
-  Sparkles,
-  Palette,
-  Play,
-  Bot,
-  MapPin,
-  Package,
-  Scale,
-  Award,
-  FileText,
-  Globe,
-  BarChart3,
-  DollarSign,
-  TrendingUp,
-  Target,
-  Calculator,
-  Eye,
-  Zap,
-  Link as LinkIcon,
-  AlertTriangle,
-  Activity,
-  Gamepad2,
-  Wrench,
-} from 'lucide-react';
+import { Home, Database, BookOpen, User, Menu, X, Shield, LogIn, LogOut, Play, Target, Gamepad2, Wrench,  } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import ModernAuthModal from './ModernAuthModal';
 import PWAInstallPrompt from './PWAInstallPrompt';

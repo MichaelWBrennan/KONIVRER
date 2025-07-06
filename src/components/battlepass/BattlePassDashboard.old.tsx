@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,28 +7,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import { useAuth } from '../../contexts/AuthContext';
-import {
-  Star,
-  Crown,
-  Gift,
-  Lock,
-  Unlock,
-  Trophy,
-  Zap,
-  Calendar,
-  Clock,
-  Sparkles,
-  Award,
-  Target,
-  CheckCircle,
-  Circle,
-  ArrowRight,
-  Gem,
-  Coins,
-} from 'lucide-react';
+import { Star, Crown, Gift, Lock, Zap, Calendar, Clock, Sparkles, CheckCircle, Circle, Gem, Coins,  } from 'lucide-react';
 
 // Battle Pass Dashboard - Industry Standard Implementation
 const BattlePassDashboard = (): any => {
