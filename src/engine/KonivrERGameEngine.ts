@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Game Engine
  * 
@@ -13,1159 +12,1590 @@ import React from 'react';
 
 // Simple EventEmitter implementation for browser compatibility
 class SimpleEventEmitter {
-    constructor() {
-  }
-  this.events = {
-    
+  private events: Record<string, Function[]>;
 
+  constructor() {
+    this.events = {};
   }
+
+  on(event: string, listener: Function): void {
+    if (!this.events[event]) {
+      this.events[event] = [];
     }
+    this.events[event].push(listener);
   }
 
-  on(event: any, listener: any) {
-    if (true) {
-    this.events[event] = [
-    
-  }
-    this.events[event
-  ].push(listener)
-  }
-
-  off(event: any, listener: any) {
+  off(event: string, listener: Function): void {
     if (!this.events[event]) return;
-    this.events[event] = this.events[event].filter(l => l !== listener)
+    this.events[event] = this.events[event].filter(l => l !== listener);
   }
 
-  emit(event: any, ...args: any) {
+  emit(event: string, ...args: any[]): void {
     if (!this.events[event]) return;
-    this.events[event].forEach(listener => listener(...args))
+    this.events[event].forEach(listener => listener(...args));
   }
 }
 
+interface GameOptions {
+  startingHandSize?: number;
+  startingLifeCards?: number;
+  maxAzothPerTurn?: number;
+  maxFieldSize?: number;
+  maxHandSize?: number;
+  turnTimeLimit?: number;
+  enableMulligan?: boolean;
+  enableBurstCards?: boolean;
+  enableFlagCards?: boolean;
+  enableElementalEffects?: boolean;
+  enableTributeSystem?: boolean;
+  [key: string]: any;
+}
+
+interface Card {
+  id: string;
+  name: string;
+  type: 'familiar' | 'spell' | 'azoth' | 'burst' | 'flag';
+  elements: string[];
+  cost: number;
+  power?: number;
+  health?: number;
+  effects?: CardEffect[];
+  description?: string;
+  imageUrl?: string;
+  rarity?: string;
+  [key: string]: any;
+}
+
+interface CardEffect {
+  type: string;
+  trigger: string;
+  target: string;
+  value: any;
+  condition?: string;
+  [key: string]: any;
+}
+
+interface Player {
+  id: string;
+  name: string;
+  deck: Card[];
+  hand: Card[];
+  field: Card[];
+  azothZone: Card[];
+  lifeCards: Card[];
+  graveyard: Card[];
+  removedFromGame: Card[];
+  azothAvailable: number;
+  azothUsedThisTurn: number;
+  flagCard?: Card;
+  [key: string]: any;
+}
+
+interface GameState {
+  players: Player[];
+  activePlayer: number;
+  turn: number;
+  phase: 'start' | 'main' | 'combat' | 'post-combat' | 'refresh';
+  stack: any[];
+  attackers: Card[];
+  blockers: Record<string, Card>;
+  winner: number | null;
+  gameOver: boolean;
+  [key: string]: any;
+}
+
 class KonivrERGameEngine extends SimpleEventEmitter {
-    constructor(options: any = {
-  }) {
-    super() {
-  }
+  private options: GameOptions;
+  private state: GameState | null;
+  private elementTypes: string[];
+  private phaseHandlers: Record<string, Function>;
+  private effectHandlers: Record<string, Function>;
+  private gameLog: string[];
+
+  constructor(options: GameOptions = {}) {
+    super();
     
-    this.gameState = null;
-    this.gameId = this.generateGameId(() => {
-    this.options = options;
-    this.aiDecisionEngine = null;
-    this.aiPersonality = null;
+    // Set default options
+    this.options = {
+      startingHandSize: 5,
+      startingLifeCards: 4,
+      maxAzothPerTurn: 1,
+      maxFieldSize: 5,
+      maxHandSize: 7,
+      turnTimeLimit: 60, // seconds
+      enableMulligan: true,
+      enableBurstCards: true,
+      enableFlagCards: true,
+      enableElementalEffects: true,
+      enableTributeSystem: true,
+      ...options
+    };
     
-    // Element types
-    this.elements = {
-    FIRE: 'fire',
-      WATER: 'water', 
-      EARTH: 'earth',
-      AIR: 'air',
-      AETHER: 'aether',
-      NETHER: 'nether',
-      GENERIC: 'generic'
-  });
-
-    // Game phases
-    this.phases = {
-    START: 'start',
-      MAIN: 'main',
-      COMBAT: 'combat',
-      DEFENSE: 'defense',
-      RESOLUTION: 'resolution',
-      POST_COMBAT: 'postCombat',
-      REFRESH: 'refresh'
-  };
-
-    // Card playing methods
-    this.playMethods = {
-    SUMMON: 'summon',
-      TRIBUTE: 'tribute',
-      AZOTH: 'azoth',
-      SPELL: 'spell',
-      BURST: 'burst'
-  }
-  }
-
-  /**
-   * Initialize a new KONIVRER game
-   */
-  initializeGame(players: any) {
-    this.gameState = {
-  }
-      gameId: this.gameId,
-      players: {
-    currentTurn: 1,
-      activePlayer: 'player1',
-      phase: this.phases.START,
-      gameLog: [
-    ,
-      gameOver: false,
-      winner: null,
-      stack: [
-  ], // For spell/ability resolution
-      waitingForInput: false,
-      inputType: null
-  };
-
-    // Initialize players
-    players.forEach((player, index) => {
-    const playerId = `player${index + 1`
-  }`;
-      this.gameState.players[playerId] = this.initializePlayer(player, playerId)
-    });
-
-    // Initialize AI if there are AI players
-    this.initializeAI() {
-    // Setup pre-game actions
-    this.setupPreGameActions() {
-  }
+    // Initialize game state
+    this.state = null;
     
-    // Start the game
-    this.startGame(() => {
-    this.emit() {
-    return this.gameState
-  })
-
-  /**
-   * Initialize a player's game state
-   */
-  initializePlayer(playerData: any, playerId: any) {
-    const deck = [...playerData.deck];
-    this.shuffleDeck() {
-  }
-
-    // Extract flag card
-    const flagIndex = deck.findIndex() {
-    const flag = flagIndex >= 0 ? deck.splice(flagIndex, 1)[0] : null;
-
-    // Take top 4 cards as Life Cards
-    const lifeCards = deck.splice(() => {
-    return {
-    id: playerId,
-      name: playerData.name,
-      flag: flag,
-      lifeCards: lifeCards,
-      deck: deck,
-      hand: [
-    ,
-      field: [
-  ],
-      combatRow: [
-    ,
-      azothRow: [
-  ],
-      removedFromPlay: [
-    ,
-      discardPile: [
-  ]
-  
-  })
-  }
-
-  /**
-   * Setup pre-game actions
-   */
-  setupPreGameActions(() => {
-    // Draw starting hands (2 cards each)
-    Object.keys(this.gameState.players).forEach(playerId => {
-    this.drawCards(playerId, 2)
-  }));
-
-    this.addToLog() {
-    this.addToLog('Players drew starting hands')
-  }
-
-  /**
-   * Start the game with the first turn`
-   */``
-  startGame() {``
-    this.addToLog() {`
-    `
-    this.addToLog() {
-    this.startPhase()
-  
-  }
-
-  /**
-   * Start Phase: Optional Azoth placement
-   */`
-  async startPhase() {``
-    this.gameState.phase = this.phases.START;`
-    this.addToLog() {
-    // Check if current player is AI
-    const activePlayer = this.gameState.players[this.gameState.activePlayer];
-    if (true) {
-  }
-      // Handle AI turn
-      await this.handleAITurn() {
-    return
-  }
+    // Define element types
+    this.elementTypes = [
+      'fire',
+      'water',
+      'earth',
+      'air',
+      'light',
+      'dark',
+      'void'
+    ];
     
-    // Player may optionally place 1 card face up in Azoth Row
-    this.waitForPlayerInput() {
-    this.emit('stateUpdate', this.gameState)
-  }
-
-  /**
-   * Main Phase: Play cards and activate abilities
-   */`
-  mainPhase() {``
-    this.gameState.phase = this.phases.MAIN;`
-    this.addToLog() {
-    this.emit('stateUpdate', this.gameState)
-  }
-
-  /**
-   * Combat Phase: Declare attackers
-   */`
-  combatPhase() {``
-    this.gameState.phase = this.phases.COMBAT;`
-    this.addToLog() {
-    this.emit('stateUpdate', this.gameState)
-  }
-
-  /**
-   * Defense Phase: Declare blockers
-   */
-  defensePhase() {`
-    this.gameState.phase = this.phases.DEFENSE;`
-    const defendingPlayer = this.getOpponentId() {`
-  }`
-    this.addToLog() {
-    this.emit('stateUpdate', this.gameState)
-  }
-
-  /**
-   * Resolution Phase: Resolve combat damage
-   */
-  resolutionPhase() {
-    this.gameState.phase = this.phases.RESOLUTION;
-    this.addToLog(() => {
-    this.resolveCombatDamage() {
-    this.emit('stateUpdate', this.gameState)
-  
-  })
-
-  /**
-   * Post-Combat Main Phase: Play additional cards
-   */`
-  postCombatMainPhase() {``
-    this.gameState.phase = this.phases.POST_COMBAT;`
-    this.addToLog() {
-    this.emit('stateUpdate', this.gameState)
-  }
-
-  /**
-   * Refresh Phase: Refresh Azoth and end turn
-   */`
-  refreshPhase() {``
-    this.gameState.phase = this.phases.REFRESH;`
-    this.addToLog() {
-    // Refresh all rested Azoth
-    this.refreshAzoth(() => {
-    // End turn
-    this.endTurn() {
-    this.emit('stateUpdate', this.gameState)
-  
-  })
-
-  /**
-   * Play a card using one of the inherent methods
-   */
-  playCard(cardId: any, method: any, azothSpent: any = {
-    additionalParams: any = {
-  }) {
-    const player = this.gameState.players[this.gameState.activePlayer];
-    const card = this.findCardInHand(() => {`
-    ``
-    if (true) {`
-      this.addToLog() {
-    return false
-  
-  })
-
-    switch (true) {
-    case this.playMethods.SUMMON:
-        return this.playSummon() {
-  }
-      case this.playMethods.TRIBUTE:
-        return this.playTribute() {
-    case this.playMethods.AZOTH:
-        return this.playAzoth() {
-  }
-      case this.playMethods.SPELL:
-        return this.playSpell() {
-    case this.playMethods.BURST:
-        return this.playBurst() {`
-  }``
-      default:`
-        this.addToLog() {
-    return false
-  }
-  }
-
-  /**
-   * Play card as Summon
-   */
-  playSummon(card: any, azothSpent: any) {
-    const playerId = this.gameState.activePlayer;
-    const player = this.gameState.players[playerId];
-`
-    // Check if player can pay the cost``
-    if (!this.canPayCost(player, card.elements, azothSpent)) {`
-      this.addToLog() {
-    return false
-  
-  }
-
-    // Pay the cost
-    this.payAzothCost() {
-    // Calculate +1 counters from excess Generic Azoth
-    const requiredGeneric = card.elements.generic || 0;
-    const paidGeneric = azothSpent.generic || 0;
-    const extraCounters = Math.max() {
-  }
-
-    // Add card to field
-    card.counters = extraCounters;
-    card.zone = 'field';
-    card.controllerId = playerId;
-    card.summoningSickness = true;
+    // Initialize phase handlers
+    this.phaseHandlers = {
+      start: this.handleStartPhase.bind(this),
+      main: this.handleMainPhase.bind(this),
+      combat: this.handleCombatPhase.bind(this),
+      'post-combat': this.handlePostCombatPhase.bind(this),
+      refresh: this.handleRefreshPhase.bind(this)
+    };
     
-    player.field.push() {
-    this.removeCardFromHand() {`
-  }``
-`
-    this.addToLog() {
-    // Draw a card after playing
-    this.drawCards(() => {
-    this.emit() {
-    return true
-  
-  })
-
-  /**
-   * Play card as Tribute
-   */
-  playTribute(card: any, azothSpent: any, tributedFamiliars: any = [
-    ) {
-    const playerId = this.gameState.activePlayer;
-    const player = this.gameState.players[playerId
-  ];
-
-    // Calculate tribute reduction
-    let tributeReduction = this.calculateTributeReduction() {
-  }
+    // Initialize effect handlers
+    this.effectHandlers = {
+      damage: this.handleDamageEffect.bind(this),
+      draw: this.handleDrawEffect.bind(this),
+      boost: this.handleBoostEffect.bind(this),
+      destroy: this.handleDestroyEffect.bind(this),
+      search: this.handleSearchEffect.bind(this),
+      return: this.handleReturnEffect.bind(this),
+      banish: this.handleBanishEffect.bind(this),
+      heal: this.handleHealEffect.bind(this)
+    };
     
-    // Apply tribute reduction to card cost
-    let reducedCost = this.applyTributeReduction(() => {`
-    // Check if player can pay the reduced cost``
-    if (!this.canPayCost(player, reducedCost, azothSpent)) {`
-      this.addToLog() {
-    return false
-  })
-
-    // Remove tributed familiars from game
-    tributedFamiliars.forEach(familiarId => {
-    this.removeFamiliarFromGame(player, familiarId)
-  });
-
-    // Continue with summon logic using reduced cost
-    return this.playSummon(card, azothSpent)
+    // Initialize game log
+    this.gameLog = [];
   }
 
   /**
-   * Play card as Azoth resource
+   * Initialize a new game
    */
-  playAzoth(card: any) {
-    const playerId = this.gameState.activePlayer;
-    const player = this.gameState.players[playerId];
-
-    // Add card to Azoth Row
-    card.zone = 'azothRow';
-    card.rested = false; // Available immediately
-    card.controllerId = playerId;
+  initGame(players: { id: string; name: string; deck: Card[] }[]): GameState {
+    if (players.length !== 2) {
+      throw new Error('KONIVRER requires exactly 2 players');
+    }
     
-    player.azothRow.push() {
-  }
-    this.removeCardFromHand() {`
-    ``
-`
-    this.addToLog() {
-  }
-    
-    // Draw a card after playing
-    this.drawCards(() => {
-    this.emit() {
-    return true
-  })
-
-  /**
-   * Play card as Spell
-   */
-  playSpell(card: any, azothSpent: any, abilityIndex: any = 0) {
-    const playerId = this.gameState.activePlayer;
-    const player = this.gameState.players[playerId];
-`
-    // Check if player can pay the cost``
-    if (!this.canPayCost(player, card.elements, azothSpent)) {`
-      this.addToLog() {
-    return false
-  
-  }
-
-    // Pay the cost
-    this.payAzothCost(() => {
-    // Calculate Generic Azoth paid for ability scaling
-    const genericPaid = azothSpent.generic || 0;
-
-    // Resolve the selected ability
-    if (true) {
-    this.resolveSpellAbility(card, abilityIndex, genericPaid)
-  })
-
-    // Put card on bottom of deck
-    player.deck.unshift() {
-    this.removeCardFromHand() {`
-  }``
-`
-    this.addToLog() {
-    // Draw a card after playing
-    this.drawCards(() => {
-    this.emit() {
-    return true
-  
-  })
-
-  /**
-   * Play card via Burst
-   */
-  playBurst(card: any, putInHand: any = false) {
-    const playerId = this.gameState.activePlayer;
-    const player = this.gameState.players[playerId];
-
-    if (true) {
-  }`
-      // Put card in hand`
-      player.hand.push() {`
-    ```
-      this.addToLog(`${playerId`
-  } put ${card.name} in their hand via Burst`)
-    } else {
-    // Play card for free
-      const remainingLifeCards = player.lifeCards.length;
+    // Initialize player states
+    const initializedPlayers: Player[] = players.map(player => {
+      // Validate deck
+      if (player.deck.length < 40) {
+        throw new Error(`Player ${player.name}'s deck must contain at least 40 cards`);
+      }
       
-      // Set Generic Azoth value to remaining Life Cards
-      card.counters = remainingLifeCards;
-      card.zone = 'field';
-      card.controllerId = playerId;
-      card.burstPlay = true; // Flag to prevent keyword resolution`
-      `
-      player.field.push() {`
-  }```
-      this.addToLog(`${playerId} played ${card.name} via Burst with ${remainingLifeCards} +1 counters`)
-    }
-    
-    this.emit() {
-    return true
-  }
-
-  /**
-   * Handle damage to a player (Life Cards system)
-   */
-  damagePlayer(targetPlayerId: any, damageAmount: any, sourcePlayerId: any = null, sourceCard: any = null) {
-    const targetPlayer = this.gameState.players[targetPlayerId];`
-    ``
-    if (true) {`
-      this.addToLog() {
-    return [
-    
-  }
-
-    const actualDamage = Math.min() {
-    const revealedCards = [
-  ];
-
-    // Reveal and discard Life Cards
-    for (let i = 0; i < 1; i++) {
-  }
-      const revealedCard = targetPlayer.lifeCards.pop() {
-    revealedCards.push() {
-  }
-      targetPlayer.discardPile.push() {`
-    ``
-      `
-      this.addToLog() {
-    // Check for Burst opportunity
-      this.checkBurstOpportunity(targetPlayerId, revealedCard)
-  
-  }
-
-    // Check for game over
-    if (true) {`
-    this.gameState.gameOver = true;`
-      this.gameState.winner = sourcePlayerId || this.getOpponentId() {`
-  }```
-      this.addToLog(`${this.gameState.winner} wins the game!`)
-    }
-
-    this.emit() {
-    return revealedCards
-  }
-
-  /**
-   * Check for Burst opportunity when Life Card is revealed
-   */
-  checkBurstOpportunity(playerId: any, revealedCard: any) {
-    // Player can choose to play the card via Burst or put it in hand
-    this.waitForPlayerInput('burstOpportunity', { playerId, card: revealedCard 
-  })
-  }
-
-  /**
-   * Resolve combat damage
-   */
-  resolveCombatDamage() {
-    const activePlayer = this.gameState.players[this.gameState.activePlayer];
-    const defendingPlayerId = this.getOpponentId() {
-  }
-    const defendingPlayer = this.gameState.players[defendingPlayerId];
-
-    // Process each attacker
-    activePlayer.combatRow.forEach((attacker: any) => {
-    if (attacker.blocked) {
-    // Resolve damage between attacker and blocker
-        const blocker = attacker.blockedBy;
-        this.resolveFamiliarCombat(attacker, blocker)
-  
-  } else {
-    // Unblocked attacker deals damage to opponent
-        const damage = this.calculateFamiliarDamage() {
-    this.damagePlayer(defendingPlayerId, damage, this.gameState.activePlayer, attacker)
-  
-  }
+      // Shuffle deck
+      const shuffledDeck = this.shuffleDeck([...player.deck]);
+      
+      // Extract flag card if enabled
+      let flagCard: Card | undefined;
+      if (this.options.enableFlagCards) {
+        const flagIndex = shuffledDeck.findIndex(card => card.type === 'flag');
+        if (flagIndex >= 0) {
+          flagCard = shuffledDeck.splice(flagIndex, 1)[0];
+        }
+      }
+      
+      return {
+        id: player.id,
+        name: player.name,
+        deck: shuffledDeck,
+        hand: [],
+        field: [],
+        azothZone: [],
+        lifeCards: [],
+        graveyard: [],
+        removedFromGame: [],
+        azothAvailable: 0,
+        azothUsedThisTurn: 0,
+        flagCard
+      };
     });
-
-    // Clear combat row
-    activePlayer.combatRow = [
-    ;
-    defendingPlayer.combatRow = [
-  ]
+    
+    // Initialize game state
+    this.state = {
+      players: initializedPlayers,
+      activePlayer: Math.floor(Math.random() * 2), // Randomly determine first player
+      turn: 1,
+      phase: 'start',
+      stack: [],
+      attackers: [],
+      blockers: {},
+      winner: null,
+      gameOver: false
+    };
+    
+    // Deal starting hands and life cards
+    this.dealInitialCards();
+    
+    // Log game start
+    this.logGameEvent('Game started', {
+      firstPlayer: this.state.players[this.state.activePlayer].name
+    });
+    
+    // Emit game initialized event
+    this.emit('gameInitialized', this.state);
+    
+    return this.state;
   }
 
   /**
-   * Calculate Familiar damage including elemental bonuses
+   * Shuffle a deck of cards
    */
-  calculateFamiliarDamage(familiar: any) {
-    let baseDamage = (familiar.baseStrength || 0) + (familiar.counters || 0);
-    
-    // Apply elemental advantages if applicable
-    const attackerFlag = this.gameState.players[familiar.controllerId].flag;
-    if (true) {
-    // Implementation would check elemental advantages
-      // For now, return base damage
-  
-  }
-    
-    return baseDamage
-  }
-
-  /**
-   * Check if player can pay Azoth cost
-   */
-  canPayCost(player: any, cardCost: any, azothSpent: any) {
-    const available = this.getAvailableAzoth() {
-  }
-    
-    // Check each element requirement
-    for (const [element, cost] of Object.entries(cardCost)) {
-    if (true) {
-    // Generic can be paid with any element
-        const totalAvailable = Object.values(available).reduce((sum, val) => sum + val, 0);
-        const totalSpent = Object.values(azothSpent).reduce((sum, val) => sum + val, 0);
-        if (totalAvailable < totalSpent) return false
-  
-  } else {
-    const spent = azothSpent[element] || 0;
-        if ((available[element] || 0) < spent || spent < cost) return false
-  }
+  private shuffleDeck(deck: Card[]): Card[] {
+    // Fisher-Yates shuffle algorithm
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
     }
-    
-    return true
+    return deck;
   }
 
   /**
-   * Get available Azoth for a player
+   * Deal initial cards to players
    */
-  getAvailableAzoth(player: any) {
-    const available = {
-  };
+  private dealInitialCards(): void {
+    if (!this.state) return;
     
-    player.azothRow.forEach((azothCard: any) => {
-    if (!azothCard.rested && azothCard.elements) {
-    Object.keys(azothCard.elements).forEach(element => {
-    available[element] = (available[element] || 0) + 1
-  
-  })
+    // Deal life cards first
+    this.state.players.forEach(player => {
+      for (let i = 0; i < this.options.startingLifeCards!; i++) {
+        if (player.deck.length > 0) {
+          const card = player.deck.pop()!;
+          player.lifeCards.push(card);
+        }
       }
     });
     
-    return available
+    // Deal starting hands
+    this.state.players.forEach(player => {
+      for (let i = 0; i < this.options.startingHandSize!; i++) {
+        if (player.deck.length > 0) {
+          const card = player.deck.pop()!;
+          player.hand.push(card);
+        }
+      }
+    });
   }
 
   /**
-   * Pay Azoth cost by resting Azoth cards
+   * Start the game
    */
-  payAzothCost(player: any, cardCost: any, azothSpent: any) {
-    // Rest the appropriate Azoth cards
-    Object.entries(azothSpent).forEach(([element, amount]) => {
-    let remaining = amount;
-      
-      player.azothRow.forEach((azothCard: any) => {
-  
-  }
-        if (remaining > 0 && !azothCard.rested && azothCard.elements[element]) {
-    azothCard.rested = true;
-          remaining--
-  }
-      })
-    })
-  }
-
-  /**
-   * Refresh all rested Azoth for a player
-   */
-  refreshAzoth(playerId: any) {
-    const player = this.gameState.players[playerId];
+  startGame(): GameState {
+    if (!this.state) {
+      throw new Error('Game not initialized');
+    }
     
-    player.azothRow.forEach() {`
-  }``
-    ```
-    this.addToLog(`${playerId} refreshed all Azoth`)
+    // Start first turn
+    this.startTurn();
+    
+    return this.state;
+  }
+
+  /**
+   * Start a new turn
+   */
+  private startTurn(): void {
+    if (!this.state) return;
+    
+    // Set phase to start
+    this.state.phase = 'start';
+    
+    // Log turn start
+    this.logGameEvent('Turn started', {
+      turn: this.state.turn,
+      player: this.state.players[this.state.activePlayer].name
+    });
+    
+    // Handle start phase
+    this.phaseHandlers.start();
+    
+    // Emit turn started event
+    this.emit('turnStarted', {
+      turn: this.state.turn,
+      player: this.state.activePlayer
+    });
+  }
+
+  /**
+   * Handle the start phase
+   */
+  private handleStartPhase(): void {
+    if (!this.state) return;
+    
+    const activePlayer = this.state.players[this.state.activePlayer];
+    
+    // Draw a card at the start of turn (except first turn for first player)
+    if (!(this.state.turn === 1 && this.state.activePlayer === 0)) {
+      this.drawCard(this.state.activePlayer, 1);
+    }
+    
+    // Reset azoth used this turn
+    activePlayer.azothUsedThisTurn = 0;
+    
+    // Apply start-of-turn effects
+    this.applyTriggerEffects('turnStart', this.state.activePlayer);
+    
+    // Move to main phase
+    this.state.phase = 'main';
+    
+    // Emit phase change event
+    this.emit('phaseChanged', {
+      phase: this.state.phase,
+      player: this.state.activePlayer
+    });
+  }
+
+  /**
+   * Handle the main phase
+   */
+  private handleMainPhase(): void {
+    // Main phase is handled by player actions
+    // This method is called when entering the main phase
+    if (!this.state) return;
+    
+    // Apply main phase start effects
+    this.applyTriggerEffects('mainPhaseStart', this.state.activePlayer);
+    
+    // Emit phase change event
+    this.emit('phaseChanged', {
+      phase: this.state.phase,
+      player: this.state.activePlayer
+    });
+  }
+
+  /**
+   * Handle the combat phase
+   */
+  private handleCombatPhase(): void {
+    if (!this.state) return;
+    
+    // Reset attackers and blockers
+    this.state.attackers = [];
+    this.state.blockers = {};
+    
+    // Apply combat phase start effects
+    this.applyTriggerEffects('combatPhaseStart', this.state.activePlayer);
+    
+    // Emit phase change event
+    this.emit('phaseChanged', {
+      phase: this.state.phase,
+      player: this.state.activePlayer
+    });
+  }
+
+  /**
+   * Handle the post-combat phase
+   */
+  private handlePostCombatPhase(): void {
+    if (!this.state) return;
+    
+    // Apply post-combat phase effects
+    this.applyTriggerEffects('postCombatPhaseStart', this.state.activePlayer);
+    
+    // Emit phase change event
+    this.emit('phaseChanged', {
+      phase: this.state.phase,
+      player: this.state.activePlayer
+    });
+  }
+
+  /**
+   * Handle the refresh phase
+   */
+  private handleRefreshPhase(): void {
+    if (!this.state) return;
+    
+    const activePlayer = this.state.players[this.state.activePlayer];
+    
+    // Untap all cards
+    activePlayer.field.forEach(card => {
+      card.tapped = false;
+    });
+    
+    activePlayer.azothZone.forEach(card => {
+      card.tapped = false;
+    });
+    
+    // Reset any turn-based flags
+    activePlayer.field.forEach(card => {
+      card.attackedThisTurn = false;
+      card.usedEffectThisTurn = false;
+    });
+    
+    // Apply end of turn effects
+    this.applyTriggerEffects('turnEnd', this.state.activePlayer);
+    
+    // Switch active player
+    this.state.activePlayer = 1 - this.state.activePlayer;
+    
+    // Increment turn counter if we've gone through both players
+    if (this.state.activePlayer === 0) {
+      this.state.turn++;
+    }
+    
+    // Start next turn
+    this.startTurn();
   }
 
   /**
    * Draw cards for a player
    */
-  drawCards(playerId: any, count: any) {
-    const player = this.gameState.players[playerId];
+  drawCard(playerId: number, count: number = 1): Card[] {
+    if (!this.state) throw new Error('Game not initialized');
     
-    for (let i = 0; i < 1; i++) {
-  }
-      if (true) {
-    const drawnCard = player.deck.pop() {
-    player.hand.push(drawnCard)
-  
-  }
-    }`
-    ``
-    if (true) {```
-      this.addToLog(`${playerId} drew ${count} card${count > 1 ? 's' : ''}`)
+    const player = this.state.players[playerId];
+    const drawnCards: Card[] = [];
+    
+    for (let i = 0; i < count; i++) {
+      if (player.deck.length === 0) {
+        // Player loses if they can't draw
+        this.handlePlayerLoss(playerId, 'deckout');
+        break;
+      }
+      
+      const card = player.deck.pop()!;
+      player.hand.push(card);
+      drawnCards.push(card);
+      
+      // Log card draw
+      this.logGameEvent('Card drawn', {
+        player: player.name,
+        card: card.name
+      });
     }
+    
+    // Emit card drawn event
+    this.emit('cardsDrawn', {
+      player: playerId,
+      cards: drawnCards
+    });
+    
+    return drawnCards;
+  }
+
+  /**
+   * Play an Azoth card
+   */
+  playAzoth(playerId: number, cardId: string): boolean {
+    if (!this.state) throw new Error('Game not initialized');
+    
+    const player = this.state.players[playerId];
+    
+    // Check if it's the player's turn and main phase
+    if (this.state.activePlayer !== playerId || this.state.phase !== 'main') {
+      throw new Error('Can only play Azoth during your main phase');
+    }
+    
+    // Check if player has already played max Azoth this turn
+    if (player.azothUsedThisTurn >= this.options.maxAzothPerTurn!) {
+      throw new Error(`Can only play ${this.options.maxAzothPerTurn} Azoth per turn`);
+    }
+    
+    // Find the card in hand
+    const cardIndex = player.hand.findIndex(card => card.id === cardId);
+    if (cardIndex === -1) {
+      throw new Error('Card not found in hand');
+    }
+    
+    const card = player.hand[cardIndex];
+    
+    // Check if card is an Azoth
+    if (card.type !== 'azoth') {
+      throw new Error('Card is not an Azoth');
+    }
+    
+    // Remove from hand and add to Azoth zone
+    player.hand.splice(cardIndex, 1);
+    player.azothZone.push(card);
+    
+    // Increment Azoth used this turn
+    player.azothUsedThisTurn++;
+    
+    // Increment available Azoth
+    player.azothAvailable++;
+    
+    // Log Azoth play
+    this.logGameEvent('Azoth played', {
+      player: player.name,
+      card: card.name,
+      elements: card.elements.join(', ')
+    });
+    
+    // Emit Azoth played event
+    this.emit('azothPlayed', {
+      player: playerId,
+      card
+    });
+    
+    return true;
+  }
+
+  /**
+   * Summon a Familiar
+   */
+  summonFamiliar(playerId: number, cardId: string, azothIds: string[]): boolean {
+    if (!this.state) throw new Error('Game not initialized');
+    
+    const player = this.state.players[playerId];
+    
+    // Check if it's the player's turn and main phase
+    if (this.state.activePlayer !== playerId || this.state.phase !== 'main') {
+      throw new Error('Can only summon Familiars during your main phase');
+    }
+    
+    // Check if field is full
+    if (player.field.length >= this.options.maxFieldSize!) {
+      throw new Error(`Field is full (max ${this.options.maxFieldSize} cards)`);
+    }
+    
+    // Find the card in hand
+    const cardIndex = player.hand.findIndex(card => card.id === cardId);
+    if (cardIndex === -1) {
+      throw new Error('Card not found in hand');
+    }
+    
+    const card = player.hand[cardIndex];
+    
+    // Check if card is a Familiar
+    if (card.type !== 'familiar') {
+      throw new Error('Card is not a Familiar');
+    }
+    
+    // Verify Azoth payment
+    if (!this.verifyAzothPayment(playerId, card.cost, azothIds)) {
+      throw new Error('Invalid Azoth payment');
+    }
+    
+    // Remove from hand and add to field
+    player.hand.splice(cardIndex, 1);
+    
+    // Add summoning sickness
+    const fieldCard = { ...card, summoningSickness: true };
+    player.field.push(fieldCard);
+    
+    // Pay Azoth cost
+    this.payAzoth(playerId, azothIds);
+    
+    // Apply summon effects
+    this.applyCardEffects(fieldCard, 'onSummon', playerId);
+    
+    // Log Familiar summon
+    this.logGameEvent('Familiar summoned', {
+      player: player.name,
+      card: card.name,
+      cost: card.cost,
+      power: card.power,
+      health: card.health
+    });
+    
+    // Emit Familiar summoned event
+    this.emit('familiarSummoned', {
+      player: playerId,
+      card: fieldCard
+    });
+    
+    return true;
+  }
+
+  /**
+   * Cast a Spell
+   */
+  castSpell(playerId: number, cardId: string, azothIds: string[], targets: string[] = []): boolean {
+    if (!this.state) throw new Error('Game not initialized');
+    
+    const player = this.state.players[playerId];
+    
+    // Check if it's the player's turn and main phase
+    if (this.state.activePlayer !== playerId || this.state.phase !== 'main') {
+      throw new Error('Can only cast Spells during your main phase');
+    }
+    
+    // Find the card in hand
+    const cardIndex = player.hand.findIndex(card => card.id === cardId);
+    if (cardIndex === -1) {
+      throw new Error('Card not found in hand');
+    }
+    
+    const card = player.hand[cardIndex];
+    
+    // Check if card is a Spell
+    if (card.type !== 'spell') {
+      throw new Error('Card is not a Spell');
+    }
+    
+    // Verify Azoth payment
+    if (!this.verifyAzothPayment(playerId, card.cost, azothIds)) {
+      throw new Error('Invalid Azoth payment');
+    }
+    
+    // Verify targets if required
+    if (card.requiresTarget && (!targets || targets.length === 0)) {
+      throw new Error('Spell requires targets');
+    }
+    
+    // Remove from hand
+    player.hand.splice(cardIndex, 1);
+    
+    // Pay Azoth cost
+    this.payAzoth(playerId, azothIds);
+    
+    // Apply spell effects
+    this.applySpellEffects(card, playerId, targets);
+    
+    // Move to graveyard after resolution
+    player.graveyard.push(card);
+    
+    // Log Spell cast
+    this.logGameEvent('Spell cast', {
+      player: player.name,
+      card: card.name,
+      cost: card.cost,
+      targets: targets.length > 0 ? 'Yes' : 'None'
+    });
+    
+    // Emit Spell cast event
+    this.emit('spellCast', {
+      player: playerId,
+      card,
+      targets
+    });
+    
+    return true;
+  }
+
+  /**
+   * Activate a Burst card
+   */
+  activateBurst(playerId: number, cardId: string, targets: string[] = []): boolean {
+    if (!this.state || !this.options.enableBurstCards) {
+      throw new Error('Burst cards not enabled or game not initialized');
+    }
+    
+    const player = this.state.players[playerId];
+    
+    // Find the card in hand
+    const cardIndex = player.hand.findIndex(card => card.id === cardId);
+    if (cardIndex === -1) {
+      throw new Error('Card not found in hand');
+    }
+    
+    const card = player.hand[cardIndex];
+    
+    // Check if card is a Burst
+    if (card.type !== 'burst') {
+      throw new Error('Card is not a Burst');
+    }
+    
+    // Verify targets if required
+    if (card.requiresTarget && (!targets || targets.length === 0)) {
+      throw new Error('Burst requires targets');
+    }
+    
+    // Remove from hand
+    player.hand.splice(cardIndex, 1);
+    
+    // Apply burst effects
+    this.applyBurstEffects(card, playerId, targets);
+    
+    // Move to graveyard after resolution
+    player.graveyard.push(card);
+    
+    // Log Burst activation
+    this.logGameEvent('Burst activated', {
+      player: player.name,
+      card: card.name,
+      targets: targets.length > 0 ? 'Yes' : 'None'
+    });
+    
+    // Emit Burst activated event
+    this.emit('burstActivated', {
+      player: playerId,
+      card,
+      targets
+    });
+    
+    return true;
+  }
+
+  /**
+   * Declare attackers
+   */
+  declareAttackers(playerId: number, cardIds: string[]): boolean {
+    if (!this.state) throw new Error('Game not initialized');
+    
+    // Check if it's the player's turn and combat phase
+    if (this.state.activePlayer !== playerId || this.state.phase !== 'combat') {
+      throw new Error('Can only declare attackers during your combat phase');
+    }
+    
+    const player = this.state.players[playerId];
+    
+    // Validate each attacker
+    const attackers: Card[] = [];
+    
+    for (const cardId of cardIds) {
+      const card = player.field.find(c => c.id === cardId);
+      
+      if (!card) {
+        throw new Error(`Card ${cardId} not found on field`);
+      }
+      
+      if (card.tapped) {
+        throw new Error(`Card ${card.name} is already tapped`);
+      }
+      
+      if (card.summoningSickness) {
+        throw new Error(`Card ${card.name} has summoning sickness`);
+      }
+      
+      attackers.push(card);
+    }
+    
+    // Set attackers in game state
+    this.state.attackers = attackers;
+    
+    // Tap attacking cards
+    attackers.forEach(card => {
+      card.tapped = true;
+      card.attackedThisTurn = true;
+    });
+    
+    // Apply attack trigger effects
+    attackers.forEach(card => {
+      this.applyCardEffects(card, 'onAttack', playerId);
+    });
+    
+    // Log attack declaration
+    this.logGameEvent('Attackers declared', {
+      player: player.name,
+      count: attackers.length,
+      attackers: attackers.map(a => a.name).join(', ')
+    });
+    
+    // Emit attackers declared event
+    this.emit('attackersDeclared', {
+      player: playerId,
+      attackers
+    });
+    
+    return true;
+  }
+
+  /**
+   * Declare blockers
+   */
+  declareBlockers(playerId: number, blocks: { blockerId: string; attackerId: string }[]): boolean {
+    if (!this.state) throw new Error('Game not initialized');
+    
+    // Check if it's the opponent's turn and combat phase
+    if (this.state.activePlayer === playerId || this.state.phase !== 'combat') {
+      throw new Error('Can only declare blockers during opponent\'s combat phase');
+    }
+    
+    const player = this.state.players[playerId];
+    const blockers: Record<string, Card> = {};
+    
+    // Validate each blocker
+    for (const block of blocks) {
+      const blocker = player.field.find(c => c.id === block.blockerId);
+      
+      if (!blocker) {
+        throw new Error(`Blocker ${block.blockerId} not found on field`);
+      }
+      
+      if (blocker.tapped) {
+        throw new Error(`Blocker ${blocker.name} is already tapped`);
+      }
+      
+      // Check if attacker exists
+      const attacker = this.state.attackers.find(a => a.id === block.attackerId);
+      if (!attacker) {
+        throw new Error(`Attacker ${block.attackerId} not found`);
+      }
+      
+      // Add to blockers map
+      blockers[block.attackerId] = blocker;
+      
+      // Tap blocker
+      blocker.tapped = true;
+    }
+    
+    // Set blockers in game state
+    this.state.blockers = blockers;
+    
+    // Apply block trigger effects
+    Object.values(blockers).forEach(blocker => {
+      this.applyCardEffects(blocker, 'onBlock', playerId);
+    });
+    
+    // Log block declaration
+    this.logGameEvent('Blockers declared', {
+      player: player.name,
+      count: Object.keys(blockers).length,
+      blockers: Object.values(blockers).map(b => b.name).join(', ')
+    });
+    
+    // Emit blockers declared event
+    this.emit('blockersDeclared', {
+      player: playerId,
+      blockers
+    });
+    
+    return true;
+  }
+
+  /**
+   * Resolve combat
+   */
+  resolveCombat(): void {
+    if (!this.state) throw new Error('Game not initialized');
+    
+    const attackingPlayerId = this.state.activePlayer;
+    const defendingPlayerId = 1 - attackingPlayerId;
+    
+    // Process each attacker
+    for (const attacker of this.state.attackers) {
+      const blocker = this.state.blockers[attacker.id];
+      
+      if (blocker) {
+        // Blocked attack - creatures deal damage to each other
+        this.resolveCombatDamage(attacker, blocker, attackingPlayerId, defendingPlayerId);
+      } else {
+        // Unblocked attack - deal damage to defending player
+        this.dealDamageToPlayer(defendingPlayerId, attacker.power || 0);
+      }
+    }
+    
+    // Apply post-combat effects
+    this.applyTriggerEffects('afterCombat', attackingPlayerId);
+    
+    // Move to post-combat phase
+    this.state.phase = 'post-combat';
+    this.handlePostCombatPhase();
+  }
+
+  /**
+   * Resolve combat damage between two cards
+   */
+  private resolveCombatDamage(attacker: Card, blocker: Card, attackerId: number, blockerId: number): void {
+    // Apply pre-damage effects
+    this.applyCardEffects(attacker, 'beforeDamage', attackerId);
+    this.applyCardEffects(blocker, 'beforeDamage', blockerId);
+    
+    // Deal damage simultaneously
+    const attackerDamage = attacker.power || 0;
+    const blockerDamage = blocker.power || 0;
+    
+    // Apply damage
+    blocker.health = (blocker.health || 0) - attackerDamage;
+    attacker.health = (attacker.health || 0) - blockerDamage;
+    
+    // Log combat damage
+    this.logGameEvent('Combat damage', {
+      attacker: attacker.name,
+      attackerDamage,
+      blocker: blocker.name,
+      blockerDamage
+    });
+    
+    // Check for destroyed cards
+    if (blocker.health <= 0) {
+      this.destroyCard(blockerId, blocker);
+    }
+    
+    if (attacker.health <= 0) {
+      this.destroyCard(attackerId, attacker);
+    }
+  }
+
+  /**
+   * Deal damage to a player
+   */
+  dealDamageToPlayer(playerId: number, amount: number): void {
+    if (!this.state) return;
+    
+    const player = this.state.players[playerId];
+    
+    // Log player damage
+    this.logGameEvent('Player damaged', {
+      player: player.name,
+      amount
+    });
+    
+    // Damage is applied to life cards
+    for (let i = 0; i < amount; i++) {
+      if (player.lifeCards.length === 0) {
+        // Player loses if they run out of life cards
+        this.handlePlayerLoss(playerId, 'damage');
+        break;
+      }
+      
+      // Remove a life card
+      const lostCard = player.lifeCards.pop()!;
+      player.graveyard.push(lostCard);
+      
+      // Log life card loss
+      this.logGameEvent('Life card lost', {
+        player: player.name,
+        card: lostCard.name,
+        remaining: player.lifeCards.length
+      });
+    }
+    
+    // Emit player damaged event
+    this.emit('playerDamaged', {
+      player: playerId,
+      amount,
+      remainingLifeCards: player.lifeCards.length
+    });
+  }
+
+  /**
+   * Destroy a card
+   */
+  destroyCard(playerId: number, card: Card): void {
+    if (!this.state) return;
+    
+    const player = this.state.players[playerId];
+    
+    // Apply on-destroy effects
+    this.applyCardEffects(card, 'onDestroy', playerId);
+    
+    // Remove from field
+    const cardIndex = player.field.findIndex(c => c.id === card.id);
+    if (cardIndex !== -1) {
+      player.field.splice(cardIndex, 1);
+      
+      // Move to graveyard
+      player.graveyard.push(card);
+      
+      // Log card destruction
+      this.logGameEvent('Card destroyed', {
+        player: player.name,
+        card: card.name
+      });
+      
+      // Emit card destroyed event
+      this.emit('cardDestroyed', {
+        player: playerId,
+        card
+      });
+    }
+  }
+
+  /**
+   * Verify Azoth payment
+   */
+  private verifyAzothPayment(playerId: number, cost: number, azothIds: string[]): boolean {
+    if (!this.state) return false;
+    
+    const player = this.state.players[playerId];
+    
+    // Check if player has enough untapped Azoth
+    const untappedAzoth = player.azothZone.filter(card => !card.tapped);
+    if (untappedAzoth.length < cost) {
+      return false;
+    }
+    
+    // Check if the provided Azoth IDs are valid
+    if (azothIds.length !== cost) {
+      return false;
+    }
+    
+    // Verify each Azoth card
+    for (const azothId of azothIds) {
+      const azoth = untappedAzoth.find(a => a.id === azothId);
+      if (!azoth) {
+        return false;
+      }
+    }
+    
+    return true;
+  }
+
+  /**
+   * Pay Azoth cost
+   */
+  private payAzoth(playerId: number, azothIds: string[]): void {
+    if (!this.state) return;
+    
+    const player = this.state.players[playerId];
+    
+    // Tap the specified Azoth cards
+    for (const azothId of azothIds) {
+      const azoth = player.azothZone.find(a => a.id === azothId);
+      if (azoth) {
+        azoth.tapped = true;
+      }
+    }
+    
+    // Decrement available Azoth
+    player.azothAvailable -= azothIds.length;
+  }
+
+  /**
+   * Apply card effects
+   */
+  private applyCardEffects(card: Card, trigger: string, playerId: number): void {
+    if (!card.effects) return;
+    
+    // Find effects with matching trigger
+    const matchingEffects = card.effects.filter(effect => effect.trigger === trigger);
+    
+    // Apply each effect
+    for (const effect of matchingEffects) {
+      const handler = this.effectHandlers[effect.type];
+      if (handler) {
+        handler(playerId, effect, card);
+      }
+    }
+  }
+
+  /**
+   * Apply spell effects
+   */
+  private applySpellEffects(card: Card, playerId: number, targets: string[]): void {
+    if (!card.effects) return;
+    
+    // Apply each effect
+    for (const effect of card.effects) {
+      const handler = this.effectHandlers[effect.type];
+      if (handler) {
+        handler(playerId, effect, card, targets);
+      }
+    }
+  }
+
+  /**
+   * Apply burst effects
+   */
+  private applyBurstEffects(card: Card, playerId: number, targets: string[]): void {
+    if (!card.effects) return;
+    
+    // Apply each effect
+    for (const effect of card.effects) {
+      const handler = this.effectHandlers[effect.type];
+      if (handler) {
+        handler(playerId, effect, card, targets);
+      }
+    }
+  }
+
+  /**
+   * Apply trigger effects across all cards
+   */
+  private applyTriggerEffects(trigger: string, activePlayerId: number): void {
+    if (!this.state) return;
+    
+    // Check field cards for both players
+    for (let playerId = 0; playerId < this.state.players.length; playerId++) {
+      const player = this.state.players[playerId];
+      
+      // Check field cards
+      player.field.forEach(card => {
+        this.applyCardEffects(card, trigger, playerId);
+      });
+      
+      // Check flag card if enabled
+      if (this.options.enableFlagCards && player.flagCard) {
+        this.applyCardEffects(player.flagCard, trigger, playerId);
+      }
+    }
+  }
+
+  /**
+   * Handle damage effect
+   */
+  private handleDamageEffect(playerId: number, effect: CardEffect, sourceCard: Card, targets?: string[]): void {
+    if (!this.state) return;
+    
+    const amount = effect.value || 1;
+    
+    // Determine targets
+    let targetCards: { playerId: number; card?: Card }[] = [];
+    
+    if (targets && targets.length > 0) {
+      // Explicit targets provided
+      for (const targetId of targets) {
+        // Check if target is a player
+        if (targetId === 'player0' || targetId === 'player1') {
+          const targetPlayerId = parseInt(targetId.replace('player', ''));
+          targetCards.push({ playerId: targetPlayerId });
+        } else {
+          // Find target card
+          for (let pid = 0; pid < this.state.players.length; pid++) {
+            const player = this.state.players[pid];
+            const card = player.field.find(c => c.id === targetId);
+            if (card) {
+              targetCards.push({ playerId: pid, card });
+              break;
+            }
+          }
+        }
+      }
+    } else if (effect.target === 'opponent') {
+      // Target opponent
+      targetCards.push({ playerId: 1 - playerId });
+    } else if (effect.target === 'all_opponents_creatures') {
+      // Target all opponent's creatures
+      const opponentId = 1 - playerId;
+      this.state.players[opponentId].field.forEach(card => {
+        targetCards.push({ playerId: opponentId, card });
+      });
+    } else if (effect.target === 'all_creatures') {
+      // Target all creatures
+      for (let pid = 0; pid < this.state.players.length; pid++) {
+        this.state.players[pid].field.forEach(card => {
+          targetCards.push({ playerId: pid, card });
+        });
+      }
+    }
+    
+    // Apply damage to each target
+    targetCards.forEach(target => {
+      if (target.card) {
+        // Damage to creature
+        target.card.health = (target.card.health || 0) - amount;
+        
+        // Log card damage
+        this.logGameEvent('Card damaged', {
+          source: sourceCard.name,
+          target: target.card.name,
+          amount
+        });
+        
+        // Check if destroyed
+        if (target.card.health <= 0) {
+          this.destroyCard(target.playerId, target.card);
+        }
+      } else {
+        // Damage to player
+        this.dealDamageToPlayer(target.playerId, amount);
+      }
+    });
+  }
+
+  /**
+   * Handle draw effect
+   */
+  private handleDrawEffect(playerId: number, effect: CardEffect, sourceCard: Card): void {
+    const amount = effect.value || 1;
+    
+    // Determine target player
+    let targetPlayerId = playerId;
+    if (effect.target === 'opponent') {
+      targetPlayerId = 1 - playerId;
+    }
+    
+    // Draw cards
+    this.drawCard(targetPlayerId, amount);
+  }
+
+  /**
+   * Handle boost effect
+   */
+  private handleBoostEffect(playerId: number, effect: CardEffect, sourceCard: Card, targets?: string[]): void {
+    if (!this.state) return;
+    
+    const powerBoost = effect.value?.power || 0;
+    const healthBoost = effect.value?.health || 0;
+    
+    // Determine targets
+    let targetCards: Card[] = [];
+    
+    if (targets && targets.length > 0) {
+      // Explicit targets provided
+      for (const targetId of targets) {
+        // Find target card
+        for (let pid = 0; pid < this.state.players.length; pid++) {
+          const player = this.state.players[pid];
+          const card = player.field.find(c => c.id === targetId);
+          if (card) {
+            targetCards.push(card);
+            break;
+          }
+        }
+      }
+    } else if (effect.target === 'self' && sourceCard.type === 'familiar') {
+      // Target self
+      targetCards.push(sourceCard);
+    } else if (effect.target === 'all_friendly_creatures') {
+      // Target all friendly creatures
+      this.state.players[playerId].field.forEach(card => {
+        targetCards.push(card);
+      });
+    }
+    
+    // Apply boost to each target
+    targetCards.forEach(card => {
+      card.power = (card.power || 0) + powerBoost;
+      card.health = (card.health || 0) + healthBoost;
+      
+      // Log boost
+      this.logGameEvent('Card boosted', {
+        source: sourceCard.name,
+        target: card.name,
+        powerBoost,
+        healthBoost
+      });
+    });
+  }
+
+  /**
+   * Handle destroy effect
+   */
+  private handleDestroyEffect(playerId: number, effect: CardEffect, sourceCard: Card, targets?: string[]): void {
+    if (!this.state) return;
+    
+    // Determine targets
+    let targetCards: { playerId: number; card: Card }[] = [];
+    
+    if (targets && targets.length > 0) {
+      // Explicit targets provided
+      for (const targetId of targets) {
+        // Find target card
+        for (let pid = 0; pid < this.state.players.length; pid++) {
+          const player = this.state.players[pid];
+          const card = player.field.find(c => c.id === targetId);
+          if (card) {
+            targetCards.push({ playerId: pid, card });
+            break;
+          }
+        }
+      }
+    } else if (effect.target === 'all_opponents_creatures') {
+      // Target all opponent's creatures
+      const opponentId = 1 - playerId;
+      this.state.players[opponentId].field.forEach(card => {
+        targetCards.push({ playerId: opponentId, card });
+      });
+    }
+    
+    // Destroy each target
+    targetCards.forEach(target => {
+      this.destroyCard(target.playerId, target.card);
+    });
+  }
+
+  /**
+   * Handle search effect
+   */
+  private handleSearchEffect(playerId: number, effect: CardEffect, sourceCard: Card): void {
+    // This would be implemented in a real game with UI interaction
+    // For now, just log that search would happen
+    this.logGameEvent('Search effect', {
+      player: this.state?.players[playerId].name,
+      source: sourceCard.name,
+      target: effect.target
+    });
+  }
+
+  /**
+   * Handle return effect
+   */
+  private handleReturnEffect(playerId: number, effect: CardEffect, sourceCard: Card, targets?: string[]): void {
+    if (!this.state) return;
+    
+    // Determine targets
+    let targetCards: { playerId: number; card: Card }[] = [];
+    
+    if (targets && targets.length > 0) {
+      // Explicit targets provided
+      for (const targetId of targets) {
+        // Find target card
+        for (let pid = 0; pid < this.state.players.length; pid++) {
+          const player = this.state.players[pid];
+          const card = player.field.find(c => c.id === targetId);
+          if (card) {
+            targetCards.push({ playerId: pid, card });
+            break;
+          }
+        }
+      }
+    }
+    
+    // Return each target to hand
+    targetCards.forEach(target => {
+      const player = this.state.players[target.playerId];
+      
+      // Remove from field
+      const cardIndex = player.field.findIndex(c => c.id === target.card.id);
+      if (cardIndex !== -1) {
+        player.field.splice(cardIndex, 1);
+        
+        // Add to hand
+        player.hand.push(target.card);
+        
+        // Log return to hand
+        this.logGameEvent('Card returned to hand', {
+          source: sourceCard.name,
+          target: target.card.name,
+          player: player.name
+        });
+      }
+    });
+  }
+
+  /**
+   * Handle banish effect
+   */
+  private handleBanishEffect(playerId: number, effect: CardEffect, sourceCard: Card, targets?: string[]): void {
+    if (!this.state) return;
+    
+    // Determine targets
+    let targetCards: { playerId: number; card: Card; zone: 'field' | 'graveyard' }[] = [];
+    
+    if (targets && targets.length > 0) {
+      // Explicit targets provided
+      for (const targetId of targets) {
+        // Find target card
+        for (let pid = 0; pid < this.state.players.length; pid++) {
+          const player = this.state.players[pid];
+          
+          // Check field
+          const fieldCard = player.field.find(c => c.id === targetId);
+          if (fieldCard) {
+            targetCards.push({ playerId: pid, card: fieldCard, zone: 'field' });
+            continue;
+          }
+          
+          // Check graveyard
+          const graveyardCard = player.graveyard.find(c => c.id === targetId);
+          if (graveyardCard) {
+            targetCards.push({ playerId: pid, card: graveyardCard, zone: 'graveyard' });
+          }
+        }
+      }
+    }
+    
+    // Banish each target
+    targetCards.forEach(target => {
+      const player = this.state.players[target.playerId];
+      
+      if (target.zone === 'field') {
+        // Remove from field
+        const cardIndex = player.field.findIndex(c => c.id === target.card.id);
+        if (cardIndex !== -1) {
+          player.field.splice(cardIndex, 1);
+        }
+      } else if (target.zone === 'graveyard') {
+        // Remove from graveyard
+        const cardIndex = player.graveyard.findIndex(c => c.id === target.card.id);
+        if (cardIndex !== -1) {
+          player.graveyard.splice(cardIndex, 1);
+        }
+      }
+      
+      // Add to removed from game zone
+      player.removedFromGame.push(target.card);
+      
+      // Log banish
+      this.logGameEvent('Card banished', {
+        source: sourceCard.name,
+        target: target.card.name,
+        player: player.name,
+        fromZone: target.zone
+      });
+    });
+  }
+
+  /**
+   * Handle heal effect
+   */
+  private handleHealEffect(playerId: number, effect: CardEffect, sourceCard: Card, targets?: string[]): void {
+    if (!this.state) return;
+    
+    const amount = effect.value || 1;
+    
+    // Determine targets
+    let targetCards: { playerId: number; card?: Card }[] = [];
+    
+    if (targets && targets.length > 0) {
+      // Explicit targets provided
+      for (const targetId of targets) {
+        // Check if target is a player
+        if (targetId === 'player0' || targetId === 'player1') {
+          const targetPlayerId = parseInt(targetId.replace('player', ''));
+          targetCards.push({ playerId: targetPlayerId });
+        } else {
+          // Find target card
+          for (let pid = 0; pid < this.state.players.length; pid++) {
+            const player = this.state.players[pid];
+            const card = player.field.find(c => c.id === targetId);
+            if (card) {
+              targetCards.push({ playerId: pid, card });
+              break;
+            }
+          }
+        }
+      }
+    } else if (effect.target === 'self' && sourceCard.type === 'familiar') {
+      // Target self
+      targetCards.push({ playerId, card: sourceCard });
+    } else if (effect.target === 'player') {
+      // Target controlling player
+      targetCards.push({ playerId });
+    }
+    
+    // Apply heal to each target
+    targetCards.forEach(target => {
+      if (target.card) {
+        // Heal creature
+        const maxHealth = target.card.originalHealth || target.card.health || 0;
+        target.card.health = Math.min(maxHealth, (target.card.health || 0) + amount);
+        
+        // Log card heal
+        this.logGameEvent('Card healed', {
+          source: sourceCard.name,
+          target: target.card.name,
+          amount
+        });
+      } else {
+        // Heal player (restore life cards from graveyard)
+        const player = this.state.players[target.playerId];
+        
+        for (let i = 0; i < amount; i++) {
+          if (player.graveyard.length > 0) {
+            // Find a card that can be used as a life card
+            const cardIndex = player.graveyard.findIndex(c => 
+              c.type !== 'familiar' && c.type !== 'spell' && c.type !== 'burst'
+            );
+            
+            if (cardIndex !== -1) {
+              const card = player.graveyard.splice(cardIndex, 1)[0];
+              player.lifeCards.push(card);
+              
+              // Log life card restoration
+              this.logGameEvent('Life card restored', {
+                source: sourceCard.name,
+                player: player.name,
+                card: card.name
+              });
+            }
+          }
+        }
+      }
+    });
+  }
+
+  /**
+   * Handle player loss
+   */
+  private handlePlayerLoss(playerId: number, reason: 'damage' | 'deckout' | 'concede'): void {
+    if (!this.state) return;
+    
+    // Set winner
+    this.state.winner = 1 - playerId;
+    this.state.gameOver = true;
+    
+    // Log game end
+    this.logGameEvent('Game over', {
+      winner: this.state.players[this.state.winner].name,
+      loser: this.state.players[playerId].name,
+      reason
+    });
+    
+    // Emit game over event
+    this.emit('gameOver', {
+      winner: this.state.winner,
+      loser: playerId,
+      reason
+    });
+  }
+
+  /**
+   * Log a game event
+   */
+  private logGameEvent(event: string, data: any): void {
+    const timestamp = new Date().toISOString();
+    const logEntry = `[${timestamp}] ${event}: ${JSON.stringify(data)}`;
+    
+    this.gameLog.push(logEntry);
+    
+    // Emit log event
+    this.emit('log', { event, data, timestamp });
+  }
+
+  /**
+   * Get the current game state
+   */
+  getGameState(): GameState | null {
+    return this.state;
+  }
+
+  /**
+   * Get the game log
+   */
+  getGameLog(): string[] {
+    return this.gameLog;
+  }
+
+  /**
+   * End the current phase and move to the next
+   */
+  endPhase(): void {
+    if (!this.state) return;
+    
+    const currentPhase = this.state.phase;
+    
+    // Determine next phase
+    let nextPhase: 'start' | 'main' | 'combat' | 'post-combat' | 'refresh';
+    
+    switch (currentPhase) {
+      case 'start':
+        nextPhase = 'main';
+        break;
+      case 'main':
+        nextPhase = 'combat';
+        break;
+      case 'combat':
+        nextPhase = 'post-combat';
+        break;
+      case 'post-combat':
+        nextPhase = 'refresh';
+        break;
+      case 'refresh':
+        nextPhase = 'start';
+        break;
+      default:
+        nextPhase = 'main';
+    }
+    
+    // Set new phase
+    this.state.phase = nextPhase;
+    
+    // Handle phase change
+    if (this.phaseHandlers[nextPhase]) {
+      this.phaseHandlers[nextPhase]();
+    }
+    
+    // Log phase change
+    this.logGameEvent('Phase changed', {
+      from: currentPhase,
+      to: nextPhase,
+      player: this.state.players[this.state.activePlayer].name
+    });
   }
 
   /**
    * End the current turn
    */
-  endTurn() {
-    // Switch active player
-    this.gameState.activePlayer = this.getOpponentId(() => {
-    // Increment turn counter if it's player1's turn again
-    if (true) {
-    this.gameState.currentTurn++
-  `
-  })``
-    ``
-    this.addToLog() {`
-    `
-    this.addToLog() {
-    // Start new turn
-    this.startPhase()
-  
+  endTurn(): void {
+    if (!this.state) return;
+    
+    // Move to refresh phase which will handle turn transition
+    this.state.phase = 'refresh';
+    this.handleRefreshPhase();
   }
 
   /**
-   * AI System Integration
+   * Concede the game
    */
-  async initializeAI(players: any) {
-    // Check if there are AI players
-    const aiPlayers = players.filter() {
+  concede(playerId: number): void {
+    this.handlePlayerLoss(playerId, 'concede');
   }
-    
-    if (true) {
-    // Dynamically import cutting-edge AI modules (for browser compatibility)
-      try {
-  }
-        const { default: CuttingEdgeAI } = await import() {
-    const { PersonalityManager 
-  } = await import() {
-    // Initialize cutting-edge AI system
-        const personalities = ['strategist', 'berserker', 'trickster', 'scholar', 'gambler', 'perfectionist'];
-        const randomPersonality = personalities[Math.floor(Math.random() * personalities.length)];
-        
-        this.cuttingEdgeAI = new CuttingEdgeAI() {
-  }
-        this.aiPersonality = new PersonalityManager() {
-    // Enable all cutting-edge features
-        this.cuttingEdgeAI.quantumDecisionMaking = true;
-        this.cuttingEdgeAI.consciousnessSimulation = true;
-        this.cuttingEdgeAI.advancedTheoryOfMind = true;`
-        this.cuttingEdgeAI.personalityEvolution = true;``
-        ```
-        console.log(`AI initialized with personality: ${this.aiPersonality.getDisplayInfo().name`
-  }`)
-        
-      } catch (error: any) {
-    console.warn() {
-  }
-        // Fallback to basic AI if cutting-edge system fails
-        try {
-    const { default: AIDecisionEngine 
-  } = await import(() => {
-    this.aiDecisionEngine = new AIDecisionEngine() {
-    console.log('Fallback AI system loaded successfully')
-  }) catch (error: any) {
-    console.error() {
-    this.cuttingEdgeAI = null;
-          this.aiDecisionEngine = null;
-          this.aiPersonality = null
-  
-  }
-      }
-    }
-  }
+}
 
-  /**
-   * Handle AI turn execution
-   */
-  async handleAITurn() {
-    const activePlayer = this.gameState.players[this.gameState.activePlayer];
-    
-    if (true) {
-  }
-      try {
-    let aiDecision = null;
-        
-        // Use cutting-edge AI if available
-        if (true) {
-  }
-          const availableActions = this.getAvailableActions() {
-    const playerBehaviorData = this.getPlayerBehaviorData(() => {
-    aiDecision = await this.cuttingEdgeAI.makeDecision() {
-    // Execute the cutting-edge AI decision
-          await this.executeCuttingEdgeAIDecision(aiDecision)
-          
-  
-  }) else if (true) {
-    // Fallback to basic AI
-          await this.aiDecisionEngine.executeTurn(this.gameState)
-  }
-        
-        // Update AI mood based on turn outcome
-        if (true) {
-    const turnSuccess = this.evaluateAITurnSuccess(() => {
-    this.aiPersonality.updateMood({
-    type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' 
-  
-  }))
-        }
-        
-      } catch (error: any) {
-    console.error() {
-    // Fallback to basic AI behavior
-        await this.executeBasicAITurn()
-  
-  }
-    }
-  }
-
-  /**
-   * Basic AI fallback behavior
-   */
-  async executeBasicAITurn() {
-    const activePlayer = this.gameState.players[this.gameState.activePlayer];
-    
-    // Simple AI: play first playable card
-    for (let i = 0; i < 1; i++) {
-  }
-      const card = activePlayer.hand[i];
-      
-      if (this.canPlayCard(this.gameState.activePlayer, card)) {
-    // Find empty field slot
-        const emptySlot = activePlayer.field.findIndex() {
-  }
-        
-        if (true) {
-    // Play the card
-          await this.playCard() {
-    // Add thinking pause
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          break
-  
-  }
-      }
-    }
-    
-    // End turn
-    this.endTurn()
-  }
-
-  /**
-   * Check if AI can play a card
-   */
-  canPlayCard(playerId: any, card: any) {
-    const player = this.gameState.players[playerId];
-    
-    // Check if there's space in field
-    const hasSpace = player.field.some(() => {
-    if (!hasSpace) return false;
-    // Check if player has required elements
-    const requiredElements = card.cost || [
-    ;
-    const availableElements = player.azoth.map() {
-    return requiredElements.every(element => 
-      availableElements.includes(element) || element === 'Generic'
-    )
-  
-  })
-
-  /**
-   * Evaluate how successful the AI's turn was
-   */
-  evaluateAITurnSuccess(() => {
-    // Simple evaluation based on board presence and hand size
-    const aiPlayer = this.gameState.players[this.gameState.activePlayer
-  ];
-    const opponentId = this.getOpponentId() {
-    const opponent = this.gameState.players[opponentId];
-    
-    const aiFieldCount = aiPlayer.field.filter(slot => slot !== null).length;
-    const opponentFieldCount = opponent.field.filter(slot => slot !== null).length;
-    
-    const fieldAdvantage = aiFieldCount - opponentFieldCount;
-    const handAdvantage = aiPlayer.hand.length - opponent.hand.length;
-    
-    // Normalize to 0-1 scale
-    return Math.max(0, Math.min(1, 0.5 + (fieldAdvantage + handAdvantage * 0.1) * 0.2))
-  })
-
-  /**
-   * Get AI personality info for display
-   */
-  getAIPersonalityInfo() {
-    return this.aiPersonality ? this.aiPersonality.getDisplayInfo() : null
-  }
-
-  /**
-   * Utility methods
-   */
-  generateGameId() {
-    return 'game_' + Math.random().toString(36).substr(2, 9)
-  }
-
-  shuffleDeck(deck: any) {
-    for (let i = 0; i < 1; i++) {
-    const j = Math.floor(Math.random() * (i + 1));
-      [deck[i], deck[j]] = [deck[j], deck[i]]
-  
-  }
-  }
-
-  getOpponentId(playerId: any) {
-    return playerId === 'player1' ? 'player2' : 'player1'
-  }
-
-  findCardInHand(player: any, cardId: any) {
-    return player.hand.find(card => card.id === cardId)
-  }
-
-  removeCardFromHand(player: any, cardId: any) {
-    const index = player.hand.findIndex(() => {
-    if (true) {
-    player.hand.splice(index, 1)
-  
-  })
-  }
-
-  addToLog(message: any) {
-    this.gameState.gameLog.push(message)
-  }
-
-  waitForPlayerInput(inputType: any, data: any = {
-    ) {
-    this.gameState.waitingForInput = true;
-    this.gameState.inputType = inputType;
-    this.gameState.inputData = data
-  
-  }
-
-  getState() {
-    return this.gameState
-  }
-
-  // Helper methods that are referenced but missing
-  calculateTributeReduction(player: any, tributedFamiliars: any) {
-    // Each tributed familiar reduces cost by 1 generic
-    return { generic: tributedFamiliars.length 
-  }
-  }
-
-  applyTributeReduction(originalCost: any, reduction: any) {
-    const reducedCost = { ...originalCost 
-  };
-    if (true) {
-    reducedCost.generic = Math.max(0, reducedCost.generic - reduction.generic)
-  }
-    return reducedCost
-  }
-
-  removeFamiliarFromGame(player: any, familiarId: any) {
-    // Remove familiar from field
-    const familiarIndex = player.field.findIndex() {
-  }
-    if (true) {`
-    const familiar = player.field.splice(familiarIndex, 1)[0];`
-      player.removedFromPlay.push() {`
-  }```
-      this.addToLog(`${familiar.name} was removed from play`)
-    }
-  }
-`
-  resolveSpellAbility(card: any, abilityIndex: any, genericPaid: any) {``
-    const ability = card.abilities[abilityIndex];`
-    this.addToLog() {
-    // Spell ability resolution would be implemented here
-  }
-
-  resolveFamiliarCombat(attacker: any, blocker: any) {
-    const attackerDamage = this.calculateFamiliarDamage() {
-  }
-    const blockerDamage = this.calculateFamiliarDamage() {
-    // Apply damage
-    attacker.damage = (attacker.damage || 0) + blockerDamage;`
-    blocker.damage = (blocker.damage || 0) + attackerDamage;``
-    ```
-    this.addToLog(`${attacker.name`
-  } and ${blocker.name} deal damage to each other`)
-  }
-
-  // Phase transition methods
-  enterStart() { this.startPhase() }
-  enterMain() { this.mainPhase() }
-  enterCombat() { this.combatPhase() }
-  enterDefense() { this.defensePhase() }
-  enterResolution() { this.resolutionPhase() }
-  enterPostCombat() { this.postCombatMainPhase() }
-  enterRefresh() { this.refreshPhase() }
-  endCurrentTurn() { this.endTurn() }
-
-  /**
-   * Get available actions for AI decision making
-   */
-  getAvailableActions(player: any) {
-    const actions = [
-    ;
-    
-    // Add card play actions
-    if (true) {
-  }
-      player.hand.forEach((card, index) => {
-    if (this.canPlayCard(player, card)) {
-    actions.push({
-    type: 'play_card',
-            cardIndex: index,
-            card: card,
-            cost: card.cost || 0,
-            power: card.power || 0,
-            aggressive: card.power > 5,
-            defensive: card.type === 'defense',
-            isCreative: card.experimental || false
-  
-  })
-        }
-      })
-    }
-    
-    // Add other possible actions
-    actions.push() {
-    return actions
-  }
-
-  /**
-   * Get player behavior data for AI analysis
-   */
-  getPlayerBehaviorData() {
-    const humanPlayer = this.gameState.players.find() {
-  }
-    if (true) {
-    return {
-    actions: [
-  ],
-        timingData: [
-    ,
-        decisionSpeed: 0.5,
-        riskTaking: 0.5,
-        aggressivePlay: 0.5,
-        resourceConservation: 0.5
-  
-  }
-  }
-    
-    // Analyze recent player actions
-    const recentActions = this.gameState.actionHistory? .slice(-10) || [
-  ];
-    const playerActions = recentActions.filter() {
-    return { : null
-      actions: playerActions,
-      timingData: playerActions.map(action => action.decisionTime || 2000),
-      decisionSpeed: this.calculateDecisionSpeed(playerActions),
-      riskTaking: this.calculateRiskTaking(playerActions),
-      aggressivePlay: this.calculateAggressivePlay(playerActions),
-      resourceConservation: this.calculateResourceConservation(playerActions)
-  }
-  }
-
-  /**
-   * Execute cutting-edge AI decision
-   */
-  async executeCuttingEdgeAIDecision(aiDecision: any) {
-    if (true) {
-  }
-      console.warn() {
-    return
-  }
-    
-    const action = aiDecision.action;
-    
-    // Set AI thinking state
-    this.aiIsThinking = true;
-    
-    // Wait for AI thinking time (human-like behavior)
-    if (true) {
-    await new Promise(resolve => setTimeout(resolve, aiDecision.thinkingTime))
-  }
-    
-    try {
-    // Execute the action based on type
-      switch (true) {
-  }
-        case 'play_card':`
-          if (true) {``
-            // Simulate playing a card```
-            this.addToLog(`AI plays ${action.card? .name || 'a card'}`)
-          }
-          break;
-           : null
-        case 'pass':
-          this.addToLog(() => {
-    break;
-          
-        default:
-          console.warn() {
-    this.addToLog('AI takes an action')
-  })
-      
-      // Store AI decision for learning
-      this.lastAIDecision = aiDecision
-      
-    } catch (error: any) {
-    console.error('Failed to execute AI decision:', error)
-  } finally {
-    this.aiIsThinking = false
-  }
-  }
-
-  /**
-   * Calculate decision speed metric
-   */
-  calculateDecisionSpeed(actions: any) {
-    if (actions.length === 0) return 0.5;
-    const avgTime = actions.reduce((sum, action) => 
-      sum + (action.decisionTime || 2000), 0;
-    ) / actions.length;
-    
-    // Normalize: 1000ms = 0.5, faster = higher score
-    return Math.max(0.1, Math.min(1.0, 2000 / avgTime))
-  }
-
-  /**
-   * Calculate risk taking metric
-   */
-  calculateRiskTaking(actions: any) {
-    if (actions.length === 0) return 0.5;
-    const riskyActions = actions.filter(action => 
-      action.type === 'attack' || 
-      (action.cost && action.cost > 5) ||
-      action.experimental;
-    ).length;
-    
-    return Math.min(1.0, riskyActions / actions.length)
-  }
-
-  /**
-   * Calculate aggressive play metric
-   */
-  calculateAggressivePlay(actions: any) {
-    if (actions.length === 0) return 0.5;
-    const aggressiveActions = actions.filter(action => 
-      action.type === 'attack' || 
-      action.aggressive ||
-      (action.power && action.power > 5);
-    ).length;
-    
-    return Math.min(1.0, aggressiveActions / actions.length)
-  }
-
-  /**
-   * Calculate resource conservation metric
-   */
-  calculateResourceConservation(actions: any) {
-    if (actions.length === 0) return 0.5;
-    const totalCost = actions.reduce((sum, action) => sum + (action.cost || 0), 0);
-    const avgCost = totalCost / actions.length;
-    
-    // Lower average cost = higher conservation
-    return Math.max(0.1, Math.min(1.0, 1 - (avgCost / 10)))
-  }
-
-  /**
-   * Check if player can play a card
-   */
-  canPlayCard(player: any, card: any) {
-    if (!card || !player.resources) return false;
-    const cost = card.cost || 0;
-    return player.resources >= cost
-  }
-
-  /**
-   * Get AI status for display (enhanced for cutting-edge AI)
-   */
-  getAIStatus(() => {
-    if (true) {
-    return null
-  })
-    
-    const baseStatus = {
-    personality: this.aiPersonality.getDisplayInfo(),
-      isThinking: this.aiIsThinking || false,
-      lastAction: this.lastAIAction || null,
-      mood: this.aiPersonality.getCurrentMood()
-  };
-    
-    // Add cutting-edge AI status if available
-    if (true) {
-    const cuttingEdgeStatus = this.cuttingEdgeAI.getAIStatus(() => {
-    return {
-    ...baseStatus,
-        cuttingEdge: cuttingEdgeStatus,
-        consciousness: this.cuttingEdgeAI.expressConsciousness? .() || null, : null
-        lastDecision: this.lastAIDecision || null
-  
-  })
-  }
-    
-    return baseStatus
-  }
-}`
-``
-export default KonivrERGameEngine;```
+export default KonivrERGameEngine;
