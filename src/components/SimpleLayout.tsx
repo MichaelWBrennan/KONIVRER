@@ -21,35 +21,10 @@ const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen flex flex-col" style={{ background: '#000000' }}>
-      {/* Top Header with Logo and Login */}
+      {/* Top Header with Logo Only */}
       <header className="sticky top-0 z-50 p-4" style={{ background: '#000000' }}>
-        <div className="container mx-auto flex justify-between items-center">
+        <div className="container mx-auto flex justify-center items-center">
           <Link to="/" className="text-4xl font-bold text-white">KONIVRER</Link>
-          
-          {isAuthenticated ? (
-            <button
-              onClick={logout}
-              className="px-6 py-2 rounded-lg text-white font-bold"
-              style={{ 
-                background: 'linear-gradient(135deg, #8a9e5b 0%, #5e7a7a 100%)',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-              }}
-            >
-              <LogOut size={16} className="inline mr-2" />
-              Logout
-            </button>
-          ) : (
-            <button
-              onClick={() => setShowAuthModal(true)}
-              className="px-6 py-2 rounded-lg text-white font-bold"
-              style={{ 
-                background: 'linear-gradient(135deg, #8a9e5b 0%, #5e7a7a 100%)',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)'
-              }}
-            >
-              Login
-            </button>
-          )}
         </div>
       </header>
 
@@ -58,7 +33,7 @@ const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
         {children}
       </main>
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation Bar with Login Button */}
       <footer className="sticky bottom-0 z-40 py-3" style={{ background: '#000000', borderTop: '1px solid #333' }}>
         <div className="container mx-auto">
           <nav className="flex justify-around items-center">
@@ -92,6 +67,21 @@ const SimpleLayout: React.FC<SimpleLayoutProps> = ({ children }) => {
             >
               Rules
             </Link>
+            {isAuthenticated ? (
+              <button
+                onClick={logout}
+                className={`text-center px-2 py-1 text-gray-400`}
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className={`text-center px-2 py-1 text-gray-400`}
+              >
+                Login
+              </button>
+            )}
           </nav>
         </div>
       </footer>
