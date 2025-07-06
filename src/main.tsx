@@ -19,6 +19,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.tsx';
+import LayoutWrapper from './components/Layout.tsx';
 import { AuthProvider } from './contexts/AuthContext.tsx';
 import './styles/main.css';
 import './styles/unified.css';
@@ -39,7 +40,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <AuthProvider>
       <BrowserRouter>
-        <App />
+        <LayoutWrapper>
+          <App />
+        </LayoutWrapper>
       </BrowserRouter>
     </AuthProvider>
   </React.StrictMode>
