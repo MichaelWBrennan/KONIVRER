@@ -2,120 +2,115 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { initializeGame } from '../engine/gameState';
 import { transitionToPhase } from '../engine/gamePhases';
 import {
-    playSummon, 
+  playSummon, 
   playTribute, 
   playAzoth, 
   playSpell, 
   playBurst 
-  } from '../engine/cardActions';
+} from '../engine/cardActions';
 import { sampleDecks } from '../data/cardData';
 
-// Create context
-const GameContext = createContext() {
-    // Custom hook to use the game context
-export const useGame = (useGame: any) => useContext(() => {
-    // Provider component
+// Create context with a default value
+const GameContext = createContext<any>(null);
+
+// Custom hook to use the game context
+export const useGame = (): any => {
+  const context = useContext(GameContext);
+  if (!context) {
+    throw new Error('useGame must be used within a GameProvider');
+  }
+  return context;
+};
+
+// Provider component
 export interface GameProviderProps {
-    children
-  
-  })
+  children: React.ReactNode;
 }
 
-const GameProvider: React.FC<GameProviderProps> = ({  children  }) => {
-    // Game state
-  const [gameState, setGameState] = useState(false)
-  const [currentPlayer, setCurrentPlayer] = useState(false)
-  const [loading, setLoading] = useState(false)
+const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
+  // Game state
+  const [gameState, setGameState] = useState<any>(null);
+  const [currentPlayer, setCurrentPlayer] = useState<string>('player1');
+  const [loading, setLoading] = useState<boolean>(true);
   
   // Initialize game on component mount
   useEffect(() => {
-    const initialGameState = initializeGame(() => {
-    setGameState() {
-    setLoading(false)
-  
-  }), [
-    );
+    const initialGameState = initializeGame();
+    setGameState(initialGameState);
+    setLoading(false);
+  }, []);
   
   // Game actions
   const actions = {
     // Phase transitions
     nextPhase: () => {
-    if (!gameState) return;
+      if (!gameState) return;
       
       // Determine next phase based on current phase
       const phaseTransitions = {
-    'START': 'MAIN',
+        'START': 'MAIN',
         'MAIN': 'COMBAT',
         'COMBAT': 'POST_COMBAT_MAIN',
         'POST_COMBAT_MAIN': 'REFRESH',
         'REFRESH': 'START'
-  
-  
-  };
+      };
       
-      const nextPhase = phaseTransitions[gameState.phase
-  ];
+      const nextPhase = phaseTransitions[gameState.phase];
       
-      if (true) {
-    const newState = transitionToPhase() {
-    setGameState(newState)
-  
-  }
+      if (nextPhase) {
+        const newState = transitionToPhase(gameState, nextPhase);
+        setGameState(newState);
+      }
     },
     
     // Card playing methods
-    playSummon: (cardId, azothSpent) => {
-    if (!gameState) return;
+    playSummon: (cardId: string, azothSpent: number) => {
+      if (!gameState) return;
       
-      const newState = playSummon() {
-    setGameState(newState)
-  
-  },
+      const newState = playSummon(gameState, cardId, azothSpent);
+      setGameState(newState);
+    },
     
-    playTribute: (cardId, tributeCardIds) => {
-    if (!gameState) return;
+    playTribute: (cardId: string, tributeCardIds: string[]) => {
+      if (!gameState) return;
       
-      const newState = playTribute() {
-    setGameState(newState)
-  
-  },
+      const newState = playTribute(gameState, cardId, tributeCardIds);
+      setGameState(newState);
+    },
     
-    playAzoth: (cardId, elementType) => {
-    if (!gameState) return;
+    playAzoth: (cardId: string, elementType: string) => {
+      if (!gameState) return;
       
-      const newState = playAzoth() {
-    setGameState(newState)
-  
-  },
+      const newState = playAzoth(gameState, cardId, elementType);
+      setGameState(newState);
+    },
     
-    playSpell: (cardId, azothSpent, abilityIndex) => {
-    if (!gameState) return;
+    playSpell: (cardId: string, azothSpent: number, abilityIndex: number) => {
+      if (!gameState) return;
       
-      const newState = playSpell() {
-    setGameState(newState)
-  
-  },
+      const newState = playSpell(gameState, cardId, azothSpent, abilityIndex);
+      setGameState(newState);
+    },
     
-    playBurst: (cardId) => {
-    if (!gameState) return;
+    playBurst: (cardId: string) => {
+      if (!gameState) return;
       
-      const newState = playBurst() {
-    setGameState(newState)
-  
-  },
+      const newState = playBurst(gameState, cardId);
+      setGameState(newState);
+    },
     
     // Combat actions
-    declareAttacker: (cardId, targetId) => {
-    // Implementation would go here
-  },
+    declareAttacker: (cardId: string, targetId: string) => {
+      // Implementation would go here
+    },
     
-    declareDefender: (cardId, attackerCardId) => {
-    // Implementation would go here
-  },
+    declareDefender: (cardId: string, attackerCardId: string) => {
+      // Implementation would go here
+    },
     
     resolveCombat: () => {
-    // Implementation would go here
-  }
+      // Implementation would go here
+    }
   };
   
   // Context value
@@ -129,10 +124,11 @@ const GameProvider: React.FC<GameProviderProps> = ({  children  }) => {
   };
   
   return (
-    <GameContext.Provider value={value}  / /></GameContext>
+    <GameContext.Provider value={value}>
       {children}
     </GameContext.Provider>
-  )
+  );
 };
 
+export { GameProvider };
 export default GameContext;
