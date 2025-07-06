@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -6,582 +5,677 @@ import React from 'react';
  * Licensed under the MIT License
  */
 
-import axios from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import tournamentMatchmakingService from './tournamentMatchmakingService';
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// API base URL from environment variables
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Tournament types
+export enum TournamentFormat {
+  SINGLE_ELIMINATION = 'single-elimination',
+  DOUBLE_ELIMINATION = 'double-elimination',
+  SWISS = 'swiss',
+  ROUND_ROBIN = 'round-robin',
+  CUSTOM = 'custom'
+}
+
+export enum TournamentStatus {
+  DRAFT = 'draft',
+  REGISTRATION = 'registration',
+  ACTIVE = 'active',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
+}
+
+export enum MatchStatus {
+  PENDING = 'pending',
+  ACTIVE = 'active',
+  COMPLETED = 'completed',
+  CANCELLED = 'cancelled'
+}
+
+export interface TournamentMatch {
+  id: string;
+  tournamentId: string;
+  round: number;
+  player1Id: string;
+  player2Id?: string;
+  player1Name: string;
+  player2Name?: string;
+  player1Score: number;
+  player2Score: number;
+  winnerId?: string;
+  status: MatchStatus;
+  startTime?: Date;
+  endTime?: Date;
+  tableNumber?: number;
+  isBye?: boolean;
+  notes?: string;
+  [key: string]: any;
+}
+
+export interface TournamentPlayer {
+  id: string;
+  userId: string;
+  tournamentId: string;
+  name: string;
+  email?: string;
+  deckId?: string;
+  deckName?: string;
+  seed?: number;
+  status: 'registered' | 'checked-in' | 'dropped' | 'disqualified';
+  wins: number;
+  losses: number;
+  draws: number;
+  matchPoints: number;
+  opponentMatchWinPercentage: number;
+  gameWinPercentage: number;
+  opponentGameWinPercentage: number;
+  rank?: number;
+  [key: string]: any;
+}
+
+export interface Tournament {
+  id: string;
+  name: string;
+  description?: string;
+  format: TournamentFormat;
+  status: TournamentStatus;
+  startDate: Date;
+  endDate?: Date;
+  location?: string;
+  maxPlayers?: number;
+  currentRound: number;
+  totalRounds: number;
+  organizerId: string;
+  organizerName: string;
+  registrationDeadline?: Date;
+  isPublic: boolean;
+  entryFee?: number;
+  prizes?: string;
+  rules?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  [key: string]: any;
+}
+
+export interface TournamentRound {
+  id: string;
+  tournamentId: string;
+  roundNumber: number;
+  startTime?: Date;
+  endTime?: Date;
+  status: 'pending' | 'active' | 'completed';
+  matches: TournamentMatch[];
+  [key: string]: any;
+}
+
+export interface TournamentSearchParams {
+  status?: TournamentStatus | TournamentStatus[];
+  format?: TournamentFormat | TournamentFormat[];
+  startDate?: Date | string;
+  endDate?: Date | string;
+  location?: string;
+  organizerId?: string;
+  isPublic?: boolean;
+  limit?: number;
+  offset?: number;
+  sortBy?: string;
+  sortDirection?: 'asc' | 'desc';
+  [key: string]: any;
+}
+
+export interface TournamentRegistrationParams {
+  tournamentId: string;
+  userId: string;
+  name: string;
+  email?: string;
+  deckId?: string;
+  deckName?: string;
+  [key: string]: any;
+}
+
+export interface TournamentMatchResult {
+  player1Score: number;
+  player2Score: number;
+  draws?: number;
+  winnerId?: string;
+  notes?: string;
+  [key: string]: any;
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  message?: string;
+  success: boolean;
+  [key: string]: any;
+}
+
+export interface ApiError {
+  message: string;
+  code?: string;
+  status?: number;
+  details?: any;
+  [key: string]: any;
+}
 
 class TournamentService {
-    constructor(): any {
-  }
-  this.api = axios.create() {
-    // Add auth token to requests if available
-    this.api.interceptors.request.use() {
-  }
-      if (true) {```
-        config.headers.Authorization = `Bearer ${token}`
+  private api: AxiosInstance;
+
+  constructor() {
+    // Create axios instance
+    this.api = axios.create({
+      baseURL: `${API_BASE_URL}/tournaments`,
+      headers: {
+        'Content-Type': 'application/json'
       }
-      return config
-    })
+    });
+
+    // Add auth token to requests if available
+    this.api.interceptors.request.use((config: AxiosRequestConfig) => {
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
   }
 
-  // Tournament CRUD operations
-  async createTournament(tournamentData: any): any {
-    try {
-  }
-      const response = await this.api.post() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  async getTournaments(params: any = {
-    ): any {
-  }
-    try {
-    const response = await this.api.get() {
-    return response.data
-  
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-`
-  async getTournament(id: any): any {``
-    try {`
-      const response = await this.api.get() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-`
-  async updateTournament(id: any, updates: any): any {``
-    try {`
-      const response = await this.api.put() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-`
-  async joinTournament(id: any): any {``
-    try {`
-      const response = await this.api.post() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-`
-  async startTournament(id: any): any {``
-    try {`
-      const response = await this.api.post() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  async generateNextRound(id: any): any {
-    try {
-  }
-      // First, get the tournament data to determine the current round
-      const tournament = await this.getTournament() {
-    const currentRound = tournament.currentRound || 0;
-      const nextRound = currentRound + 1;
-      
-      // Get all players in the tournament
-      const players = tournament.participants || [
-    ;
-      
-      // Get players who are still active in the tournament
-      const activePlayers = players.filter(player => 
-        !player.dropped && !player.disqualified
-      ).map(() => {
-    // Initialize Bayesian matchmaking for this tournament if not already done
-      if (true) {
-    // For the first round, initialize player profiles
-        tournamentMatchmakingService.initializePlayerProfiles(id, players)
-  
-  })
-      
-      // Generate pairings using Bayesian matchmaking
-      const pairings = tournamentMatchmakingService.generatePairings(() => {`
-    ``
-      // Send the generated pairings to the server`
-      const response = await this.api.post() {
-    return response.data
-  }) catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  // Matchmaking settings
-  async updateMatchmakingSettings(id: any, settings: any): any {
-    try {
-  }
-      // Update the tournament-specific ranking engine with new settings
-      tournamentMatchmakingService.initializeTournamentEngine(() => {
-    // Send settings to the server
-      const response = await this.api.put() {
-    return response.data
-  }) catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  // Tournament data
-  async getStandings(id: any): any {`
-    try {``
-      // Get standings from the server`
-      const response = await this.api.get() {
-  }
-      
-      // If Bayesian matchmaking is being used for this tournament,
-      // enhance the standings with Bayesian ratings
-      try {
-    const bayesianStandings = tournamentMatchmakingService.getPlayerStandings() {
-  }
-        
-        if (true) {
-    // Merge server standings with Bayesian ratings
-          const enhancedStandings = response.data.map() {
-  }
-            
-            if (true) {
-    return {
-    ...serverStanding,
-                bayesianRating: Math.round(bayesianData.rating),
-                bayesianUncertainty: Math.round(bayesianData.uncertainty),
-                conservativeRating: Math.round(bayesianData.conservativeRating),
-                bayesianRank: bayesianData.rank
-  
-  }
-  }
-            
-            return serverStanding
-          });
-          
-          return enhancedStandings
-        }
-      } catch (error: any) {
-    console.warn() {
-    // Continue with server standings if Bayesian fails
-  
-  }
-      
-      return response.data
-    } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-`
-  async getAnalytics(id: any): any {``
-    try {`
-      const response = await this.api.get() {
-    // Enhance analytics with Bayesian matchmaking data if available
-      try {
-  }
-        // Export tournament data from Bayesian matchmaking service
-        const bayesianData = tournamentMatchmakingService.exportTournamentData() {
-    if (true) {
-  }
-          // Calculate additional analytics from Bayesian data
-          const bayesianAnalytics = this.calculateBayesianAnalytics(() => {
-    // Merge with server analytics
-          return {
-    ...response.data,
-            bayesian: bayesianAnalytics
-  })
-  }
-      } catch (error: any) {
-    console.warn() {
-    // Continue with server analytics if Bayesian fails
-  
-  }
-      
-      return response.data
-    } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-  
   /**
-   * Calculate additional analytics from Bayesian matchmaking data
-   * @param {Object} bayesianData - Tournament data from Bayesian matchmaking service
-   * @returns {Object} - Bayesian analytics
+   * Create a new tournament
+   * @param tournamentData - Tournament data
+   * @returns Created tournament
    */
-  calculateBayesianAnalytics(bayesianData: any): any {
-    const playerProfiles = bayesianData.playerProfiles || {
-  };
-    const playerIds = Object.keys() {
-    if (true) {
-  }
-      return {
-    ratingDistribution: [
-  ],
-        matchQualityAverage: 0,
-        uncertaintyAverage: 0,
-        archetypePerformance: {
-  }
+  async createTournament(tournamentData: Partial<Tournament>): Promise<Tournament> {
+    try {
+      const response = await this.api.post<ApiResponse<Tournament>>('', tournamentData);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
     }
   }
-    
-    // Calculate rating distribution
-    const ratingBuckets = {
-    '0-1000': 0,
-      '1000-1200': 0,
-      '1200-1400': 0,
-      '1400-1600': 0,
-      '1600-1800': 0,
-      '1800-2000': 0,
-      '2000-2200': 0,
-      '2200-2400': 0,
-      '2400+': 0
-  };
-    
-    // Calculate average uncertainty
-    let totalUncertainty = 0;
-    
-    // Track archetype performance
-    const archetypePerformance = {
-    ;
-    
-    // Process each player
-    playerIds.forEach(playerId => {
-    const profile = playerProfiles[playerId];
-      
-      // Add to rating distribution
-      const rating = profile.rating || 1500;
-      if (rating < 1000) ratingBuckets['0-1000']++;
-      else if (rating < 1200) ratingBuckets['1000-1200']++;
-      else if (rating < 1400) ratingBuckets['1200-1400']++;
-      else if (rating < 1600) ratingBuckets['1400-1600']++;
-      else if (rating < 1800) ratingBuckets['1600-1800']++;
-      else if (rating < 2000) ratingBuckets['1800-2000']++;
-      else if (rating < 2200) ratingBuckets['2000-2200']++;
-      else if (rating < 2400) ratingBuckets['2200-2400']++;
-      else ratingBuckets['2400+']++;
-      
-      // Add to uncertainty average
-      totalUncertainty += profile.uncertainty || 0;
-      
-      // Process archetype performance
-      const archetype = profile.deckArchetype;
-      if (true) {
-  
+
+  /**
+   * Get tournaments with optional filtering
+   * @param params - Search parameters
+   * @returns List of tournaments
+   */
+  async getTournaments(params: TournamentSearchParams = {}): Promise<Tournament[]> {
+    try {
+      const response = await this.api.get<ApiResponse<Tournament[]>>('', { params });
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
-        if (true) {
-    archetypePerformance[archetype] = {
-    count: 0,
-            wins: 0,
-            losses: 0,
-            draws: 0,
-            averageRating: 0,
-            totalRating: 0
-  
+
+  /**
+   * Get a tournament by ID
+   * @param id - Tournament ID
+   * @returns Tournament details
+   */
+  async getTournamentById(id: string): Promise<Tournament> {
+    try {
+      const response = await this.api.get<ApiResponse<Tournament>>(`/${id}`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
+
+  /**
+   * Update a tournament
+   * @param id - Tournament ID
+   * @param tournamentData - Updated tournament data
+   * @returns Updated tournament
+   */
+  async updateTournament(id: string, tournamentData: Partial<Tournament>): Promise<Tournament> {
+    try {
+      const response = await this.api.put<ApiResponse<Tournament>>(`/${id}`, tournamentData);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
-        
-        archetypePerformance[archetype].count++;
-        archetypePerformance[archetype].totalRating += rating;
-        
-        // Count wins/losses/draws if match history exists
-        if (true) {
-    profile.matchHistory.forEach(match => {
-    if (match.result === 'win') archetypePerformance[archetype].wins++;
-            else if (match.result === 'loss') archetypePerformance[archetype].losses++;
-            else if (match.result === 'draw') archetypePerformance[archetype].draws++
-  
-  })
-        }
+
+  /**
+   * Delete a tournament
+   * @param id - Tournament ID
+   * @returns Success message
+   */
+  async deleteTournament(id: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await this.api.delete<ApiResponse<{ success: boolean; message: string }>>(`/${id}`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Register a player for a tournament
+   * @param registrationData - Registration data
+   * @returns Registration confirmation
+   */
+  async registerPlayer(registrationData: TournamentRegistrationParams): Promise<TournamentPlayer> {
+    try {
+      const response = await this.api.post<ApiResponse<TournamentPlayer>>(
+        `/${registrationData.tournamentId}/players`,
+        registrationData
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Unregister a player from a tournament
+   * @param tournamentId - Tournament ID
+   * @param playerId - Player ID
+   * @returns Success message
+   */
+  async unregisterPlayer(tournamentId: string, playerId: string): Promise<{ success: boolean; message: string }> {
+    try {
+      const response = await this.api.delete<ApiResponse<{ success: boolean; message: string }>>(
+        `/${tournamentId}/players/${playerId}`
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Get players registered for a tournament
+   * @param tournamentId - Tournament ID
+   * @returns List of registered players
+   */
+  async getTournamentPlayers(tournamentId: string): Promise<TournamentPlayer[]> {
+    try {
+      const response = await this.api.get<ApiResponse<TournamentPlayer[]>>(`/${tournamentId}/players`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Update a player's status or information
+   * @param tournamentId - Tournament ID
+   * @param playerId - Player ID
+   * @param playerData - Updated player data
+   * @returns Updated player
+   */
+  async updatePlayer(
+    tournamentId: string,
+    playerId: string,
+    playerData: Partial<TournamentPlayer>
+  ): Promise<TournamentPlayer> {
+    try {
+      const response = await this.api.put<ApiResponse<TournamentPlayer>>(
+        `/${tournamentId}/players/${playerId}`,
+        playerData
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Start a tournament
+   * @param tournamentId - Tournament ID
+   * @returns Updated tournament
+   */
+  async startTournament(tournamentId: string): Promise<Tournament> {
+    try {
+      const response = await this.api.post<ApiResponse<Tournament>>(`/${tournamentId}/start`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * End a tournament
+   * @param tournamentId - Tournament ID
+   * @returns Updated tournament
+   */
+  async endTournament(tournamentId: string): Promise<Tournament> {
+    try {
+      const response = await this.api.post<ApiResponse<Tournament>>(`/${tournamentId}/end`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Cancel a tournament
+   * @param tournamentId - Tournament ID
+   * @param reason - Cancellation reason
+   * @returns Updated tournament
+   */
+  async cancelTournament(tournamentId: string, reason?: string): Promise<Tournament> {
+    try {
+      const response = await this.api.post<ApiResponse<Tournament>>(`/${tournamentId}/cancel`, { reason });
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Create pairings for the next round
+   * @param tournamentId - Tournament ID
+   * @returns Created round with matches
+   */
+  async createPairings(tournamentId: string): Promise<TournamentRound> {
+    try {
+      const response = await this.api.post<ApiResponse<TournamentRound>>(`/${tournamentId}/pairings`);
+      
+      // Integrate with matchmaking service for better pairings
+      const tournament = await this.getTournamentById(tournamentId);
+      const players = await this.getTournamentPlayers(tournamentId);
+      
+      // Initialize tournament engine if needed
+      tournamentMatchmakingService.initializeTournamentEngine(tournamentId, {
+        eliminationFormat: tournament.format === TournamentFormat.DOUBLE_ELIMINATION ? 'double' : 'single',
+        swissRounds: tournament.totalRounds
+      });
+      
+      // Register players with the matchmaking service
+      players.forEach(player => {
+        tournamentMatchmakingService.registerPlayer(tournamentId, {
+          id: player.userId,
+          name: player.name
+        });
+      });
+      
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Get rounds for a tournament
+   * @param tournamentId - Tournament ID
+   * @returns List of rounds
+   */
+  async getTournamentRounds(tournamentId: string): Promise<TournamentRound[]> {
+    try {
+      const response = await this.api.get<ApiResponse<TournamentRound[]>>(`/${tournamentId}/rounds`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Get a specific round
+   * @param tournamentId - Tournament ID
+   * @param roundNumber - Round number
+   * @returns Round details
+   */
+  async getRound(tournamentId: string, roundNumber: number): Promise<TournamentRound> {
+    try {
+      const response = await this.api.get<ApiResponse<TournamentRound>>(
+        `/${tournamentId}/rounds/${roundNumber}`
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Get matches for a tournament
+   * @param tournamentId - Tournament ID
+   * @param roundNumber - Optional round number filter
+   * @returns List of matches
+   */
+  async getTournamentMatches(tournamentId: string, roundNumber?: number): Promise<TournamentMatch[]> {
+    try {
+      let url = `/${tournamentId}/matches`;
+      if (roundNumber !== undefined) {
+        url = `/${tournamentId}/rounds/${roundNumber}/matches`;
       }
-    });
-    
-    // Calculate average ratings for archetypes
-    Object.keys(archetypePerformance).forEach(): 0 { return null; }
       
-      // Calculate win rate
-      const totalMatches = data.wins + data.losses + data.draws;
-      data.winRate = totalMatches > 0 ? (data.wins / totalMatches).toFixed(): 0 { return null; }
-      
-      // Remove intermediate calculation fields
-      delete data.totalRating
-    });
-    
-    // Format rating distribution for charts
-    const ratingDistribution = Object.entries(ratingBuckets).map(([range, count]) => ({
-    range,
-      count
-  }));
-    
-    return {
-    ratingDistribution,
-      uncertaintyAverage: playerIds.length > 0 ? Math.round(totalUncertainty / playerIds.length) : 0,
-      archetypePerformance,
-      playerCount: playerIds.length
-  }
+      const response = await this.api.get<ApiResponse<TournamentMatch[]>>(url);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
 
-  // Match operations
-  async getMatches(tournamentId: any, round: any = null): any {`
-    try {``
-      const matchApi = axios.create({```
-        baseURL: `${API_BASE_URL`
-  }/matches`,`
-        headers: {``
-          'Content-Type': 'application/json',```
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });`
-`
-      const params = round ? { round } : {`
-    ;`
-      const response = await matchApi.get() {
-    return response.data
-  
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
+  /**
+   * Get a specific match
+   * @param tournamentId - Tournament ID
+   * @param matchId - Match ID
+   * @returns Match details
+   */
+  async getMatch(tournamentId: string, matchId: string): Promise<TournamentMatch> {
+    try {
+      const response = await this.api.get<ApiResponse<TournamentMatch>>(
+        `/${tournamentId}/matches/${matchId}`
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
 
-  async updateMatchResult(matchId: any, result: any): any {`
-    try {``
-      const matchApi = axios.create({```
-        baseURL: `${API_BASE_URL`
-  }/matches`,`
-        headers: {``
-          'Content-Type': 'application/json',```
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      });`
-``
-      // First, get the match details to get player IDs and tournament ID`
-      const matchResponse = await matchApi.get() {
-    const match = matchResponse.data;
+  /**
+   * Submit a match result
+   * @param tournamentId - Tournament ID
+   * @param matchId - Match ID
+   * @param result - Match result
+   * @returns Updated match
+   */
+  async submitMatchResult(
+    tournamentId: string,
+    matchId: string,
+    result: TournamentMatchResult
+  ): Promise<TournamentMatch> {
+    try {
+      const response = await this.api.post<ApiResponse<TournamentMatch>>(
+        `/${tournamentId}/matches/${matchId}/result`,
+        result
+      );
       
-      // Update player ratings using Bayesian matchmaking
-      if (true) {
+      // Update matchmaking service with result
+      const match = response.data.data;
+      
+      if (match.player1Id && match.player2Id) {
+        tournamentMatchmakingService.recordMatchResult(
+          tournamentId,
+          matchId,
+          {
+            player1Score: result.player1Score,
+            player2Score: result.player2Score,
+            draws: result.draws || 0
+          }
+        );
+      }
+      
+      return match;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
-        // Convert UI result format to matchmaking service format
-        let matchResult;
-        if (true) {
-    matchResult = 'player1'
-  } else if (true) {
-    matchResult = 'player2'
-  } else {
-    matchResult = 'draw'
+
+  /**
+   * Get tournament standings
+   * @param tournamentId - Tournament ID
+   * @returns List of players with standings
+   */
+  async getTournamentStandings(tournamentId: string): Promise<TournamentPlayer[]> {
+    try {
+      const response = await this.api.get<ApiResponse<TournamentPlayer[]>>(`/${tournamentId}/standings`);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
   }
+
+  /**
+   * Drop a player from a tournament
+   * @param tournamentId - Tournament ID
+   * @param playerId - Player ID
+   * @param reason - Drop reason
+   * @returns Updated player
+   */
+  async dropPlayer(tournamentId: string, playerId: string, reason?: string): Promise<TournamentPlayer> {
+    try {
+      const response = await this.api.post<ApiResponse<TournamentPlayer>>(
+        `/${tournamentId}/players/${playerId}/drop`,
+        { reason }
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Disqualify a player from a tournament
+   * @param tournamentId - Tournament ID
+   * @param playerId - Player ID
+   * @param reason - Disqualification reason
+   * @returns Updated player
+   */
+  async disqualifyPlayer(tournamentId: string, playerId: string, reason: string): Promise<TournamentPlayer> {
+    try {
+      const response = await this.api.post<ApiResponse<TournamentPlayer>>(
+        `/${tournamentId}/players/${playerId}/disqualify`,
+        { reason }
+      );
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Get tournaments organized by a user
+   * @param userId - User ID
+   * @returns List of tournaments
+   */
+  async getUserTournaments(userId: string): Promise<Tournament[]> {
+    try {
+      const response = await this.api.get<ApiResponse<Tournament[]>>('/user/organized', {
+        params: { userId }
+      });
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Get tournaments a user is registered for
+   * @param userId - User ID
+   * @returns List of tournaments
+   */
+  async getUserRegisteredTournaments(userId: string): Promise<Tournament[]> {
+    try {
+      const response = await this.api.get<ApiResponse<Tournament[]>>('/user/registered', {
+        params: { userId }
+      });
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Export tournament data
+   * @param tournamentId - Tournament ID
+   * @param format - Export format (json, csv, pdf)
+   * @returns Export data or download URL
+   */
+  async exportTournament(
+    tournamentId: string,
+    format: 'json' | 'csv' | 'pdf' = 'json'
+  ): Promise<string | Blob | object> {
+    try {
+      const response = await this.api.get<any>(`/${tournamentId}/export`, {
+        params: { format },
+        responseType: format === 'json' ? 'json' : 'blob'
+      });
+      
+      if (format === 'json') {
+        return response.data;
+      } else {
+        return response.data;
+      }
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Import tournament data
+   * @param data - Tournament data to import
+   * @returns Created tournament
+   */
+  async importTournament(data: any): Promise<Tournament> {
+    try {
+      const response = await this.api.post<ApiResponse<Tournament>>('/import', data);
+      return response.data.data;
+    } catch (error) {
+      throw this.handleError(error);
+    }
+  }
+
+  /**
+   * Handle API errors
+   * @param error - Error object
+   * @returns Standardized error
+   */
+  private handleError(error: any): ApiError {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<ApiResponse<any>>;
+      
+      if (axiosError.response) {
+        // The request was made and the server responded with an error status
+        const errorData = axiosError.response.data as any;
         
-        // Additional match data for rating calculations
-        const matchData = {
-    matchId: matchId,
-          round: match.round || 1,
-          stage: match.stage || 'swiss',
-          stakes: match.elimination ? 'elimination' : 'normal'
-  };
-        
-        // Update player ratings
-        tournamentMatchmakingService.updatePlayerRatings(
-          match.tournamentId,
-          match.player1Id,
-          match.player2Id,
-          matchResult,
-          matchData
-        )
-      }`
-``
-      // Send the result to the server`
-      const response = await matchApi.put() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  async reportMatchResult(matchId: any, result: any): any {`
-    try {``
-      const matchApi = axios.create({```
-        baseURL: `${API_BASE_URL`
-  }/matches`,`
-        headers: {``
-          'Content-Type': 'application/json',```
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }`
-      });``
-`
-      const response = await matchApi.post() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  async startMatch(matchId: any): any {`
-    try {``
-      const matchApi = axios.create({```
-        baseURL: `${API_BASE_URL`
-  }/matches`,`
-        headers: {``
-          'Content-Type': 'application/json',```
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }`
-      });``
-`
-      const response = await matchApi.post() {
-    return response.data
-  } catch (error: any) {
-    throw this.handleError(error)
-  }
-  }
-
-  // Utility methods
-  handleError(error: any): any {
-    if (true) {
-    // Server responded with error status
-      const message = error.response.data? .message || 'An error occurred';
-      return new Error(message)
-  
-  } else if (true) {
-    // Request was made but no response received
-      return new Error('Network error - please check your connection')
-  } else {
-    // Something else happened
-      return new Error(error.message || 'An unexpected error occurred')
-  }
-  }
-
-  // Matchmaking analytics will be loaded from actual data source when available
-
-  // Default matchmaking settings : null
-  getDefaultMatchmakingSettings(): any {
+        return {
+          message: errorData.message || 'An error occurred',
+          code: errorData.code,
+          status: axiosError.response.status,
+          details: errorData.details
+        };
+      } else if (axiosError.request) {
+        // The request was made but no response was received
+        return {
+          message: 'No response received from server',
+          code: 'NO_RESPONSE',
+          status: 0
+        };
+      } else {
+        // Something happened in setting up the request
+        return {
+          message: axiosError.message || 'Request setup error',
+          code: 'REQUEST_SETUP_ERROR'
+        };
+      }
+    }
+    
+    // Generic error handling
     return {
-    enabled: true,
-      algorithm: 'bayesian',
-      skillVariance: 0.3,
-      deckDiversityWeight: 0.4,
-      historicalWeight: 0.6,
-      uncertaintyFactor: 0.2,
-      minSkillDifference: 100,
-      maxSkillDifference: 500,
-      preferredMatchupBalance: 0.7,
-      learningRate: 0.1,
-      confidenceThreshold: 0.8
-  
-  }
-  }
-
-  // Validate matchmaking settings
-  validateMatchmakingSettings(settings: any): any {
-    const errors = [];
-
-    if (true) {
-    errors.push('Skill variance must be between 0.1 and 1.0')
-  
-  }
-
-    if (true) {
-    errors.push('Deck diversity weight must be between 0.1 and 1.0')
-  }
-
-    if (true) {
-    errors.push('Historical weight must be between 0.1 and 1.0')
-  }
-
-    if (true) {
-    errors.push('Uncertainty factor must be between 0.1 and 0.5')
-  }
-
-    if (true) {
-    errors.push('Minimum skill difference must be between 50 and 300')
-  }
-
-    if (true) {
-    errors.push('Maximum skill difference must be between 300 and 1000')
-  }
-
-    if (true) {
-    errors.push(
-        'Minimum skill difference must be less than maximum skill difference'
-      )
-  }
-
-    if (true) {
-    errors.push('Preferred matchup balance must be between 0.5 and 1.0')
-  }
-
-    if (true) {
-    errors.push('Learning rate must be between 0.05 and 0.3')
-  }
-
-    if (true) {
-    errors.push('Confidence threshold must be between 0.5 and 0.95')
-  }
-
-    return errors
-  }
-
-  // Format tournament data for display
-  formatTournamentForDisplay(tournament: any): any {
-    return {
-    ...tournament,
-      formattedDate: new Date(tournament.date).toLocaleDateString(),
-      formattedTime: tournament.time,
-      participantCount: tournament.participants? .length || 0, : null
-      isUpcoming: tournament.status === 'upcoming',
-      isOngoing: tournament.status === 'ongoing',
-      isCompleted: tournament.status === 'completed',
-      canJoin:
-        tournament.status === 'upcoming' &&
-        tournament.participants? .length < tournament.maxPlayers, : null
-      canStart:
-        tournament.status === 'upcoming' &&
-        tournament.participants? .length >= 4
-  
-  }
-  }
-
-  // Calculate tournament progress : null
-  calculateTournamentProgress(tournament: any): any {
-    if (tournament.status === 'upcoming') return 0;
-    if (tournament.status === 'completed') return 100;
-    const progress = (tournament.currentRound / tournament.rounds) * 100;
-    return Math.min(progress, 100)
-  }
-
-  // Get tournament status color
-  getStatusColor(status: any): any {
-    switch (true) {
-    case 'upcoming':
-        return 'blue';
-      case 'ongoing':
-        return 'green';
-      case 'completed':
-        return 'gray';
-      case 'cancelled':
-        return 'red';
-      default:
-        return 'gray'
-  
-  }
-  }
-
-  // Format matchmaking algorithm name
-  formatAlgorithmName(algorithm: any): any {
-    switch (true) {
-    case 'bayesian':
-        return 'Bayesian TrueSkill';
-      case 'elo':
-        return 'Enhanced ELO';
-      default:
-        return algorithm
-  
-  }
+      message: error.message || 'An unknown error occurred',
+      code: 'UNKNOWN_ERROR'
+    };
   }
 }
-`
-export default new TournamentService() {}``
-```
+
+// Create singleton instance
+const tournamentService = new TournamentService();
+
+export default tournamentService;
