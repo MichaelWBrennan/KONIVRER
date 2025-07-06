@@ -170,101 +170,71 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({  children, currentPage = 'h
         {children}
       </main>
 
-      {/* Bottom Navigation (Portrait only) */}
-      {orientation === 'portrait' && (
-        <nav
-          className="fixed bottom-0 left-0 right-0 z-30 mobile-nav"
-          style={{
-            paddingBottom: `${getBottomSafeArea()}px`,
-            paddingLeft: `${safeAreaInsets.left}px`,
-            paddingRight: `${safeAreaInsets.right}px`,
-            background: 'var(--bg-secondary)',
-            borderTop: '1px solid var(--border-primary)',
-            boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.3)',
-          }}
-        >
-          <div className="flex justify-around py-2">
-            {navigationItems.map(item => (
-              <button
-                key={item.id}
-                onClick={() => handleNavigation(item.path)}
-                className="flex flex-col items-center p-2 rounded-lg transition-colors mobile-nav-item"
-                style={{
-                  background:
-                    currentPage === item.id
-                      ? 'var(--gradient-primary)'
-                      : 'transparent',
-                  color:
-                    currentPage === item.id
-                      ? 'var(--text-primary)'
-                      : 'var(--text-tertiary)',
-                  border:
-                    currentPage === item.id
-                      ? '1px solid var(--accent-primary)'
-                      : 'none',
-                  boxShadow:
-                    currentPage === item.id ? 'var(--shadow-md)' : 'none',
-                  textShadow:
-                    currentPage === item.id
-                      ? '0 1px 2px rgba(0, 0, 0, 0.5)'
-                      : 'none',
-                }}
-              >
-                {item.icon}
-                <span className="text-xs mt-1 font-medium">{item.label}</span>
-              </button>
-            ))}
-            
-            {/* Login/Logout Button */}
-            {isAuthenticated ? (
-              <button
-                onClick={logout}
-                className="flex flex-col items-center p-2 rounded-lg transition-colors mobile-nav-item"
-                style={{
-                  color: 'var(--text-tertiary)',
-                }}
-              >
-                <LogOut className="w-5 h-5" />
-                <span className="text-xs mt-1 font-medium">Logout</span>
-              </button>
-            ) : (
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="flex flex-col items-center p-2 rounded-lg transition-colors mobile-nav-item"
-                style={{
-                  color: 'var(--text-tertiary)',
-                }}
-              >
-                <LogIn className="w-5 h-5" />
-                <span className="text-xs mt-1 font-medium">Login</span>
-              </button>
-            )}
-          </div>
-        </nav>
-      )}
+      {/* Bottom Navigation (Always visible) */}
+      <nav
+        className="fixed bottom-0 left-0 right-0 z-30 mobile-nav"
+        style={{
+          paddingBottom: `${getBottomSafeArea()}px`,
+          paddingLeft: `${safeAreaInsets.left}px`,
+          paddingRight: `${safeAreaInsets.right}px`,
+          background: '#221b10', /* Brown menu color from the image */
+          borderTop: '1px solid var(--border-primary)',
+          boxShadow: '0 -2px 10px rgba(0, 0, 0, 0.3)',
+        }}
+      >
+        <div className="flex justify-around py-2">
+          {navigationItems.map(item => (
+            <button
+              key={item.id}
+              onClick={() => handleNavigation(item.path)}
+              className="flex flex-col items-center p-2 transition-colors mobile-nav-item"
+              style={{
+                color: '#9b7e46', /* Gold color for icons and text */
+              }}
+            >
+              {item.icon}
+              <span className="text-xs mt-1 font-medium">{item.label}</span>
+            </button>
+          ))}
+          
+          {/* Login/Logout Button */}
+          {isAuthenticated ? (
+            <button
+              onClick={logout}
+              className="flex flex-col items-center p-2 transition-colors mobile-nav-item"
+              style={{
+                color: '#9b7e46', /* Gold color for icons and text */
+              }}
+            >
+              <LogOut className="w-5 h-5" />
+              <span className="text-xs mt-1 font-medium">Logout</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => setShowAuthModal(true)}
+              className="flex flex-col items-center p-2 transition-colors mobile-nav-item"
+              style={{
+                color: '#9b7e46', /* Gold color for icons and text */
+              }}
+            >
+              <LogIn className="w-5 h-5" />
+              <span className="text-xs mt-1 font-medium">Login</span>
+            </button>
+          )}
+        </div>
+      </nav>
       {/* Landscape-specific adjustments */}
       <style jsx>{`
-        .landscape {
-          --content-padding: 1rem;
-          background: var(--bg-primary);
-        }
-
-        .portrait {
+        .landscape, .portrait {
           --content-padding: 1rem;
           padding-bottom: 80px; /* Space for bottom nav */
           background: var(--bg-primary);
         }
 
-        .landscape-content {
-          padding: var(--content-padding);
-          height: calc(100vh - 80px); /* Just bottom nav */
-          overflow-y: auto;
-          background: var(--bg-primary);
-        }
-
-        .portrait-content {
+        .landscape-content, .portrait-content {
           padding: var(--content-padding);
           min-height: calc(100vh - 80px); /* Just bottom nav */
+          overflow-y: auto;
           background: var(--bg-primary);
         }
 
