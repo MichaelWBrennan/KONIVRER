@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import MobileHomePage from './pages/MobileHomePage';
-import Home from './pages/Home';
+import UnifiedHome from './pages/UnifiedHome';
+import { useMediaQuery } from './hooks/useMediaQuery';
 
 import './App.css';
 
@@ -61,14 +61,16 @@ const AnalyticsPage: React.FC = () => (
 );
 
 const App: React.FC = () => {
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  
   return (
     <Routes>
-      <Route path="/" element={<MobileHomePage />} />
+      <Route path="/" element={<UnifiedHome variant={isMobile ? 'mobile' : 'standard'} />} />
+      <Route path="/simple" element={<UnifiedHome variant="simple" />} />
       <Route path="/cards" element={<CardsPage />} />
       <Route path="/tournaments" element={<TournamentsPage />} />
       <Route path="/social" element={<SocialPage />} />
       <Route path="/analytics" element={<AnalyticsPage />} />
-      <Route path="/old-home" element={<Home />} />
     </Routes>
   );
 };
