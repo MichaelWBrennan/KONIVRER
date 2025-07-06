@@ -7,7 +7,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useNotifications } from '../../contexts/NotificationContext';
-import { Bell, Calendar, Clock, Users, Trophy } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface TournamentNotificationsProps {

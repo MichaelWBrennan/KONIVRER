@@ -9,7 +9,6 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { TrendingUp, Star, Eye, Users } from 'lucide-react';
 
 const CardMetaAnalysis = (): any => {
   const [trendingCards, setTrendingCards] = useState([]);

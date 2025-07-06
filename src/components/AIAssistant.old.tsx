@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,23 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Bot,
-  Lightbulb,
-  TrendingUp,
-  Target,
-  Zap,
-  Shield,
-  Sword,
-  Star,
-  ChevronRight,
-  RefreshCw,
-  ThumbsUp,
-  ThumbsDown,
-  MessageCircle,
-  Sparkles,
-} from 'lucide-react';
+import { Bot, Lightbulb, TrendingUp, Target, Zap, Shield, Sword, Star, ChevronRight, RefreshCw, ThumbsUp, ThumbsDown, Sparkles,  } from 'lucide-react';
 
 interface AIAssistantProps {
   currentDeck = [];

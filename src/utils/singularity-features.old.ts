@@ -171,8 +171,8 @@ export class HyperspaceNavigator {
         to: dimension,
         navigationTime: Math.random() * 10, // milliseconds
         success: true,
-      };
-    }
+    };
+  }
 
     return { success: false, error: 'Dimension not accessible' };
   }
@@ -233,8 +233,8 @@ export class NeuralNetworkIntegration {
         accuracy: network.accuracy,
         trainingTime: Math.random() * 1000,
         success: true,
-      };
-    }
+    };
+  }
 
     return { success: false, error: 'Network not found' };
   }
@@ -246,8 +246,8 @@ export class NeuralNetworkIntegration {
         prediction: this.generatePrediction(input),
         confidence: network.accuracy,
         network: networkName,
-      };
-    }
+    };
+  }
 
     return { error: 'Network not trained or not found' };
   }

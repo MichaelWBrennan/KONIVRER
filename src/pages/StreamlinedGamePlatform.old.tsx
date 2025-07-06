@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -6,26 +7,8 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
-import {
-  Search,
-  TrendingUp,
-  Users,
-  Zap,
-  Database,
-  Gamepad2,
-  BarChart3,
-  Package,
-  Star,
-  Trophy,
-  Filter,
-  Sparkles,
-  Target,
-  Wrench,
-  Globe,
-  Bot,
-} from 'lucide-react';
+import { Search, TrendingUp, Users, Database, Gamepad2, BarChart3, Package, Trophy, Filter, Wrench, Bot,  } from 'lucide-react';
 // Import existing components
 import CardDatabase from '../components/CardDatabase';
 import VisualDeckBuilder from '../components/VisualDeckBuilder';

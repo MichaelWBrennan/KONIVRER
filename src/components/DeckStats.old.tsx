@@ -6,7 +6,6 @@ import React from 'react';
  * Licensed under the MIT License
  */
 
-import { BarChart3, TrendingUp } from 'lucide-react';
 
 interface DeckStatsProps {
   deck

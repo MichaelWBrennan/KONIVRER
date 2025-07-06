@@ -6,39 +6,10 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import TournamentMetaAnalysis from '../components/TournamentMetaAnalysis';
-import {
-  Calendar,
-  Trophy,
-  Users,
-  MapPin,
-  Clock,
-  Star,
-  Filter,
-  Search,
-  Eye,
-  Download,
-  BarChart3,
-  TrendingUp,
-  ChevronLeft,
-  ChevronRight,
-  ArrowLeft,
-  ExternalLink,
-  Play,
-  CheckCircle,
-  AlertCircle,
-  ChevronDown,
-  ChevronUp,
-  Plus,
-  Settings,
-  UserPlus,
-  Timer,
-  RefreshCw,
-  DollarSign,
-} from 'lucide-react';
+import { Calendar, Users, MapPin, Search, Eye, Plus, Settings, UserPlus, RefreshCw,  } from 'lucide-react';
 import LiveTournamentBracket from '../components/LiveTournamentBracket';
 const UnifiedTournaments = (): any => {
   const { user, isAuthenticated } = useAuth();

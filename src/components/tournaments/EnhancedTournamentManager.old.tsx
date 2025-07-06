@@ -11,42 +11,7 @@ import { useUnified } from '../../contexts/UnifiedContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useMessaging } from '../../contexts/MessagingContext';
 import MatchQualityIndicator from '../matchmaking/MatchQualityIndicator';
-import {
-  Users,
-  Clock,
-  Shuffle,
-  Award,
-  AlertTriangle,
-  CheckCircle,
-  ChevronDown,
-  ChevronUp,
-  RefreshCw,
-  Zap,
-  Layers,
-  Filter,
-  Bell,
-  MessageSquare,
-  Clipboard,
-  Calendar,
-  Timer,
-  UserPlus,
-  UserMinus,
-  Settings,
-  HelpCircle,
-  BarChart2,
-  Printer,
-  Download,
-  Share2,
-  Edit,
-  Trash2,
-  Eye,
-  EyeOff,
-  X,
-  Check,
-  AlertCircle,
-  Info,
-  Loader
-} from 'lucide-react';
+import { Users, Clock, Shuffle, Award, CheckCircle, RefreshCw, MessageSquare, Calendar, Timer, UserPlus, UserMinus, Settings, Printer, Download, Share2, Edit, Trash2, Eye, X, Info, Loader } from 'lucide-react';
 
 /**
  * Enhanced Tournament Manager Component

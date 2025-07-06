@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * AIPersonalityDisplay Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface AIPersonalityDisplayProps {
   [key: string]: any;
 }
 
-const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = (props) => {
+const AIPersonalityDisplay: React.FC<AIPersonalityDisplayProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

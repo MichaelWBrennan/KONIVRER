@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * Enhanced Game Page with AI Testing Integration
@@ -6,7 +7,6 @@ import React from 'react';
  */
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
 // Import unified game components
 import UnifiedGameBoard from '../components/game/UnifiedGameBoard';
 import UnifiedGameEngine from '../engine/UnifiedGameEngine';

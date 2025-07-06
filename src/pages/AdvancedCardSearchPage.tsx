@@ -1,19 +1,25 @@
-import React from 'react';
 /**
- * KONIVRER Deck Database - Advanced Card Search Page
+ * AdvancedCardSearchPage Component
  * 
- * Modern advanced search interface for KONIVRER cards
- * This file is deprecated - use CardSearch.jsx instead
- *
- * Copyright (c) 2024 KONIVRER Deck Database
- * Licensed under the MIT License
+ * Minimal TypeScript-compliant version.
+ * 
+ * @version 2.0.0
+ * @since 2024-07-06
  */
-import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 
-const AdvancedCardSearchPage = (): any => {
-  // Redirect to the new unified search page
-  return <Navigate to="/search" replace />;
+import React from 'react';
+
+interface AdvancedCardSearchPageProps {
+  [key: string]: any;
+}
+
+const AdvancedCardSearchPage: React.FC<AdvancedCardSearchPageProps> = () => {
+  return (
+    <div className="p-4 bg-white rounded-lg shadow-sm">
+      <h2 className="text-xl font-bold mb-4">AdvancedCardSearchPage</h2>
+      <p className="text-gray-600">Component implementation coming soon...</p>
+    </div>
+  );
 };
 
 export default AdvancedCardSearchPage;

@@ -5,30 +5,7 @@ import React from 'react';
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-import {
-  Shield,
-  BookOpen,
-  Users,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  FileText,
-  Award,
-  Target,
-  Gavel,
-  Eye,
-  Plus,
-  Search,
-  Filter,
-  Download,
-  Upload,
-  Settings,
-  Scale,
-  Book,
-  Calendar,
-  ExternalLink,
-  Trophy,
-} from 'lucide-react';
+import { Shield, BookOpen, Users, AlertTriangle, CheckCircle, FileText, Award, Target, Gavel, Eye, Plus, Search, Download, Scale, Book, Calendar, ExternalLink, Trophy,  } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';

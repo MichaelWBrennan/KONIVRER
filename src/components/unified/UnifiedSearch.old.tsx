@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -7,19 +8,7 @@
 
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Search, 
-  X, 
-  ChevronDown, 
-  Filter, 
-  Clock, 
-  Bookmark, 
-  User, 
-  Package, 
-  Trophy, 
-  Loader2
-} from 'lucide-react';
+import { Search, X, ChevronDown, Filter, Clock, User, Package, Trophy, Loader2 } from 'lucide-react';
 import { useUnified } from '../../contexts/UnifiedContext';
 
 /**

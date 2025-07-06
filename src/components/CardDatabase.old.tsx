@@ -8,17 +8,7 @@ import React from 'react';
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Search,
-  Filter,
-  Grid,
-  List,
-  Eye,
-  Plus,
-  Heart,
-  Database,
-} from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, Grid, List, Database,  } from 'lucide-react';
 import cardsData from '../data/cards.json';
 import UnifiedCardItem from './UnifiedCardItem';
 

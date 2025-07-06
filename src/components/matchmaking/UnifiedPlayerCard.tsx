@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+import { Star, Target, Shield, Trophy } from 'lucide-react';
 /**
  * KONIVRER Deck Database
  *
@@ -6,8 +8,6 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Trophy, Star, Target, Shield } from 'lucide-react';
 
 interface UnifiedPlayerCardProps {
   player: any;

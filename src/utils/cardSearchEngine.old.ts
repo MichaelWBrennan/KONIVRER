@@ -250,8 +250,8 @@ export const searchCards = async (searchParams) => {
       return {
         results: results.slice(0, 5),
         totalResults: results.length
-      };
-    }
+    };
+  }
     
     // Pagination
     const totalResults = results.length;

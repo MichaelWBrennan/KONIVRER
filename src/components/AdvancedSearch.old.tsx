@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -7,24 +8,7 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Search,
-  ChevronDown,
-  ChevronUp,
-  X,
-  Filter,
-  Zap,
-  Type,
-  Palette,
-  DollarSign,
-  Calendar,
-  Star,
-  User,
-  BookOpen,
-  Globe,
-  Settings,
-} from 'lucide-react';
+import { Search, ChevronDown, ChevronUp, X, Filter, Zap, Type, Palette, DollarSign, Calendar, Star, BookOpen, Settings,  } from 'lucide-react';
 
 interface AdvancedSearchProps {
   onSearch

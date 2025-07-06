@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,8 +7,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle, Clock } from 'lucide-react';
 import UnifiedPlayerCard from './UnifiedPlayerCard';
 
 interface MatchFoundModalProps {

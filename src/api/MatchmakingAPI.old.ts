@@ -23,7 +23,7 @@ export class MatchmakingAPI {
   * @param {Object
 } config - API configuration
    */
-  constructor(config: any = {}): any {
+  constructor() any = {}): any {
     const {
       baseURL = '/api',
       timeout = 10000,

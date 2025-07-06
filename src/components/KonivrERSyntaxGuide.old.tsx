@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Search Syntax Guide
@@ -9,24 +10,7 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  BookOpen,
-  ChevronDown,
-  ChevronUp,
-  Search,
-  Zap,
-  Type,
-  Palette,
-  DollarSign,
-  Star,
-  Calendar,
-  Hash,
-  Quote,
-  Filter,
-  Copy,
-  CheckCircle,
-} from 'lucide-react';
+import { BookOpen, ChevronDown, ChevronUp, Search, Zap, Type, Palette, DollarSign, Star, Hash, Filter, Copy, CheckCircle,  } from 'lucide-react';
 
 interface KonivrERSyntaxGuideProps {
   isExpanded = false;

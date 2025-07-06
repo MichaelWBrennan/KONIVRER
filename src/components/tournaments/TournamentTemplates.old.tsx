@@ -17,21 +17,7 @@ import {
   Alert,
   Spinner,
 } from 'react-bootstrap';
-import {
-  Trophy,
-  Users,
-  Clock,
-  Calendar,
-  Shuffle,
-  Layers,
-  Target,
-  BarChart3,
-  Zap,
-  Star,
-  Award,
-  Shield,
-  Sparkles,
-} from 'lucide-react';
+import { Trophy, Users, Clock, Shuffle, Layers, Target,  } from 'lucide-react';
 
 /**
  * Component for selecting and customizing tournament templates

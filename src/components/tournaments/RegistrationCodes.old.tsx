@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Registration Codes Component
@@ -7,26 +8,7 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Key,
-  Plus,
-  Copy,
-  Eye,
-  EyeOff,
-  Trash2,
-  Edit,
-  Users,
-  Calendar,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  RefreshCw,
-  Download,
-  QrCode,
-  Share2,
-  Settings
-} from 'lucide-react';
+import { Key, Plus, Copy, Eye, EyeOff, Trash2, Users, Calendar, RefreshCw, QrCode, Share2 } from 'lucide-react';
 
 interface RegistrationCodesProps {
   tournamentId

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -6,8 +7,6 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Users, Shield, FileText } from 'lucide-react';
 import EnhancedPDFViewer from '../components/EnhancedPDFViewer';
 import ErrorBoundary from '../components/ErrorBoundary';
 

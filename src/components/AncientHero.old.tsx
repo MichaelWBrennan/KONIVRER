@@ -7,7 +7,6 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, Scroll, Book, Compass } from 'lucide-react';
 
 const AncientHero = (): any => {
   return (

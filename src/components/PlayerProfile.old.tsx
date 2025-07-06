@@ -7,50 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import {
-  User,
-  Trophy,
-  Star,
-  Calendar,
-  Target,
-  Award,
-  TrendingUp,
-  TrendingDown,
-  BarChart3,
-  Users,
-  Crown,
-  Shield,
-  Sword,
-  Heart,
-  Eye,
-  Settings,
-  Edit,
-  Share2,
-  Medal,
-  Zap,
-  Clock,
-  MapPin,
-  Flag,
-  Percent,
-  CheckCircle,
-  AlertCircle,
-  Timer,
-  Upload,
-  FileText,
-  Bell,
-  BellRing,
-  X,
-  ExternalLink,
-  RefreshCw,
-  Download,
-  Filter,
-  Search,
-  ChevronDown,
-  ChevronUp,
-  Info,
-  Wifi,
-  WifiOff,
-} from 'lucide-react';
+import { User, Trophy, Star, Calendar, Target, BarChart3, Users, Crown, Sword, Eye, Settings, Share2, Clock, MapPin, CheckCircle, Upload, Bell, BellRing, X, ExternalLink, RefreshCw, Info, Wifi,  } from 'lucide-react';
 
 const PlayerProfile = (): any => {
   const { playerId = 'player123' } = useParams();

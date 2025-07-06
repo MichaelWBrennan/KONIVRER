@@ -8,24 +8,8 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import {
-  BookOpen,
-  Search,
-  Zap,
-  Type,
-  Palette,
-  DollarSign,
-  Star,
-  Calendar,
-  Hash,
-  Quote,
-  Filter,
-  Copy,
-  CheckCircle,
-  ArrowLeft,
-} from 'lucide-react';
+import { BookOpen, Search, Zap, Type, Palette, DollarSign, Star, Filter, ArrowLeft,  } from 'lucide-react';
 const SyntaxGuide = (): any => {
   const [copiedExample, setCopiedExample] = useState(null);
   const copyExample = async (example) => {

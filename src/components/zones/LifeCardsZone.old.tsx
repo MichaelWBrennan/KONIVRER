@@ -1,6 +1,5 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { Skull, Heart, Activity } from 'lucide-react';
+import React from 'react';
 import '../../styles/zones.css';
 
 const LifeCardsZone = ({ lifeCards, isCurrentPlayer, showMortalityAwareness = false }): any => {

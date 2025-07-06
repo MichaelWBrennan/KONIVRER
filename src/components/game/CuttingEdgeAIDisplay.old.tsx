@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * Cutting-Edge AI Display Component
  * 
@@ -11,24 +12,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Brain, 
-  Zap, 
-  Eye, 
-  Heart, 
-  Cpu, 
-  Network,
-  Atom,
-  Lightbulb,
-  Target,
-  TrendingUp,
-  Activity,
-  Sparkles,
-  Waves,
-  Layers,
-  GitBranch
-} from 'lucide-react';
+import { Brain, Eye, Heart, Network, Atom, TrendingUp, Activity, Waves, GitBranch } from 'lucide-react';
 
 interface CuttingEdgeAIDisplayProps {
   aiStatus

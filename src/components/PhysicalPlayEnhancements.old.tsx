@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,31 +7,7 @@
  */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  Camera,
-  Scan,
-  Smartphone,
-  Wifi,
-  Volume2,
-  VolumeX,
-  Users,
-  MapPin,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  Zap,
-  Eye,
-  Mic,
-  MicOff,
-  QrCode,
-  NfcIcon,
-  Settings,
-  Download,
-  Upload,
-  RefreshCw,
-  Monitor,
-} from 'lucide-react';
+import { Camera, Scan, Volume2, VolumeX, MapPin, CheckCircle, AlertCircle, Eye, Mic, MicOff, NfcIcon, Settings, RefreshCw, Monitor,  } from 'lucide-react';
 
 /**
  * Physical Play Enhancements Component

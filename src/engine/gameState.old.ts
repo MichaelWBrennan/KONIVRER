@@ -31,8 +31,8 @@ export function createEmptyGameState(): any {
     // Current actions
     pendingActions: [],
     actionHistory: []
-  };
-}
+    };
+  }
 
 /**
  * Create an empty player state with all required zones
@@ -59,8 +59,8 @@ function createEmptyPlayerState(): any {
     // Status
     drawBonus: 0,
     effectModifiers: []
-  };
-}
+    };
+  }
 
 /**
  * Initialize a new game with decks

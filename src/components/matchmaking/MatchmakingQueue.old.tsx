@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,8 +7,6 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Clock, Target, Trophy, Globe, X } from 'lucide-react';
 
 interface MatchmakingQueueProps {
   isSearching

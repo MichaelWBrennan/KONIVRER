@@ -7,7 +7,6 @@ import React from 'react';
  */
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import { motion } from 'framer-motion';
 import UnifiedGameBoard from '../components/game/UnifiedGameBoard';
 import UnifiedGameEngine from '../engine/UnifiedGameEngine';
 import NetworkManager from '../engine/NetworkManager';
@@ -18,10 +17,10 @@ import { useDeck } from '../contexts/DeckContext';
 import { useBattlePass } from '../contexts/BattlePassContext';
 // Create a mock motion component until we can use the real framer-motion
 const motion = {
-  div: (props: any) => <div {...props}>{props.children},
-  h2: (props: any) => <h2 {...props}>{props.children},
-  p: (props: any) => <p {...props}>{props.children},
-  button: (props: any) => <button {...props}>{props.children},
+  div: () any) => <div {...props}>{props.children},
+  h2: () any) => <h2 {...props}>{props.children},
+  p: () any) => <p {...props}>{props.children},
+  button: () any) => <button {...props}>{props.children},
 };
 /**
  * Game page that initializes the game engine and renders the game board

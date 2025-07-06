@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,19 +7,7 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Trophy,
-  Calendar,
-  Clock,
-  Users,
-  DollarSign,
-  ChevronRight,
-  Target,
-  Shield,
-  Swords,
-  Crown,
-} from 'lucide-react';
+import { Trophy, Calendar, Users, DollarSign, ChevronRight, Target, Shield, Swords, Crown,  } from 'lucide-react';
 
 interface TournamentBrowserProps {
   tournaments

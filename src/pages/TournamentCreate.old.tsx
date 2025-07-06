@@ -5,20 +5,7 @@ import React from 'react';
  * Copyright (c) 2024 KONIVRER Deck Database
  * Licensed under the MIT License
  */
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Trophy,
-  DollarSign,
-  Settings,
-  Info,
-  Plus,
-  Minus,
-  Save,
-  Eye,
-} from 'lucide-react';
+import { Calendar, Users, Trophy, DollarSign, Settings, Info, Save, Eye,  } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';

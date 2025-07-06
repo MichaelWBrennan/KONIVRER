@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * TournamentManager Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface TournamentManagerProps {
   [key: string]: any;
 }
 
-const TournamentManager: React.FC<TournamentManagerProps> = (props) => {
+const TournamentManager: React.FC<TournamentManagerProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

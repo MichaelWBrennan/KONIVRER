@@ -9,27 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import { useUnified } from '../contexts/UnifiedContext';
 import TournamentTemplates from '../components/tournaments/TournamentTemplates';
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  Trophy,
-  DollarSign,
-  Settings,
-  Info,
-  Plus,
-  Minus,
-  Save,
-  Eye,
-  ArrowLeft,
-  ArrowRight,
-  HelpCircle,
-  AlertCircle,
-  CheckCircle,
-  Loader,
-  X
-} from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, DollarSign, Info, Save, ArrowLeft, ArrowRight, AlertCircle, CheckCircle, Loader, X } from 'lucide-react';
 
 /**
  * Enhanced Tournament Creation Page

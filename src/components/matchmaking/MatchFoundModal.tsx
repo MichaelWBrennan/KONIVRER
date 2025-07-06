@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * MatchFoundModal Component
  * 
@@ -8,24 +9,13 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Settings,
-  Info,
-  Clock,
-  Users,
-  Trophy,
-  Star,
-  Activity,
-  BarChart3,
-  Zap,
-} from 'lucide-react';
+import { Settings, Clock, Users, Star, Zap,  } from 'lucide-react';
 
 interface MatchFoundModalProps {
   [key: string]: any;
 }
 
-const MatchFoundModal: React.FC<MatchFoundModalProps> = (props) => {
+const MatchFoundModal: React.FC<MatchFoundModalProps> = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

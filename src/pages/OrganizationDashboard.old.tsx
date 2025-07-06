@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Organization Dashboard
@@ -6,44 +7,9 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import {
-  Building2,
-  Users,
-  Calendar,
-  Trophy,
-  DollarSign,
-  MapPin,
-  Settings,
-  Plus,
-  Eye,
-  Edit,
-  Trash2,
-  BarChart3,
-  TrendingUp,
-  Clock,
-  Star,
-  Filter,
-  Search,
-  Download,
-  Upload,
-  RefreshCw,
-  AlertCircle,
-  CheckCircle,
-  UserPlus,
-  Shield,
-  Key,
-  Mail,
-  Phone,
-  Globe,
-  CreditCard,
-  FileText,
-  Target,
-  Award,
-  Zap
-} from 'lucide-react';
+import { Users, Calendar, Trophy, DollarSign, MapPin, Settings, Plus, Eye, Edit, Trash2, BarChart3, TrendingUp, Clock, RefreshCw, CheckCircle, UserPlus, CreditCard, Target } from 'lucide-react';
 const OrganizationDashboard = (): any => {
   const { user } = useAuth();
   const navigate = useNavigate();

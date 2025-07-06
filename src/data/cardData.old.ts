@@ -46,8 +46,8 @@ export function createFamiliar(): any {
     counters: 0,
     summoningSickness: true,
     tapped: false
-  };
-}
+    };
+  }
 
 /**
  * Create a Spell card
@@ -71,8 +71,8 @@ export function createSpell(): any {
     set,
     rarity,
     setNumber
-  };
-}
+    };
+  }
 
 /**
  * Create a Flag card
@@ -100,8 +100,8 @@ export function createFlag(): any {
     set,
     rarity,
     setNumber
-  };
-}
+    };
+  }
 
 // Convert cards from JSON to game engine format
 function convertJsonCardToGameCard(): any {

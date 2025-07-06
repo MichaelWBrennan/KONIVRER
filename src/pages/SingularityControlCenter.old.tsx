@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -5,7 +6,6 @@
  * Licensed under the MIT License
  */
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import SingularityDashboard from '../components/SingularityDashboard.jsx';
 import { ConsciousnessMetrics } from '../utils/singularity-features.js';
 const SingularityControlCenter = (): any => {

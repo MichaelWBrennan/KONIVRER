@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -7,8 +8,6 @@ import React from 'react';
  */
 
 import { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
 
 /**
  * Displays a log of game events

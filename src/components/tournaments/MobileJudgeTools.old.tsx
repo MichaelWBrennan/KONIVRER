@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Mobile Judge Tools
@@ -7,37 +8,8 @@ import React from 'react';
  */
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useParams } from 'react-router-dom';
-import {
-  Shield,
-  Users,
-  AlertTriangle,
-  Clock,
-  CheckCircle,
-  XCircle,
-  Edit,
-  Search,
-  Filter,
-  Plus,
-  Minus,
-  Eye,
-  FileText,
-  Timer,
-  Target,
-  Award,
-  Flag,
-  Zap,
-  RefreshCw,
-  Bell,
-  Settings,
-  Camera,
-  Mic,
-  MessageSquare,
-  Phone,
-  Navigation,
-  MapPin
-} from 'lucide-react';
+import { Shield, Users, AlertTriangle, CheckCircle, Search, Plus, Target, RefreshCw, Bell } from 'lucide-react';
 
 const MobileJudgeTools = (): any => {
   const { tournamentId } = useParams();

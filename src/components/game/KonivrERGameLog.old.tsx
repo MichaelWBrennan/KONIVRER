@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Game Log Component
@@ -6,19 +7,7 @@ import React from 'react';
  */
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  X, 
-  Search, 
-  Filter, 
-  Clock,
-  User,
-  Sword,
-  Shield,
-  Zap,
-  Heart,
-  Flame
-} from 'lucide-react';
+import { X, Search, Clock, Sword, Zap, Heart, Flame } from 'lucide-react';
 
 interface KonivrERGameLogProps {
   gameLog

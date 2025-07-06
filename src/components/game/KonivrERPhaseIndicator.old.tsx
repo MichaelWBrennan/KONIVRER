@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Phase Indicator Component
@@ -10,7 +11,6 @@ import React from 'react';
  * - Refresh Phase
  */
 
-import { motion } from 'framer-motion';
 import { 
   Play, 
   Sword, 

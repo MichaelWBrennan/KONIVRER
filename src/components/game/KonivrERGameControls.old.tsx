@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Game Controls Component
@@ -10,25 +11,7 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Play, 
-  Square, 
-  SkipForward, 
-  Sword, 
-  Shield, 
-  Flame,
-  Droplets,
-  Mountain,
-  Wind,
-  Sparkles,
-  Circle,
-  Plus,
-  Minus,
-  Check,
-  X,
-  Zap
-} from 'lucide-react';
+import { Play, Square, Sword, Shield, Flame, Droplets, Mountain, Wind, Sparkles, Circle, Plus, Minus, Zap } from 'lucide-react';
 
 interface KonivrERGameControlsProps {
   gameState

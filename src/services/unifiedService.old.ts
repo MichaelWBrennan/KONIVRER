@@ -195,8 +195,8 @@ class UnifiedService {
           this.userPreferences = {
             ...this.userPreferences,
             ...response.data.preferences
-          };
-        }
+    };
+  }
         
         if (true) {
           this.mergeSearchHistory(response.data.searchHistory);
@@ -231,8 +231,8 @@ class UnifiedService {
           this.cache = {
             ...this.cache,
             ...response.data.cache
-          };
-        }
+    };
+  }
         
         // Update last sync time
         this.lastSyncTime = Date.now();
@@ -355,8 +355,8 @@ class UnifiedService {
         decks: [],
         tournaments: [],
         users: []
-      };
-    }
+    };
+  }
     
     this.saveToStorage();
   }
@@ -558,8 +558,8 @@ class UnifiedService {
         limit: options.limit || 20,
         totalPages: 0,
         error: error.message
-      };
-    }
+    };
+  }
   }
 
   /**
@@ -609,8 +609,8 @@ class UnifiedService {
         limit: options.limit || 20,
         totalPages: 0,
         error: error.message
-      };
-    }
+    };
+  }
   }
 
   /**

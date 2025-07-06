@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,7 +7,6 @@
  */
 
 import React, { useState, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
 import { useBattlePass } from '../../contexts/BattlePassContext';
 import { useGameEngine } from '../../contexts/GameEngineContext';
@@ -15,35 +15,7 @@ import CardSynergyRecommendations from './CardSynergyRecommendations';
 import DeckRules from '../DeckRules';
 import ValidationMessage from '../ValidationMessage';
 import { validateDeck, canAddCardToDeck } from '../../utils/deckValidator';
-import {
-  Search,
-  Filter,
-  Plus,
-  Minus,
-  Save,
-  Play,
-  Share2,
-  Download,
-  Upload,
-  Star,
-  Zap,
-  Shield,
-  Sword,
-  Heart,
-  Eye,
-  BarChart3,
-  Shuffle,
-  Target,
-  Sparkles,
-  Crown,
-  Gem,
-  TrendingUp,
-  Users,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  Info,
-} from 'lucide-react';
+import { Search, Filter, Plus, Minus, Save, Play, CheckCircle, AlertCircle,  } from 'lucide-react';
 
 // Enhanced Deck Builder with Game Integration
 const EnhancedDeckBuilder = (): any => {

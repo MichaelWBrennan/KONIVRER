@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,17 +7,7 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Gift,
-  Trophy,
-  Star,
-  ChevronRight,
-  X,
-  Lock,
-  Unlock,
-  Info,
-} from 'lucide-react';
+import { Gift, Trophy, ChevronRight, X, Lock, Unlock, Info,  } from 'lucide-react';
 
 interface MatchmakingRewardsProps {
   rewards

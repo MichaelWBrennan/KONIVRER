@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -7,8 +8,6 @@ import React from 'react';
  */
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { HelpCircle, Book, ExternalLink } from 'lucide-react';
 
 interface RuleTooltipProps {
   ruleId

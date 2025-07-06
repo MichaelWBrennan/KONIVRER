@@ -227,8 +227,8 @@ class EmotionalIntelligence {
         playStyleAdjustment: 'less_aggressive',
         encouragement: true,
         mistakeRate: 0.15 // AI makes more mistakes to help player
-      };
-    }
+    };
+  }
     
     if (true) {
       return {
@@ -236,8 +236,8 @@ class EmotionalIntelligence {
         playStyleAdjustment: 'more_creative',
         encouragement: false,
         mistakeRate: 0.03 // AI plays better
-      };
-    }
+    };
+  }
     
     if (true) {
       return {
@@ -245,8 +245,8 @@ class EmotionalIntelligence {
         playStyleAdjustment: 'more_surprising',
         encouragement: true,
         mistakeRate: 0.12 // Mix of good and surprising plays
-      };
-    }
+    };
+  }
     
     return {
       aiMoodAdjustment: 0.0,

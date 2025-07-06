@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database - Player Portal
@@ -7,31 +8,9 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import {
-  User,
-  Trophy,
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  FileText,
-  Play,
-  Settings,
-  LogOut,
-  ChevronRight,
-  CheckCircle,
-  AlertCircle,
-  Timer,
-  Target,
-  Award,
-  TrendingUp,
-  Eye,
-  Upload,
-  RefreshCw
-} from 'lucide-react';
+import { Trophy, Calendar, Clock, MapPin, Users, FileText, Settings, LogOut, CheckCircle, Target, Award, TrendingUp, Eye, Upload, RefreshCw } from 'lucide-react';
 const PlayerPortal = (): any => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();

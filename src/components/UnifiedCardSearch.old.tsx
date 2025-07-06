@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Card Search Component
@@ -22,7 +23,6 @@ import React from 'react';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 
 // Import components
@@ -35,43 +35,7 @@ import useCardSearch from '../hooks/useCardSearch';
 import useSearchStore from '../stores/searchStore';
 
 // Import icons
-import { 
-  Search, 
-  Filter, 
-  Grid, 
-  List, 
-  Download, 
-  Bookmark, 
-  History,
-  X,
-  ChevronDown,
-  ChevronUp,
-  Loader2,
-  AlertCircle,
-  Zap,
-  Type,
-  Palette,
-  DollarSign,
-  Calendar,
-  Star,
-  User,
-  BookOpen,
-  Globe,
-  Settings,
-  SlidersHorizontal,
-  Check,
-  Save,
-  Trash,
-  RefreshCw,
-  ArrowUpDown,
-  ArrowDown,
-  ArrowUp,
-  FileText,
-  Eye,
-  EyeOff,
-  Plus,
-  Minus
-} from 'lucide-react';
+import { Search, Filter, Grid, List, Download, History, X, ChevronDown, ChevronUp, Loader2, AlertCircle, Type, Palette, Calendar, Star, Trash, RefreshCw, ArrowUpDown, ArrowDown, ArrowUp, FileText } from 'lucide-react';
 
 // Define filter types
 type FilterType = 'type' | 'element' | 'keyword' | 'rarity' | 'set' | 'artist' | 'power' | 'toughness' | 'cost';

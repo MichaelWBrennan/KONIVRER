@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,16 +7,7 @@
  */
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import {
-  Target,
-  Award,
-  Clock,
-  ChevronRight,
-  X,
-  CheckCircle,
-  AlertCircle,
-} from 'lucide-react';
+import { Target, Award, Clock, ChevronRight, X, CheckCircle,  } from 'lucide-react';
 
 interface MatchmakingChallengesProps {
   challenges

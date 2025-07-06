@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 /**
  * KONIVRER Deck Database
  *
@@ -6,19 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import {
-  Trophy,
-  Calendar,
-  Clock,
-  Filter,
-  ChevronDown,
-  ChevronUp,
-  Download,
-  ArrowLeft,
-  ArrowRight,
-  Search,
-} from 'lucide-react';
+import { Trophy, Filter, ChevronDown, ChevronUp, Download, ArrowLeft, ArrowRight, Search,  } from 'lucide-react';
 import RecentMatches from './RecentMatches';
 
 interface MatchHistoryProps {

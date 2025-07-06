@@ -33,53 +33,7 @@ import '../styles/mobile-first.css';
 import '../styles/esoteric-theme.css';
 
 // Import icons
-import {
-  Home,
-  Database,
-  BookOpen,
-  User,
-  Users,
-  Menu,
-  X,
-  Trophy,
-  Shield,
-  LogIn,
-  LogOut,
-  Settings,
-  Layers,
-  Sparkles,
-  Palette,
-  Play,
-  Bot,
-  MapPin,
-  Package,
-  Scale,
-  Award,
-  FileText,
-  Globe,
-  BarChart3,
-  DollarSign,
-  TrendingUp,
-  Target,
-  Calculator,
-  Eye,
-  Zap,
-  Link as LinkIcon,
-  AlertTriangle,
-  Activity,
-  Gamepad2,
-  Wrench,
-  Wifi,
-  WifiOff,
-  Battery,
-  Signal,
-  Bell,
-  Search,
-  MessageCircle,
-  Calendar,
-  HelpCircle,
-  Info
-} from 'lucide-react';
+import { Home, Database, BookOpen, User, Users, Menu, X, Trophy, LogIn, LogOut, Settings, Layers, Play, BarChart3, Wifi, WifiOff, Battery, Signal, Bell, Search } from 'lucide-react';
 
 // Unified interface for all layout variants
 interface UnifiedLayoutProps {

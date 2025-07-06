@@ -1,5 +1,4 @@
 import React from 'react';
-import { Brain, Activity, Eye, Heart } from 'lucide-react';
 import '../styles/playerInfo.css';
 
 interface PlayerInfoProps {

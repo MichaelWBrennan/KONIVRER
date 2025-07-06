@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Deck Database
@@ -6,36 +7,8 @@ import React from 'react';
  * Licensed under the MIT License
  */
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import {
-  Clock,
-  User,
-  Eye,
-  Heart,
-  ExternalLink,
-  Search,
-  Filter,
-  Calendar,
-  Star,
-  MessageCircle,
-  Share2,
-  Bookmark,
-  Hash,
-  TrendingUp,
-  Grid,
-  List,
-  ChevronDown,
-  ChevronUp,
-  Plus,
-  Edit3,
-  Tag,
-  ArrowUp,
-  Coffee,
-  Zap,
-  Fire,
-  Award,
-} from 'lucide-react';
+import { Clock, User, Eye, Heart, ExternalLink,  } from 'lucide-react';
 const Home = (): any => {
   // State management
   const [searchQuery, setSearchQuery] = useState('');

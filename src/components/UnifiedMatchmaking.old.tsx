@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 /**
  * KONIVRER Unified Matchmaking Component
@@ -26,7 +27,6 @@ import React from 'react';
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '../hooks/useMediaQuery';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -37,77 +37,7 @@ import { usePhysicalMatchmaking } from '../contexts/PhysicalMatchmakingContext';
 import UnifiedCard from './UnifiedCard';
 
 // Import icons
-import {
-  Users,
-  User,
-  UserPlus,
-  UserCheck,
-  UserX,
-  Search,
-  Filter,
-  Settings,
-  Clock,
-  Calendar,
-  MapPin,
-  Award,
-  Trophy,
-  Star,
-  Shield,
-  Sword,
-  Zap,
-  Play,
-  Pause,
-  X,
-  Check,
-  ChevronDown,
-  ChevronUp,
-  ChevronRight,
-  ChevronLeft,
-  Plus,
-  Minus,
-  RefreshCw,
-  AlertCircle,
-  CheckCircle,
-  Info,
-  HelpCircle,
-  MessageSquare,
-  Bell,
-  BellOff,
-  Loader,
-  Globe,
-  Flag,
-  Bookmark,
-  Heart,
-  ThumbsUp,
-  ThumbsDown,
-  BarChart,
-  PieChart,
-  LineChart,
-  ArrowUp,
-  ArrowDown,
-  ArrowUpDown,
-  Shuffle,
-  Share,
-  Copy,
-  Download,
-  Upload,
-  Save,
-  Edit,
-  Trash,
-  Menu,
-  MoreHorizontal,
-  ExternalLink,
-  Wifi,
-  WifiOff,
-  Bluetooth,
-  BluetoothOff,
-  Smartphone,
-  Laptop,
-  Monitor,
-  Layers,
-  List,
-  Grid
-} from 'lucide-react';
+import { Users, User, UserPlus, UserX, Settings, Clock, MapPin, Trophy, Star, Sword, Play, X, Check, ChevronDown, ChevronUp, Plus, RefreshCw, AlertCircle, CheckCircle, MessageSquare, Loader, Wifi, Bluetooth, BluetoothOff, Smartphone } from 'lucide-react';
 
 // Types
 type MatchmakingMode = 'online' | 'physical' | 'tournament';
