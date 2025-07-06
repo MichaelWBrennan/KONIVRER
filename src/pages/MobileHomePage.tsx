@@ -1,11 +1,11 @@
 import React from 'react';
-import MobileLayout from '../components/MobileLayout';
+import SimpleMobileLayout from '../components/SimpleMobileLayout';
 
 const MobileHomePage: React.FC = () => {
   return (
-    <MobileLayout currentPage="home">
+    <SimpleMobileLayout currentPage="home">
       {/* Completely empty content area - only bottom navigation */}
-    </MobileLayout>
+    </SimpleMobileLayout>
   );
 };
 
