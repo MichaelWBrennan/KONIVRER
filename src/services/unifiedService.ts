@@ -1,4 +1,3 @@
-import React from 'react';
 /**
  * KONIVRER Deck Database
  *
@@ -7,14 +6,14 @@ import React from 'react';
  */
 
 /**
- * UnifiedService.js
+ * UnifiedService.ts
  *
  * Central service that integrates all core functionality between the tournament software
  * and digital game, providing a seamless experience across all features.
  */
 
-import { apiClient } from '../config/api.js';
-import { env } from '../config/env.js';
+import { apiClient } from '../config/api';
+import { env } from '../config/env';
 import cardsService from './cardsService';
 import DeckService from './DeckService';
 import tournamentService from './tournamentService';
@@ -23,1081 +22,1133 @@ import notificationService from './notificationService';
 
 // Storage keys for unified data
 const STORAGE_KEYS = {
-    USER_PREFERENCES: 'userPreferences',
+  USER_PREFERENCES: 'userPreferences',
   SEARCH_HISTORY: 'searchHistory',
   RECENT_TOURNAMENTS: 'recentTournaments',
   RECENT_MATCHES: 'recentMatches',
   RECENT_MESSAGES: 'recentMessages',
   UNIFIED_CACHE: 'unifiedCache'
+};
+
+// Types for unified service
+interface UserProfile {
+  id: string;
+  username: string;
+  email: string;
+  displayName: string;
+  avatar: string;
+  rank: string;
+  rankTier: number;
+  experience: number;
+  level: number;
+  registrationDate: string;
+  lastLoginDate: string;
+  isVerified: boolean;
+  isBanned: boolean;
+  roles: string[];
+  preferences: UserPreferences;
+  stats: UserStats;
+  inventory: UserInventory;
+  socialConnections: SocialConnection[];
+  [key: string]: any;
+}
+
+interface UserPreferences {
+  theme: string;
+  language: string;
+  notifications: {
+    email: boolean;
+    push: boolean;
+    inApp: boolean;
+    matchReminders: boolean;
+    tournamentReminders: boolean;
+    friendRequests: boolean;
+    systemAnnouncements: boolean;
   };
+  privacy: {
+    showOnlineStatus: boolean;
+    showMatchHistory: boolean;
+    showDecks: boolean;
+    allowFriendRequests: boolean;
+    allowDirectMessages: boolean;
+  };
+  gameplay: {
+    autoPassPriority: boolean;
+    enableSoundEffects: boolean;
+    enableMusic: boolean;
+    enableVoiceLines: boolean;
+    enableAnimations: boolean;
+    cardQuality: 'low' | 'medium' | 'high';
+    showHints: boolean;
+    showTimers: boolean;
+    confirmActions: boolean;
+  };
+  accessibility: {
+    highContrast: boolean;
+    largeText: boolean;
+    reducedMotion: boolean;
+    screenReader: boolean;
+    colorBlindMode: 'none' | 'protanopia' | 'deuteranopia' | 'tritanopia';
+  };
+  [key: string]: any;
+}
+
+interface UserStats {
+  totalMatches: number;
+  wins: number;
+  losses: number;
+  draws: number;
+  winRate: number;
+  tournamentWins: number;
+  tournamentTop8s: number;
+  highestRank: string;
+  currentWinStreak: number;
+  longestWinStreak: number;
+  favoriteDecks: string[];
+  mostPlayedCards: { cardId: string; count: number }[];
+  [key: string]: any;
+}
+
+interface UserInventory {
+  cards: { cardId: string; count: number; foilCount: number }[];
+  decks: string[];
+  currency: {
+    gems: number;
+    gold: number;
+    dust: number;
+  };
+  cosmetics: {
+    avatars: string[];
+    cardBacks: string[];
+    playmats: string[];
+    emotes: string[];
+    sleeves: string[];
+  };
+  [key: string]: any;
+}
+
+interface SocialConnection {
+  platform: string;
+  username: string;
+  connected: boolean;
+  lastSynced: string;
+  [key: string]: any;
+}
+
+interface ActiveSession {
+  token: string;
+  refreshToken: string;
+  expiresAt: number;
+  userId: string;
+  deviceId: string;
+  ipAddress: string;
+  userAgent: string;
+  lastActivity: number;
+  [key: string]: any;
+}
+
+interface SearchHistoryItem {
+  query: string;
+  timestamp: number;
+  filters?: Record<string, any>;
+  results?: number;
+}
+
+interface SearchHistory {
+  cards: SearchHistoryItem[];
+  decks: SearchHistoryItem[];
+  tournaments: SearchHistoryItem[];
+  players: SearchHistoryItem[];
+}
+
+interface RecentItem {
+  id: string;
+  name: string;
+  timestamp: number;
+  type: string;
+  metadata?: Record<string, any>;
+}
+
+interface CacheItem<T> {
+  data: T;
+  timestamp: number;
+  expiresAt: number;
+}
+
+interface UnifiedCache {
+  cards: Record<string, CacheItem<any>>;
+  decks: Record<string, CacheItem<any>>;
+  tournaments: Record<string, CacheItem<any>>;
+  players: Record<string, CacheItem<any>>;
+  matches: Record<string, CacheItem<any>>;
+  [key: string]: Record<string, CacheItem<any>>;
+}
+
+interface SyncStatus {
+  lastSyncTime: number | null;
+  inProgress: boolean;
+  error: string | null;
+  pendingChanges: Record<string, any>[];
+}
+
+interface NotificationSettings {
+  enabled: boolean;
+  types: {
+    [key: string]: boolean;
+  };
+  channels: {
+    inApp: boolean;
+    email: boolean;
+    push: boolean;
+  };
+  doNotDisturb: {
+    enabled: boolean;
+    startTime: string;
+    endTime: string;
+    exceptions: string[];
+  };
+}
 
 class UnifiedService {
-    constructor() {
-  }
-  this.cache = {
-    
+  private cache: UnifiedCache;
+  private lastSyncTime: number | null;
+  private syncInterval: number;
+  private isInitialized: boolean;
+  private userProfile: UserProfile | null;
+  private activeSession: ActiveSession | null;
+  private searchHistory: SearchHistory;
+  private recentTournaments: RecentItem[];
+  private recentMatches: RecentItem[];
+  private recentMessages: RecentItem[];
+  private syncStatus: SyncStatus;
+  private notificationSettings: NotificationSettings;
+  private eventListeners: Record<string, Function[]>;
+  private pendingRequests: Map<string, Promise<any>>;
+  private offlineQueue: Record<string, any>[];
+  private serviceWorkerRegistration: ServiceWorkerRegistration | null;
 
-  }
-};
+  constructor() {
+    this.cache = {
+      cards: {},
+      decks: {},
+      tournaments: {},
+      players: {},
+      matches: {}
+    };
     this.lastSyncTime = null;
     this.syncInterval = 5 * 60 * 1000; // 5 minutes
     this.isInitialized = false;
     this.userProfile = null;
     this.activeSession = null;
     this.searchHistory = {
-    cards: [
-    ,
-      decks: [
-  ],
-      tournaments: [
-    ,
-      users: [
-  ]
-  };
-    
-    // Initialize services
-    this.cards = cardsService;
-    this.decks = DeckService;
-    this.tournaments = tournamentService;
-    this.matchmaking = tournamentMatchmakingService;
-    this.notifications = notificationService;
-    
-    // Load cached data
-    this.loadFromStorage()
+      cards: [],
+      decks: [],
+      tournaments: [],
+      players: []
+    };
+    this.recentTournaments = [];
+    this.recentMatches = [];
+    this.recentMessages = [];
+    this.syncStatus = {
+      lastSyncTime: null,
+      inProgress: false,
+      error: null,
+      pendingChanges: []
+    };
+    this.notificationSettings = {
+      enabled: true,
+      types: {
+        system: true,
+        match: true,
+        tournament: true,
+        friend: true,
+        message: true
+      },
+      channels: {
+        inApp: true,
+        email: true,
+        push: true
+      },
+      doNotDisturb: {
+        enabled: false,
+        startTime: '22:00',
+        endTime: '08:00',
+        exceptions: ['tournament']
+      }
+    };
+    this.eventListeners = {};
+    this.pendingRequests = new Map();
+    this.offlineQueue = [];
+    this.serviceWorkerRegistration = null;
   }
 
   /**
    * Initialize the unified service
-   * @param {Object} user - User object from authentication
-   * @returns {Promise<boolean>} Success status
    */
-  async initialize(user: any = null) {
-    if (this.isInitialized) return true;
+  async initialize(): Promise<boolean> {
     try {
-  }
-      // Set user if provided
-      if (true) {
-    this.userProfile = user
-  }
-      
-      // Load data from storage
-      this.loadFromStorage(() => {
-    // Sync with server if possible
-      if (true) {
-    await this.syncWithServer()
-  })
-      
+      // Load cached data from local storage
+      this.loadFromLocalStorage();
+
+      // Check for active session
+      const session = this.getActiveSession();
+      if (session) {
+        this.activeSession = session;
+        await this.refreshUserProfile();
+      }
+
+      // Register service worker for offline support
+      if ('serviceWorker' in navigator) {
+        try {
+          this.serviceWorkerRegistration = await navigator.serviceWorker.register('/service-worker.js');
+          console.log('Service worker registered successfully');
+        } catch (error) {
+          console.error('Service worker registration failed:', error);
+        }
+      }
+
+      // Set up sync interval
+      setInterval(() => this.syncWithServer(), this.syncInterval);
+
+      // Process offline queue if needed
+      if (navigator.onLine && this.offlineQueue.length > 0) {
+        await this.processOfflineQueue();
+      }
+
+      // Set up online/offline event listeners
+      window.addEventListener('online', this.handleOnline.bind(this));
+      window.addEventListener('offline', this.handleOffline.bind(this));
+
       this.isInitialized = true;
-      return true
-    } catch (error: any) {
-    console.error() {
-    return false
-  
-  }
+      this.emitEvent('initialized', { success: true });
+      return true;
+    } catch (error) {
+      console.error('Failed to initialize unified service:', error);
+      this.emitEvent('initialized', { success: false, error });
+      return false;
+    }
   }
 
   /**
    * Load data from local storage
    */
-  loadFromStorage() {
+  private loadFromLocalStorage(): void {
     try {
-  }
       // Load user preferences
-      const preferencesData = localStorage.getItem(() => {
-    if (true) {
-    this.userPreferences = JSON.parse(preferencesData)
-  }) else {
-    this.userPreferences = this.getDefaultPreferences()
-  }
-      
+      const userPreferencesStr = localStorage.getItem(STORAGE_KEYS.USER_PREFERENCES);
+      if (userPreferencesStr) {
+        const userProfile = JSON.parse(userPreferencesStr);
+        this.userProfile = userProfile;
+      }
+
       // Load search history
-      const searchHistoryData = localStorage.getItem(() => {
-    if (true) {
-    this.searchHistory = JSON.parse(searchHistoryData)
-  })
-      
+      const searchHistoryStr = localStorage.getItem(STORAGE_KEYS.SEARCH_HISTORY);
+      if (searchHistoryStr) {
+        this.searchHistory = JSON.parse(searchHistoryStr);
+      }
+
       // Load recent tournaments
-      const recentTournamentsData = localStorage.getItem(() => {
-    if (true) {
-    this.recentTournaments = JSON.parse(recentTournamentsData)
-  }) else {
-    this.recentTournaments = [
-    }
-      
+      const recentTournamentsStr = localStorage.getItem(STORAGE_KEYS.RECENT_TOURNAMENTS);
+      if (recentTournamentsStr) {
+        this.recentTournaments = JSON.parse(recentTournamentsStr);
+      }
+
       // Load recent matches
-      const recentMatchesData = localStorage.getItem(() => {
-    if (true) {
-    this.recentMatches = JSON.parse(recentMatchesData)
-  }) else {
-    this.recentMatches = [
-  ]
-  }
-      
+      const recentMatchesStr = localStorage.getItem(STORAGE_KEYS.RECENT_MATCHES);
+      if (recentMatchesStr) {
+        this.recentMatches = JSON.parse(recentMatchesStr);
+      }
+
       // Load recent messages
-      const recentMessagesData = localStorage.getItem(() => {
-    if (true) {
-    this.recentMessages = JSON.parse(recentMessagesData)
-  }) else {
-    this.recentMessages = [
-    }
-      
+      const recentMessagesStr = localStorage.getItem(STORAGE_KEYS.RECENT_MESSAGES);
+      if (recentMessagesStr) {
+        this.recentMessages = JSON.parse(recentMessagesStr);
+      }
+
       // Load unified cache
-      const unifiedCacheData = localStorage.getItem(() => {
-    if (true) {
-    this.cache = JSON.parse(unifiedCacheData)
-  })
-    } catch (error: any) {
-    console.error() {
-  }
-      // Reset to defaults if there's an error
-      this.userPreferences = this.getDefaultPreferences() {
-    this.searchHistory = { cards: [
-  ], decks: [
-    , tournaments: [
-  ], users: [
-    
-  };
-      this.recentTournaments = [
-  ];
-      this.recentMatches = [
-    ;
-      this.recentMessages = [
-  ];
-      this.cache = {
-     
-  }
+      const unifiedCacheStr = localStorage.getItem(STORAGE_KEYS.UNIFIED_CACHE);
+      if (unifiedCacheStr) {
+        this.cache = JSON.parse(unifiedCacheStr);
+      }
+    } catch (error) {
+      console.error('Error loading data from local storage:', error);
+    }
   }
 
   /**
    * Save data to local storage
    */
-  saveToStorage() {
+  private saveToLocalStorage(): void {
     try {
-    localStorage.setItem(STORAGE_KEYS.USER_PREFERENCES, JSON.stringify(this.userPreferences));
+      // Save user preferences
+      if (this.userProfile) {
+        localStorage.setItem(STORAGE_KEYS.USER_PREFERENCES, JSON.stringify(this.userProfile));
+      }
+
+      // Save search history
       localStorage.setItem(STORAGE_KEYS.SEARCH_HISTORY, JSON.stringify(this.searchHistory));
+
+      // Save recent tournaments
       localStorage.setItem(STORAGE_KEYS.RECENT_TOURNAMENTS, JSON.stringify(this.recentTournaments));
+
+      // Save recent matches
       localStorage.setItem(STORAGE_KEYS.RECENT_MATCHES, JSON.stringify(this.recentMatches));
+
+      // Save recent messages
       localStorage.setItem(STORAGE_KEYS.RECENT_MESSAGES, JSON.stringify(this.recentMessages));
-      localStorage.setItem(STORAGE_KEYS.UNIFIED_CACHE, JSON.stringify(this.cache))
-  } catch (error) {
-    console.error('Error saving data to storage:', error)
-  }
-  }
 
-  /**
-   * Sync data with the server
-   * @returns {Promise<boolean>} Success status
-   */
-  async syncWithServer(() => {
-    if (true) {
-    return false
-  })
-    
-    try {
-    // Get last sync time
-      const lastSync = this.lastSyncTime || 0;
-      
-      // Fetch updates from server
-      const response = await apiClient.post() {
-  }
-      
-      if (true) {
-    // Update local data with server data
-        if (true) {
-  }
-          this.userPreferences = {
-    ...this.userPreferences,
-            ...response.data.preferences
-  }
-  }
-        
-        if (true) {
-    this.mergeSearchHistory(response.data.searchHistory)
-  }
-        
-        if (true) {
-    this.recentTournaments = this.mergeArrays(
-            this.recentTournaments,
-            response.data.recentTournaments,
-            'id'
-          )
-  }
-        
-        if (true) {
-    this.recentMatches = this.mergeArrays(
-            this.recentMatches,
-            response.data.recentMatches,
-            'id'
-          )
-  }
-        
-        if (true) {
-    this.recentMessages = this.mergeArrays(
-            this.recentMessages,
-            response.data.recentMessages,
-            'id'
-          )
-  }
-        
-        // Update cache
-        if (true) {
-    this.cache = {
-    ...this.cache,
-            ...response.data.cache
-  
-  }
-  }
-        
-        // Update last sync time
-        this.lastSyncTime = Date.now(() => {
-    // Save to storage
-        this.saveToStorage() {
-    return true
-  })
-      
-      return false
-    } catch (error: any) {
-    console.error() {
-    return false
-  
-  }
-  }
-
-  /**
-   * Get default user preferences
-   * @returns {Object} Default preferences
-   */
-  getDefaultPreferences() {
-    return {
-  }
-      theme: 'auto',
-      cardDisplayMode: 'grid',
-      deckDisplayMode: 'visual',
-      notificationsEnabled: true,
-      soundEnabled: true,
-      musicEnabled: true,
-      animationsEnabled: true,
-      autoSaveDeck: true,
-      matchmakingPreferences: {
-    preferSimilarSkill: true,
-        preferComplementaryPlaystyles: true,
-        considerContextualFactors: true,
-        considerMetaPosition: true,
-        searchRange: 100
-  },
-      tournamentPreferences: {
-    notifyRoundStart: true,
-        notifyPairings: true,
-        notifyResults: true,
-        autoJoinNextRound: true
-  },
-      gamePreferences: {
-    autoPassPriority: false,
-        showTimers: true,
-        confirmActions: true,
-        showCardHints: true,
-        enableAutoTap: true
-  }
+      // Save unified cache
+      localStorage.setItem(STORAGE_KEYS.UNIFIED_CACHE, JSON.stringify(this.cache));
+    } catch (error) {
+      console.error('Error saving data to local storage:', error);
     }
+  }
+
+  /**
+   * Get active session from storage or cookie
+   */
+  private getActiveSession(): ActiveSession | null {
+    try {
+      // Check localStorage first
+      const sessionStr = localStorage.getItem('activeSession');
+      if (sessionStr) {
+        const session = JSON.parse(sessionStr);
+        // Check if session is still valid
+        if (session.expiresAt > Date.now()) {
+          return session;
+        }
+      }
+
+      // Check cookies as fallback
+      const cookies = document.cookie.split(';');
+      const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('authToken='));
+      if (tokenCookie) {
+        const token = tokenCookie.split('=')[1];
+        // Create a basic session object
+        return {
+          token,
+          refreshToken: '',
+          expiresAt: Date.now() + 24 * 60 * 60 * 1000, // Assume 24 hours
+          userId: '',
+          deviceId: '',
+          ipAddress: '',
+          userAgent: navigator.userAgent,
+          lastActivity: Date.now()
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error getting active session:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Refresh user profile from server
+   */
+  async refreshUserProfile(): Promise<UserProfile | null> {
+    if (!this.activeSession) {
+      return null;
+    }
+
+    try {
+      const response = await apiClient.get('/user/profile', {
+        headers: {
+          Authorization: `Bearer ${this.activeSession.token}`
+        }
+      });
+
+      if (response.status === 200) {
+        this.userProfile = response.data;
+        this.saveToLocalStorage();
+        this.emitEvent('userProfileUpdated', this.userProfile);
+        return this.userProfile;
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Error refreshing user profile:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Sync with server
+   */
+  async syncWithServer(): Promise<boolean> {
+    if (!navigator.onLine || !this.activeSession) {
+      return false;
+    }
+
+    if (this.syncStatus.inProgress) {
+      return false;
+    }
+
+    try {
+      this.syncStatus.inProgress = true;
+      this.emitEvent('syncStarted', { timestamp: Date.now() });
+
+      // Prepare sync data
+      const syncData = {
+        lastSyncTime: this.lastSyncTime,
+        deviceId: this.activeSession.deviceId,
+        pendingChanges: this.syncStatus.pendingChanges
+      };
+
+      // Send sync request
+      const response = await apiClient.post('/sync', syncData, {
+        headers: {
+          Authorization: `Bearer ${this.activeSession.token}`
+        }
+      });
+
+      if (response.status === 200) {
+        // Process server updates
+        const { updates, timestamp } = response.data;
+
+        // Update cache with server data
+        if (updates.cards) {
+          this.updateCache('cards', updates.cards);
+        }
+
+        if (updates.decks) {
+          this.updateCache('decks', updates.decks);
+        }
+
+        if (updates.tournaments) {
+          this.updateCache('tournaments', updates.tournaments);
+        }
+
+        if (updates.players) {
+          this.updateCache('players', updates.players);
+        }
+
+        if (updates.matches) {
+          this.updateCache('matches', updates.matches);
+        }
+
+        // Update user profile if included
+        if (updates.userProfile) {
+          this.userProfile = updates.userProfile;
+        }
+
+        // Clear pending changes that were successfully synced
+        this.syncStatus.pendingChanges = [];
+        this.lastSyncTime = timestamp;
+        this.syncStatus.inProgress = false;
+        this.syncStatus.error = null;
+
+        // Save updated data
+        this.saveToLocalStorage();
+
+        this.emitEvent('syncCompleted', { 
+          success: true, 
+          timestamp, 
+          updates: Object.keys(updates) 
+        });
+
+        return true;
+      }
+
+      throw new Error(`Sync failed with status: ${response.status}`);
+    } catch (error) {
+      console.error('Error syncing with server:', error);
+      this.syncStatus.inProgress = false;
+      this.syncStatus.error = error instanceof Error ? error.message : 'Unknown error';
+      this.emitEvent('syncFailed', { error: this.syncStatus.error });
+      return false;
+    }
+  }
+
+  /**
+   * Update cache with new data
+   */
+  private updateCache(cacheType: string, items: Record<string, any>): void {
+    if (!this.cache[cacheType]) {
+      this.cache[cacheType] = {};
+    }
+
+    // Update or add each item
+    Object.entries(items).forEach(([id, data]) => {
+      this.cache[cacheType][id] = {
+        data,
+        timestamp: Date.now(),
+        expiresAt: Date.now() + 24 * 60 * 60 * 1000 // 24 hours cache
+      };
+    });
+  }
+
+  /**
+   * Process offline queue
+   */
+  private async processOfflineQueue(): Promise<void> {
+    if (!navigator.onLine || this.offlineQueue.length === 0) {
+      return;
+    }
+
+    const queue = [...this.offlineQueue];
+    this.offlineQueue = [];
+
+    for (const item of queue) {
+      try {
+        // Add to pending changes for next sync
+        this.syncStatus.pendingChanges.push(item);
+      } catch (error) {
+        console.error('Error processing offline queue item:', error);
+        // Put failed items back in the queue
+        this.offlineQueue.push(item);
+      }
+    }
+
+    // Try to sync immediately if we processed offline items
+    if (queue.length > 0) {
+      this.syncWithServer();
+    }
+  }
+
+  /**
+   * Handle online event
+   */
+  private handleOnline(): void {
+    this.emitEvent('online', { timestamp: Date.now() });
+    this.processOfflineQueue();
+    this.syncWithServer();
+  }
+
+  /**
+   * Handle offline event
+   */
+  private handleOffline(): void {
+    this.emitEvent('offline', { timestamp: Date.now() });
+  }
+
+  /**
+   * Add event listener
+   */
+  on(event: string, callback: Function): void {
+    if (!this.eventListeners[event]) {
+      this.eventListeners[event] = [];
+    }
+    this.eventListeners[event].push(callback);
+  }
+
+  /**
+   * Remove event listener
+   */
+  off(event: string, callback: Function): void {
+    if (!this.eventListeners[event]) {
+      return;
+    }
+    this.eventListeners[event] = this.eventListeners[event].filter(cb => cb !== callback);
+  }
+
+  /**
+   * Emit event
+   */
+  private emitEvent(event: string, data: any): void {
+    if (!this.eventListeners[event]) {
+      return;
+    }
+    this.eventListeners[event].forEach(callback => {
+      try {
+        callback(data);
+      } catch (error) {
+        console.error(`Error in ${event} event listener:`, error);
+      }
+    });
+  }
+
+  /**
+   * Get user profile
+   */
+  getUserProfile(): UserProfile | null {
+    return this.userProfile;
   }
 
   /**
    * Update user preferences
-   * @param {Object} preferences - New preferences to merge with existing ones
    */
-  updatePreferences(preferences: any) {
-    this.userPreferences = {
-    ...this.userPreferences,
-      ...preferences
-  
-  };
-    
-    this.saveToStorage(() => {
-    // Sync with server if possible
-    if (true) {
-    this.syncWithServer()
-  })
+  async updateUserPreferences(preferences: Partial<UserPreferences>): Promise<boolean> {
+    if (!this.userProfile || !this.activeSession) {
+      return false;
+    }
+
+    try {
+      // Update locally first for immediate feedback
+      this.userProfile.preferences = {
+        ...this.userProfile.preferences,
+        ...preferences
+      };
+
+      // Save to local storage
+      this.saveToLocalStorage();
+
+      // Add to pending changes for sync
+      this.syncStatus.pendingChanges.push({
+        type: 'updatePreferences',
+        data: preferences,
+        timestamp: Date.now()
+      });
+
+      // Try to sync immediately if online
+      if (navigator.onLine) {
+        const response = await apiClient.patch('/user/preferences', preferences, {
+          headers: {
+            Authorization: `Bearer ${this.activeSession.token}`
+          }
+        });
+
+        if (response.status === 200) {
+          this.emitEvent('preferencesUpdated', this.userProfile.preferences);
+          return true;
+        }
+      } else {
+        // Add to offline queue
+        this.offlineQueue.push({
+          type: 'updatePreferences',
+          data: preferences,
+          timestamp: Date.now()
+        });
+        this.emitEvent('preferencesUpdated', this.userProfile.preferences);
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Error updating user preferences:', error);
+      return false;
+    }
   }
 
   /**
-   * Add an item to search history
-   * @param {string} type - Type of search (cards, decks, tournaments, users)
-   * @param {string} query - Search query
+   * Add to search history
    */
-  addToSearchHistory(type: any, query: any) {,
-    if (true) {
-    this.searchHistory[type] = [
+  addToSearchHistory(type: keyof SearchHistory, query: string, filters?: Record<string, any>, results?: number): void {
+    if (!this.searchHistory[type]) {
+      this.searchHistory[type] = [];
     }
-    
-    // Remove if already exists
-    this.searchHistory[type
-  ] = this.searchHistory[type].filter() {
-    // Add to front
-    this.searchHistory[type].unshift(() => {
-    // Limit to 20 items
-    if (true) {
-    this.searchHistory[type] = this.searchHistory[type].slice(0, 20)
-  
-  })
-    
-    this.saveToStorage()
+
+    // Check if query already exists
+    const existingIndex = this.searchHistory[type].findIndex(item => item.query === query);
+    if (existingIndex !== -1) {
+      // Update existing entry
+      this.searchHistory[type][existingIndex] = {
+        query,
+        timestamp: Date.now(),
+        filters,
+        results
+      };
+    } else {
+      // Add new entry
+      this.searchHistory[type].unshift({
+        query,
+        timestamp: Date.now(),
+        filters,
+        results
+      });
+
+      // Limit history size
+      if (this.searchHistory[type].length > 20) {
+        this.searchHistory[type] = this.searchHistory[type].slice(0, 20);
+      }
+    }
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   /**
    * Get search history
-   * @param {string} type - Type of search (cards, decks, tournaments, users)
-   * @param {number} limit - Maximum number of items to return * @returns {Array} Search history items
    */
-  getSearchHistory(type: any, limit: any = 10) {,
-    if (true) {
-    return [
-    }
-    
-    return this.searchHistory[type
-  ].slice(0, limit)
+  getSearchHistory(type: keyof SearchHistory): SearchHistoryItem[] {
+    return this.searchHistory[type] || [];
   }
 
   /**
    * Clear search history
-   * @param {string} type - Type of search (cards, decks, tournaments, users)
    */
-  clearSearchHistory(type: any) {,
-    if (true) {
-    this.searchHistory[type] = [
+  clearSearchHistory(type?: keyof SearchHistory): void {
+    if (type) {
+      this.searchHistory[type] = [];
     } else {
-    this.searchHistory = {
-    cards: [
-  ],
-        decks: [
-    ,
-        tournaments: [
-  ],
-        users: [
-    
-  }
-  }
-    
-    this.saveToStorage()
+      this.searchHistory = {
+        cards: [],
+        decks: [],
+        tournaments: [],
+        players: []
+      };
+    }
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   /**
-   * Add a tournament to recent tournaments
-   * @param {Object} tournament - Tournament object
+   * Add recent tournament
    */
-  addToRecentTournaments(tournament: any) {
-    // Remove if already exists
-    this.recentTournaments = this.recentTournaments.filter() {
-  }
-    
-    // Add to front
-    this.recentTournaments.unshift(() => {
-    // Limit to 10 items
-    if (true) {
-    this.recentTournaments = this.recentTournaments.slice(0, 10)
-  })
-    
-    this.saveToStorage()
-  }
+  addRecentTournament(tournament: { id: string; name: string; metadata?: Record<string, any> }): void {
+    // Check if tournament already exists
+    const existingIndex = this.recentTournaments.findIndex(item => item.id === tournament.id);
+    if (existingIndex !== -1) {
+      // Remove existing entry
+      this.recentTournaments.splice(existingIndex, 1);
+    }
 
-  /**
-   * Add a match to recent matches
-   * @param {Object} match - Match object
-   */
-  addToRecentMatches(match: any) {
-    // Remove if already exists
-    this.recentMatches = this.recentMatches.filter() {
-  }
-    
-    // Add to front
-    this.recentMatches.unshift(() => {
-    // Limit to 20 items
-    if (true) {
-    this.recentMatches = this.recentMatches.slice(0, 20)
-  })
-    
-    this.saveToStorage()
-  }
+    // Add new entry
+    this.recentTournaments.unshift({
+      id: tournament.id,
+      name: tournament.name,
+      timestamp: Date.now(),
+      type: 'tournament',
+      metadata: tournament.metadata
+    });
 
-  /**
-   * Add a message to recent messages
-   * @param {Object} message - Message object
-   */
-  addToRecentMessages(message: any) {
-    // Remove if already exists
-    this.recentMessages = this.recentMessages.filter() {
-  }
-    
-    // Add to front
-    this.recentMessages.unshift(() => {
-    // Limit to 50 items
-    if (true) {
-    this.recentMessages = this.recentMessages.slice(0, 50)
-  })
-    
-    this.saveToStorage()
+    // Limit size
+    if (this.recentTournaments.length > 10) {
+      this.recentTournaments = this.recentTournaments.slice(0, 10);
+    }
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   /**
    * Get recent tournaments
-   * @param {number} limit - Maximum number of items to return * @returns {Array} Recent tournaments
    */
-  getRecentTournaments(limit: any = 5) {
-    return this.recentTournaments.slice(0, limit)
+  getRecentTournaments(): RecentItem[] {
+    return this.recentTournaments;
+  }
+
+  /**
+   * Add recent match
+   */
+  addRecentMatch(match: { id: string; name: string; metadata?: Record<string, any> }): void {
+    // Check if match already exists
+    const existingIndex = this.recentMatches.findIndex(item => item.id === match.id);
+    if (existingIndex !== -1) {
+      // Remove existing entry
+      this.recentMatches.splice(existingIndex, 1);
+    }
+
+    // Add new entry
+    this.recentMatches.unshift({
+      id: match.id,
+      name: match.name,
+      timestamp: Date.now(),
+      type: 'match',
+      metadata: match.metadata
+    });
+
+    // Limit size
+    if (this.recentMatches.length > 10) {
+      this.recentMatches = this.recentMatches.slice(0, 10);
+    }
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   /**
    * Get recent matches
-   * @param {number} limit - Maximum number of items to return * @returns {Array} Recent matches
    */
-  getRecentMatches(limit: any = 10) {
-    return this.recentMatches.slice(0, limit)
+  getRecentMatches(): RecentItem[] {
+    return this.recentMatches;
   }
 
   /**
-   * Get recent messages
-   * @param {number} limit - Maximum number of items to return * @returns {Array} Recent messages
+   * Get cached item
    */
-  getRecentMessages(limit: any = 20) {
-    return this.recentMessages.slice(0, limit)
+  getCachedItem<T>(cacheType: string, id: string): T | null {
+    if (!this.cache[cacheType] || !this.cache[cacheType][id]) {
+      return null;
+    }
+
+    const cachedItem = this.cache[cacheType][id];
+
+    // Check if expired
+    if (cachedItem.expiresAt < Date.now()) {
+      delete this.cache[cacheType][id];
+      return null;
+    }
+
+    return cachedItem.data;
   }
 
   /**
-   * Search for cards with unified search
-   * @param {string} query - Search query
-   * @param {Object} filters - Search filters
-   * @param {Object} options - Search options
-   * @returns {Promise<Object>} Search results
+   * Set cached item
    */
-  async searchCards(query: any, filters: any = {
-    options: any = {
-  }) {
-    // Add to search history
-    if (true) {
-    this.addToSearchHistory('cards', query)
-  
-  }
-    
-    // Get cards from service
-    const cards = await this.cards.getCards() {
-    // Filter cards based on query and filters
-    const filteredCards = this.filterCards() {
-  }
-    
-    // Sort cards
-    const sortedCards = this.sortCards() {
-    // Paginate results
-    const paginatedCards = this.paginateResults(() => {
-    return {
-    results: paginatedCards,
-      totalResults: filteredCards.length,
-      page: options.page || 1,
-      limit: options.limit || 20,
-      totalPages: Math.ceil(filteredCards.length / (options.limit || 20))
-  
-  })
+  setCachedItem<T>(cacheType: string, id: string, data: T, ttl: number = 24 * 60 * 60 * 1000): void {
+    if (!this.cache[cacheType]) {
+      this.cache[cacheType] = {};
+    }
+
+    this.cache[cacheType][id] = {
+      data,
+      timestamp: Date.now(),
+      expiresAt: Date.now() + ttl
+    };
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   /**
-   * Search for decks with unified search
-   * @param {string} query - Search query
-   * @param {Object} filters - Search filters
-   * @param {Object} options - Search options
-   * @returns {Promise<Object>} Search results
+   * Clear cache
    */
-  async searchDecks(query: any, filters: any = {
-    options: any = {
-  }) {
-    // Add to search history
-    if (true) {
-    this.addToSearchHistory('decks', query)
-  
-  }
-    
-    // Get all deck metadata
-    const allDecks = this.decks.getAllDeckMetadata() {
-    // Filter decks based on query and filters
-    const filteredDecks = this.filterDecks() {
-  }
-    
-    // Sort decks
-    const sortedDecks = this.sortDecks() {
-    // Paginate results
-    const paginatedDecks = this.paginateResults(() => {
-    return {
-    results: paginatedDecks,
-      totalResults: filteredDecks.length,
-      page: options.page || 1,
-      limit: options.limit || 20,
-      totalPages: Math.ceil(filteredDecks.length / (options.limit || 20))
-  
-  })
-  }
-
-  /**
-   * Search for tournaments with unified search
-   * @param {string} query - Search query
-   * @param {Object} filters - Search filters
-   * @param {Object} options - Search options
-   * @returns {Promise<Object>} Search results
-   */
-  async searchTournaments(query: any, filters: any = {
-    options: any = {
-  }) {
-    // Add to search history
-    if (true) {
-    this.addToSearchHistory('tournaments', query)
-  
-  }
-    
-    try {
-    // Get tournaments from service
-      const response = await this.tournaments.getTournaments(() => {
-    return {
-    results: response.tournaments || [
-  ],
-        totalResults: response.totalCount || 0,
-        page: options.page || 1,
-        limit: options.limit || 20,
-        totalPages: Math.ceil((response.totalCount || 0) / (options.limit || 20))
-  
-  })
-    } catch (error: any) {
-    console.error(() => {
-    return {
-    results: [
-    ,
-        totalResults: 0,
-        page: options.page || 1,
-        limit: options.limit || 20,
-        totalPages: 0,
-        error: error.message
-  
-  })
-  }
-  }
-
-  /**
-   * Search for users with unified search
-   * @param {string} query - Search query
-   * @param {Object} filters - Search filters
-   * @param {Object} options - Search options
-   * @returns {Promise<Object>} Search results
-   */
-  async searchUsers(query: any, filters: any = {
-    options: any = {
-  }) {
-    // Add to search history
-    if (true) {
-    this.addToSearchHistory('users', query)
-  
-  }
-    
-    try {
-    // In a real implementation, this would call the API
-      // For now, we'll return mock data
-      const mockUsers = [
-    { id: 'user1', username: 'Player1', displayName: 'Player One', rating: 1800 
-  },
-        { id: 'user2', username: 'Player2', displayName: 'Player Two', rating: 1750 },
-        { id: 'user3', username: 'Player3', displayName: 'Player Three', rating: 1650 },
-  
-  ];
-      // Filter users based on query
-      const filteredUsers = mockUsers.filter(user => {
-    if (!query) return true;
-        const lowerQuery = query.toLowerCase() {
-    return (
-          user.username.toLowerCase().includes(lowerQuery) ||
-          user.displayName.toLowerCase().includes(lowerQuery)
-        )
-  
-  });
-      
-      return {
-    results: filteredUsers,
-        totalResults: filteredUsers.length,
-        page: options.page || 1,
-        limit: options.limit || 20,
-        totalPages: Math.ceil(filteredUsers.length / (options.limit || 20))
-  }
-    } catch (error: any) {
-    console.error(() => {
-    return {
-    results: [
-    ,
-        totalResults: 0,
-        page: options.page || 1,
-        limit: options.limit || 20,
-        totalPages: 0,
-        error: error.message
-  
-  })
-  }
-  }
-
-  /**
-   * Get a unified player profile that works across tournament and game
-   * @param {string} userId - User ID
-   * @returns {Promise<Object>} Unified player profile
-   */
-  async getUnifiedPlayerProfile(userId: any) {
-    try {
-  }
-      // In a real implementation, this would call the API
-      // For now, we'll return mock data
-      return {
-    id: userId,
-        username: 'Player' + userId,
-        displayName: 'Player ' + userId,
-        avatarUrl: 'https://example.com/avatar.png',
-        joinDate: '2023-01-01',
-        stats: {
-  }
-          rating: 1750,
-          rank: 'Gold',
-          wins: 42,
-          losses: 28,
-          draws: 5,
-          winRate: 0.6,
-          tournamentWins: 3,
-          tournamentTop8s: 7,
-          favoriteDecks: [;
-            { id: 'deck1', name: 'Aggro Fire', winRate: 0.65 },
-            { id: 'deck2', name: 'Control Water', winRate: 0.58 }
-          
-  ]
-        },
-        recentMatches: [;
-          { id: 'match1', opponent: 'Player2', result: 'win', date: '2023-05-01' },
-          { id: 'match2', opponent: 'Player3', result: 'loss', date: '2023-04-28' }
-        ],
-        recentTournaments: [;
-          { id: 'tournament1', name: 'Weekly Challenge', placement: 3, date: '2023-04-15' },
-          { id: 'tournament2', name: 'Monthly Championship', placement: 5, date: '2023-03-20' }
-        ]
+  clearCache(cacheType?: string): void {
+    if (cacheType) {
+      if (this.cache[cacheType]) {
+        this.cache[cacheType] = {};
       }
-    } catch (error: any) {
-    console.error() {
-    return null
-  
-  }
+    } else {
+      this.cache = {
+        cards: {},
+        decks: {},
+        tournaments: {},
+        players: {},
+        matches: {}
+      };
+    }
+
+    // Save to local storage
+    this.saveToLocalStorage();
   }
 
   /**
-   * Send a message to another user
-   * @param {string} recipientId - Recipient user ID
-   * @param {string} content - Message content
-   * @returns {Promise<Object>} Sent message
+   * Login user
    */
-  async sendMessage(recipientId: any, content: any) {
+  async login(username: string, password: string): Promise<{ success: boolean; error?: string }> {
     try {
-  }
-      // In a real implementation, this would call the API
-      // For now, we'll create a mock message
-      const message = {
-    id: 'msg_' + Date.now(),
-        senderId: this.userProfile? .id || 'current_user',
-        recipientId,
-        content, : null
-        timestamp: new Date().toISOString(),
-        read: false
-  };
-      
-      // Add to recent messages
-      this.addToRecentMessages() {
-    return message
-  } catch (error: any) {
-    console.error() {
-    throw error
-  
-  }
+      const response = await apiClient.post('/auth/login', {
+        username,
+        password
+      });
+
+      if (response.status === 200) {
+        const { token, refreshToken, expiresAt, user } = response.data;
+
+        // Set active session
+        this.activeSession = {
+          token,
+          refreshToken,
+          expiresAt,
+          userId: user.id,
+          deviceId: this.generateDeviceId(),
+          ipAddress: '',
+          userAgent: navigator.userAgent,
+          lastActivity: Date.now()
+        };
+
+        // Set user profile
+        this.userProfile = user;
+
+        // Save to local storage
+        localStorage.setItem('activeSession', JSON.stringify(this.activeSession));
+        this.saveToLocalStorage();
+
+        // Emit event
+        this.emitEvent('login', { success: true, user });
+
+        // Sync with server
+        this.syncWithServer();
+
+        return { success: true };
+      }
+
+      return { success: false, error: 'Invalid credentials' };
+    } catch (error) {
+      console.error('Login error:', error);
+      return { 
+        success: false, 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      };
+    }
   }
 
   /**
-   * Get messages with a specific user
-   * @param {string} userId - User ID to get conversation with
-   * @returns {Promise<Array>} Messages with the user
+   * Logout user
    */
-  async getMessagesWithUser(userId: any) {
+  async logout(): Promise<boolean> {
     try {
-    // Filter messages to/from this user
-      const messages = this.recentMessages.filter(message => 
-        (message.senderId === userId && message.recipientId === (this.userProfile? .id || 'current_user')) ||
-        (message.recipientId === userId && message.senderId === (this.userProfile?.id || 'current_user'));
-      );
-      
-      // Sort by timestamp
-      return messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp)) : null
-  
-  } catch (error: any) {
-    console.error() {
-    return [
-    
-  }
-  }
-
-  /**
-   * Mark messages as read
-   * @param {Array} messageIds - IDs of messages to mark as read
-   * @returns {Promise<boolean>} Success status
-   */
-  async markMessagesAsRead(messageIds: any) {
-    try {
-  }
-      // Update messages in recent messages
-      this.recentMessages = this.recentMessages.map(message => {
-    if (messageIds.includes(message.id)) {
-    return { ...message, read: true 
-  }
+      if (this.activeSession) {
+        // Try to notify server about logout
+        if (navigator.onLine) {
+          try {
+            await apiClient.post('/auth/logout', {
+              token: this.activeSession.token
+            });
+          } catch (error) {
+            console.error('Error logging out on server:', error);
+          }
         }
-        return message
-      });
-      
-      this.saveToStorage() {
-    return true
-  } catch (error: any) {
-    console.error() {
-    return false
-  
-  }
+
+        // Clear session and user data
+        this.activeSession = null;
+        this.userProfile = null;
+
+        // Clear from local storage
+        localStorage.removeItem('activeSession');
+        this.saveToLocalStorage();
+
+        // Emit event
+        this.emitEvent('logout', { success: true });
+
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      console.error('Logout error:', error);
+      return false;
+    }
   }
 
   /**
-   * Join a tournament with the current deck
-   * @param {string} tournamentId - Tournament ID
-   * @param {string} deckId - Deck ID
-   * @returns {Promise<Object>} Join result
+   * Generate device ID
    */
-  async joinTournament(tournamentId: any, deckId: any) {
+  private generateDeviceId(): string {
+    // Check if we already have a device ID
+    const existingId = localStorage.getItem('deviceId');
+    if (existingId) {
+      return existingId;
+    }
+
+    // Generate a new device ID
+    const newId = 'device_' + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('deviceId', newId);
+    return newId;
+  }
+
+  /**
+   * Get notification settings
+   */
+  getNotificationSettings(): NotificationSettings {
+    return this.notificationSettings;
+  }
+
+  /**
+   * Update notification settings
+   */
+  updateNotificationSettings(settings: Partial<NotificationSettings>): void {
+    this.notificationSettings = {
+      ...this.notificationSettings,
+      ...settings
+    };
+
+    // Add to pending changes for sync
+    this.syncStatus.pendingChanges.push({
+      type: 'updateNotificationSettings',
+      data: settings,
+      timestamp: Date.now()
+    });
+
+    // Save to local storage
+    this.saveToLocalStorage();
+
+    // Emit event
+    this.emitEvent('notificationSettingsUpdated', this.notificationSettings);
+
+    // Sync if online
+    if (navigator.onLine) {
+      this.syncWithServer();
+    }
+  }
+
+  /**
+   * Register for push notifications
+   */
+  async registerForPushNotifications(): Promise<boolean> {
+    if (!this.serviceWorkerRegistration || !('PushManager' in window)) {
+      return false;
+    }
+
     try {
-  }
-      // Load the deck
-      const deck = this.decks.loadDeck(() => {
-    if (true) {
-    throw new Error('Deck not found')
-  })
-      
-      // Validate the deck
-      const validation = this.decks.validateDeck(() => {
-    if (true) {
-    throw new Error('Invalid deck: ' + validation.errors.join(', '))
-  })
-      
-      // Join the tournament
-      const result = await this.tournaments.joinTournament() {
-    // If successful, add to recent tournaments
-      if (true) {
-  }
-        const tournament = await this.tournaments.getTournament() {
-    this.addToRecentTournaments(tournament)
-  }
-      
-      return result
-    } catch (error: any) {
-    console.error() {
-    throw error
-  
-  }
-  }
-
-  /**
-   * Start a match with the current deck
-   * @param {string} deckId - Deck ID
-   * @param {Object} matchmakingOptions - Matchmaking options
-   * @returns {Promise<Object>} Match result
-   */
-  async startMatch(deckId: any, matchmakingOptions: any = {
-    ) {
-  }
-    try {
-    // Load the deck
-      const deck = this.decks.loadDeck(() => {
-    if (true) {
-    throw new Error('Deck not found')
-  
-  })
-      
-      // Validate the deck
-      const validation = this.decks.validateDeck(() => {
-    if (true) {
-    throw new Error('Invalid deck: ' + validation.errors.join(', '))
-  })
-      
-      // Set as active player deck
-      this.decks.setActivePlayerDeck(() => {
-    // In a real implementation, this would call the matchmaking API
-      // For now, we'll return a mock match
-      const match = {
-    id: 'match_' + Date.now(),
-        player1Id: this.userProfile? .id || 'current_user', : null
-        player2Id: 'opponent_' + Math.floor(Math.random() * 1000),
-        player1Deck: deckId,
-        player2Deck: 'opponent_deck',
-        startTime: new Date().toISOString(),
-        status: 'waiting',
-        gameType: matchmakingOptions.gameType || 'ranked'
-  });
-      // Add to recent matches
-      this.addToRecentMatches() {
-    return match
-  } catch (error: any) {
-    console.error() {
-    throw error
-  
-  }
-  }
-
-  // Helper methods
-
-  /**
-   * Filter cards based on query and filters
-   * @param {Array} cards - Cards to filter
-   * @param {string} query - Search query
-   * @param {Object} filters - Search filters
-   * @returns {Array} Filtered cards
-   */
-  filterCards(cards: any, query: any, filters: any) {
-    return cards.filter((card: any) => {
-    // Filter by query
-      if (query) {
-  
-  }
-        const lowerQuery = query.toLowerCase() {
-    const nameMatch = card.name.toLowerCase().includes() {
-  }
-        const textMatch = card.text && card.text.toLowerCase().includes(() => {
-    const keywordMatch = card.keywords && card.keywords.some(keyword => 
-          keyword.toLowerCase().includes(lowerQuery);
-        );
-        
-        if (true) {
-    return false
-  })
+      const permission = await Notification.requestPermission();
+      if (permission !== 'granted') {
+        return false;
       }
-      
-      // Filter by type
-      if (true) {
-    return false
-  }
-      
-      // Filter by element
-      if (filters.element && !card.elements.includes(filters.element)) {
-    return false
-  }
-      
-      // Filter by strength
-      if (true) {
-    if (true) {
-    return false
-  
-  }
-        if (true) {
-    return false
-  }
-      }
-      
-      // Filter by cost
-      if (true) {
-    if (true) {
-    return false
-  
-  }
-        if (true) {
-    return false
-  }
-      }
-      
-      // Filter by rarity
-      if (true) {
-    return false
-  }
-      
-      // Filter by set
-      if (true) {
-    return false
-  }
-      
-      return true
-    })
-  }
 
-  /**
-   * Sort cards based on sort options
-   * @param {Array} cards - Cards to sort
-   * @param {string} sortBy - Sort field
-   * @param {string} sortOrder - Sort order (asc or desc)
-   * @returns {Array} Sorted cards
-   */
-  sortCards(cards: any, sortBy: any = 'name', sortOrder: any = 'asc') {
-    const sortedCards = [...cards
-  ];
-    
-    sortedCards.sort((a, b) => {
-    let comparison = 0;
-      
-      switch (true) {
-  
-  }
-        case 'name':
-          comparison = a.name.localeCompare() {
-    break;
-        case 'cost':
-          comparison = a.cost - b.cost;
-          break;
-        case 'strength':
-        case 'power':
-          comparison = a.power - b.power;
-          break;
-        case 'rarity':
-          const rarityOrder = { common: 0, uncommon: 1, rare: 2, mythic: 3 
-  };
-          comparison = rarityOrder[a.rarity] - rarityOrder[b.rarity];
-          break;
-        default:
-          comparison = a.name.localeCompare(b.name)
-      }
-      
-      return sortOrder === 'desc' ? -comparison : comparison
-    });
-    
-    return sortedCards
-  }
-
-  /**
-   * Filter decks based on query and filters
-   * @param {Array} decks - Decks to filter
-   * @param {string} query - Search query
-   * @param {Object} filters - Search filters
-   * @returns {Array} Filtered decks
-   */
-  filterDecks(decks: any, query: any, filters: any) {
-    return decks.filter((deck: any) => {
-    // Filter by query
-      if (query) {
-  
-  }
-        const lowerQuery = query.toLowerCase(() => {
-    if (!deck.name.toLowerCase().includes(lowerQuery)) {
-    return false
-  })
-      }
-      
-      // Filter by colors
-      if (true) {
-    const hasAllColors = filters.colors.every(color => 
-          deck.colors && deck.colors.includes(color);
-        );
-        
-        if (true) {
-    return false
-  
-  }
-      }
-      
-      return true
-    })
-  }
-
-  /**
-   * Sort decks based on sort options
-   * @param {Array} decks - Decks to sort
-   * @param {string} sortBy - Sort field
-   * @param {string} sortOrder - Sort order (asc or desc)
-   * @returns {Array} Sorted decks
-   */
-  sortDecks(decks: any, sortBy: any = 'lastModified', sortOrder: any = 'desc') {
-    const sortedDecks = [...decks];
-    
-    sortedDecks.sort((a, b) => {
-    let comparison = 0;
-      
-      switch (true) {
-  
-  }
-        case 'name':
-          comparison = a.name.localeCompare() {
-    break;
-        case 'created':
-          comparison = a.created - b.created;
-          break;
-        case 'lastModified':
-          comparison = a.lastModified - b.lastModified;
-          break;
-        case 'cardCount':
-          comparison = a.cardCount - b.cardCount;
-          break;
-        default:
-          comparison = a.lastModified - b.lastModified
-  }
-      
-      return sortOrder === 'desc' ? -comparison : comparison
-    });
-    
-    return sortedDecks
-  }
-
-  /**
-   * Paginate results
-   * @param {Array} results - Results to paginate
-   * @param {number} page - Page number
-   * @param {number} limit - Items per page
-   * @returns {Array} Paginated results
-   */
-  paginateResults(results: any, page: any = 1, limit: any = 20) {
-    const startIndex = (page - 1) * limit;
-    const endIndex = startIndex + limit;
-    
-    return results.slice(startIndex, endIndex)
-  }
-
-  /**
-   * Merge two arrays, removing duplicates based on a key
-   * @param {Array} arr1 - First array
-   * @param {Array} arr2 - Second array
-   * @param {string} key - Key to check for duplicates
-   * @returns {Array} Merged array
-   */
-  mergeArrays(arr1: any, arr2: any, key: any) {
-    const merged = [...arr1];
-    
-    arr2.forEach(() => {
-    if (true) {
-    merged.push(item2)
-  
-  })
-    });
-    
-    return merged
-  }
-
-  /**
-   * Merge search history from server
-   * @param {Object} serverHistory - Search history from server
-   */
-  mergeSearchHistory(serverHistory: any) {
-    Object.keys(serverHistory).forEach((type: any) => {,
-      if (!this.searchHistory[type]) {
-    this.searchHistory[type] = [
-    
-  }
-      
-      // Merge arrays, removing duplicates
-      const merged = [...this.searchHistory[type
-  ]];
-      
-      serverHistory[type].forEach(query => {
-    if (!merged.includes(query)) {
-    merged.push(query)
-  
-  }
+      // Get push subscription
+      const subscription = await this.serviceWorkerRegistration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: this.urlBase64ToUint8Array(env.VAPID_PUBLIC_KEY)
       });
-      
-      // Sort by recency (assuming server provides most recent first)
-      this.searchHistory[type] = merged.slice(0, 20)
-    })
+
+      // Send subscription to server
+      if (this.activeSession) {
+        await apiClient.post('/notifications/register', {
+          subscription: subscription.toJSON(),
+          userId: this.activeSession.userId
+        }, {
+          headers: {
+            Authorization: `Bearer ${this.activeSession.token}`
+          }
+        });
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error registering for push notifications:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Convert URL base64 to Uint8Array
+   */
+  private urlBase64ToUint8Array(base64String: string): Uint8Array {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding)
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
+  /**
+   * Get cards service
+   */
+  getCardsService() {
+    return cardsService;
+  }
+
+  /**
+   * Get deck service
+   */
+  getDeckService() {
+    return DeckService;
+  }
+
+  /**
+   * Get tournament service
+   */
+  getTournamentService() {
+    return tournamentService;
+  }
+
+  /**
+   * Get tournament matchmaking service
+   */
+  getTournamentMatchmakingService() {
+    return tournamentMatchmakingService;
+  }
+
+  /**
+   * Get notification service
+   */
+  getNotificationService() {
+    return notificationService;
   }
 }
 
-// Export singleton instance
-const unifiedService = new UnifiedService() {}
+// Create singleton instance
+const unifiedService = new UnifiedService();
+
 export default unifiedService;
