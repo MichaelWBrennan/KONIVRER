@@ -15,17 +15,17 @@ const DeckSearch = (): any => {
   const [sortOrder, setSortOrder] = useState('desc');
   const [viewMode, setViewMode] = useState('grid');
   const [filters, setFilters] = useState({
-    element: 'all',
-    rarity: 'all',
+    element: 'all',,
+    rarity: 'all',,
     author: 'all',
   });
   // Sample deck data
   const [decks] = useState([
     {
       id: 1,
-      name: 'Inferno Aggro',
+      name: 'Inferno Aggro',,
       author: 'FireMaster',
-      element: 'Inferno',
+      element: 'Inferno',,
       likes: 245,
       views: 1520,
       rating: 4.8,
@@ -37,9 +37,9 @@ const DeckSearch = (): any => {
     },
     {
       id: 2,
-      name: 'Submerged Control',
+      name: 'Submerged Control',,
       author: 'AquaStrategist',
-      element: 'Submerged',
+      element: 'Submerged',,
       likes: 189,
       views: 980,
       rating: 4.6,
@@ -51,9 +51,9 @@ const DeckSearch = (): any => {
     },
     {
       id: 3,
-      name: 'Steadfast Midrange',
+      name: 'Steadfast Midrange',,
       author: 'RockSolid',
-      element: 'Steadfast',
+      element: 'Steadfast',,
       likes: 156,
       views: 743,
       rating: 4.4,
@@ -65,9 +65,9 @@ const DeckSearch = (): any => {
     },
     {
       id: 4,
-      name: 'Gust Tempo',
+      name: 'Gust Tempo',,
       author: 'WindRider',
-      element: 'Gust',
+      element: 'Gust',,
       likes: 203,
       views: 1234,
       rating: 4.7,
@@ -79,9 +79,9 @@ const DeckSearch = (): any => {
     },
     {
       id: 5,
-      name: 'Brilliance Combo',
+      name: 'Brilliance Combo',,
       author: 'LightWeaver',
-      element: 'Brilliance',
+      element: 'Brilliance',,
       likes: 178,
       views: 892,
       rating: 4.5,
@@ -93,9 +93,9 @@ const DeckSearch = (): any => {
     },
     {
       id: 6,
-      name: 'Void Disruption',
+      name: 'Void Disruption',,
       author: 'VoidWalker',
-      element: 'Void',
+      element: 'Void',,
       likes: 134,
       views: 567,
       rating: 4.3,
@@ -339,7 +339,7 @@ const DeckListItem: React.FC<DeckListItemProps> = ({  deck  }) => (
             <select
               value={filters.element}
               onChange={e = />
-                setFilters({ ...filters, element: e.target.value })}
+                setFilters({ ...filters, element: e.target.value })},
               className="px-4 py-0 whitespace-nowrap bg-background border border-color rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">All Elements</option>

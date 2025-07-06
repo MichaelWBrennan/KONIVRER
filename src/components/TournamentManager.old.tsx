@@ -53,7 +53,7 @@ const TournamentManager = (): any => {
   const tournaments = [
     {
       id: 1,
-      name: 'KONIVRER Championship Series #1',
+      name: 'KONIVRER Championship Series #1',,
       date: '2025-06-15',
       time: '10:00 AM',
       location: 'Central Gaming Hub',
@@ -66,7 +66,7 @@ const TournamentManager = (): any => {
     },
     {
       id: 2,
-      name: 'Weekly Blitz Tournament',
+      name: 'Weekly Blitz Tournament',,
       date: '2025-06-12',
       time: '7:00 PM',
       location: 'Local Game Store',
@@ -80,7 +80,7 @@ const TournamentManager = (): any => {
     },
     {
       id: 3,
-      name: 'Draft Masters Cup',
+      name: 'Draft Masters Cup',,
       date: '2025-06-08',
       time: '2:00 PM',
       location: 'Elite Gaming Center',

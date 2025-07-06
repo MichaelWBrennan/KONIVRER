@@ -113,7 +113,7 @@ const DataProvider: React.FC<DataProviderProps> = ({  children  }) => {
     recentDecks.forEach(deck => {
       activities.push({
         id: `deck_${deck.id}`,
-        type: 'deck_created',
+        type: 'deck_created',,
         title: deck.name || 'Untitled Deck',
         description: deck.description || 'A new deck has been created',
         user: deck.author || 'Anonymous',
@@ -129,7 +129,7 @@ const DataProvider: React.FC<DataProviderProps> = ({  children  }) => {
       const simulatedActivities = [
         {
           id: 'tournament_1',
-          type: 'tournament_started',
+          type: 'tournament_started',,
           title: 'Weekly Standard Tournament',
           description: 'A new tournament has begun',
           user: 'Tournament System',
@@ -140,7 +140,7 @@ const DataProvider: React.FC<DataProviderProps> = ({  children  }) => {
         },
         {
           id: 'deck_featured',
-          type: 'deck_featured',
+          type: 'deck_featured',,
           title: 'Elemental Control',
           description:
             'This deck has been featured for its innovative strategy',

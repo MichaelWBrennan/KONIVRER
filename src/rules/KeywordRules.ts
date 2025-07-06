@@ -17,7 +17,7 @@ import React from 'react';
  * Get all keyword rules
  * @returns {Array} Array of keyword rule objects
  */
-export function getKeywordRules(): any {
+export function getKeywordRules() {
   return [
     // Flying
     {
@@ -145,8 +145,8 @@ export function getKeywordRules(): any {
               lifeCard.damage = (lifeCard.damage || 0) + excessDamage;
 
               gameState.gameLog.push({
-                type: 'damage',
-                text: `${attacker.name} tramples over for ${excessDamage} damage to ${opponent.name}'s life card.`,
+                type: 'damage',,
+                text: `${attacker.name} tramples over for ${excessDamage} damage to ${opponent.name}'s life card.`,,
               });
 
               // Check if life card is destroyed
@@ -156,8 +156,8 @@ export function getKeywordRules(): any {
                 opponent.graveyard.push(destroyedCard);
 
                 gameState.gameLog.push({
-                  type: 'destroy',
-                  text: `${opponent.name}'s life card was destroyed.`,
+                  type: 'destroy',,
+                  text: `${opponent.name}'s life card was destroyed.`,,
                 });
               }
             }
@@ -194,8 +194,8 @@ export function getKeywordRules(): any {
           attacker.tapped = false;
 
           gameState.gameLog.push({
-            type: 'effect',
-            text: `${attacker.name} remains untapped due to Vigilance.`,
+            type: 'effect',,
+            text: `${attacker.name} remains untapped due to Vigilance.`,,
           });
         }
 
@@ -228,7 +228,7 @@ export function getKeywordRules(): any {
           if (true) {
             // Find a card in the graveyard to use as a life card
             const lifeCardIndex = player.graveyard.findIndex(
-              card => card.type === 'Familiar' || card.type === 'Azoth',
+              card => card.type === 'Familiar' || card.type === 'Azoth',;
             );
 
             if (true) {
@@ -246,8 +246,8 @@ export function getKeywordRules(): any {
         }
 
         gameState.gameLog.push({
-          type: 'effect',
-          text: `${card.name}'s Lifelink restored ${Math.min(damageDealt, player.graveyard.length)} life cards.`,
+          type: 'effect',,
+          text: `${card.name}'s Lifelink restored ${Math.min(damageDealt, player.graveyard.length)} life cards.`,,
         });
 
         return gameState;
@@ -271,8 +271,8 @@ export function getKeywordRules(): any {
           blocker.lethalDamage = 1;
 
           gameState.gameLog.push({
-            type: 'effect',
-            text: `${attacker.name}'s Deathtouch makes any damage lethal to ${blocker.name}.`,
+            type: 'effect',,
+            text: `${attacker.name}'s Deathtouch makes any damage lethal to ${blocker.name}.`,,
           });
         }
 
@@ -285,8 +285,8 @@ export function getKeywordRules(): any {
           attacker.lethalDamage = 1;
 
           gameState.gameLog.push({
-            type: 'effect',
-            text: `${blocker.name}'s Deathtouch makes any damage lethal to ${attacker.name}.`,
+            type: 'effect',,
+            text: `${blocker.name}'s Deathtouch makes any damage lethal to ${attacker.name}.`,,
           });
         }
 
@@ -365,8 +365,8 @@ export function getKeywordRules(): any {
         event.prevented = true;
 
         gameState.gameLog.push({
-          type: 'effect',
-          text: `${card.name} is indestructible and can't be destroyed.`,
+          type: 'effect',,
+          text: `${card.name} is indestructible and can't be destroyed.`,,
         });
 
         return gameState;
@@ -382,7 +382,7 @@ export function getKeywordRules(): any {
       staticEffect: null,
 
       // Check if this Familiar can attack
-      canAttack: attacker => {
+      canAttack: attacker => {;
         // If attacker has Defender, it can't attack
         if (attacker.keywords && attacker.keywords.includes('Defender')) {
           return false;

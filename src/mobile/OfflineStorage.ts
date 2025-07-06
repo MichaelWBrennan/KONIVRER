@@ -114,7 +114,7 @@ export const saveMatchResult = async matchResult => {
       localStorage.getItem(STORAGE_KEYS.SYNC_QUEUE) || '[]',
     );
     syncQueue.push({
-      type: 'MATCH_RESULT',
+      type: 'MATCH_RESULT',,
       data: matchResult,
       id: Date.now(),
     });
@@ -250,7 +250,7 @@ export const processSyncQueue = async api => {
             processed++;
             break;
           default:
-            console.warn(`Unknown sync item type: ${item.type}`);
+            console.warn(`Unknown sync item type: ${item.type}`);,
             failed++;
         }
       } catch (error: any) {

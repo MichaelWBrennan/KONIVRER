@@ -39,8 +39,8 @@ export type AIDifficulty = 'easy' | 'medium' | 'hard' | 'expert' | 'master';
 
 export interface Card {
   id: string;
-  name: string;
-  type: CardType;
+  name: string;,
+  type: CardType;,
   subtype?: string;
   elements: Record<Element, number>;
   abilities?: {
@@ -81,7 +81,7 @@ export interface Card {
 
 export interface Player {
   id: string;
-  name: string;
+  name: string;,
   deck: Card[];
   hand: Card[];
   field: Card[];
@@ -134,7 +134,7 @@ export interface GameState {
   }
 
 export interface GameAction {
-  type: string;
+  type: string;,
   playerId: string;
   targetId?: string;
   cardId?: string;
@@ -144,7 +144,7 @@ export interface GameAction {
 }
 
 export interface GameEvent {
-  type: string;
+  type: string;,
   data: any;
   timestamp: number;
 }
@@ -216,16 +216,16 @@ export class UnifiedGameEngine {
       azoth: player.azoth || [],
       
       // Initialize resources
-      elements: player.elements || {
+      elements: player.elements || {;
         fire: 0,
         water: 0,
         earth: 0,
         air: 0,
         light: 0,
         dark: 0,
-        generic: 0
+        generic: 0;
       },
-      lifePoints: player.lifePoints || this.state.options.startingLifePoints
+      lifePoints: player.lifePoints || this.state.options.startingLifePoints;
     }));
     
     this.state.activePlayerIndex = 0;
@@ -378,7 +378,7 @@ export class UnifiedGameEngine {
     this.emitEvent('phaseChange', { 
       playerId: activePlayer.id, 
       from: currentPhase, 
-      to: this.state.phase 
+      to: this.state.phase ;
     });
   }
   
@@ -425,7 +425,7 @@ export class UnifiedGameEngine {
     this.emitEvent('turnChange', { 
       from: activePlayer.id, 
       to: newActivePlayer.id, 
-      turn: this.state.turn 
+      turn: this.state.turn ;
     });
   }
   
@@ -450,7 +450,7 @@ export class UnifiedGameEngine {
     // Emit turn start event
     this.emitEvent('turnStart', { 
       playerId: activePlayer.id, 
-      turn: this.state.turn 
+      turn: this.state.turn ;
     });
     
     // If the active player is AI, trigger AI turn
@@ -516,7 +516,7 @@ export class UnifiedGameEngine {
       zone.forEach(card => {
         if (card.modifiers && card.modifiers.untilEndOfTurn) {
           // Reset modifiers
-          if (card.modifiers.strength) {
+          if (card.modifiers.strength) {;
             card.modifiers.strength = 0;
           }
           
@@ -872,7 +872,7 @@ export class UnifiedGameEngine {
       // Find the blocker's controller
       const blockerController = this.state.players.find(player => 
         player.field.some(card => card.id === blocker.id) || 
-        player.combat.some(card => card.id === blocker.id)
+        player.combat.some(card => card.id === blocker.id);
       );
       
       if (blockerController) {
@@ -910,7 +910,7 @@ export class UnifiedGameEngine {
       // Find the source's controller
       const sourceController = this.state.players.find(player => 
         player.field.some(card => card.id === source.id) || 
-        player.combat.some(card => card.id === source.id)
+        player.combat.some(card => card.id === source.id);
       );
       
       if (sourceController) {
@@ -941,7 +941,7 @@ export class UnifiedGameEngine {
     this.emitEvent('damage', { 
       playerId, 
       amount, 
-      newLifeTotal: player.lifePoints 
+      newLifeTotal: player.lifePoints ;
     });
   }
   
@@ -964,13 +964,13 @@ export class UnifiedGameEngine {
     // Find the card's controller
     const controller = this.state.players.find(player => 
       player.field.some(c => c.id === card.id) || 
-      player.combat.some(c => c.id === card.id)
+      player.combat.some(c => c.id === card.id);
     );
     
     if (!controller) return;
     
     // Remove the card from play
-    const removeFromZone = (zone: Card[]): boolean => {
+    const removeFromZone = (zone: Card[]): boolean => {;
       const index = zone.findIndex(c => c.id === card.id);
       if (index !== -1) {
         zone.splice(index, 1);
@@ -993,7 +993,7 @@ export class UnifiedGameEngine {
       // Emit card destroyed event
       this.emitEvent('cardDestroyed', { 
         card, 
-        controllerId: controller.id 
+        controllerId: controller.id ;
       });
     }
   }
@@ -1069,7 +1069,7 @@ export class UnifiedGameEngine {
     
     // If playerId is provided, only search that player's cards
     const playersToSearch = playerId 
-      ? [this.getPlayerById(playerId)].filter(Boolean) as Player[]
+      ? [this.getPlayerById(playerId)].filter(Boolean) as Player[];
       : this.state.players;
     
     for (const player of playersToSearch) {
@@ -1237,9 +1237,9 @@ export class UnifiedGameEngine {
    */
   private emitEvent(eventType: string, data: any): void {
     const event: GameEvent = {
-      type: eventType,
+      type: eventType,,
       data,
-      timestamp: Date.now()
+      timestamp: Date.now();
     };
     
     this.events.push(event);
@@ -1433,12 +1433,12 @@ class AIDecisionEngine {
       if (azothCards.length > 0) {
         decisions.push({
           action: {
-            type: 'playCard',
+            type: 'playCard',,
             playerId: player.id,
-            cardId: azothCards[0].id
+            cardId: azothCards[0].id;
           },
           priority: 90,
-          reasoning: 'Play Azoth to increase resources'
+          reasoning: 'Play Azoth to increase resources';
         });
       }
     }
@@ -1502,9 +1502,9 @@ class AIDecisionEngine {
       
       decisions.push({
         action: {
-          type: 'playCard',
+          type: 'playCard',,
           playerId: player.id,
-          cardId: card.id
+          cardId: card.id;
         },
         priority,
         reasoning
@@ -1537,13 +1537,13 @@ class AIDecisionEngine {
           
           decisions.push({
             action: {
-              type: 'activateAbility',
+              type: 'activateAbility',,
               playerId: player.id,
               cardId: card.id,
-              value: i
+              value: i;
             },
             priority: 50,
-            reasoning: `Activate ${card.name}'s ability`
+            reasoning: `Activate ${card.name}'s ability`;
           });
         }
       }
@@ -1574,7 +1574,7 @@ class AIDecisionEngine {
       if (opponent.field.length > 0) {
         // Simple logic: attack if our creature is stronger
         const weakestOpponentCreature = opponent.field
-          .filter(c => c.type === 'Familiar')
+          .filter(c => c.type === 'Familiar');
           .sort((a, b) => (a.strength || 0) - (b.strength || 0))[0];
         
         if (weakestOpponentCreature && (card.strength || 0) > (weakestOpponentCreature.health || 0)) {
@@ -1588,13 +1588,13 @@ class AIDecisionEngine {
       if (shouldAttack) {
         decisions.push({
           action: {
-            type: 'attack',
+            type: 'attack',,
             playerId: player.id,
             cardId: card.id,
             targetId
           },
           priority: 70,
-          reasoning: targetId 
+          reasoning: targetId ;
             ? `Attack opponent's creature with ${card.name}`
             : `Attack opponent directly with ${card.name}`
         });
@@ -1624,7 +1624,7 @@ class AIDecisionEngine {
         const potentialBlockers = player.field
           .filter(card => card.type === 'Familiar' && !card.rested)
           .sort((a, b) => {
-            // Prefer creatures that can survive the block
+            // Prefer creatures that can survive the block;
             const aSurvives = (a.health || 0) > (attackingCard.strength || 0) ? 1 : 0;
             const bSurvives = (b.health || 0) > (attackingCard.strength || 0) ? 1 : 0;
             
@@ -1654,13 +1654,13 @@ class AIDecisionEngine {
           if (blockerSurvives || blockerKills) {
             decisions.push({
               action: {
-                type: 'block',
+                type: 'block',,
                 playerId: player.id,
                 cardId: bestBlocker.id,
-                targetId: attackingCard.id
+                targetId: attackingCard.id;
               },
               priority: 80,
-              reasoning: `Block ${attackingCard.name} with ${bestBlocker.name}`
+              reasoning: `Block ${attackingCard.name} with ${bestBlocker.name}`;
             });
           }
         }
@@ -1672,3 +1672,5 @@ class AIDecisionEngine {
 
 }
 export default UnifiedGameEngine;
+
+}

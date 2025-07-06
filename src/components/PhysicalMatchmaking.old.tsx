@@ -504,7 +504,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
 
   const PlayerModal = (): any => {
     const [formData, setFormData] = useState({
-      name: playerProfile?.name || '',
+      name: playerProfile?.name || '',,
       email: playerProfile?.email || '',
       rating: playerProfile?.rating || 1500,
       wins: playerProfile?.wins || 0,
@@ -557,7 +557,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 required
                 value={formData.name}
                 onChange={e = />
-                  setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  setFormData(prev => ({ ...prev, name: e.target.value }))},
                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -640,9 +640,9 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
 
   const TournamentModal = (): any => {
     const [formData, setFormData] = useState({
-      name: '',
+      name: '',,
       format: 'standard',
-      type: 'single-elimination',
+      type: 'single-elimination',,
       maxPlayers: 8,
       startDate: new Date().toISOString().split('T')[0],
     });
@@ -684,7 +684,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 required
                 value={formData.name}
                 onChange={e = />
-                  setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  setFormData(prev => ({ ...prev, name: e.target.value }))},
                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -710,7 +710,7 @@ const TournamentDetails: React.FC<TournamentDetailsProps> = ({  tournament, onCl
                 <select
                   value={formData.type}
                   onChange={e = />
-                    setFormData(prev => ({ ...prev, type: e.target.value }))}
+                    setFormData(prev => ({ ...prev, type: e.target.value }))},
                   className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="single-elimination">Single Elimination</option>

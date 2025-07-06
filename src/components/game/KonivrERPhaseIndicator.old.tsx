@@ -29,7 +29,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
   const phases = [
     { 
       id: 'start', 
-      name: 'Start', 
+      name: 'Start', ,
       icon: Play, 
       color: 'text-green-400',
       bg: 'bg-green-900/30',
@@ -37,7 +37,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
     },
     { 
       id: 'main', 
-      name: 'Main', 
+      name: 'Main', ,
       icon: Circle, 
       color: 'text-blue-400',
       bg: 'bg-blue-900/30',
@@ -45,7 +45,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
     },
     { 
       id: 'combat', 
-      name: 'Combat', 
+      name: 'Combat', ,
       icon: Sword, 
       color: 'text-red-400',
       bg: 'bg-red-900/30',
@@ -53,7 +53,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
     },
     { 
       id: 'postCombat', 
-      name: 'Post-Combat', 
+      name: 'Post-Combat', ,
       icon: Shield, 
       color: 'text-purple-400',
       bg: 'bg-purple-900/30',
@@ -61,7 +61,7 @@ const KonivrERPhaseIndicator: React.FC<KonivrERPhaseIndicatorProps> = ({  curren
     },
     { 
       id: 'refresh', 
-      name: 'Refresh', 
+      name: 'Refresh', ,
       icon: RotateCcw, 
       color: 'text-yellow-400',
       bg: 'bg-yellow-900/30',

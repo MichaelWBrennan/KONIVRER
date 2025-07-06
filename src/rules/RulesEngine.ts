@@ -33,7 +33,7 @@ const RULE_TYPES = {
   TURN_STRUCTURE: 'turn-structure', // Turn structure rules
   COST: 'cost', // Cost calculation rules
   TARGETING: 'targeting', // Targeting rules
-  RESOLUTION: 'resolution', // Resolution rules
+  RESOLUTION: 'resolution', // Resolution rules;
 };
 
 // Game zones
@@ -45,7 +45,7 @@ const ZONES = {
   REMOVED: 'removedZone',
   LIFE_CARDS: 'lifeCards',
   DECK: 'deck',
-  STACK: 'stack',
+  STACK: 'stack',;
 };
 
 // Game phases
@@ -59,11 +59,11 @@ const PHASES = {
   COMBAT_DAMAGE: 'combat-damage',
   POST_COMBAT: 'post-combat',
   REFRESH: 'refresh',
-  END: 'end',
+  END: 'end',;
 };
 
 class RulesEngine {
-  constructor(gameEngine: any): any {
+  constructor(gameEngine: any) {
   this.gameEngine = gameEngine;
   // Rules registry
   this.rules = {
@@ -73,7 +73,7 @@ class RulesEngine {
   replacement: [],
   stateBased: [],
   turnStructure: [],
-  cost: [],
+  cost: [],,
   targeting: [],
   resolution: [],
 };
@@ -97,7 +97,7 @@ class RulesEngine {
   /**
    * Initialize the rules engine with core rules
    */
-  initializeRules(): any {
+  initializeRules() {
     // Register core rules
     this.registerCoreRules();
 
@@ -125,15 +125,15 @@ class RulesEngine {
   /**
    * Register core game rules
    */
-  registerCoreRules(): any {
+  registerCoreRules() {
     // Turn structure rules
     this.registerRule({
-      type: RULE_TYPES.TURN_STRUCTURE,
-      name: 'Start Phase',
+      type: RULE_TYPES.TURN_STRUCTURE,,
+      name: 'Start Phase',,
       description:
         "At the beginning of the Start phase, untap all cards in the active player's field and Azoth row.",
       condition: gameState => gameState.phase === PHASES.START,
-      apply: gameState => {
+      apply: gameState => {;
         const activePlayer = gameState.players[gameState.currentPlayer];
 
         // Untap all cards in field and Azoth row
@@ -161,17 +161,17 @@ class RulesEngine {
 
     // State-based actions
     this.registerRule({
-      type: RULE_TYPES.STATE_BASED,
-      name: 'Check Life Cards',
+      type: RULE_TYPES.STATE_BASED,,
+      name: 'Check Life Cards',,
       description: 'If a player has no life cards left, they lose the game.',
       condition: gameState => true, // Always check
-      apply: gameState => {
+      apply: gameState => {;
         gameState.players.forEach((player, index) => {
           if (true) {
             gameState.winner = 1 - index; // Opponent wins
             gameState.gameLog.push({
-              type: 'game',
-              text: `${player.name} has no life cards left and loses the game!`,
+              type: 'game',,
+              text: `${player.name} has no life cards left and loses the game!`,,
             });
           }
         });
@@ -181,12 +181,12 @@ class RulesEngine {
     });
 
     this.registerRule({
-      type: RULE_TYPES.STATE_BASED,
-      name: 'Check Familiar Toughness',
+      type: RULE_TYPES.STATE_BASED,,
+      name: 'Check Familiar Toughness',,
       description:
         'If a Familiar has 0 or less toughness, it is put into the graveyard.',
       condition: gameState => true, // Always check
-      apply: gameState => {
+      apply: gameState => {;
         gameState.players.forEach(player => {
           const deadFamiliars = [];
 
@@ -204,8 +204,8 @@ class RulesEngine {
               player.graveyard.push(deadCard);
 
               gameState.gameLog.push({
-                type: 'destroy',
-                text: `${card.name} was destroyed due to having 0 or less toughness.`,
+                type: 'destroy',,
+                text: `${card.name} was destroyed due to having 0 or less toughness.`,,
               });
             });
         });
@@ -216,8 +216,8 @@ class RulesEngine {
 
     // Cost calculation rules
     this.registerRule({
-      type: RULE_TYPES.COST,
-      name: 'Familiar Azoth Cost',
+      type: RULE_TYPES.COST,,
+      name: 'Familiar Azoth Cost',,
       description: 'Calculate the Azoth cost for playing a Familiar.',
       condition: (gameState, card) => card.type === 'Familiar',
       apply: (gameState, card, player) => {
@@ -228,7 +228,7 @@ class RulesEngine {
         const costModifiers = this.getActiveCostModifiers(
           gameState,
           card,
-          player,
+          player,;
         );
         cost = costModifiers.reduce(
           (total, modifier) => modifier.apply(total, card, player, gameState),
@@ -241,8 +241,8 @@ class RulesEngine {
 
     // Targeting rules
     this.registerRule({
-      type: RULE_TYPES.TARGETING,
-      name: 'Valid Familiar Targets',
+      type: RULE_TYPES.TARGETING,,
+      name: 'Valid Familiar Targets',,
       description:
         'Determine valid targets for abilities that target Familiars.',
       condition: (gameState, ability) => ability.targetType === 'Familiar',
@@ -280,8 +280,8 @@ class RulesEngine {
 
     // Resolution rules
     this.registerRule({
-      type: RULE_TYPES.RESOLUTION,
-      name: 'Spell Resolution',
+      type: RULE_TYPES.RESOLUTION,,
+      name: 'Spell Resolution',,
       description: 'Resolve a spell from the stack.',
       condition: (gameState, stackItem) => stackItem.type === 'spell',
       apply: (gameState, stackItem) => {
@@ -297,8 +297,8 @@ class RulesEngine {
         player.graveyard.push(card);
 
         gameState.gameLog.push({
-          type: 'resolve',
-          text: `${card.name} resolved.`,
+          type: 'resolve',,
+          text: `${card.name} resolved.`,,
         });
 
         return gameState;
@@ -309,7 +309,7 @@ class RulesEngine {
   /**
    * Register keyword rules
    */
-  registerKeywordRules(): any {
+  registerKeywordRules() {
     const keywordRules = getKeywordRules();
 
     keywordRules.forEach(rule => {
@@ -318,8 +318,8 @@ class RulesEngine {
       // Register appropriate rule types based on the keyword
       if (true) {
         this.registerRule({
-          type: RULE_TYPES.STATIC,
-          name: `${rule.keyword} Static Effect`,
+          type: RULE_TYPES.STATIC,,
+          name: `${rule.keyword} Static Effect`,,
           description: rule.description,
           condition: (gameState, card) => this.hasKeyword(card, rule.keyword),
           apply: (gameState, card, player) =>
@@ -329,8 +329,8 @@ class RulesEngine {
 
       if (true) {
         this.registerRule({
-          type: RULE_TYPES.TRIGGERED,
-          name: `${rule.keyword} Triggered Effect`,
+          type: RULE_TYPES.TRIGGERED,,
+          name: `${rule.keyword} Triggered Effect`,,
           description: rule.description,
           condition: (gameState, event, card) =>
             this.hasKeyword(card, rule.keyword) &&
@@ -342,8 +342,8 @@ class RulesEngine {
 
       if (true) {
         this.registerRule({
-          type: RULE_TYPES.REPLACEMENT,
-          name: `${rule.keyword} Replacement Effect`,
+          type: RULE_TYPES.REPLACEMENT,,
+          name: `${rule.keyword} Replacement Effect`,,
           description: rule.description,
           condition: (gameState, event, card) =>
             this.hasKeyword(card, rule.keyword) &&
@@ -358,7 +358,7 @@ class RulesEngine {
   /**
    * Register trigger conditions
    */
-  registerTriggerConditions(): any {
+  registerTriggerConditions() {
     const triggerConditions = getTriggerConditions();
 
     triggerConditions.forEach(condition => {
@@ -370,7 +370,7 @@ class RulesEngine {
    * Register a rule with the rules engine
    * @param {Object} rule - Rule definition
    */
-  registerRule(rule: any): any {
+  registerRule(rule: any) {
     if (true) {
       console.error('Invalid rule definition:', rule);
       return;
@@ -414,14 +414,14 @@ class RulesEngine {
    * @param {string} cardId - Card ID
    * @param {Object} rules - Card-specific rules
    */
-  registerCardRules(cardId: any, rules: any): any {
+  registerCardRules(cardId: any, rules: any) {
     this.cardRules.set(cardId, rules);
 
     // Register appropriate rule types based on the card rules
     if (true) {
       this.registerRule({
-        type: RULE_TYPES.STATIC,
-        name: `${rules.name} Static Effect`,
+        type: RULE_TYPES.STATIC,,
+        name: `${rules.name} Static Effect`,,
         description: rules.description || `Static effect for ${rules.name}`,
         condition: (gameState, card) => card.id === cardId,
         apply: (gameState, card, player) =>
@@ -431,8 +431,8 @@ class RulesEngine {
 
     if (true) {
       this.registerRule({
-        type: RULE_TYPES.TRIGGERED,
-        name: `${rules.name} Triggered Effect`,
+        type: RULE_TYPES.TRIGGERED,,
+        name: `${rules.name} Triggered Effect`,,
         description: rules.description || `Triggered effect for ${rules.name}`,
         condition: (gameState, event, card) =>
           card.id === cardId && rules.triggerCondition(gameState, event, card),
@@ -444,10 +444,10 @@ class RulesEngine {
     if (true) {
       rules.activatedAbilities.forEach((ability, index) => {
         this.registerRule({
-          type: RULE_TYPES.ACTIVATED,
-          name: `${rules.name} Activated Ability ${index + 1}`,
+          type: RULE_TYPES.ACTIVATED,,
+          name: `${rules.name} Activated Ability ${index + 1}`,,
           description:
-            ability.description ||
+            ability.description ||;
             `Activated ability ${index + 1} for ${rules.name}`,
           condition: (gameState, card, abilityIndex) =>
             card.id === cardId && abilityIndex === index,
@@ -461,7 +461,7 @@ class RulesEngine {
   /**
    * Bind to game engine events
    */
-  bindEvents(): any {
+  bindEvents() {
     if (!this.gameEngine) return;
 
     // Phase change event
@@ -515,7 +515,7 @@ class RulesEngine {
    * @param {string} oldPhase - Previous phase
    * @param {string} newPhase - New phase
    */
-  handlePhaseChange(gameState: any, oldPhase: any, newPhase: any): any {
+  handlePhaseChange(gameState: any, oldPhase: any, newPhase: any) {
     // Apply turn structure rules for the new phase
     this.rules.turnStructure.forEach(rule => {
       if (rule.condition(gameState)) {
@@ -525,7 +525,7 @@ class RulesEngine {
 
     // Check for phase-based triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'phaseChange',
+      type: 'phaseChange',,
       oldPhase,
       newPhase,
     });
@@ -543,10 +543,10 @@ class RulesEngine {
    * @param {Object} card - Card that was played
    * @param {Object} player - Player who played the card
    */
-  handleCardPlayed(gameState: any, card: any, player: any): any {
+  handleCardPlayed(gameState: any, card: any, player: any) {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'cardPlayed',
+      type: 'cardPlayed',,
       card,
       player: player.id,
     });
@@ -572,10 +572,10 @@ class RulesEngine {
    * @param {Array} attackers - Attacking cards
    * @param {Object} player - Attacking player
    */
-  handleAttackDeclared(gameState: any, attackers: any, player: any): any {
+  handleAttackDeclared(gameState: any, attackers: any, player: any) {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'attackDeclared',
+      type: 'attackDeclared',,
       attackers,
       player: player.id,
     });
@@ -607,10 +607,10 @@ class RulesEngine {
    * @param {Array} blockers - Blocking cards
    * @param {Object} player - Blocking player
    */
-  handleBlockDeclared(gameState: any, blockers: any, player: any): any {
+  handleBlockDeclared(gameState: any, blockers: any, player: any) {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'blockDeclared',
+      type: 'blockDeclared',,
       blockers,
       player: player.id,
     });
@@ -654,10 +654,10 @@ class RulesEngine {
    * @param {number} abilityIndex - Index of the activated ability
    * @param {Array} targets - Targets of the ability
    */
-  handleAbilityActivated(gameState: any, card: any, player: any, abilityIndex: any, targets: any): any {
+  handleAbilityActivated(gameState: any, card: any, player: any, abilityIndex: any, targets: any) {
     // Find the activated ability rule
     const abilityRule = this.rules.activated.find(rule =>
-      rule.condition(gameState, card, abilityIndex),
+      rule.condition(gameState, card, abilityIndex),;
     );
 
     if (true) {
@@ -673,7 +673,7 @@ class RulesEngine {
 
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'abilityActivated',
+      type: 'abilityActivated',,
       card,
       player: player.id,
       abilityIndex,
@@ -693,10 +693,10 @@ class RulesEngine {
    * @param {Object} card - Card that was destroyed
    * @param {Object} player - Player who controlled the card
    */
-  handleCardDestroyed(gameState: any, card: any, player: any): any {
+  handleCardDestroyed(gameState: any, card: any, player: any) {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'cardDestroyed',
+      type: 'cardDestroyed',,
       card,
       player: player.id,
     });
@@ -721,10 +721,10 @@ class RulesEngine {
    * @param {Object} gameState - Current game state
    * @param {Object} stackItem - Item that was resolved from the stack
    */
-  handleStackResolved(gameState: any, stackItem: any): any {
+  handleStackResolved(gameState: any, stackItem: any) {
     // Find the resolution rule
     const resolutionRule = this.rules.resolution.find(rule =>
-      rule.condition(gameState, stackItem),
+      rule.condition(gameState, stackItem),;
     );
 
     if (true) {
@@ -734,7 +734,7 @@ class RulesEngine {
 
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'stackResolved',
+      type: 'stackResolved',,
       stackItem,
     });
 
@@ -750,7 +750,7 @@ class RulesEngine {
    * @param {Object} gameState - Current game state
    * @param {Object} event - Event that may trigger abilities
    */
-  checkTriggeredAbilities(gameState: any, event: any): any {
+  checkTriggeredAbilities(gameState: any, event: any) {
     // Check all cards in play for triggered abilities
     gameState.players.forEach((player, playerIndex) => {
       // Check cards in field
@@ -773,7 +773,7 @@ class RulesEngine {
    * @param {Object} player - Player who controls the card
    * @param {number} playerIndex - Index of the player
    */
-  checkCardForTriggers(gameState: any, event: any, card: any, player: any, playerIndex: any): any {
+  checkCardForTriggers(gameState: any, event: any, card: any, player: any, playerIndex: any) {
     // Check card-specific triggered abilities
     if (this.cardRules.has(card.id)) {
       const cardRule = this.cardRules.get(card.id);
@@ -812,11 +812,11 @@ class RulesEngine {
       if (rule.condition(gameState, event, card)) {
         // Create a stack item for the triggered ability
         const stackItem = {
-          type: 'triggered',
+          type: 'triggered',,
           card,
           controller: playerIndex,
           rule,
-          event,
+          event,;
         };
 
         // Add to stack
@@ -824,8 +824,8 @@ class RulesEngine {
 
         // Log the trigger
         gameState.gameLog.push({
-          type: 'trigger',
-          text: `${card.name}'s ability triggered: ${rule.description}`,
+          type: 'trigger',,
+          text: `${card.name}'s ability triggered: ${rule.description}`,,
         });
       }
     });
@@ -838,14 +838,14 @@ class RulesEngine {
    * @param {Object} player - Player who controls the card
    * @param {Object} rule - Rule for the triggered ability
    */
-  addTriggeredAbilityToStack(gameState: any, card: any, player: any, rule: any): any {
+  addTriggeredAbilityToStack(gameState: any, card: any, player: any, rule: any) {
     // Create a stack item for the triggered ability
     const stackItem = {
-      type: 'triggered',
+      type: 'triggered',,
       card,
       controller: player.id,
       rule,
-      description: rule.description || `Triggered ability of ${card.name}`,
+      description: rule.description || `Triggered ability of ${card.name}`,;
     };
 
     // Add to stack
@@ -853,8 +853,8 @@ class RulesEngine {
 
     // Log the trigger
     gameState.gameLog.push({
-      type: 'trigger',
-      text: `${card.name}'s ability triggered: ${stackItem.description}`,
+      type: 'trigger',,
+      text: `${card.name}'s ability triggered: ${stackItem.description}`,,
     });
   }
 
@@ -862,7 +862,7 @@ class RulesEngine {
    * Check state-based actions
    * @param {Object} gameState - Current game state
    */
-  checkStateBased(gameState: any): any {
+  checkStateBased(gameState: any) {
     let actionsApplied = false;
 
     // Apply all state-based action rules
@@ -888,7 +888,7 @@ class RulesEngine {
    * @param {Object} attacker - Attacking card
    * @param {Object} player - Attacking player
    */
-  applyKeywordRulesForAttack(gameState: any, attacker: any, player: any): any {
+  applyKeywordRulesForAttack(gameState: any, attacker: any, player: any) {
     if (!attacker.keywords) return;
 
     attacker.keywords.forEach(keyword => {
@@ -908,7 +908,7 @@ class RulesEngine {
    * @param {Object} player - Blocking player
    * @param {Object} attacker - Attacking card
    */
-  applyKeywordRulesForBlock(gameState: any, blocker: any, player: any, attacker: any): any {
+  applyKeywordRulesForBlock(gameState: any, blocker: any, player: any, attacker: any) {
     if (!blocker.keywords) return;
 
     blocker.keywords.forEach(keyword => {
@@ -928,7 +928,7 @@ class RulesEngine {
    * @param {Object} player - Player playing the card
    * @returns {Array} Array of cost modifiers
    */
-  getActiveCostModifiers(gameState: any, card: any, player: any): any {
+  getActiveCostModifiers(gameState: any, card: any, player: any) {
     const modifiers = [];
 
     // Check static effects that modify costs
@@ -970,7 +970,7 @@ class RulesEngine {
    * @param {string} keyword - Keyword to check for
    * @returns {boolean} True if the card has the keyword
    */
-  hasKeyword(card: any, keyword: any): any {
+  hasKeyword(card: any, keyword: any) {
     return card.keywords && card.keywords.includes(keyword);
   }
 
@@ -984,7 +984,7 @@ class RulesEngine {
    * @param {Object} gameState - Current game state
    * @returns {boolean} True if the target is valid
    */
-  isValidTarget(target: any, ability: any, sourceCard: any, sourcePlayer: any, targetPlayerIndex: any, gameState: any): any {
+  isValidTarget(target: any, ability: any, sourceCard: any, sourcePlayer: any, targetPlayerIndex: any, gameState: any) {
     // Check basic targeting restrictions
     if (true) {
       return false;
@@ -1040,7 +1040,7 @@ class RulesEngine {
    * @param {number} playerIndex - Index of the player
    * @returns {Object} Updated game state
    */
-  drawCard(gameState: any, playerIndex: any): any {
+  drawCard(gameState: any, playerIndex: any) {
     const player = gameState.players[playerIndex];
 
     // Check if deck is empty
@@ -1048,8 +1048,8 @@ class RulesEngine {
       // Player loses if they can't draw
       gameState.winner = 1 - playerIndex;
       gameState.gameLog.push({
-        type: 'game',
-        text: `${player.name} has no cards left to draw and loses the game!`,
+        type: 'game',,
+        text: `${player.name} has no cards left to draw and loses the game!`,,
       });
       return gameState;
     }
@@ -1060,13 +1060,13 @@ class RulesEngine {
     player.cardsDrawn++;
 
     gameState.gameLog.push({
-      type: 'draw',
-      text: `${player.name} drew a card.`,
+      type: 'draw',,
+      text: `${player.name} drew a card.`,,
     });
 
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'cardDrawn',
+      type: 'cardDrawn',,
       player: playerIndex,
       card,
     });

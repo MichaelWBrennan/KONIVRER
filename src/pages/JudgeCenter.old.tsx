@@ -333,7 +333,7 @@ const JudgeCenter = (): any => {
         },
       ],
     },
-    formats: {
+    formats: {,
       title: 'Gameplay Formats',
       version: 'Current',
       lastUpdated: '2025-06-10',
@@ -364,10 +364,10 @@ const JudgeCenter = (): any => {
     },
   };
   const sections = [
-    { id: 'comprehensive', name: 'Comprehensive Rules', icon: Book },
-    { id: 'tournament', name: 'Tournament Policy', icon: Scale },
-    { id: 'penalties', name: 'Penalty Guidelines', icon: AlertTriangle },
-    { id: 'formats', name: 'Game Formats', icon: FileText },
+    { id: 'comprehensive', name: 'Comprehensive Rules', icon: Book },,
+    { id: 'tournament', name: 'Tournament Policy', icon: Scale },,
+    { id: 'penalties', name: 'Penalty Guidelines', icon: AlertTriangle },,
+    { id: 'formats', name: 'Game Formats', icon: FileText },,
   ];
   const recentUpdates = [
     {
@@ -375,19 +375,19 @@ const JudgeCenter = (): any => {
       title: 'Format Update: Premium Constructed',
       description:
         'New Premium Constructed format added with unique deck building restrictions.',
-      type: 'Format Addition',
+      type: 'Format Addition',,
     },
     {
       date: '2025-06-01',
       title: 'Comprehensive Rules 3.2.1',
       description: 'Clarifications on combat timing and ability interactions.',
-      type: 'Rules Update',
+      type: 'Rules Update',,
     },
     {
       date: '2025-05-20',
       title: 'Penalty Guidelines Update',
       description: 'Revised guidelines for handling communication infractions.',
-      type: 'Policy Update',
+      type: 'Policy Update',,
     },
   ];
   const currentSection = rulesData[selectedRuleSection];

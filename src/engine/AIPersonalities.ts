@@ -11,7 +11,7 @@ export const AIPersonalities = {
    * "The Strategist" - Methodical, long-term planning
    */
   strategist: {
-    name: "The Strategist",
+    name: "The Strategist",,
     description: "A methodical player who thinks several turns ahead",
     avatar: "🎯",
     traits: {
@@ -20,19 +20,19 @@ export const AIPersonalities = {
       riskTolerance: 0.4,
       resourceConservation: 0.8,
       adaptability: 0.6,
-      creativity: 0.5
+      creativity: 0.5;
     },
     preferences: {
       favoriteElements: ['Quintessence', 'Void'],
       preferredPowerLevels: [3, 4, 5], // Prefers mid-to-high power
       playStyle: 'control',
-      cardValueThreshold: 0.7 // Only plays high-value cards
+      cardValueThreshold: 0.7 // Only plays high-value cards;
     },
     behaviorPatterns: {
       thinkingTime: { min: 2000, max: 4000 },
       mistakeRate: 0.05, // Very low mistake rate
       bluffFrequency: 0.2,
-      experimentationRate: 0.1
+      experimentationRate: 0.1;
     },
     dialogue: {
       onGoodPlay: ["Excellent positioning.", "A calculated risk.", "As planned."],
@@ -46,7 +46,7 @@ export const AIPersonalities = {
    * "The Berserker" - Aggressive, high-risk high-reward
    */
   berserker: {
-    name: "The Berserker",
+    name: "The Berserker",,
     description: "An aggressive player who favors overwhelming force",
     avatar: "⚔️",
     traits: {
@@ -55,19 +55,19 @@ export const AIPersonalities = {
       riskTolerance: 0.8,
       resourceConservation: 0.3,
       adaptability: 0.4,
-      creativity: 0.7
+      creativity: 0.7;
     },
     preferences: {
       favoriteElements: ['Inferno', 'Brilliance'],
       preferredPowerLevels: [4, 5, 6, 7], // Loves high power
       playStyle: 'aggressive',
-      cardValueThreshold: 0.4 // Will play mediocre cards for pressure
+      cardValueThreshold: 0.4 // Will play mediocre cards for pressure;
     },
     behaviorPatterns: {
       thinkingTime: { min: 500, max: 1500 },
       mistakeRate: 0.15, // Higher mistake rate due to impulsiveness
       bluffFrequency: 0.4,
-      experimentationRate: 0.3
+      experimentationRate: 0.3;
     },
     dialogue: {
       onGoodPlay: ["CRUSH THEM!", "More power!", "Attack!"],
@@ -81,7 +81,7 @@ export const AIPersonalities = {
    * "The Trickster" - Unpredictable, creative plays
    */
   trickster: {
-    name: "The Trickster",
+    name: "The Trickster",,
     description: "An unpredictable player who loves surprising moves",
     avatar: "🃏",
     traits: {
@@ -90,19 +90,19 @@ export const AIPersonalities = {
       riskTolerance: 0.7,
       resourceConservation: 0.5,
       adaptability: 0.9,
-      creativity: 0.9
+      creativity: 0.9;
     },
     preferences: {
       favoriteElements: ['Void', 'Submerged'],
       preferredPowerLevels: [1, 2, 6], // Extremes - very low or very high
       playStyle: 'combo',
-      cardValueThreshold: 0.3 // Will play unusual cards for surprise
+      cardValueThreshold: 0.3 // Will play unusual cards for surprise;
     },
     behaviorPatterns: {
       thinkingTime: { min: 1000, max: 3000 },
       mistakeRate: 0.12, // Moderate mistakes due to experimentation
       bluffFrequency: 0.6,
-      experimentationRate: 0.5
+      experimentationRate: 0.5;
     },
     dialogue: {
       onGoodPlay: ["Didn't see that coming!", "Surprise!", "Expect the unexpected!"],
@@ -116,7 +116,7 @@ export const AIPersonalities = {
    * "The Scholar" - Balanced, analytical
    */
   scholar: {
-    name: "The Scholar",
+    name: "The Scholar",,
     description: "A balanced player who analyzes every option carefully",
     avatar: "📚",
     traits: {
@@ -125,19 +125,19 @@ export const AIPersonalities = {
       riskTolerance: 0.5,
       resourceConservation: 0.7,
       adaptability: 0.8,
-      creativity: 0.6
+      creativity: 0.6;
     },
     preferences: {
       favoriteElements: ['Quintessence', 'Steadfast'],
       preferredPowerLevels: [2, 3, 4], // Prefers efficient mid-range
       playStyle: 'balanced',
-      cardValueThreshold: 0.6
+      cardValueThreshold: 0.6;
     },
     behaviorPatterns: {
       thinkingTime: { min: 1500, max: 2500 },
       mistakeRate: 0.08,
       bluffFrequency: 0.3,
-      experimentationRate: 0.2
+      experimentationRate: 0.2;
     },
     dialogue: {
       onGoodPlay: ["Fascinating.", "The optimal choice.", "Knowledge is power."],
@@ -151,7 +151,7 @@ export const AIPersonalities = {
    * "The Gambler" - High variance, boom or bust
    */
   gambler: {
-    name: "The Gambler",
+    name: "The Gambler",,
     description: "A risk-taking player who goes all-in on big plays",
     avatar: "🎲",
     traits: {
@@ -160,19 +160,19 @@ export const AIPersonalities = {
       riskTolerance: 0.9,
       resourceConservation: 0.2,
       adaptability: 0.6,
-      creativity: 0.8
+      creativity: 0.8;
     },
     preferences: {
       favoriteElements: ['Inferno', 'Void'],
       preferredPowerLevels: [1, 7, 8, 9], // All-in or nothing
       playStyle: 'aggressive',
-      cardValueThreshold: 0.3
+      cardValueThreshold: 0.3;
     },
     behaviorPatterns: {
       thinkingTime: { min: 800, max: 2000 },
       mistakeRate: 0.18, // High variance in play quality
       bluffFrequency: 0.5,
-      experimentationRate: 0.4
+      experimentationRate: 0.4;
     },
     dialogue: {
       onGoodPlay: ["All in!", "Lady Luck smiles!", "High roller!"],
@@ -186,7 +186,7 @@ export const AIPersonalities = {
    * "The Perfectionist" - Efficient, optimal plays
    */
   perfectionist: {
-    name: "The Perfectionist",
+    name: "The Perfectionist",,
     description: "A precise player who seeks optimal efficiency in every move",
     avatar: "⚡",
     traits: {
@@ -195,19 +195,19 @@ export const AIPersonalities = {
       riskTolerance: 0.3,
       resourceConservation: 0.9,
       adaptability: 0.5,
-      creativity: 0.4
+      creativity: 0.4;
     },
     preferences: {
       favoriteElements: ['Steadfast', 'Submerged'],
       preferredPowerLevels: [2, 3], // Maximum efficiency
       playStyle: 'control',
-      cardValueThreshold: 0.8 // Only the best plays
+      cardValueThreshold: 0.8 // Only the best plays;
     },
     behaviorPatterns: {
       thinkingTime: { min: 2500, max: 4500 },
       mistakeRate: 0.03, // Extremely low mistake rate
       bluffFrequency: 0.1,
-      experimentationRate: 0.05
+      experimentationRate: 0.05;
     },
     dialogue: {
       onGoodPlay: ["Flawless execution.", "Perfect efficiency.", "Optimal."],
@@ -222,7 +222,7 @@ export const AIPersonalities = {
  * Personality Manager - Handles AI personality selection and behavior
  */
 export class PersonalityManager {
-  constructor(personalityKey: any = 'scholar'): any {
+  constructor(personalityKey: any = 'scholar') {
   this.currentPersonality = AIPersonalities[personalityKey] || AIPersonalities.scholar;
   this.moodModifier = 0; // -1 to 1, affects behavior
   this.gameHistory = [];
@@ -232,7 +232,7 @@ export class PersonalityManager {
   /**
    * Get current personality traits adjusted by mood and adaptation
    */
-  getCurrentTraits(): any {
+  getCurrentTraits() {
     const base = this.currentPersonality.traits;
     const mood = this.moodModifier;
     const adaptation = this.adaptationLevel * 0.1;
@@ -250,7 +250,7 @@ export class PersonalityManager {
   /**
    * Update mood based on game events
    */
-  updateMood(gameEvent: any): any {
+  updateMood(gameEvent: any) {
     switch (true) {
       case 'good_play':
         this.moodModifier = Math.min(1, this.moodModifier + 0.1);
@@ -276,7 +276,7 @@ export class PersonalityManager {
   /**
    * Get thinking time based on personality and situation
    */
-  getThinkingTime(complexity: any = 1, confidence: any = 0.5): any {
+  getThinkingTime(complexity: any = 1, confidence: any = 0.5) {
     const base = this.currentPersonality.behaviorPatterns.thinkingTime;
     const range = base.max - base.min;
     
@@ -295,7 +295,7 @@ export class PersonalityManager {
   /**
    * Get dialogue response based on situation
    */
-  getDialogue(situation: any): any {
+  getDialogue(situation: any) {
     const dialogues = this.currentPersonality.dialogue[situation] || ["..."];
     return dialogues[Math.floor(Math.random() * dialogues.length)];
   }
@@ -303,7 +303,7 @@ export class PersonalityManager {
   /**
    * Check if AI should make a "mistake" based on personality
    */
-  shouldMakeMistake(): any {
+  shouldMakeMistake() {
     const baseRate = this.currentPersonality.behaviorPatterns.mistakeRate;
     const moodAdjustment = Math.abs(this.moodModifier) * 0.1; // Extreme moods increase mistakes
     
@@ -313,7 +313,7 @@ export class PersonalityManager {
   /**
    * Get power level preference for a given situation
    */
-  getPowerPreference(availablePower: any, situation: any): any {
+  getPowerPreference(availablePower: any, situation: any) {
     const preferred = this.currentPersonality.preferences.preferredPowerLevels;
     const traits = this.getCurrentTraits();
     
@@ -351,7 +351,7 @@ export class PersonalityManager {
   /**
    * Adapt personality based on player behavior
    */
-  adaptToPlayer(playerBehavior: any): any {
+  adaptToPlayer(playerBehavior: any) {
     // Increase adaptation level over time
     this.adaptationLevel = Math.min(5, this.adaptationLevel + 0.1);
     
@@ -370,19 +370,19 @@ export class PersonalityManager {
   /**
    * Utility function to clamp values between min and max
    */
-  clamp(value: any, min: any, max: any): any {
+  clamp(value: any, min: any, max: any) {
     return Math.min(max, Math.max(min, value));
   }
 
   /**
    * Get personality display info for UI
    */
-  getDisplayInfo(): any {
+  getDisplayInfo() {
     return {
-      name: this.currentPersonality.name,
+      name: this.currentPersonality.name,,
       description: this.currentPersonality.description,
       avatar: this.currentPersonality.avatar,
-      mood: this.moodModifier > 0.3 ? 'confident' : 
+      mood: this.moodModifier > 0.3 ? 'confident' : ;
             this.moodModifier < -0.3 ? 'frustrated' : 'focused'
     };
   }

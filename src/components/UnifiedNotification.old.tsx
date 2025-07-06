@@ -39,7 +39,7 @@ type NotificationStatus = 'unread' | 'read' | 'archived' | 'deleted';
 
 interface Notification {
   id: string;
-  type: NotificationType;
+  type: NotificationType;,
   title: string;
   message: string;
   timestamp: Date;
@@ -145,7 +145,7 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
           const mockNotifications: Notification[] = [
             {
               id: '1',
-              type: 'system',
+              type: 'system',,
               title: 'Welcome to KONIVRER',
               message: 'Thank you for joining KONIVRER. Explore the game and have fun!',
               timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
@@ -154,7 +154,7 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
             },
             {
               id: '2',
-              type: 'tournament',
+              type: 'tournament',,
               title: 'Tournament Registration Open',
               message: 'Registration for the KONIVRER Championship Series is now open. Register before spots fill up!',
               timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
@@ -165,7 +165,7 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
             },
             {
               id: '3',
-              type: 'friend',
+              type: 'friend',,
               title: 'New Friend Request',
               message: 'Player123 sent you a friend request',
               timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
@@ -173,12 +173,12 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
               status: 'read',
               data: {
                 userId: 'user123',
-                username: 'Player123'
+                username: 'Player123',
               }
             },
             {
               id: '4',
-              type: 'message',
+              type: 'message',,
               title: 'New Message',
               message: 'Player456: Hey, want to play a match?',
               timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
@@ -187,13 +187,13 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
               actionUrl: '/messages/user456',
               data: {
                 userId: 'user456',
-                username: 'Player456',
+                username: 'Player456',,
                 messageId: 'msg123'
               }
             },
             {
               id: '5',
-              type: 'achievement',
+              type: 'achievement',,
               title: 'Achievement Unlocked',
               message: 'You\'ve unlocked the "First Victory" achievement!',
               timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
@@ -280,7 +280,7 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
     const timeoutId = setTimeout(() => {
       const mockNotification: Notification = {
         id: `new-${Date.now()}`,
-        type: 'system',
+        type: 'system',,
         title: 'New Feature Available',
         message: 'Check out the new deck builder features!',
         timestamp: new Date(),
@@ -414,7 +414,7 @@ const UnifiedNotification: React.FC<UnifiedNotificationProps> = ({
   };
   
   // Toggle notification type mute
-  const toggleNotificationType = (type: NotificationType) => {
+  const toggleNotificationType = (type: NotificationType) => {,
     const mutedTypes = [...settings.mutedTypes];
     const index = mutedTypes.indexOf(type);
     

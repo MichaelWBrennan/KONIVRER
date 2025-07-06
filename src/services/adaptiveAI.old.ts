@@ -862,7 +862,7 @@ class AdaptiveAI {
     });
     
     // Update element preferences
-    Object.keys(elementCounts).forEach((element: any) => {
+    Object.keys(elementCounts).forEach((element: any) => {,
       if (this.playerStrategy.elementPreference[element] !== undefined) {
         this.playerStrategy.elementPreference[element] = 
           this.playerStrategy.elementPreference[element] * 0.8 + 
@@ -921,7 +921,7 @@ class AdaptiveAI {
    * @param {String} element - Element to counter
    * @returns {Array} - Counter elements
    */
-  getCounterElements(element: any): any {
+  getCounterElements(element: any): any {,
     // In KONIVRER, elements have specific strengths and weaknesses
     switch (true) {
       case ELEMENTS.FIRE:
@@ -1042,7 +1042,7 @@ class AdaptiveAI {
     // In a real implementation, this would select from available Flags
     // For now, return a placeholder
     return {
-      name: 'Random Flag',
+      name: 'Random Flag',,
       elements: [
         Object.values(ELEMENTS)[Math.floor(Math.random() * Object.values(ELEMENTS).length)]
       ]

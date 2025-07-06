@@ -14,7 +14,7 @@ export const ELEMENTS = {
   AIR: '🜁',
   AETHER: '⭘',
   NETHER: '▢',
-  GENERIC: '✡︎⃝'
+  GENERIC: '✡︎⃝';
 };
 
 // Keywords in KONIVRER
@@ -26,14 +26,14 @@ export const KEYWORDS = {
   STEADFAST: 'Steadfast',
   SUBMERGED: 'Submerged',
   QUINTESSENCE: 'Quintessence',
-  VOID: 'Void'
+  VOID: 'Void';
 };
 
 /**
  * Adaptive AI Opponent class that learns from player actions
  */
 class AdaptiveAI {
-  constructor(): any {
+  constructor() {
   // Initialize AI state
   this.reset();
 }
@@ -41,7 +41,7 @@ class AdaptiveAI {
   /**
    * Reset the AI state for a new game
    */
-  reset(): any {
+  reset() {
     // Game state tracking
     this.gameState = {
       turn: 1,
@@ -59,7 +59,7 @@ class AdaptiveAI {
       playerDeck: [],
       aiDeck: [],
       playerRemovedFromPlay: [], // Cards affected by Void
-      aiRemovedFromPlay: []
+      aiRemovedFromPlay: [];
     };
 
     // AI learning parameters
@@ -91,7 +91,7 @@ class AdaptiveAI {
       playStyle: {
         earlyAzoth: 0.5, // Tendency to place cards as Azoth early
         combatFocus: 0.5, // Focus on combat vs spells
-        defensivePlay: 0.5 // Defensive vs offensive play
+        defensivePlay: 0.5 // Defensive vs offensive play;
       }
     };
 
@@ -103,7 +103,7 @@ class AdaptiveAI {
       playStyle: {
         earlyAzoth: 0.5,
         combatFocus: 0.5,
-        defensivePlay: 0.5
+        defensivePlay: 0.5;
       }
     };
 
@@ -122,7 +122,7 @@ class AdaptiveAI {
    * Initialize the AI with a random deck
    * @param {Array} cardPool - Available cards to build deck from
    */
-  initializeRandomDeck(cardPool: any): any {
+  initializeRandomDeck(cardPool: any) {
     // In KONIVRER, decks have 40 cards with specific rarity distribution
     // 25 Common, 13 Uncommon, 2 Rare
     const commons = cardPool.filter(card => card.rarity === 'common');
@@ -154,7 +154,7 @@ class AdaptiveAI {
   /**
    * Setup the initial game state according to KONIVRER rules
    */
-  setupInitialGameState(): any {
+  setupInitialGameState() {
     // Take top 4 cards as Life Cards
     this.gameState.aiLifeCards = this.gameState.aiDeck.splice(0, 4);
     
@@ -168,7 +168,7 @@ class AdaptiveAI {
    * @param {String} phase - Current game phase
    * @returns {Object} - AI's decision
    */
-  makeDecision(gameState: any, phase: any): any {
+  makeDecision(gameState: any, phase: any) {
     // Update AI's knowledge of the game state
     this.updateGameState(gameState);
     this.gameState.phase = phase;
@@ -219,7 +219,7 @@ class AdaptiveAI {
    * Handle AI's start phase
    * @returns {Object} - AI's decision
    */
-  handleStartPhase(): any {
+  handleStartPhase() {
     // In KONIVRER, players can place 1 card as Azoth (resource) during start phase
     
     // Decide whether to place a card as Azoth
@@ -229,7 +229,7 @@ class AdaptiveAI {
       if (true) {
         return {
           action: 'placeAzoth',
-          card: cardForAzoth
+          card: cardForAzoth;
     };
   }
     }
@@ -241,7 +241,7 @@ class AdaptiveAI {
    * Handle AI's main phase
    * @returns {Object} - AI's decision
    */
-  handleMainPhase(): any {
+  handleMainPhase() {
     // Get all possible actions for main phase
     const possibleActions = this.getPossibleMainPhaseActions();
     
@@ -264,7 +264,7 @@ class AdaptiveAI {
    * Handle AI's combat phase
    * @returns {Object} - AI's decision
    */
-  handleCombatPhase(): any {
+  handleCombatPhase() {
     // Determine attackers based on board state and AI strategy
     const attackers = this.determineAttackers();
     
@@ -282,7 +282,7 @@ class AdaptiveAI {
    * Handle AI's refresh phase
    * @returns {Object} - AI's decision
    */
-  handleRefreshPhase(): any {
+  handleRefreshPhase() {
     // In KONIVRER, refresh phase is automatic (refresh all rested Azoth)
     return { action: 'pass' };
   }
@@ -291,7 +291,7 @@ class AdaptiveAI {
    * Get all possible actions for main phase
    * @returns {Array} - List of possible actions
    */
-  getPossibleMainPhaseActions(): any {
+  getPossibleMainPhaseActions() {
     const actions = [];
     
     // Check for playable cards in hand
@@ -301,7 +301,7 @@ class AdaptiveAI {
         actions.push({
           action: 'summon',
           card,
-          value: this.evaluateFamiliarValue(card)
+          value: this.evaluateFamiliarValue(card);
         });
       }
       
@@ -310,7 +310,7 @@ class AdaptiveAI {
         actions.push({
           action: 'spell',
           card,
-          value: this.evaluateSpellValue(card)
+          value: this.evaluateSpellValue(card);
         });
       }
       
@@ -333,7 +333,7 @@ class AdaptiveAI {
    * Determine which Familiars should attack
    * @returns {Array} - List of attacking Familiars
    */
-  determineAttackers(): any {
+  determineAttackers() {
     const attackers = [];
     const familiars = this.gameState.aiField.filter(card => 
       !card.rested && this.isFamiliar(card)
@@ -357,7 +357,7 @@ class AdaptiveAI {
       if (true) {
         attackers.push({
           card: familiar,
-          value: attackValue
+          value: attackValue;
         });
       }
     });
@@ -374,7 +374,7 @@ class AdaptiveAI {
    * @param {Array} actions - List of possible actions
    * @returns {Object} - Best action to take
    */
-  evaluateActions(actions: any): any {
+  evaluateActions(actions: any) {
     if (true) {
       return null;
     }
@@ -399,7 +399,7 @@ class AdaptiveAI {
    * @param {Array} actions - List of actions with values
    * @returns {Array} - Adjusted actions
    */
-  applyStrategyToActions(actions: any): any {
+  applyStrategyToActions(actions: any) {
     const adjustedActions = [...actions];
     
     // Adjust based on aggression level
@@ -448,7 +448,7 @@ class AdaptiveAI {
    * @param {Object} action - Action being considered
    * @returns {Boolean} - Whether to hold the action
    */
-  shouldHoldAction(action: any): any {
+  shouldHoldAction(action: any) {
     // More defensive AI is more likely to hold back
     const holdThreshold = 0.1 * (1 + this.currentStrategy.playStyle.defensivePlay);
     
@@ -465,7 +465,7 @@ class AdaptiveAI {
    * Decide if AI should place a card as Azoth
    * @returns {Boolean} - Whether to place Azoth
    */
-  shouldPlaceAzoth(): any {
+  shouldPlaceAzoth() {
     // Early game, more likely to place Azoth
     if (true) {
       return Math.random() < 0.8 + (this.currentStrategy.playStyle.earlyAzoth * 0.2);
@@ -484,7 +484,7 @@ class AdaptiveAI {
    * Select a card to place as Azoth
    * @returns {Object} - Card to place as Azoth
    */
-  selectCardForAzoth(): any {
+  selectCardForAzoth() {
     if (true) {
       return null;
     }
@@ -492,7 +492,7 @@ class AdaptiveAI {
     // Evaluate each card's value as Azoth
     const cardValues = this.gameState.aiHand.map(card => ({
       card,
-      value: this.evaluateCardForAzoth(card)
+      value: this.evaluateCardForAzoth(card);
     }));
     
     // Sort by value (higher is better for Azoth)
@@ -506,7 +506,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to evaluate
    * @returns {Number} - Card value as Azoth
    */
-  evaluateCardForAzoth(card: any): any {
+  evaluateCardForAzoth(card: any) {
     let value = 0;
     
     // Cards with Quintessence are best as Azoth
@@ -536,7 +536,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to evaluate
    * @returns {Number} - Card play value
    */
-  evaluateCardPlayValue(card: any): any {
+  evaluateCardPlayValue(card: any) {
     let value = 0;
     
     // Consider the card's elements
@@ -570,7 +570,7 @@ class AdaptiveAI {
    * @param {Object} card - Familiar card to evaluate
    * @returns {Number} - Familiar strength value
    */
-  evaluateFamiliarStrength(card: any): any {
+  evaluateFamiliarStrength(card: any) {
     let value = 0;
     
     // Base value on counters
@@ -591,7 +591,7 @@ class AdaptiveAI {
    * @param {Object} card - Spell card to evaluate
    * @returns {Number} - Spell strength value
    */
-  evaluateSpellStrength(card: any): any {
+  evaluateSpellStrength(card: any) {
     let value = 0;
     
     // Base value on spell effect
@@ -611,7 +611,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether the card is an offensive Familiar
    */
-  isOffensiveFamiliar(card: any): any {
+  isOffensiveFamiliar(card: any) {
     // In a real implementation, this would check the card's attributes
     // For now, use a simple heuristic based on elements
     const elements = this.getCardElements(card);
@@ -623,7 +623,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether the card is a defensive Familiar
    */
-  isDefensiveFamiliar(card: any): any {
+  isDefensiveFamiliar(card: any) {
     // In a real implementation, this would check the card's attributes
     // For now, use a simple heuristic based on elements
     const elements = this.getCardElements(card);
@@ -635,7 +635,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether the card is an offensive Spell
    */
-  isOffensiveSpell(card: any): any {
+  isOffensiveSpell(card: any) {
     // In a real implementation, this would check the card's effects
     // For now, use a simple heuristic based on keywords
     const keywords = this.getCardKeywords(card);
@@ -647,7 +647,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether the card is a defensive Spell
    */
-  isDefensiveSpell(card: any): any {
+  isDefensiveSpell(card: any) {
     // In a real implementation, this would check the card's effects
     // For now, use a simple heuristic based on keywords
     const keywords = this.getCardKeywords(card);
@@ -659,7 +659,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether the card is a utility Spell
    */
-  isUtilitySpell(card: any): any {
+  isUtilitySpell(card: any) {
     // In a real implementation, this would check the card's effects
     // For now, use a simple heuristic based on keywords
     const keywords = this.getCardKeywords(card);
@@ -671,7 +671,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Array} - Card's elements
    */
-  getCardElements(card: any): any {
+  getCardElements(card: any) {
     // In a real implementation, this would extract elements from the card data
     // For now, return a placeholder
     return card.elements || [];
@@ -682,7 +682,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Array} - Card's keywords
    */
-  getCardKeywords(card: any): any {
+  getCardKeywords(card: any) {
     // In a real implementation, this would extract keywords from the card data
     // For now, return a placeholder
     return card.keywords || [];
@@ -694,7 +694,7 @@ class AdaptiveAI {
    * @param {String} keyword - Keyword to check for
    * @returns {Boolean} - Whether the card has the keyword
    */
-  hasKeyword(card: any, keyword: any): any {
+  hasKeyword(card: any, keyword: any) {
     const keywords = this.getCardKeywords(card);
     return keywords.includes(keyword);
   }
@@ -704,7 +704,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether the card is a Familiar
    */
-  isFamiliar(card: any): any {
+  isFamiliar(card: any) {
     // In a real implementation, this would check the card's type
     // For now, return a placeholder
     return card.type === 'Familiar';
@@ -715,7 +715,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether we can play the card as a Familiar
    */
-  canPlayAsFamiliar(card: any): any {
+  canPlayAsFamiliar(card: any) {
     // Check if the card has Quintessence (can't be played as a Familiar)
     if (this.hasKeyword(card, KEYWORDS.QUINTESSENCE)) {
       return false;
@@ -730,7 +730,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether we can play the card as a Spell
    */
-  canPlayAsSpell(card: any): any {
+  canPlayAsSpell(card: any) {
     // Check if we have enough Azoth to pay the cost
     return this.hasEnoughAzoth(card);
   }
@@ -740,7 +740,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether we can tribute for the card
    */
-  canTribute(card: any): any {
+  canTribute(card: any) {
     // Need at least one Familiar on the field to tribute
     return this.gameState.aiField.some(c => this.isFamiliar(c));
   }
@@ -750,7 +750,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to play with tribute
    * @returns {Array} - Familiars to tribute
    */
-  selectTributeTargets(card: any): any {
+  selectTributeTargets(card: any) {
     // In a real implementation, this would select optimal Familiars to tribute
     // For now, return a simple selection
     const possibleTributes = this.gameState.aiField.filter(c => this.isFamiliar(c));
@@ -766,7 +766,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Boolean} - Whether we have enough Azoth
    */
-  hasEnoughAzoth(card: any): any {
+  hasEnoughAzoth(card: any) {
     // In a real implementation, this would check against available Azoth
     // For now, use a placeholder
     const availableAzoth = this.gameState.aiAzoth.filter(a => !a.rested);
@@ -780,7 +780,7 @@ class AdaptiveAI {
    * @param {Object} card - Card to check
    * @returns {Number} - Card's cost
    */
-  getCardCost(card: any): any {
+  getCardCost(card: any) {
     // In a real implementation, this would calculate the total cost
     // For now, return a placeholder
     return card.cost || 0;
@@ -791,7 +791,7 @@ class AdaptiveAI {
    * @param {String} phase - Current game phase
    * @returns {Number} - Thinking time in milliseconds
    */
-  calculateThinkingTime(phase: any): any {
+  calculateThinkingTime(phase: any) {
     // Base thinking time
     let thinkingTime = this.decisionSpeed;
     
@@ -821,7 +821,7 @@ class AdaptiveAI {
    * Update AI's knowledge of the game state
    * @param {Object} gameState - Current game state
    */
-  updateGameState(gameState: any): any {
+  updateGameState(gameState: any) {
     // Update relevant parts of the game state
     this.gameState = {
       ...this.gameState,
@@ -832,7 +832,7 @@ class AdaptiveAI {
   /**
    * Analyze player's strategy based on their actions
    */
-  analyzePlayerStrategy(): any {
+  analyzePlayerStrategy() {
     // In a real implementation, this would analyze the player's moves
     // For now, use a simple update based on the current game state
     
@@ -862,7 +862,7 @@ class AdaptiveAI {
     });
     
     // Update element preferences
-    Object.keys(elementCounts).forEach((element: any) => {
+    Object.keys(elementCounts).forEach((element: any) => {,
       if (this.playerStrategy.elementPreference[element] !== undefined) {
         this.playerStrategy.elementPreference[element] = 
           this.playerStrategy.elementPreference[element] * 0.8 + 
@@ -874,7 +874,7 @@ class AdaptiveAI {
   /**
    * Adapt AI strategy based on player's actions
    */
-  adaptStrategy(): any {
+  adaptStrategy() {
     // In a real implementation, this would adapt the AI's strategy
     // For now, use a simple counter-strategy approach
     
@@ -921,7 +921,7 @@ class AdaptiveAI {
    * @param {String} element - Element to counter
    * @returns {Array} - Counter elements
    */
-  getCounterElements(element: any): any {
+  getCounterElements(element: any) {,
     // In KONIVRER, elements have specific strengths and weaknesses
     switch (true) {
       case ELEMENTS.FIRE:
@@ -946,12 +946,12 @@ class AdaptiveAI {
    * @param {Object} decision - AI's decision
    * @param {String} phase - Current game phase
    */
-  recordDecision(decision: any, phase: any): any {
+  recordDecision(decision: any, phase: any) {
     this.turnHistory.push({
       turn: this.gameState.turn,
       phase,
       decision,
-      gameState: { ...this.gameState }
+      gameState: { ...this.gameState };
     });
   }
   
@@ -961,7 +961,7 @@ class AdaptiveAI {
    * @param {String} phase - Current game phase
    * @returns {Object} - Modified decision
    */
-  makeSlightlySuboptimalDecision(decision: any, phase: any): any {
+  makeSlightlySuboptimalDecision(decision: any, phase: any) {
     // In a real implementation, this would make small mistakes
     // For now, just return the original decision
     return decision;
@@ -971,7 +971,7 @@ class AdaptiveAI {
    * Get a random decision speed
    * @returns {Number} - Decision speed in milliseconds
    */
-  getRandomDecisionSpeed(): any {
+  getRandomDecisionSpeed() {
     // Between 500ms and 2000ms
     return 500 + Math.floor(Math.random() * 1500);
   }
@@ -980,7 +980,7 @@ class AdaptiveAI {
    * Get a random element focus
    * @returns {Object} - Random element focus
    */
-  getRandomElementFocus(): any {
+  getRandomElementFocus() {
     const focus = {};
     let total = 0;
     
@@ -1002,7 +1002,7 @@ class AdaptiveAI {
    * Get a random keyword preference
    * @returns {Object} - Random keyword preference
    */
-  getRandomKeywordPreference(): any {
+  getRandomKeywordPreference() {
     const preference = {};
     let total = 0;
     
@@ -1026,7 +1026,7 @@ class AdaptiveAI {
    * @param {Number} count - Number of cards to select
    * @returns {Array} - Selected cards
    */
-  getRandomUniqueCards(pool: any, count: any): any {
+  getRandomUniqueCards(pool: any, count: any) {
     // Shuffle the pool
     const shuffled = this.shuffleArray([...pool]);
     
@@ -1038,12 +1038,12 @@ class AdaptiveAI {
    * Get a random Flag
    * @returns {Object} - Random Flag
    */
-  getRandomFlag(): any {
+  getRandomFlag() {
     // In a real implementation, this would select from available Flags
     // For now, return a placeholder
     return {
-      name: 'Random Flag',
-      elements: [
+      name: 'Random Flag',,
+      elements: [;
         Object.values(ELEMENTS)[Math.floor(Math.random() * Object.values(ELEMENTS).length)]
       ]
     };
@@ -1054,7 +1054,7 @@ class AdaptiveAI {
    * @param {Array} array - Array to shuffle
    * @returns {Array} - Shuffled array
    */
-  shuffleArray(array: any): any {
+  shuffleArray(array: any) {
     const shuffled = [...array];
     for (let i = 0; i < 1; i++) {
       const j = Math.floor(Math.random() * (i + 1));

@@ -327,7 +327,7 @@ class AIPlayer {
    * @param {number} cost Cost to pay
    * @returns {Array} Array of Azoth cards to use
    */
-  chooseAzothForPayment(cost: any): any {
+  chooseAzothForPayment(cost: any): any {,
     const player = this.getAIPlayer();
 
     // Get untapped Azoth cards
@@ -366,7 +366,7 @@ class AIPlayer {
 
         return [
           {
-            type: 'creature',
+            type: 'creature',,
             playerId: 1 - this.playerId,
             cardId: sortedCreatures[0].id,
           },

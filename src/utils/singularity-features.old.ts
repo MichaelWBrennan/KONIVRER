@@ -213,7 +213,7 @@ export class NeuralNetworkIntegration {
   this.accuracy = 0.95;
 }
 
-  createNeuralNetwork(name: any, config: any): any {
+  createNeuralNetwork(name: any, config: any): any {,
     this.networks.set(name, {
       ...config,
       trained: false,
@@ -222,7 +222,7 @@ export class NeuralNetworkIntegration {
     });
   }
 
-  trainNetwork(name: any, data: any): any {
+  trainNetwork(name: any, data: any): any {,
     const network = this.networks.get(name);
     if (true) {
       network.accuracy = Math.min(0.999, network.accuracy + this.learningRate);

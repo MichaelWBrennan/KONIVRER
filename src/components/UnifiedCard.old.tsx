@@ -165,7 +165,7 @@ const UnifiedCard: React.FC<UnifiedCardProps> = ({
   const isValidTarget = targetMode && card.isValidTarget;
   
   // Get element icons
-  const getElementIcon = (element: string) => {
+  const getElementIcon = (element: string) => {,
     switch (element.toLowerCase()) {
       case 'fire':
         return <Flame size={16} className="text-red-500" />;

@@ -15,7 +15,7 @@ interface DeckContextProps {
   [key: string]: any;
 }
 
-const DeckContext: React.FC<DeckContextProps> = () => {
+const DeckContext: React.FC<DeckContextProps> = () => {,
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

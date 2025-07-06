@@ -44,8 +44,8 @@ type ViewMode = 'grid' | 'list' | 'curve' | 'table';
 
 interface Card {
   id: string;
-  name: string;
-  type: CardType;
+  name: string;,
+  type: CardType;,
   subtype?: string;
   elements: Record<Element, number>;
   abilities?: {
@@ -68,14 +68,14 @@ interface Card {
 
 interface Deck {
   id: string;
-  name: string;
+  name: string;,
   format: GameFormat;
   cards: Card[];
   mainDeck: Card[];
   sideboard: Card[];
   author: {
     id: string;
-    name: string;
+    name: string;,
   };
   description?: string;
   tags?: string[];
@@ -93,7 +93,7 @@ interface Deck {
 
 interface DeckValidationRule {
   id: string;
-  name: string;
+  name: string;,
   description: string;
   format: GameFormat;
   validate: (deck: Deck) => {
@@ -144,14 +144,14 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
   // State
   const [deck, setDeck] = useState<Deck>(initialDeck || {
     id: '',
-    name: 'New Deck',
+    name: 'New Deck',,
     format,
     cards: [],
     mainDeck: [],
     sideboard: [],
     author: {
       id: user?.uid || '',
-      name: user?.displayName || 'Anonymous'
+      name: user?.displayName || 'Anonymous',
     },
     isPublic: false,
     createdAt: new Date(),
@@ -206,8 +206,8 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
         // For now, we'll use mock data
         const mockCards: Card[] = Array.from({ length: 100 }, (_, i) => ({
           id: `card-${i + 1}`,
-          name: `Card ${i + 1}`,
-          type: ['Familiar', 'Spell', 'Flag', 'Azoth'][Math.floor(Math.random() * 4)] as CardType,
+          name: `Card ${i + 1}`,,
+          type: ['Familiar', 'Spell', 'Flag', 'Azoth'][Math.floor(Math.random() * 4)] as CardType,,
           elements: {
             fire: Math.random() > 0.7 ? Math.floor(Math.random() * 3) : 0,
             water: Math.random() > 0.7 ? Math.floor(Math.random() * 3) : 0,
@@ -217,8 +217,8 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
             dark: Math.random() > 0.7 ? Math.floor(Math.random() * 3) : 0,
             generic: Math.floor(Math.random() * 5)
           },
-          rarity: ['Common', 'Uncommon', 'Rare', 'Mythic'][Math.floor(Math.random() * 4)],
-          set: ['Core Set', 'Elemental Convergence', 'Mystic Horizons'][Math.floor(Math.random() * 3)]
+          rarity: ['Common', 'Uncommon', 'Rare', 'Mythic'][Math.floor(Math.random() * 4)],,
+          set: ['Core Set', 'Elemental Convergence', 'Mystic Horizons'][Math.floor(Math.random() * 3)],
         }));
         
         setAvailableCards(mockCards);
@@ -416,7 +416,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
     const rules: DeckValidationRule[] = [
       {
         id: 'min-cards',
-        name: 'Minimum Deck Size',
+        name: 'Minimum Deck Size',,
         description: 'Your deck must have at least 40 cards',
         format: 'standard',
         validate: (deck) => {
@@ -429,7 +429,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
       },
       {
         id: 'max-copies',
-        name: 'Maximum Copies',
+        name: 'Maximum Copies',,
         description: 'You can have at most 3 copies of any card',
         format: 'standard',
         validate: (deck) => {
@@ -453,7 +453,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
       },
       {
         id: 'azoth-limit',
-        name: 'Azoth Limit',
+        name: 'Azoth Limit',,
         description: 'Your deck can have at most 5 Azoth cards',
         format: 'standard',
         validate: (deck) => {
@@ -714,7 +714,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
         
         importedDeck = {
           ...deck,
-          name: data.name,
+          name: data.name,,
           mainDeck: data.mainDeck,
           sideboard: data.sideboard || [],
           updatedAt: new Date()
@@ -835,7 +835,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
         }
         
         // Create a download link
-        const blob = new Blob([exportData], { type: 'text/plain' });
+        const blob = new Blob([exportData], { type: 'text/plain' });,
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -1420,7 +1420,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
                 ref={deckNameInputRef}
                 type="text"
                 value={deck.name}
-                onChange={(e) => setDeck(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setDeck(prev => ({ ...prev, name: e.target.value }))},
                 className="deck-name-input"
                 placeholder="Enter deck name"
                 autoFocus
@@ -1858,7 +1858,7 @@ const UnifiedDeckBuilder: React.FC<UnifiedDeckBuilderProps> = ({
                 ref={deckNameInputRef}
                 type="text"
                 value={deck.name}
-                onChange={(e) => setDeck(prev => ({ ...prev, name: e.target.value }))}
+                onChange={(e) => setDeck(prev => ({ ...prev, name: e.target.value }))},
                 className="deck-name-input"
                 placeholder="Enter deck name"
                 autoFocus

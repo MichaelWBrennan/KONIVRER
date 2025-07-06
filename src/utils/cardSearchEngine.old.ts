@@ -214,7 +214,7 @@ const sortResults = (results, sortBy, sortOrder): any => {
 export const searchCards = async (searchParams) => {
   const {
     query = '',
-    filters = {},
+    filters = {}
     sortBy = 'relevance',
     sortOrder = 'desc',
     page = 1,
@@ -286,7 +286,7 @@ export const getSearchSuggestions = async (partialQuery) => {
   cardData.forEach(card => {
     if (normalizeText(card.name).includes(normalizeText(partialQuery))) {
       suggestions.add({
-        type: 'card',
+        type: 'card',,
         value: card.name,
         category: 'Cards'
       });
@@ -295,7 +295,7 @@ export const getSearchSuggestions = async (partialQuery) => {
     // Add type suggestions
     if (card.type && normalizeText(card.type).includes(normalizeText(partialQuery))) {
       suggestions.add({
-        type: 'filter',
+        type: 'filter',,
         value: card.type,
         category: 'Types',
         filter: 'type'
@@ -305,7 +305,7 @@ export const getSearchSuggestions = async (partialQuery) => {
     // Add element suggestions
     if (card.element && normalizeText(card.element).includes(normalizeText(partialQuery))) {
       suggestions.add({
-        type: 'filter',
+        type: 'filter',,
         value: card.element,
         category: 'Elements',
         filter: 'element'
@@ -327,7 +327,7 @@ export const getFilterOptions = (): any => {
     sets: new Set(),
     keywords: new Set(),
     mechanics: new Set(),
-    formats: new Set()
+    formats: new Set(),
   };
   
   cardData.forEach(card => {
@@ -356,6 +356,6 @@ export const getFilterOptions = (): any => {
     sets: Array.from(options.sets).sort(),
     keywords: Array.from(options.keywords).sort(),
     mechanics: Array.from(options.mechanics).sort(),
-    formats: Array.from(options.formats).sort()
+    formats: Array.from(options.formats).sort(),
   };
 };

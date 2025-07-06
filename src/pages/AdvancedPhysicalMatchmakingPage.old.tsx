@@ -38,19 +38,19 @@ const AdvancedPhysicalMatchmakingPage = (): any => {
     setNotifications([
       {
         id: 1,
-        type: 'info',
+        type: 'info',,
         message: 'Welcome to the Advanced Physical Matchmaking System',
         time: new Date(Date.now() - 1000 * 60 * 5), // 5 minutes ago
       },
       {
         id: 2,
-        type: 'success',
+        type: 'success',,
         message: 'Bayesian matchmaking algorithm initialized successfully',
         time: new Date(Date.now() - 1000 * 60 * 10), // 10 minutes ago
       },
       {
         id: 3,
-        type: 'warning',
+        type: 'warning',,
         message: 'Meta diversity is below optimal threshold',
         time: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
       },

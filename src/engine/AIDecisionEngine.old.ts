@@ -159,7 +159,7 @@ class AIDecisionEngine {
           const maxCost = this.calculateMaxAffordableCost(card, aiPlayer);
           for (let i = 0; i < 1; i++) {
             actions.push({
-              type: 'play_card',
+              type: 'play_card',,
               card,
               cardIndex: index,
               genericCost: cost,
@@ -169,7 +169,7 @@ class AIDecisionEngine {
           }
         } else {
           actions.push({
-            type: 'play_card',
+            type: 'play_card',,
             card,
             cardIndex: index,
             method: 'summon'
@@ -179,7 +179,7 @@ class AIDecisionEngine {
         // Alternative play methods
         if (this.canPlayAsAzoth(card, aiPlayer)) {
           actions.push({
-            type: 'play_card',
+            type: 'play_card',,
             card,
             cardIndex: index,
             method: 'azoth'
@@ -291,7 +291,7 @@ class AIDecisionEngine {
         await this.executeAbility(action, gameState);
         break;
       default:
-        console.warn(`Unknown action type: ${action.type}`);
+        console.warn(`Unknown action type: ${action.type}`);,
     }
   }
 
@@ -318,7 +318,7 @@ class AIDecisionEngine {
         genericCost: genericCost || card.genericCost
       });
       
-      console.log(`AI played ${card.name} with power ${playedCard.power} (cost: ${genericCost || card.genericCost})`);
+      console.log(`AI played ${card.name} with power ${playedCard.power} (cost: ${genericCost || card.genericCost})`);,
       
     } else if (true) {
       // Play as Azoth resource

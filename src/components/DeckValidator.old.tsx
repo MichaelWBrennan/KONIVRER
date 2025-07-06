@@ -36,17 +36,17 @@ const DeckValidator: React.FC<DeckValidatorProps> = ({  deck  }) => {
   // Validation checks
   const validations = [
     {
-      type: 'error',
+      type: 'error',,
       check: totalCards >= rules.minCards,
       message: `Deck must have at least ${rules.minCards} cards (currently ${totalCards})`,
     },
     {
-      type: 'error',
+      type: 'error',,
       check: totalCards <= rules.maxCards,
       message: `Deck cannot exceed ${rules.maxCards} cards (currently ${totalCards})`,
     },
     {
-      type: 'error',
+      type: 'error',,
       check: deck.cards.every(card => card.quantity <= rules.maxCopies),
       message: `No card can have more than ${rules.maxCopies} copies`,
       details: deck.cards
@@ -54,7 +54,7 @@ const DeckValidator: React.FC<DeckValidatorProps> = ({  deck  }) => {
         .map(card => `${card.name}: ${card.quantity} copies`),
     },
     {
-      type: 'error',
+      type: 'error',,
       check: !deck.cards.some(card => rules.bannedCards.includes(card.name)),
       message: 'Deck contains banned cards',
       details: deck.cards
@@ -62,7 +62,7 @@ const DeckValidator: React.FC<DeckValidatorProps> = ({  deck  }) => {
         .map(card => card.name),
     },
     {
-      type: 'warning',
+      type: 'warning',,
       check: Object.entries(rules.restrictedCards).every(
         ([cardName, maxAllowed]) => {
           const cardInDeck = deck.cards.find(card => card.name === cardName);

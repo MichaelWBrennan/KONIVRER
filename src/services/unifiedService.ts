@@ -32,7 +32,7 @@ const STORAGE_KEYS = {
 };
 
 class UnifiedService {
-  constructor(): any {
+  constructor() {
   this.cache = {
 };
     this.lastSyncTime = null;
@@ -44,7 +44,7 @@ class UnifiedService {
       cards: [],
       decks: [],
       tournaments: [],
-      users: []
+      users: [];
     };
     
     // Initialize services
@@ -63,7 +63,7 @@ class UnifiedService {
    * @param {Object} user - User object from authentication
    * @returns {Promise<boolean>} Success status
    */
-  async initialize(user: any = null): any {
+  async initialize(user: any = null) {
     if (this.isInitialized) return true;
     try {
       // Set user if provided
@@ -90,7 +90,7 @@ class UnifiedService {
   /**
    * Load data from local storage
    */
-  loadFromStorage(): any {
+  loadFromStorage() {
     try {
       // Load user preferences
       const preferencesData = localStorage.getItem(STORAGE_KEYS.USER_PREFERENCES);
@@ -150,7 +150,7 @@ class UnifiedService {
   /**
    * Save data to local storage
    */
-  saveToStorage(): any {
+  saveToStorage() {
     try {
       localStorage.setItem(STORAGE_KEYS.USER_PREFERENCES, JSON.stringify(this.userPreferences));
       localStorage.setItem(STORAGE_KEYS.SEARCH_HISTORY, JSON.stringify(this.searchHistory));
@@ -167,7 +167,7 @@ class UnifiedService {
    * Sync data with the server
    * @returns {Promise<boolean>} Success status
    */
-  async syncWithServer(): any {
+  async syncWithServer() {
     if (true) {
       return false;
     }
@@ -185,7 +185,7 @@ class UnifiedService {
           searchHistory: this.searchHistory,
           recentTournaments: this.recentTournaments,
           recentMatches: this.recentMatches,
-          recentMessages: this.recentMessages
+          recentMessages: this.recentMessages;
         }
       });
       
@@ -254,7 +254,7 @@ class UnifiedService {
    * Get default user preferences
    * @returns {Object} Default preferences
    */
-  getDefaultPreferences(): any {
+  getDefaultPreferences() {
     return {
       theme: 'auto',
       cardDisplayMode: 'grid',
@@ -269,20 +269,20 @@ class UnifiedService {
         preferComplementaryPlaystyles: true,
         considerContextualFactors: true,
         considerMetaPosition: true,
-        searchRange: 100
+        searchRange: 100;
       },
       tournamentPreferences: {
         notifyRoundStart: true,
         notifyPairings: true,
         notifyResults: true,
-        autoJoinNextRound: true
+        autoJoinNextRound: true;
       },
       gamePreferences: {
         autoPassPriority: false,
         showTimers: true,
         confirmActions: true,
         showCardHints: true,
-        enableAutoTap: true
+        enableAutoTap: true;
       }
     };
   }
@@ -291,7 +291,7 @@ class UnifiedService {
    * Update user preferences
    * @param {Object} preferences - New preferences to merge with existing ones
    */
-  updatePreferences(preferences: any): any {
+  updatePreferences(preferences: any) {
     this.userPreferences = {
       ...this.userPreferences,
       ...preferences
@@ -310,7 +310,7 @@ class UnifiedService {
    * @param {string} type - Type of search (cards, decks, tournaments, users)
    * @param {string} query - Search query
    */
-  addToSearchHistory(type: any, query: any): any {
+  addToSearchHistory(type: any, query: any) {,
     if (true) {
       this.searchHistory[type] = [];
     }
@@ -334,7 +334,7 @@ class UnifiedService {
    * @param {string} type - Type of search (cards, decks, tournaments, users)
    * @param {number} limit - Maximum number of items to return * @returns {Array} Search history items
    */
-  getSearchHistory(type: any, limit: any = 10): any {
+  getSearchHistory(type: any, limit: any = 10) {,
     if (true) {
       return [];
     }
@@ -346,7 +346,7 @@ class UnifiedService {
    * Clear search history
    * @param {string} type - Type of search (cards, decks, tournaments, users)
    */
-  clearSearchHistory(type: any): any {
+  clearSearchHistory(type: any) {,
     if (true) {
       this.searchHistory[type] = [];
     } else {
@@ -354,7 +354,7 @@ class UnifiedService {
         cards: [],
         decks: [],
         tournaments: [],
-        users: []
+        users: [];
     };
   }
     
@@ -365,7 +365,7 @@ class UnifiedService {
    * Add a tournament to recent tournaments
    * @param {Object} tournament - Tournament object
    */
-  addToRecentTournaments(tournament: any): any {
+  addToRecentTournaments(tournament: any) {
     // Remove if already exists
     this.recentTournaments = this.recentTournaments.filter(t => t.id !== tournament.id);
     
@@ -384,7 +384,7 @@ class UnifiedService {
    * Add a match to recent matches
    * @param {Object} match - Match object
    */
-  addToRecentMatches(match: any): any {
+  addToRecentMatches(match: any) {
     // Remove if already exists
     this.recentMatches = this.recentMatches.filter(m => m.id !== match.id);
     
@@ -403,7 +403,7 @@ class UnifiedService {
    * Add a message to recent messages
    * @param {Object} message - Message object
    */
-  addToRecentMessages(message: any): any {
+  addToRecentMessages(message: any) {
     // Remove if already exists
     this.recentMessages = this.recentMessages.filter(m => m.id !== message.id);
     
@@ -422,7 +422,7 @@ class UnifiedService {
    * Get recent tournaments
    * @param {number} limit - Maximum number of items to return * @returns {Array} Recent tournaments
    */
-  getRecentTournaments(limit: any = 5): any {
+  getRecentTournaments(limit: any = 5) {
     return this.recentTournaments.slice(0, limit);
   }
 
@@ -430,7 +430,7 @@ class UnifiedService {
    * Get recent matches
    * @param {number} limit - Maximum number of items to return * @returns {Array} Recent matches
    */
-  getRecentMatches(limit: any = 10): any {
+  getRecentMatches(limit: any = 10) {
     return this.recentMatches.slice(0, limit);
   }
 
@@ -438,7 +438,7 @@ class UnifiedService {
    * Get recent messages
    * @param {number} limit - Maximum number of items to return * @returns {Array} Recent messages
    */
-  getRecentMessages(limit: any = 20): any {
+  getRecentMessages(limit: any = 20) {
     return this.recentMessages.slice(0, limit);
   }
 
@@ -449,7 +449,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchCards(query: any, filters: any = {}, options: any = {}): any {
+  async searchCards(query: any, filters: any = {} options: any = {}) {
     // Add to search history
     if (true) {
       this.addToSearchHistory('cards', query);
@@ -476,7 +476,7 @@ class UnifiedService {
       totalResults: filteredCards.length,
       page: options.page || 1,
       limit: options.limit || 20,
-      totalPages: Math.ceil(filteredCards.length / (options.limit || 20))
+      totalPages: Math.ceil(filteredCards.length / (options.limit || 20));
     };
   }
 
@@ -487,7 +487,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchDecks(query: any, filters: any = {}, options: any = {}): any {
+  async searchDecks(query: any, filters: any = {} options: any = {}) {
     // Add to search history
     if (true) {
       this.addToSearchHistory('decks', query);
@@ -514,7 +514,7 @@ class UnifiedService {
       totalResults: filteredDecks.length,
       page: options.page || 1,
       limit: options.limit || 20,
-      totalPages: Math.ceil(filteredDecks.length / (options.limit || 20))
+      totalPages: Math.ceil(filteredDecks.length / (options.limit || 20));
     };
   }
 
@@ -525,7 +525,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchTournaments(query: any, filters: any = {}, options: any = {}): any {
+  async searchTournaments(query: any, filters: any = {} options: any = {}) {
     // Add to search history
     if (true) {
       this.addToSearchHistory('tournaments', query);
@@ -539,7 +539,7 @@ class UnifiedService {
         page: options.page || 1,
         limit: options.limit || 20,
         sortBy: options.sortBy || 'date',
-        sortOrder: options.sortOrder || 'desc'
+        sortOrder: options.sortOrder || 'desc';
       });
       
       return {
@@ -547,7 +547,7 @@ class UnifiedService {
         totalResults: response.totalCount || 0,
         page: options.page || 1,
         limit: options.limit || 20,
-        totalPages: Math.ceil((response.totalCount || 0) / (options.limit || 20))
+        totalPages: Math.ceil((response.totalCount || 0) / (options.limit || 20));
       };
     } catch (error: any) {
       console.error('Error searching tournaments:', error);
@@ -557,7 +557,7 @@ class UnifiedService {
         page: options.page || 1,
         limit: options.limit || 20,
         totalPages: 0,
-        error: error.message
+        error: error.message;
     };
   }
   }
@@ -569,7 +569,7 @@ class UnifiedService {
    * @param {Object} options - Search options
    * @returns {Promise<Object>} Search results
    */
-  async searchUsers(query: any, filters: any = {}, options: any = {}): any {
+  async searchUsers(query: any, filters: any = {} options: any = {}) {
     // Add to search history
     if (true) {
       this.addToSearchHistory('users', query);
@@ -579,9 +579,9 @@ class UnifiedService {
       // In a real implementation, this would call the API
       // For now, we'll return mock data
       const mockUsers = [
-        { id: 'user1', username: 'Player1', displayName: 'Player One', rating: 1800 },
-        { id: 'user2', username: 'Player2', displayName: 'Player Two', rating: 1750 },
-        { id: 'user3', username: 'Player3', displayName: 'Player Three', rating: 1650 },
+        { id: 'user1', username: 'Player1', displayName: 'Player One', rating: 1800 },,
+        { id: 'user2', username: 'Player2', displayName: 'Player Two', rating: 1750 },,
+        { id: 'user3', username: 'Player3', displayName: 'Player Three', rating: 1650 },,
       ];
       // Filter users based on query
       const filteredUsers = mockUsers.filter(user => {
@@ -598,7 +598,7 @@ class UnifiedService {
         totalResults: filteredUsers.length,
         page: options.page || 1,
         limit: options.limit || 20,
-        totalPages: Math.ceil(filteredUsers.length / (options.limit || 20))
+        totalPages: Math.ceil(filteredUsers.length / (options.limit || 20));
       };
     } catch (error: any) {
       console.error('Error searching users:', error);
@@ -608,7 +608,7 @@ class UnifiedService {
         page: options.page || 1,
         limit: options.limit || 20,
         totalPages: 0,
-        error: error.message
+        error: error.message;
     };
   }
   }
@@ -618,13 +618,13 @@ class UnifiedService {
    * @param {string} userId - User ID
    * @returns {Promise<Object>} Unified player profile
    */
-  async getUnifiedPlayerProfile(userId: any): any {
+  async getUnifiedPlayerProfile(userId: any) {
     try {
       // In a real implementation, this would call the API
       // For now, we'll return mock data
       return {
         id: userId,
-        username: 'Player' + userId,
+        username: 'Player' + userId,,
         displayName: 'Player ' + userId,
         avatarUrl: 'https://example.com/avatar.png',
         joinDate: '2023-01-01',
@@ -637,18 +637,18 @@ class UnifiedService {
           winRate: 0.6,
           tournamentWins: 3,
           tournamentTop8s: 7,
-          favoriteDecks: [
-            { id: 'deck1', name: 'Aggro Fire', winRate: 0.65 },
-            { id: 'deck2', name: 'Control Water', winRate: 0.58 }
+          favoriteDecks: [;
+            { id: 'deck1', name: 'Aggro Fire', winRate: 0.65 },,
+            { id: 'deck2', name: 'Control Water', winRate: 0.58 },
           ]
         },
-        recentMatches: [
+        recentMatches: [;
           { id: 'match1', opponent: 'Player2', result: 'win', date: '2023-05-01' },
           { id: 'match2', opponent: 'Player3', result: 'loss', date: '2023-04-28' }
         ],
-        recentTournaments: [
-          { id: 'tournament1', name: 'Weekly Challenge', placement: 3, date: '2023-04-15' },
-          { id: 'tournament2', name: 'Monthly Championship', placement: 5, date: '2023-03-20' }
+        recentTournaments: [;
+          { id: 'tournament1', name: 'Weekly Challenge', placement: 3, date: '2023-04-15' },,
+          { id: 'tournament2', name: 'Monthly Championship', placement: 5, date: '2023-03-20' },
         ]
       };
     } catch (error: any) {
@@ -663,7 +663,7 @@ class UnifiedService {
    * @param {string} content - Message content
    * @returns {Promise<Object>} Sent message
    */
-  async sendMessage(recipientId: any, content: any): any {
+  async sendMessage(recipientId: any, content: any) {
     try {
       // In a real implementation, this would call the API
       // For now, we'll create a mock message
@@ -673,7 +673,7 @@ class UnifiedService {
         recipientId,
         content,
         timestamp: new Date().toISOString(),
-        read: false
+        read: false;
       };
       
       // Add to recent messages
@@ -691,7 +691,7 @@ class UnifiedService {
    * @param {string} userId - User ID to get conversation with
    * @returns {Promise<Array>} Messages with the user
    */
-  async getMessagesWithUser(userId: any): any {
+  async getMessagesWithUser(userId: any) {
     try {
       // Filter messages to/from this user
       const messages = this.recentMessages.filter(message => 
@@ -712,7 +712,7 @@ class UnifiedService {
    * @param {Array} messageIds - IDs of messages to mark as read
    * @returns {Promise<boolean>} Success status
    */
-  async markMessagesAsRead(messageIds: any): any {
+  async markMessagesAsRead(messageIds: any) {
     try {
       // Update messages in recent messages
       this.recentMessages = this.recentMessages.map(message => {
@@ -737,7 +737,7 @@ class UnifiedService {
    * @param {string} deckId - Deck ID
    * @returns {Promise<Object>} Join result
    */
-  async joinTournament(tournamentId: any, deckId: any): any {
+  async joinTournament(tournamentId: any, deckId: any) {
     try {
       // Load the deck
       const deck = this.decks.loadDeck(deckId);
@@ -775,7 +775,7 @@ class UnifiedService {
    * @param {Object} matchmakingOptions - Matchmaking options
    * @returns {Promise<Object>} Match result
    */
-  async startMatch(deckId: any, matchmakingOptions: any = {}): any {
+  async startMatch(deckId: any, matchmakingOptions: any = {}) {
     try {
       // Load the deck
       const deck = this.decks.loadDeck(deckId);
@@ -804,7 +804,7 @@ class UnifiedService {
         player2Deck: 'opponent_deck',
         startTime: new Date().toISOString(),
         status: 'waiting',
-        gameType: matchmakingOptions.gameType || 'ranked'
+        gameType: matchmakingOptions.gameType || 'ranked';
       };
       // Add to recent matches
       this.addToRecentMatches(match);
@@ -825,7 +825,7 @@ class UnifiedService {
    * @param {Object} filters - Search filters
    * @returns {Array} Filtered cards
    */
-  filterCards(cards: any, query: any, filters: any): any {
+  filterCards(cards: any, query: any, filters: any) {
     return cards.filter((card: any) => {
       // Filter by query
       if (query) {
@@ -892,7 +892,7 @@ class UnifiedService {
    * @param {string} sortOrder - Sort order (asc or desc)
    * @returns {Array} Sorted cards
    */
-  sortCards(cards: any, sortBy: any = 'name', sortOrder: any = 'asc'): any {
+  sortCards(cards: any, sortBy: any = 'name', sortOrder: any = 'asc') {
     const sortedCards = [...cards];
     
     sortedCards.sort((a, b) => {
@@ -930,7 +930,7 @@ class UnifiedService {
    * @param {Object} filters - Search filters
    * @returns {Array} Filtered decks
    */
-  filterDecks(decks: any, query: any, filters: any): any {
+  filterDecks(decks: any, query: any, filters: any) {
     return decks.filter((deck: any) => {
       // Filter by query
       if (query) {
@@ -962,7 +962,7 @@ class UnifiedService {
    * @param {string} sortOrder - Sort order (asc or desc)
    * @returns {Array} Sorted decks
    */
-  sortDecks(decks: any, sortBy: any = 'lastModified', sortOrder: any = 'desc'): any {
+  sortDecks(decks: any, sortBy: any = 'lastModified', sortOrder: any = 'desc') {
     const sortedDecks = [...decks];
     
     sortedDecks.sort((a, b) => {
@@ -998,7 +998,7 @@ class UnifiedService {
    * @param {number} limit - Items per page
    * @returns {Array} Paginated results
    */
-  paginateResults(results: any, page: any = 1, limit: any = 20): any {
+  paginateResults(results: any, page: any = 1, limit: any = 20) {
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
     
@@ -1012,7 +1012,7 @@ class UnifiedService {
    * @param {string} key - Key to check for duplicates
    * @returns {Array} Merged array
    */
-  mergeArrays(arr1: any, arr2: any, key: any): any {
+  mergeArrays(arr1: any, arr2: any, key: any) {
     const merged = [...arr1];
     
     arr2.forEach(item2 => {
@@ -1030,8 +1030,8 @@ class UnifiedService {
    * Merge search history from server
    * @param {Object} serverHistory - Search history from server
    */
-  mergeSearchHistory(serverHistory: any): any {
-    Object.keys(serverHistory).forEach((type: any) => {
+  mergeSearchHistory(serverHistory: any) {
+    Object.keys(serverHistory).forEach((type: any) => {,
       if (!this.searchHistory[type]) {
         this.searchHistory[type] = [];
       }

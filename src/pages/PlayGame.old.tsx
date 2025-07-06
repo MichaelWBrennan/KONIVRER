@@ -31,46 +31,46 @@ const PlayGame = (): any => {
   
   // Mock decks data
   const playerDecks = [
-    { id: 1, name: 'Fire Aggro', colors: ['fire'], winRate: '58%', lastPlayed: '2 days ago' },
-    { id: 2, name: 'Water Control', colors: ['water'], winRate: '62%', lastPlayed: '5 hours ago' },
-    { id: 3, name: 'Earth Midrange', colors: ['earth', 'void'], winRate: '55%', lastPlayed: '1 week ago' },
-    { id: 4, name: 'Air Combo', colors: ['air', 'water'], winRate: '60%', lastPlayed: 'Yesterday' },
-    { id: 5, name: 'Five Elements', colors: ['fire', 'water', 'earth', 'air', 'void'], winRate: '48%', lastPlayed: '3 days ago' }
+    { id: 1, name: 'Fire Aggro', colors: ['fire'], winRate: '58%', lastPlayed: '2 days ago' },,
+    { id: 2, name: 'Water Control', colors: ['water'], winRate: '62%', lastPlayed: '5 hours ago' },,
+    { id: 3, name: 'Earth Midrange', colors: ['earth', 'void'], winRate: '55%', lastPlayed: '1 week ago' },,
+    { id: 4, name: 'Air Combo', colors: ['air', 'water'], winRate: '60%', lastPlayed: 'Yesterday' },,
+    { id: 5, name: 'Five Elements', colors: ['fire', 'water', 'earth', 'air', 'void'], winRate: '48%', lastPlayed: '3 days ago' },
   ];
   
   // Game formats
   const formats = [
-    { id: 'standard', name: 'Standard', description: 'Regulation format with standard rules', icon: Shield },
-    { id: 'draft', name: 'Draft', description: 'Build a deck from random packs and play', icon: Zap },
-    { id: 'sealed', name: 'Sealed', description: 'Build a deck from 6 packs and play', icon: Award },
-    { id: 'brawl', name: 'Brawl', description: 'Commander-style format with a leader card', icon: Sword }
+    { id: 'standard', name: 'Standard', description: 'Regulation format with standard rules', icon: Shield },,
+    { id: 'draft', name: 'Draft', description: 'Build a deck from random packs and play', icon: Zap },,
+    { id: 'sealed', name: 'Sealed', description: 'Build a deck from 6 packs and play', icon: Award },,
+    { id: 'brawl', name: 'Brawl', description: 'Commander-style format with a leader card', icon: Sword },
   ];
   
   // AI difficulty options
   const aiDifficultyOptions = [
-    { id: AI_DIFFICULTY.EASY, name: 'Easy', description: 'For beginners or casual play' },
-    { id: AI_DIFFICULTY.MEDIUM, name: 'Medium', description: 'Balanced challenge for most players' },
-    { id: AI_DIFFICULTY.HARD, name: 'Hard', description: 'Challenging for experienced players' },
-    { id: AI_DIFFICULTY.EXPERT, name: 'Expert', description: 'Highly competitive AI opponent' }
+    { id: AI_DIFFICULTY.EASY, name: 'Easy', description: 'For beginners or casual play' },,
+    { id: AI_DIFFICULTY.MEDIUM, name: 'Medium', description: 'Balanced challenge for most players' },,
+    { id: AI_DIFFICULTY.HARD, name: 'Hard', description: 'Challenging for experienced players' },,
+    { id: AI_DIFFICULTY.EXPERT, name: 'Expert', description: 'Highly competitive AI opponent' },
   ];
   
   // AI personality options
   const aiPersonalityOptions = [
-    { id: AI_PERSONALITY.BALANCED, name: 'Balanced', description: 'Well-rounded play style' },
-    { id: AI_PERSONALITY.AGGRESSIVE, name: 'Aggressive', description: 'Focuses on dealing damage quickly' },
-    { id: AI_PERSONALITY.DEFENSIVE, name: 'Defensive', description: 'Prioritizes board control and protection' },
-    { id: AI_PERSONALITY.CONTROL, name: 'Control', description: 'Counters your plays and controls the game' },
-    { id: AI_PERSONALITY.COMBO, name: 'Combo', description: 'Tries to assemble powerful card combinations' }
+    { id: AI_PERSONALITY.BALANCED, name: 'Balanced', description: 'Well-rounded play style' },,
+    { id: AI_PERSONALITY.AGGRESSIVE, name: 'Aggressive', description: 'Focuses on dealing damage quickly' },,
+    { id: AI_PERSONALITY.DEFENSIVE, name: 'Defensive', description: 'Prioritizes board control and protection' },,
+    { id: AI_PERSONALITY.CONTROL, name: 'Control', description: 'Counters your plays and controls the game' },,
+    { id: AI_PERSONALITY.COMBO, name: 'Combo', description: 'Tries to assemble powerful card combinations' },
   ];
   
   // AI archetype options
   const aiArchetypeOptions = [
-    { id: AI_ARCHETYPES.FIRE_AGGRO, name: 'Fire Aggro', description: 'Fast, aggressive fire-based deck', element: 'fire' },
-    { id: AI_ARCHETYPES.WATER_CONTROL, name: 'Water Control', description: 'Controlling water-based deck with counterspells', element: 'water' },
-    { id: AI_ARCHETYPES.EARTH_MIDRANGE, name: 'Earth Midrange', description: 'Balanced earth-based deck with strong creatures', element: 'earth' },
-    { id: AI_ARCHETYPES.AIR_TEMPO, name: 'Air Tempo', description: 'Tempo-oriented air-based deck with evasive creatures', element: 'air' },
-    { id: AI_ARCHETYPES.VOID_COMBO, name: 'Void Combo', description: 'Combo-focused void-based deck', element: 'void' },
-    { id: AI_ARCHETYPES.MULTI_COLOR, name: 'Multi-Color', description: 'Deck using all five elements', element: 'multi' }
+    { id: AI_ARCHETYPES.FIRE_AGGRO, name: 'Fire Aggro', description: 'Fast, aggressive fire-based deck', element: 'fire' },,,
+    { id: AI_ARCHETYPES.WATER_CONTROL, name: 'Water Control', description: 'Controlling water-based deck with counterspells', element: 'water' },,,
+    { id: AI_ARCHETYPES.EARTH_MIDRANGE, name: 'Earth Midrange', description: 'Balanced earth-based deck with strong creatures', element: 'earth' },,,
+    { id: AI_ARCHETYPES.AIR_TEMPO, name: 'Air Tempo', description: 'Tempo-oriented air-based deck with evasive creatures', element: 'air' },,,
+    { id: AI_ARCHETYPES.VOID_COMBO, name: 'Void Combo', description: 'Combo-focused void-based deck', element: 'void' },,,
+    { id: AI_ARCHETYPES.MULTI_COLOR, name: 'Multi-Color', description: 'Deck using all five elements', element: 'multi' },,
   ];
   
   // Generate AI deck when settings change
@@ -101,7 +101,7 @@ const PlayGame = (): any => {
       aiSettings: opponentType === 'ai' ? {
         difficulty: aiDifficulty,
         personality: aiPersonality,
-        archetype: aiArchetype,
+        archetype: aiArchetype,,
         deck: aiDeck
       } : null
     };

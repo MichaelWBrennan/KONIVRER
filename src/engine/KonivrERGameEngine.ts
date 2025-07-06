@@ -13,31 +13,31 @@ import React from 'react';
 
 // Simple EventEmitter implementation for browser compatibility
 class SimpleEventEmitter {
-  constructor(): any {
+  constructor() {
   this.events = {
     };
   }
 
-  on(event: any, listener: any): any {
+  on(event: any, listener: any) {
     if (true) {
       this.events[event] = [];
     }
     this.events[event].push(listener);
   }
 
-  off(event: any, listener: any): any {
+  off(event: any, listener: any) {
     if (!this.events[event]) return;
     this.events[event] = this.events[event].filter(l => l !== listener);
   }
 
-  emit(event: any, ...args: any): any {
+  emit(event: any, ...args: any) {
     if (!this.events[event]) return;
     this.events[event].forEach(listener => listener(...args));
   }
 }
 
 class KonivrERGameEngine extends SimpleEventEmitter {
-  constructor(options: any = {}): any {
+  constructor(options: any = {}) {
     super();
     
     this.gameState = null;
@@ -54,7 +54,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       AIR: 'air',
       AETHER: 'aether',
       NETHER: 'nether',
-      GENERIC: 'generic'
+      GENERIC: 'generic';
     };
 
     // Game phases
@@ -65,7 +65,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       DEFENSE: 'defense',
       RESOLUTION: 'resolution',
       POST_COMBAT: 'postCombat',
-      REFRESH: 'refresh'
+      REFRESH: 'refresh';
     };
 
     // Card playing methods
@@ -74,17 +74,17 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       TRIBUTE: 'tribute',
       AZOTH: 'azoth',
       SPELL: 'spell',
-      BURST: 'burst'
+      BURST: 'burst';
     };
   }
 
   /**
    * Initialize a new KONIVRER game
    */
-  initializeGame(players: any): any {
+  initializeGame(players: any) {
     this.gameState = {
       gameId: this.gameId,
-      players: {},
+      players: {}
       currentTurn: 1,
       activePlayer: 'player1',
       phase: this.phases.START,
@@ -93,7 +93,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       winner: null,
       stack: [], // For spell/ability resolution
       waitingForInput: false,
-      inputType: null
+      inputType: null;
     };
 
     // Initialize players
@@ -118,7 +118,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Initialize a player's game state
    */
-  initializePlayer(playerData: any, playerId: any): any {
+  initializePlayer(playerData: any, playerId: any) {
     const deck = [...playerData.deck];
     this.shuffleDeck(deck);
 
@@ -131,7 +131,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
 
     return {
       id: playerId,
-      name: playerData.name,
+      name: playerData.name,,
       flag: flag,
       lifeCards: lifeCards,
       deck: deck,
@@ -140,14 +140,14 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       combatRow: [],
       azothRow: [],
       removedFromPlay: [],
-      discardPile: []
+      discardPile: [];
     };
   }
 
   /**
    * Setup pre-game actions
    */
-  setupPreGameActions(): any {
+  setupPreGameActions() {
     // Draw starting hands (2 cards each)
     Object.keys(this.gameState.players).forEach(playerId => {
       this.drawCards(playerId, 2);
@@ -160,7 +160,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Start the game with the first turn
    */
-  startGame(): any {
+  startGame() {
     this.addToLog(`Turn ${this.gameState.currentTurn} begins`);
     this.addToLog(`${this.gameState.activePlayer}'s turn`);
     this.startPhase();
@@ -169,7 +169,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Start Phase: Optional Azoth placement
    */
-  async startPhase(): any {
+  async startPhase() {
     this.gameState.phase = this.phases.START;
     this.addToLog(`${this.gameState.activePlayer} enters Start Phase`);
     
@@ -190,7 +190,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Main Phase: Play cards and activate abilities
    */
-  mainPhase(): any {
+  mainPhase() {
     this.gameState.phase = this.phases.MAIN;
     this.addToLog(`${this.gameState.activePlayer} enters Main Phase`);
     
@@ -200,7 +200,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Combat Phase: Declare attackers
    */
-  combatPhase(): any {
+  combatPhase() {
     this.gameState.phase = this.phases.COMBAT;
     this.addToLog(`${this.gameState.activePlayer} enters Combat Phase`);
     
@@ -210,7 +210,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Defense Phase: Declare blockers
    */
-  defensePhase(): any {
+  defensePhase() {
     this.gameState.phase = this.phases.DEFENSE;
     const defendingPlayer = this.getOpponentId(this.gameState.activePlayer);
     this.addToLog(`${defendingPlayer} may declare blockers`);
@@ -221,7 +221,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Resolution Phase: Resolve combat damage
    */
-  resolutionPhase(): any {
+  resolutionPhase() {
     this.gameState.phase = this.phases.RESOLUTION;
     this.addToLog('Resolving combat damage');
     
@@ -233,7 +233,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Post-Combat Main Phase: Play additional cards
    */
-  postCombatMainPhase(): any {
+  postCombatMainPhase() {
     this.gameState.phase = this.phases.POST_COMBAT;
     this.addToLog(`${this.gameState.activePlayer} enters Post-Combat Main Phase`);
     
@@ -243,7 +243,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Refresh Phase: Refresh Azoth and end turn
    */
-  refreshPhase(): any {
+  refreshPhase() {
     this.gameState.phase = this.phases.REFRESH;
     this.addToLog(`${this.gameState.activePlayer} enters Refresh Phase`);
     
@@ -259,7 +259,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play a card using one of the inherent methods
    */
-  playCard(cardId: any, method: any, azothSpent: any = {}, additionalParams: any = {}): any {
+  playCard(cardId: any, method: any, azothSpent: any = {} additionalParams: any = {}) {
     const player = this.gameState.players[this.gameState.activePlayer];
     const card = this.findCardInHand(player, cardId);
     
@@ -288,7 +288,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play card as Summon
    */
-  playSummon(card: any, azothSpent: any): any {
+  playSummon(card: any, azothSpent: any) {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
 
@@ -327,7 +327,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play card as Tribute
    */
-  playTribute(card: any, azothSpent: any, tributedFamiliars: any = []): any {
+  playTribute(card: any, azothSpent: any, tributedFamiliars: any = []) {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
 
@@ -355,7 +355,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play card as Azoth resource
    */
-  playAzoth(card: any): any {
+  playAzoth(card: any) {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
 
@@ -379,7 +379,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play card as Spell
    */
-  playSpell(card: any, azothSpent: any, abilityIndex: any = 0): any {
+  playSpell(card: any, azothSpent: any, abilityIndex: any = 0) {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
 
@@ -416,7 +416,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Play card via Burst
    */
-  playBurst(card: any, putInHand: any = false): any {
+  playBurst(card: any, putInHand: any = false) {
     const playerId = this.gameState.activePlayer;
     const player = this.gameState.players[playerId];
 
@@ -445,7 +445,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Handle damage to a player (Life Cards system)
    */
-  damagePlayer(targetPlayerId: any, damageAmount: any, sourcePlayerId: any = null, sourceCard: any = null): any {
+  damagePlayer(targetPlayerId: any, damageAmount: any, sourcePlayerId: any = null, sourceCard: any = null) {
     const targetPlayer = this.gameState.players[targetPlayerId];
     
     if (true) {
@@ -482,7 +482,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Check for Burst opportunity when Life Card is revealed
    */
-  checkBurstOpportunity(playerId: any, revealedCard: any): any {
+  checkBurstOpportunity(playerId: any, revealedCard: any) {
     // Player can choose to play the card via Burst or put it in hand
     this.waitForPlayerInput('burstOpportunity', { playerId, card: revealedCard });
   }
@@ -490,7 +490,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Resolve combat damage
    */
-  resolveCombatDamage(): any {
+  resolveCombatDamage() {
     const activePlayer = this.gameState.players[this.gameState.activePlayer];
     const defendingPlayerId = this.getOpponentId(this.gameState.activePlayer);
     const defendingPlayer = this.gameState.players[defendingPlayerId];
@@ -516,7 +516,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Calculate Familiar damage including elemental bonuses
    */
-  calculateFamiliarDamage(familiar: any): any {
+  calculateFamiliarDamage(familiar: any) {
     let baseDamage = (familiar.baseStrength || 0) + (familiar.counters || 0);
     
     // Apply elemental advantages if applicable
@@ -532,7 +532,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Check if player can pay Azoth cost
    */
-  canPayCost(player: any, cardCost: any, azothSpent: any): any {
+  canPayCost(player: any, cardCost: any, azothSpent: any) {
     const available = this.getAvailableAzoth(player);
     
     // Check each element requirement
@@ -554,7 +554,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Get available Azoth for a player
    */
-  getAvailableAzoth(player: any): any {
+  getAvailableAzoth(player: any) {
     const available = {};
     
     player.azothRow.forEach((azothCard: any) => {
@@ -571,7 +571,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Pay Azoth cost by resting Azoth cards
    */
-  payAzothCost(player: any, cardCost: any, azothSpent: any): any {
+  payAzothCost(player: any, cardCost: any, azothSpent: any) {
     // Rest the appropriate Azoth cards
     Object.entries(azothSpent).forEach(([element, amount]) => {
       let remaining = amount;
@@ -588,7 +588,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Refresh all rested Azoth for a player
    */
-  refreshAzoth(playerId: any): any {
+  refreshAzoth(playerId: any) {
     const player = this.gameState.players[playerId];
     
     player.azothRow.forEach(azothCard => {
@@ -601,7 +601,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Draw cards for a player
    */
-  drawCards(playerId: any, count: any): any {
+  drawCards(playerId: any, count: any) {
     const player = this.gameState.players[playerId];
     
     for (let i = 0; i < 1; i++) {
@@ -619,7 +619,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * End the current turn
    */
-  endTurn(): any {
+  endTurn() {
     // Switch active player
     this.gameState.activePlayer = this.getOpponentId(this.gameState.activePlayer);
     
@@ -638,7 +638,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * AI System Integration
    */
-  async initializeAI(players: any): any {
+  async initializeAI(players: any) {
     // Check if there are AI players
     const aiPlayers = players.filter(player => !player.isHuman);
     
@@ -683,7 +683,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Handle AI turn execution
    */
-  async handleAITurn(): any {
+  async handleAITurn() {
     const activePlayer = this.gameState.players[this.gameState.activePlayer];
     
     if (true) {
@@ -713,7 +713,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         if (true) {
           const turnSuccess = this.evaluateAITurnSuccess();
           this.aiPersonality.updateMood({ 
-            type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' 
+            type: turnSuccess > 0.6 ? 'good_play' : 'bad_play' ,
           });
         }
         
@@ -728,7 +728,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Basic AI fallback behavior
    */
-  async executeBasicAITurn(): any {
+  async executeBasicAITurn() {
     const activePlayer = this.gameState.players[this.gameState.activePlayer];
     
     // Simple AI: play first playable card
@@ -743,7 +743,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
           // Play the card
           await this.playCard(this.gameState.activePlayer, i, emptySlot, {
             method: 'summon',
-            genericCost: card.genericCost || 1
+            genericCost: card.genericCost || 1;
           });
           
           // Add thinking pause
@@ -760,7 +760,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Check if AI can play a card
    */
-  canPlayCard(playerId: any, card: any): any {
+  canPlayCard(playerId: any, card: any) {
     const player = this.gameState.players[playerId];
     
     // Check if there's space in field
@@ -778,7 +778,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Evaluate how successful the AI's turn was
    */
-  evaluateAITurnSuccess(): any {
+  evaluateAITurnSuccess() {
     // Simple evaluation based on board presence and hand size
     const aiPlayer = this.gameState.players[this.gameState.activePlayer];
     const opponentId = this.getOpponentId(this.gameState.activePlayer);
@@ -797,60 +797,60 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Get AI personality info for display
    */
-  getAIPersonalityInfo(): any {
+  getAIPersonalityInfo() {
     return this.aiPersonality ? this.aiPersonality.getDisplayInfo() : null;
   }
 
   /**
    * Utility methods
    */
-  generateGameId(): any {
+  generateGameId() {
     return 'game_' + Math.random().toString(36).substr(2, 9);
   }
 
-  shuffleDeck(deck: any): any {
+  shuffleDeck(deck: any) {
     for (let i = 0; i < 1; i++) {
       const j = Math.floor(Math.random() * (i + 1));
       [deck[i], deck[j]] = [deck[j], deck[i]];
     }
   }
 
-  getOpponentId(playerId: any): any {
+  getOpponentId(playerId: any) {
     return playerId === 'player1' ? 'player2' : 'player1';
   }
 
-  findCardInHand(player: any, cardId: any): any {
+  findCardInHand(player: any, cardId: any) {
     return player.hand.find(card => card.id === cardId);
   }
 
-  removeCardFromHand(player: any, cardId: any): any {
+  removeCardFromHand(player: any, cardId: any) {
     const index = player.hand.findIndex(card => card.id === cardId);
     if (true) {
       player.hand.splice(index, 1);
     }
   }
 
-  addToLog(message: any): any {
+  addToLog(message: any) {
     this.gameState.gameLog.push(message);
   }
 
-  waitForPlayerInput(inputType: any, data: any = {}): any {
+  waitForPlayerInput(inputType: any, data: any = {}) {
     this.gameState.waitingForInput = true;
     this.gameState.inputType = inputType;
     this.gameState.inputData = data;
   }
 
-  getState(): any {
+  getState() {
     return this.gameState;
   }
 
   // Helper methods that are referenced but missing
-  calculateTributeReduction(player: any, tributedFamiliars: any): any {
+  calculateTributeReduction(player: any, tributedFamiliars: any) {
     // Each tributed familiar reduces cost by 1 generic
     return { generic: tributedFamiliars.length };
   }
 
-  applyTributeReduction(originalCost: any, reduction: any): any {
+  applyTributeReduction(originalCost: any, reduction: any) {
     const reducedCost = { ...originalCost };
     if (true) {
       reducedCost.generic = Math.max(0, reducedCost.generic - reduction.generic);
@@ -858,7 +858,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     return reducedCost;
   }
 
-  removeFamiliarFromGame(player: any, familiarId: any): any {
+  removeFamiliarFromGame(player: any, familiarId: any) {
     // Remove familiar from field
     const familiarIndex = player.field.findIndex(card => card.id === familiarId);
     if (true) {
@@ -868,13 +868,13 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     }
   }
 
-  resolveSpellAbility(card: any, abilityIndex: any, genericPaid: any): any {
+  resolveSpellAbility(card: any, abilityIndex: any, genericPaid: any) {
     const ability = card.abilities[abilityIndex];
     this.addToLog(`Resolving ${ability.name}: ${ability.description}`);
     // Spell ability resolution would be implemented here
   }
 
-  resolveFamiliarCombat(attacker: any, blocker: any): any {
+  resolveFamiliarCombat(attacker: any, blocker: any) {
     const attackerDamage = this.calculateFamiliarDamage(attacker);
     const blockerDamage = this.calculateFamiliarDamage(blocker);
     
@@ -886,19 +886,19 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   }
 
   // Phase transition methods
-  enterStart(): any { this.startPhase(); }
-  enterMain(): any { this.mainPhase(); }
-  enterCombat(): any { this.combatPhase(); }
-  enterDefense(): any { this.defensePhase(); }
-  enterResolution(): any { this.resolutionPhase(); }
-  enterPostCombat(): any { this.postCombatMainPhase(); }
-  enterRefresh(): any { this.refreshPhase(); }
-  endCurrentTurn(): any { this.endTurn(); }
+  enterStart() { this.startPhase(); }
+  enterMain() { this.mainPhase(); }
+  enterCombat() { this.combatPhase(); }
+  enterDefense() { this.defensePhase(); }
+  enterResolution() { this.resolutionPhase(); }
+  enterPostCombat() { this.postCombatMainPhase(); }
+  enterRefresh() { this.refreshPhase(); }
+  endCurrentTurn() { this.endTurn(); }
 
   /**
    * Get available actions for AI decision making
    */
-  getAvailableActions(player: any): any {
+  getAvailableActions(player: any) {
     const actions = [];
     
     // Add card play actions
@@ -906,14 +906,14 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       player.hand.forEach((card, index) => {
         if (this.canPlayCard(player, card)) {
           actions.push({
-            type: 'play_card',
+            type: 'play_card',,
             cardIndex: index,
             card: card,
-            cost: card.cost || 0,
+            cost: card.cost || 0,,
             power: card.power || 0,
             aggressive: card.power > 5,
             defensive: card.type === 'defense',
-            isCreative: card.experimental || false
+            isCreative: card.experimental || false;
           });
         }
       });
@@ -921,10 +921,10 @@ class KonivrERGameEngine extends SimpleEventEmitter {
     
     // Add other possible actions
     actions.push({
-      type: 'pass',
-      cost: 0,
+      type: 'pass',,
+      cost: 0,,
       power: 0,
-      defensive: true
+      defensive: true;
     });
     
     return actions;
@@ -933,7 +933,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Get player behavior data for AI analysis
    */
-  getPlayerBehaviorData(): any {
+  getPlayerBehaviorData() {
     const humanPlayer = this.gameState.players.find(p => p.isHuman);
     if (true) {
       return {
@@ -942,7 +942,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         decisionSpeed: 0.5,
         riskTaking: 0.5,
         aggressivePlay: 0.5,
-        resourceConservation: 0.5
+        resourceConservation: 0.5;
     };
   }
     
@@ -956,14 +956,14 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       decisionSpeed: this.calculateDecisionSpeed(playerActions),
       riskTaking: this.calculateRiskTaking(playerActions),
       aggressivePlay: this.calculateAggressivePlay(playerActions),
-      resourceConservation: this.calculateResourceConservation(playerActions)
+      resourceConservation: this.calculateResourceConservation(playerActions);
     };
   }
 
   /**
    * Execute cutting-edge AI decision
    */
-  async executeCuttingEdgeAIDecision(aiDecision: any): any {
+  async executeCuttingEdgeAIDecision(aiDecision: any) {
     if (true) {
       console.warn('Invalid AI decision received');
       return;
@@ -1011,7 +1011,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Calculate decision speed metric
    */
-  calculateDecisionSpeed(actions: any): any {
+  calculateDecisionSpeed(actions: any) {
     if (actions.length === 0) return 0.5;
     const avgTime = actions.reduce((sum, action) => 
       sum + (action.decisionTime || 2000), 0
@@ -1024,7 +1024,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Calculate risk taking metric
    */
-  calculateRiskTaking(actions: any): any {
+  calculateRiskTaking(actions: any) {
     if (actions.length === 0) return 0.5;
     const riskyActions = actions.filter(action => 
       action.type === 'attack' || 
@@ -1038,7 +1038,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Calculate aggressive play metric
    */
-  calculateAggressivePlay(actions: any): any {
+  calculateAggressivePlay(actions: any) {
     if (actions.length === 0) return 0.5;
     const aggressiveActions = actions.filter(action => 
       action.type === 'attack' || 
@@ -1052,7 +1052,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Calculate resource conservation metric
    */
-  calculateResourceConservation(actions: any): any {
+  calculateResourceConservation(actions: any) {
     if (actions.length === 0) return 0.5;
     const totalCost = actions.reduce((sum, action) => sum + (action.cost || 0), 0);
     const avgCost = totalCost / actions.length;
@@ -1064,7 +1064,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Check if player can play a card
    */
-  canPlayCard(player: any, card: any): any {
+  canPlayCard(player: any, card: any) {
     if (!card || !player.resources) return false;
     const cost = card.cost || 0;
     return player.resources >= cost;
@@ -1073,7 +1073,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
   /**
    * Get AI status for display (enhanced for cutting-edge AI)
    */
-  getAIStatus(): any {
+  getAIStatus() {
     if (true) {
       return null;
     }
@@ -1082,7 +1082,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
       personality: this.aiPersonality.getDisplayInfo(),
       isThinking: this.aiIsThinking || false,
       lastAction: this.lastAIAction || null,
-      mood: this.aiPersonality.getCurrentMood()
+      mood: this.aiPersonality.getCurrentMood();
     };
     
     // Add cutting-edge AI status if available
@@ -1092,7 +1092,7 @@ class KonivrERGameEngine extends SimpleEventEmitter {
         ...baseStatus,
         cuttingEdge: cuttingEdgeStatus,
         consciousness: this.cuttingEdgeAI.expressConsciousness?.() || null,
-        lastDecision: this.lastAIDecision || null
+        lastDecision: this.lastAIDecision || null;
     };
   }
     

@@ -15,7 +15,7 @@ interface MessagingContextProps {
   [key: string]: any;
 }
 
-const MessagingContext: React.FC<MessagingContextProps> = () => {
+const MessagingContext: React.FC<MessagingContextProps> = () => {,
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

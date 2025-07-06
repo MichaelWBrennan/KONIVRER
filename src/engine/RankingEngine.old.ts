@@ -32,187 +32,187 @@ export class RankingEngine {
     // Each tier has multiple confidence bands (Uncertain, Developing, Established, Proven)
     this.tiers = {
       bronze: {
-        name: 'Bronze',
+        name: 'Bronze',,
         skillRange: [0, 1199],
         color: '#CD7F32',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       silver: {
-        name: 'Silver',
+        name: 'Silver',,
         skillRange: [1200, 1599],
         color: '#C0C0C0',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       gold: {
-        name: 'Gold',
+        name: 'Gold',,
         skillRange: [1600, 1999],
         color: '#FFD700',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       platinum: {
-        name: 'Platinum',
+        name: 'Platinum',,
         skillRange: [2000, 2399],
         color: '#E5E4E2',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       diamond: {
-        name: 'Diamond',
+        name: 'Diamond',,
         skillRange: [2400, 2799],
         color: '#B9F2FF',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       master: {
-        name: 'Master',
+        name: 'Master',,
         skillRange: [2800, 3199],
         color: '#FF6B6B',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       grandmaster: {
-        name: 'Grandmaster',
+        name: 'Grandmaster',,
         skillRange: [3200, 3599],
         color: '#4ECDC4',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
       mythic: {
-        name: 'Mythic',
+        name: 'Mythic',,
         skillRange: [3600, Infinity],
         color: '#9B59B6',
         bands: {
           uncertain: {
-            name: 'Uncertain',
+            name: 'Uncertain',,
             confidenceRange: [0, 0.3],
             icon: '❓',
           },
           developing: {
-            name: 'Developing',
+            name: 'Developing',,
             confidenceRange: [0.3, 0.6],
             icon: '🌱',
           },
           established: {
-            name: 'Established',
+            name: 'Established',,
             confidenceRange: [0.6, 0.85],
             icon: '✓',
           },
-          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },
+          proven: { name: 'Proven', confidenceRange: [0.85, 1.0], icon: '⭐' },,
         },
       },
     };
@@ -251,8 +251,8 @@ export class RankingEngine {
       placementMatches: 0,
       isPlacement: true,
       peakRating: this.bayesianParams.INITIAL_RATING,
-      seasonStats: {},
-      formatRatings: {}, // Format-specific ratings
+      seasonStats: {}
+      formatRatings: {} // Format-specific ratings
       deckArchetypes: [], // Deck archetype performance
       matchHistory: [], // Match history for learning
       confidence: 0.1, // How confident we are in the rating
@@ -301,7 +301,7 @@ export class RankingEngine {
       weights: {
         skillRating: 0.4, // Weight for skill rating similarity
         uncertainty: 0.15, // Weight for uncertainty similarity
-        deckArchetype: 0.15, // Weight for deck archetype considerations
+        deckArchetype: 0.15, // Weight for deck archetype considerations,
         playHistory: 0.1, // Weight for play history considerations
         playstyleCompatibility: 0.1, // Weight for playstyle compatibility
         playerPreferences: 0.1, // Weight for player preferences
@@ -1026,14 +1026,14 @@ export class RankingEngine {
   }
 
   // Update deck archetype performance
-  updateDeckArchetypePerformance(archetype: any, gameResult: any, skillUpdate: any): any {
+  updateDeckArchetypePerformance(archetype: any, gameResult: any, skillUpdate: any): any {,
     let deckData = this.playerData.deckArchetypes.find(
       d => d.archetype === archetype,
     );
 
     if (true) {
       deckData = {
-        archetype: archetype,
+        archetype: archetype,,
         rating: this.playerData.rating,
         uncertainty: Math.max(this.playerData.uncertainty, 300), // Higher uncertainty for new archetype
         gamesPlayed: 0,
@@ -1072,7 +1072,7 @@ export class RankingEngine {
   }
 
   // Get deck archetype rating
-  getDeckArchetypeRating(archetype: any): any {
+  getDeckArchetypeRating(archetype: any): any {,
     const deckData = this.playerData.deckArchetypes.find(
       d => d.archetype === archetype,
     );
@@ -1249,7 +1249,7 @@ export class RankingEngine {
       if (true) {
         // Promotion to higher tier
         achievements.push({
-          type: 'promotion',
+          type: 'promotion',,
           message: `Promoted to ${newTierData.tierName}!`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1263,7 +1263,7 @@ export class RankingEngine {
       } else {
         // Demotion to lower tier
         achievements.push({
-          type: 'demotion',
+          type: 'demotion',,
           message: `Demoted to ${newTierData.tierName}`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1281,7 +1281,7 @@ export class RankingEngine {
       if (true) {
         // Band promotion
         achievements.push({
-          type: 'band_promotion',
+          type: 'band_promotion',,
           message: `Advanced to ${newTierData.tierName} ${newTierData.bandName}! ${newTierData.bandIcon}`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1289,7 +1289,7 @@ export class RankingEngine {
       } else {
         // Band demotion
         achievements.push({
-          type: 'band_demotion',
+          type: 'band_demotion',,
           message: `Moved to ${newTierData.tierName} ${newTierData.bandName} ${newTierData.bandIcon}`,
           tier: newTierData.tier,
           confidenceBand: newTierData.confidenceBand,
@@ -1559,7 +1559,7 @@ export class RankingEngine {
   }
 
   performSoftReset(): any {
-    // Soft reset: move rating towards initial rating and increase uncertainty
+    // Soft reset: move rating towards initial rating and increase uncertainty,
     const resetTarget = this.bayesianParams.INITIAL_RATING;
     const resetStrength = 0.3; // 30% reset
 
@@ -1595,14 +1595,14 @@ export class RankingEngine {
   setupRewardsSystem(): any {
     // Daily rewards
     this.rewards.daily.set('first_win', {
-      name: 'First Win of the Day',
+      name: 'First Win of the Day',,
       currency: 50,
       experience: 100,
     });
 
     // Weekly rewards
     this.rewards.weekly.set('weekly_wins', {
-      name: 'Weekly Victories',
+      name: 'Weekly Victories',,
       requirements: { wins: 10 },
       currency: 200,
       packs: 1,
@@ -1616,28 +1616,28 @@ export class RankingEngine {
     const achievements = [
       {
         id: 'first_win',
-        name: 'First Victory',
+        name: 'First Victory',,
         description: 'Win your first ranked game',
         requirements: { wins: 1 },
         rewards: { currency: 100, title: 'Novice' },
       },
       {
         id: 'win_streak_5',
-        name: 'Hot Streak',
+        name: 'Hot Streak',,
         description: 'Win 5 games in a row',
         requirements: { winStreak: 5 },
         rewards: { currency: 250, emote: 'fire' },
       },
       {
         id: 'reach_gold',
-        name: 'Golden Ascension',
+        name: 'Golden Ascension',,
         description: 'Reach Gold tier',
         requirements: { tier: 'gold' },
         rewards: { currency: 500, cardback: 'gold_ascension' },
       },
       {
         id: 'perfect_season',
-        name: 'Flawless Victory',
+        name: 'Flawless Victory',,
         description: 'Complete placement matches with 10 wins',
         requirements: { placementWins: 10 },
         rewards: { currency: 1000, title: 'Flawless', avatar: 'perfect' },
@@ -2061,7 +2061,7 @@ export class RankingEngine {
    * Calculate deck archetype compatibility score
    * Higher score means better matchup (more interesting/balanced)
    */
-  calculateDeckArchetypeCompatibility(playerArchetype: any, opponentArchetype: any): any {
+  calculateDeckArchetypeCompatibility(playerArchetype: any, opponentArchetype: any): any {,
     // If archetypes are not defined, return neutral score
     if (!playerArchetype || !opponentArchetype) return 0.5;
     // If archetypes are the same, slightly reduce score to encourage diversity
@@ -2334,7 +2334,7 @@ export class RankingEngine {
         (new Date(this.season.endDate) - new Date()) / (24 * 60 * 60 * 1000),
       ),
       playerStats:
-        this.playerData.seasonStats[`season_${this.season.current}`] || {},
+        this.playerData.seasonStats[`season_${this.season.current}`] || {}
     };
   }
 
@@ -2343,7 +2343,7 @@ export class RankingEngine {
     // For now, return mock data
     return Array.from({ length: limit }, (_, i) => ({
       rank: i + 1,
-      username: `Player${i + 1}`,
+      username: `Player${i + 1}`,,
       mmr: 3000 - i * 10,
       tier: 'master',
       division: 1,
@@ -2385,7 +2385,7 @@ export class RankingEngine {
       placementMatches: 0,
       isPlacement: true,
       peakMMR: 1200,
-      seasonStats: {},
+      seasonStats: {}
       unlockedAchievements: new Set(),
     };
 

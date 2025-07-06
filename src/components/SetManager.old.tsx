@@ -38,7 +38,7 @@ const SetManager = (): any => {
   const [isAddingSet, setIsAddingSet] = useState(false);
   const [editingSet, setEditingSet] = useState(null);
   const [newSet, setNewSet] = useState({
-    name: '',
+    name: '',,
     code: '',
     description: '',
     releaseDate: '',
@@ -53,7 +53,7 @@ const SetManager = (): any => {
         cardIds: [],
       });
       setNewSet({
-        name: '',
+        name: '',,
         code: '',
         description: '',
         releaseDate: '',
@@ -157,7 +157,7 @@ const SetManager = (): any => {
                 <input
                   type="text"
                   value={newSet.name}
-                  onChange={e => setNewSet({ ...newSet, name: e.target.value })}
+                  onChange={e => setNewSet({ ...newSet, name: e.target.value })},
                   className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                   placeholder="Enter set name"
                 />
@@ -264,7 +264,7 @@ const SetManager = (): any => {
                         type="text"
                         value={editingSet.name}
                         onChange={e = />
-                          setEditingSet({ ...editingSet, name: e.target.value })}
+                          setEditingSet({ ...editingSet, name: e.target.value })},
                         className="w-full px-3 py-0 whitespace-nowrap bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
                       />
                     </div>

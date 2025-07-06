@@ -48,7 +48,7 @@ type MatchmakingStatus = 'idle' | 'searching' | 'match_found' | 'in_game' | 'com
 
 interface Player {
   id: string;
-  name: string;
+  name: string;,
   displayName?: string;
   avatar?: string;
   rank?: PlayerRank;
@@ -76,7 +76,7 @@ interface Player {
 
 interface Deck {
   id: string;
-  name: string;
+  name: string;,
   format: GameFormat;
   cards: any[];
   colors: string[];
@@ -112,7 +112,7 @@ interface MatchmakingPreference {
   key: string;
   label: string;
   value: boolean | string | number;
-  type: 'boolean' | 'select' | 'range';
+  type: 'boolean' | 'select' | 'range';,
   options?: string[];
   min?: number;
   max?: number;
@@ -186,26 +186,26 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
       key: 'skill_based',
       label: 'Skill-based Matchmaking',
       value: true,
-      type: 'boolean'
+      type: 'boolean',
     },
     {
       key: 'deck_strength',
       label: 'Consider Deck Strength',
       value: true,
-      type: 'boolean'
+      type: 'boolean',
     },
     {
       key: 'connection_quality',
       label: 'Connection Quality',
       value: 'balanced',
-      type: 'select',
+      type: 'select',,
       options: ['low_latency', 'balanced', 'stable']
     },
     {
       key: 'search_range',
       label: 'Search Range',
       value: 5,
-      type: 'range',
+      type: 'range',,
       min: 1,
       max: 10
     }
@@ -246,7 +246,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
         // For now, we'll use mock data
         const mockProfile: Player = {
           id: user?.uid || '1',
-          name: user?.displayName || 'Player',
+          name: user?.displayName || 'Player',,
           avatar: user?.photoURL || undefined,
           rank: 'gold',
           level: 42,
@@ -289,11 +289,11 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
         const mockDecks: Deck[] = [
           {
             id: '1',
-            name: 'Fire Aggro',
+            name: 'Fire Aggro',,
             format: 'standard',
             cards: [],
             colors: ['fire'],
-            archetype: 'Aggro',
+            archetype: 'Aggro',,
             winRate: 0.65,
             gamesPlayed: 120,
             lastPlayed: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
@@ -301,11 +301,11 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
           },
           {
             id: '2',
-            name: 'Water Control',
+            name: 'Water Control',,
             format: 'standard',
             cards: [],
             colors: ['water'],
-            archetype: 'Control',
+            archetype: 'Control',,
             winRate: 0.55,
             gamesPlayed: 85,
             lastPlayed: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
@@ -313,11 +313,11 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
           },
           {
             id: '3',
-            name: 'Earth Midrange',
+            name: 'Earth Midrange',,
             format: 'standard',
             cards: [],
             colors: ['earth'],
-            archetype: 'Midrange',
+            archetype: 'Midrange',,
             winRate: 0.48,
             gamesPlayed: 65,
             lastPlayed: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
@@ -347,11 +347,11 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             id: '1',
             player1: {
               id: user?.uid || '1',
-              name: user?.displayName || 'Player'
+              name: user?.displayName || 'Player',
             },
             player2: {
               id: '2',
-              name: 'Opponent 1'
+              name: 'Opponent 1',
             },
             winner: user?.uid || '1',
             result: '2-1',
@@ -369,11 +369,11 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             id: '2',
             player1: {
               id: user?.uid || '1',
-              name: user?.displayName || 'Player'
+              name: user?.displayName || 'Player',
             },
             player2: {
               id: '3',
-              name: 'Opponent 2'
+              name: 'Opponent 2',
             },
             winner: '3',
             result: '0-2',
@@ -391,11 +391,11 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             id: '3',
             player1: {
               id: '4',
-              name: 'Opponent 3'
+              name: 'Opponent 3',
             },
             player2: {
               id: user?.uid || '1',
-              name: user?.displayName || 'Player'
+              name: user?.displayName || 'Player',
             },
             winner: user?.uid || '1',
             result: '1-2',
@@ -429,7 +429,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
         // For now, we'll use mock data
         const mockLeaderboard: Player[] = Array.from({ length: 20 }, (_, i) => ({
           id: `leaderboard-${i + 1}`,
-          name: `Top Player ${i + 1}`,
+          name: `Top Player ${i + 1}`,,
           rank: i < 3 ? 'legend' : i < 8 ? 'grandmaster' : i < 15 ? 'master' : 'diamond',
           winRate: 0.9 - (i * 0.02),
           stats: {
@@ -464,7 +464,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
         // For now, we'll use mock data
         const mockFriends: Player[] = Array.from({ length: 10 }, (_, i) => ({
           id: `friend-${i + 1}`,
-          name: `Friend ${i + 1}`,
+          name: `Friend ${i + 1}`,,
           rank: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'master'][Math.floor(Math.random() * 6)] as PlayerRank,
           online: Math.random() > 0.3,
           lastActive: new Date(Date.now() - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)),
@@ -494,7 +494,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             location: 'Card Kingdom, Seattle',
             players: Array.from({ length: 8 }, (_, i) => ({
               id: `session-1-player-${i + 1}`,
-              name: `Player ${i + 1}`
+              name: `Player ${i + 1}`,
             })),
             matches: [],
             status: 'active',
@@ -502,7 +502,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             format: 'standard',
             organizer: {
               id: 'organizer-1',
-              name: 'Store Owner'
+              name: 'Store Owner',
             }
           },
           {
@@ -510,7 +510,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             location: 'Game Store, Portland',
             players: Array.from({ length: 12 }, (_, i) => ({
               id: `session-2-player-${i + 1}`,
-              name: `Player ${i + 1}`
+              name: `Player ${i + 1}`,
             })),
             matches: [],
             status: 'active',
@@ -518,7 +518,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
             format: 'draft',
             organizer: {
               id: 'organizer-2',
-              name: 'Tournament Organizer'
+              name: 'Tournament Organizer',
             }
           }
         ];
@@ -604,7 +604,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
     // Generate a mock opponent
     const mockOpponent: Player = {
       id: `opponent-${Math.floor(Math.random() * 1000)}`,
-      name: `Opponent ${Math.floor(Math.random() * 100)}`,
+      name: `Opponent ${Math.floor(Math.random() * 100)}`,,
       rank: ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'master'][Math.floor(Math.random() * 6)] as PlayerRank,
       winRate: 0.4 + (Math.random() * 0.2)
     };
@@ -614,7 +614,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
       id: `match-${Math.floor(Math.random() * 1000)}`,
       player1: playerProfile || {
         id: user?.uid || '1',
-        name: user?.displayName || 'Player'
+        name: user?.displayName || 'Player',
       },
       player2: mockOpponent,
       format: selectedFormat,
@@ -723,7 +723,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
       location: sessionFormData.location,
       players: [{
         id: user?.uid || '1',
-        name: user?.displayName || 'Player'
+        name: user?.displayName || 'Player',
       }],
       matches: [],
       status: 'active',
@@ -731,7 +731,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
       format: sessionFormData.format,
       organizer: {
         id: user?.uid || '1',
-        name: user?.displayName || 'Player'
+        name: user?.displayName || 'Player',
       }
     };
     
@@ -764,7 +764,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
       ...session,
       players: [...session.players, {
         id: user?.uid || '1',
-        name: user?.displayName || 'Player'
+        name: user?.displayName || 'Player',
       }]
     };
     
@@ -797,7 +797,7 @@ const UnifiedMatchmaking: React.FC<UnifiedMatchmakingProps> = ({
       setTimeout(() => {
         const mockNearbyPlayers: Player[] = Array.from({ length: 5 }, (_, i) => ({
           id: `nearby-${i + 1}`,
-          name: `Nearby Player ${i + 1}`,
+          name: `Nearby Player ${i + 1}`,,
           rank: ['bronze', 'silver', 'gold', 'platinum', 'diamond'][Math.floor(Math.random() * 5)] as PlayerRank
         }));
         

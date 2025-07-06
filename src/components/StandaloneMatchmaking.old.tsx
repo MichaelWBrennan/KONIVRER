@@ -81,7 +81,7 @@ const StandaloneMatchmaking = (): any => {
     };
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: 'application/json',
+      type: 'application/json',,
     });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -115,7 +115,7 @@ const StandaloneMatchmaking = (): any => {
   const shareMatchmaking = async () => {
     const shareData = {
       title: 'KONIVRER Physical Matchmaking',
-      text: 'Join our KONIVRER card game tournament!',
+      text: 'Join our KONIVRER card game tournament!',,
       url: window.location.href,
     };
 
@@ -497,7 +497,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
 
   const PlayerModal = (): any => {
     const [formData, setFormData] = useState({
-      name: playerProfile?.name || '',
+      name: playerProfile?.name || '',,
       email: playerProfile?.email || '',
       rating: playerProfile?.rating || 1500,
       wins: playerProfile?.wins || 0,
@@ -550,7 +550,7 @@ const MatchCard: React.FC<MatchCardProps> = ({  match, onUpdate  }) => {
                 required
                 value={formData.name}
                 onChange={e = />
-                  setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  setFormData(prev => ({ ...prev, name: e.target.value }))},
                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-base"
               />
             </div>

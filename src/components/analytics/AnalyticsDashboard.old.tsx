@@ -145,7 +145,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
 
     // Format data for line chart
     const ratingData = ratingTrend.map((point, index) => ({
-      name: `Match ${index + 1}`,
+      name: `Match ${index + 1}`,,
       rating: point.rating,
       date: new Date(point.timestamp).toLocaleDateString(),
     }));
@@ -223,7 +223,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
 
     // Format data for bar chart
     const synergyData = synergies.slice(0, 5).map(synergy => ({
-      name: `${synergy.card1.name} + ${synergy.card2.name}`,
+      name: `${synergy.card1.name} + ${synergy.card2.name}`,,
       value: synergy.synergyScore * 100,
     }));
 
@@ -280,7 +280,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
 
     // Format data for pie chart
     const decisionData = criticalTurns.map(turn => ({
-      name: `Turn ${turn.turn}`,
+      name: `Turn ${turn.turn}`,,
       value: turn.impactScore * 100,
     }));
 
@@ -352,7 +352,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
 
     // Format data for bar chart
     const matchupData = matchupVariance.slice(0, 5).map(matchup => ({
-      name: matchup.archetype,
+      name: matchup.archetype,,
       winRate: matchup.winRate * 100,
       variance: matchup.variance * 100,
     }));
@@ -416,7 +416,7 @@ const AnalyticsDashboard: React.FC<AnalyticsDashboardProps> = ({  playerId, deck
 
     // Format data for line chart
     const trendData = predictedTrends.map((trend, index) => {
-      const dataPoint = { name: `Week ${index + 1}` };
+      const dataPoint = { name: `Week ${index + 1}` };,
       trend.archetypes.forEach(archetype => {
         dataPoint[archetype.name] = archetype.prevalence * 100;
       });

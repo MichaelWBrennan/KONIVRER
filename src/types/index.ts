@@ -76,7 +76,7 @@ export type DeepReadonly<T> = {
 
 // Event types
 export interface AppEvent<T = unknown> {
-  readonly type: string;
+  readonly type: string;,
   readonly payload: T;
   readonly timestamp: Date;
   readonly source: string;

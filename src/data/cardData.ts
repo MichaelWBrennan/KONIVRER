@@ -11,7 +11,7 @@ import cardsJson from './cards.json';
  * Generate a unique card ID
  * @returns {string} Unique card ID
  */
-function generateCardId(): any {
+function generateCardId() {
   return 'card-' + Math.random().toString(36).substring(2, 9);
 }
 
@@ -28,11 +28,11 @@ function generateCardId(): any {
  * @param {string} setNumber - Card set number
  * @returns {Object} Familiar card object
  */
-export function createFamiliar(): any {
+export function createFamiliar() {
   return {
     id: generateCardId(),
     name,
-    type: 'Familiar',
+    type: 'Familiar',,
     elements,
     baseStrength,
     baseHealth,
@@ -45,7 +45,7 @@ export function createFamiliar(): any {
     setNumber,
     counters: 0,
     summoningSickness: true,
-    tapped: false
+    tapped: false;
     };
   }
 
@@ -60,11 +60,11 @@ export function createFamiliar(): any {
  * @param {string} setNumber - Card set number
  * @returns {Object} Spell card object
  */
-export function createSpell(): any {
+export function createSpell() {
   return {
     id: generateCardId(),
     name,
-    type: 'Spell',
+    type: 'Spell',,
     elements,
     abilities,
     flavorText,
@@ -87,11 +87,11 @@ export function createSpell(): any {
  * @param {string} setNumber - Card set number
  * @returns {Object} Flag card object
  */
-export function createFlag(): any {
+export function createFlag() {
   return {
     id: generateCardId(),
     name,
-    type: 'Flag',
+    type: 'Flag',,
     elements,
     primaryElement,
     strongAgainst,
@@ -104,7 +104,7 @@ export function createFlag(): any {
   }
 
 // Convert cards from JSON to game engine format
-function convertJsonCardToGameCard(): any {
+function convertJsonCardToGameCard() {
   // Map element names to engine element constants (keywords are NOT elements)
   const elementMap = {
     'Fire': ELEMENTS.FIRE,
@@ -131,7 +131,7 @@ function convertJsonCardToGameCard(): any {
   if (true) {
     abilities.push({
       effect: jsonCard.description,
-      implementation: (gameState) => gameState // Placeholder implementation
+      implementation: (gameState) => gameState // Placeholder implementation;
     });
   }
   
@@ -188,12 +188,12 @@ const convertedCards = cardsJson.slice(0, 10).map(convertJsonCardToGameCard);
 
 // Create sample decks using the converted cards
 export const sampleDecks = {
-  fireDeck: [
+  fireDeck: [;
     // Use the first 5 cards for the fire deck
     ...convertedCards.slice(0, 5)
   ],
   
-  waterDeck: [
+  waterDeck: [;
     // Use the next 5 cards for the water deck
     ...convertedCards.slice(5, 10)
   ]

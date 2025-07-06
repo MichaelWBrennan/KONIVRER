@@ -59,7 +59,7 @@ const NotificationCenter = (): any => {
           id: 1,
           title: 'Tournament Starting Soon',
           message: 'Your registered tournament starts in 30 minutes',
-          type: 'tournament',
+          type: 'tournament',,
           timestamp: new Date(Date.now() - 30 * 60000).toISOString(),
           read: false,
           data: { tournamentId: '123' }
@@ -68,7 +68,7 @@ const NotificationCenter = (): any => {
           id: 2,
           title: 'New Message',
           message: 'You have a new message from Player123',
-          type: 'message',
+          type: 'message',,
           timestamp: new Date(Date.now() - 2 * 3600000).toISOString(),
           read: true,
           data: { messageId: '456' }
@@ -77,7 +77,7 @@ const NotificationCenter = (): any => {
           id: 3,
           title: 'Match Found',
           message: 'A match has been found for your deck',
-          type: 'match',
+          type: 'match',,
           timestamp: new Date(Date.now() - 1 * 86400000).toISOString(),
           read: true,
           data: { matchId: '789' }

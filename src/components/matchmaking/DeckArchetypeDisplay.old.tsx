@@ -24,8 +24,8 @@ import {
  */
 const DeckArchetypeDisplay = ({
   archetype,
-  performance = {},
-  matchups = {},
+  performance = {}
+  matchups = {}
   showDetails = false,
   size = 'md',
 }): any => {

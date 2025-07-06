@@ -32,7 +32,7 @@ interface UnifiedGameControlsProps {
     light: number;
     dark: number;
   };
-  onElementalAction?: (element: string) => void;
+  onElementalAction?: (element: string) => void;,
   
   // Style variant
   variant?: 'standard' | 'konivrer' | 'arena';
@@ -50,11 +50,11 @@ const UnifiedGameControls: React.FC<UnifiedGameControlsProps> = ({
   gamePhase = 'main',
   turn = 1,
   activePlayer = 'player',
-  onEndPhase = () => {},
-  onEndTurn = () => {},
-  onPass = () => {},
+  onEndPhase = () => {}
+  onEndTurn = () => {}
+  onPass = () => {}
   elementalEnergy = { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0 },
-  onElementalAction = () => {},
+  onElementalAction = () => {}
   variant = 'standard',
   className = '',
   disabled = false,

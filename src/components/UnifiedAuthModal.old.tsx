@@ -49,7 +49,7 @@ const RegisterSchema = z
         'Password must contain uppercase, lowercase, number, and special character',
       ),
     confirmPassword: z.string(),
-    username: z
+    username: z,
       .string()
       .min(3, 'Username must be at least 3 characters')
       .max(20, 'Username must be less than 20 characters')
@@ -118,7 +118,7 @@ const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
       email: '',
       password: '',
       confirmPassword: '',
-      username: '',
+      username: '',,
       displayName: '',
       location: '',
       agreeToTerms: false,
@@ -158,7 +158,7 @@ const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
     
     try {
       await register(data.email, data.password, {
-        username: data.username,
+        username: data.username,,
         displayName: data.displayName,
         location: data.location,
       });
@@ -668,7 +668,7 @@ const UnifiedAuthModal: React.FC<UnifiedAuthModalProps> = ({
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
-        transition={{ type: 'spring', damping: 20 }}
+        transition={{ type: 'spring', damping: 20 }},
         className={`bg-gray-900 rounded-t-xl md:rounded-xl w-full md:max-w-md md:mx-4 overflow-hidden ${className}`}
       >
         {/* Header */}

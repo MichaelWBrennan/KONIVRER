@@ -23,15 +23,15 @@ const EnhancedCardSearch = (): any => {
   // Search State
   const [searchQuery, setSearchQuery] = useState('');
   const [advancedSearch, setAdvancedSearch] = useState({
-    name: '',
-    text: '',
-    type: '',
+    name: '',,
+    text: '',,
+    type: '',,
     colors: [],
-    rarity: [],
-    cost: { min: 0, max: 20, exact: null },
+    rarity: [],,
+    cost: { min: 0, max: 20, exact: null },,
     power: { min: 0, max: 20, exact: null },
     toughness: { min: 0, max: 20, exact: null },
-    set: '',
+    set: '',,
     format: 'all',
   });
 
@@ -388,7 +388,7 @@ const EnhancedCardSearch = (): any => {
       <button
               onClick={() => {
                 const favoriteCards = [...favorites];
-                setAdvancedSearch(prev => ({ ...prev, name: '' }));
+                setAdvancedSearch(prev => ({ ...prev, name: '' }));,
                 // Filter to show only favorites
               }}
               className="px-3 py-0 whitespace-nowrap bg-red-600 hover:bg-red-700 text-white rounded-full text-sm transition-colors"

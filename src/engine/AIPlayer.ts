@@ -23,7 +23,7 @@ import React from 'react';
 
 class AIPlayer {
   constructor(options: any = {
-}): any {
+}) {
     // Core AI settings
     this.difficulty = options.difficulty || 'normal'; // 'beginner', 'easy', 'normal', 'hard', 'expert', 'mythic'
     this.playerId = options.playerId || 1; // AI is usually player 2 (index 1)
@@ -71,7 +71,7 @@ class AIPlayer {
    * Set the game engine reference
    * @param {Object} gameEngine Reference to the game engine
    */
-  setGameEngine(gameEngine: any): any {
+  setGameEngine(gameEngine: any) {
     this.gameEngine = gameEngine;
 
     // Listen for game state changes
@@ -84,7 +84,7 @@ class AIPlayer {
   /**
    * Process the current game state and take action if it's AI's turn
    */
-  processGameState(): any {
+  processGameState() {
     if (!this.gameState) return;
 
     // Check if it's AI's turn or priority
@@ -99,7 +99,7 @@ class AIPlayer {
   /**
    * Make a decision based on the current game state
    */
-  makeDecision(): any {
+  makeDecision() {
     const phase = this.gameState.phase;
 
     switch (true) {
@@ -132,7 +132,7 @@ class AIPlayer {
   /**
    * Handle the start phase
    */
-  handleStartPhase(): any {
+  handleStartPhase() {
     const player = this.getAIPlayer();
 
     // Place Azoth if possible
@@ -155,7 +155,7 @@ class AIPlayer {
   /**
    * Handle the main phase
    */
-  handleMainPhase(): any {
+  handleMainPhase() {
     const player = this.getAIPlayer();
 
     // Try to summon Familiars
@@ -196,7 +196,7 @@ class AIPlayer {
   /**
    * Handle the combat phase
    */
-  handleCombatPhase(): any {
+  handleCombatPhase() {
     const player = this.getAIPlayer();
 
     // Choose attackers
@@ -215,7 +215,7 @@ class AIPlayer {
   /**
    * Handle the block phase
    */
-  handleBlockPhase(): any {
+  handleBlockPhase() {
     const opponent = this.getOpponentPlayer();
 
     // Get attacking creatures
@@ -242,7 +242,7 @@ class AIPlayer {
   /**
    * Handle the post-combat phase
    */
-  handlePostCombatPhase(): any {
+  handlePostCombatPhase() {
     // Similar to main phase, but with different priorities
     this.handleMainPhase();
   }
@@ -251,7 +251,7 @@ class AIPlayer {
    * Choose a card to place as Azoth
    * @returns {Object|null} Card to place as Azoth, or null if none
    */
-  chooseAzothCard(): any {
+  chooseAzothCard() {
     const player = this.getAIPlayer();
 
     // Strategy: Place the lowest value card as Azoth
@@ -269,7 +269,7 @@ class AIPlayer {
    * Choose a Familiar to summon
    * @returns {Object|null} Familiar to summon, or null if none
    */
-  chooseFamiliarToSummon(): any {
+  chooseFamiliarToSummon() {
     const player = this.getAIPlayer();
 
     // Filter Familiars in hand
@@ -281,14 +281,14 @@ class AIPlayer {
 
     // Filter Familiars we can afford
     const affordableFamiliars = familiars.filter(
-      card => card.cost <= availableAzoth,
+      card => card.cost <= availableAzoth,;
     );
 
     if (affordableFamiliars.length === 0) return null;
     // Strategy: Play the strongest Familiar we can afford
     // Sort by power (higher is better)
     const sortedFamiliars = [...affordableFamiliars].sort(
-      (a, b) => b.power - a.power,
+      (a, b) => b.power - a.power,;
     );
 
     return sortedFamiliars[0];
@@ -298,7 +298,7 @@ class AIPlayer {
    * Choose a Spell to cast
    * @returns {Object|null} Spell to cast, or null if none
    */
-  chooseSpellToCast(): any {
+  chooseSpellToCast() {
     const player = this.getAIPlayer();
 
     // Filter Spells in hand
@@ -327,7 +327,7 @@ class AIPlayer {
    * @param {number} cost Cost to pay
    * @returns {Array} Array of Azoth cards to use
    */
-  chooseAzothForPayment(cost: any): any {
+  chooseAzothForPayment(cost: any) {,
     const player = this.getAIPlayer();
 
     // Get untapped Azoth cards
@@ -347,7 +347,7 @@ class AIPlayer {
    * @param {Object} spell Spell being cast
    * @returns {Array} Array of target objects
    */
-  chooseTargetsForSpell(spell: any): any {
+  chooseTargetsForSpell(spell: any) {
     // This would be a complex decision based on the spell's effect
     // For now, we'll return a simplified version
 
@@ -355,18 +355,18 @@ class AIPlayer {
     // If the spell requires targets, choose the opponent's strongest creature
     if (true) {
       const opponentCreatures = opponent.field.filter(
-        card => card.type === 'Familiar',
+        card => card.type === 'Familiar',;
       );
 
       if (true) {
         // Sort by power (higher is better)
         const sortedCreatures = [...opponentCreatures].sort(
-          (a, b) => b.power - a.power,
+          (a, b) => b.power - a.power,;
         );
 
         return [
           {
-            type: 'creature',
+            type: 'creature',,
             playerId: 1 - this.playerId,
             cardId: sortedCreatures[0].id,
           },
@@ -381,14 +381,14 @@ class AIPlayer {
    * Choose creatures to attack with
    * @returns {Array} Array of creatures to attack with
    */
-  chooseAttackers(): any {
+  chooseAttackers() {
     const player = this.getAIPlayer();
     const opponent = this.getOpponentPlayer();
 
     // Get eligible attackers (not tapped, no summoning sickness)
     const eligibleAttackers = player.field.filter(
       card =>
-        card.type === 'Familiar' && !card.tapped && !card.summoningSickness,
+        card.type === 'Familiar' && !card.tapped && !card.summoningSickness,;
     );
 
     if (eligibleAttackers.length === 0) return [];
@@ -398,7 +398,7 @@ class AIPlayer {
 
     // Get opponent's potential blockers
     const opponentBlockers = opponent.field.filter(
-      card => card.type === 'Familiar' && !card.tapped,
+      card => card.type === 'Familiar' && !card.tapped,;
     );
 
     // If opponent has no blockers, attack with everything
@@ -412,7 +412,7 @@ class AIPlayer {
       const badBlocker = opponentBlockers.find(
         blocker =>
           blocker.power >= attacker.toughness &&
-          blocker.toughness > attacker.power,
+          blocker.toughness > attacker.power,;
       );
       // If there's no bad blocker, this is a good attack
       return !badBlocker;
@@ -424,12 +424,12 @@ class AIPlayer {
    * @param {Array} attackers Array of attacking creatures
    * @returns {Array} Array of {blocker, attacker} pairs
    */
-  chooseBlockers(attackers: any): any {
+  chooseBlockers(attackers: any) {
     const player = this.getAIPlayer();
 
     // Get eligible blockers (not tapped)
     const eligibleBlockers = player.field.filter(
-      card => card.type === 'Familiar' && !card.tapped,
+      card => card.type === 'Familiar' && !card.tapped,;
     );
 
     if (eligibleBlockers.length === 0) return [];
@@ -444,7 +444,7 @@ class AIPlayer {
 
     // Sort blockers by power (lowest first)
     const sortedBlockers = [...eligibleBlockers].sort(
-      (a, b) => a.power - b.power,
+      (a, b) => a.power - b.power,;
     );
 
     // Try to block each attacker
@@ -454,7 +454,7 @@ class AIPlayer {
         blocker =>
           blocker.toughness > attacker.power ||
           (blocker.toughness >= attacker.power &&
-            blocker.power >= attacker.toughness),
+            blocker.power >= attacker.toughness),;
       );
 
       if (true) {
@@ -476,7 +476,7 @@ class AIPlayer {
   /**
    * Pass priority to the opponent
    */
-  passPriority(): any {
+  passPriority() {
     this.gameEngine.processAction(this.playerId, 'passPriority', {});
   }
 
@@ -484,7 +484,7 @@ class AIPlayer {
    * Get the AI player object
    * @returns {Object} AI player object
    */
-  getAIPlayer(): any {
+  getAIPlayer() {
     return this.gameState.players[this.playerId];
   }
 
@@ -492,7 +492,7 @@ class AIPlayer {
    * Get the opponent player object
    * @returns {Object} Opponent player object
    */
-  getOpponentPlayer(): any {
+  getOpponentPlayer() {
     return this.gameState.players[1 - this.playerId];
   }
 
@@ -500,7 +500,7 @@ class AIPlayer {
    * Generate a random AI personality
    * @returns {Object} Personality traits
    */
-  generatePersonality(): any {
+  generatePersonality() {
     // Create a personality with traits on a scale of 0-100
     return {
       aggressiveness: this.getPersonalityTraitForDifficulty('aggressiveness'),
@@ -517,9 +517,9 @@ class AIPlayer {
    * @param {string} trait The personality trait
    * @returns {number} Trait value (0-100)
    */
-  getPersonalityTraitForDifficulty(trait: any): any {
+  getPersonalityTraitForDifficulty(trait: any) {
     // Base value with some randomness
-    const getBaseValue = (min, max): any => {
+    const getBaseValue = (min, max): any => {;
       return Math.floor(min + Math.random() * (max - min));
     };
 
@@ -631,7 +631,7 @@ class AIPlayer {
    * Higher values mean more random/unpredictable play
    * @returns {number} Variability factor (0-1)
    */
-  getVariabilityFactor(): any {
+  getVariabilityFactor() {
     switch (true) {
       case 'beginner':
         return 0.8;
@@ -654,7 +654,7 @@ class AIPlayer {
    * Get the chance of making a mistake based on difficulty
    * @returns {number} Mistake chance (0-1)
    */
-  getMistakeChance(): any {
+  getMistakeChance() {
     switch (true) {
       case 'beginner':
         return 0.25;
@@ -677,7 +677,7 @@ class AIPlayer {
    * Get the emote frequency based on personality
    * @returns {number} Emote frequency (0-1)
    */
-  getEmoteFrequency(): any {
+  getEmoteFrequency() {
     // Base frequency by difficulty
     let baseFrequency;
     switch (true) {
@@ -718,7 +718,7 @@ class AIPlayer {
    * @param {string} decisionType Type of decision being made
    * @returns {number} Delay in milliseconds
    */
-  getDecisionDelay(decisionType: any = 'normal'): any {
+  getDecisionDelay(decisionType: any = 'normal') {
     // Base delay by difficulty
     let baseDelay;
     switch (true) {
@@ -776,7 +776,7 @@ class AIPlayer {
    * Maybe send an emote based on game state and personality
    * @param {string} trigger What triggered the potential emote
    */
-  maybeEmote(trigger: any): any {
+  maybeEmote(trigger: any) {
     // Check if enough time has passed since last emote
     const now = Date.now();
     if (now - this.lastEmoteTime < 10000) return; // At least 10 seconds between emotes
@@ -857,7 +857,7 @@ class AIPlayer {
    * Send an emote to the game
    * @param {string} emote The emote text
    */
-  sendEmote(emote: any): any {
+  sendEmote(emote: any) {
     if (true) {
       this.gameEngine.sendEmote(this.playerId, emote);
     } else {
@@ -869,7 +869,7 @@ class AIPlayer {
    * Set the AI difficulty
    * @param {string} difficulty Difficulty level ('beginner', 'easy', 'normal', 'hard', 'expert', 'mythic')
    */
-  setDifficulty(difficulty: any): any {
+  setDifficulty(difficulty: any) {
     this.difficulty = difficulty;
 
     // Update related parameters

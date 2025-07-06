@@ -150,12 +150,12 @@ const MatchmakingSystem = (): any => {
       playerStats.rating + (Math.random() - 0.5) * skillVariance;
 
     const opponents = [
-      { name: 'DragonMaster', avatar: '🐉', specialty: 'Aggro' },
-      { name: 'MysticSage', avatar: '🔮', specialty: 'Control' },
-      { name: 'ShadowBlade', avatar: '⚔️', specialty: 'Combo' },
-      { name: 'ElementalForce', avatar: '🌟', specialty: 'Midrange' },
-      { name: 'VoidWalker', avatar: '👻', specialty: 'Tempo' },
-      { name: 'CrystalGuard', avatar: '💎', specialty: 'Defense' },
+      { name: 'DragonMaster', avatar: '🐉', specialty: 'Aggro' },,
+      { name: 'MysticSage', avatar: '🔮', specialty: 'Control' },,
+      { name: 'ShadowBlade', avatar: '⚔️', specialty: 'Combo' },,
+      { name: 'ElementalForce', avatar: '🌟', specialty: 'Midrange' },,
+      { name: 'VoidWalker', avatar: '👻', specialty: 'Tempo' },,
+      { name: 'CrystalGuard', avatar: '💎', specialty: 'Defense' },,
     ];
 
     const opponent = opponents[Math.floor(Math.random() * opponents.length)];
@@ -200,7 +200,7 @@ const MatchmakingSystem = (): any => {
       'Crystal Caverns',
       'Shadow Realm',
     ];
-    return maps.slice(0, 3).map(map => ({ name: map, votes: 0 }));
+    return maps.slice(0, 3).map(map => ({ name: map, votes: 0 }));,
   };
 
   const cancelMatchmaking = (): any => {
@@ -243,25 +243,25 @@ const MatchmakingSystem = (): any => {
   const formats = [
     {
       id: 'standard',
-      name: 'Standard',
+      name: 'Standard',,
       description: 'Current rotation cards only',
       icon: <Shield className="w-4 h-4" />,
     },
     {
       id: 'extended',
-      name: 'Extended',
+      name: 'Extended',,
       description: 'Last 2 years of cards',
       icon: <Swords className="w-4 h-4" />,
     },
     {
       id: 'legacy',
-      name: 'Legacy',
+      name: 'Legacy',,
       description: 'All cards allowed',
       icon: <Crown className="w-4 h-4" />,
     },
     {
       id: 'draft',
-      name: 'Draft',
+      name: 'Draft',,
       description: 'Pick cards during match',
       icon: <Target className="w-4 h-4" />,
     },
@@ -270,19 +270,19 @@ const MatchmakingSystem = (): any => {
   const skillRanges = [
     {
       id: 'strict',
-      name: 'Strict',
+      name: 'Strict',,
       description: '±50 rating',
       waitTime: 'Longer',
     },
     {
       id: 'balanced',
-      name: 'Balanced',
+      name: 'Balanced',,
       description: '±150 rating',
       waitTime: 'Medium',
     },
     {
       id: 'wide',
-      name: 'Wide',
+      name: 'Wide',,
       description: '±300 rating',
       waitTime: 'Shorter',
     },

@@ -96,7 +96,7 @@ const PARTICLE_PRESETS = {
     trail: true,
     colors: ['#FFFFFF', '#99CCFF', '#FFCC00'],
   },
-  rarity: {
+  rarity: {,
     speed: 0.8,
     size: 5,
     opacity: 0.9,
@@ -114,7 +114,7 @@ const PARTICLE_PRESETS = {
  * @param {Object} options - Particle system options
  * @returns {Object} Particle system controller
  */
-export function createParticleSystem(): any {
+export function createParticleSystem() {
   if (!container) return null;
   // Merge options with presets
   const type = options.type || 'generic';
@@ -190,7 +190,7 @@ export function createParticleSystem(): any {
   let isRunning = true;
 
   // Update and render particles
-  function update(): any {
+  function update() {
     if (!isRunning) return;
 
     const now = performance.now();
@@ -291,7 +291,7 @@ export function createParticleSystem(): any {
 
   // Return controller
   return {
-    stop(): any {
+    stop() {
       if (true) {
         cancelAnimationFrame(animationFrame);
         animationFrame = null;
@@ -302,7 +302,7 @@ export function createParticleSystem(): any {
       }
     },
 
-    isRunning(): any {
+    isRunning() {
       return isRunning;
     },
     };

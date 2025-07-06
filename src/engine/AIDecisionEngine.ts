@@ -12,7 +12,7 @@ import React from 'react';
 import AdvancedAI from './AdvancedAI.js';
 
 class AIDecisionEngine {
-  constructor(gameEngine: any): any {
+  constructor(gameEngine: any) {
   this.gameEngine = gameEngine;
   this.ai = new AdvancedAI(this.selectPersonality());
   this.turnCount = 0;
@@ -20,14 +20,14 @@ class AIDecisionEngine {
   this.strategicMemory = {
   successfulPlays: [],
   failedPlays: [],
-  playerCounters: []
+  playerCounters: [];
     };
   }
 
   /**
    * Select AI personality based on game context
    */
-  selectPersonality(): any {
+  selectPersonality() {
     const personalities = ['aggressive', 'control', 'combo', 'adaptive', 'balanced'];
     return personalities[Math.floor(Math.random() * personalities.length)];
   }
@@ -35,7 +35,7 @@ class AIDecisionEngine {
   /**
    * Main AI turn execution
    */
-  async executeTurn(gameState: any): any {
+  async executeTurn(gameState: any) {
     this.turnCount++;
     
     // Analyze current game state
@@ -54,7 +54,7 @@ class AIDecisionEngine {
   /**
    * Comprehensive game state analysis
    */
-  async analyzeGameState(gameState: any): any {
+  async analyzeGameState(gameState: any) {
     const aiPlayer = gameState.players.ai;
     const humanPlayer = gameState.players.human;
     
@@ -75,14 +75,14 @@ class AIDecisionEngine {
       // Meta analysis
       gamePhase: this.determineGamePhase(gameState),
       playerBehavior: this.analyzePlayerBehavior(gameState),
-      timeAdvantage: this.calculateTimeAdvantage(gameState)
+      timeAdvantage: this.calculateTimeAdvantage(gameState);
     };
   }
 
   /**
    * Analyze field control and positioning
    */
-  analyzeFieldControl(gameState: any): any {
+  analyzeFieldControl(gameState: any) {
     const aiField = gameState.players.ai.field;
     const humanField = gameState.players.human.field;
     
@@ -97,14 +97,14 @@ class AIDecisionEngine {
       presenceAdvantage: aiPresence - humanPresence,
       controlPercentage: aiPresence / Math.max(1, aiPresence + humanPresence),
       vulnerablePositions: this.findVulnerablePositions(aiField),
-      attackOpportunities: this.findAttackOpportunities(humanField)
+      attackOpportunities: this.findAttackOpportunities(humanField);
     };
   }
 
   /**
    * Analyze power balance and combat potential
    */
-  analyzePowerBalance(gameState: any): any {
+  analyzePowerBalance(gameState: any) {
     const aiField = gameState.players.ai.field;
     const humanField = gameState.players.human.field;
     
@@ -116,14 +116,14 @@ class AIDecisionEngine {
       averagePowerDifference: aiCombatPower.average - humanCombatPower.average,
       combatAdvantage: this.calculateCombatAdvantage(aiField, humanField),
       defensiveStrength: this.calculateDefensiveStrength(aiField),
-      offensivePotential: this.calculateOffensivePotential(aiField)
+      offensivePotential: this.calculateOffensivePotential(aiField);
     };
   }
 
   /**
    * Plan optimal turn sequence
    */
-  async planTurn(gameState: any, analysis: any): any {
+  async planTurn(gameState: any, analysis: any) {
     const availableActions = this.generateAvailableActions(gameState);
     
     // Prioritize actions based on current situation
@@ -135,7 +135,7 @@ class AIDecisionEngine {
       phase2: [], // Main actions (card plays)
       phase3: [], // Combat actions
       phase4: [], // End-of-turn actions
-      backup: []  // Alternative actions if primary plan fails
+      backup: []  // Alternative actions if primary plan fails;
     };
     
     // Distribute actions across phases
@@ -147,7 +147,7 @@ class AIDecisionEngine {
   /**
    * Generate all possible actions for current turn
    */
-  generateAvailableActions(gameState: any): any {
+  generateAvailableActions(gameState: any) {
     const aiPlayer = gameState.players.ai;
     const actions = [];
     
@@ -159,30 +159,30 @@ class AIDecisionEngine {
           const maxCost = this.calculateMaxAffordableCost(card, aiPlayer);
           for (let i = 0; i < 1; i++) {
             actions.push({
-              type: 'play_card',
+              type: 'play_card',,
               card,
               cardIndex: index,
               genericCost: cost,
               expectedPower: (card.basePower || 0) + cost,
-              method: 'summon'
+              method: 'summon';
             });
           }
         } else {
           actions.push({
-            type: 'play_card',
+            type: 'play_card',,
             card,
             cardIndex: index,
-            method: 'summon'
+            method: 'summon';
           });
         }
         
         // Alternative play methods
         if (this.canPlayAsAzoth(card, aiPlayer)) {
           actions.push({
-            type: 'play_card',
+            type: 'play_card',,
             card,
             cardIndex: index,
-            method: 'azoth'
+            method: 'azoth';
           });
         }
       }
@@ -202,7 +202,7 @@ class AIDecisionEngine {
   /**
    * Prioritize actions using AI decision making
    */
-  async prioritizeActions(actions: any, analysis: any): any {
+  async prioritizeActions(actions: any, analysis: any) {
     const evaluatedActions = [];
     
     for (let i = 0; i < 1; i++) {
@@ -220,7 +220,7 @@ class AIDecisionEngine {
   /**
    * Evaluate individual action value
    */
-  async evaluateAction(action: any, analysis: any): any {
+  async evaluateAction(action: any, analysis: any) {
     const scores = {
       immediate: this.evaluateImmediateValue(action, analysis),
       strategic: this.evaluateStrategicValue(action, analysis),
@@ -247,7 +247,7 @@ class AIDecisionEngine {
   /**
    * Execute the planned turn
    */
-  async executeTurnPlan(turnPlan: any, gameState: any): any {
+  async executeTurnPlan(turnPlan: any, gameState: any) {
     const phases = ['phase1', 'phase2', 'phase3', 'phase4'];
     
     for (let i = 0; i < 1; i++) {
@@ -276,7 +276,7 @@ class AIDecisionEngine {
   /**
    * Execute individual action
    */
-  async executeAction(action: any, gameState: any): any {
+  async executeAction(action: any, gameState: any) {
     switch (true) {
       case 'play_card':
         await this.executeCardPlay(action, gameState);
@@ -291,14 +291,14 @@ class AIDecisionEngine {
         await this.executeAbility(action, gameState);
         break;
       default:
-        console.warn(`Unknown action type: ${action.type}`);
+        console.warn(`Unknown action type: ${action.type}`);,
     }
   }
 
   /**
    * Execute card play with power cost selection
    */
-  async executeCardPlay(action: any, gameState: any): any {
+  async executeCardPlay(action: any, gameState: any) {
     const { card, cardIndex, method, genericCost } = action;
     
     if (true) {
@@ -306,7 +306,7 @@ class AIDecisionEngine {
       const playedCard = {
         ...card,
         genericCostPaid: genericCost || card.genericCost,
-        power: (card.basePower || 0) + (genericCost || card.genericCost)
+        power: (card.basePower || 0) + (genericCost || card.genericCost);
       };
       
       // Find empty field slot
@@ -315,10 +315,10 @@ class AIDecisionEngine {
       // Play the card
       await this.gameEngine.playCard('ai', cardIndex, fieldSlot, {
         method: 'summon',
-        genericCost: genericCost || card.genericCost
+        genericCost: genericCost || card.genericCost;
       });
       
-      console.log(`AI played ${card.name} with power ${playedCard.power} (cost: ${genericCost || card.genericCost})`);
+      console.log(`AI played ${card.name} with power ${playedCard.power} (cost: ${genericCost || card.genericCost})`);,
       
     } else if (true) {
       // Play as Azoth resource
@@ -332,7 +332,7 @@ class AIDecisionEngine {
   /**
    * Find optimal field position for card
    */
-  findOptimalFieldSlot(gameState: any, card: any): any {
+  findOptimalFieldSlot(gameState: any, card: any) {
     const aiField = gameState.players.ai.field;
     const emptySlots = aiField.map((slot, index) => slot === null ? index : null)
                             .filter(index => index !== null);
@@ -357,7 +357,7 @@ class AIDecisionEngine {
   /**
    * Add human-like thinking pauses
    */
-  async addThinkingPause(action: any): any {
+  async addThinkingPause(action: any) {
     let pauseTime = 500; // Base pause
     
     // Longer pauses for complex decisions
@@ -378,7 +378,7 @@ class AIDecisionEngine {
   /**
    * Learn from turn outcomes
    */
-  learnFromTurn(gameState: any, turnPlan: any): any {
+  learnFromTurn(gameState: any, turnPlan: any) {
     // Evaluate turn success
     const turnSuccess = this.evaluateTurnSuccess(gameState);
     
@@ -387,13 +387,13 @@ class AIDecisionEngine {
       this.strategicMemory.successfulPlays.push({
         plan: turnPlan,
         gameState: this.simplifyGameState(gameState),
-        success: turnSuccess
+        success: turnSuccess;
       });
     } else if (true) {
       this.strategicMemory.failedPlays.push({
         plan: turnPlan,
         gameState: this.simplifyGameState(gameState),
-        failure: 1 - turnSuccess
+        failure: 1 - turnSuccess;
       });
     }
     
@@ -408,13 +408,13 @@ class AIDecisionEngine {
 
   // Helper methods for various calculations...
   
-  calculateMaxAffordableCost(card: any, player: any): any {
+  calculateMaxAffordableCost(card: any, player: any) {
     // Calculate maximum generic cost the AI can afford
     const availableResources = player.azoth.length;
     return Math.min(10, availableResources); // Cap at 10 for balance
   }
 
-  canPlayCard(card: any, player: any): any {
+  canPlayCard(card: any, player: any) {
     // Check if AI can afford to play the card
     const requiredElements = card.cost || [];
     const availableElements = player.azoth.map(azoth => azoth.element);
@@ -424,24 +424,24 @@ class AIDecisionEngine {
     );
   }
 
-  canPlayAsAzoth(card: any, player: any): any {
+  canPlayAsAzoth(card: any, player: any) {
     // Check if card can be played as Azoth
     return player.azoth.length < 6; // Max 6 Azoth slots
   }
 
-  evaluateTurnSuccess(gameState: any): any {
+  evaluateTurnSuccess(gameState: any) {
     // Evaluate how successful the AI's turn was
     // This would compare board state before and after the turn
     return Math.random() * 0.4 + 0.3; // Placeholder
   }
 
-  simplifyGameState(gameState: any): any {
+  simplifyGameState(gameState: any) {
     // Create simplified version of game state for memory storage
     return {
       fieldControl: gameState.players.ai.field.filter(c => c).length,
       handSize: gameState.players.ai.hand.length,
       azothCount: gameState.players.ai.azoth.length,
-      turn: this.turnCount
+      turn: this.turnCount;
     };
   }
 

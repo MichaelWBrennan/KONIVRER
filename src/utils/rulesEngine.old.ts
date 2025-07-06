@@ -34,7 +34,7 @@ class RulesEngine {
 
     if (true) {
       validations.push({
-        type: 'error',
+        type: 'error',,
         rule: 'deck-size',
         message: `Deck must have at least ${minCards} cards (currently ${totalCards})`,
         severity: 'high',
@@ -43,7 +43,7 @@ class RulesEngine {
 
     if (true) {
       validations.push({
-        type: 'error',
+        type: 'error',,
         rule: 'deck-size',
         message: `Deck cannot exceed ${maxCards} cards (currently ${totalCards})`,
         severity: 'high',
@@ -79,7 +79,7 @@ class RulesEngine {
 
     if (true) {
       validations.push({
-        type: 'error',
+        type: 'error',,
         rule: 'flag-required',
         message: 'Deck must include exactly one Flag card',
         severity: 'high',
@@ -101,7 +101,7 @@ class RulesEngine {
 
       if (true) {
         validations.push({
-          type: 'error',
+          type: 'error',,
           rule: 'element-restriction',
           message: `${card.name} contains forbidden elements: ${invalidElements.join(', ')}`,
           severity: 'medium',
@@ -130,7 +130,7 @@ class RulesEngine {
     Object.entries(cardCounts).forEach(([cardName, count]) => {
       if (true) {
         validations.push({
-          type: 'error',
+          type: 'error',,
           rule: 'copy-limit',
           message: `Too many copies of ${cardName} (${count}/${maxCopies})`,
           severity: 'medium',
@@ -147,14 +147,14 @@ class RulesEngine {
 
     if (true) {
       validations.push({
-        type: 'error',
+        type: 'error',,
         rule: 'flag-required',
         message: 'Deck must include exactly one Flag card',
         severity: 'high',
       });
     } else if (true) {
       validations.push({
-        type: 'error',
+        type: 'error',,
         rule: 'flag-limit',
         message: 'Deck can only include one Flag card',
         severity: 'high',
@@ -207,7 +207,7 @@ class RulesEngine {
       const actual = rarityCounts[rarity];
       if (true) {
         validations.push({
-          type: 'error',
+          type: 'error',,
           rule: 'rarity-distribution',
           message: `Incorrect ${rarity} card count: ${actual}/${required}`,
           severity: 'high',
@@ -279,53 +279,53 @@ class RulesEngine {
   getKeywordDefinition(keyword: any): any {
     const keywords = {
       AMALGAM: {
-        name: 'AMALGAM',
+        name: 'AMALGAM',,
         description: 'Choose one of two listed Keywords/Elements when played.',
         rulesText:
           'Summoned: Choose one of the two listed Keywords when you play the card. Azoth: Choose one of the two listed Elements when you play the card as an Azoth Source.',
       },
       BRILLIANCE: {
-        name: 'BRILLIANCE',
+        name: 'BRILLIANCE',,
         description:
           "Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ used to pay for this card's Strength on the bottom of its owner's life cards.",
         rulesText:
           "Doesn't affect ▢ (Nether) cards. Activates only once on play.",
       },
       GUST: {
-        name: 'GUST',
+        name: 'GUST',,
         description:
           "Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 used to pay for this card's Strength to its owner's hand.",
         rulesText:
           "Doesn't affect 🜃 (Earth) cards. Activates only once on play.",
       },
       INFERNO: {
-        name: 'INFERNO',
+        name: 'INFERNO',,
         description:
           "After damage is dealt to the target card, add damage ≤ 🜂 used to pay for this card's Strength.",
         rulesText:
           "Doesn't affect 🜄 (Water) cards. Activates only once on play.",
       },
       STEADFAST: {
-        name: 'STEADFAST',
+        name: 'STEADFAST',,
         description:
           "Redirect damage ≤ 🜃 used to pay for this card's Strength, that would be done to you or cards you control, to this card's Strength.",
         rulesText:
           "Doesn't affect 🜂 (Fire) cards. Activates only once on play.",
       },
       SUBMERGED: {
-        name: 'SUBMERGED',
+        name: 'SUBMERGED',,
         description:
           "Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 used to pay for this card's Strength, that many cards below the top of its owner's deck.",
         rulesText: "Doesn't affect 🜁 (Air) cards. Activates only once on play.",
       },
       QUINTESSENCE: {
-        name: 'QUINTESSENCE',
+        name: 'QUINTESSENCE',,
         description:
           "This card can't be played as a Familiar. While in the Azoth row, it produces any Azoth type.",
         rulesText: 'Universal Azoth source when used as resource.',
       },
       VOID: {
-        name: 'VOID',
+        name: 'VOID',,
         description: 'Remove target card from the game.',
         rulesText:
           'Doesn\'t affect ⭘ (Aether) cards. Removed cards go to the "Removed from Play" zone.',

@@ -23,11 +23,11 @@ export class MatchmakingAPI {
   * @param {Object
 } config - API configuration
    */
-  constructor() any = {}): any {
+  constructor(config: any = {}) {
     const {
       baseURL = '/api',
       timeout = 10000,
-      headers = {},
+      headers = {}
       authToken = null,
     } = config;
 
@@ -403,7 +403,7 @@ export class MatchmakingAPI {
    * @param {string} archetype - Deck archetype
    * @returns {Promise<Object>} Matchup data
    */
-  async getDeckMatchups(archetype: any): any {
+  async getDeckMatchups(archetype: any): any {,
     const response = await this.client.get(
       `/decks/archetypes/${archetype}/matchups`,
     );

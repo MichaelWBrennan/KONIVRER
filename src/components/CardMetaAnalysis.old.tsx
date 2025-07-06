@@ -18,8 +18,8 @@ const CardMetaAnalysis = (): any => {
     setTrendingCards([
       {
         id: 1,
-        name: 'Lightning Bolt',
-        type: 'Spell',
+        name: 'Lightning Bolt',,
+        type: 'Spell',,
         popularity: 95,
         winRate: 68,
         usage: 'High',
@@ -27,8 +27,8 @@ const CardMetaAnalysis = (): any => {
       },
       {
         id: 2,
-        name: 'Forest Guardian',
-        type: 'Familiar',
+        name: 'Forest Guardian',,
+        type: 'Familiar',,
         popularity: 87,
         winRate: 72,
         usage: 'Medium',
@@ -36,8 +36,8 @@ const CardMetaAnalysis = (): any => {
       },
       {
         id: 3,
-        name: 'Ancient Wisdom',
-        type: 'Spell',
+        name: 'Ancient Wisdom',,
+        type: 'Spell',,
         popularity: 76,
         winRate: 65,
         usage: 'Medium',

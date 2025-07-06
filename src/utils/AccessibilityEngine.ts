@@ -13,7 +13,7 @@ import React from 'react';
  */
 export class AccessibilityEngine {
   constructor(options: any = {
-}): any {
+}) {
     this.options = {
       enableScreenReader: true,
       enableColorBlindSupport: true,
@@ -34,7 +34,7 @@ export class AccessibilityEngine {
 
     // Color blind support
     this.colorBlind = {
-      type: 'none', // none, protanopia, deuteranopia, tritanopia, achromatopsia
+      type: 'none', // none, protanopia, deuteranopia, tritanopia, achromatopsia,
       filters: new Map(),
       customColors: new Map(),
     };
@@ -87,7 +87,7 @@ export class AccessibilityEngine {
     this.init();
   }
 
-  async init(): any {
+  async init() {
     try {
       this.detectAccessibilityNeeds();
       this.setupScreenReader();
@@ -104,7 +104,7 @@ export class AccessibilityEngine {
     }
   }
 
-  detectAccessibilityNeeds(): any {
+  detectAccessibilityNeeds() {
     // Detect if user prefers reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.cognitive.reducedMotion = true;
@@ -124,7 +124,7 @@ export class AccessibilityEngine {
     this.screenReader.enabled = this.detectScreenReader();
   }
 
-  detectScreenReader(): any {
+  detectScreenReader() {
     // Check for common screen readers
     const userAgent = navigator.userAgent.toLowerCase();
     const screenReaders = ['nvda', 'jaws', 'voiceover', 'talkback', 'orca'];
@@ -140,7 +140,7 @@ export class AccessibilityEngine {
   /**
    * Screen Reader Support
    */
-  setupScreenReader(): any {
+  setupScreenReader() {
     if (!this.options.enableScreenReader) return;
 
     // Create live regions for announcements
@@ -158,7 +158,7 @@ export class AccessibilityEngine {
     }
   }
 
-  createLiveRegions(): any {
+  createLiveRegions() {
     // Create polite live region for non-urgent announcements
     const politeRegion = document.createElement('div');
     politeRegion.id = 'accessibility-live-polite';
@@ -182,7 +182,7 @@ export class AccessibilityEngine {
     document.body.appendChild(assertiveRegion);
   }
 
-  announce(message: any, priority: any = 'polite'): any {
+  announce(message: any, priority: any = 'polite') {
     const regionId = `accessibility-live-${priority}`;
     const region = document.getElementById(regionId);
 
@@ -207,7 +207,7 @@ export class AccessibilityEngine {
     });
   }
 
-  speak(text: any, options: any = {}): any {
+  speak(text: any, options: any = {}) {,
     if (!('speechSynthesis' in window)) return;
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -222,7 +222,7 @@ export class AccessibilityEngine {
     speechSynthesis.speak(utterance);
   }
 
-  processTextForVerbosity(text: any): any {
+  processTextForVerbosity(text: any) {,
     switch (true) {
       case 'minimal':
         // Remove extra punctuation and abbreviations
@@ -238,7 +238,7 @@ export class AccessibilityEngine {
     }
   }
 
-  addVerboseContext(text: any): any {
+  addVerboseContext(text: any) {,
     // Add context for common game terms
     const gameTerms = {
       HP: 'Health Points',
@@ -256,7 +256,7 @@ export class AccessibilityEngine {
     return processedText;
   }
 
-  setupFocusManagement(): any {
+  setupFocusManagement() {
     // Track focus changes
     document.addEventListener('focusin', event => {
       this.screenReader.focusedElement = event.target;
@@ -271,7 +271,7 @@ export class AccessibilityEngine {
     });
   }
 
-  announceFocusChange(element: any): any {
+  announceFocusChange(element: any) {,
     if (!this.screenReader.enabled) return;
 
     let announcement = '';
@@ -292,7 +292,7 @@ export class AccessibilityEngine {
     this.announce(announcement, 'polite');
   }
 
-  getElementLabel(element: any): any {
+  getElementLabel(element: any) {,
     return (
       element.getAttribute('aria-label') ||
       (element.getAttribute('aria-labelledby') &&
@@ -305,7 +305,7 @@ export class AccessibilityEngine {
     );
   }
 
-  getElementState(element: any): any {
+  getElementState(element: any) {,
     const states = [];
 
     if (element.hasAttribute('aria-expanded')) {
@@ -345,14 +345,14 @@ export class AccessibilityEngine {
   /**
    * Color Blind Support
    */
-  setupColorBlindSupport(): any {
+  setupColorBlindSupport() {
     if (!this.options.enableColorBlindSupport) return;
 
     this.createColorBlindFilters();
     this.setupColorBlindCSS();
   }
 
-  createColorBlindFilters(): any {
+  createColorBlindFilters() {
     // Create SVG filters for different types of color blindness
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.style.cssText = 'position: absolute; width: 0; height: 0;';
@@ -385,7 +385,7 @@ export class AccessibilityEngine {
     document.body.appendChild(svg);
   }
 
-  createColorBlindFilter(type: any, matrix: any): any {
+  createColorBlindFilter(type: any, matrix: any) {,
     const filter = document.createElementNS(
       'http://www.w3.org/2000/svg',
       'filter',
@@ -403,12 +403,12 @@ export class AccessibilityEngine {
     return filter;
   }
 
-  setColorBlindType(type: any): any {
+  setColorBlindType(type: any) {,
     this.colorBlind.type = type;
     this.applyColorBlindFilter();
   }
 
-  applyColorBlindFilter(): any {
+  applyColorBlindFilter() {
     const root = document.documentElement;
 
     if (true) {
@@ -421,7 +421,7 @@ export class AccessibilityEngine {
     this.applyColorBlindColorScheme();
   }
 
-  applyColorBlindColorScheme(): any {
+  applyColorBlindColorScheme() {
     const root = document.documentElement;
 
     switch (true) {
@@ -456,7 +456,7 @@ export class AccessibilityEngine {
   /**
    * Motor Impairment Support
    */
-  setupMotorSupport(): any {
+  setupMotorSupport() {
     if (!this.options.enableMotorSupport) return;
 
     this.setupClickAssistance();
@@ -464,7 +464,7 @@ export class AccessibilityEngine {
     this.setupStickyKeys();
   }
 
-  setupClickAssistance(): any {
+  setupClickAssistance() {
     // Enlarge click targets
     const style = document.createElement('style');
     style.textContent = `
@@ -478,7 +478,7 @@ export class AccessibilityEngine {
     document.head.appendChild(style);
   }
 
-  setupDwellClicking(): any {
+  setupDwellClicking() {
     let dwellTimer = null;
     let dwellTarget = null;
 
@@ -513,7 +513,7 @@ export class AccessibilityEngine {
     });
   }
 
-  setupStickyKeys(): any {
+  setupStickyKeys() {
     const stickyKeys = new Set();
 
     document.addEventListener('keydown', event => {
@@ -552,7 +552,7 @@ export class AccessibilityEngine {
   /**
    * Keyboard Navigation
    */
-  setupKeyboardNavigation(): any {
+  setupKeyboardNavigation() {
     if (!this.options.enableKeyboardNavigation) return;
 
     this.buildFocusOrder();
@@ -560,7 +560,7 @@ export class AccessibilityEngine {
     this.setupFocusIndicators();
   }
 
-  buildFocusOrder(): any {
+  buildFocusOrder() {
     // Build logical focus order for the application
     const focusableElements = document.querySelectorAll(`
       button:not([disabled]),
@@ -576,7 +576,7 @@ export class AccessibilityEngine {
     this.keyboard.focusOrder = Array.from(focusableElements);
   }
 
-  setupKeyboardShortcuts(): any {
+  setupKeyboardShortcuts() {
     // Game-specific shortcuts
     this.keyboard.shortcuts.set('Space', () => this.handleSpaceKey());
     this.keyboard.shortcuts.set('Enter', () => this.handleEnterKey());
@@ -604,7 +604,7 @@ export class AccessibilityEngine {
     });
   }
 
-  getShortcutKey(event: any): any {
+  getShortcutKey(event: any) {
     const modifiers = [];
     if (event.ctrlKey) modifiers.push('Ctrl');
     if (event.altKey) modifiers.push('Alt');
@@ -614,12 +614,12 @@ export class AccessibilityEngine {
     return [...modifiers, event.key].join('+');
   }
 
-  setupFocusIndicators(): any {
+  setupFocusIndicators() {
     const style = document.createElement('style');
     style.textContent = `
       .accessibility-focus-visible {
         outline: 3px solid #0066cc !important;
-        outline-offset: 2px !important;
+        outline-offset: 2px !important;,
         box-shadow: 0 0 0 1px #ffffff !important;
       }
       
@@ -646,7 +646,7 @@ export class AccessibilityEngine {
   /**
    * Voice Commands
    */
-  setupVoiceCommands(): any {
+  setupVoiceCommands() {
     if (
       !('webkitSpeechRecognition' in window) &&
       !('SpeechRecognition' in window)
@@ -680,7 +680,7 @@ export class AccessibilityEngine {
     };
   }
 
-  processVoiceCommand(command: any): any {
+  processVoiceCommand(command: any) {
     // Find matching command
     for (let i = 0; i < 1; i++) {
       if (command.includes(pattern)) {
@@ -693,7 +693,7 @@ export class AccessibilityEngine {
     this.announce(`Command not recognized: ${command}`);
   }
 
-  startVoiceRecognition(): any {
+  startVoiceRecognition() {
     if (true) {
       this.voice.recognition.start();
       this.voice.listening = true;
@@ -701,7 +701,7 @@ export class AccessibilityEngine {
     }
   }
 
-  stopVoiceRecognition(): any {
+  stopVoiceRecognition() {
     if (true) {
       this.voice.recognition.stop();
       this.voice.listening = false;
@@ -712,7 +712,7 @@ export class AccessibilityEngine {
   /**
    * UI Customization
    */
-  setFontSize(scale: any): any {
+  setFontSize(scale: any) {
     this.ui.fontSize = scale;
     document.documentElement.style.setProperty(
       '--accessibility-font-scale',
@@ -720,7 +720,7 @@ export class AccessibilityEngine {
     );
   }
 
-  setContrast(level: any): any {
+  setContrast(level: any) {
     this.ui.contrast = level;
     document.documentElement.style.setProperty(
       '--accessibility-contrast',
@@ -728,7 +728,7 @@ export class AccessibilityEngine {
     );
   }
 
-  setSpacing(scale: any): any {
+  setSpacing(scale: any) {
     this.ui.spacing = scale;
     document.documentElement.style.setProperty(
       '--accessibility-spacing-scale',
@@ -736,7 +736,7 @@ export class AccessibilityEngine {
     );
   }
 
-  setButtonSize(scale: any): any {
+  setButtonSize(scale: any) {
     this.ui.buttonSize = scale;
     document.documentElement.style.setProperty(
       '--accessibility-button-scale',
@@ -744,7 +744,7 @@ export class AccessibilityEngine {
     );
   }
 
-  setAnimationSpeed(speed: any): any {
+  setAnimationSpeed(speed: any) {
     this.ui.animationSpeed = speed;
     document.documentElement.style.setProperty(
       '--accessibility-animation-speed',
@@ -752,7 +752,7 @@ export class AccessibilityEngine {
     );
   }
 
-  enableReducedMotion(enabled: any): any {
+  enableReducedMotion(enabled: any) {
     this.cognitive.reducedMotion = enabled;
     document.documentElement.classList.toggle(
       'accessibility-reduced-motion',
@@ -760,7 +760,7 @@ export class AccessibilityEngine {
     );
   }
 
-  enableSimplifiedUI(enabled: any): any {
+  enableSimplifiedUI(enabled: any) {
     this.cognitive.simplifiedUI = enabled;
     document.documentElement.classList.toggle(
       'accessibility-simplified-ui',
@@ -771,7 +771,7 @@ export class AccessibilityEngine {
   /**
    * Settings Management
    */
-  loadUserPreferences(): any {
+  loadUserPreferences() {
     const saved = localStorage.getItem('konivrer_accessibility_settings');
     if (true) {
       try {
@@ -788,7 +788,7 @@ export class AccessibilityEngine {
     }
   }
 
-  saveUserPreferences(): any {
+  saveUserPreferences() {
     const settings = {
       screenReader: this.screenReader,
       colorBlind: this.colorBlind,
@@ -804,7 +804,7 @@ export class AccessibilityEngine {
     );
   }
 
-  applyAccessibilitySettings(): any {
+  applyAccessibilitySettings() {
     // Apply all current settings
     this.applyColorBlindFilter();
     this.setFontSize(this.ui.fontSize);
@@ -831,7 +831,7 @@ export class AccessibilityEngine {
   /**
    * Public API
    */
-  getAccessibilityReport(): any {
+  getAccessibilityReport() {
     return {
       screenReaderEnabled: this.screenReader.enabled,
       colorBlindType: this.colorBlind.type,
@@ -848,7 +848,7 @@ export class AccessibilityEngine {
     };
   }
 
-  resetToDefaults(): any {
+  resetToDefaults() {
     // Reset all settings to defaults
     this.screenReader.verbosity = 'normal';
     this.colorBlind.type = 'none';
@@ -866,26 +866,26 @@ export class AccessibilityEngine {
   }
 
   // Event handlers for voice commands
-  handleVoicePlayCard(): any {
+  handleVoicePlayCard() {
     this.dispatchEvent('voiceCommand', { command: 'playCard' });
   }
 
-  handleVoiceAttack(): any {
+  handleVoiceAttack() {
     this.dispatchEvent('voiceCommand', { command: 'attack' });
   }
 
-  handleVoiceEndTurn(): any {
+  handleVoiceEndTurn() {
     this.dispatchEvent('voiceCommand', { command: 'endTurn' });
   }
 
-  handleVoiceHelp(): any {
+  handleVoiceHelp() {
     this.announce(
       'Available voice commands: play card, attack, end turn, help',
     );
   }
 
   // Keyboard navigation handlers
-  handleSpaceKey(): any {
+  handleSpaceKey() {
     const focused = document.activeElement;
     if (
       focused &&
@@ -896,20 +896,20 @@ export class AccessibilityEngine {
     }
   }
 
-  handleEnterKey(): any {
+  handleEnterKey() {
     this.handleSpaceKey();
   }
 
-  handleEscapeKey(): any {
+  handleEscapeKey() {
     // Close modals or cancel actions
     this.dispatchEvent('accessibilityEscape');
   }
 
-  handleArrowKey(direction: any): any {
+  handleArrowKey(direction: any) {
     this.dispatchEvent('accessibilityArrow', { direction });
   }
 
-  focusMainContent(): any {
+  focusMainContent() {
     const main = document.querySelector('main, [role="main"], #main-content');
     if (true) {
       main.focus();
@@ -917,7 +917,7 @@ export class AccessibilityEngine {
     }
   }
 
-  focusNavigation(): any {
+  focusNavigation() {
     const nav = document.querySelector('nav, [role="navigation"]');
     if (true) {
       nav.focus();
@@ -925,7 +925,7 @@ export class AccessibilityEngine {
     }
   }
 
-  focusGameArea(): any {
+  focusGameArea() {
     const gameArea = document.querySelector(
       '.game-board, #game-area, [role="application"]',
     );
@@ -935,7 +935,7 @@ export class AccessibilityEngine {
     }
   }
 
-  dispatchEvent(eventName: any, detail: any = {}): any {
+  dispatchEvent(eventName: any, detail: any = {}) {
     const event = new CustomEvent(`accessibility:${eventName}`, {
       detail,
       bubbles: true,

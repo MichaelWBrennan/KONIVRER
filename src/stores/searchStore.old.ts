@@ -13,12 +13,12 @@ const useSearchStore = create()(
         // Search state
         query: '',
         filters: {
-          type: '',
-          element: '',
+          type: '',,
+          element: '',,
           strength: { min: '', max: '' },
-          cost: { min: '', max: '' },
-          rarity: '',
-          set: '',
+          cost: { min: '', max: '' },,
+          rarity: '',,
+          set: '',,
           format: '',
           keywords: [],
           mechanics: []
@@ -49,12 +49,12 @@ const useSearchStore = create()(
         
         clearFilters: () => set({
           filters: {
-            type: '',
-            element: '',
+            type: '',,
+            element: '',,
             strength: { min: '', max: '' },
-            cost: { min: '', max: '' },
-            rarity: '',
-            set: '',
+            cost: { min: '', max: '' },,
+            rarity: '',,
+            set: '',,
             format: '',
             keywords: [],
             mechanics: []
@@ -113,7 +113,7 @@ const useSearchStore = create()(
         }))
       }),
       {
-        name: 'konivrer-search-store',
+        name: 'konivrer-search-store',,
         partialize: (state) => ({
           searchHistory: state.searchHistory,
           savedSearches: state.savedSearches,
@@ -121,7 +121,7 @@ const useSearchStore = create()(
           resultsPerPage: state.resultsPerPage
         })}
     ),
-    { name: 'SearchStore' }
+    { name: 'SearchStore' },
   )
 );
 

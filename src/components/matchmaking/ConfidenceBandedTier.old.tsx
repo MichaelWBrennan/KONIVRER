@@ -35,49 +35,49 @@ const ConfidenceBandedTier: React.FC<ConfidenceBandedTierProps> = ({
   const getTierInfo = tierKey => {
     const tiers = {
       bronze: {
-        name: 'Bronze',
+        name: 'Bronze',,
         color: '#CD7F32',
         bgColor: 'bg-amber-100',
         textColor: 'text-amber-800',
       },
       silver: {
-        name: 'Silver',
+        name: 'Silver',,
         color: '#C0C0C0',
         bgColor: 'bg-gray-100',
         textColor: 'text-gray-700',
       },
       gold: {
-        name: 'Gold',
+        name: 'Gold',,
         color: '#FFD700',
         bgColor: 'bg-yellow-100',
         textColor: 'text-yellow-800',
       },
       platinum: {
-        name: 'Platinum',
+        name: 'Platinum',,
         color: '#E5E4E2',
         bgColor: 'bg-cyan-50',
         textColor: 'text-cyan-800',
       },
       diamond: {
-        name: 'Diamond',
+        name: 'Diamond',,
         color: '#B9F2FF',
         bgColor: 'bg-blue-100',
         textColor: 'text-blue-800',
       },
       master: {
-        name: 'Master',
+        name: 'Master',,
         color: '#FF6B6B',
         bgColor: 'bg-red-100',
         textColor: 'text-red-800',
       },
       grandmaster: {
-        name: 'Grandmaster',
+        name: 'Grandmaster',,
         color: '#4ECDC4',
         bgColor: 'bg-teal-100',
         textColor: 'text-teal-800',
       },
       mythic: {
-        name: 'Mythic',
+        name: 'Mythic',,
         color: '#9B59B6',
         bgColor: 'bg-purple-100',
         textColor: 'text-purple-800',
@@ -91,25 +91,25 @@ const ConfidenceBandedTier: React.FC<ConfidenceBandedTierProps> = ({
   const getBandInfo = bandKey => {
     const bands = {
       uncertain: {
-        name: 'Uncertain',
+        name: 'Uncertain',,
         icon: <AlertCircle className="w-4 h-4" />,
         color: 'text-gray-500',
         description: 'Your rating is still being determined',
       },
       developing: {
-        name: 'Developing',
+        name: 'Developing',,
         icon: <Zap className="w-4 h-4" />,
         color: 'text-blue-500',
         description: 'Your rating is becoming more accurate',
       },
       established: {
-        name: 'Established',
+        name: 'Established',,
         icon: <CheckCircle className="w-4 h-4" />,
         color: 'text-green-500',
         description: 'Your rating is well-established',
       },
       proven: {
-        name: 'Proven',
+        name: 'Proven',,
         icon: <Star className="w-4 h-4" />,
         color: 'text-yellow-500',
         description: 'Your rating is highly accurate',

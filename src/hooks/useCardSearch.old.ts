@@ -110,7 +110,7 @@ const useCardSearch = (): any => {
         suggestionsOnly: true
       });
       return suggestions.results.map(card => ({
-        type: 'card',
+        type: 'card',,
         value: card.name,
         label: card.name,
         subtitle: `${card.type} - ${card.element || 'Neutral'}`

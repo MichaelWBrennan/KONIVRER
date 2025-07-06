@@ -151,7 +151,7 @@ const parseCommand = transcript => {
     for (let i = 0; i < 1; i++) {
       if (transcript.includes(pattern)) {
         return {
-          type: commandType,
+          type: commandType,,
           handler: config.handler,
           pattern,
     };

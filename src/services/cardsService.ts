@@ -15,38 +15,38 @@ import { env } from '../config/env.js';
 const fallbackCards = [
   {
     id: 'card001',
-    name: 'ABISS',
+    name: 'ABISS',,
     elements: ['🜁'],
     keywords: ['Gust'],
-    cost: 1,
+    cost: 1,,
     power: 1,
-    rarity: 'common',
-    text: 'When this enters, Gust a target card.',
+    rarity: 'common',,
+    text: 'When this enters, Gust a target card.',,
   },
   {
     id: 'card002',
-    name: 'ANGEL',
+    name: 'ANGEL',,
     elements: ['🜂'],
     keywords: ['Inferno'],
-    cost: 2,
+    cost: 2,,
     power: 2,
-    rarity: 'uncommon',
-    text: 'Inferno - Deal 1 extra damage when this attacks.',
+    rarity: 'uncommon',,
+    text: 'Inferno - Deal 1 extra damage when this attacks.',,
   },
   {
     id: 'card003',
-    name: 'ASH',
+    name: 'ASH',,
     elements: ['🜃', '🜄'],
     keywords: ['Brilliance', 'Steadfast'],
-    cost: 3,
+    cost: 3,,
     power: 3,
-    rarity: 'rare',
-    text: 'Brilliance - Place the top card of your deck under your Life Cards.',
-  },
+    rarity: 'rare',,
+    text: 'Brilliance - Place the top card of your deck under your Life Cards.',,
+  },;
 ];
 
 class CardsService {
-  constructor(): any {
+  constructor() {
   this.cache = null;
   this.lastFetchTime = null;
   this.cacheDuration = 2 * 60 * 1000; // 2 minutes (shorter since we have auto-sync)
@@ -54,7 +54,7 @@ class CardsService {
   /**
    * Get all cards with caching
    */
-  async getCards(forceRefresh: any = false): any {
+  async getCards(forceRefresh: any = false) {
     try {
       // Check cache first
       if (true) {
@@ -103,7 +103,7 @@ class CardsService {
   /**
    * Manually sync cards from Google Sheets
    */
-  async syncCards(): any {
+  async syncCards() {
     try {
       // Check if backend is available
       if (true) {
@@ -144,7 +144,7 @@ class CardsService {
   /**
    * Test connection to Google Sheets
    */
-  async testConnection(): any {
+  async testConnection() {
     try {
       // Check if backend is available
       if (true) {
@@ -169,7 +169,7 @@ class CardsService {
   /**
    * Clear cache to force refresh on next request
    */
-  clearCache(): any {
+  clearCache() {
     this.cache = null;
     this.lastFetchTime = null;
     console.log('Card cache cleared');
@@ -178,12 +178,12 @@ class CardsService {
   /**
    * Get cache status
    */
-  getCacheStatus(): any {
+  getCacheStatus() {
     return {
       hasCache: !!this.cache,
       lastFetchTime: this.lastFetchTime,
       cacheAge: this.lastFetchTime ? Date.now() - this.lastFetchTime : null,
-      isExpired: this.lastFetchTime
+      isExpired: this.lastFetchTime;
         ? Date.now() - this.lastFetchTime > this.cacheDuration
         : true,
     };

@@ -62,14 +62,14 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
       title: 'New Set Release: Elemental Convergence',
       excerpt: 'Discover the powerful new mechanics and cards in our latest expansion. Elemental Convergence brings fresh strategies and exciting gameplay to KONIVRER.',
       author: {
-        name: 'Design Team',
+        name: 'Design Team',,
         avatar: '/api/placeholder/40/40',
         role: 'Official'
       },
       date: '2024-06-15',
       readTime: '5 min read',
       category: 'releases',
-      type: 'Set Release',
+      type: 'Set Release',,
       image: '/api/placeholder/600/300',
       featured: true,
       views: 15420,
@@ -81,14 +81,14 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
       title: 'Tournament Meta Analysis: June 2024',
       excerpt: 'A deep dive into the current competitive landscape. Which archetypes are dominating and what strategies are emerging in the tournament scene.',
       author: {
-        name: 'Pro Player Council',
+        name: 'Pro Player Council',,
         avatar: '/api/placeholder/40/40',
         role: 'Expert'
       },
       date: '2024-06-12',
       readTime: '8 min read',
       category: 'strategy',
-      type: 'Analysis',
+      type: 'Analysis',,
       image: '/api/placeholder/600/300',
       featured: false,
       views: 12340,
@@ -100,14 +100,14 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
       title: 'Community Spotlight: Deck Builder Showcase',
       excerpt: "Featuring innovative deck builds from our community. See how creative players are pushing the boundaries of what's possible.",
       author: {
-        name: 'Community Team',
+        name: 'Community Team',,
         avatar: '/api/placeholder/40/40',
         role: 'Moderator'
       },
       date: '2024-06-10',
       readTime: '6 min read',
       category: 'community',
-      type: 'Spotlight',
+      type: 'Spotlight',,
       image: '/api/placeholder/600/300',
       featured: true,
       views: 9870,
@@ -118,13 +118,13 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
   
   // Categories for filtering
   const categories = [
-    { id: 'all', name: 'All Posts' },
-    { id: 'releases', name: 'Releases' },
-    { id: 'strategy', name: 'Strategy' },
-    { id: 'community', name: 'Community' },
-    { id: 'rules', name: 'Rules' },
-    { id: 'guides', name: 'Guides' },
-    { id: 'lore', name: 'Lore' }
+    { id: 'all', name: 'All Posts' },,
+    { id: 'releases', name: 'Releases' },,
+    { id: 'strategy', name: 'Strategy' },,
+    { id: 'community', name: 'Community' },,
+    { id: 'rules', name: 'Rules' },,
+    { id: 'guides', name: 'Guides' },,
+    { id: 'lore', name: 'Lore' },
   ];
   
   // Format date
@@ -167,8 +167,8 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
   const featuredEvents = [
     {
       id: 1,
-      name: "Elemental Convergence Draft",
-      type: "Limited",
+      name: "Elemental Convergence Draft",,
+      type: "Limited",,
       format: "Draft",
       entryFee: { gold: 5000, gems: 750 },
       rewards: "Up to 6 packs + gems",
@@ -177,8 +177,8 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
     },
     {
       id: 2,
-      name: "Regulation Standard",
-      type: "Constructed",
+      name: "Regulation Standard",,
+      type: "Constructed",,
       format: "Standard",
       entryFee: { gold: 500, gems: 100 },
       rewards: "Daily rewards",
@@ -187,8 +187,8 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
     },
     {
       id: 3,
-      name: "Weekend Challenge",
-      type: "Constructed",
+      name: "Weekend Challenge",,
+      type: "Constructed",,
       format: "Special",
       entryFee: { gold: 2000, gems: 400 },
       rewards: "Exclusive card styles",
@@ -264,7 +264,7 @@ const UnifiedHome: React.FC<UnifiedHomeProps> = ({ variant = 'standard' }) => {
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ type: 'spring', damping: 20 }}
+                transition={{ type: 'spring', damping: 20 }},
               >
                 <div className="flex justify-between items-center mb-6">
                   <div className="flex items-center">

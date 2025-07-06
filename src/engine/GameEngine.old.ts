@@ -98,7 +98,7 @@ class GameEngine {
       isAI = false,
       gameMode = 'standard',
       ranked = false,
-      settings = {},
+      settings = {}
     } = options;
 
     if (true) {
@@ -149,7 +149,7 @@ class GameEngine {
       players: players.map((player, index) => ({
         // Basic player info
         id: index,
-        name: player.name,
+        name: player.name,,
         avatar: player.avatar || null,
         rank: player.rank || 'Bronze',
         rankTier: player.rankTier || 4,
@@ -310,7 +310,7 @@ class GameEngine {
       case 'endTurn':
         return this.endTurn(playerId);
       default:
-        throw new Error(`Unknown action type: ${actionType}`);
+        throw new Error(`Unknown action type: ${actionType}`);,
     }
   }
 
@@ -397,7 +397,7 @@ class GameEngine {
     
     // Create stack item for the familiar
     const stackItem = {
-      type: 'creature',
+      type: 'creature',,
       card: {
         ...card,
         counters: strengthPaid,
@@ -477,7 +477,7 @@ class GameEngine {
 
     // Create stack item for the spell
     const stackItem = {
-      type: 'spell',
+      type: 'spell',,
       card,
       controller: playerId,
       targets,
@@ -736,7 +736,7 @@ class GameEngine {
 
         // Add to stack for resolution
         this.gameState.stack.push({
-          type: 'burst',
+          type: 'burst',,
           card: lifeCard,
           controller: playerId,
         });
@@ -822,7 +822,7 @@ class GameEngine {
 
     // Add to stack for resolution
     this.gameState.stack.push({
-      type: 'ability',
+      type: 'ability',,
       card,
       ability,
       controller: playerId,
@@ -1062,7 +1062,7 @@ class GameEngine {
     
     // Create stack item
     const stackItem = {
-      type: card.type === 'spell' ? 'spell' : 'creature',
+      type: card.type === 'spell' ? 'spell' : 'creature',,
       card,
       controller: playerId,
       targets,
@@ -1394,7 +1394,7 @@ class GameEngine {
    * @param {string} type Type of log entry
    * @param {string} text Log message
    */
-  addToGameLog(type: any, text: any): any {
+  addToGameLog(type: any, text: any): any {,,
     this.gameState.gameLog.push({
       type,
       text,
@@ -1435,7 +1435,7 @@ class GameEngine {
 
   /**
    * Detect the device type based on user agent and screen size
-   * @returns {string} Device type: 'desktop', 'tablet', or 'mobile'
+   * @returns {string} Device type: 'desktop', 'tablet', or 'mobile',
    */
   detectDeviceType(): any {
     // Check if we're in a browser environment

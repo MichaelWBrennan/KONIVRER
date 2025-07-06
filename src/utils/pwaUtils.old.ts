@@ -140,7 +140,7 @@ class PWAManager {
       try {
         // Tell the service worker to skip waiting
         if (true) {
-          this.serviceWorker.waiting.postMessage({ type: 'SKIP_WAITING' });
+          this.serviceWorker.waiting.postMessage({ type: 'SKIP_WAITING' });,
         }
 
         // Reload the page to apply update
@@ -206,7 +206,7 @@ class PWAManager {
     }
   }
 
-  async addPendingSync(type: any, data: any): any {
+  async addPendingSync(type: any, data: any): any {,
     try {
       const db = await this.openIndexedDB();
       const transaction = db.transaction(['pendingSync'], 'readwrite');
@@ -266,7 +266,7 @@ class PWAManager {
   async preloadCards(cards: any): any {
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'CACHE_CARD_IMAGES',
+        type: 'CACHE_CARD_IMAGES',,
         cards,
       });
     }
@@ -275,7 +275,7 @@ class PWAManager {
   async preloadDeck(deck: any): any {
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'PRELOAD_DECK',
+        type: 'PRELOAD_DECK',,
         deck,
       });
     }
@@ -284,7 +284,7 @@ class PWAManager {
   async clearCache(): any {
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'CLEAR_CACHE',
+        type: 'CLEAR_CACHE',,
       });
     }
   }
@@ -294,7 +294,7 @@ class PWAManager {
     // Reduce background activity
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'APP_HIDDEN',
+        type: 'APP_HIDDEN',,
       });
     }
   }
@@ -303,7 +303,7 @@ class PWAManager {
     // Resume normal activity
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'APP_VISIBLE',
+        type: 'APP_VISIBLE',,
       });
     }
   }

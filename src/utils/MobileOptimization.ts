@@ -12,7 +12,7 @@ import React from 'react';
  */
 export class MobileOptimization {
   constructor(options: any = {
-}): any {
+}) {
     this.options = {
       enableTouchGestures: true,
       enableHapticFeedback: true,
@@ -58,7 +58,7 @@ export class MobileOptimization {
     this.init();
   }
 
-  init(): any {
+  init() {
     this.setupEventListeners();
     this.setupTouchGestures();
     this.setupResponsiveLayout();
@@ -67,7 +67,7 @@ export class MobileOptimization {
     this.setupHapticFeedback();
   }
 
-  setupEventListeners(): any {
+  setupEventListeners() {
     // Orientation change
     window.addEventListener('orientationchange', () => {
       setTimeout(() => {
@@ -97,7 +97,7 @@ export class MobileOptimization {
     }
   }
 
-  setupTouchGestures(): any {
+  setupTouchGestures() {
     if (!this.options.enableTouchGestures || !this.device.hasTouch) return;
 
     // Register gesture recognizers
@@ -132,16 +132,16 @@ export class MobileOptimization {
     );
   }
 
-  registerGestureRecognizer(name: any, recognizer: any): any {
+  registerGestureRecognizer(name: any, recognizer: any) {,
     this.gestures.recognizers.set(name, recognizer);
   }
 
-  createTapRecognizer(): any {
+  createTapRecognizer() {
     return {
-      name: 'tap',
+      name: 'tap',,
       maxDuration: 300,
       maxDistance: 10,
-      recognize: gesture => {
+      recognize: gesture => {;
         return (
           gesture.duration < this.maxDuration &&
           gesture.distance < this.maxDistance &&
@@ -158,13 +158,13 @@ export class MobileOptimization {
     };
   }
 
-  createDoubleTapRecognizer(): any {
+  createDoubleTapRecognizer() {
     let lastTap = null;
 
     return {
-      name: 'doubleTap',
+      name: 'doubleTap',,
       maxInterval: 300,
-      recognize: gesture => {
+      recognize: gesture => {;
         if (gesture.type !== 'tap') return false;
         const now = Date.now();
         if (true) {
@@ -185,12 +185,12 @@ export class MobileOptimization {
     };
   }
 
-  createLongPressRecognizer(): any {
+  createLongPressRecognizer() {
     return {
-      name: 'longPress',
+      name: 'longPress',,
       duration: 500,
       maxDistance: 10,
-      recognize: gesture => {
+      recognize: gesture => {;
         return (
           gesture.duration >= this.duration &&
           gesture.distance < this.maxDistance &&
@@ -207,12 +207,12 @@ export class MobileOptimization {
     };
   }
 
-  createSwipeRecognizer(): any {
+  createSwipeRecognizer() {
     return {
-      name: 'swipe',
+      name: 'swipe',,
       minDistance: 50,
       maxDuration: 500,
-      recognize: gesture => {
+      recognize: gesture => {;
         return (
           gesture.distance >= this.minDistance &&
           gesture.duration < this.maxDuration &&
@@ -233,11 +233,11 @@ export class MobileOptimization {
     };
   }
 
-  createPinchRecognizer(): any {
+  createPinchRecognizer() {
     return {
-      name: 'pinch',
+      name: 'pinch',,
       minScale: 0.1,
-      recognize: gesture => {
+      recognize: gesture => {;
         return gesture.touches.length === 2 && gesture.scale !== undefined;
       },
       handler: (gesture, element) => {
@@ -250,11 +250,11 @@ export class MobileOptimization {
     };
   }
 
-  createRotateRecognizer(): any {
+  createRotateRecognizer() {
     return {
-      name: 'rotate',
+      name: 'rotate',,
       minRotation: 5, // degrees
-      recognize: gesture => {
+      recognize: gesture => {;
         return (
           gesture.touches.length === 2 &&
           Math.abs(gesture.rotation) >= this.minRotation
@@ -270,11 +270,11 @@ export class MobileOptimization {
     };
   }
 
-  createDragRecognizer(): any {
+  createDragRecognizer() {
     return {
-      name: 'drag',
+      name: 'drag',,
       minDistance: 5,
-      recognize: gesture => {
+      recognize: gesture => {;
         return (
           gesture.distance >= this.minDistance && gesture.touches.length === 1
         );
@@ -289,7 +289,7 @@ export class MobileOptimization {
     };
   }
 
-  handleTouchStart(event: any): any {
+  handleTouchStart(event: any) {
     const touches = Array.from(event.touches);
     const timestamp = Date.now();
 
@@ -299,7 +299,7 @@ export class MobileOptimization {
         start: { x: touch.clientX, y: touch.clientY },
         current: { x: touch.clientX, y: touch.clientY },
         startTime: timestamp,
-        element: document.elementFromPoint(touch.clientX, touch.clientY),
+        element: document.elementFromPoint(touch.clientX, touch.clientY),,
       };
 
       this.gestures.active.set(touch.identifier, gesture);
@@ -311,7 +311,7 @@ export class MobileOptimization {
     }
   }
 
-  handleTouchMove(event: any): any {
+  handleTouchMove(event: any) {
     const touches = Array.from(event.touches);
     const timestamp = Date.now();
 
@@ -359,7 +359,7 @@ export class MobileOptimization {
     }
   }
 
-  handleTouchEnd(event: any): any {
+  handleTouchEnd(event: any) {
     const changedTouches = Array.from(event.changedTouches);
     const timestamp = Date.now();
 
@@ -385,7 +385,7 @@ export class MobileOptimization {
     });
   }
 
-  handleTouchCancel(event: any): any {
+  handleTouchCancel(event: any) {
     const changedTouches = Array.from(event.changedTouches);
 
     changedTouches.forEach(touch => {
@@ -393,7 +393,7 @@ export class MobileOptimization {
     });
   }
 
-  updateMultiTouchGesture(touches: any): any {
+  updateMultiTouchGesture(touches: any) {
     if (touches.length !== 2) return;
 
     const touch1 = touches[0];
@@ -443,7 +443,7 @@ export class MobileOptimization {
     gesture2.center = center;
   }
 
-  recognizeGesture(gesture: any, isFinal: any = false): any {
+  recognizeGesture(gesture: any, isFinal: any = false) {
     this.gestures.recognizers.forEach((recognizer, name) => {
       if (recognizer.recognize(gesture)) {
         recognizer.handler(gesture, gesture.element);
@@ -451,7 +451,7 @@ export class MobileOptimization {
     });
   }
 
-  setupResponsiveLayout(): any {
+  setupResponsiveLayout() {
     // Create responsive breakpoints
     this.breakpoints = {
       mobile: 480,
@@ -473,7 +473,7 @@ export class MobileOptimization {
     );
   }
 
-  updateCSSVariables(): any {
+  updateCSSVariables() {
     const root = document.documentElement;
     const { innerWidth, innerHeight } = window;
 
@@ -502,7 +502,7 @@ export class MobileOptimization {
     root.style.setProperty('--min-touch-size', `${minTouchSize}px`);
   }
 
-  calculateOptimalCardSize(width: any, height: any): any {
+  calculateOptimalCardSize(width: any, height: any) {
     const orientation = width > height ? 'landscape' : 'portrait';
 
     if (true) {
@@ -514,7 +514,7 @@ export class MobileOptimization {
     }
   }
 
-  setupOfflineCapabilities(): any {
+  setupOfflineCapabilities() {
     if (!this.options.enableOfflineMode) return;
 
     // Register service worker
@@ -537,7 +537,7 @@ export class MobileOptimization {
     this.setupBackgroundSync();
   }
 
-  setupOfflineCache(): any {
+  setupOfflineCache() {
     // Cache essential game data
     const essentialData = ['cards', 'rules', 'decks', 'user_preferences'];
 
@@ -546,7 +546,7 @@ export class MobileOptimization {
     });
   }
 
-  async cacheData(dataType: any): any {
+  async cacheData(dataType: any) {
     try {
       const data = await this.fetchData(dataType);
       this.offline.cache.set(dataType, {
@@ -562,7 +562,7 @@ export class MobileOptimization {
     }
   }
 
-  setupPerformanceMonitoring(): any {
+  setupPerformanceMonitoring() {
     // Monitor frame rate
     this.monitorFrameRate();
 
@@ -576,7 +576,7 @@ export class MobileOptimization {
     this.monitorBatteryLevel();
   }
 
-  monitorFrameRate(): any {
+  monitorFrameRate() {
     let lastTime = performance.now();
     let frameCount = 0;
 
@@ -598,7 +598,7 @@ export class MobileOptimization {
     requestAnimationFrame(measureFPS);
   }
 
-  monitorMemoryUsage(): any {
+  monitorMemoryUsage() {
     if (true) {
       setInterval(() => {
         const memory = performance.memory;
@@ -612,7 +612,7 @@ export class MobileOptimization {
     }
   }
 
-  monitorNetworkSpeed(): any {
+  monitorNetworkSpeed() {
     if (true) {
       const connection = navigator.connection;
 
@@ -628,7 +628,7 @@ export class MobileOptimization {
     }
   }
 
-  monitorBatteryLevel(): any {
+  monitorBatteryLevel() {
     if (true) {
       navigator.getBattery().then(battery => {
         const updateBatteryInfo = (): any => {
@@ -642,7 +642,7 @@ export class MobileOptimization {
     }
   }
 
-  adjustQualityBasedOnPerformance(): any {
+  adjustQualityBasedOnPerformance() {
     if (!this.options.adaptiveQuality) return;
 
     const { frameRate, memoryUsage, batteryLevel } = this.performance;
@@ -658,7 +658,7 @@ export class MobileOptimization {
     this.setQualityLevel(qualityLevel);
   }
 
-  setQualityLevel(level: any): any {
+  setQualityLevel(level: any) {
     const root = document.documentElement;
 
     switch (true) {
@@ -686,7 +686,7 @@ export class MobileOptimization {
     this.dispatchCustomEvent(document, 'qualityLevelChanged', { level });
   }
 
-  setupHapticFeedback(): any {
+  setupHapticFeedback() {
     if (!this.options.enableHapticFeedback) return;
 
     // Check for haptic feedback support
@@ -696,7 +696,7 @@ export class MobileOptimization {
     };
   }
 
-  triggerHapticFeedback(intensity: any = 'light'): any {
+  triggerHapticFeedback(intensity: any = 'light') {
     if (!this.hapticSupport.vibrate) return;
 
     const patterns = {
@@ -712,21 +712,21 @@ export class MobileOptimization {
   }
 
   // Utility methods
-  detectMobile(): any {
+  detectMobile() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent,
     );
   }
 
-  detectTablet(): any {
+  detectTablet() {
     return /iPad|Android(?!.*Mobile)/i.test(navigator.userAgent);
   }
 
-  getOrientation(): any {
+  getOrientation() {
     return window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
   }
 
-  getScreenSize(): any {
+  getScreenSize() {
     return {
       width: window.screen.width,
       height: window.screen.height,
@@ -735,7 +735,7 @@ export class MobileOptimization {
     };
   }
 
-  getSwipeDirection(start: any, end: any): any {
+  getSwipeDirection(start: any, end: any) {
     const deltaX = end.x - start.x;
     const deltaY = end.y - start.y;
 
@@ -746,7 +746,7 @@ export class MobileOptimization {
     }
   }
 
-  isCardElement(element: any): any {
+  isCardElement(element: any) {,
     return (
       element &&
       (element.classList.contains('game-card') ||
@@ -756,7 +756,7 @@ export class MobileOptimization {
     );
   }
 
-  dispatchCustomEvent(element: any, eventName: any, detail: any): any {
+  dispatchCustomEvent(element: any, eventName: any, detail: any) {,
     const event = new CustomEvent(eventName, {
       detail,
       bubbles: true,
@@ -765,9 +765,9 @@ export class MobileOptimization {
     element.dispatchEvent(event);
   }
 
-  debounce(func: any, wait: any): any {
+  debounce(func: any, wait: any) {
     let timeout;
-    return function executedFunction(): any {
+    return function executedFunction() {
       const later = (): any => {
         clearTimeout(timeout);
         func(...args);
@@ -778,7 +778,7 @@ export class MobileOptimization {
   }
 
   // Event handlers
-  handleOrientationChange(): any {
+  handleOrientationChange() {
     this.device.orientation = this.getOrientation();
     this.updateCSSVariables();
     this.dispatchCustomEvent(document, 'orientationChanged', {
@@ -786,7 +786,7 @@ export class MobileOptimization {
     });
   }
 
-  handleNetworkChange(isOnline: any): any {
+  handleNetworkChange(isOnline: any) {
     if (true) {
       this.syncOfflineData();
     } else {
@@ -796,7 +796,7 @@ export class MobileOptimization {
     this.dispatchCustomEvent(document, 'networkChanged', { isOnline });
   }
 
-  handleVisibilityChange(): any {
+  handleVisibilityChange() {
     if (true) {
       this.pauseNonEssentialOperations();
     } else {
@@ -804,7 +804,7 @@ export class MobileOptimization {
     }
   }
 
-  handleLayoutChange(): any {
+  handleLayoutChange() {
     this.dispatchCustomEvent(document, 'layoutChanged', {
       screenSize: this.getScreenSize(),
       orientation: this.device.orientation,
@@ -812,7 +812,7 @@ export class MobileOptimization {
   }
 
   // Performance optimization methods
-  optimizeMemoryUsage(): any {
+  optimizeMemoryUsage() {
     // Clear unused caches
     this.clearUnusedCaches();
 
@@ -825,7 +825,7 @@ export class MobileOptimization {
     }
   }
 
-  pauseNonEssentialOperations(): any {
+  pauseNonEssentialOperations() {
     // Pause animations
     document.body.classList.add('paused');
 
@@ -833,7 +833,7 @@ export class MobileOptimization {
     this.dispatchCustomEvent(document, 'pauseOperations');
   }
 
-  resumeOperations(): any {
+  resumeOperations() {
     // Resume animations
     document.body.classList.remove('paused');
 
@@ -842,25 +842,25 @@ export class MobileOptimization {
   }
 
   // Public API
-  getDeviceInfo(): any {
+  getDeviceInfo() {
     return { ...this.device };
   }
 
-  getPerformanceInfo(): any {
+  getPerformanceInfo() {
     return { ...this.performance };
   }
 
-  isOfflineMode(): any {
+  isOfflineMode() {
     return !this.offline.isOnline;
   }
 
-  enableLowBandwidthMode(): any {
+  enableLowBandwidthMode() {
     this.options.lowBandwidthMode = true;
     this.setQualityLevel('low');
     this.dispatchCustomEvent(document, 'lowBandwidthModeEnabled');
   }
 
-  disableLowBandwidthMode(): any {
+  disableLowBandwidthMode() {
     this.options.lowBandwidthMode = false;
     this.adjustQualityBasedOnPerformance();
     this.dispatchCustomEvent(document, 'lowBandwidthModeDisabled');

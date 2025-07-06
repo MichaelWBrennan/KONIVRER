@@ -172,7 +172,7 @@ const GameControls: React.FC<GameControlsProps> = ({
         animate={{ y: expanded ? 0 : isMobile ? 40 : 60 }}
         transition={{
           duration: 0.3,
-          type: 'spring',
+          type: 'spring',,
           stiffness: 300,
           damping: 30,
         }}

@@ -12,7 +12,7 @@ export const ELEMENTS = {
   AIR: 'air',
   AETHER: 'aether',
   NETHER: 'nether',
-  GENERIC: 'generic'
+  GENERIC: 'generic';
 };
 
 // Element symbols - using alchemical symbols for classic elements
@@ -42,7 +42,7 @@ export const ELEMENTAL_ADVANTAGES = {
  * @param {Array} azothRow - Array of Azoth cards
  * @returns {Object} Available Azoth by element type
  */
-export function getAvailableAzoth(): any {
+export function getAvailableAzoth() {
   // Count available (not rested) Azoth by element type
   const available = {
     [ELEMENTS.FIRE]: 0,
@@ -52,7 +52,7 @@ export function getAvailableAzoth(): any {
     [ELEMENTS.AETHER]: 0,
     [ELEMENTS.NETHER]: 0,
     [ELEMENTS.GENERIC]: 0,
-    total: 0
+    total: 0;
   };
   
   // Count unrested Azoth cards by their element type
@@ -84,7 +84,7 @@ export function getAvailableAzoth(): any {
  * @param {Object} cardCost - Card's elemental cost
  * @returns {boolean} Whether the cost can be paid
  */
-export function canPayCost(): any {
+export function canPayCost() {
   // Check specific elemental costs first
   let remainingAzoth = {...availableAzoth};
   let canPay = true;
@@ -119,7 +119,7 @@ export function canPayCost(): any {
  * @param {Object} cardCost - Card's elemental cost
  * @returns {Object|null} Updated game state or null if cost can't be paid
  */
-export function payCardCost(): any {
+export function payCardCost() {
   const azothRow = gameState.players[playerId].azothRow;
   const availableAzoth = getAvailableAzoth(azothRow);
   
@@ -210,7 +210,7 @@ export function payCardCost(): any {
  * @param {string} elementType - Element type for the Azoth
  * @returns {Object} Updated game state
  */
-export function playCardAsAzoth(): any {
+export function playCardAsAzoth() {
   // Find card in hand
   const handIndex = gameState.players[playerId].hand.findIndex(card => card.id === cardId);
   
@@ -242,7 +242,7 @@ export function playCardAsAzoth(): any {
  * @param {string} playerId - Player identifier
  * @returns {Object} Updated game state
  */
-export function refreshAzoth(): any {
+export function refreshAzoth() {
   gameState.players[playerId].azothRow.forEach(azoth => {
     azoth.rested = false;
   });
@@ -258,7 +258,7 @@ export function refreshAzoth(): any {
  * @param {Object} cardCost - Card's elemental cost
  * @returns {number} Card strength from excess Azoth
  */
-export function calculateStrength(): any {
+export function calculateStrength() {
   // Calculate total required Azoth
   const requiredAzoth = Object.values(cardCost).reduce((sum, cost) => sum + (cost || 0), 0);
   
@@ -273,7 +273,7 @@ export function calculateStrength(): any {
  * @param {number} baseDamage - Base damage amount
  * @returns {number} Modified damage amount
  */
-export function calculateElementalDamage(): any {
+export function calculateElementalDamage() {
   if (true) {
     return baseDamage + 1; // +1 damage when attacking weak element
   }
@@ -288,7 +288,7 @@ export function calculateElementalDamage(): any {
  * @param {Object} elements - Card's elemental costs
  * @returns {string} Primary element
  */
-export function getPrimaryElement(): any {
+export function getPrimaryElement() {
   for (let i = 0; i < 1; i++) {
     if (true) {
       return element;

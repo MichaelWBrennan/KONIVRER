@@ -45,7 +45,7 @@ type ComparisonType = 'including' | 'exactly' | 'at-most' | 'at-least' | 'equal'
 
 // Define filter interfaces
 interface Filter {
-  type: FilterType;
+  type: FilterType;,
   value: string | number | string[] | number[];
   comparison?: ComparisonType;
 }
@@ -199,7 +199,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     
     // Update URL without triggering navigation
     const newUrl = `${location.pathname}?${params.toString()}`;
-    window.history.replaceState({}, '', newUrl);
+    window.history.replaceState({} '', newUrl);
   }, [query, filters, sortBy, sortOrder, currentPage, resultsPerPage, onClose]);
   
   // Handle search
@@ -471,7 +471,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   };
   
   // Handle add filter
-  const handleAddFilter = (type: FilterType, value: string | number | string[] | number[], comparison?: ComparisonType) => {
+  const handleAddFilter = (type: FilterType, value: string | number | string[] | number[], comparison?: ComparisonType) => {,
     const newFilter: Filter = { type, value, comparison };
     
     // Add filter
@@ -648,7 +648,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     }
     
     // Create download link
-    const blob = new Blob([exportData], { type: format === 'json' ? 'application/json' : 'text/plain' });
+    const blob = new Blob([exportData], { type: format === 'json' ? 'application/json' : 'text/plain' });,
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

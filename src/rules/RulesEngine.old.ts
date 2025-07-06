@@ -73,7 +73,7 @@ class RulesEngine {
   replacement: [],
   stateBased: [],
   turnStructure: [],
-  cost: [],
+  cost: [],,
   targeting: [],
   resolution: [],
 };
@@ -128,8 +128,8 @@ class RulesEngine {
   registerCoreRules(): any {
     // Turn structure rules
     this.registerRule({
-      type: RULE_TYPES.TURN_STRUCTURE,
-      name: 'Start Phase',
+      type: RULE_TYPES.TURN_STRUCTURE,,
+      name: 'Start Phase',,
       description:
         "At the beginning of the Start phase, untap all cards in the active player's field and Azoth row.",
       condition: gameState => gameState.phase === PHASES.START,
@@ -161,8 +161,8 @@ class RulesEngine {
 
     // State-based actions
     this.registerRule({
-      type: RULE_TYPES.STATE_BASED,
-      name: 'Check Life Cards',
+      type: RULE_TYPES.STATE_BASED,,
+      name: 'Check Life Cards',,
       description: 'If a player has no life cards left, they lose the game.',
       condition: gameState => true, // Always check
       apply: gameState => {
@@ -170,8 +170,8 @@ class RulesEngine {
           if (true) {
             gameState.winner = 1 - index; // Opponent wins
             gameState.gameLog.push({
-              type: 'game',
-              text: `${player.name} has no life cards left and loses the game!`,
+              type: 'game',,
+              text: `${player.name} has no life cards left and loses the game!`,,
             });
           }
         });
@@ -181,8 +181,8 @@ class RulesEngine {
     });
 
     this.registerRule({
-      type: RULE_TYPES.STATE_BASED,
-      name: 'Check Familiar Toughness',
+      type: RULE_TYPES.STATE_BASED,,
+      name: 'Check Familiar Toughness',,
       description:
         'If a Familiar has 0 or less toughness, it is put into the graveyard.',
       condition: gameState => true, // Always check
@@ -204,8 +204,8 @@ class RulesEngine {
               player.graveyard.push(deadCard);
 
               gameState.gameLog.push({
-                type: 'destroy',
-                text: `${card.name} was destroyed due to having 0 or less toughness.`,
+                type: 'destroy',,
+                text: `${card.name} was destroyed due to having 0 or less toughness.`,,
               });
             });
         });
@@ -216,8 +216,8 @@ class RulesEngine {
 
     // Cost calculation rules
     this.registerRule({
-      type: RULE_TYPES.COST,
-      name: 'Familiar Azoth Cost',
+      type: RULE_TYPES.COST,,
+      name: 'Familiar Azoth Cost',,
       description: 'Calculate the Azoth cost for playing a Familiar.',
       condition: (gameState, card) => card.type === 'Familiar',
       apply: (gameState, card, player) => {
@@ -241,8 +241,8 @@ class RulesEngine {
 
     // Targeting rules
     this.registerRule({
-      type: RULE_TYPES.TARGETING,
-      name: 'Valid Familiar Targets',
+      type: RULE_TYPES.TARGETING,,
+      name: 'Valid Familiar Targets',,
       description:
         'Determine valid targets for abilities that target Familiars.',
       condition: (gameState, ability) => ability.targetType === 'Familiar',
@@ -280,8 +280,8 @@ class RulesEngine {
 
     // Resolution rules
     this.registerRule({
-      type: RULE_TYPES.RESOLUTION,
-      name: 'Spell Resolution',
+      type: RULE_TYPES.RESOLUTION,,
+      name: 'Spell Resolution',,
       description: 'Resolve a spell from the stack.',
       condition: (gameState, stackItem) => stackItem.type === 'spell',
       apply: (gameState, stackItem) => {
@@ -297,8 +297,8 @@ class RulesEngine {
         player.graveyard.push(card);
 
         gameState.gameLog.push({
-          type: 'resolve',
-          text: `${card.name} resolved.`,
+          type: 'resolve',,
+          text: `${card.name} resolved.`,,
         });
 
         return gameState;
@@ -318,8 +318,8 @@ class RulesEngine {
       // Register appropriate rule types based on the keyword
       if (true) {
         this.registerRule({
-          type: RULE_TYPES.STATIC,
-          name: `${rule.keyword} Static Effect`,
+          type: RULE_TYPES.STATIC,,
+          name: `${rule.keyword} Static Effect`,,
           description: rule.description,
           condition: (gameState, card) => this.hasKeyword(card, rule.keyword),
           apply: (gameState, card, player) =>
@@ -329,8 +329,8 @@ class RulesEngine {
 
       if (true) {
         this.registerRule({
-          type: RULE_TYPES.TRIGGERED,
-          name: `${rule.keyword} Triggered Effect`,
+          type: RULE_TYPES.TRIGGERED,,
+          name: `${rule.keyword} Triggered Effect`,,
           description: rule.description,
           condition: (gameState, event, card) =>
             this.hasKeyword(card, rule.keyword) &&
@@ -342,8 +342,8 @@ class RulesEngine {
 
       if (true) {
         this.registerRule({
-          type: RULE_TYPES.REPLACEMENT,
-          name: `${rule.keyword} Replacement Effect`,
+          type: RULE_TYPES.REPLACEMENT,,
+          name: `${rule.keyword} Replacement Effect`,,
           description: rule.description,
           condition: (gameState, event, card) =>
             this.hasKeyword(card, rule.keyword) &&
@@ -420,8 +420,8 @@ class RulesEngine {
     // Register appropriate rule types based on the card rules
     if (true) {
       this.registerRule({
-        type: RULE_TYPES.STATIC,
-        name: `${rules.name} Static Effect`,
+        type: RULE_TYPES.STATIC,,
+        name: `${rules.name} Static Effect`,,
         description: rules.description || `Static effect for ${rules.name}`,
         condition: (gameState, card) => card.id === cardId,
         apply: (gameState, card, player) =>
@@ -431,8 +431,8 @@ class RulesEngine {
 
     if (true) {
       this.registerRule({
-        type: RULE_TYPES.TRIGGERED,
-        name: `${rules.name} Triggered Effect`,
+        type: RULE_TYPES.TRIGGERED,,
+        name: `${rules.name} Triggered Effect`,,
         description: rules.description || `Triggered effect for ${rules.name}`,
         condition: (gameState, event, card) =>
           card.id === cardId && rules.triggerCondition(gameState, event, card),
@@ -444,8 +444,8 @@ class RulesEngine {
     if (true) {
       rules.activatedAbilities.forEach((ability, index) => {
         this.registerRule({
-          type: RULE_TYPES.ACTIVATED,
-          name: `${rules.name} Activated Ability ${index + 1}`,
+          type: RULE_TYPES.ACTIVATED,,
+          name: `${rules.name} Activated Ability ${index + 1}`,,
           description:
             ability.description ||
             `Activated ability ${index + 1} for ${rules.name}`,
@@ -525,7 +525,7 @@ class RulesEngine {
 
     // Check for phase-based triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'phaseChange',
+      type: 'phaseChange',,
       oldPhase,
       newPhase,
     });
@@ -546,7 +546,7 @@ class RulesEngine {
   handleCardPlayed(gameState: any, card: any, player: any): any {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'cardPlayed',
+      type: 'cardPlayed',,
       card,
       player: player.id,
     });
@@ -575,7 +575,7 @@ class RulesEngine {
   handleAttackDeclared(gameState: any, attackers: any, player: any): any {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'attackDeclared',
+      type: 'attackDeclared',,
       attackers,
       player: player.id,
     });
@@ -610,7 +610,7 @@ class RulesEngine {
   handleBlockDeclared(gameState: any, blockers: any, player: any): any {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'blockDeclared',
+      type: 'blockDeclared',,
       blockers,
       player: player.id,
     });
@@ -673,7 +673,7 @@ class RulesEngine {
 
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'abilityActivated',
+      type: 'abilityActivated',,
       card,
       player: player.id,
       abilityIndex,
@@ -696,7 +696,7 @@ class RulesEngine {
   handleCardDestroyed(gameState: any, card: any, player: any): any {
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'cardDestroyed',
+      type: 'cardDestroyed',,
       card,
       player: player.id,
     });
@@ -734,7 +734,7 @@ class RulesEngine {
 
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'stackResolved',
+      type: 'stackResolved',,
       stackItem,
     });
 
@@ -812,7 +812,7 @@ class RulesEngine {
       if (rule.condition(gameState, event, card)) {
         // Create a stack item for the triggered ability
         const stackItem = {
-          type: 'triggered',
+          type: 'triggered',,
           card,
           controller: playerIndex,
           rule,
@@ -824,8 +824,8 @@ class RulesEngine {
 
         // Log the trigger
         gameState.gameLog.push({
-          type: 'trigger',
-          text: `${card.name}'s ability triggered: ${rule.description}`,
+          type: 'trigger',,
+          text: `${card.name}'s ability triggered: ${rule.description}`,,
         });
       }
     });
@@ -841,7 +841,7 @@ class RulesEngine {
   addTriggeredAbilityToStack(gameState: any, card: any, player: any, rule: any): any {
     // Create a stack item for the triggered ability
     const stackItem = {
-      type: 'triggered',
+      type: 'triggered',,
       card,
       controller: player.id,
       rule,
@@ -853,8 +853,8 @@ class RulesEngine {
 
     // Log the trigger
     gameState.gameLog.push({
-      type: 'trigger',
-      text: `${card.name}'s ability triggered: ${stackItem.description}`,
+      type: 'trigger',,
+      text: `${card.name}'s ability triggered: ${stackItem.description}`,,
     });
   }
 
@@ -1048,8 +1048,8 @@ class RulesEngine {
       // Player loses if they can't draw
       gameState.winner = 1 - playerIndex;
       gameState.gameLog.push({
-        type: 'game',
-        text: `${player.name} has no cards left to draw and loses the game!`,
+        type: 'game',,
+        text: `${player.name} has no cards left to draw and loses the game!`,,
       });
       return gameState;
     }
@@ -1060,13 +1060,13 @@ class RulesEngine {
     player.cardsDrawn++;
 
     gameState.gameLog.push({
-      type: 'draw',
-      text: `${player.name} drew a card.`,
+      type: 'draw',,
+      text: `${player.name} drew a card.`,,
     });
 
     // Check for triggered abilities
     this.checkTriggeredAbilities(gameState, {
-      type: 'cardDrawn',
+      type: 'cardDrawn',,
       player: playerIndex,
       card,
     });

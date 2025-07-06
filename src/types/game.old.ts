@@ -20,7 +20,7 @@ export interface GameState {
 }
 
 export interface GameAction {
-  type: string;
+  type: string;,
   payload: any;
   playerId: string;
   timestamp: Date;
@@ -28,7 +28,7 @@ export interface GameAction {
 
 export interface Player {
   id: string;
-  name: string;
+  name: string;,
   avatar?: string;
   rating: number;
   wins: number;

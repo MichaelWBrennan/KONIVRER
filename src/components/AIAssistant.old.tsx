@@ -20,7 +20,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
   const [chatMessages, setChatMessages] = useState([
     {
       id: 1,
-      type: 'ai',
+      type: 'ai',,
       message:
         "Hello! I'm your AI deck building assistant. I can help you optimize your deck, suggest cards, and analyze the meta. What would you like to work on?",
       timestamp: new Date(),
@@ -37,44 +37,44 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
       const newSuggestions = [
         {
           id: 1,
-          type: 'card_suggestion',
+          type: 'card_suggestion',,
           title: 'Add More Early Game',
           description:
             'Your deck lacks 1-2 mana creatures. Consider adding Lightning Sprite or Fire Imp.',
           priority: 'high',
           cards: [
             {
-              name: 'Lightning Sprite',
-              cost: 1,
+              name: 'Lightning Sprite',,
+              cost: 1,,
               reason: 'Fast aggro pressure',
             },
-            { name: 'Fire Imp', cost: 2, reason: 'Good stats for cost' },
+            { name: 'Fire Imp', cost: 2, reason: 'Good stats for cost' },,,
           ],
           confidence: 85,
         },
         {
           id: 2,
-          type: 'removal_suggestion',
+          type: 'removal_suggestion',,
           title: 'Improve Removal Suite',
           description: 'Add more targeted removal to handle threats.',
           priority: 'medium',
           cards: [
-            { name: 'Flame Bolt', cost: 2, reason: 'Versatile damage spell' },
-            { name: 'Incinerate', cost: 3, reason: 'High damage output' },
+            { name: 'Flame Bolt', cost: 2, reason: 'Versatile damage spell' },,,
+            { name: 'Incinerate', cost: 3, reason: 'High damage output' },,,
           ],
           confidence: 78,
         },
         {
           id: 3,
-          type: 'curve_optimization',
+          type: 'curve_optimization',,
           title: 'Mana Curve Adjustment',
           description:
             'Your 4-mana slot is overcrowded. Consider moving some cards to 3 or 5 mana.',
           priority: 'medium',
           cards: [
             {
-              name: 'Elemental Warrior',
-              cost: 3,
+              name: 'Elemental Warrior',,
+              cost: 3,,
               reason: 'Better curve position',
             },
           ],
@@ -82,18 +82,18 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
         },
         {
           id: 4,
-          type: 'synergy_boost',
+          type: 'synergy_boost',,
           title: 'Enhance Elemental Synergy',
           description:
             'You have several elementals. Adding Elemental Lord would boost the tribal theme.',
           priority: 'low',
           cards: [
             {
-              name: 'Elemental Lord',
-              cost: 5,
+              name: 'Elemental Lord',,
+              cost: 5,,
               reason: 'Tribal synergy payoff',
             },
-            { name: 'Elemental Bond', cost: 2, reason: 'Card draw engine' },
+            { name: 'Elemental Bond', cost: 2, reason: 'Card draw engine' },,,
           ],
           confidence: 90,
         },
@@ -111,7 +111,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
     // Add user message
     const userMessage = {
       id: Date.now(),
-      type: 'user',
+      type: 'user',,
       message: userInput,
       timestamp: new Date(),
     };
@@ -152,7 +152,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({  currentDeck = [], onSuggesti
 
     return {
       id: Date.now() + 1,
-      type: 'ai',
+      type: 'ai',,
       message: response,
       timestamp: new Date(),
     };

@@ -159,7 +159,7 @@ const CardPreview: React.FC<CardPreviewProps> = ({  card, position = 'right'  })
           y: expanded ? -50 : 0,
         }}
         exit={{ opacity: 0, scale: 0.8, y: 20 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 25 }},
         className={`absolute ${expanded ? 'fixed inset-0 flex items-center justify-center z-[100] pointer-events-auto' : `${getPositionStyle()} top-1/2 transform -translate-y-1/2 z-50 ${expanded ? 'pointer-events-auto' : 'pointer-events-none'}`}`}
         onClick={expanded ? toggleExpanded : undefined}
         style={{

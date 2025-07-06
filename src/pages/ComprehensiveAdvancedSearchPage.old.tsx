@@ -61,7 +61,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
     if (criteria.sets && criteria.sets.length > 0) params.set('set', criteria.sets[0]);
     if (criteria.rarity && criteria.rarity.length > 0) params.set('rarity', criteria.rarity[0]);
     const newURL = params.toString() ? `${location.pathname}?${params.toString()}` : location.pathname;
-    window.history.replaceState({}, '', newURL);
+    window.history.replaceState({} '', newURL);
   };
   const handleCardClick = (card): any => {
     if (card.isGroupHeader) return;
@@ -82,7 +82,7 @@ const ComprehensiveAdvancedSearchPage = (): any => {
           `"${card.description?.replace(/"/g, '""') || ''}"`
         ].join(','))
     ].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const blob = new Blob([csvContent], { type: 'text/csv' });,
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

@@ -19,7 +19,7 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
   const [searchCriteria, setSearchCriteria] = useState({
     // Basic Search
     cardName: '',
-    text: '',
+    text: '',,
 
     // Type & Mechanics
     typeLine: '',
@@ -39,14 +39,14 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
     // Sets & Rarity
     sets: [],
-    rarity: [],
+    rarity: [],,
 
     // Price & Market
     priceRange: { min: '', max: '', currency: 'usd' },
 
     // Flavor & Lore
-    artist: '',
-    flavorText: '',
+    artist: '',,
+    flavorText: '',,
     loreFinder: '',
 
     // Display Options
@@ -68,23 +68,23 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
 
   // KONIVRER Elements (for costs and Azoth generation) - using alchemical symbols for classic elements
   const elements = [
-    { name: 'Fire', symbol: '🜂', color: 'text-black' },
-    { name: 'Water', symbol: '🜄', color: 'text-black' },
-    { name: 'Earth', symbol: '🜃', color: 'text-black' },
-    { name: 'Air', symbol: '🜁', color: 'text-black' },
-    { name: 'Aether', symbol: '○', color: 'text-black' },
-    { name: 'Nether', symbol: '□', color: 'text-black' },
-    { name: 'Generic', symbol: '✡︎⃝', color: 'text-black' },
+    { name: 'Fire', symbol: '🜂', color: 'text-black' },,
+    { name: 'Water', symbol: '🜄', color: 'text-black' },,
+    { name: 'Earth', symbol: '🜃', color: 'text-black' },,
+    { name: 'Air', symbol: '🜁', color: 'text-black' },,
+    { name: 'Aether', symbol: '○', color: 'text-black' },,
+    { name: 'Nether', symbol: '□', color: 'text-black' },,
+    { name: 'Generic', symbol: '✡︎⃝', color: 'text-black' },,
   ];
 
   // KONIVRER Keywords (special abilities, separate from elements)
   const keywords = [
-    { name: 'Brilliance', symbol: '✦', color: 'text-yellow-400' },
-    { name: 'Void', symbol: '◯', color: 'text-purple-400' },
-    { name: 'Gust', symbol: '≋', color: 'text-blue-400' },
-    { name: 'Submerged', symbol: '≈', color: 'text-cyan-400' },
-    { name: 'Inferno', symbol: '※', color: 'text-red-400' },
-    { name: 'Steadfast', symbol: '⬢', color: 'text-green-400' },
+    { name: 'Brilliance', symbol: '✦', color: 'text-yellow-400' },,
+    { name: 'Void', symbol: '◯', color: 'text-purple-400' },,
+    { name: 'Gust', symbol: '≋', color: 'text-blue-400' },,
+    { name: 'Submerged', symbol: '≈', color: 'text-cyan-400' },,
+    { name: 'Inferno', symbol: '※', color: 'text-red-400' },,
+    { name: 'Steadfast', symbol: '⬢', color: 'text-green-400' },,
   ];
 
   const rarities = ['Common', 'Uncommon', 'Rare', 'Mythic', 'Legendary'];
@@ -126,7 +126,7 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
   const clearAll = (): any => {
     setSearchCriteria({
       cardName: '',
-      text: '',
+      text: '',,
       typeLine: '',
       allowPartialTypes: true,
       selectedTypes: [],
@@ -137,10 +137,10 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = ({  onSearch, onClose  }) 
       power: { operator: '=', value: '' },
       toughness: { operator: '=', value: '' },
       sets: [],
-      rarity: [],
+      rarity: [],,
       priceRange: { min: '', max: '', currency: 'usd' },
-      artist: '',
-      flavorText: '',
+      artist: '',,
+      flavorText: '',,
       loreFinder: '',
       sortBy: 'name',
       sortOrder: 'asc',

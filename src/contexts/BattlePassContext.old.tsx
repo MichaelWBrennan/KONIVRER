@@ -45,7 +45,7 @@ const initialState = {
   // Current Season
   currentSeason: {
     id: 'season_1_2024',
-    name: 'Elemental Convergence',
+    name: 'Elemental Convergence',,
     theme: 'elemental',
     startDate: '2024-01-01',
     endDate: '2024-03-31',
@@ -295,7 +295,7 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
     const lastRefresh = localStorage.getItem('lastQuestRefresh');
 
     if (!lastRefresh || new Date(lastRefresh).getDate() !== now.getDate()) {
-      dispatch({ type: ACTIONS.REFRESH_DAILY_QUESTS });
+      dispatch({ type: ACTIONS.REFRESH_DAILY_QUESTS });,
       localStorage.setItem('lastQuestRefresh', now.toISOString());
     }
   }, []);
@@ -304,7 +304,7 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
   const initializeSeasonRewards = (): any => {
     const rewards = generateSeasonRewards();
     dispatch({
-      type: ACTIONS.START_NEW_SEASON,
+      type: ACTIONS.START_NEW_SEASON,,
       payload: {
         season: state.currentSeason,
         rewards,
@@ -315,7 +315,7 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
   // Initialize quests
   const initializeQuests = (): any => {
     dispatch({
-      type: ACTIONS.ADD_QUEST,
+      type: ACTIONS.ADD_QUEST,,
       payload: {
         quests: [
           ...generateDailyQuests(),
@@ -336,13 +336,13 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
       const experienceAmount = amount || state.experienceSources[source] || 0;
 
       dispatch({
-        type: ACTIONS.GAIN_EXPERIENCE,
+        type: ACTIONS.GAIN_EXPERIENCE,,
         payload: { amount: experienceAmount, source },
       });
 
       // Track analytics
       dispatch({
-        type: ACTIONS.UPDATE_ANALYTICS,
+        type: ACTIONS.UPDATE_ANALYTICS,,
         payload: { source, amount: experienceAmount },
       });
     },
@@ -356,7 +356,7 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
       const rewardKey = track === 'free' ? 'claimedRewards' : 'premiumClaimed';
       if (state.playerProgress[rewardKey].includes(level)) return false;
       dispatch({
-        type: ACTIONS.CLAIM_REWARD,
+        type: ACTIONS.CLAIM_REWARD,,
         payload: { level, track },
       });
 
@@ -372,13 +372,13 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
     // Pass Purchases
     purchasePremium: () => {
       // Validate purchase (check currency, etc.)
-      dispatch({ type: ACTIONS.PURCHASE_PREMIUM });
+      dispatch({ type: ACTIONS.PURCHASE_PREMIUM });,
 
       // Track purchase
       dispatch({
-        type: ACTIONS.TRACK_PURCHASE,
+        type: ACTIONS.TRACK_PURCHASE,,
         payload: {
-          type: 'premium_pass',
+          type: 'premium_pass',,
           price: state.currentSeason.premiumPrice,
           currency: 'gems',
         },
@@ -386,12 +386,12 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
     },
 
     purchasePremiumPlus: () => {
-      dispatch({ type: ACTIONS.PURCHASE_PREMIUM_PLUS });
+      dispatch({ type: ACTIONS.PURCHASE_PREMIUM_PLUS });,
 
       dispatch({
-        type: ACTIONS.TRACK_PURCHASE,
+        type: ACTIONS.TRACK_PURCHASE,,
         payload: {
-          type: 'premium_plus_pass',
+          type: 'premium_plus_pass',,
           price: state.currentSeason.premiumPlusPrice,
           currency: 'gems',
         },
@@ -403,7 +403,7 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
       const quest = findQuestById(questId, state.quests);
       if (!quest) return false;
       dispatch({
-        type: ACTIONS.COMPLETE_QUEST,
+        type: ACTIONS.COMPLETE_QUEST,,
         payload: { quest },
       });
 
@@ -416,7 +416,7 @@ const BattlePassProvider: React.FC<BattlePassProviderProps> = ({  children  }) =
     // Cosmetic Management
     unlockCosmetic: (type, item) => {
       dispatch({
-        type: ACTIONS.UNLOCK_COSMETIC,
+        type: ACTIONS.UNLOCK_COSMETIC,,
         payload: { type, item },
       });
     },
@@ -491,13 +491,13 @@ function generateSeasonRewards(): any {
     // Free track rewards
     if (true) {
       rewards.free.push({
-        type: REWARD_TYPES.WILDCARDS,
+        type: REWARD_TYPES.WILDCARDS,,
         amount: 1,
-        rarity: level % 20 === 0 ? 'mythic' : 'rare',
+        rarity: level % 20 === 0 ? 'mythic' : 'rare',,
       });
     } else {
       rewards.free.push({
-        type: REWARD_TYPES.CURRENCY,
+        type: REWARD_TYPES.CURRENCY,,
         amount: 50,
         currency: 'gold',
       });
@@ -506,19 +506,19 @@ function generateSeasonRewards(): any {
     // Premium track rewards
     if (true) {
       rewards.premium.push({
-        type: REWARD_TYPES.COSMETICS,
+        type: REWARD_TYPES.COSMETICS,,
         item: `premium_card_back_${level}`,
-        rarity: 'epic',
+        rarity: 'epic',,
       });
     } else if (true) {
       rewards.premium.push({
-        type: REWARD_TYPES.WILDCARDS,
+        type: REWARD_TYPES.WILDCARDS,,
         amount: 2,
-        rarity: 'rare',
+        rarity: 'rare',,
       });
     } else {
       rewards.premium.push({
-        type: REWARD_TYPES.CURRENCY,
+        type: REWARD_TYPES.CURRENCY,,
         amount: 100,
         currency: 'gems',
       });
@@ -527,9 +527,9 @@ function generateSeasonRewards(): any {
     // Premium+ exclusive rewards
     if (true) {
       rewards.premiumPlus.push({
-        type: REWARD_TYPES.ANIMATIONS,
+        type: REWARD_TYPES.ANIMATIONS,,
         item: `legendary_victory_animation_${level}`,
-        rarity: 'legendary',
+        rarity: 'legendary',,
       });
     }
   }
@@ -539,12 +539,12 @@ function generateSeasonRewards(): any {
 
 function generateDailyQuests(): any {
   const questTemplates = [
-    { id: 'win_games', name: 'Win 3 Games', target: 3, experience: 500 },
-    { id: 'play_cards', name: 'Play 15 Cards', target: 15, experience: 300 },
-    { id: 'deal_damage', name: 'Deal 20 Damage', target: 20, experience: 400 },
+    { id: 'win_games', name: 'Win 3 Games', target: 3, experience: 500 },,
+    { id: 'play_cards', name: 'Play 15 Cards', target: 15, experience: 300 },,
+    { id: 'deal_damage', name: 'Deal 20 Damage', target: 20, experience: 400 },,
     {
       id: 'use_abilities',
-      name: 'Use 5 Abilities',
+      name: 'Use 5 Abilities',,
       target: 5,
       experience: 350,
     },
@@ -553,7 +553,7 @@ function generateDailyQuests(): any {
   return questTemplates.slice(0, 3).map((template, index) => ({
     ...template,
     id: `daily_${Date.now()}_${index}`,
-    type: QUEST_TYPES.DAILY,
+    type: QUEST_TYPES.DAILY,,
     progress: 0,
     completed: false,
     expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
@@ -564,11 +564,11 @@ function generateWeeklyQuests(): any {
   return [
     {
       id: `weekly_${Date.now()}`,
-      name: 'Win 15 Games',
+      name: 'Win 15 Games',,
       target: 15,
       progress: 0,
       experience: 2000,
-      type: QUEST_TYPES.WEEKLY,
+      type: QUEST_TYPES.WEEKLY,,
       completed: false,
       expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
     },
@@ -579,11 +579,11 @@ function generateSeasonalQuests(): any {
   return [
     {
       id: `seasonal_${Date.now()}`,
-      name: 'Reach Level 50',
+      name: 'Reach Level 50',,
       target: 50,
       progress: 0,
       experience: 5000,
-      type: QUEST_TYPES.SEASONAL,
+      type: QUEST_TYPES.SEASONAL,,
       completed: false,
       expiresAt: new Date('2024-03-31').getTime(),
     },

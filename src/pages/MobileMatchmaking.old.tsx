@@ -22,21 +22,21 @@ const MobileMatchmaking = (): any => {
   useEffect(() => {
     // Simulated data - would be replaced with actual API calls
     setNearbyPlayers([
-      { id: 'player1', name: 'Alex', distance: '0.5 miles', rating: 1850 },
-      { id: 'player2', name: 'Jordan', distance: '1.2 miles', rating: 1720 },
-      { id: 'player3', name: 'Taylor', distance: '2.4 miles', rating: 1930 },
+      { id: 'player1', name: 'Alex', distance: '0.5 miles', rating: 1850 },,
+      { id: 'player2', name: 'Jordan', distance: '1.2 miles', rating: 1720 },,
+      { id: 'player3', name: 'Taylor', distance: '2.4 miles', rating: 1930 },,
     ]);
     setUpcomingTournaments([
       {
         id: 'tourn1',
-        name: 'Weekly Championship',
+        name: 'Weekly Championship',,
         date: '2025-06-25',
         format: 'Standard',
         players: 32,
       },
       {
         id: 'tourn2',
-        name: 'Beginner Friendly',
+        name: 'Beginner Friendly',,
         date: '2025-06-27',
         format: 'Casual',
         players: 16,

@@ -32,22 +32,22 @@ const UnifiedPlayerCard: React.FC<UnifiedPlayerCardProps> = ({
         return {
           container: 'p-2',
           avatar: 'w-8 h-8',
-          name: 'text-sm',
-          stats: 'text-xs',
+          name: 'text-sm',,
+          stats: 'text-xs',;
         };
       case 'large':
         return {
           container: 'p-4',
           avatar: 'w-16 h-16 text-2xl',
-          name: 'text-xl',
+          name: 'text-xl',,
           stats: 'text-sm',
         };
       case 'medium':
       default:
-        return {
+        return {;
           container: 'p-3',
           avatar: 'w-12 h-12',
-          name: 'text-base',
+          name: 'text-base',,
           stats: 'text-xs',
         };
     }
@@ -57,7 +57,7 @@ const UnifiedPlayerCard: React.FC<UnifiedPlayerCardProps> = ({
 
   const getRankColor = (tier?: string) => {
     switch (tier?.toLowerCase()) {
-      case 'mythic':
+      case 'mythic':;
         return 'from-purple-500 to-purple-700';
       case 'diamond':
         return 'from-blue-400 to-blue-600';
@@ -76,7 +76,7 @@ const UnifiedPlayerCard: React.FC<UnifiedPlayerCardProps> = ({
 
   const getRankIcon = (tier?: string) => {
     switch (tier?.toLowerCase()) {
-      case 'mythic':
+      case 'mythic':;
         return '👑';
       case 'diamond':
         return '💎';

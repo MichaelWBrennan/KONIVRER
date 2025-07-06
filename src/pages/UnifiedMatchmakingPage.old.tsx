@@ -31,7 +31,7 @@ const UnifiedMatchmakingPage = (): any => {
   const [deckArchetype, setDeckArchetype] = useState('');
   const [searchRange, setSearchRange] = useState(100);
   const [matchPreferences, setMatchPreferences] = useState({
-    deckArchetype: '',
+    deckArchetype: '',,
     preferSimilarSkill: true,
     preferComplementaryPlaystyles: true,
     considerContextualFactors: true,
@@ -72,7 +72,7 @@ const UnifiedMatchmakingPage = (): any => {
           peakRating: 1820,
           deckArchetypes: [
             {
-              archetype: 'Aggro',
+              archetype: 'Aggro',,
               rating: 1780,
               uncertainty: 100,
               gamesPlayed: 30,
@@ -89,7 +89,7 @@ const UnifiedMatchmakingPage = (): any => {
               },
             },
             {
-              archetype: 'Midrange',
+              archetype: 'Midrange',,
               rating: 1720,
               uncertainty: 150,
               gamesPlayed: 25,
@@ -106,7 +106,7 @@ const UnifiedMatchmakingPage = (): any => {
               },
             },
             {
-              archetype: 'Control',
+              archetype: 'Control',,
               rating: 1650,
               uncertainty: 200,
               gamesPlayed: 20,
@@ -178,7 +178,7 @@ const UnifiedMatchmakingPage = (): any => {
           setDeckArchetype(mockPlayerData.deckArchetypes[0].archetype);
           setMatchPreferences(prev => ({
             ...prev,
-            deckArchetype: mockPlayerData.deckArchetypes[0].archetype,
+            deckArchetype: mockPlayerData.deckArchetypes[0].archetype,,
           }));
         }
       } catch (error: any) {
@@ -315,13 +315,13 @@ const UnifiedMatchmakingPage = (): any => {
         player: {
           rating: playerData.rating,
           uncertainty: playerData.uncertainty,
-          deckArchetype: matchPreferences.deckArchetype,
+          deckArchetype: matchPreferences.deckArchetype,,
           playstyle: playerData.playstyleFactors,
         },
         opponent: {
           rating: opponentRating,
           uncertainty: opponentUncertainty,
-          deckArchetype: getRandomArchetype(matchPreferences.deckArchetype),
+          deckArchetype: getRandomArchetype(matchPreferences.deckArchetype),,
           playstyle: opponentPlaystyle,
         },
         winProbability,

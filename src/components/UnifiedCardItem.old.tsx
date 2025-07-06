@@ -22,12 +22,12 @@ const UnifiedCardItem: React.FC<UnifiedCardItemProps> = ({
   card,
   variant = 'grid',
   favorites = new Set(),
-  toggleFavorite = () => {},
+  toggleFavorite = () => {}
   onCardClick,
 }) => {
   const navigate = useNavigate();
 
-  const getRarityColor = (rarity: string) => {
+  const getRarityColor = (rarity: string) => {,
     switch (rarity.toLowerCase()) {
       case 'common':
         return 'border-gray-400 bg-gray-50';
@@ -42,19 +42,19 @@ const UnifiedCardItem: React.FC<UnifiedCardItemProps> = ({
     }
   };
 
-  const getElementSymbol = (element: string) => {
+  const getElementSymbol = (element: string) => {,
     const elementMap = {
-      '🜂': { symbol: '🜂', name: 'Fire' },
-      '🜄': { symbol: '🜄', name: 'Water' },
-      '🜃': { symbol: '🜃', name: 'Earth' },
-      '🜁': { symbol: '🜁', name: 'Air' },
-      '⭘': { symbol: '⭘', name: 'Aether' },
-      '▢': { symbol: '▢', name: 'Nether' },
-      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },
-      '∇': { symbol: '∇', name: 'Void' },
-      '🜅': { symbol: '🜅', name: 'Shadow' },
+      '🜂': { symbol: '🜂', name: 'Fire' },,
+      '🜄': { symbol: '🜄', name: 'Water' },,
+      '🜃': { symbol: '🜃', name: 'Earth' },,
+      '🜁': { symbol: '🜁', name: 'Air' },,
+      '⭘': { symbol: '⭘', name: 'Aether' },,
+      '▢': { symbol: '▢', name: 'Nether' },,
+      '✡︎⃝': { symbol: '✡︎⃝', name: 'Generic' },,
+      '∇': { symbol: '∇', name: 'Void' },,
+      '🜅': { symbol: '🜅', name: 'Shadow' },,
     };
-    return elementMap[element] || { symbol: element, name: element };
+    return elementMap[element] || { symbol: element, name: element };,
   };
 
   const handleCardClick = () => {
@@ -78,7 +78,7 @@ const UnifiedCardItem: React.FC<UnifiedCardItemProps> = ({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              {card.elements.map((element: string, index: number) => {
+              {card.elements.map((element: string, index: number) => {,
                 const elementInfo = getElementSymbol(element);
                 return (
                   <span key={index} className="text-lg" title={elementInfo.name}>
@@ -168,7 +168,7 @@ const UnifiedCardItem: React.FC<UnifiedCardItemProps> = ({
         <div className="flex-1">
           <h3 className="font-bold text-lg text-gray-900 mb-1">{card.name}</h3>
           <div className="flex items-center gap-2 mb-2">
-            {card.elements.map((element: string, index: number) => {
+            {card.elements.map((element: string, index: number) => {,
               const elementInfo = getElementSymbol(element);
               return (
                 <span key={index} className="text-xl" title={elementInfo.name}>

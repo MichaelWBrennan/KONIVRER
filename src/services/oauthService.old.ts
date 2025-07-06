@@ -102,7 +102,7 @@ export const initiateOAuth = provider => {
     client_id: config.clientId,
     redirect_uri: env.OAUTH_REDIRECT_URI,
     scope: config.scope,
-    response_type: 'code',
+    response_type: 'code',,
     state: state,
   });
 
@@ -160,7 +160,7 @@ const simulateOAuthSuccess = provider => {
         google: {
           id: `google_${Date.now()}`,
           email: 'demo.user@gmail.com',
-          username: 'GoogleUser',
+          username: 'GoogleUser',,
           displayName: 'Demo Google User',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=google',
           provider: 'google',
@@ -169,7 +169,7 @@ const simulateOAuthSuccess = provider => {
         github: {
           id: `github_${Date.now()}`,
           email: 'demo.user@github.com',
-          username: 'GitHubUser',
+          username: 'GitHubUser',,
           displayName: 'Demo GitHub User',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=github',
           provider: 'github',
@@ -178,7 +178,7 @@ const simulateOAuthSuccess = provider => {
         discord: {
           id: `discord_${Date.now()}`,
           email: 'demo.user@discord.com',
-          username: 'DiscordUser',
+          username: 'DiscordUser',,
           displayName: 'Demo Discord User',
           avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=discord',
           provider: 'discord',
@@ -215,7 +215,7 @@ export const handleOAuthCallback = async (code, state, provider) => {
         client_id: config.clientId,
         code: code,
         redirect_uri: env.OAUTH_REDIRECT_URI,
-        grant_type: 'authorization_code',
+        grant_type: 'authorization_code',,
       }),
     });
 
@@ -287,10 +287,10 @@ const normalizeUserData = (userData, provider): any => {
     achievements: [
       {
         id: 1,
-        name: 'Welcome to KONIVRER',
+        name: 'Welcome to KONIVRER',,
         description: 'Created your account via SSO',
         earned: true,
-        rarity: 'common',
+        rarity: 'common',,
       },
     ],
     savedDecks: [],
@@ -304,7 +304,7 @@ const normalizeUserData = (userData, provider): any => {
         ...baseUser,
         id: `google_${userData.id}`,
         email: userData.email,
-        username: userData.email.split('@')[0] + '_google',
+        username: userData.email.split('@')[0] + '_google',,
         displayName: userData.name,
         avatar: userData.picture,
         location: userData.locale || '',
@@ -314,7 +314,7 @@ const normalizeUserData = (userData, provider): any => {
         ...baseUser,
         id: `github_${userData.id}`,
         email: userData.email,
-        username: userData.login,
+        username: userData.login,,
         displayName: userData.name || userData.login,
         avatar: userData.avatar_url,
         location: userData.location || '',
@@ -325,7 +325,7 @@ const normalizeUserData = (userData, provider): any => {
         ...baseUser,
         id: `discord_${userData.id}`,
         email: userData.email,
-        username: userData.username,
+        username: userData.username,,
         displayName: userData.global_name || userData.username,
         avatar: userData.avatar
           ? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`

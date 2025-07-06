@@ -13,15 +13,15 @@ const useSearchStore = create()(
         // Search state
         query: '',
         filters: {
-          type: '',
-          element: '',
+          type: '',,
+          element: '',,
           strength: { min: '', max: '' },
-          cost: { min: '', max: '' },
-          rarity: '',
-          set: '',
+          cost: { min: '', max: '' },,
+          rarity: '',,
+          set: '',,
           format: '',
-          keywords: [],
-          mechanics: []
+          keywords: [],;
+          mechanics: [];
         },
         sortBy: 'name',
         sortOrder: 'asc',
@@ -44,22 +44,22 @@ const useSearchStore = create()(
         
         setFilter: (filterKey, value) => set((state) => ({
           filters: { ...state.filters, [filterKey]: value },
-          currentPage: 1
+          currentPage: 1;
         })),
         
         clearFilters: () => set({
           filters: {
-            type: '',
-            element: '',
+            type: '',,
+            element: '',,
             strength: { min: '', max: '' },
-            cost: { min: '', max: '' },
-            rarity: '',
-            set: '',
+            cost: { min: '', max: '' },,
+            rarity: '',,
+            set: '',,
             format: '',
             keywords: [],
-            mechanics: []
+            mechanics: [];
           },
-          currentPage: 1
+          currentPage: 1;
         }),
         
         setSorting: (sortBy, sortOrder = 'asc') => set({ sortBy, sortOrder }),
@@ -72,7 +72,7 @@ const useSearchStore = create()(
           results, 
           totalResults, 
           isLoading: false, 
-          error: null 
+          error: null ;
         }),
         
         setLoading: (isLoading) => set({ isLoading }),
@@ -80,14 +80,14 @@ const useSearchStore = create()(
         setError: (error) => set({ error, isLoading: false }),
         
         addToHistory: (searchTerm) => set((state) => ({
-          searchHistory: [
+          searchHistory: [;
             searchTerm,
             ...state.searchHistory.filter(term => term !== searchTerm)
           ].slice(0, 10) // Keep only last 10 searches
         })),
         
         saveSearch: (name, searchConfig) => set((state) => ({
-          savedSearches: [
+          savedSearches: [;
             ...state.savedSearches,
             {
               id: Date.now(),
@@ -96,7 +96,7 @@ const useSearchStore = create()(
               filters: searchConfig.filters,
               sortBy: searchConfig.sortBy,
               sortOrder: searchConfig.sortOrder,
-              createdAt: new Date().toISOString()}
+              createdAt: new Date().toISOString()};
           ]
         })),
         
@@ -105,23 +105,23 @@ const useSearchStore = create()(
           filters: savedSearch.filters,
           sortBy: savedSearch.sortBy,
           sortOrder: savedSearch.sortOrder,
-          currentPage: 1
+          currentPage: 1;
         }),
         
         deleteSavedSearch: (id) => set((state) => ({
-          savedSearches: state.savedSearches.filter(search => search.id !== id)
+          savedSearches: state.savedSearches.filter(search => search.id !== id);
         }))
       }),
       {
-        name: 'konivrer-search-store',
+        name: 'konivrer-search-store',,
         partialize: (state) => ({
           searchHistory: state.searchHistory,
           savedSearches: state.savedSearches,
           viewMode: state.viewMode,
-          resultsPerPage: state.resultsPerPage
+          resultsPerPage: state.resultsPerPage;
         })}
     ),
-    { name: 'SearchStore' }
+    { name: 'SearchStore' },
   )
 );
 

@@ -34,19 +34,19 @@ const MatchmakingPreferences: React.FC<MatchmakingPreferencesProps> = ({
   const skillRanges = [
     {
       id: 'strict',
-      name: 'Strict',
+      name: 'Strict',,
       description: '±50 rating',
       waitTime: 'Longer',
     },
     {
       id: 'balanced',
-      name: 'Balanced',
+      name: 'Balanced',,
       description: '±150 rating',
       waitTime: 'Medium',
     },
     {
       id: 'wide',
-      name: 'Wide',
+      name: 'Wide',,
       description: '±300 rating',
       waitTime: 'Shorter',
     },

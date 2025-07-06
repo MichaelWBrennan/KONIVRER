@@ -33,8 +33,8 @@ const CardExplorer = (): any => {
     setShowAdvancedSearch(false);
     // Mock search results
     setSearchResults([
-      { id: 1, name: 'Lightning Bolt', type: 'Spell', rarity: 'Common' },
-      { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },
+      { id: 1, name: 'Lightning Bolt', type: 'Spell', rarity: 'Common' },,,,
+      { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },,,,
     ]);
   };
   return (

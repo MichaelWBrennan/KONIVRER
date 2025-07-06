@@ -94,7 +94,7 @@ export function getAbilityDisplayInfo(): any {
   return {
     symbol: ABILITY_SYMBOLS[ability] || '?',
     color: ABILITY_COLORS[ability] || '#808080',
-    element: getElementForAbility(ability),
+    element: getElementForAbility(ability),,
     isValid: isValidAbility(ability)
     };
   }
@@ -117,7 +117,7 @@ export const ALL_ELEMENTS = [
 export function parseCardElements(): any {
   if (!Array.isArray(elements)) return [];
   return elements.map(element => ({
-    name: element,
+    name: element,,
     ...getAbilityDisplayInfo(element)
   }));
 }

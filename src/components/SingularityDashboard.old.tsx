@@ -62,7 +62,7 @@ const SingularityDashboard = (): any => {
       <motion.div
           className="consciousness-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }},
          />
           <h2>🧠 Consciousness Metrics</h2>
       <div className="metric-item"></div>
@@ -106,7 +106,7 @@ const SingularityDashboard = (): any => {
         <motion.div
           className="quantum-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }},
          />
           <h2>⚛️ Quantum State Control</h2>
       <div className="quantum-controls"></div>
@@ -136,7 +136,7 @@ const SingularityDashboard = (): any => {
       <motion.div
           className="reality-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }},
          />
           <h2>🌀 Reality Distortion Engine</h2>
       <div className="distortion-level"></div>
@@ -169,7 +169,7 @@ const SingularityDashboard = (): any => {
       <motion.div
           className="evolution-panel"
           whileHover={{ scale: 1.05 }}
-          transition={{ type: 'spring', stiffness: 300 }}
+          transition={{ type: 'spring', stiffness: 300 }},
          />
           <h2>🧬 Evolutionary Control</h2>
       <div className="evolution-controls"></div>

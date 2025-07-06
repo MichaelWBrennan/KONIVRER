@@ -330,7 +330,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
   const handleFriendRequest = useCallback(event => {
     const { from } = event.detail;
     addNotification({
-      type: 'friend_request',
+      type: 'friend_request',,
       message: `${from.username} wants to be your friend`,
       actions: ['Accept', 'Decline'],
     });
@@ -339,7 +339,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
   const handleGameInvite = useCallback(event => {
     const { from, gameMode } = event.detail;
     addNotification({
-      type: 'game_invite',
+      type: 'game_invite',,
       message: `${from.username} invited you to a ${gameMode} game`,
       actions: ['Accept', 'Decline'],
     });
@@ -355,7 +355,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
     const { achievement } = event.detail;
 
     addNotification({
-      type: 'achievement',
+      type: 'achievement',,
       message: `Achievement unlocked: ${achievement.name}!`,
       duration: 5000,
     });
@@ -371,7 +371,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
     const { oldMMR, newMMR, decayAmount } = event.detail;
 
     addNotification({
-      type: 'warning',
+      type: 'warning',,
       message: `MMR decayed by ${decayAmount} due to inactivity. New MMR: ${newMMR}`,
       duration: 8000,
     });
@@ -422,7 +422,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
 
       try {
         const action = {
-          type: 'play_card',
+          type: 'play_card',,
           card: getCardData(cardId),
           targets: gameState.selectedTargets,
           player: gameState.activePlayer,
@@ -473,7 +473,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
         } else {
           // Show error message
           addNotification({
-            type: 'error',
+            type: 'error',,
             message: result.error,
             duration: 3000,
           });
@@ -483,7 +483,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
       } catch (error: any) {
         console.error('Error playing card:', error);
         addNotification({
-          type: 'error',
+          type: 'error',,
           message: 'Failed to play card',
           duration: 3000,
         });
@@ -518,7 +518,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
           // Show AI reasoning if in tutorial mode
           if (true) {
             addNotification({
-              type: 'tutorial',
+              type: 'tutorial',,
               message: `AI played: ${aiDecision.reasoning}`,
               duration: 5000,
             });
@@ -532,7 +532,7 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
 
   const handleEndTurn = useCallback(async () => {
     try {
-      const action = { type: 'end_turn', player: gameState.activePlayer };
+      const action = { type: 'end_turn', player: gameState.activePlayer };,
       const result = await rulesEngineRef.current?.processAction(
         action,
         gameState.activePlayer,
@@ -607,12 +607,12 @@ const IndustryLeadingGamePlatform: React.FC<IndustryLeadingGamePlatformProps> = 
     // Mock card data - in real implementation, this would fetch from game state
     return {
       id: cardId,
-      name: `Card ${cardId}`,
-      cost: 3,
-      type: 'creature',
+      name: `Card ${cardId}`,,
+      cost: 3,,
+      type: 'creature',,
       power: 2,
       toughness: 3,
-      rarity: 'common',
+      rarity: 'common',,
       abilities: [],
     };
   }, []);

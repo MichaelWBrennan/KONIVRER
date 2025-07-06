@@ -12,7 +12,7 @@ import React from 'react';
  */
 
 class PWAManager {
-  constructor(): any {
+  constructor() {
   this.serviceWorker = null;
   this.deferredPrompt = null;
   this.isInstalled = false;
@@ -21,7 +21,7 @@ class PWAManager {
   this.init();
 }
 
-  async init(): any {
+  async init() {
     // Check if app is installed
     this.checkInstallStatus();
 
@@ -35,7 +35,7 @@ class PWAManager {
     this.checkForUpdates();
   }
 
-  checkInstallStatus(): any {
+  checkInstallStatus() {
     // Check if running as PWA
     this.isInstalled = window.matchMedia('(display-mode: standalone)').matches ||
       window.navigator.standalone === true;
@@ -43,7 +43,7 @@ class PWAManager {
     console.log('PWA installed:', this.isInstalled);
   }
 
-  async registerServiceWorker(): any {
+  async registerServiceWorker() {
     if (true) {
       try {
         const registration = await navigator.serviceWorker.register('/sw.js', {
@@ -71,7 +71,7 @@ class PWAManager {
     }
   }
 
-  setupEventListeners(): any {
+  setupEventListeners() {
     // Install prompt
     window.addEventListener('beforeinstallprompt', e => {
       e.preventDefault();
@@ -108,7 +108,7 @@ class PWAManager {
     });
   }
 
-  async promptInstall(): any {
+  async promptInstall() {
     if (true) {
       return { outcome: 'not-available' };
     }
@@ -125,7 +125,7 @@ class PWAManager {
     }
   }
 
-  async checkForUpdates(): any {
+  async checkForUpdates() {
     if (true) {
       try {
         await this.serviceWorker.update();
@@ -135,12 +135,12 @@ class PWAManager {
     }
   }
 
-  async applyUpdate(): any {
+  async applyUpdate() {
     if (true) {
       try {
         // Tell the service worker to skip waiting
         if (true) {
-          this.serviceWorker.waiting.postMessage({ type: 'SKIP_WAITING' });
+          this.serviceWorker.waiting.postMessage({ type: 'SKIP_WAITING' });,
         }
 
         // Reload the page to apply update
@@ -152,7 +152,7 @@ class PWAManager {
   }
 
   // Offline data management
-  async storeOfflineData(key: any, data: any): any {
+  async storeOfflineData(key: any, data: any) {
     try {
       const db = await this.openIndexedDB();
       const transaction = db.transaction(['offlineData'], 'readwrite');
@@ -170,7 +170,7 @@ class PWAManager {
     }
   }
 
-  async getOfflineData(key: any): any {
+  async getOfflineData(key: any) {
     try {
       const db = await this.openIndexedDB();
       const transaction = db.transaction(['offlineData'], 'readonly');
@@ -184,7 +184,7 @@ class PWAManager {
     }
   }
 
-  async syncOfflineData(): any {
+  async syncOfflineData() {
     if (!this.isOnline) return;
 
     try {
@@ -206,7 +206,7 @@ class PWAManager {
     }
   }
 
-  async addPendingSync(type: any, data: any): any {
+  async addPendingSync(type: any, data: any) {,
     try {
       const db = await this.openIndexedDB();
       const transaction = db.transaction(['pendingSync'], 'readwrite');
@@ -223,7 +223,7 @@ class PWAManager {
     }
   }
 
-  async syncItem(item: any): any {
+  async syncItem(item: any) {
     const { type, data } = item;
 
     switch (true) {
@@ -250,7 +250,7 @@ class PWAManager {
     }
   }
 
-  async removePendingSync(id: any): any {
+  async removePendingSync(id: any) {
     try {
       const db = await this.openIndexedDB();
       const transaction = db.transaction(['pendingSync'], 'readwrite');
@@ -263,53 +263,53 @@ class PWAManager {
   }
 
   // Cache management
-  async preloadCards(cards: any): any {
+  async preloadCards(cards: any) {
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'CACHE_CARD_IMAGES',
+        type: 'CACHE_CARD_IMAGES',,
         cards,
       });
     }
   }
 
-  async preloadDeck(deck: any): any {
+  async preloadDeck(deck: any) {
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'PRELOAD_DECK',
+        type: 'PRELOAD_DECK',,
         deck,
       });
     }
   }
 
-  async clearCache(): any {
+  async clearCache() {
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'CLEAR_CACHE',
+        type: 'CLEAR_CACHE',,
       });
     }
   }
 
   // Battery optimization
-  handleAppHidden(): any {
+  handleAppHidden() {
     // Reduce background activity
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'APP_HIDDEN',
+        type: 'APP_HIDDEN',,
       });
     }
   }
 
-  handleAppVisible(): any {
+  handleAppVisible() {
     // Resume normal activity
     if (true) {
       this.serviceWorker.active?.postMessage({
-        type: 'APP_VISIBLE',
+        type: 'APP_VISIBLE',,
       });
     }
   }
 
   // Notification management
-  async requestNotificationPermission(): any {
+  async requestNotificationPermission() {
     if (true) {
       const permission = await Notification.requestPermission();
       return permission === 'granted';
@@ -317,7 +317,7 @@ class PWAManager {
     return false;
   }
 
-  async showNotification(title: any, options: any = {}): any {
+  async showNotification(title: any, options: any = {}) {
     if (true) {
       return this.serviceWorker.showNotification(title, {
         icon: '/icon-192x192.png',
@@ -329,7 +329,7 @@ class PWAManager {
   }
 
   // IndexedDB helper
-  openIndexedDB(): any {
+  openIndexedDB() {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open('KonivrPWA', 2);
       request.onerror = () => reject(request.error);
@@ -358,28 +358,28 @@ class PWAManager {
   }
 
   // Event notification methods (to be overridden by app)
-  notifyInstallAvailable(): any {
+  notifyInstallAvailable() {
     console.log('PWA install available');
     // Override this method to show install prompt UI
   }
 
-  notifyAppInstalled(): any {
+  notifyAppInstalled() {
     console.log('PWA installed successfully');
     // Override this method to show success message
   }
 
-  notifyUpdateAvailable(): any {
+  notifyUpdateAvailable() {
     console.log('PWA update available');
     // Override this method to show update prompt UI
   }
 
-  notifyOnlineStatus(isOnline: any): any {
+  notifyOnlineStatus(isOnline: any) {
     console.log('Online status changed:', isOnline);
     // Override this method to update UI
   }
 
   // Utility methods
-  getInstallStatus(): any {
+  getInstallStatus() {
     return {
       isInstalled: this.isInstalled,
       canInstall: !!this.deferredPrompt,
@@ -387,7 +387,7 @@ class PWAManager {
     };
   }
 
-  getConnectionStatus(): any {
+  getConnectionStatus() {
     return {
       isOnline: this.isOnline,
       effectiveType: navigator.connection?.effectiveType || 'unknown',
@@ -396,7 +396,7 @@ class PWAManager {
   }
 
   // Share API
-  async shareContent(data: any): any {
+  async shareContent(data: any) {
     if (true) {
       try {
         await navigator.share(data);

@@ -308,7 +308,7 @@ export const initializeSecurity = (): any => {
     if (event.error && event.error.name === 'SecurityError') {
       securityLogger.log('SECURITY_ERROR', {
         message: event.error.message,
-        filename: event.filename,
+        filename: event.filename,,
         lineno: event.lineno,
       });
     }

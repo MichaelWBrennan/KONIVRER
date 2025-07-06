@@ -96,7 +96,7 @@ const PARTICLE_PRESETS = {
     trail: true,
     colors: ['#FFFFFF', '#99CCFF', '#FFCC00'],
   },
-  rarity: {
+  rarity: {,
     speed: 0.8,
     size: 5,
     opacity: 0.9,

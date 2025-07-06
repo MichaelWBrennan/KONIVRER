@@ -36,7 +36,7 @@ const MobileJudgeTools = (): any => {
       // Mock data
       setTournament({
         id: tournamentId,
-        name: 'Friday Night Magic',
+        name: 'Friday Night Magic',,
         currentRound: 3,
         totalRounds: 5,
         status: 'active',
@@ -48,8 +48,8 @@ const MobileJudgeTools = (): any => {
           id: 1,
           round: 3,
           table: 1,
-          player1: { id: 1, name: 'Alice Johnson', record: '2-0' },
-          player2: { id: 2, name: 'Bob Smith', record: '2-0' },
+          player1: { id: 1, name: 'Alice Johnson', record: '2-0' },,
+          player2: { id: 2, name: 'Bob Smith', record: '2-0' },,
           status: 'active',
           timeRemaining: 1800,
           result: null
@@ -58,8 +58,8 @@ const MobileJudgeTools = (): any => {
           id: 2,
           round: 3,
           table: 2,
-          player1: { id: 3, name: 'Carol Davis', record: '1-1' },
-          player2: { id: 4, name: 'David Wilson', record: '1-1' },
+          player1: { id: 3, name: 'Carol Davis', record: '1-1' },,
+          player2: { id: 4, name: 'David Wilson', record: '1-1' },,
           status: 'completed',
           timeRemaining: 0,
           result: { winner: 3, score: '2-1' }
@@ -68,8 +68,8 @@ const MobileJudgeTools = (): any => {
           id: 3,
           round: 3,
           table: 3,
-          player1: { id: 5, name: 'Eve Brown', record: '0-2' },
-          player2: { id: 6, name: 'Frank Miller', record: '0-2' },
+          player1: { id: 5, name: 'Eve Brown', record: '0-2' },,
+          player2: { id: 6, name: 'Frank Miller', record: '0-2' },,
           status: 'active',
           timeRemaining: 1200,
           result: null
@@ -77,12 +77,12 @@ const MobileJudgeTools = (): any => {
       ]);
 
       setPlayers([
-        { id: 1, name: 'Alice Johnson', record: '2-0', penalties: 0, status: 'active' },
-        { id: 2, name: 'Bob Smith', record: '2-0', penalties: 1, status: 'active' },
-        { id: 3, name: 'Carol Davis', record: '2-1', penalties: 0, status: 'active' },
-        { id: 4, name: 'David Wilson', record: '1-2', penalties: 0, status: 'active' },
-        { id: 5, name: 'Eve Brown', record: '0-2', penalties: 2, status: 'active' },
-        { id: 6, name: 'Frank Miller', record: '0-3', penalties: 0, status: 'dropped' }
+        { id: 1, name: 'Alice Johnson', record: '2-0', penalties: 0, status: 'active' },,
+        { id: 2, name: 'Bob Smith', record: '2-0', penalties: 1, status: 'active' },,
+        { id: 3, name: 'Carol Davis', record: '2-1', penalties: 0, status: 'active' },,
+        { id: 4, name: 'David Wilson', record: '1-2', penalties: 0, status: 'active' },,
+        { id: 5, name: 'Eve Brown', record: '0-2', penalties: 2, status: 'active' },,
+        { id: 6, name: 'Frank Miller', record: '0-3', penalties: 0, status: 'dropped' },
       ]);
 
       setPenalties([
@@ -90,7 +90,7 @@ const MobileJudgeTools = (): any => {
           id: 1,
           playerId: 2,
           playerName: 'Bob Smith',
-          type: 'warning',
+          type: 'warning',,
           infraction: 'Slow Play',
           round: 2,
           table: 1,
@@ -102,7 +102,7 @@ const MobileJudgeTools = (): any => {
           id: 2,
           playerId: 5,
           playerName: 'Eve Brown',
-          type: 'game_loss',
+          type: 'game_loss',,
           infraction: 'Deck Problem',
           round: 1,
           table: 3,

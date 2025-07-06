@@ -68,8 +68,8 @@ function registerCardAnimation(): any {
 // ============================================================================
 
 // Fire Elemental - Example of a fire-based card
-registerCardAnimation('fire-elemental': any, {
-  onPlay(element: any, timeline: any, settings: any): any {
+registerCardAnimation('fire-elemental', {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Add fire effect when played
     timeline
       .to(element, {
@@ -98,7 +98,7 @@ registerCardAnimation('fire-elemental': any, {
       document.body.appendChild(particleContainer);
 
       createParticleSystem(particleContainer, {
-        type: 'play',
+        type: 'play',,
         color: '#FF5500',
         count: settings.particleCount,
         duration: 1.5,
@@ -113,7 +113,7 @@ registerCardAnimation('fire-elemental': any, {
     }
   },
 
-  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {
+  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {,
     // Add fire trail during attack
     timeline.to(
       element,
@@ -144,7 +144,7 @@ registerCardAnimation('fire-elemental': any, {
       });
   },
 
-  onAbility(element: any, timeline: any, settings: any, abilityIndex: any, targets: any): any {
+  onAbility(element: any, timeline: any, settings: any, abilityIndex: any, targets: any): any {,
     // Fire ability effect
     timeline
       .to(element, {
@@ -186,8 +186,8 @@ registerCardAnimation('fire-elemental': any, {
 });
 
 // Water Elemental - Example of a water-based card
-registerCardAnimation('water-elemental': any, {
-  onPlay(element: any, timeline: any, settings: any): any {
+registerCardAnimation('water-elemental', {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Add water ripple effect when played
     timeline
       .to(element, {
@@ -216,7 +216,7 @@ registerCardAnimation('water-elemental': any, {
       document.body.appendChild(particleContainer);
 
       createParticleSystem(particleContainer, {
-        type: 'play',
+        type: 'play',,
         color: '#00AAFF',
         count: settings.particleCount,
         duration: 1.5,
@@ -231,7 +231,7 @@ registerCardAnimation('water-elemental': any, {
     }
   },
 
-  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {
+  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {,
     // Add water trail during attack
     timeline.to(
       element,
@@ -264,8 +264,8 @@ registerCardAnimation('water-elemental': any, {
 });
 
 // Lightning Bolt - Example of a spell card
-registerCardAnimation('lightning-bolt': any, {
-  onPlay(element: any, timeline: any, settings: any): any {
+registerCardAnimation('lightning-bolt', {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Lightning flash effect
     timeline
       .to(element, {
@@ -292,7 +292,7 @@ registerCardAnimation('lightning-bolt': any, {
       document.body.appendChild(particleContainer);
 
       createParticleSystem(particleContainer, {
-        type: 'play',
+        type: 'play',,
         color: '#FFFF00',
         count: settings.particleCount,
         duration: 1,
@@ -310,8 +310,8 @@ registerCardAnimation('lightning-bolt': any, {
 });
 
 // Dragon - Example of a legendary creature
-registerCardAnimation('dragon': any, {
-  onPlay(element: any, timeline: any, settings: any): any {
+registerCardAnimation('dragon', {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Dragon entrance effect
     timeline
       .to(element, {
@@ -342,7 +342,7 @@ registerCardAnimation('dragon': any, {
       document.body.appendChild(particleContainer);
 
       createParticleSystem(particleContainer, {
-        type: 'play',
+        type: 'play',,
         color: '#FF3300',
         count: settings.particleCount * 1.5,
         duration: 2,
@@ -358,7 +358,7 @@ registerCardAnimation('dragon': any, {
     }
   },
 
-  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {
+  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {,
     // Dragon attack effect
     timeline
       .to(
@@ -407,7 +407,7 @@ registerCardAnimation('dragon': any, {
 
 // Generic Familiar animations
 registerCardAnimation('type:familiar', {
-  onPlay(element: any, timeline: any, settings: any): any {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Generic familiar entrance
     timeline
       .to(element, {
@@ -424,7 +424,7 @@ registerCardAnimation('type:familiar', {
       });
   },
 
-  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {
+  onAttack(element: any, targetElement: any, timeline: any, settings: any): any {,
     // Generic attack animation
     timeline
       .to(
@@ -448,7 +448,7 @@ registerCardAnimation('type:familiar', {
 
 // Generic Spell animations
 registerCardAnimation('type:spell', {
-  onPlay(element: any, timeline: any, settings: any): any {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Generic spell cast
     timeline
       .to(element, {
@@ -469,7 +469,7 @@ registerCardAnimation('type:spell', {
 
 // Generic Azoth animations
 registerCardAnimation('type:azoth', {
-  onPlay(element: any, timeline: any, settings: any): any {
+  onPlay(element: any, timeline: any, settings: any): any {,
     // Generic azoth placement
     timeline
       .to(element, {

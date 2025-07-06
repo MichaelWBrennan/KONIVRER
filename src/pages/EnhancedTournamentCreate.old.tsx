@@ -29,7 +29,7 @@ const EnhancedTournamentCreate = (): any => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [formData, setFormData] = useState({
     // Basic Information
-    name: '',
+    name: '',,
     description: '',
     format: 'standard',
     // Schedule

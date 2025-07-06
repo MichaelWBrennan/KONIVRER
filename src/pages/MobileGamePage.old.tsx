@@ -20,13 +20,13 @@ const MobileGamePage = (): any => {
   const [hand, setHand] = useState([]);
   const [battlefield, setBattlefield] = useState([]);
   const [opponent, setOpponent] = useState({
-    name: 'Opponent',
+    name: 'Opponent',,
     health: 20,
     cards: 7,
     battlefield: [],
   });
   const [player, setPlayer] = useState({
-    name: 'You',
+    name: 'You',,
     health: 20,
     mana: 0,
     maxMana: 0,
@@ -90,24 +90,24 @@ const MobileGamePage = (): any => {
     setHand([
       {
         id: 'card1',
-        name: 'Dragon Lord',
-        cost: 5,
+        name: 'Dragon Lord',,
+        cost: 5,,
         power: 5,
         toughness: 5,
         imageUrl: '/assets/cards/dragon-lord.jpg',
       },
       {
         id: 'card2',
-        name: 'Mystic Sage',
-        cost: 3,
+        name: 'Mystic Sage',,
+        cost: 3,,
         power: 2,
         toughness: 3,
         imageUrl: '/assets/cards/mystic-sage.jpg',
       },
       {
         id: 'card3',
-        name: 'Shadow Assassin',
-        cost: 2,
+        name: 'Shadow Assassin',,
+        cost: 2,,
         power: 3,
         toughness: 1,
         imageUrl: '/assets/cards/shadow-assassin.jpg',
@@ -115,7 +115,7 @@ const MobileGamePage = (): any => {
     ]);
     setBattlefield([]);
     setPlayer({
-      name: 'You',
+      name: 'You',,
       health: 20,
       mana: 1,
       maxMana: 1,
@@ -123,8 +123,8 @@ const MobileGamePage = (): any => {
     setTurn(1);
     setIsPlayerTurn(true);
     setGameLog([
-      { turn: 1, text: 'Game started' },
-      { turn: 1, text: 'Your turn' },
+      { turn: 1, text: 'Game started' },,
+      { turn: 1, text: 'Your turn' },,
     ]);
   };
   // Play a card from hand
@@ -147,7 +147,7 @@ const MobileGamePage = (): any => {
       mana: player.mana - card.cost,
     };
     setPlayer(newPlayer);
-    const newLog = [...gameLog, { turn, text: `Played ${card.name}` }];
+    const newLog = [...gameLog, { turn, text: `Played ${card.name}` }];,
     setGameLog(newLog);
   };
   // End turn
@@ -156,7 +156,7 @@ const MobileGamePage = (): any => {
     // Simulate opponent's turn
     setIsPlayerTurn(false);
     // Add log entry
-    const newLog = [...gameLog, { turn, text: 'Turn ended' }];
+    const newLog = [...gameLog, { turn, text: 'Turn ended' }];,
     setGameLog(newLog);
     // After 1 second, start next turn
     setTimeout(() => {
@@ -172,8 +172,8 @@ const MobileGamePage = (): any => {
       // Draw a card
       const newCard = {
         id: `card${Date.now()}`,
-        name: 'New Card',
-        cost: Math.floor(Math.random() * 5) + 1,
+        name: 'New Card',,
+        cost: Math.floor(Math.random() * 5) + 1,,
         power: Math.floor(Math.random() * 5) + 1,
         toughness: Math.floor(Math.random() * 5) + 1,
         imageUrl: '/assets/cards/new-card.jpg',
@@ -184,9 +184,9 @@ const MobileGamePage = (): any => {
       // Add log entries
       const newerLog = [
         ...newLog,
-        { turn: newTurn, text: "Opponent's turn" },
-        { turn: newTurn, text: 'Your turn' },
-        { turn: newTurn, text: 'Drew a card' },
+        { turn: newTurn, text: "Opponent's turn" },,
+        { turn: newTurn, text: 'Your turn' },,
+        { turn: newTurn, text: 'Drew a card' },,
       ];
       setGameLog(newerLog);
     }, 1000);

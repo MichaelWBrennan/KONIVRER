@@ -47,20 +47,20 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
   const mockRewards = [
     {
       id: 'reward_1',
-      name: 'Bronze Season Card Back',
+      name: 'Bronze Season Card Back',,
       description: 'Reach Bronze rank by the end of the season',
-      type: 'cosmetic',
-      rarity: 'common',
+      type: 'cosmetic',,
+      rarity: 'common',,
       requiredRank: 'bronze',
       unlocked: true,
       icon: '🎴',
     },
     {
       id: 'reward_2',
-      name: 'Silver Season Card Back',
+      name: 'Silver Season Card Back',,
       description: 'Reach Silver rank by the end of the season',
-      type: 'cosmetic',
-      rarity: 'uncommon',
+      type: 'cosmetic',,
+      rarity: 'uncommon',,
       requiredRank: 'silver',
       unlocked:
         playerStats?.tier === 'silver' ||
@@ -69,10 +69,10 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
     },
     {
       id: 'reward_3',
-      name: 'Gold Season Card Back',
+      name: 'Gold Season Card Back',,
       description: 'Reach Gold rank by the end of the season',
-      type: 'cosmetic',
-      rarity: 'rare',
+      type: 'cosmetic',,
+      rarity: 'rare',,
       requiredRank: 'gold',
       unlocked:
         playerStats?.tier === 'gold' ||
@@ -81,10 +81,10 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
     },
     {
       id: 'reward_4',
-      name: 'Platinum Avatar Frame',
+      name: 'Platinum Avatar Frame',,
       description: 'Reach Platinum rank by the end of the season',
-      type: 'cosmetic',
-      rarity: 'epic',
+      type: 'cosmetic',,
+      rarity: 'epic',,
       requiredRank: 'platinum',
       unlocked:
         playerStats?.tier === 'platinum' ||
@@ -93,10 +93,10 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
     },
     {
       id: 'reward_5',
-      name: 'Diamond Card Sleeve',
+      name: 'Diamond Card Sleeve',,
       description: 'Reach Diamond rank by the end of the season',
-      type: 'cosmetic',
-      rarity: 'legendary',
+      type: 'cosmetic',,
+      rarity: 'legendary',,
       requiredRank: 'diamond',
       unlocked:
         playerStats?.tier === 'diamond' ||
@@ -105,10 +105,10 @@ const MatchmakingRewards: React.FC<MatchmakingRewardsProps> = ({
     },
     {
       id: 'reward_6',
-      name: 'Mythic Alternate Art Card',
+      name: 'Mythic Alternate Art Card',,
       description: 'Reach Mythic rank by the end of the season',
-      type: 'card',
-      rarity: 'mythic',
+      type: 'card',,
+      rarity: 'mythic',,
       requiredRank: 'mythic',
       unlocked: playerStats?.tier === 'mythic',
       icon: '🌟',

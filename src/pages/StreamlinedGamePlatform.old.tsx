@@ -26,30 +26,30 @@ const StreamlinedGamePlatform = (): any => {
   const [activeSearchCriteria, setActiveSearchCriteria] = useState(null);
   // Sample deck data for components that need it
   const sampleDeck = {
-    name: 'Sample Deck',
+    name: 'Sample Deck',,
     cards: [
       {
         id: 1,
-        name: 'Lightning Bolt',
-        cost: 1,
+        name: 'Lightning Bolt',,
+        cost: 1,,
         elements: ['Inferno'],
-        rarity: 'Common',
+        rarity: 'Common',,
         count: 4,
       },
       {
         id: 2,
-        name: 'Forest Guardian',
-        cost: 3,
+        name: 'Forest Guardian',,
+        cost: 3,,
         elements: ['Steadfast'],
-        rarity: 'Rare',
+        rarity: 'Rare',,
         count: 2,
       },
       {
         id: 3,
-        name: 'Mystic Shield',
-        cost: 2,
+        name: 'Mystic Shield',,
+        cost: 2,,
         elements: ['Submerged'],
-        rarity: 'Uncommon',
+        rarity: 'Uncommon',,
         count: 3,
       },
     ],
@@ -59,8 +59,8 @@ const StreamlinedGamePlatform = (): any => {
     setShowAdvancedSearch(false);
     // Mock search results
     setSearchResults([
-      { id: 1, name: 'Lightning Bolt', type: 'Spell', rarity: 'Common' },
-      { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },
+      { id: 1, name: 'Lightning Bolt', type: 'Spell', rarity: 'Common' },,,,
+      { id: 2, name: 'Forest Guardian', type: 'Familiar', rarity: 'Rare' },,,,
     ]);
   };
   const platformSections = [

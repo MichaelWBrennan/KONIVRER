@@ -50,7 +50,7 @@ export const saveDeck = (deck, deckName, deckId = null): any => {
   // Create metadata
   const metadata = {
     id,
-    name: deckName,
+    name: deckName,,
     created: Date.now(),
     lastModified: Date.now(),
     cardCount: deck.cards.length,
