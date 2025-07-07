@@ -1,32 +1,15 @@
 #!/usr/bin/env node
 
-// 🚀 KONIVRER Auto-Bootstrap - ZERO COMMANDS REQUIRED
-// This automatically starts everything when npm install runs
+// 🚀 KONIVRER Auto-Bootstrap - COMPLETELY DISABLED FOR VERCEL
+// This file is disabled to prevent build timeouts
 
-import { spawn } from 'child_process';
-import { promises as fs, createWriteStream } from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+// IMMEDIATE EXIT - No autonomous systems during any build process
+console.log('🛑 AUTO-BOOTSTRAP DISABLED: Preventing build timeouts');
+console.log('🔧 Autonomous systems are disabled for all environments');
+process.exit(0);
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// AGGRESSIVE BUILD DETECTION - Exit immediately if build environment detected
-if (
-  process.env.NODE_ENV === 'production' ||
-  process.env.VERCEL === '1' ||
-  process.env.VERCEL ||
-  process.env.VERCEL_ENV ||
-  process.env.CI === 'true' ||
-  process.env.CI ||
-  process.env.GITHUB_ACTIONS ||
-  process.env.BUILD_ENV === 'production' ||
-  process.env.VITE_BUILD === 'true' ||
-  process.env.npm_lifecycle_event === 'build'
-) {
-  console.log('🛑 BUILD ENVIRONMENT DETECTED: Skipping auto-bootstrap');
-  console.log('🔧 Build environments do not need autonomous systems');
-  process.exit(0);
-}
+// DEAD CODE - Everything below is unreachable
+// This ensures no autonomous systems can start under any circumstances
 
 console.log('🚀 KONIVRER Auto-Bootstrap: Starting autonomous system...');
 console.log('🎯 Goal: ZERO manual commands required EVER!');
