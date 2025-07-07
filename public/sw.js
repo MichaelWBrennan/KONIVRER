@@ -63,7 +63,6 @@ self.addEventListener('activate', event => {
 // Fetch event - implement caching strategies
 self.addEventListener('fetch', event => {
   const { request } = event;
-  const url = new URL(request.url);
 
   // Skip non-GET requests
   if (request.method !== 'GET') {
