@@ -32,14 +32,24 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-const rootElement = document.getElementById('root');
-if (!rootElement) {
-  throw new Error('Root element not found');
-}
+// Early exit during build to prevent autonomous systems from running
+if (shouldSkipAutonomousSystems()) {
+  console.log('[BUILD] Skipping app initialization during build process');
+  // Create minimal DOM for build process
+  const rootElement = document.getElementById('root');
+  if (rootElement) {
+    rootElement.innerHTML = '<div>Building...</div>';
+  }
+} else {
+  const rootElement = document.getElementById('root');
+  if (!rootElement) {
+    throw new Error('Root element not found');
+  }
 
-const root = createRoot(rootElement);
-root.render(
-  <React.StrictMode>
-    <AllInOneApp />
-  </React.StrictMode>,
-);
+  const root = createRoot(rootElement);
+  root.render(
+    <React.StrictMode>
+      <AllInOneApp />
+    </React.StrictMode>,
+  );
+}
