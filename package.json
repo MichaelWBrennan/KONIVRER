@@ -29,6 +29,8 @@
     "dev:hands-off": "node dev-automation.js hands-off",
     "dev:browser-launcher": "node dev-automation.js browser-launcher",
     "dev:file-access-watcher": "node dev-automation.js file-access-watcher",
+    "dev:prepare-deploy": "node dev-automation.js prepare-deploy",
+    "dev:self-heal": "node dev-automation.js self-heal",
     "security:audit": "npm audit --audit-level moderate",
     "security:fix": "npm audit fix",
     "security:check": "npm run security:audit && npm run lint && npm run type-check",

@@ -78,6 +78,12 @@ npm run dev:browser-launcher
 
 # Set up file access watcher
 npm run dev:file-access-watcher
+
+# Prepare for deployment
+npm run dev:prepare-deploy
+
+# Run self-healing process
+npm run dev:self-heal
 ```
 
 ## Autonomous Mode
@@ -265,6 +271,36 @@ The automation system includes dependency management features:
 - Outdated package detection
 - Auto-update for dependencies (in development only)
 - Regular dependency checks
+
+## Deployment Preparation
+
+The deployment preparation feature helps prepare your code for deployment without actually deploying it:
+
+```bash
+npm run dev:prepare-deploy
+```
+
+This feature:
+- Runs pre-deployment checks (TypeScript, ESLint, security, etc.)
+- Optimizes the build for deployment
+- Checks for Vercel configuration
+- Creates a basic vercel.json file if it doesn't exist
+- Checks for build scripts in package.json
+
+## Self-Healing System
+
+The self-healing system automatically fixes common issues in your codebase:
+
+```bash
+npm run dev:self-heal
+```
+
+This feature:
+- Fixes broken dependencies
+- Fixes broken imports
+- Fixes broken configuration files (tsconfig.json, vite.config.ts, package.json)
+- Runs npm dedupe to remove duplicate dependencies
+- Automatically installs missing modules
 
 ## Legacy Automation
 
