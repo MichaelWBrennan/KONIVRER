@@ -225,6 +225,25 @@ The game uses these types of cards:
 - **Offline Play** - Works without internet
 - **Touch Friendly** - Easy to use on mobile
 
+## 🚀 Deployment
+
+### Vercel (Recommended)
+- **Optimized Build Process** - Autonomous systems disabled during deployment
+- **Fast Builds** - Build-time detection prevents hanging processes
+- **Production Ready** - Clean builds with security headers
+- **Environment Detection** - Automatically skips development features
+
+### Build Commands
+```bash
+npm run build    # Production build with optimizations
+npm run preview  # Test production build locally
+```
+
+### Environment Variables
+- `NODE_ENV=production` - Disables autonomous systems during build
+- `VERCEL=1` - Vercel-specific optimizations
+- `CI=1` - CI/CD environment detection
+
 ## 🚀 Want to Help?
 
 1. **Download** the project
