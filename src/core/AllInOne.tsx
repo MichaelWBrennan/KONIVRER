@@ -762,21 +762,25 @@ const AllInOneApp: React.FC = () => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ state, actions }}>
-      <Router>
-        <div style={{ minHeight: '100vh', background: '#f5f5f5' }}>
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/cards" element={<CardsPage />} />
-            <Route path="/deck" element={<DeckBuilderPage />} />
-            <Route path="/game" element={<GamePage />} />
-            <Route path="/tournaments" element={<TournamentsPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-          </Routes>
-        </div>
-      </Router>
-    </AppContext.Provider>
+    <SecurityProvider>
+      <AppContext.Provider value={{ state, actions }}>
+        <Router>
+          <div style={{ minHeight: '100vh', background: '#f5f5f5' }}>
+            <Navigation />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/cards" element={<CardsPage />} />
+              <Route path="/deck" element={<DeckBuilderPage />} />
+              <Route path="/game" element={<GamePage />} />
+              <Route path="/tournaments" element={<TournamentsPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+            </Routes>
+            <DataProtectionPanel />
+            <SecurityAuditPanel />
+          </div>
+        </Router>
+      </AppContext.Provider>
+    </SecurityProvider>
   );
 };
 
