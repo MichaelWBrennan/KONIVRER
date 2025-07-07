@@ -1,5 +1,4 @@
 // Service Worker for KONIVRER PWA
-const CACHE_NAME = 'konivrer-v1.0.0';
 const STATIC_CACHE = 'konivrer-static-v1.0.0';
 const DYNAMIC_CACHE = 'konivrer-dynamic-v1.0.0';
 
@@ -13,11 +12,11 @@ const STATIC_ASSETS = [
   '/icons/pwa-512x512.png',
 ];
 
-// API endpoints to cache
-const API_CACHE_PATTERNS = [
-  /\/api\/cards/,
-  /\/api\/decks/,
-  /\/api\/tournaments/,
+// API endpoints to cache (currently unused but kept for future use)
+// const API_CACHE_PATTERNS = [
+//   /\/api\/cards/,
+//   /\/api\/decks/,
+//   /\/api\/tournaments/,
   /\/api\/user/,
 ];
 
