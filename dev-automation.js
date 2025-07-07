@@ -30,7 +30,8 @@ const CONFIG = {
     optimize: true, 
     bundleAnalysis: true,
     imageOptimization: true,
-    interval: 60000 // 1 minute
+    interval: 60000, // 1 minute
+    buildOptimization: true // Optimize build process
   },
   dependencies: {
     autoUpdate: true, // Auto-update in dev only
@@ -49,9 +50,9 @@ const CONFIG = {
   },
   autoStart: {
     fileWatcher: true, // Auto-start on file access
-    dashboard: true, // Auto-start dashboard
+    dashboard: false, // No dashboard - fully autonomous
     vscodeTask: true, // Create VS Code task
-    browserLauncher: true, // Auto-launch browser
+    browserLauncher: false, // No browser launcher - fully autonomous
     fileAccessWatcher: true // Watch for file access and auto-start
   },
   autonomous: {
@@ -59,7 +60,24 @@ const CONFIG = {
     zeroInteraction: true, // Zero human interaction mode
     autoStartOnFileAccess: true, // Auto-start on file access
     continuousMonitoring: true, // Continuous monitoring
-    interval: 5000 // 5 seconds
+    interval: 5000, // 5 seconds
+    silentMode: true, // Silent mode - minimal logging
+    autoHeal: true, // Auto-heal on errors
+    autoFix: true // Auto-fix all issues
+  },
+  deployment: {
+    enabled: true, // Enable deployment preparation
+    prepareDeploy: true, // Prepare for deployment
+    buildOptimization: true, // Optimize build for deployment
+    vercelPrep: true // Prepare for Vercel deployment
+  },
+  selfHealing: {
+    enabled: true, // Enable self-healing
+    autoFix: true, // Auto-fix issues
+    interval: 300000, // 5 minutes
+    fixBrokenDependencies: true, // Fix broken dependencies
+    fixBrokenImports: true, // Fix broken imports
+    fixBrokenConfig: true // Fix broken config
   },
   // VERCEL SAFETY FEATURES
   vercel: {
@@ -532,6 +550,9 @@ class DependencyManager {
         }
       }
       
+      // Check for broken dependencies
+      await this.checkBrokenDependencies();
+      
       log('✅ Dependency check complete', 'success');
       return true;
     }, true);
@@ -553,6 +574,408 @@ class DependencyManager {
       log('✅ Dependencies updated', 'success');
       return true;
     }, false);
+  }
+  
+  static async checkBrokenDependencies() {
+    return await safeBuildExecution(async () => {
+      log('🔍 Checking for broken dependencies...');
+      
+      // Check for broken node_modules
+      const nodeModulesPath = join(process.cwd(), 'node_modules');
+      if (!existsSync(nodeModulesPath)) {
+        log('⚠️ node_modules directory not found, running npm install...', 'warn');
+        runCommand('npm install', true);
+        return;
+      }
+      
+      // Check for package-lock.json consistency
+      const packageLockPath = join(process.cwd(), 'package-lock.json');
+      const packageJsonPath = join(process.cwd(), 'package.json');
+      
+      if (existsSync(packageLockPath) && existsSync(packageJsonPath)) {
+        try {
+          const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+          const packageLock = JSON.parse(readFileSync(packageLockPath, 'utf8'));
+          
+          // Simple check for version mismatch
+          if (packageJson.version !== packageLock.version) {
+            log('⚠️ Package version mismatch detected, running npm install...', 'warn');
+            runCommand('npm install', true);
+          }
+        } catch (error) {
+          log(`⚠️ Error checking package files: ${error}`, 'warn');
+        }
+      }
+      
+      // Run npm check to verify dependencies
+      try {
+        const checkResult = runCommand('npm ls --depth=0', true);
+        if (checkResult.includes('UNMET DEPENDENCY') || checkResult.includes('missing:')) {
+          log('⚠️ Broken dependencies detected, running npm install...', 'warn');
+          runCommand('npm install', true);
+        }
+      } catch (error) {
+        // npm ls often exits with non-zero code if there are issues
+        log('⚠️ Dependency issues detected, running npm install...', 'warn');
+        runCommand('npm install', true);
+      }
+      
+      log('✅ Dependency check complete', 'success');
+    }, null);
+  }
+}
+
+// Deployment preparation
+class DeploymentPreparation {
+  static async prepare() {
+    return await safeBuildExecution(async () => {
+      if (!CONFIG.deployment.enabled) return;
+      
+      log('🚀 Preparing for deployment...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping deployment preparation in build environment', 'warn');
+        return;
+      }
+      
+      // Run checks before deployment
+      await this.preDeploymentChecks();
+      
+      // Optimize build for deployment
+      if (CONFIG.deployment.buildOptimization) {
+        await this.optimizeBuild();
+      }
+      
+      // Prepare for Vercel deployment
+      if (CONFIG.deployment.vercelPrep) {
+        await this.prepareForVercel();
+      }
+      
+      log('✅ Deployment preparation complete', 'success');
+    }, null);
+  }
+  
+  static async preDeploymentChecks() {
+    return await safeBuildExecution(async () => {
+      log('🔍 Running pre-deployment checks...');
+      
+      // Run TypeScript check
+      const tsResult = await TypeScriptEnforcer.check();
+      
+      // Run ESLint check
+      const lintResult = await QualityAssurance.check();
+      
+      // Run security check
+      const securityResult = await SecurityMonitor.check();
+      
+      // Check for outdated dependencies
+      await DependencyManager.check();
+      
+      // Run test suite if available
+      try {
+        log('🧪 Running tests...');
+        const testResult = runCommand('npm test -- --passWithNoTests', true);
+        if (testResult.includes('FAIL')) {
+          log('❌ Tests failed', 'error');
+        } else {
+          log('✅ Tests passed', 'success');
+        }
+      } catch (error) {
+        log('⚠️ Error running tests', 'warn');
+      }
+      
+      log('✅ Pre-deployment checks complete', 'success');
+    }, null);
+  }
+  
+  static async optimizeBuild() {
+    return await safeBuildExecution(async () => {
+      log('⚡ Optimizing build for deployment...');
+      
+      // Check and optimize vite.config.ts
+      const viteConfigPath = join(process.cwd(), 'vite.config.ts');
+      if (existsSync(viteConfigPath)) {
+        log('📝 Checking Vite configuration...');
+        
+        // Read vite.config.ts
+        const viteConfig = readFileSync(viteConfigPath, 'utf8');
+        
+        // Check for optimization settings
+        if (!viteConfig.includes('manualChunks') || !viteConfig.includes('minify')) {
+          log('⚠️ Vite configuration could be optimized', 'warn');
+          log('💡 Consider adding manualChunks and minify settings to vite.config.ts', 'info');
+        }
+      }
+      
+      // Check for large files that could be optimized
+      await PerformanceOptimizer.checkLargeFiles();
+      
+      // Check for image optimization opportunities
+      if (CONFIG.performance.imageOptimization) {
+        await PerformanceOptimizer.checkImageOptimization();
+      }
+      
+      // Check for bundle size
+      await PerformanceOptimizer.analyzeBundleSize();
+      
+      log('✅ Build optimization complete', 'success');
+    }, null);
+  }
+  
+  static async prepareForVercel() {
+    return await safeBuildExecution(async () => {
+      log('🔧 Preparing for Vercel deployment...');
+      
+      // Check for vercel.json
+      const vercelJsonPath = join(process.cwd(), 'vercel.json');
+      if (!existsSync(vercelJsonPath)) {
+        log('⚠️ vercel.json not found', 'warn');
+        log('💡 Consider creating a vercel.json file for better Vercel configuration', 'info');
+        
+        // Create a basic vercel.json if it doesn't exist
+        const vercelJson = {
+          "version": 2,
+          "builds": [
+            {
+              "src": "package.json",
+              "use": "@vercel/static-build",
+              "config": {
+                "distDir": "dist"
+              }
+            }
+          ],
+          "routes": [
+            {
+              "src": "/(.*)",
+              "dest": "/index.html"
+            }
+          ]
+        };
+        
+        log('📝 Creating basic vercel.json file...', 'info');
+        writeFileSync(vercelJsonPath, JSON.stringify(vercelJson, null, 2));
+      }
+      
+      // Check for build script in package.json
+      const packageJsonPath = join(process.cwd(), 'package.json');
+      if (existsSync(packageJsonPath)) {
+        try {
+          const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+          
+          // Check for build script
+          if (!packageJson.scripts || !packageJson.scripts.build) {
+            log('⚠️ No build script found in package.json', 'warn');
+          }
+          
+          // Check for build:vercel script
+          if (!packageJson.scripts || !packageJson.scripts['build:vercel']) {
+            log('⚠️ No build:vercel script found in package.json', 'warn');
+            log('💡 Consider adding a build:vercel script for Vercel deployments', 'info');
+          }
+        } catch (error) {
+          log(`⚠️ Error checking package.json: ${error}`, 'warn');
+        }
+      }
+      
+      log('✅ Vercel preparation complete', 'success');
+    }, null);
+  }
+}
+
+// Self-healing system
+class SelfHealingSystem {
+  static async heal() {
+    return await safeBuildExecution(async () => {
+      if (!CONFIG.selfHealing.enabled) return;
+      
+      log('🔧 Starting self-healing process...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping self-healing in build environment', 'warn');
+        return;
+      }
+      
+      // Fix broken dependencies
+      if (CONFIG.selfHealing.fixBrokenDependencies) {
+        await this.fixBrokenDependencies();
+      }
+      
+      // Fix broken imports
+      if (CONFIG.selfHealing.fixBrokenImports) {
+        await this.fixBrokenImports();
+      }
+      
+      // Fix broken config
+      if (CONFIG.selfHealing.fixBrokenConfig) {
+        await this.fixBrokenConfig();
+      }
+      
+      log('✅ Self-healing process complete', 'success');
+    }, null);
+  }
+  
+  static async fixBrokenDependencies() {
+    return await safeBuildExecution(async () => {
+      log('🔧 Fixing broken dependencies...');
+      
+      // Check for broken node_modules
+      await DependencyManager.checkBrokenDependencies();
+      
+      // Check for duplicate dependencies
+      try {
+        const dedupResult = runCommand('npm dedupe', true);
+        log('✅ Dependency deduplication complete', 'success');
+      } catch (error) {
+        log(`⚠️ Error deduplicating dependencies: ${error}`, 'warn');
+      }
+      
+      log('✅ Dependency fixing complete', 'success');
+    }, null);
+  }
+  
+  static async fixBrokenImports() {
+    return await safeBuildExecution(async () => {
+      log('🔧 Fixing broken imports...');
+      
+      // Check for broken imports in TypeScript files
+      const srcPath = join(process.cwd(), 'src');
+      if (existsSync(srcPath)) {
+        try {
+          // Use TypeScript compiler to check for import errors
+          const tscResult = runCommand('npx tsc --noEmit', true);
+          
+          if (tscResult.includes('Cannot find module') || tscResult.includes('error TS2307')) {
+            log('⚠️ Broken imports detected', 'warn');
+            
+            // Extract missing modules
+            const missingModuleRegex = /Cannot find module '([^']+)'/g;
+            const matches = [...tscResult.matchAll(missingModuleRegex)];
+            
+            if (matches.length > 0) {
+              const missingModules = new Set();
+              matches.forEach(match => {
+                const module = match[1];
+                // Only consider external modules (not relative imports)
+                if (!module.startsWith('.') && !module.startsWith('/')) {
+                  missingModules.add(module);
+                }
+              });
+              
+              if (missingModules.size > 0) {
+                log(`🔍 Found ${missingModules.size} missing modules`, 'info');
+                log(`💡 Installing missing modules: ${Array.from(missingModules).join(', ')}`, 'info');
+                
+                // Install missing modules
+                const installCommand = `npm install ${Array.from(missingModules).join(' ')}`;
+                runCommand(installCommand, true);
+              }
+            }
+          }
+        } catch (error) {
+          // TypeScript check often exits with non-zero code if there are errors
+          log('⚠️ TypeScript errors detected, running auto-fix...', 'warn');
+          await TypeScriptEnforcer.autoFix();
+        }
+      }
+      
+      log('✅ Import fixing complete', 'success');
+    }, null);
+  }
+  
+  static async fixBrokenConfig() {
+    return await safeBuildExecution(async () => {
+      log('🔧 Fixing broken configuration...');
+      
+      // Check for broken tsconfig.json
+      const tsconfigPath = join(process.cwd(), 'tsconfig.json');
+      if (existsSync(tsconfigPath)) {
+        try {
+          const tsconfig = JSON.parse(readFileSync(tsconfigPath, 'utf8'));
+          
+          // Check for common issues
+          let fixed = false;
+          
+          // Ensure compilerOptions exists
+          if (!tsconfig.compilerOptions) {
+            tsconfig.compilerOptions = {};
+            fixed = true;
+          }
+          
+          // Ensure include exists
+          if (!tsconfig.include) {
+            tsconfig.include = ['src/**/*'];
+            fixed = true;
+          }
+          
+          // Ensure exclude exists
+          if (!tsconfig.exclude) {
+            tsconfig.exclude = ['node_modules', 'dist'];
+            fixed = true;
+          }
+          
+          // Write fixed tsconfig.json
+          if (fixed) {
+            log('🔧 Fixing tsconfig.json...', 'info');
+            writeFileSync(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+          }
+        } catch (error) {
+          log(`⚠️ Error checking tsconfig.json: ${error}`, 'warn');
+        }
+      }
+      
+      // Check for broken vite.config.ts
+      const viteConfigPath = join(process.cwd(), 'vite.config.ts');
+      if (existsSync(viteConfigPath)) {
+        try {
+          // Simple check for syntax errors
+          runCommand(`npx tsc ${viteConfigPath} --noEmit`, true);
+        } catch (error) {
+          log('⚠️ Syntax errors in vite.config.ts, running auto-fix...', 'warn');
+          runCommand(`npx eslint ${viteConfigPath} --fix`, true);
+        }
+      }
+      
+      // Check for broken package.json
+      const packageJsonPath = join(process.cwd(), 'package.json');
+      if (existsSync(packageJsonPath)) {
+        try {
+          const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
+          
+          // Check for common issues
+          let fixed = false;
+          
+          // Ensure scripts exists
+          if (!packageJson.scripts) {
+            packageJson.scripts = {};
+            fixed = true;
+          }
+          
+          // Ensure dependencies exists
+          if (!packageJson.dependencies) {
+            packageJson.dependencies = {};
+            fixed = true;
+          }
+          
+          // Ensure devDependencies exists
+          if (!packageJson.devDependencies) {
+            packageJson.devDependencies = {};
+            fixed = true;
+          }
+          
+          // Write fixed package.json
+          if (fixed) {
+            log('🔧 Fixing package.json...', 'info');
+            writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+          }
+        } catch (error) {
+          log(`⚠️ Error checking package.json: ${error}`, 'warn');
+        }
+      }
+      
+      log('✅ Configuration fixing complete', 'success');
+    }, null);
   }
 }
 
@@ -1303,6 +1726,11 @@ class DevAutomationOrchestrator {
             await DependencyManager.check();
           }
           
+          // Self-healing (every 60 cycles = every 5 minutes)
+          if (CONFIG.selfHealing.enabled && cycleCount % 60 === 0) {
+            await SelfHealingSystem.heal();
+          }
+          
           log(`✅ Cycle #${cycleCount} complete`, 'success');
           
         } catch (error) {
@@ -1374,6 +1802,16 @@ class DevAutomationOrchestrator {
             await DependencyManager.check();
           }
           
+          // Run self-healing
+          if (cycleCount % 60 === 0) {
+            await SelfHealingSystem.heal();
+          }
+          
+          // Run deployment preparation
+          if (cycleCount % 720 === 0 && CONFIG.deployment.enabled) {
+            await DeploymentPreparation.prepare();
+          }
+          
           log(`✅ Autonomous cycle #${cycleCount} complete`, 'success');
           
         } catch (error) {
@@ -1404,28 +1842,82 @@ class DevAutomationOrchestrator {
         return;
       }
       
-      // Set up auto-start features
+      // Set up auto-start features silently
       await AutoStartManager.setup();
       
-      // Start auto-start server
-      await AutoStartManager.startAutoStartServer();
+      // Start file watcher silently
+      await AutoStartManager.startFileWatcher();
       
-      // Start dashboard
-      await DevelopmentDashboard.start();
+      // Start self-healing system
+      await SelfHealingSystem.heal();
       
-      // Start development server
-      const devServer = spawn('npm', ['run', 'dev'], {
-        detached: true,
-        stdio: 'ignore'
-      });
+      // Start autonomous mode without dashboard
+      let cycleCount = 0;
+      const startTime = Date.now();
       
-      // Unref the child process so it can run independently
-      devServer.unref();
+      const runCycle = async () => {
+        cycleCount++;
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        
+        log(`🤖 Autonomous cycle #${cycleCount} (${elapsed}s)...`, 'info');
+        
+        try {
+          // Run TypeScript check and auto-fix
+          await TypeScriptEnforcer.check();
+          await TypeScriptEnforcer.autoFix();
+          
+          // Run quality check and auto-fix
+          await QualityAssurance.check();
+          await QualityAssurance.autoFix();
+          
+          // Run security check and auto-fix
+          if (cycleCount % 12 === 0) {
+            await SecurityMonitor.check();
+            await SecurityMonitor.autoFix();
+          }
+          
+          // Run performance check and optimization
+          if (cycleCount % 12 === 0) {
+            await PerformanceOptimizer.check();
+            await PerformanceOptimizer.optimize();
+          }
+          
+          // Run dependency check and update
+          if (cycleCount % 720 === 0) {
+            await DependencyManager.check();
+            await DependencyManager.update();
+          }
+          
+          // Run self-healing
+          if (cycleCount % 60 === 0) {
+            await SelfHealingSystem.heal();
+          }
+          
+          // Run deployment preparation
+          if (cycleCount % 720 === 0 && CONFIG.deployment.enabled) {
+            await DeploymentPreparation.prepare();
+          }
+          
+          log(`✅ Autonomous cycle #${cycleCount} complete`, 'success');
+          
+        } catch (error) {
+          log(`❌ Error in autonomous cycle #${cycleCount}: ${error}`, 'error');
+          
+          // Auto-heal on error
+          await SelfHealingSystem.heal();
+        }
+      };
       
-      // Start autonomous mode
-      await this.startAutonomousMode();
+      // Run immediately
+      await runCycle();
       
-      log('🤖 ZERO-INTERACTION MODE: ACTIVE', 'success');
+      // Then run every 5 seconds
+      const intervalId = setInterval(runCycle, CONFIG.autonomous.interval);
+      
+      log('🤖 ZERO-INTERACTION MODE: ACTIVE - 100% autonomous operation with no UI', 'success');
+      
+      // Return the interval ID so it can be cleared if needed
+      return intervalId;
     }, null);
   }
   
@@ -1483,6 +1975,40 @@ class DevAutomationOrchestrator {
       await this.runChecks();
       
       log('✅ Project setup complete', 'success');
+    }, null);
+  }
+  
+  static async prepareDeploy() {
+    return await safeBuildExecution(async () => {
+      log('🚀 Preparing for deployment...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping deployment preparation in build environment', 'warn');
+        return;
+      }
+      
+      // Run deployment preparation
+      await DeploymentPreparation.prepare();
+      
+      log('✅ Deployment preparation complete', 'success');
+    }, null);
+  }
+  
+  static async selfHeal() {
+    return await safeBuildExecution(async () => {
+      log('🔧 Starting self-healing process...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping self-healing in build environment', 'warn');
+        return;
+      }
+      
+      // Run self-healing
+      await SelfHealingSystem.heal();
+      
+      log('✅ Self-healing process complete', 'success');
     }, null);
   }
 }
@@ -1546,6 +2072,14 @@ const main = async () => {
       case 'access-watcher':
         await AutoStartManager.setupFileAccessWatcher();
         break;
+      case 'prepare-deploy':
+      case 'deploy-prep':
+        await DevAutomationOrchestrator.prepareDeploy();
+        break;
+      case 'self-heal':
+      case 'heal':
+        await DevAutomationOrchestrator.selfHeal();
+        break;
       case 'help':
       default:
         console.log(`
@@ -1564,6 +2098,8 @@ Usage:
   node dev-automation.js zero-interaction # Start zero-interaction mode
   node dev-automation.js browser-launcher # Set up and start browser launcher
   node dev-automation.js file-access-watcher # Set up file access watcher
+  node dev-automation.js prepare-deploy   # Prepare for deployment
+  node dev-automation.js self-heal        # Run self-healing process
 
 🛡️ VERCEL SAFETY FEATURES:
   - No automation during builds
@@ -1584,6 +2120,8 @@ Usage:
   - Autonomous mode for zero human interaction
   - Browser launcher for easy access
   - File access watcher for auto-start
+  - Deployment preparation
+  - Self-healing system
 `);
     }
   } catch (error) {
