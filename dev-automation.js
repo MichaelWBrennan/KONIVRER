@@ -50,7 +50,16 @@ const CONFIG = {
   autoStart: {
     fileWatcher: true, // Auto-start on file access
     dashboard: true, // Auto-start dashboard
-    vscodeTask: true // Create VS Code task
+    vscodeTask: true, // Create VS Code task
+    browserLauncher: true, // Auto-launch browser
+    fileAccessWatcher: true // Watch for file access and auto-start
+  },
+  autonomous: {
+    enabled: true, // Enable autonomous mode
+    zeroInteraction: true, // Zero human interaction mode
+    autoStartOnFileAccess: true, // Auto-start on file access
+    continuousMonitoring: true, // Continuous monitoring
+    interval: 5000 // 5 seconds
   },
   // VERCEL SAFETY FEATURES
   vercel: {
@@ -802,6 +811,16 @@ class AutoStartManager {
         await this.startFileWatcher();
       }
       
+      // Set up file access watcher if enabled
+      if (CONFIG.autoStart.fileAccessWatcher) {
+        await this.setupFileAccessWatcher();
+      }
+      
+      // Set up browser launcher if enabled
+      if (CONFIG.autoStart.browserLauncher) {
+        await this.setupBrowserLauncher();
+      }
+      
       log('✅ Auto-start features set up', 'success');
     }, null);
   }
@@ -863,6 +882,28 @@ class AutoStartManager {
                 "panel": "shared"
               },
               "problemMatcher": []
+            },
+            {
+              "label": "Start Autonomous Mode",
+              "type": "shell",
+              "command": "npm run dev:autonomous",
+              "group": "build",
+              "presentation": {
+                "reveal": "always",
+                "panel": "new"
+              },
+              "problemMatcher": []
+            },
+            {
+              "label": "Start Zero-Interaction Mode",
+              "type": "shell",
+              "command": "npm run dev:zero-interaction",
+              "group": "build",
+              "presentation": {
+                "reveal": "always",
+                "panel": "new"
+              },
+              "problemMatcher": []
             }
           ]
         };
@@ -882,10 +923,51 @@ class AutoStartManager {
               "**/.git": true,
               "**/node_modules": true,
               "**/dist": false
+            },
+            "terminal.integrated.defaultProfile.linux": "bash",
+            "terminal.integrated.profiles.linux": {
+              "bash": {
+                "path": "bash",
+                "icon": "terminal-bash"
+              }
+            },
+            "workbench.colorCustomizations": {
+              "statusBar.background": "#1e1e3f",
+              "statusBar.foreground": "#cccccc"
             }
           };
           
           writeFileSync(settingsPath, JSON.stringify(settingsJson, null, 2));
+        }
+        
+        // Create launch.json if it doesn't exist
+        const launchPath = join(vscodeDir, 'launch.json');
+        if (!existsSync(launchPath)) {
+          const launchJson = {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Development Server",
+                "runtimeExecutable": "npm",
+                "runtimeArgs": ["run", "dev:safe"],
+                "skipFiles": ["<node_internals>/**"],
+                "console": "integratedTerminal"
+              },
+              {
+                "type": "node",
+                "request": "launch",
+                "name": "Launch Autonomous Mode",
+                "runtimeExecutable": "npm",
+                "runtimeArgs": ["run", "dev:autonomous"],
+                "skipFiles": ["<node_internals>/**"],
+                "console": "integratedTerminal"
+              }
+            ]
+          };
+          
+          writeFileSync(launchPath, JSON.stringify(launchJson, null, 2));
         }
         
         log('✅ VS Code tasks set up', 'success');
@@ -943,6 +1025,228 @@ class AutoStartManager {
         }
       } catch (error) {
         log(`⚠️ Could not start file watcher: ${error}`, 'warn');
+      }
+    }, null);
+  }
+  
+  static async setupFileAccessWatcher() {
+    return await safeBuildExecution(async () => {
+      log('👁️ Setting up file access watcher...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping file access watcher in build environment', 'warn');
+        return;
+      }
+      
+      try {
+        // Create auto-file-watcher.js
+        const watcherPath = join(process.cwd(), 'auto-file-watcher.js');
+        const watcherContent = `#!/usr/bin/env node
+/**
+ * KONIVRER Auto File Watcher
+ * 
+ * This script watches for file access and auto-starts the development automation.
+ * It's designed to be Vercel-safe and won't interfere with production builds.
+ */
+
+const fs = require('fs');
+const path = require('path');
+const { spawn } = require('child_process');
+
+// Skip in build environment
+if (process.env.VERCEL === '1' || 
+    process.env.NODE_ENV === 'production' || 
+    process.env.CI === 'true' || 
+    process.env.VITE_BUILD === 'true' || 
+    process.env.npm_lifecycle_event === 'build') {
+  console.log('🛑 Skipping file access watcher in build environment');
+  process.exit(0);
+}
+
+console.log('👁️ Starting file access watcher...');
+
+// Watch for file access in src directory
+const srcPath = path.join(process.cwd(), 'src');
+if (fs.existsSync(srcPath)) {
+  let isAutomationRunning = false;
+  let lastAccess = Date.now();
+  
+  // Function to start automation
+  const startAutomation = () => {
+    if (!isAutomationRunning && Date.now() - lastAccess > 5000) {
+      console.log('🚀 Auto-starting development automation...');
+      isAutomationRunning = true;
+      
+      // Start automation in a new process
+      const automation = spawn('node', ['dev-automation.js', 'monitor'], {
+        detached: true,
+        stdio: 'ignore'
+      });
+      
+      // Unref the child process so it can run independently
+      automation.unref();
+      
+      console.log('✅ Development automation started');
+    }
+  };
+  
+  // Watch for file access
+  fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
+    if (filename && !filename.includes('node_modules') && !filename.startsWith('.')) {
+      console.log(\`📁 File access detected: \${filename}\`);
+      lastAccess = Date.now();
+      startAutomation();
+    }
+  });
+  
+  console.log('✅ File access watcher started');
+} else {
+  console.log('⚠️ src directory not found, skipping file access watcher');
+}
+`;
+        
+        writeFileSync(watcherPath, watcherContent);
+        execSync(`chmod +x ${watcherPath}`);
+        
+        log('✅ File access watcher set up', 'success');
+      } catch (error) {
+        log(`⚠️ Could not set up file access watcher: ${error}`, 'warn');
+      }
+    }, null);
+  }
+  
+  static async setupBrowserLauncher() {
+    return await safeBuildExecution(async () => {
+      log('🌐 Setting up browser launcher...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping browser launcher in build environment', 'warn');
+        return;
+      }
+      
+      try {
+        // Create auto-start-server.js
+        const serverPath = join(process.cwd(), 'auto-start-server.js');
+        const serverContent = `#!/usr/bin/env node
+/**
+ * KONIVRER Auto Start Server
+ * 
+ * This script starts a server that auto-launches the browser when accessed.
+ * It's designed to be Vercel-safe and won't interfere with production builds.
+ */
+
+const http = require('http');
+const { spawn } = require('child_process');
+
+// Skip in build environment
+if (process.env.VERCEL === '1' || 
+    process.env.NODE_ENV === 'production' || 
+    process.env.CI === 'true' || 
+    process.env.VITE_BUILD === 'true' || 
+    process.env.npm_lifecycle_event === 'build') {
+  console.log('🛑 Skipping auto-start server in build environment');
+  process.exit(0);
+}
+
+console.log('🌐 Starting auto-start server...');
+
+// Create server
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    // Auto-start development server and open browser
+    console.log('🚀 Auto-starting development server...');
+    
+    // Start development server in a new process
+    const devServer = spawn('npm', ['run', 'dev:safe'], {
+      detached: true,
+      stdio: 'ignore'
+    });
+    
+    // Unref the child process so it can run independently
+    devServer.unref();
+    
+    // Redirect to development server
+    res.writeHead(302, { 'Location': 'http://localhost:12000' });
+    res.end();
+  } else if (req.url === '/dashboard') {
+    // Redirect to dashboard
+    res.writeHead(302, { 'Location': 'http://localhost:12002' });
+    res.end();
+  } else if (req.url === '/autonomous') {
+    // Auto-start autonomous mode
+    console.log('🤖 Auto-starting autonomous mode...');
+    
+    // Start autonomous mode in a new process
+    const autonomous = spawn('npm', ['run', 'dev:autonomous'], {
+      detached: true,
+      stdio: 'ignore'
+    });
+    
+    // Unref the child process so it can run independently
+    autonomous.unref();
+    
+    // Redirect to development server
+    res.writeHead(302, { 'Location': 'http://localhost:12000' });
+    res.end();
+  } else {
+    // Not found
+    res.writeHead(404);
+    res.end('Not found');
+  }
+});
+
+// Start server
+const port = 12003;
+server.listen(port, '0.0.0.0', () => {
+  console.log(\`✅ Auto-start server running at http://localhost:\${port}\`);
+  console.log('- Visit http://localhost:12003 to auto-start development server');
+  console.log('- Visit http://localhost:12003/dashboard to open dashboard');
+  console.log('- Visit http://localhost:12003/autonomous to start autonomous mode');
+});
+`;
+        
+        writeFileSync(serverPath, serverContent);
+        execSync(`chmod +x ${serverPath}`);
+        
+        log('✅ Browser launcher set up', 'success');
+      } catch (error) {
+        log(`⚠️ Could not set up browser launcher: ${error}`, 'warn');
+      }
+    }, null);
+  }
+  
+  static async startAutoStartServer() {
+    return await safeBuildExecution(async () => {
+      log('🌐 Starting auto-start server...');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping auto-start server in build environment', 'warn');
+        return;
+      }
+      
+      try {
+        // Start auto-start-server.js in a new process
+        const serverPath = join(process.cwd(), 'auto-start-server.js');
+        if (existsSync(serverPath)) {
+          const server = spawn('node', [serverPath], {
+            detached: true,
+            stdio: 'ignore'
+          });
+          
+          // Unref the child process so it can run independently
+          server.unref();
+          
+          log('✅ Auto-start server started', 'success');
+        } else {
+          log('⚠️ auto-start-server.js not found, setting up...', 'warn');
+          await this.setupBrowserLauncher();
+          await this.startAutoStartServer();
+        }
+      } catch (error) {
+        log(`⚠️ Could not start auto-start server: ${error}`, 'warn');
       }
     }, null);
   }
@@ -1019,6 +1323,112 @@ class DevAutomationOrchestrator {
     }, null);
   }
   
+  static async startAutonomousMode() {
+    return await safeBuildExecution(async () => {
+      log('🤖 Starting autonomous mode...', 'success');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping autonomous mode in build environment', 'warn');
+        return;
+      }
+      
+      // Set up auto-start features
+      await AutoStartManager.setup();
+      
+      // Start auto-start server
+      await AutoStartManager.startAutoStartServer();
+      
+      // Start dashboard
+      await DevelopmentDashboard.start();
+      
+      let cycleCount = 0;
+      const startTime = Date.now();
+      
+      const runCycle = async () => {
+        cycleCount++;
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        
+        log(`🤖 Autonomous cycle #${cycleCount} (${elapsed}s)...`, 'info');
+        
+        try {
+          // Run TypeScript check and auto-fix
+          await TypeScriptEnforcer.check();
+          
+          // Run quality check and auto-fix
+          await QualityAssurance.check();
+          
+          // Run security check and auto-fix
+          if (cycleCount % 12 === 0) {
+            await SecurityMonitor.check();
+          }
+          
+          // Run performance check and optimization
+          if (cycleCount % 12 === 0) {
+            await PerformanceOptimizer.check();
+            await PerformanceOptimizer.optimize();
+          }
+          
+          // Run dependency check and update
+          if (cycleCount % 720 === 0) {
+            await DependencyManager.check();
+          }
+          
+          log(`✅ Autonomous cycle #${cycleCount} complete`, 'success');
+          
+        } catch (error) {
+          log(`❌ Error in autonomous cycle #${cycleCount}: ${error}`, 'error');
+        }
+      };
+      
+      // Run immediately
+      await runCycle();
+      
+      // Then run every 5 seconds
+      const intervalId = setInterval(runCycle, CONFIG.autonomous.interval);
+      
+      log('🤖 AUTONOMOUS MODE: ACTIVE - Zero human interaction required', 'success');
+      
+      // Return the interval ID so it can be cleared if needed
+      return intervalId;
+    }, null);
+  }
+  
+  static async startZeroInteractionMode() {
+    return await safeBuildExecution(async () => {
+      log('🤖 Starting zero-interaction mode...', 'success');
+      
+      // Skip in build environment
+      if (isBuildEnvironment()) {
+        log('🛑 Skipping zero-interaction mode in build environment', 'warn');
+        return;
+      }
+      
+      // Set up auto-start features
+      await AutoStartManager.setup();
+      
+      // Start auto-start server
+      await AutoStartManager.startAutoStartServer();
+      
+      // Start dashboard
+      await DevelopmentDashboard.start();
+      
+      // Start development server
+      const devServer = spawn('npm', ['run', 'dev'], {
+        detached: true,
+        stdio: 'ignore'
+      });
+      
+      // Unref the child process so it can run independently
+      devServer.unref();
+      
+      // Start autonomous mode
+      await this.startAutonomousMode();
+      
+      log('🤖 ZERO-INTERACTION MODE: ACTIVE', 'success');
+    }, null);
+  }
+  
   static async runChecks() {
     return await safeBuildExecution(async () => {
       log('🔍 Running all checks...');
@@ -1058,6 +1468,16 @@ class DevAutomationOrchestrator {
       
       // Set up VS Code tasks
       await AutoStartManager.setupVSCodeTasks();
+      
+      // Set up file access watcher
+      if (CONFIG.autoStart.fileAccessWatcher) {
+        await AutoStartManager.setupFileAccessWatcher();
+      }
+      
+      // Set up browser launcher
+      if (CONFIG.autoStart.browserLauncher) {
+        await AutoStartManager.setupBrowserLauncher();
+      }
       
       // Run initial checks
       await this.runChecks();
@@ -1108,20 +1528,42 @@ const main = async () => {
       case 'vscode':
         await AutoStartManager.setupVSCodeTasks();
         break;
+      case 'autonomous':
+      case 'auto':
+        await DevAutomationOrchestrator.startAutonomousMode();
+        break;
+      case 'zero-interaction':
+      case 'zero':
+      case 'hands-off':
+        await DevAutomationOrchestrator.startZeroInteractionMode();
+        break;
+      case 'browser-launcher':
+      case 'browser':
+        await AutoStartManager.setupBrowserLauncher();
+        await AutoStartManager.startAutoStartServer();
+        break;
+      case 'file-access-watcher':
+      case 'access-watcher':
+        await AutoStartManager.setupFileAccessWatcher();
+        break;
       case 'help':
       default:
         console.log(`
 🚀 KONIVRER Development Automation - VERCEL SAFE EDITION
 
 Usage:
-  node dev-automation.js start        # Start development monitoring
-  node dev-automation.js monitor      # Same as start
-  node dev-automation.js check        # Run all checks once
-  node dev-automation.js fix          # Run auto-fix for TypeScript and ESLint
-  node dev-automation.js dashboard    # Start development dashboard only
-  node dev-automation.js setup        # Set up project (VS Code tasks, initial checks)
-  node dev-automation.js file-watcher # Start file watcher only
-  node dev-automation.js vscode       # Set up VS Code tasks
+  node dev-automation.js start            # Start development monitoring
+  node dev-automation.js monitor          # Same as start
+  node dev-automation.js check            # Run all checks once
+  node dev-automation.js fix              # Run auto-fix for TypeScript and ESLint
+  node dev-automation.js dashboard        # Start development dashboard only
+  node dev-automation.js setup            # Set up project (VS Code tasks, initial checks)
+  node dev-automation.js file-watcher     # Start file watcher only
+  node dev-automation.js vscode           # Set up VS Code tasks
+  node dev-automation.js autonomous       # Start autonomous mode
+  node dev-automation.js zero-interaction # Start zero-interaction mode
+  node dev-automation.js browser-launcher # Set up and start browser launcher
+  node dev-automation.js file-access-watcher # Set up file access watcher
 
 🛡️ VERCEL SAFETY FEATURES:
   - No automation during builds
@@ -1139,6 +1581,9 @@ Usage:
   - Interactive development dashboard
   - File watcher for real-time feedback
   - VS Code integration
+  - Autonomous mode for zero human interaction
+  - Browser launcher for easy access
+  - File access watcher for auto-start
 `);
     }
   } catch (error) {
