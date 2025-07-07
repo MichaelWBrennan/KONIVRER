@@ -10,7 +10,7 @@
     "BUILD_ENV": "production",
     "VITE_BUILD": "true",
     "VERCEL_ENV": "production",
-    "DEPLOYMENT_ID": "vercel-build",
+    "KONIVRER_BUILD_ID": "vercel-build",
     "DISABLE_AUTONOMOUS": "true",
     "FORCE_BUILD_MODE": "true"
   },

@@ -48,7 +48,7 @@ export const isBuildEnvironment = (): boolean => {
   if (
     process.env.VERCEL_REGION ||
     process.env.VERCEL_GIT_COMMIT_SHA ||
-    process.env.DEPLOYMENT_ID ||
+    process.env.KONIVRER_BUILD_ID ||
     typeof process.env.VERCEL_ANALYTICS_ID !== 'undefined'
   ) {
     return true;

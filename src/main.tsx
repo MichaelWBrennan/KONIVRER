@@ -62,7 +62,7 @@ const isBuild =
   process.env.VITE_BUILD === 'true' ||
   process.env.BUILD_ENV === 'production' ||
   process.env.VERCEL_ENV === 'production' ||
-  process.env.DEPLOYMENT_ID === 'vercel-build' ||
+  process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
   process.env.npm_lifecycle_event === 'build' ||
   process.env.npm_command === 'run-script' ||
   process.env.DISABLE_AUTONOMOUS === 'true' ||
