@@ -42,7 +42,7 @@ export const useBackgroundDependencyManager = () => {
         autoUpdateable: false,
         breaking: true,
         priority: 'high',
-        lastUpdated: '2024-12-01'
+        lastUpdated: '2024-12-01',
       },
       {
         name: 'typescript',
@@ -55,7 +55,7 @@ export const useBackgroundDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'medium',
-        lastUpdated: '2024-11-15'
+        lastUpdated: '2024-11-15',
       },
       {
         name: 'framer-motion',
@@ -68,7 +68,7 @@ export const useBackgroundDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'low',
-        lastUpdated: '2024-11-20'
+        lastUpdated: '2024-11-20',
       },
       {
         name: 'eslint',
@@ -81,8 +81,8 @@ export const useBackgroundDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'high',
-        lastUpdated: '2024-11-30'
-      }
+        lastUpdated: '2024-11-30',
+      },
     ];
   };
 
@@ -101,22 +101,24 @@ export const useBackgroundDependencyManager = () => {
         benefits: [
           'Fix security vulnerabilities',
           'Improve application security',
-          'Meet compliance requirements'
+          'Meet compliance requirements',
         ],
         breakingChanges: [],
         migrationSteps: [
           'Update package versions',
           'Run security audit',
-          'Test application functionality'
+          'Test application functionality',
         ],
         rollbackPlan: 'Revert to previous versions if issues arise',
         estimatedTime: '30 minutes',
-        autoApplicable: true
+        autoApplicable: true,
       });
     }
 
     // Patch updates plan
-    const patchDeps = deps.filter(d => d.updateType === 'patch' && d.securityVulnerabilities === 0);
+    const patchDeps = deps.filter(
+      d => d.updateType === 'patch' && d.securityVulnerabilities === 0,
+    );
     if (patchDeps.length > 0) {
       plans.push({
         id: 'patch-updates',
@@ -126,17 +128,17 @@ export const useBackgroundDependencyManager = () => {
         benefits: [
           'Bug fixes and stability improvements',
           'Performance enhancements',
-          'Latest features and optimizations'
+          'Latest features and optimizations',
         ],
         breakingChanges: [],
         migrationSteps: [
           'Update package versions',
           'Run tests to verify compatibility',
-          'Update lock files'
+          'Update lock files',
         ],
         rollbackPlan: 'Automatic rollback if tests fail',
         estimatedTime: '15 minutes',
-        autoApplicable: true
+        autoApplicable: true,
       });
     }
 
@@ -152,18 +154,18 @@ export const useBackgroundDependencyManager = () => {
           'New features and capabilities',
           'Improved performance',
           'Better developer experience',
-          'Enhanced TypeScript support'
+          'Enhanced TypeScript support',
         ],
         breakingChanges: [],
         migrationSteps: [
           'Update package versions',
           'Review changelog for new features',
           'Update code to use new APIs if desired',
-          'Run comprehensive tests'
+          'Run comprehensive tests',
         ],
         rollbackPlan: 'Revert package.json and restore previous functionality',
         estimatedTime: '1 hour',
-        autoApplicable: true
+        autoApplicable: true,
       });
     }
 
@@ -173,14 +175,16 @@ export const useBackgroundDependencyManager = () => {
   // Apply update plan silently
   const applyUpdatePlan = async (plan: UpdatePlan): Promise<boolean> => {
     try {
-      console.log(`[DEPENDENCY MANAGER] Silently applying: ${plan.description}`);
+      console.log(
+        `[DEPENDENCY MANAGER] Silently applying: ${plan.description}`,
+      );
 
       // Simulate update process
       const updateLog = {
         planId: plan.id,
         dependencies: plan.dependencies,
         startTime: new Date().toISOString(),
-        status: 'in-progress'
+        status: 'in-progress',
       };
 
       localStorage.setItem('currentUpdate', JSON.stringify(updateLog));
@@ -202,14 +206,17 @@ export const useBackgroundDependencyManager = () => {
       const completedLog = {
         ...updateLog,
         status: 'completed',
-        endTime: new Date().toISOString()
+        endTime: new Date().toISOString(),
       };
       localStorage.setItem('lastUpdate', JSON.stringify(completedLog));
       localStorage.removeItem('currentUpdate');
 
       return true;
     } catch (error) {
-      console.error(`[DEPENDENCY MANAGER] Failed to apply: ${plan.description}`, error);
+      console.error(
+        `[DEPENDENCY MANAGER] Failed to apply: ${plan.description}`,
+        error,
+      );
       return false;
     }
   };
@@ -219,7 +226,7 @@ export const useBackgroundDependencyManager = () => {
     const securityUpdates = {
       eslint: '9.15.0',
       vulnerabilitiesFixed: 1,
-      securityAuditPassed: true
+      securityAuditPassed: true,
     };
     localStorage.setItem('securityUpdates', JSON.stringify(securityUpdates));
   };
@@ -229,7 +236,7 @@ export const useBackgroundDependencyManager = () => {
     const patchUpdates = {
       'framer-motion': '11.11.17',
       bugFixesApplied: 5,
-      performanceImprovements: 3
+      performanceImprovements: 3,
     };
     localStorage.setItem('patchUpdates', JSON.stringify(patchUpdates));
   };
@@ -237,9 +244,9 @@ export const useBackgroundDependencyManager = () => {
   const applyMinorUpdates = async (plan: UpdatePlan) => {
     // Simulate minor updates silently
     const minorUpdates = {
-      'typescript': '5.6.3',
+      typescript: '5.6.3',
       newFeaturesAvailable: 8,
-      apiEnhancements: 4
+      apiEnhancements: 4,
     };
     localStorage.setItem('minorUpdates', JSON.stringify(minorUpdates));
   };
@@ -250,8 +257,8 @@ export const useBackgroundDependencyManager = () => {
     const plans = generateUpdatePlans(deps);
 
     // Auto-apply safe updates silently
-    const safeUpdates = plans.filter(p => 
-      p.riskLevel === 'low' && p.autoApplicable
+    const safeUpdates = plans.filter(
+      p => p.riskLevel === 'low' && p.autoApplicable,
     );
 
     for (const plan of safeUpdates) {
@@ -261,13 +268,17 @@ export const useBackgroundDependencyManager = () => {
     // Store check timestamp
     localStorage.setItem('lastDependencyCheck', new Date().toISOString());
 
-    console.log(`[DEPENDENCY MANAGER] Silently applied ${safeUpdates.length} safe updates`);
+    console.log(
+      `[DEPENDENCY MANAGER] Silently applied ${safeUpdates.length} safe updates`,
+    );
   };
 
   // Start dependency monitoring silently
   useEffect(() => {
-    console.log('[DEPENDENCY MANAGER] Starting silent dependency monitoring...');
-    
+    console.log(
+      '[DEPENDENCY MANAGER] Starting silent dependency monitoring...',
+    );
+
     // Initial check
     checkDependenciesSilently();
 
