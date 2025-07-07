@@ -162,8 +162,7 @@ export const useDataProtection = (): DataProtectionHooks => {
 };
 
 export const DataProtectionPanel: React.FC = () => {
-  const { clearUserData, exportUserData, getDataUsage } =
-    useDataProtection();
+  const { clearUserData, exportUserData, getDataUsage } = useDataProtection();
   const { logSecurityEvent } = useSecurityContext();
   const [showPanel, setShowPanel] = useState(false);
   const [dataUsage, setDataUsage] = useState<any>(null);

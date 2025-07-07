@@ -20,36 +20,38 @@ const sessionStorageMock = {
 };
 
 Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock
+  value: localStorageMock,
 });
 
 Object.defineProperty(window, 'sessionStorage', {
-  value: sessionStorageMock
+  value: sessionStorageMock,
 });
 
 // Mock crypto.getRandomValues
 Object.defineProperty(window, 'crypto', {
   value: {
-    getRandomValues: vi.fn(() => new Uint32Array([1, 2, 3, 4]))
-  }
+    getRandomValues: vi.fn(() => new Uint32Array([1, 2, 3, 4])),
+  },
 });
 
 // Test component that uses security context
 const TestComponent: React.FC = () => {
-  const { 
-    isSecure, 
-    encryptData, 
-    decryptData, 
-    sanitizeInput, 
+  const {
+    isSecure,
+    encryptData,
+    decryptData,
+    sanitizeInput,
     logSecurityEvent,
-    checkDataConsent 
+    checkDataConsent,
   } = useSecurityContext();
 
   return (
     <div>
-      <div data-testid="security-status">{isSecure ? 'secure' : 'not-secure'}</div>
-      <button 
-        data-testid="encrypt-btn" 
+      <div data-testid="security-status">
+        {isSecure ? 'secure' : 'not-secure'}
+      </div>
+      <button
+        data-testid="encrypt-btn"
         onClick={() => {
           const encrypted = encryptData('test data');
           const decrypted = decryptData(encrypted);
@@ -58,8 +60,8 @@ const TestComponent: React.FC = () => {
       >
         Test Encryption
       </button>
-      <button 
-        data-testid="sanitize-btn" 
+      <button
+        data-testid="sanitize-btn"
         onClick={() => {
           const sanitized = sanitizeInput('<script>alert("xss")</script>');
           console.log('Sanitized:', sanitized);
@@ -67,13 +69,15 @@ const TestComponent: React.FC = () => {
       >
         Test Sanitization
       </button>
-      <button 
-        data-testid="log-btn" 
+      <button
+        data-testid="log-btn"
         onClick={() => logSecurityEvent('TEST_EVENT', { test: true })}
       >
         Test Logging
       </button>
-      <div data-testid="consent-status">{checkDataConsent() ? 'granted' : 'not-granted'}</div>
+      <div data-testid="consent-status">
+        {checkDataConsent() ? 'granted' : 'not-granted'}
+      </div>
     </div>
   );
 };
@@ -89,7 +93,7 @@ describe('SecurityProvider', () => {
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
     expect(screen.getByTestId('security-status')).toBeInTheDocument();
@@ -99,7 +103,7 @@ describe('SecurityProvider', () => {
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
     await waitFor(() => {
@@ -107,26 +111,29 @@ describe('SecurityProvider', () => {
     });
 
     // Should generate session ID
-    expect(sessionStorageMock.setItem).toHaveBeenCalledWith('sessionId', expect.any(String));
+    expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+      'sessionId',
+      expect.any(String),
+    );
   });
 
   it('should encrypt and decrypt data', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    
+
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
     fireEvent.click(screen.getByTestId('encrypt-btn'));
 
     expect(consoleSpy).toHaveBeenCalledWith(
-      'Encryption test:', 
+      'Encryption test:',
       expect.objectContaining({
         encrypted: expect.any(String),
-        decrypted: 'test data'
-      })
+        decrypted: 'test data',
+      }),
     );
 
     consoleSpy.mockRestore();
@@ -134,18 +141,18 @@ describe('SecurityProvider', () => {
 
   it('should sanitize input to prevent XSS', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    
+
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
     fireEvent.click(screen.getByTestId('sanitize-btn'));
 
     expect(consoleSpy).toHaveBeenCalledWith(
-      'Sanitized:', 
-      expect.not.stringContaining('<script>')
+      'Sanitized:',
+      expect.not.stringContaining('<script>'),
     );
 
     consoleSpy.mockRestore();
@@ -153,11 +160,11 @@ describe('SecurityProvider', () => {
 
   it('should log security events', () => {
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    
+
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
     fireEvent.click(screen.getByTestId('log-btn'));
@@ -167,15 +174,15 @@ describe('SecurityProvider', () => {
       expect.objectContaining({
         event: 'TEST_EVENT',
         details: { test: true },
-        timestamp: expect.any(String)
-      })
+        timestamp: expect.any(String),
+      }),
     );
 
     consoleSpy.mockRestore();
   });
 
   it('should check data consent', () => {
-    localStorageMock.getItem.mockImplementation((key) => {
+    localStorageMock.getItem.mockImplementation(key => {
       if (key === 'dataConsent') return 'granted';
       return null;
     });
@@ -183,7 +190,7 @@ describe('SecurityProvider', () => {
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
     expect(screen.getByTestId('consent-status')).toHaveTextContent('granted');
@@ -195,15 +202,17 @@ describe('SecurityProvider', () => {
     render(
       <SecurityProvider>
         <TestComponent />
-      </SecurityProvider>
+      </SecurityProvider>,
     );
 
-    expect(screen.getByTestId('consent-status')).toHaveTextContent('not-granted');
+    expect(screen.getByTestId('consent-status')).toHaveTextContent(
+      'not-granted',
+    );
   });
 
   it('should throw error when used outside provider', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    
+
     expect(() => {
       render(<TestComponent />);
     }).toThrow('useSecurityContext must be used within SecurityProvider');
