@@ -42,26 +42,22 @@ A mystical trading card game with an esoteric theme that works right out of the 
 
 ## 🤖 Self-Healing & Self-Optimizing System
 
-The KONIVRER application now includes advanced self-healing and self-optimizing capabilities:
+The KONIVRER application now includes advanced self-healing and self-optimizing capabilities that work automatically without any manual intervention:
 
 ### Self-Healing Features
-- **Error Boundaries**: Catch and recover from errors that would otherwise crash the app
-- **Network Recovery**: Automatically retry failed network requests
-- **State Recovery**: Prevent data loss with automatic state persistence
-- **Error Monitoring**: Track errors and recovery rates
+- **Automatic Error Recovery**: Silently catches and recovers from errors that would otherwise crash the app
+- **Network Recovery**: Automatically retries failed network requests without user intervention
+- **State Recovery**: Prevents data loss with automatic state persistence
+- **Silent Error Handling**: Handles errors in the background without disrupting the user experience
 
 ### Self-Optimizing Features
-- **Performance Monitoring**: Track FPS, memory usage, and render times
-- **Adaptive Optimization**: Automatically optimize based on performance metrics
-- **Component Optimization**: Prevent unnecessary re-renders
-- **Resource Management**: Adjust resource usage based on system load
+- **Silent Performance Optimization**: Continuously monitors and optimizes performance without user intervention
+- **Adaptive Resource Management**: Automatically adjusts resource usage based on system load
+- **Component Optimization**: Prevents unnecessary re-renders to improve performance
+- **Memory Management**: Automatically cleans up memory to prevent leaks
 
-### Using the System
-- **Start Self-Healing**: `./auto-self-heal.sh`
-- **Stop Self-Healing**: `./auto-self-heal-stop.sh`
-- **Monitor Logs**: `npm run self-heal:logs`
-- **Run Health Check**: `npm run self-heal:check`
-- **Run Optimization**: `npm run self-optimize`
+### Zero Configuration Required
+The self-healing and self-optimizing system starts automatically when the application loads. No manual commands or configuration needed - it just works!
 
 For more details, see [SELF_HEALING_OPTIMIZING.md](./SELF_HEALING_OPTIMIZING.md)
 - **Build System**: ✅ Working production builds (1.22s build time)

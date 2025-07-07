@@ -2,13 +2,31 @@ import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import AllInOneApp from './core/AllInOne-simple';
 import LoadingScreen from './components/LoadingScreen';
-import { SelfHealingProvider, ErrorStatistics } from './core/SelfHealer';
-import { PerformanceMonitor } from './core/SelfOptimizer';
+import { SelfHealingProvider } from './core/SelfHealer';
+import { SelfOptimizer } from './core/SelfOptimizer';
 
 console.log('[APP] Starting KONIVRER application...');
 
-// Enable debug mode in development
-const isDebugMode = process.env.NODE_ENV === 'development';
+// Initialize self-optimizer silently
+const selfOptimizer = SelfOptimizer.getInstance();
+
+// Auto-initialize self-healing and self-optimizing system
+(() => {
+  try {
+    // Start silent optimization
+    selfOptimizer.optimizeOnDemand();
+    
+    // Set up automatic optimization interval
+    setInterval(() => {
+      selfOptimizer.optimizeOnDemand();
+    }, 60000); // Run every minute
+    
+    console.log('[SYSTEM] Self-healing and self-optimizing system initialized silently');
+  } catch (error) {
+    // Silent error handling
+    console.error('[SYSTEM] Error initializing self-healing system:', error);
+  }
+})();
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -26,12 +44,11 @@ const App: React.FC = () => {
         enableStateRecovery: true,
         recoveryDelay: 1000,
         logErrors: true,
-        reportErrors: isDebugMode
+        reportErrors: false // Never show error reports
       }}>
         {loading && <LoadingScreen onComplete={handleLoadingComplete} timeout={2000} />}
         <AllInOneApp />
-        {isDebugMode && <PerformanceMonitor showUI={true} position="top-right" />}
-        {isDebugMode && <ErrorStatistics showUI={true} position="bottom-left" />}
+        {/* No UI components for monitoring or statistics */}
       </SelfHealingProvider>
     </React.StrictMode>
   );

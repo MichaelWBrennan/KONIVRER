@@ -1019,9 +1019,9 @@ const EventsPage: React.FC = () => {
 // Main App Component
 // Import self-healing and self-optimizing components
 import { SelfHealingErrorBoundary } from './SelfHealer';
-import { withOptimization, useSelfOptimizer } from './SelfOptimizer';
+import { withOptimization } from './SelfOptimizer';
 
-// Optimize pages with the withOptimization HOC
+// Silently optimize pages with the withOptimization HOC
 const OptimizedHomePage = withOptimization(HomePage, { name: 'HomePage', memoize: true });
 const OptimizedCardsPage = withOptimization(CardsPage, { name: 'CardsPage', memoize: true });
 const OptimizedDecksPage = withOptimization(DecksPage, { name: 'DecksPage', memoize: true });
@@ -1029,14 +1029,6 @@ const OptimizedPlayPage = withOptimization(PlayPage, { name: 'PlayPage', memoize
 const OptimizedEventsPage = withOptimization(EventsPage, { name: 'EventsPage', memoize: true });
 
 const AllInOneApp: React.FC = () => {
-  // Access the self-optimizer for on-demand optimization
-  const { optimizeNow } = useSelfOptimizer();
-  
-  // Trigger optimization when the app loads
-  useEffect(() => {
-    optimizeNow();
-  }, [optimizeNow]);
-  
   return (
     <Router>
       <div style={{ 

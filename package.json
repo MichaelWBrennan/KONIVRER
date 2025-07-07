@@ -28,13 +28,6 @@
     "automation:logs:follow": "tail -f automation.log",
     "automation:every-second": "tsx automation/all-in-one.ts every-second",
     "automation:monitor": "tsx automation/all-in-one.ts monitor",
-    
-    "self-heal": "tsx automation/self-healing-optimizer.ts",
-    "self-heal:check": "tsx automation/self-healing-optimizer.ts check",
-    "self-heal:fix": "tsx automation/self-healing-optimizer.ts fix",
-    "self-optimize": "tsx automation/self-healing-optimizer.ts optimize",
-    "self-monitor": "tsx automation/self-healing-optimizer.ts monitor",
-    "self-heal:logs": "tail -f logs/self-healing-optimizer.log",
     "automation:continuous": "tsx automation/all-in-one.ts continuous",
     "monitor": "tsx automation/all-in-one.ts monitor",
     "continuous": "tsx automation/all-in-one.ts continuous",

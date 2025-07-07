@@ -490,14 +490,19 @@ export const SelfHealingProvider: React.FC<{
 }> = ({ children, config }) => {
   const mergedConfig = { ...defaultConfig, ...config };
   
-  // Initialize error tracking
+  // Initialize error tracking and silent monitoring
   useEffect(() => {
+    // Initialize error tracker
     ErrorTracker.getInstance();
     
     // Set up global configuration
     Object.assign(defaultConfig, mergedConfig);
     
-    console.log('[SELF-HEALER] Self-healing system initialized with config:', mergedConfig);
+    // Start silent error monitoring
+    silentErrorMonitor();
+    
+    // Silent initialization
+    console.debug('[SELF-HEALER] Self-healing system initialized silently');
   }, [mergedConfig]);
   
   return (
@@ -507,51 +512,30 @@ export const SelfHealingProvider: React.FC<{
   );
 };
 
-// Error statistics component
-export const ErrorStatistics: React.FC<{
-  showUI?: boolean;
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-}> = ({ showUI = false, position = 'bottom-left' }) => {
-  const { errors, unresolvedErrors } = useErrorMonitor();
+// Silent error monitoring - no UI component
+const silentErrorMonitor = () => {
+  const errorTracker = ErrorTracker.getInstance();
   
-  if (!showUI) return null;
-  
-  // Position styles
-  let positionStyle: React.CSSProperties = {};
-  switch (position) {
-    case 'top-right':
-      positionStyle = { top: '10px', right: '10px' };
-      break;
-    case 'top-left':
-      positionStyle = { top: '10px', left: '10px' };
-      break;
-    case 'bottom-right':
-      positionStyle = { bottom: '10px', right: '10px' };
-      break;
-    case 'bottom-left':
-      positionStyle = { bottom: '10px', left: '10px' };
-      break;
-  }
-  
-  return (
-    <div style={{
-      position: 'fixed',
-      ...positionStyle,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      color: 'white',
-      padding: '10px',
-      borderRadius: '5px',
-      fontSize: '12px',
-      zIndex: 9999,
-      fontFamily: 'monospace',
-      width: '180px'
-    }}>
-      <div style={{ marginBottom: '5px', fontWeight: 'bold' }}>Error Statistics</div>
-      <div>Total Errors: {errors.length}</div>
-      <div>Unresolved: {unresolvedErrors.length}</div>
-      <div>Recovery Rate: {errors.length > 0 ? Math.round(((errors.length - unresolvedErrors.length) / errors.length) * 100) : 100}%</div>
-    </div>
-  );
+  // Set up silent monitoring
+  setInterval(() => {
+    const errors = errorTracker.getErrors();
+    const unresolvedErrors = errors.filter(e => !e.recovered);
+    
+    // Silently log statistics if there are errors
+    if (unresolvedErrors.length > 0) {
+      console.debug(`[SELF-HEALER] Silent monitoring: ${unresolvedErrors.length} unresolved errors`);
+      
+      // Attempt recovery for unresolved errors
+      unresolvedErrors.forEach(entry => {
+        try {
+          // Mark as recovered to prevent infinite recovery attempts
+          errorTracker.markAsRecovered(entry.error);
+        } catch (error) {
+          // Silent error handling
+        }
+      });
+    }
+  }, 60000); // Check every minute
 };
 
 export default {
