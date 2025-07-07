@@ -47,7 +47,7 @@ export const useDependencyManager = () => {
         autoUpdateable: false,
         breaking: true,
         priority: 'high',
-        lastUpdated: '2024-12-01'
+        lastUpdated: '2024-12-01',
       },
       {
         name: 'react-dom',
@@ -60,7 +60,7 @@ export const useDependencyManager = () => {
         autoUpdateable: false,
         breaking: true,
         priority: 'high',
-        lastUpdated: '2024-12-01'
+        lastUpdated: '2024-12-01',
       },
       {
         name: 'typescript',
@@ -73,7 +73,7 @@ export const useDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'medium',
-        lastUpdated: '2024-11-15'
+        lastUpdated: '2024-11-15',
       },
       {
         name: 'vite',
@@ -86,7 +86,7 @@ export const useDependencyManager = () => {
         autoUpdateable: false,
         breaking: true,
         priority: 'medium',
-        lastUpdated: '2024-12-01'
+        lastUpdated: '2024-12-01',
       },
       {
         name: 'framer-motion',
@@ -99,7 +99,7 @@ export const useDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'low',
-        lastUpdated: '2024-11-20'
+        lastUpdated: '2024-11-20',
       },
       {
         name: 'react-router-dom',
@@ -112,7 +112,7 @@ export const useDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'medium',
-        lastUpdated: '2024-11-25'
+        lastUpdated: '2024-11-25',
       },
       {
         name: 'vitest',
@@ -125,7 +125,7 @@ export const useDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'low',
-        lastUpdated: '2024-11-18'
+        lastUpdated: '2024-11-18',
       },
       {
         name: 'eslint',
@@ -138,8 +138,8 @@ export const useDependencyManager = () => {
         autoUpdateable: true,
         breaking: false,
         priority: 'high',
-        lastUpdated: '2024-11-30'
-      }
+        lastUpdated: '2024-11-30',
+      },
     ];
   };
 
@@ -158,22 +158,24 @@ export const useDependencyManager = () => {
         benefits: [
           'Fix security vulnerabilities',
           'Improve application security',
-          'Meet compliance requirements'
+          'Meet compliance requirements',
         ],
         breakingChanges: [],
         migrationSteps: [
           'Update package versions',
           'Run security audit',
-          'Test application functionality'
+          'Test application functionality',
         ],
         rollbackPlan: 'Revert to previous versions if issues arise',
         estimatedTime: '30 minutes',
-        autoApplicable: true
+        autoApplicable: true,
       });
     }
 
     // Patch updates plan
-    const patchDeps = deps.filter(d => d.updateType === 'patch' && d.securityVulnerabilities === 0);
+    const patchDeps = deps.filter(
+      d => d.updateType === 'patch' && d.securityVulnerabilities === 0,
+    );
     if (patchDeps.length > 0) {
       plans.push({
         id: 'patch-updates',
@@ -183,17 +185,17 @@ export const useDependencyManager = () => {
         benefits: [
           'Bug fixes and stability improvements',
           'Performance enhancements',
-          'Latest features and optimizations'
+          'Latest features and optimizations',
         ],
         breakingChanges: [],
         migrationSteps: [
           'Update package versions',
           'Run tests to verify compatibility',
-          'Update lock files'
+          'Update lock files',
         ],
         rollbackPlan: 'Automatic rollback if tests fail',
         estimatedTime: '15 minutes',
-        autoApplicable: true
+        autoApplicable: true,
       });
     }
 
@@ -209,18 +211,18 @@ export const useDependencyManager = () => {
           'New features and capabilities',
           'Improved performance',
           'Better developer experience',
-          'Enhanced TypeScript support'
+          'Enhanced TypeScript support',
         ],
         breakingChanges: [],
         migrationSteps: [
           'Update package versions',
           'Review changelog for new features',
           'Update code to use new APIs if desired',
-          'Run comprehensive tests'
+          'Run comprehensive tests',
         ],
         rollbackPlan: 'Revert package.json and restore previous functionality',
         estimatedTime: '1 hour',
-        autoApplicable: true
+        autoApplicable: true,
       });
     }
 
@@ -236,13 +238,13 @@ export const useDependencyManager = () => {
           'Latest features and improvements',
           'Better performance and optimization',
           'Future-proof codebase',
-          'Enhanced security and stability'
+          'Enhanced security and stability',
         ],
         breakingChanges: [
           'API changes may require code updates',
           'Deprecated features removed',
           'Configuration changes may be needed',
-          'TypeScript types may have changed'
+          'TypeScript types may have changed',
         ],
         migrationSteps: [
           'Review migration guides and changelogs',
@@ -250,11 +252,12 @@ export const useDependencyManager = () => {
           'Fix breaking changes in code',
           'Update TypeScript types',
           'Run comprehensive test suite',
-          'Update documentation'
+          'Update documentation',
         ],
-        rollbackPlan: 'Complete rollback with previous package versions and code',
+        rollbackPlan:
+          'Complete rollback with previous package versions and code',
         estimatedTime: '4-8 hours',
-        autoApplicable: false
+        autoApplicable: false,
       });
     }
 
@@ -264,14 +267,16 @@ export const useDependencyManager = () => {
   // Apply update plan
   const applyUpdatePlan = async (plan: UpdatePlan): Promise<boolean> => {
     try {
-      console.log(`[DEPENDENCY MANAGER] Applying update plan: ${plan.description}`);
+      console.log(
+        `[DEPENDENCY MANAGER] Applying update plan: ${plan.description}`,
+      );
 
       // Simulate update process
       const updateLog = {
         planId: plan.id,
         dependencies: plan.dependencies,
         startTime: new Date().toISOString(),
-        status: 'in-progress'
+        status: 'in-progress',
       };
 
       localStorage.setItem('currentUpdate', JSON.stringify(updateLog));
@@ -296,21 +301,24 @@ export const useDependencyManager = () => {
       const completedLog = {
         ...updateLog,
         status: 'completed',
-        endTime: new Date().toISOString()
+        endTime: new Date().toISOString(),
       };
       localStorage.setItem('lastUpdate', JSON.stringify(completedLog));
       localStorage.removeItem('currentUpdate');
 
       return true;
     } catch (error) {
-      console.error(`[DEPENDENCY MANAGER] Failed to apply update plan: ${plan.description}`, error);
-      
+      console.error(
+        `[DEPENDENCY MANAGER] Failed to apply update plan: ${plan.description}`,
+        error,
+      );
+
       // Log failed update
       const failedLog = {
         planId: plan.id,
         status: 'failed',
         error: (error as Error).message,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
       localStorage.setItem('failedUpdate', JSON.stringify(failedLog));
       localStorage.removeItem('currentUpdate');
@@ -324,7 +332,7 @@ export const useDependencyManager = () => {
     const securityUpdates = {
       eslint: '9.15.0',
       vulnerabilitiesFixed: 1,
-      securityAuditPassed: true
+      securityAuditPassed: true,
     };
     localStorage.setItem('securityUpdates', JSON.stringify(securityUpdates));
   };
@@ -333,9 +341,9 @@ export const useDependencyManager = () => {
     // Simulate patch updates
     const patchUpdates = {
       'framer-motion': '11.11.17',
-      'vitest': '2.1.4',
+      vitest: '2.1.4',
       bugFixesApplied: 5,
-      performanceImprovements: 3
+      performanceImprovements: 3,
     };
     localStorage.setItem('patchUpdates', JSON.stringify(patchUpdates));
   };
@@ -344,9 +352,9 @@ export const useDependencyManager = () => {
     // Simulate minor updates
     const minorUpdates = {
       'react-router-dom': '6.28.0',
-      'typescript': '5.6.3',
+      typescript: '5.6.3',
       newFeaturesAvailable: 8,
-      apiEnhancements: 4
+      apiEnhancements: 4,
     };
     localStorage.setItem('minorUpdates', JSON.stringify(minorUpdates));
   };
@@ -358,7 +366,7 @@ export const useDependencyManager = () => {
       'react-dom': '19.0.0',
       vite: '6.0.1',
       breakingChangesHandled: 12,
-      migrationCompleted: true
+      migrationCompleted: true,
     };
     localStorage.setItem('majorUpdates', JSON.stringify(majorUpdates));
   };
@@ -374,15 +382,17 @@ export const useDependencyManager = () => {
 
     // Auto-apply safe updates
     if (autoUpdateEnabled) {
-      const safeUpdates = plans.filter(p => 
-        p.riskLevel === 'low' && p.autoApplicable
+      const safeUpdates = plans.filter(
+        p => p.riskLevel === 'low' && p.autoApplicable,
       );
 
       for (const plan of safeUpdates) {
         await applyUpdatePlan(plan);
       }
 
-      console.log(`[DEPENDENCY MANAGER] Auto-applied ${safeUpdates.length} safe updates`);
+      console.log(
+        `[DEPENDENCY MANAGER] Auto-applied ${safeUpdates.length} safe updates`,
+      );
     }
   };
 
@@ -404,7 +414,7 @@ export const useDependencyManager = () => {
     setAutoUpdateEnabled,
     lastCheck,
     applyUpdatePlan,
-    checkDependencies
+    checkDependencies,
   };
 };
 
@@ -416,37 +426,52 @@ export const DependencyManagerPanel: React.FC = () => {
     setAutoUpdateEnabled,
     lastCheck,
     applyUpdatePlan,
-    checkDependencies
+    checkDependencies,
   } = useDependencyManager();
 
   const [showPanel, setShowPanel] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<'dependencies' | 'plans'>('dependencies');
+  const [selectedTab, setSelectedTab] = useState<'dependencies' | 'plans'>(
+    'dependencies',
+  );
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'critical': return '#d32f2f';
-      case 'high': return '#f57c00';
-      case 'medium': return '#fbc02d';
-      case 'low': return '#4caf50';
-      default: return '#666';
+      case 'critical':
+        return '#d32f2f';
+      case 'high':
+        return '#f57c00';
+      case 'medium':
+        return '#fbc02d';
+      case 'low':
+        return '#4caf50';
+      default:
+        return '#666';
     }
   };
 
   const getUpdateTypeColor = (updateType: string) => {
     switch (updateType) {
-      case 'major': return '#d32f2f';
-      case 'minor': return '#f57c00';
-      case 'patch': return '#4caf50';
-      default: return '#666';
+      case 'major':
+        return '#d32f2f';
+      case 'minor':
+        return '#f57c00';
+      case 'patch':
+        return '#4caf50';
+      default:
+        return '#666';
     }
   };
 
   const getRiskColor = (risk: string) => {
     switch (risk) {
-      case 'high': return '#d32f2f';
-      case 'medium': return '#f57c00';
-      case 'low': return '#4caf50';
-      default: return '#666';
+      case 'high':
+        return '#d32f2f';
+      case 'medium':
+        return '#f57c00';
+      case 'low':
+        return '#4caf50';
+      default:
+        return '#666';
     }
   };
 
@@ -468,7 +493,7 @@ export const DependencyManagerPanel: React.FC = () => {
           cursor: 'pointer',
           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
           zIndex: 1000,
-          animation: autoUpdateEnabled ? 'bounce 2s infinite' : 'none'
+          animation: autoUpdateEnabled ? 'bounce 2s infinite' : 'none',
         }}
         title="Dependency Manager"
       >
@@ -478,29 +503,40 @@ export const DependencyManagerPanel: React.FC = () => {
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'rgba(0,0,0,0.8)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 10000,
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{
-        background: 'white',
-        padding: '30px',
-        borderRadius: '10px',
-        maxWidth: '1000px',
-        maxHeight: '80vh',
-        overflow: 'auto',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.8)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10000,
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
+      <div
+        style={{
+          background: 'white',
+          padding: '30px',
+          borderRadius: '10px',
+          maxWidth: '1000px',
+          maxHeight: '80vh',
+          overflow: 'auto',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+          }}
+        >
           <h2 style={{ color: '#333', margin: 0 }}>📦 Dependency Manager</h2>
           <button
             onClick={() => setShowPanel(false)}
@@ -509,7 +545,7 @@ export const DependencyManagerPanel: React.FC = () => {
               border: 'none',
               fontSize: '24px',
               cursor: 'pointer',
-              color: '#666'
+              color: '#666',
             }}
           >
             ×
@@ -517,11 +553,18 @@ export const DependencyManagerPanel: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              cursor: 'pointer',
+            }}
+          >
             <input
               type="checkbox"
               checked={autoUpdateEnabled}
-              onChange={(e) => setAutoUpdateEnabled(e.target.checked)}
+              onChange={e => setAutoUpdateEnabled(e.target.checked)}
               style={{ transform: 'scale(1.2)' }}
             />
             <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
@@ -545,7 +588,7 @@ export const DependencyManagerPanel: React.FC = () => {
               padding: '8px 16px',
               borderRadius: '4px',
               cursor: 'pointer',
-              fontSize: '14px'
+              fontSize: '14px',
             }}
           >
             🔍 Check Now
@@ -553,7 +596,13 @@ export const DependencyManagerPanel: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <div style={{ display: 'flex', gap: '10px', borderBottom: '1px solid #ddd' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              borderBottom: '1px solid #ddd',
+            }}
+          >
             {['dependencies', 'plans'].map(tab => (
               <button
                 key={tab}
@@ -565,7 +614,7 @@ export const DependencyManagerPanel: React.FC = () => {
                   padding: '10px 20px',
                   borderRadius: '5px 5px 0 0',
                   cursor: 'pointer',
-                  textTransform: 'capitalize'
+                  textTransform: 'capitalize',
                 }}
               >
                 {tab === 'dependencies' ? '📋 Dependencies' : '🔄 Update Plans'}
@@ -587,89 +636,123 @@ export const DependencyManagerPanel: React.FC = () => {
                     background: '#f9f9f9',
                     border: `2px solid ${getPriorityColor(dep.priority)}`,
                     borderRadius: '8px',
-                    padding: '15px'
+                    padding: '15px',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
                     <div style={{ flex: 1 }}>
                       <h4 style={{ margin: '0 0 8px 0', color: '#333' }}>
                         {dep.name}
                       </h4>
-                      <div style={{ display: 'flex', gap: '10px', marginBottom: '8px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          gap: '10px',
+                          marginBottom: '8px',
+                        }}
+                      >
                         <span style={{ fontSize: '14px', color: '#666' }}>
                           {dep.currentVersion} → {dep.latestVersion}
                         </span>
-                        <span style={{ 
-                          background: getUpdateTypeColor(dep.updateType), 
-                          color: 'white', 
-                          padding: '2px 6px', 
-                          borderRadius: '3px', 
-                          fontSize: '12px'
-                        }}>
+                        <span
+                          style={{
+                            background: getUpdateTypeColor(dep.updateType),
+                            color: 'white',
+                            padding: '2px 6px',
+                            borderRadius: '3px',
+                            fontSize: '12px',
+                          }}
+                        >
                           {dep.updateType}
                         </span>
-                        <span style={{ 
-                          background: '#e0e0e0', 
-                          padding: '2px 6px', 
-                          borderRadius: '3px', 
-                          fontSize: '12px'
-                        }}>
+                        <span
+                          style={{
+                            background: '#e0e0e0',
+                            padding: '2px 6px',
+                            borderRadius: '3px',
+                            fontSize: '12px',
+                          }}
+                        >
                           {dep.category}
                         </span>
                       </div>
                       {dep.securityVulnerabilities > 0 && (
-                        <div style={{ 
-                          background: '#ffebee', 
-                          color: '#c62828', 
-                          padding: '4px 8px', 
-                          borderRadius: '4px', 
-                          fontSize: '12px',
-                          marginBottom: '8px'
-                        }}>
-                          🚨 {dep.securityVulnerabilities} security vulnerabilities
+                        <div
+                          style={{
+                            background: '#ffebee',
+                            color: '#c62828',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            marginBottom: '8px',
+                          }}
+                        >
+                          🚨 {dep.securityVulnerabilities} security
+                          vulnerabilities
                         </div>
                       )}
                       {dep.breaking && (
-                        <div style={{ 
-                          background: '#fff3e0', 
-                          color: '#ef6c00', 
-                          padding: '4px 8px', 
-                          borderRadius: '4px', 
-                          fontSize: '12px',
-                          marginBottom: '8px'
-                        }}>
+                        <div
+                          style={{
+                            background: '#fff3e0',
+                            color: '#ef6c00',
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            marginBottom: '8px',
+                          }}
+                        >
                           ⚠️ Breaking changes
                         </div>
                       )}
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '5px' }}>
-                      <span style={{ 
-                        background: getPriorityColor(dep.priority), 
-                        color: 'white', 
-                        padding: '3px 8px', 
-                        borderRadius: '3px', 
-                        fontSize: '12px' 
-                      }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'flex-end',
+                        gap: '5px',
+                      }}
+                    >
+                      <span
+                        style={{
+                          background: getPriorityColor(dep.priority),
+                          color: 'white',
+                          padding: '3px 8px',
+                          borderRadius: '3px',
+                          fontSize: '12px',
+                        }}
+                      >
                         {dep.priority}
                       </span>
                       {dep.autoUpdateable ? (
-                        <span style={{ 
-                          background: '#4CAF50', 
-                          color: 'white', 
-                          padding: '2px 6px', 
-                          borderRadius: '3px', 
-                          fontSize: '10px' 
-                        }}>
+                        <span
+                          style={{
+                            background: '#4CAF50',
+                            color: 'white',
+                            padding: '2px 6px',
+                            borderRadius: '3px',
+                            fontSize: '10px',
+                          }}
+                        >
                           🤖 Auto
                         </span>
                       ) : (
-                        <span style={{ 
-                          background: '#FF9800', 
-                          color: 'white', 
-                          padding: '2px 6px', 
-                          borderRadius: '3px', 
-                          fontSize: '10px' 
-                        }}>
+                        <span
+                          style={{
+                            background: '#FF9800',
+                            color: 'white',
+                            padding: '2px 6px',
+                            borderRadius: '3px',
+                            fontSize: '10px',
+                          }}
+                        >
                           ⚠️ Manual
                         </span>
                       )}
@@ -695,43 +778,63 @@ export const DependencyManagerPanel: React.FC = () => {
                       background: '#f0f8ff',
                       border: `2px solid ${getRiskColor(plan.riskLevel)}`,
                       borderRadius: '8px',
-                      padding: '15px'
+                      padding: '15px',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <h4 style={{ margin: '0 0 8px 0', color: '#1565c0' }}>
                           {plan.description}
                         </h4>
                         <div style={{ marginBottom: '10px' }}>
-                          <span style={{ 
-                            background: getRiskColor(plan.riskLevel), 
-                            color: 'white', 
-                            padding: '2px 8px', 
-                            borderRadius: '3px', 
-                            fontSize: '12px',
-                            marginRight: '8px'
-                          }}>
+                          <span
+                            style={{
+                              background: getRiskColor(plan.riskLevel),
+                              color: 'white',
+                              padding: '2px 8px',
+                              borderRadius: '3px',
+                              fontSize: '12px',
+                              marginRight: '8px',
+                            }}
+                          >
                             {plan.riskLevel} risk
                           </span>
-                          <span style={{ 
-                            background: '#e0e0e0', 
-                            padding: '2px 8px', 
-                            borderRadius: '3px', 
-                            fontSize: '12px'
-                          }}>
+                          <span
+                            style={{
+                              background: '#e0e0e0',
+                              padding: '2px 8px',
+                              borderRadius: '3px',
+                              fontSize: '12px',
+                            }}
+                          >
                             {plan.estimatedTime}
                           </span>
                         </div>
                         <div style={{ marginBottom: '8px' }}>
-                          <strong style={{ color: '#1565c0' }}>Dependencies:</strong>
+                          <strong style={{ color: '#1565c0' }}>
+                            Dependencies:
+                          </strong>
                           <span style={{ marginLeft: '8px', color: '#666' }}>
                             {plan.dependencies.join(', ')}
                           </span>
                         </div>
                         <div style={{ marginBottom: '8px' }}>
-                          <strong style={{ color: '#1565c0' }}>Benefits:</strong>
-                          <ul style={{ margin: '5px 0', paddingLeft: '20px', color: '#666' }}>
+                          <strong style={{ color: '#1565c0' }}>
+                            Benefits:
+                          </strong>
+                          <ul
+                            style={{
+                              margin: '5px 0',
+                              paddingLeft: '20px',
+                              color: '#666',
+                            }}
+                          >
                             {plan.benefits.map((benefit, i) => (
                               <li key={i}>{benefit}</li>
                             ))}
@@ -739,8 +842,16 @@ export const DependencyManagerPanel: React.FC = () => {
                         </div>
                         {plan.breakingChanges.length > 0 && (
                           <div style={{ marginBottom: '8px' }}>
-                            <strong style={{ color: '#d32f2f' }}>Breaking Changes:</strong>
-                            <ul style={{ margin: '5px 0', paddingLeft: '20px', color: '#d32f2f' }}>
+                            <strong style={{ color: '#d32f2f' }}>
+                              Breaking Changes:
+                            </strong>
+                            <ul
+                              style={{
+                                margin: '5px 0',
+                                paddingLeft: '20px',
+                                color: '#d32f2f',
+                              }}
+                            >
                               {plan.breakingChanges.map((change, i) => (
                                 <li key={i}>{change}</li>
                               ))}
@@ -748,7 +859,14 @@ export const DependencyManagerPanel: React.FC = () => {
                           </div>
                         )}
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-end' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '5px',
+                          alignItems: 'flex-end',
+                        }}
+                      >
                         {plan.autoApplicable ? (
                           <button
                             onClick={() => applyUpdatePlan(plan)}
@@ -759,19 +877,21 @@ export const DependencyManagerPanel: React.FC = () => {
                               padding: '5px 10px',
                               borderRadius: '3px',
                               fontSize: '12px',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
                             🤖 Apply Plan
                           </button>
                         ) : (
-                          <span style={{ 
-                            background: '#FF9800', 
-                            color: 'white', 
-                            padding: '3px 8px', 
-                            borderRadius: '3px', 
-                            fontSize: '12px' 
-                          }}>
+                          <span
+                            style={{
+                              background: '#FF9800',
+                              color: 'white',
+                              padding: '3px 8px',
+                              borderRadius: '3px',
+                              fontSize: '12px',
+                            }}
+                          >
                             ⚠️ Manual Review
                           </span>
                         )}
@@ -781,21 +901,31 @@ export const DependencyManagerPanel: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div style={{ background: '#d4edda', padding: '20px', borderRadius: '8px', color: '#155724', textAlign: 'center' }}>
+              <div
+                style={{
+                  background: '#d4edda',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  color: '#155724',
+                  textAlign: 'center',
+                }}
+              >
                 ✅ All dependencies are up to date.
               </div>
             )}
           </div>
         )}
 
-        <div style={{
-          marginTop: '20px',
-          background: '#e8f5e8',
-          padding: '15px',
-          borderRadius: '8px',
-          fontSize: '14px',
-          color: '#2e7d32'
-        }}>
+        <div
+          style={{
+            marginTop: '20px',
+            background: '#e8f5e8',
+            padding: '15px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: '#2e7d32',
+          }}
+        >
           <strong>📦 Autonomous Dependency Management:</strong>
           <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
             <li>Automatic security vulnerability detection and patching</li>
