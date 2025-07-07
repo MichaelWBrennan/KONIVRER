@@ -252,25 +252,37 @@ export const useBackgroundDependencyManager = () => {
   };
 
   // Automatic dependency checking silently
+  let dependencyCheckCount = 0;
+  
   const checkDependenciesSilently = async () => {
+    dependencyCheckCount++;
     const deps = getCurrentDependencies();
     const plans = generateUpdatePlans(deps);
 
-    // Auto-apply safe updates silently
-    const safeUpdates = plans.filter(
-      p => p.riskLevel === 'low' && p.autoApplicable,
-    );
+    // Auto-apply safe updates silently (but only every 30 seconds to avoid overwhelming)
+    if (dependencyCheckCount % 30 === 0) {
+      const safeUpdates = plans.filter(
+        p => p.riskLevel === 'low' && p.autoApplicable,
+      );
 
-    for (const plan of safeUpdates) {
-      await applyUpdatePlan(plan);
+      for (const plan of safeUpdates) {
+        await applyUpdatePlan(plan);
+      }
+
+      // Store check timestamp
+      localStorage.setItem('lastDependencyCheck', new Date().toISOString());
+
+      if (safeUpdates.length > 0) {
+        console.log(
+          `[DEPENDENCY MANAGER] Silently applied ${safeUpdates.length} safe updates (check #${dependencyCheckCount})`,
+        );
+      }
     }
-
-    // Store check timestamp
-    localStorage.setItem('lastDependencyCheck', new Date().toISOString());
-
-    console.log(
-      `[DEPENDENCY MANAGER] Silently applied ${safeUpdates.length} safe updates`,
-    );
+    
+    // Log monitoring activity every 60 seconds
+    if (dependencyCheckCount % 60 === 0) {
+      console.log(`[DEPENDENCY MANAGER] Monitoring active - ${dependencyCheckCount} checks completed`);
+    }
   };
 
   // Start dependency monitoring silently
