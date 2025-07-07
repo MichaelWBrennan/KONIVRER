@@ -131,116 +131,17 @@ The game uses these types of cards:
 - **Offline Play** - Works without internet
 - **Touch Friendly** - Easy to use on mobile
 
-## 🔧 Development
+## 🚀 Want to Help?
 
-### Available Scripts
-
-```bash
-npm run dev              # Start development server
-npm run build            # Build for production
-npm run preview          # Preview production build
-npm run test             # Run tests (23/23 passing)
-npm run test:coverage    # Run tests with coverage report
-npm run lint             # Lint and fix code (0 errors)
-npm run type-check       # TypeScript type checking (0 errors)
-```
-
-### Quality Assurance Commands
-
-```bash
-# Run all quality checks (guaranteed to pass)
-npm run test && npm run lint && npm run type-check
-
-# Generate coverage report
-npm run test:coverage
-
-# Watch mode for development
-npm run test:watch
-```
-
-### Automation Scripts
-
-```bash
-npm run automation:run           # Full automation workflow
-npm run automation:security      # Security scan only
-npm run automation:performance   # Performance optimization
-npm run automation:dashboard     # View automation dashboard
-npm run heal                     # Self-healing workflow
-```
-
-## 🚀 Deployment
-
-The application is optimized for deployment on:
-
-- **Vercel** (recommended)
-- **Netlify**
-- **GitHub Pages**
-- **Any static hosting service**
-
-```bash
-npm run build
-# Deploy the 'dist' folder
-```
-
-## 🧪 Test Infrastructure
-
-**Comprehensive Testing Suite:**
-
-```bash
-# Test Results (Always Passing)
-✓ src/__tests__/integration.test.tsx (4 tests) 
-✓ src/__tests__/main.test.tsx (3 tests)
-✓ src/core/__tests__/AllInOne.test.tsx (3 tests)
-✓ automation/__tests__/all-in-one.test.ts (8 tests)
-✓ src/__tests__/basic.test.ts (5 tests)
-
-Test Files  5 passed (5)
-Tests      23 passed (23)
-```
-
-**Test Coverage:**
-- **Unit Tests**: Core functionality testing
-- **Component Tests**: React component testing with @testing-library
-- **Integration Tests**: Application workflow testing
-- **Automation Tests**: Zero-command system testing
-- **Setup Tests**: Environment and configuration testing
-
-**Testing Tools:**
-- **Vitest**: Fast unit test runner with ESM support
-- **@testing-library/react**: React component testing utilities
-- **jsdom**: Browser environment simulation
-- **@vitest/coverage-v8**: Code coverage reporting
-- **@testing-library/jest-dom**: Custom Jest matchers
-
-## 📊 Performance
-
-- **Lighthouse Score**: 100/100 across all metrics
-- **Bundle Size**: < 500KB gzipped
-- **First Paint**: < 1.5s
-- **Interactive**: < 2.5s
-- **PWA Ready**: Full offline support
-- **Test Performance**: 23 tests in < 5 seconds
-
-## 🔒 Security
-
-- **Dependency Scanning**: Automated vulnerability detection
-- **Code Analysis**: Static security analysis
-- **Content Security Policy**: XSS protection
-- **Secure Headers**: HTTPS enforcement
-- **Input Validation**: Comprehensive sanitization
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run automation: `npm run automation:run`
-5. Submit a pull request
+1. **Download** the project
+2. **Make changes** to improve it
+3. **Test** your changes: `npm run test`
+4. **Share** your improvements
 
 ## 📄 License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+Free to use and modify (MIT License)
 
 ---
 
-**Built with ❤️ for the KONIVRER community**
+**Made with ❤️ for card game fans everywhere**
