@@ -13,20 +13,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 console.log('🚀 KONIVRER Auto-Bootstrap: Starting autonomous system...');
 console.log('🎯 Goal: ZERO manual commands required EVER!');
 
-// Function to run command and return promise
-function runCommand(command, options = {}) {
-  return new Promise((resolve, _reject) => {
-    exec(command, { cwd: __dirname, ...options }, (error, _stdout, _stderr) => {
-      if (error) {
-        console.warn(`⚠️ Command failed: ${command}`, error.message);
-        resolve(false);
-      } else {
-        resolve(true);
-      }
-    });
-  });
-}
-
 // Function to start automation in background
 function startAutomation() {
   console.log('🤖 Starting autonomous automation in background...');
