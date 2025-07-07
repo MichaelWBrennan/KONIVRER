@@ -759,10 +759,15 @@ const AllInOneApp: React.FC = () => {
     },
   };
 
-  // PWA registration
+  // PWA registration and speed tracking initialization
   useEffect(() => {
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').catch(console.error);
+    }
+
+    // Track app initialization time
+    if (!shouldSkipAutonomousSystems()) {
+      trackCustomMetric('APP_INITIALIZATION', performance.now());
     }
   }, []);
 
