@@ -4,7 +4,7 @@
 // This automatically starts everything when npm install runs
 
 import { spawn, exec } from 'child_process';
-import { promises as fs } from 'fs';
+import { promises as fs, createWriteStream } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -38,7 +38,6 @@ function startAutomation() {
   });
   
   // Save logs to file
-  import { createWriteStream } from 'fs';
   const logStream = createWriteStream('automation-bootstrap.log', { flags: 'a' });
   automation.stdout.pipe(logStream);
   automation.stderr.pipe(logStream);
