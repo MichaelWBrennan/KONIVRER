@@ -36,30 +36,32 @@ export const useSecurityIntelligence = () => {
       source: 'OWASP',
       url: 'https://owasp.org/www-project-top-ten/',
       lastChecked: new Date().toISOString(),
-      status: 'active'
+      status: 'active',
     },
     {
       source: 'NIST',
       url: 'https://www.nist.gov/cybersecurity',
       lastChecked: new Date().toISOString(),
-      status: 'active'
+      status: 'active',
     },
     {
       source: 'CVE Database',
       url: 'https://cve.mitre.org/',
       lastChecked: new Date().toISOString(),
-      status: 'active'
+      status: 'active',
     },
     {
       source: 'GDPR Updates',
       url: 'https://gdpr.eu/',
       lastChecked: new Date().toISOString(),
-      status: 'active'
-    }
+      status: 'active',
+    },
   ]);
 
   const [securityAlerts, setSecurityAlerts] = useState<SecurityAlert[]>([]);
-  const [complianceUpdates, setComplianceUpdates] = useState<ComplianceUpdate[]>([]);
+  const [complianceUpdates, setComplianceUpdates] = useState<
+    ComplianceUpdate[]
+  >([]);
   const [intelligenceEnabled, setIntelligenceEnabled] = useState(true);
 
   // Simulated security intelligence gathering
@@ -70,35 +72,38 @@ export const useSecurityIntelligence = () => {
         id: 'owasp-2024-001',
         source: 'OWASP',
         title: 'New XSS Prevention Techniques',
-        description: 'Updated recommendations for preventing cross-site scripting attacks in modern web applications',
+        description:
+          'Updated recommendations for preventing cross-site scripting attacks in modern web applications',
         severity: 'medium',
         category: 'vulnerability',
         actionRequired: true,
         autoApplicable: true,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
       {
         id: 'nist-2024-002',
         source: 'NIST',
         title: 'Enhanced Encryption Standards',
-        description: 'New guidelines for quantum-resistant encryption algorithms',
+        description:
+          'New guidelines for quantum-resistant encryption algorithms',
         severity: 'high',
         category: 'update',
         actionRequired: true,
         autoApplicable: false,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
       {
         id: 'gdpr-2024-003',
         source: 'GDPR Updates',
         title: 'AI Transparency Requirements',
-        description: 'New requirements for AI system transparency and explainability under GDPR',
+        description:
+          'New requirements for AI system transparency and explainability under GDPR',
         severity: 'medium',
         category: 'compliance',
         actionRequired: true,
         autoApplicable: true,
-        timestamp: new Date().toISOString()
-      }
+        timestamp: new Date().toISOString(),
+      },
     ];
 
     return mockAlerts;
@@ -114,11 +119,11 @@ export const useSecurityIntelligence = () => {
           'Enhanced AI transparency requirements',
           'Stricter consent mechanisms for automated decision-making',
           'New data portability formats',
-          'Updated breach notification timelines'
+          'Updated breach notification timelines',
         ],
         effectiveDate: '2024-06-01',
         implementationDeadline: '2024-12-01',
-        autoCompliant: true
+        autoCompliant: true,
       },
       {
         regulation: 'CCPA',
@@ -126,19 +131,21 @@ export const useSecurityIntelligence = () => {
         changes: [
           'Expanded definition of personal information',
           'New opt-out mechanisms for data sales',
-          'Enhanced consumer rights notifications'
+          'Enhanced consumer rights notifications',
         ],
         effectiveDate: '2024-07-01',
         implementationDeadline: '2024-12-31',
-        autoCompliant: true
-      }
+        autoCompliant: true,
+      },
     ];
 
     return mockUpdates;
   };
 
   // Apply security intelligence automatically
-  const applySecurityIntelligence = async (alert: SecurityAlert): Promise<boolean> => {
+  const applySecurityIntelligence = async (
+    alert: SecurityAlert,
+  ): Promise<boolean> => {
     if (!alert.autoApplicable) return false;
 
     try {
@@ -161,14 +168,14 @@ export const useSecurityIntelligence = () => {
         alertId: alert.id,
         source: alert.source,
         category: alert.category,
-        severity: alert.severity
+        severity: alert.severity,
       });
 
       return true;
     } catch (error) {
       logSecurityEvent('SECURITY_INTELLIGENCE_FAILED', {
         alertId: alert.id,
-        error: (error as Error).message
+        error: (error as Error).message,
       });
       return false;
     }
@@ -186,19 +193,25 @@ export const useSecurityIntelligence = () => {
           /javascript:/gi,
           /vbscript:/gi,
           /data:text\/html/gi,
-          /on\w+\s*=/gi
+          /on\w+\s*=/gi,
         ],
         replacement: '',
-        strictMode: true
+        strictMode: true,
       };
 
-      localStorage.setItem('enhancedSanitization', JSON.stringify(enhancedSanitization));
+      localStorage.setItem(
+        'enhancedSanitization',
+        JSON.stringify(enhancedSanitization),
+      );
 
       // Update CSP headers
-      const cspMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+      const cspMeta = document.querySelector(
+        'meta[http-equiv="Content-Security-Policy"]',
+      );
       if (cspMeta) {
-        cspMeta.setAttribute('content', 
-          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content"
+        cspMeta.setAttribute(
+          'content',
+          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content",
         );
       }
     }
@@ -214,17 +227,20 @@ export const useSecurityIntelligence = () => {
         humanReviewRight: true,
         algorithmicTransparency: true,
         dataProcessingPurpose: 'clearly_defined',
-        consentMechanism: 'explicit'
+        consentMechanism: 'explicit',
       };
 
-      localStorage.setItem('aiTransparencyConfig', JSON.stringify(aiTransparencyConfig));
+      localStorage.setItem(
+        'aiTransparencyConfig',
+        JSON.stringify(aiTransparencyConfig),
+      );
 
       // Update privacy policy
       const policyUpdate = {
         aiTransparency: true,
         lastUpdated: new Date().toISOString(),
         version: '2.1',
-        changes: ['Added AI transparency and explainability measures']
+        changes: ['Added AI transparency and explainability measures'],
       };
 
       localStorage.setItem('privacyPolicyUpdate', JSON.stringify(policyUpdate));
@@ -240,11 +256,14 @@ export const useSecurityIntelligence = () => {
       measures: [
         'Enhanced monitoring activated',
         'Additional security headers applied',
-        'Threat signatures updated'
-      ]
+        'Threat signatures updated',
+      ],
     };
 
-    localStorage.setItem(`threatMitigation_${alert.id}`, JSON.stringify(threatMitigation));
+    localStorage.setItem(
+      `threatMitigation_${alert.id}`,
+      JSON.stringify(threatMitigation),
+    );
   };
 
   const applySecurityUpdate = async (alert: SecurityAlert) => {
@@ -255,10 +274,13 @@ export const useSecurityIntelligence = () => {
         keyLength: 256,
         quantumResistant: true,
         keyRotationInterval: 43200000, // 12 hours for enhanced security
-        saltLength: 64 // Increased salt length
+        saltLength: 64, // Increased salt length
       };
 
-      localStorage.setItem('encryptionConfig', JSON.stringify(encryptionConfig));
+      localStorage.setItem(
+        'encryptionConfig',
+        JSON.stringify(encryptionConfig),
+      );
     }
   };
 
@@ -270,22 +292,28 @@ export const useSecurityIntelligence = () => {
     const alertInterval = setInterval(async () => {
       const newAlerts = await gatherSecurityIntelligence();
       const existingAlertIds = securityAlerts.map(a => a.id);
-      const freshAlerts = newAlerts.filter(alert => !existingAlertIds.includes(alert.id));
+      const freshAlerts = newAlerts.filter(
+        alert => !existingAlertIds.includes(alert.id),
+      );
 
       if (freshAlerts.length > 0) {
         setSecurityAlerts(prev => [...prev, ...freshAlerts]);
 
         // Auto-apply critical and high severity alerts
         for (const alert of freshAlerts) {
-          if ((alert.severity === 'critical' || alert.severity === 'high') && alert.autoApplicable) {
+          if (
+            (alert.severity === 'critical' || alert.severity === 'high') &&
+            alert.autoApplicable
+          ) {
             await applySecurityIntelligence(alert);
           }
         }
 
         logSecurityEvent('NEW_SECURITY_ALERTS_DETECTED', {
           count: freshAlerts.length,
-          criticalCount: freshAlerts.filter(a => a.severity === 'critical').length,
-          highCount: freshAlerts.filter(a => a.severity === 'high').length
+          criticalCount: freshAlerts.filter(a => a.severity === 'critical')
+            .length,
+          highCount: freshAlerts.filter(a => a.severity === 'high').length,
         });
       }
     }, 1800000); // 30 minutes
@@ -301,7 +329,7 @@ export const useSecurityIntelligence = () => {
           logSecurityEvent('COMPLIANCE_UPDATE_AUTO_APPLIED', {
             regulation: update.regulation,
             version: update.version,
-            changesCount: update.changes.length
+            changesCount: update.changes.length,
           });
         }
       }
@@ -334,7 +362,7 @@ export const useSecurityIntelligence = () => {
     setIntelligenceEnabled,
     applySecurityIntelligence,
     gatherSecurityIntelligence,
-    gatherComplianceUpdates
+    gatherComplianceUpdates,
   };
 };
 
@@ -345,29 +373,41 @@ export const SecurityIntelligencePanel: React.FC = () => {
     complianceUpdates,
     intelligenceEnabled,
     setIntelligenceEnabled,
-    applySecurityIntelligence
+    applySecurityIntelligence,
   } = useSecurityIntelligence();
 
   const [showPanel, setShowPanel] = useState(false);
-  const [selectedTab, setSelectedTab] = useState<'alerts' | 'compliance' | 'feeds'>('alerts');
+  const [selectedTab, setSelectedTab] = useState<
+    'alerts' | 'compliance' | 'feeds'
+  >('alerts');
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'critical': return '#d32f2f';
-      case 'high': return '#f57c00';
-      case 'medium': return '#fbc02d';
-      case 'low': return '#388e3c';
-      default: return '#666';
+      case 'critical':
+        return '#d32f2f';
+      case 'high':
+        return '#f57c00';
+      case 'medium':
+        return '#fbc02d';
+      case 'low':
+        return '#388e3c';
+      default:
+        return '#666';
     }
   };
 
   const getSeverityIcon = (severity: string) => {
     switch (severity) {
-      case 'critical': return '🔴';
-      case 'high': return '🟠';
-      case 'medium': return '🟡';
-      case 'low': return '🟢';
-      default: return '⚪';
+      case 'critical':
+        return '🔴';
+      case 'high':
+        return '🟠';
+      case 'medium':
+        return '🟡';
+      case 'low':
+        return '🟢';
+      default:
+        return '⚪';
     }
   };
 
@@ -389,7 +429,7 @@ export const SecurityIntelligencePanel: React.FC = () => {
           cursor: 'pointer',
           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
           zIndex: 1000,
-          animation: intelligenceEnabled ? 'glow 3s infinite' : 'none'
+          animation: intelligenceEnabled ? 'glow 3s infinite' : 'none',
         }}
         title="Security Intelligence"
       >
@@ -399,29 +439,40 @@ export const SecurityIntelligencePanel: React.FC = () => {
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'rgba(0,0,0,0.8)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 10000,
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{
-        background: 'white',
-        padding: '30px',
-        borderRadius: '10px',
-        maxWidth: '900px',
-        maxHeight: '80vh',
-        overflow: 'auto',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.8)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10000,
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
+      <div
+        style={{
+          background: 'white',
+          padding: '30px',
+          borderRadius: '10px',
+          maxWidth: '900px',
+          maxHeight: '80vh',
+          overflow: 'auto',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+          }}
+        >
           <h2 style={{ color: '#333', margin: 0 }}>🧠 Security Intelligence</h2>
           <button
             onClick={() => setShowPanel(false)}
@@ -430,7 +481,7 @@ export const SecurityIntelligencePanel: React.FC = () => {
               border: 'none',
               fontSize: '24px',
               cursor: 'pointer',
-              color: '#666'
+              color: '#666',
             }}
           >
             ×
@@ -438,11 +489,18 @@ export const SecurityIntelligencePanel: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              cursor: 'pointer',
+            }}
+          >
             <input
               type="checkbox"
               checked={intelligenceEnabled}
-              onChange={(e) => setIntelligenceEnabled(e.target.checked)}
+              onChange={e => setIntelligenceEnabled(e.target.checked)}
               style={{ transform: 'scale(1.2)' }}
             />
             <span style={{ fontSize: '16px', fontWeight: 'bold' }}>
@@ -450,12 +508,19 @@ export const SecurityIntelligencePanel: React.FC = () => {
             </span>
           </label>
           <p style={{ margin: '8px 0', color: '#666', fontSize: '14px' }}>
-            Automatically monitors global security feeds and applies updates in real-time
+            Automatically monitors global security feeds and applies updates in
+            real-time
           </p>
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <div style={{ display: 'flex', gap: '10px', borderBottom: '1px solid #ddd' }}>
+          <div
+            style={{
+              display: 'flex',
+              gap: '10px',
+              borderBottom: '1px solid #ddd',
+            }}
+          >
             {['alerts', 'compliance', 'feeds'].map(tab => (
               <button
                 key={tab}
@@ -467,12 +532,14 @@ export const SecurityIntelligencePanel: React.FC = () => {
                   padding: '10px 20px',
                   borderRadius: '5px 5px 0 0',
                   cursor: 'pointer',
-                  textTransform: 'capitalize'
+                  textTransform: 'capitalize',
                 }}
               >
-                {tab === 'alerts' ? '🚨 Security Alerts' : 
-                 tab === 'compliance' ? '📋 Compliance Updates' : 
-                 '📡 Intelligence Feeds'}
+                {tab === 'alerts'
+                  ? '🚨 Security Alerts'
+                  : tab === 'compliance'
+                    ? '📋 Compliance Updates'
+                    : '📡 Intelligence Feeds'}
               </button>
             ))}
           </div>
@@ -492,22 +559,44 @@ export const SecurityIntelligencePanel: React.FC = () => {
                       background: '#f9f9f9',
                       border: `2px solid ${getSeverityColor(alert.severity)}`,
                       borderRadius: '8px',
-                      padding: '15px'
+                      padding: '15px',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <h4 style={{ margin: '0 0 8px 0', color: '#333' }}>
                           {getSeverityIcon(alert.severity)} {alert.title}
                         </h4>
-                        <p style={{ margin: '0 0 8px 0', color: '#666' }}>{alert.description}</p>
-                        <div style={{ display: 'flex', gap: '15px', fontSize: '12px', color: '#888' }}>
+                        <p style={{ margin: '0 0 8px 0', color: '#666' }}>
+                          {alert.description}
+                        </p>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '15px',
+                            fontSize: '12px',
+                            color: '#888',
+                          }}
+                        >
                           <span>Source: {alert.source}</span>
                           <span>Category: {alert.category}</span>
                           <span>Severity: {alert.severity}</span>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-end' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '5px',
+                          alignItems: 'flex-end',
+                        }}
+                      >
                         {alert.autoApplicable && (
                           <button
                             onClick={() => applySecurityIntelligence(alert)}
@@ -518,7 +607,7 @@ export const SecurityIntelligencePanel: React.FC = () => {
                               padding: '5px 10px',
                               borderRadius: '3px',
                               fontSize: '12px',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
                             🤖 Auto-Apply
@@ -533,8 +622,17 @@ export const SecurityIntelligencePanel: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div style={{ background: '#d4edda', padding: '20px', borderRadius: '8px', color: '#155724', textAlign: 'center' }}>
-                ✅ No active security alerts. All systems are up to date and secure.
+              <div
+                style={{
+                  background: '#d4edda',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  color: '#155724',
+                  textAlign: 'center',
+                }}
+              >
+                ✅ No active security alerts. All systems are up to date and
+                secure.
               </div>
             )}
           </div>
@@ -554,46 +652,85 @@ export const SecurityIntelligencePanel: React.FC = () => {
                       background: '#f0f8ff',
                       border: '2px solid #2196F3',
                       borderRadius: '8px',
-                      padding: '15px'
+                      padding: '15px',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                      }}
+                    >
                       <div style={{ flex: 1 }}>
                         <h4 style={{ margin: '0 0 8px 0', color: '#1565c0' }}>
                           📋 {update.regulation} v{update.version}
                         </h4>
                         <div style={{ marginBottom: '10px' }}>
                           <strong style={{ color: '#1565c0' }}>Changes:</strong>
-                          <ul style={{ margin: '5px 0', paddingLeft: '20px', color: '#666' }}>
+                          <ul
+                            style={{
+                              margin: '5px 0',
+                              paddingLeft: '20px',
+                              color: '#666',
+                            }}
+                          >
                             {update.changes.map((change, i) => (
                               <li key={i}>{change}</li>
                             ))}
                           </ul>
                         </div>
-                        <div style={{ display: 'flex', gap: '15px', fontSize: '12px', color: '#888' }}>
-                          <span>Effective: {new Date(update.effectiveDate).toLocaleDateString()}</span>
-                          <span>Deadline: {new Date(update.implementationDeadline).toLocaleDateString()}</span>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '15px',
+                            fontSize: '12px',
+                            color: '#888',
+                          }}
+                        >
+                          <span>
+                            Effective:{' '}
+                            {new Date(
+                              update.effectiveDate,
+                            ).toLocaleDateString()}
+                          </span>
+                          <span>
+                            Deadline:{' '}
+                            {new Date(
+                              update.implementationDeadline,
+                            ).toLocaleDateString()}
+                          </span>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-end',
+                        }}
+                      >
                         {update.autoCompliant ? (
-                          <span style={{ 
-                            background: '#4CAF50', 
-                            color: 'white', 
-                            padding: '3px 8px', 
-                            borderRadius: '3px', 
-                            fontSize: '12px' 
-                          }}>
+                          <span
+                            style={{
+                              background: '#4CAF50',
+                              color: 'white',
+                              padding: '3px 8px',
+                              borderRadius: '3px',
+                              fontSize: '12px',
+                            }}
+                          >
                             ✅ Auto-Compliant
                           </span>
                         ) : (
-                          <span style={{ 
-                            background: '#FF9800', 
-                            color: 'white', 
-                            padding: '3px 8px', 
-                            borderRadius: '3px', 
-                            fontSize: '12px' 
-                          }}>
+                          <span
+                            style={{
+                              background: '#FF9800',
+                              color: 'white',
+                              padding: '3px 8px',
+                              borderRadius: '3px',
+                              fontSize: '12px',
+                            }}
+                          >
                             ⚠️ Manual Review
                           </span>
                         )}
@@ -603,7 +740,15 @@ export const SecurityIntelligencePanel: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div style={{ background: '#d4edda', padding: '20px', borderRadius: '8px', color: '#155724', textAlign: 'center' }}>
+              <div
+                style={{
+                  background: '#d4edda',
+                  padding: '20px',
+                  borderRadius: '8px',
+                  color: '#155724',
+                  textAlign: 'center',
+                }}
+              >
                 ✅ All compliance requirements are up to date.
               </div>
             )}
@@ -623,19 +768,42 @@ export const SecurityIntelligencePanel: React.FC = () => {
                     background: '#f9f9f9',
                     border: `2px solid ${feed.status === 'active' ? '#4CAF50' : '#FF9800'}`,
                     borderRadius: '8px',
-                    padding: '15px'
+                    padding: '15px',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  >
                     <div>
                       <h4 style={{ margin: 0, color: '#333' }}>
                         {feed.status === 'active' ? '🟢' : '🟡'} {feed.source}
                       </h4>
-                      <p style={{ margin: '5px 0', color: '#666', fontSize: '14px' }}>{feed.url}</p>
+                      <p
+                        style={{
+                          margin: '5px 0',
+                          color: '#666',
+                          fontSize: '14px',
+                        }}
+                      >
+                        {feed.url}
+                      </p>
                     </div>
-                    <div style={{ textAlign: 'right', fontSize: '12px', color: '#888' }}>
+                    <div
+                      style={{
+                        textAlign: 'right',
+                        fontSize: '12px',
+                        color: '#888',
+                      }}
+                    >
                       <div>Status: {feed.status}</div>
-                      <div>Last checked: {new Date(feed.lastChecked).toLocaleString()}</div>
+                      <div>
+                        Last checked:{' '}
+                        {new Date(feed.lastChecked).toLocaleString()}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -644,14 +812,16 @@ export const SecurityIntelligencePanel: React.FC = () => {
           </div>
         )}
 
-        <div style={{
-          marginTop: '20px',
-          background: '#e8f5e8',
-          padding: '15px',
-          borderRadius: '8px',
-          fontSize: '14px',
-          color: '#2e7d32'
-        }}>
+        <div
+          style={{
+            marginTop: '20px',
+            background: '#e8f5e8',
+            padding: '15px',
+            borderRadius: '8px',
+            fontSize: '14px',
+            color: '#2e7d32',
+          }}
+        >
           <strong>🧠 Intelligent Security Features:</strong>
           <ul style={{ margin: '8px 0', paddingLeft: '20px' }}>
             <li>Real-time monitoring of global security intelligence feeds</li>

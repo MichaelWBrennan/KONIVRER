@@ -31,7 +31,7 @@ export const useSecurityAutomation = () => {
       trigger: 'time',
       condition: 'daily at 02:00',
       action: 'run comprehensive security audit',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'critical-vulnerability-response',
@@ -39,7 +39,7 @@ export const useSecurityAutomation = () => {
       trigger: 'threat',
       condition: 'severity >= critical',
       action: 'apply immediate patches and notify',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'compliance-monitoring',
@@ -47,7 +47,7 @@ export const useSecurityAutomation = () => {
       trigger: 'time',
       condition: 'weekly on sunday',
       action: 'check all compliance requirements',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'security-config-optimization',
@@ -55,7 +55,7 @@ export const useSecurityAutomation = () => {
       trigger: 'event',
       condition: 'new security standard detected',
       action: 'update security configurations',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'threat-intelligence-sync',
@@ -63,7 +63,7 @@ export const useSecurityAutomation = () => {
       trigger: 'time',
       condition: 'every 30 minutes',
       action: 'sync with threat intelligence feeds',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'privacy-policy-updates',
@@ -71,7 +71,7 @@ export const useSecurityAutomation = () => {
       trigger: 'compliance',
       condition: 'new privacy regulation detected',
       action: 'update privacy policies and notify users',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'security-metrics-collection',
@@ -79,7 +79,7 @@ export const useSecurityAutomation = () => {
       trigger: 'time',
       condition: 'every hour',
       action: 'collect and analyze security metrics',
-      enabled: true
+      enabled: true,
     },
     {
       id: 'automated-backup-verification',
@@ -87,48 +87,50 @@ export const useSecurityAutomation = () => {
       trigger: 'time',
       condition: 'daily at 01:00',
       action: 'verify data integrity and backup status',
-      enabled: true
-    }
+      enabled: true,
+    },
   ];
 
   // Execute automation rules
-  const executeAutomationRule = async (rule: AutomationRule): Promise<boolean> => {
+  const executeAutomationRule = async (
+    rule: AutomationRule,
+  ): Promise<boolean> => {
     try {
       logSecurityEvent('AUTOMATION_RULE_EXECUTING', {
         ruleId: rule.id,
         ruleName: rule.name,
-        trigger: rule.trigger
+        trigger: rule.trigger,
       });
 
       switch (rule.action) {
         case 'run comprehensive security audit':
           await runComprehensiveSecurityAudit();
           break;
-        
+
         case 'apply immediate patches and notify':
           await applyImmediatePatches();
           break;
-        
+
         case 'check all compliance requirements':
           await checkComplianceRequirements();
           break;
-        
+
         case 'update security configurations':
           await updateSecurityConfigurations();
           break;
-        
+
         case 'sync with threat intelligence feeds':
           await syncThreatIntelligence();
           break;
-        
+
         case 'update privacy policies and notify users':
           await updatePrivacyPolicies();
           break;
-        
+
         case 'collect and analyze security metrics':
           await collectSecurityMetrics();
           break;
-        
+
         case 'verify data integrity and backup status':
           await verifyDataIntegrity();
           break;
@@ -136,15 +138,15 @@ export const useSecurityAutomation = () => {
 
       // Update last executed timestamp
       const rules = JSON.parse(localStorage.getItem('automationRules') || '[]');
-      const updatedRules = rules.map((r: AutomationRule) => 
-        r.id === rule.id ? { ...r, lastExecuted: new Date().toISOString() } : r
+      const updatedRules = rules.map((r: AutomationRule) =>
+        r.id === rule.id ? { ...r, lastExecuted: new Date().toISOString() } : r,
       );
       localStorage.setItem('automationRules', JSON.stringify(updatedRules));
 
       logSecurityEvent('AUTOMATION_RULE_COMPLETED', {
         ruleId: rule.id,
         ruleName: rule.name,
-        success: true
+        success: true,
       });
 
       return true;
@@ -152,7 +154,7 @@ export const useSecurityAutomation = () => {
       logSecurityEvent('AUTOMATION_RULE_FAILED', {
         ruleId: rule.id,
         ruleName: rule.name,
-        error: (error as Error).message
+        error: (error as Error).message,
       });
       return false;
     }
@@ -169,10 +171,10 @@ export const useSecurityAutomation = () => {
         { name: 'Input Sanitization', status: 'pass' },
         { name: 'Session Security', status: 'pass' },
         { name: 'GDPR Compliance', status: 'pass' },
-        { name: 'Vulnerability Scan', status: 'pass' }
+        { name: 'Vulnerability Scan', status: 'pass' },
       ],
       overallScore: 100,
-      recommendations: []
+      recommendations: [],
     };
 
     localStorage.setItem('lastSecurityAudit', JSON.stringify(auditResults));
@@ -186,16 +188,22 @@ export const useSecurityAutomation = () => {
       additionalEncryption: true,
       restrictedAccess: true,
       emergencyProtocols: true,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
-    localStorage.setItem('emergencySecurityConfig', JSON.stringify(emergencyConfig));
+    localStorage.setItem(
+      'emergencySecurityConfig',
+      JSON.stringify(emergencyConfig),
+    );
 
     // Update CSP to be more restrictive
-    const cspMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+    const cspMeta = document.querySelector(
+      'meta[http-equiv="Content-Security-Policy"]',
+    );
     if (cspMeta) {
-      cspMeta.setAttribute('content', 
-        "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+      cspMeta.setAttribute(
+        'content',
+        "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'",
       );
     }
   };
@@ -209,22 +217,22 @@ export const useSecurityAutomation = () => {
         rightToErasure: true,
         dataPortability: true,
         privacyByDesign: true,
-        score: 100
+        score: 100,
       },
       ccpa: {
         rightToKnow: true,
         rightToDelete: true,
         rightToOptOut: true,
         nonDiscrimination: true,
-        score: 100
+        score: 100,
       },
       coppa: {
         parentalConsent: true,
         ageVerification: true,
         dataCollection: 'minimal',
-        score: 100
+        score: 100,
       },
-      overallCompliance: 100
+      overallCompliance: 100,
     };
 
     localStorage.setItem('complianceCheck', JSON.stringify(complianceCheck));
@@ -238,23 +246,26 @@ export const useSecurityAutomation = () => {
         algorithm: 'AES-256-GCM',
         keyLength: 256,
         quantumResistant: true,
-        keyRotation: 21600000 // 6 hours
+        keyRotation: 21600000, // 6 hours
       },
       headers: {
-        'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
+        'Content-Security-Policy':
+          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
         'X-XSS-Protection': '1; mode=block',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
-        'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
-        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload'
+        'Permissions-Policy':
+          'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+        'Strict-Transport-Security':
+          'max-age=31536000; includeSubDomains; preload',
       },
       monitoring: {
         realTime: true,
         aiPowered: true,
         predictiveAnalysis: true,
-        anomalyDetection: true
-      }
+        anomalyDetection: true,
+      },
     };
 
     localStorage.setItem('latestSecurityConfig', JSON.stringify(latestConfig));
@@ -267,7 +278,7 @@ export const useSecurityAutomation = () => {
       newThreats: 0,
       patchesApplied: 0,
       riskLevel: 'low',
-      nextSync: new Date(Date.now() + 1800000).toISOString() // 30 minutes
+      nextSync: new Date(Date.now() + 1800000).toISOString(), // 30 minutes
     };
 
     localStorage.setItem('threatIntelligence', JSON.stringify(threatIntel));
@@ -284,8 +295,8 @@ export const useSecurityAutomation = () => {
         'Enhanced AI transparency measures',
         'Improved data minimization practices',
         'Strengthened user consent mechanisms',
-        'Updated breach notification procedures'
-      ]
+        'Updated breach notification procedures',
+      ],
     };
 
     localStorage.setItem('privacyPolicyUpdate', JSON.stringify(policyUpdate));
@@ -297,8 +308,12 @@ export const useSecurityAutomation = () => {
       complianceScore: 100,
       vulnerabilityCount: 0,
       lastSecurityScan: new Date().toISOString(),
-      autoFixesApplied: parseInt(localStorage.getItem('autoFixesApplied') || '0'),
-      securityEventsToday: parseInt(localStorage.getItem('securityEventsToday') || '0')
+      autoFixesApplied: parseInt(
+        localStorage.getItem('autoFixesApplied') || '0',
+      ),
+      securityEventsToday: parseInt(
+        localStorage.getItem('securityEventsToday') || '0',
+      ),
     };
 
     localStorage.setItem('securityMetrics', JSON.stringify(metrics));
@@ -312,7 +327,7 @@ export const useSecurityAutomation = () => {
       backupStatus: 'current',
       checksumVerification: 'passed',
       corruptionDetected: false,
-      autoRepairApplied: false
+      autoRepairApplied: false,
     };
 
     localStorage.setItem('dataIntegrityCheck', JSON.stringify(integrityCheck));
@@ -328,7 +343,9 @@ export const useSecurityAutomation = () => {
 
     // Set up automation scheduler
     const scheduler = setInterval(() => {
-      const rules: AutomationRule[] = JSON.parse(localStorage.getItem('automationRules') || '[]');
+      const rules: AutomationRule[] = JSON.parse(
+        localStorage.getItem('automationRules') || '[]',
+      );
       const now = new Date();
 
       rules.forEach(rule => {
@@ -338,7 +355,10 @@ export const useSecurityAutomation = () => {
 
         switch (rule.trigger) {
           case 'time':
-            shouldExecute = checkTimeCondition(rule.condition, rule.lastExecuted);
+            shouldExecute = checkTimeCondition(
+              rule.condition,
+              rule.lastExecuted,
+            );
             break;
           case 'event':
             shouldExecute = checkEventCondition(rule.condition);
@@ -360,7 +380,10 @@ export const useSecurityAutomation = () => {
     return () => clearInterval(scheduler);
   };
 
-  const checkTimeCondition = (condition: string, lastExecuted?: string): boolean => {
+  const checkTimeCondition = (
+    condition: string,
+    lastExecuted?: string,
+  ): boolean => {
     const now = new Date();
     const lastExec = lastExecuted ? new Date(lastExecuted) : new Date(0);
 
@@ -395,21 +418,27 @@ export const useSecurityAutomation = () => {
   };
 
   const checkComplianceCondition = (condition: string): boolean => {
-    const complianceUpdates = JSON.parse(localStorage.getItem('complianceUpdates') || '[]');
-    return complianceUpdates.some((update: any) => 
-      condition.includes('new privacy regulation') && update.type === 'privacy'
+    const complianceUpdates = JSON.parse(
+      localStorage.getItem('complianceUpdates') || '[]',
+    );
+    return complianceUpdates.some(
+      (update: any) =>
+        condition.includes('new privacy regulation') &&
+        update.type === 'privacy',
     );
   };
 
   return {
     initializeAutomation,
     executeAutomationRule,
-    defaultRules
+    defaultRules,
   };
 };
 
 // Auto-initialize security automation
-export const SecurityAutomationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SecurityAutomationProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const { initializeAutomation } = useSecurityAutomation();
   const { logSecurityEvent } = useSecurityContext();
 
@@ -420,7 +449,7 @@ export const SecurityAutomationProvider: React.FC<{ children: React.ReactNode }>
     logSecurityEvent('SECURITY_AUTOMATION_INITIALIZED', {
       rulesCount: 8,
       autoUpdateEnabled: true,
-      intelligenceEnabled: true
+      intelligenceEnabled: true,
     });
 
     return cleanup;
