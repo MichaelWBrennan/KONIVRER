@@ -32,24 +32,52 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// Early exit during build to prevent autonomous systems from running
-if (shouldSkipAutonomousSystems()) {
-  console.log('[BUILD] Skipping app initialization during build process');
-  // Create minimal DOM for build process
-  const rootElement = document.getElementById('root');
-  if (rootElement) {
-    rootElement.innerHTML = '<div>Building...</div>';
+// AGGRESSIVE BUILD DETECTION - Multiple exit points
+// Exit immediately if any build indicators are present
+if (
+  typeof window === 'undefined' ||
+  typeof document === 'undefined' ||
+  process.env.VERCEL === '1' ||
+  process.env.VERCEL_ENV ||
+  process.env.NODE_ENV === 'production' ||
+  shouldSkipAutonomousSystems()
+) {
+  console.log('[BUILD] IMMEDIATE EXIT: Build environment detected, skipping app initialization');
+  
+  // Minimal DOM for build process only if document exists
+  if (typeof document !== 'undefined') {
+    const rootElement = document.getElementById('root');
+    if (rootElement) {
+      rootElement.innerHTML = '<div>Build in progress...</div>';
+    }
+  }
+  
+  // Force exit - do not continue execution
+  if (typeof process !== 'undefined' && process.exit) {
+    // In Node.js environment, exit immediately
+    setTimeout(() => process.exit(0), 100);
   }
 } else {
-  const rootElement = document.getElementById('root');
-  if (!rootElement) {
-    throw new Error('Root element not found');
-  }
+  // Only initialize app in true browser environment
+  try {
+    const rootElement = document.getElementById('root');
+    if (!rootElement) {
+      throw new Error('Root element not found');
+    }
 
-  const root = createRoot(rootElement);
-  root.render(
-    <React.StrictMode>
-      <AllInOneApp />
-    </React.StrictMode>,
-  );
+    const root = createRoot(rootElement);
+    root.render(
+      <React.StrictMode>
+        <AllInOneApp />
+      </React.StrictMode>,
+    );
+    
+    console.log('[APP] Successfully initialized in browser environment');
+  } catch (error) {
+    console.error('[APP] Failed to initialize:', error);
+    // Fail silently in build environments
+    if (shouldSkipAutonomousSystems()) {
+      console.log('[BUILD] Ignoring initialization error in build environment');
+    }
+  }
 }
