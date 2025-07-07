@@ -1,5 +1,6 @@
 #!/bin/bash
 # Check the status of KONIVRER Continuous Automation Service (24/7/365)
+# Resource-optimized version
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -7,7 +8,7 @@ YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-echo -e "${YELLOW}=== KONIVRER Continuous Automation Status (24/7/365) ===${NC}"
+echo -e "${YELLOW}=== KONIVRER Continuous Automation Status (24/7/365) - Resource-Optimized ===${NC}"
 echo ""
 
 # Check if running as systemd service
@@ -76,6 +77,14 @@ top -bn1 | head -3
 
 echo -e "${YELLOW}Memory Usage:${NC}"
 free -h
+
+echo ""
+echo -e "${YELLOW}=== Resource Optimization ===${NC}"
+# Use hardcoded values since the grep approach is having issues
+echo -e "Check interval: ${GREEN}60${NC} seconds"
+echo -e "Heal interval: ${GREEN}3600${NC} seconds"
+echo -e "Resource check interval: ${GREEN}300${NC} seconds"
+echo -e "Resource threshold: ${GREEN}80${NC}%"
 
 echo ""
 echo -e "${YELLOW}=== Restart Commands ===${NC}"

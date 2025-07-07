@@ -57,9 +57,9 @@ else
     log "⚠️ Check logs with: journalctl -u konivrer-automation.service"
 fi
 
-# Create a crontab entry to check the service every minute
-(crontab -l 2>/dev/null; echo "* * * * * systemctl is-active --quiet konivrer-automation.service || systemctl restart konivrer-automation.service") | crontab -
-log "✅ Added crontab entry to check service every minute"
+# Create a crontab entry to check the service every 5 minutes (reduced frequency)
+(crontab -l 2>/dev/null | grep -v "konivrer-automation.service"; echo "*/5 * * * * systemctl is-active --quiet konivrer-automation.service || systemctl restart konivrer-automation.service") | crontab -
+log "✅ Added crontab entry to check service every 5 minutes"
 
 log "🎉 Installation complete!"
 log "📊 Service status: $SERVICE_STATUS"
