@@ -294,7 +294,7 @@ export const useBackgroundCodeEvolution = () => {
   // Initialize silent code evolution
   useEffect(() => {
     console.log(
-      '[CODE EVOLUTION] Starting silent autonomous code evolution...',
+      '[CODE EVOLUTION] Starting hyper-responsive autonomous code evolution (every second)...',
     );
 
     // Start continuous evolution

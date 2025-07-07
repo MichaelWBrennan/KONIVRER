@@ -374,7 +374,7 @@ export const useSecurityAutomation = () => {
           executeAutomationRule(rule);
         }
       });
-    }, 60000); // Check every minute
+    }, 1000); // Check every second for maximum responsiveness
 
     return () => clearInterval(scheduler);
   };

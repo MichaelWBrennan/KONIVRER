@@ -276,7 +276,7 @@ export const useBackgroundDependencyManager = () => {
   // Start dependency monitoring silently
   useEffect(() => {
     console.log(
-      '[DEPENDENCY MANAGER] Starting silent dependency monitoring...',
+      '[DEPENDENCY MANAGER] Starting hyper-responsive dependency monitoring (every second)...',
     );
 
     // Initial check
