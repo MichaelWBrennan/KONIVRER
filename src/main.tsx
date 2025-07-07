@@ -18,15 +18,17 @@ if ('serviceWorker' in navigator) {
 
 // Web Vitals for performance monitoring
 if (process.env.NODE_ENV === 'production') {
-  import('web-vitals').then((webVitals: any) => {
-    if (webVitals.getCLS) webVitals.getCLS(console.log);
-    if (webVitals.getFID) webVitals.getFID(console.log);
-    if (webVitals.getFCP) webVitals.getFCP(console.log);
-    if (webVitals.getLCP) webVitals.getLCP(console.log);
-    if (webVitals.getTTFB) webVitals.getTTFB(console.log);
-  }).catch(() => {
-    // Web vitals not available, ignore
-  });
+  import('web-vitals')
+    .then((webVitals: any) => {
+      if (webVitals.getCLS) webVitals.getCLS(console.log);
+      if (webVitals.getFID) webVitals.getFID(console.log);
+      if (webVitals.getFCP) webVitals.getFCP(console.log);
+      if (webVitals.getLCP) webVitals.getLCP(console.log);
+      if (webVitals.getTTFB) webVitals.getTTFB(console.log);
+    })
+    .catch(() => {
+      // Web vitals not available, ignore
+    });
 }
 
 const rootElement = document.getElementById('root');
