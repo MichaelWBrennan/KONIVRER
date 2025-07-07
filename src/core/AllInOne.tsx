@@ -794,6 +794,12 @@ const BackgroundAutomation: React.FC = () => {
 
   // Log that autonomous systems are active (only in development)
   React.useEffect(() => {
+    // Skip autonomous systems during build/deployment
+    if (typeof window === 'undefined') {
+      console.log('[AUTONOMOUS SYSTEMS] Skipping during build/deployment');
+      return;
+    }
+
     if (process.env.NODE_ENV === 'development') {
       console.log(
         '[AUTONOMOUS SYSTEMS] All systems active and running hyper-responsively in background',
@@ -815,6 +821,10 @@ const BackgroundAutomation: React.FC = () => {
       );
       console.log(
         '[AUTONOMOUS SYSTEMS] ⚡ Hyper-Responsive: Maximum 1-second response time',
+      );
+    } else if (process.env.NODE_ENV === 'production') {
+      console.log(
+        '[AUTONOMOUS SYSTEMS] Production mode - autonomous systems disabled during deployment',
       );
     }
   }, []);
