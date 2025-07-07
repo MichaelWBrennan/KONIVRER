@@ -253,7 +253,7 @@ export const useBackgroundDependencyManager = () => {
 
   // Automatic dependency checking silently
   let dependencyCheckCount = 0;
-  
+
   const checkDependenciesSilently = async () => {
     dependencyCheckCount++;
     const deps = getCurrentDependencies();
@@ -278,10 +278,12 @@ export const useBackgroundDependencyManager = () => {
         );
       }
     }
-    
+
     // Log monitoring activity every 60 seconds
     if (dependencyCheckCount % 60 === 0) {
-      console.log(`[DEPENDENCY MANAGER] Monitoring active - ${dependencyCheckCount} checks completed`);
+      console.log(
+        `[DEPENDENCY MANAGER] Monitoring active - ${dependencyCheckCount} checks completed`,
+      );
     }
   };
 

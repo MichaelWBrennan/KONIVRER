@@ -265,7 +265,7 @@ export const useBackgroundCodeEvolution = () => {
   // Continuous evolution process running silently
   const startSilentEvolution = () => {
     let checkCount = 0;
-    
+
     // Check for updates every second for maximum responsiveness
     const evolutionInterval = setInterval(async () => {
       checkCount++;
@@ -291,10 +291,12 @@ export const useBackgroundCodeEvolution = () => {
           );
         }
       }
-      
+
       // Log monitoring activity every 30 seconds
       if (checkCount % 30 === 0) {
-        console.log(`[CODE EVOLUTION] Monitoring active - ${checkCount} checks completed`);
+        console.log(
+          `[CODE EVOLUTION] Monitoring active - ${checkCount} checks completed`,
+        );
       }
     }, 1000); // 1 second - maximum responsiveness
 
