@@ -182,6 +182,13 @@ const Navigation: React.FC = () => {
           <Link
             key={item.path}
             to={item.path}
+            onClick={() => {
+              // Track navigation clicks for speed insights
+              if (!shouldSkipAutonomousSystems()) {
+                trackCustomMetric('NAVIGATION_CLICK', performance.now());
+                trackCustomMetric(`NAVIGATION_TO_${item.path.replace('/', '') || 'HOME'}`, performance.now());
+              }
+            }}
             style={{
               color: 'white',
               textDecoration: 'none',
