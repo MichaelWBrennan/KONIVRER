@@ -5,7 +5,7 @@
 
 export const isBuildEnvironment = (): boolean => {
   // AGGRESSIVE BUILD DETECTION - Multiple layers of protection
-  
+
   // 1. Server-side rendering detection (most reliable)
   if (typeof window === 'undefined') {
     return true;
@@ -71,8 +71,8 @@ export const isBuildEnvironment = (): boolean => {
 
   // 7. Global object checks (build environments often have different globals)
   if (
-    typeof global !== 'undefined' && 
-    typeof window !== 'undefined' && 
+    typeof global !== 'undefined' &&
+    typeof window !== 'undefined' &&
     global === window
   ) {
     return true; // This pattern often indicates a build environment
@@ -101,21 +101,27 @@ export const shouldSkipAutonomousSystems = (): boolean => {
   }
 
   const isBuild = isBuildEnvironment();
-  
+
   if (isBuild) {
-    console.log('[BUILD DETECTION] Autonomous systems disabled - build environment detected');
+    console.log(
+      '[BUILD DETECTION] Autonomous systems disabled - build environment detected',
+    );
     // Auto-enable force disable if we detect build environment
     FORCE_DISABLE_AUTONOMOUS = true;
   }
-  
+
   return isBuild;
 };
 
 // Additional safety check - disable autonomous systems immediately if Vercel is detected
 if (
-  typeof process !== 'undefined' && 
-  (process.env.VERCEL === '1' || process.env.VERCEL_ENV || process.env.VERCEL_URL)
+  typeof process !== 'undefined' &&
+  (process.env.VERCEL === '1' ||
+    process.env.VERCEL_ENV ||
+    process.env.VERCEL_URL)
 ) {
   FORCE_DISABLE_AUTONOMOUS = true;
-  console.log('[BUILD DETECTION] VERCEL DETECTED: Autonomous systems pre-disabled');
+  console.log(
+    '[BUILD DETECTION] VERCEL DETECTED: Autonomous systems pre-disabled',
+  );
 }
