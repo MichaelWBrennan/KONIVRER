@@ -19,13 +19,9 @@ import {
 } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SecurityProvider } from '../security/SecurityProvider';
-import { DataProtectionPanel } from '../security/DataProtection';
-import { SecurityAuditPanel } from '../security/SecurityAudit';
-import { AutoSecurityUpdaterPanel } from '../security/AutoSecurityUpdater';
-import { SecurityIntelligencePanel } from '../security/SecurityIntelligence';
 import { SecurityAutomationProvider } from '../security/SecurityAutomation';
-import { CodeEvolutionPanel } from '../automation/CodeEvolution';
-import { DependencyManagerPanel } from '../automation/DependencyManager';
+import { useCodeEvolution } from '../automation/CodeEvolution';
+import { useDependencyManager } from '../automation/DependencyManager';
 
 // Types
 interface Card {
@@ -781,12 +777,7 @@ const AllInOneApp: React.FC = () => {
                 <Route path="/tournaments" element={<TournamentsPage />} />
                 <Route path="/blog" element={<BlogPage />} />
               </Routes>
-              <DataProtectionPanel />
-              <SecurityAuditPanel />
-              <AutoSecurityUpdaterPanel />
-              <SecurityIntelligencePanel />
-              <CodeEvolutionPanel />
-              <DependencyManagerPanel />
+              <BackgroundAutomation />
             </div>
           </Router>
         </AppContext.Provider>
