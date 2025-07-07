@@ -371,7 +371,7 @@ self.addEventListener('notificationclick', event => {
 
   // If action is 'open' or no action (clicked on notification body)
   event.waitUntil(
-    clients.matchAll({ type: 'window' }).then(clientList => {
+    self.clients.matchAll({ type: 'window' }).then(clientList => {
       // Check if app is already open
       for (const client of clientList) {
         if (client.url.includes(url) && 'focus' in client) {
