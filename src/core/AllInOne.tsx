@@ -18,6 +18,9 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SecurityProvider } from '../security/SecurityProvider';
+import { DataProtectionPanel } from '../security/DataProtection';
+import { SecurityAuditPanel } from '../security/SecurityAudit';
 
 // Types
 interface Card {

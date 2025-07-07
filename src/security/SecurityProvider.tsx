@@ -60,22 +60,22 @@ const logSecurityEvent = (event: string, details?: any): void => {
     details: details || {},
     userAgent: navigator.userAgent,
     url: window.location.href,
-    sessionId: sessionStorage.getItem('sessionId') || 'anonymous'
+    sessionId: sessionStorage.getItem('sessionId') || 'anonymous',
   };
-  
+
   // In production, send to secure logging service
   console.log('[SECURITY LOG]', logEntry);
-  
+
   // Store locally for audit trail (encrypted)
   const existingLogs = localStorage.getItem('securityLogs');
   const logs = existingLogs ? JSON.parse(simpleDecrypt(existingLogs)) : [];
   logs.push(logEntry);
-  
+
   // Keep only last 100 logs to prevent storage bloat
   if (logs.length > 100) {
     logs.splice(0, logs.length - 100);
   }
-  
+
   localStorage.setItem('securityLogs', simpleEncrypt(JSON.stringify(logs)));
 };
 
@@ -86,7 +86,7 @@ const checkDataConsent = (): boolean => {
 };
 
 const requestDataConsent = (): Promise<boolean> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const existingConsent = checkDataConsent();
     if (existingConsent) {
       resolve(true);
@@ -153,8 +153,12 @@ const requestDataConsent = (): Promise<boolean> => {
 
     document.body.appendChild(consentDialog);
 
-    const acceptBtn = consentDialog.querySelector('#acceptConsent') as HTMLButtonElement;
-    const declineBtn = consentDialog.querySelector('#declineConsent') as HTMLButtonElement;
+    const acceptBtn = consentDialog.querySelector(
+      '#acceptConsent',
+    ) as HTMLButtonElement;
+    const declineBtn = consentDialog.querySelector(
+      '#declineConsent',
+    ) as HTMLButtonElement;
 
     acceptBtn.onclick = () => {
       localStorage.setItem('dataConsent', 'granted');
@@ -173,14 +177,16 @@ const requestDataConsent = (): Promise<boolean> => {
   });
 };
 
-export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [config] = useState<SecurityConfig>({
     enableCSP: true,
     enableHTTPS: true,
     enableSecureHeaders: true,
     enableDataEncryption: true,
     enableAuditLogging: true,
-    enableGDPRCompliance: true
+    enableGDPRCompliance: true,
   });
 
   const [isSecure, setIsSecure] = useState(false);
@@ -190,8 +196,10 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const initializeSecurity = async () => {
       try {
         // Check HTTPS
-        const isHTTPS = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
-        
+        const isHTTPS =
+          window.location.protocol === 'https:' ||
+          window.location.hostname === 'localhost';
+
         // Set Content Security Policy
         if (config.enableCSP) {
           const meta = document.createElement('meta');
@@ -206,7 +214,9 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             frame-ancestors 'none';
             base-uri 'self';
             form-action 'self';
-          `.replace(/\s+/g, ' ').trim();
+          `
+            .replace(/\s+/g, ' ')
+            .trim();
           document.head.appendChild(meta);
         }
 
@@ -216,7 +226,10 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
             { name: 'X-Content-Type-Options', content: 'nosniff' },
             { name: 'X-Frame-Options', content: 'DENY' },
             { name: 'X-XSS-Protection', content: '1; mode=block' },
-            { name: 'Referrer-Policy', content: 'strict-origin-when-cross-origin' }
+            {
+              name: 'Referrer-Policy',
+              content: 'strict-origin-when-cross-origin',
+            },
           ];
 
           headers.forEach(header => {
@@ -229,7 +242,9 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
         // Generate session ID for security logging
         if (!sessionStorage.getItem('sessionId')) {
-          const sessionId = crypto.getRandomValues(new Uint32Array(4)).join('-');
+          const sessionId = crypto
+            .getRandomValues(new Uint32Array(4))
+            .join('-');
           sessionStorage.setItem('sessionId', sessionId);
         }
 
@@ -243,13 +258,15 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           https: isHTTPS,
           csp: config.enableCSP,
           headers: config.enableSecureHeaders,
-          gdpr: config.enableGDPRCompliance
+          gdpr: config.enableGDPRCompliance,
         });
 
         setIsSecure(true);
       } catch (error) {
         console.error('Security initialization failed:', error);
-        logSecurityEvent('SECURITY_INIT_FAILED', { error: (error as Error).message });
+        logSecurityEvent('SECURITY_INIT_FAILED', {
+          error: (error as Error).message,
+        });
       }
     };
 
@@ -259,11 +276,14 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const securityMonitor = setInterval(() => {
       // Check for potential security issues
       const issues = [];
-      
-      if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+
+      if (
+        window.location.protocol !== 'https:' &&
+        window.location.hostname !== 'localhost'
+      ) {
         issues.push('INSECURE_CONNECTION');
       }
-      
+
       if (issues.length > 0) {
         logSecurityEvent('SECURITY_ISSUES_DETECTED', { issues });
       }
@@ -280,7 +300,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     sanitizeInput,
     logSecurityEvent,
     checkDataConsent,
-    requestDataConsent
+    requestDataConsent,
   };
 
   return (

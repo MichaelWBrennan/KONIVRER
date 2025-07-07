@@ -17,7 +17,8 @@ interface DataProtectionHooks {
 }
 
 export const useDataProtection = (): DataProtectionHooks => {
-  const { encryptData, decryptData, logSecurityEvent, checkDataConsent } = useSecurityContext();
+  const { encryptData, decryptData, logSecurityEvent, checkDataConsent } =
+    useSecurityContext();
   const [userData, setUserData] = useState<UserData | null>(null);
 
   // Load user data on mount
@@ -38,7 +39,9 @@ export const useDataProtection = (): DataProtectionHooks => {
       }
     } catch (error) {
       console.error('Failed to load user data:', error);
-      logSecurityEvent('USER_DATA_LOAD_FAILED', { error: (error as Error).message });
+      logSecurityEvent('USER_DATA_LOAD_FAILED', {
+        error: (error as Error).message,
+      });
     }
   };
 
@@ -49,18 +52,24 @@ export const useDataProtection = (): DataProtectionHooks => {
     }
 
     try {
-      const currentData = userData || { gameProgress: {}, preferences: {}, statistics: {} };
+      const currentData = userData || {
+        gameProgress: {},
+        preferences: {},
+        statistics: {},
+      };
       const updatedData = { ...currentData, ...data };
-      
+
       const encryptedData = encryptData(JSON.stringify(updatedData));
       localStorage.setItem('userData', encryptedData);
       localStorage.setItem('dataLastModified', new Date().toISOString());
-      
+
       setUserData(updatedData);
       logSecurityEvent('USER_DATA_SAVED', { dataKeys: Object.keys(data) });
     } catch (error) {
       console.error('Failed to save user data:', error);
-      logSecurityEvent('USER_DATA_SAVE_FAILED', { error: (error as Error).message });
+      logSecurityEvent('USER_DATA_SAVE_FAILED', {
+        error: (error as Error).message,
+      });
     }
   };
 
@@ -74,7 +83,9 @@ export const useDataProtection = (): DataProtectionHooks => {
       logSecurityEvent('USER_DATA_CLEARED');
     } catch (error) {
       console.error('Failed to clear user data:', error);
-      logSecurityEvent('USER_DATA_CLEAR_FAILED', { error: (error as Error).message });
+      logSecurityEvent('USER_DATA_CLEAR_FAILED', {
+        error: (error as Error).message,
+      });
     }
   };
 
@@ -84,14 +95,16 @@ export const useDataProtection = (): DataProtectionHooks => {
         userData: userData,
         consentTimestamp: localStorage.getItem('consentTimestamp'),
         dataLastModified: localStorage.getItem('dataLastModified'),
-        exportTimestamp: new Date().toISOString()
+        exportTimestamp: new Date().toISOString(),
       };
-      
+
       logSecurityEvent('USER_DATA_EXPORTED');
       return JSON.stringify(exportData, null, 2);
     } catch (error) {
       console.error('Failed to export user data:', error);
-      logSecurityEvent('USER_DATA_EXPORT_FAILED', { error: (error as Error).message });
+      logSecurityEvent('USER_DATA_EXPORT_FAILED', {
+        error: (error as Error).message,
+      });
       return '';
     }
   };
@@ -99,17 +112,19 @@ export const useDataProtection = (): DataProtectionHooks => {
   const importUserData = (data: string): boolean => {
     try {
       const importedData = JSON.parse(data);
-      
+
       if (importedData.userData) {
         saveUserData(importedData.userData);
         logSecurityEvent('USER_DATA_IMPORTED');
         return true;
       }
-      
+
       return false;
     } catch (error) {
       console.error('Failed to import user data:', error);
-      logSecurityEvent('USER_DATA_IMPORT_FAILED', { error: (error as Error).message });
+      logSecurityEvent('USER_DATA_IMPORT_FAILED', {
+        error: (error as Error).message,
+      });
       return false;
     }
   };
@@ -120,7 +135,7 @@ export const useDataProtection = (): DataProtectionHooks => {
       dataTypes: {} as Record<string, number>,
       lastModified: localStorage.getItem('dataLastModified'),
       consentGranted: checkDataConsent(),
-      consentTimestamp: localStorage.getItem('consentTimestamp')
+      consentTimestamp: localStorage.getItem('consentTimestamp'),
     };
 
     // Calculate storage usage
@@ -142,12 +157,13 @@ export const useDataProtection = (): DataProtectionHooks => {
     clearUserData,
     exportUserData,
     importUserData,
-    getDataUsage
+    getDataUsage,
   };
 };
 
 export const DataProtectionPanel: React.FC = () => {
-  const { userData, clearUserData, exportUserData, getDataUsage } = useDataProtection();
+  const { userData, clearUserData, exportUserData, getDataUsage } =
+    useDataProtection();
   const { logSecurityEvent } = useSecurityContext();
   const [showPanel, setShowPanel] = useState(false);
   const [dataUsage, setDataUsage] = useState<any>(null);
@@ -173,7 +189,11 @@ export const DataProtectionPanel: React.FC = () => {
   };
 
   const handleClearData = () => {
-    if (confirm('Are you sure you want to delete all your data? This action cannot be undone.')) {
+    if (
+      confirm(
+        'Are you sure you want to delete all your data? This action cannot be undone.',
+      )
+    ) {
       clearUserData();
       setDataUsage(getDataUsage());
       logSecurityEvent('DATA_CLEARED_BY_USER');
@@ -197,7 +217,7 @@ export const DataProtectionPanel: React.FC = () => {
           fontSize: '24px',
           cursor: 'pointer',
           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          zIndex: 1000
+          zIndex: 1000,
         }}
         title="Data Protection Settings"
       >
@@ -207,30 +227,43 @@ export const DataProtectionPanel: React.FC = () => {
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'rgba(0,0,0,0.8)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 10000,
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{
-        background: 'white',
-        padding: '30px',
-        borderRadius: '10px',
-        maxWidth: '600px',
-        maxHeight: '80vh',
-        overflow: 'auto',
-        boxShadow: '0 4px 20px rgba(0,0,0,0.3)'
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h2 style={{ color: '#333', margin: 0 }}>🔒 Data Protection & Privacy</h2>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        background: 'rgba(0,0,0,0.8)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10000,
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
+      <div
+        style={{
+          background: 'white',
+          padding: '30px',
+          borderRadius: '10px',
+          maxWidth: '600px',
+          maxHeight: '80vh',
+          overflow: 'auto',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: '20px',
+          }}
+        >
+          <h2 style={{ color: '#333', margin: 0 }}>
+            🔒 Data Protection & Privacy
+          </h2>
           <button
             onClick={() => setShowPanel(false)}
             style={{
@@ -238,7 +271,7 @@ export const DataProtectionPanel: React.FC = () => {
               border: 'none',
               fontSize: '24px',
               cursor: 'pointer',
-              color: '#666'
+              color: '#666',
             }}
           >
             ×
@@ -246,16 +279,39 @@ export const DataProtectionPanel: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <h3 style={{ color: '#333', marginBottom: '10px' }}>📊 Your Data Usage</h3>
+          <h3 style={{ color: '#333', marginBottom: '10px' }}>
+            📊 Your Data Usage
+          </h3>
           {dataUsage && (
-            <div style={{ background: '#f5f5f5', padding: '15px', borderRadius: '5px' }}>
-              <p><strong>Total Storage Used:</strong> {(dataUsage.totalStorageUsed / 1024).toFixed(2)} KB</p>
-              <p><strong>Consent Status:</strong> {dataUsage.consentGranted ? '✅ Granted' : '❌ Not Granted'}</p>
-              <p><strong>Last Modified:</strong> {dataUsage.lastModified ? new Date(dataUsage.lastModified).toLocaleString() : 'Never'}</p>
-              <p><strong>Data Types:</strong></p>
+            <div
+              style={{
+                background: '#f5f5f5',
+                padding: '15px',
+                borderRadius: '5px',
+              }}
+            >
+              <p>
+                <strong>Total Storage Used:</strong>{' '}
+                {(dataUsage.totalStorageUsed / 1024).toFixed(2)} KB
+              </p>
+              <p>
+                <strong>Consent Status:</strong>{' '}
+                {dataUsage.consentGranted ? '✅ Granted' : '❌ Not Granted'}
+              </p>
+              <p>
+                <strong>Last Modified:</strong>{' '}
+                {dataUsage.lastModified
+                  ? new Date(dataUsage.lastModified).toLocaleString()
+                  : 'Never'}
+              </p>
+              <p>
+                <strong>Data Types:</strong>
+              </p>
               <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
                 {Object.entries(dataUsage.dataTypes).map(([key, size]) => (
-                  <li key={key}>{key}: {((size as number) / 1024).toFixed(2)} KB</li>
+                  <li key={key}>
+                    {key}: {((size as number) / 1024).toFixed(2)} KB
+                  </li>
                 ))}
               </ul>
             </div>
@@ -263,8 +319,12 @@ export const DataProtectionPanel: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <h3 style={{ color: '#333', marginBottom: '10px' }}>🛡️ Your Rights</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <h3 style={{ color: '#333', marginBottom: '10px' }}>
+            🛡️ Your Rights
+          </h3>
+          <div
+            style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
+          >
             <button
               onClick={handleExportData}
               style={{
@@ -274,7 +334,7 @@ export const DataProtectionPanel: React.FC = () => {
                 padding: '12px 20px',
                 borderRadius: '5px',
                 cursor: 'pointer',
-                fontSize: '16px'
+                fontSize: '16px',
               }}
             >
               📥 Export My Data
@@ -288,7 +348,7 @@ export const DataProtectionPanel: React.FC = () => {
                 padding: '12px 20px',
                 borderRadius: '5px',
                 cursor: 'pointer',
-                fontSize: '16px'
+                fontSize: '16px',
               }}
             >
               🗑️ Delete All My Data
@@ -297,7 +357,9 @@ export const DataProtectionPanel: React.FC = () => {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <h3 style={{ color: '#333', marginBottom: '10px' }}>🔐 Security Features</h3>
+          <h3 style={{ color: '#333', marginBottom: '10px' }}>
+            🔐 Security Features
+          </h3>
           <ul style={{ color: '#666', lineHeight: 1.6 }}>
             <li>✅ All data encrypted in local storage</li>
             <li>✅ No data sent to external servers</li>
@@ -309,7 +371,12 @@ export const DataProtectionPanel: React.FC = () => {
         </div>
 
         <div style={{ fontSize: '14px', color: '#666', lineHeight: 1.5 }}>
-          <p><strong>Privacy Notice:</strong> This game respects your privacy. All data is stored locally on your device and never transmitted to external servers. You have full control over your data and can export or delete it at any time.</p>
+          <p>
+            <strong>Privacy Notice:</strong> This game respects your privacy.
+            All data is stored locally on your device and never transmitted to
+            external servers. You have full control over your data and can
+            export or delete it at any time.
+          </p>
         </div>
       </div>
     </div>
