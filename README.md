@@ -1,63 +1,44 @@
-# KONIVRER - Streamlined Trading Card Game Platform
+# KONIVRER - Trading Card Game
 
-A **revolutionary streamlined** trading card game platform that achieves **95% code reduction** while maintaining **100% functionality**. The entire platform consolidated into just **7 core files** with complete automation and **100% test coverage**.
+A simple, clean trading card game that works right out of the box. No complicated setup - just download and play!
 
-## ✅ QUALITY ASSURANCE - ALL TESTS PASSING
+## ✅ Everything Works Perfectly
 
-**ROBUST, CONSISTENT TEST PASSING GUARANTEED:**
+**All tests pass, no errors, ready to use:**
 
-- ✅ **23/23 Tests Passing** - Complete test suite with 100% pass rate
-- ✅ **0 ESLint Errors** - Perfect code quality with zero linting issues  
-- ✅ **TypeScript Compilation** - 100% type-safe codebase with zero errors
-- ✅ **Test Coverage** - Comprehensive coverage reporting with vitest
-- ✅ **Integration Tests** - Full application workflow testing
-- ✅ **Component Tests** - React component testing with @testing-library
-- ✅ **Automation Tests** - Zero-command system testing
-- ✅ **CI/CD Ready** - All checks pass consistently every time
+- ✅ **23 tests passing** - Everything works as expected
+- ✅ **No code errors** - Clean, working code
+- ✅ **All features tested** - Game, cards, and automation all work
+- ✅ **Ready for development** - Easy to modify and improve
 
 ## 🎯 Game Rules
 
 📖 **[KONIVRER Basic Rules](./KONIVRER_BASIC_RULES.pdf)** - Complete rulebook covering all game mechanics
 
-## ⚡ ZERO COMMANDS - WORKS AUTOMATICALLY
+## 🚀 How to Start
 
-**ULTIMATE SIMPLICITY: NO COMMANDS REQUIRED AT ALL!**
+**Super easy - just 2 steps:**
 
-### 🚀 Automatic Start (Recommended)
+1. **Download this project** (clone or download ZIP)
+2. **Open in your browser** - Go to `http://localhost:12000`
 
-**Just access the repository and everything starts automatically:**
+That's it! The game starts automatically.
 
-1. **Clone the repository** - Automation starts automatically
-2. **Open in VS Code** - Automation starts automatically  
-3. **Access any file** - Automation starts automatically
-4. **Open in browser** - Go to `http://localhost:12000` - Everything works!
-
-**That's it! Absolutely ZERO commands required!**
-
-### 🐳 Docker (Also Zero Commands)
+### If you want to use commands:
 
 ```bash
-# Only if you want Docker (but not required)
+# Install and start everything
+npm install
+
+# Start the game
+npm run dev
+```
+
+### Using Docker:
+
+```bash
 docker-compose up
 ```
-
-### 📦 Traditional npm (Auto-starts everything)
-
-```bash
-# Only if you want to use npm (but not required)
-npm install  # Auto-starts everything via postinstall hook
-```
-
-### 🎯 How It Works Automatically
-
-The system automatically detects when you:
-- Clone the repository
-- Open it in VS Code or any IDE
-- Access any file in the repository
-- Open the browser interface
-- Run `npm install` (if you choose to)
-
-**No shell commands, no setup, no configuration - everything just works!**
 
 ## 🤖 ZERO HUMAN INTERACTION - AUTONOMOUS MODE
 
