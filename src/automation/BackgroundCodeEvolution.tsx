@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 
 interface TechnologyTrend {
   id: string;
@@ -306,15 +307,7 @@ export const useBackgroundCodeEvolution = () => {
   // Initialize silent code evolution
   useEffect(() => {
     // Skip autonomous systems during build/deployment
-    if (
-      typeof window === 'undefined' ||
-      process.env.NODE_ENV === 'production' ||
-      process.env.VERCEL ||
-      process.env.CI
-    ) {
-      console.log(
-        '[CODE EVOLUTION] Skipping autonomous systems during build/deployment',
-      );
+    if (shouldSkipAutonomousSystems()) {
       return;
     }
 

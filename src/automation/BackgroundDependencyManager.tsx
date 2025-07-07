@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 
 interface Dependency {
   name: string;
