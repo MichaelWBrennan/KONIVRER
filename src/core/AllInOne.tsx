@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -764,6 +765,9 @@ const AllInOneApp: React.FC = () => {
     }
   }, []);
 
+  // Skip analytics during build
+  const isBuilding = shouldSkipAutonomousSystems();
+
   return (
     <SecurityProvider>
       <SecurityAutomationProvider>
@@ -781,7 +785,8 @@ const AllInOneApp: React.FC = () => {
               </Routes>
               <BackgroundAutomation />
             </div>
-            <Analytics />
+            {!isBuilding && <Analytics />}
+            {!isBuilding && <SpeedInsights />}
           </Router>
         </AppContext.Provider>
       </SecurityAutomationProvider>
