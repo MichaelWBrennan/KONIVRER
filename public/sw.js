@@ -437,6 +437,28 @@ function removePendingDeckSave(db, id) {
   });
 }
 
+function getPendingTournamentRegistrations(db) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(['pendingTournamentRegistrations'], 'readonly');
+    const store = transaction.objectStore('pendingTournamentRegistrations');
+    const request = store.getAll();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+  });
+}
+
+function removePendingTournamentRegistration(db, id) {
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(['pendingTournamentRegistrations'], 'readwrite');
+    const store = transaction.objectStore('pendingTournamentRegistrations');
+    const request = store.delete(id);
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve();
+  });
+}
+
 // Periodic background sync for data updates
 self.addEventListener('periodicsync', event => {
   console.log('Periodic sync triggered:', event.tag);

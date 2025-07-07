@@ -3,7 +3,7 @@
 // 🚀 KONIVRER Auto-Bootstrap - ZERO COMMANDS REQUIRED
 // This automatically starts everything when npm install runs
 
-import { spawn, exec } from 'child_process';
+import { spawn } from 'child_process';
 import { promises as fs, createWriteStream } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
