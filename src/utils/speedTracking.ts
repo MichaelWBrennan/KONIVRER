@@ -64,9 +64,9 @@ class SpeedTracker {
       tcp: navigation.connectEnd - navigation.connectStart,
       ssl: navigation.secureConnectionStart > 0 ? navigation.connectEnd - navigation.secureConnectionStart : 0,
       ttfb: navigation.responseStart - navigation.requestStart,
-      domLoad: navigation.domContentLoadedEventEnd - navigation.navigationStart,
-      windowLoad: navigation.loadEventEnd - navigation.navigationStart,
-      total: navigation.loadEventEnd - navigation.navigationStart,
+      domLoad: navigation.domContentLoadedEventEnd - navigation.startTime,
+      windowLoad: navigation.loadEventEnd - navigation.startTime,
+      total: navigation.loadEventEnd - navigation.startTime,
     };
 
     this.recordMetric('DNS_LOOKUP', timing.dns);

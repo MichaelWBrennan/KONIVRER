@@ -5,7 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "postinstall": "node auto-bootstrap.js",
+    "postinstall-disabled": "node auto-bootstrap.js",
     "dev": "vite --host 0.0.0.0 --port 12000",
     "dev:auto": "tsx automation/all-in-one.ts run && npm run dev",
     "dev:every-second": "tsx automation/all-in-one.ts every-second & npm run dev",

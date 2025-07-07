@@ -22,7 +22,7 @@ rm -rf node_modules/.cache 2>/dev/null || true
 rm -rf .vite 2>/dev/null || true
 rm -rf dist 2>/dev/null || true
 
-# Ensure dependencies are installed
+# Ensure dependencies are installed (postinstall already disabled)
 echo "📦 Installing dependencies..."
 npm ci --silent --no-audit --no-fund
 

@@ -4,6 +4,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  root: '.',
+  publicDir: 'public',
   test: {
     globals: true,
     environment: 'jsdom',
@@ -23,7 +25,8 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 12000,
-    cors: true
+    cors: true,
+    allowedHosts: ['work-1-pnchskkwkglsdcxk.prod-runtime.all-hands.dev', 'work-2-pnchskkwkglsdcxk.prod-runtime.all-hands.dev']
   },
   preview: {
     host: '0.0.0.0',
