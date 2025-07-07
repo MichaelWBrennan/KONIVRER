@@ -310,7 +310,7 @@ async function bootstrap() {
     await createBrowserAutoLauncher();
     
     // Start automation immediately
-    const automationPid = startAutomation();
+    startAutomation();
     
     // Start the auto-start web server
     console.log('🌐 Starting auto-start web server...');
