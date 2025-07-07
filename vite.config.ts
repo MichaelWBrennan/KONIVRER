@@ -26,7 +26,7 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 12000,
     cors: true,
-    allowedHosts: ['work-1-hhdhflrnfzvvdfzq.prod-runtime.all-hands.dev', 'work-2-hhdhflrnfzvvdfzq.prod-runtime.all-hands.dev']
+    allowedHosts: ['work-1-jekbsbfethzczosg.prod-runtime.all-hands.dev', 'work-2-jekbsbfethzczosg.prod-runtime.all-hands.dev', 'all']
   },
   preview: {
     host: '0.0.0.0',
