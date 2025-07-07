@@ -20,8 +20,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { SecurityProvider } from '../security/SecurityProvider';
 import { SecurityAutomationProvider } from '../security/SecurityAutomation';
-import { useCodeEvolution } from '../automation/CodeEvolution';
-import { useDependencyManager } from '../automation/DependencyManager';
+import { useBackgroundCodeEvolution } from '../automation/BackgroundCodeEvolution';
+import { useBackgroundDependencyManager } from '../automation/BackgroundDependencyManager';
 
 // Types
 interface Card {
@@ -789,8 +789,8 @@ const AllInOneApp: React.FC = () => {
 // Invisible background automation component
 const BackgroundAutomation: React.FC = () => {
   // Initialize autonomous systems silently
-  useCodeEvolution();
-  useDependencyManager();
+  useBackgroundCodeEvolution();
+  useBackgroundDependencyManager();
 
   // Log that autonomous systems are active (only in development)
   React.useEffect(() => {
