@@ -786,7 +786,17 @@ const AllInOneApp: React.FC = () => {
               <BackgroundAutomation />
             </div>
             {!isBuilding && <Analytics />}
-            {!isBuilding && <SpeedInsights />}
+            {!isBuilding && (
+              <SpeedInsights 
+                beforeSend={(event) => {
+                  // Enhanced speed tracking with custom metrics
+                  if (event.name === 'CLS' || event.name === 'LCP' || event.name === 'FID') {
+                    console.log(`[SPEED INSIGHTS] ${event.name}: ${event.value}`);
+                  }
+                  return event;
+                }}
+              />
+            )}
           </Router>
         </AppContext.Provider>
       </SecurityAutomationProvider>
