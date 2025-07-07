@@ -1,7 +1,6 @@
 
 import { createServer } from 'http';
 import { spawn } from 'child_process';
-import { readFileSync } from 'fs';
 
 const PORT = 12000;
 
