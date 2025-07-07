@@ -16,6 +16,9 @@ The project includes a Vercel-safe development automation system that provides h
 - ✅ Interactive development dashboard
 - ✅ File watcher for real-time feedback
 - ✅ VS Code integration
+- ✅ Autonomous mode for zero human interaction
+- ✅ Browser launcher for easy access
+- ✅ File access watcher for auto-start
 
 ### Vercel Safety Features
 
@@ -49,18 +52,90 @@ npm run dev:monitor
 
 ## Advanced Commands
 
-For more advanced usage, you can use the following commands directly:
+For more advanced usage, you can use the following commands:
 
 ```bash
 # Set up project (VS Code tasks, initial checks)
-node dev-automation.js setup
+npm run dev:setup
 
 # Start file watcher only
-node dev-automation.js file-watcher
+npm run dev:file-watcher
 
 # Set up VS Code tasks
-node dev-automation.js vscode
+npm run dev:vscode
+
+# Start autonomous mode
+npm run dev:autonomous
+
+# Start zero-interaction mode
+npm run dev:zero-interaction
+
+# Start hands-off mode (same as zero-interaction)
+npm run dev:hands-off
+
+# Set up and start browser launcher
+npm run dev:browser-launcher
+
+# Set up file access watcher
+npm run dev:file-access-watcher
 ```
+
+## Autonomous Mode
+
+The autonomous mode provides a zero-human-interaction development experience:
+
+```bash
+npm run dev:autonomous
+```
+
+This mode:
+- Automatically runs TypeScript checks and fixes issues
+- Automatically runs ESLint and Prettier checks and fixes issues
+- Automatically runs security checks and fixes vulnerabilities
+- Automatically runs performance checks and optimizations
+- Automatically checks for outdated dependencies
+- Provides a dashboard for monitoring the system
+- Runs continuously without requiring human interaction
+
+## Zero-Interaction Mode
+
+The zero-interaction mode goes even further:
+
+```bash
+npm run dev:zero-interaction
+```
+
+This mode:
+- Starts the development server
+- Starts the autonomous mode
+- Sets up auto-start features
+- Starts the browser launcher
+- Provides a complete hands-off development experience
+
+## Auto-Start Features
+
+### Browser Launcher
+
+The browser launcher provides a simple way to start the development server:
+
+```bash
+npm run dev:browser-launcher
+```
+
+Once started, you can access:
+- http://localhost:12003 - Auto-starts the development server
+- http://localhost:12003/dashboard - Opens the development dashboard
+- http://localhost:12003/autonomous - Starts autonomous mode
+
+### File Access Watcher
+
+The file access watcher automatically starts the development automation when files are accessed:
+
+```bash
+npm run dev:file-access-watcher
+```
+
+This is useful for automatically starting the development automation when you open a file in your editor.
 
 ## Development Dashboard
 
