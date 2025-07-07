@@ -87,18 +87,13 @@ automation/
 
 **Simple and clean - just 7 main files!**
 
-## 🛠️ Technology Stack
+## 🛠️ Built With
 
-- **Language:** TypeScript 5.4+ (100% type-safe codebase)
-- **Frontend:** React 18 + Vite
-- **Routing:** React Router v6
-- **Animation:** Framer Motion
-- **Styling:** Inline styles (no external CSS)
-- **Build:** Vite with ESBuild
-- **Testing:** Vitest + @testing-library/react + jsdom
-- **Linting:** ESLint + TypeScript
-- **Coverage:** @vitest/coverage-v8
-- **Quality:** 100% test pass rate, 0 linting errors
+- **TypeScript** - Safe, reliable code
+- **React** - Modern web interface
+- **Vite** - Fast building and loading
+- **Vitest** - Testing to make sure everything works
+- **ESLint** - Keeps code clean and error-free
 
 ## 🎮 Core Features
 
