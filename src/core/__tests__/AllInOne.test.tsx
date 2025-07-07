@@ -1,9 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
-
-// Mock the entire AllInOne component for now
-vi.mock('../AllInOne', () => ({
-  default: () => 'AllInOne Component',
-}));
+import { describe, it, expect } from 'vitest';
 
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
