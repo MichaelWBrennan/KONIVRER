@@ -344,6 +344,59 @@ Access your analytics at: `https://vercel.com/crypto3ks-projects/konivrer-deck-d
 - **Fast Loading** - No impact on Core Web Vitals
 - **Real-time Data** - Instant performance insights
 
+### 🚀 Advanced Speed Tracking System
+
+#### **Custom Performance Monitoring** (`speedTracking.ts`)
+- **Navigation Timing API** - DNS, TCP, SSL, TTFB measurements
+- **Resource Performance** - Script, stylesheet, image, font loading times
+- **SPA Navigation** - Route change performance tracking
+- **Custom Metrics** - User interaction and app initialization timing
+- **Memory Management** - Automatic metric cleanup (last 100 entries)
+
+#### **Real-time Speed Monitor** (Development)
+- **Live Performance Dashboard** - Real-time Core Web Vitals display
+- **Color-coded Metrics** - Green/Yellow/Red performance indicators
+- **Export Functionality** - Download detailed performance reports
+- **Development Only** - Automatically disabled in production builds
+
+#### **Comprehensive Tracking Features**
+```typescript
+// Automatic tracking
+- DNS Lookup Time
+- TCP Connection Time  
+- SSL Handshake Time
+- Time to First Byte (TTFB)
+- DOM Content Loaded
+- Window Load Complete
+- First Contentful Paint (FCP)
+- Largest Contentful Paint (LCP)
+- Resource Loading Times
+- SPA Navigation Performance
+- User Interaction Timing
+
+// Custom tracking
+trackCustomMetric('CUSTOM_OPERATION', duration);
+trackAsyncOperation('API_CALL', () => fetch('/api/data'));
+```
+
+#### **Performance Thresholds & Scoring**
+- **LCP (Largest Contentful Paint)**: <2.5s (Good), <4s (Needs Improvement), >4s (Poor)
+- **FID (First Input Delay)**: <100ms (Good), <300ms (Needs Improvement), >300ms (Poor)  
+- **CLS (Cumulative Layout Shift)**: <0.1 (Good), <0.25 (Needs Improvement), >0.25 (Poor)
+- **TTFB (Time to First Byte)**: <800ms (Good), <1.8s (Needs Improvement), >1.8s (Poor)
+
+#### **Development Tools**
+- **Browser Console Access**: `window.speedTracker` and `window.getPerformanceReport()`
+- **Real-time Monitor**: Collapsible performance overlay (development only)
+- **Export Reports**: JSON performance data with timestamps and user agent
+- **Navigation Tracking**: Automatic route change performance measurement
+
+#### **Production Optimizations**
+- **Build Detection**: All tracking disabled during build process
+- **Conditional Loading**: Performance monitoring only in appropriate environments
+- **Memory Efficient**: Automatic cleanup of old metrics
+- **Non-blocking**: Asynchronous operation with zero impact on user experience
+
 ## 🚀 Want to Help?
 
 1. **Download** the project
