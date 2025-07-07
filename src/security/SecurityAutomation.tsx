@@ -346,7 +346,6 @@ export const useSecurityAutomation = () => {
       const rules: AutomationRule[] = JSON.parse(
         localStorage.getItem('automationRules') || '[]',
       );
-      const now = new Date();
 
       rules.forEach(rule => {
         if (!rule.enabled) return;

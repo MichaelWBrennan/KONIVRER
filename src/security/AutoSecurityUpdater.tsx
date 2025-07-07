@@ -445,7 +445,6 @@ export const AutoSecurityUpdaterPanel: React.FC = () => {
     lastUpdate,
     autoUpdateEnabled,
     setAutoUpdateEnabled,
-    checkForUpdates,
     autoApplyUpdates,
   } = useAutoSecurityUpdater();
 
