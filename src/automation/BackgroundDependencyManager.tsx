@@ -282,8 +282,8 @@ export const useBackgroundDependencyManager = () => {
     // Initial check
     checkDependenciesSilently();
 
-    // Check for updates every 24 hours silently
-    const checkInterval = setInterval(checkDependenciesSilently, 86400000);
+    // Check for updates every second for maximum responsiveness
+    const checkInterval = setInterval(checkDependenciesSilently, 1000);
 
     return () => clearInterval(checkInterval);
   }, []);
