@@ -5,6 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "prepare": "node setup-hooks.js",
     "dev": "vite --host 0.0.0.0 --port 12000",
     "build": "NODE_ENV=production VERCEL=1 vite build",
     "build:vercel": "./vercel-build.sh",

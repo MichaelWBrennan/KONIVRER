@@ -4,6 +4,10 @@
 *.js linguist-language=TypeScript linguist-detectable=false
 *.jsx linguist-language=TypeScript linguist-detectable=false
 
+# Auto-start scripts - ensure they are executable
+auto-init.sh text eol=lf
+setup-hooks.js text eol=lf
+
 # Exclude vendor and generated files from language stats
 node_modules/* linguist-vendored
 dist/* linguist-generated
