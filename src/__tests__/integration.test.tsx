@@ -7,7 +7,9 @@ import AllInOneApp from '../core/AllInOne';
 vi.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+    button: ({ children, ...props }: any) => (
+      <button {...props}>{children}</button>
+    ),
     h1: ({ children, ...props }: any) => <h1 {...props}>{children}</h1>,
     h2: ({ children, ...props }: any) => <h2 {...props}>{children}</h2>,
     h3: ({ children, ...props }: any) => <h3 {...props}>{children}</h3>,
@@ -15,9 +17,15 @@ vi.mock('framer-motion', () => ({
     ul: ({ children, ...props }: any) => <ul {...props}>{children}</ul>,
     li: ({ children, ...props }: any) => <li {...props}>{children}</li>,
     form: ({ children, ...props }: any) => <form {...props}>{children}</form>,
-    input: ({ children, ...props }: any) => <input {...props}>{children}</input>,
-    textarea: ({ children, ...props }: any) => <textarea {...props}>{children}</textarea>,
-    select: ({ children, ...props }: any) => <select {...props}>{children}</select>,
+    input: ({ children, ...props }: any) => (
+      <input {...props}>{children}</input>
+    ),
+    textarea: ({ children, ...props }: any) => (
+      <textarea {...props}>{children}</textarea>
+    ),
+    select: ({ children, ...props }: any) => (
+      <select {...props}>{children}</select>
+    ),
     span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
   },
   AnimatePresence: ({ children }: any) => <>{children}</>,
@@ -36,7 +44,7 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Step 1: Browse cards
@@ -85,7 +93,7 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Navigate to blog
@@ -108,7 +116,9 @@ describe('Integration Tests', () => {
 
     const contentInputs = screen.queryAllByPlaceholderText(/content|write/i);
     if (contentInputs.length > 0) {
-      fireEvent.change(contentInputs[0], { target: { value: 'This is a test post content.' } });
+      fireEvent.change(contentInputs[0], {
+        target: { value: 'This is a test post content.' },
+      });
     }
 
     // Submit post (if submit button exists)
@@ -129,16 +139,16 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Test navigation on mobile
     const sections = ['Cards', 'Decks', 'Game', 'Blog'];
-    
+
     for (const section of sections) {
       const link = screen.getByText(section);
       fireEvent.click(link);
-      
+
       await waitFor(() => {
         // Each section should load properly
         expect(link).toBeInTheDocument();
@@ -150,7 +160,7 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Set up some state in cards section
@@ -187,16 +197,16 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Try to trigger various interactions that might cause errors
     const sections = ['Cards', 'Decks', 'Game', 'Blog'];
-    
+
     for (const section of sections) {
       const link = screen.getByText(section);
       fireEvent.click(link);
-      
+
       // App should still be functional
       await waitFor(() => {
         expect(screen.getByText('KONIVRER')).toBeInTheDocument();
@@ -210,16 +220,16 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Test tab navigation
     const firstFocusableElement = screen.getByText('Cards');
     firstFocusableElement.focus();
-    
+
     // Simulate tab key
     fireEvent.keyDown(firstFocusableElement, { key: 'Tab' });
-    
+
     // Should move focus to next element
     expect(document.activeElement).toBeTruthy();
   });
@@ -228,7 +238,7 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Check for basic accessibility features
@@ -244,7 +254,7 @@ describe('Integration Tests', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
 
     // Navigate to decks and create a deck

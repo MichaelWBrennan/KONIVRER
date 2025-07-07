@@ -7,7 +7,9 @@ import AllInOneApp from '../AllInOne';
 vi.mock('framer-motion', () => ({
   motion: {
     div: ({ children, ...props }: any) => <div {...props}>{children}</div>,
-    button: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+    button: ({ children, ...props }: any) => (
+      <button {...props}>{children}</button>
+    ),
     h1: ({ children, ...props }: any) => <h1 {...props}>{children}</h1>,
     h2: ({ children, ...props }: any) => <h2 {...props}>{children}</h2>,
     h3: ({ children, ...props }: any) => <h3 {...props}>{children}</h3>,
@@ -15,9 +17,15 @@ vi.mock('framer-motion', () => ({
     ul: ({ children, ...props }: any) => <ul {...props}>{children}</ul>,
     li: ({ children, ...props }: any) => <li {...props}>{children}</li>,
     form: ({ children, ...props }: any) => <form {...props}>{children}</form>,
-    input: ({ children, ...props }: any) => <input {...props}>{children}</input>,
-    textarea: ({ children, ...props }: any) => <textarea {...props}>{children}</textarea>,
-    select: ({ children, ...props }: any) => <select {...props}>{children}</select>,
+    input: ({ children, ...props }: any) => (
+      <input {...props}>{children}</input>
+    ),
+    textarea: ({ children, ...props }: any) => (
+      <textarea {...props}>{children}</textarea>
+    ),
+    select: ({ children, ...props }: any) => (
+      <select {...props}>{children}</select>
+    ),
     span: ({ children, ...props }: any) => <span {...props}>{children}</span>,
   },
   AnimatePresence: ({ children }: any) => <>{children}</>,
@@ -38,9 +46,9 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Should render the main navigation
     expect(screen.getByText('KONIVRER')).toBeInTheDocument();
   });
@@ -49,9 +57,9 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Check for main navigation items
     expect(screen.getByText('Cards')).toBeInTheDocument();
     expect(screen.getByText('Decks')).toBeInTheDocument();
@@ -63,21 +71,21 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Click on Cards navigation
     const cardsLink = screen.getByText('Cards');
     fireEvent.click(cardsLink);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Card Database')).toBeInTheDocument();
     });
-    
+
     // Click on Decks navigation
     const decksLink = screen.getByText('Decks');
     fireEvent.click(decksLink);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Deck Builder')).toBeInTheDocument();
     });
@@ -87,18 +95,18 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Navigate to cards section
     const cardsLink = screen.getByText('Cards');
     fireEvent.click(cardsLink);
-    
+
     await waitFor(() => {
       // Should have search input
       const searchInput = screen.getByPlaceholderText(/search cards/i);
       expect(searchInput).toBeInTheDocument();
-      
+
       // Should have filter options
       expect(screen.getByText('All Types')).toBeInTheDocument();
       expect(screen.getByText('All Elements')).toBeInTheDocument();
@@ -109,19 +117,19 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Navigate to cards section
     const cardsLink = screen.getByText('Cards');
     fireEvent.click(cardsLink);
-    
+
     await waitFor(() => {
       const searchInput = screen.getByPlaceholderText(/search cards/i);
-      
+
       // Type in search
       fireEvent.change(searchInput, { target: { value: 'fire' } });
-      
+
       // Should filter cards (assuming there are fire-related cards)
       expect(searchInput).toHaveValue('fire');
     });
@@ -131,13 +139,13 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Navigate to decks section
     const decksLink = screen.getByText('Decks');
     fireEvent.click(decksLink);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Deck Builder')).toBeInTheDocument();
       expect(screen.getByText('New Deck')).toBeInTheDocument();
@@ -148,13 +156,13 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Navigate to game section
     const gameLink = screen.getByText('Game');
     fireEvent.click(gameLink);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Game Simulator')).toBeInTheDocument();
       expect(screen.getByText('Start Game')).toBeInTheDocument();
@@ -165,13 +173,13 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Navigate to blog section
     const blogLink = screen.getByText('Blog');
     fireEvent.click(blogLink);
-    
+
     await waitFor(() => {
       expect(screen.getByText('Community Blog')).toBeInTheDocument();
       expect(screen.getByText('New Post')).toBeInTheDocument();
@@ -185,13 +193,13 @@ describe('AllInOneApp', () => {
       configurable: true,
       value: 375,
     });
-    
+
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Should still render main components
     expect(screen.getByText('KONIVRER')).toBeInTheDocument();
   });
@@ -200,9 +208,9 @@ describe('AllInOneApp', () => {
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // Look for theme toggle (if it exists)
     const themeButtons = screen.queryAllByText(/theme|dark|light/i);
     if (themeButtons.length > 0) {
@@ -214,16 +222,16 @@ describe('AllInOneApp', () => {
   it('handles error states gracefully', () => {
     // Mock console.error to avoid noise in tests
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-    
+
     render(
       <TestWrapper>
         <AllInOneApp />
-      </TestWrapper>
+      </TestWrapper>,
     );
-    
+
     // App should still render even if there are minor errors
     expect(screen.getByText('KONIVRER')).toBeInTheDocument();
-    
+
     consoleSpy.mockRestore();
   });
 });

@@ -22,20 +22,23 @@ describe('main.tsx', () => {
 
   beforeEach(() => {
     // Create a fresh DOM for each test
-    dom = new JSDOM('<!DOCTYPE html><html><body><div id="root"></div></body></html>', {
-      url: 'http://localhost',
-      pretendToBeVisual: true,
-      resources: 'usable',
-    });
-    
+    dom = new JSDOM(
+      '<!DOCTYPE html><html><body><div id="root"></div></body></html>',
+      {
+        url: 'http://localhost',
+        pretendToBeVisual: true,
+        resources: 'usable',
+      },
+    );
+
     window = dom.window as Window & typeof globalThis;
     document = window.document;
-    
+
     // Set up global objects
     global.window = window;
     global.document = document;
     global.navigator = window.navigator;
-    
+
     // Mock createRoot
     vi.doMock('react-dom/client', () => ({
       createRoot: vi.fn(() => ({
@@ -54,7 +57,7 @@ describe('main.tsx', () => {
     // Remove root element
     const rootElement = document.getElementById('root');
     rootElement?.remove();
-    
+
     expect(() => {
       const element = document.getElementById('root');
       if (!element) {
@@ -68,7 +71,7 @@ describe('main.tsx', () => {
     const mockServiceWorker = {
       register: mockRegister,
     };
-    
+
     Object.defineProperty(window.navigator, 'serviceWorker', {
       value: mockServiceWorker,
       writable: true,
@@ -82,13 +85,15 @@ describe('main.tsx', () => {
   });
 
   it('should handle service worker registration failure', async () => {
-    const mockRegister = vi.fn().mockRejectedValue(new Error('Registration failed'));
+    const mockRegister = vi
+      .fn()
+      .mockRejectedValue(new Error('Registration failed'));
     const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    
+
     const mockServiceWorker = {
       register: mockRegister,
     };
-    
+
     Object.defineProperty(window.navigator, 'serviceWorker', {
       value: mockServiceWorker,
       writable: true,
@@ -99,14 +104,14 @@ describe('main.tsx', () => {
     } catch (error) {
       expect(error).toBeInstanceOf(Error);
     }
-    
+
     consoleSpy.mockRestore();
   });
 
   it('should load web-vitals in production', async () => {
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
-    
+
     const mockWebVitals = {
       getCLS: vi.fn(),
       getFID: vi.fn(),
@@ -114,10 +119,10 @@ describe('main.tsx', () => {
       getLCP: vi.fn(),
       getTTFB: vi.fn(),
     };
-    
+
     // Mock dynamic import
     vi.doMock('web-vitals', () => mockWebVitals);
-    
+
     // Simulate the dynamic import
     const webVitals = await import('web-vitals');
     expect(webVitals.getCLS).toBeDefined();
@@ -125,7 +130,7 @@ describe('main.tsx', () => {
     expect(webVitals.getFCP).toBeDefined();
     expect(webVitals.getLCP).toBeDefined();
     expect(webVitals.getTTFB).toBeDefined();
-    
+
     process.env.NODE_ENV = originalEnv;
   });
 });
