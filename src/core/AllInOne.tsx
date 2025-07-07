@@ -156,6 +156,9 @@ const AppContext = createContext<{
 // Consolidated components
 const Navigation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -168,16 +171,28 @@ const Navigation: React.FC = () => {
     { path: '/tournaments', label: 'Events' },
   ];
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (username && password) {
+      setIsLoggedIn(true);
+      setShowLoginModal(false);
+      // Reset form
+      setUsername('');
+      setPassword('');
+    }
+  };
+
   return (
-    <nav
-      style={{
-        background: '#3a2921', // Dark brown to match the ancient scroll theme
-        padding: '1rem 2rem',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
-        borderBottom: '1px solid #8b5a2b', // Match the ancient scroll border
-        fontFamily: 'OpenDyslexic, Arial, sans-serif',
-      }}
-    >
+    <>
+      <nav
+        style={{
+          background: '#3a2921', // Dark brown to match the ancient scroll theme
+          padding: '1rem 2rem',
+          boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
+          borderBottom: '1px solid #8b5a2b', // Match the ancient scroll border
+          fontFamily: 'OpenDyslexic, Arial, sans-serif',
+        }}
+      >
       <div
         style={{
           display: 'flex',
@@ -239,14 +254,15 @@ const Navigation: React.FC = () => {
 
         {/* Right side - Login button */}
         <div>
-          <Link
-            to="/login"
+          <button
+            onClick={() => isLoggedIn ? setIsLoggedIn(false) : setShowLoginModal(true)}
             style={{
+              background: isLoggedIn ? '#28a745' : 'transparent',
               color: '#fff',
-              textDecoration: 'none',
+              border: '1px solid #fff',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
-              border: '1px solid #fff',
+              cursor: 'pointer',
               fontSize: '18px',
               fontWeight: '500',
               transition: 'all 0.3s ease',
@@ -256,19 +272,130 @@ const Navigation: React.FC = () => {
               minWidth: '80px',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = '#fff';
-              e.currentTarget.style.color = '#000';
+              if (!isLoggedIn) {
+                e.currentTarget.style.background = '#fff';
+                e.currentTarget.style.color = '#000';
+              }
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = '#fff';
+              if (!isLoggedIn) {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#fff';
+              }
             }}
           >
-            Login
-          </Link>
+            {isLoggedIn ? 'Logout' : 'Login'}
+          </button>
         </div>
       </div>
     </nav>
+
+    {/* Login Modal */}
+    {showLoginModal && (
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000,
+      }}>
+        <div style={{
+          background: '#f8f0dd',
+          padding: '2rem',
+          borderRadius: '8px',
+          boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+          border: '2px solid #8b5a2b',
+          maxWidth: '400px',
+          width: '90%',
+          fontFamily: 'OpenDyslexic, Arial, sans-serif',
+          position: 'relative',
+        }}>
+          <button 
+            onClick={() => setShowLoginModal(false)}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              background: 'none',
+              border: 'none',
+              fontSize: '20px',
+              cursor: 'pointer',
+              color: '#3a2921',
+            }}
+          >
+            ×
+          </button>
+          
+          <h2 style={{ 
+            color: '#3a2921', 
+            marginBottom: '1.5rem',
+            textAlign: 'center',
+            fontFamily: 'OpenDyslexic, Arial, sans-serif',
+          }}>
+            Login to KONIVRER
+          </h2>
+          
+          <form onSubmit={handleLogin}>
+            <div style={{ marginBottom: '1rem' }}>
+              <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  borderRadius: '4px',
+                  border: '1px solid #8b5a2b',
+                  fontSize: '16px',
+                  fontFamily: 'OpenDyslexic, Arial, sans-serif',
+                }}
+              />
+            </div>
+            
+            <div style={{ marginBottom: '1.5rem' }}>
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  borderRadius: '4px',
+                  border: '1px solid #8b5a2b',
+                  fontSize: '16px',
+                  fontFamily: 'OpenDyslexic, Arial, sans-serif',
+                }}
+              />
+            </div>
+            
+            <button
+              type="submit"
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                background: '#3a2921',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '4px',
+                fontSize: '16px',
+                cursor: 'pointer',
+                fontFamily: 'OpenDyslexic, Arial, sans-serif',
+              }}
+            >
+              Login
+            </button>
+          </form>
+        </div>
+      </div>
+    )}
+  </>
   );
 };
 
@@ -379,9 +506,9 @@ const HomePage: React.FC = () => (
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        style={{ fontSize: '2rem', marginBottom: '1rem' }}
+        style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#3a2921' }}
       >
-        ⭐
+        [STAR]
       </motion.div>
 
       <motion.h1
@@ -416,9 +543,9 @@ const HomePage: React.FC = () => (
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.5 }}
-        style={{ fontSize: '2rem', marginBottom: '2rem' }}
+        style={{ fontSize: '1.5rem', marginBottom: '2rem', color: '#3a2921' }}
       >
-        ⭐
+        [STAR]
       </motion.div>
     </div>
 
@@ -482,7 +609,7 @@ const HomePage: React.FC = () => (
           e.currentTarget.style.background = '#007bff';
         }}
       >
-        ⭐ Play KONIVRER Demo ⭐
+Play KONIVRER Demo
       </Link>
     </motion.div>
 
@@ -510,7 +637,7 @@ const HomePage: React.FC = () => (
           paddingBottom: '0.5rem',
         }}
       >
-        🧠 AI Consciousness Testing
+[BRAIN] AI Consciousness Testing
       </h2>
 
       <p
@@ -534,10 +661,10 @@ const HomePage: React.FC = () => (
         }}
       >
         {[
-          '💯 100% Consciousness Level',
-          '💀 Life Card Mortality Awareness',
-          '⚛️ Quantum Decision Engine',
-          '👁️ Theory of Mind Analysis',
+          '[PERCENT] 100% Consciousness Level',
+          '[SKULL] Life Card Mortality Awareness',
+          '[ATOM] Quantum Decision Engine',
+          '[EYE] Theory of Mind Analysis',
         ].map((feature, index) => (
           <div
             key={index}
@@ -574,7 +701,7 @@ const HomePage: React.FC = () => (
             transition: 'all 0.3s ease',
           }}
         >
-          🧠 View AI Demo 🧠
+View AI Demo
         </Link>
         <Link
           to="/game/ai-testing"
@@ -589,7 +716,7 @@ const HomePage: React.FC = () => (
             transition: 'all 0.3s ease',
           }}
         >
-          🚀 Play vs AI 🚀
+Play vs AI
         </Link>
       </div>
     </motion.div>
@@ -618,7 +745,7 @@ const HomePage: React.FC = () => (
           paddingBottom: '0.5rem',
         }}
       >
-        ⚔️ Player vs Player
+[SWORDS] Player vs Player
       </h2>
 
       <p
@@ -646,7 +773,7 @@ const HomePage: React.FC = () => (
           transition: 'all 0.3s ease',
         }}
       >
-        ⚔️ Challenge Players ⚔️
+Challenge Players
       </Link>
     </motion.div>
 
@@ -715,7 +842,7 @@ const HomePage: React.FC = () => (
           <p style={{ color: '#666', fontSize: '0.9rem', margin: 0 }}>
             {news.desc}
           </p>
-          <div style={{ fontSize: '1.2rem', marginTop: '0.5rem' }}>⭐</div>
+          <div style={{ fontSize: '1rem', marginTop: '0.5rem', color: '#3a2921' }}>[STAR]</div>
         </div>
       ))}
     </motion.div>
@@ -1061,7 +1188,7 @@ const KonivreDemoPage: React.FC = () => (
         Experience the complete KONIVRER trading card game with all zones,
         mechanics, and enhanced card display.
       </p>
-      <div style={{ fontSize: '3rem', marginBottom: '2rem' }}>⭐</div>
+      <div style={{ fontSize: '1.5rem', marginBottom: '2rem', color: '#3a2921' }}>[STAR]</div>
       <p>Demo coming soon! This will showcase the full game experience.</p>
     </div>
   </div>
@@ -1096,10 +1223,10 @@ const AIDemoPage: React.FC = () => (
         }}
       >
         {[
-          '💯 100% Consciousness Level',
-          '💀 Life Card Mortality Awareness',
-          '⚛️ Quantum Decision Engine',
-          '👁️ Theory of Mind Analysis',
+          '[PERCENT] 100% Consciousness Level',
+          '[SKULL] Life Card Mortality Awareness',
+          '[ATOM] Quantum Decision Engine',
+          '[EYE] Theory of Mind Analysis',
         ].map((feature, index) => (
           <div
             key={index}
@@ -1123,127 +1250,7 @@ const AIDemoPage: React.FC = () => (
   </div>
 );
 
-// Login Page Component
-const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Simple login logic - in a real app, this would authenticate with a server
-    if (username && password) {
-      // Simulate successful login
-      alert('Login successful!');
-      navigate('/');
-    } else {
-      alert('Please enter both username and password');
-    }
-  };
-
-  return (
-    <div style={{ 
-      padding: '2rem', 
-      textAlign: 'center',
-      fontFamily: 'OpenDyslexic, Arial, sans-serif',
-    }}>
-      <h1 style={{ 
-        marginBottom: '2rem', 
-        color: '#3a2921',
-        fontFamily: 'OpenDyslexic, Arial, sans-serif',
-      }}>
-        Login to KONIVRER
-      </h1>
-      
-      <div className="ancient-scroll" style={{
-        maxWidth: '500px',
-        margin: '0 auto',
-        padding: '2rem',
-        background: '#f8f0dd',
-        borderRadius: '8px',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        border: '2px solid #8b5a2b',
-      }}>
-        <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
-            <label 
-              htmlFor="username" 
-              style={{ 
-                display: 'block', 
-                marginBottom: '0.5rem',
-                fontSize: '1.1rem',
-                color: '#3a2921',
-              }}
-            >
-              Username:
-            </label>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                fontSize: '1.1rem',
-                borderRadius: '4px',
-                border: '1px solid #8b5a2b',
-                background: '#fff',
-                fontFamily: 'OpenDyslexic, Arial, sans-serif',
-              }}
-            />
-          </div>
-          
-          <div style={{ marginBottom: '2rem', textAlign: 'left' }}>
-            <label 
-              htmlFor="password" 
-              style={{ 
-                display: 'block', 
-                marginBottom: '0.5rem',
-                fontSize: '1.1rem',
-                color: '#3a2921',
-              }}
-            >
-              Password:
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '0.75rem',
-                fontSize: '1.1rem',
-                borderRadius: '4px',
-                border: '1px solid #8b5a2b',
-                background: '#fff',
-                fontFamily: 'OpenDyslexic, Arial, sans-serif',
-              }}
-            />
-          </div>
-          
-          <button
-            type="submit"
-            style={{
-              background: '#3a2921',
-              color: '#fff',
-              border: 'none',
-              padding: '0.75rem 2rem',
-              fontSize: '1.1rem',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontFamily: 'OpenDyslexic, Arial, sans-serif',
-              fontWeight: 'bold',
-            }}
-          >
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-};
 
 const GamePage: React.FC = () => {
   const { state, actions } = useContext(AppContext);
@@ -1278,7 +1285,7 @@ const GamePage: React.FC = () => {
               action: () => actions.startGame('Online'),
             },
             {
-              title: '🏆 Tournament',
+              title: '[TROPHY] Tournament',
               desc: 'Join competitive play',
               action: () => navigate('/tournaments'),
             },
@@ -1334,7 +1341,7 @@ const TournamentsPage: React.FC = () => (
         boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
       }}
     >
-      <h2>🏆 Upcoming Tournaments</h2>
+      <h2>[TROPHY] Upcoming Tournaments</h2>
       <p>Weekly Championship - Starts in 2 days</p>
       <p>Monthly Grand Prix - Registration open</p>
       <p>Seasonal Championship - Qualifiers ongoing</p>
@@ -1570,7 +1577,6 @@ const AllInOneApp: React.FC = () => {
                 <Route path="/rules" element={<RulesPage />} />
                 <Route path="/konivrer-demo" element={<KonivreDemoPage />} />
                 <Route path="/ai-consciousness-demo" element={<AIDemoPage />} />
-                <Route path="/login" element={<LoginPage />} />
               </Routes>
               <BackgroundAutomation />
             </div>
