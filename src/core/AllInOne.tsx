@@ -21,6 +21,7 @@ import {
   Route,
   Link,
   useNavigate,
+  useLocation,
 } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SecurityProvider } from '../security/SecurityProvider';
@@ -155,23 +156,26 @@ const AppContext = createContext<{
 // Consolidated components
 const Navigation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const navItems = [
-    { path: '/', label: 'KONIVRER' },
+    // Home link only appears when not on the home page
+    ...(isHomePage ? [] : [{ path: '/', label: 'Home' }]),
     { path: '/cards', label: 'Cards' },
     { path: '/decks', label: 'Decks' },
-    { path: '/tournaments', label: 'Tournaments' },
     { path: '/game', label: 'Play' },
-    { path: '/rules', label: 'Rules' },
+    { path: '/tournaments', label: 'Events' },
   ];
 
   return (
     <nav
       style={{
-        background: '#000',
+        background: '#3a2921', // Dark brown to match the ancient scroll theme
         padding: '1rem 2rem',
         boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
-        borderBottom: '1px solid #333',
+        borderBottom: '1px solid #8b5a2b', // Match the ancient scroll border
+        fontFamily: 'OpenDyslexic, Arial, sans-serif',
       }}
     >
       <div
@@ -187,8 +191,10 @@ const Navigation: React.FC = () => {
         <div
           style={{
             display: 'flex',
-            gap: '2rem',
+            gap: '3rem', // Increased spacing between items
             alignItems: 'center',
+            justifyContent: 'center', // Center the navigation items
+            flex: 1, // Take up available space
           }}
         >
           {navItems.map(item => (
@@ -208,11 +214,14 @@ const Navigation: React.FC = () => {
               style={{
                 color: '#fff',
                 textDecoration: 'none',
-                padding: '0.5rem 0',
+                padding: '0.5rem 1rem', // Added horizontal padding
                 transition: 'all 0.3s ease',
-                fontSize: '16px',
-                fontWeight: item.path === '/' ? '700' : '400',
+                fontSize: '18px', // Increased font size for better visibility
+                fontWeight: '500', // Medium weight for all items
                 borderBottom: '2px solid transparent',
+                textAlign: 'center', // Center text
+                minWidth: '80px', // Ensure minimum width
+                fontFamily: 'OpenDyslexic, Arial, sans-serif', // Use OpenDyslexic font
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.borderBottom = '2px solid #fff';
@@ -230,34 +239,33 @@ const Navigation: React.FC = () => {
 
         {/* Right side - Login button */}
         <div>
-          <button
-            onClick={() => setIsLoggedIn(!isLoggedIn)}
+          <Link
+            to="/login"
             style={{
-              background: isLoggedIn ? '#28a745' : 'transparent',
               color: '#fff',
-              border: '1px solid #fff',
+              textDecoration: 'none',
               padding: '0.5rem 1rem',
               borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
+              border: '1px solid #fff',
+              fontSize: '18px',
               fontWeight: '500',
               transition: 'all 0.3s ease',
+              fontFamily: 'OpenDyslexic, Arial, sans-serif',
+              display: 'inline-block',
+              textAlign: 'center',
+              minWidth: '80px',
             }}
             onMouseEnter={e => {
-              if (!isLoggedIn) {
-                e.currentTarget.style.background = '#fff';
-                e.currentTarget.style.color = '#000';
-              }
+              e.currentTarget.style.background = '#fff';
+              e.currentTarget.style.color = '#000';
             }}
             onMouseLeave={e => {
-              if (!isLoggedIn) {
-                e.currentTarget.style.background = 'transparent';
-                e.currentTarget.style.color = '#fff';
-              }
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.color = '#fff';
             }}
           >
-            {isLoggedIn ? 'Logout' : 'Login'}
-          </button>
+            Login
+          </Link>
         </div>
       </div>
     </nav>
@@ -1062,7 +1070,7 @@ const KonivreDemoPage: React.FC = () => (
 const AIDemoPage: React.FC = () => (
   <div style={{ padding: '2rem', textAlign: 'center' }}>
     <h1 style={{ marginBottom: '2rem', color: '#333' }}>
-      🧠 AI Consciousness Demo
+      AI Consciousness Demo
     </h1>
     <div
       style={{
@@ -1114,6 +1122,128 @@ const AIDemoPage: React.FC = () => (
     </div>
   </div>
 );
+
+// Login Page Component
+const LoginPage: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simple login logic - in a real app, this would authenticate with a server
+    if (username && password) {
+      // Simulate successful login
+      alert('Login successful!');
+      navigate('/');
+    } else {
+      alert('Please enter both username and password');
+    }
+  };
+
+  return (
+    <div style={{ 
+      padding: '2rem', 
+      textAlign: 'center',
+      fontFamily: 'OpenDyslexic, Arial, sans-serif',
+    }}>
+      <h1 style={{ 
+        marginBottom: '2rem', 
+        color: '#3a2921',
+        fontFamily: 'OpenDyslexic, Arial, sans-serif',
+      }}>
+        Login to KONIVRER
+      </h1>
+      
+      <div className="ancient-scroll" style={{
+        maxWidth: '500px',
+        margin: '0 auto',
+        padding: '2rem',
+        background: '#f8f0dd',
+        borderRadius: '8px',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+        border: '2px solid #8b5a2b',
+      }}>
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+            <label 
+              htmlFor="username" 
+              style={{ 
+                display: 'block', 
+                marginBottom: '0.5rem',
+                fontSize: '1.1rem',
+                color: '#3a2921',
+              }}
+            >
+              Username:
+            </label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                fontSize: '1.1rem',
+                borderRadius: '4px',
+                border: '1px solid #8b5a2b',
+                background: '#fff',
+                fontFamily: 'OpenDyslexic, Arial, sans-serif',
+              }}
+            />
+          </div>
+          
+          <div style={{ marginBottom: '2rem', textAlign: 'left' }}>
+            <label 
+              htmlFor="password" 
+              style={{ 
+                display: 'block', 
+                marginBottom: '0.5rem',
+                fontSize: '1.1rem',
+                color: '#3a2921',
+              }}
+            >
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                fontSize: '1.1rem',
+                borderRadius: '4px',
+                border: '1px solid #8b5a2b',
+                background: '#fff',
+                fontFamily: 'OpenDyslexic, Arial, sans-serif',
+              }}
+            />
+          </div>
+          
+          <button
+            type="submit"
+            style={{
+              background: '#3a2921',
+              color: '#fff',
+              border: 'none',
+              padding: '0.75rem 2rem',
+              fontSize: '1.1rem',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontFamily: 'OpenDyslexic, Arial, sans-serif',
+              fontWeight: 'bold',
+            }}
+          >
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 const GamePage: React.FC = () => {
   const { state, actions } = useContext(AppContext);
@@ -1211,6 +1341,126 @@ const TournamentsPage: React.FC = () => (
     </div>
   </div>
 );
+
+const LoginPage: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle login/registration logic here
+    console.log('[LOGIN] Attempting login for:', username);
+  };
+
+  return (
+    <div style={{ 
+      padding: '2rem', 
+      textAlign: 'center',
+      minHeight: '80vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <div
+        style={{
+          background: '#f8f0dd',
+          padding: '3rem',
+          borderRadius: '12px',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+          border: '2px solid #8b5a2b',
+          maxWidth: '400px',
+          width: '100%',
+          fontFamily: 'OpenDyslexic, Arial, sans-serif',
+        }}
+      >
+        <h1 style={{ 
+          marginBottom: '2rem', 
+          color: '#3a2921',
+          fontFamily: 'OpenDyslexic, Arial, sans-serif',
+        }}>
+          {isRegistering ? 'Register' : 'Login'}
+        </h1>
+        
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            style={{
+              padding: '1rem',
+              border: '2px solid #8b5a2b',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontFamily: 'OpenDyslexic, Arial, sans-serif',
+            }}
+          />
+          
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            style={{
+              padding: '1rem',
+              border: '2px solid #8b5a2b',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontFamily: 'OpenDyslexic, Arial, sans-serif',
+            }}
+          />
+          
+          <button
+            type="submit"
+            style={{
+              padding: '1rem',
+              background: '#3a2921',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              fontFamily: 'OpenDyslexic, Arial, sans-serif',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#2a1f19';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = '#3a2921';
+            }}
+          >
+            {isRegistering ? 'Register' : 'Login'}
+          </button>
+        </form>
+        
+        <p style={{ 
+          marginTop: '1rem', 
+          color: '#666',
+          fontFamily: 'OpenDyslexic, Arial, sans-serif',
+        }}>
+          {isRegistering ? 'Already have an account?' : "Don't have an account?"}
+          <button
+            onClick={() => setIsRegistering(!isRegistering)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: '#3a2921',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginLeft: '0.5rem',
+              fontFamily: 'OpenDyslexic, Arial, sans-serif',
+            }}
+          >
+            {isRegistering ? 'Login' : 'Register'}
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+};
 
 // Main app component
 const AllInOneApp: React.FC = () => {
@@ -1320,6 +1570,7 @@ const AllInOneApp: React.FC = () => {
                 <Route path="/rules" element={<RulesPage />} />
                 <Route path="/konivrer-demo" element={<KonivreDemoPage />} />
                 <Route path="/ai-consciousness-demo" element={<AIDemoPage />} />
+                <Route path="/login" element={<LoginPage />} />
               </Routes>
               <BackgroundAutomation />
             </div>
