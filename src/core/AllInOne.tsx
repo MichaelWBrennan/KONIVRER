@@ -781,6 +781,7 @@ const AllInOneApp: React.FC = () => {
               </Routes>
               <BackgroundAutomation />
             </div>
+            <Analytics />
           </Router>
         </AppContext.Provider>
       </SecurityAutomationProvider>
