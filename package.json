@@ -43,6 +43,7 @@
     "automation:auto-heal": "tsx automation/all-in-one.ts auto-heal"
   },
   "dependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.44.2",
     "framer-motion": "^10.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
