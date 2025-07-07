@@ -175,7 +175,8 @@ KONIVRER features **revolutionary self-evolving technology** that keeps your ent
 - **🔄 Zero-Touch Management** - No manual maintenance required
 
 📋 **[Full Privacy Policy](./PRIVACY_POLICY.md)** - Complete privacy and security details  
-🤖 **[Autonomous Security Guide](./AUTONOMOUS_SECURITY.md)** - How the self-updating security works  
+🧬 **[Autonomous Code Evolution](./AUTONOMOUS_CODE_EVOLUTION.md)** - Self-evolving codebase guide  
+🤖 **[Autonomous Security Guide](./AUTONOMOUS_SECURITY.md)** - Self-updating security system  
 🔒 **[Security Summary](./SECURITY_SUMMARY.md)** - Complete security implementation details
 
 ## 🎯 Game Rules
