@@ -380,8 +380,8 @@ self.addEventListener('notificationclick', event => {
       }
 
       // Open new window if app is not open
-      if (clients.openWindow) {
-        return clients.openWindow(url);
+      if (self.clients.openWindow) {
+        return self.clients.openWindow(url);
       }
     }),
   );
