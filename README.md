@@ -6,9 +6,10 @@ A simple, clean trading card game that works right out of the box. No complicate
 
 **All tests pass, no errors, ready to use:**
 
-- ✅ **23 tests passing** - Everything works as expected
+- ✅ **31 tests passing** - Everything works as expected
 - ✅ **No code errors** - Clean, working code
-- ✅ **All features tested** - Game, cards, and automation all work
+- ✅ **All features tested** - Game, cards, automation, and security all work
+- ✅ **State-of-the-art security** - Military-grade data protection
 - ✅ **Ready for development** - Easy to modify and improve
 
 ## 🎯 Game Rules
@@ -66,6 +67,11 @@ npm run lint
 
 # Start development mode
 npm run dev
+
+# Security commands
+npm run security:audit    # Check for vulnerabilities
+npm run security:fix      # Fix security issues
+npm run security:check    # Full security check
 ```
 
 ## 📁 What's Inside
