@@ -50,9 +50,9 @@ const CONFIG = {
   },
   autoStart: {
     fileWatcher: true, // Auto-start on file access
-    dashboard: true, // Auto-start dashboard
+    dashboard: false, // No dashboard - fully autonomous
     vscodeTask: true, // Create VS Code task
-    browserLauncher: true, // Auto-launch browser
+    browserLauncher: false, // No browser launcher - fully autonomous
     fileAccessWatcher: true // Watch for file access and auto-start
   },
   autonomous: {
@@ -60,7 +60,10 @@ const CONFIG = {
     zeroInteraction: true, // Zero human interaction mode
     autoStartOnFileAccess: true, // Auto-start on file access
     continuousMonitoring: true, // Continuous monitoring
-    interval: 5000 // 5 seconds
+    interval: 5000, // 5 seconds
+    silentMode: true, // Silent mode - minimal logging
+    autoHeal: true, // Auto-heal on errors
+    autoFix: true // Auto-fix all issues
   },
   deployment: {
     enabled: true, // Enable deployment preparation
@@ -1839,28 +1842,82 @@ class DevAutomationOrchestrator {
         return;
       }
       
-      // Set up auto-start features
+      // Set up auto-start features silently
       await AutoStartManager.setup();
       
-      // Start auto-start server
-      await AutoStartManager.startAutoStartServer();
+      // Start file watcher silently
+      await AutoStartManager.startFileWatcher();
       
-      // Start dashboard
-      await DevelopmentDashboard.start();
+      // Start self-healing system
+      await SelfHealingSystem.heal();
       
-      // Start development server
-      const devServer = spawn('npm', ['run', 'dev'], {
-        detached: true,
-        stdio: 'ignore'
-      });
+      // Start autonomous mode without dashboard
+      let cycleCount = 0;
+      const startTime = Date.now();
       
-      // Unref the child process so it can run independently
-      devServer.unref();
+      const runCycle = async () => {
+        cycleCount++;
+        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+        
+        log(`🤖 Autonomous cycle #${cycleCount} (${elapsed}s)...`, 'info');
+        
+        try {
+          // Run TypeScript check and auto-fix
+          await TypeScriptEnforcer.check();
+          await TypeScriptEnforcer.autoFix();
+          
+          // Run quality check and auto-fix
+          await QualityAssurance.check();
+          await QualityAssurance.autoFix();
+          
+          // Run security check and auto-fix
+          if (cycleCount % 12 === 0) {
+            await SecurityMonitor.check();
+            await SecurityMonitor.autoFix();
+          }
+          
+          // Run performance check and optimization
+          if (cycleCount % 12 === 0) {
+            await PerformanceOptimizer.check();
+            await PerformanceOptimizer.optimize();
+          }
+          
+          // Run dependency check and update
+          if (cycleCount % 720 === 0) {
+            await DependencyManager.check();
+            await DependencyManager.update();
+          }
+          
+          // Run self-healing
+          if (cycleCount % 60 === 0) {
+            await SelfHealingSystem.heal();
+          }
+          
+          // Run deployment preparation
+          if (cycleCount % 720 === 0 && CONFIG.deployment.enabled) {
+            await DeploymentPreparation.prepare();
+          }
+          
+          log(`✅ Autonomous cycle #${cycleCount} complete`, 'success');
+          
+        } catch (error) {
+          log(`❌ Error in autonomous cycle #${cycleCount}: ${error}`, 'error');
+          
+          // Auto-heal on error
+          await SelfHealingSystem.heal();
+        }
+      };
       
-      // Start autonomous mode
-      await this.startAutonomousMode();
+      // Run immediately
+      await runCycle();
       
-      log('🤖 ZERO-INTERACTION MODE: ACTIVE', 'success');
+      // Then run every 5 seconds
+      const intervalId = setInterval(runCycle, CONFIG.autonomous.interval);
+      
+      log('🤖 ZERO-INTERACTION MODE: ACTIVE - 100% autonomous operation with no UI', 'success');
+      
+      // Return the interval ID so it can be cleared if needed
+      return intervalId;
     }, null);
   }
   
