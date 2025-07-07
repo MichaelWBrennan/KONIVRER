@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import AllInOneApp from './core/AllInOne-simple';
+import AllInOneApp from './core/AllInOne-merged';
 import LoadingScreen from './components/LoadingScreen';
 import { SelfHealingProvider } from './core/SelfHealer';
 import { SelfOptimizer } from './core/SelfOptimizer';
