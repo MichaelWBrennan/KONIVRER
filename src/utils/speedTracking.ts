@@ -113,19 +113,26 @@ class SpeedTracker {
     const startTime = performance.now();
 
     // Monitor for URL changes (SPA navigation)
-    const observer = new MutationObserver(() => {
-      if (window.location.href !== lastUrl) {
-        const navigationTime = performance.now() - startTime;
-        this.recordMetric('SPA_NAVIGATION', navigationTime);
-        lastUrl = window.location.href;
-        console.log(`[SPEED TRACKER] SPA Navigation: ${navigationTime.toFixed(2)}ms`);
-      }
-    });
+    try {
+      const observer = new MutationObserver(() => {
+        if (window.location.href !== lastUrl) {
+          const navigationTime = performance.now() - startTime;
+          this.recordMetric('SPA_NAVIGATION', navigationTime);
+          lastUrl = window.location.href;
+          console.log(`[SPEED TRACKER] SPA Navigation: ${navigationTime.toFixed(2)}ms`);
+        }
+      });
 
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-    });
+      // Check if document.body exists and is a valid Node
+      if (document.body && document.body.nodeType === Node.ELEMENT_NODE) {
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true,
+        });
+      }
+    } catch (error) {
+      console.warn('[SPEED TRACKER] Route change tracking not available:', error);
+    }
   }
 
   private trackResourceTiming(): void {
