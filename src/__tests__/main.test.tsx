@@ -10,7 +10,7 @@ describe('main.tsx', () => {
     // Test root element logic
     const mockElement = document.createElement('div');
     mockElement.id = 'root';
-    
+
     expect(mockElement.id).toBe('root');
   });
 
