@@ -10,9 +10,12 @@ The project includes a Vercel-safe development automation system that provides h
 
 - ✅ TypeScript checking every 5 seconds with auto-fix
 - ✅ ESLint & Prettier every 5 seconds with auto-fix
-- ✅ Security monitoring every minute
-- ✅ Performance monitoring every minute
-- ✅ Development dashboard
+- ✅ Security monitoring every minute with auto-fix
+- ✅ Performance monitoring every minute with optimization
+- ✅ Dependency checking every hour with auto-update
+- ✅ Interactive development dashboard
+- ✅ File watcher for real-time feedback
+- ✅ VS Code integration
 
 ### Vercel Safety Features
 
@@ -20,6 +23,8 @@ The project includes a Vercel-safe development automation system that provides h
 - ✅ No auto-commit or auto-push
 - ✅ Development-only features
 - ✅ No interference with production
+- ✅ Safe timeouts for build operations
+- ✅ Automatic environment detection
 
 ## Getting Started
 
@@ -42,9 +47,32 @@ npm run dev:dashboard
 npm run dev:monitor
 ```
 
+## Advanced Commands
+
+For more advanced usage, you can use the following commands directly:
+
+```bash
+# Set up project (VS Code tasks, initial checks)
+node dev-automation.js setup
+
+# Start file watcher only
+node dev-automation.js file-watcher
+
+# Set up VS Code tasks
+node dev-automation.js vscode
+```
+
 ## Development Dashboard
 
 The development dashboard provides a visual interface for monitoring the status of your development environment. It's available at http://localhost:12002 when running `npm run dev:safe` or `npm run dev:dashboard`.
+
+### Dashboard Features
+
+- Real-time status monitoring
+- One-click checks and auto-fix
+- System information
+- Quick access to documentation
+- Interactive controls
 
 ## How It Works
 
@@ -55,6 +83,30 @@ The development automation system:
 3. Runs TypeScript and ESLint checks every 5 seconds in development
 4. Provides auto-fix capabilities for common issues
 5. Monitors security and performance without interfering with builds
+6. Watches for file changes and provides real-time feedback
+7. Sets up VS Code tasks for easy access to automation features
+8. Provides a dashboard for monitoring and controlling automation
+
+## Auto-Start Features
+
+The automation system includes several auto-start features:
+
+### File Watcher
+
+The file watcher monitors the `src` directory for changes and automatically runs appropriate checks based on the file type:
+
+- TypeScript files (`.ts`, `.tsx`): TypeScript and ESLint checks
+- JavaScript files (`.js`, `.jsx`): ESLint checks
+
+### VS Code Integration
+
+The automation system sets up VS Code tasks for easy access to automation features:
+
+- `Start KONIVRER Development`: Starts the development server with automation
+- `Run All Checks`: Runs all checks once
+- `Run Auto-Fix`: Runs auto-fix for TypeScript and ESLint
+
+It also sets up recommended VS Code settings for TypeScript, ESLint, and Prettier.
 
 ## Configuration
 
@@ -64,21 +116,80 @@ The automation system is configured in `dev-automation.js`. You can adjust the i
 // Configuration - Development Only
 const CONFIG = {
   typescript: { check: true, autoFix: true, interval: 5000 }, // 5 seconds
-  security: { check: true, interval: 60000 }, // 1 minute
-  quality: { eslint: true, prettier: true, interval: 5000 }, // 5 seconds
-  performance: { optimize: true, interval: 60000 }, // 1 minute
-  notifications: { enabled: true, channels: ['console'] },
-  monitoring: { enabled: true, interval: 5000 }, // 5 seconds
+  security: { 
+    check: true, 
+    autoFix: true, // Auto-fix security issues in dev only
+    interval: 60000, // 1 minute
+    quickScan: true 
+  },
+  quality: { 
+    eslint: true, 
+    prettier: true, 
+    autoFix: true,
+    interval: 5000 // 5 seconds
+  },
+  performance: { 
+    optimize: true, 
+    bundleAnalysis: true,
+    imageOptimization: true,
+    interval: 60000 // 1 minute
+  },
+  dependencies: {
+    autoUpdate: true, // Auto-update in dev only
+    checkOutdated: true,
+    interval: 3600000 // 1 hour
+  },
+  notifications: { 
+    enabled: true, 
+    channels: ['console', 'dashboard'],
+    desktop: false // No desktop notifications
+  },
+  monitoring: { 
+    enabled: true, 
+    interval: 5000, // 5 seconds
+    detailedLogs: true
+  },
+  autoStart: {
+    fileWatcher: true, // Auto-start on file access
+    dashboard: true, // Auto-start dashboard
+    vscodeTask: true // Create VS Code task
+  },
   // VERCEL SAFETY FEATURES
   vercel: {
-    disableDuringBuild: true,
-    disableAutoCommit: true,
-    disableAutoPush: true,
-    disableFileWatcher: false,
-    safeMode: true
+    disableDuringBuild: true, // Disable during Vercel builds
+    disableAutoCommit: true, // Never auto-commit
+    disableAutoPush: true, // Never auto-push
+    disableInProduction: true, // Disable in production
+    safeMode: true, // Extra safety checks
+    maxBuildTime: 30000 // Max 30s for any operation during build
   }
 };
 ```
+
+## Performance Optimization
+
+The automation system includes several performance optimization features:
+
+- Bundle size analysis
+- Large file detection
+- Image optimization recommendations
+- Performance monitoring
+
+## Security Monitoring
+
+The automation system includes security monitoring features:
+
+- npm audit checks
+- Auto-fix for security vulnerabilities (in development only)
+- Quick security scans
+
+## Dependency Management
+
+The automation system includes dependency management features:
+
+- Outdated package detection
+- Auto-update for dependencies (in development only)
+- Regular dependency checks
 
 ## Legacy Automation
 
