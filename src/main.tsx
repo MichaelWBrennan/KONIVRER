@@ -52,16 +52,12 @@ const MinimalApp: React.FC = () => {
 };
 
 // ULTRA-AGGRESSIVE build detection - if ANY of these are true, use minimal app
+// Only detect actual build time, not production runtime
 const isBuild =
   typeof window === 'undefined' ||
   typeof document === 'undefined' ||
   !document?.body ||
-  process.env.NODE_ENV === 'production' ||
-  process.env.VERCEL === '1' ||
-  process.env.CI === 'true' ||
   process.env.VITE_BUILD === 'true' ||
-  process.env.BUILD_ENV === 'production' ||
-  process.env.VERCEL_ENV === 'production' ||
   process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
   process.env.npm_lifecycle_event === 'build' ||
   process.env.npm_command === 'run-script' ||
