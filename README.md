@@ -68,25 +68,24 @@ npm run lint
 npm run dev
 ```
 
-## 📁 Streamlined Structure
+## 📁 What's Inside
 
 ```
 src/
 ├── core/
-│   └── AllInOne.tsx        # Complete app in single file
-└── main.tsx               # Entry point
+│   └── AllInOne.tsx        # The main game
+└── main.tsx               # Starts everything
 
 automation/
-└── all-in-one.ts          # Complete automation system
+└── all-in-one.ts          # Auto-maintenance
 
-# Core files only:
-├── package.json           # Minimal dependencies
-├── vite.config.ts         # Streamlined build
-├── tsconfig.json          # TypeScript config
+# Important files:
+├── package.json           # Project settings
+├── vite.config.ts         # Build settings
 └── README.md              # This file
 ```
 
-**Total Core Files: 7** (down from 200+)
+**Simple and clean - just 7 main files!**
 
 ## 🛠️ Technology Stack
 
