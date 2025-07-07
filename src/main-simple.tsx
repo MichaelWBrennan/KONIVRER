@@ -1,14 +1,20 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AllInOneApp from './core/AllInOne';
-// Import the auto-system module to start the autonomous system
+// Import the cutting-edge system modules
 import './auto-system.js';
+import './cutting-edge-updater.js';
 
+// Log application startup
+console.log('[APP] Starting with cutting-edge technologies...');
+
+// Get the root element
 const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error('Root element not found');
 }
 
+// Create the root and render the application
 const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
@@ -16,4 +22,5 @@ root.render(
   </React.StrictMode>,
 );
 
-console.log('[APP] Successfully initialized');
+// Log successful initialization
+console.log('[APP] Successfully initialized with cutting-edge features');
