@@ -1,0 +1,21 @@
+[Unit]
+Description=KONIVRER Continuous Automation Service (24/7/365)
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/workspace/KONIVRER-deck-database
+ExecStart=/bin/bash /workspace/KONIVRER-deck-database/auto-service.sh
+Restart=always
+RestartSec=1
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=konivrer-automation
+
+# Ensure the service always restarts, even after failure
+StartLimitIntervalSec=0
+StartLimitBurst=0
+
+[Install]
+WantedBy=multi-user.target
