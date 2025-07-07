@@ -154,13 +154,13 @@ The system automatically adapts to new regulations:
 
 ## 🚀 Getting Started
 
-The autonomous security system is **already active** and protecting your application. No setup required!
+The autonomous security system is **already active** and silently protecting your application. No setup required!
 
-### Quick Check
-1. Look for the **🔄** and **🧠** buttons in the bottom right
-2. Click them to see the security systems in action
-3. Enable autonomous updates if not already active
-4. Enjoy worry-free, cutting-edge security forever
+### 🔇 Silent Protection
+1. **No setup required** - Security is already running invisibly
+2. **No user interaction** - Everything happens automatically in background
+3. **No monitoring needed** - System protects itself completely
+4. **No maintenance** - Security evolves silently 24/7/365
 
 ---
 
