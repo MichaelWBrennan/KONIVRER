@@ -14,7 +14,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -23,67 +23,82 @@
             box-sizing: border-box;
         }
         
+        @font-face {
+            font-family: 'Ancient';
+            src: url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: #0f0f0f;
-            color: #ffffff;
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            background: #f2e8c9; /* Parchment color */
+            color: #3a2921; /* Dark brown text */
             line-height: 1.6;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="%23f2e8c9"/><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.1"/></svg>');
+            background-repeat: repeat;
         }
         
         #root {
             min-height: 100vh;
+            position: relative;
         }
         
-        /* Loading Screen */
-        #loading-screen {
-            position: fixed;
+        #root::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 Q25,5 50,0 T100,0 T150,0 T200,0 T250,0 T300,0 T350,0 T400,0 T450,0 T500,0 T550,0 T600,0 T650,0 T700,0 T750,0 T800,0 T850,0 T900,0 T950,0 T1000,0" fill="none" stroke="%233a2921" stroke-width="2"/></svg>');
+            background-repeat: repeat-x;
+        }
+        
+        #root::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q25,15 50,20 T100,20 T150,20 T200,20 T250,20 T300,20 T350,20 T400,20 T450,20 T500,20 T550,20 T600,20 T650,20 T700,20 T750,20 T800,20 T850,20 T900,20 T950,20 T1000,20" fill="none" stroke="%233a2921" stroke-width="2"/></svg>');
+            background-repeat: repeat-x;
+        }
+        
+        /* Ancient scroll theme */
+        .ancient-scroll {
+            border: 2px solid #8b5a2b;
+            border-radius: 5px;
+            background-color: #f8f0dd;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            padding: 20px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .ancient-scroll::before,
+        .ancient-scroll::after {
+            content: '';
+            position: absolute;
             height: 100%;
-            background: #0f0f0f;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
+            width: 30px;
+            top: 0;
+            background-color: #d9b38c;
+            border: 2px solid #8b5a2b;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
         }
         
-        .loading-logo {
-            font-size: 3rem;
-            margin-bottom: 2rem;
-            color: #ffffff;
+        .ancient-scroll::before {
+            left: -15px;
+            border-radius: 15px 0 0 15px;
         }
         
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top-color: #ffffff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            margin-top: 1rem;
-            font-size: 1.2rem;
-            color: #ffffff;
+        .ancient-scroll::after {
+            right: -15px;
+            border-radius: 0 15px 15px 0;
         }
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
-        <div class="loading-logo">⭐ KONIVRER ⭐</div>
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Loading...</div>
-    </div>
-    
     <div id="root"></div>
     <script type="module" src="/src/main-simple.tsx"></script>
 </body>

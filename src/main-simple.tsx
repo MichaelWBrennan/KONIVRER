@@ -1,13 +1,40 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AllInOneApp from './core/AllInOne';
-// Import the cutting-edge system modules
+// Import the system modules
 import './auto-system.js';
 import './cutting-edge-updater.js';
 import './security/CuttingEdgeSecurity.js';
+// Import ancient theme
+import './styles/ancient-theme.css';
 
 // Log application startup
-console.log('[APP] Starting with cutting-edge technologies and security...');
+console.log('[APP] Starting with ancient scroll theme...');
+
+// Create a tattered scroll header
+const createAncientHeader = () => {
+  const header = document.createElement('header');
+  header.className = 'ancient-header';
+  header.innerHTML = `
+    <div class="ancient-scroll tattered-edge">
+      <h1 class="text-center">KONIVRER Deck Database</h1>
+      <div class="divider"></div>
+      <p class="text-center faded-text">Ancient scrolls of knowledge and power</p>
+    </div>
+  `;
+  document.body.insertBefore(header, document.getElementById('root'));
+};
+
+// Initialize ancient theme when DOM is loaded
+if (typeof window !== 'undefined') {
+  window.addEventListener('DOMContentLoaded', () => {
+    // Add ancient scroll class to body
+    document.body.classList.add('ancient-theme');
+    
+    // Create the ancient header
+    createAncientHeader();
+  });
+}
 
 // Get the root element
 const rootElement = document.getElementById('root');
@@ -24,4 +51,4 @@ root.render(
 );
 
 // Log successful initialization
-console.log('[APP] Successfully initialized with cutting-edge features and quantum-resistant security');
+console.log('[APP] Successfully initialized with ancient scroll theme');
