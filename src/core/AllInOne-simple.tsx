@@ -101,7 +101,7 @@ const Navigation: React.FC = () => {
           Decks
         </Link>
         <Link 
-          to="/game" 
+          to="/play" 
           style={{
             color: '#f2e8c9',
             textDecoration: 'none',
@@ -115,22 +115,6 @@ const Navigation: React.FC = () => {
           onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
         >
           Play
-        </Link>
-        <Link 
-          to="/tournaments" 
-          style={{
-            color: '#f2e8c9',
-            textDecoration: 'none',
-            fontSize: '18px',
-            fontWeight: 'bold',
-            padding: '8px 12px',
-            borderRadius: '4px',
-            transition: 'background-color 0.3s'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#6b4423'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-        >
-          Events
         </Link>
       </div>
 
@@ -745,7 +729,7 @@ const DecksPage: React.FC = () => {
   );
 };
 
-// Play Page (Game Center)
+// Play Page (Game Center & Tournaments)
 const PlayPage: React.FC = () => {
   const gameOptions = [
     {
@@ -770,6 +754,33 @@ const PlayPage: React.FC = () => {
     }
   ];
 
+  const upcomingEvents = [
+    {
+      name: 'Weekly Championship',
+      date: 'Starts in 2 days',
+      description: 'Compete for weekly prizes and ranking points',
+      status: 'Open Registration'
+    },
+    {
+      name: 'Monthly Grand Prix',
+      date: 'Registration open',
+      description: 'Monthly tournament with exclusive card rewards',
+      status: 'Registration Open'
+    },
+    {
+      name: 'Seasonal Championship',
+      date: 'Qualifiers ongoing',
+      description: 'The biggest tournament of the season',
+      status: 'Qualifiers'
+    },
+    {
+      name: 'Beginner Tournament',
+      date: 'Every Sunday',
+      description: 'Perfect for new players to learn and compete',
+      status: 'Weekly Event'
+    }
+  ];
+
   return (
     <div style={{ 
       padding: '40px 20px', 
@@ -777,6 +788,7 @@ const PlayPage: React.FC = () => {
       background: '#f2e8c9',
       minHeight: '100vh'
     }}>
+      {/* Game Center Section */}
       <h1 style={{ 
         marginBottom: '30px', 
         color: '#3a2921',
@@ -848,47 +860,11 @@ const PlayPage: React.FC = () => {
           Use your mana wisely to play cards and control the battlefield!
         </p>
       </div>
-    </div>
-  );
-};
 
-// Events Page (Tournaments)
-const EventsPage: React.FC = () => {
-  const upcomingEvents = [
-    {
-      name: 'Weekly Championship',
-      date: 'Starts in 2 days',
-      description: 'Compete for weekly prizes and ranking points',
-      status: 'Open Registration'
-    },
-    {
-      name: 'Monthly Grand Prix',
-      date: 'Registration open',
-      description: 'Monthly tournament with exclusive card rewards',
-      status: 'Registration Open'
-    },
-    {
-      name: 'Seasonal Championship',
-      date: 'Qualifiers ongoing',
-      description: 'The biggest tournament of the season',
-      status: 'Qualifiers'
-    },
-    {
-      name: 'Beginner Tournament',
-      date: 'Every Sunday',
-      description: 'Perfect for new players to learn and compete',
-      status: 'Weekly Event'
-    }
-  ];
-
-  return (
-    <div style={{ 
-      padding: '40px 20px',
-      background: '#f2e8c9',
-      minHeight: '100vh'
-    }}>
+      {/* Tournaments & Events Section */}
       <h1 style={{ 
         textAlign: 'center', 
+        marginTop: '60px',
         marginBottom: '30px', 
         color: '#3a2921',
         fontSize: '36px'
@@ -972,6 +948,8 @@ const EventsPage: React.FC = () => {
   );
 };
 
+
+
 // Main App Component
 const AllInOneApp: React.FC = () => {
   return (
@@ -988,8 +966,7 @@ const AllInOneApp: React.FC = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/cards" element={<CardsPage />} />
             <Route path="/decks" element={<DecksPage />} />
-            <Route path="/game" element={<PlayPage />} />
-            <Route path="/tournaments" element={<EventsPage />} />
+            <Route path="/play" element={<PlayPage />} />
           </Routes>
         </main>
       </div>
