@@ -272,6 +272,8 @@ const Navigation: React.FC = () => {
 
 // Simple Home Page
 const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
       <div className="ancient-scroll" style={{
@@ -304,8 +306,9 @@ const HomePage: React.FC = () => {
             textAlign: 'center'
           }}>
             <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>Card Database</h3>
-            <Link to="/cards">
-              <button style={{
+            <button 
+              onClick={() => navigate('/cards')}
+              style={{
                 background: '#8b5a2b',
                 color: 'white',
                 border: 'none',
@@ -314,11 +317,14 @@ const HomePage: React.FC = () => {
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                marginTop: '10px'
-              }}>
-                Browse Cards
-              </button>
-            </Link>
+                marginTop: '10px',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#6b4423'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#8b5a2b'}
+            >
+              Browse Cards
+            </button>
           </div>
           
           <div style={{
@@ -329,8 +335,9 @@ const HomePage: React.FC = () => {
             textAlign: 'center'
           }}>
             <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>Deck Builder</h3>
-            <Link to="/decks">
-              <button style={{
+            <button 
+              onClick={() => navigate('/decks')}
+              style={{
                 background: '#8b5a2b',
                 color: 'white',
                 border: 'none',
@@ -339,11 +346,14 @@ const HomePage: React.FC = () => {
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                marginTop: '10px'
-              }}>
-                Build Decks
-              </button>
-            </Link>
+                marginTop: '10px',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#6b4423'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#8b5a2b'}
+            >
+              Build Decks
+            </button>
           </div>
           
           <div style={{
@@ -354,8 +364,9 @@ const HomePage: React.FC = () => {
             textAlign: 'center'
           }}>
             <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>Game Rules</h3>
-            <Link to="/play">
-              <button style={{
+            <button 
+              onClick={() => navigate('/play')}
+              style={{
                 background: '#8b5a2b',
                 color: 'white',
                 border: 'none',
@@ -364,11 +375,14 @@ const HomePage: React.FC = () => {
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold',
-                marginTop: '10px'
-              }}>
-                Learn to Play
-              </button>
-            </Link>
+                marginTop: '10px',
+                transition: 'background-color 0.3s'
+              }}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#6b4423'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#8b5a2b'}
+            >
+              Learn to Play
+            </button>
           </div>
         </div>
       </div>
@@ -1019,9 +1033,9 @@ const EventsPage: React.FC = () => {
 // Main App Component
 // Import self-healing and self-optimizing components
 import { SelfHealingErrorBoundary } from './SelfHealer';
-import { withOptimization, useSelfOptimizer } from './SelfOptimizer';
+import { withOptimization } from './SelfOptimizer';
 
-// Optimize pages with the withOptimization HOC
+// Silently optimize pages with the withOptimization HOC
 const OptimizedHomePage = withOptimization(HomePage, { name: 'HomePage', memoize: true });
 const OptimizedCardsPage = withOptimization(CardsPage, { name: 'CardsPage', memoize: true });
 const OptimizedDecksPage = withOptimization(DecksPage, { name: 'DecksPage', memoize: true });
@@ -1029,14 +1043,6 @@ const OptimizedPlayPage = withOptimization(PlayPage, { name: 'PlayPage', memoize
 const OptimizedEventsPage = withOptimization(EventsPage, { name: 'EventsPage', memoize: true });
 
 const AllInOneApp: React.FC = () => {
-  // Access the self-optimizer for on-demand optimization
-  const { optimizeNow } = useSelfOptimizer();
-  
-  // Trigger optimization when the app loads
-  useEffect(() => {
-    optimizeNow();
-  }, [optimizeNow]);
-  
   return (
     <Router>
       <div style={{ 

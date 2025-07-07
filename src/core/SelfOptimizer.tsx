@@ -67,6 +67,12 @@ export class SelfOptimizer {
     
     // Initialize performance monitoring
     this.initPerformanceMonitoring();
+    
+    // Start silent monitoring
+    silentMonitor();
+    
+    // Silent initialization
+    console.debug('[OPTIMIZER] Self-optimizer initialized silently');
   }
 
   public static getInstance(): SelfOptimizer {
@@ -237,52 +243,20 @@ export const useSelfOptimizer = (): {
   return { metrics, updateSettings, optimizeNow };
 };
 
-// Performance Monitor Component
-export const PerformanceMonitor: React.FC<{
-  showUI?: boolean;
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left';
-}> = ({ showUI = false, position = 'bottom-right' }) => {
-  const { metrics } = useSelfOptimizer();
+// Silent Performance Monitor - No UI component
+const silentMonitor = () => {
+  // Get the optimizer instance
+  const optimizer = SelfOptimizer.getInstance();
   
-  if (!showUI) return null;
-  
-  // Position styles
-  let positionStyle: React.CSSProperties = {};
-  switch (position) {
-    case 'top-right':
-      positionStyle = { top: '10px', right: '10px' };
-      break;
-    case 'top-left':
-      positionStyle = { top: '10px', left: '10px' };
-      break;
-    case 'bottom-right':
-      positionStyle = { bottom: '10px', right: '10px' };
-      break;
-    case 'bottom-left':
-      positionStyle = { bottom: '10px', left: '10px' };
-      break;
-  }
-  
-  return (
-    <div style={{
-      position: 'fixed',
-      ...positionStyle,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      color: 'white',
-      padding: '10px',
-      borderRadius: '5px',
-      fontSize: '12px',
-      zIndex: 9999,
-      fontFamily: 'monospace',
-      width: '180px'
-    }}>
-      <div style={{ marginBottom: '5px', fontWeight: 'bold' }}>Performance Monitor</div>
-      <div>FPS: {metrics.fps}</div>
-      {metrics.memory !== null && <div>Memory: {metrics.memory.toFixed(2)} MB</div>}
-      {metrics.networkLatency !== null && <div>Latency: {metrics.networkLatency.toFixed(0)} ms</div>}
-      <div>Render: {metrics.renderTime.toFixed(2)} ms</div>
-    </div>
-  );
+  // Set up silent monitoring
+  setInterval(() => {
+    const metrics = optimizer.getMetrics();
+    
+    // Silently optimize if needed
+    if (metrics.fps < 30 || (metrics.memory && metrics.memory > 100)) {
+      optimizer.optimizeOnDemand();
+    }
+  }, 30000); // Check every 30 seconds
 };
 
 // Optimized component wrapper

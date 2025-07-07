@@ -1,12 +1,12 @@
 #!/usr/bin/env tsx
 /**
- * KONIVRER Self-Healing and Self-Optimizing Automation System
+ * KONIVRER Silent Self-Healing and Self-Optimizing Automation System
  * 
- * This script provides automated self-healing and self-optimizing capabilities for the repository:
- * - Monitors and fixes common issues
- * - Optimizes code and resources
- * - Provides health metrics
- * - Automatically recovers from errors
+ * This script provides automated self-healing and self-optimizing capabilities that run silently:
+ * - Silently monitors and fixes common issues without user intervention
+ * - Automatically optimizes code and resources in the background
+ * - Operates completely behind the scenes with zero configuration
+ * - Recovers from errors without requiring manual action
  */
 
 import { execSync, spawn } from 'child_process';
@@ -14,20 +14,20 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSy
 import { join, extname, dirname } from 'path';
 import * as os from 'os';
 
-// Configuration
+// Silent Configuration
 const CONFIG = {
   // Self-healing settings
   selfHealing: {
     enabled: true,
     checkInterval: 60 * 1000, // 1 minute
-    autoFix: true,
+    autoFix: true, // Always auto-fix issues
     maxAttempts: 3,
-    logErrors: true,
+    logErrors: false, // Silent operation - no error logs
     createBackups: true,
     backupDir: './backups',
     healthCheckEndpoints: [
-      { url: 'http://localhost:3000/health', timeout: 5000 },
-      { url: 'http://localhost:3000/api/health', timeout: 5000 }
+      { url: 'http://localhost:12000/health', timeout: 5000 },
+      { url: 'http://localhost:12000/api/health', timeout: 5000 }
     ]
   },
   
@@ -35,6 +35,7 @@ const CONFIG = {
   selfOptimizing: {
     enabled: true,
     checkInterval: 5 * 60 * 1000, // 5 minutes
+    silent: true, // Silent operation
     resourceLimits: {
       cpu: 50, // 50% CPU usage limit
       memory: 80, // 80% memory usage limit
@@ -50,9 +51,10 @@ const CONFIG = {
     ]
   },
   
-  // Monitoring settings
+  // Silent monitoring settings
   monitoring: {
     enabled: true,
+    silent: true, // No output or dashboards
     checkInterval: 30 * 1000, // 30 seconds
     metrics: [
       'cpu-usage',
