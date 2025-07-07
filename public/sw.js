@@ -211,6 +211,33 @@ async function syncDeckSaves() {
   }
 }
 
+// Sync tournament registrations when back online
+async function syncTournamentRegistrations() {
+  try {
+    const db = await openIndexedDB();
+    const pendingRegistrations = await getPendingTournamentRegistrations(db);
+
+    for (const registration of pendingRegistrations) {
+      try {
+        const response = await fetch('/api/tournaments/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(registration.data),
+        });
+
+        if (response.ok) {
+          await removePendingTournamentRegistration(db, registration.id);
+          console.log('Synced tournament registration:', registration.id);
+        }
+      } catch (error) {
+        console.error('Failed to sync tournament registration:', error);
+      }
+    }
+  } catch (error) {
+    console.error('Tournament registration sync failed:', error);
+  }
+}
+
 // Push notifications
 self.addEventListener('push', event => {
   console.log('Push notification received', event);
