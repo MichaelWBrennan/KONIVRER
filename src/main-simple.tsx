@@ -1,6 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AllInOneApp from './core/AllInOne';
+// Import the auto-system module to start the autonomous system
+import './auto-system.js';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
