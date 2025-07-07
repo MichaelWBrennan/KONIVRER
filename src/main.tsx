@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AllInOneApp from './core/AllInOne';
+import { shouldSkipAutonomousSystems } from './utils/buildDetection';
 
 // Register service worker for PWA functionality
 if ('serviceWorker' in navigator) {
