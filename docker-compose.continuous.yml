@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  konivrer-automation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: konivrer-automation-24-7-365
+    restart: always
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=production
+      - AUTOMATION_MODE=continuous
+      - AUTOMATION_INTERVAL=1000
+      - AUTOMATION_CONTINUOUS=true
+      - AUTOMATION_SELF_HEALING=true
+    command: >
+      sh -c "chmod +x /app/auto-service.sh && 
+             /app/auto-service.sh"
+    healthcheck:
+      test: ["CMD", "pgrep", "-f", "automation/all-in-one.ts"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 0
+        window: 120s
+
+  konivrer-automation-monitor:
+    image: alpine:latest
+    container_name: konivrer-automation-monitor
+    restart: always
+    depends_on:
+      - konivrer-automation
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: >
+      sh -c "apk add --no-cache docker-cli && 
+             while true; do 
+               if ! docker ps | grep -q konivrer-automation-24-7-365; then 
+                 echo 'Automation container down, restarting...'; 
+                 docker restart konivrer-automation-24-7-365 || docker-compose -f /app/docker-compose.continuous.yml up -d konivrer-automation; 
+               fi; 
+               sleep 5; 
+             done"
