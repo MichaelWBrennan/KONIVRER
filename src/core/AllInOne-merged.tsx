@@ -1760,16 +1760,26 @@ const OptimizedLoginPage = withOptimization(LoginPage, { name: 'LoginPage', memo
 
 // Background Automation Component (only active in non-build environments)
 const BackgroundAutomation: React.FC = () => {
+  // Check if we're in build mode
+  const isBuildMode = process.env.NODE_ENV === 'production' || 
+                     process.env.VERCEL === '1' || 
+                     process.env.VITE_BUILD === 'true' ||
+                     process.env.DISABLE_AUTONOMOUS === 'true' ||
+                     process.env.FORCE_BUILD_MODE === 'true' ||
+                     process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
+                     shouldSkipAutonomousSystems();
+  
   useEffect(() => {
     // Skip autonomous systems during build/deployment
-    if (shouldSkipAutonomousSystems()) {
+    if (isBuildMode) {
+      console.log('[AUTONOMOUS SYSTEMS] Build mode detected - systems disabled');
       return;
     }
 
     if (process.env.NODE_ENV === 'development') {
       console.log('[AUTONOMOUS SYSTEMS] All systems active and running in background');
     }
-  }, []);
+  }, [isBuildMode]);
 
   // Return null - completely invisible to users
   return null;
