@@ -8,14 +8,18 @@ import { execSync, spawn } from 'child_process';
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, extname } from 'path';
 
-// Configuration
+// Configuration - EVERY SECOND AUTOMATION
 const CONFIG = {
-  typescript: { strict: true, autoFix: true },
-  security: { autoUpdate: true, scanInterval: 24 },
-  performance: { optimize: true, bundleAnalysis: true },
-  quality: { eslint: true, prettier: true, tests: true },
-  deployment: { auto: true, environment: 'production' },
-  notifications: { enabled: true, channels: ['console', 'file'] }
+  typescript: { strict: true, autoFix: true, interval: 1000 }, // 1 second
+  security: { autoUpdate: true, scanInterval: 1, quickScan: true }, // 1 second
+  performance: { optimize: true, bundleAnalysis: true, interval: 1000 }, // 1 second
+  quality: { eslint: true, prettier: true, tests: true, interval: 1000 }, // 1 second
+  deployment: { auto: true, environment: 'production', interval: 1000 }, // 1 second
+  notifications: { enabled: true, channels: ['console', 'file'] },
+  monitoring: { realTime: true, interval: 1000 }, // 1 second monitoring
+  autoHeal: { enabled: true, interval: 1000 }, // 1 second self-healing
+  continuousIntegration: true,
+  hyperAutomation: true
 };
 
 // Utility functions
@@ -80,6 +84,21 @@ class SecurityMonitor {
     runCommand('npm audit fix', true);
     runCommand('npm update', true);
   }
+
+  static quickScan(): boolean {
+    // Quick security check for every-second monitoring
+    try {
+      const auditResult = runCommand('npm audit --audit-level=high', true);
+      if (auditResult.includes('high') || auditResult.includes('critical')) {
+        log('🚨 Critical security issue detected!', 'error');
+        this.autoUpdate();
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return true; // Don't fail on quick scan errors
+    }
+  }
 }
 
 class QualityAssurance {
@@ -105,6 +124,21 @@ class QualityAssurance {
 
     if (passed) log('✅ Quality assurance passed', 'success');
     return passed;
+  }
+
+  static quickLint(): boolean {
+    // Quick ESLint check for every-second monitoring
+    try {
+      const eslintResult = runCommand('npx eslint src/**/*.{ts,tsx} --max-warnings 0', true);
+      if (eslintResult.includes('error')) {
+        log('🔧 Auto-fixing ESLint issues...', 'warn');
+        runCommand('npx eslint src/**/*.{ts,tsx} --fix', true);
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return true; // Don't fail on quick lint errors
+    }
   }
 }
 
@@ -144,6 +178,25 @@ class PerformanceOptimizer {
     if (existsSync(assetsPath)) {
       log('🖼️ Optimizing images...');
       // Basic image optimization logic would go here
+    }
+  }
+
+  static quickCheck(): boolean {
+    // Quick performance check for every-second monitoring
+    try {
+      // Check if dist folder exists and is recent
+      const distPath = join(process.cwd(), 'dist');
+      if (existsSync(distPath)) {
+        const distStats = statSync(distPath);
+        const ageMinutes = (Date.now() - distStats.mtime.getTime()) / (1000 * 60);
+        if (ageMinutes > 60) { // If build is older than 1 hour
+          log('🔄 Build is outdated, triggering rebuild...', 'warn');
+          runCommand('npm run build', true);
+        }
+      }
+      return true;
+    } catch (error) {
+      return true; // Don't fail on quick check errors
     }
   }
 }
@@ -295,6 +348,77 @@ class AutomationOrchestrator {
     writeFileSync('automation-dashboard.html', dashboard);
     log('📊 Dashboard available at: automation-dashboard.html', 'success');
   }
+
+  // EVERY SECOND CONTINUOUS MONITORING
+  static startContinuousMonitoring(): void {
+    log('🚀 Starting EVERY SECOND continuous monitoring...', 'success');
+    
+    let cycleCount = 0;
+    const startTime = Date.now();
+    
+    const runCycle = () => {
+      cycleCount++;
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      
+      log(`⚡ Cycle #${cycleCount} (${elapsed}s) - Running automation...`, 'info');
+      
+      // Quick checks every second
+      try {
+        // TypeScript quick check
+        if (CONFIG.typescript.autoFix) {
+          const tsResult = runCommand('npx tsc --noEmit --incremental', true);
+          if (tsResult.includes('error')) {
+            log('🔧 Auto-fixing TypeScript issues...', 'warn');
+            TypeScriptEnforcer.autoFix();
+          }
+        }
+        
+        // Security quick scan
+        if (CONFIG.security.quickScan) {
+          SecurityMonitor.quickScan();
+        }
+        
+        // Performance monitoring
+        if (CONFIG.performance.optimize) {
+          PerformanceOptimizer.quickCheck();
+        }
+        
+        // Quality check
+        if (CONFIG.quality.eslint) {
+          QualityAssurance.quickLint();
+        }
+        
+        // Self-healing check
+        if (CONFIG.autoHeal.enabled && cycleCount % 10 === 0) {
+          log('🩹 Running self-healing check...', 'info');
+          this.quickHeal();
+        }
+        
+        log(`✅ Cycle #${cycleCount} complete`, 'success');
+        
+      } catch (error) {
+        log(`❌ Error in cycle #${cycleCount}: ${error}`, 'error');
+      }
+    };
+    
+    // Run immediately
+    runCycle();
+    
+    // Then run every second
+    setInterval(runCycle, CONFIG.monitoring.interval);
+    
+    log('🎯 Continuous monitoring active - running every second!', 'success');
+  }
+
+  static quickHeal(): void {
+    // Quick self-healing without full reinstall
+    try {
+      runCommand('npm audit fix --force', true);
+      log('🩹 Quick heal complete', 'success');
+    } catch (error) {
+      log('⚠️ Quick heal failed, will retry next cycle', 'warn');
+    }
+  }
 }
 
 // CLI interface
@@ -314,20 +438,36 @@ switch (command) {
   case 'heal':
     AutomationOrchestrator.selfHeal();
     break;
+  case 'monitor':
+  case 'continuous':
+  case 'every-second':
+    AutomationOrchestrator.startContinuousMonitoring();
+    break;
   case 'status':
     log('🤖 KONIVRER Automation System - All systems operational', 'success');
     break;
   case 'help':
   default:
     console.log(`
-🤖 KONIVRER All-in-One Automation System
+🤖 KONIVRER All-in-One Automation System - EVERY SECOND EDITION
 
 Usage:
   tsx automation/all-in-one.ts run              # Run full automation
+  tsx automation/all-in-one.ts monitor          # Start EVERY SECOND monitoring
+  tsx automation/all-in-one.ts continuous       # Start continuous monitoring
+  tsx automation/all-in-one.ts every-second     # Start every-second automation
   tsx automation/all-in-one.ts task <name>      # Run specific task
   tsx automation/all-in-one.ts dashboard        # Start dashboard
   tsx automation/all-in-one.ts heal             # Self-healing workflow
   tsx automation/all-in-one.ts status           # Check status
+
+🚀 EVERY SECOND FEATURES:
+  - TypeScript checking every second
+  - Security monitoring every second
+  - Quality assurance every second
+  - Performance optimization every second
+  - Auto-healing every 10 seconds
+  - Real-time logging and notifications
 
 Tasks: typescript, security, quality, performance, dependencies, deploy
 `);

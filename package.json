@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 12000",
     "dev:auto": "tsx automation/all-in-one.ts run && npm run dev",
+    "dev:every-second": "tsx automation/all-in-one.ts every-second & npm run dev",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 12001",
     "test": "vitest",
@@ -21,6 +22,12 @@
     "automation:security": "tsx automation/all-in-one.ts task security",
     "automation:performance": "tsx automation/all-in-one.ts task performance",
     "automation:logs:follow": "tail -f automation.log",
+    "automation:every-second": "tsx automation/all-in-one.ts every-second",
+    "automation:monitor": "tsx automation/all-in-one.ts monitor",
+    "automation:continuous": "tsx automation/all-in-one.ts continuous",
+    "monitor": "tsx automation/all-in-one.ts monitor",
+    "continuous": "tsx automation/all-in-one.ts continuous",
+    "every-second": "tsx automation/all-in-one.ts every-second",
     "heal": "tsx automation/all-in-one.ts heal",
     "deploy:auto": "tsx automation/all-in-one.ts task deploy"
   },
