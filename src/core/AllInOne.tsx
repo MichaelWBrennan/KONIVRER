@@ -1534,4 +1534,12 @@ const BackgroundAutomation: React.FC = () => {
   return null;
 };
 
+// Export page components for use in AllInOne-simple.tsx
+export { 
+  CardsPage,
+  DeckBuilderPage,
+  GamePage,
+  TournamentsPage
+};
+
 export default AllInOneApp;

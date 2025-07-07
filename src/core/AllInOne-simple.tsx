@@ -334,34 +334,13 @@ const HomePage: React.FC = () => {
   );
 };
 
-// Simple placeholder pages
-const CardsPage: React.FC = () => (
-  <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-    <h1 style={{ color: '#3a2921' }}>Card Database</h1>
-    <p style={{ color: '#3a2921' }}>Coming soon...</p>
-  </div>
-);
-
-const DecksPage: React.FC = () => (
-  <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-    <h1 style={{ color: '#3a2921' }}>Deck Builder</h1>
-    <p style={{ color: '#3a2921' }}>Coming soon...</p>
-  </div>
-);
-
-const PlayPage: React.FC = () => (
-  <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-    <h1 style={{ color: '#3a2921' }}>Play Game</h1>
-    <p style={{ color: '#3a2921' }}>Coming soon...</p>
-  </div>
-);
-
-const EventsPage: React.FC = () => (
-  <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-    <h1 style={{ color: '#3a2921' }}>Events</h1>
-    <p style={{ color: '#3a2921' }}>Coming soon...</p>
-  </div>
-);
+// Import page components from AllInOne.tsx
+import {
+  CardsPage,
+  DeckBuilderPage as DecksPage,
+  GamePage as PlayPage,
+  TournamentsPage as EventsPage
+} from './AllInOne';
 
 // Main App Component
 const AllInOneApp: React.FC = () => {
