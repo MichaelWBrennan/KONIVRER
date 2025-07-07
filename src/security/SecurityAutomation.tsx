@@ -442,6 +442,12 @@ export const SecurityAutomationProvider: React.FC<{
   const { logSecurityEvent } = useSecurityContext();
 
   useEffect(() => {
+    // Skip autonomous systems during build/deployment
+    if (typeof window === 'undefined' || process.env.NODE_ENV === 'production') {
+      console.log('[SECURITY AUTOMATION] Skipping autonomous systems during build/deployment');
+      return;
+    }
+
     // Initialize automation system
     const cleanup = initializeAutomation();
 
