@@ -32,22 +32,22 @@
     "deploy:auto": "tsx automation/all-in-one.ts task deploy"
   },
   "dependencies": {
+    "framer-motion": "^10.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.0",
-    "framer-motion": "^10.16.0"
+    "react-router-dom": "^6.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.0.0",
-    "typescript": "^5.0.0",
-    "vite": "^4.4.0",
-    "vitest": "^0.34.0",
-    "eslint": "^8.45.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.45.0",
     "prettier": "^3.0.0",
-    "tsx": "^3.12.0"
+    "tsx": "^3.12.0",
+    "typescript": "^5.0.0",
+    "vite": "^7.0.2",
+    "vitest": "^3.2.4"
   }
 }

@@ -12,6 +12,9 @@ A **revolutionary streamlined** trading card game platform that achieves **95% c
 # Install dependencies
 npm install
 
+# Start with EVERY SECOND automation (ULTIMATE!)
+npm run dev:every-second
+
 # Start development with automation (recommended)
 npm run dev:auto
 
@@ -21,6 +24,32 @@ npm run dev
 # Build for production
 npm run build
 ```
+
+## 🚀 EVERY SECOND AUTOMATION - LIVE DEMO
+
+The KONIVRER platform now features **revolutionary every-second automation** that continuously monitors and optimizes your code in real-time:
+
+```bash
+# Watch the magic happen - automation runs every second!
+npm run every-second
+
+# Example live output:
+[2025-07-07T00:06:16.419Z] 🚀 Starting EVERY SECOND continuous monitoring...
+[2025-07-07T00:06:16.420Z] ⚡ Cycle #1 (0.0s) - Running automation...
+[2025-07-07T00:06:18.774Z] 🩹 Running self-healing check...
+[2025-07-07T00:06:19.180Z] ✅ Cycle #1 complete
+[2025-07-07T00:06:19.180Z] 🎯 Continuous monitoring active - running every second!
+[2025-07-07T00:06:20.180Z] ⚡ Cycle #2 (4.2s) - Running automation...
+[2025-07-07T00:06:23.094Z] ✅ Cycle #2 complete
+```
+
+### 🎯 Real-Time Features:
+- **TypeScript validation** every second with auto-fix
+- **Security vulnerability scanning** every second  
+- **Code quality checks** every second with auto-fix
+- **Performance monitoring** every second
+- **Self-healing** every 10 seconds
+- **Live logging** with timestamps and status
 
 ## 📁 Streamlined Structure
 
