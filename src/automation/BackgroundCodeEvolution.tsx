@@ -264,7 +264,7 @@ export const useBackgroundCodeEvolution = () => {
 
   // Continuous evolution process running silently
   const startSilentEvolution = () => {
-    // Check for updates every 6 hours silently
+    // Check for updates every second for maximum responsiveness
     const evolutionInterval = setInterval(async () => {
       const trends = getTechnologyTrends();
       const updates = await generateCodeUpdates();
@@ -281,10 +281,12 @@ export const useBackgroundCodeEvolution = () => {
       // Store evolution timestamp
       localStorage.setItem('lastCodeEvolution', new Date().toISOString());
 
-      console.log(
-        `[CODE EVOLUTION] Silently applied ${lowRiskUpdates.length} updates`,
-      );
-    }, 21600000); // 6 hours
+      if (lowRiskUpdates.length > 0) {
+        console.log(
+          `[CODE EVOLUTION] Silently applied ${lowRiskUpdates.length} updates`,
+        );
+      }
+    }, 1000); // 1 second - maximum responsiveness
 
     return () => clearInterval(evolutionInterval);
   };
