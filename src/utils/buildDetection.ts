@@ -16,20 +16,13 @@ export const isBuildEnvironment = (): boolean => {
     return true;
   }
 
-  // 3. Environment variable checks (comprehensive)
+  // 3. Build-specific environment variable checks (only actual build time)
   if (
-    process.env.NODE_ENV === 'production' ||
-    process.env.VERCEL === '1' ||
-    process.env.VERCEL ||
-    process.env.VERCEL_ENV ||
-    process.env.VERCEL_URL ||
-    process.env.CI === 'true' ||
-    process.env.CI ||
-    process.env.GITHUB_ACTIONS ||
-    process.env.NETLIFY ||
+    process.env.VITE_BUILD === 'true' ||
     process.env.BUILD_ENV === 'production' ||
     process.env.NEXT_PHASE === 'phase-production-build' ||
-    process.env.VITE_BUILD === 'true'
+    process.env.DISABLE_AUTONOMOUS === 'true' ||
+    process.env.FORCE_BUILD_MODE === 'true'
   ) {
     return true;
   }
@@ -44,12 +37,9 @@ export const isBuildEnvironment = (): boolean => {
     return true;
   }
 
-  // 5. Vercel-specific detection
+  // 5. Build-specific detection (not runtime)
   if (
-    process.env.VERCEL_REGION ||
-    process.env.VERCEL_GIT_COMMIT_SHA ||
-    process.env.KONIVRER_BUILD_ID ||
-    typeof process.env.VERCEL_ANALYTICS_ID !== 'undefined'
+    process.env.KONIVRER_BUILD_ID === 'vercel-build'
   ) {
     return true;
   }
