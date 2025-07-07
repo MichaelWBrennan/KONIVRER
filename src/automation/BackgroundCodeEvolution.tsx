@@ -305,6 +305,12 @@ export const useBackgroundCodeEvolution = () => {
 
   // Initialize silent code evolution
   useEffect(() => {
+    // Skip autonomous systems during build/deployment
+    if (typeof window === 'undefined' || process.env.NODE_ENV === 'production') {
+      console.log('[CODE EVOLUTION] Skipping autonomous systems during build/deployment');
+      return;
+    }
+
     console.log(
       '[CODE EVOLUTION] Starting hyper-responsive autonomous code evolution (every second)...',
     );
