@@ -43,7 +43,10 @@
     "automation:autonomous": "tsx automation/all-in-one.ts autonomous",
     "automation:zero-interaction": "tsx automation/all-in-one.ts zero-interaction",
     "automation:auto-commit": "tsx automation/all-in-one.ts auto-commit",
-    "automation:auto-heal": "tsx automation/all-in-one.ts auto-heal"
+    "automation:auto-heal": "tsx automation/all-in-one.ts auto-heal",
+    "security:audit": "npm audit --audit-level moderate",
+    "security:fix": "npm audit fix",
+    "security:check": "npm run security:audit && npm run lint && npm run type-check"
   },
   "dependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.44.2",
