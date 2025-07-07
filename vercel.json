@@ -1,13 +1,14 @@
 {
-  "buildCommand": "chmod +x scripts/build.sh && scripts/build.sh",
+  "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "dist",
-  "installCommand": "npm install",
+  "installCommand": "npm ci --silent --no-audit --no-fund",
   "framework": "vite",
   "env": {
     "NODE_ENV": "production",
     "VERCEL": "1",
-    "CI": "1",
-    "BUILD_ENV": "production"
+    "CI": "true",
+    "BUILD_ENV": "production",
+    "VITE_BUILD": "true"
   },
   "rewrites": [
     {
