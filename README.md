@@ -338,6 +338,9 @@ All autonomous systems now use centralized build detection:
 #### **Analytics Dashboard**
 Access your analytics at: `https://vercel.com/crypto3ks-projects/konivrer-deck-database/analytics`
 
+#### **Speed Insights Dashboard**
+Access your speed insights at: `https://vercel.com/crypto3ks-projects/konivrer-deck-database/speed-insights`
+
 #### **Performance Benefits**
 - **Zero Bundle Impact** - Analytics loaded asynchronously
 - **Build Optimization** - Skipped during build process
