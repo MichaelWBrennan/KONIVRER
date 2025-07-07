@@ -18,7 +18,7 @@ if ('serviceWorker' in navigator) {
 
 // Web Vitals for performance monitoring
 if (process.env.NODE_ENV === 'production') {
-  import('web-vitals').then((webVitals) => {
+  import('web-vitals').then((webVitals: any) => {
     if (webVitals.getCLS) webVitals.getCLS(console.log);
     if (webVitals.getFID) webVitals.getFID(console.log);
     if (webVitals.getFCP) webVitals.getFCP(console.log);
