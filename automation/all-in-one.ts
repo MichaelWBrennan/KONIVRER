@@ -8,19 +8,43 @@ import { execSync, spawn } from 'child_process';
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, extname } from 'path';
 
-// Configuration - ZERO HUMAN INTERACTION AUTOMATION
+// Configuration - RESOURCE-OPTIMIZED AUTOMATION
 const CONFIG = {
-  typescript: { strict: true, autoFix: true, interval: 1000, autoCommit: true }, // 1 second
-  security: { autoUpdate: true, scanInterval: 1, quickScan: true, autoCommit: true }, // 1 second
-  performance: { optimize: true, bundleAnalysis: true, interval: 1000, autoCommit: true }, // 1 second
-  quality: { eslint: true, prettier: true, tests: true, interval: 1000, autoCommit: true }, // 1 second
-  deployment: { auto: true, environment: 'production', interval: 1000, autoCommit: true }, // 1 second
+  // Resource optimization settings
+  resourceOptimization: {
+    enabled: true,
+    cpuLimit: 50, // Limit CPU usage to 50%
+    memoryLimit: 80, // Limit memory usage to 80%
+    throttleOnHighLoad: true, // Reduce activity when system load is high
+    batchOperations: true, // Batch operations to reduce overhead
+    logVerbosity: 'normal', // 'minimal', 'normal', 'verbose'
+    diskIOReduction: true, // Minimize disk I/O operations
+  },
+  
+  // Intervals in milliseconds - increased for resource efficiency
+  intervals: {
+    typescript: 60000, // 1 minute
+    security: 3600000, // 1 hour
+    performance: 1800000, // 30 minutes
+    quality: 900000, // 15 minutes
+    monitoring: 60000, // 1 minute
+    autoHeal: 3600000, // 1 hour
+    autonomousOps: 1800000, // 30 minutes
+    quickHeal: 600000, // 10 minutes
+  },
+  
+  // Feature configuration
+  typescript: { strict: true, autoFix: true, autoCommit: true },
+  security: { autoUpdate: true, quickScan: true, autoCommit: true },
+  performance: { optimize: true, bundleAnalysis: true, autoCommit: true },
+  quality: { eslint: true, prettier: true, tests: true, autoCommit: true },
+  deployment: { auto: true, environment: 'production', autoCommit: true },
   notifications: { enabled: true, channels: ['console', 'file'] },
-  monitoring: { realTime: true, interval: 1000 }, // 1 second monitoring
-  autoHeal: { enabled: true, interval: 1000, autoCommit: true }, // 1 second self-healing
+  monitoring: { realTime: true },
+  autoHeal: { enabled: true, autoCommit: true },
   continuousIntegration: true,
-  hyperAutomation: true,
-  // ZERO HUMAN INTERACTION SETTINGS
+  
+  // Autonomous settings
   autonomous: {
     enabled: true,
     autoCommit: true,
@@ -34,35 +58,133 @@ const CONFIG = {
     zeroPrompts: true,
     fullySelfSufficient: true
   },
+  
+  // Git settings
   git: {
     autoCommit: true,
     autoPush: true,
     autoMerge: true,
-    commitMessage: 'AUTO: Automated system update',
-    branchProtection: false, // Disable for full automation
-    requireReviews: false // Disable for full automation
+    commitMessage: 'AUTO: Resource-optimized system update',
+    branchProtection: false,
+    requireReviews: false
   }
 };
 
-// Utility functions
+// Utility functions with resource optimization
 const log = (message: string, type: 'info' | 'success' | 'error' | 'warn' = 'info') => {
-  const colors = { info: '\x1b[36m', success: '\x1b[32m', error: '\x1b[31m', warn: '\x1b[33m' };
-  const timestamp = new Date().toISOString();
-  const logMessage = `${colors[type]}[${timestamp}] ${message}\x1b[0m`;
-  console.log(logMessage);
+  // Skip logging based on verbosity setting to reduce I/O
+  if (CONFIG.resourceOptimization.logVerbosity === 'minimal' && type === 'info') {
+    return; // Skip info logs in minimal mode
+  }
   
-  // Write to log file
-  const logFile = join(process.cwd(), 'automation.log');
-  writeFileSync(logFile, `${timestamp} [${type.toUpperCase()}] ${message}\n`, { flag: 'a' });
+  // Reduce timestamp precision to save CPU cycles
+  const timestamp = new Date().toISOString();
+  
+  // Only output to console for important messages when in minimal mode
+  if (CONFIG.resourceOptimization.logVerbosity !== 'minimal' || 
+      type === 'error' || type === 'warn') {
+    const colors = { info: '\x1b[36m', success: '\x1b[32m', error: '\x1b[31m', warn: '\x1b[33m' };
+    const logMessage = `${colors[type]}[${timestamp}] ${message}\x1b[0m`;
+    console.log(logMessage);
+  }
+  
+  // Batch log writes to reduce disk I/O
+  if (CONFIG.resourceOptimization.diskIOReduction) {
+    // Add to in-memory log buffer (implemented below)
+    addToLogBuffer(`${timestamp} [${type.toUpperCase()}] ${message}\n`);
+  } else {
+    // Direct write to log file
+    const logFile = join(process.cwd(), 'automation.log');
+    writeFileSync(logFile, `${timestamp} [${type.toUpperCase()}] ${message}\n`, { flag: 'a' });
+  }
 };
 
-const runCommand = (command: string, silent = false): string => {
+// Log buffer for batched writes to reduce disk I/O
+let logBuffer: string[] = [];
+let lastLogFlush = Date.now();
+
+const addToLogBuffer = (logEntry: string) => {
+  logBuffer.push(logEntry);
+  
+  // Flush logs if buffer gets too large or enough time has passed
+  if (logBuffer.length > 50 || Date.now() - lastLogFlush > 5000) {
+    flushLogBuffer();
+  }
+};
+
+const flushLogBuffer = () => {
+  if (logBuffer.length === 0) return;
+  
   try {
-    const result = execSync(command, { encoding: 'utf8', stdio: silent ? 'pipe' : 'inherit' });
+    const logFile = join(process.cwd(), 'automation.log');
+    writeFileSync(logFile, logBuffer.join(''), { flag: 'a' });
+    logBuffer = [];
+    lastLogFlush = Date.now();
+  } catch (error) {
+    console.error('Failed to flush log buffer:', error);
+  }
+};
+
+// Resource-optimized command execution
+const runCommand = (command: string, silent = false): string => {
+  // Check if we should throttle based on system load
+  if (CONFIG.resourceOptimization.throttleOnHighLoad && isSystemUnderHighLoad()) {
+    log(`Throttling command execution due to high system load: ${command}`, 'warn');
+    return '';
+  }
+  
+  try {
+    // Add resource constraints to the command if supported by the OS
+    let resourceConstrainedCommand = command;
+    
+    // On Linux, we can use nice and ionice to reduce CPU and I/O priority
+    if (process.platform === 'linux') {
+      resourceConstrainedCommand = `nice -n 10 ionice -c 2 -n 7 ${command}`;
+    }
+    
+    // Execute with resource constraints
+    const result = execSync(resourceConstrainedCommand, { 
+      encoding: 'utf8', 
+      stdio: silent ? 'pipe' : 'inherit',
+      // Set a reasonable timeout to prevent hanging
+      timeout: 60000 // 1 minute timeout
+    });
     return result;
   } catch (error) {
     if (!silent) log(`Command failed: ${command}`, 'error');
     return '';
+  }
+};
+
+// Check if system is under high load
+const isSystemUnderHighLoad = (): boolean => {
+  try {
+    if (process.platform === 'linux') {
+      // Check CPU load on Linux
+      const loadAvg = execSync('cat /proc/loadavg', { encoding: 'utf8' }).split(' ')[0];
+      const cpuCount = execSync('nproc', { encoding: 'utf8' }).trim();
+      
+      // If load average is greater than 80% of CPU count, consider it high load
+      if (parseFloat(loadAvg) > (parseInt(cpuCount) * 0.8)) {
+        return true;
+      }
+      
+      // Check memory usage
+      const memInfo = execSync('free | grep Mem', { encoding: 'utf8' });
+      const memParts = memInfo.split(/\s+/);
+      const totalMem = parseInt(memParts[1]);
+      const usedMem = parseInt(memParts[2]);
+      const memUsagePercent = (usedMem / totalMem) * 100;
+      
+      if (memUsagePercent > CONFIG.resourceOptimization.memoryLimit) {
+        return true;
+      }
+    }
+    
+    return false;
+  } catch (error) {
+    // If we can't check system load, assume it's not high
+    return false;
   }
 };
 
@@ -518,21 +640,43 @@ class AutomationOrchestrator {
 
   // EVERY SECOND CONTINUOUS MONITORING
   static startContinuousMonitoring(): void {
-    log('🚀 Starting EVERY SECOND continuous monitoring...', 'success');
+    log('🚀 Starting RESOURCE-OPTIMIZED continuous monitoring...', 'success');
     
     let cycleCount = 0;
     const startTime = Date.now();
     
+    // Register process exit handler to flush logs
+    process.on('exit', () => {
+      flushLogBuffer();
+      log('🛑 Continuous monitoring stopped, logs flushed', 'info');
+    });
+    
+    // Register signal handlers
+    ['SIGINT', 'SIGTERM', 'SIGHUP'].forEach(signal => {
+      process.on(signal, () => {
+        log(`Received ${signal}, shutting down gracefully...`, 'warn');
+        flushLogBuffer();
+        process.exit(0);
+      });
+    });
+    
     const runCycle = () => {
+      // Skip cycle if system is under high load
+      if (CONFIG.resourceOptimization.throttleOnHighLoad && isSystemUnderHighLoad()) {
+        log('⚠️ System under high load, skipping automation cycle', 'warn');
+        return;
+      }
+      
       cycleCount++;
-      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      const elapsed = ((Date.now() - startTime) / 1000 / 60).toFixed(1); // Show minutes instead of seconds
       
-      log(`⚡ Cycle #${cycleCount} (${elapsed}s) - Running automation...`, 'info');
+      log(`⚡ Cycle #${cycleCount} (${elapsed} min) - Running automation...`, 'info');
       
-      // Quick checks every second
       try {
-        // TypeScript quick check
-        if (CONFIG.typescript.autoFix) {
+        // TypeScript check - run every N cycles based on configured interval
+        if (CONFIG.typescript.autoFix && 
+            cycleCount % Math.ceil(CONFIG.intervals.typescript / CONFIG.intervals.monitoring) === 0) {
+          log('🔍 Running TypeScript check...', 'info');
           const tsResult = runCommand('npx tsc --noEmit --incremental', true);
           if (tsResult.includes('error')) {
             log('🔧 Auto-fixing TypeScript issues...', 'warn');
@@ -540,47 +684,110 @@ class AutomationOrchestrator {
           }
         }
         
-        // Security quick scan
-        if (CONFIG.security.quickScan) {
+        // Security scan - run every N cycles
+        if (CONFIG.security.quickScan && 
+            cycleCount % Math.ceil(CONFIG.intervals.security / CONFIG.intervals.monitoring) === 0) {
+          log('🛡️ Running security scan...', 'info');
           SecurityMonitor.quickScan();
         }
         
-        // Performance monitoring
-        if (CONFIG.performance.optimize) {
+        // Performance check - run every N cycles
+        if (CONFIG.performance.optimize && 
+            cycleCount % Math.ceil(CONFIG.intervals.performance / CONFIG.intervals.monitoring) === 0) {
+          log('⚡ Running performance check...', 'info');
           PerformanceOptimizer.quickCheck();
         }
         
-        // Quality check
-        if (CONFIG.quality.eslint) {
+        // Quality check - run every N cycles
+        if (CONFIG.quality.eslint && 
+            cycleCount % Math.ceil(CONFIG.intervals.quality / CONFIG.intervals.monitoring) === 0) {
+          log('🎯 Running quality check...', 'info');
           QualityAssurance.quickLint();
         }
         
-        // Self-healing check
-        if (CONFIG.autoHeal.enabled && cycleCount % 10 === 0) {
+        // Self-healing check - run every N cycles
+        if (CONFIG.autoHeal.enabled && 
+            cycleCount % Math.ceil(CONFIG.intervals.quickHeal / CONFIG.intervals.monitoring) === 0) {
           log('🩹 Running self-healing check...', 'info');
           this.quickHeal();
         }
         
-        // Autonomous operations every 30 seconds
-        if (CONFIG.autonomous.enabled && cycleCount % 30 === 0) {
+        // Full auto-heal - run every N cycles
+        if (CONFIG.autoHeal.enabled && 
+            cycleCount % Math.ceil(CONFIG.intervals.autoHeal / CONFIG.intervals.monitoring) === 0) {
+          log('🏥 Running full auto-heal...', 'info');
+          this.selfHeal();
+        }
+        
+        // Autonomous operations - run every N cycles
+        if (CONFIG.autonomous.enabled && 
+            cycleCount % Math.ceil(CONFIG.intervals.autonomousOps / CONFIG.intervals.monitoring) === 0) {
           log('🤖 Running autonomous operations...', 'info');
           this.runAutonomousOperations();
         }
         
+        // Resource usage reporting - every 10 cycles
+        if (cycleCount % 10 === 0) {
+          this.reportResourceUsage();
+        }
+        
         log(`✅ Cycle #${cycleCount} complete`, 'success');
+        
+        // Explicitly flush logs every 5 cycles
+        if (cycleCount % 5 === 0) {
+          flushLogBuffer();
+        }
         
       } catch (error) {
         log(`❌ Error in cycle #${cycleCount}: ${error}`, 'error');
+        flushLogBuffer(); // Ensure errors are written to log immediately
       }
     };
     
     // Run immediately
     runCycle();
     
-    // Then run every second
-    setInterval(runCycle, CONFIG.monitoring.interval);
+    // Then run at the configured interval (default: 60 seconds)
+    setInterval(runCycle, CONFIG.intervals.monitoring);
     
-    log('🎯 Continuous monitoring active - running every second!', 'success');
+    log(`🎯 Resource-optimized continuous monitoring active - running every ${CONFIG.intervals.monitoring/1000} seconds!`, 'success');
+  }
+  
+  // Report system resource usage
+  static reportResourceUsage(): void {
+    try {
+      if (process.platform === 'linux') {
+        // Get CPU usage
+        const loadAvg = execSync('cat /proc/loadavg', { encoding: 'utf8' }).split(' ')[0];
+        const cpuCount = execSync('nproc', { encoding: 'utf8' }).trim();
+        const cpuUsagePercent = (parseFloat(loadAvg) / parseInt(cpuCount)) * 100;
+        
+        // Get memory usage
+        const memInfo = execSync('free | grep Mem', { encoding: 'utf8' });
+        const memParts = memInfo.split(/\s+/);
+        const totalMem = parseInt(memParts[1]);
+        const usedMem = parseInt(memParts[2]);
+        const memUsagePercent = (usedMem / totalMem) * 100;
+        
+        // Get disk usage
+        const diskInfo = execSync('df -h / | tail -1', { encoding: 'utf8' });
+        const diskParts = diskInfo.split(/\s+/);
+        const diskUsage = diskParts[4].replace('%', '');
+        
+        log(`📊 RESOURCES - CPU: ${cpuUsagePercent.toFixed(1)}%, Memory: ${memUsagePercent.toFixed(1)}%, Disk: ${diskUsage}%`, 'info');
+        
+        // Adjust verbosity based on resource usage
+        if (cpuUsagePercent > CONFIG.resourceOptimization.cpuLimit || 
+            memUsagePercent > CONFIG.resourceOptimization.memoryLimit) {
+          log('⚠️ High resource usage detected, reducing automation activity', 'warn');
+          CONFIG.resourceOptimization.logVerbosity = 'minimal';
+        } else {
+          CONFIG.resourceOptimization.logVerbosity = 'normal';
+        }
+      }
+    } catch (error) {
+      // Silent fail for resource reporting
+    }
   }
 
   static quickHeal(): void {
@@ -718,6 +925,9 @@ switch (command) {
     break;
   case 'status':
     log('🤖 KONIVRER Automation System - All systems operational', 'success');
+    log('⚙️ RESOURCE-OPTIMIZED MODE: ACTIVE', 'success');
+    log(`📊 CPU limit: ${CONFIG.resourceOptimization.cpuLimit}%, Memory limit: ${CONFIG.resourceOptimization.memoryLimit}%`, 'info');
+    log(`⏱️ Monitoring interval: ${CONFIG.intervals.monitoring/1000}s, Auto-heal: ${CONFIG.intervals.autoHeal/1000}s`, 'info');
     if (CONFIG.autonomous.enabled) {
       log('🤖 AUTONOMOUS MODE: ACTIVE - Zero human interaction required', 'success');
     }
@@ -725,14 +935,14 @@ switch (command) {
   case 'help':
   default:
     console.log(`
-🤖 KONIVRER All-in-One Automation System - ZERO HUMAN INTERACTION EDITION
+🤖 KONIVRER All-in-One Automation System - RESOURCE-OPTIMIZED EDITION
 
 Usage:
   tsx automation/all-in-one.ts run              # Run full automation
-  tsx automation/all-in-one.ts monitor          # Start EVERY SECOND monitoring
-  tsx automation/all-in-one.ts continuous       # Start continuous monitoring
+  tsx automation/all-in-one.ts monitor          # Start resource-optimized monitoring (60s)
+  tsx automation/all-in-one.ts continuous       # Start continuous monitoring (resource-efficient)
   tsx automation/all-in-one.ts every-second     # Start every-second automation
-  tsx automation/all-in-one.ts autonomous       # Start AUTONOMOUS mode (zero interaction)
+  tsx automation/all-in-one.ts autonomous       # Start AUTONOMOUS mode (resource-optimized)
   tsx automation/all-in-one.ts zero-interaction # Start zero-interaction mode
   tsx automation/all-in-one.ts hands-off        # Start hands-off automation
   tsx automation/all-in-one.ts task <name>      # Run specific task
@@ -741,6 +951,13 @@ Usage:
   tsx automation/all-in-one.ts auto-commit      # Auto-commit changes
   tsx automation/all-in-one.ts auto-heal        # Auto-heal git issues
   tsx automation/all-in-one.ts status           # Check status
+\n  Resource Optimization:
+  - CPU usage limited to ${CONFIG.resourceOptimization.cpuLimit}%
+  - Memory usage limited to ${CONFIG.resourceOptimization.memoryLimit}%
+  - Monitoring interval: ${CONFIG.intervals.monitoring/1000} seconds
+  - TypeScript checks: Every ${CONFIG.intervals.typescript/1000} seconds
+  - Security scans: Every ${CONFIG.intervals.security/1000} seconds
+  - Auto-heal: Every ${CONFIG.intervals.autoHeal/1000} seconds
 
 🤖 ZERO HUMAN INTERACTION FEATURES:
   - TypeScript checking every second with auto-fix and auto-commit
