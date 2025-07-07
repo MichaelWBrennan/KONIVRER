@@ -10,11 +10,6 @@ module.exports = {
     'node_modules', 
     '*.log', 
     'automation-*.log',
-    '*.ts',
-    '*.tsx',
-    'automation/',
-    'src/',
-    'auto-*.js',
     'vite.config.ts',
     'tsconfig.json'
   ],
