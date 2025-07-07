@@ -1,20 +1,21 @@
 # KONIVRER Fully Autonomous Development System
 
-This project includes a fully autonomous development system that runs completely in the background with no need for user input or interaction.
+This project includes a fully autonomous development system that runs completely in the background with no need for user input or interaction. It starts automatically when you run the application - no setup required.
 
-## 100% Autonomous Operation
+## 100% Out-of-the-Box Automation
 
 The system is designed to be completely hands-off:
 
 - ✅ **Zero user input required** - Everything happens automatically
 - ✅ **No UI or dashboards** - Pure background operation
-- ✅ **No manual commands needed** - Auto-starts on npm install
+- ✅ **No manual commands needed** - Auto-starts when the app runs
 - ✅ **No shell scripts to run** - Everything is handled internally
 - ✅ **No configuration needed** - Pre-configured for optimal operation
+- ✅ **No npm scripts required** - Just use standard `npm run dev`
 
 ## Key Features
 
-- ✅ **Automatic startup** on npm install
+- ✅ **Automatic startup** when the application runs
 - ✅ **TypeScript checking and auto-fix** every 5 seconds
 - ✅ **ESLint & Prettier checking and auto-fix** every 5 seconds
 - ✅ **Security monitoring and auto-fix** every minute
@@ -39,10 +40,7 @@ The system is designed to be completely hands-off:
 The system starts automatically when you run:
 
 ```bash
-# Install dependencies (automatically starts the system)
-npm install
-
-# Start development server with automation
+# Start development server (automation starts automatically)
 npm run dev
 ```
 
@@ -58,7 +56,7 @@ That's it! The system will run completely in the background with no need for use
 
 ## How It Works
 
-The system uses a postinstall script to automatically start the zero-interaction mode, which runs all automation features in the background. It monitors your code for changes and automatically fixes issues as they arise.
+The system is built directly into the application and starts automatically when the app runs. It monitors your code for changes and automatically fixes issues as they arise.
 
 The system is designed to be completely autonomous, with no need for:
 - User input or interaction
@@ -66,6 +64,7 @@ The system is designed to be completely autonomous, with no need for:
 - Dashboards or UIs
 - Manual commands or scripts
 - Shell scripts
+- Special npm scripts
 
 Everything happens automatically in the background, allowing you to focus on writing code while the system takes care of everything else.
 
