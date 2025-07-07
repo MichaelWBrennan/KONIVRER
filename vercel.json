@@ -1,11 +1,13 @@
 {
-  "buildCommand": "npm run build",
+  "buildCommand": "chmod +x scripts/build.sh && scripts/build.sh",
   "outputDirectory": "dist",
   "installCommand": "npm install",
   "framework": "vite",
   "env": {
     "NODE_ENV": "production",
-    "VERCEL": "1"
+    "VERCEL": "1",
+    "CI": "1",
+    "BUILD_ENV": "production"
   },
   "rewrites": [
     {
