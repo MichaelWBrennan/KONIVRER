@@ -29,7 +29,17 @@
     "continuous": "tsx automation/all-in-one.ts continuous",
     "every-second": "tsx automation/all-in-one.ts every-second",
     "heal": "tsx automation/all-in-one.ts heal",
-    "deploy:auto": "tsx automation/all-in-one.ts task deploy"
+    "deploy:auto": "tsx automation/all-in-one.ts task deploy",
+    "autonomous": "tsx automation/all-in-one.ts autonomous",
+    "zero-interaction": "tsx automation/all-in-one.ts zero-interaction",
+    "hands-off": "tsx automation/all-in-one.ts hands-off",
+    "auto-commit": "tsx automation/all-in-one.ts auto-commit",
+    "auto-heal": "tsx automation/all-in-one.ts auto-heal",
+    "dev:autonomous": "tsx automation/all-in-one.ts autonomous & npm run dev",
+    "automation:autonomous": "tsx automation/all-in-one.ts autonomous",
+    "automation:zero-interaction": "tsx automation/all-in-one.ts zero-interaction",
+    "automation:auto-commit": "tsx automation/all-in-one.ts auto-commit",
+    "automation:auto-heal": "tsx automation/all-in-one.ts auto-heal"
   },
   "dependencies": {
     "framer-motion": "^10.16.0",
