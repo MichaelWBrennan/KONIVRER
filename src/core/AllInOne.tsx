@@ -1349,125 +1349,7 @@ const TournamentsPage: React.FC = () => (
   </div>
 );
 
-const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle login/registration logic here
-    console.log('[LOGIN] Attempting login for:', username);
-  };
-
-  return (
-    <div style={{ 
-      padding: '2rem', 
-      textAlign: 'center',
-      minHeight: '80vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
-      <div
-        style={{
-          background: '#f8f0dd',
-          padding: '3rem',
-          borderRadius: '12px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-          border: '2px solid #8b5a2b',
-          maxWidth: '400px',
-          width: '100%',
-          fontFamily: 'OpenDyslexic, Arial, sans-serif',
-        }}
-      >
-        <h1 style={{ 
-          marginBottom: '2rem', 
-          color: '#3a2921',
-          fontFamily: 'OpenDyslexic, Arial, sans-serif',
-        }}>
-          {isRegistering ? 'Register' : 'Login'}
-        </h1>
-        
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{
-              padding: '1rem',
-              border: '2px solid #8b5a2b',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontFamily: 'OpenDyslexic, Arial, sans-serif',
-            }}
-          />
-          
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{
-              padding: '1rem',
-              border: '2px solid #8b5a2b',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontFamily: 'OpenDyslexic, Arial, sans-serif',
-            }}
-          />
-          
-          <button
-            type="submit"
-            style={{
-              padding: '1rem',
-              background: '#3a2921',
-              color: '#fff',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: '500',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              fontFamily: 'OpenDyslexic, Arial, sans-serif',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = '#2a1f19';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = '#3a2921';
-            }}
-          >
-            {isRegistering ? 'Register' : 'Login'}
-          </button>
-        </form>
-        
-        <p style={{ 
-          marginTop: '1rem', 
-          color: '#666',
-          fontFamily: 'OpenDyslexic, Arial, sans-serif',
-        }}>
-          {isRegistering ? 'Already have an account?' : "Don't have an account?"}
-          <button
-            onClick={() => setIsRegistering(!isRegistering)}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#3a2921',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              marginLeft: '0.5rem',
-              fontFamily: 'OpenDyslexic, Arial, sans-serif',
-            }}
-          >
-            {isRegistering ? 'Login' : 'Register'}
-          </button>
-        </p>
-      </div>
-    </div>
-  );
-};
 
 // Main app component
 const AllInOneApp: React.FC = () => {
@@ -1650,6 +1532,14 @@ const BackgroundAutomation: React.FC = () => {
 
   // Return null - completely invisible to users
   return null;
+};
+
+// Export page components for use in AllInOne-simple.tsx
+export { 
+  CardsPage,
+  DeckBuilderPage,
+  GamePage,
+  TournamentsPage
 };
 
 export default AllInOneApp;
