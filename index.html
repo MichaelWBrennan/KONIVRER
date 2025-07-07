@@ -12,9 +12,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cinzel+Decorative:wght@400;700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic.css">
     
     <style>
         * {
@@ -24,12 +22,21 @@
         }
         
         @font-face {
-            font-family: 'Ancient';
-            src: url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic-regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic-bold.woff') format('woff');
+            font-weight: bold;
+            font-style: normal;
         }
         
         body {
-            font-family: 'Cinzel', 'Times New Roman', serif;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
             background: #f2e8c9; /* Parchment color */
             color: #3a2921; /* Dark brown text */
             line-height: 1.6;
@@ -48,8 +55,8 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 20px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0,0 Q25,5 50,0 T100,0 T150,0 T200,0 T250,0 T300,0 T350,0 T400,0 T450,0 T500,0 T550,0 T600,0 T650,0 T700,0 T750,0 T800,0 T850,0 T900,0 T950,0 T1000,0" fill="none" stroke="%233a2921" stroke-width="2"/></svg>');
+            height: 10px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="10" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="5" r="3" fill="%233a2921" /><circle cx="30" cy="5" r="3" fill="%233a2921" /><circle cx="50" cy="5" r="3" fill="%233a2921" /><circle cx="70" cy="5" r="3" fill="%233a2921" /><circle cx="90" cy="5" r="3" fill="%233a2921" /></svg>');
             background-repeat: repeat-x;
         }
         
@@ -59,8 +66,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 20px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0,20 Q25,15 50,20 T100,20 T150,20 T200,20 T250,20 T300,20 T350,20 T400,20 T450,20 T500,20 T550,20 T600,20 T650,20 T700,20 T750,20 T800,20 T850,20 T900,20 T950,20 T1000,20" fill="none" stroke="%233a2921" stroke-width="2"/></svg>');
+            height: 10px;
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="10" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="5" r="3" fill="%233a2921" /><circle cx="30" cy="5" r="3" fill="%233a2921" /><circle cx="50" cy="5" r="3" fill="%233a2921" /><circle cx="70" cy="5" r="3" fill="%233a2921" /><circle cx="90" cy="5" r="3" fill="%233a2921" /></svg>');
             background-repeat: repeat-x;
         }
         

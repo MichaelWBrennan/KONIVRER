@@ -9,7 +9,7 @@ import './security/CuttingEdgeSecurity.js';
 import './styles/ancient-theme.css';
 
 // Log application startup
-console.log('[APP] Starting with cutting-edge technologies and ancient scroll theme...');
+console.log('[APP] Starting with OpenDyslexic font and ancient scroll theme...');
 
 // Create a tattered scroll header
 const createAncientHeader = () => {
@@ -19,7 +19,7 @@ const createAncientHeader = () => {
     <div class="ancient-scroll tattered-edge">
       <h1 class="text-center">KONIVRER Deck Database</h1>
       <div class="divider"></div>
-      <p class="text-center faded-text">Cutting-edge technology with ancient scroll styling</p>
+      <p class="text-center faded-text">Using OpenDyslexic font with ancient scroll styling</p>
     </div>
   `;
   document.body.insertBefore(header, document.getElementById('root'));
@@ -51,4 +51,4 @@ root.render(
 );
 
 // Log successful initialization
-console.log('[APP] Successfully initialized with cutting-edge features and ancient scroll theme');
+console.log('[APP] Successfully initialized with OpenDyslexic font and ancient scroll theme');

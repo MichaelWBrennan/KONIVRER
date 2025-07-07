@@ -40,7 +40,7 @@ class CuttingEdgeSecurity {
   // Initialize the security system
   init() {
     if (this.initialized) return;
-    console.log('⍟ Initializing cutting-edge security system...');
+    console.log('[SECURITY] Initializing cutting-edge security system...');
     this.initialized = true;
     
     // Set up security headers
@@ -64,12 +64,12 @@ class CuttingEdgeSecurity {
     // Load compliance frameworks
     this.loadComplianceFrameworks();
     
-    console.log('† Cutting-edge security system initialized successfully');
+    console.log('[SECURITY] Cutting-edge security system initialized successfully');
   }
   
   // Set up security headers
   setupSecurityHeaders() {
-    console.log('⛨ Setting up advanced security headers...');
+    console.log('[SECURITY] Setting up advanced security headers...');
     
     this.securityHeaders = {
       'Content-Security-Policy': this.generateCSP(),
@@ -99,12 +99,12 @@ class CuttingEdgeSecurity {
       });
     }
     
-    console.log('† Advanced security headers configured');
+    console.log('[SECURITY] Advanced security headers configured');
   }
   
   // Set up Content Security Policy
   setupCSP() {
-    console.log('⍟ Setting up advanced Content Security Policy...');
+    console.log('[SECURITY] Setting up advanced Content Security Policy...');
     
     this.cspPolicy = this.generateCSP();
     
@@ -116,7 +116,7 @@ class CuttingEdgeSecurity {
       document.head.appendChild(meta);
     }
     
-    console.log('† Advanced CSP configured');
+    console.log('[SECURITY] Advanced CSP configured');
   }
   
   // Generate CSP based on current threat intelligence
