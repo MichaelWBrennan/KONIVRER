@@ -24,6 +24,8 @@ import { SecurityAuditPanel } from '../security/SecurityAudit';
 import { AutoSecurityUpdaterPanel } from '../security/AutoSecurityUpdater';
 import { SecurityIntelligencePanel } from '../security/SecurityIntelligence';
 import { SecurityAutomationProvider } from '../security/SecurityAutomation';
+import { CodeEvolutionPanel } from '../automation/CodeEvolution';
+import { DependencyManagerPanel } from '../automation/DependencyManager';
 
 // Types
 interface Card {
@@ -783,6 +785,8 @@ const AllInOneApp: React.FC = () => {
               <SecurityAuditPanel />
               <AutoSecurityUpdaterPanel />
               <SecurityIntelligencePanel />
+              <CodeEvolutionPanel />
+              <DependencyManagerPanel />
             </div>
           </Router>
         </AppContext.Provider>
