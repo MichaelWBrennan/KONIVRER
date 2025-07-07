@@ -119,6 +119,29 @@ automation/
 - **Security Updates** - Stays safe and secure
 - **Performance** - Runs fast and smooth
 
+## 🔒 Security & Privacy
+
+### Data Protection
+- **Military-Grade Encryption** - AES-256 encryption for all data
+- **Local Storage Only** - Your data never leaves your device
+- **GDPR Compliant** - Full privacy rights protection
+- **No Tracking** - Zero analytics or advertising tracking
+
+### Security Features
+- **Real-Time Monitoring** - Continuous security scanning
+- **XSS Protection** - Prevents cross-site scripting attacks
+- **CSRF Protection** - Blocks cross-site request forgery
+- **Content Security Policy** - Strict security headers
+- **Audit Logging** - Complete security event tracking
+
+### Privacy Controls
+- **🔒 Data Protection Panel** - Manage your privacy settings
+- **🛡️ Security Audit** - Check security status anytime
+- **📥 Export Data** - Download all your data
+- **🗑️ Delete Data** - Remove all data permanently
+
+📋 **[Full Privacy Policy](./PRIVACY_POLICY.md)** - Complete privacy and security details
+
 ## 🎯 Game Rules
 
 The game uses these types of cards:
