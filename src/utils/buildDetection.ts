@@ -86,12 +86,36 @@ export const isBuildEnvironment = (): boolean => {
   return false;
 };
 
+// Emergency kill switch for autonomous systems
+let FORCE_DISABLE_AUTONOMOUS = false;
+
+export const forceDisableAutonomousSystems = (): void => {
+  FORCE_DISABLE_AUTONOMOUS = true;
+  console.log('[BUILD DETECTION] EMERGENCY: Autonomous systems force-disabled');
+};
+
 export const shouldSkipAutonomousSystems = (): boolean => {
+  // Emergency kill switch takes priority
+  if (FORCE_DISABLE_AUTONOMOUS) {
+    return true;
+  }
+
   const isBuild = isBuildEnvironment();
   
   if (isBuild) {
     console.log('[BUILD DETECTION] Autonomous systems disabled - build environment detected');
+    // Auto-enable force disable if we detect build environment
+    FORCE_DISABLE_AUTONOMOUS = true;
   }
   
   return isBuild;
 };
+
+// Additional safety check - disable autonomous systems immediately if Vercel is detected
+if (
+  typeof process !== 'undefined' && 
+  (process.env.VERCEL === '1' || process.env.VERCEL_ENV || process.env.VERCEL_URL)
+) {
+  FORCE_DISABLE_AUTONOMOUS = true;
+  console.log('[BUILD DETECTION] VERCEL DETECTED: Autonomous systems pre-disabled');
+}
