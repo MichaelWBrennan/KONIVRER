@@ -95,89 +95,41 @@ automation/
 - **Vitest** - Testing to make sure everything works
 - **ESLint** - Keeps code clean and error-free
 
-## 🎮 Core Features
+## 🎮 What You Can Do
 
-### Game Engine
-- **Card Database**: Complete KONIVRER card collection
-- **Deck Builder**: Interactive deck construction
-- **Game Logic**: Turn-based gameplay with AI
-- **Tournament System**: Competitive play support
+### Play the Game
+- **Browse Cards** - See all available cards
+- **Build Decks** - Create your own card combinations
+- **Play Games** - Battle against computer opponents
+- **Join Tournaments** - Compete with others
 
-### Blog Platform
-- **Content Management**: Create and manage blog posts
-- **Social Features**: Likes, bookmarks, comments
-- **Search & Filter**: Advanced content discovery
-- **User Engagement**: Community interaction
+### Read & Write
+- **Blog Posts** - Read game strategies and news
+- **Comments** - Share your thoughts
+- **Bookmarks** - Save your favorite content
 
-### AI & Automation
-- **🤖 TypeScript Enforcement**: Automatic code quality maintenance
-- **⚡ Performance Optimization**: Automatic bundle analysis and optimization
-- **🔒 Security Monitoring**: Continuous vulnerability scanning and dependency updates
+### Automatic Features
+- **Self-Fixing** - Game fixes problems automatically
+- **Security Updates** - Stays safe and secure
+- **Performance** - Runs fast and smooth
 
-### 🚀 EVERY SECOND Automation Commands
+## 🎯 Game Rules
 
-```bash
-# EVERY SECOND AUTOMATION (NEW!)
-npm run every-second           # Start every-second monitoring
-npm run continuous             # Continuous monitoring
-npm run monitor                # Real-time monitoring
-npm run dev:every-second       # Development with every-second automation
+The game uses these types of cards:
+- **Fire, Water, Earth, Air** - Magic elements
+- **Familiar Cards** - Creatures you can summon
+- **Spell Cards** - Special effects
+- **Life Cards** - Your health points
+- **Flag Cards** - Win conditions
 
-# Standard automation
-npm run dev:auto               # Start with automation
-npm run automation:run         # Run all automation
+**Goal:** Use strategy to defeat your opponent!
 
-# Specific tasks
-npm run automation:security    # Security scanning
-npm run automation:performance # Performance optimization
-npm run heal                   # Self-healing
+## 📱 Works Everywhere
 
-# Dashboard & monitoring
-npm run automation:dashboard   # View dashboard
-npm run automation:status      # Check status
-npm run automation:logs:follow # Follow logs in real-time
-```
-
-### ⚡ EVERY SECOND Features
-
-- **🔍 TypeScript Checking**: Every second validation and auto-fixing
-- **🛡️ Security Monitoring**: Continuous vulnerability scanning
-- **🎯 Quality Assurance**: Real-time ESLint checking and auto-fixing
-- **⚡ Performance Optimization**: Continuous build monitoring
-- **🩹 Auto-Healing**: Self-repair every 10 seconds
-- **📊 Real-time Logging**: Live monitoring with detailed logs
-- **🚀 Zero Downtime**: Continuous operation without interruption
-
-### 📈 Automation Benefits
-
-- **95% reduction** in manual maintenance tasks
-- **Zero-downtime** deployments with automated rollback
-- **Real-time** performance monitoring and optimization
-- **Proactive** security vulnerability detection and patching
-- **Intelligent** code quality enforcement and auto-fixing
-
-## 🎯 Game Features
-
-### Core Gameplay
-- **Elemental System**: Fire, Water, Earth, Air magic
-- **Familiar Cards**: Creature summoning and combat
-- **Spell Cards**: Instant effects and strategic plays
-- **Life Cards**: Resource management system
-- **Flag Cards**: Victory condition mechanics
-
-### Advanced Features
-- **AI Opponents**: Multiple difficulty levels
-- **Deck Validation**: Automatic deck legality checking
-- **Match History**: Game statistics and replay system
-- **Tournament Mode**: Competitive bracket system
-- **Real-time Multiplayer**: Online gameplay support
-
-## 📱 Progressive Web App
-
-- **Offline Support**: Play without internet connection
-- **Mobile Optimized**: Touch-friendly interface
-- **Push Notifications**: Tournament and game updates
-- **App-like Experience**: Install on any device
+- **Any Device** - Phone, tablet, computer
+- **Any Browser** - Chrome, Firefox, Safari, Edge
+- **Offline Play** - Works without internet
+- **Touch Friendly** - Easy to use on mobile
 
 ## 🔧 Development
 
