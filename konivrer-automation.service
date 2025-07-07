@@ -1,21 +1,37 @@
 [Unit]
-Description=KONIVRER Continuous Automation Service (24/7/365)
+Description=KONIVRER Continuous Automation Service (24/7/365) - Resource-Optimized
 After=network.target
 
 [Service]
 Type=simple
-User=root
+# Run as a non-root user for better security
+User=nobody
+Group=nogroup
 WorkingDirectory=/workspace/KONIVRER-deck-database
 ExecStart=/bin/bash /workspace/KONIVRER-deck-database/auto-service.sh
 Restart=always
-RestartSec=1
-StandardOutput=syslog
-StandardError=syslog
+# Longer restart delay to prevent rapid restarts
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
 SyslogIdentifier=konivrer-automation
 
-# Ensure the service always restarts, even after failure
-StartLimitIntervalSec=0
-StartLimitBurst=0
+# Resource limits to prevent excessive CPU/memory usage
+CPUQuota=50%
+MemoryLimit=512M
+TasksMax=50
+IOWeight=100
+Nice=10
+
+# Ensure the service always restarts, but with some limits
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+# Security enhancements
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
 
 [Install]
 WantedBy=multi-user.target

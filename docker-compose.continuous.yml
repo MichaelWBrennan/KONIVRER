@@ -13,24 +13,30 @@ services:
     environment:
       - NODE_ENV=production
       - AUTOMATION_MODE=continuous
-      - AUTOMATION_INTERVAL=1000
+      - AUTOMATION_INTERVAL=60000  # 60 seconds instead of 1 second
       - AUTOMATION_CONTINUOUS=true
       - AUTOMATION_SELF_HEALING=true
+      - AUTOMATION_RESOURCE_EFFICIENT=true
+    # Set resource limits to prevent container from using too much CPU/memory
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'  # Limit to 50% of a CPU core
+          memory: 512M  # Limit memory to 512MB
+      restart_policy:
+        condition: any
+        delay: 30s      # Longer delay between restarts
+        max_attempts: 0
+        window: 120s
     command: >
       sh -c "chmod +x /app/auto-service.sh && 
              /app/auto-service.sh"
     healthcheck:
       test: ["CMD", "pgrep", "-f", "automation/all-in-one.ts"]
-      interval: 30s
+      interval: 60s     # Check health less frequently
       timeout: 10s
       retries: 3
-      start_period: 30s
-    deploy:
-      restart_policy:
-        condition: any
-        delay: 5s
-        max_attempts: 0
-        window: 120s
+      start_period: 60s # Give more time to start up
 
   konivrer-automation-monitor:
     image: alpine:latest
@@ -40,6 +46,12 @@ services:
       - konivrer-automation
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    # Set resource limits for the monitor container
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'  # Limit to 10% of a CPU core
+          memory: 64M   # Limit memory to 64MB
     command: >
       sh -c "apk add --no-cache docker-cli && 
              while true; do 
@@ -47,5 +59,5 @@ services:
                  echo 'Automation container down, restarting...'; 
                  docker restart konivrer-automation-24-7-365 || docker-compose -f /app/docker-compose.continuous.yml up -d konivrer-automation; 
                fi; 
-               sleep 5; 
+               sleep 60; # Check every minute instead of every 5 seconds
              done"

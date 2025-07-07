@@ -1,6 +1,6 @@
 # KONIVRER Continuous Automation System (24/7/365)
 
-This document explains how to set up and use the KONIVRER Continuous Automation System, which runs 24/7/365 without interruption.
+This document explains how to set up and use the KONIVRER Continuous Automation System, which runs 24/7/365 without interruption, optimized for resource efficiency.
 
 ## Overview
 
@@ -89,13 +89,15 @@ This will show:
 
 ## Configuration
 
-The continuous automation system is configured to:
+The continuous automation system is configured to be resource-efficient while still providing 24/7/365 operation:
 
-1. Check for automation process every second
+1. Check for automation process every 60 seconds (configurable)
 2. Restart the automation if it's not running
-3. Monitor system resources and take action if they become critical
-4. Run the auto-heal process to fix any issues
-5. Pull the latest code from the repository (if available)
+3. Monitor system resources every 5 minutes and take action if they exceed 80% usage
+4. Run the auto-heal process once per hour to fix any issues
+5. Pull the latest code from the repository only at startup
+6. Limit CPU and memory usage to prevent system overload
+7. Use optimized commands to reduce resource consumption
 
 ## Logs
 
@@ -120,7 +122,21 @@ The continuous automation system runs with the same permissions as the user who 
 
 ## Performance Impact
 
-The continuous automation system is designed to have minimal impact on system performance. However, it does consume some resources, especially when running the auto-heal process. If you're running on a resource-constrained system, you may want to modify the `auto-service.sh` script to check less frequently or disable some features.
+The continuous automation system is designed to have minimal impact on system performance through several optimizations:
+
+1. **Resource Limits**: The system is configured with CPU and memory limits to prevent excessive resource usage
+2. **Reduced Frequency**: Checks and operations are performed at reasonable intervals rather than continuously
+3. **Optimized Commands**: Uses more efficient commands to check system status
+4. **Reduced Logging**: Minimizes disk I/O by reducing verbose logging
+5. **Staggered Operations**: Spreads resource-intensive operations over time
+
+These optimizations ensure the system can run 24/7/365 without causing performance issues or being terminated by the operating system's OOM (Out Of Memory) killer.
+
+If you're running on a particularly resource-constrained system, you can further adjust the configuration in `auto-service.sh`:
+- Increase `CHECK_INTERVAL` for less frequent process checking
+- Increase `HEAL_INTERVAL` to run the auto-heal process less frequently
+- Increase `RESOURCE_CHECK_INTERVAL` to check resources less frequently
+- Adjust `RESOURCE_THRESHOLD` to a higher value to be more tolerant of resource usage
 
 ## Conclusion
 
