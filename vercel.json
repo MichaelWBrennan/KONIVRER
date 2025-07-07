@@ -1,14 +1,18 @@
 {
   "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "dist",
-  "installCommand": "npm ci --silent --no-audit --no-fund",
+  "installCommand": "npm ci --include=dev --silent --no-audit --no-fund",
   "framework": "vite",
   "env": {
     "NODE_ENV": "production",
     "VERCEL": "1",
     "CI": "true",
     "BUILD_ENV": "production",
-    "VITE_BUILD": "true"
+    "VITE_BUILD": "true",
+    "VERCEL_ENV": "production",
+    "DEPLOYMENT_ID": "vercel-build",
+    "DISABLE_AUTONOMOUS": "true",
+    "FORCE_BUILD_MODE": "true"
   },
   "rewrites": [
     {

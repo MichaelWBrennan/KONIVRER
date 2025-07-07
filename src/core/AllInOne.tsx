@@ -13,7 +13,7 @@ import React, {
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import { speedTracker, trackCustomMetric } from '../utils/speedTracking';
+import { trackCustomMetric } from '../utils/speedTracking';
 import SpeedMonitor from '../components/SpeedMonitor';
 import {
   BrowserRouter as Router,
@@ -154,56 +154,108 @@ const AppContext = createContext<{
 
 // Consolidated components
 const Navigation: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
   const navItems = [
-    { path: '/', label: '🏠 Home' },
-    { path: '/cards', label: '🃏 Cards' },
-    { path: '/deck', label: '📚 Deck Builder' },
-    { path: '/game', label: '🎮 Play' },
-    { path: '/tournaments', label: '🏆 Tournaments' },
-    { path: '/blog', label: '📝 Blog' },
+    { path: '/', label: 'KONIVRER' },
+    { path: '/cards', label: 'Cards' },
+    { path: '/decks', label: 'Decks' },
+    { path: '/tournaments', label: 'Tournaments' },
+    { path: '/game', label: 'Play' },
+    { path: '/rules', label: 'Rules' },
   ];
 
   return (
     <nav
       style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        padding: '1rem',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        background: '#000',
+        padding: '1rem 2rem',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.3)',
+        borderBottom: '1px solid #333',
       }}
     >
       <div
         style={{
           display: 'flex',
-          gap: '1rem',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          maxWidth: '1200px',
+          margin: '0 auto',
         }}
       >
-        {navItems.map(item => (
-          <Link
-            key={item.path}
-            to={item.path}
-            onClick={() => {
-              // Track navigation clicks for speed insights
-              if (!shouldSkipAutonomousSystems()) {
-                trackCustomMetric('NAVIGATION_CLICK', performance.now());
-                trackCustomMetric(`NAVIGATION_TO_${item.path.replace('/', '') || 'HOME'}`, performance.now());
-              }
-            }}
+        {/* Left side - Main navigation */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '2rem',
+            alignItems: 'center',
+          }}
+        >
+          {navItems.map(item => (
+            <Link
+              key={item.path}
+              to={item.path}
+              onClick={() => {
+                // Track navigation clicks for speed insights
+                if (!shouldSkipAutonomousSystems()) {
+                  trackCustomMetric('NAVIGATION_CLICK', performance.now());
+                  trackCustomMetric(`NAVIGATION_TO_${item.path.replace('/', '') || 'HOME'}`, performance.now());
+                }
+              }}
+              style={{
+                color: '#fff',
+                textDecoration: 'none',
+                padding: '0.5rem 0',
+                transition: 'all 0.3s ease',
+                fontSize: '16px',
+                fontWeight: item.path === '/' ? '700' : '400',
+                borderBottom: '2px solid transparent',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderBottom = '2px solid #fff';
+                e.currentTarget.style.color = '#ccc';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderBottom = '2px solid transparent';
+                e.currentTarget.style.color = '#fff';
+              }}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Right side - Login button */}
+        <div>
+          <button
+            onClick={() => setIsLoggedIn(!isLoggedIn)}
             style={{
-              color: 'white',
-              textDecoration: 'none',
+              background: isLoggedIn ? '#28a745' : 'transparent',
+              color: '#fff',
+              border: '1px solid #fff',
               padding: '0.5rem 1rem',
-              borderRadius: '20px',
-              background: 'rgba(255,255,255,0.1)',
-              transition: 'all 0.3s ease',
+              borderRadius: '4px',
+              cursor: 'pointer',
               fontSize: '14px',
               fontWeight: '500',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              if (!isLoggedIn) {
+                e.currentTarget.style.background = '#fff';
+                e.currentTarget.style.color = '#000';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isLoggedIn) {
+                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.color = '#fff';
+              }
             }}
           >
-            {item.label}
-          </Link>
-        ))}
+            {isLoggedIn ? 'Logout' : 'Login'}
+          </button>
+        </div>
       </div>
     </nav>
   );
@@ -303,70 +355,351 @@ const SearchFilter: React.FC<{
 
 // Page components
 const HomePage: React.FC = () => (
-  <div style={{ padding: '2rem', textAlign: 'center' }}>
-    <motion.h1
-      initial={{ opacity: 0, y: -50 }}
+  <div style={{ padding: '2rem', textAlign: 'center', background: '#f8f9fa', minHeight: '90vh' }}>
+    {/* Header Section */}
+    <div style={{ marginBottom: '3rem' }}>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        style={{ fontSize: '2rem', marginBottom: '1rem' }}
+      >
+        ⭐
+      </motion.div>
+      
+      <motion.h1
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        style={{
+          fontSize: '4rem',
+          fontWeight: '700',
+          color: '#000',
+          marginBottom: '1rem',
+          letterSpacing: '2px',
+        }}
+      >
+        KONIVRER
+      </motion.h1>
+      
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        style={{ 
+          fontSize: '1.5rem', 
+          color: '#333', 
+          marginBottom: '1rem',
+          fontWeight: '300'
+        }}
+      >
+        Trading Card Game
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.5 }}
+        style={{ fontSize: '2rem', marginBottom: '2rem' }}
+      >
+        ⭐
+      </motion.div>
+    </div>
+
+    {/* Experience KONIVRER Section */}
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7 }}
       style={{
-        fontSize: '3rem',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        marginBottom: '1rem',
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        marginBottom: '2rem',
+        maxWidth: '800px',
+        margin: '0 auto 2rem auto',
       }}
     >
-      KONIVRER
-    </motion.h1>
-    <motion.p
+      <h2 style={{ 
+        fontSize: '1.8rem', 
+        color: '#000', 
+        marginBottom: '1rem',
+        borderBottom: '2px solid #000',
+        paddingBottom: '0.5rem'
+      }}>
+        Experience KONIVRER
+      </h2>
+      
+      <div style={{ marginBottom: '1.5rem' }}>
+        <h3 style={{ fontSize: '1.2rem', color: '#333', marginBottom: '0.5rem' }}>
+          Enhanced Game Implementation
+        </h3>
+        <p style={{ color: '#666', fontSize: '1rem', lineHeight: '1.6' }}>
+          Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
+        </p>
+      </div>
+
+      <Link
+        to="/konivrer-demo"
+        style={{
+          display: 'inline-block',
+          background: '#007bff',
+          color: 'white',
+          padding: '0.75rem 1.5rem',
+          borderRadius: '4px',
+          textDecoration: 'none',
+          fontSize: '1rem',
+          fontWeight: '500',
+          margin: '0.5rem',
+          transition: 'all 0.3s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = '#0056b3';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = '#007bff';
+        }}
+      >
+        ⭐ Play KONIVRER Demo ⭐
+      </Link>
+    </motion.div>
+
+    {/* AI Consciousness Section */}
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.9 }}
+      style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        marginBottom: '2rem',
+        maxWidth: '800px',
+        margin: '0 auto 2rem auto',
+      }}
+    >
+      <h2 style={{ 
+        fontSize: '1.8rem', 
+        color: '#000', 
+        marginBottom: '1rem',
+        borderBottom: '2px solid #000',
+        paddingBottom: '0.5rem'
+      }}>
+        🧠 AI Consciousness Testing
+      </h2>
+      
+      <p style={{ color: '#666', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1rem' }}>
+        Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
+      </p>
+
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+        gap: '1rem',
+        marginBottom: '1.5rem'
+      }}>
+        {[
+          '💯 100% Consciousness Level',
+          '💀 Life Card Mortality Awareness', 
+          '⚛️ Quantum Decision Engine',
+          '👁️ Theory of Mind Analysis'
+        ].map((feature, index) => (
+          <div key={index} style={{ 
+            padding: '0.5rem', 
+            background: '#f8f9fa', 
+            borderRadius: '4px',
+            fontSize: '0.9rem'
+          }}>
+            {feature}
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <Link
+          to="/ai-consciousness-demo"
+          style={{
+            background: '#28a745',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: '500',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          🧠 View AI Demo 🧠
+        </Link>
+        <Link
+          to="/game/ai-testing"
+          style={{
+            background: '#dc3545',
+            color: 'white',
+            padding: '0.75rem 1.5rem',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            fontSize: '1rem',
+            fontWeight: '500',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          🚀 Play vs AI 🚀
+        </Link>
+      </div>
+    </motion.div>
+
+    {/* Player vs Player Section */}
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.1 }}
+      style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        marginBottom: '2rem',
+        maxWidth: '800px',
+        margin: '0 auto 2rem auto',
+      }}
+    >
+      <h2 style={{ 
+        fontSize: '1.8rem', 
+        color: '#000', 
+        marginBottom: '1rem',
+        borderBottom: '2px solid #000',
+        paddingBottom: '0.5rem'
+      }}>
+        ⚔️ Player vs Player
+      </h2>
+      
+      <p style={{ color: '#666', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+        Challenge other players in classic KONIVRER matches with full game mechanics and competitive play.
+      </p>
+
+      <Link
+        to="/game/pvp"
+        style={{
+          background: '#6f42c1',
+          color: 'white',
+          padding: '0.75rem 1.5rem',
+          borderRadius: '4px',
+          textDecoration: 'none',
+          fontSize: '1rem',
+          fontWeight: '500',
+          transition: 'all 0.3s ease',
+        }}
+      >
+        ⚔️ Challenge Players ⚔️
+      </Link>
+    </motion.div>
+
+    {/* Latest News Section */}
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.3 }}
+      style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        marginBottom: '2rem',
+        maxWidth: '800px',
+        margin: '0 auto 2rem auto',
+      }}
+    >
+      <h2 style={{ 
+        fontSize: '1.8rem', 
+        color: '#000', 
+        marginBottom: '1.5rem',
+        borderBottom: '2px solid #000',
+        paddingBottom: '0.5rem'
+      }}>
+        Latest News
+      </h2>
+      
+      {[
+        {
+          title: 'New Mobile Experience',
+          desc: "We've completely redesigned our app for a better mobile experience with an esoteric theme and improved accessibility!"
+        },
+        {
+          title: 'Tournament Season Begins', 
+          desc: 'Join our weekly tournaments for a chance to win exclusive prizes and earn special rewards.'
+        },
+        {
+          title: 'New Card Set Released',
+          desc: 'Explore the latest expansion with powerful new cards and exciting mechanics.'
+        },
+        {
+          title: 'Community Event This Weekend',
+          desc: 'Join us for a special community event with prizes, tournaments, and more!'
+        }
+      ].map((news, index) => (
+        <div key={index} style={{ 
+          marginBottom: '1.5rem',
+          paddingBottom: '1rem',
+          borderBottom: index < 3 ? '1px solid #eee' : 'none'
+        }}>
+          <h3 style={{ fontSize: '1.1rem', color: '#333', marginBottom: '0.5rem' }}>
+            {news.title}
+          </h3>
+          <p style={{ color: '#666', fontSize: '0.9rem', margin: 0 }}>
+            {news.desc}
+          </p>
+          <div style={{ fontSize: '1.2rem', marginTop: '0.5rem' }}>⭐</div>
+        </div>
+      ))}
+    </motion.div>
+
+    {/* Bottom Navigation Links */}
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 0.3 }}
-      style={{ fontSize: '1.2rem', color: '#666', marginBottom: '2rem' }}
-    >
-      Next-Generation Trading Card Game Platform
-    </motion.p>
-
-    <div
+      transition={{ delay: 1.5 }}
       style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '1rem',
+        display: 'flex',
+        gap: '2rem',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
         marginTop: '2rem',
       }}
     >
       {[
-        { title: '🎮 Play Now', desc: 'Start a game with AI or friends' },
-        {
-          title: '🃏 Browse Cards',
-          desc: 'Explore the complete card database',
-        },
-        { title: '📚 Build Decks', desc: 'Create powerful deck combinations' },
-        { title: '🏆 Tournaments', desc: 'Join competitive tournaments' },
-        { title: '📝 Community', desc: 'Read strategy guides and news' },
-        { title: '🤖 AI Features', desc: 'Get AI-powered recommendations' },
-      ].map((feature, index) => (
-        <motion.div
+        { path: '/cards', label: 'Cards' },
+        { path: '/decks', label: 'Decks' },
+        { path: '/tournaments', label: 'Tournaments' },
+        { path: '/game', label: 'Play' },
+        { path: '/rules', label: 'Rules' },
+      ].map((link, index) => (
+        <Link
           key={index}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 * index }}
+          to={link.path}
           style={{
-            background: 'white',
-            padding: '1.5rem',
-            borderRadius: '12px',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-            border: '1px solid #eee',
+            color: '#007bff',
+            textDecoration: 'none',
+            fontSize: '1.1rem',
+            fontWeight: '500',
+            padding: '0.5rem 1rem',
+            border: '1px solid #007bff',
+            borderRadius: '4px',
+            transition: 'all 0.3s ease',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = '#007bff';
+            e.currentTarget.style.color = 'white';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'transparent';
+            e.currentTarget.style.color = '#007bff';
           }}
         >
-          <h3 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>
-            {feature.title}
-          </h3>
-          <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>
-            {feature.desc}
-          </p>
-        </motion.div>
+          {link.label}
+        </Link>
       ))}
-    </div>
+    </motion.div>
   </div>
 );
 
@@ -598,6 +931,74 @@ const BlogPage: React.FC = () => {
   );
 };
 
+const RulesPage: React.FC = () => (
+  <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+    <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
+      KONIVRER Rules
+    </h1>
+    <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+      <h2>Game Overview</h2>
+      <p>KONIVRER is a strategic trading card game where players use elemental magic and creatures to defeat their opponents.</p>
+      
+      <h3>Card Types</h3>
+      <ul>
+        <li><strong>Fire, Water, Earth, Air</strong> - Magic elements</li>
+        <li><strong>Familiar Cards</strong> - Creatures you can summon</li>
+        <li><strong>Spell Cards</strong> - Special effects</li>
+        <li><strong>Life Cards</strong> - Your health points</li>
+        <li><strong>Flag Cards</strong> - Win conditions</li>
+      </ul>
+
+      <h3>How to Win</h3>
+      <p>Use strategy and elemental combinations to defeat your opponent by reducing their life points to zero or achieving flag card conditions.</p>
+    </div>
+  </div>
+);
+
+const KonivreDemoPage: React.FC = () => (
+  <div style={{ padding: '2rem', textAlign: 'center' }}>
+    <h1 style={{ marginBottom: '2rem', color: '#333' }}>KONIVRER Demo</h1>
+    <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', maxWidth: '600px', margin: '0 auto' }}>
+      <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
+        Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
+      </p>
+      <div style={{ fontSize: '3rem', marginBottom: '2rem' }}>⭐</div>
+      <p>Demo coming soon! This will showcase the full game experience.</p>
+    </div>
+  </div>
+);
+
+const AIDemoPage: React.FC = () => (
+  <div style={{ padding: '2rem', textAlign: 'center' }}>
+    <h1 style={{ marginBottom: '2rem', color: '#333' }}>🧠 AI Consciousness Demo</h1>
+    <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', maxWidth: '600px', margin: '0 auto' }}>
+      <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
+        Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
+      </p>
+      
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+        {[
+          '💯 100% Consciousness Level',
+          '💀 Life Card Mortality Awareness', 
+          '⚛️ Quantum Decision Engine',
+          '👁️ Theory of Mind Analysis'
+        ].map((feature, index) => (
+          <div key={index} style={{ 
+            padding: '1rem', 
+            background: '#f8f9fa', 
+            borderRadius: '8px',
+            fontSize: '0.9rem'
+          }}>
+            {feature}
+          </div>
+        ))}
+      </div>
+      
+      <p>AI Demo coming soon! This will showcase advanced AI consciousness features.</p>
+    </div>
+  </div>
+);
+
 const GamePage: React.FC = () => {
   const { state, actions } = useContext(AppContext);
   const navigate = useNavigate();
@@ -792,17 +1193,24 @@ const AllInOneApp: React.FC = () => {
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/cards" element={<CardsPage />} />
+                <Route path="/decks" element={<DeckBuilderPage />} />
                 <Route path="/deck" element={<DeckBuilderPage />} />
                 <Route path="/game" element={<GamePage />} />
+                <Route path="/game/online" element={<GamePage />} />
+                <Route path="/game/pvp" element={<GamePage />} />
+                <Route path="/game/ai-testing" element={<GamePage />} />
                 <Route path="/tournaments" element={<TournamentsPage />} />
                 <Route path="/blog" element={<BlogPage />} />
+                <Route path="/rules" element={<RulesPage />} />
+                <Route path="/konivrer-demo" element={<KonivreDemoPage />} />
+                <Route path="/ai-consciousness-demo" element={<AIDemoPage />} />
               </Routes>
               <BackgroundAutomation />
             </div>
             {!isBuilding && <Analytics />}
             {!isBuilding && (
               <SpeedInsights 
-                beforeSend={(event) => {
+                beforeSend={(event: any) => {
                   // Enhanced speed tracking with custom metrics
                   if (event.name === 'CLS' || event.name === 'LCP' || event.name === 'FID') {
                     console.log(`[SPEED INSIGHTS] ${event.name}: ${event.value}`);

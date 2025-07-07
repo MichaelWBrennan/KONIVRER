@@ -663,6 +663,25 @@ class AutomationOrchestrator {
   }
 }
 
+// IMMEDIATE BUILD DETECTION - Exit if build environment
+if (
+  process.env.NODE_ENV === 'production' ||
+  process.env.VERCEL === '1' ||
+  process.env.VERCEL ||
+  process.env.VERCEL_ENV ||
+  process.env.CI === 'true' ||
+  process.env.CI ||
+  process.env.GITHUB_ACTIONS ||
+  process.env.BUILD_ENV === 'production' ||
+  process.env.VITE_BUILD === 'true' ||
+  process.env.npm_lifecycle_event === 'build' ||
+  process.env.DISABLE_AUTONOMOUS === 'true' ||
+  process.env.FORCE_BUILD_MODE === 'true'
+) {
+  console.log('🛑 BUILD ENVIRONMENT DETECTED: Automation system disabled');
+  process.exit(0);
+}
+
 // CLI interface
 const args = process.argv.slice(2);
 const command = args[0] || 'help';
