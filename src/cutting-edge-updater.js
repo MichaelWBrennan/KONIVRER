@@ -1,21 +1,21 @@
 /**
- * KONIVRER Ancient Scroll Repository Updater
+ * KONIVRER Cutting-Edge Repository Updater
  * 
- * This module maintains the ancient wisdom of the repository.
- * It automatically updates dependencies, adopts ancient techniques, and implements
- * the most venerable practices without any user intervention.
+ * This module keeps the repository on the cutting edge of industry standards.
+ * It automatically updates dependencies, adopts new technologies, and implements
+ * the latest best practices without any user intervention.
  * 
  * Features:
  * - Automatic dependency updates
- * - Scroll version upgrades
- * - Ancient pattern implementation
- * - Performance enchantment
- * - Protection strengthening
+ * - Framework version upgrades
+ * - Code pattern modernization
+ * - Performance optimization
+ * - Security hardening
  * - Architecture evolution
  */
 
 // Repository updater class
-class AncientScrollUpdater {
+class CuttingEdgeUpdater {
   constructor() {
     this.initialized = false;
     this.lastUpdate = Date.now();
@@ -296,7 +296,7 @@ class AncientScrollUpdater {
 }
 
 // Create and initialize the updater
-const updater = new AncientScrollUpdater();
+const updater = new CuttingEdgeUpdater();
 updater.init();
 
 // Export the updater
