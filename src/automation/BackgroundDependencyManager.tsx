@@ -291,15 +291,7 @@ export const useBackgroundDependencyManager = () => {
   // Start dependency monitoring silently
   useEffect(() => {
     // Skip autonomous systems during build/deployment
-    if (
-      typeof window === 'undefined' ||
-      process.env.NODE_ENV === 'production' ||
-      process.env.VERCEL ||
-      process.env.CI
-    ) {
-      console.log(
-        '[DEPENDENCY MANAGER] Skipping autonomous systems during build/deployment',
-      );
+    if (shouldSkipAutonomousSystems()) {
       return;
     }
 
