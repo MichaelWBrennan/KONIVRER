@@ -9,7 +9,7 @@
     "dev": "vite --host 0.0.0.0 --port 12000",
     "dev:auto": "tsx automation/all-in-one.ts run && npm run dev",
     "dev:every-second": "tsx automation/all-in-one.ts every-second & npm run dev",
-    "build": "vite build",
+    "build": "NODE_ENV=production VERCEL=1 vite build",
     "preview": "vite preview --host 0.0.0.0 --port 12001",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
