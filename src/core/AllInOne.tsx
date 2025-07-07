@@ -11,6 +11,7 @@ import React, {
   useEffect,
 } from 'react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
+import { Analytics } from '@vercel/analytics/react';
 import {
   BrowserRouter as Router,
   Routes,
