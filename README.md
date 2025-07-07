@@ -59,7 +59,8 @@ The KONIVRER application now includes advanced self-healing and self-optimizing 
 ### Zero Configuration Required
 The self-healing and self-optimizing system starts automatically when the application loads. No manual commands or configuration needed - it just works!
 
-For more details, see [SELF_HEALING_OPTIMIZING.md](./SELF_HEALING_OPTIMIZING.md)
+For technical details, see [SELF_HEALING_OPTIMIZING.md](./SELF_HEALING_OPTIMIZING.md)  
+For silent automation overview, see [SILENT_AUTOMATION.md](./SILENT_AUTOMATION.md)
 - **Build System**: ✅ Working production builds (1.22s build time)
 - **Code Quality**: ✅ All TypeScript errors resolved
 - **Server**: ✅ Static file serving working
