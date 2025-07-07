@@ -305,6 +305,44 @@ All autonomous systems now use centralized build detection:
 - ✅ Production environment correctly detected
 - ✅ Clean dist/ output generated
 - ✅ All tests passing before deployment
+- ✅ Vercel Analytics integrated
+- ✅ Speed Insights monitoring enabled
+
+### 📈 Vercel Analytics & Monitoring
+
+#### **Web Analytics** (`@vercel/analytics`)
+- **Real-time Visitor Tracking** - Monitor user engagement and page views
+- **Performance Metrics** - Track Core Web Vitals and loading times
+- **User Journey Analysis** - Understand how users navigate your app
+- **Build-Aware Integration** - Automatically disabled during build process
+
+#### **Speed Insights** (`@vercel/speed-insights`)
+- **Core Web Vitals** - LCP, FID, CLS monitoring
+- **Performance Scoring** - Real-time performance metrics
+- **User Experience Tracking** - Actual user performance data
+- **Optimization Insights** - Actionable performance recommendations
+
+#### **Privacy-First Analytics**
+- **GDPR Compliant** - No personal data collection
+- **Cookie-Free** - No tracking cookies required
+- **Anonymous Metrics** - User privacy protected
+- **Build Detection** - Analytics only run in production
+
+#### **Integration Features**
+```typescript
+// Conditional loading based on build environment
+{!isBuilding && <Analytics />}
+{!isBuilding && <SpeedInsights />}
+```
+
+#### **Analytics Dashboard**
+Access your analytics at: `https://vercel.com/crypto3ks-projects/konivrer-deck-database/analytics`
+
+#### **Performance Benefits**
+- **Zero Bundle Impact** - Analytics loaded asynchronously
+- **Build Optimization** - Skipped during build process
+- **Fast Loading** - No impact on Core Web Vitals
+- **Real-time Data** - Instant performance insights
 
 ## 🚀 Want to Help?
 
