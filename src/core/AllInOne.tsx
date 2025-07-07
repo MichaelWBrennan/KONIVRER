@@ -155,7 +155,7 @@ const AppContext = createContext<{
 // Consolidated components
 const Navigation: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
   const navItems = [
     { path: '/', label: 'KONIVRER' },
     { path: '/cards', label: 'Cards' },
@@ -199,7 +199,10 @@ const Navigation: React.FC = () => {
                 // Track navigation clicks for speed insights
                 if (!shouldSkipAutonomousSystems()) {
                   trackCustomMetric('NAVIGATION_CLICK', performance.now());
-                  trackCustomMetric(`NAVIGATION_TO_${item.path.replace('/', '') || 'HOME'}`, performance.now());
+                  trackCustomMetric(
+                    `NAVIGATION_TO_${item.path.replace('/', '') || 'HOME'}`,
+                    performance.now(),
+                  );
                 }
               }}
               style={{
@@ -211,11 +214,11 @@ const Navigation: React.FC = () => {
                 fontWeight: item.path === '/' ? '700' : '400',
                 borderBottom: '2px solid transparent',
               }}
-              onMouseEnter={(e) => {
+              onMouseEnter={e => {
                 e.currentTarget.style.borderBottom = '2px solid #fff';
                 e.currentTarget.style.color = '#ccc';
               }}
-              onMouseLeave={(e) => {
+              onMouseLeave={e => {
                 e.currentTarget.style.borderBottom = '2px solid transparent';
                 e.currentTarget.style.color = '#fff';
               }}
@@ -240,13 +243,13 @@ const Navigation: React.FC = () => {
               fontWeight: '500',
               transition: 'all 0.3s ease',
             }}
-            onMouseEnter={(e) => {
+            onMouseEnter={e => {
               if (!isLoggedIn) {
                 e.currentTarget.style.background = '#fff';
                 e.currentTarget.style.color = '#000';
               }
             }}
-            onMouseLeave={(e) => {
+            onMouseLeave={e => {
               if (!isLoggedIn) {
                 e.currentTarget.style.background = 'transparent';
                 e.currentTarget.style.color = '#fff';
@@ -355,7 +358,14 @@ const SearchFilter: React.FC<{
 
 // Page components
 const HomePage: React.FC = () => (
-  <div style={{ padding: '2rem', textAlign: 'center', background: '#f8f9fa', minHeight: '90vh' }}>
+  <div
+    style={{
+      padding: '2rem',
+      textAlign: 'center',
+      background: '#f8f9fa',
+      minHeight: '90vh',
+    }}
+  >
     {/* Header Section */}
     <div style={{ marginBottom: '3rem' }}>
       <motion.div
@@ -365,7 +375,7 @@ const HomePage: React.FC = () => (
       >
         ⭐
       </motion.div>
-      
+
       <motion.h1
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -379,16 +389,16 @@ const HomePage: React.FC = () => (
       >
         KONIVRER
       </motion.h1>
-      
+
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        style={{ 
-          fontSize: '1.5rem', 
-          color: '#333', 
+        style={{
+          fontSize: '1.5rem',
+          color: '#333',
           marginBottom: '1rem',
-          fontWeight: '300'
+          fontWeight: '300',
         }}
       >
         Trading Card Game
@@ -419,22 +429,27 @@ const HomePage: React.FC = () => (
         margin: '0 auto 2rem auto',
       }}
     >
-      <h2 style={{ 
-        fontSize: '1.8rem', 
-        color: '#000', 
-        marginBottom: '1rem',
-        borderBottom: '2px solid #000',
-        paddingBottom: '0.5rem'
-      }}>
+      <h2
+        style={{
+          fontSize: '1.8rem',
+          color: '#000',
+          marginBottom: '1rem',
+          borderBottom: '2px solid #000',
+          paddingBottom: '0.5rem',
+        }}
+      >
         Experience KONIVRER
       </h2>
-      
+
       <div style={{ marginBottom: '1.5rem' }}>
-        <h3 style={{ fontSize: '1.2rem', color: '#333', marginBottom: '0.5rem' }}>
+        <h3
+          style={{ fontSize: '1.2rem', color: '#333', marginBottom: '0.5rem' }}
+        >
           Enhanced Game Implementation
         </h3>
         <p style={{ color: '#666', fontSize: '1rem', lineHeight: '1.6' }}>
-          Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
+          Experience the complete KONIVRER trading card game with all zones,
+          mechanics, and enhanced card display.
         </p>
       </div>
 
@@ -452,10 +467,10 @@ const HomePage: React.FC = () => (
           margin: '0.5rem',
           transition: 'all 0.3s ease',
         }}
-        onMouseEnter={(e) => {
+        onMouseEnter={e => {
           e.currentTarget.style.background = '#0056b3';
         }}
-        onMouseLeave={(e) => {
+        onMouseLeave={e => {
           e.currentTarget.style.background = '#007bff';
         }}
       >
@@ -478,44 +493,66 @@ const HomePage: React.FC = () => (
         margin: '0 auto 2rem auto',
       }}
     >
-      <h2 style={{ 
-        fontSize: '1.8rem', 
-        color: '#000', 
-        marginBottom: '1rem',
-        borderBottom: '2px solid #000',
-        paddingBottom: '0.5rem'
-      }}>
+      <h2
+        style={{
+          fontSize: '1.8rem',
+          color: '#000',
+          marginBottom: '1rem',
+          borderBottom: '2px solid #000',
+          paddingBottom: '0.5rem',
+        }}
+      >
         🧠 AI Consciousness Testing
       </h2>
-      
-      <p style={{ color: '#666', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1rem' }}>
-        Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
+
+      <p
+        style={{
+          color: '#666',
+          fontSize: '1rem',
+          lineHeight: '1.6',
+          marginBottom: '1rem',
+        }}
+      >
+        Test the cutting-edge AI system with 100% consciousness metrics, life
+        card mortality awareness, and quantum decision making.
       </p>
 
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-        gap: '1rem',
-        marginBottom: '1.5rem'
-      }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1rem',
+          marginBottom: '1.5rem',
+        }}
+      >
         {[
           '💯 100% Consciousness Level',
-          '💀 Life Card Mortality Awareness', 
+          '💀 Life Card Mortality Awareness',
           '⚛️ Quantum Decision Engine',
-          '👁️ Theory of Mind Analysis'
+          '👁️ Theory of Mind Analysis',
         ].map((feature, index) => (
-          <div key={index} style={{ 
-            padding: '0.5rem', 
-            background: '#f8f9fa', 
-            borderRadius: '4px',
-            fontSize: '0.9rem'
-          }}>
+          <div
+            key={index}
+            style={{
+              padding: '0.5rem',
+              background: '#f8f9fa',
+              borderRadius: '4px',
+              fontSize: '0.9rem',
+            }}
+          >
             {feature}
           </div>
         ))}
       </div>
 
-      <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: '1rem',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
         <Link
           to="/ai-consciousness-demo"
           style={{
@@ -564,18 +601,28 @@ const HomePage: React.FC = () => (
         margin: '0 auto 2rem auto',
       }}
     >
-      <h2 style={{ 
-        fontSize: '1.8rem', 
-        color: '#000', 
-        marginBottom: '1rem',
-        borderBottom: '2px solid #000',
-        paddingBottom: '0.5rem'
-      }}>
+      <h2
+        style={{
+          fontSize: '1.8rem',
+          color: '#000',
+          marginBottom: '1rem',
+          borderBottom: '2px solid #000',
+          paddingBottom: '0.5rem',
+        }}
+      >
         ⚔️ Player vs Player
       </h2>
-      
-      <p style={{ color: '#666', fontSize: '1rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
-        Challenge other players in classic KONIVRER matches with full game mechanics and competitive play.
+
+      <p
+        style={{
+          color: '#666',
+          fontSize: '1rem',
+          lineHeight: '1.6',
+          marginBottom: '1.5rem',
+        }}
+      >
+        Challenge other players in classic KONIVRER matches with full game
+        mechanics and competitive play.
       </p>
 
       <Link
@@ -610,40 +657,51 @@ const HomePage: React.FC = () => (
         margin: '0 auto 2rem auto',
       }}
     >
-      <h2 style={{ 
-        fontSize: '1.8rem', 
-        color: '#000', 
-        marginBottom: '1.5rem',
-        borderBottom: '2px solid #000',
-        paddingBottom: '0.5rem'
-      }}>
+      <h2
+        style={{
+          fontSize: '1.8rem',
+          color: '#000',
+          marginBottom: '1.5rem',
+          borderBottom: '2px solid #000',
+          paddingBottom: '0.5rem',
+        }}
+      >
         Latest News
       </h2>
-      
+
       {[
         {
           title: 'New Mobile Experience',
-          desc: "We've completely redesigned our app for a better mobile experience with an esoteric theme and improved accessibility!"
+          desc: "We've completely redesigned our app for a better mobile experience with an esoteric theme and improved accessibility!",
         },
         {
-          title: 'Tournament Season Begins', 
-          desc: 'Join our weekly tournaments for a chance to win exclusive prizes and earn special rewards.'
+          title: 'Tournament Season Begins',
+          desc: 'Join our weekly tournaments for a chance to win exclusive prizes and earn special rewards.',
         },
         {
           title: 'New Card Set Released',
-          desc: 'Explore the latest expansion with powerful new cards and exciting mechanics.'
+          desc: 'Explore the latest expansion with powerful new cards and exciting mechanics.',
         },
         {
           title: 'Community Event This Weekend',
-          desc: 'Join us for a special community event with prizes, tournaments, and more!'
-        }
+          desc: 'Join us for a special community event with prizes, tournaments, and more!',
+        },
       ].map((news, index) => (
-        <div key={index} style={{ 
-          marginBottom: '1.5rem',
-          paddingBottom: '1rem',
-          borderBottom: index < 3 ? '1px solid #eee' : 'none'
-        }}>
-          <h3 style={{ fontSize: '1.1rem', color: '#333', marginBottom: '0.5rem' }}>
+        <div
+          key={index}
+          style={{
+            marginBottom: '1.5rem',
+            paddingBottom: '1rem',
+            borderBottom: index < 3 ? '1px solid #eee' : 'none',
+          }}
+        >
+          <h3
+            style={{
+              fontSize: '1.1rem',
+              color: '#333',
+              marginBottom: '0.5rem',
+            }}
+          >
             {news.title}
           </h3>
           <p style={{ color: '#666', fontSize: '0.9rem', margin: 0 }}>
@@ -687,11 +745,11 @@ const HomePage: React.FC = () => (
             borderRadius: '4px',
             transition: 'all 0.3s ease',
           }}
-          onMouseEnter={(e) => {
+          onMouseEnter={e => {
             e.currentTarget.style.background = '#007bff';
             e.currentTarget.style.color = 'white';
           }}
-          onMouseLeave={(e) => {
+          onMouseLeave={e => {
             e.currentTarget.style.background = 'transparent';
             e.currentTarget.style.color = '#007bff';
           }}
@@ -936,21 +994,44 @@ const RulesPage: React.FC = () => (
     <h1 style={{ textAlign: 'center', marginBottom: '2rem', color: '#333' }}>
       KONIVRER Rules
     </h1>
-    <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+    <div
+      style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+      }}
+    >
       <h2>Game Overview</h2>
-      <p>KONIVRER is a strategic trading card game where players use elemental magic and creatures to defeat their opponents.</p>
-      
+      <p>
+        KONIVRER is a strategic trading card game where players use elemental
+        magic and creatures to defeat their opponents.
+      </p>
+
       <h3>Card Types</h3>
       <ul>
-        <li><strong>Fire, Water, Earth, Air</strong> - Magic elements</li>
-        <li><strong>Familiar Cards</strong> - Creatures you can summon</li>
-        <li><strong>Spell Cards</strong> - Special effects</li>
-        <li><strong>Life Cards</strong> - Your health points</li>
-        <li><strong>Flag Cards</strong> - Win conditions</li>
+        <li>
+          <strong>Fire, Water, Earth, Air</strong> - Magic elements
+        </li>
+        <li>
+          <strong>Familiar Cards</strong> - Creatures you can summon
+        </li>
+        <li>
+          <strong>Spell Cards</strong> - Special effects
+        </li>
+        <li>
+          <strong>Life Cards</strong> - Your health points
+        </li>
+        <li>
+          <strong>Flag Cards</strong> - Win conditions
+        </li>
       </ul>
 
       <h3>How to Win</h3>
-      <p>Use strategy and elemental combinations to defeat your opponent by reducing their life points to zero or achieving flag card conditions.</p>
+      <p>
+        Use strategy and elemental combinations to defeat your opponent by
+        reducing their life points to zero or achieving flag card conditions.
+      </p>
     </div>
   </div>
 );
@@ -958,9 +1039,19 @@ const RulesPage: React.FC = () => (
 const KonivreDemoPage: React.FC = () => (
   <div style={{ padding: '2rem', textAlign: 'center' }}>
     <h1 style={{ marginBottom: '2rem', color: '#333' }}>KONIVRER Demo</h1>
-    <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', maxWidth: '600px', margin: '0 auto' }}>
+    <div
+      style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        maxWidth: '600px',
+        margin: '0 auto',
+      }}
+    >
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
-        Experience the complete KONIVRER trading card game with all zones, mechanics, and enhanced card display.
+        Experience the complete KONIVRER trading card game with all zones,
+        mechanics, and enhanced card display.
       </p>
       <div style={{ fontSize: '3rem', marginBottom: '2rem' }}>⭐</div>
       <p>Demo coming soon! This will showcase the full game experience.</p>
@@ -970,31 +1061,56 @@ const KonivreDemoPage: React.FC = () => (
 
 const AIDemoPage: React.FC = () => (
   <div style={{ padding: '2rem', textAlign: 'center' }}>
-    <h1 style={{ marginBottom: '2rem', color: '#333' }}>🧠 AI Consciousness Demo</h1>
-    <div style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', maxWidth: '600px', margin: '0 auto' }}>
+    <h1 style={{ marginBottom: '2rem', color: '#333' }}>
+      🧠 AI Consciousness Demo
+    </h1>
+    <div
+      style={{
+        background: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+        maxWidth: '600px',
+        margin: '0 auto',
+      }}
+    >
       <p style={{ fontSize: '1.2rem', marginBottom: '2rem' }}>
-        Test the cutting-edge AI system with 100% consciousness metrics, life card mortality awareness, and quantum decision making.
+        Test the cutting-edge AI system with 100% consciousness metrics, life
+        card mortality awareness, and quantum decision making.
       </p>
-      
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '1rem',
+          marginBottom: '2rem',
+        }}
+      >
         {[
           '💯 100% Consciousness Level',
-          '💀 Life Card Mortality Awareness', 
+          '💀 Life Card Mortality Awareness',
           '⚛️ Quantum Decision Engine',
-          '👁️ Theory of Mind Analysis'
+          '👁️ Theory of Mind Analysis',
         ].map((feature, index) => (
-          <div key={index} style={{ 
-            padding: '1rem', 
-            background: '#f8f9fa', 
-            borderRadius: '8px',
-            fontSize: '0.9rem'
-          }}>
+          <div
+            key={index}
+            style={{
+              padding: '1rem',
+              background: '#f8f9fa',
+              borderRadius: '8px',
+              fontSize: '0.9rem',
+            }}
+          >
             {feature}
           </div>
         ))}
       </div>
-      
-      <p>AI Demo coming soon! This will showcase advanced AI consciousness features.</p>
+
+      <p>
+        AI Demo coming soon! This will showcase advanced AI consciousness
+        features.
+      </p>
     </div>
   </div>
 );
@@ -1209,11 +1325,17 @@ const AllInOneApp: React.FC = () => {
             </div>
             {!isBuilding && <Analytics />}
             {!isBuilding && (
-              <SpeedInsights 
+              <SpeedInsights
                 beforeSend={(event: any) => {
                   // Enhanced speed tracking with custom metrics
-                  if (event.name === 'CLS' || event.name === 'LCP' || event.name === 'FID') {
-                    console.log(`[SPEED INSIGHTS] ${event.name}: ${event.value}`);
+                  if (
+                    event.name === 'CLS' ||
+                    event.name === 'LCP' ||
+                    event.name === 'FID'
+                  ) {
+                    console.log(
+                      `[SPEED INSIGHTS] ${event.name}: ${event.value}`,
+                    );
                   }
                   return event;
                 }}

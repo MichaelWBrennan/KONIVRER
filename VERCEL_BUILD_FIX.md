@@ -31,7 +31,7 @@ npm_lifecycle_event === 'build' || npm_command === 'run-script'
 
 ### Layer 5: Vercel-specific Detection
 ```typescript
-VERCEL_REGION || VERCEL_GIT_COMMIT_SHA || DEPLOYMENT_ID
+VERCEL_REGION || VERCEL_GIT_COMMIT_SHA || KONIVRER_BUILD_ID
 ```
 
 ### Layer 6: User Agent Checks

@@ -41,8 +41,9 @@ describe('Speed Tracking Utilities', () => {
   });
 
   it('should export tracking functions', async () => {
-    const { trackCustomMetric, trackAsyncOperation, getPerformanceReport } = await import('../utils/speedTracking');
-    
+    const { trackCustomMetric, trackAsyncOperation, getPerformanceReport } =
+      await import('../utils/speedTracking');
+
     expect(typeof trackCustomMetric).toBe('function');
     expect(typeof trackAsyncOperation).toBe('function');
     expect(typeof getPerformanceReport).toBe('function');
@@ -50,7 +51,7 @@ describe('Speed Tracking Utilities', () => {
 
   it('should track custom metrics', async () => {
     const { trackCustomMetric } = await import('../utils/speedTracking');
-    
+
     // Should not throw when tracking metrics
     expect(() => {
       trackCustomMetric('TEST_METRIC', 100);
@@ -59,32 +60,34 @@ describe('Speed Tracking Utilities', () => {
 
   it('should track async operations', async () => {
     const { trackAsyncOperation } = await import('../utils/speedTracking');
-    
+
     const mockOperation = vi.fn().mockResolvedValue('success');
-    
+
     const result = await trackAsyncOperation('TEST_ASYNC', mockOperation);
-    
+
     expect(result).toBe('success');
     expect(mockOperation).toHaveBeenCalled();
   });
 
   it('should handle async operation errors', async () => {
     const { trackAsyncOperation } = await import('../utils/speedTracking');
-    
+
     const mockOperation = vi.fn().mockRejectedValue(new Error('test error'));
-    
-    await expect(trackAsyncOperation('TEST_ERROR', mockOperation)).rejects.toThrow('test error');
+
+    await expect(
+      trackAsyncOperation('TEST_ERROR', mockOperation),
+    ).rejects.toThrow('test error');
     expect(mockOperation).toHaveBeenCalled();
   });
 
   it('should generate performance reports', async () => {
     const { getPerformanceReport } = await import('../utils/speedTracking');
-    
+
     const report = getPerformanceReport();
-    
+
     expect(typeof report).toBe('string');
     expect(() => JSON.parse(report)).not.toThrow();
-    
+
     const parsed = JSON.parse(report);
     expect(parsed).toHaveProperty('timestamp');
     expect(parsed).toHaveProperty('url');
@@ -98,14 +101,14 @@ describe('Speed Tracking Utilities', () => {
     const originalPerformance = global.window.performance;
     // @ts-ignore
     delete global.window.performance;
-    
+
     const { trackCustomMetric } = await import('../utils/speedTracking');
-    
+
     // Should not throw even without performance API
     expect(() => {
       trackCustomMetric('TEST_METRIC', 100);
     }).not.toThrow();
-    
+
     // Restore performance API
     global.window.performance = originalPerformance;
   });

@@ -27,7 +27,8 @@ class SpeedTracker {
   private isEnabled: boolean;
 
   constructor() {
-    this.isEnabled = !shouldSkipAutonomousSystems() && typeof window !== 'undefined';
+    this.isEnabled =
+      !shouldSkipAutonomousSystems() && typeof window !== 'undefined';
     if (this.isEnabled) {
       this.initializeTracking();
     }
@@ -56,13 +57,18 @@ class SpeedTracker {
   private trackPageLoad(): void {
     if (!this.isEnabled) return;
 
-    const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
+    const navigation = performance.getEntriesByType(
+      'navigation',
+    )[0] as PerformanceNavigationTiming;
     if (!navigation) return;
 
     const timing: NavigationTiming = {
       dns: navigation.domainLookupEnd - navigation.domainLookupStart,
       tcp: navigation.connectEnd - navigation.connectStart,
-      ssl: navigation.secureConnectionStart > 0 ? navigation.connectEnd - navigation.secureConnectionStart : 0,
+      ssl:
+        navigation.secureConnectionStart > 0
+          ? navigation.connectEnd - navigation.secureConnectionStart
+          : 0,
       ttfb: navigation.responseStart - navigation.requestStart,
       domLoad: navigation.domContentLoadedEventEnd - navigation.startTime,
       windowLoad: navigation.loadEventEnd - navigation.startTime,
@@ -92,7 +98,7 @@ class SpeedTracker {
     // Track Largest Contentful Paint
     if ('PerformanceObserver' in window) {
       try {
-        const lcpObserver = new PerformanceObserver((list) => {
+        const lcpObserver = new PerformanceObserver(list => {
           const entries = list.getEntries();
           const lastEntry = entries[entries.length - 1];
           if (lastEntry) {
@@ -119,7 +125,9 @@ class SpeedTracker {
           const navigationTime = performance.now() - startTime;
           this.recordMetric('SPA_NAVIGATION', navigationTime);
           lastUrl = window.location.href;
-          console.log(`[SPEED TRACKER] SPA Navigation: ${navigationTime.toFixed(2)}ms`);
+          console.log(
+            `[SPEED TRACKER] SPA Navigation: ${navigationTime.toFixed(2)}ms`,
+          );
         }
       });
 
@@ -131,7 +139,10 @@ class SpeedTracker {
         });
       }
     } catch (error) {
-      console.warn('[SPEED TRACKER] Route change tracking not available:', error);
+      console.warn(
+        '[SPEED TRACKER] Route change tracking not available:',
+        error,
+      );
     }
   }
 
@@ -139,8 +150,10 @@ class SpeedTracker {
     if (!this.isEnabled) return;
 
     // Track resource loading performance
-    const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
-    
+    const resources = performance.getEntriesByType(
+      'resource',
+    ) as PerformanceResourceTiming[];
+
     const resourceStats = {
       scripts: 0,
       stylesheets: 0,
@@ -151,7 +164,7 @@ class SpeedTracker {
       totalTime: 0,
     };
 
-    resources.forEach((resource) => {
+    resources.forEach(resource => {
       const duration = resource.responseEnd - resource.startTime;
       const size = resource.transferSize || 0;
 
@@ -206,14 +219,14 @@ class SpeedTracker {
   public getAverageMetric(name: string): number {
     const metrics = this.getMetricsByName(name);
     if (metrics.length === 0) return 0;
-    
+
     const sum = metrics.reduce((acc, metric) => acc + metric.value, 0);
     return Math.round((sum / metrics.length) * 100) / 100;
   }
 
   public getPerformanceSummary(): Record<string, number> {
     const summary: Record<string, number> = {};
-    
+
     const metricNames = [...new Set(this.metrics.map(m => m.name))];
     metricNames.forEach(name => {
       summary[name] = this.getAverageMetric(name);
@@ -223,13 +236,17 @@ class SpeedTracker {
   }
 
   public exportMetrics(): string {
-    return JSON.stringify({
-      timestamp: new Date().toISOString(),
-      url: window.location.href,
-      userAgent: navigator.userAgent,
-      metrics: this.metrics,
-      summary: this.getPerformanceSummary(),
-    }, null, 2);
+    return JSON.stringify(
+      {
+        timestamp: new Date().toISOString(),
+        url: window.location.href,
+        userAgent: navigator.userAgent,
+        metrics: this.metrics,
+        summary: this.getPerformanceSummary(),
+      },
+      null,
+      2,
+    );
   }
 }
 
@@ -243,7 +260,7 @@ export const trackCustomMetric = (name: string, value: number): void => {
 
 export const trackAsyncOperation = async <T>(
   name: string,
-  operation: () => Promise<T>
+  operation: () => Promise<T>,
 ): Promise<T> => {
   const startTime = performance.now();
   try {

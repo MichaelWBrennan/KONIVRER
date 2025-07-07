@@ -408,7 +408,7 @@ VERCEL_ENV || VERCEL_URL || GITHUB_ACTIONS || NETLIFY
 npm_lifecycle_event === 'build' || npm_command === 'run-script'
 
 // Layer 5: Vercel-specific detection
-VERCEL_REGION || VERCEL_GIT_COMMIT_SHA || DEPLOYMENT_ID
+VERCEL_REGION || VERCEL_GIT_COMMIT_SHA || KONIVRER_BUILD_ID
 
 // Layer 6: User agent checks
 Node.js || jsdom || HeadlessChrome || Puppeteer || empty UA
@@ -482,7 +482,7 @@ VERCEL_ENV               # Vercel environment (preview/production)
 VERCEL_URL               # Vercel deployment URL
 VERCEL_REGION            # Vercel deployment region
 VERCEL_GIT_COMMIT_SHA    # Git commit hash
-DEPLOYMENT_ID            # Vercel deployment ID
+KONIVRER_BUILD_ID        # Custom build identifier (replaces reserved DEPLOYMENT_ID)
 
 # Build process detection
 npm_lifecycle_event=build # npm script detection

@@ -11,16 +11,19 @@ interface SpeedMonitorProps {
   showInProduction?: boolean;
 }
 
-const SpeedMonitor: React.FC<SpeedMonitorProps> = ({ showInProduction = false }) => {
+const SpeedMonitor: React.FC<SpeedMonitorProps> = ({
+  showInProduction = false,
+}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [metrics, setMetrics] = useState<Record<string, number>>({});
   const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
     // Only show in development or if explicitly enabled for production
-    const shouldShow = process.env.NODE_ENV === 'development' || showInProduction;
+    const shouldShow =
+      process.env.NODE_ENV === 'development' || showInProduction;
     const isNotBuilding = !shouldSkipAutonomousSystems();
-    
+
     setIsEnabled(shouldShow && isNotBuilding);
 
     if (isEnabled) {
@@ -90,7 +93,9 @@ const SpeedMonitor: React.FC<SpeedMonitorProps> = ({ showInProduction = false })
         maxWidth: '300px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
         transition: 'all 0.3s ease',
-        transform: isVisible ? 'translateX(0)' : 'translateX(calc(100% - 40px))',
+        transform: isVisible
+          ? 'translateX(0)'
+          : 'translateX(calc(100% - 40px))',
       }}
     >
       <div
@@ -112,7 +117,7 @@ const SpeedMonitor: React.FC<SpeedMonitorProps> = ({ showInProduction = false })
           <div style={{ marginBottom: '10px' }}>
             <strong>Core Web Vitals & Performance</strong>
           </div>
-          
+
           {Object.entries(metrics).length === 0 ? (
             <div style={{ color: '#888' }}>Collecting metrics...</div>
           ) : (
