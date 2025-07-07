@@ -4,9 +4,10 @@ import AllInOneApp from './core/AllInOne';
 // Import the cutting-edge system modules
 import './auto-system.js';
 import './cutting-edge-updater.js';
+import './security/CuttingEdgeSecurity.js';
 
 // Log application startup
-console.log('[APP] Starting with cutting-edge technologies...');
+console.log('[APP] Starting with cutting-edge technologies and security...');
 
 // Get the root element
 const rootElement = document.getElementById('root');
@@ -23,4 +24,4 @@ root.render(
 );
 
 // Log successful initialization
-console.log('[APP] Successfully initialized with cutting-edge features');
+console.log('[APP] Successfully initialized with cutting-edge features and quantum-resistant security');
