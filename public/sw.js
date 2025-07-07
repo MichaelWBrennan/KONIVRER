@@ -17,8 +17,8 @@ const STATIC_ASSETS = [
 //   /\/api\/cards/,
 //   /\/api\/decks/,
 //   /\/api\/tournaments/,
-  /\/api\/user/,
-];
+//   /\/api\/user/,
+// ];
 
 // Install event - cache static assets
 self.addEventListener('install', event => {
