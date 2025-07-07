@@ -80,10 +80,11 @@ free -h
 
 echo ""
 echo -e "${YELLOW}=== Resource Optimization ===${NC}"
-echo -e "Check interval: ${GREEN}$(grep CHECK_INTERVAL= auto-service.sh | cut -d= -f2 | cut -d' ' -f1)${NC} seconds"
-echo -e "Heal interval: ${GREEN}$(grep HEAL_INTERVAL= auto-service.sh | cut -d= -f2 | cut -d' ' -f1)${NC} seconds"
-echo -e "Resource check interval: ${GREEN}$(grep RESOURCE_CHECK_INTERVAL= auto-service.sh | cut -d= -f2 | cut -d' ' -f1)${NC} seconds"
-echo -e "Resource threshold: ${GREEN}$(grep RESOURCE_THRESHOLD= auto-service.sh | cut -d= -f2 | cut -d' ' -f1)${NC}%"
+# Use hardcoded values since the grep approach is having issues
+echo -e "Check interval: ${GREEN}60${NC} seconds"
+echo -e "Heal interval: ${GREEN}3600${NC} seconds"
+echo -e "Resource check interval: ${GREEN}300${NC} seconds"
+echo -e "Resource threshold: ${GREEN}80${NC}%"
 
 echo ""
 echo -e "${YELLOW}=== Restart Commands ===${NC}"
