@@ -40,10 +40,19 @@ check_resources() {
     
     log "📊 System status: CPU: ${CPU_USAGE}%, Memory: ${MEM_USAGE}%"
     
-    # If resources are critically low, take action
-    if (( $(echo "$CPU_USAGE > 95" | bc -l) )) || (( $(echo "$MEM_USAGE > 95" | bc -l) )); then
-        log "⚠️ System resources critical! Restarting automation..."
-        start_automation
+    # Check if bc is installed
+    if command -v bc >/dev/null 2>&1; then
+        # If resources are critically low, take action
+        if (( $(echo "$CPU_USAGE > 95" | bc -l) )) || (( $(echo "$MEM_USAGE > 95" | bc -l) )); then
+            log "⚠️ System resources critical! Restarting automation..."
+            start_automation
+        fi
+    else
+        # Fallback method if bc is not installed
+        if [ "${CPU_USAGE%.*}" -gt 95 ] || [ "${MEM_USAGE%.*}" -gt 95 ]; then
+            log "⚠️ System resources critical! Restarting automation..."
+            start_automation
+        fi
     fi
 }
 
