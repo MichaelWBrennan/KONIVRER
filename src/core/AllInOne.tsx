@@ -21,6 +21,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SecurityProvider } from '../security/SecurityProvider';
 import { DataProtectionPanel } from '../security/DataProtection';
 import { SecurityAuditPanel } from '../security/SecurityAudit';
+import { AutoSecurityUpdaterPanel } from '../security/AutoSecurityUpdater';
+import { SecurityIntelligencePanel } from '../security/SecurityIntelligence';
 
 // Types
 interface Card {
@@ -777,6 +779,8 @@ const AllInOneApp: React.FC = () => {
             </Routes>
             <DataProtectionPanel />
             <SecurityAuditPanel />
+            <AutoSecurityUpdaterPanel />
+            <SecurityIntelligencePanel />
           </div>
         </Router>
       </AppContext.Provider>
