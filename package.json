@@ -5,6 +5,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "postinstall": "./auto-start.sh",
     "dev": "vite --host 0.0.0.0 --port 12000",
     "dev:auto": "tsx automation/all-in-one.ts run && npm run dev",
     "dev:every-second": "tsx automation/all-in-one.ts every-second & npm run dev",
@@ -55,7 +56,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.45.0",
     "prettier": "^3.0.0",
-    "tsx": "^3.12.0",
+    "tsx": "^4.8.1",
     "typescript": "^5.0.0",
     "vite": "^7.0.2",
     "vitest": "^3.2.4"

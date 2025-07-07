@@ -6,23 +6,45 @@ A **revolutionary streamlined** trading card game platform that achieves **95% c
 
 📖 **[KONIVRER Basic Rules](./KONIVRER_BASIC_RULES.pdf)** - Complete rulebook covering all game mechanics
 
-## ⚡ Quick Start
+## ⚡ OUT OF THE BOX - ZERO COMMANDS
+
+**ULTIMATE SIMPLICITY: Just run ONE command and everything works forever!**
 
 ```bash
-# Install dependencies
+# ONE-TIME SETUP (then never needed again)
+./setup.sh
+
+# INSTANT START (anytime)
+./start
+```
+
+**That's it! No npm commands, no manual steps, ZERO interaction required!**
+
+### 🐳 Even Easier with Docker (Truly Zero Setup)
+
+```bash
+# Start everything with Docker (ULTIMATE out-of-the-box)
+docker-compose up
+
+# Or build and run manually
+docker build -t konivrer .
+docker run -p 12000:12000 konivrer
+```
+
+### 📦 Traditional npm Commands (if you prefer)
+
+```bash
+# Install dependencies (auto-starts automation via postinstall)
 npm install
 
-# Start with ZERO HUMAN INTERACTION (ULTIMATE!)
+# Start with ZERO HUMAN INTERACTION
 npm run dev:autonomous
 
 # Start with EVERY SECOND automation
 npm run dev:every-second
 
-# Start development with automation (recommended)
+# Start development with automation
 npm run dev:auto
-
-# Or start normally
-npm run dev
 
 # Build for production
 npm run build
