@@ -264,27 +264,37 @@ export const useBackgroundCodeEvolution = () => {
 
   // Continuous evolution process running silently
   const startSilentEvolution = () => {
+    let checkCount = 0;
+    
     // Check for updates every second for maximum responsiveness
     const evolutionInterval = setInterval(async () => {
+      checkCount++;
       const trends = getTechnologyTrends();
       const updates = await generateCodeUpdates();
 
-      // Auto-apply low-risk updates silently
-      const lowRiskUpdates = updates.filter(
-        u => u.riskLevel === 'low' && u.autoApplicable,
-      );
-
-      for (const update of lowRiskUpdates) {
-        await applyCodeUpdate(update);
-      }
-
-      // Store evolution timestamp
-      localStorage.setItem('lastCodeEvolution', new Date().toISOString());
-
-      if (lowRiskUpdates.length > 0) {
-        console.log(
-          `[CODE EVOLUTION] Silently applied ${lowRiskUpdates.length} updates`,
+      // Auto-apply low-risk updates silently (but only every 10 seconds to avoid overwhelming)
+      if (checkCount % 10 === 0) {
+        const lowRiskUpdates = updates.filter(
+          u => u.riskLevel === 'low' && u.autoApplicable,
         );
+
+        for (const update of lowRiskUpdates) {
+          await applyCodeUpdate(update);
+        }
+
+        // Store evolution timestamp
+        localStorage.setItem('lastCodeEvolution', new Date().toISOString());
+
+        if (lowRiskUpdates.length > 0) {
+          console.log(
+            `[CODE EVOLUTION] Silently applied ${lowRiskUpdates.length} updates (check #${checkCount})`,
+          );
+        }
+      }
+      
+      // Log monitoring activity every 30 seconds
+      if (checkCount % 30 === 0) {
+        console.log(`[CODE EVOLUTION] Monitoring active - ${checkCount} checks completed`);
       }
     }, 1000); // 1 second - maximum responsiveness
 
