@@ -449,7 +449,9 @@ export const SecurityAutomationProvider: React.FC<{
       process.env.VERCEL ||
       process.env.CI
     ) {
-      console.log('[SECURITY AUTOMATION] Skipping autonomous systems during build/deployment');
+      console.log(
+        '[SECURITY AUTOMATION] Skipping autonomous systems during build/deployment',
+      );
       return;
     }
 

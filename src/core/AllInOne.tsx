@@ -795,11 +795,7 @@ const BackgroundAutomation: React.FC = () => {
   // Log that autonomous systems are active (only in development)
   React.useEffect(() => {
     // Skip autonomous systems during build/deployment
-    if (
-      typeof window === 'undefined' ||
-      process.env.VERCEL ||
-      process.env.CI
-    ) {
+    if (typeof window === 'undefined' || process.env.VERCEL || process.env.CI) {
       console.log('[AUTONOMOUS SYSTEMS] Skipping during build/deployment');
       return;
     }
