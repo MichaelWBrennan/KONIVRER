@@ -2,7 +2,11 @@
 
 A mystical trading card game with an esoteric theme that works right out of the box. No complicated setup - just download and play!
 
-## 🌟 LATEST UPDATE: Complete UI Redesign + Build Timeout Fix
+## 🌟 LATEST UPDATE: Self-Healing & Self-Optimizing System + UI Redesign
+
+**🤖 NEW SELF-HEALING & SELF-OPTIMIZING SYSTEM**: The application now includes advanced self-healing and self-optimizing capabilities that automatically detect and fix issues, optimize performance, and ensure maximum stability.
+
+**✨ COMPLETE UI REDESIGN**: Redesigned the application to match the mystical/esoteric theme with ⭐ symbols and dark aesthetics.
 
 **✅ REDESIGN COMPLETED**: Successfully crawled the old deployment and completely redesigned the current application to match the mystical/esoteric theme with ⭐ symbols and dark aesthetics.
 
@@ -18,6 +22,11 @@ A mystical trading card game with an esoteric theme that works right out of the 
 - **New Pages**: Added missing RulesPage, KonivreDemoPage, and AIDemoPage components
 
 ### 🚀 Technical Improvements
+- **Self-Healing System**: Automatically detects and fixes errors, preventing crashes
+- **Self-Optimizing System**: Continuously monitors and optimizes performance
+- **Adaptive Resource Management**: Adjusts resource usage based on system load
+- **Error Recovery**: Provides fallback mechanisms and automatic retries
+- **Performance Monitoring**: Real-time monitoring of key performance metrics
 - **Build System**: Fixed TypeScript errors and build configuration
 - **Development Server**: Resolved connectivity issues
 - **Static Build**: Successfully generating production builds
@@ -26,8 +35,35 @@ A mystical trading card game with an esoteric theme that works right out of the 
 - **Build-Safe Loading**: Created autonomous-system-free build process
 
 ### 🎯 Current Status
+- **Self-Healing**: ✅ Implemented advanced error detection and recovery
+- **Self-Optimizing**: ✅ Added performance monitoring and optimization
 - **Design**: ✅ Complete redesign matching old deployment
 - **Navigation**: ✅ Login button moved to menu bar
+
+## 🤖 Self-Healing & Self-Optimizing System
+
+The KONIVRER application now includes advanced self-healing and self-optimizing capabilities:
+
+### Self-Healing Features
+- **Error Boundaries**: Catch and recover from errors that would otherwise crash the app
+- **Network Recovery**: Automatically retry failed network requests
+- **State Recovery**: Prevent data loss with automatic state persistence
+- **Error Monitoring**: Track errors and recovery rates
+
+### Self-Optimizing Features
+- **Performance Monitoring**: Track FPS, memory usage, and render times
+- **Adaptive Optimization**: Automatically optimize based on performance metrics
+- **Component Optimization**: Prevent unnecessary re-renders
+- **Resource Management**: Adjust resource usage based on system load
+
+### Using the System
+- **Start Self-Healing**: `./auto-self-heal.sh`
+- **Stop Self-Healing**: `./auto-self-heal-stop.sh`
+- **Monitor Logs**: `npm run self-heal:logs`
+- **Run Health Check**: `npm run self-heal:check`
+- **Run Optimization**: `npm run self-optimize`
+
+For more details, see [SELF_HEALING_OPTIMIZING.md](./SELF_HEALING_OPTIMIZING.md)
 - **Build System**: ✅ Working production builds (1.22s build time)
 - **Code Quality**: ✅ All TypeScript errors resolved
 - **Server**: ✅ Static file serving working
