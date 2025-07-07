@@ -1,28 +1,32 @@
+
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/icon-192x192.png" />
-    <link rel="apple-touch-icon" href="/icon-192x192.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="theme-color" content="#1a1a2e" />
-    <meta name="description" content="Professional deck building and card database for KONIVRER trading card game with comprehensive tournament features" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="KONIVRER" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <link rel="manifest" href="/manifest.json" />
-    <title>KONIVRER Deck Database</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-    <noscript>
-      <div style="padding: 2rem; text-align: center;">
-        <h1>JavaScript Required</h1>
-        <p>Please enable JavaScript to use the KONIVRER Deck Database application.</p>
-      </div>
-    </noscript>
-  </body>
+<html>
+<head>
+    <title>🚀 KONIVRER Auto-Launcher</title>
+    <meta http-equiv="refresh" content="0;url=http://localhost:12000">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; background: #0f0f23; color: #cccccc; }
+        .loading { font-size: 24px; }
+        .spinner { border: 4px solid #333; border-top: 4px solid #00ff00; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="loading">
+        <h1>🚀 KONIVRER Auto-Starting...</h1>
+        <div class="spinner"></div>
+        <p>Autonomous automation is starting automatically...</p>
+        <p><strong>No commands required!</strong></p>
+    </div>
+    
+    <script>
+        // Auto-start the server and automation
+        fetch('/auto-start', { method: 'POST' }).catch(() => {});
+        
+        // Redirect to main interface after 3 seconds
+        setTimeout(() => {
+            window.location.href = 'http://localhost:12000';
+        }, 3000);
+    </script>
+</body>
 </html>

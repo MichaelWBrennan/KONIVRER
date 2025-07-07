@@ -38,7 +38,8 @@ function startAutomation() {
   });
   
   // Save logs to file
-  const logStream = require('fs').createWriteStream('automation-bootstrap.log', { flags: 'a' });
+  import { createWriteStream } from 'fs';
+  const logStream = createWriteStream('automation-bootstrap.log', { flags: 'a' });
   automation.stdout.pipe(logStream);
   automation.stderr.pipe(logStream);
   
