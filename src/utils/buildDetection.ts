@@ -4,7 +4,20 @@
  */
 
 export const isBuildEnvironment = (): boolean => {
-  // AGGRESSIVE BUILD DETECTION - Multiple layers of protection
+  // ULTRA-AGGRESSIVE BUILD DETECTION - Multiple layers of protection
+  
+  // VERCEL-SPECIFIC DETECTION - Highest priority
+  if (
+    process.env.VERCEL === '1' ||
+    process.env.VERCEL_ENV ||
+    process.env.VERCEL_URL ||
+    process.env.VERCEL_REGION ||
+    process.env.VERCEL_GIT_COMMIT_SHA ||
+    process.env.VERCEL_DEPLOYMENT_ID
+  ) {
+    console.log('[BUILD DETECTION] VERCEL environment detected');
+    return true;
+  }
 
   // 1. Server-side rendering detection (most reliable)
   if (typeof window === 'undefined') {
@@ -22,7 +35,9 @@ export const isBuildEnvironment = (): boolean => {
     process.env.BUILD_ENV === 'production' ||
     process.env.NEXT_PHASE === 'phase-production-build' ||
     process.env.DISABLE_AUTONOMOUS === 'true' ||
-    process.env.FORCE_BUILD_MODE === 'true'
+    process.env.FORCE_BUILD_MODE === 'true' ||
+    process.env.NODE_ENV === 'production' ||
+    process.env.CI === 'true'
   ) {
     return true;
   }
@@ -39,7 +54,8 @@ export const isBuildEnvironment = (): boolean => {
 
   // 5. Build-specific detection (not runtime)
   if (
-    process.env.KONIVRER_BUILD_ID === 'vercel-build'
+    process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
+    process.env.__VERCEL_BUILD_RUNNING === '1'
   ) {
     return true;
   }
@@ -85,11 +101,32 @@ export const forceDisableAutonomousSystems = (): void => {
 };
 
 export const shouldSkipAutonomousSystems = (): boolean => {
+  // ULTRA-AGGRESSIVE DETECTION - Always disable in production builds
+  
+  // Vercel-specific detection - highest priority
+  if (
+    process.env.VERCEL === '1' ||
+    process.env.VERCEL_ENV ||
+    process.env.VERCEL_URL
+  ) {
+    console.log('[BUILD DETECTION] VERCEL detected - autonomous systems disabled');
+    FORCE_DISABLE_AUTONOMOUS = true;
+    return true;
+  }
+  
   // Emergency kill switch takes priority
   if (FORCE_DISABLE_AUTONOMOUS) {
     return true;
   }
 
+  // Production environment check
+  if (process.env.NODE_ENV === 'production') {
+    console.log('[BUILD DETECTION] Production environment - autonomous systems disabled');
+    FORCE_DISABLE_AUTONOMOUS = true;
+    return true;
+  }
+
+  // Check for build environment
   const isBuild = isBuildEnvironment();
 
   if (isBuild) {
@@ -103,15 +140,33 @@ export const shouldSkipAutonomousSystems = (): boolean => {
   return isBuild;
 };
 
-// Additional safety check - disable autonomous systems immediately if Vercel is detected
+// ULTRA-AGGRESSIVE safety check - disable autonomous systems immediately in any build-like environment
 if (
   typeof process !== 'undefined' &&
-  (process.env.VERCEL === '1' ||
+  (
+    // Vercel detection
+    process.env.VERCEL === '1' ||
     process.env.VERCEL_ENV ||
-    process.env.VERCEL_URL)
+    process.env.VERCEL_URL ||
+    process.env.VERCEL_REGION ||
+    process.env.VERCEL_DEPLOYMENT_ID ||
+    
+    // Production/build detection
+    process.env.NODE_ENV === 'production' ||
+    process.env.VITE_BUILD === 'true' ||
+    process.env.BUILD_ENV === 'production' ||
+    process.env.DISABLE_AUTONOMOUS === 'true' ||
+    process.env.FORCE_BUILD_MODE === 'true' ||
+    process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
+    process.env.CI === 'true' ||
+    
+    // Build command detection
+    process.env.npm_lifecycle_event === 'build' ||
+    process.env.__VERCEL_BUILD_RUNNING === '1'
+  )
 ) {
   FORCE_DISABLE_AUTONOMOUS = true;
   console.log(
-    '[BUILD DETECTION] VERCEL DETECTED: Autonomous systems pre-disabled',
+    '[BUILD DETECTION] BUILD ENVIRONMENT DETECTED: Autonomous systems pre-disabled',
   );
 }
