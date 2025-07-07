@@ -14,6 +14,7 @@ import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { speedTracker, trackCustomMetric } from '../utils/speedTracking';
+import SpeedMonitor from '../components/SpeedMonitor';
 import {
   BrowserRouter as Router,
   Routes,
@@ -810,6 +811,7 @@ const AllInOneApp: React.FC = () => {
                 }}
               />
             )}
+            <SpeedMonitor />
           </Router>
         </AppContext.Provider>
       </SecurityAutomationProvider>
