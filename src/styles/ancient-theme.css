@@ -1,8 +1,10 @@
 /**
- * Ancient Scroll Theme
+ * Ancient Scroll Theme with OpenDyslexic Font
  * 
- * This stylesheet provides an ancient, tattered scroll aesthetic for the application.
+ * This stylesheet provides an ancient, tattered scroll aesthetic for the application
+ * with OpenDyslexic font for improved readability.
  */
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
 
 :root {
   /* Color palette */
@@ -19,9 +21,9 @@
   --gold: #d4af37;
   
   /* Typography */
-  --font-heading: 'Cinzel Decorative', 'Times New Roman', serif;
-  --font-body: 'IM Fell English', 'Times New Roman', serif;
-  --font-accent: 'Cinzel', 'Times New Roman', serif;
+  --font-heading: 'OpenDyslexic', sans-serif;
+  --font-body: 'OpenDyslexic', sans-serif;
+  --font-accent: 'OpenDyslexic', sans-serif;
 }
 
 /* Global styles */
@@ -265,15 +267,16 @@ button.primary:hover, .button.primary:hover {
 }
 
 .divider::before {
-  content: "*";
+  content: "";
   position: absolute;
-  top: -10px;
+  top: -5px;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--parchment);
-  padding: 0 1rem;
-  color: var(--ink-faded);
-  font-size: 1rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faded);
 }
 
 /* Form elements */
