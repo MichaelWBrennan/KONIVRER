@@ -303,8 +303,8 @@ const HomePage: React.FC = () => {
             padding: '20px',
             textAlign: 'center'
           }}>
-            <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>⭐ Card Database</h3>
-            <p style={{ color: '#3a2921' }}>Explore the complete collection of KONIVRER cards</p>
+            <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>Card Database</h3>
+
           </div>
           
           <div style={{
@@ -314,8 +314,8 @@ const HomePage: React.FC = () => {
             padding: '20px',
             textAlign: 'center'
           }}>
-            <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>🃏 Deck Builder</h3>
-            <p style={{ color: '#3a2921' }}>Create and optimize your perfect deck</p>
+            <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>Deck Builder</h3>
+
           </div>
           
           <div style={{
@@ -325,8 +325,8 @@ const HomePage: React.FC = () => {
             padding: '20px',
             textAlign: 'center'
           }}>
-            <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>🎮 Game Rules</h3>
-            <p style={{ color: '#3a2921' }}>Learn the ancient rules of KONIVRER</p>
+            <h3 style={{ color: '#3a2921', marginBottom: '10px' }}>Game Rules</h3>
+
           </div>
         </div>
       </div>
