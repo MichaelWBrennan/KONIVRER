@@ -15,8 +15,8 @@ console.log('🎯 Goal: ZERO manual commands required EVER!');
 
 // Function to run command and return promise
 function runCommand(command, options = {}) {
-  return new Promise((resolve, reject) => {
-    exec(command, { cwd: __dirname, ...options }, (error, stdout, stderr) => {
+  return new Promise((resolve, _reject) => {
+    exec(command, { cwd: __dirname, ...options }, (error, _stdout, _stderr) => {
       if (error) {
         console.warn(`⚠️ Command failed: ${command}`, error.message);
         resolve(false);
