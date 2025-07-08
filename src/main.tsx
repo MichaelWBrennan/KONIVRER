@@ -1,9 +1,8 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import FixedEnhancedApp from './core/FixedEnhancedApp';
-import SimpleApp from './core/SimpleApp';
+import ProgressiveApp from './core/ProgressiveApp';
 
-console.log('[APP] Starting KONIVRER Fixed Enhanced Application...');
+console.log('[APP] Starting KONIVRER Progressive Application...');
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,20 +11,11 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-// Try fixed enhanced app, fallback to simple app if it fails
-try {
-  root.render(
-    <React.StrictMode>
-      <FixedEnhancedApp />
-    </React.StrictMode>
-  );
-  console.log('[APP] Fixed enhanced app with proper autonomous systems initialized successfully');
-} catch (error) {
-  console.error('[APP] Fixed enhanced app failed, falling back to simple app:', error);
-  root.render(
-    <React.StrictMode>
-      <SimpleApp />
-    </React.StrictMode>
-  );
-  console.log('[APP] Simple app fallback initialized');
-}
+// Progressive app - starts simple, enhances progressively
+root.render(
+  <React.StrictMode>
+    <ProgressiveApp />
+  </React.StrictMode>
+);
+
+console.log('[APP] Progressive app initialized successfully');
