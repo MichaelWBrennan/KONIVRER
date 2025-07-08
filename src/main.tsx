@@ -1,8 +1,9 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import Phase3App from './core/Phase3App';
+import Phase2App from './core/Phase2App';
+import Phase1App from './core/Phase1App';
 
-console.log('[APP] Starting KONIVRER Phase 3 Application (Core + Security + Evolution)...');
+console.log('[APP] Starting KONIVRER Phase 2 Application (Lightweight Autonomous)...');
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -11,11 +12,20 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-// Phase 3: Core + Security + Evolution + Dependency Management
-root.render(
-  <React.StrictMode>
-    <Phase3App />
-  </React.StrictMode>
-);
-
-console.log('[APP] Phase 3 app initialized successfully');
+// Try Phase 2 app (lightweight autonomous), fallback to Phase 1
+try {
+  root.render(
+    <React.StrictMode>
+      <Phase2App />
+    </React.StrictMode>
+  );
+  console.log('[APP] Phase 2 app initialized successfully');
+} catch (error) {
+  console.error('[APP] Phase 2 app failed, falling back to Phase 1:', error);
+  root.render(
+    <React.StrictMode>
+      <Phase1App />
+    </React.StrictMode>
+  );
+  console.log('[APP] Phase 1 app fallback initialized');
+}
