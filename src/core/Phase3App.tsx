@@ -364,6 +364,49 @@ const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const { setShowLoginModal } = useContext(AppContext);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Detect device type based on user agent and screen size
+  useEffect(() => {
+    const checkDeviceType = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const width = window.innerWidth;
+      
+      // Check if mobile device based on user agent
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
+      
+      // Check if tablet based on user agent and screen size
+      const isTabletDevice = /ipad|android/i.test(userAgent) && !/mobile/i.test(userAgent) || 
+                            (width >= 768 && width <= 1024);
+      
+      setIsMobile(isMobileDevice || width < 768);
+      setIsTablet(isTabletDevice || (width >= 768 && width <= 1024));
+    };
+    
+    // Initial check
+    checkDeviceType();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkDeviceType);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkDeviceType);
+  }, []);
+  
+  // Navigation links
+  const navLinks = [
+    { to: '/cards', label: 'Cards' },
+    { to: '/decks', label: 'Decks' },
+    { to: '/events', label: 'Events' },
+    { to: '/play', label: 'Play' }
+  ];
+  
+  // Mobile menu toggle
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
   
   return (
     <motion.header
@@ -405,7 +448,7 @@ const Header = () => {
           {isHomePage ? (
             <div style={{
               color: '#d4af37',
-              fontSize: '28px',
+              fontSize: isMobile ? '22px' : '28px',
               fontWeight: 'bold',
               padding: '0 16px',
               height: '100%',
@@ -420,7 +463,7 @@ const Header = () => {
               style={{
                 color: '#d4af37',
                 textDecoration: 'none',
-                fontSize: '28px',
+                fontSize: isMobile ? '22px' : '28px',
                 fontWeight: 'bold',
                 padding: '0 16px',
                 height: '100%',
@@ -434,21 +477,72 @@ const Header = () => {
           )}
         </motion.div>
 
-        {/* Navigation links */}
-        <div style={{ 
-          display: 'flex', 
-          gap: '15px',
-          alignItems: 'center',
-          height: '100%'
-        }}>
-          {[
-            { to: '/cards', label: 'Cards' },
-            { to: '/decks', label: 'Decks' },
-            { to: '/events', label: 'Events' },
-            { to: '/play', label: 'Play' }
-          ].map(({ to, label }) => (
+        {/* Mobile menu button */}
+        {isMobile && (
+          <motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleMenu}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#d4af37',
+              fontSize: '24px',
+              cursor: 'pointer',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1001
+            }}
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? '✕' : '☰'}
+          </motion.button>
+        )}
+
+        {/* Desktop/Tablet Navigation links */}
+        {!isMobile && (
+          <div style={{ 
+            display: 'flex', 
+            gap: isTablet ? '8px' : '15px',
+            alignItems: 'center',
+            height: '100%'
+          }}>
+            {navLinks.map(({ to, label }) => (
+              <motion.div
+                key={to}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+              >
+                <Link
+                  to={to}
+                  style={{
+                    color: location.pathname === to ? '#d4af37' : '#ccc',
+                    textDecoration: 'none',
+                    fontSize: isTablet ? '16px' : '18px',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '100%',
+                    padding: isTablet ? '0 10px' : '0 16px',
+                    borderRadius: '4px',
+                    background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                    borderBottom: location.pathname === to ? '3px solid #d4af37' : '3px solid transparent',
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  {label}
+                </Link>
+              </motion.div>
+            ))}
+            
+            {/* Login button that opens modal */}
             <motion.div
-              key={to}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
@@ -457,60 +551,118 @@ const Header = () => {
                 alignItems: 'center'
               }}
             >
-              <Link
-                to={to}
+              <button
+                onClick={() => setShowLoginModal(true)}
                 style={{
-                  color: location.pathname === to ? '#d4af37' : '#ccc',
+                  color: '#d4af37',
                   textDecoration: 'none',
-                  fontSize: '18px',
+                  fontSize: isTablet ? '16px' : '18px',
                   fontWeight: 'bold',
                   display: 'flex',
                   alignItems: 'center',
-                  height: '100%',
-                  padding: '0 16px',
+                  height: '70%',
+                  padding: isTablet ? '0 12px' : '0 20px',
                   borderRadius: '4px',
-                  background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                  borderBottom: location.pathname === to ? '3px solid #d4af37' : '3px solid transparent',
-                  transition: 'all 0.3s ease'
+                  background: 'rgba(212, 175, 55, 0.1)',
+                  border: '1px solid #d4af37',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
                 }}
               >
-                {label}
-              </Link>
+                Login
+              </button>
             </motion.div>
-          ))}
-          
-          {/* Login button that opens modal */}
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center'
-            }}
-          >
-            <button
-              onClick={() => setShowLoginModal(true)}
-              style={{
-                color: '#d4af37',
-                textDecoration: 'none',
-                fontSize: '18px',
-                fontWeight: 'bold',
-                display: 'flex',
-                alignItems: 'center',
-                height: '70%',
-                padding: '0 20px',
-                borderRadius: '4px',
-                background: 'rgba(212, 175, 55, 0.1)',
-                border: '1px solid #d4af37',
-                transition: 'all 0.3s ease',
-                cursor: 'pointer'
-              }}
-            >
-              Login
-            </button>
-          </motion.div>
-        </div>
+          </div>
+        )}
+        
+        {/* Mobile menu overlay */}
+        {isMobile && (
+          <AnimatePresence>
+            {menuOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3 }}
+                style={{
+                  position: 'absolute',
+                  top: '60px',
+                  left: 0,
+                  right: 0,
+                  background: 'rgba(15, 15, 15, 0.98)',
+                  backdropFilter: 'blur(20px)',
+                  borderBottom: '2px solid rgba(212, 175, 55, 0.4)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  padding: '20px 0',
+                  zIndex: 1000
+                }}
+              >
+                {navLinks.map(({ to, label }) => (
+                  <motion.div
+                    key={to}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      width: '100%',
+                      textAlign: 'center',
+                      margin: '8px 0'
+                    }}
+                  >
+                    <Link
+                      to={to}
+                      onClick={() => setMenuOpen(false)}
+                      style={{
+                        color: location.pathname === to ? '#d4af37' : '#ccc',
+                        textDecoration: 'none',
+                        fontSize: '18px',
+                        fontWeight: 'bold',
+                        display: 'block',
+                        padding: '12px 0',
+                        background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                        borderLeft: location.pathname === to ? '4px solid #d4af37' : '4px solid transparent',
+                        transition: 'all 0.3s ease'
+                      }}
+                    >
+                      {label}
+                    </Link>
+                  </motion.div>
+                ))}
+                
+                <motion.div
+                  whileTap={{ scale: 0.95 }}
+                  style={{
+                    width: '80%',
+                    margin: '16px 0'
+                  }}
+                >
+                  <button
+                    onClick={() => {
+                      setShowLoginModal(true);
+                      setMenuOpen(false);
+                    }}
+                    style={{
+                      color: '#d4af37',
+                      textDecoration: 'none',
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      display: 'block',
+                      width: '100%',
+                      padding: '12px 0',
+                      borderRadius: '4px',
+                      background: 'rgba(212, 175, 55, 0.1)',
+                      border: '1px solid #d4af37',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Login
+                  </button>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        )}
       </nav>
     </motion.header>
   );
@@ -554,27 +706,62 @@ const Card = ({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
   </motion.div>
 );
 
-const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.3 }}
-    style={{ padding: '80px 20px 40px', maxWidth: '1200px', margin: '0 auto' }}
-  >
-    {title && (
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        style={{ color: '#d4af37', marginBottom: '30px', fontSize: '36px', textAlign: 'center' }}
-      >
-        {title}
-      </motion.h1>
-    )}
-    {children}
-  </motion.div>
-);
+const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // Detect device type based on user agent and screen size
+  useEffect(() => {
+    const checkDeviceType = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const width = window.innerWidth;
+      
+      // Check if mobile device based on user agent or screen width
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent) || width < 768;
+      
+      setIsMobile(isMobileDevice);
+    };
+    
+    // Initial check
+    checkDeviceType();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkDeviceType);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkDeviceType);
+  }, []);
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      style={{ 
+        padding: isMobile ? '70px 15px 30px' : '80px 20px 40px', 
+        maxWidth: '1200px', 
+        margin: '0 auto' 
+      }}
+    >
+      {title && (
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          style={{ 
+            color: '#d4af37', 
+            marginBottom: isMobile ? '20px' : '30px', 
+            fontSize: isMobile ? '28px' : '36px', 
+            textAlign: 'center' 
+          }}
+        >
+          {title}
+        </motion.h1>
+      )}
+      {children}
+    </motion.div>
+  );
+};
 
 // Enhanced Page Components with framer-motion and blog system
 const HomePage = () => {
