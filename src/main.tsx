@@ -1,9 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import Phase3App from './core/Phase3App';
 import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
 
-console.log('[APP] Starting KONIVRER Phase 2 Application (Lightweight Autonomous)...');
+console.log('[APP] Starting KONIVRER Phase 3 Application (Advanced Autonomous)...');
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,20 +13,30 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-// Try Phase 2 app (lightweight autonomous), fallback to Phase 1
+// Try Phase 3 app (advanced autonomous), fallback to Phase 2, then Phase 1
 try {
   root.render(
     <React.StrictMode>
-      <Phase2App />
+      <Phase3App />
     </React.StrictMode>
   );
-  console.log('[APP] Phase 2 app initialized successfully');
+  console.log('[APP] Phase 3 app initialized successfully');
 } catch (error) {
-  console.error('[APP] Phase 2 app failed, falling back to Phase 1:', error);
-  root.render(
-    <React.StrictMode>
-      <Phase1App />
-    </React.StrictMode>
-  );
-  console.log('[APP] Phase 1 app fallback initialized');
+  console.error('[APP] Phase 3 app failed, falling back to Phase 2:', error);
+  try {
+    root.render(
+      <React.StrictMode>
+        <Phase2App />
+      </React.StrictMode>
+    );
+    console.log('[APP] Phase 2 app fallback initialized');
+  } catch (error2) {
+    console.error('[APP] Phase 2 app also failed, falling back to Phase 1:', error2);
+    root.render(
+      <React.StrictMode>
+        <Phase1App />
+      </React.StrictMode>
+    );
+    console.log('[APP] Phase 1 app final fallback initialized');
+  }
 }
