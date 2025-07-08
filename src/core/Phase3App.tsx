@@ -1,9 +1,4 @@
-/**
- * KONIVRER Phase 3 App - Advanced Autonomous Systems (Target: ~500+ modules)
- * Building on Phase2App (393 modules) + advanced autonomous features
- */
-
-import React, { useState, useMemo, createContext, useContext, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext, createContext, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
@@ -12,6 +7,8 @@ import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import BlogSection from '../components/BlogSection';
 import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
 import AdvancedLoginModal from '../components/AdvancedLoginModal';
+import AccessibilityButton from '../components/AccessibilityButton';
+import SkipToContent from '../components/SkipToContent';
 import { KONIVRER_CARDS } from '../data/cards';
 
 // Types
@@ -35,37 +32,37 @@ interface BlogPost {
 
 // Sample blog data
 const BLOG_POSTS: BlogPost[] = [
-  { 
-    id: 'b1', 
-    title: 'Mastering Fire Decks', 
-    content: 'Fire decks are all about speed and aggression. Focus on low-cost creatures and direct damage spells to overwhelm your opponents before they can establish their defenses. Key strategies include maintaining card advantage through efficient trades and timing your burst damage for maximum impact.', 
-    author: 'CardMaster', 
-    date: '2024-01-15', 
-    tags: ['Strategy', 'Fire'] 
+  {
+    id: 'b1',
+    title: 'Mastering Fire Decks',
+    content: 'Fire decks are all about speed and aggression. Focus on low-cost creatures and direct damage spells to overwhelm your opponents before they can establish their defenses. Key strategies include maintaining card advantage through efficient trades and timing your burst damage for maximum impact.',
+    author: 'CardMaster',
+    date: '2024-01-15',
+    tags: ['Strategy', 'Fire']
   },
-  { 
-    id: 'b2', 
-    title: 'Event Report: Winter Championship', 
-    content: 'Last weekend\'s championship was intense with over 200 participants competing for the mystical crown. The meta saw a surprising rise in water-control decks, with three making it to the top 8. The final match between ElementalMage and FrostWarden was a masterclass in strategic play.', 
-    author: 'ProPlayer', 
-    date: '2024-01-10', 
-    tags: ['Events', 'Report'] 
+  {
+    id: 'b2',
+    title: 'Event Report: Winter Championship',
+    content: 'Last weekend\'s championship was intense with over 200 participants competing for the mystical crown. The meta saw a surprising rise in water-control decks, with three making it to the top 8. The final match between ElementalMage and FrostWarden was a masterclass in strategic play.',
+    author: 'ProPlayer',
+    date: '2024-01-10',
+    tags: ['Events', 'Report']
   },
-  { 
-    id: 'b3', 
-    title: 'New Card Reveals: Elemental Fusion', 
-    content: 'Exciting new cards coming in the next expansion! The Elemental Fusion set introduces dual-element familiars and powerful combination spells. Preview includes the legendary Phoenix Drake and the game-changing Elemental Convergence spell that could reshape the meta.', 
-    author: 'DevTeam', 
-    date: '2024-01-05', 
-    tags: ['News', 'Cards'] 
+  {
+    id: 'b3',
+    title: 'New Card Reveals: Elemental Fusion',
+    content: 'Exciting new cards coming in the next expansion! The Elemental Fusion set introduces dual-element familiars and powerful combination spells. Preview includes the legendary Phoenix Drake and the game-changing Elemental Convergence spell that could reshape the meta.',
+    author: 'DevTeam',
+    date: '2024-01-05',
+    tags: ['News', 'Cards']
   },
-  { 
-    id: 'b4', 
-    title: 'Deck Building Guide: Earth Control', 
-    content: 'Earth decks excel at controlling the battlefield through defensive familiars and resource management. Learn how to build a competitive earth deck that can withstand aggressive strategies while setting up powerful late-game threats.', 
-    author: 'StrategyGuru', 
-    date: '2024-01-03', 
-    tags: ['Strategy', 'Earth', 'Guide'] 
+  {
+    id: 'b4',
+    title: 'Deck Building Guide: Earth Control',
+    content: 'Earth decks excel at controlling the battlefield through defensive familiars and resource management. Learn how to build a competitive earth deck that can withstand aggressive strategies while setting up powerful late-game threats.',
+    author: 'StrategyGuru',
+    date: '2024-01-03',
+    tags: ['Strategy', 'Earth', 'Guide']
   }
 ];
 
@@ -103,242 +100,355 @@ const useAdvancedAutonomous = () => {
   });
 
   useEffect(() => {
-    const isBuild = shouldSkipAutonomousSystems();
-    if (isBuild || autonomousRef.current.initialized) return;
+    // Skip autonomous systems in development or when explicitly disabled
+    if (shouldSkipAutonomousSystems()) {
+      console.log('[Autonomous] Skipping autonomous systems initialization in development mode');
+      return;
+    }
 
-    console.log('[PHASE 3] Initializing advanced autonomous systems...');
-    autonomousRef.current.initialized = true;
-
-    // Initialize speed tracking and monitoring
-    const initializeSpeedSystems = async () => {
-      try {
-        // Load speed tracking
-        const speedTracking = await import('../utils/speedTracking');
-        autonomousRef.current.speedTracking = speedTracking;
+    try {
+      // Initialize autonomous systems
+      if (!autonomousRef.current.initialized) {
+        console.log('[Autonomous] Initializing advanced autonomous systems...');
         
-        if (speedTracking.trackCustomMetric) {
-          speedTracking.trackCustomMetric('phase3_app_initialized', 1);
-          console.log('[PHASE 3] ✅ Speed tracking initialized');
-        }
-
-        // Load speed monitor component
-        try {
-          const speedMonitorModule = await import('../components/SpeedMonitor');
-          autonomousRef.current.speedMonitor = speedMonitorModule.default;
-          console.log('[PHASE 3] ✅ Speed monitor component loaded');
-        } catch (error) {
-          console.warn('[PHASE 3] Speed monitor component failed (non-critical):', error);
-        }
-
-        // Advanced performance monitoring (every 45 seconds)
-        const advancedPerformanceInterval = setInterval(() => {
-          try {
-            if (typeof window !== 'undefined' && window.performance) {
-              const memory = (window.performance as any).memory;
-              const navigation = window.performance.getEntriesByType('navigation')[0] as any;
+        // Speed tracking system
+        autonomousRef.current.speedTracking = {
+          measurements: [],
+          lastTimestamp: Date.now(),
+          
+          measure: (label: string) => {
+            const now = Date.now();
+            const elapsed = now - autonomousRef.current.speedTracking.lastTimestamp;
+            autonomousRef.current.speedTracking.measurements.push({ label, elapsed });
+            autonomousRef.current.speedTracking.lastTimestamp = now;
+            return elapsed;
+          },
+          
+          getAverages: () => {
+            const measurements = autonomousRef.current.speedTracking.measurements;
+            const labels = [...new Set(measurements.map((m: any) => m.label))];
+            
+            return labels.map(label => {
+              const items = measurements.filter((m: any) => m.label === label);
+              const total = items.reduce((sum: number, item: any) => sum + item.elapsed, 0);
+              return {
+                label,
+                average: total / items.length,
+                count: items.length
+              };
+            });
+          }
+        };
+        
+        // Speed monitor
+        autonomousRef.current.speedMonitor = {
+          thresholds: {
+            critical: 500, // ms
+            warning: 200 // ms
+          },
+          
+          checkPerformance: () => {
+            const averages = autonomousRef.current.speedTracking.getAverages();
+            const issues = averages.filter((avg: any) => avg.average > autonomousRef.current.speedMonitor.thresholds.warning);
+            
+            if (issues.length > 0) {
+              console.warn('[Autonomous] Performance issues detected:', issues);
               
-              if (memory && speedTracking.trackCustomMetric) {
-                const memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024);
-                const memoryLimit = Math.round(memory.jsHeapSizeLimit / 1024 / 1024);
-                speedTracking.trackCustomMetric('memory_usage_mb', memoryUsage);
-                speedTracking.trackCustomMetric('memory_limit_mb', memoryLimit);
-                
-                if (navigation) {
-                  speedTracking.trackCustomMetric('dom_content_loaded', navigation.domContentLoadedEventEnd);
-                  speedTracking.trackCustomMetric('load_complete', navigation.loadEventEnd);
-                }
-                
-                console.debug('[PHASE 3] Advanced metrics - Memory:', memoryUsage, 'MB, Limit:', memoryLimit, 'MB');
-              }
-            }
-          } catch (error) {
-            console.debug('[PHASE 3] Advanced performance monitoring error (non-critical):', error);
-          }
-        }, 45000); // Every 45 seconds
-
-        autonomousRef.current.intervals.push(advancedPerformanceInterval);
-        console.log('[PHASE 3] ✅ Advanced performance monitoring started');
-
-      } catch (error) {
-        console.warn('[PHASE 3] Speed systems failed (non-critical):', error);
-      }
-    };
-
-    // Initialize autonomous core systems
-    const initializeAutonomousCore = async () => {
-      try {
-        const autonomousCoreModule = await import('../automation/UltraAutonomousCore');
-        autonomousRef.current.autonomousCore = autonomousCoreModule;
-        console.log('[PHASE 3] ✅ Ultra autonomous core loaded');
-
-        // Core system health monitoring (every 90 seconds)
-        const coreHealthInterval = setInterval(() => {
-          try {
-            if (autonomousRef.current.speedTracking?.trackCustomMetric) {
-              // Track system health metrics
-              const systemHealth = {
-                timestamp: Date.now(),
-                memoryPressure: typeof window !== 'undefined' && (window.performance as any).memory ? 
-                  Math.round(((window.performance as any).memory.usedJSHeapSize / (window.performance as any).memory.jsHeapSizeLimit) * 100) : 0,
-                activeIntervals: autonomousRef.current.intervals.length,
-                loadedModules: Object.keys(autonomousRef.current).filter(key => autonomousRef.current[key] !== null).length
-              };
-
-              autonomousRef.current.speedTracking.trackCustomMetric('system_health_score', 
-                100 - Math.min(systemHealth.memoryPressure, 90));
-              autonomousRef.current.speedTracking.trackCustomMetric('active_intervals', systemHealth.activeIntervals);
-              autonomousRef.current.speedTracking.trackCustomMetric('loaded_modules', systemHealth.loadedModules);
-
-              console.debug('[PHASE 3] System health:', systemHealth);
-            }
-          } catch (error) {
-            console.debug('[PHASE 3] Core health monitoring error (non-critical):', error);
-          }
-        }, 90000); // Every 90 seconds
-
-        autonomousRef.current.intervals.push(coreHealthInterval);
-        console.log('[PHASE 3] ✅ Core health monitoring started');
-
-      } catch (error) {
-        console.warn('[PHASE 3] Autonomous core failed (non-critical):', error);
-      }
-    };
-
-    // Initialize security systems
-    const initializeSecuritySystems = async () => {
-      try {
-        const securityProviderModule = await import('../security/SecurityProvider');
-        autonomousRef.current.securityProvider = securityProviderModule;
-        console.log('[PHASE 3] ✅ Security provider loaded');
-
-        // Advanced security monitoring (every 3 minutes)
-        const advancedSecurityInterval = setInterval(() => {
-          try {
-            if (typeof window !== 'undefined') {
-              // Advanced security checks
-              const securityMetrics = {
-                scriptCount: document.querySelectorAll('script').length,
-                iframeCount: document.querySelectorAll('iframe').length,
-                formCount: document.querySelectorAll('form').length,
-                linkCount: document.querySelectorAll('a[href^="http"]').length,
-                suspiciousPatterns: 0
-              };
-
-              // Check for suspicious patterns
-              const suspiciousPatterns = ['eval(', 'document.write(', 'innerHTML =', 'outerHTML ='];
-              const allScripts = document.querySelectorAll('script');
+              // Auto-optimization for critical issues
+              const criticalIssues = issues.filter((issue: any) => 
+                issue.average > autonomousRef.current.speedMonitor.thresholds.critical
+              );
               
-              allScripts.forEach(script => {
-                if (script.textContent) {
-                  suspiciousPatterns.forEach(pattern => {
-                    if (script.textContent!.includes(pattern)) {
-                      securityMetrics.suspiciousPatterns++;
-                    }
-                  });
-                }
-              });
-
-              if (autonomousRef.current.speedTracking?.trackCustomMetric) {
-                autonomousRef.current.speedTracking.trackCustomMetric('security_script_count', securityMetrics.scriptCount);
-                autonomousRef.current.speedTracking.trackCustomMetric('security_iframe_count', securityMetrics.iframeCount);
-                autonomousRef.current.speedTracking.trackCustomMetric('security_suspicious_patterns', securityMetrics.suspiciousPatterns);
+              if (criticalIssues.length > 0) {
+                console.warn('[Autonomous] Critical performance issues detected, applying auto-optimization');
+                // Apply optimization strategies
+                autonomousRef.current.autonomousCore.optimize(criticalIssues);
               }
-
-              if (securityMetrics.suspiciousPatterns > 0) {
-                console.debug('[PHASE 3] Security alert: suspicious patterns detected:', securityMetrics.suspiciousPatterns);
-              }
-
-              console.debug('[PHASE 3] Security metrics:', securityMetrics);
             }
-          } catch (error) {
-            console.debug('[PHASE 3] Advanced security monitoring error (non-critical):', error);
           }
-        }, 180000); // Every 3 minutes
-
-        autonomousRef.current.intervals.push(advancedSecurityInterval);
-        console.log('[PHASE 3] ✅ Advanced security monitoring started');
-
-      } catch (error) {
-        console.warn('[PHASE 3] Security systems failed (non-critical):', error);
-      }
-    };
-
-    // Initialize optimization systems
-    const initializeOptimizationSystems = async () => {
-      try {
-        // Resource optimization monitoring (every 2 minutes)
-        const optimizationInterval = setInterval(() => {
-          try {
-            if (typeof window !== 'undefined') {
-              // Check for optimization opportunities
-              const optimizationMetrics = {
-                imageCount: document.querySelectorAll('img').length,
-                unoptimizedImages: 0,
-                cssFiles: document.querySelectorAll('link[rel="stylesheet"]').length,
-                jsFiles: document.querySelectorAll('script[src]').length,
-                inlineStyles: document.querySelectorAll('[style]').length
-              };
-
-              // Check for unoptimized images
-              const images = document.querySelectorAll('img');
-              images.forEach(img => {
-                if (img.src && !img.src.includes('webp') && !img.src.includes('avif')) {
-                  optimizationMetrics.unoptimizedImages++;
-                }
-              });
-
-              if (autonomousRef.current.speedTracking?.trackCustomMetric) {
-                autonomousRef.current.speedTracking.trackCustomMetric('optimization_image_count', optimizationMetrics.imageCount);
-                autonomousRef.current.speedTracking.trackCustomMetric('optimization_unoptimized_images', optimizationMetrics.unoptimizedImages);
-                autonomousRef.current.speedTracking.trackCustomMetric('optimization_css_files', optimizationMetrics.cssFiles);
-                autonomousRef.current.speedTracking.trackCustomMetric('optimization_js_files', optimizationMetrics.jsFiles);
-              }
-
-              console.debug('[PHASE 3] Optimization metrics:', optimizationMetrics);
+        };
+        
+        // Autonomous core
+        autonomousRef.current.autonomousCore = {
+          status: 'active',
+          optimizationStrategies: {
+            reduceAnimations: false,
+            cacheHeavyComputations: true,
+            throttleEvents: false
+          },
+          
+          optimize: (issues: any[]) => {
+            console.log('[Autonomous] Applying optimizations for:', issues.map((i: any) => i.label).join(', '));
+            
+            // Apply progressive optimization strategies
+            if (!autonomousRef.current.autonomousCore.optimizationStrategies.throttleEvents) {
+              console.log('[Autonomous] Enabling event throttling');
+              autonomousRef.current.autonomousCore.optimizationStrategies.throttleEvents = true;
+            } else if (!autonomousRef.current.autonomousCore.optimizationStrategies.reduceAnimations) {
+              console.log('[Autonomous] Reducing animations');
+              autonomousRef.current.autonomousCore.optimizationStrategies.reduceAnimations = true;
+              // Apply to DOM
+              document.body.classList.add('autonomous-reduced-motion');
             }
-          } catch (error) {
-            console.debug('[PHASE 3] Optimization monitoring error (non-critical):', error);
+          },
+          
+          getStatus: () => {
+            return {
+              status: autonomousRef.current.autonomousCore.status,
+              optimizations: autonomousRef.current.autonomousCore.optimizationStrategies
+            };
           }
-        }, 120000); // Every 2 minutes
-
-        autonomousRef.current.intervals.push(optimizationInterval);
-        console.log('[PHASE 3] ✅ Optimization monitoring started');
-
-      } catch (error) {
-        console.warn('[PHASE 3] Optimization systems failed (non-critical):', error);
+        };
+        
+        // Security provider
+        autonomousRef.current.securityProvider = {
+          initialized: true,
+          securityLevel: 'standard',
+          
+          validateInput: (input: string) => {
+            // Basic security validation
+            const dangerousPatterns = [
+              /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+              /javascript:/gi,
+              /on\w+=/gi
+            ];
+            
+            let sanitized = input;
+            dangerousPatterns.forEach(pattern => {
+              sanitized = sanitized.replace(pattern, '');
+            });
+            
+            return sanitized;
+          }
+        };
+        
+        // Set up monitoring intervals
+        const performanceInterval = setInterval(() => {
+          autonomousRef.current.speedMonitor.checkPerformance();
+        }, 30000); // Check every 30 seconds
+        
+        autonomousRef.current.intervals.push(performanceInterval);
+        autonomousRef.current.initialized = true;
+        
+        console.log('[Autonomous] Advanced autonomous systems initialized successfully');
       }
-    };
-
-    // Initialize all systems asynchronously
-    initializeSpeedSystems();
-    initializeAutonomousCore();
-    initializeSecuritySystems();
-    initializeOptimizationSystems();
-
+    } catch (error) {
+      console.error('[Autonomous] Failed to initialize autonomous systems:', error);
+    }
+    
     // Cleanup function
     return () => {
-      autonomousRef.current.intervals.forEach(interval => {
-        clearInterval(interval);
-      });
-      autonomousRef.current.intervals = [];
-      autonomousRef.current.initialized = false;
-      console.log('[PHASE 3] Advanced autonomous systems cleaned up');
+      if (autonomousRef.current.initialized) {
+        console.log('[Autonomous] Cleaning up autonomous systems');
+        autonomousRef.current.intervals.forEach(interval => clearInterval(interval));
+        autonomousRef.current.initialized = false;
+      }
     };
   }, []);
-
+  
   return autonomousRef.current;
 };
 
-// Enhanced styled components with framer-motion (same as Phase2)
+// Login Modal Component
+const LoginModal = () => {
+  const { showLoginModal, setShowLoginModal, setUser } = useContext(AppContext);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  
+  const handleLogin = () => {
+    if (username && password) {
+      // Simulate login
+      setUser({
+        id: 'u1',
+        username,
+        email: `${username}@example.com`,
+        level: 1
+      });
+      setShowLoginModal(false);
+      setUsername('');
+      setPassword('');
+      setError('');
+    } else {
+      setError('Please enter both username and password');
+    }
+  };
+  
+  if (!showLoginModal) return null;
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0, 0, 0, 0.8)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 2000
+      }}
+      onClick={() => setShowLoginModal(false)}
+    >
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ type: 'spring', damping: 20 }}
+        style={{
+          background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
+          borderRadius: '12px',
+          padding: '30px',
+          width: '90%',
+          maxWidth: '400px',
+          border: '1px solid rgba(212, 175, 55, 0.3)',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        <h2 style={{ color: '#d4af37', marginBottom: '20px', textAlign: 'center' }}>Login to KONIVRER</h2>
+        
+        {error && (
+          <div style={{ 
+            color: '#ff6b6b', 
+            background: 'rgba(255, 107, 107, 0.1)', 
+            padding: '10px', 
+            borderRadius: '4px', 
+            marginBottom: '15px',
+            fontSize: '14px'
+          }}>
+            {error}
+          </div>
+        )}
+        
+        <div style={{ marginBottom: '15px' }}>
+          <label style={{ color: '#ccc', display: 'block', marginBottom: '5px', fontSize: '14px' }}>
+            Username
+          </label>
+          <input
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              borderRadius: '4px',
+              color: 'white',
+              fontSize: '16px'
+            }}
+            placeholder="Enter your username"
+          />
+        </div>
+        
+        <div style={{ marginBottom: '20px' }}>
+          <label style={{ color: '#ccc', display: 'block', marginBottom: '5px', fontSize: '14px' }}>
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              borderRadius: '4px',
+              color: 'white',
+              fontSize: '16px'
+            }}
+            placeholder="Enter your password"
+          />
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              background: 'transparent',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              color: '#ccc',
+              padding: '10px 20px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px'
+            }}
+            onClick={() => setShowLoginModal(false)}
+          >
+            Cancel
+          </motion.button>
+          
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              background: 'rgba(212, 175, 55, 0.2)',
+              border: '1px solid rgba(212, 175, 55, 0.5)',
+              color: '#d4af37',
+              padding: '10px 20px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '14px',
+              fontWeight: 'bold'
+            }}
+            onClick={handleLogin}
+          >
+            Login
+          </motion.button>
+        </div>
+        
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+          <a 
+            href="#" 
+            style={{ color: '#d4af37', fontSize: '14px', textDecoration: 'none' }}
+            onClick={(e) => {
+              e.preventDefault();
+              alert('Password reset functionality coming soon!');
+            }}
+          >
+            Forgot your password?
+          </a>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+// Page Container Component
+const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
+  <div style={{ padding: '80px 20px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+    {title && (
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center', fontSize: '36px' }}
+      >
+        {title}
+      </motion.h1>
+    )}
+    {children}
+  </div>
+);
+
+// App Container Component
 const AppContainer = ({ children }: { children: React.ReactNode }) => (
   <div style={{
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
-    color: 'white',
-    fontFamily: 'Arial, sans-serif',
+    background: 'linear-gradient(135deg, var(--bg-color, #0f0f0f) 0%, #1a1a1a 50%, var(--bg-color, #0f0f0f) 100%)',
+    color: 'var(--text-color, white)',
+    fontFamily: 'var(--font-family, Arial, sans-serif)',
     position: 'relative',
     overflow: 'hidden'
   }}>
+    <SkipToContent />
     {/* Mystical background effects */}
     <motion.div
       initial={{ opacity: 0 }}
@@ -356,8 +466,11 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
       }}
     />
     <div style={{ position: 'relative', zIndex: 2 }}>
-      {children}
+      <main id="main-content">
+        {children}
+      </main>
     </div>
+    <AccessibilityButton />
   </div>
 );
 
@@ -368,47 +481,54 @@ const Header = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  
+
   // Detect device type based on user agent and screen size
   useEffect(() => {
     const checkDeviceType = () => {
       const userAgent = navigator.userAgent.toLowerCase();
       const width = window.innerWidth;
-      
+
       // Check if mobile device based on user agent
       const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
-      
+
       // Check if tablet based on user agent and screen size
-      const isTabletDevice = /ipad|android/i.test(userAgent) && !/mobile/i.test(userAgent) || 
+      const isTabletDevice = /ipad|android/i.test(userAgent) && !/mobile/i.test(userAgent) ||
                             (width >= 768 && width <= 1024);
-      
+
       setIsMobile(isMobileDevice || width < 768);
       setIsTablet(isTabletDevice || (width >= 768 && width <= 1024));
     };
-    
+
     // Initial check
     checkDeviceType();
-    
+
     // Add resize listener
     window.addEventListener('resize', checkDeviceType);
-    
+
     // Cleanup
     return () => window.removeEventListener('resize', checkDeviceType);
   }, []);
   
-  // Navigation links
-  const navLinks = [
+  // Navigation links with types
+  interface NavLink {
+    to: string;
+    label: string;
+    onClick?: () => void;
+  }
+  
+  const navLinks: NavLink[] = [
     { to: '/cards', label: 'Cards' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play' }
+    { to: '/play', label: 'Play' },
+    { to: '#', label: 'Login', onClick: () => setShowLoginModal(true) }
   ];
   
   // Mobile menu toggle
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-  
+
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -503,13 +623,13 @@ const Header = () => {
 
         {/* Desktop/Tablet Navigation links */}
         {!isMobile && (
-          <div style={{ 
-            display: 'flex', 
+          <div style={{
+            display: 'flex',
             gap: isTablet ? '8px' : '15px',
             alignItems: 'center',
             height: '100%'
           }}>
-            {navLinks.map(({ to, label }) => (
+            {navLinks.map(({ to, label, onClick }) => (
               <motion.div
                 key={to}
                 whileHover={{ scale: 1.05 }}
@@ -520,59 +640,51 @@ const Header = () => {
                   alignItems: 'center'
                 }}
               >
-                <Link
-                  to={to}
-                  style={{
-                    color: location.pathname === to ? '#d4af37' : '#ccc',
-                    textDecoration: 'none',
-                    fontSize: isTablet ? '16px' : '18px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: '100%',
-                    padding: isTablet ? '0 10px' : '0 16px',
-                    borderRadius: '4px',
-                    background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                    borderBottom: location.pathname === to ? '3px solid #d4af37' : '3px solid transparent',
-                    transition: 'all 0.3s ease'
-                  }}
-                >
-                  {label}
-                </Link>
+                {onClick ? (
+                  <button
+                    onClick={onClick}
+                    style={{
+                      color: '#d4af37',
+                      textDecoration: 'none',
+                      fontSize: isTablet ? '16px' : '18px',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '100%',
+                      padding: isTablet ? '0 10px' : '0 16px',
+                      borderRadius: '4px',
+                      background: 'rgba(212, 175, 55, 0.1)',
+                      border: 'none',
+                      borderBottom: '3px solid #d4af37',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {label}
+                  </button>
+                ) : (
+                  <Link
+                    to={to}
+                    style={{
+                      color: location.pathname === to ? '#d4af37' : '#ccc',
+                      textDecoration: 'none',
+                      fontSize: isTablet ? '16px' : '18px',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      height: '100%',
+                      padding: isTablet ? '0 10px' : '0 16px',
+                      borderRadius: '4px',
+                      background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                      borderBottom: location.pathname === to ? '3px solid #d4af37' : '3px solid transparent',
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    {label}
+                  </Link>
+                )}
               </motion.div>
             ))}
-            
-            {/* Login button that opens modal */}
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center'
-              }}
-            >
-              <button
-                onClick={() => setShowLoginModal(true)}
-                style={{
-                  color: '#d4af37',
-                  textDecoration: 'none',
-                  fontSize: isTablet ? '16px' : '18px',
-                  fontWeight: 'bold',
-                  display: 'flex',
-                  alignItems: 'center',
-                  height: '70%',
-                  padding: isTablet ? '0 12px' : '0 20px',
-                  borderRadius: '4px',
-                  background: 'rgba(212, 175, 55, 0.1)',
-                  border: '1px solid #d4af37',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer'
-                }}
-              >
-                Login
-              </button>
-            </motion.div>
           </div>
         )}
         
@@ -600,7 +712,7 @@ const Header = () => {
                   zIndex: 1000
                 }}
               >
-                {navLinks.map(({ to, label }) => (
+                {navLinks.map(({ to, label, onClick }) => (
                   <motion.div
                     key={to}
                     whileTap={{ scale: 0.95 }}
@@ -610,56 +722,50 @@ const Header = () => {
                       margin: '8px 0'
                     }}
                   >
-                    <Link
-                      to={to}
-                      onClick={() => setMenuOpen(false)}
-                      style={{
-                        color: location.pathname === to ? '#d4af37' : '#ccc',
-                        textDecoration: 'none',
-                        fontSize: '18px',
-                        fontWeight: 'bold',
-                        display: 'block',
-                        padding: '12px 0',
-                        background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                        borderLeft: location.pathname === to ? '4px solid #d4af37' : '4px solid transparent',
-                        transition: 'all 0.3s ease'
-                      }}
-                    >
-                      {label}
-                    </Link>
+                    {onClick ? (
+                      <button
+                        onClick={() => {
+                          onClick();
+                          setMenuOpen(false);
+                        }}
+                        style={{
+                          color: '#d4af37',
+                          textDecoration: 'none',
+                          fontSize: '18px',
+                          fontWeight: 'bold',
+                          display: 'block',
+                          width: '100%',
+                          padding: '12px 0',
+                          background: 'rgba(212, 175, 55, 0.1)',
+                          border: 'none',
+                          borderLeft: '4px solid #d4af37',
+                          transition: 'all 0.3s ease',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ) : (
+                      <Link
+                        to={to}
+                        onClick={() => setMenuOpen(false)}
+                        style={{
+                          color: location.pathname === to ? '#d4af37' : '#ccc',
+                          textDecoration: 'none',
+                          fontSize: '18px',
+                          fontWeight: 'bold',
+                          display: 'block',
+                          padding: '12px 0',
+                          background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                          borderLeft: location.pathname === to ? '4px solid #d4af37' : '4px solid transparent',
+                          transition: 'all 0.3s ease'
+                        }}
+                      >
+                        {label}
+                      </Link>
+                    )}
                   </motion.div>
                 ))}
-                
-                <motion.div
-                  whileTap={{ scale: 0.95 }}
-                  style={{
-                    width: '80%',
-                    margin: '16px 0'
-                  }}
-                >
-                  <button
-                    onClick={() => {
-                      setShowLoginModal(true);
-                      setMenuOpen(false);
-                    }}
-                    style={{
-                      color: '#d4af37',
-                      textDecoration: 'none',
-                      fontSize: '18px',
-                      fontWeight: 'bold',
-                      display: 'block',
-                      width: '100%',
-                      padding: '12px 0',
-                      borderRadius: '4px',
-                      background: 'rgba(212, 175, 55, 0.1)',
-                      border: '1px solid #d4af37',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Login
-                  </button>
-                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -674,8 +780,8 @@ const Card = ({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
     initial={{ opacity: 0, y: 20, scale: 0.95 }}
     animate={{ opacity: 1, y: 0, scale: 1 }}
     transition={{ duration: 0.5, delay, ease: "easeOut" }}
-    whileHover={{ 
-      scale: 1.02, 
+    whileHover={{
+      scale: 1.02,
       boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
       borderColor: 'rgba(212, 175, 55, 0.5)'
     }}
@@ -707,80 +813,26 @@ const Card = ({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
   </motion.div>
 );
 
-const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => {
-  const [isMobile, setIsMobile] = useState(false);
-  
-  // Detect device type based on user agent and screen size
-  useEffect(() => {
-    const checkDeviceType = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const width = window.innerWidth;
-      
-      // Check if mobile device based on user agent or screen width
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent) || width < 768;
-      
-      setIsMobile(isMobileDevice);
-    };
-    
-    // Initial check
-    checkDeviceType();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkDeviceType);
-    
-    // Cleanup
-    return () => window.removeEventListener('resize', checkDeviceType);
-  }, []);
-  
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      style={{ 
-        padding: isMobile ? '70px 15px 30px' : '80px 20px 40px', 
-        maxWidth: '1200px', 
-        margin: '0 auto' 
-      }}
-    >
-      {title && (
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          style={{ 
-            color: '#d4af37', 
-            marginBottom: isMobile ? '20px' : '30px', 
-            fontSize: isMobile ? '28px' : '36px', 
-            textAlign: 'center' 
-          }}
-        >
-          {title}
-        </motion.h1>
-      )}
-      {children}
-    </motion.div>
-  );
-};
-
-// Enhanced Page Components with framer-motion and blog system
+// Home Page Component
 const HomePage = () => {
+  // Featured content
   const features = [
-    { title: 'Browse Cards', desc: 'Explore our mystical card collection', link: '/cards' },
-    { title: 'Build Decks', desc: 'Create powerful deck combinations', link: '/decks' },
-    { title: 'Join Events', desc: 'Compete in epic events and tournaments', link: '/events' },
-    { title: 'Play Now', desc: 'Battle against other mystics', link: '/play' }
+    { title: 'Explore Cards', desc: 'Discover powerful cards from all elements', link: '/cards' },
+    { title: 'Build Decks', desc: 'Create and share your strategic masterpieces', link: '/decks' },
+    { title: 'Join Events', desc: 'Compete with players from around the world', link: '/events' },
+    { title: 'Play Now', desc: 'Test your skills in the mystical arena', link: '/play' }
   ];
-
-  const recentPosts = BLOG_POSTS.slice(0, 3); // Show 3 most recent posts
-
+  
+  // Recent blog posts
+  const recentPosts = BLOG_POSTS.slice(0, 3);
+  
   return (
     <PageContainer>
+      {/* Hero Section */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
         style={{ textAlign: 'center', marginBottom: '60px' }}
       >
         <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to KONIVRER</h1>
@@ -827,7 +879,7 @@ const HomePage = () => {
                 </p>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   {post.tags.map(tag => (
-                    <span 
+                    <span
                       key={tag}
                       style={{
                         background: 'rgba(212, 175, 55, 0.2)',
@@ -887,12 +939,13 @@ const CardsPage = () => {
     </PageContainer>
   );
 };
+
 const DecksPage = () => {
   const { decks } = useContext(AppContext);
 
   return (
     <PageContainer title="Your Decks">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
@@ -905,6 +958,26 @@ const DecksPage = () => {
             <p style={{ color: '#888' }}>{deck.cards.length} cards</p>
           </Card>
         ))}
+        
+        {/* Create New Deck Card */}
+        <motion.div
+          whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)' }}
+          style={{
+            background: 'rgba(212, 175, 55, 0.05)',
+            border: '2px dashed rgba(212, 175, 55, 0.3)',
+            borderRadius: '12px',
+            padding: '30px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            minHeight: '200px'
+          }}
+        >
+          <div style={{ fontSize: '40px', color: '#d4af37', marginBottom: '10px' }}>+</div>
+          <p style={{ color: '#d4af37', fontWeight: 'bold' }}>Create New Deck</p>
+        </motion.div>
       </motion.div>
     </PageContainer>
   );
@@ -912,7 +985,7 @@ const DecksPage = () => {
 
 const EventsPage = () => (
   <PageContainer title="Events">
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, delay: 0.2 }}
@@ -925,132 +998,109 @@ const EventsPage = () => (
         <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Open Registration</p>
       </Card>
       <Card delay={0.1}>
-        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Mystic Masters</h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite event for experienced players</p>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Elemental Masters</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite tournament for experienced players</p>
         <p style={{ color: '#888' }}>Entry Fee: 500 gold</p>
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: In Progress</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Qualification Round</p>
       </Card>
       <Card delay={0.2}>
-        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Elemental Fusion Preview</h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>Test the new expansion cards</p>
-        <p style={{ color: '#888' }}>Entry Fee: Free</p>
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Coming Soon</p>
-      </Card>
-      <Card delay={0.3}>
-        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Rookie League</h3>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Beginner's Arena</h3>
         <p style={{ color: '#ccc', marginBottom: '5px' }}>Perfect for new players</p>
-        <p style={{ color: '#888' }}>Entry Fee: 50 gold</p>
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Open Registration</p>
+        <p style={{ color: '#888' }}>Entry Fee: Free</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Always Open</p>
       </Card>
     </motion.div>
   </PageContainer>
 );
 
-const PlayPage = () => {
-  const gameModes = [
-    { title: 'Quick Match', desc: 'Find an opponent and start playing immediately' },
-    { title: 'Ranked Match', desc: 'Compete in ranked games to climb the mystical ladder' },
-    { title: 'Practice Mode', desc: 'Practice against AI opponents' },
-    { title: 'Friend Match', desc: 'Play against your mystical allies' }
-  ];
-
-  return (
-    <PageContainer title="Play KONIVRER">
-      <motion.div 
+const PlayPage = () => (
+  <PageContainer title="Play KONIVRER">
+    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+      <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}
+        style={{ color: '#ccc', marginBottom: '30px', fontSize: '18px' }}
       >
-        {gameModes.map(({ title, desc }, index) => (
-          <Card key={title} delay={index * 0.1}>
-            <div style={{ textAlign: 'center' }}>
-              <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>{title}</h3>
-              <p style={{ color: '#ccc' }}>{desc}</p>
-            </div>
-          </Card>
-        ))}
-      </motion.div>
-    </PageContainer>
-  );
-};
-
-const LoginPage = () => (
-  <PageContainer>
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      style={{ maxWidth: '600px', margin: '0 auto' }}
-    >
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
+        Choose your preferred play mode below and begin your mystical journey.
+      </motion.p>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center' }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '40px' }}
       >
-        Login to KONIVRER
-      </motion.h1>
-      <Card>
-        <div style={{ textAlign: 'center' }}>
-          <p style={{ color: '#ccc', marginBottom: '20px' }}>Enter the mystical realm</p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: '#d4af37',
-              color: '#0f0f0f',
-              border: 'none',
-              padding: '12px 24px',
-              borderRadius: '6px',
-              fontSize: '16px',
-              cursor: 'pointer',
-              fontWeight: 'bold'
-            }}
-          >
-            Login
-          </motion.button>
-        </div>
-      </Card>
-    </motion.div>
+        <Card>
+          <h3 style={{ color: '#d4af37', marginBottom: '15px', textAlign: 'center' }}>Quick Match</h3>
+          <p style={{ color: '#ccc', textAlign: 'center' }}>Jump into a game with a random opponent</p>
+        </Card>
+        <Card delay={0.1}>
+          <h3 style={{ color: '#d4af37', marginBottom: '15px', textAlign: 'center' }}>Ranked Play</h3>
+          <p style={{ color: '#ccc', textAlign: 'center' }}>Compete for ranking points and seasonal rewards</p>
+        </Card>
+        <Card delay={0.2}>
+          <h3 style={{ color: '#d4af37', marginBottom: '15px', textAlign: 'center' }}>Practice Mode</h3>
+          <p style={{ color: '#ccc', textAlign: 'center' }}>Play against AI opponents to hone your skills</p>
+        </Card>
+      </motion.div>
+      
+      <motion.button
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.5 }}
+        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(212, 175, 55, 0.4)' }}
+        whileTap={{ scale: 0.95 }}
+        style={{
+          background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)',
+          border: '2px solid rgba(212, 175, 55, 0.5)',
+          color: '#d4af37',
+          padding: '15px 40px',
+          borderRadius: '8px',
+          fontSize: '20px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          marginTop: '20px'
+        }}
+      >
+        Launch Game Client
+      </motion.button>
+      
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        style={{ color: '#888', marginTop: '20px', fontSize: '14px' }}
+      >
+        Game client requires download. Minimum specs: 4GB RAM, 2GHz processor.
+      </motion.p>
+    </div>
   </PageContainer>
 );
 
-// Main Phase 3 App Component
-const Phase3App: React.FC = () => {
-  console.log('[KONIVRER] Phase 3 app initializing... (Target: ~500+ modules)');
-  
+// Main App Component
+const Phase3App = () => {
+  // App state
   const [user, setUser] = useState<User | null>(null);
   const [decks, setDecks] = useState<Deck[]>([
-    { id: 1, name: 'Fire Aggro', cards: ['1', '2'], description: 'Fast-paced fire deck' },
-    { id: 2, name: 'Water Control', cards: ['3', '4'], description: 'Defensive water strategy' }
+    { id: 1, name: 'Fire Aggro', cards: ['c1', 'c2', 'c3', 'c4', 'c5'], description: 'Fast-paced aggressive fire deck' },
+    { id: 2, name: 'Water Control', cards: ['c6', 'c7', 'c8', 'c9'], description: 'Defensive water control strategy' },
+    { id: 3, name: 'Earth Midrange', cards: ['c10', 'c11', 'c12', 'c13', 'c14', 'c15'], description: 'Balanced earth deck with strong midgame' }
   ]);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
-  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
-
-  // Use advanced autonomous systems hook
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  
+  // Initialize autonomous systems
   const autonomousSystems = useAdvancedAutonomous();
-
-  const contextValue = useMemo(() => ({
-    user, setUser, decks, setDecks, bookmarks, setBookmarks, showLoginModal, setShowLoginModal
-  }), [user, decks, bookmarks, showLoginModal]);
-
-  // Advanced Login Modal Component
-  const LoginModal = () => {
-    const handleLogin = (user: User) => {
-      setUser(user);
-      setShowLoginModal(false);
-    };
-    
-    return (
-      <AdvancedLoginModal 
-        isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)} 
-        onLogin={handleLogin} 
-      />
-    );
+  
+  // Context value
+  const contextValue = {
+    user, setUser,
+    decks, setDecks,
+    bookmarks, setBookmarks,
+    showLoginModal, setShowLoginModal
   };
-
+  
   return (
     <AppContainer>
       <Router>
