@@ -676,24 +676,47 @@ const CardsPage: React.FC = () => {
     return matchesSearch && matchesType;
   });
 
+
+
   return (
     <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
       <h1 style={{ color: '#3a2921', marginBottom: '20px', textAlign: 'center' }}>Card Database</h1>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '30px' }}>
-        <input
-          type="text"
-          placeholder="Search cards..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: '10px',
-            borderRadius: '4px',
-            border: '1px solid #ddd',
-            width: '70%',
-            fontSize: '16px'
-          }}
-        />
+        <div style={{ position: 'relative', width: '70%' }}>
+          <input
+            type="text"
+            placeholder="Search cards..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{
+              padding: '10px',
+              borderRadius: '4px',
+              border: searchTerm ? '2px solid #d4af37' : '1px solid #ddd',
+              width: '100%',
+              fontSize: '16px',
+              backgroundColor: searchTerm ? '#fffef7' : 'white'
+            }}
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              style={{
+                position: 'absolute',
+                right: '8px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'none',
+                border: 'none',
+                fontSize: '18px',
+                cursor: 'pointer',
+                color: '#666'
+              }}
+            >
+              ×
+            </button>
+          )}
+        </div>
         
         <select
           value={filterType}
@@ -712,8 +735,63 @@ const CardsPage: React.FC = () => {
         </select>
       </div>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-        {filteredCards.map(card => (
+      {/* Search Results Info */}
+      <div style={{ 
+        marginBottom: '20px', 
+        padding: '10px', 
+        backgroundColor: '#f8f9fa', 
+        borderRadius: '4px',
+        border: '1px solid #e9ecef'
+      }}>
+        <p style={{ margin: 0, color: '#6c757d', fontSize: '14px' }}>
+          {searchTerm || filterType !== 'All' ? (
+            <>
+              Showing {filteredCards.length} of {SAMPLE_CARDS.length} cards
+              {searchTerm && <span> matching "{searchTerm}"</span>}
+              {filterType !== 'All' && <span> in {filterType}s</span>}
+            </>
+          ) : (
+            `Showing all ${SAMPLE_CARDS.length} cards`
+          )}
+        </p>
+      </div>
+      
+      {filteredCards.length === 0 ? (
+        <div style={{
+          textAlign: 'center',
+          padding: '40px',
+          backgroundColor: '#f8f9fa',
+          borderRadius: '8px',
+          border: '1px solid #e9ecef'
+        }}>
+          <h3 style={{ color: '#6c757d', marginBottom: '10px' }}>No cards found</h3>
+          <p style={{ color: '#6c757d', margin: 0 }}>
+            Try adjusting your search terms or filters
+          </p>
+          {(searchTerm || filterType !== 'All') && (
+            <button
+              onClick={() => {
+                setSearchTerm('');
+                setFilterType('All');
+              }}
+              style={{
+                marginTop: '15px',
+                padding: '8px 16px',
+                backgroundColor: '#d4af37',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px'
+              }}
+            >
+              Clear all filters
+            </button>
+          )}
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+          {filteredCards.map(card => (
           <div key={card.id} style={{
             background: '#f2e8c9',
             border: '1px solid #8b5a2b',
@@ -786,7 +864,8 @@ const CardsPage: React.FC = () => {
             </p>
           </div>
         ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -797,7 +876,8 @@ const DecksPage: React.FC = () => {
   const [currentDeck, setCurrentDeck] = useState<Card[]>([]);
 
   const availableCards = SAMPLE_CARDS.filter(card =>
-    card.name.toLowerCase().includes(searchTerm.toLowerCase())
+    card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    card.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const addToDeck = (card: Card) => {
