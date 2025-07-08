@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 import '../styles/scryfall-advanced-search.css';
 
 interface Card {
-  id: string; name: string; cost: number; type: 'Familiar' | 'Spell';
+  id: string; name: string; cost: number; type: 'Familiar' | 'Flag';
   description: string; rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
   elements: string[]; keywords: string[]; strength?: number; artist?: string;
 }
@@ -124,7 +124,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
   ];
 
   const konivrTypes = [
-    'Familiar', 'Spell', 'Elemental', 'Enchantment', 'Artifact', 'Land', 'Token'
+    'Familiar', 'Flag'
   ];
 
   const konivrStats = [
@@ -208,10 +208,23 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
 
         // Stats filter
         if (searchCriteria.stats.value1) {
-          const statValue = searchCriteria.stats.stat1 === 'cost' ? card.cost : card.strength || 0;
           const targetValue = parseInt(searchCriteria.stats.value1);
           
           if (!isNaN(targetValue)) {
+            let statValue: number;
+            
+            if (searchCriteria.stats.stat1 === 'cost') {
+              statValue = card.cost;
+            } else if (searchCriteria.stats.stat1 === 'strength') {
+              // Only Familiars have strength, Flags don't
+              if (card.type === 'Flag') {
+                return false; // Skip Flag cards when filtering by strength
+              }
+              statValue = card.strength || 0;
+            } else {
+              return true; // Unknown stat, don't filter
+            }
+            
             switch (searchCriteria.stats.requirement1) {
               case 'equal':
                 if (statValue !== targetValue) return false;
@@ -485,7 +498,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
               </div>
             </div>
             <p className="search-help-text">
-              Compare numeric values like mana cost or strength.
+              Compare numeric values like mana cost or strength. Note: Strength only applies to Familiar cards.
             </p>
           </div>
 
