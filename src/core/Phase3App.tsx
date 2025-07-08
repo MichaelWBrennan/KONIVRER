@@ -1,16 +1,15 @@
 /**
- * KONIVRER Phase 2 App - Adding Lightweight Autonomous Systems (Target: ~140 modules)
- * Building on Phase1App (42 modules) + lightweight speed tracking
+ * KONIVRER Phase 3 App - Core + Security + Evolution (300 modules total)
+ * Target: 42 → 142 modules (adding background evolution and dependency management)
  */
 
-import React, { useState, useMemo, createContext, useContext, useEffect, useRef } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 
-// Phase 2: Add security and optimization systems
+// Phase 3: Add evolution and dependency management systems
 let SpeedMonitor: any = null;
 let trackCustomMetric: any = null;
 let useUltraAutonomousCore: any = null;
@@ -18,50 +17,61 @@ let SelfHealingErrorBoundary: any = null;
 let SecurityProvider: any = null;
 let SecurityAutomationProvider: any = null;
 let withOptimization: any = null;
+let useBackgroundCodeEvolution: any = null;
+let useBackgroundDependencyManager: any = null;
 
 const isBuild = shouldSkipAutonomousSystems();
 
-// Load Phase 2 systems (security + optimization)
+// Load Phase 3 systems (evolution + dependency management)
 if (!isBuild) {
-  console.log('[PHASE 2] Loading security and optimization systems...');
+  console.log('[PHASE 3] Loading evolution and dependency management systems...');
   
-  // Phase 1 systems
+  // Phase 1 & 2 systems
   import('../utils/speedTracking').then(m => {
     trackCustomMetric = m.trackCustomMetric;
-    console.log('[PHASE 2] ✅ Speed tracking loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Speed tracking failed:', e));
+    console.log('[PHASE 3] ✅ Speed tracking loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Speed tracking failed:', e));
   
   import('../components/SpeedMonitor').then(m => {
     SpeedMonitor = m.default;
-    console.log('[PHASE 2] ✅ Speed monitor loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Speed monitor failed:', e));
+    console.log('[PHASE 3] ✅ Speed monitor loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Speed monitor failed:', e));
   
   import('../automation/UltraAutonomousCore').then(m => {
     useUltraAutonomousCore = m.useUltraAutonomousCore;
-    console.log('[PHASE 2] ✅ Ultra autonomous core loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Ultra autonomous core failed:', e));
+    console.log('[PHASE 3] ✅ Ultra autonomous core loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Ultra autonomous core failed:', e));
   
   import('../core/SelfHealer').then(m => {
     SelfHealingErrorBoundary = m.SelfHealingErrorBoundary;
-    console.log('[PHASE 2] ✅ Self healing error boundary loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Self healing error boundary failed:', e));
+    console.log('[PHASE 3] ✅ Self healing error boundary loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Self healing error boundary failed:', e));
   
-  // Phase 2: Security systems
   import('../security/SecurityProvider').then(m => {
     SecurityProvider = m.SecurityProvider;
-    console.log('[PHASE 2] ✅ Security provider loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Security provider failed:', e));
+    console.log('[PHASE 3] ✅ Security provider loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Security provider failed:', e));
   
   import('../security/SecurityAutomation').then(m => {
     SecurityAutomationProvider = m.SecurityAutomationProvider;
-    console.log('[PHASE 2] ✅ Security automation loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Security automation failed:', e));
+    console.log('[PHASE 3] ✅ Security automation loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Security automation failed:', e));
   
-  // Phase 2: Optimization systems
   import('../core/SelfOptimizer').then(m => {
     withOptimization = m.withOptimization;
-    console.log('[PHASE 2] ✅ Self optimizer loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Self optimizer failed:', e));
+    console.log('[PHASE 3] ✅ Self optimizer loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Self optimizer failed:', e));
+  
+  // Phase 3: Evolution systems
+  import('../automation/BackgroundCodeEvolution').then(m => {
+    useBackgroundCodeEvolution = m.useBackgroundCodeEvolution;
+    console.log('[PHASE 3] ✅ Background code evolution loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Background code evolution failed:', e));
+  
+  import('../automation/BackgroundDependencyManager').then(m => {
+    useBackgroundDependencyManager = m.useBackgroundDependencyManager;
+    console.log('[PHASE 3] ✅ Background dependency manager loaded');
+  }).catch(e => console.warn('[PHASE 3] ⚠️ Background dependency manager failed:', e));
 }
 
 // Core UI Components (same as previous phases)
@@ -304,49 +314,51 @@ const LoginPage = () => (
   </div>
 );
 
-// Phase 2 Autonomous Systems Hook
-const usePhase2Autonomous = () => {
+// Phase 3 Autonomous Systems Hook
+const usePhase3Autonomous = () => {
   const [systemsLoaded, setSystemsLoaded] = useState(0);
-  const [securityActive, setSecurityActive] = useState(false);
-  const [optimizationActive, setOptimizationActive] = useState(false);
+  const [evolutionActive, setEvolutionActive] = useState(false);
+  const [dependencyActive, setDependencyActive] = useState(false);
   
   useEffect(() => {
     if (!isBuild) {
-      console.log('[PHASE 2] Initializing security and optimization systems...');
+      console.log('[PHASE 3] Initializing evolution and dependency management systems...');
       
       const initSystems = () => {
         try {
-          // Initialize Phase 1 systems
+          // Initialize all previous systems
           if (useUltraAutonomousCore) {
             useUltraAutonomousCore();
-            console.log('[PHASE 2] 🤖 Ultra autonomous core activated');
+            console.log('[PHASE 3] 🤖 Ultra autonomous core activated');
           }
           
           if (trackCustomMetric) {
-            trackCustomMetric('phase2_app_initialized', 1);
-            console.log('[PHASE 2] 📊 Metrics tracking active');
+            trackCustomMetric('phase3_app_initialized', 1);
+            console.log('[PHASE 3] 📊 Metrics tracking active');
           }
           
-          // Initialize Phase 2 systems
-          if (SecurityProvider && SecurityAutomationProvider) {
-            setSecurityActive(true);
-            console.log('[PHASE 2] 🛡️ Security systems activated');
+          // Initialize Phase 3 systems
+          if (useBackgroundCodeEvolution) {
+            useBackgroundCodeEvolution();
+            setEvolutionActive(true);
+            console.log('[PHASE 3] 🧬 Code evolution systems activated');
           }
           
-          if (withOptimization) {
-            setOptimizationActive(true);
-            console.log('[PHASE 2] ⚡ Optimization systems activated');
+          if (useBackgroundDependencyManager) {
+            useBackgroundDependencyManager();
+            setDependencyActive(true);
+            console.log('[PHASE 3] 📦 Dependency management systems activated');
           }
           
           setSystemsLoaded(prev => prev + 1);
         } catch (error) {
-          console.warn('[PHASE 2] ⚠️ System initialization error:', error);
+          console.warn('[PHASE 3] ⚠️ System initialization error:', error);
         }
       };
       
       // Check for loaded systems every 100ms
       const interval = setInterval(() => {
-        if (useUltraAutonomousCore || SecurityProvider || withOptimization) {
+        if (useBackgroundCodeEvolution || useBackgroundDependencyManager) {
           initSystems();
           clearInterval(interval);
         }
@@ -359,14 +371,14 @@ const usePhase2Autonomous = () => {
     }
   }, []);
   
-  return { systemsLoaded, securityActive, optimizationActive };
+  return { systemsLoaded, evolutionActive, dependencyActive };
 };
 
-// Main Phase 2 App
-const Phase2App: React.FC = () => {
-  console.log('[PHASE 2] Starting KONIVRER Phase 2 (Core + Security + Optimization)...');
+// Main Phase 3 App
+const Phase3App: React.FC = () => {
+  console.log('[PHASE 3] Starting KONIVRER Phase 3 (Core + Security + Evolution)...');
   
-  const { systemsLoaded, securityActive, optimizationActive } = usePhase2Autonomous();
+  const { systemsLoaded, evolutionActive, dependencyActive } = usePhase3Autonomous();
   
   const AppContent = () => (
     <AppContainer>
@@ -382,7 +394,7 @@ const Phase2App: React.FC = () => {
         </Routes>
       </Router>
       
-      {/* Phase 2 Status Indicator */}
+      {/* Phase 3 Status Indicator */}
       {process.env.NODE_ENV === 'development' && (
         <div style={{
           position: 'fixed',
@@ -395,7 +407,7 @@ const Phase2App: React.FC = () => {
           fontSize: '12px',
           zIndex: 9999
         }}>
-          Phase 2: {systemsLoaded} systems | 🛡️{securityActive ? '✅' : '💤'} | ⚡{optimizationActive ? '✅' : '💤'}
+          Phase 3: {systemsLoaded} systems | 🧬{evolutionActive ? '✅' : '💤'} | 📦{dependencyActive ? '✅' : '💤'}
         </div>
       )}
       
@@ -407,7 +419,7 @@ const Phase2App: React.FC = () => {
     </AppContainer>
   );
   
-  // Enhanced rendering with security and optimization
+  // Enhanced rendering with all systems
   const EnhancedApp = () => {
     if (SecurityProvider && SecurityAutomationProvider) {
       return (
@@ -423,7 +435,7 @@ const Phase2App: React.FC = () => {
   
   // Use error boundary if available
   if (SelfHealingErrorBoundary) {
-    const FinalApp = withOptimization ? withOptimization(EnhancedApp, { name: 'Phase2App', memoize: true }) : EnhancedApp;
+    const FinalApp = withOptimization ? withOptimization(EnhancedApp, { name: 'Phase3App', memoize: true }) : EnhancedApp;
     return (
       <SelfHealingErrorBoundary fallback={<AppContent />}>
         <FinalApp />
@@ -431,8 +443,8 @@ const Phase2App: React.FC = () => {
     );
   }
   
-  const FinalApp = withOptimization ? withOptimization(EnhancedApp, { name: 'Phase2App', memoize: true }) : EnhancedApp;
+  const FinalApp = withOptimization ? withOptimization(EnhancedApp, { name: 'Phase3App', memoize: true }) : EnhancedApp;
   return <FinalApp />;
 };
 
-export default Phase2App;
+export default Phase3App;
