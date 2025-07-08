@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import errorHealing from './errorHealing';
+import errorHealing from './errorHealing.tsx';
 
 /**
  * Self-Healing Provider Component

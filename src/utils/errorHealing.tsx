@@ -5,6 +5,7 @@
  * for the KONIVRER application. It works silently in the background to
  * intercept, log, and attempt to fix runtime errors without user intervention.
  */
+import React from 'react';
 
 // Original console methods
 const originalConsoleError = console.error;
@@ -226,7 +227,7 @@ export function withErrorHealing<P>(Component: React.ComponentType<P>): React.Co
         }
       };
       
-      return <Component {...this.props} />;
+      return React.createElement(Component, this.props);
     }
   };
 }
