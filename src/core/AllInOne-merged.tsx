@@ -226,35 +226,95 @@ const Navigation: React.FC = () => {
         </div>
 
         <nav>
-          <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0 }}>
-            <li style={{ margin: '0 10px' }}>
-              <Link to="/cards" style={{ color: 'white', textDecoration: 'none', padding: '5px 0', borderBottom: location.pathname === '/cards' ? '2px solid white' : '2px solid transparent' }}>
+          <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, alignItems: 'center' }}>
+            <li style={{ margin: '0 15px' }}>
+              <Link to="/" style={{ 
+                color: '#d4af37', 
+                textDecoration: 'none', 
+                padding: '10px 15px', 
+                borderRadius: '8px',
+                backgroundColor: location.pathname === '/' ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                <span style={{ fontSize: '24px', marginBottom: '4px' }}>🏠</span>
+                Home
+              </Link>
+            </li>
+            <li style={{ margin: '0 15px' }}>
+              <Link to="/cards" style={{ 
+                color: '#d4af37', 
+                textDecoration: 'none', 
+                padding: '10px 15px', 
+                borderRadius: '8px',
+                backgroundColor: location.pathname === '/cards' ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                <span style={{ fontSize: '24px', marginBottom: '4px' }}>🗃️</span>
                 Cards
               </Link>
             </li>
-            <li style={{ margin: '0 10px' }}>
-              <Link to="/decks" style={{ color: 'white', textDecoration: 'none', padding: '5px 0', borderBottom: location.pathname === '/decks' ? '2px solid white' : '2px solid transparent' }}>
+            <li style={{ margin: '0 15px' }}>
+              <Link to="/decks" style={{ 
+                color: '#d4af37', 
+                textDecoration: 'none', 
+                padding: '10px 15px', 
+                borderRadius: '8px',
+                backgroundColor: location.pathname === '/decks' ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                <span style={{ fontSize: '24px', marginBottom: '4px' }}>📚</span>
                 Decks
               </Link>
             </li>
-            <li style={{ margin: '0 10px' }}>
-              <Link to="/play" style={{ color: 'white', textDecoration: 'none', padding: '5px 0', borderBottom: location.pathname === '/play' ? '2px solid white' : '2px solid transparent' }}>
+            <li style={{ margin: '0 15px' }}>
+              <Link to="/events" style={{ 
+                color: '#d4af37', 
+                textDecoration: 'none', 
+                padding: '10px 15px', 
+                borderRadius: '8px',
+                backgroundColor: location.pathname === '/events' ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                <span style={{ fontSize: '24px', marginBottom: '4px' }}>🏆</span>
+                Tourna.
+              </Link>
+            </li>
+            <li style={{ margin: '0 15px' }}>
+              <Link to="/play" style={{ 
+                color: '#d4af37', 
+                textDecoration: 'none', 
+                padding: '10px 15px', 
+                borderRadius: '8px',
+                backgroundColor: location.pathname === '/play' ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}>
+                <span style={{ fontSize: '24px', marginBottom: '4px' }}>▶️</span>
                 Play
-              </Link>
-            </li>
-            <li style={{ margin: '0 10px' }}>
-              <Link to="/events" style={{ color: 'white', textDecoration: 'none', padding: '5px 0', borderBottom: location.pathname === '/events' ? '2px solid white' : '2px solid transparent' }}>
-                Events
-              </Link>
-            </li>
-            <li style={{ margin: '0 10px' }}>
-              <Link to="/blog" style={{ color: 'white', textDecoration: 'none', padding: '5px 0', borderBottom: location.pathname === '/blog' ? '2px solid white' : '2px solid transparent' }}>
-                Blog
-              </Link>
-            </li>
-            <li style={{ margin: '0 10px' }}>
-              <Link to="/rules" style={{ color: 'white', textDecoration: 'none', padding: '5px 0', borderBottom: location.pathname === '/rules' ? '2px solid white' : '2px solid transparent' }}>
-                Rules
               </Link>
             </li>
           </ul>
@@ -265,12 +325,15 @@ const Navigation: React.FC = () => {
             <button
               onClick={handleLogout}
               style={{
-                background: 'transparent',
-                border: '1px solid white',
-                color: 'white',
-                padding: '5px 15px',
-                borderRadius: '4px',
-                cursor: 'pointer'
+                background: '#d4af37',
+                border: 'none',
+                color: '#3a2921',
+                padding: '10px 20px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
               }}
             >
               Logout
@@ -279,12 +342,15 @@ const Navigation: React.FC = () => {
             <button
               onClick={() => setShowLoginModal(true)}
               style={{
-                background: 'transparent',
-                border: '1px solid white',
-                color: 'white',
-                padding: '5px 15px',
-                borderRadius: '4px',
-                cursor: 'pointer'
+                background: '#d4af37',
+                border: 'none',
+                color: '#3a2921',
+                padding: '10px 20px',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
               }}
             >
               Login
@@ -1094,7 +1160,7 @@ const PlayPage: React.FC = () => {
           <p>KONIVRER is a strategic card game where players summon familiars and cast spells using elemental energy. The goal is to reduce your opponent's life points to zero.</p>
           
           <h3 style={{ color: '#3a2921', margin: '20px 0 10px' }}>Setup</h3>
-          <ul style={{ paddingLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li>Each player starts with 20 life points</li>
             <li>Shuffle your deck of exactly 60 cards</li>
             <li>Draw 5 cards to form your starting hand</li>
@@ -1102,7 +1168,7 @@ const PlayPage: React.FC = () => {
           </ul>
           
           <h3 style={{ color: '#3a2921', margin: '20px 0 10px' }}>Turn Structure</h3>
-          <ol style={{ paddingLeft: '20px' }}>
+          <ol style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li><strong>Draw Phase:</strong> Draw one card from your deck</li>
             <li><strong>Energy Phase:</strong> Gain one energy crystal (up to a maximum of 10)</li>
             <li><strong>Main Phase:</strong> Play familiars and spells by spending energy</li>
@@ -1111,7 +1177,7 @@ const PlayPage: React.FC = () => {
           </ol>
           
           <h3 style={{ color: '#3a2921', margin: '20px 0 10px' }}>Card Types</h3>
-          <ul style={{ paddingLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li><strong>Familiars:</strong> Creatures that fight for you. They have a strength value and can attack once per turn.</li>
             <li><strong>Spells:</strong> One-time effects or ongoing enchantments that modify the game state.</li>
           </ul>
@@ -1392,7 +1458,7 @@ const RulesPage: React.FC = () => (
         
         <section style={{ marginBottom: '30px' }}>
           <h3 style={{ color: '#3a2921', marginBottom: '15px' }}>2. Game Components</h3>
-          <ul style={{ paddingLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li><strong>Cards:</strong> The primary game component, including Familiars and Spells</li>
             <li><strong>Energy Crystals:</strong> Resource tokens used to play cards</li>
             <li><strong>Life Counter:</strong> Tracks each player's remaining life points</li>
@@ -1404,7 +1470,7 @@ const RulesPage: React.FC = () => (
           <h3 style={{ color: '#3a2921', marginBottom: '15px' }}>3. Card Types</h3>
           <h4 style={{ color: '#8b5a2b', marginBottom: '10px' }}>Familiars</h4>
           <p>Creatures that fight for you. They have the following attributes:</p>
-          <ul style={{ paddingLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li><strong>Cost:</strong> Energy required to summon</li>
             <li><strong>Strength:</strong> Combat power and damage dealt</li>
             <li><strong>Elements:</strong> Elemental affiliations</li>
@@ -1414,7 +1480,7 @@ const RulesPage: React.FC = () => (
           
           <h4 style={{ color: '#8b5a2b', margin: '15px 0 10px' }}>Spells</h4>
           <p>Magical effects that influence the game. Types include:</p>
-          <ul style={{ paddingLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li><strong>Instant:</strong> One-time effects</li>
             <li><strong>Continuous:</strong> Ongoing effects that remain in play</li>
             <li><strong>Reaction:</strong> Can be played during your opponent's turn</li>
@@ -1424,7 +1490,7 @@ const RulesPage: React.FC = () => (
         
         <section style={{ marginBottom: '30px' }}>
           <h3 style={{ color: '#3a2921', marginBottom: '15px' }}>4. Game Setup</h3>
-          <ol style={{ paddingLeft: '20px' }}>
+          <ol style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li>Each player starts with 20 life points</li>
             <li>Shuffle your deck of exactly 60 cards</li>
             <li>Draw 5 cards to form your starting hand</li>
@@ -1435,7 +1501,7 @@ const RulesPage: React.FC = () => (
         
         <section style={{ marginBottom: '30px' }}>
           <h3 style={{ color: '#3a2921', marginBottom: '15px' }}>5. Turn Structure</h3>
-          <ol style={{ paddingLeft: '20px' }}>
+          <ol style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li><strong>Draw Phase:</strong> Draw one card from your deck</li>
             <li><strong>Energy Phase:</strong> Gain one energy crystal (up to a maximum of 10)</li>
             <li><strong>Main Phase:</strong> Play familiars and spells by spending energy</li>
@@ -1447,7 +1513,7 @@ const RulesPage: React.FC = () => (
         <section style={{ marginBottom: '30px' }}>
           <h3 style={{ color: '#3a2921', marginBottom: '15px' }}>6. Combat Rules</h3>
           <p>Combat follows these steps:</p>
-          <ol style={{ paddingLeft: '20px' }}>
+          <ol style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li>Declare attackers (familiars can only attack once per turn)</li>
             <li>Opponent declares blockers (can block with multiple familiars)</li>
             <li>Resolve combat damage (both attacker and blocker deal damage equal to their strength)</li>
@@ -1458,7 +1524,7 @@ const RulesPage: React.FC = () => (
         <section>
           <h3 style={{ color: '#3a2921', marginBottom: '15px' }}>7. Winning the Game</h3>
           <p>A player wins when any of these conditions are met:</p>
-          <ul style={{ paddingLeft: '20px' }}>
+          <ul style={{ paddingLeft: '20px', listStyle: 'none' }}>
             <li>Reduce opponent's life points to zero</li>
             <li>Force opponent to draw from an empty deck</li>
             <li>Meet a special victory condition specified by a card</li>
@@ -1514,7 +1580,7 @@ const KonivreDemoPage: React.FC = () => (
           The demo walks you through the fundamental mechanics of KONIVRER, including summoning familiars,
           casting spells, and engaging in combat.
         </p>
-        <ul style={{ color: '#666', paddingLeft: '20px' }}>
+        <ul style={{ color: '#666', paddingLeft: '20px', listStyle: 'none' }}>
           <li>Card types and attributes</li>
           <li>Energy management</li>
           <li>Turn structure</li>
@@ -1532,7 +1598,7 @@ const KonivreDemoPage: React.FC = () => (
         <p style={{ color: '#666', marginBottom: '20px' }}>
           The demo features a fully interactive game board where you can:
         </p>
-        <ul style={{ color: '#666', paddingLeft: '20px' }}>
+        <ul style={{ color: '#666', paddingLeft: '20px', listStyle: 'none' }}>
           <li>Draw cards from your deck</li>
           <li>Play cards onto the field</li>
           <li>Attack and block with familiars</li>
@@ -1551,7 +1617,7 @@ const KonivreDemoPage: React.FC = () => (
         <p style={{ color: '#666', marginBottom: '20px' }}>
           The demo runs in your browser with minimal requirements:
         </p>
-        <ul style={{ color: '#666', paddingLeft: '20px' }}>
+        <ul style={{ color: '#666', paddingLeft: '20px', listStyle: 'none' }}>
           <li>Modern web browser (Chrome, Firefox, Safari, Edge)</li>
           <li>JavaScript enabled</li>
           <li>Internet connection</li>
@@ -1607,7 +1673,7 @@ const AIDemoPage: React.FC = () => (
         <p style={{ color: '#666', marginBottom: '20px' }}>
           Our AI features multiple difficulty levels that adapt to your skill:
         </p>
-        <ul style={{ color: '#666', paddingLeft: '20px' }}>
+        <ul style={{ color: '#666', paddingLeft: '20px', listStyle: 'none' }}>
           <li>Beginner: Perfect for learning the game</li>
           <li>Intermediate: Challenges players with basic strategy</li>
           <li>Advanced: Uses complex tactics and combos</li>
@@ -1626,7 +1692,7 @@ const AIDemoPage: React.FC = () => (
         <p style={{ color: '#666', marginBottom: '20px' }}>
           Our advanced AI opponent includes:
         </p>
-        <ul style={{ color: '#666', paddingLeft: '20px' }}>
+        <ul style={{ color: '#666', paddingLeft: '20px', listStyle: 'none' }}>
           <li>Strategic decision making</li>
           <li>Deck analysis and counter-play</li>
           <li>Pattern recognition of your strategies</li>
@@ -1646,7 +1712,7 @@ const AIDemoPage: React.FC = () => (
         <p style={{ color: '#666', marginBottom: '20px' }}>
           The AI demo helps you improve your skills:
         </p>
-        <ul style={{ color: '#666', paddingLeft: '20px' }}>
+        <ul style={{ color: '#666', paddingLeft: '20px', listStyle: 'none' }}>
           <li>Test new deck ideas</li>
           <li>Practice specific strategies</li>
           <li>Learn advanced techniques</li>
