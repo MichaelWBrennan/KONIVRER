@@ -13,7 +13,7 @@ import '../styles/scryfall-advanced-search.css';
 
 interface Card {
   id: string; name: string; cost: number; type: 'Familiar' | 'Flag';
-  description: string; rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
+  description: string; rarity: 'Common' | 'Uncommon' | 'Rare';
   elements: string[]; keywords: string[]; strength?: number; artist?: string;
 }
 
@@ -27,7 +27,6 @@ interface SearchCriteria {
     water: boolean;
     earth: boolean;
     air: boolean;
-    spirit: boolean;
     nether: boolean;
     aether: boolean;
   };
@@ -37,11 +36,10 @@ interface SearchCriteria {
     water: boolean;
     earth: boolean;
     air: boolean;
-    spirit: boolean;
     nether: boolean;
     aether: boolean;
   };
-  manaCost: string;
+  cost: string;
   stats: {
     stat1: string;
     requirement1: string;
@@ -49,9 +47,8 @@ interface SearchCriteria {
   };
   rarity: {
     common: boolean;
+    uncommon: boolean;
     rare: boolean;
-    epic: boolean;
-    legendary: boolean;
   };
   artist: string;
   flavorText: string;
@@ -79,7 +76,6 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
       water: false,
       earth: false,
       air: false,
-      spirit: false,
       nether: false,
       aether: false
     },
@@ -89,11 +85,10 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
       water: false,
       earth: false,
       air: false,
-      spirit: false,
       nether: false,
       aether: false
     },
-    manaCost: '',
+    cost: '',
     stats: {
       stat1: 'cost',
       requirement1: 'equal',
@@ -101,9 +96,8 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
     },
     rarity: {
       common: false,
-      rare: false,
-      epic: false,
-      legendary: false
+      uncommon: false,
+      rare: false
     },
     artist: '',
     flavorText: '',
@@ -123,9 +117,8 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
     { key: 'water', label: 'Water', symbol: '🜄', color: '#4169E1', mappedElements: ['Water'] },
     { key: 'earth', label: 'Earth', symbol: '🜃', color: '#8B4513', mappedElements: ['Earth'] },
     { key: 'air', label: 'Air', symbol: '🜁', color: '#87CEEB', mappedElements: ['Air'] },
-    { key: 'spirit', label: 'Spirit', symbol: '🜀', color: '#9370DB', mappedElements: ['Spirit'] },
-    { key: 'nether', label: 'Nether', symbol: '🝚', color: '#2F2F2F', mappedElements: ['Shadow', 'Nether'] },
-    { key: 'aether', label: 'Aether', symbol: '🜊', color: '#FFD700', mappedElements: ['Aether'] }
+    { key: 'nether', label: 'Nether', symbol: '□', color: '#2F2F2F', mappedElements: ['Shadow', 'Nether'] },
+    { key: 'aether', label: 'Aether', symbol: '○', color: '#FFD700', mappedElements: ['Aether'] }
   ];
 
   const konivrTypes = [
@@ -133,7 +126,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
   ];
 
   const konivrStats = [
-    { value: 'cost', label: 'Mana Cost' },
+    { value: 'cost', label: 'Cost' },
     { value: 'strength', label: 'Strength' }
   ];
 
@@ -277,7 +270,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
           case 'cost':
             return a.cost - b.cost;
           case 'rarity':
-            const rarityOrder = { 'Common': 1, 'Rare': 2, 'Epic': 3, 'Legendary': 4 };
+            const rarityOrder = { 'Common': 1, 'Uncommon': 2, 'Rare': 3 };
             return rarityOrder[a.rarity] - rarityOrder[b.rarity];
           case 'type':
             return a.type.localeCompare(b.type);
@@ -321,7 +314,6 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
         water: false,
         earth: false,
         air: false,
-        spirit: false,
         nether: false,
         aether: false
       },
@@ -331,11 +323,10 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
         water: false,
         earth: false,
         air: false,
-        spirit: false,
         nether: false,
         aether: false
       },
-      manaCost: '',
+      cost: '',
       stats: {
         stat1: 'cost',
         requirement1: 'equal',
@@ -343,9 +334,8 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
       },
       rarity: {
         common: false,
-        rare: false,
-        epic: false,
-        legendary: false
+        uncommon: false,
+        rare: false
       },
       artist: '',
       flavorText: '',
@@ -505,7 +495,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
               </div>
             </div>
             <p className="search-help-text">
-              Compare numeric values like mana cost or strength. Note: Strength only applies to Familiar cards.
+              Compare numeric values like cost or strength. Note: Strength only applies to Familiar cards.
             </p>
           </div>
 
@@ -515,7 +505,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
             <fieldset className="element-fieldset">
               <legend>Card rarity</legend>
               <div className="element-grid">
-                {['common', 'rare', 'epic', 'legendary'].map(rarity => (
+                {['common', 'uncommon', 'rare'].map(rarity => (
                   <label key={rarity} className="element-label">
                     <input
                       type="checkbox"
@@ -523,9 +513,8 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
                       onChange={(e) => updateCriteria(`rarity.${rarity}`, e.target.checked)}
                     />
                     <span style={{ 
-                      color: rarity === 'legendary' ? '#ff6b35' : 
-                             rarity === 'epic' ? '#9d4edd' :
-                             rarity === 'rare' ? '#3a86ff' : '#ccc',
+                      color: rarity === 'rare' ? '#3a86ff' :
+                             rarity === 'uncommon' ? '#9d4edd' : '#ccc',
                       fontWeight: 'bold'
                     }}>
                       {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
@@ -578,7 +567,7 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
                     onChange={(e) => updateCriteria('preferences.order', e.target.value)}
                   >
                     <option value="name">Name</option>
-                    <option value="cost">Mana Cost</option>
+                    <option value="cost">Cost</option>
                     <option value="rarity">Rarity</option>
                     <option value="type">Type</option>
                   </select>
