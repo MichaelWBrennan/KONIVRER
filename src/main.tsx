@@ -4,7 +4,7 @@ import Phase3App from './core/Phase3App';
 import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
 import { SelfHealingProvider } from './utils/selfHealingIntegration';
-import errorHealing from './utils/errorHealing';
+import errorHealing from './utils/errorHealing.tsx';
 import databaseHealing from './utils/databaseHealing';
 import './styles/global.css';
 
