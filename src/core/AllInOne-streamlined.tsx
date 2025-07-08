@@ -127,17 +127,24 @@ const Navigation: React.FC = () => {
   };
 
   const navItems = [
-    { path: '/', icon: '⭐', label: 'Home' },
-    { path: '/cards', icon: '⭐', label: 'Cards' },
-    { path: '/decks', icon: '⭐', label: 'Decks' },
-    { path: '/tournament', icon: '⭐', label: 'Tournament' },
-    { path: '/play', icon: '⭐', label: 'Play' },
-    { path: '/blog', icon: '⭐', label: 'Blog' },
-    { path: '/rules', icon: '⭐', label: 'Rules' }
+    { path: '/', icon: '🏠', label: 'Home' },
+    { path: '/cards', icon: '🗃️', label: 'Cards' },
+    { path: '/decks', icon: '📚', label: 'Decks' },
+    { path: '/tournament', icon: '🏆', label: 'Tourna.' },
+    { path: '/play', icon: '▶️', label: 'Play' }
   ];
 
   return (
-    <header style={{ background: '#000', color: 'white', padding: '15px 20px', boxShadow: '0 2px 10px rgba(0,0,0,0.2)' }}>
+    <header style={{ 
+      background: '#000', 
+      color: 'white', 
+      padding: '15px 20px', 
+      boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000,
+      width: '100%'
+    }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
           <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 'bold' }}>⭐ KONIVRER ⭐</h1>
@@ -168,7 +175,7 @@ const Navigation: React.FC = () => {
                   alignItems: 'center', fontSize: '14px', fontWeight: 'bold'
                 }}
               >
-                <span style={{ fontSize: '16px', marginBottom: '2px' }}>⭐</span>
+                <span style={{ fontSize: '16px', marginBottom: '2px' }}>↗️</span>
                 {user?.isLoggedIn ? 'Profile' : 'Login'}
               </button>
             </li>
@@ -247,10 +254,10 @@ const Navigation: React.FC = () => {
 // Page Components
 const HomePage: React.FC = () => {
   const features = [
-    { title: 'Browse Cards', desc: 'Explore our mystical card collection', icon: '⭐', link: '/cards' },
-    { title: 'Build Decks', desc: 'Create powerful deck combinations', icon: '⭐', link: '/decks' },
-    { title: 'Join Tournaments', desc: 'Compete in epic tournaments', icon: '⭐', link: '/tournament' },
-    { title: 'Play Now', desc: 'Battle against other mystics', icon: '⭐', link: '/play' }
+    { title: 'Browse Cards', desc: 'Explore our mystical card collection', link: '/cards' },
+    { title: 'Build Decks', desc: 'Create powerful deck combinations', link: '/decks' },
+    { title: 'Join Tournaments', desc: 'Compete in epic tournaments', link: '/tournament' },
+    { title: 'Play Now', desc: 'Battle against other mystics', link: '/play' }
   ];
 
   return (
@@ -263,12 +270,11 @@ const HomePage: React.FC = () => {
       </div>
       
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-        {features.map(({ title, desc, icon, link }) => (
+        {features.map(({ title, desc, link }) => (
           <Link key={title} to={link} style={{ textDecoration: 'none' }}>
             <Card>
               <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '48px', marginBottom: '15px' }}>{icon}</div>
-                <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>{title}</h3>
+                <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>{title}</h3>
                 <p style={{ color: '#ccc' }}>{desc}</p>
               </div>
             </Card>
