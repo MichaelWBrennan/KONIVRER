@@ -101,72 +101,47 @@ export const forceDisableAutonomousSystems = (): void => {
 };
 
 export const shouldSkipAutonomousSystems = (): boolean => {
-  // ULTRA-AGGRESSIVE DETECTION - Always disable in production builds
-  
-  // Vercel-specific detection - highest priority
-  if (
-    process.env.VERCEL === '1' ||
-    process.env.VERCEL_ENV ||
-    process.env.VERCEL_URL
-  ) {
-    console.log('[BUILD DETECTION] VERCEL detected - autonomous systems disabled');
-    FORCE_DISABLE_AUTONOMOUS = true;
-    return true;
-  }
+  // GENTLE DETECTION - Only disable during actual build process, not in production runtime
   
   // Emergency kill switch takes priority
   if (FORCE_DISABLE_AUTONOMOUS) {
     return true;
   }
 
-  // Production environment check
-  if (process.env.NODE_ENV === 'production') {
-    console.log('[BUILD DETECTION] Production environment - autonomous systems disabled');
-    FORCE_DISABLE_AUTONOMOUS = true;
+  // Only disable during actual build process (not production runtime)
+  if (
+    process.env.npm_lifecycle_event === 'build' ||
+    process.env.__VERCEL_BUILD_RUNNING === '1' ||
+    process.env.VITE_BUILD === 'true' ||
+    process.env.DISABLE_AUTONOMOUS === 'true'
+  ) {
+    console.log('[BUILD DETECTION] Build process detected - autonomous systems disabled');
     return true;
   }
 
-  // Check for build environment
-  const isBuild = isBuildEnvironment();
-
-  if (isBuild) {
-    console.log(
-      '[BUILD DETECTION] Autonomous systems disabled - build environment detected',
-    );
-    // Auto-enable force disable if we detect build environment
-    FORCE_DISABLE_AUTONOMOUS = true;
+  // Server-side rendering detection (SSR builds)
+  if (typeof window === 'undefined') {
+    return true;
   }
 
-  return isBuild;
+  // Allow autonomous systems in production runtime (Vercel, etc.)
+  console.log('[BUILD DETECTION] Runtime environment - autonomous systems enabled');
+  return false;
 };
 
-// ULTRA-AGGRESSIVE safety check - disable autonomous systems immediately in any build-like environment
+// Gentle safety check - only disable during actual build process
 if (
   typeof process !== 'undefined' &&
   (
-    // Vercel detection
-    process.env.VERCEL === '1' ||
-    process.env.VERCEL_ENV ||
-    process.env.VERCEL_URL ||
-    process.env.VERCEL_REGION ||
-    process.env.VERCEL_DEPLOYMENT_ID ||
-    
-    // Production/build detection
-    process.env.NODE_ENV === 'production' ||
-    process.env.VITE_BUILD === 'true' ||
-    process.env.BUILD_ENV === 'production' ||
-    process.env.DISABLE_AUTONOMOUS === 'true' ||
-    process.env.FORCE_BUILD_MODE === 'true' ||
-    process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
-    process.env.CI === 'true' ||
-    
-    // Build command detection
+    // Only actual build process detection
     process.env.npm_lifecycle_event === 'build' ||
-    process.env.__VERCEL_BUILD_RUNNING === '1'
+    process.env.__VERCEL_BUILD_RUNNING === '1' ||
+    process.env.VITE_BUILD === 'true' ||
+    process.env.DISABLE_AUTONOMOUS === 'true'
   )
 ) {
   FORCE_DISABLE_AUTONOMOUS = true;
   console.log(
-    '[BUILD DETECTION] BUILD ENVIRONMENT DETECTED: Autonomous systems pre-disabled',
+    '[BUILD DETECTION] BUILD PROCESS DETECTED: Autonomous systems disabled for build only',
   );
 }

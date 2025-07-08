@@ -23,15 +23,41 @@ let SecurityProvider = null, SecurityAutomationProvider = null;
 let useBackgroundCodeEvolution = null, useBackgroundDependencyManager = null, useUltraAutonomousCore = null;
 
 if (!isBuild) {
-  Promise.all([
-    import('../utils/speedTracking').then(m => trackCustomMetric = m.trackCustomMetric),
-    import('../components/SpeedMonitor').then(m => SpeedMonitor = m.default),
-    import('../security/SecurityProvider').then(m => SecurityProvider = m.SecurityProvider),
-    import('../security/SecurityAutomation').then(m => SecurityAutomationProvider = m.SecurityAutomationProvider),
-    import('../automation/BackgroundCodeEvolution').then(m => useBackgroundCodeEvolution = m.useBackgroundCodeEvolution),
-    import('../automation/BackgroundDependencyManager').then(m => useBackgroundDependencyManager = m.useBackgroundDependencyManager),
-    import('../automation/UltraAutonomousCore').then(m => useUltraAutonomousCore = m.useUltraAutonomousCore)
-  ]).catch(console.error);
+  // Load autonomous systems with individual error handling
+  import('../utils/speedTracking').then(m => {
+    trackCustomMetric = m.trackCustomMetric;
+    console.log('[KONIVRER] Speed tracking loaded');
+  }).catch(e => console.warn('[KONIVRER] Speed tracking failed to load:', e));
+  
+  import('../components/SpeedMonitor').then(m => {
+    SpeedMonitor = m.default;
+    console.log('[KONIVRER] Speed monitor loaded');
+  }).catch(e => console.warn('[KONIVRER] Speed monitor failed to load:', e));
+  
+  import('../security/SecurityProvider').then(m => {
+    SecurityProvider = m.SecurityProvider;
+    console.log('[KONIVRER] Security provider loaded');
+  }).catch(e => console.warn('[KONIVRER] Security provider failed to load:', e));
+  
+  import('../security/SecurityAutomation').then(m => {
+    SecurityAutomationProvider = m.SecurityAutomationProvider;
+    console.log('[KONIVRER] Security automation loaded');
+  }).catch(e => console.warn('[KONIVRER] Security automation failed to load:', e));
+  
+  import('../automation/BackgroundCodeEvolution').then(m => {
+    useBackgroundCodeEvolution = m.useBackgroundCodeEvolution;
+    console.log('[KONIVRER] Code evolution loaded');
+  }).catch(e => console.warn('[KONIVRER] Code evolution failed to load:', e));
+  
+  import('../automation/BackgroundDependencyManager').then(m => {
+    useBackgroundDependencyManager = m.useBackgroundDependencyManager;
+    console.log('[KONIVRER] Dependency manager loaded');
+  }).catch(e => console.warn('[KONIVRER] Dependency manager failed to load:', e));
+  
+  import('../automation/UltraAutonomousCore').then(m => {
+    useUltraAutonomousCore = m.useUltraAutonomousCore;
+    console.log('[KONIVRER] Ultra autonomous core loaded');
+  }).catch(e => console.warn('[KONIVRER] Ultra autonomous core failed to load:', e));
 }
 
 // Types
@@ -594,14 +620,30 @@ const AllInOneApp: React.FC = () => {
   // Initialize autonomous systems if not in build mode
   useEffect(() => {
     if (!isBuild) {
-      // Initialize ultra-autonomous systems for 24/7/365 silent operation
-      if (useUltraAutonomousCore) useUltraAutonomousCore();
-      if (useBackgroundCodeEvolution) useBackgroundCodeEvolution();
-      if (useBackgroundDependencyManager) useBackgroundDependencyManager();
-      if (trackCustomMetric) trackCustomMetric('app_initialized', 1);
-      
-      // Log silent autonomous activation
-      console.log('[KONIVRER] 🤖 Ultra-autonomous systems activated - 24/7/365 silent operation');
+      try {
+        // Initialize ultra-autonomous systems for 24/7/365 silent operation
+        if (useUltraAutonomousCore) {
+          useUltraAutonomousCore();
+          console.log('[KONIVRER] Ultra autonomous core initialized');
+        }
+        if (useBackgroundCodeEvolution) {
+          useBackgroundCodeEvolution();
+          console.log('[KONIVRER] Background code evolution initialized');
+        }
+        if (useBackgroundDependencyManager) {
+          useBackgroundDependencyManager();
+          console.log('[KONIVRER] Background dependency manager initialized');
+        }
+        if (trackCustomMetric) {
+          trackCustomMetric('app_initialized', 1);
+          console.log('[KONIVRER] Metrics tracking initialized');
+        }
+        
+        // Log silent autonomous activation
+        console.log('[KONIVRER] 🤖 Ultra-autonomous systems activated - 24/7/365 silent operation');
+      } catch (error) {
+        console.warn('[KONIVRER] Some autonomous systems failed to initialize:', error);
+      }
     }
   }, []);
 
@@ -631,37 +673,30 @@ const AllInOneApp: React.FC = () => {
     </div>
   );
 
-  // Always wrap with error boundary for safety
-  return (
-    <SelfHealingErrorBoundary
-      fallback={
-        <div style={{ 
-          minHeight: '100vh', 
-          background: '#0f0f0f', 
-          color: 'white', 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          fontFamily: 'Arial, sans-serif'
-        }}>
-          <div style={{ textAlign: 'center' }}>
-            <h1 style={{ color: '#d4af37', marginBottom: '20px' }}>⭐ KONIVRER ⭐</h1>
-            <p>Loading the mystical realm...</p>
-          </div>
-        </div>
-      }
-    >
-      {!isBuild && SecurityProvider && SecurityAutomationProvider ? (
-        <SecurityProvider>
-          <SecurityAutomationProvider>
-            <AppContent />
-          </SecurityAutomationProvider>
-        </SecurityProvider>
-      ) : (
-        <AppContent />
-      )}
-    </SelfHealingErrorBoundary>
-  );
+  // Always render core app with optional enhancements
+  const CoreApp = () => <AppContent />;
+  
+  // Try to enhance with autonomous systems, but always fallback to core app
+  try {
+    return (
+      <SelfHealingErrorBoundary
+        fallback={<CoreApp />}
+      >
+        {!isBuild && SecurityProvider && SecurityAutomationProvider ? (
+          <SecurityProvider>
+            <SecurityAutomationProvider>
+              <CoreApp />
+            </SecurityAutomationProvider>
+          </SecurityProvider>
+        ) : (
+          <CoreApp />
+        )}
+      </SelfHealingErrorBoundary>
+    );
+  } catch (error) {
+    console.warn('[KONIVRER] Enhanced features failed, using core app:', error);
+    return <CoreApp />;
+  }
 };
 
 // Export optimized components
