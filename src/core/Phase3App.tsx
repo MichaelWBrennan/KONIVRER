@@ -10,7 +10,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import BlogSection from '../components/BlogSection';
-import ScryfalLikeAdvancedSearch from '../components/ScryfalLikeAdvancedSearch';
+import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
 
 // Types
 interface Card {
@@ -641,7 +641,6 @@ const CardsPage = () => {
   ];
 
   const [searchResults, setSearchResults] = useState<Card[]>(allCards);
-  const [showScryfall, setShowScryfall] = useState(false);
 
   const handleSearchResults = (results: Card[]) => {
     setSearchResults(results);
@@ -649,160 +648,10 @@ const CardsPage = () => {
 
   return (
     <PageContainer title="Mystical Card Database">
-      {/* Toggle between search modes */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        style={{ marginBottom: '30px', textAlign: 'center' }}
-      >
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setShowScryfall(!showScryfall)}
-          style={{
-            background: showScryfall ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.05)',
-            color: '#d4af37',
-            border: '1px solid rgba(212, 175, 55, 0.3)',
-            padding: '12px 24px',
-            borderRadius: '8px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease'
-          }}
-        >
-          {showScryfall ? 'Switch to Simple Search' : 'Switch to Advanced Search'}
-        </motion.button>
-      </motion.div>
-
-      {/* Conditional rendering of search interfaces */}
-      <AnimatePresence mode="wait">
-        {showScryfall ? (
-          <motion.div
-            key="scryfall"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            <ScryfalLikeAdvancedSearch cards={allCards} onSearchResults={handleSearchResults} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="simple"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Simple search results display */}
-            <div style={{ color: '#ccc', fontSize: '14px', marginBottom: '20px' }}>
-              Showing {searchResults.length} of {allCards.length} cards
-            </div>
-            
-            {/* Cards grid */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}
-            >
-              {searchResults.map((card, index) => (
-                <Card key={card.id} delay={index * 0.05}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-                    <h3 style={{ color: '#d4af37', margin: 0, fontSize: '18px' }}>{card.name}</h3>
-                    <span style={{ 
-                      color: card.rarity === 'Legendary' ? '#ff6b35' : 
-                             card.rarity === 'Epic' ? '#9d4edd' :
-                             card.rarity === 'Rare' ? '#3a86ff' : '#ccc',
-                      fontSize: '12px',
-                      fontWeight: 'bold'
-                    }}>
-                      {card.rarity}
-                    </span>
-                  </div>
-                  
-                  <div style={{ display: 'flex', gap: '15px', marginBottom: '10px', fontSize: '14px' }}>
-                    <span style={{ color: '#ccc' }}>Cost: {card.cost}</span>
-                    <span style={{ color: '#ccc' }}>Type: {card.type}</span>
-                    {card.strength && <span style={{ color: '#ccc' }}>Strength: {card.strength}</span>}
-                  </div>
-
-                  <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.4', marginBottom: '15px' }}>
-                    {card.description}
-                  </p>
-
-                  {/* Elements */}
-                  <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
-                    {card.elements.map(element => (
-                      <span 
-                        key={element}
-                        style={{
-                          background: 'rgba(212, 175, 55, 0.2)',
-                          color: '#d4af37',
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          fontSize: '11px',
-                          border: '1px solid rgba(212, 175, 55, 0.3)'
-                        }}
-                      >
-                        {element}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Keywords */}
-                  <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
-                    {card.keywords.map(keyword => (
-                      <span 
-                        key={keyword}
-                        style={{
-                          background: 'rgba(255, 255, 255, 0.1)',
-                          color: '#ccc',
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          fontSize: '11px',
-                          border: '1px solid rgba(255, 255, 255, 0.2)'
-                        }}
-                      >
-                        {keyword}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Artist */}
-                  {card.artist && (
-                    <div style={{ color: '#888', fontSize: '12px', fontStyle: 'italic' }}>
-                      Art by {card.artist}
-                    </div>
-                  )}
-                </Card>
-              ))}
-            </motion.div>
-
-            {/* No results message */}
-            {searchResults.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                style={{ 
-                  textAlign: 'center', 
-                  color: '#ccc', 
-                  fontSize: '18px', 
-                  marginTop: '40px',
-                  padding: '40px'
-                }}
-              >
-                No cards found matching your search criteria.
-              </motion.div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <SyntaxAdvancedSearch cards={allCards} onSearchResults={handleSearchResults} />
     </PageContainer>
   );
 };
-
 const DecksPage = () => {
   const { decks } = useContext(AppContext);
 
