@@ -76,9 +76,11 @@ const AppContext = createContext<{
   setDecks: (decks: Deck[]) => void;
   bookmarks: string[];
   setBookmarks: (bookmarks: string[]) => void;
+  showLoginModal: boolean;
+  setShowLoginModal: (show: boolean) => void;
 }>({
   user: null, setUser: () => {}, decks: [], setDecks: () => {},
-  bookmarks: [], setBookmarks: () => {}
+  bookmarks: [], setBookmarks: () => {}, showLoginModal: false, setShowLoginModal: () => {}
 });
 
 // Phase 3: Advanced Autonomous Systems Hook
@@ -361,6 +363,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const { setShowLoginModal } = useContext(AppContext);
   
   return (
     <motion.header
@@ -368,14 +371,16 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
       style={{
-        position: 'sticky',
+        position: 'fixed',
         top: 0,
+        left: 0,
+        right: 0,
         zIndex: 1000,
-        background: 'rgba(15, 15, 15, 0.95)',
+        background: 'linear-gradient(to bottom, rgba(20, 20, 20, 0.98), rgba(15, 15, 15, 0.95))',
         backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
-        padding: '15px 0',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+        borderBottom: '2px solid rgba(212, 175, 55, 0.4)',
+        padding: '0',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.7)'
       }}
     >
       <nav style={{
@@ -384,19 +389,28 @@ const Header = () => {
         alignItems: 'center',
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '0 20px'
+        padding: '0 20px',
+        height: '60px'
       }}>
         {/* Home link/logo - only clickable when not on home page */}
         <motion.div
           whileHover={!isHomePage ? { scale: 1.05 } : {}}
           whileTap={!isHomePage ? { scale: 0.95 } : {}}
+          style={{
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center'
+          }}
         >
           {isHomePage ? (
             <div style={{
               color: '#d4af37',
-              fontSize: '24px',
+              fontSize: '28px',
               fontWeight: 'bold',
-              padding: '8px 16px'
+              padding: '0 16px',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center'
             }}>
               KONIVRER
             </div>
@@ -406,10 +420,12 @@ const Header = () => {
               style={{
                 color: '#d4af37',
                 textDecoration: 'none',
-                fontSize: '24px',
+                fontSize: '28px',
                 fontWeight: 'bold',
-                padding: '8px 16px',
-                borderRadius: '8px',
+                padding: '0 16px',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
                 transition: 'all 0.3s ease'
               }}
             >
@@ -419,18 +435,27 @@ const Header = () => {
         </motion.div>
 
         {/* Navigation links */}
-        <div style={{ display: 'flex', gap: '30px' }}>
+        <div style={{ 
+          display: 'flex', 
+          gap: '15px',
+          alignItems: 'center',
+          height: '100%'
+        }}>
           {[
             { to: '/cards', label: 'Cards' },
             { to: '/decks', label: 'Decks' },
             { to: '/events', label: 'Events' },
-            { to: '/play', label: 'Play' },
-            { to: '/login', label: 'Login' }
+            { to: '/play', label: 'Play' }
           ].map(({ to, label }) => (
             <motion.div
               key={to}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              style={{
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center'
+              }}
             >
               <Link
                 to={to}
@@ -438,13 +463,14 @@ const Header = () => {
                   color: location.pathname === to ? '#d4af37' : '#ccc',
                   textDecoration: 'none',
                   fontSize: '18px',
+                  fontWeight: 'bold',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  borderRadius: '8px',
+                  height: '100%',
+                  padding: '0 16px',
+                  borderRadius: '4px',
                   background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                  border: location.pathname === to ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+                  borderBottom: location.pathname === to ? '3px solid #d4af37' : '3px solid transparent',
                   transition: 'all 0.3s ease'
                 }}
               >
@@ -452,6 +478,38 @@ const Header = () => {
               </Link>
             </motion.div>
           ))}
+          
+          {/* Login button that opens modal */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <button
+              onClick={() => setShowLoginModal(true)}
+              style={{
+                color: '#d4af37',
+                textDecoration: 'none',
+                fontSize: '18px',
+                fontWeight: 'bold',
+                display: 'flex',
+                alignItems: 'center',
+                height: '70%',
+                padding: '0 20px',
+                borderRadius: '4px',
+                background: 'rgba(212, 175, 55, 0.1)',
+                border: '1px solid #d4af37',
+                transition: 'all 0.3s ease',
+                cursor: 'pointer'
+              }}
+            >
+              Login
+            </button>
+          </motion.div>
         </div>
       </nav>
     </motion.header>
@@ -502,7 +560,7 @@ const PageContainer = ({ children, title }: { children: React.ReactNode; title?:
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     transition={{ duration: 0.3 }}
-    style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}
+    style={{ padding: '80px 20px 40px', maxWidth: '1200px', margin: '0 auto' }}
   >
     {title && (
       <motion.h1
@@ -780,19 +838,99 @@ const Phase3App: React.FC = () => {
     { id: 2, name: 'Water Control', cards: ['3', '4'], description: 'Defensive water strategy' }
   ]);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [credentials, setCredentials] = useState({ username: '', password: '' });
 
   // Use advanced autonomous systems hook
   const autonomousSystems = useAdvancedAutonomous();
 
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (credentials.username && credentials.password) {
+      setUser({ id: '1', username: credentials.username, email: `${credentials.username}@example.com`, level: 1 });
+      setShowLoginModal(false);
+      setCredentials({ username: '', password: '' });
+    }
+  };
+
   const contextValue = useMemo(() => ({
-    user, setUser, decks, setDecks, bookmarks, setBookmarks
-  }), [user, decks, bookmarks]);
+    user, setUser, decks, setDecks, bookmarks, setBookmarks, showLoginModal, setShowLoginModal
+  }), [user, decks, bookmarks, showLoginModal]);
+
+  // Login Modal Component
+  const LoginModal = () => (
+    <AnimatePresence>
+      {showLoginModal && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)',
+            display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
+          }}
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            style={{
+              backgroundColor: '#1a1a1a', color: 'white', padding: '30px', borderRadius: '10px',
+              border: '2px solid #d4af37', maxWidth: '400px', width: '90%'
+            }}
+          >
+            <h2 style={{ marginTop: 0, color: '#d4af37' }}>⭐ Login to KONIVRER ⭐</h2>
+            <form onSubmit={handleLogin}>
+              {['username', 'password'].map(field => (
+                <div key={field} style={{ marginBottom: '15px' }}>
+                  <label style={{ display: 'block', marginBottom: '5px', color: 'white', textTransform: 'capitalize' }}>
+                    {field}:
+                  </label>
+                  <input
+                    type={field === 'password' ? 'password' : 'text'}
+                    value={credentials[field as keyof typeof credentials]}
+                    onChange={(e) => setCredentials(prev => ({ ...prev, [field]: e.target.value }))}
+                    style={{
+                      width: '100%', padding: '10px', border: '1px solid #d4af37', borderRadius: '5px',
+                      fontSize: '16px', backgroundColor: '#333', color: 'white'
+                    }}
+                  />
+                </div>
+              ))}
+              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowLoginModal(false)}
+                  style={{
+                    padding: '10px 20px', border: '1px solid #d4af37', borderRadius: '5px',
+                    backgroundColor: 'transparent', color: '#d4af37', cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    padding: '10px 20px', border: 'none', borderRadius: '5px',
+                    backgroundColor: '#d4af37', color: '#000', cursor: 'pointer'
+                  }}
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <AppContainer>
       <Router>
         <AppContext.Provider value={contextValue}>
           <Header />
+          <LoginModal />
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/" element={<HomePage />} />
@@ -800,7 +938,6 @@ const Phase3App: React.FC = () => {
               <Route path="/decks" element={<DecksPage />} />
               <Route path="/events" element={<EventsPage />} />
               <Route path="/play" element={<PlayPage />} />
-              <Route path="/login" element={<LoginPage />} />
             </Routes>
           </AnimatePresence>
         </AppContext.Provider>
