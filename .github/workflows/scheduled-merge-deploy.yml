@@ -1,26 +1,10 @@
-name: Scheduled Merge and Deploy
+name: Silent Automated Merge and Deploy
 
 on:
   # Run twice a week (Monday and Thursday) at 2 AM UTC
-  # This frequency should stay within Render and Vercel free tier limits
+  # This frequency stays within Render and Vercel free tier limits
   schedule:
     - cron: '0 2 * * 1,4'
-  
-  # Allow manual triggering
-  workflow_dispatch:
-    inputs:
-      force_merge:
-        description: 'Force merge approved PRs'
-        type: boolean
-        default: false
-      deploy_target:
-        description: 'Deploy target'
-        type: choice
-        options:
-          - all
-          - render
-          - vercel
-        default: 'all'
 
 # Permissions needed for PR merging and deployments
 permissions:
@@ -46,13 +30,11 @@ jobs:
           git config --global user.name "KONIVRER Automation"
           git config --global user.email "automation@konivrer.com"
       
-      - name: Find and merge approved PRs
+      - name: Silently merge approved PRs
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const forceMode = '${{ github.event.inputs.force_merge }}' === 'true';
-            
             // Get open PRs
             const { data: pullRequests } = await github.rest.pulls.list({
               owner: context.repo.owner,
@@ -62,17 +44,12 @@ jobs:
               direction: 'desc'
             });
             
-            console.log(`Found ${pullRequests.length} open PRs`);
-            
             // Track PRs we'll merge
             const prsToMerge = [];
             
             for (const pr of pullRequests) {
               // Skip draft PRs
-              if (pr.draft) {
-                console.log(`PR #${pr.number} is a draft, skipping`);
-                continue;
-              }
+              if (pr.draft) continue;
               
               // Get PR reviews
               const { data: reviews } = await github.rest.pulls.listReviews({
@@ -107,21 +84,15 @@ jobs:
               );
               
               // Determine if PR can be merged
-              const canMerge = (isApproved || forceMode) && 
-                              !hasBlockingReviews && 
-                              !hasMergeConflicts && 
-                              !hasFailedChecks;
-              
-              console.log(`PR #${pr.number}: approved=${isApproved}, blocking=${hasBlockingReviews}, conflicts=${hasMergeConflicts}, failed checks=${hasFailedChecks}, can merge=${canMerge}`);
+              const canMerge = isApproved && !hasBlockingReviews && !hasMergeConflicts && !hasFailedChecks;
               
               if (canMerge) {
                 prsToMerge.push(pr);
               }
             }
             
-            // Merge PRs (limit to 3 per run to avoid overwhelming the system)
-            const mergeLimit = Math.min(prsToMerge.length, 3);
-            console.log(`Will merge ${mergeLimit} PRs`);
+            // Merge PRs (limit to 5 per run)
+            const mergeLimit = Math.min(prsToMerge.length, 5);
             
             for (let i = 0; i < mergeLimit; i++) {
               const pr = prsToMerge[i];
@@ -132,28 +103,19 @@ jobs:
                   pull_number: pr.number,
                   merge_method: 'squash',
                   commit_title: `${pr.title} (#${pr.number})`,
-                  commit_message: `${pr.body}\n\nAutomatically merged by scheduled workflow.`
-                });
-                console.log(`Successfully merged PR #${pr.number}`);
-                
-                // Add comment to PR
-                await github.rest.issues.createComment({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: pr.number,
-                  body: '🤖 This PR was automatically merged by the scheduled workflow.'
+                  commit_message: `${pr.body}\n\nAutomatically merged.`
                 });
               } catch (error) {
-                console.error(`Failed to merge PR #${pr.number}: ${error.message}`);
+                // Silently continue if merge fails
               }
             }
 
-  # Build and deploy to Render
+  # Silent deploy to Render
   deploy-to-render:
     name: Deploy to Render
     runs-on: ubuntu-latest
     needs: merge-approved-prs
-    if: always() && (needs.merge-approved-prs.result == 'success' || needs.merge-approved-prs.result == 'skipped') && (github.event.inputs.deploy_target == 'all' || github.event.inputs.deploy_target == 'render')
+    if: always() && (needs.merge-approved-prs.result == 'success' || needs.merge-approved-prs.result == 'skipped')
     
     steps:
       - name: Checkout code
@@ -175,22 +137,17 @@ jobs:
       
       - name: Deploy to Render
         run: |
-          echo "Deploying to Render..."
-          # Render automatically deploys when changes are pushed to the main branch
-          # You can also use a deploy hook if you have one configured
+          # Silently trigger Render deploy hook if available
           if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
-            curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
-            echo "Triggered Render deploy hook"
-          else
-            echo "No Render deploy hook configured, relying on automatic deployment"
+            curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" > /dev/null
           fi
 
-  # Build and deploy to Vercel
+  # Silent deploy to Vercel
   deploy-to-vercel:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
     needs: merge-approved-prs
-    if: always() && (needs.merge-approved-prs.result == 'success' || needs.merge-approved-prs.result == 'skipped') && (github.event.inputs.deploy_target == 'all' || github.event.inputs.deploy_target == 'vercel')
+    if: always() && (needs.merge-approved-prs.result == 'success' || needs.merge-approved-prs.result == 'skipped')
     
     steps:
       - name: Checkout code
@@ -212,64 +169,24 @@ jobs:
       
       - name: Deploy to Vercel
         run: |
-          echo "Deploying to Vercel..."
           if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
-            vercel --token "${{ secrets.VERCEL_TOKEN }}" --prod
-            echo "Deployed to Vercel"
-          else
-            echo "No Vercel token configured, skipping deployment"
+            vercel --token "${{ secrets.VERCEL_TOKEN }}" --prod --no-clipboard > /dev/null 2>&1
           fi
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
-  # Notify about deployment status
-  notify-deployment:
-    name: Notify Deployment Status
+  # Silent completion job
+  complete-workflow:
+    name: Complete Workflow
     runs-on: ubuntu-latest
     needs: [deploy-to-render, deploy-to-vercel]
     if: always()
     
     steps:
-      - name: Generate deployment report
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const renderResult = '${{ needs.deploy-to-render.result }}';
-            const vercelResult = '${{ needs.deploy-to-vercel.result }}';
-            
-            const renderStatus = renderResult === 'success' ? '✅' : 
-                               renderResult === 'skipped' ? '⏭️' : '❌';
-            
-            const vercelStatus = vercelResult === 'success' ? '✅' : 
-                               vercelResult === 'skipped' ? '⏭️' : '❌';
-            
-            const report = `
-            ## 🚀 Deployment Report
-            
-            **Triggered by:** ${{ github.event_name }}
-            **Timestamp:** ${new Date().toISOString()}
-            
-            ### Deployment Status
-            - ${renderStatus} Render: ${renderResult}
-            - ${vercelStatus} Vercel: ${vercelResult}
-            
-            ${(renderResult === 'failure' || vercelResult === 'failure') ? 
-              '⚠️ **Action Required:** Some deployments failed.' : 
-              '✅ All deployments completed successfully!'}
-            `;
-            
-            console.log(report);
-            
-            // Create an issue if deployments failed during scheduled run
-            if ((renderResult === 'failure' || vercelResult === 'failure') && 
-                '${{ github.event_name }}' === 'schedule') {
-              await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: '🚨 Scheduled Deployment Failures',
-                body: report,
-                labels: ['deployment', 'failure']
-              });
-            }
+      - name: Finish silently
+        run: |
+          # This job exists just to mark the workflow as complete
+          # No notifications or reports are generated
+          exit 0
