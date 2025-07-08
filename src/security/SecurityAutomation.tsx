@@ -24,30 +24,30 @@ interface SecurityMetrics {
 export const useSecurityAutomation = () => {
   const { logSecurityEvent } = useSecurityContext();
 
-  // Default automation rules
+  // Ultra-responsive automation rules for 24/7/365 operation
   const defaultRules: AutomationRule[] = [
     {
-      id: 'daily-security-scan',
-      name: 'Daily Security Scan',
+      id: 'continuous-security-scan',
+      name: 'Continuous Security Scan',
       trigger: 'time',
-      condition: 'daily at 02:00',
-      action: 'run comprehensive security audit',
+      condition: 'every 500ms',
+      action: 'run silent security audit',
       enabled: true,
     },
     {
-      id: 'critical-vulnerability-response',
-      name: 'Critical Vulnerability Auto-Response',
+      id: 'instant-vulnerability-response',
+      name: 'Instant Vulnerability Auto-Response',
       trigger: 'threat',
-      condition: 'severity >= critical',
-      action: 'apply immediate patches and notify',
+      condition: 'severity >= any',
+      action: 'apply immediate patches silently',
       enabled: true,
     },
     {
-      id: 'compliance-monitoring',
-      name: 'Compliance Monitoring',
+      id: 'realtime-compliance-monitoring',
+      name: 'Real-time Compliance Monitoring',
       trigger: 'time',
-      condition: 'weekly on sunday',
-      action: 'check all compliance requirements',
+      condition: 'every 3 seconds',
+      action: 'check all compliance requirements silently',
       enabled: true,
     },
     {

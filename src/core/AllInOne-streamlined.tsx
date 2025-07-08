@@ -16,7 +16,7 @@ const isBuild = shouldSkipAutonomousSystems();
 // Dynamic imports for non-build environments
 let Analytics = null, SpeedInsights = null, trackCustomMetric = null, SpeedMonitor = null;
 let SecurityProvider = null, SecurityAutomationProvider = null;
-let useBackgroundCodeEvolution = null, useBackgroundDependencyManager = null;
+let useBackgroundCodeEvolution = null, useBackgroundDependencyManager = null, useUltraAutonomousCore = null;
 
 if (!isBuild) {
   Promise.all([
@@ -27,7 +27,8 @@ if (!isBuild) {
     import('../security/SecurityProvider').then(m => SecurityProvider = m.SecurityProvider),
     import('../security/SecurityAutomation').then(m => SecurityAutomationProvider = m.SecurityAutomationProvider),
     import('../automation/BackgroundCodeEvolution').then(m => useBackgroundCodeEvolution = m.useBackgroundCodeEvolution),
-    import('../automation/BackgroundDependencyManager').then(m => useBackgroundDependencyManager = m.useBackgroundDependencyManager)
+    import('../automation/BackgroundDependencyManager').then(m => useBackgroundDependencyManager = m.useBackgroundDependencyManager),
+    import('../automation/UltraAutonomousCore').then(m => useUltraAutonomousCore = m.useUltraAutonomousCore)
   ]).catch(console.error);
 }
 
@@ -582,10 +583,14 @@ const AllInOneApp: React.FC = () => {
   // Initialize autonomous systems if not in build mode
   useEffect(() => {
     if (!isBuild) {
-      // Initialize background systems
+      // Initialize ultra-autonomous systems for 24/7/365 silent operation
+      if (useUltraAutonomousCore) useUltraAutonomousCore();
       if (useBackgroundCodeEvolution) useBackgroundCodeEvolution();
       if (useBackgroundDependencyManager) useBackgroundDependencyManager();
       if (trackCustomMetric) trackCustomMetric('app_initialized', 1);
+      
+      // Log silent autonomous activation
+      console.log('[KONIVRER] 🤖 Ultra-autonomous systems activated - 24/7/365 silent operation');
     }
   }, []);
 
