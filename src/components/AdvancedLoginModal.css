@@ -1,0 +1,222 @@
+/* Advanced Login Modal Animations */
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+.shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.pulse {
+  animation: pulse 1.5s infinite;
+}
+
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  animation: gradient 3s ease infinite;
+  background-size: 200% 200%;
+  pointer-events: none;
+}
+
+.input-focus {
+  transition: all 0.3s;
+}
+
+.input-focus:focus {
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3) !important;
+}
+
+.button-hover {
+  transition: all 0.3s;
+}
+
+.button-hover:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button-hover:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.social-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.social-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s;
+}
+
+.social-button:hover::after {
+  left: 100%;
+}
+
+.floating-label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  color: #999;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.input-with-label:focus + .floating-label,
+.input-with-label:not(:placeholder-shown) + .floating-label {
+  transform: translateY(-25px) scale(0.8);
+  color: #d4af37;
+}
+
+.verification-code-input {
+  transition: all 0.3s;
+}
+
+.verification-code-input:focus {
+  border-color: #d4af37;
+  transform: scale(1.05);
+}
+
+.modal-backdrop {
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-content::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.tab-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  background-color: #d4af37;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.password-strength-meter {
+  height: 4px;
+  border-radius: 2px;
+  transition: width 0.3s, background-color 0.3s;
+}
+
+.biometric-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.biometric-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background-color: rgba(212, 175, 55, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.biometric-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.error-message {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+.success-message {
+  animation: pulse 1.5s;
+}
+
+/* Responsive styles */
+@media (max-width: 480px) {
+  .auth-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .auth-tab {
+    flex: 1 0 50%;
+  }
+}

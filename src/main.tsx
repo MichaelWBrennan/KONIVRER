@@ -6,6 +6,7 @@ import Phase1App from './core/Phase1App';
 import { SelfHealingProvider } from './utils/selfHealingIntegration';
 import errorHealing from './utils/errorHealing';
 import databaseHealing from './utils/databaseHealing';
+import './styles/global.css';
 
 console.log('[APP] Starting KONIVRER Phase 3 Application (Advanced Autonomous)...');
 
