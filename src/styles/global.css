@@ -2,6 +2,40 @@
 
 /* Import component styles */
 @import '../components/AdvancedLoginModal.css';
+@import '../assets/fonts/fonts.css';
+
+/* CSS Variables for Accessibility */
+:root {
+  /* Font variables */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-size-base: 1rem;
+  --line-height: 1.5;
+  --letter-spacing: normal;
+  
+  /* Color variables */
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --accent-color: #d4af37;
+  --error-color: #ff6b6b;
+  --success-color: #4dff4d;
+  --warning-color: #ffaa4d;
+  --info-color: #4daaff;
+  
+  /* Animation variables */
+  --animation-speed-factor: 1;
+  --transition-duration: calc(300ms * var(--animation-speed-factor));
+  --transition-timing: ease;
+  
+  /* Color filter for color blindness */
+  --color-filter: none;
+  
+  /* Focus styles */
+  --focus-outline-color: #d4af37;
+  --focus-outline-width: 3px;
+  --focus-outline-style: solid;
+  --focus-outline-offset: 2px;
+}
 
 /* Global animations */
 @keyframes fadeIn {
@@ -19,23 +53,39 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
+/* Apply color filter to the entire document for color blindness modes */
+html {
+  filter: var(--color-filter);
+}
+
 /* Global styles */
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #121212;
-  color: #ffffff;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: 
+    background-color var(--transition-duration) var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing);
 }
 
 /* Focus styles for accessibility */
 :focus {
-  outline: 2px solid #d4af37;
-  outline-offset: 2px;
+  outline: var(--focus-outline-width) var(--focus-outline-style) var(--focus-outline-color);
+  outline-offset: var(--focus-outline-offset);
+}
+
+/* Enhanced focus indicators for keyboard navigation */
+.focus-visible :focus-visible {
+  outline: var(--focus-outline-width) var(--focus-outline-style) var(--focus-outline-color);
+  outline-offset: var(--focus-outline-offset);
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.4);
 }
 
 /* Custom scrollbar */
@@ -49,12 +99,93 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4af37;
+  background: var(--accent-color);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: #ffd700;
+}
+
+/* Animations controlled by accessibility settings */
+.animate {
+  transition-duration: calc(300ms * var(--animation-speed-factor));
+}
+
+/* When animations are disabled */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family);
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: var(--accent-color);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+  line-height: var(--line-height);
+}
+
+/* Links */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color var(--transition-duration) var(--transition-timing);
+}
+
+a:hover, a:focus {
+  text-decoration: underline;
+}
+
+/* Buttons */
+button, 
+.button {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+  transition: 
+    background-color var(--transition-duration) var(--transition-timing),
+    color var(--transition-duration) var(--transition-timing),
+    border-color var(--transition-duration) var(--transition-timing),
+    transform calc(var(--transition-duration) * 0.5) var(--transition-timing);
+}
+
+/* Form elements */
+input, 
+textarea, 
+select {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  letter-spacing: var(--letter-spacing);
+}
+
+/* Skip to content link for keyboard users */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-color);
+  color: #000;
+  padding: 8px;
+  z-index: 9999;
+  transition: top 0.3s;
+}
+
+.skip-to-content:focus {
+  top: 0;
 }
 
 /* Utility classes */
@@ -71,19 +202,40 @@ body {
 }
 
 .fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn calc(0.5s * var(--animation-speed-factor)) ease-in-out;
 }
 
 .slide-up {
-  animation: slideUp 0.5s ease-in-out;
+  animation: slideUp calc(0.5s * var(--animation-speed-factor)) ease-in-out;
 }
 
 .slide-down {
-  animation: slideDown 0.5s ease-in-out;
+  animation: slideDown calc(0.5s * var(--animation-speed-factor)) ease-in-out;
+}
+
+/* ARIA roles styling */
+[role="alert"] {
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(255, 107, 107, 0.1);
+  border-left: 4px solid var(--error-color);
+  margin-bottom: 1rem;
+}
+
+[role="status"] {
+  padding: 10px;
+  border-radius: 4px;
+  background-color: rgba(77, 255, 77, 0.1);
+  border-left: 4px solid var(--success-color);
+  margin-bottom: 1rem;
 }
 
 /* Responsive breakpoints */
 @media (max-width: 768px) {
+  :root {
+    --font-size-base: 0.95rem;
+  }
+  
   .hide-on-mobile {
     display: none !important;
   }
