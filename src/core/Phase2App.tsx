@@ -10,429 +10,526 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 
-// Phase 2: Add security and optimization systems
-let SpeedMonitor: any = null;
-let trackCustomMetric: any = null;
-let useUltraAutonomousCore: any = null;
-let SelfHealingErrorBoundary: any = null;
-let SecurityProvider: any = null;
-let SecurityAutomationProvider: any = null;
-let withOptimization: any = null;
-
-const isBuild = shouldSkipAutonomousSystems();
-
-// Load Phase 2 systems (security + optimization)
-if (!isBuild) {
-  console.log('[PHASE 2] Loading security and optimization systems...');
-  
-  // Phase 1 systems
-  import('../utils/speedTracking').then(m => {
-    trackCustomMetric = m.trackCustomMetric;
-    console.log('[PHASE 2] ✅ Speed tracking loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Speed tracking failed:', e));
-  
-  import('../components/SpeedMonitor').then(m => {
-    SpeedMonitor = m.default;
-    console.log('[PHASE 2] ✅ Speed monitor loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Speed monitor failed:', e));
-  
-  import('../automation/UltraAutonomousCore').then(m => {
-    useUltraAutonomousCore = m.useUltraAutonomousCore;
-    console.log('[PHASE 2] ✅ Ultra autonomous core loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Ultra autonomous core failed:', e));
-  
-  import('../core/SelfHealer').then(m => {
-    SelfHealingErrorBoundary = m.SelfHealingErrorBoundary;
-    console.log('[PHASE 2] ✅ Self healing error boundary loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Self healing error boundary failed:', e));
-  
-  // Phase 2: Security systems
-  import('../security/SecurityProvider').then(m => {
-    SecurityProvider = m.SecurityProvider;
-    console.log('[PHASE 2] ✅ Security provider loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Security provider failed:', e));
-  
-  import('../security/SecurityAutomation').then(m => {
-    SecurityAutomationProvider = m.SecurityAutomationProvider;
-    console.log('[PHASE 2] ✅ Security automation loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Security automation failed:', e));
-  
-  // Phase 2: Optimization systems
-  import('../core/SelfOptimizer').then(m => {
-    withOptimization = m.withOptimization;
-    console.log('[PHASE 2] ✅ Self optimizer loaded');
-  }).catch(e => console.warn('[PHASE 2] ⚠️ Self optimizer failed:', e));
+// Types
+interface Card {
+  id: string; name: string; cost: number; type: 'Familiar' | 'Spell';
+  description: string; rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
 }
 
-// Core UI Components (same as previous phases)
+interface Deck {
+  id: number; name: string; cards: string[]; description: string;
+}
+
+interface User {
+  id: string; username: string; email: string; level: number;
+}
+
+// App Context for state management
+const AppContext = createContext<{
+  user: User | null;
+  setUser: (user: User | null) => void;
+  decks: Deck[];
+  setDecks: (decks: Deck[]) => void;
+  bookmarks: string[];
+  setBookmarks: (bookmarks: string[]) => void;
+}>({
+  user: null, setUser: () => {}, decks: [], setDecks: () => {},
+  bookmarks: [], setBookmarks: () => {}
+});
+
+// Phase 2: Lightweight Autonomous Systems Hook
+const useLightweightAutonomous = () => {
+  const autonomousRef = useRef<{
+    speedTracking: any;
+    intervals: NodeJS.Timeout[];
+    initialized: boolean;
+  }>({
+    speedTracking: null,
+    intervals: [],
+    initialized: false
+  });
+
+  useEffect(() => {
+    const isBuild = shouldSkipAutonomousSystems();
+    if (isBuild || autonomousRef.current.initialized) return;
+
+    console.log('[PHASE 2] Initializing lightweight autonomous systems...');
+    autonomousRef.current.initialized = true;
+
+    // Initialize lightweight speed tracking
+    const initializeSpeedTracking = async () => {
+      try {
+        const speedTracking = await import('../utils/speedTracking');
+        autonomousRef.current.speedTracking = speedTracking;
+        
+        if (speedTracking.trackCustomMetric) {
+          speedTracking.trackCustomMetric('phase2_app_initialized', 1);
+          console.log('[PHASE 2] ✅ Speed tracking initialized');
+        }
+
+        // Lightweight performance monitoring (every 60 seconds)
+        const performanceInterval = setInterval(() => {
+          try {
+            if (typeof window !== 'undefined' && window.performance) {
+              const memory = (window.performance as any).memory;
+              if (memory && speedTracking.trackCustomMetric) {
+                const memoryUsage = Math.round(memory.usedJSHeapSize / 1024 / 1024);
+                speedTracking.trackCustomMetric('memory_usage_mb', memoryUsage);
+                console.debug('[PHASE 2] Memory usage:', memoryUsage, 'MB');
+              }
+            }
+          } catch (error) {
+            console.debug('[PHASE 2] Performance monitoring error (non-critical):', error);
+          }
+        }, 60000); // Every 60 seconds
+
+        autonomousRef.current.intervals.push(performanceInterval);
+        console.log('[PHASE 2] ✅ Lightweight performance monitoring started');
+
+      } catch (error) {
+        console.warn('[PHASE 2] Speed tracking failed (non-critical):', error);
+      }
+    };
+
+    // Initialize lightweight security monitoring
+    const initializeSecurityMonitoring = () => {
+      try {
+        // Basic security checks every 2 minutes
+        const securityInterval = setInterval(() => {
+          try {
+            if (typeof window !== 'undefined') {
+              // Simple security checks
+              const suspiciousPatterns = ['eval(', 'document.write('];
+              const scripts = document.querySelectorAll('script');
+              let suspiciousCount = 0;
+              
+              scripts.forEach(script => {
+                if (script.textContent) {
+                  suspiciousPatterns.forEach(pattern => {
+                    if (script.textContent!.includes(pattern)) {
+                      suspiciousCount++;
+                    }
+                  });
+                }
+              });
+
+              if (suspiciousCount > 0) {
+                console.debug('[PHASE 2] Security scan: suspicious patterns detected:', suspiciousCount);
+                if (autonomousRef.current.speedTracking?.trackCustomMetric) {
+                  autonomousRef.current.speedTracking.trackCustomMetric('security_alerts', suspiciousCount);
+                }
+              }
+            }
+          } catch (error) {
+            console.debug('[PHASE 2] Security monitoring error (non-critical):', error);
+          }
+        }, 120000); // Every 2 minutes
+
+        autonomousRef.current.intervals.push(securityInterval);
+        console.log('[PHASE 2] ✅ Lightweight security monitoring started');
+      } catch (error) {
+        console.warn('[PHASE 2] Security monitoring failed (non-critical):', error);
+      }
+    };
+
+    // Initialize systems asynchronously
+    initializeSpeedTracking();
+    initializeSecurityMonitoring();
+
+    // Cleanup function
+    return () => {
+      autonomousRef.current.intervals.forEach(interval => {
+        clearInterval(interval);
+      });
+      autonomousRef.current.intervals = [];
+      autonomousRef.current.initialized = false;
+      console.log('[PHASE 2] Lightweight autonomous systems cleaned up');
+    };
+  }, []);
+
+  return autonomousRef.current;
+};
+
+// Enhanced styled components with framer-motion (same as Phase1)
 const AppContainer = ({ children }: { children: React.ReactNode }) => (
   <div style={{
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)',
+    background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
     color: 'white',
-    fontFamily: 'Arial, sans-serif'
+    fontFamily: 'Arial, sans-serif',
+    position: 'relative',
+    overflow: 'hidden'
   }}>
-    {children}
-  </div>
-);
-
-const Header = () => (
-  <header style={{
-    position: 'sticky',
-    top: 0,
-    zIndex: 1000,
-    background: 'rgba(15, 15, 15, 0.95)',
-    backdropFilter: 'blur(10px)',
-    borderBottom: '1px solid #333',
-    padding: '15px 0'
-  }}>
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'center',
-      gap: '30px',
-      maxWidth: '1200px',
-      margin: '0 auto',
-      padding: '0 20px'
-    }}>
-      <Link to="/" style={{ 
-        color: '#d4af37', 
-        textDecoration: 'none', 
-        fontSize: '18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}>
-        🏠 Home
-      </Link>
-      <Link to="/cards" style={{ 
-        color: '#d4af37', 
-        textDecoration: 'none', 
-        fontSize: '18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}>
-        🗃️ Cards
-      </Link>
-      <Link to="/decks" style={{ 
-        color: '#d4af37', 
-        textDecoration: 'none', 
-        fontSize: '18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}>
-        📚 Decks
-      </Link>
-      <Link to="/tournament" style={{ 
-        color: '#d4af37', 
-        textDecoration: 'none', 
-        fontSize: '18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}>
-        🏆 Tourna.
-      </Link>
-      <Link to="/play" style={{ 
-        color: '#d4af37', 
-        textDecoration: 'none', 
-        fontSize: '18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}>
-        ▶️ Play
-      </Link>
-      <Link to="/login" style={{ 
-        color: '#d4af37', 
-        textDecoration: 'none', 
-        fontSize: '18px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '8px'
-      }}>
-        ↗️ Login
-      </Link>
-    </nav>
-  </header>
-);
-
-const Card = ({ children }: { children: React.ReactNode }) => (
-  <div style={{
-    background: 'rgba(255, 255, 255, 0.05)',
-    border: '1px solid rgba(212, 175, 55, 0.3)',
-    borderRadius: '12px',
-    padding: '30px',
-    backdropFilter: 'blur(10px)',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer'
-  }}>
-    {children}
-  </div>
-);
-
-// Page Components (NO DOTS as requested)
-const HomePage = () => (
-  <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-    <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-      <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to KONIVRER</h1>
-      <p style={{ fontSize: '20px', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
-        The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
-      </p>
-    </div>
-
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
-      <Link to="/cards" style={{ textDecoration: 'none' }}>
-        <Card>
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>Browse Cards</h3>
-            <p style={{ color: '#ccc' }}>Explore our mystical card collection</p>
-          </div>
-        </Card>
-      </Link>
-      <Link to="/decks" style={{ textDecoration: 'none' }}>
-        <Card>
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>Build Decks</h3>
-            <p style={{ color: '#ccc' }}>Create powerful deck combinations</p>
-          </div>
-        </Card>
-      </Link>
-      <Link to="/tournament" style={{ textDecoration: 'none' }}>
-        <Card>
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>Join Tournaments</h3>
-            <p style={{ color: '#ccc' }}>Compete in epic tournaments</p>
-          </div>
-        </Card>
-      </Link>
-      <Link to="/play" style={{ textDecoration: 'none' }}>
-        <Card>
-          <div style={{ textAlign: 'center' }}>
-            <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>Play Now</h3>
-            <p style={{ color: '#ccc' }}>Battle against other mystics</p>
-          </div>
-        </Card>
-      </Link>
+    {/* Mystical background effects */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 2 }}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+        pointerEvents: 'none',
+        zIndex: 1
+      }}
+    />
+    <div style={{ position: 'relative', zIndex: 2 }}>
+      {children}
     </div>
   </div>
 );
 
-const CardsPage = () => (
-  <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-    <h1 style={{ color: '#d4af37', marginBottom: '30px' }}>Mystical Cards</h1>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
-      <Card>
-        <h3 style={{ color: '#d4af37' }}>Fire Drake</h3>
-        <p style={{ color: '#ccc' }}>Cost: 5 | Type: Familiar</p>
-        <p style={{ color: '#ccc' }}>A powerful dragon that breathes mystical flames.</p>
-      </Card>
-      <Card>
-        <h3 style={{ color: '#d4af37' }}>Lightning Bolt</h3>
-        <p style={{ color: '#ccc' }}>Cost: 3 | Type: Spell</p>
-        <p style={{ color: '#ccc' }}>Strike your enemies with electric fury.</p>
-      </Card>
-    </div>
-  </div>
-);
-
-const DecksPage = () => (
-  <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-    <h1 style={{ color: '#d4af37', marginBottom: '30px' }}>Your Decks</h1>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-      <Card>
-        <h3 style={{ color: '#d4af37' }}>Fire Aggro</h3>
-        <p style={{ color: '#ccc' }}>Fast-paced fire deck</p>
-        <p style={{ color: '#888' }}>30 cards</p>
-      </Card>
-      <Card>
-        <h3 style={{ color: '#d4af37' }}>Water Control</h3>
-        <p style={{ color: '#ccc' }}>Defensive water strategy</p>
-        <p style={{ color: '#888' }}>30 cards</p>
-      </Card>
-    </div>
-  </div>
-);
-
-const TournamentPage = () => (
-  <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-    <h1 style={{ color: '#d4af37', marginBottom: '30px' }}>Tournaments</h1>
-    <Card>
-      <h3 style={{ color: '#d4af37' }}>Weekly Championship</h3>
-      <p style={{ color: '#ccc' }}>Compete for mystical rewards</p>
-      <p style={{ color: '#888' }}>Entry Fee: 100 gold</p>
-    </Card>
-  </div>
-);
-
-const PlayPage = () => (
-  <div style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-    <h1 style={{ color: '#d4af37', marginBottom: '30px' }}>Play KONIVRER</h1>
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
-      <Card>
-        <h3 style={{ color: '#d4af37' }}>Quick Match</h3>
-        <p style={{ color: '#ccc' }}>Find an opponent and start playing immediately</p>
-      </Card>
-      <Card>
-        <h3 style={{ color: '#d4af37' }}>Ranked Match</h3>
-        <p style={{ color: '#ccc' }}>Compete in ranked games to climb the mystical ladder</p>
-      </Card>
-    </div>
-  </div>
-);
-
-const LoginPage = () => (
-  <div style={{ padding: '40px 20px', maxWidth: '600px', margin: '0 auto' }}>
-    <h1 style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center' }}>Login to KONIVRER</h1>
-    <Card>
-      <div style={{ textAlign: 'center' }}>
-        <p style={{ color: '#ccc', marginBottom: '20px' }}>Enter the mystical realm</p>
-        <button style={{
-          background: '#d4af37',
-          color: '#0f0f0f',
-          border: 'none',
-          padding: '12px 24px',
-          borderRadius: '6px',
-          fontSize: '16px',
-          cursor: 'pointer'
-        }}>
-          Login
-        </button>
-      </div>
-    </Card>
-  </div>
-);
-
-// Phase 2 Autonomous Systems Hook
-const usePhase2Autonomous = () => {
-  const [systemsLoaded, setSystemsLoaded] = useState(0);
-  const [securityActive, setSecurityActive] = useState(false);
-  const [optimizationActive, setOptimizationActive] = useState(false);
+const Header = () => {
+  const location = useLocation();
   
-  useEffect(() => {
-    if (!isBuild) {
-      console.log('[PHASE 2] Initializing security and optimization systems...');
-      
-      const initSystems = () => {
-        try {
-          // Initialize Phase 1 systems
-          if (useUltraAutonomousCore) {
-            useUltraAutonomousCore();
-            console.log('[PHASE 2] 🤖 Ultra autonomous core activated');
-          }
-          
-          if (trackCustomMetric) {
-            trackCustomMetric('phase2_app_initialized', 1);
-            console.log('[PHASE 2] 📊 Metrics tracking active');
-          }
-          
-          // Initialize Phase 2 systems
-          if (SecurityProvider && SecurityAutomationProvider) {
-            setSecurityActive(true);
-            console.log('[PHASE 2] 🛡️ Security systems activated');
-          }
-          
-          if (withOptimization) {
-            setOptimizationActive(true);
-            console.log('[PHASE 2] ⚡ Optimization systems activated');
-          }
-          
-          setSystemsLoaded(prev => prev + 1);
-        } catch (error) {
-          console.warn('[PHASE 2] ⚠️ System initialization error:', error);
-        }
-      };
-      
-      // Check for loaded systems every 100ms
-      const interval = setInterval(() => {
-        if (useUltraAutonomousCore || SecurityProvider || withOptimization) {
-          initSystems();
-          clearInterval(interval);
-        }
-      }, 100);
-      
-      // Cleanup after 5 seconds
-      setTimeout(() => clearInterval(interval), 5000);
-      
-      return () => clearInterval(interval);
-    }
-  }, []);
-  
-  return { systemsLoaded, securityActive, optimizationActive };
+  return (
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        background: 'rgba(15, 15, 15, 0.95)',
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
+        padding: '15px 0',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+      }}
+    >
+      <nav style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '30px',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 20px'
+      }}>
+        {[
+          { to: '/', icon: '🏠', label: 'Home' },
+          { to: '/cards', icon: '🗃️', label: 'Cards' },
+          { to: '/decks', icon: '📚', label: 'Decks' },
+          { to: '/tournament', icon: '🏆', label: 'Tourna.' },
+          { to: '/play', icon: '▶️', label: 'Play' },
+          { to: '/login', icon: '↗️', label: 'Login' }
+        ].map(({ to, icon, label }) => (
+          <motion.div
+            key={to}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              to={to}
+              style={{
+                color: location.pathname === to ? '#d4af37' : '#ccc',
+                textDecoration: 'none',
+                fontSize: '18px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                border: location.pathname === to ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              <span style={{ fontSize: '20px' }}>{icon}</span>
+              {label}
+            </Link>
+          </motion.div>
+        ))}
+      </nav>
+    </motion.header>
+  );
 };
 
-// Main Phase 2 App
+const Card = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    transition={{ duration: 0.5, delay, ease: "easeOut" }}
+    whileHover={{ 
+      scale: 1.02, 
+      boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
+      borderColor: 'rgba(212, 175, 55, 0.5)'
+    }}
+    style={{
+      background: 'rgba(255, 255, 255, 0.05)',
+      border: '1px solid rgba(212, 175, 55, 0.3)',
+      borderRadius: '12px',
+      padding: '30px',
+      backdropFilter: 'blur(10px)',
+      transition: 'all 0.3s ease',
+      cursor: 'pointer',
+      position: 'relative',
+      overflow: 'hidden'
+    }}
+  >
+    {/* Subtle glow effect */}
+    <div style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      background: 'linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.05) 50%, transparent 70%)',
+      pointerEvents: 'none'
+    }} />
+    <div style={{ position: 'relative', zIndex: 1 }}>
+      {children}
+    </div>
+  </motion.div>
+);
+
+const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.3 }}
+    style={{ padding: '40px 20px', maxWidth: '1200px', margin: '0 auto' }}
+  >
+    {title && (
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        style={{ color: '#d4af37', marginBottom: '30px', fontSize: '36px', textAlign: 'center' }}
+      >
+        {title}
+      </motion.h1>
+    )}
+    {children}
+  </motion.div>
+);
+
+// Enhanced Page Components with framer-motion (same as Phase1)
+const HomePage = () => {
+  const features = [
+    { title: 'Browse Cards', desc: 'Explore our mystical card collection', link: '/cards' },
+    { title: 'Build Decks', desc: 'Create powerful deck combinations', link: '/decks' },
+    { title: 'Join Tournaments', desc: 'Compete in epic tournaments', link: '/tournament' },
+    { title: 'Play Now', desc: 'Battle against other mystics', link: '/play' }
+  ];
+
+  return (
+    <PageContainer>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ textAlign: 'center', marginBottom: '60px' }}
+      >
+        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>⭐ Welcome to KONIVRER ⭐</h1>
+        <p style={{ fontSize: '20px', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
+          The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
+        </p>
+      </motion.div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+        {features.map(({ title, desc, link }, index) => (
+          <Link key={title} to={link} style={{ textDecoration: 'none' }}>
+            <Card delay={index * 0.1}>
+              <div style={{ textAlign: 'center' }}>
+                <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>{title}</h3>
+                <p style={{ color: '#ccc' }}>{desc}</p>
+              </div>
+            </Card>
+          </Link>
+        ))}
+      </div>
+    </PageContainer>
+  );
+};
+
+const CardsPage = () => {
+  const cards = [
+    { id: '1', name: 'Fire Drake', cost: 5, type: 'Familiar' as const, description: 'A powerful dragon that breathes mystical flames.', rarity: 'Epic' as const },
+    { id: '2', name: 'Lightning Bolt', cost: 3, type: 'Spell' as const, description: 'Strike your enemies with electric fury.', rarity: 'Common' as const },
+    { id: '3', name: 'Water Elemental', cost: 4, type: 'Familiar' as const, description: 'A mystical being of pure water.', rarity: 'Rare' as const },
+    { id: '4', name: 'Healing Potion', cost: 2, type: 'Spell' as const, description: 'Restore health to your familiars.', rarity: 'Common' as const }
+  ];
+
+  return (
+    <PageContainer title="Mystical Cards">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}
+      >
+        {cards.map((card, index) => (
+          <Card key={card.id} delay={index * 0.1}>
+            <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>{card.name}</h3>
+            <p style={{ color: '#ccc', marginBottom: '5px' }}>Cost: {card.cost} | Type: {card.type}</p>
+            <p style={{ color: '#888', marginBottom: '10px' }}>Rarity: {card.rarity}</p>
+            <p style={{ color: '#ccc', fontSize: '14px' }}>{card.description}</p>
+          </Card>
+        ))}
+      </motion.div>
+    </PageContainer>
+  );
+};
+
+const DecksPage = () => {
+  const { decks } = useContext(AppContext);
+
+  return (
+    <PageContainer title="Your Decks">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}
+      >
+        {decks.map((deck, index) => (
+          <Card key={deck.id} delay={index * 0.1}>
+            <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>{deck.name}</h3>
+            <p style={{ color: '#ccc', marginBottom: '5px' }}>{deck.description}</p>
+            <p style={{ color: '#888' }}>{deck.cards.length} cards</p>
+          </Card>
+        ))}
+      </motion.div>
+    </PageContainer>
+  );
+};
+
+const TournamentPage = () => (
+  <PageContainer title="Tournaments">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}
+    >
+      <Card>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Weekly Championship</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Compete for mystical rewards</p>
+        <p style={{ color: '#888' }}>Entry Fee: 100 gold</p>
+      </Card>
+      <Card delay={0.1}>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Mystic Masters</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite tournament for experienced players</p>
+        <p style={{ color: '#888' }}>Entry Fee: 500 gold</p>
+      </Card>
+    </motion.div>
+  </PageContainer>
+);
+
+const PlayPage = () => {
+  const gameModes = [
+    { title: 'Quick Match', desc: 'Find an opponent and start playing immediately' },
+    { title: 'Ranked Match', desc: 'Compete in ranked games to climb the mystical ladder' },
+    { title: 'Practice Mode', desc: 'Practice against AI opponents' },
+    { title: 'Friend Match', desc: 'Play against your mystical allies' }
+  ];
+
+  return (
+    <PageContainer title="Play KONIVRER">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}
+      >
+        {gameModes.map(({ title, desc }, index) => (
+          <Card key={title} delay={index * 0.1}>
+            <div style={{ textAlign: 'center' }}>
+              <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>{title}</h3>
+              <p style={{ color: '#ccc' }}>{desc}</p>
+            </div>
+          </Card>
+        ))}
+      </motion.div>
+    </PageContainer>
+  );
+};
+
+const LoginPage = () => (
+  <PageContainer>
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      style={{ maxWidth: '600px', margin: '0 auto' }}
+    >
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center' }}
+      >
+        Login to KONIVRER
+      </motion.h1>
+      <Card>
+        <div style={{ textAlign: 'center' }}>
+          <p style={{ color: '#ccc', marginBottom: '20px' }}>Enter the mystical realm</p>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              background: '#d4af37',
+              color: '#0f0f0f',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '6px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              fontWeight: 'bold'
+            }}
+          >
+            Login
+          </motion.button>
+        </div>
+      </Card>
+    </motion.div>
+  </PageContainer>
+);
+
+// Main Phase 2 App Component
 const Phase2App: React.FC = () => {
-  console.log('[PHASE 2] Starting KONIVRER Phase 2 (Core + Security + Optimization)...');
+  console.log('[KONIVRER] Phase 2 app initializing... (Target: ~140 modules)');
   
-  const { systemsLoaded, securityActive, optimizationActive } = usePhase2Autonomous();
-  
-  const AppContent = () => (
+  const [user, setUser] = useState<User | null>(null);
+  const [decks, setDecks] = useState<Deck[]>([
+    { id: 1, name: 'Fire Aggro', cards: ['1', '2'], description: 'Fast-paced fire deck' },
+    { id: 2, name: 'Water Control', cards: ['3', '4'], description: 'Defensive water strategy' }
+  ]);
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+
+  // Use lightweight autonomous systems hook
+  const autonomousSystems = useLightweightAutonomous();
+
+  const contextValue = useMemo(() => ({
+    user, setUser, decks, setDecks, bookmarks, setBookmarks
+  }), [user, decks, bookmarks]);
+
+  return (
     <AppContainer>
       <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cards" element={<CardsPage />} />
-          <Route path="/decks" element={<DecksPage />} />
-          <Route path="/tournament" element={<TournamentPage />} />
-          <Route path="/play" element={<PlayPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
+        <AppContext.Provider value={contextValue}>
+          <Header />
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/cards" element={<CardsPage />} />
+              <Route path="/decks" element={<DecksPage />} />
+              <Route path="/tournament" element={<TournamentPage />} />
+              <Route path="/play" element={<PlayPage />} />
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </AnimatePresence>
+        </AppContext.Provider>
       </Router>
-      
-      {/* Phase 2 Status Indicator */}
-      {process.env.NODE_ENV === 'development' && (
-        <div style={{
-          position: 'fixed',
-          bottom: '10px',
-          right: '10px',
-          background: 'rgba(0, 0, 0, 0.8)',
-          color: '#d4af37',
-          padding: '8px 12px',
-          borderRadius: '6px',
-          fontSize: '12px',
-          zIndex: 9999
-        }}>
-          Phase 2: {systemsLoaded} systems | 🛡️{securityActive ? '✅' : '💤'} | ⚡{optimizationActive ? '✅' : '💤'}
-        </div>
-      )}
-      
-      {/* Speed Monitor if loaded */}
-      {SpeedMonitor && <SpeedMonitor />}
-      
       <Analytics />
       <SpeedInsights />
     </AppContainer>
   );
-  
-  // Enhanced rendering with security and optimization
-  const EnhancedApp = () => {
-    if (SecurityProvider && SecurityAutomationProvider) {
-      return (
-        <SecurityProvider>
-          <SecurityAutomationProvider>
-            <AppContent />
-          </SecurityAutomationProvider>
-        </SecurityProvider>
-      );
-    }
-    return <AppContent />;
-  };
-  
-  // Use error boundary if available
-  if (SelfHealingErrorBoundary) {
-    const FinalApp = withOptimization ? withOptimization(EnhancedApp, { name: 'Phase2App', memoize: true }) : EnhancedApp;
-    return (
-      <SelfHealingErrorBoundary fallback={<AppContent />}>
-        <FinalApp />
-      </SelfHealingErrorBoundary>
-    );
-  }
-  
-  const FinalApp = withOptimization ? withOptimization(EnhancedApp, { name: 'Phase2App', memoize: true }) : EnhancedApp;
-  return <FinalApp />;
 };
 
 export default Phase2App;
