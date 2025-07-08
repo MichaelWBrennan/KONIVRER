@@ -14,7 +14,7 @@ import ScryfalLikeAdvancedSearch from '../components/ScryfalLikeAdvancedSearch';
 
 // Types
 interface Card {
-  id: string; name: string; cost: number; type: 'Familiar' | 'Spell';
+  id: string; name: string; cost: number; type: 'Familiar' | 'Flag';
   description: string; rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
   elements: string[]; keywords: string[]; strength?: number; artist?: string;
 }
@@ -627,16 +627,16 @@ const CardsPage = () => {
   // Expanded card database with more searchable properties
   const allCards: Card[] = [
     { id: '1', name: 'Fire Drake', cost: 5, type: 'Familiar', description: 'A powerful dragon that breathes mystical flames.', rarity: 'Epic', elements: ['Fire'], keywords: ['Flying', 'Aggressive'], strength: 6, artist: 'Elena Vasquez' },
-    { id: '2', name: 'Lightning Bolt', cost: 3, type: 'Spell', description: 'Strike your enemies with electric fury.', rarity: 'Common', elements: ['Air', 'Fire'], keywords: ['Instant', 'Damage'], artist: 'Marcus Chen' },
+    { id: '2', name: 'Lightning Banner', cost: 3, type: 'Flag', description: 'A mystical banner that channels electric energy to boost allies.', rarity: 'Common', elements: ['Air', 'Fire'], keywords: ['Support', 'Aura'], artist: 'Marcus Chen' },
     { id: '3', name: 'Water Elemental', cost: 4, type: 'Familiar', description: 'A mystical being of pure water.', rarity: 'Rare', elements: ['Water'], keywords: ['Fluid', 'Defensive'], strength: 4, artist: 'Sarah Moon' },
-    { id: '4', name: 'Healing Potion', cost: 2, type: 'Spell', description: 'Restore health to your familiars.', rarity: 'Common', elements: ['Water'], keywords: ['Healing', 'Instant'], artist: 'David Kim' },
+    { id: '4', name: 'Healing Standard', cost: 2, type: 'Flag', description: 'A sacred banner that continuously heals nearby familiars.', rarity: 'Common', elements: ['Water'], keywords: ['Healing', 'Persistent'], artist: 'David Kim' },
     { id: '5', name: 'Earth Golem', cost: 6, type: 'Familiar', description: 'A massive creature of stone and soil.', rarity: 'Rare', elements: ['Earth'], keywords: ['Sturdy', 'Defensive'], strength: 8, artist: 'Anna Stone' },
-    { id: '6', name: 'Wind Blade', cost: 1, type: 'Spell', description: 'A swift cutting wind attack.', rarity: 'Common', elements: ['Air'], keywords: ['Quick', 'Damage'], artist: 'Jin Watanabe' },
+    { id: '6', name: 'Wind Pennant', cost: 1, type: 'Flag', description: 'A swift banner that enhances movement and agility.', rarity: 'Common', elements: ['Air'], keywords: ['Quick', 'Enhancement'], artist: 'Jin Watanabe' },
     { id: '7', name: 'Phoenix Rising', cost: 7, type: 'Familiar', description: 'A legendary bird that rises from ashes.', rarity: 'Legendary', elements: ['Fire', 'Air'], keywords: ['Flying', 'Rebirth'], strength: 5, artist: 'Elena Vasquez' },
-    { id: '8', name: 'Frost Shield', cost: 3, type: 'Spell', description: 'Creates a protective barrier of ice.', rarity: 'Common', elements: ['Water'], keywords: ['Defensive', 'Shield'], artist: 'Sarah Moon' },
+    { id: '8', name: 'Frost Emblem', cost: 3, type: 'Flag', description: 'An icy standard that creates protective barriers.', rarity: 'Common', elements: ['Water'], keywords: ['Defensive', 'Shield'], artist: 'Sarah Moon' },
     { id: '9', name: 'Lightning Hawk', cost: 4, type: 'Familiar', description: 'A majestic bird crackling with electricity.', rarity: 'Rare', elements: ['Air', 'Fire'], keywords: ['Flying', 'Quick'], strength: 3, artist: 'Marcus Chen' },
-    { id: '10', name: 'Crystal Shard', cost: 2, type: 'Spell', description: 'Sharp crystal projectiles.', rarity: 'Common', elements: ['Earth'], keywords: ['Piercing', 'Damage'], artist: 'Anna Stone' },
-    { id: '11', name: 'Tidal Wave', cost: 5, type: 'Spell', description: 'Overwhelming water magic that sweeps the battlefield.', rarity: 'Epic', elements: ['Water'], keywords: ['Area', 'Damage'], artist: 'Sarah Moon' },
+    { id: '10', name: 'Crystal Insignia', cost: 2, type: 'Flag', description: 'A crystalline banner that amplifies magical attacks.', rarity: 'Common', elements: ['Earth'], keywords: ['Piercing', 'Amplify'], artist: 'Anna Stone' },
+    { id: '11', name: 'Tidal Banner', cost: 5, type: 'Flag', description: 'A powerful oceanic standard that commands the battlefield.', rarity: 'Epic', elements: ['Water'], keywords: ['Area', 'Control'], artist: 'Sarah Moon' },
     { id: '12', name: 'Shadow Wraith', cost: 3, type: 'Familiar', description: 'A ghostly creature that phases through defenses.', rarity: 'Rare', elements: ['Shadow'], keywords: ['Stealth', 'Ethereal'], strength: 2, artist: 'Viktor Dark' }
   ];
 
