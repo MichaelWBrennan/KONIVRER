@@ -9,11 +9,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
+import BlogSection from '../components/BlogSection';
 
 // Types
 interface Card {
   id: string; name: string; cost: number; type: 'Familiar' | 'Spell';
   description: string; rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
+  elements: string[]; keywords: string[]; strength?: number; artist?: string;
 }
 
 interface Deck {
@@ -23,6 +25,46 @@ interface Deck {
 interface User {
   id: string; username: string; email: string; level: number;
 }
+
+interface BlogPost {
+  id: string; title: string; content: string; author: string; date: string; tags: string[];
+}
+
+// Sample blog data
+const BLOG_POSTS: BlogPost[] = [
+  { 
+    id: 'b1', 
+    title: 'Mastering Fire Decks', 
+    content: 'Fire decks are all about speed and aggression. Focus on low-cost creatures and direct damage spells to overwhelm your opponents before they can establish their defenses. Key strategies include maintaining card advantage through efficient trades and timing your burst damage for maximum impact.', 
+    author: 'CardMaster', 
+    date: '2024-01-15', 
+    tags: ['Strategy', 'Fire'] 
+  },
+  { 
+    id: 'b2', 
+    title: 'Event Report: Winter Championship', 
+    content: 'Last weekend\'s championship was intense with over 200 participants competing for the mystical crown. The meta saw a surprising rise in water-control decks, with three making it to the top 8. The final match between ElementalMage and FrostWarden was a masterclass in strategic play.', 
+    author: 'ProPlayer', 
+    date: '2024-01-10', 
+    tags: ['Events', 'Report'] 
+  },
+  { 
+    id: 'b3', 
+    title: 'New Card Reveals: Elemental Fusion', 
+    content: 'Exciting new cards coming in the next expansion! The Elemental Fusion set introduces dual-element familiars and powerful combination spells. Preview includes the legendary Phoenix Drake and the game-changing Elemental Convergence spell that could reshape the meta.', 
+    author: 'DevTeam', 
+    date: '2024-01-05', 
+    tags: ['News', 'Cards'] 
+  },
+  { 
+    id: 'b4', 
+    title: 'Deck Building Guide: Earth Control', 
+    content: 'Earth decks excel at controlling the battlefield through defensive familiars and resource management. Learn how to build a competitive earth deck that can withstand aggressive strategies while setting up powerful late-game threats.', 
+    author: 'StrategyGuru', 
+    date: '2024-01-03', 
+    tags: ['Strategy', 'Earth', 'Guide'] 
+  }
+];
 
 // App Context for state management
 const AppContext = createContext<{
@@ -316,6 +358,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
 
 const Header = () => {
   const location = useLocation();
+  const isHomePage = location.pathname === '/';
   
   return (
     <motion.header
@@ -335,46 +378,79 @@ const Header = () => {
     >
       <nav style={{
         display: 'flex',
-        justifyContent: 'center',
-        gap: '30px',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '0 20px'
       }}>
-        {[
-          { to: '/', icon: '🏠', label: 'Home' },
-          { to: '/cards', icon: '🗃️', label: 'Cards' },
-          { to: '/decks', icon: '📚', label: 'Decks' },
-          { to: '/tournament', icon: '🏆', label: 'Tourna.' },
-          { to: '/play', icon: '▶️', label: 'Play' },
-          { to: '/login', icon: '↗️', label: 'Login' }
-        ].map(({ to, icon, label }) => (
-          <motion.div
-            key={to}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+        {/* Home link/logo - only clickable when not on home page */}
+        <motion.div
+          whileHover={!isHomePage ? { scale: 1.05 } : {}}
+          whileTap={!isHomePage ? { scale: 0.95 } : {}}
+        >
+          {isHomePage ? (
+            <div style={{
+              color: '#d4af37',
+              fontSize: '24px',
+              fontWeight: 'bold',
+              padding: '8px 16px'
+            }}>
+              KONIVRER
+            </div>
+          ) : (
             <Link
-              to={to}
+              to="/"
               style={{
-                color: location.pathname === to ? '#d4af37' : '#ccc',
+                color: '#d4af37',
                 textDecoration: 'none',
-                fontSize: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
+                fontSize: '24px',
+                fontWeight: 'bold',
                 padding: '8px 16px',
                 borderRadius: '8px',
-                background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                border: location.pathname === to ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
                 transition: 'all 0.3s ease'
               }}
             >
-              <span style={{ fontSize: '20px' }}>{icon}</span>
-              {label}
+              KONIVRER
             </Link>
-          </motion.div>
-        ))}
+          )}
+        </motion.div>
+
+        {/* Navigation links */}
+        <div style={{ display: 'flex', gap: '30px' }}>
+          {[
+            { to: '/cards', label: 'Cards' },
+            { to: '/decks', label: 'Decks' },
+            { to: '/events', label: 'Events' },
+            { to: '/play', label: 'Play' },
+            { to: '/login', label: 'Login' }
+          ].map(({ to, label }) => (
+            <motion.div
+              key={to}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link
+                to={to}
+                style={{
+                  color: location.pathname === to ? '#d4af37' : '#ccc',
+                  textDecoration: 'none',
+                  fontSize: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                  border: location.pathname === to ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                {label}
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </nav>
     </motion.header>
   );
@@ -440,14 +516,16 @@ const PageContainer = ({ children, title }: { children: React.ReactNode; title?:
   </motion.div>
 );
 
-// Enhanced Page Components with framer-motion (same as Phase2)
+// Enhanced Page Components with framer-motion and blog system
 const HomePage = () => {
   const features = [
     { title: 'Browse Cards', desc: 'Explore our mystical card collection', link: '/cards' },
     { title: 'Build Decks', desc: 'Create powerful deck combinations', link: '/decks' },
-    { title: 'Join Tournaments', desc: 'Compete in epic tournaments', link: '/tournament' },
+    { title: 'Join Events', desc: 'Compete in epic events and tournaments', link: '/events' },
     { title: 'Play Now', desc: 'Battle against other mystics', link: '/play' }
   ];
+
+  const recentPosts = BLOG_POSTS.slice(0, 3); // Show 3 most recent posts
 
   return (
     <PageContainer>
@@ -457,13 +535,14 @@ const HomePage = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ textAlign: 'center', marginBottom: '60px' }}
       >
-        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>⭐ Welcome to KONIVRER ⭐</h1>
+        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to KONIVRER</h1>
         <p style={{ fontSize: '20px', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
           The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
         </p>
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+      {/* Features Section */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
         {features.map(({ title, desc, link }, index) => (
           <Link key={title} to={link} style={{ textDecoration: 'none' }}>
             <Card delay={index * 0.1}>
@@ -475,35 +554,419 @@ const HomePage = () => {
           </Link>
         ))}
       </div>
+
+      {/* Blog Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        style={{ marginTop: '60px' }}
+      >
+        <h2 style={{ color: '#d4af37', fontSize: '32px', textAlign: 'center', marginBottom: '40px' }}>
+          Latest Chronicles
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
+          {recentPosts.map((post, index) => (
+            <Card key={post.id} delay={0.5 + index * 0.1}>
+              <div>
+                <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '20px' }}>{post.title}</h3>
+                <div style={{ marginBottom: '15px', display: 'flex', gap: '15px', alignItems: 'center' }}>
+                  <span style={{ color: '#ccc', fontSize: '14px' }}>By {post.author}</span>
+                  <span style={{ color: '#888', fontSize: '14px' }}>{post.date}</span>
+                </div>
+                <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.5', marginBottom: '15px' }}>
+                  {post.content.substring(0, 150)}...
+                </p>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {post.tags.map(tag => (
+                    <span 
+                      key={tag}
+                      style={{
+                        background: 'rgba(212, 175, 55, 0.2)',
+                        color: '#d4af37',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        border: '1px solid rgba(212, 175, 55, 0.3)'
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              background: 'rgba(212, 175, 55, 0.1)',
+              color: '#d4af37',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            Read All Chronicles
+          </motion.button>
+        </div>
+      </motion.div>
     </PageContainer>
   );
 };
 
 const CardsPage = () => {
-  const cards = [
-    { id: '1', name: 'Fire Drake', cost: 5, type: 'Familiar' as const, description: 'A powerful dragon that breathes mystical flames.', rarity: 'Epic' as const },
-    { id: '2', name: 'Lightning Bolt', cost: 3, type: 'Spell' as const, description: 'Strike your enemies with electric fury.', rarity: 'Common' as const },
-    { id: '3', name: 'Water Elemental', cost: 4, type: 'Familiar' as const, description: 'A mystical being of pure water.', rarity: 'Rare' as const },
-    { id: '4', name: 'Healing Potion', cost: 2, type: 'Spell' as const, description: 'Restore health to your familiars.', rarity: 'Common' as const }
+  // Expanded card database with more searchable properties
+  const allCards: Card[] = [
+    { id: '1', name: 'Fire Drake', cost: 5, type: 'Familiar', description: 'A powerful dragon that breathes mystical flames.', rarity: 'Epic', elements: ['Fire'], keywords: ['Flying', 'Aggressive'], strength: 6, artist: 'Elena Vasquez' },
+    { id: '2', name: 'Lightning Bolt', cost: 3, type: 'Spell', description: 'Strike your enemies with electric fury.', rarity: 'Common', elements: ['Air', 'Fire'], keywords: ['Instant', 'Damage'], artist: 'Marcus Chen' },
+    { id: '3', name: 'Water Elemental', cost: 4, type: 'Familiar', description: 'A mystical being of pure water.', rarity: 'Rare', elements: ['Water'], keywords: ['Fluid', 'Defensive'], strength: 4, artist: 'Sarah Moon' },
+    { id: '4', name: 'Healing Potion', cost: 2, type: 'Spell', description: 'Restore health to your familiars.', rarity: 'Common', elements: ['Water'], keywords: ['Healing', 'Instant'], artist: 'David Kim' },
+    { id: '5', name: 'Earth Golem', cost: 6, type: 'Familiar', description: 'A massive creature of stone and soil.', rarity: 'Rare', elements: ['Earth'], keywords: ['Sturdy', 'Defensive'], strength: 8, artist: 'Anna Stone' },
+    { id: '6', name: 'Wind Blade', cost: 1, type: 'Spell', description: 'A swift cutting wind attack.', rarity: 'Common', elements: ['Air'], keywords: ['Quick', 'Damage'], artist: 'Jin Watanabe' },
+    { id: '7', name: 'Phoenix Rising', cost: 7, type: 'Familiar', description: 'A legendary bird that rises from ashes.', rarity: 'Legendary', elements: ['Fire', 'Air'], keywords: ['Flying', 'Rebirth'], strength: 5, artist: 'Elena Vasquez' },
+    { id: '8', name: 'Frost Shield', cost: 3, type: 'Spell', description: 'Creates a protective barrier of ice.', rarity: 'Common', elements: ['Water'], keywords: ['Defensive', 'Shield'], artist: 'Sarah Moon' },
+    { id: '9', name: 'Lightning Hawk', cost: 4, type: 'Familiar', description: 'A majestic bird crackling with electricity.', rarity: 'Rare', elements: ['Air', 'Fire'], keywords: ['Flying', 'Quick'], strength: 3, artist: 'Marcus Chen' },
+    { id: '10', name: 'Crystal Shard', cost: 2, type: 'Spell', description: 'Sharp crystal projectiles.', rarity: 'Common', elements: ['Earth'], keywords: ['Piercing', 'Damage'], artist: 'Anna Stone' },
+    { id: '11', name: 'Tidal Wave', cost: 5, type: 'Spell', description: 'Overwhelming water magic that sweeps the battlefield.', rarity: 'Epic', elements: ['Water'], keywords: ['Area', 'Damage'], artist: 'Sarah Moon' },
+    { id: '12', name: 'Shadow Wraith', cost: 3, type: 'Familiar', description: 'A ghostly creature that phases through defenses.', rarity: 'Rare', elements: ['Shadow'], keywords: ['Stealth', 'Ethereal'], strength: 2, artist: 'Viktor Dark' }
   ];
 
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedType, setSelectedType] = useState<string>('');
+  const [selectedRarity, setSelectedRarity] = useState<string>('');
+  const [selectedElement, setSelectedElement] = useState<string>('');
+  const [costRange, setCostRange] = useState<[number, number]>([0, 10]);
+  const [strengthRange, setStrengthRange] = useState<[number, number]>([0, 10]);
+  const [showAdvanced, setShowAdvanced] = useState(false);
+
+  // Get unique values for filters
+  const types = ['Familiar', 'Spell'];
+  const rarities = ['Common', 'Rare', 'Epic', 'Legendary'];
+  const elements = [...new Set(allCards.flatMap(card => card.elements))];
+
+  // Advanced search filtering
+  const filteredCards = useMemo(() => {
+    return allCards.filter(card => {
+      // Text search (name, description, keywords, artist)
+      const searchText = searchQuery.toLowerCase();
+      const matchesText = !searchText || 
+        card.name.toLowerCase().includes(searchText) ||
+        card.description.toLowerCase().includes(searchText) ||
+        card.keywords.some(keyword => keyword.toLowerCase().includes(searchText)) ||
+        (card.artist && card.artist.toLowerCase().includes(searchText));
+
+      // Type filter
+      const matchesType = !selectedType || card.type === selectedType;
+
+      // Rarity filter
+      const matchesRarity = !selectedRarity || card.rarity === selectedRarity;
+
+      // Element filter
+      const matchesElement = !selectedElement || card.elements.includes(selectedElement);
+
+      // Cost range filter
+      const matchesCost = card.cost >= costRange[0] && card.cost <= costRange[1];
+
+      // Strength range filter (only for familiars)
+      const matchesStrength = card.type === 'Spell' || 
+        (card.strength !== undefined && card.strength >= strengthRange[0] && card.strength <= strengthRange[1]);
+
+      return matchesText && matchesType && matchesRarity && matchesElement && matchesCost && matchesStrength;
+    });
+  }, [searchQuery, selectedType, selectedRarity, selectedElement, costRange, strengthRange, allCards]);
+
+  const filterStyle = {
+    padding: '10px',
+    border: '1px solid rgba(212, 175, 55, 0.3)',
+    borderRadius: '8px',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+    color: 'white',
+    fontSize: '14px',
+    minWidth: '120px'
+  };
+
+  const inputStyle = {
+    ...filterStyle,
+    width: '100%',
+    maxWidth: '300px'
+  };
+
   return (
-    <PageContainer title="Mystical Cards">
+    <PageContainer title="Mystical Card Database">
+      {/* Search Interface */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        style={{ marginBottom: '30px' }}
+      >
+        {/* Main search bar */}
+        <div style={{ marginBottom: '20px' }}>
+          <input
+            type="text"
+            placeholder="Search cards by name, text, keywords, or artist..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            style={inputStyle}
+          />
+        </div>
+
+        {/* Quick filters */}
+        <div style={{ display: 'flex', gap: '15px', marginBottom: '15px', flexWrap: 'wrap', alignItems: 'center' }}>
+          <select
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+            style={filterStyle}
+          >
+            <option value="">All Types</option>
+            {types.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+
+          <select
+            value={selectedRarity}
+            onChange={(e) => setSelectedRarity(e.target.value)}
+            style={filterStyle}
+          >
+            <option value="">All Rarities</option>
+            {rarities.map(rarity => (
+              <option key={rarity} value={rarity}>{rarity}</option>
+            ))}
+          </select>
+
+          <select
+            value={selectedElement}
+            onChange={(e) => setSelectedElement(e.target.value)}
+            style={filterStyle}
+          >
+            <option value="">All Elements</option>
+            {elements.map(element => (
+              <option key={element} value={element}>{element}</option>
+            ))}
+          </select>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            style={{
+              ...filterStyle,
+              background: showAdvanced ? 'rgba(212, 175, 55, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+              border: showAdvanced ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid rgba(212, 175, 55, 0.3)',
+              cursor: 'pointer'
+            }}
+          >
+            {showAdvanced ? 'Hide Advanced' : 'Advanced Search'}
+          </motion.button>
+        </div>
+
+        {/* Advanced filters */}
+        <AnimatePresence>
+          {showAdvanced && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              style={{ 
+                overflow: 'hidden',
+                background: 'rgba(255, 255, 255, 0.02)',
+                border: '1px solid rgba(212, 175, 55, 0.2)',
+                borderRadius: '8px',
+                padding: '20px',
+                marginTop: '15px'
+              }}
+            >
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px' }}>
+                {/* Cost range */}
+                <div>
+                  <label style={{ color: '#d4af37', marginBottom: '8px', display: 'block', fontSize: '14px' }}>
+                    Cost Range: {costRange[0]} - {costRange[1]}
+                  </label>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      value={costRange[0]}
+                      onChange={(e) => setCostRange([parseInt(e.target.value), costRange[1]])}
+                      style={{ flex: 1 }}
+                    />
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      value={costRange[1]}
+                      onChange={(e) => setCostRange([costRange[0], parseInt(e.target.value)])}
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+
+                {/* Strength range */}
+                <div>
+                  <label style={{ color: '#d4af37', marginBottom: '8px', display: 'block', fontSize: '14px' }}>
+                    Strength Range: {strengthRange[0]} - {strengthRange[1]} (Familiars only)
+                  </label>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      value={strengthRange[0]}
+                      onChange={(e) => setStrengthRange([parseInt(e.target.value), strengthRange[1]])}
+                      style={{ flex: 1 }}
+                    />
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      value={strengthRange[1]}
+                      onChange={(e) => setStrengthRange([strengthRange[0], parseInt(e.target.value)])}
+                      style={{ flex: 1 }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Clear filters button */}
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setSearchQuery('');
+                  setSelectedType('');
+                  setSelectedRarity('');
+                  setSelectedElement('');
+                  setCostRange([0, 10]);
+                  setStrengthRange([0, 10]);
+                }}
+                style={{
+                  ...filterStyle,
+                  marginTop: '15px',
+                  background: 'rgba(212, 175, 55, 0.1)',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  cursor: 'pointer'
+                }}
+              >
+                Clear All Filters
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Results count */}
+        <div style={{ color: '#ccc', fontSize: '14px', marginTop: '15px' }}>
+          Showing {filteredCards.length} of {allCards.length} cards
+        </div>
+      </motion.div>
+
+      {/* Cards grid */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}
       >
-        {cards.map((card, index) => (
-          <Card key={card.id} delay={index * 0.1}>
-            <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>{card.name}</h3>
-            <p style={{ color: '#ccc', marginBottom: '5px' }}>Cost: {card.cost} | Type: {card.type}</p>
-            <p style={{ color: '#888', marginBottom: '10px' }}>Rarity: {card.rarity}</p>
-            <p style={{ color: '#ccc', fontSize: '14px' }}>{card.description}</p>
+        {filteredCards.map((card, index) => (
+          <Card key={card.id} delay={index * 0.05}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+              <h3 style={{ color: '#d4af37', margin: 0, fontSize: '18px' }}>{card.name}</h3>
+              <span style={{ 
+                color: card.rarity === 'Legendary' ? '#ff6b35' : 
+                       card.rarity === 'Epic' ? '#9d4edd' :
+                       card.rarity === 'Rare' ? '#3a86ff' : '#ccc',
+                fontSize: '12px',
+                fontWeight: 'bold'
+              }}>
+                {card.rarity}
+              </span>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '15px', marginBottom: '10px', fontSize: '14px' }}>
+              <span style={{ color: '#ccc' }}>Cost: {card.cost}</span>
+              <span style={{ color: '#ccc' }}>Type: {card.type}</span>
+              {card.strength && <span style={{ color: '#ccc' }}>Strength: {card.strength}</span>}
+            </div>
+
+            <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.4', marginBottom: '15px' }}>
+              {card.description}
+            </p>
+
+            {/* Elements */}
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
+              {card.elements.map(element => (
+                <span 
+                  key={element}
+                  style={{
+                    background: 'rgba(212, 175, 55, 0.2)',
+                    color: '#d4af37',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    border: '1px solid rgba(212, 175, 55, 0.3)'
+                  }}
+                >
+                  {element}
+                </span>
+              ))}
+            </div>
+
+            {/* Keywords */}
+            <div style={{ display: 'flex', gap: '6px', marginBottom: '10px', flexWrap: 'wrap' }}>
+              {card.keywords.map(keyword => (
+                <span 
+                  key={keyword}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    color: '#ccc',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    fontSize: '11px',
+                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                  }}
+                >
+                  {keyword}
+                </span>
+              ))}
+            </div>
+
+            {/* Artist */}
+            {card.artist && (
+              <div style={{ color: '#888', fontSize: '12px', fontStyle: 'italic' }}>
+                Art by {card.artist}
+              </div>
+            )}
           </Card>
         ))}
       </motion.div>
+
+      {/* No results message */}
+      {filteredCards.length === 0 && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          style={{ 
+            textAlign: 'center', 
+            color: '#ccc', 
+            fontSize: '18px', 
+            marginTop: '40px',
+            padding: '40px'
+          }}
+        >
+          No cards found matching your search criteria.
+        </motion.div>
+      )}
     </PageContainer>
   );
 };
@@ -531,8 +994,8 @@ const DecksPage = () => {
   );
 };
 
-const TournamentPage = () => (
-  <PageContainer title="Tournaments">
+const EventsPage = () => (
+  <PageContainer title="Events">
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -543,11 +1006,25 @@ const TournamentPage = () => (
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Weekly Championship</h3>
         <p style={{ color: '#ccc', marginBottom: '5px' }}>Compete for mystical rewards</p>
         <p style={{ color: '#888' }}>Entry Fee: 100 gold</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Open Registration</p>
       </Card>
       <Card delay={0.1}>
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Mystic Masters</h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite tournament for experienced players</p>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite event for experienced players</p>
         <p style={{ color: '#888' }}>Entry Fee: 500 gold</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: In Progress</p>
+      </Card>
+      <Card delay={0.2}>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Elemental Fusion Preview</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Test the new expansion cards</p>
+        <p style={{ color: '#888' }}>Entry Fee: Free</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Coming Soon</p>
+      </Card>
+      <Card delay={0.3}>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Rookie League</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Perfect for new players</p>
+        <p style={{ color: '#888' }}>Entry Fee: 50 gold</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Open Registration</p>
       </Card>
     </motion.div>
   </PageContainer>
@@ -651,7 +1128,7 @@ const Phase3App: React.FC = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/cards" element={<CardsPage />} />
               <Route path="/decks" element={<DecksPage />} />
-              <Route path="/tournament" element={<TournamentPage />} />
+              <Route path="/events" element={<EventsPage />} />
               <Route path="/play" element={<PlayPage />} />
               <Route path="/login" element={<LoginPage />} />
             </Routes>
