@@ -10,18 +10,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { SelfHealingErrorBoundary } from './SelfHealer';
 import { withOptimization } from './SelfOptimizer';
 
+// Import Vercel analytics directly for production
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
+
 // Conditional imports to prevent build issues
 const isBuild = shouldSkipAutonomousSystems();
 
-// Dynamic imports for non-build environments
-let Analytics = null, SpeedInsights = null, trackCustomMetric = null, SpeedMonitor = null;
+// Dynamic imports for autonomous systems (only in development)
+let trackCustomMetric = null, SpeedMonitor = null;
 let SecurityProvider = null, SecurityAutomationProvider = null;
 let useBackgroundCodeEvolution = null, useBackgroundDependencyManager = null, useUltraAutonomousCore = null;
 
 if (!isBuild) {
   Promise.all([
-    import('@vercel/analytics/react').then(m => Analytics = m.Analytics),
-    import('@vercel/speed-insights/react').then(m => SpeedInsights = m.SpeedInsights),
     import('../utils/speedTracking').then(m => trackCustomMetric = m.trackCustomMetric),
     import('../components/SpeedMonitor').then(m => SpeedMonitor = m.default),
     import('../security/SecurityProvider').then(m => SecurityProvider = m.SecurityProvider),
@@ -579,6 +581,9 @@ const RulesPage: React.FC = () => (
 
 // Main App Component with all autonomous systems
 const AllInOneApp: React.FC = () => {
+  console.log('[KONIVRER] App initializing...');
+  console.log('[KONIVRER] Build mode:', isBuild);
+  
   const [user, setUser] = useState(null);
   const [decks, setDecks] = useState<Deck[]>([
     { id: 1, name: 'Fire Aggro', cards: [], description: 'Fast-paced fire deck' },
@@ -621,25 +626,42 @@ const AllInOneApp: React.FC = () => {
           {!isBuild && SpeedMonitor && <SpeedMonitor />}
         </AppContext.Provider>
       </Router>
-      {!isBuild && Analytics && <Analytics />}
-      {!isBuild && SpeedInsights && <SpeedInsights />}
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 
-  // Wrap with security and optimization providers if not in build mode
-  if (!isBuild && SecurityProvider && SecurityAutomationProvider) {
-    return (
-      <SelfHealingErrorBoundary>
+  // Always wrap with error boundary for safety
+  return (
+    <SelfHealingErrorBoundary
+      fallback={
+        <div style={{ 
+          minHeight: '100vh', 
+          background: '#0f0f0f', 
+          color: 'white', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{ color: '#d4af37', marginBottom: '20px' }}>⭐ KONIVRER ⭐</h1>
+            <p>Loading the mystical realm...</p>
+          </div>
+        </div>
+      }
+    >
+      {!isBuild && SecurityProvider && SecurityAutomationProvider ? (
         <SecurityProvider>
           <SecurityAutomationProvider>
             <AppContent />
           </SecurityAutomationProvider>
         </SecurityProvider>
-      </SelfHealingErrorBoundary>
-    );
-  }
-
-  return <AppContent />;
+      ) : (
+        <AppContent />
+      )}
+    </SelfHealingErrorBoundary>
+  );
 };
 
 // Export optimized components
