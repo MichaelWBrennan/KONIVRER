@@ -23,21 +23,23 @@ interface SearchCriteria {
   typeLine: string;
   allowPartialTypes: boolean;
   elements: {
-    brilliance: boolean;
-    chaos: boolean;
-    decay: boolean;
-    growth: boolean;
-    harmony: boolean;
-    void: boolean;
+    fire: boolean;
+    water: boolean;
+    earth: boolean;
+    air: boolean;
+    spirit: boolean;
+    nether: boolean;
+    aether: boolean;
   };
   elementComparison: 'exactly' | 'including' | 'atMost';
   commander: {
-    brilliance: boolean;
-    chaos: boolean;
-    decay: boolean;
-    growth: boolean;
-    harmony: boolean;
-    void: boolean;
+    fire: boolean;
+    water: boolean;
+    earth: boolean;
+    air: boolean;
+    spirit: boolean;
+    nether: boolean;
+    aether: boolean;
   };
   manaCost: string;
   stats: {
@@ -73,21 +75,23 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
     typeLine: '',
     allowPartialTypes: false,
     elements: {
-      brilliance: false,
-      chaos: false,
-      decay: false,
-      growth: false,
-      harmony: false,
-      void: false
+      fire: false,
+      water: false,
+      earth: false,
+      air: false,
+      spirit: false,
+      nether: false,
+      aether: false
     },
     elementComparison: 'exactly',
     commander: {
-      brilliance: false,
-      chaos: false,
-      decay: false,
-      growth: false,
-      harmony: false,
-      void: false
+      fire: false,
+      water: false,
+      earth: false,
+      air: false,
+      spirit: false,
+      nether: false,
+      aether: false
     },
     manaCost: '',
     stats: {
@@ -113,14 +117,15 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
 
   const [isSearching, setIsSearching] = useState(false);
 
-  // KONIVRER-specific adaptations
+  // KONIVRER-specific adaptations with classical elements and alchemical symbols
   const konivrElements = [
-    { key: 'brilliance', label: 'Brilliance', symbol: '{B}', color: '#FFD700', mappedElements: ['Fire'] },
-    { key: 'chaos', label: 'Chaos', symbol: '{C}', color: '#FF4500', mappedElements: ['Air', 'Fire'] },
-    { key: 'decay', label: 'Decay', symbol: '{D}', color: '#8B4513', mappedElements: ['Shadow'] },
-    { key: 'growth', label: 'Growth', symbol: '{G}', color: '#228B22', mappedElements: ['Earth'] },
-    { key: 'harmony', label: 'Harmony', symbol: '{H}', color: '#87CEEB', mappedElements: ['Water'] },
-    { key: 'void', label: 'Void', symbol: '{V}', color: '#696969', mappedElements: [] }
+    { key: 'fire', label: 'Fire', symbol: '🜂', color: '#FF4500', mappedElements: ['Fire'] },
+    { key: 'water', label: 'Water', symbol: '🜄', color: '#4169E1', mappedElements: ['Water'] },
+    { key: 'earth', label: 'Earth', symbol: '🜃', color: '#8B4513', mappedElements: ['Earth'] },
+    { key: 'air', label: 'Air', symbol: '🜁', color: '#87CEEB', mappedElements: ['Air'] },
+    { key: 'spirit', label: 'Spirit', symbol: '🜀', color: '#9370DB', mappedElements: ['Spirit'] },
+    { key: 'nether', label: 'Nether', symbol: '🝚', color: '#2F2F2F', mappedElements: ['Shadow', 'Nether'] },
+    { key: 'aether', label: 'Aether', symbol: '🜊', color: '#FFD700', mappedElements: ['Aether'] }
   ];
 
   const konivrTypes = [
@@ -312,21 +317,23 @@ const ScryfalLikeAdvancedSearch: React.FC<ScryfalLikeAdvancedSearchProps> = ({ c
       typeLine: '',
       allowPartialTypes: false,
       elements: {
-        brilliance: false,
-        chaos: false,
-        decay: false,
-        growth: false,
-        harmony: false,
-        void: false
+        fire: false,
+        water: false,
+        earth: false,
+        air: false,
+        spirit: false,
+        nether: false,
+        aether: false
       },
       elementComparison: 'exactly',
       commander: {
-        brilliance: false,
-        chaos: false,
-        decay: false,
-        growth: false,
-        harmony: false,
-        void: false
+        fire: false,
+        water: false,
+        earth: false,
+        air: false,
+        spirit: false,
+        nether: false,
+        aether: false
       },
       manaCost: '',
       stats: {
