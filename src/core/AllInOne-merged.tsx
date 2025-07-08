@@ -452,6 +452,8 @@ const Navigation: React.FC = () => {
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
   
+  console.log('[HomePage] Rendering HomePage component');
+  
   return (
     <div style={{
       padding: '40px 20px',
