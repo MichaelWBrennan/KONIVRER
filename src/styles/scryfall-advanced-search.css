@@ -1,0 +1,330 @@
+/**
+ * Scryfall-like Advanced Search Styles
+ * Exact replica of Scryfall's advanced search interface adapted for KONIVRER
+ */
+
+.scryfall-advanced-search {
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ccc;
+}
+
+.scryfall-advanced-search .max-w-4xl {
+  max-width: 56rem;
+}
+
+.scryfall-advanced-search .space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.scryfall-advanced-search .flex {
+  display: flex;
+}
+
+.scryfall-advanced-search .gap-4 {
+  gap: 1rem;
+}
+
+.scryfall-advanced-search .justify-center {
+  justify-content: center;
+}
+
+/* Search Sections */
+.search-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.search-label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #d4af37;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ccc;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-input::placeholder {
+  color: #888;
+}
+
+.search-select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ccc;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+  appearance: none;
+  cursor: pointer;
+}
+
+.search-select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-select option {
+  background-color: #1a1a1a;
+  color: #ccc;
+}
+
+.search-input-group {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.add-symbol-btn {
+  padding: 0.75rem;
+  background-color: rgba(212, 175, 55, 0.2);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.add-symbol-btn:hover {
+  background-color: rgba(212, 175, 55, 0.3);
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.search-help-text {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+}
+
+/* Checkbox Groups */
+.search-checkbox-group {
+  margin-top: 0.75rem;
+}
+
+.search-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.search-checkbox-label input[type="checkbox"] {
+  margin: 0;
+  accent-color: #d4af37;
+}
+
+/* Element Selection */
+.element-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.element-fieldset {
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.element-fieldset legend {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #d4af37;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  padding: 0 0.5rem;
+}
+
+.element-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+}
+
+.element-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.15s ease;
+}
+
+.element-label:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.element-label input[type="checkbox"] {
+  margin: 0;
+  accent-color: #d4af37;
+}
+
+.element-symbol {
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-shadow: 0 0 4px currentColor;
+}
+
+.element-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Stats Group */
+.stats-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+@media (max-width: 768px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* Search Buttons */
+.search-button {
+  font-family: inherit;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.search-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.search-button:active {
+  transform: translateY(0);
+}
+
+.search-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.search-button.primary:hover {
+  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+}
+
+.search-button.secondary:hover {
+  background: rgba(212, 175, 55, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .scryfall-advanced-search .max-w-4xl {
+    padding: 1rem;
+  }
+  
+  .search-section {
+    padding: 1rem;
+  }
+  
+  .element-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 0.5rem;
+  }
+  
+  .search-input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .add-symbol-btn {
+    align-self: flex-start;
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom Scrollbar */
+.scryfall-advanced-search::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scryfall-advanced-search::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.scryfall-advanced-search::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+}
+
+.scryfall-advanced-search::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.5);
+}
