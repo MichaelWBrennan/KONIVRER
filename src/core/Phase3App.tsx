@@ -333,7 +333,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
     minHeight: '100vh',
     background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
     color: 'white',
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: 'OpenDyslexic, Arial, sans-serif',
     position: 'relative',
     overflow: 'hidden'
   }}>
@@ -400,7 +400,7 @@ const Header = () => {
               fontWeight: 'bold',
               padding: '8px 16px'
             }}>
-              KONIVRER
+              🏠
             </div>
           ) : (
             <Link
@@ -415,7 +415,7 @@ const Header = () => {
                 transition: 'all 0.3s ease'
               }}
             >
-              KONIVRER
+              🏠
             </Link>
           )}
         </motion.div>

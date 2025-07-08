@@ -1,0 +1,23 @@
+/* Global styles with OpenDyslexic font */
+
+* {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}
+
+/* Preserve monospace for code elements */
+code, pre, .monospace, 
+[style*="fontFamily: 'monospace'"],
+[style*="font-family: monospace"] {
+  font-family: 'Courier New', monospace !important;
+}
+
+/* Ensure all text elements use OpenDyslexic */
+body, html, div, span, p, h1, h2, h3, h4, h5, h6, 
+input, textarea, button, select, option, label {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}
+
+/* Specific overrides for better readability */
+input, textarea, button {
+  font-family: 'OpenDyslexic', Arial, sans-serif !important;
+}

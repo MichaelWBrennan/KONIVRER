@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import Phase3App from './core/Phase3App';
 import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
+import './styles/global.css';
 
 console.log('[APP] Starting KONIVRER Phase 3 Application (Advanced Autonomous)...');
 
