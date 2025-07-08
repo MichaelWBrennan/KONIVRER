@@ -19,7 +19,7 @@ const SyntaxAdvancedSearch: React.FC<SyntaxAdvancedSearchProps> = ({ cards, onSe
   // Parse search syntax and filter cards
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) {
-      return cards;
+      return []; // Return empty array when no search query
     }
 
     const query = searchQuery.toLowerCase().trim();

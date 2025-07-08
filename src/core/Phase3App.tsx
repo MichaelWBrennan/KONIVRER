@@ -11,6 +11,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import BlogSection from '../components/BlogSection';
 import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
+import { KONIVRER_CARDS } from '../data/cards';
 
 // Types
 interface Card {
@@ -624,23 +625,11 @@ const HomePage = () => {
 };
 
 const CardsPage = () => {
-  // Expanded card database with classical elements and alchemical themes
-  const allCards: Card[] = [
-    { id: '1', name: 'Fire Drake', cost: 5, type: 'Familiar', description: 'A powerful dragon that breathes mystical flames.', rarity: 'Rare', elements: ['Fire'], keywords: ['Flying', 'Aggressive'], strength: 6, artist: 'Elena Vasquez' },
-    { id: '2', name: 'Lightning Banner', cost: 3, type: 'Flag', description: 'A mystical banner that channels electric energy to boost allies.', rarity: 'Common', elements: ['Air', 'Fire'], keywords: ['Support', 'Aura'], artist: 'Marcus Chen' },
-    { id: '3', name: 'Water Elemental', cost: 4, type: 'Familiar', description: 'A mystical being of pure water.', rarity: 'Uncommon', elements: ['Water'], keywords: ['Fluid', 'Defensive'], strength: 4, artist: 'Sarah Moon' },
-    { id: '4', name: 'Healing Standard', cost: 2, type: 'Flag', description: 'A sacred banner that continuously heals nearby familiars.', rarity: 'Common', elements: ['Water'], keywords: ['Healing', 'Persistent'], artist: 'David Kim' },
-    { id: '5', name: 'Earth Golem', cost: 6, type: 'Familiar', description: 'A massive creature of stone and soil.', rarity: 'Rare', elements: ['Earth'], keywords: ['Sturdy', 'Defensive'], strength: 8, artist: 'Anna Stone' },
-    { id: '6', name: 'Wind Pennant', cost: 1, type: 'Flag', description: 'A swift banner that enhances movement and agility.', rarity: 'Common', elements: ['Air'], keywords: ['Quick', 'Enhancement'], artist: 'Jin Watanabe' },
-    { id: '7', name: 'Phoenix Rising', cost: 7, type: 'Familiar', description: 'A legendary bird that rises from ashes.', rarity: 'Rare', elements: ['Fire', 'Aether'], keywords: ['Flying', 'Rebirth'], strength: 5, artist: 'Elena Vasquez' },
-    { id: '8', name: 'Frost Emblem', cost: 3, type: 'Flag', description: 'An icy standard that creates protective barriers.', rarity: 'Common', elements: ['Water'], keywords: ['Defensive', 'Shield'], artist: 'Sarah Moon' },
-    { id: '9', name: 'Lightning Hawk', cost: 4, type: 'Familiar', description: 'A majestic bird crackling with electricity.', rarity: 'Uncommon', elements: ['Air', 'Fire'], keywords: ['Flying', 'Quick'], strength: 3, artist: 'Marcus Chen' },
-    { id: '10', name: 'Crystal Insignia', cost: 2, type: 'Flag', description: 'A crystalline banner that amplifies magical attacks.', rarity: 'Common', elements: ['Earth', 'Aether'], keywords: ['Piercing', 'Amplify'], artist: 'Anna Stone' },
-    { id: '11', name: 'Tidal Banner', cost: 5, type: 'Flag', description: 'A powerful oceanic standard that commands the battlefield.', rarity: 'Uncommon', elements: ['Water'], keywords: ['Area', 'Control'], artist: 'Sarah Moon' },
-    { id: '12', name: 'Shadow Wraith', cost: 3, type: 'Familiar', description: 'A ghostly creature that phases through defenses.', rarity: 'Uncommon', elements: ['Nether'], keywords: ['Stealth', 'Ethereal'], strength: 2, artist: 'Viktor Dark' }
-  ];
+  // Use the official KONIVRER card database (65 cards)
+  const allCards: Card[] = KONIVRER_CARDS;
 
-  const [searchResults, setSearchResults] = useState<Card[]>(allCards);
+  // Start with empty search results - user must search to see cards
+  const [searchResults, setSearchResults] = useState<Card[]>([]);
 
   const handleSearchResults = (results: Card[]) => {
     setSearchResults(results);
