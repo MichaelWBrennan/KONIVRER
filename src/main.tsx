@@ -1,8 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import AllInOneApp from './core/AllInOne-streamlined';
-import { SelfHealingProvider } from './core/SelfHealer';
-import { SelfOptimizer } from './core/SelfOptimizer';
+import SimpleApp from './core/SimpleApp';
 
 console.log('[APP] Starting KONIVRER application...');
 
@@ -14,7 +12,7 @@ if (!rootElement) {
 const root = createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <AllInOneApp />
+    <SimpleApp />
   </React.StrictMode>
 );
 
