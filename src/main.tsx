@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import AllInOneApp from './core/AllInOne-merged';
-import LoadingScreen from './components/LoadingScreen';
 import { SelfHealingProvider } from './core/SelfHealer';
 import { SelfOptimizer } from './core/SelfOptimizer';
 
@@ -43,11 +42,6 @@ const selfOptimizer = isBuildMode ? null : SelfOptimizer.getInstance();
 })();
 
 const App: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  
-  const handleLoadingComplete = () => {
-    setLoading(false);
-  };
   
   // In build mode, render without SelfHealingProvider to avoid any autonomous systems
   if (isBuildMode) {
@@ -70,7 +64,6 @@ const App: React.FC = () => {
         logErrors: true,
         reportErrors: false // Never show error reports
       }}>
-        {loading && <LoadingScreen onComplete={handleLoadingComplete} timeout={2000} />}
         <AllInOneApp />
         {/* No UI components for monitoring or statistics */}
       </SelfHealingProvider>
