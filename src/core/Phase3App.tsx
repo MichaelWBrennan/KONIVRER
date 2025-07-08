@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
+import BlogSection from '../components/BlogSection';
 
 // Types
 interface Card {
@@ -23,6 +24,46 @@ interface Deck {
 interface User {
   id: string; username: string; email: string; level: number;
 }
+
+interface BlogPost {
+  id: string; title: string; content: string; author: string; date: string; tags: string[];
+}
+
+// Sample blog data
+const BLOG_POSTS: BlogPost[] = [
+  { 
+    id: 'b1', 
+    title: 'Mastering Fire Decks', 
+    content: 'Fire decks are all about speed and aggression. Focus on low-cost creatures and direct damage spells to overwhelm your opponents before they can establish their defenses. Key strategies include maintaining card advantage through efficient trades and timing your burst damage for maximum impact.', 
+    author: 'CardMaster', 
+    date: '2024-01-15', 
+    tags: ['Strategy', 'Fire'] 
+  },
+  { 
+    id: 'b2', 
+    title: 'Event Report: Winter Championship', 
+    content: 'Last weekend\'s championship was intense with over 200 participants competing for the mystical crown. The meta saw a surprising rise in water-control decks, with three making it to the top 8. The final match between ElementalMage and FrostWarden was a masterclass in strategic play.', 
+    author: 'ProPlayer', 
+    date: '2024-01-10', 
+    tags: ['Events', 'Report'] 
+  },
+  { 
+    id: 'b3', 
+    title: 'New Card Reveals: Elemental Fusion', 
+    content: 'Exciting new cards coming in the next expansion! The Elemental Fusion set introduces dual-element familiars and powerful combination spells. Preview includes the legendary Phoenix Drake and the game-changing Elemental Convergence spell that could reshape the meta.', 
+    author: 'DevTeam', 
+    date: '2024-01-05', 
+    tags: ['News', 'Cards'] 
+  },
+  { 
+    id: 'b4', 
+    title: 'Deck Building Guide: Earth Control', 
+    content: 'Earth decks excel at controlling the battlefield through defensive familiars and resource management. Learn how to build a competitive earth deck that can withstand aggressive strategies while setting up powerful late-game threats.', 
+    author: 'StrategyGuru', 
+    date: '2024-01-03', 
+    tags: ['Strategy', 'Earth', 'Guide'] 
+  }
+];
 
 // App Context for state management
 const AppContext = createContext<{
@@ -342,13 +383,13 @@ const Header = () => {
         padding: '0 20px'
       }}>
         {[
-          { to: '/', icon: '🏠', label: 'Home' },
-          { to: '/cards', icon: '🗃️', label: 'Cards' },
-          { to: '/decks', icon: '📚', label: 'Decks' },
-          { to: '/tournament', icon: '🏆', label: 'Tourna.' },
-          { to: '/play', icon: '▶️', label: 'Play' },
-          { to: '/login', icon: '↗️', label: 'Login' }
-        ].map(({ to, icon, label }) => (
+          { to: '/', label: 'Home' },
+          { to: '/cards', label: 'Cards' },
+          { to: '/decks', label: 'Decks' },
+          { to: '/events', label: 'Events' },
+          { to: '/play', label: 'Play' },
+          { to: '/login', label: 'Login' }
+        ].map(({ to, label }) => (
           <motion.div
             key={to}
             whileHover={{ scale: 1.05 }}
@@ -370,7 +411,6 @@ const Header = () => {
                 transition: 'all 0.3s ease'
               }}
             >
-              <span style={{ fontSize: '20px' }}>{icon}</span>
               {label}
             </Link>
           </motion.div>
@@ -440,14 +480,16 @@ const PageContainer = ({ children, title }: { children: React.ReactNode; title?:
   </motion.div>
 );
 
-// Enhanced Page Components with framer-motion (same as Phase2)
+// Enhanced Page Components with framer-motion and blog system
 const HomePage = () => {
   const features = [
     { title: 'Browse Cards', desc: 'Explore our mystical card collection', link: '/cards' },
     { title: 'Build Decks', desc: 'Create powerful deck combinations', link: '/decks' },
-    { title: 'Join Tournaments', desc: 'Compete in epic tournaments', link: '/tournament' },
+    { title: 'Join Events', desc: 'Compete in epic events and tournaments', link: '/events' },
     { title: 'Play Now', desc: 'Battle against other mystics', link: '/play' }
   ];
+
+  const recentPosts = BLOG_POSTS.slice(0, 3); // Show 3 most recent posts
 
   return (
     <PageContainer>
@@ -457,13 +499,14 @@ const HomePage = () => {
         transition={{ duration: 0.8, ease: "easeOut" }}
         style={{ textAlign: 'center', marginBottom: '60px' }}
       >
-        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>⭐ Welcome to KONIVRER ⭐</h1>
+        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to KONIVRER</h1>
         <p style={{ fontSize: '20px', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
           The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
         </p>
       </motion.div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
+      {/* Features Section */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
         {features.map(({ title, desc, link }, index) => (
           <Link key={title} to={link} style={{ textDecoration: 'none' }}>
             <Card delay={index * 0.1}>
@@ -475,6 +518,70 @@ const HomePage = () => {
           </Link>
         ))}
       </div>
+
+      {/* Blog Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        style={{ marginTop: '60px' }}
+      >
+        <h2 style={{ color: '#d4af37', fontSize: '32px', textAlign: 'center', marginBottom: '40px' }}>
+          Latest Chronicles
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
+          {recentPosts.map((post, index) => (
+            <Card key={post.id} delay={0.5 + index * 0.1}>
+              <div>
+                <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '20px' }}>{post.title}</h3>
+                <div style={{ marginBottom: '15px', display: 'flex', gap: '15px', alignItems: 'center' }}>
+                  <span style={{ color: '#ccc', fontSize: '14px' }}>By {post.author}</span>
+                  <span style={{ color: '#888', fontSize: '14px' }}>{post.date}</span>
+                </div>
+                <p style={{ color: '#ccc', fontSize: '14px', lineHeight: '1.5', marginBottom: '15px' }}>
+                  {post.content.substring(0, 150)}...
+                </p>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  {post.tags.map(tag => (
+                    <span 
+                      key={tag}
+                      style={{
+                        background: 'rgba(212, 175, 55, 0.2)',
+                        color: '#d4af37',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        border: '1px solid rgba(212, 175, 55, 0.3)'
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '30px' }}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            style={{
+              background: 'rgba(212, 175, 55, 0.1)',
+              color: '#d4af37',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            Read All Chronicles
+          </motion.button>
+        </div>
+      </motion.div>
     </PageContainer>
   );
 };
@@ -531,8 +638,8 @@ const DecksPage = () => {
   );
 };
 
-const TournamentPage = () => (
-  <PageContainer title="Tournaments">
+const EventsPage = () => (
+  <PageContainer title="Events">
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -543,11 +650,25 @@ const TournamentPage = () => (
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Weekly Championship</h3>
         <p style={{ color: '#ccc', marginBottom: '5px' }}>Compete for mystical rewards</p>
         <p style={{ color: '#888' }}>Entry Fee: 100 gold</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Open Registration</p>
       </Card>
       <Card delay={0.1}>
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Mystic Masters</h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite tournament for experienced players</p>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Elite event for experienced players</p>
         <p style={{ color: '#888' }}>Entry Fee: 500 gold</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: In Progress</p>
+      </Card>
+      <Card delay={0.2}>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Elemental Fusion Preview</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Test the new expansion cards</p>
+        <p style={{ color: '#888' }}>Entry Fee: Free</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Coming Soon</p>
+      </Card>
+      <Card delay={0.3}>
+        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Rookie League</h3>
+        <p style={{ color: '#ccc', marginBottom: '5px' }}>Perfect for new players</p>
+        <p style={{ color: '#888' }}>Entry Fee: 50 gold</p>
+        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>Status: Open Registration</p>
       </Card>
     </motion.div>
   </PageContainer>
@@ -651,7 +772,7 @@ const Phase3App: React.FC = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/cards" element={<CardsPage />} />
               <Route path="/decks" element={<DecksPage />} />
-              <Route path="/tournament" element={<TournamentPage />} />
+              <Route path="/events" element={<EventsPage />} />
               <Route path="/play" element={<PlayPage />} />
               <Route path="/login" element={<LoginPage />} />
             </Routes>
