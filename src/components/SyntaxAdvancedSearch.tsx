@@ -247,11 +247,11 @@ const SyntaxAdvancedSearch: React.FC<SyntaxAdvancedSearchProps> = ({ cards, onSe
             color: '#ccc'
           }}>
             <strong style={{ color: '#d4af37' }}>Tips:</strong>
-            <ul style={{ margin: '5px 0', paddingLeft: '20px' }}>
-              <li>Combine multiple criteria with spaces</li>
-              <li>Use quotes for exact phrases</li>
-              <li>Use comparison operators: &gt;, &lt;, &gt;=, &lt;=</li>
-              <li>Short forms available: n: (name), c: (cost), t: (type), r: (rarity), e: (element), k: (keyword)</li>
+            <ul style={{ margin: '5px 0', paddingLeft: '20px', listStyle: 'none' }}>
+              <li>• Combine multiple criteria with spaces</li>
+              <li>• Use quotes for exact phrases</li>
+              <li>• Use comparison operators: &gt;, &lt;, &gt;=, &lt;=</li>
+              <li>• Short forms available: n: (name), c: (cost), t: (type), r: (rarity), e: (element), k: (keyword)</li>
             </ul>
           </div>
         </motion.div>
