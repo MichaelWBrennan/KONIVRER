@@ -1,9 +1,10 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
+import DiagnosticApp from './core/DiagnosticApp';
 import EnhancedApp from './core/EnhancedApp';
 import SimpleApp from './core/SimpleApp';
 
-console.log('[APP] Starting KONIVRER Enhanced Application...');
+console.log('[APP] Starting KONIVRER Diagnostic Mode...');
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -12,20 +13,11 @@ if (!rootElement) {
 
 const root = createRoot(rootElement);
 
-// Try to render the enhanced app, fallback to simple app if it fails
-try {
-  root.render(
-    <React.StrictMode>
-      <EnhancedApp />
-    </React.StrictMode>
-  );
-  console.log('[APP] Enhanced app with all autonomous systems initialized successfully');
-} catch (error) {
-  console.error('[APP] Enhanced app failed, falling back to simple app:', error);
-  root.render(
-    <React.StrictMode>
-      <SimpleApp />
-    </React.StrictMode>
-  );
-  console.log('[APP] Simple app fallback initialized');
-}
+// Use diagnostic app to identify issues
+root.render(
+  <React.StrictMode>
+    <DiagnosticApp />
+  </React.StrictMode>
+);
+
+console.log('[APP] Diagnostic app initialized');
