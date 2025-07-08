@@ -12,6 +12,7 @@ import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import BlogSection from '../components/BlogSection';
 import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
 import { KONIVRER_CARDS } from '../data/cards';
+import { AuthProvider, useAuth } from '../contexts/AuthContext';
 
 // Types
 interface Card {
@@ -361,6 +362,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const { user, isAuthenticated, logout } = useAuth();
   
   return (
     <motion.header
@@ -419,13 +421,12 @@ const Header = () => {
         </motion.div>
 
         {/* Navigation links */}
-        <div style={{ display: 'flex', gap: '30px' }}>
+        <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
           {[
             { to: '/cards', label: 'Cards' },
             { to: '/decks', label: 'Decks' },
             { to: '/events', label: 'Events' },
-            { to: '/play', label: 'Play' },
-            { to: '/login', label: 'Login' }
+            { to: '/play', label: 'Play' }
           ].map(({ to, label }) => (
             <motion.div
               key={to}
@@ -452,6 +453,64 @@ const Header = () => {
               </Link>
             </motion.div>
           ))}
+          
+          {/* Authentication section */}
+          {isAuthenticated ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <div style={{
+                color: '#d4af37',
+                fontSize: '14px',
+                padding: '6px 12px',
+                background: 'rgba(212, 175, 55, 0.1)',
+                borderRadius: '6px',
+                border: '1px solid rgba(212, 175, 55, 0.3)'
+              }}>
+                Welcome, {user?.username}
+                {user?.isPremium && <span style={{ color: '#ffd700', marginLeft: '5px' }}>★</span>}
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={logout}
+                style={{
+                  background: 'transparent',
+                  color: '#ccc',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  padding: '6px 12px',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Logout
+              </motion.button>
+            </div>
+          ) : (
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Link
+                to="/login"
+                style={{
+                  color: location.pathname === '/login' ? '#d4af37' : '#ccc',
+                  textDecoration: 'none',
+                  fontSize: '18px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  background: location.pathname === '/login' ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                  border: location.pathname === '/login' ? '1px solid rgba(212, 175, 55, 0.3)' : '1px solid transparent',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Login
+              </Link>
+            </motion.div>
+          )}
         </div>
       </nav>
     </motion.header>
@@ -625,6 +684,8 @@ const HomePage = () => {
 };
 
 const CardsPage = () => {
+  const { isAuthenticated, hasAdvancedFeatures } = useAuth();
+  
   // Use the official KONIVRER card database (65 cards)
   const allCards: Card[] = KONIVRER_CARDS;
 
@@ -637,7 +698,30 @@ const CardsPage = () => {
 
   return (
     <PageContainer title="Mystical Card Database">
-      <SyntaxAdvancedSearch cards={allCards} onSearchResults={handleSearchResults} />
+      {!isAuthenticated && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          style={{
+            background: 'rgba(212, 175, 55, 0.1)',
+            border: '1px solid rgba(212, 175, 55, 0.3)',
+            borderRadius: '8px',
+            padding: '15px',
+            marginBottom: '20px',
+            textAlign: 'center'
+          }}
+        >
+          <p style={{ color: '#d4af37', margin: 0, fontSize: '14px' }}>
+            🔒 <Link to="/login" style={{ color: '#d4af37', textDecoration: 'underline' }}>Login</Link> to unlock advanced search features, deck building tools, and premium card insights!
+          </p>
+        </motion.div>
+      )}
+      
+      <SyntaxAdvancedSearch 
+        cards={allCards} 
+        onSearchResults={handleSearchResults}
+        hasAdvancedFeatures={hasAdvancedFeatures}
+      />
     </PageContainer>
   );
 };
@@ -729,46 +813,168 @@ const PlayPage = () => {
   );
 };
 
-const LoginPage = () => (
-  <PageContainer>
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
-      style={{ maxWidth: '600px', margin: '0 auto' }}
-    >
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+const LoginPage = () => {
+  const { login, isAuthenticated } = useAuth();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      window.location.href = '/cards';
+    }
+  }, [isAuthenticated]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const success = await login(username, password);
+      if (!success) {
+        setError('Invalid credentials. Please try again.');
+      }
+    } catch (err) {
+      setError('Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <PageContainer>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center' }}
+        style={{ maxWidth: '500px', margin: '0 auto' }}
       >
-        Login to KONIVRER
-      </motion.h1>
-      <Card>
-        <div style={{ textAlign: 'center' }}>
-          <p style={{ color: '#ccc', marginBottom: '20px' }}>Enter the mystical realm</p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: '#d4af37',
-              color: '#0f0f0f',
-              border: 'none',
-              padding: '12px 24px',
-              borderRadius: '6px',
-              fontSize: '16px',
-              cursor: 'pointer',
-              fontWeight: 'bold'
-            }}
-          >
-            Login
-          </motion.button>
-        </div>
-      </Card>
-    </motion.div>
-  </PageContainer>
-);
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center' }}
+        >
+          Login to KONIVRER
+        </motion.h1>
+        <Card>
+          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+            <p style={{ color: '#ccc', marginBottom: '10px' }}>Enter the mystical realm</p>
+            <p style={{ color: '#888', fontSize: '14px' }}>
+              Unlock advanced search features and deck building tools
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div>
+              <label style={{ color: '#d4af37', display: 'block', marginBottom: '8px', fontSize: '14px' }}>
+                Username
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '6px',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '16px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#d4af37'}
+                onBlur={(e) => e.target.style.borderColor = 'rgba(212, 175, 55, 0.3)'}
+                placeholder="Enter your username"
+              />
+            </div>
+
+            <div>
+              <label style={{ color: '#d4af37', display: 'block', marginBottom: '8px', fontSize: '14px' }}>
+                Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '6px',
+                  border: '1px solid rgba(212, 175, 55, 0.3)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  color: '#fff',
+                  fontSize: '16px',
+                  outline: 'none',
+                  transition: 'border-color 0.3s ease'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#d4af37'}
+                onBlur={(e) => e.target.style.borderColor = 'rgba(212, 175, 55, 0.3)'}
+                placeholder="Enter your password"
+              />
+            </div>
+
+            {error && (
+              <div style={{
+                color: '#ff6b6b',
+                fontSize: '14px',
+                textAlign: 'center',
+                padding: '10px',
+                background: 'rgba(255, 107, 107, 0.1)',
+                borderRadius: '6px',
+                border: '1px solid rgba(255, 107, 107, 0.3)'
+              }}>
+                {error}
+              </div>
+            )}
+
+            <motion.button
+              type="submit"
+              disabled={isLoading || !username || !password}
+              whileHover={!isLoading ? { scale: 1.02 } : {}}
+              whileTap={!isLoading ? { scale: 0.98 } : {}}
+              style={{
+                background: isLoading || !username || !password ? '#666' : '#d4af37',
+                color: '#0f0f0f',
+                border: 'none',
+                padding: '14px 24px',
+                borderRadius: '6px',
+                fontSize: '16px',
+                cursor: isLoading || !username || !password ? 'not-allowed' : 'pointer',
+                fontWeight: 'bold',
+                transition: 'all 0.3s ease'
+              }}
+            >
+              {isLoading ? 'Logging in...' : 'Login'}
+            </motion.button>
+          </form>
+
+          <div style={{
+            marginTop: '20px',
+            padding: '15px',
+            background: 'rgba(212, 175, 55, 0.05)',
+            borderRadius: '6px',
+            border: '1px solid rgba(212, 175, 55, 0.2)'
+          }}>
+            <p style={{ color: '#d4af37', fontSize: '14px', fontWeight: 'bold', marginBottom: '8px' }}>
+              Demo Login
+            </p>
+            <p style={{ color: '#ccc', fontSize: '13px', lineHeight: '1.4' }}>
+              Enter any username and password to access the demo account with advanced features.
+            </p>
+          </div>
+        </Card>
+      </motion.div>
+    </PageContainer>
+  );
+};
 
 // Main Phase 3 App Component
 const Phase3App: React.FC = () => {
@@ -789,25 +995,27 @@ const Phase3App: React.FC = () => {
   }), [user, decks, bookmarks]);
 
   return (
-    <AppContainer>
-      <Router>
-        <AppContext.Provider value={contextValue}>
-          <Header />
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/cards" element={<CardsPage />} />
-              <Route path="/decks" element={<DecksPage />} />
-              <Route path="/events" element={<EventsPage />} />
-              <Route path="/play" element={<PlayPage />} />
-              <Route path="/login" element={<LoginPage />} />
-            </Routes>
-          </AnimatePresence>
-        </AppContext.Provider>
-      </Router>
-      <Analytics />
-      <SpeedInsights />
-    </AppContainer>
+    <AuthProvider>
+      <AppContainer>
+        <Router>
+          <AppContext.Provider value={contextValue}>
+            <Header />
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/cards" element={<CardsPage />} />
+                <Route path="/decks" element={<DecksPage />} />
+                <Route path="/events" element={<EventsPage />} />
+                <Route path="/play" element={<PlayPage />} />
+                <Route path="/login" element={<LoginPage />} />
+              </Routes>
+            </AnimatePresence>
+          </AppContext.Provider>
+        </Router>
+        <Analytics />
+        <SpeedInsights />
+      </AppContainer>
+    </AuthProvider>
   );
 };
 

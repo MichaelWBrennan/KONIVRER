@@ -10,11 +10,14 @@ interface Card {
 interface SyntaxAdvancedSearchProps {
   cards: Card[];
   onSearchResults: (results: Card[]) => void;
+  hasAdvancedFeatures?: boolean;
 }
 
-const SyntaxAdvancedSearch: React.FC<SyntaxAdvancedSearchProps> = ({ cards, onSearchResults }) => {
+const SyntaxAdvancedSearch: React.FC<SyntaxAdvancedSearchProps> = ({ cards, onSearchResults, hasAdvancedFeatures = false }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showGuide, setShowGuide] = useState(false);
+  const [savedSearches, setSavedSearches] = useState<string[]>([]);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   // Parse search syntax and filter cards
   const searchResults = useMemo(() => {
@@ -178,6 +181,150 @@ const SyntaxAdvancedSearch: React.FC<SyntaxAdvancedSearchProps> = ({ cards, onSe
             ?
           </motion.button>
         </div>
+        
+        {/* Advanced Features for Logged-in Users */}
+        {hasAdvancedFeatures && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            style={{
+              marginTop: '15px',
+              padding: '15px',
+              background: 'rgba(212, 175, 55, 0.05)',
+              border: '1px solid rgba(212, 175, 55, 0.2)',
+              borderRadius: '8px'
+            }}
+          >
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <span style={{ color: '#d4af37', fontSize: '14px', fontWeight: 'bold' }}>
+                ⭐ Premium Features:
+              </span>
+              
+              {searchQuery && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    if (!savedSearches.includes(searchQuery)) {
+                      setSavedSearches([...savedSearches, searchQuery]);
+                    }
+                  }}
+                  style={{
+                    background: 'rgba(212, 175, 55, 0.2)',
+                    border: '1px solid rgba(212, 175, 55, 0.4)',
+                    borderRadius: '4px',
+                    padding: '4px 8px',
+                    color: '#d4af37',
+                    fontSize: '12px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  💾 Save Search
+                </motion.button>
+              )}
+              
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                style={{
+                  background: 'rgba(212, 175, 55, 0.2)',
+                  border: '1px solid rgba(212, 175, 55, 0.4)',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  color: '#d4af37',
+                  fontSize: '12px',
+                  cursor: 'pointer'
+                }}
+              >
+                🔧 Advanced Filters
+              </motion.button>
+              
+              <span style={{ color: '#888', fontSize: '12px' }}>
+                📊 Enhanced Analytics • 🎯 Smart Suggestions • 💎 Premium Insights
+              </span>
+            </div>
+            
+            {/* Saved Searches */}
+            {savedSearches.length > 0 && (
+              <div style={{ marginTop: '10px' }}>
+                <div style={{ color: '#d4af37', fontSize: '12px', marginBottom: '5px' }}>
+                  Saved Searches:
+                </div>
+                <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                  {savedSearches.map((search, index) => (
+                    <motion.button
+                      key={index}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSearchQuery(search)}
+                      style={{
+                        background: 'rgba(212, 175, 55, 0.1)',
+                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                        borderRadius: '4px',
+                        padding: '2px 6px',
+                        color: '#ccc',
+                        fontSize: '11px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {search.length > 20 ? search.substring(0, 20) + '...' : search}
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {/* Advanced Filters */}
+            {showAdvancedFilters && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                style={{
+                  marginTop: '10px',
+                  padding: '10px',
+                  background: 'rgba(0, 0, 0, 0.2)',
+                  borderRadius: '6px'
+                }}
+              >
+                <div style={{ color: '#d4af37', fontSize: '12px', marginBottom: '8px' }}>
+                  Quick Filters:
+                </div>
+                <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+                  {[
+                    'rarity:rare',
+                    'type:familiar',
+                    'element:fire',
+                    'element:water',
+                    'cost:>=5',
+                    'keyword:flying'
+                  ].map((filter) => (
+                    <motion.button
+                      key={filter}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => {
+                        const newQuery = searchQuery ? `${searchQuery} ${filter}` : filter;
+                        setSearchQuery(newQuery);
+                      }}
+                      style={{
+                        background: 'rgba(212, 175, 55, 0.1)',
+                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                        borderRadius: '4px',
+                        padding: '2px 6px',
+                        color: '#ccc',
+                        fontSize: '11px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      + {filter}
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+        )}
         
         {/* Results Count */}
         <div style={{ 
