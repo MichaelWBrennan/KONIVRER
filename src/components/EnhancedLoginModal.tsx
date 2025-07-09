@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './AdvancedLoginModal.css';
+import { useAdvancedSecurity, useSanitizedInput, useCSRFProtection, useSecureSession } from '../security/AdvancedSecuritySystem';
 
 // Types
 interface User {
@@ -42,6 +43,17 @@ enum AuthMethod {
 
 // Enhanced login modal with modern features
 const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => {
+  // Security hooks
+  const { reportThreat } = useAdvancedSecurity();
+  const { token: csrfToken, validate: validateCSRF } = useCSRFProtection();
+  const { sessionToken, isValid: isSessionValid, refresh: refreshSession } = useSecureSession();
+  
+  // Sanitized inputs
+  const [username, setUsername] = useSanitizedInput('');
+  const [password, setPassword] = useSanitizedInput('');
+  const [email, setEmail] = useSanitizedInput('');
+  const [confirmPassword, setConfirmPassword] = useSanitizedInput('');
+  
   // Refs
   const modalRef = useRef<HTMLDivElement>(null);
   const usernameInputRef = useRef<HTMLInputElement>(null);
