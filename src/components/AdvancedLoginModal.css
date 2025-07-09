@@ -48,6 +48,84 @@
   }
 }
 
+/* SSO Button Styles */
+.sso-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sso-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.sso-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sso-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.sso-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.sso-button img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.sso-button span {
+  flex: 1;
+  text-align: left;
+}
+
+/* SSO Loading Animation */
+.sso-button .loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Show more providers button */
+.sso-buttons-container button[data-testid="show-more-sso-providers"] {
+  padding: 8px 16px;
+  background: transparent;
+  color: #666;
+  border: 1px dashed #ddd;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sso-buttons-container button[data-testid="show-more-sso-providers"]:hover {
+  border-color: #999;
+  color: #333;
+}
+
 .shake {
   animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
