@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KONIVRER Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0f0f0f;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to bottom, rgba(20, 20, 20, 0.98), rgba(15, 15, 15, 0.95));
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 70px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            flex: 1;
+        }
+        
+        .nav-link {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid transparent;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .nav-link:hover {
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            border-bottom: 2px solid #d4af37;
+        }
+        
+        .nav-link.special {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            border-bottom: 2px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+        
+        .login-btn {
+            color: #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: 2px solid #d4af37;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        
+        .content {
+            padding: 90px 20px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .title {
+            color: #d4af37;
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">KONIVRER</div>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Cards</a>
+                <a href="#" class="nav-link">Search</a>
+                <a href="#" class="nav-link">Decks</a>
+                <a href="#" class="nav-link">Events</a>
+                <a href="#" class="nav-link special">Play</a>
+                <button class="login-btn">Login</button>
+            </div>
+        </nav>
+    </header>
+    
+    <div class="content">
+        <h1 class="title">KONIVRER Deck Database</h1>
+        <p>This is a test of the resized menu bar. All navigation links and the login button should be visible at once.</p>
+        
+        <h2>Menu Bar Features:</h2>
+        <ul>
+            <li>Increased height from 60px to 70px minimum</li>
+            <li>Added flexbox wrapping for responsive design</li>
+            <li>Reduced font size from 18px to 16px for better fit</li>
+            <li>Added KONIVRER logo/brand on the left</li>
+            <li>Centered navigation links with proper spacing</li>
+            <li>Login button positioned on the right</li>
+            <li>All elements use white-space: nowrap to prevent text wrapping</li>
+        </ul>
+    </div>
+</body>
+</html>

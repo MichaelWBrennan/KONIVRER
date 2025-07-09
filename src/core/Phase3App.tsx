@@ -8,10 +8,9 @@ import { SelfHealingProvider } from '../utils/selfHealingIntegration';
 import { withAdvancedHealing } from '../utils/realTimeHealing';
 import { healingConfigManager } from '../config/healingConfig';
 import BlogSection from '../components/BlogSection';
-import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
+import UnifiedCardSearch from '../components/UnifiedCardSearch';
+import SearchPage from '../components/SearchPage';
 import EnhancedLoginModal from '../components/EnhancedLoginModal';
-import ScryfalInspiredSearch from '../components/ScryfalInspiredSearch';
-import SearchIntegration from '../search/SearchIntegration';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import { KONIVRER_CARDS } from '../data/cards';
@@ -278,7 +277,7 @@ const LoginModal = () => {
 
 // Page Container Component
 const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
-  <div style={{ padding: '80px 20px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+  <div style={{ padding: '90px 20px 40px', maxWidth: '1200px', margin: '0 auto' }}>
     {title && (
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
@@ -371,19 +370,33 @@ const Header = () => {
     >
       <nav style={{
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        maxWidth: '1200px',
+        maxWidth: '1400px',
         margin: '0 auto',
         padding: '0 20px',
-        height: '60px'
+        minHeight: '70px',
+        flexWrap: 'wrap',
+        gap: '10px'
       }}>
+        {/* Logo/Brand */}
+        <div style={{
+          fontSize: '24px',
+          fontWeight: 'bold',
+          color: '#d4af37',
+          textShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
+        }}>
+          KONIVRER
+        </div>
+        
         {/* Navigation links - always visible as menubar */}
         <div style={{
           display: 'flex',
-          gap: '15px',
+          gap: '12px',
           alignItems: 'center',
-          height: '100%'
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          flex: '1'
         }}>
           {navLinks.map(({ to, label, onClick, special }) => (
             <motion.div
@@ -391,7 +404,6 @@ const Header = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
-                height: '100%',
                 display: 'flex',
                 alignItems: 'center'
               }}
@@ -402,18 +414,18 @@ const Header = () => {
                   style={{
                     color: '#d4af37',
                     textDecoration: 'none',
-                    fontSize: '18px',
+                    fontSize: '16px',
                     fontWeight: 'bold',
                     display: 'flex',
                     alignItems: 'center',
-                    height: '100%',
-                    padding: '0 16px',
-                    borderRadius: '4px',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
                     background: 'rgba(212, 175, 55, 0.1)',
-                    border: 'none',
-                    borderBottom: '3px solid #d4af37',
+                    border: '1px solid rgba(212, 175, 55, 0.3)',
+                    borderBottom: '2px solid #d4af37',
                     transition: 'all 0.3s ease',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   {label}
@@ -424,22 +436,22 @@ const Header = () => {
                   style={{
                     color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
                     textDecoration: 'none',
-                    fontSize: '18px',
+                    fontSize: '16px',
                     fontWeight: 'bold',
                     display: 'flex',
                     alignItems: 'center',
-                    height: '100%',
-                    padding: '0 16px',
-                    borderRadius: '4px',
+                    padding: '8px 12px',
+                    borderRadius: '6px',
                     background: special 
                       ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
                       : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
-                    border: special ? '2px solid rgba(212, 175, 55, 0.5)' : 'none',
+                    border: special ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid transparent',
                     borderBottom: special 
                       ? '2px solid rgba(212, 175, 55, 0.5)' 
-                      : (location.pathname === to ? '3px solid #d4af37' : '3px solid transparent'),
+                      : (location.pathname === to ? '2px solid #d4af37' : '2px solid transparent'),
                     transition: 'all 0.3s ease',
-                    boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none'
+                    boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none',
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   {label}
@@ -615,7 +627,14 @@ const CardsPage = () => {
 
   return (
     <PageContainer title="Mystical Card Database">
-      <ScryfalInspiredSearch cards={allCards} onSearchResults={handleSearchResults} />
+      <UnifiedCardSearch 
+        cards={allCards} 
+        onSearchResults={handleSearchResults}
+        showAdvancedFilters={true}
+        showSortOptions={true}
+        showSearchHistory={true}
+        initialMode="syntax"
+      />
     </PageContainer>
   );
 };
@@ -1116,7 +1135,7 @@ const Phase3App = () => {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/cards" element={<CardsPage />} />
-                  <Route path="/search" element={<SearchIntegration />} />
+                  <Route path="/search" element={<SearchPage />} />
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
