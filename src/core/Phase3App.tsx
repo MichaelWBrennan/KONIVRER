@@ -11,6 +11,7 @@ import BlogSection from '../components/BlogSection';
 import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
 import EnhancedLoginModal from '../components/EnhancedLoginModal';
 import ScryfalInspiredSearch from '../components/ScryfalInspiredSearch';
+import SearchIntegration from '../search/SearchIntegration';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import { KONIVRER_CARDS } from '../data/cards';
@@ -373,6 +374,7 @@ const Header = () => {
   
   const navLinks: NavLink[] = [
     { to: '/cards', label: 'Cards' },
+    { to: '/search', label: 'Search' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
     { to: '/play', label: 'Play Now', special: true },
@@ -1306,6 +1308,7 @@ const Phase3App = () => {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/cards" element={<CardsPage />} />
+                  <Route path="/search" element={<SearchIntegration />} />
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
