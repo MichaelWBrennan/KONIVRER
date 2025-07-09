@@ -36,7 +36,7 @@ export class AdvancedErrorBoundary extends React.Component<
     };
 
     // Attempt immediate healing
-    const healed = await selfHealingSystem.healError(error, context);
+    const healed = await advancedSelfHealing.healError(error, context);
     
     if (healed && this.state.healingAttempts < 3) {
       // Silent recovery
@@ -103,7 +103,7 @@ export function useRealTimeHealing() {
 
           // Auto-optimize if performance degrades
           if (avgRenderTime > 50) {
-            selfHealingSystem.healError(new Error('Performance degradation'), {
+            advancedSelfHealing.healError(new Error('Performance degradation'), {
               renderTime: avgRenderTime,
               component: 'useRealTimeHealing'
             });
@@ -127,7 +127,7 @@ export function useRealTimeHealing() {
 
         // Detect memory leaks
         if (currentUsage > memoryRef.current * 1.5 && memoryRef.current > 0) {
-          selfHealingSystem.healError(new Error('Memory leak detected'), {
+          advancedSelfHealing.healError(new Error('Memory leak detected'), {
             previousUsage: memoryRef.current,
             currentUsage,
             component: 'useRealTimeHealing'
@@ -240,7 +240,7 @@ export function useSelfHealingFetch() {
           await new Promise(resolve => setTimeout(resolve, delay));
           
           // Attempt healing
-          await selfHealingSystem.healError(lastError, {
+          await advancedSelfHealing.healError(lastError, {
             url,
             options,
             attempt,
@@ -289,7 +289,7 @@ export function useSelfHealingState<T>(
       // Attempt healing
       const healedState = healer ? healer(nextState) : backupRef.current;
       
-      selfHealingSystem.healError(new Error('Invalid state detected'), {
+      advancedSelfHealing.healError(new Error('Invalid state detected'), {
         component: 'useSelfHealingState',
         corruptedState: nextState,
         healedState
@@ -354,7 +354,7 @@ export function withAdvancedHealing<P extends object>(
           
           // Predict potential issues
           if (renderDelta > 100 && renderCountRef.current > 10) {
-            selfHealingSystem.healError(new Error('Potential performance issue'), {
+            advancedSelfHealing.healError(new Error('Potential performance issue'), {
               component: Component.name,
               renderCount: renderCountRef.current,
               renderDelta,
@@ -379,7 +379,7 @@ export function withAdvancedHealing<P extends object>(
           return <Component {...innerProps} ref={innerRef || componentRef} />;
         } catch (error) {
           // Immediate healing attempt
-          selfHealingSystem.healError(error as Error, {
+          advancedSelfHealing.healError(error as Error, {
             component: Component.name,
             props: innerProps,
             renderCount: renderCountRef.current
@@ -410,7 +410,7 @@ export const SystemHealthMonitor: React.FC<{ visible?: boolean }> = ({ visible =
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // This would integrate with the selfHealingSystem to get real metrics
+      // This would integrate with the advancedSelfHealing to get real metrics
       setHealth({
         status: 'optimal',
         healingActive: false,
