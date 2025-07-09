@@ -6,7 +6,8 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import BlogSection from '../components/BlogSection';
 import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
-import AdvancedLoginModal from '../components/AdvancedLoginModal';
+import EnhancedLoginModal from '../components/EnhancedLoginModal';
+import ScryfalInspiredSearch from '../components/ScryfalInspiredSearch';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import { KONIVRER_CARDS } from '../data/cards';
@@ -250,174 +251,20 @@ const useAdvancedAutonomous = () => {
 };
 
 // Login Modal Component
+// Enhanced Login Modal Component
 const LoginModal = () => {
   const { showLoginModal, setShowLoginModal, setUser } = useContext(AppContext);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   
-  const handleLogin = () => {
-    if (username && password) {
-      // Simulate login
-      setUser({
-        id: 'u1',
-        username,
-        email: `${username}@example.com`,
-        level: 1
-      });
-      setShowLoginModal(false);
-      setUsername('');
-      setPassword('');
-      setError('');
-    } else {
-      setError('Please enter both username and password');
-    }
+  const handleLogin = (user: User) => {
+    setUser(user);
   };
   
-  if (!showLoginModal) return null;
-  
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'rgba(0, 0, 0, 0.8)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 2000
-      }}
-      onClick={() => setShowLoginModal(false)}
-    >
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: 'spring', damping: 20 }}
-        style={{
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)',
-          borderRadius: '12px',
-          padding: '30px',
-          width: '90%',
-          maxWidth: '400px',
-          border: '1px solid rgba(212, 175, 55, 0.3)',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
-        }}
-        onClick={e => e.stopPropagation()}
-      >
-        <h2 style={{ color: '#d4af37', marginBottom: '20px', textAlign: 'center' }}>Login to KONIVRER</h2>
-        
-        {error && (
-          <div style={{ 
-            color: '#ff6b6b', 
-            background: 'rgba(255, 107, 107, 0.1)', 
-            padding: '10px', 
-            borderRadius: '4px', 
-            marginBottom: '15px',
-            fontSize: '14px'
-          }}>
-            {error}
-          </div>
-        )}
-        
-        <div style={{ marginBottom: '15px' }}>
-          <label style={{ color: '#ccc', display: 'block', marginBottom: '5px', fontSize: '14px' }}>
-            Username
-          </label>
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              borderRadius: '4px',
-              color: 'white',
-              fontSize: '16px'
-            }}
-            placeholder="Enter your username"
-          />
-        </div>
-        
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ color: '#ccc', display: 'block', marginBottom: '5px', fontSize: '14px' }}>
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            style={{
-              width: '100%',
-              padding: '10px',
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              borderRadius: '4px',
-              color: 'white',
-              fontSize: '16px'
-            }}
-            placeholder="Enter your password"
-          />
-        </div>
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: 'transparent',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              color: '#ccc',
-              padding: '10px 20px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px'
-            }}
-            onClick={() => setShowLoginModal(false)}
-          >
-            Cancel
-          </motion.button>
-          
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: 'rgba(212, 175, 55, 0.2)',
-              border: '1px solid rgba(212, 175, 55, 0.5)',
-              color: '#d4af37',
-              padding: '10px 20px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: 'bold'
-            }}
-            onClick={handleLogin}
-          >
-            Login
-          </motion.button>
-        </div>
-        
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <a 
-            href="#" 
-            style={{ color: '#d4af37', fontSize: '14px', textDecoration: 'none' }}
-            onClick={(e) => {
-              e.preventDefault();
-              alert('Password reset functionality coming soon!');
-            }}
-          >
-            Forgot your password?
-          </a>
-        </div>
-      </motion.div>
-    </motion.div>
+    <EnhancedLoginModal
+      isOpen={showLoginModal}
+      onClose={() => setShowLoginModal(false)}
+      onLogin={handleLogin}
+    />
   );
 };
 
@@ -514,14 +361,15 @@ const Header = () => {
     to: string;
     label: string;
     onClick?: () => void;
+    special?: boolean;
   }
   
   const navLinks: NavLink[] = [
     { to: '/cards', label: 'Cards' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play' },
-    { to: '#', label: 'Login', onClick: () => setShowLoginModal(true) }
+    { to: '/play', label: '🎮 Play Now', special: true },
+    { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
   ];
   
   // Mobile menu toggle
@@ -629,7 +477,7 @@ const Header = () => {
             alignItems: 'center',
             height: '100%'
           }}>
-            {navLinks.map(({ to, label, onClick }) => (
+            {navLinks.map(({ to, label, onClick, special }) => (
               <motion.div
                 key={to}
                 whileHover={{ scale: 1.05 }}
@@ -666,7 +514,7 @@ const Header = () => {
                   <Link
                     to={to}
                     style={{
-                      color: location.pathname === to ? '#d4af37' : '#ccc',
+                      color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
                       textDecoration: 'none',
                       fontSize: isTablet ? '16px' : '18px',
                       fontWeight: 'bold',
@@ -675,9 +523,15 @@ const Header = () => {
                       height: '100%',
                       padding: isTablet ? '0 10px' : '0 16px',
                       borderRadius: '4px',
-                      background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                      borderBottom: location.pathname === to ? '3px solid #d4af37' : '3px solid transparent',
-                      transition: 'all 0.3s ease'
+                      background: special 
+                        ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
+                        : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
+                      border: special ? '2px solid rgba(212, 175, 55, 0.5)' : 'none',
+                      borderBottom: special 
+                        ? '2px solid rgba(212, 175, 55, 0.5)' 
+                        : (location.pathname === to ? '3px solid #d4af37' : '3px solid transparent'),
+                      transition: 'all 0.3s ease',
+                      boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none'
                     }}
                   >
                     {label}
@@ -712,7 +566,7 @@ const Header = () => {
                   zIndex: 1000
                 }}
               >
-                {navLinks.map(({ to, label, onClick }) => (
+                {navLinks.map(({ to, label, onClick, special }) => (
                   <motion.div
                     key={to}
                     whileTap={{ scale: 0.95 }}
@@ -750,15 +604,20 @@ const Header = () => {
                         to={to}
                         onClick={() => setMenuOpen(false)}
                         style={{
-                          color: location.pathname === to ? '#d4af37' : '#ccc',
+                          color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
                           textDecoration: 'none',
                           fontSize: '18px',
                           fontWeight: 'bold',
                           display: 'block',
                           padding: '12px 0',
-                          background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
-                          borderLeft: location.pathname === to ? '4px solid #d4af37' : '4px solid transparent',
-                          transition: 'all 0.3s ease'
+                          background: special 
+                            ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
+                            : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
+                          borderLeft: special 
+                            ? '4px solid #d4af37' 
+                            : (location.pathname === to ? '4px solid #d4af37' : '4px solid transparent'),
+                          transition: 'all 0.3s ease',
+                          boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.2)' : 'none'
                         }}
                       >
                         {label}
@@ -935,7 +794,7 @@ const CardsPage = () => {
 
   return (
     <PageContainer title="Mystical Card Database">
-      <SyntaxAdvancedSearch cards={allCards} onSearchResults={handleSearchResults} />
+      <ScryfalInspiredSearch cards={allCards} onSearchResults={handleSearchResults} />
     </PageContainer>
   );
 };
@@ -1013,70 +872,324 @@ const EventsPage = () => (
   </PageContainer>
 );
 
-const PlayPage = () => (
-  <PageContainer title="Play KONIVRER">
-    <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        style={{ color: '#ccc', marginBottom: '30px', fontSize: '18px' }}
-      >
-        Choose your preferred play mode below and begin your mystical journey.
-      </motion.p>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '40px' }}
-      >
-        <Card>
-          <h3 style={{ color: '#d4af37', marginBottom: '15px', textAlign: 'center' }}>Quick Match</h3>
-          <p style={{ color: '#ccc', textAlign: 'center' }}>Jump into a game with a random opponent</p>
-        </Card>
-        <Card delay={0.1}>
-          <h3 style={{ color: '#d4af37', marginBottom: '15px', textAlign: 'center' }}>Ranked Play</h3>
-          <p style={{ color: '#ccc', textAlign: 'center' }}>Compete for ranking points and seasonal rewards</p>
-        </Card>
-        <Card delay={0.2}>
-          <h3 style={{ color: '#d4af37', marginBottom: '15px', textAlign: 'center' }}>Practice Mode</h3>
-          <p style={{ color: '#ccc', textAlign: 'center' }}>Play against AI opponents to hone your skills</p>
-        </Card>
-      </motion.div>
-      
-      <motion.button
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.5 }}
-        whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(212, 175, 55, 0.4)' }}
-        whileTap={{ scale: 0.95 }}
-        style={{
-          background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)',
-          border: '2px solid rgba(212, 175, 55, 0.5)',
-          color: '#d4af37',
-          padding: '15px 40px',
-          borderRadius: '8px',
-          fontSize: '20px',
-          fontWeight: 'bold',
-          cursor: 'pointer',
-          marginTop: '20px'
-        }}
-      >
-        Launch Game Client
-      </motion.button>
-      
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        style={{ color: '#888', marginTop: '20px', fontSize: '14px' }}
-      >
-        Game client requires download. Minimum specs: 4GB RAM, 2GHz processor.
-      </motion.p>
-    </div>
-  </PageContainer>
-);
+const PlayPage = () => {
+  const { user, setShowLoginModal } = useContext(AppContext);
+  const [selectedGameMode, setSelectedGameMode] = useState<string | null>(null);
+  const [gameStarted, setGameStarted] = useState(false);
+
+  const gameModes = [
+    {
+      id: 'practice',
+      title: 'Practice Mode',
+      description: 'Play against AI opponents to learn the game',
+      icon: '🎯',
+      difficulty: 'Beginner Friendly',
+      requiresAccount: false
+    },
+    {
+      id: 'quick',
+      title: 'Quick Match',
+      description: 'Jump into a game with a random opponent',
+      icon: '⚡',
+      difficulty: 'All Levels',
+      requiresAccount: false
+    },
+    {
+      id: 'ranked',
+      title: 'Ranked Play',
+      description: 'Compete for ranking points and seasonal rewards',
+      icon: '🏆',
+      difficulty: 'Competitive',
+      requiresAccount: false
+    },
+    {
+      id: 'tournament',
+      title: 'Tournament',
+      description: 'Join structured tournaments with prizes',
+      icon: '👑',
+      difficulty: 'Expert',
+      requiresAccount: false
+    }
+  ];
+
+  const startGame = (mode: string) => {
+    setSelectedGameMode(mode);
+    setGameStarted(true);
+    
+    // Simulate game initialization
+    setTimeout(() => {
+      alert(`Starting ${gameModes.find(m => m.id === mode)?.title}! Game would launch here.`);
+      setGameStarted(false);
+    }, 2000);
+  };
+
+  if (gameStarted) {
+    return (
+      <PageContainer title="Launching Game...">
+        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            style={{ 
+              width: '80px', 
+              height: '80px', 
+              border: '4px solid rgba(212, 175, 55, 0.3)',
+              borderTop: '4px solid #d4af37',
+              borderRadius: '50%',
+              margin: '0 auto 20px'
+            }}
+          />
+          <h2 style={{ color: '#d4af37', marginBottom: '10px' }}>
+            Initializing {gameModes.find(m => m.id === selectedGameMode)?.title}...
+          </h2>
+          <p style={{ color: '#ccc' }}>Please wait while we prepare your mystical battlefield</p>
+        </div>
+      </PageContainer>
+    );
+  }
+
+  return (
+    <PageContainer title="Play KONIVRER">
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        {/* Account Benefits Banner */}
+        {!user && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            style={{
+              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              borderRadius: '12px',
+              padding: '20px',
+              marginBottom: '30px',
+              textAlign: 'center'
+            }}
+          >
+            <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '18px' }}>
+              🎮 Play Instantly - No Account Required!
+            </h3>
+            <p style={{ color: '#ccc', marginBottom: '15px', fontSize: '14px' }}>
+              Jump right into the action! Having an account lets you save decks, track progress, and compete in ranked matches.
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowLoginModal(true)}
+              style={{
+                background: 'rgba(212, 175, 55, 0.2)',
+                border: '1px solid rgba(212, 175, 55, 0.5)',
+                color: '#d4af37',
+                padding: '8px 20px',
+                borderRadius: '6px',
+                fontSize: '14px',
+                cursor: 'pointer',
+                marginRight: '10px'
+              }}
+            >
+              Create Account
+            </motion.button>
+            <span style={{ color: '#888', fontSize: '12px' }}>
+              or continue playing as guest
+            </span>
+          </motion.div>
+        )}
+
+        {/* Welcome Message */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{ textAlign: 'center', marginBottom: '40px' }}
+        >
+          <h2 style={{ color: '#d4af37', marginBottom: '15px', fontSize: '24px' }}>
+            Choose Your Battle
+          </h2>
+          <p style={{ color: '#ccc', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>
+            Select a game mode below and begin your mystical journey. Each mode offers unique challenges and rewards.
+          </p>
+        </motion.div>
+
+        {/* Game Mode Selection */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+            gap: '20px', 
+            marginBottom: '40px' 
+          }}
+        >
+          {gameModes.map((mode, index) => (
+            <motion.div
+              key={mode.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+              whileHover={{ 
+                scale: 1.02, 
+                boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
+                borderColor: 'rgba(212, 175, 55, 0.6)'
+              }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => startGame(mode.id)}
+              style={{
+                background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%)',
+                border: '1px solid rgba(212, 175, 55, 0.3)',
+                borderRadius: '12px',
+                padding: '25px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              {/* Background Pattern */}
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                fontSize: '60px',
+                opacity: 0.1,
+                color: '#d4af37',
+                lineHeight: 1,
+                transform: 'translate(20px, -10px)'
+              }}>
+                {mode.icon}
+              </div>
+
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
+                  <span style={{ fontSize: '24px', marginRight: '10px' }}>{mode.icon}</span>
+                  <h3 style={{ color: '#d4af37', margin: 0, fontSize: '18px' }}>{mode.title}</h3>
+                </div>
+                
+                <p style={{ color: '#ccc', marginBottom: '15px', fontSize: '14px', lineHeight: 1.5 }}>
+                  {mode.description}
+                </p>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ 
+                    color: '#888', 
+                    fontSize: '12px',
+                    background: 'rgba(212, 175, 55, 0.1)',
+                    padding: '4px 8px',
+                    borderRadius: '4px'
+                  }}>
+                    {mode.difficulty}
+                  </span>
+                  
+                  <motion.div
+                    whileHover={{ x: 5 }}
+                    style={{ color: '#d4af37', fontSize: '18px' }}
+                  >
+                    →
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Quick Start Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          style={{
+            background: 'rgba(0, 0, 0, 0.3)',
+            border: '1px solid rgba(212, 175, 55, 0.2)',
+            borderRadius: '12px',
+            padding: '25px',
+            textAlign: 'center'
+          }}
+        >
+          <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>New to KONIVRER?</h3>
+          <p style={{ color: '#ccc', marginBottom: '20px', fontSize: '14px' }}>
+            Start with Practice Mode to learn the basics, then challenge other players in Quick Match!
+          </p>
+          
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => startGame('practice')}
+              style={{
+                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)',
+                border: '2px solid rgba(212, 175, 55, 0.5)',
+                color: '#d4af37',
+                padding: '12px 25px',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                cursor: 'pointer'
+              }}
+            >
+              🎯 Start Tutorial
+            </motion.button>
+            
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => startGame('quick')}
+              style={{
+                background: 'transparent',
+                border: '2px solid rgba(212, 175, 55, 0.3)',
+                color: '#d4af37',
+                padding: '12px 25px',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                cursor: 'pointer'
+              }}
+            >
+              ⚡ Quick Match
+            </motion.button>
+          </div>
+        </motion.div>
+
+        {/* Game Features */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.0 }}
+          style={{ marginTop: '40px', textAlign: 'center' }}
+        >
+          <h4 style={{ color: '#d4af37', marginBottom: '20px' }}>Game Features</h4>
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '20px',
+            fontSize: '14px'
+          }}>
+            <div style={{ color: '#ccc' }}>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🎴</div>
+              <strong style={{ color: '#d4af37' }}>65 Unique Cards</strong>
+              <br />Familiars and Flags with elemental powers
+            </div>
+            <div style={{ color: '#ccc' }}>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}>⚔️</div>
+              <strong style={{ color: '#d4af37' }}>Strategic Combat</strong>
+              <br />Deep tactical gameplay mechanics
+            </div>
+            <div style={{ color: '#ccc' }}>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🏗️</div>
+              <strong style={{ color: '#d4af37' }}>Deck Building</strong>
+              <br />Create custom decks {user ? 'and save them' : '(save with account)'}
+            </div>
+            <div style={{ color: '#ccc' }}>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🌟</div>
+              <strong style={{ color: '#d4af37' }}>Progression</strong>
+              <br />Unlock rewards {user ? 'and track stats' : '(track with account)'}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </PageContainer>
+  );
+};
 
 // Main App Component
 const Phase3App = () => {
