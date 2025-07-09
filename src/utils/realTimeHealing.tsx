@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { selfHealingSystem } from './advancedSelfHealing';
+import advancedSelfHealing from './advancedSelfHealing';
 
 // Advanced Error Boundary with predictive healing
 export class AdvancedErrorBoundary extends React.Component<
