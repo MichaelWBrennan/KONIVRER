@@ -183,13 +183,13 @@ const Navigation: React.FC = () => {
     <header style={{ 
       background: '#000', 
       color: 'white', 
-      padding: '12px 15px', 
+      padding: '8px 15px', 
       boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
       position: 'sticky',
       top: 0,
       zIndex: 1000,
       width: '100%',
-      minHeight: '70px'
+      minHeight: '60px'
     }}>
       <div style={{ 
         display: 'flex', 
@@ -197,22 +197,23 @@ const Navigation: React.FC = () => {
         alignItems: 'center', 
         maxWidth: '1400px', 
         margin: '0 auto',
-        gap: '20px'
+        gap: '15px'
       }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'white', flexShrink: 0 }}>
-          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 'bold' }}>⭐</h1>
+          <h1 style={{ margin: 0, fontSize: '20px', fontWeight: 'bold' }}>⭐</h1>
         </Link>
         
-        <nav style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+        <nav style={{ flex: 1, display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
           <ul style={{ 
             display: 'flex', 
             listStyle: 'none', 
             margin: 0, 
             padding: 0, 
             alignItems: 'center',
-            gap: '8px',
-            flexWrap: 'wrap',
-            justifyContent: 'center'
+            gap: '4px',
+            flexWrap: 'nowrap',
+            justifyContent: 'center',
+            overflow: 'visible'
           }}>
             {navItems.map(({ path, icon, label }) => (
               <li key={path}>
@@ -221,15 +222,16 @@ const Navigation: React.FC = () => {
                   style={{
                     color: '#d4af37', 
                     textDecoration: 'none', 
-                    padding: '8px 12px', 
-                    borderRadius: '6px',
+                    padding: '6px 8px', 
+                    borderRadius: '4px',
                     backgroundColor: location.pathname === path ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
                     display: 'flex', 
                     flexDirection: 'column', 
                     alignItems: 'center', 
-                    fontSize: '12px', 
+                    fontSize: '10px', 
                     fontWeight: 'bold',
-                    minWidth: '60px',
+                    minWidth: '50px',
+                    maxWidth: '70px',
                     transition: 'all 0.2s ease',
                     whiteSpace: 'nowrap'
                   }}
@@ -244,7 +246,7 @@ const Navigation: React.FC = () => {
                     }
                   }}
                 >
-                  <span style={{ fontSize: '16px', marginBottom: '2px' }}>{icon}</span>
+                  <span style={{ fontSize: '14px', marginBottom: '1px' }}>{icon}</span>
                   {label}
                 </Link>
               </li>
@@ -260,12 +262,12 @@ const Navigation: React.FC = () => {
               border: '1px solid #d4af37', 
               color: '#d4af37', 
               cursor: 'pointer',
-              padding: '8px 16px', 
-              borderRadius: '6px', 
+              padding: '6px 12px', 
+              borderRadius: '4px', 
               display: 'flex', 
               alignItems: 'center',
-              gap: '6px',
-              fontSize: '14px', 
+              gap: '4px',
+              fontSize: '12px', 
               fontWeight: 'bold',
               transition: 'all 0.2s ease',
               whiteSpace: 'nowrap'
@@ -277,7 +279,7 @@ const Navigation: React.FC = () => {
               e.currentTarget.style.backgroundColor = 'transparent';
             }}
           >
-            <span style={{ fontSize: '16px' }}>↗️</span>
+            <span style={{ fontSize: '14px' }}>↗️</span>
             {user?.isLoggedIn ? 'Profile' : 'Login'}
           </button>
         </div>
