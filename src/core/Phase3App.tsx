@@ -4,6 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
+import { SelfHealingProvider } from '../utils/selfHealingIntegration';
+import { withAdvancedHealing } from '../utils/realTimeHealing';
+import { healingConfigManager } from '../config/healingConfig';
 import BlogSection from '../components/BlogSection';
 import SyntaxAdvancedSearch from '../components/SyntaxAdvancedSearch';
 import EnhancedLoginModal from '../components/EnhancedLoginModal';
@@ -1206,6 +1209,23 @@ const Phase3App = () => {
   // Initialize autonomous systems
   const autonomousSystems = useAdvancedAutonomous();
   
+  // Initialize advanced healing
+  useEffect(() => {
+    // Enable silent mode for production
+    healingConfigManager.enableSilentMode();
+    
+    // Register service worker for background healing
+    if ('serviceWorker' in navigator && typeof window !== 'undefined') {
+      navigator.serviceWorker.register('/healing-worker.js')
+        .then((registration) => {
+          console.info('[KONIVRER] Advanced healing service worker registered');
+        })
+        .catch((error) => {
+          // Silent failure - healing will work without service worker
+        });
+    }
+  }, []);
+  
   // Context value
   const contextValue = {
     user, setUser,
@@ -1215,26 +1235,35 @@ const Phase3App = () => {
   };
   
   return (
-    <AppContainer>
-      <Router>
-        <AppContext.Provider value={contextValue}>
-          <Header />
-          <LoginModal />
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/cards" element={<CardsPage />} />
-              <Route path="/decks" element={<DecksPage />} />
-              <Route path="/events" element={<EventsPage />} />
-              <Route path="/play" element={<PlayPage />} />
-            </Routes>
-          </AnimatePresence>
-        </AppContext.Provider>
-      </Router>
-      <Analytics />
-      <SpeedInsights />
-    </AppContainer>
+    <SelfHealingProvider silentMode={true} showHealthMonitor={false}>
+      <AppContainer>
+        <Router>
+          <AppContext.Provider value={contextValue}>
+            <Header />
+            <LoginModal />
+            <AnimatePresence mode="wait">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/cards" element={<CardsPage />} />
+                <Route path="/decks" element={<DecksPage />} />
+                <Route path="/events" element={<EventsPage />} />
+                <Route path="/play" element={<PlayPage />} />
+              </Routes>
+            </AnimatePresence>
+          </AppContext.Provider>
+        </Router>
+        <Analytics />
+        <SpeedInsights />
+      </AppContainer>
+    </SelfHealingProvider>
   );
 };
 
-export default Phase3App;
+// Enhanced App with Advanced Self-Healing
+const Phase3AppWithHealing = withAdvancedHealing(Phase3App, {
+  silent: true,
+  predictive: true,
+  realTime: true
+});
+
+export default Phase3AppWithHealing;
