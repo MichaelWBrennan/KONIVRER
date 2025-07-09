@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import './AdvancedLoginModal.css';
 
 // Types
 interface User {
@@ -7,6 +8,11 @@ interface User {
   username: string;
   email: string;
   level: number;
+  avatar?: string;
+  preferences?: {
+    theme: 'dark' | 'light';
+    notifications: boolean;
+  };
 }
 
 interface LoginModalProps {
