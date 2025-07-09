@@ -59,10 +59,14 @@ html {
 }
 
 /* Global styles */
+* {
+  font-family: var(--font-family) !important;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: var(--font-family);
+  font-family: var(--font-family) !important;
   font-size: var(--font-size-base);
   line-height: var(--line-height);
   letter-spacing: var(--letter-spacing);

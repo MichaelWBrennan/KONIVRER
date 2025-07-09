@@ -553,11 +553,11 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   const renderAuthTabs = () => (
     <div className="auth-tabs">
       {[
-        { method: AuthMethod.PASSWORD, label: 'Password', icon: '🔐' },
-        { method: AuthMethod.MAGIC_LINK, label: 'Magic Link', icon: '✨' },
-        { method: AuthMethod.TWO_FACTOR, label: '2FA', icon: '🔢' },
-        ...(biometricAvailable ? [{ method: AuthMethod.BIOMETRIC, label: 'Biometric', icon: '👆' }] : []),
-        { method: AuthMethod.QR_CODE, label: 'QR Code', icon: '📱' },
+        { method: AuthMethod.PASSWORD, label: 'Password', icon: '' },
+        { method: AuthMethod.MAGIC_LINK, label: 'Magic Link', icon: '' },
+        { method: AuthMethod.TWO_FACTOR, label: '2FA', icon: '' },
+        ...(biometricAvailable ? [{ method: AuthMethod.BIOMETRIC, label: 'Biometric', icon: '' }] : []),
+        { method: AuthMethod.QR_CODE, label: 'QR Code', icon: '' },
       ].map(({ method, label, icon }) => (
         <button
           key={method}
@@ -724,7 +724,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
         return (
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="magic-link-info">
-              <div className="info-icon">✨</div>
+              <div className="info-icon"></div>
               <h3>Magic Link Login</h3>
               <p>Enter your email and we'll send you a secure login link</p>
             </div>
@@ -765,7 +765,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
         return (
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="two-factor-info">
-              <div className="info-icon">🔢</div>
+              <div className="info-icon"></div>
               <h3>Two-Factor Authentication</h3>
               <p>Enter the 6-digit code from your authenticator app</p>
             </div>
@@ -809,7 +809,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
         return (
           <div className="auth-form biometric-form">
             <div className="biometric-info">
-              <div className="info-icon">👆</div>
+              <div className="info-icon"></div>
               <h3>Biometric Authentication</h3>
               <p>Use your fingerprint, face, or other biometric to login securely</p>
             </div>
@@ -827,7 +827,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                 </div>
               ) : (
                 <>
-                  <span className="biometric-icon">🔐</span>
+                  <span className="biometric-icon"></span>
                   <span>Authenticate with Biometrics</span>
                 </>
               )}
@@ -839,7 +839,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
         return (
           <div className="auth-form qr-form">
             <div className="qr-info">
-              <div className="info-icon">📱</div>
+              <div className="info-icon"></div>
               <h3>QR Code Login</h3>
               <p>Scan this QR code with the KONIVRER mobile app to login</p>
             </div>
@@ -1029,7 +1029,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                 animate={{ opacity: 1, scale: 1 }}
                 className="lock-warning"
               >
-                <span className="lock-icon">🔒</span>
+                <span className="lock-icon"></span>
                 <span>Account locked for {lockCountdown} seconds</span>
               </motion.div>
             )}

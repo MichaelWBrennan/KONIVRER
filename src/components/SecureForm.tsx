@@ -199,7 +199,7 @@ const SecureForm: React.FC<SecureFormProps> = ({
         borderRadius: '6px',
         border: '1px solid rgba(46, 213, 115, 0.3)'
       }}>
-        <span style={{ color: '#2ed573', marginRight: '8px' }}>🛡️</span>
+        <span style={{ color: '#2ed573', marginRight: '8px' }}></span>
         <span style={{ color: '#2ed573', fontSize: '14px', fontWeight: 'bold' }}>
           Secure Form
         </span>
@@ -341,7 +341,7 @@ const SecureForm: React.FC<SecureFormProps> = ({
           </>
         ) : (
           <>
-            🛡️ {submitLabel}
+            {submitLabel}
           </>
         )}
       </motion.button>
@@ -354,9 +354,9 @@ const SecureForm: React.FC<SecureFormProps> = ({
         color: '#888'
       }}>
         <div style={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-          <span>🔒 End-to-End Encrypted</span>
-          <span>🛡️ CSRF Protected</span>
-          <span>🔍 Input Sanitized</span>
+          <span>End-to-End Encrypted</span>
+          <span>CSRF Protected</span>
+          <span>Input Sanitized</span>
         </div>
       </div>
     </motion.form>

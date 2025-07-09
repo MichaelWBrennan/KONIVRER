@@ -708,7 +708,7 @@ const AdvancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                   gap: '10px'
                 }}
               >
-                <span>👆</span>
+                <span></span>
                 <span>Use Biometric Login</span>
               </button>
             )}
@@ -932,10 +932,10 @@ const AdvancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                   marginBottom: '25px'
                 }}>
                   {[
-                    { id: AuthMethod.PASSWORD, label: 'Password', icon: '🔑' },
-                    { id: AuthMethod.MAGIC_LINK, label: 'Magic Link', icon: '✉️' },
-                    { id: AuthMethod.SOCIAL, label: 'Social', icon: '👥' },
-                    { id: AuthMethod.TWO_FACTOR, label: '2FA', icon: '🔐' }
+                    { id: AuthMethod.PASSWORD, label: 'Password', icon: '' },
+                    { id: AuthMethod.MAGIC_LINK, label: 'Magic Link', icon: '' },
+                    { id: AuthMethod.SOCIAL, label: 'Social', icon: '' },
+                    { id: AuthMethod.TWO_FACTOR, label: '2FA', icon: '' }
                   ].map(method => (
                     <button
                       key={method.id}
