@@ -13,6 +13,10 @@ export interface SSOProvider {
   iconUrl: string;
   color: string;
   bgColor: string;
+  // Keycloak-specific properties
+  logoutUrl?: string;
+  realm?: string;
+  serverUrl?: string;
 }
 
 // SSO User Profile
@@ -25,10 +29,32 @@ export interface SSOUserProfile {
   accessToken: string;
   refreshToken?: string;
   expiresAt: number;
+  // Keycloak-specific properties
+  roles?: string[];
+  groups?: string[];
+  realm?: string;
+  username?: string;
+  firstName?: string;
+  lastName?: string;
+  emailVerified?: boolean;
 }
 
 // SSO Configuration
 const SSO_CONFIG = {
+  keycloak: {
+    id: 'keycloak',
+    name: 'Keycloak',
+    clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID || 'konivrer-app',
+    redirectUri: `${window.location.origin}/auth/callback/keycloak`,
+    scope: ['openid', 'profile', 'email', 'roles'],
+    authUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/auth`,
+    tokenUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/token`,
+    userInfoUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/userinfo`,
+    logoutUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/logout`,
+    iconUrl: 'https://www.keycloak.org/resources/images/keycloak_logo_200px.svg',
+    color: '#ffffff',
+    bgColor: '#4d4d4d'
+  },
   google: {
     id: 'google',
     name: 'Google',
@@ -323,6 +349,25 @@ export class SSOService {
   // Normalize user data from different providers
   private normalizeUserData(userData: any, provider: SSOProvider, accessToken: string): SSOUserProfile {
     switch (provider.id) {
+      case 'keycloak':
+        return {
+          id: userData.sub,
+          email: userData.email,
+          name: userData.name || `${userData.given_name || ''} ${userData.family_name || ''}`.trim(),
+          avatar: userData.picture,
+          provider: provider.id,
+          accessToken,
+          expiresAt: Date.now() + (userData.exp ? (userData.exp * 1000) : (60 * 60 * 1000)),
+          // Keycloak-specific fields
+          roles: userData.realm_access?.roles || [],
+          groups: userData.groups || [],
+          realm: userData.iss?.split('/realms/')[1] || provider.realm,
+          username: userData.preferred_username,
+          firstName: userData.given_name,
+          lastName: userData.family_name,
+          emailVerified: userData.email_verified
+        };
+
       case 'google':
         return {
           id: userData.id,
@@ -408,11 +453,33 @@ export class SSOService {
 
   // Logout user
   public logout(): void {
+    const currentUser = this.getCurrentUser();
+    
+    // Clear local session
     sessionStorage.removeItem('sso_user_session');
     this.currentProvider = null;
     
+    // For Keycloak, perform server-side logout
+    if (currentUser?.provider === 'keycloak') {
+      this.performKeycloakLogout(currentUser);
+    }
+    
     // Dispatch logout event
     window.dispatchEvent(new CustomEvent('sso-logout'));
+  }
+
+  // Perform Keycloak server-side logout
+  private performKeycloakLogout(profile: SSOUserProfile): void {
+    const provider = this.getProvider('keycloak');
+    if (!provider?.logoutUrl) return;
+
+    const logoutParams = new URLSearchParams({
+      post_logout_redirect_uri: window.location.origin,
+      id_token_hint: profile.accessToken
+    });
+
+    // Redirect to Keycloak logout endpoint
+    window.location.href = `${provider.logoutUrl}?${logoutParams.toString()}`;
   }
 
   // Refresh access token

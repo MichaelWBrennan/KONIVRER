@@ -26,6 +26,34 @@ For production deployment, you'll need to register OAuth applications with each 
 
 ## 🌐 Provider Setup Instructions
 
+### Keycloak Setup (Recommended for Enterprise)
+
+Keycloak is an enterprise-grade identity and access management solution that provides advanced features like role-based access control, single sign-on, and centralized user management.
+
+1. **Quick Start with Docker**
+   ```bash
+   docker run -p 8080:8080 \
+     -e KEYCLOAK_ADMIN=admin \
+     -e KEYCLOAK_ADMIN_PASSWORD=admin \
+     quay.io/keycloak/keycloak:latest \
+     start-dev
+   ```
+
+2. **Configure Environment**
+   ```env
+   REACT_APP_KEYCLOAK_URL=http://localhost:8080
+   REACT_APP_KEYCLOAK_REALM=konivrer
+   REACT_APP_KEYCLOAK_CLIENT_ID=konivrer-app
+   REACT_APP_KEYCLOAK_CLIENT_SECRET=your_keycloak_secret
+   ```
+
+3. **Setup Instructions**
+   - Access admin console at http://localhost:8080/admin
+   - Create realm named "konivrer"
+   - Create client "konivrer-app" with OpenID Connect
+   - Configure redirect URIs and roles
+   - See [KEYCLOAK_SETUP_GUIDE.md](./KEYCLOAK_SETUP_GUIDE.md) for detailed instructions
+
 ### Google OAuth Setup
 
 1. **Go to Google Cloud Console**
