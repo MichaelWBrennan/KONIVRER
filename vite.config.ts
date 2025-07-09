@@ -24,11 +24,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'ai': ['@tensorflow/tfjs'],
-          '3d': ['three'],
-          'audio': ['tone'],
-          'multiplayer': ['socket.io-client'],
-          'analytics': ['d3'],
           'ui': ['framer-motion']
         }
       }
@@ -37,11 +32,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: [
-      '@tensorflow/tfjs',
-      'three',
-      'tone',
-      'socket.io-client',
-      'd3',
       'zustand'
     ]
   },

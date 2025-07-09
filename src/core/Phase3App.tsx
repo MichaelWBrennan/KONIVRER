@@ -18,8 +18,6 @@ import ButtonTester from '../utils/buttonTester';
 import SecurityTester from '../utils/securityTester';
 import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
-import KeycloakDemo from '../components/KeycloakDemo';
-import CuttingEdgeDemo from '../components/CuttingEdgeDemo';
 
 // Types
 interface Card {
@@ -377,8 +375,7 @@ const Header = () => {
     { to: '/cards', label: 'Cards' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
-    { to: '/tech', label: '🚀 Tech Demo', special: true },
-    { to: '/play', label: '🎮 Play Now', special: true },
+    { to: '/play', label: 'Play Now', special: true },
     { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
   ];
   
@@ -712,8 +709,7 @@ const HomePage = () => {
         </p>
       </motion.div>
 
-      {/* Keycloak Demo Section */}
-      <KeycloakDemo />
+
 
       {/* Features Section */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
@@ -926,7 +922,7 @@ const PlayPage = () => {
       id: 'practice',
       title: 'Practice Mode',
       description: 'Play against AI opponents to learn the game',
-      icon: '🎯',
+      icon: '',
       difficulty: 'Beginner Friendly',
       requiresAccount: false
     },
@@ -934,7 +930,7 @@ const PlayPage = () => {
       id: 'quick',
       title: 'Quick Match',
       description: 'Jump into a game with a random opponent',
-      icon: '⚡',
+      icon: '',
       difficulty: 'All Levels',
       requiresAccount: false
     },
@@ -942,7 +938,7 @@ const PlayPage = () => {
       id: 'ranked',
       title: 'Ranked Play',
       description: 'Compete for ranking points and seasonal rewards',
-      icon: '🏆',
+      icon: '',
       difficulty: 'Competitive',
       requiresAccount: false
     },
@@ -1011,7 +1007,7 @@ const PlayPage = () => {
             }}
           >
             <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '18px' }}>
-              🎮 Play Instantly - No Account Required!
+               Play Instantly - No Account Required!
             </h3>
             <p style={{ color: '#ccc', marginBottom: '15px', fontSize: '14px' }}>
               Jump right into the action! Having an account lets you save decks, track progress, and compete in ranked matches.
@@ -1182,7 +1178,7 @@ const PlayPage = () => {
                 cursor: 'pointer'
               }}
             >
-              🎯 Start Tutorial
+               Start Tutorial
             </motion.button>
             
             <motion.button
@@ -1200,7 +1196,7 @@ const PlayPage = () => {
                 cursor: 'pointer'
               }}
             >
-              ⚡ Quick Match
+               Quick Match
             </motion.button>
           </div>
         </motion.div>
@@ -1225,17 +1221,17 @@ const PlayPage = () => {
               <br />Familiars and Flags with elemental powers
             </div>
             <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}>⚔️</div>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}>⚔</div>
               <strong style={{ color: '#d4af37' }}>Strategic Combat</strong>
               <br />Deep tactical gameplay mechanics
             </div>
             <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🏗️</div>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🏗</div>
               <strong style={{ color: '#d4af37' }}>Deck Building</strong>
               <br />Create custom decks {user ? 'and save them' : '(save with account)'}
             </div>
             <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🌟</div>
+              <div style={{ fontSize: '20px', marginBottom: '8px' }}></div>
               <strong style={{ color: '#d4af37' }}>Progression</strong>
               <br />Unlock rewards {user ? 'and track stats' : '(track with account)'}
             </div>
@@ -1313,7 +1309,6 @@ const Phase3App = () => {
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
-                  <Route path="/tech" element={<CuttingEdgeDemo />} />
                   <Route path="/auth/callback/:provider" element={<OAuthCallback />} />
                 </Routes>
               </AnimatePresence>
