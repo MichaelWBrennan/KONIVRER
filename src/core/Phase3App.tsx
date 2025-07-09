@@ -18,6 +18,7 @@ import ButtonTester from '../utils/buttonTester';
 import SecurityTester from '../utils/securityTester';
 import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
+import KeycloakDemo from '../components/KeycloakDemo';
 
 // Types
 interface Card {
@@ -708,6 +709,9 @@ const HomePage = () => {
           The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
         </p>
       </motion.div>
+
+      {/* Keycloak Demo Section */}
+      <KeycloakDemo />
 
       {/* Features Section */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
