@@ -1,4 +1,11 @@
 {
+  "@mediapipe/tasks-vision": {
+    "current": "0.10.21",
+    "wanted": "0.10.21",
+    "latest": "0.10.22-rc.20250304",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@mediapipe/tasks-vision"
+  },
   "@types/react": {
     "current": "18.3.23",
     "wanted": "18.3.23",
@@ -12,6 +19,13 @@
     "latest": "19.1.6",
     "dependent": "KONIVRER-deck-database",
     "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@types/react-dom"
+  },
+  "@types/three": {
+    "current": "0.159.0",
+    "wanted": "0.159.0",
+    "latest": "0.178.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@types/three"
   },
   "@typescript-eslint/eslint-plugin": {
     "current": "6.21.0",
@@ -69,11 +83,25 @@
     "dependent": "KONIVRER-deck-database",
     "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/react-router-dom"
   },
-  "vite": {
-    "current": "7.0.2",
-    "wanted": "7.0.3",
-    "latest": "7.0.3",
+  "three": {
+    "current": "0.159.0",
+    "wanted": "0.159.0",
+    "latest": "0.178.0",
     "dependent": "KONIVRER-deck-database",
-    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/vite"
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/three"
+  },
+  "tone": {
+    "current": "14.9.17",
+    "wanted": "14.9.17",
+    "latest": "15.1.22",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/tone"
+  },
+  "zustand": {
+    "current": "4.5.7",
+    "wanted": "4.5.7",
+    "latest": "5.0.6",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/zustand"
   }
 }
