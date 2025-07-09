@@ -17,7 +17,11 @@
     "analyze": "knip",
     "dev:all": "concurrently \"npm run dev\" \"npm run storybook\"",
     "ai:train": "node scripts/train-ai-models.js",
-    "security:scan": "node scripts/security-scan.js"
+    "security:scan": "node scripts/security-scan.js",
+    "automation:health": "node scripts/automation-health-check.js",
+    "deps:update:patch": "npx npm-check-updates -u --target patch && npm install",
+    "deps:update:minor": "npx npm-check-updates -u --target minor && npm install",
+    "deps:check": "npm outdated"
   },
   "dependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.44.2",
