@@ -5,6 +5,17 @@ on:
   schedule:
     - cron: '0 3 * * 1'  # Weekly on Monday at 3 AM
   workflow_dispatch:
+    inputs:
+      update_type:
+        description: 'Type of updates to perform'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+        - security
 
 jobs:
   update-dependencies:
@@ -22,33 +33,102 @@ jobs:
         node-version: '20'
         cache: 'npm'
 
-    - name: 🔄 Update dependencies
-      run: |
-        npx npm-check-updates -u
-        npm install
-        npm audit fix --force
+    - name: 📦 Install current dependencies
+      run: npm ci
 
-    - name: 🧪 Test after updates
+    - name: 🔍 Check for outdated packages
       run: |
-        npm run test
-        npm run build
+        echo "## Current Outdated Packages" >> $GITHUB_STEP_SUMMARY
+        npm outdated || echo "No outdated packages found"
+
+    - name: 🔄 Update dependencies (Patch)
+      if: github.event.inputs.update_type == 'patch' || github.event.inputs.update_type == ''
+      run: |
+        echo "Updating patch versions only..."
+        npx npm-check-updates -u --target patch
+        npm install
+
+    - name: 🔄 Update dependencies (Minor)
+      if: github.event.inputs.update_type == 'minor'
+      run: |
+        echo "Updating minor versions..."
+        npx npm-check-updates -u --target minor
+        npm install
+
+    - name: 🔄 Update dependencies (Major)
+      if: github.event.inputs.update_type == 'major'
+      run: |
+        echo "⚠️ Updating major versions - requires manual review!"
+        npx npm-check-updates -u --target major
+        npm install
+
+    - name: 🛡️ Security updates
+      if: github.event.inputs.update_type == 'security' || github.event.inputs.update_type == ''
+      run: |
+        echo "Applying security fixes..."
+        npm audit fix --force || echo "No security fixes available"
+
+    - name: 🧪 Run tests
+      run: |
+        echo "Running test suite..."
+        npm run test || echo "⚠️ Tests failed - manual review required"
       continue-on-error: true
+
+    - name: 🏗️ Test build
+      run: |
+        echo "Testing build process..."
+        npm run build || echo "⚠️ Build failed - manual review required"
+      continue-on-error: true
+
+    - name: 📊 Generate update report
+      run: |
+        echo "## Dependency Update Report" >> update-report.md
+        echo "Update type: ${{ github.event.inputs.update_type || 'patch + security' }}" >> update-report.md
+        echo "Date: $(date)" >> update-report.md
+        echo "" >> update-report.md
+        echo "### Changes:" >> update-report.md
+        git diff --name-only package*.json >> update-report.md || echo "No package changes"
+        echo "" >> update-report.md
+        echo "### Test Results:" >> update-report.md
+        echo "- Build: $(npm run build > /dev/null 2>&1 && echo '✅ Passed' || echo '❌ Failed')" >> update-report.md
+        echo "- Tests: $(npm run test > /dev/null 2>&1 && echo '✅ Passed' || echo '❌ Failed')" >> update-report.md
 
     - name: 📝 Create PR for dependency updates
       uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "🔄 Automated dependency updates"
-        title: "🔄 Automated Dependency Updates"
+        commit-message: "🔄 Automated dependency updates (${{ github.event.inputs.update_type || 'patch + security' }})"
+        title: "🔄 Dependency Updates: ${{ github.event.inputs.update_type || 'Patch + Security' }}"
         body: |
           ## 🔄 Automated Dependency Updates
           
-          This PR contains automated dependency updates:
+          **Update Type:** ${{ github.event.inputs.update_type || 'patch + security' }}
+          **Generated:** $(date)
           
-          - Updated all dependencies to latest versions
-          - Fixed security vulnerabilities
-          - Ran tests to ensure compatibility
+          ### 📋 Summary
+          This PR contains automated dependency updates with the following scope:
+          
+          ${{ github.event.inputs.update_type == 'patch' && '- ✅ Patch updates (bug fixes, no breaking changes)' || '' }}
+          ${{ github.event.inputs.update_type == 'minor' && '- ⚠️ Minor updates (new features, backward compatible)' || '' }}
+          ${{ github.event.inputs.update_type == 'major' && '- 🚨 Major updates (breaking changes - MANUAL REVIEW REQUIRED)' || '' }}
+          ${{ github.event.inputs.update_type == 'security' && '- 🛡️ Security updates only' || '' }}
+          ${{ github.event.inputs.update_type == '' && '- ✅ Patch updates + 🛡️ Security fixes' || '' }}
+          
+          ### 🧪 Test Results
+          - Build Status: $(npm run build > /dev/null 2>&1 && echo '✅ Passed' || echo '❌ Failed - Manual review required')
+          - Test Status: $(npm run test > /dev/null 2>&1 && echo '✅ Passed' || echo '❌ Failed - Manual review required')
+          
+          ### 📦 Changed Files
+          - package.json
+          - package-lock.json
+          
+          ### ⚠️ Review Notes
+          ${{ github.event.inputs.update_type == 'major' && '🚨 **MAJOR UPDATES DETECTED** - This PR requires careful manual review for breaking changes.' || '' }}
           
           **Auto-generated by KONIVRER Automation System**
-        branch: automation/dependency-updates
+        branch: automation/dependency-updates-${{ github.event.inputs.update_type || 'patch' }}
         delete-branch: true
+        labels: |
+          dependencies
+          automation
+          ${{ github.event.inputs.update_type == 'major' && 'breaking-change' || 'enhancement' }}

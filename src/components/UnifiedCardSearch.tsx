@@ -1014,7 +1014,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               </div>
               <div className="syntax-group">
                 <strong>Cost:</strong>
-                <code>cost:3</code>, <code>c:>=4</code>, <code>c:&lt;=2</code>
+                <code>cost:3</code>, <code>c:&gt;=4</code>, <code>c:&lt;=2</code>
               </div>
               <div className="syntax-group">
                 <strong>Type:</strong>
@@ -1034,7 +1034,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               </div>
               <div className="syntax-group">
                 <strong>Combine:</strong>
-                <code>type:familiar cost:>=3 element:fire</code>
+                <code>type:familiar cost:&gt;=3 element:fire</code>
               </div>
             </div>
           </motion.div>
