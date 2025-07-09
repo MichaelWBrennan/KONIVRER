@@ -390,10 +390,10 @@ class UnifiedSearchEngine {
   }
 
   private applyTextSearch(cards: Card[], query: string): Card[] {
-    const tokens = query.toLowerCase().match(/(?:[^\s"]+|"[^"]*")+/g) || [];
+    const tokens: string[] = query.toLowerCase().match(/(?:[^\s"]+|"[^"]*")+/g) || [];
     
     return cards.filter(card => {
-      return tokens.every(token => {
+      return tokens.every((token: string) => {
         const cleanToken = token.replace(/"/g, '');
         
         // Check for syntax patterns
@@ -683,7 +683,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
   // Refs
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<NodeJS.Timeout>();
+  const debounceRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Debounced search function
   const debouncedSearch = useCallback((query: string, searchFilters: SearchFilters) => {
@@ -729,11 +729,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
   // Parse syntax search to filters
   const parseSyntaxToFilters = (query: string, currentFilters: SearchFilters): SearchFilters => {
-    const tokens = query.toLowerCase().match(/(?:[^\s"]+|"[^"]*")+/g) || [];
+    const tokens: string[] = query.toLowerCase().match(/(?:[^\s"]+|"[^"]*")+/g) || [];
     let tempFilters = { ...currentFilters };
     let hasAdvancedSyntax = false;
 
-    tokens.forEach(token => {
+    tokens.forEach((token: string) => {
       const cleanToken = token.replace(/"/g, '');
       
       if (cleanToken.includes(':')) {
