@@ -6,6 +6,11 @@
 export const isBuildEnvironment = (): boolean => {
   // ULTRA-AGGRESSIVE BUILD DETECTION - Multiple layers of protection
   
+  // Browser environment check - process is not available in browser
+  if (typeof process === 'undefined') {
+    return false; // In browser, not a build environment
+  }
+  
   // VERCEL-SPECIFIC DETECTION - Highest priority
   if (
     process.env.VERCEL === '1' ||
@@ -30,7 +35,7 @@ export const isBuildEnvironment = (): boolean => {
   }
 
   // 3. Build-specific environment variable checks (only actual build time)
-  if (
+  if (typeof process !== 'undefined' && (
     process.env.VITE_BUILD === 'true' ||
     process.env.BUILD_ENV === 'production' ||
     process.env.NEXT_PHASE === 'phase-production-build' ||
@@ -38,25 +43,25 @@ export const isBuildEnvironment = (): boolean => {
     process.env.FORCE_BUILD_MODE === 'true' ||
     process.env.NODE_ENV === 'production' ||
     process.env.CI === 'true'
-  ) {
+  )) {
     return true;
   }
 
   // 4. Build command detection
-  if (
+  if (typeof process !== 'undefined' && (
     process.env.npm_lifecycle_event === 'build' ||
     process.env.npm_lifecycle_event === 'start' ||
     process.env.npm_command === 'run-script' ||
     process.env.npm_config_user_config?.includes('vercel')
-  ) {
+  )) {
     return true;
   }
 
   // 5. Build-specific detection (not runtime)
-  if (
+  if (typeof process !== 'undefined' && (
     process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
     process.env.__VERCEL_BUILD_RUNNING === '1'
-  ) {
+  )) {
     return true;
   }
 
@@ -109,12 +114,12 @@ export const shouldSkipAutonomousSystems = (): boolean => {
   }
 
   // Only disable during actual build process (not production runtime)
-  if (
+  if (typeof process !== 'undefined' && (
     process.env.npm_lifecycle_event === 'build' ||
     process.env.__VERCEL_BUILD_RUNNING === '1' ||
     process.env.VITE_BUILD === 'true' ||
     process.env.DISABLE_AUTONOMOUS === 'true'
-  ) {
+  )) {
     console.log('[BUILD DETECTION] Build process detected - autonomous systems disabled');
     return true;
   }

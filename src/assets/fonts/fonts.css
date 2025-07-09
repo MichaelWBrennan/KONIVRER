@@ -1,3 +1,6 @@
+/* Inter Font (Default) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 /* OpenDyslexic Font */
 @font-face {
   font-family: 'OpenDyslexic';
@@ -30,6 +33,3 @@
   font-style: italic;
   font-display: swap;
 }
-
-/* Inter Font (Default) */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');

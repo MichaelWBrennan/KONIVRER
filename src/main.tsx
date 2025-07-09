@@ -5,7 +5,7 @@ import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
 import { SelfHealingProvider } from './utils/selfHealingIntegration';
 import errorHealing from './utils/errorHealing.tsx';
-import databaseHealing from './utils/databaseHealing';
+import databaseHealing from './utils/databaseHealing.ts';
 import './styles/global.css';
 
 console.log('[APP] Starting KONIVRER Phase 3 Application (Advanced Autonomous)...');
@@ -83,7 +83,6 @@ try {
       </SelfHealingProvider>
     </React.StrictMode>
   );
-  console.log('[APP] Phase 3 app initialized successfully');
 } catch (error) {
   console.info('[Auto-Healing] Phase 3 app failed, healing and falling back to Phase 2:', error);
   try {
