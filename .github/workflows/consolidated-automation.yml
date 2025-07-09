@@ -273,7 +273,7 @@ jobs:
       - name: Security dependency updates
         if: github.event_name == 'schedule'
         run: |
-          npm audit fix --force || true
+          npm audit fix || true
 
       - name: Check for updates
         id: check-updates

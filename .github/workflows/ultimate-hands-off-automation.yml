@@ -89,7 +89,7 @@ jobs:
           echo "🔒 Running security automation..."
           npm audit --audit-level moderate || true
           npm run automation:security || true
-          npm audit fix --force || true
+          npm audit fix || true
         continue-on-error: true
         
       - name: 🎯 Quality Assurance
@@ -116,7 +116,7 @@ jobs:
           echo "🔄 Running dependency management..."
           npx npm-check-updates -u || true
           npm install || true
-          npm audit fix --force || true
+          npm audit fix || true
         continue-on-error: true
         
       - name: 🧪 Comprehensive Testing
@@ -224,7 +224,7 @@ jobs:
         run: |
           npx npm-check-updates -u
           npm install
-          npm audit fix --force
+          npm audit fix
           
       - name: 🧪 Test After Updates
         run: |

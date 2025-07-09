@@ -538,6 +538,31 @@ const silentErrorMonitor = () => {
   }, 60000); // Check every minute
 };
 
+// Error Statistics Component
+const ErrorStatistics: React.FC = () => {
+  const { errorHistory } = useErrorMonitor();
+  
+  const stats = React.useMemo(() => {
+    const total = errorHistory.length;
+    const byType = errorHistory.reduce((acc, error) => {
+      acc[error.type] = (acc[error.type] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    return { total, byType };
+  }, [errorHistory]);
+
+  return (
+    <div className="error-statistics">
+      <h3>Error Statistics</h3>
+      <p>Total Errors: {stats.total}</p>
+      {Object.entries(stats.byType).map(([type, count]) => (
+        <p key={type}>{type}: {count}</p>
+      ))}
+    </div>
+  );
+};
+
 export default {
   SelfHealingErrorBoundary,
   SelfHealingProvider,
