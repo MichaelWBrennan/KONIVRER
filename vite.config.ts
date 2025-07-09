@@ -10,7 +10,7 @@ export default defineConfig({
     hmr: {
       host: 'localhost',
     },
-    allowedHosts: ['work-1-hvckvmgjiulxhimz.prod-runtime.all-hands.dev', 'work-2-hvckvmgjiulxhimz.prod-runtime.all-hands.dev']
+    allowedHosts: ['work-1-bbpidtjmsgeajnap.prod-runtime.all-hands.dev', 'work-2-bbpidtjmsgeajnap.prod-runtime.all-hands.dev']
   },
   build: {
     outDir: 'dist',

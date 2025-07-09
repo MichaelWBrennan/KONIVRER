@@ -324,7 +324,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
 const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
-  const { setShowLoginModal } = useContext(AppContext);
+  const { user, setShowLoginModal } = useContext(AppContext);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

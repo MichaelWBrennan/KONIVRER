@@ -1,8 +1,8 @@
-/* Global CSS */
-
 /* Import component styles */
 @import '../components/AdvancedLoginModal.css';
 @import '../assets/fonts/fonts.css';
+
+/* Global CSS */
 
 /* CSS Variables for Accessibility */
 :root {
