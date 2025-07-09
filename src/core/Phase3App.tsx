@@ -17,6 +17,7 @@ import { KONIVRER_CARDS } from '../data/cards';
 import ButtonTester from '../utils/buttonTester';
 import SecurityTester from '../utils/securityTester';
 import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
+import OAuthCallback from '../components/OAuthCallback';
 
 // Types
 interface Card {
@@ -1306,6 +1307,7 @@ const Phase3App = () => {
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
+                  <Route path="/auth/callback/:provider" element={<OAuthCallback />} />
                 </Routes>
               </AnimatePresence>
             </AppContext.Provider>

@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './AdvancedLoginModal.css';
 import { useAdvancedSecurity, useSanitizedInput, useCSRFProtection, useSecureSession } from '../security/AdvancedSecuritySystem';
+import { useSSO, SSOUserProfile } from '../services/ssoService';
+import { SSOButtonGroup } from './SSOButton';
 
 // Types
 interface User {
@@ -22,14 +24,7 @@ interface LoginModalProps {
   onLogin: (user: User) => void;
 }
 
-// Enhanced social login providers with more options
-const socialProviders = [
-  { id: 'google', name: 'Google', icon: '🌐', color: '#DB4437', bgColor: '#fff' },
-  { id: 'github', name: 'GitHub', icon: '🐙', color: '#fff', bgColor: '#333' },
-  { id: 'discord', name: 'Discord', icon: '💬', color: '#fff', bgColor: '#7289DA' },
-  { id: 'steam', name: 'Steam', icon: '🎮', color: '#fff', bgColor: '#1b2838' },
-  { id: 'apple', name: 'Apple', icon: '🍎', color: '#fff', bgColor: '#000' },
-];
+// Remove the old socialProviders array - now using SSO service
 
 // Authentication methods
 enum AuthMethod {
@@ -47,6 +42,9 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   const { reportThreat } = useAdvancedSecurity();
   const { token: csrfToken, validate: validateCSRF } = useCSRFProtection();
   const { sessionToken, isValid: isSessionValid, refresh: refreshSession } = useSecureSession();
+  
+  // SSO hooks
+  const { initiateLogin, getCurrentUser, getProviders } = useSSO();
   
   // Sanitized inputs
   const [username, setUsername] = useSanitizedInput('');
@@ -86,6 +84,53 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   const [passwordResetSent, setPasswordResetSent] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [showQrCode, setShowQrCode] = useState(false);
+  const [ssoLoading, setSsoLoading] = useState<string | null>(null);
+
+  // SSO event handlers
+  useEffect(() => {
+    const handleSSOSuccess = (event: CustomEvent) => {
+      const { profile } = event.detail as { profile: SSOUserProfile };
+      
+      // Convert SSO profile to User format
+      const user: User = {
+        id: profile.id,
+        username: profile.name,
+        email: profile.email,
+        avatar: profile.avatar
+      };
+      
+      setSsoLoading(null);
+      setSuccess(`Successfully logged in with ${profile.provider}`);
+      onLogin(user);
+      onClose();
+    };
+
+    const handleSSOError = (event: CustomEvent) => {
+      const { error, provider } = event.detail;
+      setSsoLoading(null);
+      setError(`Login failed with ${provider}: ${error}`);
+    };
+
+    window.addEventListener('sso-login-success', handleSSOSuccess as EventListener);
+    window.addEventListener('sso-login-error', handleSSOError as EventListener);
+
+    return () => {
+      window.removeEventListener('sso-login-success', handleSSOSuccess as EventListener);
+      window.removeEventListener('sso-login-error', handleSSOError as EventListener);
+    };
+  }, [onLogin, onClose]);
+
+  // Handle SSO login
+  const handleSSOLogin = async (providerId: string) => {
+    try {
+      setSsoLoading(providerId);
+      setError(null);
+      await initiateLogin(providerId);
+    } catch (error) {
+      setSsoLoading(null);
+      setError(`Failed to login with ${providerId}: ${error}`);
+    }
+  };
 
   // Enhanced password strength checker
   const checkPasswordStrength = useCallback((password: string) => {
@@ -383,39 +428,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   };
 
-  // Handle social login
-  const handleSocialLogin = async (providerId: string) => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      // Simulate OAuth flow
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const user: User = {
-        id: `${providerId}_${Date.now()}`,
-        username: `${providerId}_user`,
-        email: `user@${providerId}.com`,
-        level: 5,
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${providerId}`,
-        preferences: {
-          theme: 'dark',
-          notifications: true
-        }
-      };
-      
-      setSuccess(`Successfully logged in with ${providerId}!`);
-      setTimeout(() => {
-        onLogin(user);
-        onClose();
-        resetForm();
-      }, 1000);
-    } catch (err) {
-      setError(`Failed to login with ${providerId}. Please try again.`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // Old social login handler removed - now using SSO service
 
   // Handle biometric authentication
   const handleBiometricLogin = async () => {
@@ -867,30 +880,20 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   };
 
-  // Render social login buttons
-  const renderSocialLogin = () => (
+  // Render SSO login buttons
+  const renderSSOLogin = () => (
     <div className="social-login-section">
       <div className="divider">
         <span>or continue with</span>
       </div>
-      <div className="social-buttons">
-        {socialProviders.map(provider => (
-          <button
-            key={provider.id}
-            type="button"
-            onClick={() => handleSocialLogin(provider.id)}
-            disabled={isLoading}
-            className="social-button button-hover"
-            style={{
-              backgroundColor: provider.bgColor,
-              color: provider.color,
-              borderColor: provider.color
-            }}
-          >
-            <span className="social-icon">{provider.icon}</span>
-            <span className="social-name">{provider.name}</span>
-          </button>
-        ))}
+      <div className="sso-buttons-container">
+        <SSOButtonGroup
+          providers={getProviders()}
+          onLogin={handleSSOLogin}
+          disabled={isLoading}
+          loading={ssoLoading !== null}
+          maxVisible={3}
+        />
       </div>
     </div>
   );
@@ -1033,7 +1036,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
 
             {renderAuthForm()}
             
-            {authMethod === AuthMethod.PASSWORD && !isSignUp && renderSocialLogin()}
+            {authMethod === AuthMethod.PASSWORD && !isSignUp && renderSSOLogin()}
           </div>
 
           {renderForgotPasswordModal()}
