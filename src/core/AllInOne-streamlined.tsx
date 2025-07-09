@@ -183,7 +183,7 @@ const Navigation: React.FC = () => {
         gap: '20px'
       }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'white', flexShrink: 0 }}>
-          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 'bold' }}>⭐ KONIVRER ⭐</h1>
+          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 'bold' }}>⭐</h1>
         </Link>
         
         <nav style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
@@ -374,13 +374,68 @@ const CardsPage: React.FC = () => {
   const [selectedElement, setSelectedElement] = useState<string>('');
 
   const filteredCards = useMemo(() => {
-    return SAMPLE_CARDS.filter(card => {
-      const matchesSearch = card.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           card.description.toLowerCase().includes(searchTerm.toLowerCase());
+    let results = SAMPLE_CARDS;
+    
+    // Enhanced search with advanced syntax support
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      
+      // Check for advanced syntax patterns
+      const nameMatch = searchTerm.match(/name:([^\s]+)/i);
+      const costMatch = searchTerm.match(/cost:([<>=]+)?(\d+)/i);
+      const typeMatch = searchTerm.match(/type:([^\s]+)/i);
+      const elementMatch = searchTerm.match(/element:([^\s]+)/i);
+      
+      results = results.filter(card => {
+        // Name search
+        if (nameMatch) {
+          const nameQuery = nameMatch[1].toLowerCase();
+          if (!card.name.toLowerCase().includes(nameQuery)) return false;
+        }
+        
+        // Cost search
+        if (costMatch) {
+          const operator = costMatch[1] || '=';
+          const value = parseInt(costMatch[2]);
+          if (operator === '>=' && card.cost < value) return false;
+          if (operator === '<=' && card.cost > value) return false;
+          if (operator === '>' && card.cost <= value) return false;
+          if (operator === '<' && card.cost >= value) return false;
+          if (operator === '=' && card.cost !== value) return false;
+        }
+        
+        // Type search
+        if (typeMatch) {
+          const typeQuery = typeMatch[1].toLowerCase();
+          if (!card.type.toLowerCase().includes(typeQuery)) return false;
+        }
+        
+        // Element search
+        if (elementMatch) {
+          const elementQuery = elementMatch[1].toLowerCase();
+          if (!card.elements.some(el => el.toLowerCase().includes(elementQuery))) return false;
+        }
+        
+        // If no advanced syntax, do regular text search
+        if (!nameMatch && !costMatch && !typeMatch && !elementMatch) {
+          const matchesSearch = card.name.toLowerCase().includes(searchLower) ||
+                               card.description.toLowerCase().includes(searchLower) ||
+                               card.keywords.some(k => k.toLowerCase().includes(searchLower));
+          if (!matchesSearch) return false;
+        }
+        
+        return true;
+      });
+    }
+    
+    // Apply filter dropdowns
+    results = results.filter(card => {
       const matchesType = !selectedType || card.type === selectedType;
       const matchesElement = !selectedElement || card.elements.includes(selectedElement);
-      return matchesSearch && matchesType && matchesElement;
+      return matchesType && matchesElement;
     });
+    
+    return results;
   }, [searchTerm, selectedType, selectedElement]);
 
   const filterStyle = {
@@ -389,11 +444,11 @@ const CardsPage: React.FC = () => {
   };
 
   return (
-    <PageContainer title="Mystical Card Database">
+    <PageContainer title="Cards & Search">
       <div style={{ display: 'flex', gap: '15px', marginBottom: '30px', flexWrap: 'wrap' }}>
         <input
           type="text"
-          placeholder="Search mystical cards..."
+          placeholder="Search cards... (try: name:fire, cost:>=3, type:familiar, element:water)"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{ ...filterStyle, minWidth: '200px', flex: 1 }}
@@ -410,6 +465,56 @@ const CardsPage: React.FC = () => {
           ))}
         </select>
       </div>
+
+      {/* Search Results Info */}
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        color: '#ccc',
+        fontSize: '14px',
+        marginBottom: '20px'
+      }}>
+        <span>Found {filteredCards.length} cards</span>
+        {(searchTerm || selectedType || selectedElement) && (
+          <button
+            onClick={() => {
+              setSearchTerm('');
+              setSelectedType('');
+              setSelectedElement('');
+            }}
+            style={{
+              background: 'none',
+              border: '1px solid #d4af37',
+              color: '#d4af37',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px'
+            }}
+          >
+            Clear All Filters
+          </button>
+        )}
+      </div>
+      
+      {/* Search Syntax Help */}
+      {searchTerm && (
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          border: '1px solid #333',
+          borderRadius: '5px',
+          padding: '10px',
+          marginBottom: '20px',
+          fontSize: '12px',
+          color: '#ccc'
+        }}>
+          <strong style={{ color: '#d4af37' }}>Advanced Search Syntax:</strong> 
+          <span style={{ marginLeft: '10px' }}>
+            name:fire • cost:&gt;=3 • cost:&lt;=2 • type:familiar • element:water
+          </span>
+        </div>
+      )}
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
         {filteredCards.map(card => (
@@ -449,10 +554,35 @@ const CardsPage: React.FC = () => {
                 </span>
               ))}
             </div>
+            <div style={{ marginBottom: '10px' }}>
+              {card.keywords.map(keyword => (
+                <span key={keyword} style={{
+                  backgroundColor: '#555', color: 'white', padding: '2px 6px',
+                  borderRadius: '4px', fontSize: '12px', marginRight: '5px'
+                }}>
+                  {keyword}
+                </span>
+              ))}
+            </div>
             <p style={{ color: '#ccc', fontSize: '14px', margin: 0 }}>{card.description}</p>
           </Card>
         ))}
       </div>
+      
+      {/* No Results Message */}
+      {filteredCards.length === 0 && (
+        <div style={{
+          textAlign: 'center',
+          color: '#ccc',
+          fontSize: '18px',
+          marginTop: '50px'
+        }}>
+          <p>No cards found matching your search criteria.</p>
+          <p style={{ fontSize: '14px', marginTop: '10px' }}>
+            Try adjusting your search terms or clearing the filters.
+          </p>
+        </div>
+      )}
     </PageContainer>
   );
 };
