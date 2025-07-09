@@ -5,15 +5,14 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0',
-    port: 12000,
+    port: 12001,
     cors: true,
     hmr: {
       host: 'localhost',
     },
-    allowedHosts: ['work-1-bbpidtjmsgeajnap.prod-runtime.all-hands.dev', 'work-2-bbpidtjmsgeajnap.prod-runtime.all-hands.dev'],
+    allowedHosts: true,
     headers: {
-      'Cross-Origin-Embedder-Policy': 'require-corp',
-      'Cross-Origin-Opener-Policy': 'same-origin',
+      'X-Frame-Options': 'ALLOWALL',
     }
   },
   build: {

@@ -333,36 +333,6 @@ const Header = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const { user, setShowLoginModal } = useContext(AppContext);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  // Detect device type based on user agent and screen size
-  useEffect(() => {
-    const checkDeviceType = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const width = window.innerWidth;
-
-      // Check if mobile device based on user agent
-      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
-
-      // Check if tablet based on user agent and screen size
-      const isTabletDevice = /ipad|android/i.test(userAgent) && !/mobile/i.test(userAgent) ||
-                            (width >= 768 && width <= 1024);
-
-      setIsMobile(isMobileDevice || width < 768);
-      setIsTablet(isTabletDevice || (width >= 768 && width <= 1024));
-    };
-
-    // Initial check
-    checkDeviceType();
-
-    // Add resize listener
-    window.addEventListener('resize', checkDeviceType);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', checkDeviceType);
-  }, []);
   
   // Navigation links with types
   interface NavLink {
@@ -377,14 +347,9 @@ const Header = () => {
     { to: '/search', label: 'Search' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play Now', special: true },
+    { to: '/play', label: 'Play', special: true },
     { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
   ];
-  
-  // Mobile menu toggle
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   return (
     <motion.header
@@ -406,240 +371,83 @@ const Header = () => {
     >
       <nav style={{
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '0 20px',
         height: '60px'
       }}>
-        {/* Home link/logo - only clickable when not on home page */}
-        <motion.div
-          whileHover={!isHomePage ? { scale: 1.05 } : {}}
-          whileTap={!isHomePage ? { scale: 0.95 } : {}}
-          style={{
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          {isHomePage ? (
-            <div style={{
-              color: '#d4af37',
-              fontSize: isMobile ? '22px' : '28px',
-              fontWeight: 'bold',
-              padding: '0 16px',
-              height: '100%',
-              display: 'flex',
-              alignItems: 'center'
-            }}>
-              KONIVRER
-            </div>
-          ) : (
-            <Link
-              to="/"
+        {/* Navigation links - always visible as menubar */}
+        <div style={{
+          display: 'flex',
+          gap: '15px',
+          alignItems: 'center',
+          height: '100%'
+        }}>
+          {navLinks.map(({ to, label, onClick, special }) => (
+            <motion.div
+              key={to}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               style={{
-                color: '#d4af37',
-                textDecoration: 'none',
-                fontSize: isMobile ? '22px' : '28px',
-                fontWeight: 'bold',
-                padding: '0 16px',
                 height: '100%',
                 display: 'flex',
-                alignItems: 'center',
-                transition: 'all 0.3s ease'
+                alignItems: 'center'
               }}
             >
-              KONIVRER
-            </Link>
-          )}
-        </motion.div>
-
-        {/* Mobile menu button */}
-        {isMobile && (
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={toggleMenu}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#d4af37',
-              fontSize: '24px',
-              cursor: 'pointer',
-              padding: '8px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              zIndex: 1001
-            }}
-            aria-label="Toggle mobile menu"
-            aria-expanded={menuOpen}
-            data-testid="mobile-menu-toggle"
-          >
-            {menuOpen ? '✕' : '☰'}
-          </motion.button>
-        )}
-
-        {/* Desktop/Tablet Navigation links */}
-        {!isMobile && (
-          <div style={{
-            display: 'flex',
-            gap: isTablet ? '8px' : '15px',
-            alignItems: 'center',
-            height: '100%'
-          }}>
-            {navLinks.map(({ to, label, onClick, special }) => (
-              <motion.div
-                key={to}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{
-                  height: '100%',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-              >
-                {onClick ? (
-                  <button
-                    onClick={onClick}
-                    style={{
-                      color: '#d4af37',
-                      textDecoration: 'none',
-                      fontSize: isTablet ? '16px' : '18px',
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      height: '100%',
-                      padding: isTablet ? '0 10px' : '0 16px',
-                      borderRadius: '4px',
-                      background: 'rgba(212, 175, 55, 0.1)',
-                      border: 'none',
-                      borderBottom: '3px solid #d4af37',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {label}
-                  </button>
-                ) : (
-                  <Link
-                    to={to}
-                    style={{
-                      color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
-                      textDecoration: 'none',
-                      fontSize: isTablet ? '16px' : '18px',
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      height: '100%',
-                      padding: isTablet ? '0 10px' : '0 16px',
-                      borderRadius: '4px',
-                      background: special 
-                        ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
-                        : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
-                      border: special ? '2px solid rgba(212, 175, 55, 0.5)' : 'none',
-                      borderBottom: special 
-                        ? '2px solid rgba(212, 175, 55, 0.5)' 
-                        : (location.pathname === to ? '3px solid #d4af37' : '3px solid transparent'),
-                      transition: 'all 0.3s ease',
-                      boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none'
-                    }}
-                  >
-                    {label}
-                  </Link>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        )}
-        
-        {/* Mobile menu overlay */}
-        {isMobile && (
-          <AnimatePresence>
-            {menuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
-                style={{
-                  position: 'absolute',
-                  top: '60px',
-                  left: 0,
-                  right: 0,
-                  background: 'rgba(15, 15, 15, 0.98)',
-                  backdropFilter: 'blur(20px)',
-                  borderBottom: '2px solid rgba(212, 175, 55, 0.4)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  padding: '20px 0',
-                  zIndex: 1000
-                }}
-              >
-                {navLinks.map(({ to, label, onClick, special }) => (
-                  <motion.div
-                    key={to}
-                    whileTap={{ scale: 0.95 }}
-                    style={{
-                      width: '100%',
-                      textAlign: 'center',
-                      margin: '8px 0'
-                    }}
-                  >
-                    {onClick ? (
-                      <button
-                        onClick={() => {
-                          onClick();
-                          setMenuOpen(false);
-                        }}
-                        style={{
-                          color: '#d4af37',
-                          textDecoration: 'none',
-                          fontSize: '18px',
-                          fontWeight: 'bold',
-                          display: 'block',
-                          width: '100%',
-                          padding: '12px 0',
-                          background: 'rgba(212, 175, 55, 0.1)',
-                          border: 'none',
-                          borderLeft: '4px solid #d4af37',
-                          transition: 'all 0.3s ease',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        {label}
-                      </button>
-                    ) : (
-                      <Link
-                        to={to}
-                        onClick={() => setMenuOpen(false)}
-                        style={{
-                          color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
-                          textDecoration: 'none',
-                          fontSize: '18px',
-                          fontWeight: 'bold',
-                          display: 'block',
-                          padding: '12px 0',
-                          background: special 
-                            ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
-                            : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
-                          borderLeft: special 
-                            ? '4px solid #d4af37' 
-                            : (location.pathname === to ? '4px solid #d4af37' : '4px solid transparent'),
-                          transition: 'all 0.3s ease',
-                          boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.2)' : 'none'
-                        }}
-                      >
-                        {label}
-                      </Link>
-                    )}
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        )}
+              {onClick ? (
+                <button
+                  onClick={onClick}
+                  style={{
+                    color: '#d4af37',
+                    textDecoration: 'none',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '100%',
+                    padding: '0 16px',
+                    borderRadius: '4px',
+                    background: 'rgba(212, 175, 55, 0.1)',
+                    border: 'none',
+                    borderBottom: '3px solid #d4af37',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {label}
+                </button>
+              ) : (
+                <Link
+                  to={to}
+                  style={{
+                    color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
+                    textDecoration: 'none',
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    display: 'flex',
+                    alignItems: 'center',
+                    height: '100%',
+                    padding: '0 16px',
+                    borderRadius: '4px',
+                    background: special 
+                      ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
+                      : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
+                    border: special ? '2px solid rgba(212, 175, 55, 0.5)' : 'none',
+                    borderBottom: special 
+                      ? '2px solid rgba(212, 175, 55, 0.5)' 
+                      : (location.pathname === to ? '3px solid #d4af37' : '3px solid transparent'),
+                    transition: 'all 0.3s ease',
+                    boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none'
+                  }}
+                >
+                  {label}
+                </Link>
+              )}
+            </motion.div>
+          ))}
+        </div>
       </nav>
     </motion.header>
   );
@@ -690,7 +498,7 @@ const HomePage = () => {
     { title: 'Explore Cards', desc: 'Discover powerful cards from all elements', link: '/cards' },
     { title: 'Build Decks', desc: 'Create and share your strategic masterpieces', link: '/decks' },
     { title: 'Join Events', desc: 'Compete with players from around the world', link: '/events' },
-    { title: 'Play Now', desc: 'Test your skills in the mystical arena', link: '/play' }
+    { title: 'Play', desc: 'Test your skills in the mystical arena', link: '/play' }
   ];
   
   // Recent blog posts
