@@ -7,7 +7,7 @@
 /* CSS Variables for Accessibility */
 :root {
   /* Font variables */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  --font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   --font-size-base: 1rem;
   --line-height: 1.5;
@@ -251,4 +251,12 @@ select {
   .hide-on-desktop {
     display: none !important;
   }
+}
+
+/* OpenDyslexic font overrides */
+/* Preserve monospace for code elements */
+code, pre, .monospace, 
+[style*="fontFamily: 'monospace'"],
+[style*="font-family: monospace"] {
+  font-family: 'Courier New', monospace !important;
 }
