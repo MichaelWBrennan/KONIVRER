@@ -2130,8 +2130,19 @@ Usage:
   }
 };
 
-// Run the main function
-main().catch(error => {
-  log(`❌ Fatal error: ${error}`, 'error');
-  process.exit(1);
-});
+// Export the DevAutomationOrchestrator for use in other modules
+export default DevAutomationOrchestrator;
+
+// Run the main function when executed directly
+if (typeof require !== 'undefined' && require.main === module) {
+  main().catch(error => {
+    log(`❌ Fatal error: ${error}`, 'error');
+    process.exit(1);
+  });
+} else if (import.meta.url === `file://${process.argv[1]}`) {
+  // ES module direct execution
+  main().catch(error => {
+    log(`❌ Fatal error: ${error}`, 'error');
+    process.exit(1);
+  });
+}

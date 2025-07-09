@@ -12,9 +12,7 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic.css">
     
     <style>
         * {
@@ -23,15 +21,63 @@
             box-sizing: border-box;
         }
         
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic-regular.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'OpenDyslexic';
+            src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic-bold.woff') format('woff');
+            font-weight: bold;
+            font-style: normal;
+        }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background: #0f0f0f;
-            color: #ffffff;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            background: #0f0f0f; /* Dark background */
+            color: #ffffff; /* White text */
             line-height: 1.6;
         }
         
         #root {
             min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Ancient scroll theme */
+        .ancient-scroll {
+            border: 2px solid #8b5a2b;
+            border-radius: 5px;
+            background-color: #f8f0dd;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+            padding: 20px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .ancient-scroll::before,
+        .ancient-scroll::after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 30px;
+            top: 0;
+            background-color: #d9b38c;
+            border: 2px solid #8b5a2b;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .ancient-scroll::before {
+            left: -15px;
+            border-radius: 15px 0 0 15px;
+        }
+        
+        .ancient-scroll::after {
+            right: -15px;
+            border-radius: 0 15px 15px 0;
         }
     </style>
 </head>

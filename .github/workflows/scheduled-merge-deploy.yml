@@ -1,0 +1,192 @@
+name: Silent Automated Merge and Deploy
+
+on:
+  # Run twice a week (Monday and Thursday) at 2 AM UTC
+  # This frequency stays within Render and Vercel free tier limits
+  schedule:
+    - cron: '0 2 * * 1,4'
+
+# Permissions needed for PR merging and deployments
+permissions:
+  contents: write
+  pull-requests: write
+  deployments: write
+
+jobs:
+  # Identify and merge approved PRs
+  merge-approved-prs:
+    name: Merge Approved PRs
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Git identity
+        run: |
+          git config --global user.name "KONIVRER Automation"
+          git config --global user.email "automation@konivrer.com"
+      
+      - name: Silently merge approved PRs
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            // Get open PRs
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              sort: 'updated',
+              direction: 'desc'
+            });
+            
+            // Track PRs we'll merge
+            const prsToMerge = [];
+            
+            for (const pr of pullRequests) {
+              // Skip draft PRs
+              if (pr.draft) continue;
+              
+              // Get PR reviews
+              const { data: reviews } = await github.rest.pulls.listReviews({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number
+              });
+              
+              // Check if PR is approved
+              const isApproved = reviews.some(review => review.state === 'APPROVED');
+              
+              // Check if PR has any blocking reviews
+              const hasBlockingReviews = reviews.some(review => 
+                review.state === 'REQUEST_CHANGES' && 
+                !reviews.some(r => r.user.id === review.user.id && 
+                              r.state === 'APPROVED' && 
+                              r.submitted_at > review.submitted_at)
+              );
+              
+              // Check if PR has merge conflicts
+              const hasMergeConflicts = pr.mergeable === false;
+              
+              // Check if PR has required checks
+              const { data: checkRuns } = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: pr.head.sha
+              });
+              
+              const hasFailedChecks = checkRuns.check_runs.some(check => 
+                check.conclusion === 'failure' || check.conclusion === 'cancelled'
+              );
+              
+              // Determine if PR can be merged
+              const canMerge = isApproved && !hasBlockingReviews && !hasMergeConflicts && !hasFailedChecks;
+              
+              if (canMerge) {
+                prsToMerge.push(pr);
+              }
+            }
+            
+            // Merge PRs (limit to 5 per run)
+            const mergeLimit = Math.min(prsToMerge.length, 5);
+            
+            for (let i = 0; i < mergeLimit; i++) {
+              const pr = prsToMerge[i];
+              try {
+                await github.rest.pulls.merge({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  merge_method: 'squash',
+                  commit_title: `${pr.title} (#${pr.number})`,
+                  commit_message: `${pr.body}\n\nAutomatically merged.`
+                });
+              } catch (error) {
+                // Silently continue if merge fails
+              }
+            }
+
+  # Silent deploy to Render
+  deploy-to-render:
+    name: Deploy to Render
+    runs-on: ubuntu-latest
+    needs: merge-approved-prs
+    if: always() && (needs.merge-approved-prs.result == 'success' || needs.merge-approved-prs.result == 'skipped')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Deploy to Render
+        run: |
+          # Silently trigger Render deploy hook if available
+          if [ -n "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+            curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" > /dev/null
+          fi
+
+  # Silent deploy to Vercel
+  deploy-to-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: merge-approved-prs
+    if: always() && (needs.merge-approved-prs.result == 'success' || needs.merge-approved-prs.result == 'skipped')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      
+      - name: Deploy to Vercel
+        run: |
+          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
+            vercel --token "${{ secrets.VERCEL_TOKEN }}" --prod --no-clipboard > /dev/null 2>&1
+          fi
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+  # Silent completion job
+  complete-workflow:
+    name: Complete Workflow
+    runs-on: ubuntu-latest
+    needs: [deploy-to-render, deploy-to-vercel]
+    if: always()
+    
+    steps:
+      - name: Finish silently
+        run: |
+          # This job exists just to mark the workflow as complete
+          # No notifications or reports are generated
+          exit 0

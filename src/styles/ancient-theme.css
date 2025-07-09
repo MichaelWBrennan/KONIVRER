@@ -1,0 +1,385 @@
+/**
+ * Ancient Scroll Theme with OpenDyslexic Font
+ * 
+ * This stylesheet provides an ancient, tattered scroll aesthetic for the application
+ * with OpenDyslexic font for improved readability.
+ */
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
+
+:root {
+  /* Color palette */
+  --parchment-light: #f8f0dd;
+  --parchment: #f2e8c9;
+  --parchment-dark: #e6d9b8;
+  --ink: #3a2921;
+  --ink-light: #5c4d44;
+  --ink-faded: #8a7a6d;
+  --scroll-edge: #d9b38c;
+  --scroll-border: #8b5a2b;
+  --wax-seal: #8b2e00;
+  --wax-seal-dark: #6b2305;
+  --gold: #d4af37;
+  
+  /* Typography */
+  --font-heading: 'OpenDyslexic', sans-serif;
+  --font-body: 'OpenDyslexic', sans-serif;
+  --font-accent: 'OpenDyslexic', sans-serif;
+}
+
+/* Global styles */
+body {
+  font-family: var(--font-body);
+  background-color: var(--parchment);
+  color: var(--ink);
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23f2e8c9'/%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E");
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--ink);
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  border-bottom: 2px solid var(--ink-faded);
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-image: linear-gradient(to right, var(--ink-faded), transparent);
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+h4 {
+  font-size: 1.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Links */
+a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ink-faded);
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: var(--wax-seal);
+  border-bottom: 1px solid var(--wax-seal);
+}
+
+/* Buttons */
+button, .button {
+  font-family: var(--font-accent);
+  background-color: var(--parchment-dark);
+  color: var(--ink);
+  border: 1px solid var(--scroll-border);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button::before, .button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23e6d9b8'/%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.15'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: -1;
+}
+
+button:hover, .button:hover {
+  background-color: var(--scroll-edge);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+button:active, .button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Primary button with wax seal appearance */
+button.primary, .button.primary {
+  background-color: var(--wax-seal);
+  color: var(--parchment-light);
+  border: 1px solid var(--wax-seal-dark);
+}
+
+button.primary:hover, .button.primary:hover {
+  background-color: var(--wax-seal-dark);
+}
+
+/* Scroll container */
+.scroll-container {
+  background-color: var(--parchment-light);
+  border: 1px solid var(--scroll-border);
+  border-radius: 5px;
+  padding: 2rem;
+  margin: 1rem 0;
+  position: relative;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100%25' height='100%25' fill='%23f8f0dd'/%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  z-index: -1;
+}
+
+/* Scroll with edges */
+.ancient-scroll {
+  background-color: var(--parchment-light);
+  border: 1px solid var(--scroll-border);
+  border-radius: 5px;
+  padding: 2rem;
+  margin: 2rem 0;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ancient-scroll::before,
+.ancient-scroll::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 30px;
+  top: 0;
+  background-color: var(--scroll-edge);
+  border: 1px solid var(--scroll-border);
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ancient-scroll::before {
+  left: -15px;
+  border-radius: 15px 0 0 15px;
+}
+
+.ancient-scroll::after {
+  right: -15px;
+  border-radius: 0 15px 15px 0;
+}
+
+/* Tattered edges */
+.tattered-edge {
+  position: relative;
+}
+
+.tattered-edge::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,0 Q25,5 50,0 T100,0 T150,0 T200,0 T250,0 T300,0 T350,0 T400,0 T450,0 T500,0 T550,0 T600,0 T650,0 T700,0 T750,0 T800,0 T850,0 T900,0 T950,0 T1000,0' fill='none' stroke='%233a2921' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+}
+
+.tattered-edge::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='100%25' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,20 Q25,15 50,20 T100,20 T150,20 T200,20 T250,20 T300,20 T350,20 T400,20 T450,20 T500,20 T550,20 T600,20 T650,20 T700,20 T750,20 T800,20 T850,20 T900,20 T950,20 T1000,20' fill='none' stroke='%233a2921' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+}
+
+/* Wax seal */
+.wax-seal {
+  width: 60px;
+  height: 60px;
+  background-color: var(--wax-seal);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--parchment-light);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 1rem auto;
+}
+
+.wax-seal::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+}
+
+/* Decorative initial capital letter */
+.initial-capital {
+  float: left;
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  line-height: 1;
+  padding-right: 0.5rem;
+  color: var(--wax-seal);
+}
+
+/* Dividers */
+.divider {
+  height: 1px;
+  background-image: linear-gradient(to right, transparent, var(--ink-faded), transparent);
+  margin: 2rem 0;
+  position: relative;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--parchment);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--ink-faded);
+}
+
+/* Form elements */
+input, textarea, select {
+  font-family: var(--font-body);
+  background-color: var(--parchment-light);
+  border: 1px solid var(--scroll-border);
+  padding: 0.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--ink);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 2px rgba(58, 41, 33, 0.1);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+th {
+  font-family: var(--font-accent);
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 2px solid var(--ink-faded);
+}
+
+td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--ink-faded);
+}
+
+tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Cards */
+.card {
+  background-color: var(--parchment-light);
+  border: 1px solid var(--scroll-border);
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Utility classes */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.gold-text {
+  color: var(--gold);
+}
+
+.faded-text {
+  color: var(--ink-faded);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  
+  h2 {
+    font-size: 1.75rem;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+  
+  .ancient-scroll {
+    padding: 1rem;
+  }
+  
+  .ancient-scroll::before,
+  .ancient-scroll::after {
+    width: 20px;
+  }
+  
+  .ancient-scroll::before {
+    left: -10px;
+  }
+  
+  .ancient-scroll::after {
+    right: -10px;
+  }
+}
