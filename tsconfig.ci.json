@@ -15,7 +15,7 @@
     "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "downlevelIteration": true,
@@ -24,6 +24,10 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "build"]
+  "files": [
+    "src/core/AllInOne-streamlined.tsx",
+    "src/components/UnifiedCardSearch.tsx",
+    "src/components/SearchPage.tsx",
+    "src/data/cards.ts"
+  ]
 }

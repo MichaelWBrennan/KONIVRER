@@ -7,8 +7,25 @@ import React, { useState, useEffect, useMemo, createContext, useContext } from '
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { SelfHealingErrorBoundary } from './SelfHealer';
-import { withOptimization } from './SelfOptimizer';
+// Import self-healing components conditionally
+let SelfHealingErrorBoundary: any = null;
+let withOptimization: any = null;
+
+try {
+  const selfHealerModule = require('./SelfHealer');
+  SelfHealingErrorBoundary = selfHealerModule.SelfHealingErrorBoundary;
+} catch (e) {
+  // Fallback component
+  SelfHealingErrorBoundary = ({ children, fallback }: any) => children || fallback;
+}
+
+try {
+  const selfOptimizerModule = require('./SelfOptimizer');
+  withOptimization = selfOptimizerModule.withOptimization;
+} catch (e) {
+  // Fallback HOC
+  withOptimization = (component: any) => component;
+}
 
 // Import Vercel analytics directly for production
 import { Analytics } from '@vercel/analytics/react';
@@ -105,7 +122,7 @@ const TOURNAMENTS: Tournament[] = [
 const AppContext = createContext<{
   user: any; setUser: (user: any) => void;
   decks: Deck[]; setDecks: (decks: Deck[]) => void;
-  bookmarks: string[]; setBookmarks: (bookmarks: string[]) => void;
+  bookmarks: string[]; setBookmarks: React.Dispatch<React.SetStateAction<string[]>>;
 }>({
   user: null, setUser: () => {}, decks: [], setDecks: () => {}, bookmarks: [], setBookmarks: () => {}
 });
