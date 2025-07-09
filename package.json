@@ -17,12 +17,7 @@
     "analyze": "knip",
     "dev:all": "concurrently \"npm run dev\" \"npm run storybook\"",
     "ai:train": "node scripts/train-ai-models.js",
-    "ai:optimize": "node scripts/optimize-deck-ai.js",
-    "3d:build": "node scripts/build-3d-assets.js",
-    "audio:generate": "node scripts/generate-audio.js",
-    "security:scan": "node scripts/security-scan.js",
-    "performance:benchmark": "node scripts/performance-benchmark.js",
-    "deploy:edge": "node scripts/deploy-edge.js"
+    "security:scan": "node scripts/security-scan.js"
   },
   "dependencies": {
     "@rollup/rollup-linux-x64-gnu": "^4.44.2",
@@ -34,13 +29,17 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
+    "zustand": "^4.4.7",
     "@tensorflow/tfjs": "^4.15.0",
     "three": "^0.159.0",
     "@types/three": "^0.159.0",
     "tone": "^14.7.77",
     "socket.io-client": "^4.7.4",
     "d3": "^7.8.5",
-    "zustand": "^4.4.7"
+    "babylon": "^6.0.0",
+    "phaser": "^3.70.0",
+    "@mediapipe/tasks-vision": "^0.10.8",
+    "@xenova/transformers": "^2.6.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.12",

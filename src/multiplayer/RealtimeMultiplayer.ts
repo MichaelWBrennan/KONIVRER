@@ -1,539 +1,373 @@
 import { io, Socket } from 'socket.io-client';
-import { Card } from '../data/cards';
-
-// Real-time multiplayer system with advanced features
-export interface GameState {
-  id: string;
-  players: Player[];
-  currentPlayer: string;
-  phase: 'waiting' | 'mulligan' | 'playing' | 'ended';
-  turn: number;
-  timeRemaining: number;
-  board: BoardState;
-  spectators: Spectator[];
-  tournament?: TournamentInfo;
-}
 
 export interface Player {
   id: string;
-  name: string;
+  username: string;
   avatar?: string;
-  deck: Card[];
-  hand: Card[];
+  rating: number;
+  status: 'online' | 'in-game' | 'away';
+}
+
+export interface GameRoom {
+  id: string;
+  name: string;
+  players: Player[];
+  maxPlayers: number;
+  gameMode: 'casual' | 'ranked' | 'tournament';
+  status: 'waiting' | 'in-progress' | 'finished';
+}
+
+export interface GameAction {
+  type: 'play-card' | 'attack' | 'end-turn' | 'surrender' | 'chat';
+  playerId: string;
+  data: any;
+  timestamp: number;
+}
+
+export interface MatchState {
+  roomId: string;
+  players: Player[];
+  currentTurn: string;
+  turnNumber: number;
+  gamePhase: 'mulligan' | 'main' | 'combat' | 'end';
+  playerStates: Map<string, PlayerState>;
+}
+
+export interface PlayerState {
   health: number;
   mana: number;
-  maxMana: number;
-  isReady: boolean;
-  isConnected: boolean;
-  rating: number;
-  wins: number;
-  losses: number;
+  cardsInHand: number;
+  cardsInDeck: number;
+  boardState: any[];
 }
 
-export interface BoardState {
-  playerFields: Map<string, Card[]>;
-  graveyard: Map<string, Card[]>;
-  effects: ActiveEffect[];
-}
-
-export interface ActiveEffect {
+export interface ChatMessage {
   id: string;
-  type: string;
-  source: Card;
-  target?: string;
-  duration: number;
-  properties: any;
-}
-
-export interface Spectator {
-  id: string;
-  name: string;
-  avatar?: string;
-}
-
-export interface TournamentInfo {
-  id: string;
-  name: string;
-  round: number;
-  bracket: string;
-}
-
-export interface MatchmakingPreferences {
-  gameMode: 'casual' | 'ranked' | 'tournament';
-  skillRange: 'any' | 'similar' | 'exact';
-  maxWaitTime: number;
-  preferredOpponents: string[];
-  blockedOpponents: string[];
+  playerId: string;
+  username: string;
+  message: string;
+  timestamp: Date;
+  type: 'text' | 'emote' | 'system';
 }
 
 export class RealtimeMultiplayer {
-  private static instance: RealtimeMultiplayer;
   private socket: Socket | null = null;
-  private currentGame: GameState | null = null;
-  private playerId: string | null = null;
   private isConnected = false;
+  private currentPlayer: Player | null = null;
+  private currentRoom: GameRoom | null = null;
+  private matchState: MatchState | null = null;
+  private eventHandlers: Map<string, Function[]> = new Map();
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
-  private heartbeatInterval: NodeJS.Timeout | null = null;
-  private latencyHistory: number[] = [];
-  private eventHandlers: Map<string, Function[]> = new Map();
 
-  private constructor() {}
+  constructor(private serverUrl: string = 'ws://localhost:3001') {}
 
-  public static getInstance(): RealtimeMultiplayer {
-    if (!RealtimeMultiplayer.instance) {
-      RealtimeMultiplayer.instance = new RealtimeMultiplayer();
-    }
-    return RealtimeMultiplayer.instance;
-  }
-
-  // Connect to multiplayer server
-  public async connect(serverUrl: string, authToken: string): Promise<void> {
-    if (this.socket?.connected) {
-      console.log('Already connected to multiplayer server');
-      return;
-    }
-
+  async connect(player: Player): Promise<boolean> {
     try {
-      this.socket = io(serverUrl, {
-        auth: { token: authToken },
-        transports: ['websocket', 'polling'],
-        upgrade: true,
-        rememberUpgrade: true,
-        timeout: 10000,
-        forceNew: false,
+      this.socket = io(this.serverUrl, {
+        transports: ['websocket'],
+        timeout: 5000,
         reconnection: true,
         reconnectionAttempts: this.maxReconnectAttempts,
-        reconnectionDelay: 1000,
-        reconnectionDelayMax: 5000
+        reconnectionDelay: 1000
       });
 
-      this.setupEventHandlers();
-      this.startHeartbeat();
+      this.currentPlayer = player;
+      this.setupEventListeners();
 
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         this.socket!.on('connect', () => {
           console.log('Connected to multiplayer server');
           this.isConnected = true;
           this.reconnectAttempts = 0;
-          resolve();
+          
+          // Authenticate player
+          this.socket!.emit('authenticate', player);
+          resolve(true);
         });
 
         this.socket!.on('connect_error', (error) => {
-          console.error('Connection error:', error);
-          reject(error);
+          console.error('Connection failed:', error);
+          this.isConnected = false;
+          resolve(false);
         });
-
-        setTimeout(() => {
-          if (!this.isConnected) {
-            reject(new Error('Connection timeout'));
-          }
-        }, 10000);
       });
     } catch (error) {
-      console.error('Failed to connect:', error);
-      throw error;
+      console.error('Failed to connect to multiplayer server:', error);
+      return false;
     }
   }
 
-  // Setup event handlers
-  private setupEventHandlers(): void {
+  private setupEventListeners(): void {
     if (!this.socket) return;
 
     // Connection events
     this.socket.on('disconnect', (reason) => {
       console.log('Disconnected from server:', reason);
       this.isConnected = false;
-      this.emit('disconnected', { reason });
+      this.emit('disconnected', reason);
     });
 
     this.socket.on('reconnect', (attemptNumber) => {
-      console.log('Reconnected after', attemptNumber, 'attempts');
+      console.log('Reconnected to server after', attemptNumber, 'attempts');
       this.isConnected = true;
-      this.emit('reconnected', { attemptNumber });
+      this.emit('reconnected', attemptNumber);
     });
 
-    this.socket.on('reconnect_error', (error) => {
-      console.error('Reconnection error:', error);
-      this.reconnectAttempts++;
-      if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-        this.emit('connectionLost', { error });
-      }
+    this.socket.on('reconnect_failed', () => {
+      console.error('Failed to reconnect to server');
+      this.emit('reconnect_failed');
+    });
+
+    // Authentication events
+    this.socket.on('authenticated', (playerData) => {
+      console.log('Player authenticated:', playerData);
+      this.currentPlayer = playerData;
+      this.emit('authenticated', playerData);
+    });
+
+    this.socket.on('authentication_failed', (error) => {
+      console.error('Authentication failed:', error);
+      this.emit('authentication_failed', error);
+    });
+
+    // Room events
+    this.socket.on('room_joined', (room: GameRoom) => {
+      console.log('Joined room:', room);
+      this.currentRoom = room;
+      this.emit('room_joined', room);
+    });
+
+    this.socket.on('room_left', (roomId: string) => {
+      console.log('Left room:', roomId);
+      this.currentRoom = null;
+      this.emit('room_left', roomId);
+    });
+
+    this.socket.on('room_updated', (room: GameRoom) => {
+      console.log('Room updated:', room);
+      this.currentRoom = room;
+      this.emit('room_updated', room);
+    });
+
+    this.socket.on('player_joined', (player: Player) => {
+      console.log('Player joined:', player);
+      this.emit('player_joined', player);
+    });
+
+    this.socket.on('player_left', (playerId: string) => {
+      console.log('Player left:', playerId);
+      this.emit('player_left', playerId);
     });
 
     // Game events
-    this.socket.on('gameFound', (gameData: GameState) => {
-      console.log('Game found:', gameData);
-      this.currentGame = gameData;
-      this.emit('gameFound', gameData);
+    this.socket.on('game_started', (matchState: MatchState) => {
+      console.log('Game started:', matchState);
+      this.matchState = matchState;
+      this.emit('game_started', matchState);
     });
 
-    this.socket.on('gameStateUpdate', (gameState: GameState) => {
-      this.currentGame = gameState;
-      this.emit('gameStateUpdate', gameState);
+    this.socket.on('game_action', (action: GameAction) => {
+      console.log('Game action received:', action);
+      this.handleGameAction(action);
+      this.emit('game_action', action);
     });
 
-    this.socket.on('playerJoined', (player: Player) => {
-      console.log('Player joined:', player);
-      this.emit('playerJoined', player);
+    this.socket.on('game_state_updated', (newState: MatchState) => {
+      console.log('Game state updated:', newState);
+      this.matchState = newState;
+      this.emit('game_state_updated', newState);
     });
 
-    this.socket.on('playerLeft', (playerId: string) => {
-      console.log('Player left:', playerId);
-      this.emit('playerLeft', { playerId });
-    });
-
-    this.socket.on('cardPlayed', (data: any) => {
-      this.emit('cardPlayed', data);
-    });
-
-    this.socket.on('turnChanged', (data: any) => {
-      this.emit('turnChanged', data);
-    });
-
-    this.socket.on('gameEnded', (result: any) => {
+    this.socket.on('game_ended', (result: any) => {
       console.log('Game ended:', result);
-      this.currentGame = null;
-      this.emit('gameEnded', result);
-    });
-
-    // Spectator events
-    this.socket.on('spectatorJoined', (spectator: Spectator) => {
-      this.emit('spectatorJoined', spectator);
-    });
-
-    this.socket.on('spectatorLeft', (spectatorId: string) => {
-      this.emit('spectatorLeft', { spectatorId });
+      this.matchState = null;
+      this.emit('game_ended', result);
     });
 
     // Chat events
-    this.socket.on('chatMessage', (message: any) => {
-      this.emit('chatMessage', message);
+    this.socket.on('chat_message', (message: ChatMessage) => {
+      console.log('Chat message:', message);
+      this.emit('chat_message', message);
     });
 
-    this.socket.on('emoteReceived', (emote: any) => {
-      this.emit('emoteReceived', emote);
+    // Spectator events
+    this.socket.on('spectator_joined', (spectator: Player) => {
+      console.log('Spectator joined:', spectator);
+      this.emit('spectator_joined', spectator);
     });
 
-    // Tournament events
-    this.socket.on('tournamentUpdate', (tournament: any) => {
-      this.emit('tournamentUpdate', tournament);
+    this.socket.on('spectator_left', (spectatorId: string) => {
+      console.log('Spectator left:', spectatorId);
+      this.emit('spectator_left', spectatorId);
     });
 
-    this.socket.on('bracketUpdate', (bracket: any) => {
-      this.emit('bracketUpdate', bracket);
-    });
-
-    // Latency measurement
-    this.socket.on('pong', (timestamp: number) => {
-      const latency = Date.now() - timestamp;
-      this.latencyHistory.push(latency);
-      if (this.latencyHistory.length > 10) {
-        this.latencyHistory.shift();
-      }
-      this.emit('latencyUpdate', { latency, average: this.getAverageLatency() });
-    });
-
-    // Error handling
+    // Error events
     this.socket.on('error', (error: any) => {
       console.error('Socket error:', error);
       this.emit('error', error);
     });
-
-    this.socket.on('gameError', (error: any) => {
-      console.error('Game error:', error);
-      this.emit('gameError', error);
-    });
   }
 
-  // Start matchmaking
-  public async startMatchmaking(preferences: MatchmakingPreferences): Promise<void> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
+  // Room management
+  async createRoom(roomConfig: {
+    name: string;
+    maxPlayers: number;
+    gameMode: 'casual' | 'ranked' | 'tournament';
+    password?: string;
+  }): Promise<GameRoom | null> {
+    if (!this.isConnected || !this.socket) return null;
 
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('startMatchmaking', preferences, (response: any) => {
-        if (response.success) {
-          console.log('Matchmaking started');
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
+    return new Promise((resolve) => {
+      this.socket!.emit('create_room', roomConfig);
+      
+      this.socket!.once('room_created', (room: GameRoom) => {
+        resolve(room);
+      });
+      
+      this.socket!.once('room_creation_failed', (error: any) => {
+        console.error('Room creation failed:', error);
+        resolve(null);
       });
     });
   }
 
-  // Cancel matchmaking
-  public cancelMatchmaking(): void {
-    if (this.socket?.connected) {
-      this.socket.emit('cancelMatchmaking');
-    }
-  }
+  async joinRoom(roomId: string, password?: string): Promise<boolean> {
+    if (!this.isConnected || !this.socket) return false;
 
-  // Join game as spectator
-  public async spectateGame(gameId: string): Promise<void> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('spectateGame', { gameId }, (response: any) => {
-        if (response.success) {
-          this.currentGame = response.gameState;
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
+    return new Promise((resolve) => {
+      this.socket!.emit('join_room', { roomId, password });
+      
+      this.socket!.once('room_joined', () => {
+        resolve(true);
+      });
+      
+      this.socket!.once('join_room_failed', (error: any) => {
+        console.error('Failed to join room:', error);
+        resolve(false);
       });
     });
   }
 
-  // Play a card
-  public async playCard(cardId: string, target?: string, position?: { x: number; y: number }): Promise<void> {
-    if (!this.socket?.connected || !this.currentGame) {
-      throw new Error('Not in a game');
-    }
+  async leaveRoom(): Promise<void> {
+    if (!this.isConnected || !this.socket || !this.currentRoom) return;
 
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('playCard', {
-        gameId: this.currentGame!.id,
-        cardId,
-        target,
-        position
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
+    this.socket.emit('leave_room', this.currentRoom.id);
+  }
+
+  async getRoomList(): Promise<GameRoom[]> {
+    if (!this.isConnected || !this.socket) return [];
+
+    return new Promise((resolve) => {
+      this.socket!.emit('get_room_list');
+      
+      this.socket!.once('room_list', (rooms: GameRoom[]) => {
+        resolve(rooms);
       });
     });
   }
 
-  // End turn
-  public async endTurn(): Promise<void> {
-    if (!this.socket?.connected || !this.currentGame) {
-      throw new Error('Not in a game');
-    }
+  // Game actions
+  async sendGameAction(action: Omit<GameAction, 'playerId' | 'timestamp'>): Promise<void> {
+    if (!this.isConnected || !this.socket || !this.currentPlayer || !this.matchState) return;
 
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('endTurn', {
-        gameId: this.currentGame!.id
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
+    const fullAction: GameAction = {
+      ...action,
+      playerId: this.currentPlayer.id,
+      timestamp: Date.now()
+    };
+
+    this.socket.emit('game_action', fullAction);
+  }
+
+  async playCard(cardId: string, targetId?: string, position?: { x: number; y: number }): Promise<void> {
+    await this.sendGameAction({
+      type: 'play-card',
+      data: { cardId, targetId, position }
+    });
+  }
+
+  async attack(attackerId: string, targetId: string): Promise<void> {
+    await this.sendGameAction({
+      type: 'attack',
+      data: { attackerId, targetId }
+    });
+  }
+
+  async endTurn(): Promise<void> {
+    await this.sendGameAction({
+      type: 'end-turn',
+      data: {}
+    });
+  }
+
+  async surrender(): Promise<void> {
+    await this.sendGameAction({
+      type: 'surrender',
+      data: {}
+    });
+  }
+
+  // Chat functionality
+  async sendChatMessage(message: string, type: 'text' | 'emote' = 'text'): Promise<void> {
+    if (!this.isConnected || !this.socket || !this.currentPlayer) return;
+
+    const chatMessage: Omit<ChatMessage, 'id' | 'timestamp'> = {
+      playerId: this.currentPlayer.id,
+      username: this.currentPlayer.username,
+      message,
+      type
+    };
+
+    this.socket.emit('chat_message', chatMessage);
+  }
+
+  // Spectator functionality
+  async spectateRoom(roomId: string): Promise<boolean> {
+    if (!this.isConnected || !this.socket) return false;
+
+    return new Promise((resolve) => {
+      this.socket!.emit('spectate_room', roomId);
+      
+      this.socket!.once('spectating_started', () => {
+        resolve(true);
+      });
+      
+      this.socket!.once('spectating_failed', (error: any) => {
+        console.error('Failed to spectate room:', error);
+        resolve(false);
       });
     });
   }
 
-  // Mulligan cards
-  public async mulligan(cardsToReplace: string[]): Promise<void> {
-    if (!this.socket?.connected || !this.currentGame) {
-      throw new Error('Not in a game');
-    }
+  async stopSpectating(): Promise<void> {
+    if (!this.isConnected || !this.socket) return;
 
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('mulligan', {
-        gameId: this.currentGame!.id,
-        cardsToReplace
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
+    this.socket.emit('stop_spectating');
   }
 
-  // Send chat message
-  public sendChatMessage(message: string, type: 'all' | 'team' | 'spectators' = 'all'): void {
-    if (this.socket?.connected && this.currentGame) {
-      this.socket.emit('chatMessage', {
-        gameId: this.currentGame.id,
-        message,
-        type
-      });
-    }
+  // Matchmaking
+  async findMatch(gameMode: 'casual' | 'ranked' = 'casual'): Promise<void> {
+    if (!this.isConnected || !this.socket) return;
+
+    this.socket.emit('find_match', { gameMode });
   }
 
-  // Send emote
-  public sendEmote(emoteId: string, target?: string): void {
-    if (this.socket?.connected && this.currentGame) {
-      this.socket.emit('sendEmote', {
-        gameId: this.currentGame.id,
-        emoteId,
-        target
-      });
-    }
+  async cancelMatchmaking(): Promise<void> {
+    if (!this.isConnected || !this.socket) return;
+
+    this.socket.emit('cancel_matchmaking');
   }
 
-  // Concede game
-  public async concede(): Promise<void> {
-    if (!this.socket?.connected || !this.currentGame) {
-      throw new Error('Not in a game');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('concede', {
-        gameId: this.currentGame!.id
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Request game pause
-  public async requestPause(): Promise<void> {
-    if (!this.socket?.connected || !this.currentGame) {
-      throw new Error('Not in a game');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('requestPause', {
-        gameId: this.currentGame!.id
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Join tournament
-  public async joinTournament(tournamentId: string, deckId: string): Promise<void> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('joinTournament', {
-        tournamentId,
-        deckId
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Leave tournament
-  public async leaveTournament(tournamentId: string): Promise<void> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('leaveTournament', {
-        tournamentId
-      }, (response: any) => {
-        if (response.success) {
-          resolve();
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Get tournament brackets
-  public async getTournamentBrackets(tournamentId: string): Promise<any> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('getTournamentBrackets', {
-        tournamentId
-      }, (response: any) => {
-        if (response.success) {
-          resolve(response.brackets);
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Get player statistics
-  public async getPlayerStats(playerId?: string): Promise<any> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('getPlayerStats', {
-        playerId: playerId || this.playerId
-      }, (response: any) => {
-        if (response.success) {
-          resolve(response.stats);
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Get leaderboard
-  public async getLeaderboard(type: 'global' | 'friends' | 'tournament' = 'global'): Promise<any> {
-    if (!this.socket?.connected) {
-      throw new Error('Not connected to server');
-    }
-
-    return new Promise((resolve, reject) => {
-      this.socket!.emit('getLeaderboard', { type }, (response: any) => {
-        if (response.success) {
-          resolve(response.leaderboard);
-        } else {
-          reject(new Error(response.error));
-        }
-      });
-    });
-  }
-
-  // Start heartbeat to maintain connection
-  private startHeartbeat(): void {
-    this.heartbeatInterval = setInterval(() => {
-      if (this.socket?.connected) {
-        this.socket.emit('ping', Date.now());
-      }
-    }, 30000); // Every 30 seconds
-  }
-
-  // Get current latency
-  public getCurrentLatency(): number {
-    return this.latencyHistory.length > 0 ? 
-           this.latencyHistory[this.latencyHistory.length - 1] : 0;
-  }
-
-  // Get average latency
-  public getAverageLatency(): number {
-    if (this.latencyHistory.length === 0) return 0;
-    return this.latencyHistory.reduce((sum, lat) => sum + lat, 0) / this.latencyHistory.length;
-  }
-
-  // Event system
-  public on(event: string, handler: Function): void {
+  // Event handling
+  on(event: string, handler: Function): void {
     if (!this.eventHandlers.has(event)) {
       this.eventHandlers.set(event, []);
     }
     this.eventHandlers.get(event)!.push(handler);
   }
 
-  public off(event: string, handler: Function): void {
+  off(event: string, handler: Function): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
       const index = handlers.indexOf(handler);
@@ -546,54 +380,81 @@ export class RealtimeMultiplayer {
   private emit(event: string, data?: any): void {
     const handlers = this.eventHandlers.get(event);
     if (handlers) {
-      handlers.forEach(handler => {
-        try {
-          handler(data);
-        } catch (error) {
-          console.error('Error in event handler:', error);
-        }
-      });
+      handlers.forEach(handler => handler(data));
     }
   }
 
-  // Get connection status
-  public isConnectedToServer(): boolean {
-    return this.isConnected && this.socket?.connected === true;
-  }
+  private handleGameAction(action: GameAction): void {
+    if (!this.matchState) return;
 
-  // Get current game
-  public getCurrentGame(): GameState | null {
-    return this.currentGame;
-  }
-
-  // Get player ID
-  public getPlayerId(): string | null {
-    return this.playerId;
-  }
-
-  // Disconnect from server
-  public disconnect(): void {
-    if (this.heartbeatInterval) {
-      clearInterval(this.heartbeatInterval);
-      this.heartbeatInterval = null;
+    // Update local game state based on action
+    switch (action.type) {
+      case 'play-card':
+        this.handleCardPlay(action);
+        break;
+      case 'attack':
+        this.handleAttack(action);
+        break;
+      case 'end-turn':
+        this.handleEndTurn(action);
+        break;
+      case 'surrender':
+        this.handleSurrender(action);
+        break;
     }
+  }
 
+  private handleCardPlay(action: GameAction): void {
+    // Update local state for card play
+    console.log('Card played:', action.data);
+  }
+
+  private handleAttack(action: GameAction): void {
+    // Update local state for attack
+    console.log('Attack performed:', action.data);
+  }
+
+  private handleEndTurn(action: GameAction): void {
+    // Update local state for turn end
+    console.log('Turn ended by:', action.playerId);
+  }
+
+  private handleSurrender(action: GameAction): void {
+    // Handle surrender
+    console.log('Player surrendered:', action.playerId);
+  }
+
+  // Getters
+  get connected(): boolean {
+    return this.isConnected;
+  }
+
+  get player(): Player | null {
+    return this.currentPlayer;
+  }
+
+  get room(): GameRoom | null {
+    return this.currentRoom;
+  }
+
+  get gameState(): MatchState | null {
+    return this.matchState;
+  }
+
+  // Cleanup
+  disconnect(): void {
     if (this.socket) {
       this.socket.disconnect();
       this.socket = null;
     }
-
+    
     this.isConnected = false;
-    this.currentGame = null;
-    this.playerId = null;
+    this.currentPlayer = null;
+    this.currentRoom = null;
+    this.matchState = null;
     this.eventHandlers.clear();
-  }
-
-  // Cleanup
-  public dispose(): void {
-    this.disconnect();
   }
 }
 
-// Export singleton instance
-export const multiplayerSystem = RealtimeMultiplayer.getInstance();
+// Singleton instance
+export const multiplayerClient = new RealtimeMultiplayer();

@@ -1,139 +1,56 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
-import { Card } from '../data/cards';
 
-interface Card3DRendererProps {
-  card: Card;
+export interface Card3DProps {
+  cardData: {
+    id: string;
+    name: string;
+    imageUrl?: string;
+    cost: number;
+    attack?: number;
+    health?: number;
+    type: string;
+    rarity: string;
+  };
   width?: number;
   height?: number;
   interactive?: boolean;
-  glowEffect?: boolean;
   holographic?: boolean;
-  onCardClick?: (card: Card) => void;
-  animationSpeed?: number;
+  onCardClick?: (cardId: string) => void;
 }
 
-// Advanced 3D Card Renderer with cutting-edge effects
-const Card3DRenderer: React.FC<Card3DRendererProps> = ({
-  card,
+export const Card3DRenderer: React.FC<Card3DProps> = ({
+  cardData,
   width = 300,
   height = 400,
   interactive = true,
-  glowEffect = true,
   holographic = false,
-  onCardClick,
-  animationSpeed = 1.0
+  onCardClick
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<THREE.Scene>();
   const rendererRef = useRef<THREE.WebGLRenderer>();
-  const cameraRef = useRef<THREE.PerspectiveCamera>();
   const cardMeshRef = useRef<THREE.Mesh>();
-  const frameRef = useRef<number>();
+  const animationIdRef = useRef<number>();
   const [isHovered, setIsHovered] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Memoized materials for performance
-  const materials = useMemo(() => {
-    const cardMaterial = new THREE.MeshPhysicalMaterial({
-      color: getCardColor(card),
-      metalness: 0.1,
-      roughness: 0.2,
-      clearcoat: 1.0,
-      clearcoatRoughness: 0.1,
-      transparent: true,
-      opacity: 0.95
-    });
-
-    const glowMaterial = new THREE.MeshBasicMaterial({
-      color: getElementColor(card.element),
-      transparent: true,
-      opacity: 0.3,
-      side: THREE.BackSide
-    });
-
-    const holographicMaterial = new THREE.ShaderMaterial({
-      uniforms: {
-        time: { value: 0 },
-        color1: { value: new THREE.Color(getElementColor(card.element)) },
-        color2: { value: new THREE.Color(getRarityColor(card.rarity)) },
-        opacity: { value: 0.8 }
-      },
-      vertexShader: `
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        uniform float time;
-        
-        void main() {
-          vUv = uv;
-          vPosition = position;
-          
-          vec3 pos = position;
-          pos.z += sin(pos.x * 10.0 + time) * 0.01;
-          pos.z += cos(pos.y * 10.0 + time * 0.5) * 0.01;
-          
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform float time;
-        uniform vec3 color1;
-        uniform vec3 color2;
-        uniform float opacity;
-        varying vec2 vUv;
-        varying vec3 vPosition;
-        
-        void main() {
-          vec2 uv = vUv;
-          
-          // Create holographic effect
-          float wave1 = sin(uv.x * 20.0 + time * 2.0) * 0.5 + 0.5;
-          float wave2 = cos(uv.y * 15.0 + time * 1.5) * 0.5 + 0.5;
-          float interference = wave1 * wave2;
-          
-          // Color shifting
-          vec3 color = mix(color1, color2, interference);
-          color += vec3(sin(time + uv.x * 5.0), cos(time + uv.y * 5.0), sin(time * 0.5)) * 0.1;
-          
-          // Add rainbow effect
-          float rainbow = sin(uv.x * 10.0 + time) * sin(uv.y * 10.0 + time * 0.7);
-          color += vec3(rainbow * 0.2, rainbow * 0.1, rainbow * 0.3);
-          
-          gl_FragColor = vec4(color, opacity);
-        }
-      `,
-      transparent: true
-    });
-
-    return { cardMaterial, glowMaterial, holographicMaterial };
-  }, [card]);
-
-  // Initialize Three.js scene
   useEffect(() => {
     if (!mountRef.current) return;
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.Color(0x1a1a2e);
     sceneRef.current = scene;
 
     // Camera setup
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    camera.position.set(0, 0, 2);
-    cameraRef.current = camera;
+    camera.position.z = 5;
 
     // Renderer setup
-    const renderer = new THREE.WebGLRenderer({ 
-      antialias: true, 
-      alpha: true,
-      powerPreference: "high-performance"
-    });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
     rendererRef.current = renderer;
 
     mountRef.current.appendChild(renderer.domElement);
@@ -142,171 +59,123 @@ const Card3DRenderer: React.FC<Card3DRendererProps> = ({
     const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(5, 5, 5);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(10, 10, 5);
     directionalLight.castShadow = true;
-    directionalLight.shadow.mapSize.width = 2048;
-    directionalLight.shadow.mapSize.height = 2048;
     scene.add(directionalLight);
 
-    // Point lights for dramatic effect
-    const pointLight1 = new THREE.PointLight(getElementColor(card.element), 0.8, 10);
-    pointLight1.position.set(2, 2, 2);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(getRarityColor(card.rarity), 0.6, 8);
-    pointLight2.position.set(-2, -1, 1);
-    scene.add(pointLight2);
+    // Point light for dramatic effect
+    const pointLight = new THREE.PointLight(0x4a90e2, 1, 100);
+    pointLight.position.set(0, 0, 10);
+    scene.add(pointLight);
 
     // Create card geometry
-    const cardGeometry = new THREE.BoxGeometry(1.6, 2.2, 0.02);
-    const cardMesh = new THREE.Mesh(cardGeometry, materials.cardMaterial);
+    const cardGeometry = new THREE.BoxGeometry(2.5, 3.5, 0.1);
+    
+    // Create card material
+    const cardMaterial = createCardMaterial(cardData, holographic);
+    
+    // Create card mesh
+    const cardMesh = new THREE.Mesh(cardGeometry, cardMaterial);
     cardMesh.castShadow = true;
     cardMesh.receiveShadow = true;
-    scene.add(cardMesh);
     cardMeshRef.current = cardMesh;
+    scene.add(cardMesh);
 
-    // Add glow effect
-    if (glowEffect) {
-      const glowGeometry = new THREE.BoxGeometry(1.65, 2.25, 0.025);
-      const glowMesh = new THREE.Mesh(glowGeometry, materials.glowMaterial);
-      scene.add(glowMesh);
-    }
-
-    // Add holographic overlay
+    // Add particle system for holographic effect
     if (holographic) {
-      const holoGeometry = new THREE.PlaneGeometry(1.6, 2.2);
-      const holoMesh = new THREE.Mesh(holoGeometry, materials.holographicMaterial);
-      holoMesh.position.z = 0.015;
-      scene.add(holoMesh);
+      const particles = createParticleSystem();
+      scene.add(particles);
     }
 
-    // Add card frame
-    const frameGeometry = new THREE.RingGeometry(0.8, 0.85, 32);
-    const frameMaterial = new THREE.MeshPhysicalMaterial({
-      color: getRarityColor(card.rarity),
-      metalness: 0.8,
-      roughness: 0.2,
-      emissive: getRarityColor(card.rarity),
-      emissiveIntensity: 0.1
-    });
-    const frameMesh = new THREE.Mesh(frameGeometry, frameMaterial);
-    frameMesh.position.z = 0.02;
-    scene.add(frameMesh);
-
-    // Add particle effects for legendary cards
-    if (card.rarity === 'Legendary') {
-      addParticleEffects(scene);
-    }
-
-    // Add card text (simplified)
-    addCardText(scene, card);
-
-    // Mouse interaction
-    if (interactive) {
-      const raycaster = new THREE.Raycaster();
-      const mouse = new THREE.Vector2();
-
-      const onMouseMove = (event: MouseEvent) => {
-        const rect = renderer.domElement.getBoundingClientRect();
-        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObject(cardMesh);
-
-        if (intersects.length > 0) {
-          setIsHovered(true);
-          document.body.style.cursor = 'pointer';
+    // Animation loop
+    const animate = () => {
+      animationIdRef.current = requestAnimationFrame(animate);
+      
+      // Rotate card slightly for 3D effect
+      if (cardMeshRef.current) {
+        if (isHovered) {
+          cardMeshRef.current.rotation.y += 0.01;
+          cardMeshRef.current.position.z = Math.sin(Date.now() * 0.001) * 0.2;
         } else {
-          setIsHovered(false);
-          document.body.style.cursor = 'default';
+          cardMeshRef.current.rotation.y += 0.005;
         }
-      };
-
-      const onClick = (event: MouseEvent) => {
-        const rect = renderer.domElement.getBoundingClientRect();
-        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-        raycaster.setFromCamera(mouse, camera);
-        const intersects = raycaster.intersectObject(cardMesh);
-
-        if (intersects.length > 0 && onCardClick) {
-          onCardClick(card);
-        }
-      };
-
-      renderer.domElement.addEventListener('mousemove', onMouseMove);
-      renderer.domElement.addEventListener('click', onClick);
-
-      return () => {
-        renderer.domElement.removeEventListener('mousemove', onMouseMove);
-        renderer.domElement.removeEventListener('click', onClick);
-      };
-    }
-
-    setIsLoaded(true);
-
-    return () => {
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
-      }
-      if (mountRef.current && renderer.domElement) {
-        mountRef.current.removeChild(renderer.domElement);
-      }
-      renderer.dispose();
-    };
-  }, [card, width, height, interactive, glowEffect, holographic, materials, onCardClick]);
-
-  // Animation loop
-  useEffect(() => {
-    if (!sceneRef.current || !rendererRef.current || !cameraRef.current || !cardMeshRef.current) return;
-
-    const animate = (time: number) => {
-      frameRef.current = requestAnimationFrame(animate);
-
-      const scene = sceneRef.current!;
-      const renderer = rendererRef.current!;
-      const camera = cameraRef.current!;
-      const cardMesh = cardMeshRef.current!;
-
-      // Card rotation animation
-      if (!isHovered) {
-        cardMesh.rotation.y = Math.sin(time * 0.001 * animationSpeed) * 0.1;
-        cardMesh.rotation.x = Math.cos(time * 0.0008 * animationSpeed) * 0.05;
-      } else {
-        // Hover effect
-        cardMesh.rotation.y += (0.2 - cardMesh.rotation.y) * 0.1;
-        cardMesh.rotation.x += (0.1 - cardMesh.rotation.x) * 0.1;
-        cardMesh.position.z += (0.1 - cardMesh.position.z) * 0.1;
       }
 
-      // Update holographic material
-      if (holographic) {
-        const holoMaterial = materials.holographicMaterial;
-        holoMaterial.uniforms.time.value = time * 0.001;
+      // Update holographic effect
+      if (holographic && cardMaterial.uniforms) {
+        cardMaterial.uniforms.time.value = Date.now() * 0.001;
       }
-
-      // Floating animation
-      cardMesh.position.y = Math.sin(time * 0.002 * animationSpeed) * 0.02;
-
-      // Camera subtle movement
-      camera.position.x = Math.sin(time * 0.0005) * 0.1;
-      camera.position.y = Math.cos(time * 0.0007) * 0.05;
-      camera.lookAt(0, 0, 0);
 
       renderer.render(scene, camera);
     };
 
-    animate(0);
+    animate();
 
-    return () => {
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
+    // Mouse interaction
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!interactive || !cardMeshRef.current) return;
+
+      const rect = renderer.domElement.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+      // Rotate card based on mouse position
+      cardMeshRef.current.rotation.x = y * 0.3;
+      cardMeshRef.current.rotation.y = x * 0.3;
+    };
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+      if (cardMeshRef.current) {
+        cardMeshRef.current.scale.set(1.1, 1.1, 1.1);
       }
     };
-  }, [isHovered, animationSpeed, holographic, materials]);
+
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+      if (cardMeshRef.current) {
+        cardMeshRef.current.scale.set(1, 1, 1);
+        cardMeshRef.current.rotation.x = 0;
+        cardMeshRef.current.rotation.y = 0;
+      }
+    };
+
+    const handleClick = () => {
+      if (onCardClick) {
+        onCardClick(cardData.id);
+      }
+    };
+
+    if (interactive) {
+      renderer.domElement.addEventListener('mousemove', handleMouseMove);
+      renderer.domElement.addEventListener('mouseenter', handleMouseEnter);
+      renderer.domElement.addEventListener('mouseleave', handleMouseLeave);
+      renderer.domElement.addEventListener('click', handleClick);
+    }
+
+    // Cleanup
+    return () => {
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+      
+      if (interactive) {
+        renderer.domElement.removeEventListener('mousemove', handleMouseMove);
+        renderer.domElement.removeEventListener('mouseenter', handleMouseEnter);
+        renderer.domElement.removeEventListener('mouseleave', handleMouseLeave);
+        renderer.domElement.removeEventListener('click', handleClick);
+      }
+
+      if (mountRef.current && renderer.domElement) {
+        mountRef.current.removeChild(renderer.domElement);
+      }
+      
+      renderer.dispose();
+      cardGeometry.dispose();
+      cardMaterial.dispose();
+    };
+  }, [cardData, width, height, interactive, holographic, isHovered, onCardClick]);
 
   return (
     <div 
@@ -314,135 +183,153 @@ const Card3DRenderer: React.FC<Card3DRendererProps> = ({
       style={{ 
         width, 
         height, 
-        position: 'relative',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        boxShadow: isHovered ? '0 20px 40px rgba(0,0,0,0.3)' : '0 10px 20px rgba(0,0,0,0.2)',
-        transition: 'box-shadow 0.3s ease'
-      }}
-    >
-      {!isLoaded && (
-        <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          color: 'white',
-          fontSize: '14px'
-        }}>
-          Loading 3D Card...
-        </div>
-      )}
-    </div>
+        cursor: interactive ? 'pointer' : 'default',
+        borderRadius: '10px',
+        overflow: 'hidden'
+      }} 
+    />
   );
 };
 
-// Helper functions
-function getCardColor(card: Card): number {
-  const typeColors = {
-    'Familiar': 0x8B4513,
-    'Flag': 0x4169E1,
-    'Spell': 0x9932CC,
-    'Artifact': 0xFFD700
-  };
-  return typeColors[card.type as keyof typeof typeColors] || 0x808080;
+function createCardMaterial(cardData: any, holographic: boolean): THREE.Material {
+  if (holographic) {
+    // Holographic shader material
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        resolution: { value: new THREE.Vector2(300, 400) },
+        cardColor: { value: getRarityColor(cardData.rarity) }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        varying vec3 vPosition;
+        
+        void main() {
+          vUv = uv;
+          vPosition = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        uniform vec2 resolution;
+        uniform vec3 cardColor;
+        varying vec2 vUv;
+        varying vec3 vPosition;
+        
+        void main() {
+          vec2 uv = vUv;
+          
+          // Holographic rainbow effect
+          float rainbow = sin(uv.x * 10.0 + time) * sin(uv.y * 10.0 + time * 0.5);
+          vec3 hologram = vec3(
+            sin(rainbow + time) * 0.5 + 0.5,
+            sin(rainbow + time + 2.094) * 0.5 + 0.5,
+            sin(rainbow + time + 4.188) * 0.5 + 0.5
+          );
+          
+          // Mix with card color
+          vec3 finalColor = mix(cardColor, hologram, 0.3);
+          
+          // Add shimmer effect
+          float shimmer = sin(uv.x * 20.0 + time * 2.0) * sin(uv.y * 20.0 + time * 2.0);
+          finalColor += shimmer * 0.1;
+          
+          gl_FragColor = vec4(finalColor, 0.9);
+        }
+      `,
+      transparent: true
+    });
+  } else {
+    // Standard material with card texture
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d')!;
+    
+    // Draw card background
+    const gradient = ctx.createLinearGradient(0, 0, 0, 512);
+    const rarityColor = getRarityColor(cardData.rarity);
+    gradient.addColorStop(0, `rgb(${rarityColor.r * 255}, ${rarityColor.g * 255}, ${rarityColor.b * 255})`);
+    gradient.addColorStop(1, '#1a1a2e');
+    
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, 512, 512);
+    
+    // Draw card border
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(10, 10, 492, 492);
+    
+    // Draw card name
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(cardData.name, 256, 50);
+    
+    // Draw cost
+    ctx.fillStyle = '#ffdd44';
+    ctx.font = 'bold 32px Arial';
+    ctx.fillText(cardData.cost.toString(), 50, 50);
+    
+    // Draw stats if creature
+    if (cardData.attack !== undefined && cardData.health !== undefined) {
+      ctx.fillStyle = '#ff4444';
+      ctx.fillText(cardData.attack.toString(), 100, 480);
+      ctx.fillStyle = '#44ff44';
+      ctx.fillText(cardData.health.toString(), 150, 480);
+    }
+    
+    // Draw type
+    ctx.fillStyle = '#cccccc';
+    ctx.font = '18px Arial';
+    ctx.fillText(cardData.type, 256, 480);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    
+    return new THREE.MeshLambertMaterial({
+      map: texture,
+      transparent: true
+    });
+  }
 }
 
-function getElementColor(element: string): number {
-  const elementColors = {
-    'Fire': 0xFF4500,
-    'Water': 0x1E90FF,
-    'Earth': 0x8B4513,
-    'Air': 0x87CEEB,
-    'Light': 0xFFFFE0,
-    'Dark': 0x4B0082
-  };
-  return elementColors[element as keyof typeof elementColors] || 0x808080;
-}
-
-function getRarityColor(rarity: string): number {
-  const rarityColors = {
-    'Common': 0x808080,
-    'Uncommon': 0x00FF00,
-    'Rare': 0x0080FF,
-    'Epic': 0x8000FF,
-    'Legendary': 0xFFD700
-  };
-  return rarityColors[rarity as keyof typeof rarityColors] || 0x808080;
-}
-
-function addParticleEffects(scene: THREE.Scene): void {
+function createParticleSystem(): THREE.Points {
   const particleCount = 100;
   const particles = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
-
-  for (let i = 0; i < particleCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 4;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 4;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 2;
-
-    colors[i * 3] = Math.random();
-    colors[i * 3 + 1] = Math.random();
-    colors[i * 3 + 2] = Math.random();
+  
+  for (let i = 0; i < particleCount * 3; i += 3) {
+    positions[i] = (Math.random() - 0.5) * 10;
+    positions[i + 1] = (Math.random() - 0.5) * 10;
+    positions[i + 2] = (Math.random() - 0.5) * 10;
   }
-
+  
   particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
+  
   const particleMaterial = new THREE.PointsMaterial({
-    size: 0.02,
-    vertexColors: true,
+    color: 0x4a90e2,
+    size: 0.1,
     transparent: true,
     opacity: 0.6
   });
-
-  const particleSystem = new THREE.Points(particles, particleMaterial);
-  scene.add(particleSystem);
+  
+  return new THREE.Points(particles, particleMaterial);
 }
 
-function addCardText(scene: THREE.Scene, card: Card): void {
-  // Simplified text rendering - in a real implementation, you'd use a text geometry library
-  // or render text to a texture and apply it to a plane
-  
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d')!;
-  canvas.width = 512;
-  canvas.height = 512;
-  
-  context.fillStyle = 'rgba(0, 0, 0, 0.8)';
-  context.fillRect(0, 0, 512, 512);
-  
-  context.fillStyle = 'white';
-  context.font = 'bold 32px Arial';
-  context.textAlign = 'center';
-  context.fillText(card.name, 256, 60);
-  
-  context.font = '24px Arial';
-  context.fillText(`Cost: ${card.cost}`, 256, 120);
-  
-  if (card.attack !== undefined) {
-    context.fillText(`Attack: ${card.attack}`, 256, 160);
+function getRarityColor(rarity: string): THREE.Color {
+  switch (rarity.toLowerCase()) {
+    case 'common':
+      return new THREE.Color(0.7, 0.7, 0.7);
+    case 'uncommon':
+      return new THREE.Color(0.2, 0.8, 0.2);
+    case 'rare':
+      return new THREE.Color(0.2, 0.4, 0.9);
+    case 'legendary':
+      return new THREE.Color(0.9, 0.5, 0.1);
+    default:
+      return new THREE.Color(0.5, 0.5, 0.5);
   }
-  
-  if (card.health !== undefined) {
-    context.fillText(`Health: ${card.health}`, 256, 200);
-  }
-  
-  context.fillText(card.element, 256, 240);
-  context.fillText(card.rarity, 256, 280);
-  
-  const texture = new THREE.CanvasTexture(canvas);
-  const textMaterial = new THREE.MeshBasicMaterial({ 
-    map: texture, 
-    transparent: true,
-    opacity: 0.9
-  });
-  
-  const textGeometry = new THREE.PlaneGeometry(1.5, 2);
-  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-  textMesh.position.z = 0.011;
-  scene.add(textMesh);
 }
 
 export default Card3DRenderer;

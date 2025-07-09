@@ -1,525 +1,290 @@
 import * as tf from '@tensorflow/tfjs';
-import { Card } from '../data/cards';
 
-// AI-Powered Deck Optimization System
+export interface Card {
+  id: string;
+  name: string;
+  cost: number;
+  attack?: number;
+  health?: number;
+  type: string;
+  rarity: string;
+  abilities: string[];
+}
+
+export interface Deck {
+  id: string;
+  name: string;
+  cards: Card[];
+  winRate?: number;
+  synergy?: number;
+}
+
+export interface OptimizationResult {
+  optimizedDeck: Deck;
+  suggestions: string[];
+  synergyScore: number;
+  predictedWinRate: number;
+}
+
 export class DeckOptimizer {
   private model: tf.LayersModel | null = null;
   private cardEmbeddings: Map<string, number[]> = new Map();
-  private synergyMatrix: tf.Tensor2D | null = null;
-  private metaData: any = null;
+  private isInitialized = false;
 
-  constructor() {
-    this.initializeModel();
-  }
+  async initialize(): Promise<void> {
+    if (this.isInitialized) return;
 
-  // Initialize the neural network model
-  private async initializeModel(): Promise<void> {
     try {
-      // Try to load pre-trained model
-      this.model = await tf.loadLayersModel('/models/deck-optimizer.json');
+      // Create a neural network for deck optimization
+      this.model = tf.sequential({
+        layers: [
+          tf.layers.dense({ inputShape: [100], units: 256, activation: 'relu' }),
+          tf.layers.dropout({ rate: 0.3 }),
+          tf.layers.dense({ units: 128, activation: 'relu' }),
+          tf.layers.dropout({ rate: 0.2 }),
+          tf.layers.dense({ units: 64, activation: 'relu' }),
+          tf.layers.dense({ units: 1, activation: 'sigmoid' })
+        ]
+      });
+
+      this.model.compile({
+        optimizer: tf.train.adam(0.001),
+        loss: 'binaryCrossentropy',
+        metrics: ['accuracy']
+      });
+
+      this.isInitialized = true;
+      console.log('DeckOptimizer initialized successfully');
     } catch (error) {
-      console.log('No pre-trained model found, creating new model...');
-      this.model = this.createModel();
+      console.error('Failed to initialize DeckOptimizer:', error);
     }
   }
 
-  // Create a new neural network model for deck optimization
-  private createModel(): tf.LayersModel {
-    const model = tf.sequential({
-      layers: [
-        // Input layer: card features (cost, attack, health, type, etc.)
-        tf.layers.dense({
-          inputShape: [60], // 60 cards max deck size
-          units: 128,
-          activation: 'relu',
-          name: 'card_input'
-        }),
-        
-        // Hidden layers for learning card synergies
-        tf.layers.dropout({ rate: 0.3 }),
-        tf.layers.dense({
-          units: 256,
-          activation: 'relu',
-          name: 'synergy_layer_1'
-        }),
-        
-        tf.layers.dropout({ rate: 0.3 }),
-        tf.layers.dense({
-          units: 128,
-          activation: 'relu',
-          name: 'synergy_layer_2'
-        }),
-        
-        // Attention mechanism for card interactions
-        tf.layers.dense({
-          units: 64,
-          activation: 'tanh',
-          name: 'attention_layer'
-        }),
-        
-        // Output layer: deck strength score
-        tf.layers.dense({
-          units: 1,
-          activation: 'sigmoid',
-          name: 'deck_score'
-        })
-      ]
-    });
-
-    // Compile with advanced optimizer
-    model.compile({
-      optimizer: tf.train.adamax(0.001),
-      loss: 'meanSquaredError',
-      metrics: ['accuracy']
-    });
-
-    return model;
-  }
-
-  // Generate card embeddings using advanced feature extraction
   private generateCardEmbedding(card: Card): number[] {
-    const embedding = [
-      // Basic stats (normalized)
-      card.cost / 10,
-      card.attack ? card.attack / 10 : 0,
-      card.health ? card.health / 10 : 0,
-      
-      // Type encoding (one-hot)
-      card.type === 'Familiar' ? 1 : 0,
-      card.type === 'Flag' ? 1 : 0,
-      
-      // Element encoding
-      card.element === 'Fire' ? 1 : 0,
-      card.element === 'Water' ? 1 : 0,
-      card.element === 'Earth' ? 1 : 0,
-      card.element === 'Air' ? 1 : 0,
-      card.element === 'Light' ? 1 : 0,
-      card.element === 'Dark' ? 1 : 0,
-      
-      // Rarity encoding
-      card.rarity === 'Common' ? 0.2 : 0,
-      card.rarity === 'Uncommon' ? 0.4 : 0,
-      card.rarity === 'Rare' ? 0.6 : 0,
-      card.rarity === 'Epic' ? 0.8 : 0,
-      card.rarity === 'Legendary' ? 1.0 : 0,
-      
-      // Advanced features
-      this.calculateCardComplexity(card),
-      this.calculateCardVersatility(card),
-      this.calculateCardTempo(card),
-      this.calculateCardValue(card)
-    ];
-
-    return embedding;
-  }
-
-  // Calculate card complexity score
-  private calculateCardComplexity(card: Card): number {
-    let complexity = 0;
+    // Generate a feature vector for the card
+    const embedding = new Array(100).fill(0);
     
-    // More abilities = higher complexity
-    if (card.abilities) {
-      complexity += card.abilities.length * 0.2;
-    }
+    // Basic features
+    embedding[0] = card.cost / 10; // Normalized cost
+    embedding[1] = (card.attack || 0) / 10; // Normalized attack
+    embedding[2] = (card.health || 0) / 10; // Normalized health
     
-    // Higher cost = higher complexity
-    complexity += card.cost * 0.1;
+    // Type encoding (one-hot)
+    const types = ['creature', 'spell', 'artifact', 'enchantment'];
+    const typeIndex = types.indexOf(card.type.toLowerCase());
+    if (typeIndex >= 0) embedding[3 + typeIndex] = 1;
     
-    return Math.min(complexity, 1.0);
-  }
-
-  // Calculate card versatility score
-  private calculateCardVersatility(card: Card): number {
-    let versatility = 0;
+    // Rarity encoding
+    const rarities = ['common', 'uncommon', 'rare', 'legendary'];
+    const rarityIndex = rarities.indexOf(card.rarity.toLowerCase());
+    if (rarityIndex >= 0) embedding[7 + rarityIndex] = 1;
     
-    // Cards with multiple abilities are more versatile
-    if (card.abilities) {
-      versatility += Math.min(card.abilities.length * 0.25, 1.0);
-    }
-    
-    // Balanced stats indicate versatility
-    if (card.attack && card.health) {
-      const statBalance = 1 - Math.abs(card.attack - card.health) / Math.max(card.attack, card.health);
-      versatility += statBalance * 0.3;
-    }
-    
-    return Math.min(versatility, 1.0);
-  }
-
-  // Calculate card tempo score
-  private calculateCardTempo(card: Card): number {
-    if (!card.attack && !card.health) return 0.5; // Spells/artifacts have neutral tempo
-    
-    const totalStats = (card.attack || 0) + (card.health || 0);
-    const expectedStats = card.cost * 2; // Expected 2 stats per mana
-    
-    return Math.min(totalStats / Math.max(expectedStats, 1), 2.0) / 2.0;
-  }
-
-  // Calculate card value score
-  private calculateCardValue(card: Card): number {
-    let value = this.calculateCardTempo(card);
-    
-    // Abilities add value
-    if (card.abilities) {
-      value += card.abilities.length * 0.1;
-    }
-    
-    // Rarity affects value
-    const rarityMultiplier = {
-      'Common': 1.0,
-      'Uncommon': 1.1,
-      'Rare': 1.2,
-      'Epic': 1.3,
-      'Legendary': 1.5
-    };
-    
-    value *= rarityMultiplier[card.rarity as keyof typeof rarityMultiplier] || 1.0;
-    
-    return Math.min(value, 1.0);
-  }
-
-  // Optimize deck composition using AI
-  public async optimizeDeck(cards: Card[], targetStrategy: string = 'balanced'): Promise<{
-    optimizedDeck: Card[];
-    score: number;
-    suggestions: string[];
-    synergies: Array<{ cards: string[]; strength: number; description: string }>;
-  }> {
-    if (!this.model) {
-      await this.initializeModel();
-    }
-
-    // Generate embeddings for all cards
-    const cardEmbeddings = cards.map(card => ({
-      card,
-      embedding: this.generateCardEmbedding(card)
-    }));
-
-    // Use genetic algorithm for deck optimization
-    const optimizedDeck = await this.geneticAlgorithmOptimization(
-      cardEmbeddings,
-      targetStrategy
-    );
-
-    // Calculate deck score
-    const score = await this.evaluateDeck(optimizedDeck);
-    
-    // Generate suggestions
-    const suggestions = this.generateSuggestions(optimizedDeck, cards);
-    
-    // Find synergies
-    const synergies = this.findSynergies(optimizedDeck);
-
-    return {
-      optimizedDeck,
-      score,
-      suggestions,
-      synergies
-    };
-  }
-
-  // Genetic algorithm for deck optimization
-  private async geneticAlgorithmOptimization(
-    cardEmbeddings: Array<{ card: Card; embedding: number[] }>,
-    strategy: string
-  ): Promise<Card[]> {
-    const populationSize = 20;
-    const generations = 50;
-    const deckSize = 30;
-    
-    // Initialize population
-    let population = this.initializePopulation(cardEmbeddings, populationSize, deckSize);
-    
-    for (let gen = 0; gen < generations; gen++) {
-      // Evaluate fitness
-      const fitness = await Promise.all(
-        population.map(deck => this.evaluateDeckFitness(deck, strategy))
-      );
-      
-      // Selection and crossover
-      const newPopulation = [];
-      for (let i = 0; i < populationSize; i++) {
-        const parent1 = this.tournamentSelection(population, fitness);
-        const parent2 = this.tournamentSelection(population, fitness);
-        const offspring = this.crossover(parent1, parent2);
-        const mutated = this.mutate(offspring, cardEmbeddings);
-        newPopulation.push(mutated);
-      }
-      
-      population = newPopulation;
-    }
-    
-    // Return best deck
-    const finalFitness = await Promise.all(
-      population.map(deck => this.evaluateDeckFitness(deck, strategy))
-    );
-    
-    const bestIndex = finalFitness.indexOf(Math.max(...finalFitness));
-    return population[bestIndex];
-  }
-
-  // Initialize random population for genetic algorithm
-  private initializePopulation(
-    cardEmbeddings: Array<{ card: Card; embedding: number[] }>,
-    populationSize: number,
-    deckSize: number
-  ): Card[][] {
-    const population: Card[][] = [];
-    
-    for (let i = 0; i < populationSize; i++) {
-      const deck: Card[] = [];
-      const availableCards = [...cardEmbeddings];
-      
-      for (let j = 0; j < deckSize && availableCards.length > 0; j++) {
-        const randomIndex = Math.floor(Math.random() * availableCards.length);
-        deck.push(availableCards[randomIndex].card);
-        availableCards.splice(randomIndex, 1);
-      }
-      
-      population.push(deck);
-    }
-    
-    return population;
-  }
-
-  // Evaluate deck fitness for genetic algorithm
-  private async evaluateDeckFitness(
-    deck: Card[],
-    strategy: string
-  ): Promise<number> {
-    let fitness = 0;
-    
-    // Base deck evaluation
-    fitness += await this.evaluateDeck(deck);
-    
-    // Strategy-specific bonuses
-    switch (strategy) {
-      case 'aggressive':
-        fitness += this.evaluateAggressiveStrategy(deck);
-        break;
-      case 'control':
-        fitness += this.evaluateControlStrategy(deck);
-        break;
-      default:
-        fitness += this.evaluateBalancedStrategy(deck);
-    }
-    
-    return fitness;
-  }
-
-  // Tournament selection for genetic algorithm
-  private tournamentSelection(population: Card[][], fitness: number[]): Card[] {
-    const tournamentSize = 3;
-    let best = 0;
-    let bestFitness = fitness[0];
-    
-    for (let i = 1; i < tournamentSize; i++) {
-      const candidate = Math.floor(Math.random() * population.length);
-      if (fitness[candidate] > bestFitness) {
-        best = candidate;
-        bestFitness = fitness[candidate];
-      }
-    }
-    
-    return population[best];
-  }
-
-  // Crossover operation for genetic algorithm
-  private crossover(parent1: Card[], parent2: Card[]): Card[] {
-    const crossoverPoint = Math.floor(Math.random() * Math.min(parent1.length, parent2.length));
-    const offspring = [
-      ...parent1.slice(0, crossoverPoint),
-      ...parent2.slice(crossoverPoint)
-    ];
-    
-    // Remove duplicates and maintain deck size
-    const uniqueCards = Array.from(new Set(offspring.map(c => c.id)))
-      .map(id => offspring.find(c => c.id === id)!)
-      .slice(0, 30);
-    
-    return uniqueCards;
-  }
-
-  // Mutation operation for genetic algorithm
-  private mutate(
-    deck: Card[],
-    cardEmbeddings: Array<{ card: Card; embedding: number[] }>
-  ): Card[] {
-    const mutationRate = 0.1;
-    const mutatedDeck = [...deck];
-    
-    for (let i = 0; i < mutatedDeck.length; i++) {
-      if (Math.random() < mutationRate) {
-        const randomCard = cardEmbeddings[Math.floor(Math.random() * cardEmbeddings.length)];
-        mutatedDeck[i] = randomCard.card;
-      }
-    }
-    
-    return mutatedDeck;
-  }
-
-  // Evaluate overall deck strength
-  private async evaluateDeck(deck: Card[]): Promise<number> {
-    if (!this.model || deck.length === 0) return 0;
-
-    // Create input tensor
-    const deckEmbedding = this.createDeckEmbedding(deck);
-    const inputTensor = tf.tensor2d([deckEmbedding]);
-    
-    // Predict deck strength
-    const prediction = this.model.predict(inputTensor) as tf.Tensor;
-    const score = await prediction.data();
-    
-    // Cleanup tensors
-    inputTensor.dispose();
-    prediction.dispose();
-    
-    return score[0];
-  }
-
-  // Create deck embedding for neural network input
-  private createDeckEmbedding(deck: Card[]): number[] {
-    const embedding = new Array(60).fill(0);
-    
-    deck.forEach((card, index) => {
-      if (index < 60) {
-        const cardEmb = this.generateCardEmbedding(card);
-        embedding[index] = cardEmb.reduce((sum, val) => sum + val, 0) / cardEmb.length;
-      }
+    // Abilities encoding
+    card.abilities.forEach((ability, index) => {
+      if (index < 20) embedding[11 + index] = 1;
     });
+    
+    // Fill remaining with random features for demonstration
+    for (let i = 31; i < 100; i++) {
+      embedding[i] = Math.random() * 0.1;
+    }
     
     return embedding;
   }
 
-  // Strategy evaluation functions
-  private evaluateAggressiveStrategy(deck: Card[]): number {
-    let score = 0;
-    const lowCostCards = deck.filter(c => c.cost <= 3).length;
-    const highAttackCards = deck.filter(c => (c.attack || 0) >= c.cost).length;
+  private calculateSynergy(deck: Deck): number {
+    let synergyScore = 0;
+    const cards = deck.cards;
     
-    score += (lowCostCards / deck.length) * 0.5;
-    score += (highAttackCards / deck.length) * 0.3;
-    
-    return score;
-  }
-
-  private evaluateControlStrategy(deck: Card[]): number {
-    let score = 0;
-    const highCostCards = deck.filter(c => c.cost >= 5).length;
-    
-    score += (highCostCards / deck.length) * 0.4;
-    
-    return score;
-  }
-
-  private evaluateBalancedStrategy(deck: Card[]): number {
-    const costCurve = this.analyzeCostCurve(deck);
-    const typeBalance = this.analyzeTypeBalance(deck);
-    
-    return (costCurve + typeBalance) / 2;
-  }
-
-  // Analyze mana cost curve
-  private analyzeCostCurve(deck: Card[]): number {
-    const costCounts = new Array(11).fill(0);
-    deck.forEach(card => {
-      const cost = Math.min(card.cost, 10);
-      costCounts[cost]++;
-    });
-    
-    // Ideal curve: more low-cost cards, fewer high-cost
-    const idealCurve = [0, 0.2, 0.25, 0.2, 0.15, 0.1, 0.05, 0.03, 0.02, 0.01, 0.01];
-    let score = 0;
-    
-    for (let i = 0; i < costCounts.length; i++) {
-      const actual = costCounts[i] / deck.length;
-      const ideal = idealCurve[i];
-      score += 1 - Math.abs(actual - ideal);
+    // Calculate synergy based on card interactions
+    for (let i = 0; i < cards.length; i++) {
+      for (let j = i + 1; j < cards.length; j++) {
+        const card1 = cards[i];
+        const card2 = cards[j];
+        
+        // Cost curve synergy
+        if (Math.abs(card1.cost - card2.cost) === 1) {
+          synergyScore += 0.1;
+        }
+        
+        // Type synergy
+        if (card1.type === card2.type) {
+          synergyScore += 0.2;
+        }
+        
+        // Ability synergy
+        const commonAbilities = card1.abilities.filter(a => 
+          card2.abilities.includes(a)
+        );
+        synergyScore += commonAbilities.length * 0.3;
+      }
     }
     
-    return score / costCounts.length;
+    return Math.min(synergyScore / (cards.length * cards.length), 1);
   }
 
-  // Analyze card type balance
-  private analyzeTypeBalance(deck: Card[]): number {
-    const typeCounts = new Map<string, number>();
-    deck.forEach(card => {
-      typeCounts.set(card.type, (typeCounts.get(card.type) || 0) + 1);
+  async optimizeDeck(deck: Deck, availableCards: Card[]): Promise<OptimizationResult> {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    try {
+      // Generate embeddings for all cards
+      const deckEmbedding = this.generateDeckEmbedding(deck);
+      
+      // Predict win rate using the neural network
+      const prediction = this.model!.predict(tf.tensor2d([deckEmbedding])) as tf.Tensor;
+      const predictedWinRate = await prediction.data();
+      
+      // Calculate current synergy
+      const currentSynergy = this.calculateSynergy(deck);
+      
+      // Generate optimization suggestions
+      const suggestions = this.generateSuggestions(deck, availableCards);
+      
+      // Create optimized deck
+      const optimizedDeck = this.applyOptimizations(deck, availableCards);
+      
+      prediction.dispose();
+      
+      return {
+        optimizedDeck,
+        suggestions,
+        synergyScore: currentSynergy,
+        predictedWinRate: predictedWinRate[0]
+      };
+    } catch (error) {
+      console.error('Deck optimization failed:', error);
+      return {
+        optimizedDeck: deck,
+        suggestions: ['Optimization failed. Please try again.'],
+        synergyScore: 0,
+        predictedWinRate: 0.5
+      };
+    }
+  }
+
+  private generateDeckEmbedding(deck: Deck): number[] {
+    const embedding = new Array(100).fill(0);
+    
+    // Aggregate card embeddings
+    deck.cards.forEach(card => {
+      const cardEmb = this.generateCardEmbedding(card);
+      cardEmb.forEach((value, index) => {
+        embedding[index] += value;
+      });
     });
     
-    // Ideal balance: 70% Familiars, 30% Others
-    const familiarRatio = (typeCounts.get('Familiar') || 0) / deck.length;
-    const idealFamiliarRatio = 0.7;
-    
-    return 1 - Math.abs(familiarRatio - idealFamiliarRatio);
+    // Normalize by deck size
+    const deckSize = deck.cards.length;
+    return embedding.map(value => value / deckSize);
   }
 
-  // Generate optimization suggestions
-  private generateSuggestions(optimizedDeck: Card[], allCards: Card[]): string[] {
+  private generateSuggestions(deck: Deck, availableCards: Card[]): string[] {
     const suggestions: string[] = [];
     
     // Analyze cost curve
-    const costAnalysis = this.analyzeCostCurve(optimizedDeck);
-    if (costAnalysis < 0.7) {
-      suggestions.push("Consider adjusting your mana curve - you may need more low-cost cards");
-    }
-    
-    // Analyze synergies
-    const synergies = this.findSynergies(optimizedDeck);
-    if (synergies.length < 3) {
-      suggestions.push("Look for cards with better synergy to increase deck consistency");
-    }
-    
-    // Element balance
-    const elements = new Map<string, number>();
-    optimizedDeck.forEach(card => {
-      elements.set(card.element, (elements.get(card.element) || 0) + 1);
+    const costCounts = new Map<number, number>();
+    deck.cards.forEach(card => {
+      costCounts.set(card.cost, (costCounts.get(card.cost) || 0) + 1);
     });
     
-    if (elements.size > 3) {
-      suggestions.push("Consider focusing on fewer elements for better consistency");
+    // Check for cost curve issues
+    if (!costCounts.has(1) && !costCounts.has(2)) {
+      suggestions.push('Consider adding more low-cost cards for early game presence');
+    }
+    
+    if ((costCounts.get(7) || 0) + (costCounts.get(8) || 0) + (costCounts.get(9) || 0) > 3) {
+      suggestions.push('Too many high-cost cards may slow down your deck');
+    }
+    
+    // Analyze card types
+    const typeCounts = new Map<string, number>();
+    deck.cards.forEach(card => {
+      typeCounts.set(card.type, (typeCounts.get(card.type) || 0) + 1);
+    });
+    
+    if ((typeCounts.get('creature') || 0) < deck.cards.length * 0.4) {
+      suggestions.push('Consider adding more creatures for board presence');
+    }
+    
+    // Synergy suggestions
+    const synergy = this.calculateSynergy(deck);
+    if (synergy < 0.3) {
+      suggestions.push('Look for cards with better synergy with your existing cards');
     }
     
     return suggestions;
   }
 
-  // Find card synergies in deck
-  private findSynergies(deck: Card[]): Array<{ cards: string[]; strength: number; description: string }> {
-    const synergies: Array<{ cards: string[]; strength: number; description: string }> = [];
+  private applyOptimizations(deck: Deck, availableCards: Card[]): Deck {
+    // Create a copy of the deck
+    const optimizedCards = [...deck.cards];
     
-    // Element synergies
-    const elementGroups = new Map<string, Card[]>();
-    deck.forEach(card => {
-      if (!elementGroups.has(card.element)) {
-        elementGroups.set(card.element, []);
-      }
-      elementGroups.get(card.element)!.push(card);
-    });
+    // Simple optimization: replace low-synergy cards
+    const synergy = this.calculateSynergy(deck);
+    if (synergy < 0.5 && availableCards.length > 0) {
+      // Replace the highest cost card with a random available card
+      const highestCostIndex = optimizedCards.reduce((maxIndex, card, index) => 
+        card.cost > optimizedCards[maxIndex].cost ? index : maxIndex, 0
+      );
+      
+      const randomCard = availableCards[Math.floor(Math.random() * availableCards.length)];
+      optimizedCards[highestCostIndex] = randomCard;
+    }
     
-    elementGroups.forEach((cards, element) => {
-      if (cards.length >= 3) {
-        synergies.push({
-          cards: cards.map(c => c.name),
-          strength: Math.min(cards.length / 10, 1.0),
-          description: `${element} element synergy with ${cards.length} cards`
-        });
-      }
-    });
-    
-    return synergies;
+    return {
+      ...deck,
+      name: `${deck.name} (Optimized)`,
+      cards: optimizedCards
+    };
   }
 
-  // Cleanup resources
-  public dispose(): void {
+  async trainModel(trainingData: { deck: Deck; winRate: number }[]): Promise<void> {
+    if (!this.isInitialized) {
+      await this.initialize();
+    }
+
+    try {
+      const inputs: number[][] = [];
+      const outputs: number[] = [];
+      
+      trainingData.forEach(data => {
+        inputs.push(this.generateDeckEmbedding(data.deck));
+        outputs.push(data.winRate);
+      });
+      
+      const xs = tf.tensor2d(inputs);
+      const ys = tf.tensor2d(outputs, [outputs.length, 1]);
+      
+      await this.model!.fit(xs, ys, {
+        epochs: 50,
+        batchSize: 32,
+        validationSplit: 0.2,
+        callbacks: {
+          onEpochEnd: (epoch, logs) => {
+            console.log(`Epoch ${epoch}: loss = ${logs?.loss?.toFixed(4)}`);
+          }
+        }
+      });
+      
+      xs.dispose();
+      ys.dispose();
+      
+      console.log('Model training completed');
+    } catch (error) {
+      console.error('Model training failed:', error);
+    }
+  }
+
+  dispose(): void {
     if (this.model) {
       this.model.dispose();
+      this.model = null;
     }
-    if (this.synergyMatrix) {
-      this.synergyMatrix.dispose();
-    }
+    this.isInitialized = false;
   }
 }
 
-// Export singleton instance
+// Singleton instance
 export const deckOptimizer = new DeckOptimizer();

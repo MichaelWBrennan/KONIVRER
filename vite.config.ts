@@ -24,11 +24,13 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'ai': ['@tensorflow/tfjs'],
-          '3d': ['three'],
+          'ai': ['@tensorflow/tfjs', '@xenova/transformers'],
+          '3d': ['three', 'babylon'],
           'audio': ['tone'],
           'multiplayer': ['socket.io-client'],
           'analytics': ['d3'],
+          'gaming': ['phaser'],
+          'vision': ['@mediapipe/tasks-vision'],
           'ui': ['framer-motion']
         }
       }
@@ -42,7 +44,9 @@ export default defineConfig({
       'tone',
       'socket.io-client',
       'd3',
-      'zustand'
+      'zustand',
+      'phaser',
+      '@xenova/transformers'
     ]
   },
   define: {
