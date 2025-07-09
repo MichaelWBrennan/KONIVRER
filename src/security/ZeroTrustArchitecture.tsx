@@ -1203,7 +1203,7 @@ class ZeroTrustArchitectureCore {
     return {
       ipAddress: 'simulated-ip',
       location: 'simulated-location',
-      connectionType: navigator.connection?.effectiveType || 'unknown',
+      connectionType: (navigator as any).connection?.effectiveType || 'unknown',
       vpnDetected: false, // Would be detected by network analysis
       proxyDetected: false, // Would be detected by network analysis
       threatIntelligence: [], // Would be populated by threat intelligence feeds
