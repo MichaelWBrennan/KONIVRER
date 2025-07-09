@@ -14,6 +14,9 @@ import ScryfalInspiredSearch from '../components/ScryfalInspiredSearch';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import { KONIVRER_CARDS } from '../data/cards';
+import ButtonTester from '../utils/buttonTester';
+import SecurityTester from '../utils/securityTester';
+import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
 
 // Types
 interface Card {
@@ -466,7 +469,9 @@ const Header = () => {
               justifyContent: 'center',
               zIndex: 1001
             }}
-            aria-label="Toggle menu"
+            aria-label="Toggle mobile menu"
+            aria-expanded={menuOpen}
+            data-testid="mobile-menu-toggle"
           >
             {menuOpen ? '✕' : '☰'}
           </motion.button>
@@ -824,6 +829,17 @@ const DecksPage = () => {
         {/* Create New Deck Card */}
         <motion.div
           whileHover={{ scale: 1.02, boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)' }}
+          onClick={() => {
+            // Create new deck functionality
+            const newDeck = {
+              id: Date.now(),
+              name: `New Deck ${Date.now()}`,
+              cards: [],
+              description: 'A new deck ready for customization'
+            };
+            console.log('Creating new deck:', newDeck);
+            alert('Deck creation functionality would be implemented here!');
+          }}
           style={{
             background: 'rgba(212, 175, 55, 0.05)',
             border: '2px dashed rgba(212, 175, 55, 0.3)',
@@ -836,6 +852,24 @@ const DecksPage = () => {
             cursor: 'pointer',
             minHeight: '200px'
           }}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              const newDeck = {
+                id: Date.now(),
+                name: `New Deck ${Date.now()}`,
+                cards: [],
+                description: 'A new deck ready for customization'
+              };
+              console.log('Creating new deck:', newDeck);
+              alert('Deck creation functionality would be implemented here!');
+            }
+          }}
+          aria-label="Create new deck"
+          data-action="create-deck"
+          data-testid="create-deck-button"
         >
           <div style={{ fontSize: '40px', color: '#d4af37', marginBottom: '10px' }}>+</div>
           <p style={{ color: '#d4af37', fontWeight: 'bold' }}>Create New Deck</p>
@@ -1028,6 +1062,8 @@ const PlayPage = () => {
           {gameModes.map((mode, index) => (
             <motion.div
               key={mode.id}
+              data-game-mode={mode.id}
+              data-testid={`game-mode-${mode.id}`}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
@@ -1038,6 +1074,15 @@ const PlayPage = () => {
               }}
               whileTap={{ scale: 0.98 }}
               onClick={() => startGame(mode.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  startGame(mode.id);
+                }
+              }}
+              aria-label={`Start ${mode.title} - ${mode.description}`}
               style={{
                 background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%)',
                 border: '1px solid rgba(212, 175, 55, 0.3)',
@@ -1236,25 +1281,45 @@ const Phase3App = () => {
   
   return (
     <SelfHealingProvider silentMode={true} showHealthMonitor={false}>
-      <AppContainer>
-        <Router>
-          <AppContext.Provider value={contextValue}>
-            <Header />
-            <LoginModal />
-            <AnimatePresence mode="wait">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/cards" element={<CardsPage />} />
-                <Route path="/decks" element={<DecksPage />} />
-                <Route path="/events" element={<EventsPage />} />
-                <Route path="/play" element={<PlayPage />} />
-              </Routes>
-            </AnimatePresence>
-          </AppContext.Provider>
-        </Router>
-        <Analytics />
-        <SpeedInsights />
-      </AppContainer>
+      <AdvancedSecurityProvider 
+        config={{
+          enableRealTimeMonitoring: true,
+          enablePredictiveSecurity: true,
+          enableAutoHealing: true,
+          enableSilentMode: process.env.NODE_ENV === 'production',
+          maxThreatLevel: 'critical',
+          autoBlockThreshold: 3,
+          sessionTimeout: 30 * 60 * 1000, // 30 minutes
+          encryptionLevel: 'advanced'
+        }}
+        showSecurityMonitor={process.env.NODE_ENV === 'development'}
+      >
+        <AppContainer>
+          <Router>
+            <AppContext.Provider value={contextValue}>
+              <Header />
+              <LoginModal />
+              <AnimatePresence mode="wait">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/cards" element={<CardsPage />} />
+                  <Route path="/decks" element={<DecksPage />} />
+                  <Route path="/events" element={<EventsPage />} />
+                  <Route path="/play" element={<PlayPage />} />
+                </Routes>
+              </AnimatePresence>
+            </AppContext.Provider>
+          </Router>
+          <Analytics />
+          <SpeedInsights />
+          {process.env.NODE_ENV === 'development' && (
+            <>
+              <ButtonTester />
+              <SecurityTester />
+            </>
+          )}
+        </AppContainer>
+      </AdvancedSecurityProvider>
     </SelfHealingProvider>
   );
 };
