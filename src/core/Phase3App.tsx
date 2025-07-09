@@ -19,6 +19,7 @@ import SecurityTester from '../utils/securityTester';
 import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
 import KeycloakDemo from '../components/KeycloakDemo';
+import CuttingEdgeDemo from '../components/CuttingEdgeDemo';
 
 // Types
 interface Card {
@@ -376,6 +377,7 @@ const Header = () => {
     { to: '/cards', label: 'Cards' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
+    { to: '/tech', label: '🚀 Tech Demo', special: true },
     { to: '/play', label: '🎮 Play Now', special: true },
     { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
   ];
@@ -1311,6 +1313,7 @@ const Phase3App = () => {
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
+                  <Route path="/tech" element={<CuttingEdgeDemo />} />
                   <Route path="/auth/callback/:provider" element={<OAuthCallback />} />
                 </Routes>
               </AnimatePresence>
