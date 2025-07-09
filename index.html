@@ -37,38 +37,14 @@
         
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
-            background: #f2e8c9; /* Parchment color */
-            color: #3a2921; /* Dark brown text */
+            background: #0f0f0f; /* Dark background */
+            color: #ffffff; /* White text */
             line-height: 1.6;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="%23f2e8c9"/><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.1"/></svg>');
-            background-repeat: repeat;
         }
         
         #root {
             min-height: 100vh;
             position: relative;
-        }
-        
-        #root::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 10px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="10" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="5" r="3" fill="%233a2921" /><circle cx="30" cy="5" r="3" fill="%233a2921" /><circle cx="50" cy="5" r="3" fill="%233a2921" /><circle cx="70" cy="5" r="3" fill="%233a2921" /><circle cx="90" cy="5" r="3" fill="%233a2921" /></svg>');
-            background-repeat: repeat-x;
-        }
-        
-        #root::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 10px;
-            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="10" xmlns="http://www.w3.org/2000/svg"><circle cx="10" cy="5" r="3" fill="%233a2921" /><circle cx="30" cy="5" r="3" fill="%233a2921" /><circle cx="50" cy="5" r="3" fill="%233a2921" /><circle cx="70" cy="5" r="3" fill="%233a2921" /><circle cx="90" cy="5" r="3" fill="%233a2921" /></svg>');
-            background-repeat: repeat-x;
         }
         
         /* Ancient scroll theme */
