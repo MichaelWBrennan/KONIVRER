@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "selfHealing": {
+    "enabled": true,
+    "maxRecoveryAttempts": 5,
+    "recoveryDelay": 1000,
+    "logErrors": true,
+    "reportErrors": false,
+    "features": {
+      "componentRecovery": true,
+      "networkRecovery": true,
+      "stateRecovery": true,
+      "errorBoundaries": true,
+      "automaticRetry": true
+    },
+    "errorHandling": {
+      "captureGlobalErrors": true,
+      "capturePromiseRejections": true,
+      "captureNetworkErrors": true,
+      "captureComponentErrors": true
+    },
+    "storage": {
+      "useLocalStorage": true,
+      "useSessionStorage": false,
+      "persistErrorLogs": true,
+      "maxStoredErrors": 50
+    }
+  },
+  "selfOptimizing": {
+    "enabled": true,
+    "monitoringInterval": 5000,
+    "features": {
+      "performanceMonitoring": true,
+      "adaptiveRendering": true,
+      "memoryManagement": true,
+      "networkOptimization": true,
+      "codeOptimization": true
+    },
+    "thresholds": {
+      "fps": {
+        "warning": 30,
+        "critical": 15,
+        "action": "optimizeRendering"
+      },
+      "memory": {
+        "warning": 100,
+        "critical": 200,
+        "action": "cleanupMemory"
+      },
+      "networkLatency": {
+        "warning": 500,
+        "critical": 2000,
+        "action": "optimizeNetworkRequests"
+      },
+      "renderTime": {
+        "warning": 50,
+        "critical": 100,
+        "action": "optimizeComponents"
+      }
+    },
+    "adaptiveSettings": {
+      "enableLazyLoading": true,
+      "enableCodeSplitting": true,
+      "enableMemoryManagement": true,
+      "enableRenderOptimization": true,
+      "enableNetworkOptimization": true
+    }
+  },
+  "debug": {
+    "enabled": false,
+    "showPerformanceMonitor": false,
+    "showErrorStatistics": false,
+    "logLevel": "info",
+    "verboseLogging": false
+  }
+}
