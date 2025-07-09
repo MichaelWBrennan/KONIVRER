@@ -34,6 +34,65 @@ Object.defineProperty(window, 'crypto', {
   },
 });
 
+// Mock canvas and related APIs to prevent hanging
+const mockCanvas = {
+  getContext: vi.fn(() => ({
+    fillRect: vi.fn(),
+    clearRect: vi.fn(),
+    getImageData: vi.fn(() => ({ data: new Uint8ClampedArray(4) })),
+    putImageData: vi.fn(),
+    createImageData: vi.fn(() => ({ data: new Uint8ClampedArray(4) })),
+    setTransform: vi.fn(),
+    drawImage: vi.fn(),
+    save: vi.fn(),
+    restore: vi.fn(),
+    beginPath: vi.fn(),
+    moveTo: vi.fn(),
+    lineTo: vi.fn(),
+    closePath: vi.fn(),
+    stroke: vi.fn(),
+    fill: vi.fn(),
+    measureText: vi.fn(() => ({ width: 0 })),
+    isPointInPath: vi.fn(() => false),
+    isPointInStroke: vi.fn(() => false),
+  })),
+  toDataURL: vi.fn(() => 'data:image/png;base64,mock'),
+  toBlob: vi.fn((callback) => callback(new Blob())),
+  width: 300,
+  height: 150,
+};
+
+Object.defineProperty(window, 'HTMLCanvasElement', {
+  value: class HTMLCanvasElement {
+    getContext = mockCanvas.getContext;
+    toDataURL = mockCanvas.toDataURL;
+    toBlob = mockCanvas.toBlob;
+    width = mockCanvas.width;
+    height = mockCanvas.height;
+  },
+});
+
+// Mock ResizeObserver
+global.ResizeObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
+// Mock IntersectionObserver
+global.IntersectionObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
+// Mock MutationObserver
+global.MutationObserver = vi.fn().mockImplementation(() => ({
+  observe: vi.fn(),
+  disconnect: vi.fn(),
+  takeRecords: vi.fn(() => []),
+}));
+
 // Test component that uses security context
 const TestComponent: React.FC = () => {
   const {
