@@ -158,7 +158,7 @@ const Navigation: React.FC = () => {
     { path: '/', icon: '🏠', label: 'Home' },
     { path: '/cards', icon: '🗃️', label: 'Cards' },
     { path: '/decks', icon: '📚', label: 'Decks' },
-    { path: '/tournament', icon: '🏆', label: 'Tourna.' },
+    { path: '/tournament', icon: '🏆', label: 'Tournament' },
     { path: '/play', icon: '▶️', label: 'Play' }
   ];
 
@@ -166,27 +166,65 @@ const Navigation: React.FC = () => {
     <header style={{ 
       background: '#000', 
       color: 'white', 
-      padding: '15px 20px', 
+      padding: '12px 15px', 
       boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
       position: 'sticky',
       top: 0,
       zIndex: 1000,
-      width: '100%'
+      width: '100%',
+      minHeight: '70px'
     }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', maxWidth: '1200px', margin: '0 auto' }}>
-        <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
-          <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 'bold' }}>⭐ KONIVRER ⭐</h1>
+      <div style={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        maxWidth: '1400px', 
+        margin: '0 auto',
+        gap: '20px'
+      }}>
+        <Link to="/" style={{ textDecoration: 'none', color: 'white', flexShrink: 0 }}>
+          <h1 style={{ margin: 0, fontSize: '22px', fontWeight: 'bold' }}>⭐ KONIVRER ⭐</h1>
         </Link>
-        <nav>
-          <ul style={{ display: 'flex', listStyle: 'none', margin: 0, padding: 0, alignItems: 'center' }}>
+        
+        <nav style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <ul style={{ 
+            display: 'flex', 
+            listStyle: 'none', 
+            margin: 0, 
+            padding: 0, 
+            alignItems: 'center',
+            gap: '8px',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
             {navItems.map(({ path, icon, label }) => (
-              <li key={path} style={{ margin: '0 10px' }}>
+              <li key={path}>
                 <Link
                   to={path}
                   style={{
-                    color: '#d4af37', textDecoration: 'none', padding: '10px 15px', borderRadius: '8px',
+                    color: '#d4af37', 
+                    textDecoration: 'none', 
+                    padding: '8px 12px', 
+                    borderRadius: '6px',
                     backgroundColor: location.pathname === path ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', fontSize: '14px', fontWeight: 'bold'
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    alignItems: 'center', 
+                    fontSize: '12px', 
+                    fontWeight: 'bold',
+                    minWidth: '60px',
+                    transition: 'all 0.2s ease',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (location.pathname !== path) {
+                      e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (location.pathname !== path) {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                    }
                   }}
                 >
                   <span style={{ fontSize: '16px', marginBottom: '2px' }}>{icon}</span>
@@ -194,21 +232,38 @@ const Navigation: React.FC = () => {
                 </Link>
               </li>
             ))}
-            <li style={{ margin: '0 10px' }}>
-              <button
-                onClick={() => setShowLoginModal(true)}
-                style={{
-                  background: 'none', border: 'none', color: '#d4af37', cursor: 'pointer',
-                  padding: '10px 15px', borderRadius: '8px', display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', fontSize: '14px', fontWeight: 'bold'
-                }}
-              >
-                <span style={{ fontSize: '16px', marginBottom: '2px' }}>↗️</span>
-                {user?.isLoggedIn ? 'Profile' : 'Login'}
-              </button>
-            </li>
           </ul>
         </nav>
+        
+        <div style={{ flexShrink: 0 }}>
+          <button
+            onClick={() => setShowLoginModal(true)}
+            style={{
+              background: 'none', 
+              border: '1px solid #d4af37', 
+              color: '#d4af37', 
+              cursor: 'pointer',
+              padding: '8px 16px', 
+              borderRadius: '6px', 
+              display: 'flex', 
+              alignItems: 'center',
+              gap: '6px',
+              fontSize: '14px', 
+              fontWeight: 'bold',
+              transition: 'all 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+            }}
+          >
+            <span style={{ fontSize: '16px' }}>↗️</span>
+            {user?.isLoggedIn ? 'Profile' : 'Login'}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
