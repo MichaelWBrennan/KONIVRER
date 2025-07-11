@@ -277,7 +277,14 @@ const LoginModal = () => {
 
 // Page Container Component
 const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
-  <div style={{ padding: '20px 20px 80px', maxWidth: '1200px', margin: '0 auto' }}>
+  <div style={{ 
+    padding: '20px 20px calc(60px + env(safe-area-inset-bottom, 20px))', 
+    maxWidth: '1200px', 
+    margin: '0 auto',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    WebkitOverflowScrolling: 'touch'
+  }}>
     {title && (
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
@@ -341,6 +348,32 @@ interface NavLink {
 const Footer = () => {
   const location = useLocation();
   const { user, setShowLoginModal } = useContext(AppContext);
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  
+  // Update viewport height when window resizes or on orientation change
+  useEffect(() => {
+    const updateViewportHeight = () => {
+      // Use a small timeout to ensure the browser has finished any UI adjustments
+      setTimeout(() => {
+        // Set a custom CSS variable for the real viewport height
+        document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+        setViewportHeight(window.innerHeight);
+      }, 100);
+    };
+    
+    // Initial update
+    updateViewportHeight();
+    
+    // Add event listeners
+    window.addEventListener('resize', updateViewportHeight);
+    window.addEventListener('orientationchange', updateViewportHeight);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', updateViewportHeight);
+      window.removeEventListener('orientationchange', updateViewportHeight);
+    };
+  }, []);
   
   const navLinks: NavLink[] = [
     { to: '/cards', label: 'Cards' },
@@ -357,15 +390,18 @@ const Footer = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       style={{
         position: 'fixed',
-        bottom: 0,
+        bottom: 'env(safe-area-inset-bottom, 0px)', // Use safe area inset for iOS
         left: 0,
         right: 0,
-        zIndex: 1000,
+        zIndex: 1001, // Higher z-index to ensure it's above everything
         background: 'linear-gradient(to top, rgba(20, 20, 20, 0.98), rgba(15, 15, 15, 0.95))',
         backdropFilter: 'blur(20px)',
         borderTop: '2px solid rgba(212, 175, 55, 0.4)',
         padding: '10px 0',
-        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.7)'
+        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.7)',
+        height: '60px', // Fixed height for the footer
+        transform: 'translateZ(0)', // Force hardware acceleration
+        willChange: 'transform', // Optimize for animations
       }}
     >
       <nav style={{
@@ -374,84 +410,86 @@ const Footer = () => {
         alignItems: 'center',
         maxWidth: '1400px',
         margin: '0 auto',
-        padding: '0 20px'
+        padding: '0 20px',
+        height: '100%'
       }}>
-        {/* Logo/Brand */}
-        <div style={{
-          fontSize: '24px',
-          fontWeight: 'bold',
-          color: '#d4af37',
-          textShadow: '0 0 10px rgba(212, 175, 55, 0.5)',
-          marginRight: '20px',
-          display: 'none' // Hidden on mobile, can be shown on larger screens if needed
-        }}>
-          Card Game
-        </div>
-        
-        {/* Navigation links in a single row */}
+        {/* Navigation links in a single row with overflow scrolling */}
         <div style={{
           display: 'flex',
-          gap: '20px',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          width: '100%',
+          overflowX: 'auto',
+          WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
+          scrollbarWidth: 'none', // Hide scrollbar on Firefox
+          msOverflowStyle: 'none', // Hide scrollbar on IE/Edge
+          paddingBottom: '5px' // Add padding to avoid content being cut off
         }}>
-          {navLinks.map(({ to, label, onClick, special }) => (
-            <motion.div
-              key={to}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {onClick ? (
-                <button
-                  onClick={onClick}
-                  style={{
-                    color: '#d4af37',
-                    textDecoration: 'none',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: 'rgba(212, 175, 55, 0.1)',
-                    border: '1px solid rgba(212, 175, 55, 0.3)',
-                    borderBottom: '2px solid #d4af37',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {label}
-                </button>
-              ) : (
-                <Link
-                  to={to}
-                  style={{
-                    color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
-                    textDecoration: 'none',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: special 
-                      ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
-                      : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
-                    border: special ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid transparent',
-                    borderBottom: special 
-                      ? '2px solid rgba(212, 175, 55, 0.5)' 
-                      : (location.pathname === to ? '2px solid #d4af37' : '2px solid transparent'),
-                    transition: 'all 0.3s ease',
-                    boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {label}
-                </Link>
-              )}
-            </motion.div>
-          ))}
+          <div style={{
+            display: 'flex',
+            gap: '20px',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 10px'
+          }}>
+            {navLinks.map(({ to, label, onClick, special }) => (
+              <motion.div
+                key={to}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {onClick ? (
+                  <button
+                    onClick={onClick}
+                    style={{
+                      color: '#d4af37',
+                      textDecoration: 'none',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      background: 'rgba(212, 175, 55, 0.1)',
+                      border: '1px solid rgba(212, 175, 55, 0.3)',
+                      borderBottom: '2px solid #d4af37',
+                      transition: 'all 0.3s ease',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {label}
+                  </button>
+                ) : (
+                  <Link
+                    to={to}
+                    style={{
+                      color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
+                      textDecoration: 'none',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      background: special 
+                        ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
+                        : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
+                      border: special ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid transparent',
+                      borderBottom: special 
+                        ? '2px solid rgba(212, 175, 55, 0.5)' 
+                        : (location.pathname === to ? '2px solid #d4af37' : '2px solid transparent'),
+                      transition: 'all 0.3s ease',
+                      boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none',
+                      whiteSpace: 'nowrap'
+                    }}
+                  >
+                    {label}
+                  </Link>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </nav>
     </motion.footer>
