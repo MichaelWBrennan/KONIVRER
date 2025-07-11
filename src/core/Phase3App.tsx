@@ -9,7 +9,7 @@ import { withAdvancedHealing } from '../utils/realTimeHealing';
 import { healingConfigManager } from '../config/healingConfig';
 import BlogSection from '../components/BlogSection';
 import UnifiedCardSearch from '../components/UnifiedCardSearch';
-import SearchPage from '../components/SearchPage';
+import MergedCardsPage from '../components/MergedCardsPage';
 import EnhancedLoginModal from '../components/EnhancedLoginModal';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
@@ -343,7 +343,6 @@ const Header = () => {
   
   const navLinks: NavLink[] = [
     { to: '/cards', label: 'Cards' },
-    { to: '/search', label: 'Search' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
     { to: '/play', label: 'Play', special: true },
@@ -1134,8 +1133,7 @@ const Phase3App = () => {
               <AnimatePresence mode="wait">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/cards" element={<CardsPage />} />
-                  <Route path="/search" element={<SearchPage />} />
+                  <Route path="/cards" element={<MergedCardsPage />} />
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
