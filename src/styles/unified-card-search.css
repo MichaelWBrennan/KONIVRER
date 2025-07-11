@@ -934,3 +934,35 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+/* Add Symbol Button */
+.add-symbol-btn {
+  background: linear-gradient(135deg, #b8860b, #d4af37);
+  border: none;
+  border-radius: 4px;
+  color: #000;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.add-symbol-btn:hover {
+  background: linear-gradient(135deg, #d4af37, #f4d03f);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.add-symbol-btn:active {
+  transform: translateY(0);
+}
+
+/* Filter Description */
+.filter-description {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+  margin-top: 0.5rem;
+}
