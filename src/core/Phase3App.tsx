@@ -386,7 +386,7 @@ const Header = () => {
           color: '#d4af37',
           textShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
         }}>
-          KONIVRER
+          {/* Logo text removed */}
         </div>
         
         {/* Navigation links - always visible as menubar */}
