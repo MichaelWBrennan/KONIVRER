@@ -170,7 +170,8 @@ const KONIVR_ELEMENTS = [
     color: '#888888', 
     bgColor: 'rgba(136, 136, 136, 0.1)',
     shorthand: 'G',
-    description: 'Universal mana'
+    description: 'Universal mana',
+    circled: true
   }
 ];
 
@@ -1124,7 +1125,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                         checked={filters.elements[element.key as keyof typeof filters.elements]}
                         onChange={(e) => updateFilter(`elements.${element.key}`, e.target.checked)}
                       />
-                      <span className="element-symbol">
+                      <span className={`element-symbol ${element.circled ? 'circled' : ''}`}>
                         {element.symbol}
                       </span>
                       {element.label}
@@ -1164,7 +1165,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                         checked={filters.elements[element.key as keyof typeof filters.elements]}
                         onChange={(e) => updateFilter(`elements.${element.key}`, e.target.checked)}
                       />
-                      <span className="element-symbol">
+                      <span className={`element-symbol ${element.circled ? 'circled' : ''}`}>
                         {element.symbol}
                       </span>
                       {element.label}
