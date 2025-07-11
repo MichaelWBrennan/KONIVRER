@@ -1,3 +1,10 @@
+/* Global box-sizing for search component */
+.unified-card-search *,
+.unified-card-search *::before,
+.unified-card-search *::after {
+  box-sizing: border-box;
+}
+
 /* Unified Card Search Styles */
 .unified-card-search {
   background: rgba(255, 255, 255, 0.02);
@@ -5,6 +12,8 @@
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Mobile responsive styles */
@@ -313,8 +322,10 @@
 
 .filter-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* Mobile responsive for advanced filters */
@@ -327,6 +338,53 @@
   .filter-grid {
     grid-template-columns: 1fr;
     gap: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .filter-group input,
+  .filter-group select,
+  .filter-group textarea {
+    font-size: 16px; /* Prevents zoom on iOS */
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .unified-card-search {
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .filter-grid {
+    gap: 10px;
+  }
+  
+  .filter-group input,
+  .filter-group select,
+  .filter-group textarea,
+  .search-input,
+  .cost-input,
+  .set-input,
+  .criteria-input,
+  .flavor-text-input,
+  .artist-input,
+  .language-select {
+    font-size: 16px;
+    padding: 8px 10px;
+    min-height: auto;
+  }
+  
+  .cost-input,
+  .set-input,
+  .criteria-input,
+  .flavor-text-input {
+    min-height: 50px;
   }
 }
 
@@ -345,6 +403,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .filter-group label {
@@ -361,6 +421,9 @@
   border-radius: 4px;
   color: #fff;
   font-size: 14px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .filter-group input:focus,
@@ -419,14 +482,19 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  width: 100%;
 }
 
 .numeric-filter select {
   flex: 0 0 60px;
+  min-width: 60px;
+  box-sizing: border-box;
 }
 
 .numeric-filter input {
   flex: 1;
+  min-width: 0; /* Allows flex items to shrink below their content size */
+  box-sizing: border-box;
 }
 
 /* Rarity Checkboxes */
@@ -454,10 +522,13 @@
   display: flex;
   gap: 8px;
   align-items: center;
+  width: 100%;
 }
 
 .price-range input {
   flex: 1;
+  min-width: 0; /* Allows flex items to shrink below their content size */
+  box-sizing: border-box;
 }
 
 .price-range span {
@@ -764,6 +835,7 @@
 .criteria-input,
 .flavor-text-input {
   width: 100%;
+  max-width: 100%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 6px;
@@ -773,6 +845,7 @@
   resize: vertical;
   min-height: 80px;
   font-family: inherit;
+  box-sizing: border-box;
 }
 
 .criteria-input:focus,
@@ -789,12 +862,14 @@
 
 .artist-input {
   width: 100%;
+  max-width: 100%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 6px;
   padding: 10px 12px;
   color: #fff;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 .artist-input:focus {
@@ -809,6 +884,7 @@
 
 .language-select {
   width: 100%;
+  max-width: 100%;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 6px;
@@ -816,6 +892,7 @@
   color: #fff;
   font-size: 14px;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .language-select:focus {
@@ -862,6 +939,7 @@
 /* Cost Section */
 .cost-input {
   width: 100%;
+  max-width: 100%;
   padding: 0.5rem;
   background: #2a2a2a;
   border: 1px solid #444;
@@ -871,6 +949,7 @@
   resize: vertical;
   min-height: 60px;
   margin-bottom: 0.5rem;
+  box-sizing: border-box;
 }
 
 .cost-input:focus {
@@ -899,6 +978,7 @@
 /* Set Section */
 .set-input {
   width: 100%;
+  max-width: 100%;
   padding: 0.5rem;
   background: #2a2a2a;
   border: 1px solid #444;
@@ -908,6 +988,7 @@
   resize: vertical;
   min-height: 60px;
   margin-bottom: 0.5rem;
+  box-sizing: border-box;
 }
 
 .set-input:focus {
@@ -929,12 +1010,14 @@
 
 .element-mode-selector select {
   width: 100%;
+  max-width: 100%;
   padding: 0.5rem;
   background: #2a2a2a;
   border: 1px solid #444;
   border-radius: 4px;
   color: #fff;
   font-size: 0.9rem;
+  box-sizing: border-box;
 }
 
 .element-mode-selector select:focus {
@@ -967,6 +1050,7 @@
 /* Search Input Styling */
 .search-input {
   width: 100%;
+  max-width: 100%;
   padding: 0.75rem;
   background: #2a2a2a;
   border: 1px solid #444;
@@ -974,6 +1058,7 @@
   color: #fff;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
