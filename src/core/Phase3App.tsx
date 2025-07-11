@@ -380,7 +380,7 @@ const Footer = () => {
     { to: '/cards', label: 'Cards' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play', special: true },
+    { to: '/play', label: 'Play' },
     { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
   ];
   
@@ -444,7 +444,7 @@ const Footer = () => {
                   <button
                     onClick={onClick}
                     style={{
-                      color: '#d4af37',
+                      color: '#ccc',
                       textDecoration: 'none',
                       fontSize: 'clamp(11px, 2.5vw, 14px)', // Responsive font size
                       fontWeight: 'bold',
@@ -453,9 +453,9 @@ const Footer = () => {
                       justifyContent: 'center',
                       padding: 'clamp(4px, 1.5vw, 6px) clamp(6px, 2vw, 8px)', // Responsive padding
                       borderRadius: '6px',
-                      background: 'rgba(212, 175, 55, 0.1)',
-                      border: '1px solid rgba(212, 175, 55, 0.3)',
-                      borderBottom: '2px solid #d4af37',
+                      background: 'transparent',
+                      border: '1px solid transparent',
+                      borderBottom: '2px solid transparent',
                       transition: 'all 0.3s ease',
                       cursor: 'pointer',
                       whiteSpace: 'nowrap',
@@ -470,7 +470,7 @@ const Footer = () => {
                   <Link
                     to={to}
                     style={{
-                      color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
+                      color: location.pathname === to ? '#d4af37' : '#ccc',
                       textDecoration: 'none',
                       fontSize: 'clamp(11px, 2.5vw, 14px)', // Responsive font size
                       fontWeight: 'bold',
@@ -479,15 +479,11 @@ const Footer = () => {
                       justifyContent: 'center',
                       padding: 'clamp(4px, 1.5vw, 6px) clamp(6px, 2vw, 8px)', // Responsive padding
                       borderRadius: '6px',
-                      background: special 
-                        ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
-                        : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
-                      border: special ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid transparent',
-                      borderBottom: special 
-                        ? '2px solid rgba(212, 175, 55, 0.5)' 
-                        : (location.pathname === to ? '2px solid #d4af37' : '2px solid transparent'),
+                      background: location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent',
+                      border: '1px solid transparent',
+                      borderBottom: location.pathname === to ? '2px solid #d4af37' : '2px solid transparent',
                       transition: 'all 0.3s ease',
-                      boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none',
+                      boxShadow: 'none',
                       whiteSpace: 'nowrap',
                       minWidth: '0',
                       textAlign: 'center',
