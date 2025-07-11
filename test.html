@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KONIVRER Search Test</title>
+</head>
+<body>
+    <div id="test-root"></div>
+    <script type="module">
+        import React from 'react';
+        import { createRoot } from 'react-dom/client';
+        import TestApp from './src/TestApp.tsx';
+        
+        const root = createRoot(document.getElementById('test-root'));
+        root.render(React.createElement(TestApp));
+    </script>
+</body>
+</html>

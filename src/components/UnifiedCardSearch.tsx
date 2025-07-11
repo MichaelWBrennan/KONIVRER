@@ -49,6 +49,7 @@ export interface SearchFilters {
     air: boolean;
     nether: boolean;
     aether: boolean;
+    generic: boolean;
   };
   elementMode: 'exactly' | 'including' | 'atMost' | 'excluding';
   cost: {
@@ -644,7 +645,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   }, [cards, searchEngine]);
 
   // State management
-  const [searchMode, setSearchMode] = useState<'simple' | 'advanced' | 'syntax'>(initialMode);
+  const [searchMode, setSearchMode] = useState<'simple' | 'advanced' | 'syntax'>(typeof initialMode === 'function' ? initialMode() : initialMode);
   const [quickSearch, setQuickSearch] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({
     name: '',
@@ -656,7 +657,8 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       earth: false,
       air: false,
       nether: false,
-      aether: false
+      aether: false,
+      generic: false
     },
     elementMode: 'exactly',
     cost: { operator: '=', value: '' },
@@ -861,7 +863,8 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
         earth: false,
         air: false,
         nether: false,
-        aether: false
+        aether: false,
+        generic: false
       },
       elementMode: 'exactly',
       cost: { operator: '=', value: '' },
@@ -1132,28 +1135,49 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                       {element.label}
                     </label>
                   ))}
+                  
+                  {/* Additional Element Checkboxes */}
+                  <label className="element-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.elements.nether}
+                      onChange={(e) => updateFilter('elements.nether', e.target.checked)}
+                    />
+                    <span className="element-symbol">□</span>
+                    Nether
+                  </label>
+                  
+                  <label className="element-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.elements.generic || false}
+                      onChange={(e) => updateFilter('elements.generic', e.target.checked)}
+                    />
+                    <span className="element-symbol">✡</span>
+                    Generic
+                  </label>
+                </div>
+                
+                <div className="element-description">
+                  Select your flag's element identity, and only cards that fit in your deck will be returned.
                 </div>
               </div>
 
-              {/* Cost Filter */}
+              {/* Mana Cost Section */}
               <div className="filter-group">
-                <label>Cost</label>
-                <div className="numeric-filter">
-                  <select
-                    value={filters.cost.operator}
-                    onChange={(e) => updateFilter('cost.operator', e.target.value)}
-                  >
-                    {OPERATORS.map(op => (
-                      <option key={op.value} value={op.value}>{op.label}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="number"
-                    value={filters.cost.value}
-                    onChange={(e) => updateFilter('cost.value', e.target.value)}
-                    placeholder="0"
-                    min="0"
-                  />
+                <label className="section-title">COST</label>
+                <textarea
+                  className="cost-input"
+                  value={filters.cost.value}
+                  onChange={(e) => updateFilter('cost.value', e.target.value)}
+                  placeholder='Any mana symbols, e.g. "{B}{H}"'
+                  rows={2}
+                />
+                <button className="add-symbol-btn" type="button">
+                  + Add symbol
+                </button>
+                <div className="filter-description">
+                  Find cards with this exact cost.
                 </div>
               </div>
 
@@ -1179,20 +1203,38 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </div>
               </div>
 
-              {/* Rarity Filter */}
+              {/* Rarity Section */}
               <div className="filter-group">
-                <label>Rarity</label>
+                <label className="section-title">RARITY</label>
+                <label className="section-subtitle">DESIRED RARITIES</label>
                 <div className="rarity-checkboxes">
-                  {RARITIES.map(rarity => (
-                    <label key={rarity} className="rarity-checkbox">
-                      <input
-                        type="checkbox"
-                        checked={filters.rarity[rarity.toLowerCase() as keyof typeof filters.rarity]}
-                        onChange={(e) => updateFilter(`rarity.${rarity.toLowerCase()}`, e.target.checked)}
-                      />
-                      {rarity}
-                    </label>
-                  ))}
+                  <label className="rarity-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.rarity.common}
+                      onChange={(e) => updateFilter('rarity.common', e.target.checked)}
+                    />
+                    Common
+                  </label>
+                  <label className="rarity-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.rarity.uncommon}
+                      onChange={(e) => updateFilter('rarity.uncommon', e.target.checked)}
+                    />
+                    Uncommon
+                  </label>
+                  <label className="rarity-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={filters.rarity.rare}
+                      onChange={(e) => updateFilter('rarity.rare', e.target.checked)}
+                    />
+                    Rare
+                  </label>
+                </div>
+                <div className="filter-description">
+                  Only return cards of the selected rarities.
                 </div>
               </div>
 
@@ -1218,15 +1260,20 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 />
               </div>
 
-              {/* Set Filter */}
+              {/* Sets Section */}
               <div className="filter-group">
-                <label>Set</label>
-                <input
-                  type="text"
+                <label className="section-title">SETS</label>
+                <label className="section-subtitle">SET</label>
+                <textarea
+                  className="set-input"
                   value={filters.set}
                   onChange={(e) => updateFilter('set', e.target.value)}
-                  placeholder="Set code or name..."
+                  placeholder="Enter a set name or choose from"
+                  rows={2}
                 />
+                <div className="filter-description">
+                  Restrict cards based on their set.
+                </div>
               </div>
 
               {/* Price Range Filter */}
