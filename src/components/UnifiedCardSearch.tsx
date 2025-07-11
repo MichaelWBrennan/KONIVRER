@@ -930,7 +930,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             className={`mode-tab ${searchMode === 'advanced' ? 'active' : ''}`}
             onClick={() => setSearchMode('advanced')}
           >
-            Advanced
+            Search
           </button>
         )}
       </div>
@@ -1076,7 +1076,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             <div className="filter-grid">
               {/* Card Name Filter */}
               <div className="filter-group">
-                <label className="section-title">CARD NAME</label>
+                <label className="section-title">SEARCH NAME</label>
                 <input
                   type="text"
                   value={filters.name}
@@ -1458,7 +1458,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 checked={preferences.showAllCardPrints}
                 onChange={(e) => setPreferences(prev => ({ ...prev, showAllCardPrints: e.target.checked }))}
               />
-              <span className="checkbox-text">Show all card prints</span>
+              <span className="checkbox-text">Show all search prints</span>
             </label>
 
             <label className="card-option-checkbox">
@@ -1467,7 +1467,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 checked={preferences.includeExtraCards}
                 onChange={(e) => setPreferences(prev => ({ ...prev, includeExtraCards: e.target.checked }))}
               />
-              <span className="checkbox-text">Include extra cards (tokens, planes, schemes, etc)</span>
+              <span className="checkbox-text">Include extra searches (tokens, planes, schemes, etc)</span>
             </label>
           </div>
         </div>
