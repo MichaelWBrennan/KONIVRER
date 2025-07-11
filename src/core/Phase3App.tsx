@@ -375,13 +375,19 @@ const Footer = () => {
     };
   }, []);
   
-  const navLinks: NavLink[] = [
+  // Create base navigation links
+  const baseNavLinks: NavLink[] = [
     { to: '/cards', label: 'Cards' },
     { to: '/decks', label: 'Decks' },
     { to: '/events', label: 'Events' },
     { to: '/play', label: 'Play', special: true },
     { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
   ];
+  
+  // Add Home button if not on the home page
+  const navLinks: NavLink[] = location.pathname !== '/' 
+    ? [{ to: '/', label: 'Home' }, ...baseNavLinks]
+    : baseNavLinks;
 
   return (
     <motion.footer
@@ -540,61 +546,24 @@ const Card = ({ children, delay = 0 }: { children: React.ReactNode; delay?: numb
 
 // Home Page Component
 const HomePage = () => {
-  // Featured content
-  const features = [
-    { title: 'Explore Cards', desc: 'Discover powerful cards from all elements', link: '/cards' },
-    { title: 'Build Decks', desc: 'Create and share your strategic masterpieces', link: '/decks' },
-    { title: 'Join Events', desc: 'Compete with players from around the world', link: '/events' },
-    { title: 'Play', desc: 'Test your skills in the mystical arena', link: '/play' }
-  ];
-  
   // Recent blog posts
   const recentPosts = BLOG_POSTS.slice(0, 3);
   
   return (
     <PageContainer>
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        style={{ textAlign: 'center', marginBottom: '60px' }}
-      >
-        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to Card Game</h1>
-        <p style={{ fontSize: '20px', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
-          The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
-        </p>
-      </motion.div>
-
-
-
-      {/* Features Section */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px', marginBottom: '60px' }}>
-        {features.map(({ title, desc, link }, index) => (
-          <Link key={title} to={link} style={{ textDecoration: 'none' }}>
-            <Card delay={index * 0.1}>
-              <div style={{ textAlign: 'center' }}>
-                <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '24px' }}>{title}</h3>
-                <p style={{ color: '#ccc' }}>{desc}</p>
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
-
       {/* Blog Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        style={{ marginTop: '60px' }}
+        transition={{ duration: 0.6 }}
+        style={{ marginTop: '20px' }}
       >
         <h2 style={{ color: '#d4af37', fontSize: '32px', textAlign: 'center', marginBottom: '40px' }}>
           Latest Chronicles
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '30px' }}>
           {recentPosts.map((post, index) => (
-            <Card key={post.id} delay={0.5 + index * 0.1}>
+            <Card key={post.id} delay={index * 0.1}>
               <div>
                 <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '20px' }}>{post.title}</h3>
                 <div style={{ marginBottom: '15px', display: 'flex', gap: '15px', alignItems: 'center' }}>
