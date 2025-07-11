@@ -713,6 +713,14 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   const searchInputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
+  // Handle search mode changes
+  useEffect(() => {
+    // Close syntax help when switching away from syntax mode
+    if (searchMode !== 'syntax') {
+      setShowSyntaxHelp(false);
+    }
+  }, [searchMode]);
+
   // Debounced search function
   const debouncedSearch = useCallback((query: string, searchFilters: SearchFilters) => {
     if (debounceRef.current) {
@@ -949,14 +957,16 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
           />
           <div className="search-input-actions">
             {isSearching && <div className="search-spinner" />}
-            <button
-              type="button"
-              onClick={() => setShowSyntaxHelp(!showSyntaxHelp)}
-              className="syntax-help-button"
-              title="Search syntax help"
-            >
-              ?
-            </button>
+            {searchMode !== 'syntax' && (
+              <button
+                type="button"
+                onClick={() => setShowSyntaxHelp(!showSyntaxHelp)}
+                className="syntax-help-button"
+                title="Search syntax help"
+              >
+                ?
+              </button>
+            )}
             {quickSearch && (
               <button
                 type="button"
@@ -1018,7 +1028,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
       {/* Syntax Help */}
       <AnimatePresence>
-        {showSyntaxHelp && (
+        {(searchMode === 'syntax' || showSyntaxHelp) && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
