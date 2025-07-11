@@ -74,6 +74,7 @@ export interface SearchFilters {
     max: string;
   };
   criteria: string;
+  allowPartialTypeMatches?: boolean;
 }
 
 // Search Preferences
@@ -683,7 +684,8 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     set: '',
     flavorText: '',
     priceRange: { min: '', max: '' },
-    criteria: ''
+    criteria: '',
+    allowPartialTypeMatches: false
   });
 
   const [preferences, setPreferences] = useState<SearchPreferences>({
@@ -1078,45 +1080,63 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             className="advanced-filters"
           >
             <div className="filter-grid">
-              {/* Name Filter */}
+              {/* Card Name Filter */}
               <div className="filter-group">
-                <label>Card Name</label>
+                <label className="section-title">CARD NAME</label>
                 <input
                   type="text"
                   value={filters.name}
                   onChange={(e) => updateFilter('name', e.target.value)}
-                  placeholder="Enter card name..."
+                  placeholder='Any words in the name, e.g. "Fi'
+                  className="search-input"
                 />
               </div>
 
               {/* Text Filter */}
               <div className="filter-group">
-                <label>Text</label>
+                <label className="section-title">TEXT</label>
                 <input
                   type="text"
                   value={filters.text}
                   onChange={(e) => updateFilter('text', e.target.value)}
-                  placeholder="Search in description, keywords..."
+                  placeholder='Any text, e.g. "draw a card"'
+                  className="search-input"
                 />
+                <button className="add-symbol-btn" type="button">
+                  + Add symbol
+                </button>
+                <div className="filter-description">
+                  Enter text that should appear in the rules box. You can use ~ as a placeholder for the card name. Word order doesn't matter.
+                </div>
               </div>
 
-              {/* Type Filter */}
+              {/* Type Line Filter */}
               <div className="filter-group">
-                <label>Type</label>
-                <select
+                <label className="section-title">TYPE LINE</label>
+                <input
+                  type="text"
                   value={filters.type}
                   onChange={(e) => updateFilter('type', e.target.value)}
-                >
-                  <option value="">Any Type</option>
-                  {CARD_TYPES.map(type => (
-                    <option key={type} value={type}>{type}</option>
-                  ))}
-                </select>
+                  placeholder="Enter a type or choose from the"
+                  className="search-input"
+                />
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={filters.allowPartialTypeMatches || false}
+                    onChange={(e) => updateFilter('allowPartialTypeMatches', e.target.checked)}
+                  />
+                  Allow partial type matches
+                </label>
+                <div className="filter-description">
+                  Choose any card type, supertype, or subtype to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.
+                </div>
               </div>
 
               {/* Elements Filter */}
               <div className="filter-group">
-                <label>Elements</label>
+                <label className="section-title">ELEMENTS</label>
+                <label className="section-subtitle">CARD ELEMENTS</label>
                 <div className="element-checkboxes">
                   {KONIVR_ELEMENTS.map(element => (
                     <label key={element.key} className="element-checkbox">
