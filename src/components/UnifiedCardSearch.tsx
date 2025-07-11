@@ -112,7 +112,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'fire', 
     label: 'Fire', 
-    symbol: '△', 
+    symbol: '🜂', 
     color: '#FF4500', 
     bgColor: 'rgba(255, 69, 0, 0.1)',
     shorthand: 'F',
@@ -121,7 +121,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'water', 
     label: 'Water', 
-    symbol: '▽', 
+    symbol: '🜄', 
     color: '#4169E1', 
     bgColor: 'rgba(65, 105, 225, 0.1)',
     shorthand: 'W',
@@ -130,7 +130,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'earth', 
     label: 'Earth', 
-    symbol: '▽', 
+    symbol: '🜃', 
     color: '#8B4513', 
     bgColor: 'rgba(139, 69, 19, 0.1)',
     shorthand: 'E',
@@ -139,7 +139,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'air', 
     label: 'Air', 
-    symbol: '△', 
+    symbol: '🜁', 
     color: '#87CEEB', 
     bgColor: 'rgba(135, 206, 235, 0.1)',
     shorthand: 'A',
