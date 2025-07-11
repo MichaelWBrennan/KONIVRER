@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import UnifiedCardSearch from './UnifiedCardSearch';
 import { KONIVRER_CARDS } from '../data/cards';
 
@@ -32,16 +32,98 @@ const MergedCardsPage: React.FC = () => {
     searchTime: 0 
   });
 
+  // Responsive design state
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const userAgent = navigator.userAgent.toLowerCase();
+      const width = window.innerWidth;
+      
+      // Mobile detection
+      const mobileKeywords = ['mobile', 'android', 'iphone', 'ipod', 'blackberry', 'windows phone'];
+      const isMobileUA = mobileKeywords.some(keyword => userAgent.includes(keyword));
+      const isMobileWidth = width <= 768;
+      setIsMobile(isMobileUA || isMobileWidth);
+      
+      // Tablet detection
+      const tabletKeywords = ['ipad', 'tablet', 'kindle'];
+      const isTabletUA = tabletKeywords.some(keyword => userAgent.includes(keyword));
+      const isTabletWidth = width > 768 && width <= 1024;
+      setIsTablet(isTabletUA || isTabletWidth);
+    };
+
+    checkDevice();
+    window.addEventListener('resize', checkDevice);
+    return () => window.removeEventListener('resize', checkDevice);
+  }, []);
+
   const handleSearchResults = (results: SearchResult) => {
     setSearchResults(results);
   };
 
+  // Dynamic styling based on device
+  const getContainerStyle = () => {
+    if (isMobile) {
+      return {
+        padding: '10px',
+        maxWidth: '100%',
+        margin: '0'
+      };
+    } else if (isTablet) {
+      return {
+        padding: '15px',
+        maxWidth: '100%',
+        margin: '0 auto'
+      };
+    } else {
+      return {
+        padding: '20px',
+        maxWidth: '1200px',
+        margin: '0 auto'
+      };
+    }
+  };
+
+  const getGridStyle = () => {
+    if (isMobile) {
+      return {
+        display: 'grid',
+        gridTemplateColumns: '1fr',
+        gap: '15px'
+      };
+    } else if (isTablet) {
+      return {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+        gap: '18px'
+      };
+    } else {
+      return {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+        gap: '20px'
+      };
+    }
+  };
+
+  const getCardStyle = () => {
+    const basePadding = isMobile ? '12px' : '15px';
+    const baseFontSize = isMobile ? '14px' : '16px';
+    
+    return {
+      background: 'rgba(255, 255, 255, 0.05)',
+      border: '1px solid rgba(212, 175, 55, 0.3)',
+      borderRadius: '8px',
+      padding: basePadding,
+      transition: 'all 0.3s ease',
+      fontSize: baseFontSize
+    };
+  };
+
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
-      <h1 style={{ color: '#d4af37', marginBottom: '30px', textAlign: 'center' }}>
-        Card Database & Search
-      </h1>
-      
+    <div style={getContainerStyle()}>
       <UnifiedCardSearch 
         cards={allCards}
         onSearchResults={handleSearchResults}
@@ -49,18 +131,21 @@ const MergedCardsPage: React.FC = () => {
         showSortOptions={true}
         showSearchHistory={true}
         initialMode="advanced"
-        placeholder="Search cards... (try: name:fire, cost:>=3, type:familiar)"
+        placeholder={isMobile ? "Search cards..." : "Search cards... (try: name:fire, cost:>=3, type:familiar)"}
       />
       
       {/* Search Results Display */}
       {searchResults.totalCount > 0 && (
-        <div style={{ marginTop: '30px' }}>
+        <div style={{ marginTop: isMobile ? '20px' : '30px' }}>
           <div style={{ 
             display: 'flex', 
             justifyContent: 'space-between', 
             alignItems: 'center',
-            marginBottom: '20px',
-            color: '#ccc'
+            marginBottom: isMobile ? '15px' : '20px',
+            color: '#ccc',
+            fontSize: isMobile ? '14px' : '16px',
+            flexWrap: 'wrap',
+            gap: '10px'
           }}>
             <span>
               Found {searchResults.totalCount} cards 
@@ -68,23 +153,18 @@ const MergedCardsPage: React.FC = () => {
             </span>
           </div>
           
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-            gap: '20px'
-          }}>
+          <div style={getGridStyle()}>
             {searchResults.cards.map(card => (
               <div
                 key={card.id}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: '1px solid rgba(212, 175, 55, 0.3)',
-                  borderRadius: '8px',
-                  padding: '15px',
-                  transition: 'all 0.3s ease'
-                }}
+                style={getCardStyle()}
               >
-                <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
+                <h3 style={{ 
+                  color: '#d4af37', 
+                  marginBottom: '10px',
+                  fontSize: isMobile ? '16px' : '18px',
+                  lineHeight: '1.2'
+                }}>
                   {card.name}
                 </h3>
                 <div style={{ marginBottom: '8px' }}>
