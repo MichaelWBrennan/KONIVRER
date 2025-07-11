@@ -836,3 +836,38 @@
   border-color: #d4af37;
   box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
+
+/* Element Comparison Section */
+.element-comparison {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.element-mode-selector {
+  margin-bottom: 0.5rem;
+}
+
+.element-mode-selector select {
+  width: 100%;
+  padding: 0.5rem;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.element-mode-selector select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+/* Element Description */
+.element-description {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}

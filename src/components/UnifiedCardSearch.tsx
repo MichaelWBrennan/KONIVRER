@@ -112,7 +112,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'fire', 
     label: 'Fire', 
-    symbol: '🜂', 
+    symbol: '△', 
     color: '#FF4500', 
     bgColor: 'rgba(255, 69, 0, 0.1)',
     shorthand: 'F',
@@ -121,7 +121,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'water', 
     label: 'Water', 
-    symbol: '🜄', 
+    symbol: '▽', 
     color: '#4169E1', 
     bgColor: 'rgba(65, 105, 225, 0.1)',
     shorthand: 'W',
@@ -130,7 +130,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'earth', 
     label: 'Earth', 
-    symbol: '🜃', 
+    symbol: '▽', 
     color: '#8B4513', 
     bgColor: 'rgba(139, 69, 19, 0.1)',
     shorthand: 'E',
@@ -139,7 +139,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'air', 
     label: 'Air', 
-    symbol: '🜁', 
+    symbol: '△', 
     color: '#87CEEB', 
     bgColor: 'rgba(135, 206, 235, 0.1)',
     shorthand: 'A',
@@ -162,6 +162,15 @@ const KONIVR_ELEMENTS = [
     bgColor: 'rgba(255, 215, 0, 0.1)',
     shorthand: 'T',
     description: 'Pure magic and transcendence'
+  },
+  { 
+    key: 'generic', 
+    label: 'Generic', 
+    symbol: '✡', 
+    color: '#888888', 
+    bgColor: 'rgba(136, 136, 136, 0.1)',
+    shorthand: 'G',
+    description: 'Universal mana'
   }
 ];
 
@@ -1107,17 +1116,6 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               {/* Elements Filter */}
               <div className="filter-group">
                 <label>Elements</label>
-                <div className="element-mode-selector">
-                  <select
-                    value={filters.elementMode}
-                    onChange={(e) => updateFilter('elementMode', e.target.value)}
-                  >
-                    <option value="exactly">Exactly these elements</option>
-                    <option value="including">Including these elements</option>
-                    <option value="atMost">At most these elements</option>
-                    <option value="excluding">Excluding these elements</option>
-                  </select>
-                </div>
                 <div className="element-checkboxes">
                   {KONIVR_ELEMENTS.map(element => (
                     <label key={element.key} className="element-checkbox">
@@ -1126,36 +1124,52 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                         checked={filters.elements[element.key as keyof typeof filters.elements]}
                         onChange={(e) => updateFilter(`elements.${element.key}`, e.target.checked)}
                       />
-                      <span 
-                        className="element-symbol"
-                        style={{ color: element.color, backgroundColor: element.bgColor }}
-                      >
+                      <span className="element-symbol">
                         {element.symbol}
                       </span>
                       {element.label}
                     </label>
                   ))}
-                  
-                  {/* Additional Element Checkboxes */}
-                  <label className="element-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={filters.elements.nether}
-                      onChange={(e) => updateFilter('elements.nether', e.target.checked)}
-                    />
-                    <span className="element-symbol">□</span>
-                    Nether
-                  </label>
-                  
-                  <label className="element-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={filters.elements.generic || false}
-                      onChange={(e) => updateFilter('elements.generic', e.target.checked)}
-                    />
-                    <span className="element-symbol">✡</span>
-                    Generic
-                  </label>
+                </div>
+                
+                {/* Element Comparison Section */}
+                <div className="element-comparison">
+                  <label className="section-title">ELEMENT COMPARISON</label>
+                  <div className="element-mode-selector">
+                    <select
+                      value={filters.elementMode}
+                      onChange={(e) => updateFilter('elementMode', e.target.value)}
+                    >
+                      <option value="exactly">Exactly these elements</option>
+                      <option value="including">Including these elements</option>
+                      <option value="atMost">At most these elements</option>
+                      <option value="excluding">Excluding these elements</option>
+                    </select>
+                  </div>
+                  <div className="element-description">
+                    "Including" means cards that are all the elements you select, with or without any others. "At most" means cards that have some or all of the elements you select, plus void.
+                  </div>
+                </div>
+              </div>
+
+              {/* Flag Section */}
+              <div className="filter-group">
+                <label className="section-title">FLAG</label>
+                <label className="section-subtitle">FLAG ELEMENTS</label>
+                <div className="element-checkboxes">
+                  {KONIVR_ELEMENTS.filter(element => element.key !== 'generic').map(element => (
+                    <label key={`flag-${element.key}`} className="element-checkbox">
+                      <input
+                        type="checkbox"
+                        checked={filters.elements[element.key as keyof typeof filters.elements]}
+                        onChange={(e) => updateFilter(`elements.${element.key}`, e.target.checked)}
+                      />
+                      <span className="element-symbol">
+                        {element.symbol}
+                      </span>
+                      {element.label}
+                    </label>
+                  ))}
                 </div>
                 
                 <div className="element-description">
