@@ -15,7 +15,7 @@ const AccessibilityButton: React.FC = () => {
         aria-label="Open accessibility settings"
         style={{
           position: 'fixed',
-          bottom: '20px',
+          top: '20px',
           right: '20px',
           width: '50px',
           height: '50px',
