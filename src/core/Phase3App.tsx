@@ -621,8 +621,8 @@ const CardsPage = () => {
   // Start with empty search results - user must search to see cards
   const [searchResults, setSearchResults] = useState<Card[]>([]);
 
-  const handleSearchResults = (results: Card[]) => {
-    setSearchResults(results);
+  const handleSearchResults = (results: { cards: Card[]; totalCount: number; searchTime: number }) => {
+    setSearchResults(results.cards);
   };
 
   return (
@@ -1112,7 +1112,7 @@ const Phase3App = () => {
   };
   
   return (
-    <SelfHealingProvider silentMode={true} showHealthMonitor={false}>
+    <SelfHealingProvider silentMode={true}>
       <AdvancedSecurityProvider 
         config={{
           enableRealTimeMonitoring: true,
@@ -1161,7 +1161,7 @@ const Phase3App = () => {
 const Phase3AppWithHealing = withAdvancedHealing(Phase3App, {
   silent: true,
   predictive: true,
-  realTime: true
+  performanceMonitoring: true
 });
 
 export default Phase3AppWithHealing;

@@ -81,6 +81,9 @@ export interface SearchPreferences {
   viewMode: 'grid' | 'list' | 'compact' | 'images' | 'text' | 'full';
   resultsPerPage: number;
   showExtras: boolean;
+  displayAsImages: boolean;
+  showAllCardPrints: boolean;
+  includeExtraCards: boolean;
 }
 
 // Search Result Interface
@@ -671,7 +674,10 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     sortOrder: 'asc',
     viewMode: 'grid',
     resultsPerPage: maxResults,
-    showExtras: false
+    showExtras: false,
+    displayAsImages: false,
+    showAllCardPrints: false,
+    includeExtraCards: false
   });
 
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -1243,47 +1249,47 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
         )}
       </AnimatePresence>
 
-      {/* Sort Options */}
+      {/* Preferences Display */}
       {showSortOptions && (
-        <div className="sort-options">
-          <div className="sort-group">
-            <label>Sort by:</label>
-            <select
-              value={preferences.sortBy}
-              onChange={(e) => setPreferences(prev => ({ ...prev, sortBy: e.target.value as any }))}
+        <div className="preferences-section">
+          <div className="preferences-display">
+            <h3 className="section-title">PREFERENCES DISPLAY</h3>
+            <button
+              className={`display-option ${preferences.displayAsImages ? 'active' : ''}`}
+              onClick={() => setPreferences(prev => ({ ...prev, displayAsImages: !prev.displayAsImages }))}
             >
-              <option value="name">Name</option>
-              <option value="cost">Cost</option>
-              <option value="rarity">Rarity</option>
-              <option value="type">Type</option>
-              <option value="strength">Strength</option>
-              <option value="set">Set</option>
-              <option value="price">Price</option>
-            </select>
+              Display as Images
+            </button>
           </div>
-          <div className="sort-group">
-            <label>Order:</label>
-            <select
-              value={preferences.sortOrder}
-              onChange={(e) => setPreferences(prev => ({ ...prev, sortOrder: e.target.value as any }))}
+
+          <div className="order-section">
+            <h3 className="section-title">ORDER</h3>
+            <button
+              className={`sort-option ${preferences.sortBy === 'name' ? 'active' : ''}`}
+              onClick={() => setPreferences(prev => ({ ...prev, sortBy: 'name' }))}
             >
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
+              Sort by Name
+            </button>
           </div>
-          <div className="sort-group">
-            <label>View:</label>
-            <select
-              value={preferences.viewMode}
-              onChange={(e) => setPreferences(prev => ({ ...prev, viewMode: e.target.value as any }))}
-            >
-              <option value="grid">Grid</option>
-              <option value="list">List</option>
-              <option value="compact">Compact</option>
-              <option value="images">Images Only</option>
-              <option value="text">Text Only</option>
-              <option value="full">Full Details</option>
-            </select>
+
+          <div className="card-options">
+            <label className="card-option-checkbox">
+              <input
+                type="checkbox"
+                checked={preferences.showAllCardPrints}
+                onChange={(e) => setPreferences(prev => ({ ...prev, showAllCardPrints: e.target.checked }))}
+              />
+              <span className="checkbox-text">Show all card prints</span>
+            </label>
+
+            <label className="card-option-checkbox">
+              <input
+                type="checkbox"
+                checked={preferences.includeExtraCards}
+                onChange={(e) => setPreferences(prev => ({ ...prev, includeExtraCards: e.target.checked }))}
+              />
+              <span className="checkbox-text">Include extra cards (tokens, planes, schemes, etc)</span>
+            </label>
           </div>
         </div>
       )}
