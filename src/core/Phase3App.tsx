@@ -278,7 +278,7 @@ const LoginModal = () => {
 // Page Container Component
 const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
   <div style={{ 
-    padding: '20px 20px calc(60px + env(safe-area-inset-bottom, 20px))', 
+    padding: '20px 20px calc(50px + env(safe-area-inset-bottom, 20px))', 
     maxWidth: '1200px', 
     margin: '0 auto',
     overflowX: 'hidden',
@@ -408,29 +408,24 @@ const Footer = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        maxWidth: '1400px',
+        width: '100%',
         margin: '0 auto',
-        padding: '0 20px',
+        padding: '0 10px',
         height: '100%'
       }}>
-        {/* Navigation links in a single row with overflow scrolling */}
+        {/* Navigation links in a single row with equal spacing */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           width: '100%',
-          overflowX: 'auto',
-          WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
-          scrollbarWidth: 'none', // Hide scrollbar on Firefox
-          msOverflowStyle: 'none', // Hide scrollbar on IE/Edge
-          paddingBottom: '5px' // Add padding to avoid content being cut off
+          maxWidth: '100%'
         }}>
           <div style={{
             display: 'flex',
-            gap: '20px',
+            width: '100%',
             alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0 10px'
+            justifyContent: 'space-between'
           }}>
             {navLinks.map(({ to, label, onClick, special }) => (
               <motion.div
@@ -444,11 +439,11 @@ const Footer = () => {
                     style={{
                       color: '#d4af37',
                       textDecoration: 'none',
-                      fontSize: '16px',
+                      fontSize: '14px',
                       fontWeight: 'bold',
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '8px 12px',
+                      padding: '6px 8px',
                       borderRadius: '6px',
                       background: 'rgba(212, 175, 55, 0.1)',
                       border: '1px solid rgba(212, 175, 55, 0.3)',
@@ -466,11 +461,11 @@ const Footer = () => {
                     style={{
                       color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
                       textDecoration: 'none',
-                      fontSize: '16px',
+                      fontSize: '14px',
                       fontWeight: 'bold',
                       display: 'flex',
                       alignItems: 'center',
-                      padding: '8px 12px',
+                      padding: '6px 8px',
                       borderRadius: '6px',
                       background: special 
                         ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
