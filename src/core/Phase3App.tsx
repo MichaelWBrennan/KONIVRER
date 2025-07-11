@@ -277,7 +277,7 @@ const LoginModal = () => {
 
 // Page Container Component
 const PageContainer = ({ children, title }: { children: React.ReactNode; title?: string }) => (
-  <div style={{ padding: '90px 20px 40px', maxWidth: '1200px', margin: '0 auto' }}>
+  <div style={{ padding: '90px 20px 80px', maxWidth: '1200px', margin: '0 auto' }}>
     {title && (
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
@@ -328,27 +328,17 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
+// Navigation links interface
+interface NavLink {
+  to: string;
+  label: string;
+  onClick?: () => void;
+  special?: boolean;
+}
+
 const Header = () => {
-  const location = useLocation();
-  const isHomePage = location.pathname === '/';
   const { user, setShowLoginModal } = useContext(AppContext);
   
-  // Navigation links with types
-  interface NavLink {
-    to: string;
-    label: string;
-    onClick?: () => void;
-    special?: boolean;
-  }
-  
-  const navLinks: NavLink[] = [
-    { to: '/cards', label: 'Cards' },
-    { to: '/decks', label: 'Decks' },
-    { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play', special: true },
-    { to: '#', label: user ? 'Profile' : 'Login', onClick: () => setShowLoginModal(true) }
-  ];
-
   return (
     <motion.header
       initial={{ y: -100, opacity: 0 }}
@@ -374,9 +364,7 @@ const Header = () => {
         maxWidth: '1400px',
         margin: '0 auto',
         padding: '0 20px',
-        minHeight: '70px',
-        flexWrap: 'wrap',
-        gap: '10px'
+        minHeight: '70px'
       }}>
         {/* Logo/Brand */}
         <div style={{
@@ -385,82 +373,121 @@ const Header = () => {
           color: '#d4af37',
           textShadow: '0 0 10px rgba(212, 175, 55, 0.5)'
         }}>
-          {/* Logo text removed */}
+          Card Game
         </div>
         
-        {/* Navigation links - always visible as menubar */}
+        {/* Login button only in header */}
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <button
+            onClick={() => setShowLoginModal(true)}
+            style={{
+              color: '#d4af37',
+              textDecoration: 'none',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              background: 'rgba(212, 175, 55, 0.1)',
+              border: '1px solid rgba(212, 175, 55, 0.3)',
+              borderBottom: '2px solid #d4af37',
+              transition: 'all 0.3s ease',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            {user ? 'Profile' : 'Login'}
+          </button>
+        </motion.div>
+      </nav>
+    </motion.header>
+  );
+};
+
+const Footer = () => {
+  const location = useLocation();
+  const { user, setShowLoginModal } = useContext(AppContext);
+  
+  const navLinks: NavLink[] = [
+    { to: '/cards', label: 'Cards' },
+    { to: '/decks', label: 'Decks' },
+    { to: '/events', label: 'Events' },
+    { to: '/play', label: 'Play', special: true }
+  ];
+
+  return (
+    <motion.footer
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: 'linear-gradient(to top, rgba(20, 20, 20, 0.98), rgba(15, 15, 15, 0.95))',
+        backdropFilter: 'blur(20px)',
+        borderTop: '2px solid rgba(212, 175, 55, 0.4)',
+        padding: '10px 0',
+        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.7)'
+      }}
+    >
+      <nav style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: '1400px',
+        margin: '0 auto',
+        padding: '0 20px'
+      }}>
+        {/* Navigation links in a single row */}
         <div style={{
           display: 'flex',
-          gap: '12px',
+          gap: '20px',
           alignItems: 'center',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          flex: '1'
+          justifyContent: 'center'
         }}>
           {navLinks.map(({ to, label, onClick, special }) => (
             <motion.div
               key={to}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              style={{
-                display: 'flex',
-                alignItems: 'center'
-              }}
             >
-              {onClick ? (
-                <button
-                  onClick={onClick}
-                  style={{
-                    color: '#d4af37',
-                    textDecoration: 'none',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: 'rgba(212, 175, 55, 0.1)',
-                    border: '1px solid rgba(212, 175, 55, 0.3)',
-                    borderBottom: '2px solid #d4af37',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {label}
-                </button>
-              ) : (
-                <Link
-                  to={to}
-                  style={{
-                    color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
-                    textDecoration: 'none',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '8px 12px',
-                    borderRadius: '6px',
-                    background: special 
-                      ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
-                      : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
-                    border: special ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid transparent',
-                    borderBottom: special 
-                      ? '2px solid rgba(212, 175, 55, 0.5)' 
-                      : (location.pathname === to ? '2px solid #d4af37' : '2px solid transparent'),
-                    transition: 'all 0.3s ease',
-                    boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none',
-                    whiteSpace: 'nowrap'
-                  }}
-                >
-                  {label}
-                </Link>
-              )}
+              <Link
+                to={to}
+                style={{
+                  color: special ? '#fff' : (location.pathname === to ? '#d4af37' : '#ccc'),
+                  textDecoration: 'none',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  background: special 
+                    ? 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)'
+                    : (location.pathname === to ? 'rgba(212, 175, 55, 0.1)' : 'transparent'),
+                  border: special ? '1px solid rgba(212, 175, 55, 0.5)' : '1px solid transparent',
+                  borderBottom: special 
+                    ? '2px solid rgba(212, 175, 55, 0.5)' 
+                    : (location.pathname === to ? '2px solid #d4af37' : '2px solid transparent'),
+                  transition: 'all 0.3s ease',
+                  boxShadow: special ? '0 0 10px rgba(212, 175, 55, 0.3)' : 'none',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {label}
+              </Link>
             </motion.div>
           ))}
         </div>
       </nav>
-    </motion.header>
+    </motion.footer>
   );
 };
 
@@ -524,7 +551,7 @@ const HomePage = () => {
         transition={{ duration: 0.8 }}
         style={{ textAlign: 'center', marginBottom: '60px' }}
       >
-        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to KONIVRER</h1>
+        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>Welcome to Card Game</h1>
         <p style={{ fontSize: '20px', color: '#ccc', maxWidth: '600px', margin: '0 auto' }}>
           The ultimate mystical trading card game. Build powerful decks, discover ancient strategies, and compete with players from across the realms.
         </p>
@@ -817,7 +844,7 @@ const PlayPage = () => {
   }
 
   return (
-    <PageContainer title="Play KONIVRER">
+    <PageContainer title="Play Card Game">
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         {/* Account Benefits Banner */}
         {!user && (
@@ -1140,6 +1167,7 @@ const Phase3App = () => {
                   <Route path="/auth/callback/:provider" element={<OAuthCallback />} />
                 </Routes>
               </AnimatePresence>
+              <Footer />
             </AppContext.Provider>
           </Router>
           <Analytics />
