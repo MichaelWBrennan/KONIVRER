@@ -633,3 +633,131 @@
     flex: 1;
   }
 }
+
+/* New Advanced Search Sections */
+.rare-checkbox,
+.partial-criteria-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.rare-checkbox input[type="checkbox"],
+.partial-criteria-checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(212, 175, 55, 0.5);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.rare-checkbox input[type="checkbox"]:checked,
+.partial-criteria-checkbox input[type="checkbox"]:checked {
+  background: #d4af37;
+  border-color: #d4af37;
+}
+
+.rare-checkbox input[type="checkbox"]:checked::after,
+.partial-criteria-checkbox input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -2px;
+  left: 2px;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.filter-description {
+  color: #ccc;
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.criteria-input,
+.flavor-text-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  padding: 12px;
+  color: #fff;
+  font-size: 14px;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.criteria-input:focus,
+.flavor-text-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.criteria-input::placeholder,
+.flavor-text-input::placeholder {
+  color: #888;
+}
+
+.artist-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 14px;
+}
+
+.artist-input:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.artist-input::placeholder {
+  color: #888;
+}
+
+.language-select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.language-select:focus {
+  outline: none;
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
+}
+
+.language-select option {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 8px;
+}
+
+/* Section titles for new sections */
+.filter-group .section-title {
+  display: block;
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}

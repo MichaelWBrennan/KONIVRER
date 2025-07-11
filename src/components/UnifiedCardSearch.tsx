@@ -72,6 +72,7 @@ export interface SearchFilters {
     min: string;
     max: string;
   };
+  criteria: string;
 }
 
 // Search Preferences
@@ -84,6 +85,9 @@ export interface SearchPreferences {
   displayAsImages: boolean;
   showAllCardPrints: boolean;
   includeExtraCards: boolean;
+  onlySelectedRarities: boolean;
+  allowPartialCriteriaMatches: boolean;
+  language: string;
 }
 
 // Search Result Interface
@@ -666,7 +670,8 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     keywords: '',
     set: '',
     flavorText: '',
-    priceRange: { min: '', max: '' }
+    priceRange: { min: '', max: '' },
+    criteria: ''
   });
 
   const [preferences, setPreferences] = useState<SearchPreferences>({
@@ -677,7 +682,10 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     showExtras: false,
     displayAsImages: false,
     showAllCardPrints: false,
-    includeExtraCards: false
+    includeExtraCards: false,
+    onlySelectedRarities: false,
+    allowPartialCriteriaMatches: false,
+    language: 'Default'
   });
 
   const [searchHistory, setSearchHistory] = useState<string[]>([]);
@@ -1242,6 +1250,101 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                     min="0"
                     step="0.01"
                   />
+                </div>
+              </div>
+
+              {/* Rare Checkbox */}
+              <div className="filter-group">
+                <label className="rare-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={preferences.onlySelectedRarities}
+                    onChange={(e) => setPreferences(prev => ({ ...prev, onlySelectedRarities: e.target.checked }))}
+                  />
+                  Rare
+                </label>
+                <div className="filter-description">
+                  Only return cards of the selected rarities.
+                </div>
+              </div>
+
+              {/* Criteria Section */}
+              <div className="filter-group">
+                <label className="section-title">CRITERIA</label>
+                <textarea
+                  className="criteria-input"
+                  value={filters.criteria}
+                  onChange={(e) => updateFilter('criteria', e.target.value)}
+                  placeholder="Enter a criterion or choose from"
+                  rows={3}
+                />
+              </div>
+
+              {/* Allow Partial Criteria Matches */}
+              <div className="filter-group">
+                <label className="partial-criteria-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={preferences.allowPartialCriteriaMatches}
+                    onChange={(e) => setPreferences(prev => ({ ...prev, allowPartialCriteriaMatches: e.target.checked }))}
+                  />
+                  Allow partial criteria matches
+                </label>
+                <div className="filter-description">
+                  Enter any card criteria to match, in any order. Click the "IS" or "NOT" button to toggle between including and excluding an item.
+                </div>
+              </div>
+
+              {/* Artist Section */}
+              <div className="filter-group">
+                <label className="section-title">ARTIST</label>
+                <input
+                  type="text"
+                  value={filters.artist}
+                  onChange={(e) => updateFilter('artist', e.target.value)}
+                  placeholder="Artist name..."
+                  className="artist-input"
+                />
+              </div>
+
+              {/* Flavor Text Section */}
+              <div className="filter-group">
+                <label className="section-title">FLAVOR TEXT</label>
+                <textarea
+                  className="flavor-text-input"
+                  value={filters.flavorText}
+                  onChange={(e) => updateFilter('flavorText', e.target.value)}
+                  placeholder="Enter flavor text..."
+                  rows={3}
+                />
+                <div className="filter-description">
+                  Enter words that should appear in the flavor text. Word order doesn't matter.
+                </div>
+              </div>
+
+              {/* Language Section */}
+              <div className="filter-group">
+                <label className="section-title">LANGUAGE</label>
+                <select
+                  value={preferences.language}
+                  onChange={(e) => setPreferences(prev => ({ ...prev, language: e.target.value }))}
+                  className="language-select"
+                >
+                  <option value="Default">Default</option>
+                  <option value="English">English</option>
+                  <option value="Spanish">Spanish</option>
+                  <option value="French">French</option>
+                  <option value="German">German</option>
+                  <option value="Italian">Italian</option>
+                  <option value="Portuguese">Portuguese</option>
+                  <option value="Russian">Russian</option>
+                  <option value="Japanese">Japanese</option>
+                  <option value="Korean">Korean</option>
+                  <option value="Chinese Simplified">Chinese Simplified</option>
+                  <option value="Chinese Traditional">Chinese Traditional</option>
+                </select>
+                <div className="filter-description">
+                  Specify a language to return results in.
                 </div>
               </div>
             </div>
