@@ -632,7 +632,7 @@ export interface UnifiedCardSearchProps {
   showSortOptions?: boolean;
   showSearchHistory?: boolean;
   maxResults?: number;
-  initialMode?: 'simple' | 'advanced' | 'syntax';
+  initialMode?: 'advanced' | 'syntax';
 }
 
 // Main Unified Card Search Component
@@ -645,7 +645,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   showSortOptions = true,
   showSearchHistory = true,
   maxResults = 50,
-  initialMode = 'simple'
+  initialMode = 'advanced'
 }) => {
   // Search engine instance
   const searchEngine = useMemo(() => new UnifiedSearchEngine(cards), []);
@@ -656,7 +656,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   }, [cards, searchEngine]);
 
   // State management
-  const [searchMode, setSearchMode] = useState<'simple' | 'advanced' | 'syntax'>(typeof initialMode === 'function' ? initialMode() : initialMode);
+  const [searchMode, setSearchMode] = useState<'advanced' | 'syntax'>(typeof initialMode === 'function' ? initialMode() : initialMode);
   const [quickSearch, setQuickSearch] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({
     name: '',
@@ -919,12 +919,6 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     <div className="unified-card-search">
       {/* Search Mode Tabs */}
       <div className="search-modes">
-        <button
-          className={`mode-tab ${searchMode === 'simple' ? 'active' : ''}`}
-          onClick={() => setSearchMode('simple')}
-        >
-          Simple
-        </button>
         <button
           className={`mode-tab ${searchMode === 'syntax' ? 'active' : ''}`}
           onClick={() => setSearchMode('syntax')}
