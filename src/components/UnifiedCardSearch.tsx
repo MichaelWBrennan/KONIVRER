@@ -1167,7 +1167,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                     checked={filters.allowPartialTypeMatches || false}
                     onChange={(e) => updateFilter('allowPartialTypeMatches', e.target.checked)}
                   />
-                  Allow partial type matches
+                  <span>Allow partial type matches</span>
                 </label>
                 <div className="filter-description">
                   Choose any card type, supertype, or subtype to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.
