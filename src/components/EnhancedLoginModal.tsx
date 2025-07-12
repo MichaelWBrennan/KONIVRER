@@ -610,7 +610,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                   onClick={() => setShowPassword(!showPassword)}
                   disabled={isLoading || isLocked}
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  {showPassword ? '\u{1F441}\uFE0F' : '\u{1F441}\uFE0F\u200D\u{1F5E8}\uFE0F'}
                 </button>
               </div>
               {isSignUp && renderPasswordStrength()}
@@ -636,7 +636,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     disabled={isLoading || isLocked}
                   >
-                    {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+                    {showConfirmPassword ? '\u{1F441}\uFE0F' : '\u{1F441}\uFE0F\u200D\u{1F5E8}\uFE0F'}
                   </button>
                 </div>
               </div>
@@ -931,7 +931,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
             disabled={isLoading || isLocked}
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? '👁️' : '👁️‍🗨️'}
+            {showPassword ? '\u{1F441}\uFE0F' : '\u{1F441}\uFE0F\u200D\u{1F5E8}\uFE0F'}
           </button>
         </div>
         {isSignUp && renderPasswordStrength()}
@@ -958,7 +958,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
               disabled={isLoading || isLocked}
               aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
             >
-              {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+              {showConfirmPassword ? '\u{1F441}\uFE0F' : '\u{1F441}\uFE0F\u200D\u{1F5E8}\uFE0F'}
             </button>
           </div>
         </div>
@@ -1278,7 +1278,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
               onClick={onClose}
               disabled={isLoading}
             >
-              ✕
+              {'\u{2715}'}
             </button>
           </div>
 
@@ -1292,7 +1292,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                   exit={{ opacity: 0, y: -10 }}
                   className="error-message shake"
                 >
-                  <span className="message-icon">⚠️</span>
+                  <span className="message-icon">{'\u{26A0}\uFE0F'}</span>
                   <span>{error}</span>
                 </motion.div>
               )}
@@ -1304,7 +1304,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                   exit={{ opacity: 0, y: -10 }}
                   className="success-message pulse"
                 >
-                  <span className="message-icon">✅</span>
+                  <span className="message-icon">{'\u{2705}'}</span>
                   <span>{success}</span>
                 </motion.div>
               )}
