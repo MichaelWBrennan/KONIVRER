@@ -25,9 +25,7 @@
     }
   },
   "files": [
-    "src/core/AllInOne-streamlined.tsx",
     "src/components/UnifiedCardSearch.tsx",
-    "src/components/SearchPage.tsx",
     "src/data/cards.ts"
   ]
 }
