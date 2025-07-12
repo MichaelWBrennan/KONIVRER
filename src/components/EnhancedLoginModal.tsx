@@ -895,6 +895,45 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
           maxVisible={3}
         />
       </div>
+      <div className="divider" style={{ marginTop: '15px' }}>
+        <span>or</span>
+      </div>
+      <div style={{ textAlign: 'center', marginTop: '15px' }}>
+        <motion.button
+          type="button"
+          onClick={() => {
+            // Close the login modal
+            onClose();
+            
+            // Navigate to the play page and start practice mode
+            window.location.href = '/play';
+            
+            // After a short delay, simulate clicking the Practice Mode button
+            setTimeout(() => {
+              // Find and click the Practice Mode button
+              const practiceButton = document.querySelector('[data-game-mode="practice"]');
+              if (practiceButton) {
+                (practiceButton as HTMLElement).click();
+              }
+            }, 500);
+          }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="guest-button"
+          style={{
+            background: 'transparent',
+            border: '1px solid #888',
+            color: '#888',
+            padding: '8px 16px',
+            borderRadius: '4px',
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease'
+          }}
+        >
+          Play as Guest
+        </motion.button>
+      </div>
     </div>
   );
 

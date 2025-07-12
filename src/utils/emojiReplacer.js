@@ -32,7 +32,10 @@ const emojiReplacements = {
   '📋': 'Clipboard',
   '♿': 'Accessibility',
   '&#x267F;': 'Accessibility',
+  '\u{267F}': 'Accessibility',
   '✡': 'Star of David',
+  '👑': 'Crown',
+  '\u{1F451}': 'Crown',
 
   // Common emojis
   '👍': 'Approved',
