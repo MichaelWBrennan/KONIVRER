@@ -859,7 +859,19 @@ const PlayPage = () => {
               Create Account
             </motion.button>
             <motion.button
-              onClick={() => setShowLoginModal(false)}
+              onClick={() => {
+                // Create a guest user with a random ID
+                const guestUser: User = {
+                  id: `guest_${Date.now()}`,
+                  username: `Guest_${Math.floor(Math.random() * 10000)}`,
+                  email: '',
+                  level: 1
+                };
+                // Set the user in context
+                setUser(guestUser);
+                // Close the login modal
+                setShowLoginModal(false);
+              }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               style={{
