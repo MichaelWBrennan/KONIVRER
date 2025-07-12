@@ -167,7 +167,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'generic', 
     label: 'Generic', 
-    symbol: '✡', 
+    symbol: '&#x2721;', 
     color: '#888888', 
     bgColor: 'rgba(136, 136, 136, 0.1)',
     shorthand: 'G',
