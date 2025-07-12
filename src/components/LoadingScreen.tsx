@@ -16,6 +16,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
   useEffect(() => {
     let interval: NodeJS.Timeout;
     let timer: NodeJS.Timeout;
+    let safetyTimer: NodeJS.Timeout;
     
     // Simulate loading progress
     interval = setInterval(() => {
@@ -48,9 +49,19 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
       }, 500);
     }, timeout);
     
+    // Safety timeout - force completion after 5 seconds regardless of other conditions
+    safetyTimer = setTimeout(() => {
+      clearInterval(interval);
+      clearTimeout(timer);
+      setProgress(100);
+      setVisible(false);
+      if (onComplete) onComplete();
+    }, 5000);
+    
     return () => {
       clearInterval(interval);
       clearTimeout(timer);
+      clearTimeout(safetyTimer);
     };
   }, [onComplete, timeout]);
   
