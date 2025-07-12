@@ -29,11 +29,8 @@ interface LoginModalProps {
 // Authentication methods
 enum AuthMethod {
   PASSWORD = 'password',
-  MAGIC_LINK = 'magic_link',
-  SOCIAL = 'social',
-  TWO_FACTOR = 'two_factor',
   BIOMETRIC = 'biometric',
-  QR_CODE = 'qr_code',
+  FACE_ID = 'face_id',
 }
 
 // Enhanced login modal with modern features
@@ -55,7 +52,6 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   // Refs
   const modalRef = useRef<HTMLDivElement>(null);
   const usernameInputRef = useRef<HTMLInputElement>(null);
-  const codeInputRefs = useRef<(HTMLInputElement | null)[]>([]);
   
   // State
   const [authMethod, setAuthMethod] = useState<AuthMethod>(AuthMethod.PASSWORD);
@@ -73,18 +69,19 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const [verificationCode, setVerificationCode] = useState('');
-  const [codeDigits, setCodeDigits] = useState<string[]>(['', '', '', '', '', '']);
-  const [biometricAvailable, setBiometricAvailable] = useState(false);
+
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
   const [lockCountdown, setLockCountdown] = useState(0);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [passwordResetEmail, setPasswordResetEmail] = useState('');
   const [passwordResetSent, setPasswordResetSent] = useState(false);
-  const [qrCodeUrl, setQrCodeUrl] = useState('');
-  const [showQrCode, setShowQrCode] = useState(false);
+
   const [ssoLoading, setSsoLoading] = useState<string | null>(null);
+  
+  // Biometric authentication state
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [faceIdAvailable, setFaceIdAvailable] = useState(false);
 
   // SSO event handlers
   useEffect(() => {
@@ -163,16 +160,24 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   }, [onClose]);
 
-  // Check for biometric authentication
+  // Check for biometric authentication availability
   useEffect(() => {
     const checkBiometricAvailability = async () => {
       try {
-        if (window.PublicKeyCredential && 
-            await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()) {
-          setBiometricAvailable(true);
+        // Check for WebAuthn support
+        if (window.PublicKeyCredential) {
+          const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+          setBiometricAvailable(available);
+          
+          // Check for Face ID specifically (mainly for Safari/iOS)
+          if (available && navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+            setFaceIdAvailable(true);
+          }
         }
       } catch (error) {
+        console.warn('Biometric availability check failed:', error);
         setBiometricAvailable(false);
+        setFaceIdAvailable(false);
       }
     };
     
@@ -241,40 +246,21 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     if (success) setSuccess(null);
   };
 
-  // Handle verification code input with auto-advance
-  const handleCodeDigitChange = (index: number, value: string) => {
-    if (value.length <= 1 && /^\d*$/.test(value)) {
-      const newDigits = [...codeDigits];
-      newDigits[index] = value;
-      setCodeDigits(newDigits);
-      
-      // Auto-advance to next input
-      if (value && index < 5) {
-        codeInputRefs.current[index + 1]?.focus();
-      }
-      
-      // Auto-backspace to previous input
-      if (!value && index > 0) {
-        codeInputRefs.current[index - 1]?.focus();
-      }
-      
-      // Combine digits into verification code
-      setVerificationCode(newDigits.join(''));
-    }
-  };
 
-  // Handle key down for verification code inputs
-  const handleCodeKeyDown = (index: number, e: React.KeyboardEvent) => {
-    if (e.key === 'Backspace' && !codeDigits[index] && index > 0) {
-      codeInputRefs.current[index - 1]?.focus();
-    }
-  };
 
   // Validate form inputs
   const validateForm = () => {
     if (authMethod === AuthMethod.PASSWORD) {
-      if (!credentials.username.trim()) {
-        setError('Username is required');
+      if (!credentials.email.trim()) {
+        setError('Email or username is required');
+        return false;
+      }
+      // Check if it's an email format, if not treat as username
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email);
+      const isUsername = /^[a-zA-Z0-9_]{3,20}$/.test(credentials.email);
+      
+      if (!isEmail && !isUsername) {
+        setError('Please enter a valid email address or username (3-20 characters, letters, numbers, and underscores only)');
         return false;
       }
       if (!credentials.password) {
@@ -282,12 +268,8 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
         return false;
       }
       if (isSignUp) {
-        if (!credentials.email.trim()) {
-          setError('Email is required');
-          return false;
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email)) {
-          setError('Please enter a valid email address');
+        if (!credentials.username.trim()) {
+          setError('Username is required');
           return false;
         }
         if (credentials.password !== credentials.confirmPassword) {
@@ -298,20 +280,6 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
           setError('Password is too weak. Please choose a stronger password.');
           return false;
         }
-      }
-    } else if (authMethod === AuthMethod.MAGIC_LINK) {
-      if (!credentials.email.trim()) {
-        setError('Email is required');
-        return false;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email)) {
-        setError('Please enter a valid email address');
-        return false;
-      }
-    } else if (authMethod === AuthMethod.TWO_FACTOR) {
-      if (verificationCode.length !== 6) {
-        setError('Please enter the complete 6-digit verification code');
-        return false;
       }
     }
     return true;
@@ -355,12 +323,17 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
             resetForm();
           }, 1500);
         } else {
-          // Handle login - mock validation
-          if (credentials.username === 'admin' && credentials.password === 'password') {
+          // Handle login - mock validation (accept both email and username)
+          const validCredentials = (
+            (credentials.email === 'admin@konivrer.com' || credentials.email === 'admin') && 
+            credentials.password === 'password'
+          );
+          
+          if (validCredentials) {
             const user: User = {
               id: '1',
-              username: credentials.username,
-              email: 'admin@konivrer.com',
+              username: 'admin',
+              email: credentials.email,
               level: 10,
               avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin',
               preferences: {
@@ -391,35 +364,9 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
             }
           }
         }
-      } else if (authMethod === AuthMethod.MAGIC_LINK) {
-        setSuccess(`Magic link sent to ${credentials.email}! Check your inbox.`);
-        setTimeout(() => {
-          onClose();
-          resetForm();
-        }, 2000);
-      } else if (authMethod === AuthMethod.TWO_FACTOR) {
-        if (verificationCode === '123456') {
-          const user: User = {
-            id: '2fa_user',
-            username: 'secure_user',
-            email: 'secure@konivrer.com',
-            level: 8,
-            avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=secure',
-            preferences: {
-              theme: 'dark',
-              notifications: true
-            }
-          };
-          
-          setSuccess('Two-factor authentication successful!');
-          setTimeout(() => {
-            onLogin(user);
-            onClose();
-            resetForm();
-          }, 1000);
-        } else {
-          setError('Invalid verification code. Please try again.');
-        }
+      } else if (authMethod === AuthMethod.BIOMETRIC || authMethod === AuthMethod.FACE_ID) {
+        // Handle biometric authentication
+        await handleBiometricLogin();
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
@@ -428,39 +375,57 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   };
 
-  // Old social login handler removed - now using SSO service
-
   // Handle biometric authentication
   const handleBiometricLogin = async () => {
-    setIsLoading(true);
-    setError(null);
-    
     try {
-      // Simulate WebAuthn API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      const user: User = {
-        id: 'biometric_user',
-        username: 'biometric_user',
-        email: 'biometric@konivrer.com',
-        level: 9,
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=biometric',
-        preferences: {
-          theme: 'dark',
-          notifications: true
-        }
+      if (!window.PublicKeyCredential) {
+        throw new Error('WebAuthn not supported');
+      }
+
+      // Create credential request options
+      const publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions = {
+        challenge: new Uint8Array(32), // In production, this should come from server
+        allowCredentials: [], // Empty array allows any registered credential
+        userVerification: 'required',
+        timeout: 60000,
       };
-      
-      setSuccess('Biometric authentication successful!');
-      setTimeout(() => {
-        onLogin(user);
-        onClose();
-        resetForm();
-      }, 1000);
-    } catch (err) {
-      setError('Biometric authentication failed. Please try another method.');
-    } finally {
-      setIsLoading(false);
+
+      // Request credential
+      const credential = await navigator.credentials.get({
+        publicKey: publicKeyCredentialRequestOptions
+      }) as PublicKeyCredential;
+
+      if (credential) {
+        // Mock successful biometric authentication
+        const user: User = {
+          id: 'biometric_user',
+          username: 'biometric_user',
+          email: 'biometric@konivrer.com',
+          level: 5,
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=biometric',
+          preferences: {
+            theme: 'dark',
+            notifications: true
+          }
+        };
+
+        setSuccess(`${authMethod === AuthMethod.FACE_ID ? 'Face ID' : 'Biometric'} authentication successful!`);
+        
+        setTimeout(() => {
+          onLogin(user);
+          onClose();
+          resetForm();
+        }, 1000);
+      }
+    } catch (error: any) {
+      console.error('Biometric authentication failed:', error);
+      if (error.name === 'NotAllowedError') {
+        setError('Biometric authentication was cancelled or failed');
+      } else if (error.name === 'NotSupportedError') {
+        setError('Biometric authentication is not supported on this device');
+      } else {
+        setError('Biometric authentication failed. Please try again.');
+      }
     }
   };
 
@@ -498,18 +463,9 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   };
 
-  // Generate QR code for mobile login
-  const generateQrCode = () => {
-    const qrData = `konivrer://login?token=${Date.now()}&method=qr`;
-    setQrCodeUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`);
-    setShowQrCode(true);
-  };
-
   // Reset form
   const resetForm = () => {
     setCredentials({ username: '', password: '', email: '', confirmPassword: '' });
-    setVerificationCode('');
-    setCodeDigits(['', '', '', '', '', '']);
     setPasswordResetEmail('');
     setError(null);
     setSuccess(null);
@@ -518,7 +474,6 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     setShowConfirmPassword(false);
     setShowForgotPassword(false);
     setPasswordResetSent(false);
-    setShowQrCode(false);
     setAuthMethod(AuthMethod.PASSWORD);
   };
 
@@ -552,312 +507,6 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   // Render authentication tabs
   // Removed tabs as we'll show all authentication options at once
 
-  // Render the appropriate authentication form
-  const renderAuthForm = () => {
-    switch (authMethod) {
-      case AuthMethod.PASSWORD:
-        return (
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="form-group">
-              <label className="form-label">
-                {isSignUp ? 'Choose Username' : 'Username'}
-              </label>
-              <input
-                ref={usernameInputRef}
-                type="text"
-                name="username"
-                value={credentials.username}
-                onChange={handleInputChange}
-                disabled={isLoading || isLocked}
-                className="form-input input-focus"
-                placeholder="Enter your username"
-                autoComplete="username"
-              />
-            </div>
-
-            {isSignUp && (
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
-                <input
-                  type="email"
-                  name="email"
-                  value={credentials.email}
-                  onChange={handleInputChange}
-                  disabled={isLoading || isLocked}
-                  className="form-input input-focus"
-                  placeholder="Enter your email"
-                  autoComplete="email"
-                />
-              </div>
-            )}
-            
-            <div className="form-group">
-              <label className="form-label">Password</label>
-              <div className="password-input-container">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={credentials.password}
-                  onChange={handleInputChange}
-                  disabled={isLoading || isLocked}
-                  className="form-input input-focus"
-                  placeholder="Enter your password"
-                  autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                />
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  disabled={isLoading || isLocked}
-                >
-                  {showPassword ? '\u{1F441}\uFE0F' : '\u{1F441}\uFE0F\u200D\u{1F5E8}\uFE0F'}
-                </button>
-              </div>
-              {isSignUp && renderPasswordStrength()}
-            </div>
-
-            {isSignUp && (
-              <div className="form-group">
-                <label className="form-label">Confirm Password</label>
-                <div className="password-input-container">
-                  <input
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    name="confirmPassword"
-                    value={credentials.confirmPassword}
-                    onChange={handleInputChange}
-                    disabled={isLoading || isLocked}
-                    className="form-input input-focus"
-                    placeholder="Confirm your password"
-                    autoComplete="new-password"
-                  />
-                  <button
-                    type="button"
-                    className="password-toggle"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    disabled={isLoading || isLocked}
-                  >
-                    {showConfirmPassword ? '\u{1F441}\uFE0F' : '\u{1F441}\uFE0F\u200D\u{1F5E8}\uFE0F'}
-                  </button>
-                </div>
-              </div>
-            )}
-            
-            {!isSignUp && (
-              <div className="form-options">
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={() => setRememberMe(!rememberMe)}
-                    disabled={isLoading || isLocked}
-                  />
-                  <span className="checkbox-text">Remember me</span>
-                </label>
-                <button
-                  type="button"
-                  className="link-button"
-                  onClick={() => setShowForgotPassword(true)}
-                  disabled={isLoading || isLocked}
-                >
-                  Forgot password?
-                </button>
-              </div>
-            )}
-            
-            <button
-              type="submit"
-              disabled={isLoading || isLocked}
-              className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
-            >
-              {isLoading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  <span>{isSignUp ? 'Creating Account...' : 'Logging in...'}</span>
-                </div>
-              ) : (
-                isSignUp ? 'Create Account' : 'Login'
-              )}
-            </button>
-
-            <div className="auth-switch">
-              <span>
-                {isSignUp ? 'Already have an account?' : "Don't have an account?"}
-              </span>
-              <button
-                type="button"
-                className="link-button"
-                onClick={() => {
-                  setIsSignUp(!isSignUp);
-                  setError(null);
-                  setSuccess(null);
-                }}
-                disabled={isLoading || isLocked}
-              >
-                {isSignUp ? 'Login' : 'Sign Up'}
-              </button>
-            </div>
-          </form>
-        );
-
-      case AuthMethod.MAGIC_LINK:
-        return (
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="magic-link-info">
-              <div className="info-icon"></div>
-              <h3>Magic Link Login</h3>
-              <p>Enter your email and we'll send you a secure login link</p>
-            </div>
-            
-            <div className="form-group">
-              <label className="form-label">Email Address</label>
-              <input
-                type="email"
-                name="email"
-                value={credentials.email}
-                onChange={handleInputChange}
-                disabled={isLoading}
-                className="form-input input-focus"
-                placeholder="Enter your email"
-                autoComplete="email"
-                autoFocus
-              />
-            </div>
-            
-            <button
-              type="submit"
-              disabled={isLoading || !credentials.email}
-              className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
-            >
-              {isLoading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  <span>Sending Magic Link...</span>
-                </div>
-              ) : (
-                'Send Magic Link'
-              )}
-            </button>
-          </form>
-        );
-
-      case AuthMethod.TWO_FACTOR:
-        return (
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="two-factor-info">
-              <div className="info-icon"></div>
-              <h3>Two-Factor Authentication</h3>
-              <p>Enter the 6-digit code from your authenticator app</p>
-            </div>
-            
-            <div className="verification-code-container">
-              {codeDigits.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={el => codeInputRefs.current[index] = el}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleCodeDigitChange(index, e.target.value)}
-                  onKeyDown={(e) => handleCodeKeyDown(index, e)}
-                  disabled={isLoading}
-                  className="verification-code-input"
-                  autoFocus={index === 0}
-                />
-              ))}
-            </div>
-            
-            <button
-              type="submit"
-              disabled={isLoading || verificationCode.length !== 6}
-              className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
-            >
-              {isLoading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  <span>Verifying...</span>
-                </div>
-              ) : (
-                'Verify Code'
-              )}
-            </button>
-          </form>
-        );
-
-      case AuthMethod.BIOMETRIC:
-        return (
-          <div className="auth-form biometric-form">
-            <div className="biometric-info">
-              <div className="info-icon"></div>
-              <h3>Biometric Authentication</h3>
-              <p>Use your fingerprint, face, or other biometric to login securely</p>
-            </div>
-            
-            <button
-              type="button"
-              onClick={handleBiometricLogin}
-              disabled={isLoading}
-              className={`biometric-button button-hover ${isLoading ? 'loading' : ''}`}
-            >
-              {isLoading ? (
-                <div className="loading-spinner">
-                  <div className="spinner"></div>
-                  <span>Authenticating...</span>
-                </div>
-              ) : (
-                <>
-                  <span className="biometric-icon"></span>
-                  <span>Authenticate with Biometrics</span>
-                </>
-              )}
-            </button>
-          </div>
-        );
-
-      case AuthMethod.QR_CODE:
-        return (
-          <div className="auth-form qr-form">
-            <div className="qr-info">
-              <div className="info-icon"></div>
-              <h3>QR Code Login</h3>
-              <p>Scan this QR code with the KONIVRER mobile app to login</p>
-            </div>
-            
-            {!showQrCode ? (
-              <button
-                type="button"
-                onClick={generateQrCode}
-                disabled={isLoading}
-                className="submit-button button-hover"
-              >
-                Generate QR Code
-              </button>
-            ) : (
-              <div className="qr-code-container">
-                <img
-                  src={qrCodeUrl}
-                  alt="QR Code for mobile login"
-                  className="qr-code-image"
-                />
-                <p className="qr-code-instructions">
-                  Open the KONIVRER app and scan this code to login instantly
-                </p>
-                <button
-                  type="button"
-                  onClick={generateQrCode}
-                  className="link-button"
-                >
-                  Generate New Code
-                </button>
-              </div>
-            )}
-          </div>
-        );
-
-      default:
-        return null;
-    }
-  };
 
   // Render password authentication form
   const renderPasswordForm = () => (
@@ -867,34 +516,32 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
       handleSubmit(e);
     }} className="auth-form">
       <div className="form-group">
-        <label className="form-label">
-          {isSignUp ? 'Choose Username' : 'Username'}
-        </label>
+        <label className="form-label">Email or Username</label>
         <input
           ref={usernameInputRef}
           type="text"
-          name="username"
-          value={credentials.username}
+          name="email"
+          value={credentials.email}
           onChange={handleInputChange}
           disabled={isLoading || isLocked}
           className="form-input input-focus"
-          placeholder="Enter your username"
+          placeholder="Enter your email or username"
           autoComplete="username"
         />
       </div>
       
       {isSignUp && (
         <div className="form-group">
-          <label className="form-label">Email Address</label>
+          <label className="form-label">Choose Username</label>
           <input
-            type="email"
-            name="email"
-            value={credentials.email}
+            type="text"
+            name="username"
+            value={credentials.username}
             onChange={handleInputChange}
             disabled={isLoading || isLocked}
             className="form-input input-focus"
-            placeholder="Enter your email"
-            autoComplete="email"
+            placeholder="Enter your username"
+            autoComplete="username"
           />
         </div>
       )}
@@ -1005,131 +652,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     </form>
   );
   
-  // Render magic link authentication form
-  const renderMagicLinkForm = () => (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      setAuthMethod(AuthMethod.MAGIC_LINK);
-      handleSubmit(e);
-    }} className="auth-form">
-      <div className="form-group">
-        <label className="form-label">Email Address</label>
-        <input
-          type="email"
-          name="email"
-          value={credentials.email}
-          onChange={handleInputChange}
-          disabled={isLoading}
-          className="form-input input-focus"
-          placeholder="Enter your email"
-          autoComplete="email"
-        />
-      </div>
-      
-      <button
-        type="submit"
-        disabled={isLoading}
-        className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
-      >
-        {isLoading ? (
-          <span className="loading-spinner"></span>
-        ) : (
-          'Send Magic Link'
-        )}
-      </button>
-    </form>
-  );
-  
-  // Render two-factor authentication form
-  const renderTwoFactorForm = () => (
-    <form onSubmit={(e) => {
-      e.preventDefault();
-      setAuthMethod(AuthMethod.TWO_FACTOR);
-      handleSubmit(e);
-    }} className="auth-form">
-      <div className="verification-code-container">
-        {codeDigits.map((digit, index) => (
-          <input
-            key={index}
-            ref={el => codeInputRefs.current[index] = el}
-            type="text"
-            inputMode="numeric"
-            pattern="[0-9]*"
-            maxLength={1}
-            value={digit}
-            onChange={e => handleCodeDigitChange(index, e.target.value)}
-            onKeyDown={e => handleCodeKeyDown(index, e)}
-            disabled={isLoading}
-            className="verification-code-input"
-          />
-        ))}
-      </div>
-      
-      <button
-        type="submit"
-        disabled={isLoading || verificationCode.length !== 6}
-        className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
-      >
-        {isLoading ? (
-          <span className="loading-spinner"></span>
-        ) : (
-          'Verify'
-        )}
-      </button>
-    </form>
-  );
-  
-  // Render biometric authentication form
-  const renderBiometricForm = () => (
-    <div className="auth-form biometric-form">
-      <button
-        type="button"
-        onClick={() => {
-          setAuthMethod(AuthMethod.BIOMETRIC);
-          handleBiometricLogin();
-        }}
-        disabled={isLoading}
-        className={`biometric-button button-hover ${isLoading ? 'loading' : ''}`}
-      >
-        {isLoading ? (
-          <span className="loading-spinner"></span>
-        ) : (
-          <>
-            <span className="biometric-icon"></span>
-            <span>Authenticate with Biometric</span>
-          </>
-        )}
-      </button>
-    </div>
-  );
-  
-  // Render QR code authentication form
-  const renderQRCodeForm = () => (
-    <div className="auth-form qr-form">
-      {!showQrCode ? (
-        <button
-          type="button"
-          onClick={() => {
-            setAuthMethod(AuthMethod.QR_CODE);
-            generateQrCode();
-          }}
-          disabled={isLoading}
-          className={`qr-button button-hover ${isLoading ? 'loading' : ''}`}
-        >
-          {isLoading ? (
-            <span className="loading-spinner"></span>
-          ) : (
-            'Generate QR Code'
-          )}
-        </button>
-      ) : (
-        <div className="qr-code-container">
-          <img src={qrCodeUrl} alt="QR Code for login" className="qr-code-image" />
-          <p className="qr-code-help">Scan with the KONIVRER mobile app</p>
-        </div>
-      )}
-    </div>
-  );
+
   
   // Render SSO login buttons
   const renderSSOLogin = () => (
@@ -1184,6 +707,95 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
         >
           Play as Guest
         </motion.button>
+      </div>
+    </div>
+  );
+
+  // Render biometric login options
+  const renderBiometricLogin = () => (
+    <div className="biometric-login-section">
+      <div className="biometric-options">
+        {biometricAvailable && (
+          <motion.button
+            type="button"
+            onClick={() => {
+              setAuthMethod(AuthMethod.BIOMETRIC);
+              handleBiometricLogin();
+            }}
+            disabled={isLoading || isLocked}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="biometric-button"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px 20px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              border: 'none',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              width: '100%',
+              marginBottom: '8px'
+            }}
+          >
+            <span style={{ fontSize: '18px' }}>{'\u{1F44D}'}</span>
+            <span>Fingerprint Login</span>
+          </motion.button>
+        )}
+        
+        {faceIdAvailable && (
+          <motion.button
+            type="button"
+            onClick={() => {
+              setAuthMethod(AuthMethod.FACE_ID);
+              handleBiometricLogin();
+            }}
+            disabled={isLoading || isLocked}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="face-id-button"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px 20px',
+              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              border: 'none',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              width: '100%'
+            }}
+          >
+            <span style={{ fontSize: '18px' }}>{'\u{1F464}'}</span>
+            <span>Face ID Login</span>
+          </motion.button>
+        )}
+      </div>
+      
+      <div className="biometric-info" style={{
+        marginTop: '12px',
+        padding: '8px',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '6px',
+        fontSize: '12px',
+        color: '#888',
+        textAlign: 'center'
+      }}>
+        <span>{'\u{1F512}'}</span>
+        <span style={{ marginLeft: '4px' }}>
+          Secure biometric authentication using your device's built-in sensors
+        </span>
       </div>
     </div>
   );
@@ -1323,76 +935,25 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
             )}
 
             <div className="auth-options-grid">
-              {/* Password Login/Signup Section */}
+              {/* Email/Password Login Section */}
               <div className="auth-option-card">
-                <h3>Password Login</h3>
+                <h3>Email & Password</h3>
                 {renderPasswordForm()}
-              </div>
-              
-              {/* Magic Link Section */}
-              <div className="auth-option-card">
-                <h3>Magic Link</h3>
-                {renderMagicLinkForm()}
-              </div>
-              
-              {/* Two-Factor Authentication Section */}
-              <div className="auth-option-card">
-                <h3>Two-Factor Authentication</h3>
-                {renderTwoFactorForm()}
-              </div>
-              
-              {/* Biometric Authentication Section (if available) */}
-              {biometricAvailable && (
-                <div className="auth-option-card">
-                  <h3>Biometric Login</h3>
-                  {renderBiometricForm()}
-                </div>
-              )}
-              
-              {/* QR Code Login Section */}
-              <div className="auth-option-card">
-                <h3>QR Code Login</h3>
-                {renderQRCodeForm()}
               </div>
               
               {/* SSO Login Section */}
               <div className="auth-option-card">
-                <h3>Social Login</h3>
+                <h3>Single Sign-On</h3>
                 {renderSSOLogin()}
               </div>
               
-              {/* Play as Guest Section */}
-              <div className="auth-option-card">
-                <h3>Quick Start</h3>
-                <div className="guest-play-section">
-                  <p>Jump right into the game without creating an account</p>
-                  <motion.button
-                    onClick={() => {
-                      onClose();
-                      if (window.startGame) {
-                        window.startGame('practice');
-                      }
-                    }}
-                    className="guest-play-button"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    style={{
-                      background: 'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)',
-                      color: '#000',
-                      border: 'none',
-                      borderRadius: '8px',
-                      padding: '12px 24px',
-                      fontWeight: 'bold',
-                      fontSize: '14px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      width: '100%'
-                    }}
-                  >
-                    Play as Guest
-                  </motion.button>
+              {/* Biometric Authentication Section */}
+              {(biometricAvailable || faceIdAvailable) && (
+                <div className="auth-option-card">
+                  <h3>Biometric Login</h3>
+                  {renderBiometricLogin()}
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
