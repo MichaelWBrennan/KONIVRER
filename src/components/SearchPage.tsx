@@ -30,7 +30,7 @@ const SearchPage: React.FC = () => {
       />
       
       {/* Search Results Display */}
-      {searchResults.totalCount > 0 && (
+      {searchResults.totalCount > 0 ? (
         <div style={{ marginTop: '30px' }}>
           <div style={{ 
             display: 'flex', 
@@ -113,6 +113,18 @@ const SearchPage: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+      ) : (
+        <div style={{ 
+          marginTop: '50px', 
+          textAlign: 'center',
+          color: '#999',
+          fontSize: '18px'
+        }}>
+          <p>Enter a search term or apply filters to find cards</p>
+          <p style={{ fontSize: '14px', marginTop: '10px' }}>
+            Try searching for card names, types, or use advanced syntax like "name:fire" or "cost:>=3"
+          </p>
         </div>
       )}
       

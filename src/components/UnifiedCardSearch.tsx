@@ -708,6 +708,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [showSyntaxHelp, setShowSyntaxHelp] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   // Refs
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -722,7 +723,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   }, [searchMode]);
 
   // Debounced search function
-  const debouncedSearch = useCallback((query: string, searchFilters: SearchFilters) => {
+  const debouncedSearch = useCallback((query: string, searchFilters: SearchFilters, userInitiated = false) => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
     }
@@ -731,16 +732,34 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       setIsSearching(true);
       
       try {
-        const results = searchEngine.search(query, searchFilters, preferences);
-        onSearchResults(results);
-        onFiltersChange?.(searchFilters);
+        // Only perform search if user has initiated a search or if there's actual search content
+        const hasSearchContent = query.trim() || Object.values(searchFilters).some(value => {
+          if (typeof value === 'string') return value.trim();
+          if (typeof value === 'boolean') return value;
+          if (typeof value === 'object' && value !== null) {
+            if ('operator' in value && 'value' in value) return value.value.trim();
+            if ('min' in value && 'max' in value) return value.min.trim() || value.max.trim();
+            return Object.values(value).some(v => typeof v === 'boolean' ? v : (typeof v === 'string' ? v.trim() : false));
+          }
+          return false;
+        });
+        
+        if (hasSearched || userInitiated || hasSearchContent) {
+          if (userInitiated) setHasSearched(true);
+          const results = searchEngine.search(query, searchFilters, preferences);
+          onSearchResults(results);
+          onFiltersChange?.(searchFilters);
+        } else {
+          // Return empty results if no search has been initiated
+          onSearchResults({ cards: [], totalCount: 0, searchTime: 0 });
+        }
       } catch (error) {
         console.error('Search error:', error);
       } finally {
         setIsSearching(false);
       }
     }, 300);
-  }, [searchEngine, preferences, onSearchResults, onFiltersChange]);
+  }, [searchEngine, preferences, onSearchResults, onFiltersChange, hasSearched]);
 
   // Handle quick search
   const handleQuickSearch = useCallback((query: string) => {
@@ -758,10 +777,10 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
     // Parse syntax and update filters if needed
     const updatedFilters = parseSyntaxToFilters(query, filters);
-    setFilters(updatedFilters);
+    setFiltersQuietly(updatedFilters);
     
-    debouncedSearch(query, updatedFilters);
-  }, [filters, searchHistory, debouncedSearch, onSearchResults]);
+    debouncedSearch(query, updatedFilters, true);
+  }, [filters, searchHistory, debouncedSearch, onSearchResults, setFiltersQuietly]);
 
   // Parse syntax search to filters
   const parseSyntaxToFilters = (query: string, currentFilters: SearchFilters): SearchFilters => {
@@ -850,9 +869,14 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     }
   };
 
+  // Update filter programmatically (without triggering search)
+  const setFiltersQuietly = useCallback((newFilters: SearchFilters) => {
+    setFilters(newFilters);
+  }, []);
+
   // Update filter
-  const updateFilter = useCallback((path: string, value: any) => {
-    setFilters(prev => {
+  const updateFilter = useCallback((path: string, value: any, userInitiated = true) => {
+    const updateFiltersAndSearch = (prev: SearchFilters) => {
       const newFilters = { ...prev };
       const keys = path.split('.');
       let current: any = newFilters;
@@ -862,14 +886,24 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       }
 
       current[keys[keys.length - 1]] = value;
+      
+      // Trigger search immediately for user-initiated filter changes
+      if (userInitiated) {
+        debouncedSearch(quickSearch, newFilters, true);
+      }
+      
       return newFilters;
-    });
-  }, []);
+    };
+    
+    setFilters(updateFiltersAndSearch);
+  }, [quickSearch, debouncedSearch]);
 
-  // Effect to trigger search when filters change
+  // Effect to trigger search when filters change (only for non-user initiated changes)
   useEffect(() => {
-    debouncedSearch(quickSearch, filters);
-  }, [filters, debouncedSearch, quickSearch]);
+    if (hasSearched) {
+      debouncedSearch(quickSearch, filters);
+    }
+  }, [filters, debouncedSearch, quickSearch, hasSearched]);
 
   // Clear all filters
   const clearAllFilters = useCallback(() => {
@@ -901,10 +935,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       priceRange: { min: '', max: '' }
     };
     
-    setFilters(clearedFilters);
+    setFiltersQuietly(clearedFilters);
     setQuickSearch('');
+    setHasSearched(false);
     onSearchResults({ cards: [], totalCount: 0, searchTime: 0 });
-  }, [onSearchResults]);
+  }, [onSearchResults, setFiltersQuietly]);
 
   // Save current search
   const saveCurrentSearch = useCallback(() => {
@@ -920,8 +955,10 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   // Load saved search
   const loadSavedSearch = useCallback((savedSearch: { name: string; query: string; filters: SearchFilters }) => {
     setQuickSearch(savedSearch.query);
-    setFilters(savedSearch.filters);
-  }, []);
+    setFiltersQuietly(savedSearch.filters);
+    setHasSearched(true);
+    debouncedSearch(savedSearch.query, savedSearch.filters, true);
+  }, [setFiltersQuietly, debouncedSearch]);
 
   return (
     <div className="unified-card-search">
