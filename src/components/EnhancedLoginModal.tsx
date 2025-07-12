@@ -550,28 +550,7 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   };
 
   // Render authentication tabs
-  const renderAuthTabs = () => (
-    <div className="auth-tabs">
-      {[
-        { method: AuthMethod.PASSWORD, label: 'Password', icon: '' },
-        { method: AuthMethod.MAGIC_LINK, label: 'Magic Link', icon: '' },
-        { method: AuthMethod.TWO_FACTOR, label: '2FA', icon: '' },
-        ...(biometricAvailable ? [{ method: AuthMethod.BIOMETRIC, label: 'Biometric', icon: '' }] : []),
-        { method: AuthMethod.QR_CODE, label: 'QR Code', icon: '' },
-      ].map(({ method, label, icon }) => (
-        <button
-          key={method}
-          type="button"
-          className={`auth-tab ${authMethod === method ? 'active' : ''}`}
-          onClick={() => setAuthMethod(method)}
-          disabled={isLoading}
-        >
-          <span className="auth-tab-icon">{icon}</span>
-          <span className="auth-tab-label">{label}</span>
-        </button>
-      ))}
-    </div>
-  );
+  // Removed tabs as we'll show all authentication options at once
 
   // Render the appropriate authentication form
   const renderAuthForm = () => {
@@ -880,6 +859,278 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   };
 
+  // Render password authentication form
+  const renderPasswordForm = () => (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      setAuthMethod(AuthMethod.PASSWORD);
+      handleSubmit(e);
+    }} className="auth-form">
+      <div className="form-group">
+        <label className="form-label">
+          {isSignUp ? 'Choose Username' : 'Username'}
+        </label>
+        <input
+          ref={usernameInputRef}
+          type="text"
+          name="username"
+          value={credentials.username}
+          onChange={handleInputChange}
+          disabled={isLoading || isLocked}
+          className="form-input input-focus"
+          placeholder="Enter your username"
+          autoComplete="username"
+        />
+      </div>
+      
+      {isSignUp && (
+        <div className="form-group">
+          <label className="form-label">Email Address</label>
+          <input
+            type="email"
+            name="email"
+            value={credentials.email}
+            onChange={handleInputChange}
+            disabled={isLoading || isLocked}
+            className="form-input input-focus"
+            placeholder="Enter your email"
+            autoComplete="email"
+          />
+        </div>
+      )}
+      
+      <div className="form-group">
+        <div className="password-label-container">
+          <label className="form-label">Password</label>
+          {!isSignUp && (
+            <button
+              type="button"
+              className="forgot-password-link"
+              onClick={() => setShowForgotPassword(true)}
+              disabled={isLoading || isLocked}
+            >
+              Forgot Password?
+            </button>
+          )}
+        </div>
+        <div className="password-input-container">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            name="password"
+            value={credentials.password}
+            onChange={handleInputChange}
+            disabled={isLoading || isLocked}
+            className="form-input input-focus"
+            placeholder="Enter your password"
+            autoComplete={isSignUp ? 'new-password' : 'current-password'}
+          />
+          <button
+            type="button"
+            className="toggle-password-button"
+            onClick={() => setShowPassword(!showPassword)}
+            disabled={isLoading || isLocked}
+            aria-label={showPassword ? 'Hide password' : 'Show password'}
+          >
+            {showPassword ? '👁️' : '👁️‍🗨️'}
+          </button>
+        </div>
+        {isSignUp && renderPasswordStrength()}
+      </div>
+      
+      {isSignUp && (
+        <div className="form-group">
+          <label className="form-label">Confirm Password</label>
+          <div className="password-input-container">
+            <input
+              type={showConfirmPassword ? 'text' : 'password'}
+              name="confirmPassword"
+              value={credentials.confirmPassword}
+              onChange={handleInputChange}
+              disabled={isLoading || isLocked}
+              className="form-input input-focus"
+              placeholder="Confirm your password"
+              autoComplete="new-password"
+            />
+            <button
+              type="button"
+              className="toggle-password-button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              disabled={isLoading || isLocked}
+              aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+            >
+              {showConfirmPassword ? '👁️' : '👁️‍🗨️'}
+            </button>
+          </div>
+        </div>
+      )}
+      
+      <div className="form-options">
+        <label className="checkbox-container">
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={() => setRememberMe(!rememberMe)}
+            disabled={isLoading || isLocked}
+          />
+          <span className="checkbox-label">Remember me</span>
+        </label>
+        
+        <button
+          type="button"
+          className="toggle-signup-button"
+          onClick={() => {
+            setIsSignUp(!isSignUp);
+            setError(null);
+            setSuccess(null);
+          }}
+          disabled={isLoading || isLocked}
+        >
+          {isSignUp ? 'Login Instead' : 'Create Account'}
+        </button>
+      </div>
+      
+      <button
+        type="submit"
+        disabled={isLoading || isLocked}
+        className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
+      >
+        {isLoading ? (
+          <span className="loading-spinner"></span>
+        ) : isSignUp ? (
+          'Sign Up'
+        ) : (
+          'Login'
+        )}
+      </button>
+    </form>
+  );
+  
+  // Render magic link authentication form
+  const renderMagicLinkForm = () => (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      setAuthMethod(AuthMethod.MAGIC_LINK);
+      handleSubmit(e);
+    }} className="auth-form">
+      <div className="form-group">
+        <label className="form-label">Email Address</label>
+        <input
+          type="email"
+          name="email"
+          value={credentials.email}
+          onChange={handleInputChange}
+          disabled={isLoading}
+          className="form-input input-focus"
+          placeholder="Enter your email"
+          autoComplete="email"
+        />
+      </div>
+      
+      <button
+        type="submit"
+        disabled={isLoading}
+        className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
+      >
+        {isLoading ? (
+          <span className="loading-spinner"></span>
+        ) : (
+          'Send Magic Link'
+        )}
+      </button>
+    </form>
+  );
+  
+  // Render two-factor authentication form
+  const renderTwoFactorForm = () => (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      setAuthMethod(AuthMethod.TWO_FACTOR);
+      handleSubmit(e);
+    }} className="auth-form">
+      <div className="verification-code-container">
+        {codeDigits.map((digit, index) => (
+          <input
+            key={index}
+            ref={el => codeInputRefs.current[index] = el}
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            maxLength={1}
+            value={digit}
+            onChange={e => handleCodeDigitChange(index, e.target.value)}
+            onKeyDown={e => handleCodeKeyDown(index, e)}
+            disabled={isLoading}
+            className="verification-code-input"
+          />
+        ))}
+      </div>
+      
+      <button
+        type="submit"
+        disabled={isLoading || verificationCode.length !== 6}
+        className={`submit-button button-hover ${isLoading ? 'loading' : ''}`}
+      >
+        {isLoading ? (
+          <span className="loading-spinner"></span>
+        ) : (
+          'Verify'
+        )}
+      </button>
+    </form>
+  );
+  
+  // Render biometric authentication form
+  const renderBiometricForm = () => (
+    <div className="auth-form biometric-form">
+      <button
+        type="button"
+        onClick={() => {
+          setAuthMethod(AuthMethod.BIOMETRIC);
+          handleBiometricLogin();
+        }}
+        disabled={isLoading}
+        className={`biometric-button button-hover ${isLoading ? 'loading' : ''}`}
+      >
+        {isLoading ? (
+          <span className="loading-spinner"></span>
+        ) : (
+          <>
+            <span className="biometric-icon"></span>
+            <span>Authenticate with Biometric</span>
+          </>
+        )}
+      </button>
+    </div>
+  );
+  
+  // Render QR code authentication form
+  const renderQRCodeForm = () => (
+    <div className="auth-form qr-form">
+      {!showQrCode ? (
+        <button
+          type="button"
+          onClick={() => {
+            setAuthMethod(AuthMethod.QR_CODE);
+            generateQrCode();
+          }}
+          disabled={isLoading}
+          className={`qr-button button-hover ${isLoading ? 'loading' : ''}`}
+        >
+          {isLoading ? (
+            <span className="loading-spinner"></span>
+          ) : (
+            'Generate QR Code'
+          )}
+        </button>
+      ) : (
+        <div className="qr-code-container">
+          <img src={qrCodeUrl} alt="QR Code for login" className="qr-code-image" />
+          <p className="qr-code-help">Scan with the KONIVRER mobile app</p>
+        </div>
+      )}
+    </div>
+  );
+  
   // Render SSO login buttons
   const renderSSOLogin = () => (
     <div className="social-login-section">
@@ -1032,8 +1283,6 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
           </div>
 
           <div className="modal-body">
-            {renderAuthTabs()}
-            
             {/* Error/Success Messages */}
             <AnimatePresence>
               {error && (
@@ -1073,9 +1322,45 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
               </motion.div>
             )}
 
-            {renderAuthForm()}
-            
-            {authMethod === AuthMethod.PASSWORD && !isSignUp && renderSSOLogin()}
+            <div className="auth-options-grid">
+              {/* Password Login/Signup Section */}
+              <div className="auth-option-card">
+                <h3>Password Login</h3>
+                {renderPasswordForm()}
+              </div>
+              
+              {/* Magic Link Section */}
+              <div className="auth-option-card">
+                <h3>Magic Link</h3>
+                {renderMagicLinkForm()}
+              </div>
+              
+              {/* Two-Factor Authentication Section */}
+              <div className="auth-option-card">
+                <h3>Two-Factor Authentication</h3>
+                {renderTwoFactorForm()}
+              </div>
+              
+              {/* Biometric Authentication Section (if available) */}
+              {biometricAvailable && (
+                <div className="auth-option-card">
+                  <h3>Biometric Login</h3>
+                  {renderBiometricForm()}
+                </div>
+              )}
+              
+              {/* QR Code Login Section */}
+              <div className="auth-option-card">
+                <h3>QR Code Login</h3>
+                {renderQRCodeForm()}
+              </div>
+              
+              {/* SSO Login Section */}
+              <div className="auth-option-card">
+                <h3>Social Login</h3>
+                {renderSSOLogin()}
+              </div>
+            </div>
           </div>
 
           {renderForgotPasswordModal()}

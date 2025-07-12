@@ -1,5 +1,52 @@
 /* Enhanced Login Modal & Card Search Styles */
 
+/* Auth Options Grid Layout */
+.auth-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.auth-option-card {
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.auth-option-card:hover {
+  border-color: rgba(212, 175, 55, 0.6);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.auth-option-card h3 {
+  color: #d4af37;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Modal Backdrop - Make it an overlay */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
