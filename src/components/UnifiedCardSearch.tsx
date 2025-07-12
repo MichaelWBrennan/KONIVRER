@@ -1180,9 +1180,10 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                         checked={filters.elements[element.key as keyof typeof filters.elements]}
                         onChange={(e) => updateFilter(`elements.${element.key}`, e.target.checked)}
                       />
-                      <span className={`element-symbol ${element.circled ? 'circled' : ''}`}>
-                        {element.symbol}
-                      </span>
+                      <span 
+                        className={`element-symbol ${element.circled ? 'circled' : ''}`}
+                        dangerouslySetInnerHTML={{ __html: element.symbol }}
+                      ></span>
                       {element.label}
                     </label>
                   ))}
@@ -1220,9 +1221,10 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                         checked={filters.elements[element.key as keyof typeof filters.elements]}
                         onChange={(e) => updateFilter(`elements.${element.key}`, e.target.checked)}
                       />
-                      <span className={`element-symbol ${element.circled ? 'circled' : ''}`}>
-                        {element.symbol}
-                      </span>
+                      <span 
+                        className={`element-symbol ${element.circled ? 'circled' : ''}`}
+                        dangerouslySetInnerHTML={{ __html: element.symbol }}
+                      ></span>
                       {element.label}
                     </label>
                   ))}
