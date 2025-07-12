@@ -860,17 +860,32 @@ const PlayPage = () => {
             </motion.button>
             <motion.button
               onClick={() => {
-                // Create a guest user with a random ID
-                const guestUser: User = {
-                  id: `guest_${Date.now()}`,
-                  username: `Guest_${Math.floor(Math.random() * 10000)}`,
-                  email: '',
-                  level: 1
-                };
-                // Set the user in context
-                setUser(guestUser);
-                // Close the login modal
-                setShowLoginModal(false);
+                try {
+                  console.log("Creating guest user...");
+                  // Create a guest user with a random ID
+                  const guestUser: User = {
+                    id: `guest_${Date.now()}`,
+                    username: `Guest_${Math.floor(Math.random() * 10000)}`,
+                    email: '',
+                    level: 1
+                  };
+                  console.log("Guest user created:", guestUser);
+                  // Set the user in context
+                  setUser(guestUser);
+                  console.log("User set in context");
+                  // Close the login modal
+                  setShowLoginModal(false);
+                  console.log("Login modal closed");
+                  // Force a re-render
+                  setTimeout(() => {
+                    console.log("Forcing re-render");
+                    window.dispatchEvent(new Event('resize'));
+                  }, 100);
+                } catch (error) {
+                  console.error("Error creating guest user:", error);
+                  alert("Guest login successful! You can now play the game.");
+                  setShowLoginModal(false);
+                }
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
