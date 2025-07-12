@@ -9,7 +9,7 @@ import { withAdvancedHealing } from '../utils/realTimeHealing';
 import { healingConfigManager } from '../config/healingConfig';
 import BlogSection from '../components/BlogSection';
 import UnifiedCardSearch from '../components/UnifiedCardSearch';
-import MergedCardsPage from '../components/MergedCardsPage';
+import SimpleCardsPage from '../components/SimpleCardsPage';
 import EnhancedLoginModal from '../components/EnhancedLoginModal';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
@@ -1133,7 +1133,7 @@ const Phase3App = () => {
               <AnimatePresence mode="wait">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/cards" element={<MergedCardsPage />} />
+                  <Route path="/cards" element={<SimpleCardsPage />} />
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
