@@ -16,6 +16,11 @@
     grid-template-columns: 1fr;
     gap: 15px;
   }
+  
+  .modal-content {
+    max-width: 95vw;
+    margin: 10px;
+  }
 }
 
 .auth-option-card {
