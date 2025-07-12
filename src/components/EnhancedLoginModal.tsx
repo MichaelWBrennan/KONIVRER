@@ -29,6 +29,8 @@ interface LoginModalProps {
 // Authentication methods
 enum AuthMethod {
   PASSWORD = 'password',
+  BIOMETRIC = 'biometric',
+  FACE_ID = 'face_id',
 }
 
 // Enhanced login modal with modern features
@@ -76,6 +78,10 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   const [passwordResetSent, setPasswordResetSent] = useState(false);
 
   const [ssoLoading, setSsoLoading] = useState<string | null>(null);
+  
+  // Biometric authentication state
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  const [faceIdAvailable, setFaceIdAvailable] = useState(false);
 
   // SSO event handlers
   useEffect(() => {
@@ -154,7 +160,31 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   }, [onClose]);
 
-
+  // Check for biometric authentication availability
+  useEffect(() => {
+    const checkBiometricAvailability = async () => {
+      try {
+        // Check for WebAuthn support
+        if (window.PublicKeyCredential) {
+          const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+          setBiometricAvailable(available);
+          
+          // Check for Face ID specifically (mainly for Safari/iOS)
+          if (available && navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+            setFaceIdAvailable(true);
+          }
+        }
+      } catch (error) {
+        console.warn('Biometric availability check failed:', error);
+        setBiometricAvailable(false);
+        setFaceIdAvailable(false);
+      }
+    };
+    
+    if (isOpen) {
+      checkBiometricAvailability();
+    }
+  }, [isOpen]);
 
   // Focus username input on open
   useEffect(() => {
@@ -222,11 +252,15 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
   const validateForm = () => {
     if (authMethod === AuthMethod.PASSWORD) {
       if (!credentials.email.trim()) {
-        setError('Email is required');
+        setError('Email or username is required');
         return false;
       }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email)) {
-        setError('Please enter a valid email address');
+      // Check if it's an email format, if not treat as username
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(credentials.email);
+      const isUsername = /^[a-zA-Z0-9_]{3,20}$/.test(credentials.email);
+      
+      if (!isEmail && !isUsername) {
+        setError('Please enter a valid email address or username (3-20 characters, letters, numbers, and underscores only)');
         return false;
       }
       if (!credentials.password) {
@@ -289,8 +323,13 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
             resetForm();
           }, 1500);
         } else {
-          // Handle login - mock validation
-          if (credentials.email === 'admin@konivrer.com' && credentials.password === 'password') {
+          // Handle login - mock validation (accept both email and username)
+          const validCredentials = (
+            (credentials.email === 'admin@konivrer.com' || credentials.email === 'admin') && 
+            credentials.password === 'password'
+          );
+          
+          if (validCredentials) {
             const user: User = {
               id: '1',
               username: 'admin',
@@ -325,6 +364,9 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
             }
           }
         }
+      } else if (authMethod === AuthMethod.BIOMETRIC || authMethod === AuthMethod.FACE_ID) {
+        // Handle biometric authentication
+        await handleBiometricLogin();
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
@@ -333,7 +375,59 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     }
   };
 
-  // Old social login handler removed - now using SSO service
+  // Handle biometric authentication
+  const handleBiometricLogin = async () => {
+    try {
+      if (!window.PublicKeyCredential) {
+        throw new Error('WebAuthn not supported');
+      }
+
+      // Create credential request options
+      const publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions = {
+        challenge: new Uint8Array(32), // In production, this should come from server
+        allowCredentials: [], // Empty array allows any registered credential
+        userVerification: 'required',
+        timeout: 60000,
+      };
+
+      // Request credential
+      const credential = await navigator.credentials.get({
+        publicKey: publicKeyCredentialRequestOptions
+      }) as PublicKeyCredential;
+
+      if (credential) {
+        // Mock successful biometric authentication
+        const user: User = {
+          id: 'biometric_user',
+          username: 'biometric_user',
+          email: 'biometric@konivrer.com',
+          level: 5,
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=biometric',
+          preferences: {
+            theme: 'dark',
+            notifications: true
+          }
+        };
+
+        setSuccess(`${authMethod === AuthMethod.FACE_ID ? 'Face ID' : 'Biometric'} authentication successful!`);
+        
+        setTimeout(() => {
+          onLogin(user);
+          onClose();
+          resetForm();
+        }, 1000);
+      }
+    } catch (error: any) {
+      console.error('Biometric authentication failed:', error);
+      if (error.name === 'NotAllowedError') {
+        setError('Biometric authentication was cancelled or failed');
+      } else if (error.name === 'NotSupportedError') {
+        setError('Biometric authentication is not supported on this device');
+      } else {
+        setError('Biometric authentication failed. Please try again.');
+      }
+    }
+  };
 
   // Handle password reset
   const handlePasswordReset = async (e: React.FormEvent) => {
@@ -380,7 +474,6 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     setShowConfirmPassword(false);
     setShowForgotPassword(false);
     setPasswordResetSent(false);
-    setShowQrCode(false);
     setAuthMethod(AuthMethod.PASSWORD);
   };
 
@@ -423,17 +516,17 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
       handleSubmit(e);
     }} className="auth-form">
       <div className="form-group">
-        <label className="form-label">Email Address</label>
+        <label className="form-label">Email or Username</label>
         <input
           ref={usernameInputRef}
-          type="email"
+          type="text"
           name="email"
           value={credentials.email}
           onChange={handleInputChange}
           disabled={isLoading || isLocked}
           className="form-input input-focus"
-          placeholder="Enter your email"
-          autoComplete="email"
+          placeholder="Enter your email or username"
+          autoComplete="username"
         />
       </div>
       
@@ -618,6 +711,95 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
     </div>
   );
 
+  // Render biometric login options
+  const renderBiometricLogin = () => (
+    <div className="biometric-login-section">
+      <div className="biometric-options">
+        {biometricAvailable && (
+          <motion.button
+            type="button"
+            onClick={() => {
+              setAuthMethod(AuthMethod.BIOMETRIC);
+              handleBiometricLogin();
+            }}
+            disabled={isLoading || isLocked}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="biometric-button"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px 20px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              border: 'none',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              width: '100%',
+              marginBottom: '8px'
+            }}
+          >
+            <span style={{ fontSize: '18px' }}>{'\u{1F44D}'}</span>
+            <span>Fingerprint Login</span>
+          </motion.button>
+        )}
+        
+        {faceIdAvailable && (
+          <motion.button
+            type="button"
+            onClick={() => {
+              setAuthMethod(AuthMethod.FACE_ID);
+              handleBiometricLogin();
+            }}
+            disabled={isLoading || isLocked}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="face-id-button"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px 20px',
+              background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+              border: 'none',
+              borderRadius: '8px',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              width: '100%'
+            }}
+          >
+            <span style={{ fontSize: '18px' }}>{'\u{1F464}'}</span>
+            <span>Face ID Login</span>
+          </motion.button>
+        )}
+      </div>
+      
+      <div className="biometric-info" style={{
+        marginTop: '12px',
+        padding: '8px',
+        background: 'rgba(255, 255, 255, 0.05)',
+        borderRadius: '6px',
+        fontSize: '12px',
+        color: '#888',
+        textAlign: 'center'
+      }}>
+        <span>{'\u{1F512}'}</span>
+        <span style={{ marginLeft: '4px' }}>
+          Secure biometric authentication using your device's built-in sensors
+        </span>
+      </div>
+    </div>
+  );
+
   // Render forgot password modal
   const renderForgotPasswordModal = () => (
     <AnimatePresence>
@@ -764,6 +946,14 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                 <h3>Single Sign-On</h3>
                 {renderSSOLogin()}
               </div>
+              
+              {/* Biometric Authentication Section */}
+              {(biometricAvailable || faceIdAvailable) && (
+                <div className="auth-option-card">
+                  <h3>Biometric Login</h3>
+                  {renderBiometricLogin()}
+                </div>
+              )}
             </div>
           </div>
 
