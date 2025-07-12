@@ -17,6 +17,7 @@ import { KONIVRER_CARDS } from '../data/cards';
 import ButtonTester from '../utils/buttonTester';
 import SecurityTester from '../utils/securityTester';
 import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
+import { AutonomousSystemIndicator, useAutonomousIntegration } from '../automation/AutonomousSystemManager';
 import OAuthCallback from '../components/OAuthCallback';
 
 // Types
@@ -1165,6 +1166,10 @@ const Phase3App = () => {
           </Router>
           <Analytics />
           <SpeedInsights />
+          <AutonomousSystemIndicator 
+            className="fixed top-4 right-4 z-50" 
+            compact={true} 
+          />
           {process.env.NODE_ENV === 'development' && (
             <>
               <ButtonTester />
