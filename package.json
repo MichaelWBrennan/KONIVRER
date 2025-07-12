@@ -4,7 +4,7 @@
   "description": "KONIVRER - Minimal Mystical Trading Card Game",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 12000",
+    "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 12003",
     "test": "vitest",

@@ -650,7 +650,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   }, [cards, searchEngine]);
 
   // State management
-  const [searchMode, setSearchMode] = useState<'advanced' | 'syntax'>(typeof initialMode === 'function' ? initialMode() : initialMode);
+  const [searchMode, setSearchMode] = useState<'advanced' | 'syntax'>(initialMode);
   const [quickSearch, setQuickSearch] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({
     name: '',
@@ -755,6 +755,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     }, 300);
   }, [searchEngine, preferences, onSearchResults, onFiltersChange, hasSearched]);
 
+  // Update filter programmatically (without triggering search)
+  const setFiltersQuietly = useCallback((newFilters: SearchFilters) => {
+    setFilters(newFilters);
+  }, []);
+
   // Handle quick search
   const handleQuickSearch = useCallback((query: string) => {
     setQuickSearch(query);
@@ -833,7 +838,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             break;
           case 'keyword':
           case 'k':
-            tempFilters.keywords = value;
+            tempFilters.text = value; // keywords merged with text field
             break;
           case 'set':
           case 's':
@@ -862,11 +867,6 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       setShowSuggestions(false);
     }
   };
-
-  // Update filter programmatically (without triggering search)
-  const setFiltersQuietly = useCallback((newFilters: SearchFilters) => {
-    setFilters(newFilters);
-  }, []);
 
   // Update filter
   const updateFilter = useCallback((path: string, value: any, userInitiated = true) => {
@@ -926,7 +926,9 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       // keywords field is now merged with text field
       set: '',
       flavorText: '',
-      priceRange: { min: '', max: '' }
+      priceRange: { min: '', max: '' },
+      criteria: '',
+      allowPartialTypeMatches: false
     };
     
     setFiltersQuietly(clearedFilters);

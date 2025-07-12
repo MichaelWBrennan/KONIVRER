@@ -10,7 +10,7 @@ import { healingConfigManager } from '../config/healingConfig';
 import BlogSection from '../components/BlogSection';
 import UnifiedCardSearch from '../components/UnifiedCardSearch';
 import SimpleCardsPage from '../components/SimpleCardsPage';
-import EnhancedLoginModal from '../components/EnhancedLoginModal';
+import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import { KONIVRER_CARDS } from '../data/cards';
@@ -267,7 +267,7 @@ const LoginModal = () => {
   };
   
   return (
-    <EnhancedLoginModal
+    <SimpleEnhancedLoginModal
       isOpen={showLoginModal}
       onClose={() => setShowLoginModal(false)}
       onLogin={handleLogin}

@@ -7,7 +7,7 @@ import React, { useState, useEffect, useMemo, createContext, useContext } from '
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import EnhancedLoginModal from '../components/EnhancedLoginModal';
+import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 // Import self-healing components conditionally
 let SelfHealingErrorBoundary: any = null;
 let withOptimization: any = null;
@@ -289,7 +289,7 @@ const Navigation: React.FC = () => {
         </div>
       </div>
 
-      <EnhancedLoginModal
+      <SimpleEnhancedLoginModal
         isOpen={showLoginModal}
         onClose={() => setShowLoginModal(false)}
         onLogin={handleLogin}
