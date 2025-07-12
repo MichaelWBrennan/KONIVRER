@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import UnifiedCardSearch from './UnifiedCardSearch';
 import { KONIVRER_CARDS } from '../data/cards';
+import LoadingScreen from './LoadingScreen';
 
 // Types
 interface Card {
@@ -24,7 +25,18 @@ interface SearchResult {
 }
 
 const MergedCardsPage: React.FC = () => {
-  const allCards: Card[] = KONIVRER_CARDS;
+  const [isLoading, setIsLoading] = useState(true);
+  const [allCards, setAllCards] = useState<Card[]>([]);
+  
+  useEffect(() => {
+    // Simulate loading delay to ensure data is properly loaded
+    const timer = setTimeout(() => {
+      setAllCards(KONIVRER_CARDS);
+      setIsLoading(false);
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
   
   const [searchResults, setSearchResults] = useState<SearchResult>({ 
     cards: [], 
@@ -123,16 +135,20 @@ const MergedCardsPage: React.FC = () => {
   };
 
   return (
-    <div style={getContainerStyle()}>
-      <UnifiedCardSearch 
-        cards={allCards}
-        onSearchResults={handleSearchResults}
-        showAdvancedFilters={true}
-        showSortOptions={true}
-        showSearchHistory={true}
-        initialMode="advanced"
-        placeholder={isMobile ? "Search cards..." : "Search cards... (try: name:fire, cost:>=3, type:familiar)"}
-      />
+    <>
+      {isLoading ? (
+        <LoadingScreen onComplete={() => setIsLoading(false)} />
+      ) : (
+        <div style={getContainerStyle()}>
+          <UnifiedCardSearch 
+            cards={allCards}
+            onSearchResults={handleSearchResults}
+            showAdvancedFilters={true}
+            showSortOptions={true}
+            showSearchHistory={true}
+            initialMode="advanced"
+            placeholder={isMobile ? "Search cards..." : "Search cards... (try: name:fire, cost:>=3, type:familiar)"}
+          />
       
       {/* Search Results Display */}
       {searchResults.totalCount > 0 && (
@@ -234,7 +250,9 @@ const MergedCardsPage: React.FC = () => {
           ))}
         </div>
       )}
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 
