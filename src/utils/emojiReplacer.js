@@ -30,6 +30,7 @@ const emojiReplacements = {
   '🤖': 'Robot',
   '🌐': 'Globe',
   '📋': 'Clipboard',
+  '♿': 'Accessibility',
 
   // Common emojis
   '👍': 'Approved',

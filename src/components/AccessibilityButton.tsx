@@ -34,7 +34,7 @@ const AccessibilityButton: React.FC = () => {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <span role="img" aria-hidden="true">♿</span>
+        <span role="img" aria-hidden="true">&#x267F;</span>
       </motion.button>
       
       <AccessibilityPanel isOpen={isPanelOpen} onClose={() => setIsPanelOpen(false)} />
