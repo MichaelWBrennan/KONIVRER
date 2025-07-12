@@ -1360,6 +1360,39 @@ const EnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogi
                 <h3>Social Login</h3>
                 {renderSSOLogin()}
               </div>
+              
+              {/* Play as Guest Section */}
+              <div className="auth-option-card">
+                <h3>Quick Start</h3>
+                <div className="guest-play-section">
+                  <p>Jump right into the game without creating an account</p>
+                  <motion.button
+                    onClick={() => {
+                      onClose();
+                      if (window.startGame) {
+                        window.startGame('practice');
+                      }
+                    }}
+                    className="guest-play-button"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{
+                      background: 'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)',
+                      color: '#000',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '12px 24px',
+                      fontWeight: 'bold',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      width: '100%'
+                    }}
+                  >
+                    Play as Guest
+                  </motion.button>
+                </div>
+              </div>
             </div>
           </div>
 
