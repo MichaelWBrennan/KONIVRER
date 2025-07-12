@@ -4,6 +4,7 @@ import Phase3App from './core/Phase3App';
 import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
 import { SelfHealingProvider } from './utils/selfHealingIntegration';
+import { AutonomousSystemProvider } from './automation/AutonomousSystemManager';
 import errorHealing from './utils/errorHealing.tsx';
 import databaseHealing from './utils/databaseHealing.ts';
 import './styles/global.css';
@@ -78,9 +79,21 @@ const root = createRoot(rootElement);
 try {
   root.render(
     <React.StrictMode>
-      <SelfHealingProvider>
-        <Phase3App />
-      </SelfHealingProvider>
+      <AutonomousSystemProvider
+        config={{
+          silentMode: true,
+          autoUpdate: true,
+          securityLevel: 'maximum',
+          evolutionRate: 'moderate',
+          industryTracking: true,
+          selfGovernance: true
+        }}
+        autoStart={true}
+      >
+        <SelfHealingProvider>
+          <Phase3App />
+        </SelfHealingProvider>
+      </AutonomousSystemProvider>
     </React.StrictMode>
   );
 } catch (error) {
@@ -88,9 +101,21 @@ try {
   try {
     root.render(
       <React.StrictMode>
-        <SelfHealingProvider>
-          <Phase2App />
-        </SelfHealingProvider>
+        <AutonomousSystemProvider
+          config={{
+            silentMode: true,
+            autoUpdate: true,
+            securityLevel: 'high',
+            evolutionRate: 'conservative',
+            industryTracking: true,
+            selfGovernance: false
+          }}
+          autoStart={true}
+        >
+          <SelfHealingProvider>
+            <Phase2App />
+          </SelfHealingProvider>
+        </AutonomousSystemProvider>
       </React.StrictMode>
     );
     console.log('[APP] Phase 2 app fallback initialized');
