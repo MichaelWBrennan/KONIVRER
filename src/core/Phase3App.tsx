@@ -858,9 +858,23 @@ const PlayPage = () => {
             >
               Create Account
             </motion.button>
-            <span style={{ color: '#888', fontSize: '12px' }}>
-              or continue playing as guest
-            </span>
+            <motion.button
+              onClick={() => setShowLoginModal(false)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{
+                background: 'transparent',
+                border: '1px solid #888',
+                color: '#888',
+                padding: '8px 16px',
+                borderRadius: '4px',
+                fontSize: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              Play as Guest
+            </motion.button>
           </motion.div>
         )}
 
