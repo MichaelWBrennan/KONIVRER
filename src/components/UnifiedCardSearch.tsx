@@ -66,7 +66,7 @@ export interface SearchFilters {
     rare: boolean;
   };
   artist: string;
-  keywords: string;
+  // keywords field is now merged with text field
   set: string;
   flavorText: string;
   priceRange: {
@@ -270,7 +270,7 @@ class UnifiedSearchEngine {
       );
     }
 
-    // Text filter (description, keywords, flavor text)
+    // Keywords and Text filter (description, keywords, flavor text)
     if (filters.text.trim()) {
       const textQuery = filters.text.toLowerCase().trim();
       results = results.filter(card => 
@@ -370,13 +370,7 @@ class UnifiedSearchEngine {
       );
     }
 
-    // Keywords filter
-    if (filters.keywords.trim()) {
-      const keywordQuery = filters.keywords.toLowerCase().trim();
-      results = results.filter(card => 
-        card.keywords.some(keyword => keyword.toLowerCase().includes(keywordQuery))
-      );
-    }
+    // Keywords filter is now merged with Text filter
 
     // Set filter
     if (filters.set.trim()) {
@@ -680,7 +674,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       rare: false
     },
     artist: '',
-    keywords: '',
+    // keywords field is now merged with text field
     set: '',
     flavorText: '',
     priceRange: { min: '', max: '' },
@@ -929,7 +923,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
         rare: false
       },
       artist: '',
-      keywords: '',
+      // keywords field is now merged with text field
       set: '',
       flavorText: '',
       priceRange: { min: '', max: '' }
@@ -1133,21 +1127,21 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 />
               </div>
 
-              {/* Text Filter */}
+              {/* Keywords and Text Filter */}
               <div className="filter-group">
-                <label className="section-title">TEXT</label>
+                <label className="section-title">KEYWORDS</label>
                 <input
                   type="text"
                   value={filters.text}
                   onChange={(e) => updateFilter('text', e.target.value)}
-                  placeholder='Any text, e.g. "draw a card"'
+                  placeholder='Keywords or card text, e.g. "draw a card"'
                   className="search-input"
                 />
                 <button className="add-symbol-btn" type="button">
                   + Add symbol
                 </button>
                 <div className="filter-description">
-                  Enter text that should appear in the rules box. You can use ~ as a placeholder for the card name. Word order doesn't matter.
+                  Search for keywords or text that appears in the rules box. You can use ~ as a placeholder for the card name. Word order doesn't matter.
                 </div>
               </div>
 
@@ -1325,16 +1319,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 />
               </div>
 
-              {/* Keywords Filter */}
-              <div className="filter-group">
-                <label>Keywords</label>
-                <input
-                  type="text"
-                  value={filters.keywords}
-                  onChange={(e) => updateFilter('keywords', e.target.value)}
-                  placeholder="Keyword..."
-                />
-              </div>
+
 
               {/* Sets Section */}
               <div className="filter-group">
