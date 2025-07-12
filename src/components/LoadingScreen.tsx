@@ -63,7 +63,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
       left: 0,
       width: '100%',
       height: '100%',
-      backgroundColor: '#f2e8c9',
+      backgroundColor: '#0f0f0f',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
@@ -72,15 +72,18 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
       transition: 'opacity 0.5s ease-in-out',
       opacity: progress === 100 ? 0.5 : 1
     }}>
-      <div className="ancient-scroll" style={{
+      <div className="loading-container" style={{
         width: '80%',
         maxWidth: '500px',
         textAlign: 'center',
         padding: '30px',
-        position: 'relative'
+        position: 'relative',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        borderRadius: '10px',
+        border: '1px solid #d4af37'
       }}>
         <h1 style={{ 
-          color: '#3a2921', 
+          color: '#d4af37', 
           marginBottom: '20px',
           fontSize: '28px'
         }}>
@@ -88,32 +91,32 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         </h1>
         
         <p style={{ 
-          color: '#3a2921', 
+          color: '#ffffff', 
           marginBottom: '20px',
           fontSize: '16px'
         }}>
-          Resource-Optimized Edition
+          Loading Content...
         </p>
         
         <div style={{
           width: '100%',
           height: '20px',
-          backgroundColor: '#d9b38c',
+          backgroundColor: '#333333',
           borderRadius: '10px',
           overflow: 'hidden',
-          border: '1px solid #8b5a2b',
+          border: '1px solid #d4af37',
           marginBottom: '15px'
         }}>
           <div style={{
             width: `${progress}%`,
             height: '100%',
-            backgroundColor: '#8b5a2b',
+            backgroundColor: '#d4af37',
             transition: 'width 0.3s ease-in-out'
           }} />
         </div>
         
         <p style={{ 
-          color: '#3a2921', 
+          color: '#ffffff', 
           fontSize: '14px'
         }}>
           {message}
@@ -122,10 +125,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         <div style={{
           marginTop: '20px',
           fontSize: '12px',
-          color: '#6b4423'
+          color: '#999999'
         }}>
-          <p>System optimized for resource efficiency</p>
-          <p>CPU usage limited • Memory usage optimized • Disk I/O reduced</p>
+          <p>Preparing card database...</p>
         </div>
       </div>
     </div>
