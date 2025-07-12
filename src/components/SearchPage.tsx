@@ -123,7 +123,7 @@ const SearchPage: React.FC = () => {
         }}>
           <p>Enter a search term or apply filters to find cards</p>
           <p style={{ fontSize: '14px', marginTop: '10px' }}>
-            Try searching for card names, types, or use advanced syntax like "name:fire" or "cost:>=3"
+            Try searching for card names, types, or use advanced syntax like "name:fire" or "cost:&gt;=3"
           </p>
         </div>
       )}

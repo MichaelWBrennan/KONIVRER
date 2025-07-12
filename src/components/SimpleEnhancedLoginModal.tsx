@@ -508,8 +508,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                   cursor: 'pointer',
                   transition: 'background-color 0.3s'
                 }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#777'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#666'}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = '#777'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = '#666'}
               >
                 Cancel
               </button>
@@ -536,8 +536,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                   cursor: 'pointer',
                   transition: 'background-color 0.3s'
                 }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = '#45a049'}
-                onMouseLeave={(e) => e.target.style.backgroundColor = '#4CAF50'}
+                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = '#45a049'}
+                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = '#4CAF50'}
               >
                 🎮 Demo Login
               </button>
