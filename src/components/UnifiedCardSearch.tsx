@@ -1253,7 +1253,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
               {/* Strength Filter */}
               <div className="filter-group">
-                <label>Strength (Familiars only)</label>
+                <label>Strength</label>
                 <div className="numeric-filter">
                   <select
                     value={filters.strength.operator}
@@ -1323,7 +1323,6 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
               {/* Sets Section */}
               <div className="filter-group">
-                <label className="section-title">SETS</label>
                 <label className="section-subtitle">SET</label>
                 <textarea
                   className="set-input"
