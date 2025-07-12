@@ -1008,7 +1008,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 className="clear-search-button"
                 title="Clear search"
               >
-                ✕
+                {'\u{2715}'}
               </button>
             )}
           </div>

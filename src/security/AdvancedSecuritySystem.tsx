@@ -456,7 +456,7 @@ const SecurityMonitor: React.FC = () => {
                 fontSize: '18px'
               }}
             >
-              ✕
+              {'\u{2715}'}
             </button>
           </div>
 
