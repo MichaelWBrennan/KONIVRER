@@ -4,7 +4,7 @@ import Phase3App from './core/Phase3App';
 import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
 import { SelfHealingProvider } from './utils/selfHealingIntegration';
-import { AutonomousSystemProvider } from './automation/AutonomousSystemManager';
+import { StreamlinedAutonomousProvider } from './automation/StreamlinedProvider';
 import errorHealing from './utils/errorHealing.tsx';
 import databaseHealing from './utils/databaseHealing.ts';
 import './styles/global.css';
@@ -79,21 +79,27 @@ const root = createRoot(rootElement);
 try {
   root.render(
     <React.StrictMode>
-      <AutonomousSystemProvider
+      <StreamlinedAutonomousProvider
         config={{
+          enabled: true,
           silentMode: true,
-          autoUpdate: true,
-          securityLevel: 'maximum',
-          evolutionRate: 'moderate',
-          industryTracking: true,
-          selfGovernance: true
+          checkInterval: 15000,
+          maxMemoryUsage: 100,
+          batchSize: 10,
+          securityMonitoring: true,
+          selfHealing: true,
+          codeEvolution: true,
+          trendAnalysis: true,
+          dependencyManagement: true,
+          useWebWorkers: true,
+          enableCaching: true,
+          lazyLoading: true
         }}
-        autoStart={true}
       >
         <SelfHealingProvider>
           <Phase3App />
         </SelfHealingProvider>
-      </AutonomousSystemProvider>
+      </StreamlinedAutonomousProvider>
     </React.StrictMode>
   );
 } catch (error) {
@@ -101,21 +107,27 @@ try {
   try {
     root.render(
       <React.StrictMode>
-        <AutonomousSystemProvider
+        <StreamlinedAutonomousProvider
           config={{
+            enabled: true,
             silentMode: true,
-            autoUpdate: true,
-            securityLevel: 'high',
-            evolutionRate: 'conservative',
-            industryTracking: true,
-            selfGovernance: false
+            checkInterval: 20000,
+            maxMemoryUsage: 80,
+            batchSize: 8,
+            securityMonitoring: true,
+            selfHealing: true,
+            codeEvolution: false,
+            trendAnalysis: false,
+            dependencyManagement: true,
+            useWebWorkers: false,
+            enableCaching: true,
+            lazyLoading: true
           }}
-          autoStart={true}
         >
           <SelfHealingProvider>
             <Phase2App />
           </SelfHealingProvider>
-        </AutonomousSystemProvider>
+        </StreamlinedAutonomousProvider>
       </React.StrictMode>
     );
     console.log('[APP] Phase 2 app fallback initialized');
