@@ -235,8 +235,6 @@ const MergedCardsPage: React.FC = () => {
           ))}
         </div>
       )}
-        </div>
-      )}
     </div>
   );
 };
