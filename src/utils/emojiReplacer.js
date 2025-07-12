@@ -31,6 +31,7 @@ const emojiReplacements = {
   '🌐': 'Globe',
   '📋': 'Clipboard',
   '♿': 'Accessibility',
+  '&#x267F;': 'Accessibility',
   '✡': 'Star of David',
 
   // Common emojis
