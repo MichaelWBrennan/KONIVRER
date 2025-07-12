@@ -7,6 +7,7 @@ import React, { useState, useEffect, useMemo, createContext, useContext } from '
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import EnhancedLoginModal from '../components/EnhancedLoginModal';
 // Import self-healing components conditionally
 let SelfHealingErrorBoundary: any = null;
 let withOptimization: any = null;
@@ -162,13 +163,16 @@ const Navigation: React.FC = () => {
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const location = useLocation();
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (credentials.username && credentials.password) {
-      setUser({ username: credentials.username, isLoggedIn: true });
-      setShowLoginModal(false);
-      setCredentials({ username: '', password: '' });
-    }
+  const handleLogin = (user: any) => {
+    setUser({ 
+      username: user.username, 
+      email: user.email,
+      level: user.level,
+      avatar: user.avatar,
+      isLoggedIn: true 
+    });
+    setShowLoginModal(false);
+    setCredentials({ username: '', password: '' });
   };
 
   const navItems = [
@@ -285,70 +289,11 @@ const Navigation: React.FC = () => {
         </div>
       </div>
 
-      <AnimatePresence>
-        {showLoginModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)',
-              display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000
-            }}
-          >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              style={{
-                backgroundColor: '#1a1a1a', color: 'white', padding: '30px', borderRadius: '10px',
-                border: '2px solid #d4af37', maxWidth: '400px', width: '90%'
-              }}
-            >
-              <h2 style={{ marginTop: 0, color: '#d4af37' }}>⭐ Login to KONIVRER ⭐</h2>
-              <form onSubmit={handleLogin}>
-                {['username', 'password'].map(field => (
-                  <div key={field} style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '5px', color: 'white', textTransform: 'capitalize' }}>
-                      {field}:
-                    </label>
-                    <input
-                      type={field === 'password' ? 'password' : 'text'}
-                      value={credentials[field as keyof typeof credentials]}
-                      onChange={(e) => setCredentials(prev => ({ ...prev, [field]: e.target.value }))}
-                      style={{
-                        width: '100%', padding: '10px', border: '1px solid #d4af37', borderRadius: '5px',
-                        fontSize: '16px', backgroundColor: '#333', color: 'white'
-                      }}
-                    />
-                  </div>
-                ))}
-                <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                  <button
-                    type="button"
-                    onClick={() => setShowLoginModal(false)}
-                    style={{
-                      padding: '10px 20px', border: '1px solid #d4af37', borderRadius: '5px',
-                      backgroundColor: 'transparent', color: '#d4af37', cursor: 'pointer'
-                    }}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    style={{
-                      padding: '10px 20px', border: 'none', borderRadius: '5px',
-                      backgroundColor: '#d4af37', color: '#000', cursor: 'pointer'
-                    }}
-                  >
-                    Login
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <EnhancedLoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onLogin={handleLogin}
+      />
     </header>
   );
 };
