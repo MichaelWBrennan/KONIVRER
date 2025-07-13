@@ -715,9 +715,8 @@ const EventsPage = () => (
 
 const PlayPage = () => {
   const { user, setShowLoginModal, setShowGame } = useContext(AppContext);
-  const [selectedGameMode, setSelectedGameMode] = useState<string | null>(null);
-  const [gameStarted, setGameStarted] = useState(false);
-
+  
+  // Game modes data to be passed to the game menu
   const gameModes = [
     {
       id: 'practice',
@@ -753,313 +752,32 @@ const PlayPage = () => {
     }
   ];
 
-  const startGame = (mode: string) => {
-    setSelectedGameMode(mode);
-    setGameStarted(true);
+  // Store game modes in window object to make them accessible to the game engine
+  useEffect(() => {
+    window.KONIVRER_GAME_MODES = gameModes;
+    window.KONIVRER_USER_DATA = {
+      isLoggedIn: !!user,
+      showLoginModal: () => setShowLoginModal(true)
+    };
     
-    // Show the integrated Phaser game
+    // Show the game immediately when the play page loads
     setShowGame(true);
     
-    // Reset the game started state after a brief delay
-    setTimeout(() => {
-      setGameStarted(false);
-    }, 500);
-  };
+    return () => {
+      // Clean up global references when component unmounts
+      delete window.KONIVRER_GAME_MODES;
+      delete window.KONIVRER_USER_DATA;
+    };
+  }, [user, setShowLoginModal, setShowGame]);
 
-  if (gameStarted) {
-    return (
-      <PageContainer title="Launching Game...">
-        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            style={{ 
-              width: '80px', 
-              height: '80px', 
-              border: '4px solid rgba(212, 175, 55, 0.3)',
-              borderTop: '4px solid #d4af37',
-              borderRadius: '50%',
-              margin: '0 auto 20px'
-            }}
-          />
-          <h2 style={{ color: '#d4af37', marginBottom: '10px' }}>
-            Initializing {gameModes.find(m => m.id === selectedGameMode)?.title}...
-          </h2>
-          <p style={{ color: '#ccc' }}>Please wait while we prepare your mystical battlefield</p>
-        </div>
-      </PageContainer>
-    );
-  }
-
+  // Render the game container directly
   return (
-    <PageContainer title="Play Card Game">
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        {/* Account Benefits Banner */}
-        {!user && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            style={{
-              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%)',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              borderRadius: '12px',
-              padding: '20px',
-              marginBottom: '30px',
-              textAlign: 'center'
-            }}
-          >
-            <h3 style={{ color: '#d4af37', marginBottom: '10px', fontSize: '18px' }}>
-               Play Instantly - No Account Required!
-            </h3>
-            <p style={{ color: '#ccc', marginBottom: '15px', fontSize: '14px' }}>
-              Jump right into the action! Having an account lets you save decks, track progress, and compete in ranked matches.
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowLoginModal(true)}
-              style={{
-                background: 'rgba(212, 175, 55, 0.2)',
-                border: '1px solid rgba(212, 175, 55, 0.5)',
-                color: '#d4af37',
-                padding: '8px 20px',
-                borderRadius: '6px',
-                fontSize: '14px',
-                cursor: 'pointer',
-                marginRight: '10px'
-              }}
-            >
-              Create Account
-            </motion.button>
-            <motion.button
-              onClick={() => {
-                // Close the login modal
-                setShowLoginModal(false);
-                
-                // Start the practice mode game directly
-                startGame('practice');
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              style={{
-                background: 'transparent',
-                border: '1px solid #888',
-                color: '#888',
-                padding: '8px 16px',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              Play as Guest
-            </motion.button>
-          </motion.div>
-        )}
-
-        {/* Welcome Message */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          style={{ textAlign: 'center', marginBottom: '40px' }}
-        >
-          <h2 style={{ color: '#d4af37', marginBottom: '15px', fontSize: '24px' }}>
-            Choose Your Battle
-          </h2>
-          <p style={{ color: '#ccc', fontSize: '16px', maxWidth: '600px', margin: '0 auto' }}>
-            Select a game mode below and begin your mystical journey. Each mode offers unique challenges and rewards.
-          </p>
-        </motion.div>
-
-        {/* Game Mode Selection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-            gap: '20px', 
-            marginBottom: '40px' 
-          }}
-        >
-          {gameModes.map((mode, index) => (
-            <motion.div
-              key={mode.id}
-              data-game-mode={mode.id}
-              data-testid={`game-mode-${mode.id}`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-              whileHover={{ 
-                scale: 1.02, 
-                boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
-                borderColor: 'rgba(212, 175, 55, 0.6)'
-              }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => startGame(mode.id)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  startGame(mode.id);
-                }
-              }}
-              aria-label={`Start ${mode.title} - ${mode.description}`}
-              style={{
-                background: 'linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%)',
-                border: '1px solid rgba(212, 175, 55, 0.3)',
-                borderRadius: '12px',
-                padding: '25px',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-            >
-              {/* Background Pattern */}
-              <div style={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                fontSize: '60px',
-                opacity: 0.1,
-                color: '#d4af37',
-                lineHeight: 1,
-                transform: 'translate(20px, -10px)'
-              }}>
-                {mode.icon}
-              </div>
-
-              <div style={{ position: 'relative', zIndex: 1 }}>
-                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-                  <span style={{ fontSize: '24px', marginRight: '10px' }}>{mode.icon}</span>
-                  <h3 style={{ color: '#d4af37', margin: 0, fontSize: '18px' }}>{mode.title}</h3>
-                </div>
-                
-                <p style={{ color: '#ccc', marginBottom: '15px', fontSize: '14px', lineHeight: 1.5 }}>
-                  {mode.description}
-                </p>
-                
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ 
-                    color: '#888', 
-                    fontSize: '12px',
-                    background: 'rgba(212, 175, 55, 0.1)',
-                    padding: '4px 8px',
-                    borderRadius: '4px'
-                  }}>
-                    {mode.difficulty}
-                  </span>
-                  
-                  <motion.div
-                    whileHover={{ x: 5 }}
-                    style={{ color: '#d4af37', fontSize: '18px' }}
-                  >
-                    →
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Quick Start Section */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.8 }}
-          style={{
-            background: 'rgba(0, 0, 0, 0.3)',
-            border: '1px solid rgba(212, 175, 55, 0.2)',
-            borderRadius: '12px',
-            padding: '25px',
-            textAlign: 'center'
-          }}
-        >
-          <h3 style={{ color: '#d4af37', marginBottom: '15px' }}>New to KONIVRER?</h3>
-          <p style={{ color: '#ccc', marginBottom: '20px', fontSize: '14px' }}>
-            Start with Practice Mode to learn the basics, then challenge other players in Quick Match!
-          </p>
-          
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', flexWrap: 'wrap' }}>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => startGame('practice')}
-              style={{
-                background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.2) 100%)',
-                border: '2px solid rgba(212, 175, 55, 0.5)',
-                color: '#d4af37',
-                padding: '12px 25px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-               Start Tutorial
-            </motion.button>
-            
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => startGame('quick')}
-              style={{
-                background: 'transparent',
-                border: '2px solid rgba(212, 175, 55, 0.3)',
-                color: '#d4af37',
-                padding: '12px 25px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}
-            >
-               Quick Match
-            </motion.button>
-          </div>
-        </motion.div>
-
-        {/* Game Features */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.0 }}
-          style={{ marginTop: '40px', textAlign: 'center' }}
-        >
-          <h4 style={{ color: '#d4af37', marginBottom: '20px' }}>Game Features</h4>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: '20px',
-            fontSize: '14px'
-          }}>
-            <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🎴</div>
-              <strong style={{ color: '#d4af37' }}>65 Unique Cards</strong>
-              <br />Familiars and Flags with elemental powers
-            </div>
-            <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}>⚔</div>
-              <strong style={{ color: '#d4af37' }}>Strategic Combat</strong>
-              <br />Deep tactical gameplay mechanics
-            </div>
-            <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}>🏗</div>
-              <strong style={{ color: '#d4af37' }}>Deck Building</strong>
-              <br />Create custom decks {user ? 'and save them' : '(save with account)'}
-            </div>
-            <div style={{ color: '#ccc' }}>
-              <div style={{ fontSize: '20px', marginBottom: '8px' }}></div>
-              <strong style={{ color: '#d4af37' }}>Progression</strong>
-              <br />Unlock rewards {user ? 'and track stats' : '(track with account)'}
-            </div>
-          </div>
-        </motion.div>
+    <PageContainer>
+      <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
+        <GameContainer 
+          onClose={() => setShowGame(false)} 
+          setShowGame={setShowGame}
+        />
       </div>
     </PageContainer>
   );
