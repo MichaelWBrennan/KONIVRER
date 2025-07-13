@@ -7,6 +7,9 @@ import { DeckBuilderScene } from './scenes/DeckBuilderScene';
 import { PremiumCardBattleScene } from './scenes/PremiumCardBattleScene';
 import { MobileDeckBuilderScene } from './scenes/MobileDeckBuilderScene';
 import { PremiumMainMenuScene } from './scenes/PremiumMainMenuScene';
+import { PerformanceManager } from './utils/PerformanceManager';
+import { CardArtLoader } from './utils/CardArtLoader';
+import { DeckManager } from './utils/DeckManager';
 
 export class GameEngine {
   private game: Phaser.Game | null = null;
@@ -37,6 +40,17 @@ export class GameEngine {
       existingCanvas.remove();
     }
     
+    // Get performance settings
+    const performanceManager = PerformanceManager.getInstance();
+    const isLowPerformance = performanceManager.isLowPerformanceDevice();
+    console.log(`[GameEngine] Performance settings: ${JSON.stringify(performanceManager.getSettings())}`);
+    
+    // Preload card art in background
+    this.preloadCardArt();
+    
+    // Initialize deck manager
+    this.initializeDeckManager();
+    
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: containerWidth,
@@ -44,6 +58,8 @@ export class GameEngine {
       parent: container,
       backgroundColor: '#1a1a1a',
       scene: [
+        // Use PremiumMainMenuScene as default for high-performance devices
+        isLowPerformance ? MainMenuScene : PremiumMainMenuScene,
         MainMenuScene,
         PremiumMainMenuScene, 
         GameScene, 
@@ -59,6 +75,13 @@ export class GameEngine {
           gravity: { x: 0, y: 0 },
           debug: false
         }
+      },
+      // Optimize rendering based on performance settings
+      render: {
+        pixelArt: false,
+        antialias: !isLowPerformance,
+        roundPixels: isLowPerformance,
+        powerPreference: isLowPerformance ? 'low-power' : 'high-performance'
       },
       scale: {
         mode: Phaser.Scale.RESIZE, // Use RESIZE mode for better responsiveness
@@ -82,13 +105,8 @@ export class GameEngine {
         mouse: true,
         smoothFactor: 0.2
       },
-      render: {
-        pixelArt: false,
-        antialias: true,
-        roundPixels: false,
-        transparent: false, // Ensure opaque background
-        clearBeforeRender: true // Clear canvas before each render
-      },
+      transparent: false, // Ensure opaque background
+      clearBeforeRender: true, // Clear canvas before each render
       disableContextMenu: true,
       canvasStyle: 'display: block; width: 100%; height: 100%;' // Ensure canvas takes full container size
     };
@@ -100,9 +118,13 @@ export class GameEngine {
       // Add resize handler
       window.addEventListener('resize', this.handleResize.bind(this));
       
-      // Start with main menu scene
-      console.log('[GameEngine] Starting MainMenuScene');
-      this.game.scene.start('MainMenuScene');
+      // Start with the appropriate menu scene based on performance
+      const performanceManager = PerformanceManager.getInstance();
+      const isLowPerformance = performanceManager.isLowPerformanceDevice();
+      
+      const menuScene = isLowPerformance ? 'MainMenuScene' : 'PremiumMainMenuScene';
+      console.log(`[GameEngine] Starting ${menuScene}`);
+      this.game.scene.start(menuScene);
     } catch (error) {
       console.error('[GameEngine] Error initializing game:', error);
     }
@@ -127,11 +149,67 @@ export class GameEngine {
       console.log('[GameEngine] Destroying game instance');
       this.game.destroy(true);
       this.game = null;
+      
+      // Clear card art cache to free memory
+      CardArtLoader.getInstance().clearCache();
     }
   }
 
   public getGame(): Phaser.Game | null {
     return this.game;
+  }
+  
+  /**
+   * Preload card art in the background
+   */
+  private preloadCardArt(): void {
+    // Import cards data
+    import('../data/cards').then(({ KONIVRER_CARDS }) => {
+      // Preload first 20 cards for faster initial loading
+      const initialCards = KONIVRER_CARDS.slice(0, 20);
+      console.log(`[GameEngine] Preloading ${initialCards.length} card images...`);
+      
+      CardArtLoader.getInstance().preloadCards(initialCards)
+        .then(() => {
+          console.log('[GameEngine] Initial card preloading complete');
+          
+          // Continue loading the rest in the background
+          setTimeout(() => {
+            const remainingCards = KONIVRER_CARDS.slice(20);
+            console.log(`[GameEngine] Preloading ${remainingCards.length} remaining card images in background...`);
+            CardArtLoader.getInstance().preloadCards(remainingCards);
+          }, 5000);
+        })
+        .catch(error => {
+          console.error('[GameEngine] Error preloading card images:', error);
+        });
+    });
+  }
+  
+  /**
+   * Initialize deck manager with sample decks
+   */
+  private initializeDeckManager(): void {
+    // Get deck manager instance
+    const deckManager = DeckManager.getInstance();
+    
+    // Check if there are any existing decks
+    const existingDecks = deckManager.getLocalDecks();
+    
+    // If no decks exist, create sample decks
+    if (existingDecks.length === 0) {
+      console.log('[GameEngine] No existing decks found, creating sample decks...');
+      const sampleDecks = deckManager.generateSampleDecks();
+      
+      // Save sample decks to local storage
+      sampleDecks.forEach(deck => {
+        deckManager.saveDeck(deck);
+      });
+      
+      console.log(`[GameEngine] Created ${sampleDecks.length} sample decks`);
+    } else {
+      console.log(`[GameEngine] Found ${existingDecks.length} existing decks`);
+    }
   }
 }
 
