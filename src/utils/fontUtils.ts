@@ -108,9 +108,6 @@ export function applyFontFamily(fontType: string): string {
   let fontFamily = '';
   
   switch (fontType) {
-    case 'opendyslexic':
-      fontFamily = '"OpenDyslexic", "Comic Sans MS", "Chalkboard SE", cursive, sans-serif';
-      break;
     case 'arial':
       fontFamily = 'Arial, "Helvetica Neue", Helvetica, sans-serif';
       break;
