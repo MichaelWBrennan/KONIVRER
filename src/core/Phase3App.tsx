@@ -20,6 +20,7 @@ import ButtonTester from '../utils/buttonTester';
 import SecurityTester from '../utils/securityTester';
 import { AdvancedSecurityProvider, withAdvancedSecurity } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
+import { GameContainer } from '../game/components/GameContainer';
 
 // Types
 interface Card {
@@ -53,9 +54,11 @@ const AppContext = createContext<{
   setBookmarks: (bookmarks: string[]) => void;
   showLoginModal: boolean;
   setShowLoginModal: (show: boolean) => void;
+  setShowGame: (show: boolean) => void;
 }>({
   user: null, setUser: () => {}, decks: [], setDecks: () => {},
-  bookmarks: [], setBookmarks: () => {}, showLoginModal: false, setShowLoginModal: () => {}
+  bookmarks: [], setBookmarks: () => {}, showLoginModal: false, setShowLoginModal: () => {},
+  setShowGame: () => {}
 });
 
 // Phase 3: Advanced Autonomous Systems Hook
@@ -711,7 +714,7 @@ const EventsPage = () => (
 );
 
 const PlayPage = () => {
-  const { user, setShowLoginModal } = useContext(AppContext);
+  const { user, setShowLoginModal, setShowGame } = useContext(AppContext);
   const [selectedGameMode, setSelectedGameMode] = useState<string | null>(null);
   const [gameStarted, setGameStarted] = useState(false);
 
@@ -754,18 +757,13 @@ const PlayPage = () => {
     setSelectedGameMode(mode);
     setGameStarted(true);
     
-    // Get the game mode details
-    const gameMode = gameModes.find(m => m.id === mode);
+    // Show the integrated Phaser game
+    setShowGame(true);
     
-    // Redirect to the actual KONIVRER game
-    // TODO: Replace with actual game URL when available
-    const gameUrl = 'https://konivrer.com/play'; // Placeholder URL
-    
-    // Open game in new tab
-    window.open(gameUrl, '_blank', 'noopener,noreferrer');
-    
-    // Reset the game started state
-    setGameStarted(false);
+    // Reset the game started state after a brief delay
+    setTimeout(() => {
+      setGameStarted(false);
+    }, 500);
   };
 
   if (gameStarted) {
@@ -1077,6 +1075,7 @@ const Phase3App = () => {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showGame, setShowGame] = useState(false);
   
   // Initialize autonomous systems
   const autonomousSystems = useAdvancedAutonomous();
@@ -1103,7 +1102,8 @@ const Phase3App = () => {
     user, setUser,
     decks, setDecks,
     bookmarks, setBookmarks,
-    showLoginModal, setShowLoginModal
+    showLoginModal, setShowLoginModal,
+    setShowGame
   };
   
   return (
@@ -1148,6 +1148,11 @@ const Phase3App = () => {
             </>
           )}
         </AppContainer>
+        
+        {/* Game Container */}
+        {showGame && (
+          <GameContainer onClose={() => setShowGame(false)} />
+        )}
       </AdvancedSecurityProvider>
     </SelfHealingProvider>
   );

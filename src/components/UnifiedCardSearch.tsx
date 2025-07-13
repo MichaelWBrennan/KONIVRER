@@ -793,17 +793,22 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
           case 'cost':
           case 'c':
             if (value.startsWith('>=')) {
-              tempFilters.cost = { operator: '>=', value: value.slice(2) };
+              const numValue = value.slice(2);
+              tempFilters.cost = { operator: '>=', value: numValue, numericValue: numValue };
             } else if (value.startsWith('<=')) {
-              tempFilters.cost = { operator: '<=', value: value.slice(2) };
+              const numValue = value.slice(2);
+              tempFilters.cost = { operator: '<=', value: numValue, numericValue: numValue };
             } else if (value.startsWith('>')) {
-              tempFilters.cost = { operator: '>', value: value.slice(1) };
+              const numValue = value.slice(1);
+              tempFilters.cost = { operator: '>', value: numValue, numericValue: numValue };
             } else if (value.startsWith('<')) {
-              tempFilters.cost = { operator: '<', value: value.slice(1) };
+              const numValue = value.slice(1);
+              tempFilters.cost = { operator: '<', value: numValue, numericValue: numValue };
             } else if (value.startsWith('!')) {
-              tempFilters.cost = { operator: '!', value: value.slice(1) };
+              const numValue = value.slice(1);
+              tempFilters.cost = { operator: '!', value: numValue, numericValue: numValue };
             } else {
-              tempFilters.cost = { operator: '=', value };
+              tempFilters.cost = { operator: '=', value, numericValue: value };
             }
             break;
           case 'element':
