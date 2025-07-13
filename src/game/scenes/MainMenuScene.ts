@@ -16,6 +16,8 @@ declare global {
       isLoggedIn: boolean;
       showLoginModal: () => void;
     };
+    KONIVRER_ACCESSIBILITY_CLICKED?: () => void;
+    KONIVRER_CURRENT_SCENE?: string;
   }
 }
 
@@ -30,6 +32,9 @@ export class MainMenuScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Set current scene in window object
+    window.KONIVRER_CURRENT_SCENE = 'MainMenuScene';
+    
     const { width, height } = this.cameras.main;
 
     // Background
@@ -365,6 +370,36 @@ export class MainMenuScene extends Phaser.Scene {
       if (window.setShowGame) {
         window.setShowGame(false);
       }
+    });
+    
+    // Accessibility Button
+    const accessibilityButton = this.add.rectangle(width - 150, 30, 120, 30, 0x3498db);
+    accessibilityButton.setInteractive({ cursor: 'pointer' });
+    
+    const accessibilityText = this.add.text(width - 150, 30, '♿ Accessibility', {
+      fontSize: '14px',
+      color: '#ffffff'
+    }).setOrigin(0.5);
+
+    accessibilityButton.on('pointerdown', () => {
+      // Store the current scene state
+      const currentSceneData = this.scene.settings.data;
+      
+      // Show accessibility options dialog
+      alert('Accessibility options coming soon!');
+      
+      // Signal to the GameContainer that the accessibility button was clicked
+      if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
+        window.KONIVRER_ACCESSIBILITY_CLICKED();
+      }
+    });
+    
+    // Hover effects for accessibility button
+    accessibilityButton.on('pointerover', () => {
+      accessibilityButton.setFillStyle(0x2980b9);
+    });
+    accessibilityButton.on('pointerout', () => {
+      accessibilityButton.setFillStyle(0x3498db);
     });
   }
 }

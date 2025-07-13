@@ -13,6 +13,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
   const [isLandscape, setIsLandscape] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
   const [showOrientationPrompt, setShowOrientationPrompt] = React.useState(false);
+  const [currentScene, setCurrentScene] = React.useState<string | undefined>(undefined);
+  const [showAccessibilityButton, setShowAccessibilityButton] = React.useState(true);
 
   // Check if device is mobile and set orientation state
   useEffect(() => {
@@ -27,6 +29,11 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
       
       // Show orientation prompt only on mobile in portrait mode
       setShowOrientationPrompt(mobileCheck && !isLandscapeOrientation);
+      
+      // Update accessibility button visibility
+      // Hide when in landscape mode on mobile or when in main menu
+      const inMainMenu = window.KONIVRER_CURRENT_SCENE === 'MainMenuScene';
+      setShowAccessibilityButton(!inMainMenu && !(mobileCheck && isLandscapeOrientation));
     };
     
     checkMobileAndOrientation();
@@ -35,11 +42,22 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
     window.addEventListener('resize', checkMobileAndOrientation);
     window.addEventListener('orientationchange', checkMobileAndOrientation);
     
+    // Set up an interval to check the current scene
+    const sceneCheckInterval = setInterval(() => {
+      const currentScene = window.KONIVRER_CURRENT_SCENE;
+      setCurrentScene(currentScene);
+      
+      // Update accessibility button visibility based on current scene
+      const inMainMenu = currentScene === 'MainMenuScene';
+      setShowAccessibilityButton(!inMainMenu && !(isMobile && isLandscape));
+    }, 500);
+    
     return () => {
       window.removeEventListener('resize', checkMobileAndOrientation);
       window.removeEventListener('orientationchange', checkMobileAndOrientation);
+      clearInterval(sceneCheckInterval);
     };
-  }, []);
+  }, [isMobile, isLandscape]);
 
   useEffect(() => {
     // Only initialize game if not on mobile or if on mobile and in landscape mode
@@ -91,8 +109,30 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
         if (window.setShowGame) {
           delete window.setShowGame;
         }
+        if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
+          delete window.KONIVRER_ACCESSIBILITY_CLICKED;
+        }
+        if (window.KONIVRER_CURRENT_SCENE) {
+          delete window.KONIVRER_CURRENT_SCENE;
+        }
       } catch (error) {
         console.error('[GameContainer] Error destroying game engine:', error);
+      }
+    };
+  }, []);
+  
+  // Set up accessibility click handler
+  useEffect(() => {
+    // Define the accessibility click handler
+    window.KONIVRER_ACCESSIBILITY_CLICKED = () => {
+      console.log('[GameContainer] Accessibility button clicked in game menu');
+      // This function will be called when the accessibility button in the game menu is clicked
+      // We can use this to sync state between the game menu and the floating button
+    };
+    
+    return () => {
+      if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
+        delete window.KONIVRER_ACCESSIBILITY_CLICKED;
       }
     };
   }, []);
@@ -109,31 +149,39 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
       overflow: 'hidden',
       background: '#1a1a1a'
     }}>
-      {/* Accessibility button - positioned at bottom left */}
-      <button
-        onClick={() => alert('Accessibility options coming soon!')}
-        className="touch-button"
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '20px',
-          zIndex: 1001,
-          fontSize: '14px',
-          padding: '8px 16px',
-          background: '#3498db',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-        aria-label="Accessibility Options"
-      >
-        <span role="img" aria-label="Accessibility" style={{ marginRight: '5px' }}>♿</span>
-        Accessibility
-      </button>
+      {/* Floating Accessibility button - only shown when not in main menu or when in portrait mode on mobile */}
+      {showAccessibilityButton && (
+        <button
+          onClick={() => {
+            alert('Accessibility options coming soon!');
+            // Call the same function that the in-game button would call
+            if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
+              window.KONIVRER_ACCESSIBILITY_CLICKED();
+            }
+          }}
+          className="touch-button"
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '20px',
+            zIndex: 1001,
+            fontSize: '14px',
+            padding: '8px 16px',
+            background: '#3498db',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          aria-label="Accessibility Options"
+        >
+          <span role="img" aria-label="Accessibility" style={{ marginRight: '5px' }}>♿</span>
+          Accessibility
+        </button>
+      )}
       
       {/* Orientation prompt for mobile devices */}
       {showOrientationPrompt && (
