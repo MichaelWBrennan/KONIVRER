@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { applyFontFamily, logFontStatus, waitForFontsToLoad } from '../utils/fontUtils';
 
 export interface AccessibilitySettings {
   fontFamily: 'default' | 'opendyslexic' | 'arial' | 'comic-sans';
@@ -41,22 +42,8 @@ export const useAccessibilitySettings = () => {
         }
       }
 
-      // Apply font family
-      let fontFamily = '';
-      switch (settings.fontFamily) {
-        case 'opendyslexic':
-          fontFamily = '"OpenDyslexic", sans-serif';
-          break;
-        case 'arial':
-          fontFamily = 'Arial, sans-serif';
-          break;
-        case 'comic-sans':
-          fontFamily = '"Comic Sans MS", cursive';
-          break;
-        default:
-          fontFamily = '"OpenDyslexic", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif';
-      }
-      document.documentElement.style.setProperty('--font-family', fontFamily);
+      // Apply font family using utility function
+      applyFontFamily(settings.fontFamily);
 
       // Apply font size
       let fontSize = '';
@@ -176,6 +163,10 @@ export const useAccessibilitySettings = () => {
       console.log('Accessibility settings loaded and applied:', settings);
     };
 
-    loadSettings();
+    // Wait for fonts to load, then apply settings
+    waitForFontsToLoad(3000).then(() => {
+      logFontStatus();
+      loadSettings();
+    });
   }, []);
 };

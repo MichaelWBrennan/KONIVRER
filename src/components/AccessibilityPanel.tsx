@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { applyFontFamily, logFontStatus, waitForFontsToLoad } from '../utils/fontUtils';
 
 // Define accessibility settings interface
 export interface AccessibilitySettings {
@@ -51,27 +52,20 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
   const [settings, setSettings] = useState<AccessibilitySettings>(getInitialSettings);
   const [activeTab, setActiveTab] = useState<'text' | 'visual' | 'motion' | 'cognitive'>('text');
 
+  // Check font loading status on mount
+  useEffect(() => {
+    waitForFontsToLoad(3000).then(() => {
+      logFontStatus();
+    });
+  }, []);
+
   // Apply settings to document when they change
   useEffect(() => {
     // Save settings to localStorage
     localStorage.setItem('accessibility-settings', JSON.stringify(settings));
 
-    // Apply font family
-    let fontFamily = '';
-    switch (settings.fontFamily) {
-      case 'opendyslexic':
-        fontFamily = '"OpenDyslexic", sans-serif';
-        break;
-      case 'arial':
-        fontFamily = 'Arial, sans-serif';
-        break;
-      case 'comic-sans':
-        fontFamily = '"Comic Sans MS", cursive';
-        break;
-      default:
-        fontFamily = '"OpenDyslexic", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif';
-    }
-    document.documentElement.style.setProperty('--font-family', fontFamily);
+    // Apply font family using utility function
+    applyFontFamily(settings.fontFamily);
 
     // Apply font size
     let fontSize = '';
