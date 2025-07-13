@@ -26,16 +26,16 @@ interface SearchResult {
 // Simple component to display when no search results
 const NoSearchResults = () => (
   <div style={{
-    marginTop: '30px',
+    marginTop: '20px',
     textAlign: 'center',
     color: '#ccc',
-    padding: '20px',
-    background: 'rgba(0, 0, 0, 0.2)',
-    borderRadius: '8px'
+    padding: '15px',
+    background: 'rgba(0, 0, 0, 0.1)',
+    borderRadius: '8px',
+    fontSize: '14px'
   }}>
-    <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>Welcome to the Card Database</h3>
-    <p>Use the search above to find cards by name, type, cost, and more.</p>
-    <p style={{ marginTop: '15px', fontSize: '14px' }}>Try examples like: <span style={{ color: '#d4af37' }}>type:familiar</span> or <span style={{ color: '#d4af37' }}>cost:&gt;=3</span></p>
+    <p>No cards found matching your search criteria.</p>
+    <p style={{ marginTop: '10px', fontSize: '12px', opacity: 0.8 }}>Try adjusting your filters or search terms.</p>
   </div>
 );
 
@@ -145,8 +145,8 @@ const SimpleCardsPage: React.FC = () => {
         placeholder={isMobile ? "Search cards..." : "Search cards... (try: name:fire, cost:>=3, type:familiar)"}
       />
       
-      {/* Show welcome message if no search has been performed */}
-      {searchResults.totalCount === 0 && searchResults.searchTime === 0 && (
+      {/* Show no results message only when search was performed but no results found */}
+      {searchResults.totalCount === 0 && searchResults.searchTime > 0 && (
         <NoSearchResults />
       )}
       

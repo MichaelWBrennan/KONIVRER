@@ -55,6 +55,7 @@ export interface SearchFilters {
   cost: {
     operator: '=' | '<' | '>' | '<=' | '>=' | '!';
     value: string;
+    numericValue: string;
   };
   strength: {
     operator: '=' | '<' | '>' | '<=' | '>=' | '!';
@@ -311,8 +312,8 @@ class UnifiedSearchEngine {
     }
 
     // Cost filter
-    if (filters.cost.value.trim()) {
-      const costValue = parseInt(filters.cost.value);
+    if (filters.cost.numericValue && filters.cost.numericValue.trim()) {
+      const costValue = parseInt(filters.cost.numericValue);
       if (!isNaN(costValue)) {
         results = results.filter(card => {
           switch (filters.cost.operator) {
@@ -653,7 +654,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       generic: false
     },
     elementMode: 'exactly',
-    cost: { operator: '=', value: '' },
+    cost: { operator: '=', value: '', numericValue: '' },
     strength: { operator: '=', value: '' },
     rarity: {
       common: false,
@@ -901,7 +902,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
         generic: false
       },
       elementMode: 'exactly',
-      cost: { operator: '=', value: '' },
+      cost: { operator: '=', value: '', numericValue: '' },
       strength: { operator: '=', value: '' },
       rarity: {
         common: false,
@@ -1134,24 +1135,19 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
               {/* Type Line Filter */}
               <div className="filter-group">
-                <label className="section-title">TYPE LINE</label>
-                <input
-                  type="text"
+                <label className="section-title">CARD TYPE</label>
+                <select
                   value={filters.type}
                   onChange={(e) => updateFilter('type', e.target.value)}
-                  placeholder="Enter a type or choose from the"
-                  className="search-input"
-                />
-                <label className="checkbox-label">
-                  <input
-                    type="checkbox"
-                    checked={filters.allowPartialTypeMatches || false}
-                    onChange={(e) => updateFilter('allowPartialTypeMatches', e.target.checked)}
-                  />
-                  <span>Allow partial type matches</span>
-                </label>
+                  className="search-select"
+                >
+                  <option value="">All Types</option>
+                  {CARD_TYPES.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
                 <div className="filter-description">
-                  Choose any card type, supertype, or subtype to match. Click the "IS" or "NOT" button to toggle between including and excluding a type.
+                  Filter cards by their type (Familiar or Flag).
                 </div>
               </div>
 
@@ -1224,19 +1220,31 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
               {/* Mana Cost Section */}
               <div className="filter-group">
-                <label className="section-title">COST</label>
-                <textarea
-                  className="cost-input"
-                  value={filters.cost.value}
-                  onChange={(e) => updateFilter('cost.value', e.target.value)}
-                  placeholder='Any mana symbols, e.g. "{B}{H}"'
-                  rows={2}
-                />
-                <button className="add-symbol-btn" type="button">
-                  + Add symbol
-                </button>
+                <label className="section-title">MANA COST</label>
+                <div className="cost-filter">
+                  <select
+                    value={filters.cost.operator || '='}
+                    onChange={(e) => updateFilter('cost.operator', e.target.value)}
+                    className="cost-operator"
+                  >
+                    <option value="=">=</option>
+                    <option value="<">&lt;</option>
+                    <option value="<=">&lt;=</option>
+                    <option value=">">&gt;</option>
+                    <option value=">=">&gt;=</option>
+                  </select>
+                  <input
+                    type="number"
+                    value={filters.cost.numericValue || ''}
+                    onChange={(e) => updateFilter('cost.numericValue', e.target.value)}
+                    placeholder="Cost"
+                    min="0"
+                    max="20"
+                    className="cost-number"
+                  />
+                </div>
                 <div className="filter-description">
-                  Find cards with this exact cost.
+                  Filter cards by their mana cost value.
                 </div>
               </div>
 
@@ -1265,35 +1273,28 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               {/* Rarity Section */}
               <div className="filter-group">
                 <label className="section-title">RARITY</label>
-                <label className="section-subtitle">DESIRED RARITIES</label>
-                <div className="rarity-checkboxes">
-                  <label className="rarity-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={filters.rarity.common}
-                      onChange={(e) => updateFilter('rarity.common', e.target.checked)}
-                    />
-                    Common
-                  </label>
-                  <label className="rarity-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={filters.rarity.uncommon}
-                      onChange={(e) => updateFilter('rarity.uncommon', e.target.checked)}
-                    />
-                    Uncommon
-                  </label>
-                  <label className="rarity-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={filters.rarity.rare}
-                      onChange={(e) => updateFilter('rarity.rare', e.target.checked)}
-                    />
-                    Rare
-                  </label>
+                <div className="rarity-selector">
+                  <select
+                    multiple
+                    value={Object.entries(filters.rarity)
+                      .filter(([_, selected]) => selected)
+                      .map(([rarity, _]) => rarity)}
+                    onChange={(e) => {
+                      const selectedRarities = Array.from(e.target.selectedOptions, option => option.value);
+                      updateFilter('rarity.common', selectedRarities.includes('common'));
+                      updateFilter('rarity.uncommon', selectedRarities.includes('uncommon'));
+                      updateFilter('rarity.rare', selectedRarities.includes('rare'));
+                    }}
+                    className="rarity-multiselect"
+                    size={3}
+                  >
+                    <option value="common">Common</option>
+                    <option value="uncommon">Uncommon</option>
+                    <option value="rare">Rare</option>
+                  </select>
                 </div>
                 <div className="filter-description">
-                  Only return cards of the selected rarities.
+                  Hold Ctrl/Cmd to select multiple rarities. Leave empty for all rarities.
                 </div>
               </div>
 
@@ -1327,20 +1328,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
 
 
-              {/* Rare Checkbox */}
-              <div className="filter-group">
-                <label className="rare-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={preferences.onlySelectedRarities}
-                    onChange={(e) => setPreferences(prev => ({ ...prev, onlySelectedRarities: e.target.checked }))}
-                  />
-                  Rare
-                </label>
-                <div className="filter-description">
-                  Only return cards of the selected rarities.
-                </div>
-              </div>
+
 
               {/* Criteria Section */}
               <div className="filter-group">
