@@ -4,9 +4,9 @@ import { applyFontFamily, logFontStatus, waitForFontsToLoad } from '../utils/fon
 
 // Define accessibility settings interface
 export interface AccessibilitySettings {
-  fontFamily: 'default' | 'opendyslexic' | 'arial' | 'comic-sans';
+  fontFamily: 'default' | 'arial' | 'comic-sans';
   fontSize: 'small' | 'medium' | 'large' | 'x-large';
-  contrast: 'default' | 'high-contrast' | 'dark' | 'light';
+  contrast: 'default' | 'high-contrast' | 'light';
   animations: 'default' | 'reduced' | 'none';
   lineSpacing: 'default' | 'increased' | 'double';
   letterSpacing: 'default' | 'increased' | 'wide';
@@ -96,11 +96,6 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
         bgColor = '#000000';
         textColor = '#ffffff';
         accentColor = '#ffff00';
-        break;
-      case 'dark':
-        bgColor = '#121212';
-        textColor = '#ffffff';
-        accentColor = '#d4af37';
         break;
       case 'light':
         bgColor = '#ffffff';
@@ -312,7 +307,6 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
                         {[
                           { id: 'default', label: 'Default' },
-                          { id: 'opendyslexic', label: 'OpenDyslexic' },
                           { id: 'arial', label: 'Arial' },
                           { id: 'comic-sans', label: 'Comic Sans' }
                         ].map(font => (
@@ -327,8 +321,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                               background: settings.fontFamily === font.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
                               color: 'var(--text-color, white)',
                               cursor: 'pointer',
-                              fontFamily: font.id === 'opendyslexic' ? 'OpenDyslexic, sans-serif' : 
-                                         font.id === 'arial' ? 'Arial, sans-serif' : 
+                              fontFamily: font.id === 'arial' ? 'Arial, sans-serif' : 
                                          font.id === 'comic-sans' ? '"Comic Sans MS", cursive' : 'inherit'
                             }}
                           >
@@ -446,7 +439,6 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                         {[
                           { id: 'default', label: 'Default' },
                           { id: 'high-contrast', label: 'High Contrast' },
-                          { id: 'dark', label: 'Dark' },
                           { id: 'light', label: 'Light' }
                         ].map(contrast => (
                           <button

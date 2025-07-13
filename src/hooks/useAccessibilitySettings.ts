@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { applyFontFamily, logFontStatus, waitForFontsToLoad } from '../utils/fontUtils';
 
 export interface AccessibilitySettings {
-  fontFamily: 'default' | 'opendyslexic' | 'arial' | 'comic-sans';
+  fontFamily: 'default' | 'arial' | 'comic-sans';
   fontSize: 'small' | 'medium' | 'large' | 'x-large';
-  contrast: 'default' | 'high-contrast' | 'dark' | 'light';
+  contrast: 'default' | 'high-contrast' | 'light';
   animations: 'default' | 'reduced' | 'none';
   lineSpacing: 'default' | 'increased' | 'double';
   letterSpacing: 'default' | 'increased' | 'wide';
@@ -74,11 +74,6 @@ export const useAccessibilitySettings = () => {
           bgColor = '#000000';
           textColor = '#ffffff';
           accentColor = '#ffff00';
-          break;
-        case 'dark':
-          bgColor = '#121212';
-          textColor = '#ffffff';
-          accentColor = '#d4af37';
           break;
         case 'light':
           bgColor = '#ffffff';
