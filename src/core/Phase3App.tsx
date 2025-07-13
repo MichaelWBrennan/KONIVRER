@@ -13,6 +13,8 @@ import SimpleCardsPage from '../components/SimpleCardsPage';
 import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
+import ColorBlindFilters from '../components/ColorBlindFilters';
+import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
 import { KONIVRER_CARDS } from '../data/cards';
 import ButtonTester from '../utils/buttonTester';
 import SecurityTester from '../utils/securityTester';
@@ -1093,6 +1095,9 @@ const PlayPage = () => {
 
 // Main App Component
 const Phase3App = () => {
+  // Initialize accessibility settings on app start
+  useAccessibilitySettings();
+  
   // App state
   const [user, setUser] = useState<User | null>(null);
   const [decks, setDecks] = useState<Deck[]>([
@@ -1147,6 +1152,7 @@ const Phase3App = () => {
         showSecurityMonitor={process.env.NODE_ENV === 'development'}
       >
         <AppContainer>
+          <ColorBlindFilters />
           <Router>
             <AppContext.Provider value={contextValue}>
               <LoginModal />
