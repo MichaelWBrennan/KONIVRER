@@ -19,21 +19,52 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
   // Check if device is mobile and set orientation state
   useEffect(() => {
     const checkMobileAndOrientation = () => {
-      // Check if device is mobile
-      const mobileCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      setIsMobile(mobileCheck);
+      // Get screen dimensions
+      const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+      const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      
+      // Check if device is mobile (excluding tablets)
+      const userAgent = navigator.userAgent;
+      
+      // Detect if it's a tablet or large device
+      const isTablet = /iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent) || 
+                       (Math.min(screenWidth, screenHeight) >= 600); // Common tablet minimum width
+      
+      // Detect if it's a phone
+      const isPhone = /iPhone|Android.*Mobile|Mobile/i.test(userAgent) && !isTablet;
+      
+      // Set mobile state (only true for phones, not tablets)
+      setIsMobile(isPhone);
       
       // Check orientation
       const isLandscapeOrientation = window.matchMedia("(orientation: landscape)").matches;
       setIsLandscape(isLandscapeOrientation);
       
-      // Show orientation prompt only on mobile in portrait mode
-      setShowOrientationPrompt(mobileCheck && !isLandscapeOrientation);
+      // Calculate aspect ratio
+      const aspectRatio = screenWidth / screenHeight;
+      
+      // Determine if the device needs rotation
+      // Only show prompt for phones in portrait mode with limited vertical space
+      const needsRotation = isPhone && 
+                           !isLandscapeOrientation && 
+                           aspectRatio < 0.7 && // Portrait aspect ratio
+                           screenHeight < 900;  // Not a foldable in expanded mode or tall device
+      
+      setShowOrientationPrompt(needsRotation);
       
       // Update accessibility button visibility
       // Hide when in landscape mode on mobile or when in main menu
       const inMainMenu = window.KONIVRER_CURRENT_SCENE === 'MainMenuScene';
-      setShowAccessibilityButton(!inMainMenu && !(mobileCheck && isLandscapeOrientation));
+      setShowAccessibilityButton(!inMainMenu && !(isPhone && isLandscapeOrientation));
+      
+      // Log for debugging
+      console.log(`[GameContainer] Device detection: 
+        isPhone: ${isPhone}, 
+        isTablet: ${isTablet}, 
+        isLandscape: ${isLandscapeOrientation}, 
+        screenSize: ${screenWidth}x${screenHeight}, 
+        aspectRatio: ${aspectRatio.toFixed(2)}, 
+        needsRotation: ${needsRotation}`);
     };
     
     checkMobileAndOrientation();
@@ -60,8 +91,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
   }, [isMobile, isLandscape]);
 
   useEffect(() => {
-    // Only initialize game if not on mobile or if on mobile and in landscape mode
-    if (!isMobile || (isMobile && isLandscape)) {
+    // Only initialize game if orientation prompt is not showing
+    // This means we're either on desktop/tablet or on a phone in landscape mode
+    if (!showOrientationPrompt) {
       // Small delay to ensure DOM is fully rendered
       const initTimer = setTimeout(() => {
         if (gameRef.current && !gameInitializedRef.current) {
@@ -87,7 +119,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
         clearTimeout(initTimer);
       };
     } else if (gameInitializedRef.current) {
-      // Destroy game if orientation changes to portrait on mobile
+      // Destroy game if orientation prompt is now showing
       try {
         console.log('[GameContainer] Destroying game engine due to orientation change...');
         gameEngine.destroy();
@@ -96,7 +128,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
         console.error('[GameContainer] Error destroying game engine:', error);
       }
     }
-  }, [setShowGame, isMobile, isLandscape]);
+  }, [setShowGame, showOrientationPrompt]);
 
   // Cleanup on unmount
   useEffect(() => {
