@@ -40,41 +40,8 @@ interface BlogPost {
   id: string; title: string; content: string; author: string; date: string; tags: string[];
 }
 
-// Sample blog data
-const BLOG_POSTS: BlogPost[] = [
-  {
-    id: 'b1',
-    title: 'Mastering Fire Decks',
-    content: 'Fire decks are all about speed and aggression. Focus on low-cost creatures and direct damage spells to overwhelm your opponents before they can establish their defenses. Key strategies include maintaining card advantage through efficient trades and timing your burst damage for maximum impact.',
-    author: 'CardMaster',
-    date: '2024-01-15',
-    tags: ['Strategy', 'Fire']
-  },
-  {
-    id: 'b2',
-    title: 'Event Report: Winter Championship',
-    content: 'Last weekend\'s championship was intense with over 200 participants competing for the mystical crown. The meta saw a surprising rise in water-control decks, with three making it to the top 8. The final match between ElementalMage and FrostWarden was a masterclass in strategic play.',
-    author: 'ProPlayer',
-    date: '2024-01-10',
-    tags: ['Events', 'Report']
-  },
-  {
-    id: 'b3',
-    title: 'New Card Reveals: Elemental Fusion',
-    content: 'Exciting new cards coming in the next expansion! The Elemental Fusion set introduces dual-element familiars and powerful combination spells. Preview includes the legendary Phoenix Drake and the game-changing Elemental Convergence spell that could reshape the meta.',
-    author: 'DevTeam',
-    date: '2024-01-05',
-    tags: ['News', 'Cards']
-  },
-  {
-    id: 'b4',
-    title: 'Deck Building Guide: Earth Control',
-    content: 'Earth decks excel at controlling the battlefield through defensive familiars and resource management. Learn how to build a competitive earth deck that can withstand aggressive strategies while setting up powerful late-game threats.',
-    author: 'StrategyGuru',
-    date: '2024-01-03',
-    tags: ['Strategy', 'Earth', 'Guide']
-  }
-];
+// Blog data - will be loaded from API or CMS
+const BLOG_POSTS: BlogPost[] = [];
 
 // App Context for state management
 const AppContext = createContext<{
@@ -787,11 +754,18 @@ const PlayPage = () => {
     setSelectedGameMode(mode);
     setGameStarted(true);
     
-    // Simulate game initialization
-    setTimeout(() => {
-      alert(`Starting ${gameModes.find(m => m.id === mode)?.title}! Game would launch here.`);
-      setGameStarted(false);
-    }, 2000);
+    // Get the game mode details
+    const gameMode = gameModes.find(m => m.id === mode);
+    
+    // Redirect to the actual KONIVRER game
+    // TODO: Replace with actual game URL when available
+    const gameUrl = 'https://konivrer.com/play'; // Placeholder URL
+    
+    // Open game in new tab
+    window.open(gameUrl, '_blank', 'noopener,noreferrer');
+    
+    // Reset the game started state
+    setGameStarted(false);
   };
 
   if (gameStarted) {
@@ -1100,11 +1074,7 @@ const Phase3App = () => {
   
   // App state
   const [user, setUser] = useState<User | null>(null);
-  const [decks, setDecks] = useState<Deck[]>([
-    { id: 1, name: 'Fire Aggro', cards: ['c1', 'c2', 'c3', 'c4', 'c5'], description: 'Fast-paced aggressive fire deck' },
-    { id: 2, name: 'Water Control', cards: ['c6', 'c7', 'c8', 'c9'], description: 'Defensive water control strategy' },
-    { id: 3, name: 'Earth Midrange', cards: ['c10', 'c11', 'c12', 'c13', 'c14', 'c15'], description: 'Balanced earth deck with strong midgame' }
-  ]);
+  const [decks, setDecks] = useState<Deck[]>([]);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
   
