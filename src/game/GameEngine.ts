@@ -4,6 +4,9 @@ import { GameScene } from './scenes/GameScene';
 import { CardBattleScene } from './scenes/CardBattleScene';
 import { EnhancedCardBattleScene } from './scenes/EnhancedCardBattleScene';
 import { DeckBuilderScene } from './scenes/DeckBuilderScene';
+import { PremiumCardBattleScene } from './scenes/PremiumCardBattleScene';
+import { MobileDeckBuilderScene } from './scenes/MobileDeckBuilderScene';
+import { PremiumMainMenuScene } from './scenes/PremiumMainMenuScene';
 
 export class GameEngine {
   private game: Phaser.Game | null = null;
@@ -22,7 +25,16 @@ export class GameEngine {
       height: 800,
       parent: container,
       backgroundColor: '#1a1a1a',
-      scene: [MainMenuScene, GameScene, CardBattleScene, EnhancedCardBattleScene, DeckBuilderScene],
+      scene: [
+        PremiumMainMenuScene, 
+        MainMenuScene, 
+        GameScene, 
+        CardBattleScene, 
+        EnhancedCardBattleScene, 
+        DeckBuilderScene,
+        PremiumCardBattleScene,
+        MobileDeckBuilderScene
+      ],
       physics: {
         default: 'arcade',
         arcade: {
@@ -41,10 +53,21 @@ export class GameEngine {
           width: 1600,
           height: 1200
         }
+      },
+      dom: {
+        createContainer: true
+      },
+      input: {
+        touch: true,
+        mouse: true,
+        smoothFactor: 0.2
       }
     };
 
     this.game = new Phaser.Game(config);
+    
+    // Start with premium main menu
+    this.game.scene.start('PremiumMainMenuScene');
   }
 
   public destroy(): void {
