@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { MainMenuScene } from './scenes/MainMenuScene';
 import { GameScene } from './scenes/GameScene';
 import { CardBattleScene } from './scenes/CardBattleScene';
+import { EnhancedCardBattleScene } from './scenes/EnhancedCardBattleScene';
+import { DeckBuilderScene } from './scenes/DeckBuilderScene';
 
 export class GameEngine {
   private game: Phaser.Game | null = null;
@@ -20,7 +22,7 @@ export class GameEngine {
       height: 800,
       parent: container,
       backgroundColor: '#1a1a1a',
-      scene: [MainMenuScene, GameScene, CardBattleScene],
+      scene: [MainMenuScene, GameScene, CardBattleScene, EnhancedCardBattleScene, DeckBuilderScene],
       physics: {
         default: 'arcade',
         arcade: {

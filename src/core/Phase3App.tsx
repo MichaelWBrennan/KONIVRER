@@ -1151,7 +1151,10 @@ const Phase3App = () => {
         
         {/* Game Container */}
         {showGame && (
-          <GameContainer onClose={() => setShowGame(false)} />
+          <GameContainer 
+            onClose={() => setShowGame(false)} 
+            setShowGame={setShowGame}
+          />
         )}
       </AdvancedSecurityProvider>
     </SelfHealingProvider>
