@@ -772,14 +772,22 @@ const PlayPage = () => {
 
   // Render the game container directly
   return (
-    <PageContainer>
-      <div style={{ width: '100%', height: '100vh', position: 'relative' }}>
-        <GameContainer 
-          onClose={() => setShowGame(false)} 
-          setShowGame={setShowGame}
-        />
-      </div>
-    </PageContainer>
+    <div style={{ 
+      width: '100%', 
+      height: '100vh', 
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1000,
+      overflow: 'hidden'
+    }}>
+      <GameContainer 
+        onClose={() => setShowGame(false)} 
+        setShowGame={setShowGame}
+      />
+    </div>
   );
 };
 
