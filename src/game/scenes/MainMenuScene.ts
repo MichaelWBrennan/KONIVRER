@@ -1,5 +1,12 @@
 import Phaser from 'phaser';
 
+// Extend window interface for game integration
+declare global {
+  interface Window {
+    setShowGame?: (show: boolean) => void;
+  }
+}
+
 export class MainMenuScene extends Phaser.Scene {
   constructor() {
     super({ key: 'MainMenuScene' });
@@ -32,24 +39,36 @@ export class MainMenuScene extends Phaser.Scene {
     });
     subtitle.setOrigin(0.5);
 
-    // Play Button
-    const playButton = this.add.rectangle(width / 2, height / 2, 200, 60, 0x2a2a2a);
-    playButton.setStrokeStyle(2, 0xd4af37);
-    playButton.setInteractive({ useHandCursor: true });
+    // Enhanced Battle Button
+    const battleButton = this.add.rectangle(width / 2, height / 2 - 40, 200, 60, 0x2a2a2a);
+    battleButton.setStrokeStyle(2, 0xd4af37);
+    battleButton.setInteractive({ useHandCursor: true });
 
-    const playText = this.add.text(width / 2, height / 2, 'PLAY', {
+    const battleText = this.add.text(width / 2, height / 2 - 40, 'BATTLE', {
       fontSize: '24px',
       color: '#d4af37',
       fontFamily: 'Arial, sans-serif'
     });
-    playText.setOrigin(0.5);
+    battleText.setOrigin(0.5);
+
+    // Deck Builder Button
+    const deckBuilderButton = this.add.rectangle(width / 2, height / 2 + 40, 200, 60, 0x2a2a2a);
+    deckBuilderButton.setStrokeStyle(2, 0x4ecdc4);
+    deckBuilderButton.setInteractive({ useHandCursor: true });
+
+    const deckBuilderText = this.add.text(width / 2, height / 2 + 40, 'DECK BUILDER', {
+      fontSize: '20px',
+      color: '#4ecdc4',
+      fontFamily: 'Arial, sans-serif'
+    });
+    deckBuilderText.setOrigin(0.5);
 
     // Practice Button
-    const practiceButton = this.add.rectangle(width / 2, height / 2 + 80, 200, 60, 0x2a2a2a);
+    const practiceButton = this.add.rectangle(width / 2, height / 2 + 120, 200, 60, 0x2a2a2a);
     practiceButton.setStrokeStyle(2, 0x888888);
     practiceButton.setInteractive({ useHandCursor: true });
 
-    const practiceText = this.add.text(width / 2, height / 2 + 80, 'PRACTICE', {
+    const practiceText = this.add.text(width / 2, height / 2 + 120, 'PRACTICE', {
       fontSize: '20px',
       color: '#888888',
       fontFamily: 'Arial, sans-serif'
@@ -57,20 +76,46 @@ export class MainMenuScene extends Phaser.Scene {
     practiceText.setOrigin(0.5);
 
     // Button interactions
-    playButton.on('pointerdown', () => {
-      this.scene.start('GameScene', { mode: 'multiplayer' });
+    battleButton.on('pointerdown', () => {
+      this.scene.start('EnhancedCardBattleScene');
+    });
+
+    deckBuilderButton.on('pointerdown', () => {
+      this.scene.start('DeckBuilderScene');
     });
 
     practiceButton.on('pointerdown', () => {
-      this.scene.start('GameScene', { mode: 'practice' });
+      this.scene.start('CardBattleScene');
+    });
+
+    // Close Game Button
+    const closeButton = this.add.rectangle(width - 50, 50, 80, 30, 0xff6b6b);
+    closeButton.setInteractive({ cursor: 'pointer' });
+    
+    const closeText = this.add.text(width - 50, 50, 'Close', {
+      fontSize: '14px',
+      color: '#ffffff'
+    }).setOrigin(0.5);
+
+    closeButton.on('pointerdown', () => {
+      if (window.setShowGame) {
+        window.setShowGame(false);
+      }
     });
 
     // Hover effects
-    playButton.on('pointerover', () => {
-      playButton.setFillStyle(0x3a3a3a);
+    battleButton.on('pointerover', () => {
+      battleButton.setFillStyle(0x3a3a3a);
     });
-    playButton.on('pointerout', () => {
-      playButton.setFillStyle(0x2a2a2a);
+    battleButton.on('pointerout', () => {
+      battleButton.setFillStyle(0x2a2a2a);
+    });
+
+    deckBuilderButton.on('pointerover', () => {
+      deckBuilderButton.setFillStyle(0x3a3a3a);
+    });
+    deckBuilderButton.on('pointerout', () => {
+      deckBuilderButton.setFillStyle(0x2a2a2a);
     });
 
     practiceButton.on('pointerover', () => {

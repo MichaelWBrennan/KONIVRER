@@ -3,13 +3,19 @@ import { gameEngine } from '../GameEngine';
 
 interface GameContainerProps {
   onClose?: () => void;
+  setShowGame?: (show: boolean) => void;
 }
 
-export const GameContainer: React.FC<GameContainerProps> = ({ onClose }) => {
+export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGame }) => {
   const gameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (gameRef.current) {
+      // Make setShowGame available globally for the game
+      if (setShowGame) {
+        window.setShowGame = setShowGame;
+      }
+      
       // Initialize the game engine
       gameEngine.init(gameRef.current);
     }
@@ -17,8 +23,12 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose }) => {
     // Cleanup function
     return () => {
       gameEngine.destroy();
+      // Clean up global reference
+      if (window.setShowGame) {
+        delete window.setShowGame;
+      }
     };
-  }, []);
+  }, [setShowGame]);
 
   return (
     <div style={{
