@@ -69,7 +69,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
         fontFamily = '"Comic Sans MS", cursive';
         break;
       default:
-        fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        fontFamily = '"OpenDyslexic", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif';
     }
     document.documentElement.style.setProperty('--font-family', fontFamily);
 
@@ -217,52 +217,10 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
     setSettings(defaultSettings);
   };
 
-  // Render color blind filters (SVG filters)
-  const renderColorBlindFilters = () => (
-    <svg style={{ position: 'absolute', width: 0, height: 0 }} aria-hidden="true" focusable="false">
-      <defs>
-        {/* Protanopia (red-blind) */}
-        <filter id="protanopia-filter">
-          <feColorMatrix
-            in="SourceGraphic"
-            type="matrix"
-            values="0.567, 0.433, 0, 0, 0
-                    0.558, 0.442, 0, 0, 0
-                    0, 0.242, 0.758, 0, 0
-                    0, 0, 0, 1, 0"
-          />
-        </filter>
-        
-        {/* Deuteranopia (green-blind) */}
-        <filter id="deuteranopia-filter">
-          <feColorMatrix
-            in="SourceGraphic"
-            type="matrix"
-            values="0.625, 0.375, 0, 0, 0
-                    0.7, 0.3, 0, 0, 0
-                    0, 0.3, 0.7, 0, 0
-                    0, 0, 0, 1, 0"
-          />
-        </filter>
-        
-        {/* Tritanopia (blue-blind) */}
-        <filter id="tritanopia-filter">
-          <feColorMatrix
-            in="SourceGraphic"
-            type="matrix"
-            values="0.95, 0.05, 0, 0, 0
-                    0, 0.433, 0.567, 0, 0
-                    0, 0.475, 0.525, 0, 0
-                    0, 0, 0, 1, 0"
-          />
-        </filter>
-      </defs>
-    </svg>
-  );
+
 
   return (
     <>
-      {renderColorBlindFilters()}
       <AnimatePresence>
         {isOpen && (
           <motion.div
