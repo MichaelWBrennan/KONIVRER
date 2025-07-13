@@ -69,10 +69,6 @@ export interface SearchFilters {
   // keywords field is now merged with text field
   set: string;
   flavorText: string;
-  priceRange: {
-    min: string;
-    max: string;
-  };
   criteria: string;
   allowPartialTypeMatches?: boolean;
 }
@@ -167,7 +163,7 @@ const KONIVR_ELEMENTS = [
   { 
     key: 'generic', 
     label: 'Generic', 
-    symbol: '&#x2721;', 
+    symbol: '\u2721', 
     color: '#888888', 
     bgColor: 'rgba(136, 136, 136, 0.1)',
     shorthand: 'G',
@@ -388,16 +384,7 @@ class UnifiedSearchEngine {
       );
     }
 
-    // Price range filter
-    if (filters.priceRange.min.trim() || filters.priceRange.max.trim()) {
-      const minPrice = filters.priceRange.min.trim() ? parseFloat(filters.priceRange.min) : 0;
-      const maxPrice = filters.priceRange.max.trim() ? parseFloat(filters.priceRange.max) : Infinity;
-      
-      results = results.filter(card => {
-        const price = card.price || 0;
-        return price >= minPrice && price <= maxPrice;
-      });
-    }
+
 
     return results;
   }
@@ -677,7 +664,6 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
     // keywords field is now merged with text field
     set: '',
     flavorText: '',
-    priceRange: { min: '', max: '' },
     criteria: '',
     allowPartialTypeMatches: false
   });
@@ -926,7 +912,6 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       // keywords field is now merged with text field
       set: '',
       flavorText: '',
-      priceRange: { min: '', max: '' },
       criteria: '',
       allowPartialTypeMatches: false
     };
@@ -1340,29 +1325,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 </div>
               </div>
 
-              {/* Price Range Filter */}
-              <div className="filter-group">
-                <label>Price Range</label>
-                <div className="price-range">
-                  <input
-                    type="number"
-                    value={filters.priceRange.min}
-                    onChange={(e) => updateFilter('priceRange.min', e.target.value)}
-                    placeholder="Min"
-                    min="0"
-                    step="0.01"
-                  />
-                  <span>to</span>
-                  <input
-                    type="number"
-                    value={filters.priceRange.max}
-                    onChange={(e) => updateFilter('priceRange.max', e.target.value)}
-                    placeholder="Max"
-                    min="0"
-                    step="0.01"
-                  />
-                </div>
-              </div>
+
 
               {/* Rare Checkbox */}
               <div className="filter-group">
