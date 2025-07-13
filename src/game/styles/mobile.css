@@ -1,0 +1,253 @@
+/**
+ * Mobile-Optimized Styles for KONIVRER Game
+ * Enhances touch controls and responsive design
+ */
+
+/* Mobile Game Container */
+.mobile-game-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  overflow: hidden;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Disable zoom on mobile */
+.mobile-game-container canvas {
+  touch-action: pan-x pan-y;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Touch-friendly buttons */
+.touch-button {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 12px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  border: 2px solid #2c3e50;
+  color: #ecf0f1;
+  font-family: 'Arial Black', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.touch-button:active {
+  transform: translateY(2px);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.touch-button:hover {
+  background: linear-gradient(135deg, #45b7d1 0%, #3498db 100%);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Secondary buttons */
+.touch-button-secondary {
+  background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+  border-color: #bdc3c7;
+}
+
+.touch-button-secondary:hover {
+  background: linear-gradient(135deg, #a8b8b9 0%, #95a5a6 100%);
+}
+
+/* Card elements for touch */
+.touch-card {
+  border-radius: 8px;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(52, 152, 219, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.touch-card:active {
+  transform: scale(0.95);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(52, 152, 219, 0.6);
+}
+
+.touch-card:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 0 0 3px rgba(52, 152, 219, 0.8);
+}
+
+/* Draggable card states */
+.touch-card.dragging {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 
+    0 12px 24px rgba(0, 0, 0, 0.5),
+    0 0 0 3px rgba(46, 204, 113, 0.8);
+  z-index: 1000;
+}
+
+.touch-card.playable {
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(46, 204, 113, 0.6),
+    0 0 20px rgba(46, 204, 113, 0.3);
+}
+
+/* Drop zones */
+.drop-zone {
+  border: 3px dashed rgba(46, 204, 113, 0.5);
+  border-radius: 15px;
+  background: rgba(46, 204, 113, 0.1);
+  transition: all 0.3s ease;
+}
+
+.drop-zone.active {
+  border-color: rgba(46, 204, 113, 0.8);
+  background: rgba(46, 204, 113, 0.2);
+  box-shadow: 
+    inset 0 0 20px rgba(46, 204, 113, 0.3),
+    0 0 20px rgba(46, 204, 113, 0.4);
+}
+
+/* Mobile UI panels */
+.mobile-panel {
+  background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(52, 73, 94, 0.95) 100%);
+  border: 2px solid rgba(52, 152, 219, 0.8);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Health and mana bars */
+.stat-bar {
+  height: 20px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(44, 62, 80, 0.8) 0%, rgba(52, 73, 94, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-bar-fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%);
+  border-radius: 10px 10px 0 0;
+}
+
+.health-bar .stat-bar-fill {
+  background: linear-gradient(90deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.mana-bar .stat-bar-fill {
+  background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+  .touch-button {
+    font-size: 14px;
+    padding: 10px 16px;
+    min-height: 40px;
+    min-width: 40px;
+  }
+  
+  .mobile-panel {
+    margin: 10px;
+    border-radius: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .touch-button {
+    font-size: 12px;
+    padding: 8px 12px;
+    min-height: 36px;
+    min-width: 36px;
+  }
+  
+  .mobile-panel {
+    margin: 5px;
+    border-radius: 12px;
+  }
+  
+  .stat-bar {
+    height: 16px;
+  }
+}
+
+/* Landscape orientation optimizations */
+@media (orientation: landscape) and (max-height: 500px) {
+  .mobile-panel {
+    margin: 5px;
+  }
+  
+  .touch-button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  .touch-button,
+  .touch-card,
+  .stat-bar-fill {
+    transition: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.touch-button:focus,
+.touch-card:focus {
+  outline: 3px solid rgba(52, 152, 219, 0.8);
+  outline-offset: 2px;
+}
+
+/* Prevent text selection on game elements */
+.game-ui * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}

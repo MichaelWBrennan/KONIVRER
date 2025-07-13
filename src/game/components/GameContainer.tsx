@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { gameEngine } from '../GameEngine';
+import '../styles/mobile.css';
 
 interface GameContainerProps {
   onClose?: () => void;
@@ -31,35 +32,19 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
   }, [setShowGame]);
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100vw',
-      height: '100vh',
-      backgroundColor: '#000000',
-      zIndex: 1000,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }}>
+    <div className="mobile-game-container">
       {/* Close button */}
       {onClose && (
         <button
           onClick={onClose}
+          className="touch-button touch-button-secondary"
           style={{
             position: 'absolute',
             top: '20px',
             right: '20px',
-            background: 'rgba(42, 42, 42, 0.9)',
-            border: '2px solid #d4af37',
-            color: '#d4af37',
-            padding: '10px 20px',
-            borderRadius: '6px',
-            fontSize: '16px',
-            cursor: 'pointer',
-            zIndex: 1001
+            zIndex: 1001,
+            fontSize: '14px',
+            padding: '8px 16px'
           }}
         >
           Close Game
@@ -69,6 +54,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
       {/* Game container */}
       <div
         ref={gameRef}
+        className="game-ui"
         style={{
           width: '100%',
           height: '100%',
