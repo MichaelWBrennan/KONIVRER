@@ -30,6 +30,13 @@ export class GameEngine {
     
     console.log(`[GameEngine] Initializing with container size: ${containerWidth}x${containerHeight}`);
     
+    // Clear any existing canvas elements to prevent duplicates
+    const existingCanvas = container.querySelector('canvas');
+    if (existingCanvas) {
+      console.log('[GameEngine] Removing existing canvas element');
+      existingCanvas.remove();
+    }
+    
     const config: Phaser.Types.Core.GameConfig = {
       type: Phaser.AUTO,
       width: containerWidth,
@@ -54,7 +61,7 @@ export class GameEngine {
         }
       },
       scale: {
-        mode: Phaser.Scale.RESIZE,
+        mode: Phaser.Scale.RESIZE, // Use RESIZE mode for better responsiveness
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: containerWidth,
         height: containerHeight,
@@ -78,9 +85,12 @@ export class GameEngine {
       render: {
         pixelArt: false,
         antialias: true,
-        roundPixels: false
+        roundPixels: false,
+        transparent: false, // Ensure opaque background
+        clearBeforeRender: true // Clear canvas before each render
       },
-      disableContextMenu: true
+      disableContextMenu: true,
+      canvasStyle: 'display: block; width: 100%; height: 100%;' // Ensure canvas takes full container size
     };
 
     try {

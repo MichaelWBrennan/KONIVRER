@@ -91,43 +91,45 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
   }, [isMobile, isLandscape]);
 
   useEffect(() => {
-    // Only initialize game if orientation prompt is not showing
-    // This means we're either on desktop/tablet or on a phone in landscape mode
-    if (!showOrientationPrompt) {
-      // Small delay to ensure DOM is fully rendered
-      const initTimer = setTimeout(() => {
-        if (gameRef.current && !gameInitializedRef.current) {
-          // Make setShowGame available globally for the game
-          if (setShowGame) {
-            window.setShowGame = setShowGame;
-          }
-          
-          // Initialize the game engine
-          try {
-            console.log('[GameContainer] Initializing game engine...');
-            gameEngine.init(gameRef.current);
-            gameInitializedRef.current = true;
-            console.log('[GameContainer] Game engine initialized successfully');
-          } catch (error) {
-            console.error('[GameContainer] Error initializing game engine:', error);
-          }
+    // Always initialize the game, but show/hide it based on orientation
+    // Small delay to ensure DOM is fully rendered
+    const initTimer = setTimeout(() => {
+      if (gameRef.current && !gameInitializedRef.current) {
+        // Make setShowGame available globally for the game
+        if (setShowGame) {
+          window.setShowGame = setShowGame;
         }
-      }, 100);
-
-      // Cleanup function
-      return () => {
-        clearTimeout(initTimer);
-      };
-    } else if (gameInitializedRef.current) {
-      // Destroy game if orientation prompt is now showing
-      try {
-        console.log('[GameContainer] Destroying game engine due to orientation change...');
-        gameEngine.destroy();
-        gameInitializedRef.current = false;
-      } catch (error) {
-        console.error('[GameContainer] Error destroying game engine:', error);
+        
+        // Initialize the game engine
+        try {
+          console.log('[GameContainer] Initializing game engine...');
+          gameEngine.init(gameRef.current);
+          gameInitializedRef.current = true;
+          console.log('[GameContainer] Game engine initialized successfully');
+          
+          // If orientation prompt is showing, hide the game canvas but keep it initialized
+          if (showOrientationPrompt && gameRef.current) {
+            const canvas = gameRef.current.querySelector('canvas');
+            if (canvas) {
+              canvas.style.visibility = showOrientationPrompt ? 'hidden' : 'visible';
+            }
+          }
+        } catch (error) {
+          console.error('[GameContainer] Error initializing game engine:', error);
+        }
+      } else if (gameInitializedRef.current && gameRef.current) {
+        // If game is already initialized, just update canvas visibility
+        const canvas = gameRef.current.querySelector('canvas');
+        if (canvas) {
+          canvas.style.visibility = showOrientationPrompt ? 'hidden' : 'visible';
+        }
       }
-    }
+    }, 100);
+
+    // Cleanup function
+    return () => {
+      clearTimeout(initTimer);
+    };
   }, [setShowGame, showOrientationPrompt]);
 
   // Cleanup on unmount
@@ -173,13 +175,14 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
     <div className="mobile-game-container" style={{
       width: '100%',
       height: '100%',
-      position: 'absolute',
+      position: 'fixed', // Changed from absolute to fixed
       top: 0,
       left: 0,
       right: 0,
       bottom: 0,
       overflow: 'hidden',
-      background: '#1a1a1a'
+      background: '#1a1a1a',
+      zIndex: 1000 // Ensure high z-index
     }}>
       {/* Floating Accessibility button - only shown when not in main menu or when in portrait mode on mobile */}
       {showAccessibilityButton && (
@@ -233,7 +236,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
         </div>
       )}
       
-      {/* Game container - only initialize when in landscape on mobile */}
+      {/* Game container - always initialize but control visibility */}
       <div
         ref={gameRef}
         className="game-ui"
@@ -244,7 +247,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onClose, setShowGa
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          visibility: (isMobile && !isLandscape) ? 'hidden' : 'visible'
+          zIndex: 5, // Ensure it's above other elements but below the orientation prompt
+          visibility: showOrientationPrompt ? 'hidden' : 'visible' // Control visibility based on orientation prompt
         }}
       />
     </div>
