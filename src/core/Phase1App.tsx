@@ -382,10 +382,7 @@ const Phase1App: React.FC = () => {
   console.log('[KONIVRER] Phase 1 app initializing... (Target: ~100 modules)');
   
   const [user, setUser] = useState<User | null>(null);
-  const [decks, setDecks] = useState<Deck[]>([
-    { id: 1, name: 'Fire Aggro', cards: ['1', '2'], description: 'Fast-paced fire deck' },
-    { id: 2, name: 'Water Control', cards: ['3', '4'], description: 'Defensive water strategy' }
-  ]);
+  const [decks, setDecks] = useState<Deck[]>([]);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
 
   const contextValue = useMemo(() => ({
