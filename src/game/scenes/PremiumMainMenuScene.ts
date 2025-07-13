@@ -165,6 +165,20 @@ export class PremiumMainMenuScene extends Phaser.Scene {
     
     runeCanvas.generateTexture('rune-particle', 8, 8);
     runeCanvas.destroy();
+    
+    // MTG Arena-style gold particle (for button clicks and rewards)
+    const goldCanvas = this.add.graphics();
+    // Gold gradient fill
+    goldCanvas.fillGradientStyle(0xffd700, 0xd4af37, 0xffd700, 0xd4af37, 1);
+    goldCanvas.fillCircle(0, 0, 4);
+    // Bright highlight
+    goldCanvas.fillStyle(0xffffff, 0.7);
+    goldCanvas.fillCircle(-1, -1, 1);
+    // Outer glow
+    goldCanvas.lineStyle(1, 0xffffff, 0.4);
+    goldCanvas.strokeCircle(0, 0, 5);
+    goldCanvas.generateTexture('gold-particle', 12, 12);
+    goldCanvas.destroy();
   }
 
   private loadAudioAssets() {
@@ -1014,12 +1028,19 @@ export class PremiumMainMenuScene extends Phaser.Scene {
     playPanel.setDepth(200);
     playPanel.setName('playPanel');
 
-    // MTG Arena-style dark panel with gold accents
+    // MTG Arena-style dark panel with blue-black gradient and gold accents
     const panelBg = this.add.graphics();
-    // Dark background like MTG Arena
-    panelBg.fillStyle(0x0a1f3d, 0.95);
+    
+    // Create MTG Arena-style gradient background
+    const gradient = panelBg.createLinearGradient(-300, -200, -300, 200);
+    gradient.addColorStop(0, '#0a1f3d');
+    gradient.addColorStop(0.7, '#071428');
+    gradient.addColorStop(1, '#050d1a');
+    
+    panelBg.fillStyle(gradient, 0.98);
     panelBg.fillRoundedRect(-300, -200, 600, 400, 10);
-    // Gold border like MTG Arena UI
+    
+    // Gold border exactly like MTG Arena UI
     panelBg.lineStyle(2, 0xd4af37, 0.8);
     panelBg.strokeRoundedRect(-300, -200, 600, 400, 10);
     
@@ -1027,13 +1048,14 @@ export class PremiumMainMenuScene extends Phaser.Scene {
     panelBg.lineStyle(1, 0xd4af37, 0.4);
     panelBg.strokeRoundedRect(-295, -195, 590, 390, 8);
 
-    // MTG Arena-style title with gold text
+    // MTG Arena-style title with gold text and glow
     const title = this.add.text(0, -160, 'PLAY', {
-      fontSize: this.isMobile ? '26px' : '32px',
-      fontFamily: 'Arial Black',
+      fontSize: this.isMobile ? '28px' : '34px',
+      fontFamily: 'Beleren',
       color: '#d4af37',
       stroke: '#000000',
-      strokeThickness: 2
+      strokeThickness: 2,
+      shadow: { offsetX: 0, offsetY: 1, color: '#ffdf7e', blur: 6, stroke: true, fill: true }
     }).setOrigin(0.5);
     
     // Divider line (MTG Arena style)
@@ -1096,49 +1118,80 @@ export class PremiumMainMenuScene extends Phaser.Scene {
       };
     });
     
-    const buttonWidth = 250;
-    const buttonHeight = 60;
-    const buttonSpacing = 20;
+    const buttonWidth = 280;
+    const buttonHeight = 70;
+    const buttonSpacing = 25;
     
-    // Create buttons for each play mode
+    // Create buttons for each play mode - exactly like MTG Arena
     playModes.forEach((mode, index) => {
       const y = -100 + (index * (buttonHeight + buttonSpacing));
       
-      // Button background
-      const button = this.add.image(0, y, 'premium-menu-button');
-      button.setDisplaySize(buttonWidth, buttonHeight);
-      button.setInteractive({ cursor: 'pointer' });
+      // Create MTG Arena-style button with gradient and glow
+      const button = this.add.graphics();
       
-      // Button text with icon if available
+      // MTG Arena button style - dark blue with subtle gradient
+      const buttonGradient = button.createLinearGradient(-buttonWidth/2, 0, buttonWidth/2, 0);
+      buttonGradient.addColorStop(0, '#0a2a4d');
+      buttonGradient.addColorStop(0.5, '#0c3361');
+      buttonGradient.addColorStop(1, '#0a2a4d');
+      
+      button.fillStyle(buttonGradient, 1);
+      button.fillRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
+      
+      // Gold border like MTG Arena buttons
+      button.lineStyle(1.5, 0xd4af37, 0.7);
+      button.strokeRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
+      
+      // Create interactive area
+      const hitArea = new Phaser.Geom.Rectangle(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight);
+      const hitAreaCallback = Phaser.Geom.Rectangle.Contains;
+      button.setInteractive(hitArea, hitAreaCallback, { cursor: 'pointer' });
+      
+      // Button text with icon if available - MTG Arena style
       const displayText = mode.icon ? `${mode.icon} ${mode.text}` : mode.text;
-      const text = this.add.text(0, y, displayText, {
-        fontSize: this.isMobile ? '16px' : '18px',
-        fontFamily: 'Arial Black',
-        color: '#ecf0f1'
+      const text = this.add.text(0, y - 5, displayText, {
+        fontSize: this.isMobile ? '18px' : '20px',
+        fontFamily: 'Beleren, Arial Black',
+        color: '#ffffff',
+        stroke: '#000000',
+        strokeThickness: 1,
+        shadow: { offsetX: 0, offsetY: 1, color: '#000000', blur: 1, fill: true }
       }).setOrigin(0.5);
       
-      // Description text (only visible on hover)
-      const description = this.add.text(0, y + 30, mode.description, {
+      // Description text - MTG Arena style
+      const description = this.add.text(0, y + 22, mode.description, {
         fontSize: this.isMobile ? '12px' : '14px',
         fontFamily: 'Arial',
-        color: '#bdc3c7',
+        color: '#aabbcc',
         align: 'center',
-        wordWrap: { width: buttonWidth + 100 }
+        wordWrap: { width: buttonWidth - 20 }
       }).setOrigin(0.5);
-      description.setAlpha(0);
       
-      // Hover effects
+      // MTG Arena style - description always visible but subtle
+      description.setAlpha(0.7);
+      
+      // Hover effects - exactly like MTG Arena
       button.on('pointerover', () => {
-        button.setScale(1.05);
-        text.setScale(1.05);
-        button.setTint(0xd4af37);
+        // MTG Arena hover gradient - brighter blue with gold accent
+        const hoverGradient = button.createLinearGradient(-buttonWidth/2, 0, buttonWidth/2, 0);
+        hoverGradient.addColorStop(0, '#0d3361');
+        hoverGradient.addColorStop(0.5, '#104785');
+        hoverGradient.addColorStop(1, '#0d3361');
         
-        // Show description with fade in
-        this.tweens.add({
-          targets: description,
-          alpha: 1,
-          duration: 200
-        });
+        button.clear();
+        button.fillStyle(hoverGradient, 1);
+        button.fillRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
+        
+        // Brighter gold border on hover
+        button.lineStyle(2, 0xf0c350, 0.9);
+        button.strokeRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
+        
+        // MTG Arena text glow effect
+        text.setShadow(0, 0, '#f0c350', 5, true, true);
+        text.setColor('#f0c350');
+        
+        // Make description more visible
+        description.setAlpha(1);
         
         // Add hover particles
         const particles = this.add.particles(button.x, button.y, 'fire-particle', {
@@ -1159,16 +1212,21 @@ export class PremiumMainMenuScene extends Phaser.Scene {
       });
       
       button.on('pointerout', () => {
-        button.setScale(1);
-        text.setScale(1);
-        button.clearTint();
+        // Restore normal button state
+        button.clear();
+        button.fillStyle(buttonGradient, 1);
+        button.fillRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
         
-        // Hide description
-        this.tweens.add({
-          targets: description,
-          alpha: 0,
-          duration: 200
-        });
+        // Restore normal border
+        button.lineStyle(1.5, 0xd4af37, 0.7);
+        button.strokeRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
+        
+        // Restore normal text
+        text.setShadow(0, 1, '#000000', 1, true);
+        text.setColor('#ffffff');
+        
+        // Restore subtle description
+        description.setAlpha(0.7);
         
         // Destroy hover particles
         const particles = button.getData('hoverParticles');
@@ -1177,9 +1235,38 @@ export class PremiumMainMenuScene extends Phaser.Scene {
         }
       });
       
-      // Click effect
+      // Click effect - MTG Arena style with flash and particles
       button.on('pointerdown', () => {
-        this.createClickEffect(button);
+        // MTG Arena click flash effect
+        const flashGraphics = this.add.graphics();
+        flashGraphics.fillStyle(0xffffff, 0.3);
+        flashGraphics.fillRoundedRect(-buttonWidth/2, y - buttonHeight/2, buttonWidth, buttonHeight, 5);
+        
+        // Flash animation
+        this.tweens.add({
+          targets: flashGraphics,
+          alpha: 0,
+          duration: 300,
+          onComplete: () => {
+            flashGraphics.destroy();
+          }
+        });
+        
+        // Gold particles burst - MTG Arena style
+        const particles = this.add.particles(0, y, 'gold-particle', {
+          speed: { min: 50, max: 150 },
+          scale: { start: 0.4, end: 0 },
+          alpha: { start: 0.8, end: 0 },
+          lifespan: 800,
+          quantity: 20,
+          emitCallback: () => false // emit only once
+        });
+        
+        // Clean up particles after animation
+        this.time.delayedCall(1000, () => {
+          particles.destroy();
+        });
+        
         this.playClickSound();
         this.hidePlayMenu();
         this.transitionToScene(mode.scene);
@@ -1188,33 +1275,93 @@ export class PremiumMainMenuScene extends Phaser.Scene {
       playPanel.add([button, text, description]);
     });
     
-    // Close button
-    const closeButton = this.add.image(0, 140, 'secondary-menu-button');
-    closeButton.setDisplaySize(150, 40);
-    closeButton.setInteractive({ cursor: 'pointer' });
+    // MTG Arena-style BACK button with gradient
+    const backButtonWidth = 150;
+    const backButtonHeight = 40;
+    const backButton = this.add.graphics();
     
-    const closeText = this.add.text(0, 140, 'BACK', {
-      fontSize: this.isMobile ? '14px' : '16px',
-      fontFamily: 'Arial Black',
-      color: '#ffffff'
+    // MTG Arena back button style
+    const backButtonGradient = backButton.createLinearGradient(-backButtonWidth/2, 0, backButtonWidth/2, 0);
+    backButtonGradient.addColorStop(0, '#0a2a4d');
+    backButtonGradient.addColorStop(0.5, '#0c3361');
+    backButtonGradient.addColorStop(1, '#0a2a4d');
+    
+    backButton.fillStyle(backButtonGradient, 1);
+    backButton.fillRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+    
+    // Gold border
+    backButton.lineStyle(1, 0xd4af37, 0.7);
+    backButton.strokeRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+    
+    // Create interactive area
+    const backHitArea = new Phaser.Geom.Rectangle(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight);
+    const backHitAreaCallback = Phaser.Geom.Rectangle.Contains;
+    backButton.setInteractive(backHitArea, backHitAreaCallback, { cursor: 'pointer' });
+    
+    const backText = this.add.text(0, 140, 'BACK', {
+      fontSize: this.isMobile ? '16px' : '18px',
+      fontFamily: 'Beleren, Arial Black',
+      color: '#ffffff',
+      stroke: '#000000',
+      strokeThickness: 1
     }).setOrigin(0.5);
     
-    // MTG Arena-style hover effect for close button
-    closeButton.on('pointerover', () => {
-      closeButton.setTint(0xd4af37);
-      closeText.setColor('#ffffff');
+    // MTG Arena-style hover effect for back button
+    backButton.on('pointerover', () => {
+      // Hover gradient
+      const hoverGradient = backButton.createLinearGradient(-backButtonWidth/2, 0, backButtonWidth/2, 0);
+      hoverGradient.addColorStop(0, '#0d3361');
+      hoverGradient.addColorStop(0.5, '#104785');
+      hoverGradient.addColorStop(1, '#0d3361');
+      
+      backButton.clear();
+      backButton.fillStyle(hoverGradient, 1);
+      backButton.fillRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+      
+      // Brighter gold border on hover
+      backButton.lineStyle(1.5, 0xf0c350, 0.9);
+      backButton.strokeRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+      
+      // Text glow effect
+      backText.setShadow(0, 0, '#f0c350', 5, true, true);
+      backText.setColor('#f0c350');
     });
     
-    closeButton.on('pointerout', () => {
-      closeButton.clearTint();
-      closeText.setColor('#ffffff');
+    backButton.on('pointerout', () => {
+      // Restore normal button state
+      backButton.clear();
+      backButton.fillStyle(backButtonGradient, 1);
+      backButton.fillRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+      
+      // Restore normal border
+      backButton.lineStyle(1, 0xd4af37, 0.7);
+      backButton.strokeRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+      
+      // Restore normal text
+      backText.setShadow(0, 1, '#000000', 1, true);
+      backText.setColor('#ffffff');
     });
     
-    closeButton.on('pointerdown', () => {
+    backButton.on('pointerdown', () => {
+      // MTG Arena click flash effect
+      const flashGraphics = this.add.graphics();
+      flashGraphics.fillStyle(0xffffff, 0.3);
+      flashGraphics.fillRoundedRect(-backButtonWidth/2, 140 - backButtonHeight/2, backButtonWidth, backButtonHeight, 5);
+      
+      // Flash animation
+      this.tweens.add({
+        targets: flashGraphics,
+        alpha: 0,
+        duration: 300,
+        onComplete: () => {
+          flashGraphics.destroy();
+        }
+      });
+      
       this.hidePlayMenu();
       
-      // MTG Arena-style click effect
-      const particles = this.add.particles(closeButton.x, closeButton.y, 'fire-particle', {
+      // MTG Arena-style click effect with gold particles
+      const particles = this.add.particles(0, 140, 'gold-particle', {
         speed: { min: 50, max: 100 },
         scale: { start: 0.3, end: 0 },
         alpha: { start: 0.6, end: 0 },
@@ -1225,7 +1372,7 @@ export class PremiumMainMenuScene extends Phaser.Scene {
       this.time.delayedCall(500, () => particles.destroy());
     });
     
-    playPanel.add([closeButton, closeText]);
+    playPanel.add([backButton, backText]);
     
     this.add.existing(playPanel);
   }
