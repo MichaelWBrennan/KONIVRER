@@ -116,7 +116,7 @@ const OAuthCallback: React.FC = () => {
         {/* Status Icon */}
         <motion.div
           animate={status === 'loading' ? { rotate: 360 } : {}}
-          transition={status === 'loading' ? { duration: 2, repeat: Infinity, ease: 'linear' } : {}}
+          transition={status === 'loading' ? { duration: 1.5, repeat: 3, ease: 'easeInOut' } : {}}
           style={{
             fontSize: '48px',
             marginBottom: '20px'
@@ -178,7 +178,7 @@ const OAuthCallback: React.FC = () => {
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: '100%' }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              transition={{ duration: 1.5, repeat: 2, ease: 'easeInOut' }}
               style={{
                 width: '50%',
                 height: '100%',
