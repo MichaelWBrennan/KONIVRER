@@ -54,21 +54,13 @@
   font-size: 14px;
 }
 
-/* Modal Backdrop - Make it an overlay */
+/* Modal Backdrop - Optimized for Framer Motion compatibility */
 .modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
   backdrop-filter: blur(5px);
+  /* Note: Framer Motion handles positioning, display, and z-index */
 }
 
+/* Animation Keyframes - Optimized to prevent conflicts */
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
@@ -105,15 +97,16 @@
   }
 }
 
+/* Removed automatic shake animation to prevent conflicts */
 @keyframes shake {
   0%, 100% {
     transform: translateX(0);
   }
   10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-5px);
+    transform: translateX(-3px);
   }
   20%, 40%, 60%, 80% {
-    transform: translateX(5px);
+    transform: translateX(3px);
   }
 }
 
@@ -195,11 +188,12 @@
   color: #333;
 }
 
-.shake {
+/* Animation utility classes - Use sparingly to avoid conflicts with Framer Motion */
+.shake-on-error {
   animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-.pulse {
+.pulse-effect {
   animation: pulse 1.5s infinite;
 }
 
@@ -291,16 +285,13 @@
   transform: scale(1.05);
 }
 
-.modal-backdrop {
-  backdrop-filter: blur(5px);
-}
-
-.modal-content {
+/* Modal content enhancements for visual effects */
+.modal-content-enhanced {
   position: relative;
   overflow: hidden;
 }
 
-.modal-content::after {
+.modal-content-enhanced::after {
   content: '';
   position: absolute;
   top: -50%;
@@ -349,32 +340,25 @@
   height: 300px;
 }
 
+/* Removed automatic animations to prevent conflicts */
 .error-message {
-  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  /* Apply .shake-on-error class manually when needed */
+  color: #e74c3c;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
 .success-message {
-  animation: pulse 1.5s;
+  /* Apply .pulse-effect class manually when needed */
+  color: #27ae60;
+  font-size: 14px;
+  margin-top: 10px;
 }
 
-/* Enhanced Login Modal Styles */
+/* Enhanced Login Modal Styles - Compatible with Framer Motion */
 
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(5px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2000;
-  padding: 20px;
-}
-
-.modal-content {
+/* Use these classes only when not using Framer Motion inline styles */
+.legacy-modal-content {
   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
   border-radius: 16px;
   width: 100%;
@@ -1489,7 +1473,8 @@
 }
 
 @media (max-width: 480px) {
-  .modal-backdrop {
+  /* Mobile-specific adjustments - Framer Motion handles backdrop */
+  .legacy-modal-content {
     padding: 10px;
   }
   
