@@ -1,9 +1,63 @@
 /* Enhanced Login Modal & Card Search Styles */
 
+/* CSS Custom Properties for responsive modal sizing */
+:root {
+  --modal-width: 90vw;
+  --modal-max-width: 900px;
+  --modal-padding: 40px;
+  --modal-margin: 10px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --modal-width: 95vw;
+    --modal-max-width: 95vw;
+    --modal-padding: 20px;
+    --modal-margin: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --modal-width: 98vw;
+    --modal-max-width: 98vw;
+    --modal-padding: 15px;
+    --modal-margin: 2px;
+  }
+}
+
+@media (max-height: 600px) {
+  :root {
+    --modal-padding: 15px;
+  }
+}
+
+/* Responsive modal utility class */
+.responsive-modal {
+  width: var(--modal-width);
+  max-width: var(--modal-max-width);
+  padding: var(--modal-padding);
+  margin: var(--modal-margin);
+  box-sizing: border-box;
+}
+
+/* Ensure content fits within viewport */
+.viewport-fit {
+  max-width: 100vw;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.viewport-fit-content {
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 20px);
+  overflow-y: auto;
+}
+
 /* Auth Options Grid Layout */
 .auth-options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-top: 20px;
   max-height: 60vh;
@@ -19,7 +73,8 @@
   
   .modal-content {
     max-width: 95vw;
-    margin: 10px;
+    margin: 5px;
+    width: 95vw;
   }
 }
 
@@ -1454,8 +1509,9 @@
 /* Responsive styles */
 @media (max-width: 768px) {
   .modal-content {
-    margin: 10px;
-    max-width: none;
+    margin: 5px;
+    max-width: 95vw;
+    width: 95vw;
   }
   
   .auth-tabs {
@@ -1490,7 +1546,7 @@
 
 @media (max-width: 480px) {
   .modal-backdrop {
-    padding: 10px;
+    padding: 5px;
   }
   
   .modal-header {
@@ -1521,5 +1577,39 @@
   
   .elements-grid {
     grid-template-columns: 1fr;
+  }
+  
+  .auth-options-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    min-height: auto;
+  }
+}
+
+/* Landscape mobile devices */
+@media (max-height: 600px) and (orientation: landscape) {
+  .modal-content {
+    max-height: 95vh;
+    margin: 2px;
+  }
+  
+  .auth-options-grid {
+    max-height: 50vh;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 360px) {
+  .modal-content {
+    width: 99vw;
+    max-width: 99vw;
+    margin: 1px;
+  }
+  
+  .auth-options-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 10px;
   }
 }
