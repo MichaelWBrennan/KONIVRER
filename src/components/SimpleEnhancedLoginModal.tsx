@@ -168,24 +168,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div style={{ marginBottom: '30px', textAlign: 'center' }}>
-              <h2 style={{ 
-                color: '#d4af37', 
-                margin: '0 0 10px 0',
-                fontSize: '28px',
-                fontWeight: 'bold'
-              }}>
-                ⭐ Enhanced Login ⭐
-              </h2>
-              <p style={{ 
-                color: '#ccc', 
-                margin: 0,
-                fontSize: '16px'
-              }}>
-                Welcome to KONIVRER Deck Database
-              </p>
-            </div>
+
 
             {/* Main Content Grid */}
             <div style={{
@@ -208,7 +191,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                   fontSize: '18px',
                   textAlign: 'center'
                 }}>
-                  🔐 Email & Password
+                  Email & Password
                 </h3>
                 
                 <form onSubmit={handleSubmit}>
@@ -292,7 +275,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       transition: 'all 0.3s'
                     }}
                   >
-                    {isLoading ? '🔄 Logging in...' : '🚀 Login'}
+                    {isLoading ? 'Logging in...' : 'Login'}
                   </button>
                 </form>
               </div>
@@ -310,7 +293,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                   fontSize: '18px',
                   textAlign: 'center'
                 }}>
-                  🔑 Single Sign-On
+                  Single Sign-On
                 </h3>
                 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -334,7 +317,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       transition: 'all 0.3s'
                     }}
                   >
-                    <span>🔍</span>
                     {ssoLoading === 'Google' ? 'Connecting...' : 'Continue with Google'}
                   </button>
 
@@ -358,7 +340,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       transition: 'all 0.3s'
                     }}
                   >
-                    <span>🐙</span>
                     {ssoLoading === 'GitHub' ? 'Connecting...' : 'Continue with GitHub'}
                   </button>
 
@@ -382,7 +363,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       transition: 'all 0.3s'
                     }}
                   >
-                    <span>🪟</span>
                     {ssoLoading === 'Microsoft' ? 'Connecting...' : 'Continue with Microsoft'}
                   </button>
 
@@ -406,7 +386,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       transition: 'all 0.3s'
                     }}
                   >
-                    <span>🎮</span>
                     {ssoLoading === 'Discord' ? 'Connecting...' : 'Continue with Discord'}
                   </button>
                 </div>
@@ -426,7 +405,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                     fontSize: '18px',
                     textAlign: 'center'
                   }}>
-                    👆 Biometric Security
+                    Biometric Security
                   </h3>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -449,7 +428,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                           transition: 'all 0.3s'
                         }}
                       >
-                        <span>👆</span>
                         Fingerprint Login
                       </button>
                     )}
@@ -473,7 +451,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                           transition: 'all 0.3s'
                         }}
                       >
-                        <span>🤳</span>
                         Face ID Login
                       </button>
                     )}
@@ -488,7 +465,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                     color: '#d4af37',
                     textAlign: 'center'
                   }}>
-                    🛡️ Secure biometric authentication using your device's built-in sensors
+                    Secure biometric authentication using your device's built-in sensors
                   </div>
                 </div>
               )}
@@ -539,7 +516,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                 onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = '#45a049'}
                 onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = '#4CAF50'}
               >
-                🎮 Demo Login
+                Demo Login
               </button>
             </div>
           </motion.div>
