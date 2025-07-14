@@ -147,7 +147,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            zIndex: 1000
+            zIndex: 1000,
+            padding: '10px'
           }}
           onClick={onClose}
         >
@@ -157,11 +158,11 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
             exit={{ scale: 0.8, opacity: 0 }}
             style={{
               backgroundColor: '#1a1a1a',
-              padding: '40px',
+              padding: window.innerWidth <= 768 ? '20px' : window.innerWidth <= 480 ? '15px' : '40px',
               borderRadius: '12px',
               border: '2px solid #d4af37',
-              minWidth: '700px',
-              maxWidth: '900px',
+              width: window.innerWidth <= 480 ? '98vw' : window.innerWidth <= 768 ? '95vw' : '90vw',
+              maxWidth: window.innerWidth <= 768 ? '95vw' : '900px',
               maxHeight: '90vh',
               overflowY: 'auto',
               boxShadow: '0 20px 40px rgba(0,0,0,0.5)'
@@ -190,9 +191,9 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
             {/* Main Content Grid */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '25px',
-              marginBottom: '30px'
+              gridTemplateColumns: window.innerWidth <= 768 ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: window.innerWidth <= 480 ? '15px' : '25px',
+              marginBottom: window.innerWidth <= 480 ? '20px' : '30px'
             }}>
               
               {/* Email/Username & Password Section */}
