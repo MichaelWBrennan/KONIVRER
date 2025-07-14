@@ -1,0 +1,16 @@
+{
+  "name": "continue-dev-mobile",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/continue-repo/continue/devcontainer-feature:latest": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Continue.continue"
+      ]
+    }
+  },
+  "forwardPorts": [3000],
+  "postCreateCommand": "npm install"
+}
