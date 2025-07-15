@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  openhands:
+    image: ghcr.io/continuedev/openhands:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - OPENHANDS_API_KEY=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
+      - OPENHANDS_MODEL_NAME=mixtral-8x7b-32768
+      - OPENHANDS_API_BASE=https://api.groq.com/openai/v1
+    volumes:
+      - .:/repo
