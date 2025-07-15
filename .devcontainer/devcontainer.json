@@ -1,11 +1,10 @@
 {
-  "name": "openhands-codespace",
+  "name": "konivrer-openhands",
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "runArgs": ["--init"],
-  "forwardPorts": [3000],
-  "postCreateCommand": "docker compose up -d",
+  "forwardPorts": [3000, 12000, 12001],
+  "postCreateCommand": "",
   "customizations": {
     "vscode": {
       "extensions": [
