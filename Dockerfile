@@ -1,40 +1,39 @@
-# 🚀 KONIVRER Autonomous Automation Container
-# Complete out-of-the-box experience with ZERO manual commands
-
+# 🚀 KONIVRER + OpenHands Container
 FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Install git and bash for automation
-RUN apk add --no-cache git bash
+# Install system dependencies
+RUN apk add --no-cache git bash curl
 
-# Copy package files first for better caching
+# Clone OpenHands backend
+RUN git clone https://github.com/continuedev/openhands.git /app/openhands
+
+# Copy your custom automation scripts into /app
 COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy all source files
 COPY . .
 
-# Make scripts executable
+# Install your Node.js dependencies
+RUN npm install
+
+# Make your custom scripts executable
 RUN chmod +x auto-start.sh setup.sh
 
-# Create start script that auto-starts everything
+# Create unified startup script
 RUN echo '#!/bin/bash' > /app/start-container.sh && \
     echo 'echo "🚀 KONIVRER Container Starting..."' >> /app/start-container.sh && \
     echo 'echo "🤖 Autonomous automation will start automatically"' >> /app/start-container.sh && \
     echo './auto-start.sh &' >> /app/start-container.sh && \
-    echo 'npm run dev' >> /app/start-container.sh && \
+    echo 'cd /app/openhands && npm install && npm run dev' >> /app/start-container.sh && \
     chmod +x /app/start-container.sh
 
-# Expose ports
-EXPOSE 12000 12001
+# Expose OpenHands default port + your custom one
+EXPOSE 3000 12000 12001
 
-# Set environment variables for automation
+# Optional env vars
 ENV AUTOMATION=true
 ENV CI=true
 
-# Auto-start everything
+# Start everything automatically
 CMD ["./start-container.sh"]
