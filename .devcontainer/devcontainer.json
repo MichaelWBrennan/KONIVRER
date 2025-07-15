@@ -1,16 +1,9 @@
 {
-  "name": "openhands-dev",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "forwardPorts": [3000, 12000, 12001],
-  "postCreateCommand": "npm install",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "ms-azuretools.vscode-docker"
-      ]
-    }
-  }
+  "name": "Codespace with Continue.dev AI",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "extensions": [
+    "Continue.continue"
+  ],
+  "postCreateCommand": "echo 'Continue.dev extension installed.'",
+  "remoteUser": "vscode"
 }
-
