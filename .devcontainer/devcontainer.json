@@ -1,16 +1,16 @@
 {
-  "name": "continue-dev-mobile",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
-  "features": {
-    "ghcr.io/continue-repo/continue/devcontainer-feature:latest": {}
+  "name": "openhands-codespace",
+  "build": {
+    "dockerfile": "Dockerfile"
   },
+  "runArgs": ["--init"],
+  "forwardPorts": [3000],
+  "postCreateCommand": "docker compose up -d",
   "customizations": {
     "vscode": {
       "extensions": [
-        "Continue.continue"
+        "ms-azuretools.vscode-docker"
       ]
     }
-  },
-  "forwardPorts": [3000],
-  "postCreateCommand": "npm install"
+  }
 }
