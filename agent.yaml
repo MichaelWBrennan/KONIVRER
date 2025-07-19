@@ -1,8 +1,9 @@
+name: TestAgent
 models:
   - name: mixtral
     provider: groq
     model: mixtral-8x7b
-    apiKey: ${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}
+    apiKey: ${GROQ_API_KEY}
 
-    metadata:
+metadata:
   tags: !!str "openhands"
