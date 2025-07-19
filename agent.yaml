@@ -4,5 +4,3 @@ models:
     provider: groq
     model: mixtral-8x7b
     apiKey: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
-metadata:
-  tags: !!str "openhands"
