@@ -5,4 +5,4 @@ models:
     apiKey: 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
 
     metadata:
-  tags: "openhands, groq, mixtral"
+  tags: !!str "openhands"
