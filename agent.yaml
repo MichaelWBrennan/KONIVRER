@@ -1,0 +1,6 @@
+models:
+  - name: mixtral
+    provider: groq
+    model: mixtral-8x7b
+    apiKey: YOUR_GROQ_API_KEY
+
