@@ -8,6 +8,6 @@
   "repoPath": "/repo",
   "instructions": "You are an expert developer. Edit the codebase as requested.",
   "metadata": {
-    "tags": "groq,prod"
+    "tags": "groq”
   }
 }
