@@ -6,5 +6,8 @@
     "model": "mixtral-8x7b-32768"
   },
   "repoPath": "/repo",
-  "instructions": "You are an expert developer. Edit the codebase as requested."
+  "instructions": "You are an expert developer. Edit the codebase as requested.",
+  "metadata": {
+    "tags": "groq,prod"
+  }
 }
