@@ -1,18 +1,1 @@
-name: mixtral-agent
-version: 0.1.0
-description: "Agent that uses Mixtral-8x7b-32768 via Groq API"
-metadata:
-  tags: "mixtral, groq, llm"
-models:
-  - name: mixtral
-    provider: groq
-    model: mixtral-8x7b-32768
-    apiKey: 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
-    baseURL: https://api.groq.com/openai/v1
-    config:
-      temperature: 0.7
-      max_tokens: 2048
-entrypoint:
-  model: mixtral
-  systemPrompt: |
-    You are a helpful assistant that replies using the Mixtral language model via Groq API.
+.
