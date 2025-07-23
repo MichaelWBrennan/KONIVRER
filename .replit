@@ -12,6 +12,7 @@ localPort = 12000
 externalPort = 80
 
 [workflows]
+runButton = "Auto Merge & Fix"
 
 [[workflows.workflow]]
 name = "Comprehensive Optimization"
@@ -30,3 +31,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "node scripts/ultra-deployment.js"
+
+[[workflows.workflow]]
+name = "Auto Merge & Fix"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/git-merge-automation.js --auto"
