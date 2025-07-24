@@ -145,7 +145,7 @@
     "autoprefixer": "^10.4.16",
     "changesets": "^0.1.0",
     "commitlint": "^18.4.3",
-    "esbuild": "^0.25.6",
+    "esbuild": "^0.25.5",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-import": "^2.29.0",
