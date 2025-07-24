@@ -63,11 +63,11 @@ export class GameEngine {
         MainMenuScene,
         PremiumMainMenuScene, 
         GameScene, 
-        CardBattleScene, 
-        EnhancedCardBattleScene, 
         DeckBuilderScene,
-        PremiumCardBattleScene,
-        MobileDeckBuilderScene
+        MobileDeckBuilderScene,
+        new UnifiedCardBattleScene('basic'), // Use named instances for configuration
+        new UnifiedCardBattleScene('enhanced'),
+        new UnifiedCardBattleScene('premium')
       ],
       physics: {
         default: 'arcade',
