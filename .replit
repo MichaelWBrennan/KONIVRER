@@ -1,0 +1,43 @@
+modules = ["nodejs-20", "web", "bash", "python-3.12"]
+run = "npm run dev"
+
+[nix]
+channel = "stable-24_05"
+packages = ["psmisc"]
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+
+[[ports]]
+localPort = 12000
+externalPort = 80
+
+[workflows]
+runButton = "Auto Merge & Fix"
+
+[[workflows.workflow]]
+name = "Comprehensive Optimization"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/comprehensive-optimization.js"
+
+[[workflows.workflow]]
+name = "Ultra Deployment"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/ultra-deployment.js"
+
+[[workflows.workflow]]
+name = "Auto Merge & Fix"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "node scripts/git-merge-automation.js --auto"
