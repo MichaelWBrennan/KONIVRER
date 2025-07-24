@@ -1,0 +1,32 @@
+{
+  "name": "konivrer-minimal",
+  "version": "1.0.0",
+  "description": "KONIVRER - Minimal Mystical Trading Card Game",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 12000",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 12003",
+    "test": "vitest",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.0.2",
+    "vite": "^7.0.2",
+    "vitest": "^3.2.4"
+  }
+}

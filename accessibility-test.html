@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessibility Features Test</title>
+    <style>
+        :root {
+            --font-family: 'Inter', sans-serif;
+            --font-size-base: 1rem;
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --accent-color: #d4af37;
+            --color-filter: none;
+            --line-height: 1.5;
+            --letter-spacing: normal;
+        }
+
+        body {
+            font-family: var(--font-family);
+            font-size: var(--font-size-base);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: var(--line-height);
+            letter-spacing: var(--letter-spacing);
+            margin: 20px;
+            filter: var(--color-filter);
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid var(--accent-color);
+            border-radius: 5px;
+        }
+
+        button {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .color-test {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .red { background-color: #ff0000; }
+        .green { background-color: #00ff00; }
+        .blue { background-color: #0000ff; }
+        .yellow { background-color: #ffff00; }
+        .purple { background-color: #ff00ff; }
+        .cyan { background-color: #00ffff; }
+    </style>
+</head>
+<body>
+    <!-- SVG Filters for Color Blindness -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+        <defs>
+            <filter id="protanopia-filter">
+                <feColorMatrix type="matrix" values="0.567, 0.433, 0, 0, 0
+                                                     0.558, 0.442, 0, 0, 0
+                                                     0, 0.242, 0.758, 0, 0
+                                                     0, 0, 0, 1, 0"/>
+            </filter>
+            <filter id="deuteranopia-filter">
+                <feColorMatrix type="matrix" values="0.625, 0.375, 0, 0, 0
+                                                     0.7, 0.3, 0, 0, 0
+                                                     0, 0.3, 0.7, 0, 0
+                                                     0, 0, 0, 1, 0"/>
+            </filter>
+            <filter id="tritanopia-filter">
+                <feColorMatrix type="matrix" values="0.95, 0.05, 0, 0, 0
+                                                     0, 0.433, 0.567, 0, 0
+                                                     0, 0.475, 0.525, 0, 0
+                                                     0, 0, 0, 1, 0"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <h1>Accessibility Features Test</h1>
+
+    <div class="test-section">
+        <h2>Font Family Test</h2>
+        <p>This text should change font when you click the buttons below:</p>
+        <button onclick="setFont('default')">Default Font</button>
+        <button onclick="setFont('arial')">Arial</button>
+        <button onclick="setFont('comic-sans')">Comic Sans</button>
+        <button onclick="setFont('opendyslexic')">OpenDyslexic</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Font Size Test</h2>
+        <p>This text should change size when you click the buttons below:</p>
+        <button onclick="setFontSize('small')">Small (0.9rem)</button>
+        <button onclick="setFontSize('medium')">Medium (1rem)</button>
+        <button onclick="setFontSize('large')">Large (1.2rem)</button>
+        <button onclick="setFontSize('x-large')">Extra Large (1.4rem)</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Color Blind Filter Test</h2>
+        <p>The colored squares below should change appearance when you apply color blind filters:</p>
+        <div class="color-test red"></div>
+        <div class="color-test green"></div>
+        <div class="color-test blue"></div>
+        <div class="color-test yellow"></div>
+        <div class="color-test purple"></div>
+        <div class="color-test cyan"></div>
+        <br>
+        <button onclick="setColorBlindFilter('none')">No Filter</button>
+        <button onclick="setColorBlindFilter('protanopia')">Protanopia (Red-blind)</button>
+        <button onclick="setColorBlindFilter('deuteranopia')">Deuteranopia (Green-blind)</button>
+        <button onclick="setColorBlindFilter('tritanopia')">Tritanopia (Blue-blind)</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Contrast Test</h2>
+        <p>Background and text colors should change:</p>
+        <button onclick="setContrast('default')">Default</button>
+        <button onclick="setContrast('high-contrast')">High Contrast</button>
+        <button onclick="setContrast('dark')">Dark</button>
+        <button onclick="setContrast('light')">Light</button>
+    </div>
+
+    <script>
+        function setFont(fontType) {
+            let fontFamily = '';
+            switch (fontType) {
+                case 'arial':
+                    fontFamily = 'Arial, sans-serif';
+                    break;
+                case 'comic-sans':
+                    fontFamily = '"Comic Sans MS", cursive';
+                    break;
+                case 'opendyslexic':
+                    fontFamily = '"OpenDyslexic", sans-serif';
+                    break;
+                default:
+                    fontFamily = '"OpenDyslexic", "Inter", -apple-system, BlinkMacSystemFont, sans-serif';
+            }
+            document.documentElement.style.setProperty('--font-family', fontFamily);
+            console.log('Font changed to:', fontFamily);
+        }
+
+        function setFontSize(size) {
+            let fontSize = '';
+            switch (size) {
+                case 'small':
+                    fontSize = '0.9rem';
+                    break;
+                case 'medium':
+                    fontSize = '1rem';
+                    break;
+                case 'large':
+                    fontSize = '1.2rem';
+                    break;
+                case 'x-large':
+                    fontSize = '1.4rem';
+                    break;
+            }
+            document.documentElement.style.setProperty('--font-size-base', fontSize);
+            console.log('Font size changed to:', fontSize);
+        }
+
+        function setColorBlindFilter(filterType) {
+            let filter = '';
+            switch (filterType) {
+                case 'protanopia':
+                    filter = 'url(#protanopia-filter)';
+                    break;
+                case 'deuteranopia':
+                    filter = 'url(#deuteranopia-filter)';
+                    break;
+                case 'tritanopia':
+                    filter = 'url(#tritanopia-filter)';
+                    break;
+                default:
+                    filter = 'none';
+            }
+            document.documentElement.style.setProperty('--color-filter', filter);
+            console.log('Color blind filter changed to:', filter);
+        }
+
+        function setContrast(contrastType) {
+            let bgColor = '';
+            let textColor = '';
+            let accentColor = '';
+            
+            switch (contrastType) {
+                case 'high-contrast':
+                    bgColor = '#000000';
+                    textColor = '#ffffff';
+                    accentColor = '#ffff00';
+                    break;
+                case 'dark':
+                    bgColor = '#121212';
+                    textColor = '#ffffff';
+                    accentColor = '#d4af37';
+                    break;
+                case 'light':
+                    bgColor = '#ffffff';
+                    textColor = '#000000';
+                    accentColor = '#0066cc';
+                    break;
+                default:
+                    bgColor = '#121212';
+                    textColor = '#ffffff';
+                    accentColor = '#d4af37';
+            }
+            
+            document.documentElement.style.setProperty('--bg-color', bgColor);
+            document.documentElement.style.setProperty('--text-color', textColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+            console.log('Contrast changed to:', contrastType);
+        }
+
+        // Test font loading with better detection
+        function testFontLoading() {
+            const fonts = [
+                { name: 'OpenDyslexic', family: '"OpenDyslexic"' },
+                { name: 'Comic Sans MS', family: '"Comic Sans MS"' },
+                { name: 'Arial', family: 'Arial' }
+            ];
+            
+            fonts.forEach(font => {
+                const testElement = document.createElement('span');
+                testElement.style.fontFamily = font.family + ', monospace';
+                testElement.style.fontSize = '72px';
+                testElement.style.position = 'absolute';
+                testElement.style.left = '-9999px';
+                testElement.style.visibility = 'hidden';
+                testElement.textContent = 'mmmmmmmmmmlli';
+                
+                document.body.appendChild(testElement);
+                const testWidth = testElement.offsetWidth;
+                
+                testElement.style.fontFamily = 'monospace';
+                const fallbackWidth = testElement.offsetWidth;
+                
+                const isLoaded = testWidth !== fallbackWidth;
+                console.log(`${isLoaded ? '✅' : '❌'} ${font.name}: ${isLoaded ? 'Loaded' : 'Not loaded'}`);
+                
+                document.body.removeChild(testElement);
+            });
+        }
+        
+        // Test fonts after page loads
+        document.fonts.ready.then(() => {
+            console.log('🔤 Font Loading Test Results:');
+            testFontLoading();
+        });
+        
+        // Also test after a delay to allow for network loading
+        setTimeout(() => {
+            console.log('🔤 Font Loading Test Results (after 2s delay):');
+            testFontLoading();
+        }, 2000);
+    </script>
+</body>
+</html>

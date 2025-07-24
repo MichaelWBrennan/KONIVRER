@@ -1,0 +1,16 @@
+{
+  "@rollup/rollup-linux-x64-gnu": {
+    "current": "4.44.2",
+    "wanted": "4.45.0",
+    "latest": "4.45.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@rollup/rollup-linux-x64-gnu"
+  },
+  "eslint": {
+    "current": "9.30.1",
+    "wanted": "9.31.0",
+    "latest": "9.31.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/eslint"
+  }
+}
