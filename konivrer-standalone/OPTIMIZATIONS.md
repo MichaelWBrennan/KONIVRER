@@ -99,14 +99,14 @@ This document outlines the optimizations made to the KONIVRER Physical Matchmaki
 ## Implemented Optimizations (Latest Updates)
 
 1. **Code Splitting and Lazy Loading**
-   - Implemented dynamic imports for lazy loading components
-   - Added Suspense with fallback UI for better user experience
-   - Optimized chunk splitting strategies
+   * Implemented dynamic imports for lazy loading components.
+   * Added `Suspense` with a fallback UI for enhanced user experiences.
+   * Refined chunk splitting strategies for performance gains.
 
 2. **Performance Monitoring**
-   - Added web vitals monitoring (CLS, FID, FCP, LCP, TTFB)
-   - Implemented performance metrics reporting
-   - Added conditional logging based on environment
+   * Included monitoring for web vitals like CLS, FID, FCP, LCP, and TTFB.
+   * Developed a robust performance metrics reporting system.
+   * Implemented environment-based conditional logging.
 
 3. **Accessibility Improvements**
    - Enhanced keyboard navigation with proper focus management
