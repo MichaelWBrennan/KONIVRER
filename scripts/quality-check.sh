@@ -33,8 +33,8 @@ print_error() {
 }
 
 # Check if we're in the right directory
-if [ ! -f "package.json" ]; then
-    print_error "package.json not found. Please run this script from the project root."
+if [ ! -f "package.json" ] || [ ! -f "vite.config.js" ]; then
+    print_error "Required configuration files not found. Please verify your project setup."
     exit 1
 fi
 
