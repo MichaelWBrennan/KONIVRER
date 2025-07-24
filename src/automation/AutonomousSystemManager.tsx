@@ -3,8 +3,18 @@
  * Provides React integration and management for the autonomous orchestrator
  */
 
-import React, { useEffect, useState, useCallback, createContext, useContext } from 'react';
-import AutonomousOrchestrator, { AutonomousConfig, SystemHealth, ThreatLevel } from '../../automation/autonomous-orchestrator';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+} from 'react';
+import AutonomousOrchestrator, {
+  AutonomousConfig,
+  SystemHealth,
+  ThreatLevel,
+} from '../../automation/autonomous-orchestrator';
 import { useCodeEvolution } from './CodeEvolutionEngine';
 import { useSelfHealing } from './SelfHealingCore';
 import { useDependencyOrchestrator } from './DependencyOrchestrator';
@@ -26,12 +36,15 @@ interface AutonomousSystemContextType {
   getSystemStatus: () => Promise<any>;
 }
 
-const AutonomousSystemContext = createContext<AutonomousSystemContextType | null>(null);
+const AutonomousSystemContext =
+  createContext<AutonomousSystemContextType | null>(null);
 
 export const useAutonomousSystem = () => {
   const context = useContext(AutonomousSystemContext);
   if (!context) {
-    throw new Error('useAutonomousSystem must be used within an AutonomousSystemProvider');
+    throw new Error(
+      'useAutonomousSystem must be used within an AutonomousSystemProvider',
+    );
   }
   return context;
 };
@@ -42,20 +55,21 @@ interface AutonomousSystemProviderProps {
   autoStart?: boolean;
 }
 
-export const AutonomousSystemProvider: React.FC<AutonomousSystemProviderProps> = ({
-  children,
-  config = {},
-  autoStart = true
-}) => {
-  const [orchestrator] = useState(() => new AutonomousOrchestrator({
-    silentMode: true,
-    autoUpdate: true,
-    securityLevel: 'maximum',
-    evolutionRate: 'moderate',
-    industryTracking: true,
-    selfGovernance: true,
-    ...config
-  }));
+export const AutonomousSystemProvider: React.FC<
+  AutonomousSystemProviderProps
+> = ({ children, config = {}, autoStart = true }) => {
+  const [orchestrator] = useState(
+    () =>
+      new AutonomousOrchestrator({
+        silentMode: true,
+        autoUpdate: true,
+        securityLevel: 'maximum',
+        evolutionRate: 'moderate',
+        industryTracking: true,
+        selfGovernance: true,
+        ...config,
+      }),
+  );
 
   const [state, setState] = useState<AutonomousSystemState>({
     isActive: false,
@@ -65,16 +79,16 @@ export const AutonomousSystemProvider: React.FC<AutonomousSystemProviderProps> =
       stability: 100,
       compliance: 100,
       trends: 100,
-      overall: 100
+      overall: 100,
     },
     threatLevel: {
       level: 'minimal',
       confidence: 0.95,
       sources: [],
-      mitigations: []
+      mitigations: [],
     },
     lastUpdate: new Date(),
-    autonomousMode: false
+    autonomousMode: false,
   });
 
   useEffect(() => {
@@ -86,10 +100,14 @@ export const AutonomousSystemProvider: React.FC<AutonomousSystemProviderProps> =
         });
 
         orchestrator.on('orchestrator-stopped', () => {
-          setState(prev => ({ ...prev, isActive: false, autonomousMode: false }));
+          setState(prev => ({
+            ...prev,
+            isActive: false,
+            autonomousMode: false,
+          }));
         });
 
-        orchestrator.on('log', (logData) => {
+        orchestrator.on('log', logData => {
           if (!config.silentMode) {
             console.log(`[Autonomous System] ${logData.message}`);
           }
@@ -100,12 +118,12 @@ export const AutonomousSystemProvider: React.FC<AutonomousSystemProviderProps> =
           try {
             const systemHealth = orchestrator.getSystemHealth();
             const threatLevel = orchestrator.getThreatLevel();
-            
+
             setState(prev => ({
               ...prev,
               systemHealth,
               threatLevel,
-              lastUpdate: new Date()
+              lastUpdate: new Date(),
             }));
           } catch (error) {
             console.error('Error updating system status:', error);
@@ -145,13 +163,16 @@ export const AutonomousSystemProvider: React.FC<AutonomousSystemProviderProps> =
     }
   }, [orchestrator]);
 
-  const updateConfig = useCallback(async (newConfig: Partial<AutonomousConfig>) => {
-    try {
-      await orchestrator.updateConfig(newConfig);
-    } catch (error) {
-      console.error('Error updating config:', error);
-    }
-  }, [orchestrator]);
+  const updateConfig = useCallback(
+    async (newConfig: Partial<AutonomousConfig>) => {
+      try {
+        await orchestrator.updateConfig(newConfig);
+      } catch (error) {
+        console.error('Error updating config:', error);
+      }
+    },
+    [orchestrator],
+  );
 
   const getSystemStatus = useCallback(async () => {
     try {
@@ -168,7 +189,7 @@ export const AutonomousSystemProvider: React.FC<AutonomousSystemProviderProps> =
     startAutonomousMode,
     stopAutonomousMode,
     updateConfig,
-    getSystemStatus
+    getSystemStatus,
   };
 
   return (
@@ -186,60 +207,69 @@ export const useAutonomousIntegration = () => {
   const [integrationStatus, setIntegrationStatus] = useState({
     connected: false,
     lastSync: new Date(),
-    errors: [] as string[]
+    errors: [] as string[],
   });
 
   useEffect(() => {
     if (autonomousSystem.orchestrator) {
       setIntegrationStatus(prev => ({ ...prev, connected: true }));
-      
+
       // Set up integration event listeners
       const handleSystemEvent = (event: any) => {
         setIntegrationStatus(prev => ({ ...prev, lastSync: new Date() }));
       };
 
       autonomousSystem.orchestrator.on('log', handleSystemEvent);
-      
+
       return () => {
         autonomousSystem.orchestrator?.off('log', handleSystemEvent);
       };
     }
   }, [autonomousSystem.orchestrator]);
 
-  const reportIssue = useCallback(async (issue: any) => {
-    try {
-      // Report issue to autonomous system for handling
-      if (autonomousSystem.orchestrator) {
-        // The orchestrator will handle the issue through its engines
-        console.log('Reported issue to autonomous system:', issue);
+  const reportIssue = useCallback(
+    async (issue: any) => {
+      try {
+        // Report issue to autonomous system for handling
+        if (autonomousSystem.orchestrator) {
+          // The orchestrator will handle the issue through its engines
+          console.log('Reported issue to autonomous system:', issue);
+        }
+      } catch (error) {
+        setIntegrationStatus(prev => ({
+          ...prev,
+          errors: [...prev.errors, `Failed to report issue: ${error.message}`],
+        }));
       }
-    } catch (error) {
-      setIntegrationStatus(prev => ({
-        ...prev,
-        errors: [...prev.errors, `Failed to report issue: ${error.message}`]
-      }));
-    }
-  }, [autonomousSystem.orchestrator]);
+    },
+    [autonomousSystem.orchestrator],
+  );
 
-  const requestOptimization = useCallback(async (target: string) => {
-    try {
-      // Request optimization from autonomous system
-      if (autonomousSystem.orchestrator) {
-        console.log('Requested optimization for:', target);
+  const requestOptimization = useCallback(
+    async (target: string) => {
+      try {
+        // Request optimization from autonomous system
+        if (autonomousSystem.orchestrator) {
+          console.log('Requested optimization for:', target);
+        }
+      } catch (error) {
+        setIntegrationStatus(prev => ({
+          ...prev,
+          errors: [
+            ...prev.errors,
+            `Failed to request optimization: ${error.message}`,
+          ],
+        }));
       }
-    } catch (error) {
-      setIntegrationStatus(prev => ({
-        ...prev,
-        errors: [...prev.errors, `Failed to request optimization: ${error.message}`]
-      }));
-    }
-  }, [autonomousSystem.orchestrator]);
+    },
+    [autonomousSystem.orchestrator],
+  );
 
   return {
     ...autonomousSystem,
     integrationStatus,
     reportIssue,
-    requestOptimization
+    requestOptimization,
   };
 };
 

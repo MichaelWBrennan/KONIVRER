@@ -43,7 +43,7 @@ export class DynamicAudioEngine {
       musicVolume: 0.5,
       sfxVolume: 0.8,
       spatialAudio: true,
-      adaptiveMusic: true
+      adaptiveMusic: true,
     };
 
     this.currentGameState = {
@@ -52,7 +52,7 @@ export class DynamicAudioEngine {
       playerHealth: 100,
       opponentHealth: 100,
       cardsInHand: 7,
-      turnNumber: 1
+      turnNumber: 1,
     };
 
     // Initialize audio chain
@@ -73,13 +73,13 @@ export class DynamicAudioEngine {
 
     try {
       await Tone.start();
-      
+
       // Initialize synthesizers
       this.initializeSynths();
-      
+
       // Start ambient audio
       this.startAmbientAudio();
-      
+
       this.isInitialized = true;
       console.log('DynamicAudioEngine initialized successfully');
     } catch (error) {
@@ -89,41 +89,59 @@ export class DynamicAudioEngine {
 
   private initializeSynths(): void {
     // Music synthesizers
-    this.musicSynths.set('lead', new Tone.Synth({
-      oscillator: { type: 'triangle' },
-      envelope: { attack: 0.1, decay: 0.2, sustain: 0.3, release: 1 }
-    }).connect(this.musicGain));
+    this.musicSynths.set(
+      'lead',
+      new Tone.Synth({
+        oscillator: { type: 'triangle' },
+        envelope: { attack: 0.1, decay: 0.2, sustain: 0.3, release: 1 },
+      }).connect(this.musicGain),
+    );
 
-    this.musicSynths.set('bass', new Tone.Synth({
-      oscillator: { type: 'sawtooth' },
-      envelope: { attack: 0.05, decay: 0.1, sustain: 0.8, release: 0.5 }
-    }).connect(this.musicGain));
+    this.musicSynths.set(
+      'bass',
+      new Tone.Synth({
+        oscillator: { type: 'sawtooth' },
+        envelope: { attack: 0.05, decay: 0.1, sustain: 0.8, release: 0.5 },
+      }).connect(this.musicGain),
+    );
 
-    this.musicSynths.set('pad', new Tone.Synth({
-      oscillator: { type: 'sine' },
-      envelope: { attack: 0.5, decay: 0.2, sustain: 0.7, release: 2 }
-    }).connect(this.musicGain));
+    this.musicSynths.set(
+      'pad',
+      new Tone.Synth({
+        oscillator: { type: 'sine' },
+        envelope: { attack: 0.5, decay: 0.2, sustain: 0.7, release: 2 },
+      }).connect(this.musicGain),
+    );
 
     // SFX synthesizers
-    this.sfxSynths.set('card', new Tone.Synth({
-      oscillator: { type: 'square' },
-      envelope: { attack: 0.01, decay: 0.1, sustain: 0, release: 0.1 }
-    }).connect(this.sfxGain));
+    this.sfxSynths.set(
+      'card',
+      new Tone.Synth({
+        oscillator: { type: 'square' },
+        envelope: { attack: 0.01, decay: 0.1, sustain: 0, release: 0.1 },
+      }).connect(this.sfxGain),
+    );
 
-    this.sfxSynths.set('spell', new Tone.Synth({
-      oscillator: { type: 'triangle' },
-      envelope: { attack: 0.05, decay: 0.3, sustain: 0.2, release: 0.5 }
-    }).connect(this.sfxGain));
+    this.sfxSynths.set(
+      'spell',
+      new Tone.Synth({
+        oscillator: { type: 'triangle' },
+        envelope: { attack: 0.05, decay: 0.3, sustain: 0.2, release: 0.5 },
+      }).connect(this.sfxGain),
+    );
 
-    this.sfxSynths.set('ui', new Tone.Synth({
-      oscillator: { type: 'sine' },
-      envelope: { attack: 0.01, decay: 0.05, sustain: 0, release: 0.05 }
-    }).connect(this.sfxGain));
+    this.sfxSynths.set(
+      'ui',
+      new Tone.Synth({
+        oscillator: { type: 'sine' },
+        envelope: { attack: 0.01, decay: 0.05, sustain: 0, release: 0.05 },
+      }).connect(this.sfxGain),
+    );
   }
 
   private startAmbientAudio(): void {
     // Create ambient background loop
-    this.ambientLoop = new Tone.Loop((time) => {
+    this.ambientLoop = new Tone.Loop(time => {
       const padSynth = this.musicSynths.get('pad');
       if (padSynth) {
         // Generate ambient chord based on game state
@@ -139,15 +157,16 @@ export class DynamicAudioEngine {
 
   updateGameState(newState: Partial<GameState>): void {
     this.currentGameState = { ...this.currentGameState, ...newState };
-    
+
     if (this.config.adaptiveMusic) {
       this.adaptMusic();
     }
   }
 
   private adaptMusic(): void {
-    const { phase, tension, playerHealth, opponentHealth } = this.currentGameState;
-    
+    const { phase, tension, playerHealth, opponentHealth } =
+      this.currentGameState;
+
     // Adjust music based on game state
     switch (phase) {
       case 'menu':
@@ -170,7 +189,7 @@ export class DynamicAudioEngine {
     // Adjust tempo based on tension
     if (this.currentMusicPattern) {
       const baseTempo = 120;
-      const tempoMultiplier = 1 + (tension * 0.5);
+      const tempoMultiplier = 1 + tension * 0.5;
       Tone.Transport.bpm.value = baseTempo * tempoMultiplier;
     }
 
@@ -182,22 +201,30 @@ export class DynamicAudioEngine {
 
   private playMenuMusic(): void {
     this.stopCurrentMusic();
-    
+
     const leadSynth = this.musicSynths.get('lead');
     const bassSynth = this.musicSynths.get('bass');
-    
+
     if (leadSynth && bassSynth) {
       const melody = ['C4', 'E4', 'G4', 'C5', 'G4', 'E4'];
       const bassLine = ['C2', 'C2', 'F2', 'F2', 'G2', 'G2'];
-      
-      this.currentMusicPattern = new Tone.Pattern((time, note) => {
-        leadSynth.triggerAttackRelease(note, '8n', time);
-      }, melody, 'up');
-      
-      const bassPattern = new Tone.Pattern((time, note) => {
-        bassSynth.triggerAttackRelease(note, '4n', time);
-      }, bassLine, 'up');
-      
+
+      this.currentMusicPattern = new Tone.Pattern(
+        (time, note) => {
+          leadSynth.triggerAttackRelease(note, '8n', time);
+        },
+        melody,
+        'up',
+      );
+
+      const bassPattern = new Tone.Pattern(
+        (time, note) => {
+          bassSynth.triggerAttackRelease(note, '4n', time);
+        },
+        bassLine,
+        'up',
+      );
+
       this.currentMusicPattern.start();
       bassPattern.start();
     }
@@ -205,23 +232,27 @@ export class DynamicAudioEngine {
 
   private playMatchMusic(tension: number): void {
     this.stopCurrentMusic();
-    
+
     const leadSynth = this.musicSynths.get('lead');
     const bassSynth = this.musicSynths.get('bass');
-    
+
     if (leadSynth && bassSynth) {
       // Generate dynamic melody based on tension
       const baseMelody = ['D4', 'F4', 'A4', 'D5'];
       const tenseMelody = ['D#4', 'F#4', 'A#4', 'D#5'];
-      
+
       const melody = baseMelody.map((note, index) => {
         return tension > 0.5 ? tenseMelody[index] : note;
       });
-      
-      this.currentMusicPattern = new Tone.Pattern((time, note) => {
-        leadSynth.triggerAttackRelease(note, '8n', time);
-      }, melody, 'upDown');
-      
+
+      this.currentMusicPattern = new Tone.Pattern(
+        (time, note) => {
+          leadSynth.triggerAttackRelease(note, '8n', time);
+        },
+        melody,
+        'upDown',
+      );
+
       this.currentMusicPattern.start();
     }
   }
@@ -229,29 +260,33 @@ export class DynamicAudioEngine {
   private playDeckBuildingMusic(): void {
     // Calm, focused music for deck building
     this.stopCurrentMusic();
-    
+
     const padSynth = this.musicSynths.get('pad');
     if (padSynth) {
       const chords = [
         ['C4', 'E4', 'G4'],
         ['F4', 'A4', 'C5'],
         ['G4', 'B4', 'D5'],
-        ['C4', 'E4', 'G4']
+        ['C4', 'E4', 'G4'],
       ];
-      
-      this.currentMusicPattern = new Tone.Pattern((time, chord) => {
-        chord.forEach((note: string, index: number) => {
-          padSynth.triggerAttackRelease(note, '2n', time + index * 0.1);
-        });
-      }, chords, 'up');
-      
+
+      this.currentMusicPattern = new Tone.Pattern(
+        (time, chord) => {
+          chord.forEach((note: string, index: number) => {
+            padSynth.triggerAttackRelease(note, '2n', time + index * 0.1);
+          });
+        },
+        chords,
+        'up',
+      );
+
       this.currentMusicPattern.start();
     }
   }
 
   private playVictoryMusic(): void {
     this.stopCurrentMusic();
-    
+
     const leadSynth = this.musicSynths.get('lead');
     if (leadSynth) {
       const victoryMelody = ['C5', 'E5', 'G5', 'C6'];
@@ -263,7 +298,7 @@ export class DynamicAudioEngine {
 
   private playDefeatMusic(): void {
     this.stopCurrentMusic();
-    
+
     const bassSynth = this.musicSynths.get('bass');
     if (bassSynth) {
       const defeatMelody = ['C3', 'A#2', 'G2', 'F2'];
@@ -323,19 +358,34 @@ export class DynamicAudioEngine {
 
   private generateAmbientChord(): string[] {
     const { phase, tension } = this.currentGameState;
-    
+
     // Base chord progressions for different phases
     const chordProgressions = {
-      menu: [['C3', 'E3', 'G3'], ['F3', 'A3', 'C4']],
-      'deck-building': [['D3', 'F#3', 'A3'], ['G3', 'B3', 'D4']],
-      match: [['E3', 'G#3', 'B3'], ['A3', 'C#4', 'E4']],
-      victory: [['C4', 'E4', 'G4'], ['F4', 'A4', 'C5']],
-      defeat: [['A2', 'C3', 'E3'], ['D3', 'F3', 'A3']]
+      menu: [
+        ['C3', 'E3', 'G3'],
+        ['F3', 'A3', 'C4'],
+      ],
+      'deck-building': [
+        ['D3', 'F#3', 'A3'],
+        ['G3', 'B3', 'D4'],
+      ],
+      match: [
+        ['E3', 'G#3', 'B3'],
+        ['A3', 'C#4', 'E4'],
+      ],
+      victory: [
+        ['C4', 'E4', 'G4'],
+        ['F4', 'A4', 'C5'],
+      ],
+      defeat: [
+        ['A2', 'C3', 'E3'],
+        ['D3', 'F3', 'A3'],
+      ],
     };
-    
+
     const progressions = chordProgressions[phase] || chordProgressions.menu;
     const chordIndex = Math.floor(Date.now() / 4000) % progressions.length;
-    
+
     return progressions[chordIndex];
   }
 
@@ -343,13 +393,13 @@ export class DynamicAudioEngine {
     // Add heartbeat-like effect when health is low
     const bassSynth = this.musicSynths.get('bass');
     if (bassSynth) {
-      const heartbeat = new Tone.Loop((time) => {
+      const heartbeat = new Tone.Loop(time => {
         bassSynth.triggerAttackRelease('C2', '32n', time);
         bassSynth.triggerAttackRelease('C2', '32n', time + 0.1);
       }, '2n');
-      
+
       heartbeat.start();
-      
+
       // Stop after 10 seconds
       setTimeout(() => heartbeat.stop(), 10000);
     }
@@ -364,7 +414,7 @@ export class DynamicAudioEngine {
 
   updateConfig(newConfig: Partial<AudioConfig>): void {
     this.config = { ...this.config, ...newConfig };
-    
+
     // Apply volume changes
     this.masterGain.gain.value = this.config.masterVolume;
     this.musicGain.gain.value = this.config.musicVolume;
@@ -381,22 +431,22 @@ export class DynamicAudioEngine {
 
   dispose(): void {
     this.stopCurrentMusic();
-    
+
     if (this.ambientLoop) {
       this.ambientLoop.stop();
       this.ambientLoop = null;
     }
-    
+
     // Dispose all synthesizers
     this.musicSynths.forEach(synth => synth.dispose());
     this.sfxSynths.forEach(synth => synth.dispose());
-    
+
     // Dispose audio nodes
     this.masterGain.dispose();
     this.musicGain.dispose();
     this.sfxGain.dispose();
     this.spatialPanner.dispose();
-    
+
     this.isInitialized = false;
   }
 }

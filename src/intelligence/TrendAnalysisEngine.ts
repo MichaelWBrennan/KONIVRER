@@ -47,7 +47,12 @@ interface TrendConfig {
 interface TrendData {
   id: string;
   name: string;
-  category: 'security' | 'performance' | 'framework' | 'tooling' | 'best-practice';
+  category:
+    | 'security'
+    | 'performance'
+    | 'framework'
+    | 'tooling'
+    | 'best-practice';
   description: string;
   relevance: number;
   adoption: number;
@@ -95,17 +100,17 @@ class TrendAnalysisEngine extends EventEmitter {
     super();
     this.config = {
       confidenceThreshold: 0.8,
-      ...config
+      ...config,
     };
     this.initializeSources();
   }
 
   public async initialize(): Promise<void> {
     console.log('📈 Initializing Trend Analysis Engine...');
-    
+
     await this.loadInitialTrends();
     await this.setupMonitoring();
-    
+
     console.log('✅ Trend Analysis Engine initialized');
   }
 
@@ -121,57 +126,57 @@ class TrendAnalysisEngine extends EventEmitter {
         url: 'https://api.github.com/search/repositories',
         type: 'github',
         weight: 0.9,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'NPM Registry',
         url: 'https://registry.npmjs.org',
         type: 'npm',
         weight: 0.8,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'React Blog',
         url: 'https://react.dev/blog',
         type: 'rss',
         weight: 0.95,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'TypeScript Releases',
         url: 'https://api.github.com/repos/microsoft/TypeScript/releases',
         type: 'api',
         weight: 0.9,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'OWASP Updates',
         url: 'https://owasp.org/www-project-top-ten/',
         type: 'security',
         weight: 0.95,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'Vite Ecosystem',
         url: 'https://vitejs.dev/guide/',
         type: 'api',
         weight: 0.85,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'Web.dev',
         url: 'https://web.dev/blog/',
         type: 'rss',
         weight: 0.9,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       {
         name: 'MDN Updates',
         url: 'https://developer.mozilla.org/en-US/blog/',
         type: 'rss',
         weight: 0.85,
-        lastUpdated: new Date()
-      }
+        lastUpdated: new Date(),
+      },
     ];
 
     sources.forEach(source => this.sources.set(source.name, source));
@@ -195,9 +200,13 @@ class TrendAnalysisEngine extends EventEmitter {
         implementation: {
           effort: 'medium',
           risk: 'low',
-          benefits: ['Better performance', 'Improved UX', 'Better error boundaries'],
-          requirements: ['React 18+', 'Update dependencies']
-        }
+          benefits: [
+            'Better performance',
+            'Improved UX',
+            'Better error boundaries',
+          ],
+          requirements: ['React 18+', 'Update dependencies'],
+        },
       },
       {
         id: 'typescript-5-decorators',
@@ -215,8 +224,8 @@ class TrendAnalysisEngine extends EventEmitter {
           effort: 'low',
           risk: 'low',
           benefits: ['Better DX', 'Cleaner code', 'Framework integration'],
-          requirements: ['TypeScript 5.0+']
-        }
+          requirements: ['TypeScript 5.0+'],
+        },
       },
       {
         id: 'vite-5-rollup-4',
@@ -234,8 +243,8 @@ class TrendAnalysisEngine extends EventEmitter {
           effort: 'low',
           risk: 'low',
           benefits: ['Faster builds', 'Better HMR', 'Improved plugins'],
-          requirements: ['Node.js 18+']
-        }
+          requirements: ['Node.js 18+'],
+        },
       },
       {
         id: 'web-components-2024',
@@ -252,9 +261,13 @@ class TrendAnalysisEngine extends EventEmitter {
         implementation: {
           effort: 'high',
           risk: 'medium',
-          benefits: ['Framework agnostic', 'Better reusability', 'Standards compliance'],
-          requirements: ['Modern browsers', 'Polyfills for older browsers']
-        }
+          benefits: [
+            'Framework agnostic',
+            'Better reusability',
+            'Standards compliance',
+          ],
+          requirements: ['Modern browsers', 'Polyfills for older browsers'],
+        },
       },
       {
         id: 'security-headers-2024',
@@ -272,9 +285,9 @@ class TrendAnalysisEngine extends EventEmitter {
           effort: 'low',
           risk: 'low',
           benefits: ['Better security', 'Compliance', 'Attack prevention'],
-          requirements: ['Server configuration', 'CSP policy updates']
-        }
-      }
+          requirements: ['Server configuration', 'CSP policy updates'],
+        },
+      },
     ];
 
     initialTrends.forEach(trend => this.trends.set(trend.id, trend));
@@ -282,7 +295,7 @@ class TrendAnalysisEngine extends EventEmitter {
 
   private async setupMonitoring(): Promise<void> {
     this.isAnalyzing = true;
-    
+
     // Set up periodic trend analysis based on frequency
     const interval = this.getUpdateInterval();
     setInterval(() => {
@@ -294,42 +307,48 @@ class TrendAnalysisEngine extends EventEmitter {
 
   private getUpdateInterval(): number {
     switch (this.config.updateFrequency) {
-      case 'hourly': return 3600000; // 1 hour
-      case 'daily': return 86400000; // 24 hours
-      case 'weekly': return 604800000; // 7 days
-      default: return 3600000;
+      case 'hourly':
+        return 3600000; // 1 hour
+      case 'daily':
+        return 86400000; // 24 hours
+      case 'weekly':
+        return 604800000; // 7 days
+      default:
+        return 3600000;
     }
   }
 
   public async analyzeTrends(): Promise<void> {
     console.log('📊 Analyzing industry trends...');
-    
+
     try {
       // Analyze trends from all sources
-      const trendPromises = Array.from(this.sources.values()).map(source => 
-        this.analyzeTrendSource(source)
+      const trendPromises = Array.from(this.sources.values()).map(source =>
+        this.analyzeTrendSource(source),
       );
-      
+
       const newTrends = await Promise.all(trendPromises);
       const flatTrends = newTrends.flat();
-      
+
       // Process and integrate new trends
       for (const trend of flatTrends) {
         await this.processTrend(trend);
       }
-      
+
       // Update trend scores
       await this.updateTrendScores();
-      
+
       console.log(`✅ Analyzed ${flatTrends.length} trends`);
     } catch (error) {
       console.error('❌ Error analyzing trends:', error);
     }
   }
 
-  private async analyzeTrendSource(source: IndustrySource): Promise<TrendData[]> {
+  private async analyzeTrendSource(
+    source: IndustrySource,
+  ): Promise<TrendData[]> {
     console.log(`📡 Analyzing trends from: ${source.name}`);
-    
+
     try {
       switch (source.type) {
         case 'github':
@@ -351,7 +370,9 @@ class TrendAnalysisEngine extends EventEmitter {
     }
   }
 
-  private async analyzeGitHubTrends(source: IndustrySource): Promise<TrendData[]> {
+  private async analyzeGitHubTrends(
+    source: IndustrySource,
+  ): Promise<TrendData[]> {
     // Simulate GitHub trending analysis
     const mockTrends: TrendData[] = [
       {
@@ -370,11 +391,11 @@ class TrendAnalysisEngine extends EventEmitter {
           effort: 'medium',
           risk: 'low',
           benefits: ['Better code organization', 'Improved maintainability'],
-          requirements: ['React 18+', 'TypeScript']
-        }
-      }
+          requirements: ['React 18+', 'TypeScript'],
+        },
+      },
     ];
-    
+
     return mockTrends;
   }
 
@@ -397,11 +418,11 @@ class TrendAnalysisEngine extends EventEmitter {
           effort: 'high',
           risk: 'medium',
           benefits: ['Faster builds', 'Better optimization'],
-          requirements: ['Node.js 18+', 'Migration effort']
-        }
-      }
+          requirements: ['Node.js 18+', 'Migration effort'],
+        },
+      },
     ];
-    
+
     return mockTrends;
   }
 
@@ -415,7 +436,9 @@ class TrendAnalysisEngine extends EventEmitter {
     return [];
   }
 
-  private async analyzeSecurityTrends(source: IndustrySource): Promise<TrendData[]> {
+  private async analyzeSecurityTrends(
+    source: IndustrySource,
+  ): Promise<TrendData[]> {
     // Simulate security trend analysis
     const mockTrends: TrendData[] = [
       {
@@ -433,19 +456,23 @@ class TrendAnalysisEngine extends EventEmitter {
         implementation: {
           effort: 'high',
           risk: 'low',
-          benefits: ['Enhanced security', 'Better compliance', 'Reduced attack surface'],
-          requirements: ['Security infrastructure', 'Identity management']
-        }
-      }
+          benefits: [
+            'Enhanced security',
+            'Better compliance',
+            'Reduced attack surface',
+          ],
+          requirements: ['Security infrastructure', 'Identity management'],
+        },
+      },
     ];
-    
+
     return mockTrends;
   }
 
   private async processTrend(trend: TrendData): Promise<void> {
     // Check if trend already exists
     const existingTrend = this.trends.get(trend.id);
-    
+
     if (existingTrend) {
       // Update existing trend
       const updatedTrend = this.mergeTrends(existingTrend, trend);
@@ -453,13 +480,13 @@ class TrendAnalysisEngine extends EventEmitter {
     } else {
       // Add new trend
       this.trends.set(trend.id, trend);
-      
+
       // Emit event for new trend
       if (trend.relevance >= this.config.confidenceThreshold) {
         this.emit('trend-identified', trend);
       }
     }
-    
+
     // Check if trend should be auto-implemented
     if (this.shouldAutoImplement(trend)) {
       await this.autoImplementTrend(trend);
@@ -472,7 +499,7 @@ class TrendAnalysisEngine extends EventEmitter {
       adoption: Math.max(existing.adoption, updated.adoption),
       relevance: (existing.relevance + updated.relevance) / 2,
       timestamp: updated.timestamp,
-      description: updated.description || existing.description
+      description: updated.description || existing.description,
     };
   }
 
@@ -487,7 +514,7 @@ class TrendAnalysisEngine extends EventEmitter {
 
   private async autoImplementTrend(trend: TrendData): Promise<void> {
     console.log(`🤖 Auto-implementing trend: ${trend.name}`);
-    
+
     try {
       switch (trend.category) {
         case 'security':
@@ -506,7 +533,7 @@ class TrendAnalysisEngine extends EventEmitter {
           await this.implementBestPracticeTrend(trend);
           break;
       }
-      
+
       console.log(`✅ Successfully implemented trend: ${trend.name}`);
       this.emit('trend-implemented', trend);
     } catch (error) {
@@ -541,9 +568,9 @@ class TrendAnalysisEngine extends EventEmitter {
 
   public async checkForUpdates(): Promise<void> {
     console.log('🔍 Checking for available updates...');
-    
+
     const updates = await this.scanForUpdates();
-    
+
     for (const update of updates) {
       if (update.safety >= 0.9 && !update.breakingChanges) {
         this.emit('update-available', update);
@@ -552,7 +579,7 @@ class TrendAnalysisEngine extends EventEmitter {
           package: update.name,
           currentVersion: update.currentVersion,
           latestVersion: update.latestVersion,
-          migrationPath: update.migrationPath
+          migrationPath: update.migrationPath,
         });
       }
     }
@@ -570,7 +597,7 @@ class TrendAnalysisEngine extends EventEmitter {
         safety: 0.95,
         benefits: ['Bug fixes', 'Performance improvements'],
         breakingChanges: false,
-        migrationPath: ['npm update react']
+        migrationPath: ['npm update react'],
       },
       {
         id: 'typescript-update',
@@ -581,10 +608,10 @@ class TrendAnalysisEngine extends EventEmitter {
         safety: 0.9,
         benefits: ['New features', 'Better type inference'],
         breakingChanges: false,
-        migrationPath: ['npm update typescript']
-      }
+        migrationPath: ['npm update typescript'],
+      },
     ];
-    
+
     return mockUpdates;
   }
 
@@ -592,14 +619,14 @@ class TrendAnalysisEngine extends EventEmitter {
     // Calculate overall trend score based on adoption and relevance
     let totalScore = 0;
     let trendCount = 0;
-    
+
     for (const trend of this.trends.values()) {
       if (trend.relevance >= 0.7) {
-        totalScore += (trend.relevance * trend.adoption) * 100;
+        totalScore += trend.relevance * trend.adoption * 100;
         trendCount++;
       }
     }
-    
+
     this.trendScore = trendCount > 0 ? totalScore / trendCount : 100;
   }
 
@@ -619,13 +646,14 @@ class TrendAnalysisEngine extends EventEmitter {
   }
 
   public async getTrendsByCategory(category: string): Promise<TrendData[]> {
-    return Array.from(this.trends.values())
-      .filter(trend => trend.category === category);
+    return Array.from(this.trends.values()).filter(
+      trend => trend.category === category,
+    );
   }
 
   public async updateConfig(newConfig: Partial<TrendConfig>): Promise<void> {
     this.config = { ...this.config, ...newConfig };
-    
+
     // Restart monitoring with new config
     if (this.isAnalyzing) {
       await this.shutdown();
@@ -651,7 +679,7 @@ class TrendAnalysisEngine extends EventEmitter {
 
   public async migrateFromDeprecated(warning: any): Promise<void> {
     console.log(`🚚 Migrating from deprecated: ${warning.package}`);
-    
+
     // Implement migration logic
     for (const step of warning.migrationPath) {
       console.log(`📝 Migration step: ${step}`);
@@ -660,5 +688,11 @@ class TrendAnalysisEngine extends EventEmitter {
   }
 }
 
-export { TrendAnalysisEngine, TrendConfig, TrendData, TrendUpdate, IndustrySource };
+export {
+  TrendAnalysisEngine,
+  TrendConfig,
+  TrendData,
+  TrendUpdate,
+  IndustrySource,
+};
 export default TrendAnalysisEngine;

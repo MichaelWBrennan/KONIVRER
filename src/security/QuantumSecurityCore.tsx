@@ -1,6 +1,6 @@
 /**
  * KONIVRER Quantum Security Core
- * 
+ *
  * This module provides quantum-resistant security capabilities that future-proof
  * the application against quantum computing threats:
  * - Post-quantum cryptography implementation
@@ -48,7 +48,12 @@ interface QuantumKey {
 
 interface QuantumThreat {
   id: string;
-  type: 'shor-attack' | 'grover-attack' | 'quantum-supremacy' | 'key-compromise' | 'entropy-weakness';
+  type:
+    | 'shor-attack'
+    | 'grover-attack'
+    | 'quantum-supremacy'
+    | 'key-compromise'
+    | 'entropy-weakness';
   severity: 'low' | 'medium' | 'high' | 'critical';
   predictedImpact: string;
   mitigationStrategy: string;
@@ -86,7 +91,9 @@ class PostQuantumCrypto {
     this.algorithms.set('SABER', new SaberAlgorithm());
   }
 
-  public generateQuantumResistantKey(algorithm: string = 'CRYSTALS-Kyber'): QuantumKey {
+  public generateQuantumResistantKey(
+    algorithm: string = 'CRYSTALS-Kyber',
+  ): QuantumKey {
     const algo = this.algorithms.get(algorithm);
     if (!algo) {
       throw new Error(`Unknown post-quantum algorithm: ${algorithm}`);
@@ -122,7 +129,10 @@ class PostQuantumCrypto {
     return algorithm.encrypt(data, key);
   }
 
-  public decryptWithQuantumResistance(encryptedData: string, keyId: string): string {
+  public decryptWithQuantumResistance(
+    encryptedData: string,
+    keyId: string,
+  ): string {
     const key = this.activeKeys.get(keyId);
     if (!key) {
       throw new Error('Quantum key not found');
@@ -179,13 +189,15 @@ class KyberAlgorithm extends QuantumAlgorithm {
     // Simplified Kyber encryption simulation
     const entropy = this.generateQuantumEntropy();
     const encryptedData = this.kyberEncrypt(data, key, entropy);
-    return btoa(JSON.stringify({
-      algorithm: 'CRYSTALS-Kyber',
-      keyId: key.id,
-      data: encryptedData,
-      entropy: entropy,
-      timestamp: Date.now(),
-    }));
+    return btoa(
+      JSON.stringify({
+        algorithm: 'CRYSTALS-Kyber',
+        keyId: key.id,
+        data: encryptedData,
+        entropy: entropy,
+        timestamp: Date.now(),
+      }),
+    );
   }
 
   decrypt(encryptedData: string, key: QuantumKey): string {
@@ -203,7 +215,11 @@ class KyberAlgorithm extends QuantumAlgorithm {
     return btoa(combined.split('').reverse().join(''));
   }
 
-  private kyberDecrypt(encryptedData: string, key: QuantumKey, entropy: string): string {
+  private kyberDecrypt(
+    encryptedData: string,
+    key: QuantumKey,
+    entropy: string,
+  ): string {
     // Simplified Kyber decryption
     const reversed = atob(encryptedData).split('').reverse().join('');
     return reversed.replace(entropy, '').replace(key.id, '');
@@ -213,7 +229,9 @@ class KyberAlgorithm extends QuantumAlgorithm {
     // Generate quantum-level entropy
     const entropy = new Uint8Array(32);
     crypto.getRandomValues(entropy);
-    return Array.from(entropy).map(b => b.toString(16).padStart(2, '0')).join('');
+    return Array.from(entropy)
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
   }
 }
 
@@ -226,13 +244,15 @@ class DilithiumAlgorithm extends QuantumAlgorithm {
   encrypt(data: string, key: QuantumKey): string {
     // Dilithium is for signatures, but we'll use it for encryption simulation
     const signature = this.dilithiumSign(data, key);
-    return btoa(JSON.stringify({
-      algorithm: 'CRYSTALS-Dilithium',
-      keyId: key.id,
-      data: data,
-      signature: signature,
-      timestamp: Date.now(),
-    }));
+    return btoa(
+      JSON.stringify({
+        algorithm: 'CRYSTALS-Dilithium',
+        keyId: key.id,
+        data: data,
+        signature: signature,
+        timestamp: Date.now(),
+      }),
+    );
   }
 
   decrypt(encryptedData: string, key: QuantumKey): string {
@@ -253,7 +273,11 @@ class DilithiumAlgorithm extends QuantumAlgorithm {
     return btoa(hash);
   }
 
-  private dilithiumVerify(data: string, signature: string, key: QuantumKey): boolean {
+  private dilithiumVerify(
+    data: string,
+    signature: string,
+    key: QuantumKey,
+  ): boolean {
     // Simplified Dilithium verification
     const expectedHash = this.simpleHash(data + key.id);
     return atob(signature) === expectedHash;
@@ -263,7 +287,7 @@ class DilithiumAlgorithm extends QuantumAlgorithm {
     let hash = 0;
     for (let i = 0; i < input.length; i++) {
       const char = input.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return hash.toString(36);
@@ -278,12 +302,14 @@ class FalconAlgorithm extends QuantumAlgorithm {
 
   encrypt(data: string, key: QuantumKey): string {
     const falconData = this.falconProcess(data, key);
-    return btoa(JSON.stringify({
-      algorithm: 'FALCON',
-      keyId: key.id,
-      data: falconData,
-      timestamp: Date.now(),
-    }));
+    return btoa(
+      JSON.stringify({
+        algorithm: 'FALCON',
+        keyId: key.id,
+        data: falconData,
+        timestamp: Date.now(),
+      }),
+    );
   }
 
   decrypt(encryptedData: string, key: QuantumKey): string {
@@ -297,17 +323,21 @@ class FalconAlgorithm extends QuantumAlgorithm {
 
   private falconProcess(data: string, key: QuantumKey): string {
     // Simplified FALCON processing
-    return btoa((data + key.id).split('').map(c => 
-      String.fromCharCode(c.charCodeAt(0) ^ 42)
-    ).join(''));
+    return btoa(
+      (data + key.id)
+        .split('')
+        .map(c => String.fromCharCode(c.charCodeAt(0) ^ 42))
+        .join(''),
+    );
   }
 
   private falconReverse(processedData: string, key: QuantumKey): string {
     // Simplified FALCON reverse processing
     const decoded = atob(processedData);
-    const original = decoded.split('').map(c => 
-      String.fromCharCode(c.charCodeAt(0) ^ 42)
-    ).join('');
+    const original = decoded
+      .split('')
+      .map(c => String.fromCharCode(c.charCodeAt(0) ^ 42))
+      .join('');
     return original.replace(key.id, '');
   }
 }
@@ -320,12 +350,14 @@ class SphincsAlgorithm extends QuantumAlgorithm {
 
   encrypt(data: string, key: QuantumKey): string {
     const sphincsData = this.sphincsHash(data, key);
-    return btoa(JSON.stringify({
-      algorithm: 'SPHINCS+',
-      keyId: key.id,
-      data: sphincsData,
-      timestamp: Date.now(),
-    }));
+    return btoa(
+      JSON.stringify({
+        algorithm: 'SPHINCS+',
+        keyId: key.id,
+        data: sphincsData,
+        timestamp: Date.now(),
+      }),
+    );
   }
 
   decrypt(encryptedData: string, key: QuantumKey): string {
@@ -368,12 +400,14 @@ class NTRUAlgorithm extends QuantumAlgorithm {
 
   encrypt(data: string, key: QuantumKey): string {
     const ntruData = this.ntruLatticeEncrypt(data, key);
-    return btoa(JSON.stringify({
-      algorithm: 'NTRU',
-      keyId: key.id,
-      data: ntruData,
-      timestamp: Date.now(),
-    }));
+    return btoa(
+      JSON.stringify({
+        algorithm: 'NTRU',
+        keyId: key.id,
+        data: ntruData,
+        timestamp: Date.now(),
+      }),
+    );
   }
 
   decrypt(encryptedData: string, key: QuantumKey): string {
@@ -409,7 +443,9 @@ class NTRUAlgorithm extends QuantumAlgorithm {
 
   private multiplyPolynomials(poly: number[], keyId: string): number[] {
     const keyPoly = this.stringToPolynomial(keyId);
-    return poly.map((coeff, i) => (coeff * (keyPoly[i % keyPoly.length] || 1)) % 65536);
+    return poly.map(
+      (coeff, i) => (coeff * (keyPoly[i % keyPoly.length] || 1)) % 65536,
+    );
   }
 
   private dividePolynomials(poly: number[], keyId: string): number[] {
@@ -429,12 +465,14 @@ class SaberAlgorithm extends QuantumAlgorithm {
 
   encrypt(data: string, key: QuantumKey): string {
     const saberData = this.saberModularEncrypt(data, key);
-    return btoa(JSON.stringify({
-      algorithm: 'SABER',
-      keyId: key.id,
-      data: saberData,
-      timestamp: Date.now(),
-    }));
+    return btoa(
+      JSON.stringify({
+        algorithm: 'SABER',
+        keyId: key.id,
+        data: saberData,
+        timestamp: Date.now(),
+      }),
+    );
   }
 
   decrypt(encryptedData: string, key: QuantumKey): string {
@@ -451,25 +489,29 @@ class SaberAlgorithm extends QuantumAlgorithm {
     const modulus = 8192; // q = 2^13
     const dataBytes = new TextEncoder().encode(data);
     const keyBytes = new TextEncoder().encode(key.id);
-    
-    const encrypted = dataBytes.map((byte, i) => 
-      (byte + (keyBytes[i % keyBytes.length] || 0)) % modulus
+
+    const encrypted = dataBytes.map(
+      (byte, i) => (byte + (keyBytes[i % keyBytes.length] || 0)) % modulus,
     );
-    
+
     return btoa(String.fromCharCode(...encrypted));
   }
 
   private saberModularDecrypt(encryptedData: string, key: QuantumKey): string {
     // Simplified SABER modular decryption
     const modulus = 8192;
-    const encryptedBytes = new Uint8Array(atob(encryptedData).split('').map(c => c.charCodeAt(0)));
+    const encryptedBytes = new Uint8Array(
+      atob(encryptedData)
+        .split('')
+        .map(c => c.charCodeAt(0)),
+    );
     const keyBytes = new TextEncoder().encode(key.id);
-    
+
     const decrypted = encryptedBytes.map((byte, i) => {
       const keyByte = keyBytes[i % keyBytes.length] || 0;
       return (byte - keyByte + modulus) % modulus;
     });
-    
+
     return new TextDecoder().decode(decrypted);
   }
 }
@@ -477,13 +519,17 @@ class SaberAlgorithm extends QuantumAlgorithm {
 // Quantum Key Distribution Simulator
 class QuantumKeyDistribution {
   private distributedKeys: Map<string, QuantumKey> = new Map();
-  private keyExchangeLog: Array<{ timestamp: number; keyId: string; status: string }> = [];
+  private keyExchangeLog: Array<{
+    timestamp: number;
+    keyId: string;
+    status: string;
+  }> = [];
 
   public distributeKey(key: QuantumKey): boolean {
     try {
       // Simulate quantum key distribution protocol (BB84)
       const distributionSuccess = this.simulateBB84Protocol(key);
-      
+
       if (distributionSuccess) {
         this.distributedKeys.set(key.id, key);
         this.keyExchangeLog.push({
@@ -493,7 +539,7 @@ class QuantumKeyDistribution {
         });
         return true;
       }
-      
+
       return false;
     } catch (error) {
       this.keyExchangeLog.push({
@@ -510,7 +556,7 @@ class QuantumKeyDistribution {
     const photonCount = 1000;
     const errorRate = Math.random() * 0.1; // Up to 10% error rate
     const successfulPhotons = photonCount * (1 - errorRate);
-    
+
     // BB84 requires at least 50% successful photon transmission
     return successfulPhotons >= photonCount * 0.5;
   }
@@ -519,7 +565,11 @@ class QuantumKeyDistribution {
     return Array.from(this.distributedKeys.values());
   }
 
-  public getKeyExchangeLog(): Array<{ timestamp: number; keyId: string; status: string }> {
+  public getKeyExchangeLog(): Array<{
+    timestamp: number;
+    keyId: string;
+    status: string;
+  }> {
     return [...this.keyExchangeLog];
   }
 }
@@ -535,33 +585,33 @@ class QuantumThreatPredictor {
 
   public predictThreats(): QuantumThreat[] {
     const predictions: QuantumThreat[] = [];
-    
+
     // Predict Shor's algorithm attacks
     const shorThreat = this.predictShorAttack();
     if (shorThreat) predictions.push(shorThreat);
-    
+
     // Predict Grover's algorithm attacks
     const groverThreat = this.predictGroverAttack();
     if (groverThreat) predictions.push(groverThreat);
-    
+
     // Predict quantum supremacy impacts
     const supremacyThreat = this.predictQuantumSupremacy();
     if (supremacyThreat) predictions.push(supremacyThreat);
-    
+
     // Predict key compromise scenarios
     const keyThreat = this.predictKeyCompromise();
     if (keyThreat) predictions.push(keyThreat);
-    
+
     // Predict entropy weaknesses
     const entropyThreat = this.predictEntropyWeakness();
     if (entropyThreat) predictions.push(entropyThreat);
-    
+
     return predictions;
   }
 
   private predictShorAttack(): QuantumThreat | null {
     const probability = this.predictionModel.calculateShorProbability();
-    
+
     if (probability > 0.3) {
       return {
         id: `shor_${Date.now()}`,
@@ -573,13 +623,13 @@ class QuantumThreatPredictor {
         mitigated: false,
       };
     }
-    
+
     return null;
   }
 
   private predictGroverAttack(): QuantumThreat | null {
     const probability = this.predictionModel.calculateGroverProbability();
-    
+
     if (probability > 0.4) {
       return {
         id: `grover_${Date.now()}`,
@@ -591,13 +641,13 @@ class QuantumThreatPredictor {
         mitigated: false,
       };
     }
-    
+
     return null;
   }
 
   private predictQuantumSupremacy(): QuantumThreat | null {
     const probability = this.predictionModel.calculateSupremacyProbability();
-    
+
     if (probability > 0.2) {
       return {
         id: `supremacy_${Date.now()}`,
@@ -609,31 +659,34 @@ class QuantumThreatPredictor {
         mitigated: false,
       };
     }
-    
+
     return null;
   }
 
   private predictKeyCompromise(): QuantumThreat | null {
-    const probability = this.predictionModel.calculateKeyCompromiseProbability();
-    
+    const probability =
+      this.predictionModel.calculateKeyCompromiseProbability();
+
     if (probability > 0.5) {
       return {
         id: `keycomp_${Date.now()}`,
         type: 'key-compromise',
         severity: 'high',
         predictedImpact: 'Encryption keys vulnerable to quantum attacks',
-        mitigationStrategy: 'Immediate key rotation with quantum-resistant algorithms',
+        mitigationStrategy:
+          'Immediate key rotation with quantum-resistant algorithms',
         detectedAt: Date.now(),
         mitigated: false,
       };
     }
-    
+
     return null;
   }
 
   private predictEntropyWeakness(): QuantumThreat | null {
-    const probability = this.predictionModel.calculateEntropyWeaknessProbability();
-    
+    const probability =
+      this.predictionModel.calculateEntropyWeaknessProbability();
+
     if (probability > 0.6) {
       return {
         id: `entropy_${Date.now()}`,
@@ -645,7 +698,7 @@ class QuantumThreatPredictor {
         mitigated: false,
       };
     }
-    
+
     return null;
   }
 
@@ -682,8 +735,8 @@ class QuantumPredictionModel {
     const rsaUsage = 0.7; // Assume 70% RSA usage
     const eccUsage = 0.2; // Assume 20% ECC usage
     const postQuantumUsage = 0.1; // Assume 10% post-quantum usage
-    
-    return (rsaUsage * 0.8) + (eccUsage * 0.7) + (postQuantumUsage * 0.1);
+
+    return rsaUsage * 0.8 + eccUsage * 0.7 + postQuantumUsage * 0.1;
   }
 
   public calculateEntropyWeaknessProbability(): number {
@@ -707,7 +760,7 @@ class QuantumSecurityCore {
     this.keyDistribution = new QuantumKeyDistribution();
     this.threatPredictor = new QuantumThreatPredictor();
     this.metrics = this.initializeMetrics();
-    
+
     this.startQuantumMonitoring();
   }
 
@@ -746,7 +799,7 @@ class QuantumSecurityCore {
     setInterval(() => {
       const threats = this.threatPredictor.predictThreats();
       this.metrics.quantumThreatsDetected += threats.length;
-      
+
       threats.forEach(threat => {
         this.mitigateQuantumThreat(threat);
       });
@@ -755,22 +808,24 @@ class QuantumSecurityCore {
 
   private performQuantumScan(): void {
     this.metrics.lastQuantumScan = Date.now();
-    
+
     // Update quantum readiness based on current state
     this.updateQuantumReadiness();
-    
+
     // Update cryptographic strength
     this.updateCryptographicStrength();
-    
+
     // Update entropy quality
     this.updateEntropyQuality();
   }
 
   private updateQuantumReadiness(): void {
     const activeKeys = this.postQuantumCrypto.getActiveKeys();
-    const quantumResistantKeys = activeKeys.filter(key => key.quantumResistant).length;
+    const quantumResistantKeys = activeKeys.filter(
+      key => key.quantumResistant,
+    ).length;
     const totalKeys = activeKeys.length;
-    
+
     if (totalKeys > 0) {
       this.metrics.quantumReadiness = (quantumResistantKeys / totalKeys) * 100;
     }
@@ -779,26 +834,30 @@ class QuantumSecurityCore {
   private updateCryptographicStrength(): void {
     const activeKeys = this.postQuantumCrypto.getActiveKeys();
     let totalStrength = 0;
-    
+
     activeKeys.forEach(key => {
       // Calculate strength based on algorithm and key age
-      const ageMultiplier = Math.max(0.5, 1 - (Date.now() - key.createdAt) / this.config.keyRotationInterval);
+      const ageMultiplier = Math.max(
+        0.5,
+        1 - (Date.now() - key.createdAt) / this.config.keyRotationInterval,
+      );
       totalStrength += this.getAlgorithmStrength(key.algorithm) * ageMultiplier;
     });
-    
-    this.metrics.cryptographicStrength = activeKeys.length > 0 ? totalStrength / activeKeys.length : 0;
+
+    this.metrics.cryptographicStrength =
+      activeKeys.length > 0 ? totalStrength / activeKeys.length : 0;
   }
 
   private getAlgorithmStrength(algorithm: string): number {
     const strengths: { [key: string]: number } = {
       'CRYSTALS-Kyber': 98,
       'CRYSTALS-Dilithium': 96,
-      'FALCON': 97,
+      FALCON: 97,
       'SPHINCS+': 95,
-      'NTRU': 94,
-      'SABER': 93,
+      NTRU: 94,
+      SABER: 93,
     };
-    
+
     return strengths[algorithm] || 80;
   }
 
@@ -810,8 +869,9 @@ class QuantumSecurityCore {
       this.testFrequencyAnalysis(),
       this.testRunsTest(),
     ];
-    
-    this.metrics.entropyQuality = entropyTests.reduce((sum, test) => sum + test, 0) / entropyTests.length;
+
+    this.metrics.entropyQuality =
+      entropyTests.reduce((sum, test) => sum + test, 0) / entropyTests.length;
   }
 
   private testRandomnessDistribution(): number {
@@ -852,7 +912,7 @@ class QuantumSecurityCore {
         this.mitigateEntropyWeakness();
         break;
     }
-    
+
     threat.mitigated = true;
     this.metrics.quantumThreatsBlocked++;
   }
@@ -870,7 +930,14 @@ class QuantumSecurityCore {
 
   private mitigateQuantumSupremacy(): void {
     // Full quantum-resistant migration
-    ['CRYSTALS-Kyber', 'CRYSTALS-Dilithium', 'FALCON', 'SPHINCS+', 'NTRU', 'SABER'].forEach(algo => {
+    [
+      'CRYSTALS-Kyber',
+      'CRYSTALS-Dilithium',
+      'FALCON',
+      'SPHINCS+',
+      'NTRU',
+      'SABER',
+    ].forEach(algo => {
       this.postQuantumCrypto.generateQuantumResistantKey(algo);
     });
   }
@@ -882,7 +949,10 @@ class QuantumSecurityCore {
 
   private mitigateEntropyWeakness(): void {
     // Implement quantum entropy sources (simulated)
-    this.metrics.entropyQuality = Math.min(99.5, this.metrics.entropyQuality + 5);
+    this.metrics.entropyQuality = Math.min(
+      99.5,
+      this.metrics.entropyQuality + 5,
+    );
   }
 
   public getMetrics(): QuantumMetrics {
@@ -894,7 +964,10 @@ class QuantumSecurityCore {
   }
 
   public decryptData(encryptedData: string, keyId: string): string {
-    return this.postQuantumCrypto.decryptWithQuantumResistance(encryptedData, keyId);
+    return this.postQuantumCrypto.decryptWithQuantumResistance(
+      encryptedData,
+      keyId,
+    );
   }
 
   public getActiveKeys(): QuantumKey[] {
@@ -908,7 +981,9 @@ class QuantumSecurityCore {
 
 // React Hook for Quantum Security
 export const useQuantumSecurity = (config?: Partial<QuantumSecurityConfig>) => {
-  const [quantumCore, setQuantumCore] = useState<QuantumSecurityCore | null>(null);
+  const [quantumCore, setQuantumCore] = useState<QuantumSecurityCore | null>(
+    null,
+  );
   const [metrics, setMetrics] = useState<QuantumMetrics | null>(null);
   const [threats, setThreats] = useState<QuantumThreat[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -939,52 +1014,58 @@ export const useQuantumSecurity = (config?: Partial<QuantumSecurityConfig>) => {
     };
   }, [mergedConfig, logSecurityEvent]);
 
-  const encryptWithQuantum = useCallback((data: string): string | null => {
-    if (!quantumCore) return null;
-    
-    try {
-      const encrypted = quantumCore.encryptData(data);
-      logSecurityEvent('QUANTUM_ENCRYPTION_PERFORMED', {
-        dataLength: data.length,
-        timestamp: Date.now(),
-      });
-      return encrypted;
-    } catch (error) {
-      logSecurityEvent('QUANTUM_ENCRYPTION_FAILED', {
-        error: (error as Error).message,
-        timestamp: Date.now(),
-      });
-      return null;
-    }
-  }, [quantumCore, logSecurityEvent]);
+  const encryptWithQuantum = useCallback(
+    (data: string): string | null => {
+      if (!quantumCore) return null;
 
-  const decryptWithQuantum = useCallback((encryptedData: string, keyId: string): string | null => {
-    if (!quantumCore) return null;
-    
-    try {
-      const decrypted = quantumCore.decryptData(encryptedData, keyId);
-      logSecurityEvent('QUANTUM_DECRYPTION_PERFORMED', {
-        keyId,
-        timestamp: Date.now(),
-      });
-      return decrypted;
-    } catch (error) {
-      logSecurityEvent('QUANTUM_DECRYPTION_FAILED', {
-        error: (error as Error).message,
-        keyId,
-        timestamp: Date.now(),
-      });
-      return null;
-    }
-  }, [quantumCore, logSecurityEvent]);
+      try {
+        const encrypted = quantumCore.encryptData(data);
+        logSecurityEvent('QUANTUM_ENCRYPTION_PERFORMED', {
+          dataLength: data.length,
+          timestamp: Date.now(),
+        });
+        return encrypted;
+      } catch (error) {
+        logSecurityEvent('QUANTUM_ENCRYPTION_FAILED', {
+          error: (error as Error).message,
+          timestamp: Date.now(),
+        });
+        return null;
+      }
+    },
+    [quantumCore, logSecurityEvent],
+  );
+
+  const decryptWithQuantum = useCallback(
+    (encryptedData: string, keyId: string): string | null => {
+      if (!quantumCore) return null;
+
+      try {
+        const decrypted = quantumCore.decryptData(encryptedData, keyId);
+        logSecurityEvent('QUANTUM_DECRYPTION_PERFORMED', {
+          keyId,
+          timestamp: Date.now(),
+        });
+        return decrypted;
+      } catch (error) {
+        logSecurityEvent('QUANTUM_DECRYPTION_FAILED', {
+          error: (error as Error).message,
+          keyId,
+          timestamp: Date.now(),
+        });
+        return null;
+      }
+    },
+    [quantumCore, logSecurityEvent],
+  );
 
   const getQuantumStatus = useCallback(() => {
     if (!metrics) return 'initializing';
-    
+
     if (metrics.quantumReadiness >= 95) return 'quantum-ready';
     if (metrics.quantumReadiness >= 80) return 'quantum-prepared';
     if (metrics.quantumReadiness >= 60) return 'quantum-transitioning';
-    
+
     return 'quantum-vulnerable';
   }, [metrics]);
 

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { applyFontFamily, logFontStatus, waitForFontsToLoad } from '../utils/fontUtils';
+import {
+  applyFontFamily,
+  logFontStatus,
+  waitForFontsToLoad,
+} from '../utils/fontUtils';
 
 // Define accessibility settings interface
 export interface AccessibilitySettings {
@@ -27,7 +31,7 @@ const defaultSettings: AccessibilitySettings = {
   screenReader: false,
   colorBlindMode: 'none',
   focusIndicators: true,
-  textToSpeech: false
+  textToSpeech: false,
 };
 
 interface AccessibilityPanelProps {
@@ -35,7 +39,10 @@ interface AccessibilityPanelProps {
   onClose: () => void;
 }
 
-const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose }) => {
+const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({
+  isOpen,
+  onClose,
+}) => {
   // Get settings from localStorage or use defaults
   const getInitialSettings = (): AccessibilitySettings => {
     const savedSettings = localStorage.getItem('accessibility-settings');
@@ -49,8 +56,11 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
     return defaultSettings;
   };
 
-  const [settings, setSettings] = useState<AccessibilitySettings>(getInitialSettings);
-  const [activeTab, setActiveTab] = useState<'text' | 'visual' | 'motion' | 'cognitive'>('text');
+  const [settings, setSettings] =
+    useState<AccessibilitySettings>(getInitialSettings);
+  const [activeTab, setActiveTab] = useState<
+    'text' | 'visual' | 'motion' | 'cognitive'
+  >('text');
 
   // Check font loading status on mount
   useEffect(() => {
@@ -123,7 +133,10 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
       default:
         animationSpeed = '1';
     }
-    document.documentElement.style.setProperty('--animation-speed-factor', animationSpeed);
+    document.documentElement.style.setProperty(
+      '--animation-speed-factor',
+      animationSpeed,
+    );
 
     // Apply line spacing
     let lineHeight = '';
@@ -151,7 +164,10 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
       default:
         letterSpacing = 'normal';
     }
-    document.documentElement.style.setProperty('--letter-spacing', letterSpacing);
+    document.documentElement.style.setProperty(
+      '--letter-spacing',
+      letterSpacing,
+    );
 
     // Apply color blind mode
     let colorFilter = '';
@@ -193,11 +209,11 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
   // Handle setting changes
   const updateSetting = <K extends keyof AccessibilitySettings>(
     key: K,
-    value: AccessibilitySettings[K]
+    value: AccessibilitySettings[K],
   ) => {
     setSettings(prev => ({
       ...prev,
-      [key]: value
+      [key]: value,
     }));
   };
 
@@ -205,8 +221,6 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
   const resetToDefaults = () => {
     setSettings(defaultSettings);
   };
-
-
 
   return (
     <>
@@ -229,7 +243,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              padding: '20px'
+              padding: '20px',
             }}
           >
             <motion.div
@@ -247,12 +261,23 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                 overflow: 'auto',
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)',
                 position: 'relative',
-                fontFamily: 'var(--font-family)'
+                fontFamily: 'var(--font-family)',
               }}
             >
               <div style={{ padding: '20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                  <h2 style={{ margin: 0, color: 'var(--accent-color, #d4af37)' }}>Accessibility Settings</h2>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '20px',
+                  }}
+                >
+                  <h2
+                    style={{ margin: 0, color: 'var(--accent-color, #d4af37)' }}
+                  >
+                    Accessibility Settings
+                  </h2>
                   <button
                     onClick={onClose}
                     aria-label="Close accessibility panel"
@@ -261,7 +286,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                       border: 'none',
                       color: 'var(--text-color, white)',
                       fontSize: '24px',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
                     }}
                   >
                     ×
@@ -269,12 +294,18 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                 </div>
 
                 {/* Tabs */}
-                <div style={{ display: 'flex', borderBottom: '1px solid #333', marginBottom: '20px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    borderBottom: '1px solid #333',
+                    marginBottom: '20px',
+                  }}
+                >
                   {[
                     { id: 'text', label: 'Text' },
                     { id: 'visual', label: 'Visual' },
                     { id: 'motion', label: 'Motion' },
-                    { id: 'cognitive', label: 'Cognitive' }
+                    { id: 'cognitive', label: 'Cognitive' },
                   ].map(tab => (
                     <button
                       key={tab.id}
@@ -285,11 +316,17 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                         padding: '10px',
                         background: 'none',
                         border: 'none',
-                        borderBottom: activeTab === tab.id ? `3px solid var(--accent-color, #d4af37)` : '3px solid transparent',
-                        color: activeTab === tab.id ? 'var(--accent-color, #d4af37)' : 'var(--text-color, white)',
+                        borderBottom:
+                          activeTab === tab.id
+                            ? `3px solid var(--accent-color, #d4af37)`
+                            : '3px solid transparent',
+                        color:
+                          activeTab === tab.id
+                            ? 'var(--accent-color, #d4af37)'
+                            : 'var(--text-color, white)',
                         cursor: 'pointer',
                         fontFamily: 'inherit',
-                        fontSize: 'inherit'
+                        fontSize: 'inherit',
                       }}
                     >
                       {tab.label}
@@ -301,28 +338,49 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                 {activeTab === 'text' && (
                   <div>
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Font Family
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'default', label: 'Default' },
                           { id: 'arial', label: 'Arial' },
-                          { id: 'comic-sans', label: 'Comic Sans' }
+                          { id: 'comic-sans', label: 'Comic Sans' },
                         ].map(font => (
                           <button
                             key={font.id}
-                            onClick={() => updateSetting('fontFamily', font.id as any)}
+                            onClick={() =>
+                              updateSetting('fontFamily', font.id as any)
+                            }
                             aria-pressed={settings.fontFamily === font.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.fontFamily === font.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.fontFamily === font.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.fontFamily === font.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
                               cursor: 'pointer',
-                              fontFamily: font.id === 'arial' ? 'Arial, sans-serif' : 
-                                         font.id === 'comic-sans' ? '"Comic Sans MS", cursive' : 'inherit'
+                              fontFamily:
+                                font.id === 'arial'
+                                  ? 'Arial, sans-serif'
+                                  : font.id === 'comic-sans'
+                                    ? '"Comic Sans MS", cursive'
+                                    : 'inherit',
                             }}
                           >
                             {font.label}
@@ -332,30 +390,52 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Font Size
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'small', label: 'Small' },
                           { id: 'medium', label: 'Medium' },
                           { id: 'large', label: 'Large' },
-                          { id: 'x-large', label: 'Extra Large' }
+                          { id: 'x-large', label: 'Extra Large' },
                         ].map(size => (
                           <button
                             key={size.id}
-                            onClick={() => updateSetting('fontSize', size.id as any)}
+                            onClick={() =>
+                              updateSetting('fontSize', size.id as any)
+                            }
                             aria-pressed={settings.fontSize === size.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.fontSize === size.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.fontSize === size.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.fontSize === size.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
                               cursor: 'pointer',
-                              fontSize: size.id === 'small' ? '0.9rem' : 
-                                       size.id === 'medium' ? '1rem' : 
-                                       size.id === 'large' ? '1.2rem' : '1.4rem'
+                              fontSize:
+                                size.id === 'small'
+                                  ? '0.9rem'
+                                  : size.id === 'medium'
+                                    ? '1rem'
+                                    : size.id === 'large'
+                                      ? '1.2rem'
+                                      : '1.4rem',
                             }}
                           >
                             {size.label}
@@ -365,28 +445,49 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Line Spacing
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'default', label: 'Default' },
                           { id: 'increased', label: 'Increased' },
-                          { id: 'double', label: 'Double' }
+                          { id: 'double', label: 'Double' },
                         ].map(spacing => (
                           <button
                             key={spacing.id}
-                            onClick={() => updateSetting('lineSpacing', spacing.id as any)}
+                            onClick={() =>
+                              updateSetting('lineSpacing', spacing.id as any)
+                            }
                             aria-pressed={settings.lineSpacing === spacing.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.lineSpacing === spacing.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.lineSpacing === spacing.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.lineSpacing === spacing.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
                               cursor: 'pointer',
-                              lineHeight: spacing.id === 'default' ? '1.5' : 
-                                          spacing.id === 'increased' ? '1.8' : '2.2'
+                              lineHeight:
+                                spacing.id === 'default'
+                                  ? '1.5'
+                                  : spacing.id === 'increased'
+                                    ? '1.8'
+                                    : '2.2',
                             }}
                           >
                             {spacing.label}
@@ -396,28 +497,49 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Letter Spacing
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'default', label: 'Default' },
                           { id: 'increased', label: 'Increased' },
-                          { id: 'wide', label: 'Wide' }
+                          { id: 'wide', label: 'Wide' },
                         ].map(spacing => (
                           <button
                             key={spacing.id}
-                            onClick={() => updateSetting('letterSpacing', spacing.id as any)}
+                            onClick={() =>
+                              updateSetting('letterSpacing', spacing.id as any)
+                            }
                             aria-pressed={settings.letterSpacing === spacing.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.letterSpacing === spacing.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.letterSpacing === spacing.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.letterSpacing === spacing.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
                               cursor: 'pointer',
-                              letterSpacing: spacing.id === 'default' ? 'normal' : 
-                                             spacing.id === 'increased' ? '0.05em' : '0.1em'
+                              letterSpacing:
+                                spacing.id === 'default'
+                                  ? 'normal'
+                                  : spacing.id === 'increased'
+                                    ? '0.05em'
+                                    : '0.1em',
                             }}
                           >
                             {spacing.label}
@@ -432,26 +554,43 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                 {activeTab === 'visual' && (
                   <div>
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Contrast
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'default', label: 'Default' },
                           { id: 'high-contrast', label: 'High Contrast' },
-                          { id: 'light', label: 'Light' }
+                          { id: 'light', label: 'Light' },
                         ].map(contrast => (
                           <button
                             key={contrast.id}
-                            onClick={() => updateSetting('contrast', contrast.id as any)}
+                            onClick={() =>
+                              updateSetting('contrast', contrast.id as any)
+                            }
                             aria-pressed={settings.contrast === contrast.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.contrast === contrast.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.contrast === contrast.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.contrast === contrast.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
                             {contrast.label}
@@ -461,27 +600,50 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Color Blind Mode
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'none', label: 'None' },
                           { id: 'protanopia', label: 'Protanopia (Red-Blind)' },
-                          { id: 'deuteranopia', label: 'Deuteranopia (Green-Blind)' },
-                          { id: 'tritanopia', label: 'Tritanopia (Blue-Blind)' }
+                          {
+                            id: 'deuteranopia',
+                            label: 'Deuteranopia (Green-Blind)',
+                          },
+                          {
+                            id: 'tritanopia',
+                            label: 'Tritanopia (Blue-Blind)',
+                          },
                         ].map(mode => (
                           <button
                             key={mode.id}
-                            onClick={() => updateSetting('colorBlindMode', mode.id as any)}
+                            onClick={() =>
+                              updateSetting('colorBlindMode', mode.id as any)
+                            }
                             aria-pressed={settings.colorBlindMode === mode.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.colorBlindMode === mode.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.colorBlindMode === mode.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.colorBlindMode === mode.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
                             {mode.label}
@@ -491,17 +653,33 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                      <label
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                        }}
+                      >
                         <input
                           type="checkbox"
                           checked={settings.focusIndicators}
-                          onChange={(e) => updateSetting('focusIndicators', e.target.checked)}
+                          onChange={e =>
+                            updateSetting('focusIndicators', e.target.checked)
+                          }
                           style={{ width: '20px', height: '20px' }}
                         />
                         <span>Enhanced Focus Indicators</span>
                       </label>
-                      <p style={{ margin: '5px 0 0 30px', color: '#999', fontSize: '0.9em' }}>
-                        Makes it easier to see which element is currently focused when using keyboard navigation
+                      <p
+                        style={{
+                          margin: '5px 0 0 30px',
+                          color: '#999',
+                          fontSize: '0.9em',
+                        }}
+                      >
+                        Makes it easier to see which element is currently
+                        focused when using keyboard navigation
                       </p>
                     </div>
                   </div>
@@ -511,26 +689,43 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                 {activeTab === 'motion' && (
                   <div>
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'block', marginBottom: '8px', fontWeight: 'bold' }}>
+                      <label
+                        style={{
+                          display: 'block',
+                          marginBottom: '8px',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         Animations
                       </label>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '10px',
+                        }}
+                      >
                         {[
                           { id: 'default', label: 'Default' },
                           { id: 'reduced', label: 'Reduced' },
-                          { id: 'none', label: 'None' }
+                          { id: 'none', label: 'None' },
                         ].map(animation => (
                           <button
                             key={animation.id}
-                            onClick={() => updateSetting('animations', animation.id as any)}
+                            onClick={() =>
+                              updateSetting('animations', animation.id as any)
+                            }
                             aria-pressed={settings.animations === animation.id}
                             style={{
                               padding: '10px 15px',
                               border: `2px solid ${settings.animations === animation.id ? 'var(--accent-color, #d4af37)' : '#333'}`,
                               borderRadius: '5px',
-                              background: settings.animations === animation.id ? 'rgba(212, 175, 55, 0.2)' : 'transparent',
+                              background:
+                                settings.animations === animation.id
+                                  ? 'rgba(212, 175, 55, 0.2)'
+                                  : 'transparent',
                               color: 'var(--text-color, white)',
-                              cursor: 'pointer'
+                              cursor: 'pointer',
                             }}
                           >
                             {animation.label}
@@ -545,38 +740,74 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                 {activeTab === 'cognitive' && (
                   <div>
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                      <label
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                        }}
+                      >
                         <input
                           type="checkbox"
                           checked={settings.screenReader}
-                          onChange={(e) => updateSetting('screenReader', e.target.checked)}
+                          onChange={e =>
+                            updateSetting('screenReader', e.target.checked)
+                          }
                           style={{ width: '20px', height: '20px' }}
                         />
                         <span>Screen Reader Support</span>
                       </label>
-                      <p style={{ margin: '5px 0 0 30px', color: '#999', fontSize: '0.9em' }}>
+                      <p
+                        style={{
+                          margin: '5px 0 0 30px',
+                          color: '#999',
+                          fontSize: '0.9em',
+                        }}
+                      >
                         Enhances compatibility with screen readers
                       </p>
                     </div>
 
                     <div style={{ marginBottom: '20px' }}>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+                      <label
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          cursor: 'pointer',
+                        }}
+                      >
                         <input
                           type="checkbox"
                           checked={settings.textToSpeech}
-                          onChange={(e) => updateSetting('textToSpeech', e.target.checked)}
+                          onChange={e =>
+                            updateSetting('textToSpeech', e.target.checked)
+                          }
                           style={{ width: '20px', height: '20px' }}
                         />
                         <span>Text-to-Speech</span>
                       </label>
-                      <p style={{ margin: '5px 0 0 30px', color: '#999', fontSize: '0.9em' }}>
+                      <p
+                        style={{
+                          margin: '5px 0 0 30px',
+                          color: '#999',
+                          fontSize: '0.9em',
+                        }}
+                      >
                         Enables text-to-speech functionality for selected text
                       </p>
                     </div>
                   </div>
                 )}
 
-                <div style={{ marginTop: '30px', display: 'flex', justifyContent: 'space-between' }}>
+                <div
+                  style={{
+                    marginTop: '30px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
                   <button
                     onClick={resetToDefaults}
                     style={{
@@ -587,7 +818,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                       color: 'var(--text-color, white)',
                       cursor: 'pointer',
                       fontFamily: 'inherit',
-                      fontSize: 'inherit'
+                      fontSize: 'inherit',
                     }}
                   >
                     Reset to Defaults
@@ -603,7 +834,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({ isOpen, onClose
                       cursor: 'pointer',
                       fontFamily: 'inherit',
                       fontSize: 'inherit',
-                      fontWeight: 'bold'
+                      fontWeight: 'bold',
                     }}
                   >
                     Save & Close

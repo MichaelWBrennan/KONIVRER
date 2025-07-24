@@ -1,6 +1,6 @@
 /**
  * KONIVRER Security Intelligence System
- * 
+ *
  * This module provides advanced security intelligence capabilities that
  * integrate with the self-healing system to provide predictive and
  * adaptive security measures:
@@ -31,7 +31,14 @@ interface SecurityIntelligenceConfig {
 interface ThreatIntelligence {
   id: string;
   source: string;
-  type: 'malware' | 'phishing' | 'vulnerability' | 'botnet' | 'apt' | 'insider' | 'ddos';
+  type:
+    | 'malware'
+    | 'phishing'
+    | 'vulnerability'
+    | 'botnet'
+    | 'apt'
+    | 'insider'
+    | 'ddos';
   severity: 'info' | 'low' | 'medium' | 'high' | 'critical';
   title: string;
   description: string;
@@ -77,7 +84,14 @@ interface IncidentEvent {
 
 interface ResponseAction {
   id: string;
-  type: 'isolate' | 'block' | 'monitor' | 'patch' | 'notify' | 'backup' | 'restore';
+  type:
+    | 'isolate'
+    | 'block'
+    | 'monitor'
+    | 'patch'
+    | 'notify'
+    | 'backup'
+    | 'restore';
   description: string;
   status: 'pending' | 'executing' | 'completed' | 'failed';
   automated: boolean;
@@ -185,7 +199,9 @@ class ThreatIntelligenceFeedManager {
     'Shodan',
     'ThreatCrowd',
   ];
-  private updateListeners: Array<(feeds: Map<string, ThreatIntelligence[]>) => void> = [];
+  private updateListeners: Array<
+    (feeds: Map<string, ThreatIntelligence[]>) => void
+  > = [];
 
   constructor() {
     this.initializeFeeds();
@@ -208,7 +224,9 @@ class ThreatIntelligenceFeedManager {
   }
 
   private async updateAllFeeds(): Promise<void> {
-    const updatePromises = this.feedSources.map(source => this.updateFeed(source));
+    const updatePromises = this.feedSources.map(source =>
+      this.updateFeed(source),
+    );
     await Promise.all(updatePromises);
     this.notifyUpdateListeners();
   }
@@ -218,40 +236,59 @@ class ThreatIntelligenceFeedManager {
       // Simulate threat intelligence feed update
       const newThreats = await this.fetchThreatIntelligence(source);
       const existingThreats = this.feeds.get(source) || [];
-      
+
       // Merge new threats with existing ones
       const mergedThreats = this.mergeThreats(existingThreats, newThreats);
-      
+
       // Clean up expired threats
       const activeThreat = this.cleanupExpiredThreats(mergedThreats);
-      
+
       this.feeds.set(source, activeThreat);
     } catch (error) {
-      console.error(`[SECURITY-INTELLIGENCE] Failed to update feed ${source}:`, error);
+      console.error(
+        `[SECURITY-INTELLIGENCE] Failed to update feed ${source}:`,
+        error,
+      );
     }
   }
 
-  private async fetchThreatIntelligence(source: string): Promise<ThreatIntelligence[]> {
+  private async fetchThreatIntelligence(
+    source: string,
+  ): Promise<ThreatIntelligence[]> {
     // Simulate fetching threat intelligence from various sources
     const threats: ThreatIntelligence[] = [];
-    
+
     // Generate simulated threat intelligence based on source
     const threatCount = Math.floor(Math.random() * 5) + 1;
-    
+
     for (let i = 0; i < threatCount; i++) {
       threats.push(this.generateSimulatedThreat(source));
     }
-    
+
     return threats;
   }
 
   private generateSimulatedThreat(source: string): ThreatIntelligence {
-    const threatTypes: ThreatIntelligence['type'][] = ['malware', 'phishing', 'vulnerability', 'botnet', 'apt', 'insider', 'ddos'];
-    const severities: ThreatIntelligence['severity'][] = ['info', 'low', 'medium', 'high', 'critical'];
-    
+    const threatTypes: ThreatIntelligence['type'][] = [
+      'malware',
+      'phishing',
+      'vulnerability',
+      'botnet',
+      'apt',
+      'insider',
+      'ddos',
+    ];
+    const severities: ThreatIntelligence['severity'][] = [
+      'info',
+      'low',
+      'medium',
+      'high',
+      'critical',
+    ];
+
     const type = threatTypes[Math.floor(Math.random() * threatTypes.length)];
     const severity = severities[Math.floor(Math.random() * severities.length)];
-    
+
     return {
       id: `${source.toLowerCase()}_${Date.now()}_${Math.random().toString(36).substr(2, 8)}`,
       source,
@@ -263,27 +300,56 @@ class ThreatIntelligenceFeedManager {
       mitigations: this.generateMitigations(type),
       timestamp: Date.now(),
       confidence: 0.7 + Math.random() * 0.3,
-      ttl: Date.now() + (24 * 60 * 60 * 1000), // 24 hours
+      ttl: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
       actionTaken: false,
     };
   }
 
-  private generateThreatTitle(type: ThreatIntelligence['type'], severity: ThreatIntelligence['severity']): string {
+  private generateThreatTitle(
+    type: ThreatIntelligence['type'],
+    severity: ThreatIntelligence['severity'],
+  ): string {
     const titles = {
-      malware: [`${severity.toUpperCase()} Malware Campaign Detected`, `New ${severity} Malware Variant Identified`],
-      phishing: [`${severity.toUpperCase()} Phishing Campaign Active`, `Sophisticated ${severity} Phishing Attack`],
-      vulnerability: [`${severity.toUpperCase()} Vulnerability Disclosed`, `Critical ${severity} Security Flaw Found`],
-      botnet: [`${severity.toUpperCase()} Botnet Activity Detected`, `New ${severity} Botnet Infrastructure`],
-      apt: [`${severity.toUpperCase()} APT Group Activity`, `Advanced ${severity} Persistent Threat`],
-      insider: [`${severity.toUpperCase()} Insider Threat Indicators`, `Potential ${severity} Insider Activity`],
-      ddos: [`${severity.toUpperCase()} DDoS Attack Pattern`, `Large-scale ${severity} DDoS Campaign`],
+      malware: [
+        `${severity.toUpperCase()} Malware Campaign Detected`,
+        `New ${severity} Malware Variant Identified`,
+      ],
+      phishing: [
+        `${severity.toUpperCase()} Phishing Campaign Active`,
+        `Sophisticated ${severity} Phishing Attack`,
+      ],
+      vulnerability: [
+        `${severity.toUpperCase()} Vulnerability Disclosed`,
+        `Critical ${severity} Security Flaw Found`,
+      ],
+      botnet: [
+        `${severity.toUpperCase()} Botnet Activity Detected`,
+        `New ${severity} Botnet Infrastructure`,
+      ],
+      apt: [
+        `${severity.toUpperCase()} APT Group Activity`,
+        `Advanced ${severity} Persistent Threat`,
+      ],
+      insider: [
+        `${severity.toUpperCase()} Insider Threat Indicators`,
+        `Potential ${severity} Insider Activity`,
+      ],
+      ddos: [
+        `${severity.toUpperCase()} DDoS Attack Pattern`,
+        `Large-scale ${severity} DDoS Campaign`,
+      ],
     };
-    
-    const typeTitle = titles[type] || [`${severity.toUpperCase()} Security Threat`];
+
+    const typeTitle = titles[type] || [
+      `${severity.toUpperCase()} Security Threat`,
+    ];
     return typeTitle[Math.floor(Math.random() * typeTitle.length)];
   }
 
-  private generateThreatDescription(type: ThreatIntelligence['type'], severity: ThreatIntelligence['severity']): string {
+  private generateThreatDescription(
+    type: ThreatIntelligence['type'],
+    severity: ThreatIntelligence['severity'],
+  ): string {
     const descriptions = {
       malware: `A ${severity} severity malware campaign has been detected targeting web applications with advanced evasion techniques.`,
       phishing: `Security researchers have identified a ${severity} phishing campaign using sophisticated social engineering tactics.`,
@@ -293,36 +359,51 @@ class ThreatIntelligenceFeedManager {
       insider: `Behavioral analysis indicates potential ${severity} insider threat activity requiring investigation.`,
       ddos: `Distributed denial of service attack patterns detected with ${severity} impact potential.`,
     };
-    
-    return descriptions[type] || `A ${severity} security threat has been identified requiring immediate attention.`;
+
+    return (
+      descriptions[type] ||
+      `A ${severity} security threat has been identified requiring immediate attention.`
+    );
   }
 
-  private generateThreatIndicators(type: ThreatIntelligence['type']): ThreatIndicator[] {
+  private generateThreatIndicators(
+    type: ThreatIntelligence['type'],
+  ): ThreatIndicator[] {
     const indicators: ThreatIndicator[] = [];
-    
+
     // Generate 1-3 indicators per threat
     const indicatorCount = Math.floor(Math.random() * 3) + 1;
-    
+
     for (let i = 0; i < indicatorCount; i++) {
       indicators.push(this.generateIndicator(type));
     }
-    
+
     return indicators;
   }
 
   private generateIndicator(type: ThreatIntelligence['type']): ThreatIndicator {
-    const indicatorTypes: ThreatIndicator['type'][] = ['ip', 'domain', 'url', 'hash', 'email', 'pattern'];
-    const indicatorType = indicatorTypes[Math.floor(Math.random() * indicatorTypes.length)];
-    
+    const indicatorTypes: ThreatIndicator['type'][] = [
+      'ip',
+      'domain',
+      'url',
+      'hash',
+      'email',
+      'pattern',
+    ];
+    const indicatorType =
+      indicatorTypes[Math.floor(Math.random() * indicatorTypes.length)];
+
     const values = {
       ip: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
       domain: `malicious-${Math.random().toString(36).substr(2, 8)}.com`,
       url: `https://suspicious-${Math.random().toString(36).substr(2, 8)}.net/payload`,
-      hash: Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join(''),
+      hash: Array.from({ length: 64 }, () =>
+        Math.floor(Math.random() * 16).toString(16),
+      ).join(''),
       email: `attacker${Math.floor(Math.random() * 1000)}@malicious.com`,
       pattern: `/malicious-pattern-${Math.random().toString(36).substr(2, 6)}/i`,
     };
-    
+
     return {
       type: indicatorType,
       value: values[indicatorType],
@@ -376,18 +457,27 @@ class ThreatIntelligenceFeedManager {
         'Prepare incident response procedures',
       ],
     };
-    
-    return mitigations[type] || ['Implement general security measures', 'Monitor for suspicious activity'];
+
+    return (
+      mitigations[type] || [
+        'Implement general security measures',
+        'Monitor for suspicious activity',
+      ]
+    );
   }
 
-  private mergeThreats(existing: ThreatIntelligence[], newThreats: ThreatIntelligence[]): ThreatIntelligence[] {
+  private mergeThreats(
+    existing: ThreatIntelligence[],
+    newThreats: ThreatIntelligence[],
+  ): ThreatIntelligence[] {
     const merged = [...existing];
-    
+
     newThreats.forEach(newThreat => {
-      const existingIndex = merged.findIndex(threat => 
-        threat.title === newThreat.title && threat.type === newThreat.type
+      const existingIndex = merged.findIndex(
+        threat =>
+          threat.title === newThreat.title && threat.type === newThreat.type,
       );
-      
+
       if (existingIndex !== -1) {
         // Update existing threat
         merged[existingIndex] = { ...merged[existingIndex], ...newThreat };
@@ -396,11 +486,13 @@ class ThreatIntelligenceFeedManager {
         merged.push(newThreat);
       }
     });
-    
+
     return merged;
   }
 
-  private cleanupExpiredThreats(threats: ThreatIntelligence[]): ThreatIntelligence[] {
+  private cleanupExpiredThreats(
+    threats: ThreatIntelligence[],
+  ): ThreatIntelligence[] {
     const now = Date.now();
     return threats.filter(threat => threat.ttl > now);
   }
@@ -415,7 +507,9 @@ class ThreatIntelligenceFeedManager {
     return this.feeds.get(source) || [];
   }
 
-  public getThreatsBySeverity(severity: ThreatIntelligence['severity']): ThreatIntelligence[] {
+  public getThreatsBySeverity(
+    severity: ThreatIntelligence['severity'],
+  ): ThreatIntelligence[] {
     return this.getAllThreats().filter(threat => threat.severity === severity);
   }
 
@@ -428,11 +522,15 @@ class ThreatIntelligenceFeedManager {
     });
   }
 
-  public addUpdateListener(listener: (feeds: Map<string, ThreatIntelligence[]>) => void): void {
+  public addUpdateListener(
+    listener: (feeds: Map<string, ThreatIntelligence[]>) => void,
+  ): void {
     this.updateListeners.push(listener);
   }
 
-  public removeUpdateListener(listener: (feeds: Map<string, ThreatIntelligence[]>) => void): void {
+  public removeUpdateListener(
+    listener: (feeds: Map<string, ThreatIntelligence[]>) => void,
+  ): void {
     const index = this.updateListeners.indexOf(listener);
     if (index !== -1) {
       this.updateListeners.splice(index, 1);
@@ -446,14 +544,21 @@ class ThreatIntelligenceFeedManager {
 
 // Predictive Analysis Engine
 class PredictiveAnalysisEngine {
-  private historicalData: Array<{ timestamp: number; threats: ThreatIntelligence[]; incidents: SecurityIncident[] }> = [];
+  private historicalData: Array<{
+    timestamp: number;
+    threats: ThreatIntelligence[];
+    incidents: SecurityIncident[];
+  }> = [];
   private analysisModel: SecurityAnalysisModel;
 
   constructor() {
     this.analysisModel = new SecurityAnalysisModel();
   }
 
-  public performPredictiveAnalysis(currentThreats: ThreatIntelligence[], currentIncidents: SecurityIncident[]): PredictiveAnalysis {
+  public performPredictiveAnalysis(
+    currentThreats: ThreatIntelligence[],
+    currentIncidents: SecurityIncident[],
+  ): PredictiveAnalysis {
     // Store current data for historical analysis
     this.historicalData.push({
       timestamp: Date.now(),
@@ -462,14 +567,19 @@ class PredictiveAnalysisEngine {
     });
 
     // Keep only last 30 days of data
-    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
-    this.historicalData = this.historicalData.filter(data => data.timestamp > thirtyDaysAgo);
+    const thirtyDaysAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    this.historicalData = this.historicalData.filter(
+      data => data.timestamp > thirtyDaysAgo,
+    );
 
     // Perform analysis
     const threatProbability = this.calculateThreatProbability(currentThreats);
     const riskScore = this.calculateRiskScore(currentThreats, currentIncidents);
     const predictedThreats = this.predictFutureThreats();
-    const recommendations = this.generateRecommendations(currentThreats, predictedThreats);
+    const recommendations = this.generateRecommendations(
+      currentThreats,
+      predictedThreats,
+    );
     const confidence = this.calculateConfidence();
 
     return {
@@ -482,33 +592,68 @@ class PredictiveAnalysisEngine {
     };
   }
 
-  private calculateThreatProbability(currentThreats: ThreatIntelligence[]): number {
+  private calculateThreatProbability(
+    currentThreats: ThreatIntelligence[],
+  ): number {
     if (currentThreats.length === 0) return 0.1;
 
-    const severityWeights = { info: 0.1, low: 0.3, medium: 0.5, high: 0.7, critical: 0.9 };
-    const totalWeight = currentThreats.reduce((sum, threat) => sum + severityWeights[threat.severity], 0);
+    const severityWeights = {
+      info: 0.1,
+      low: 0.3,
+      medium: 0.5,
+      high: 0.7,
+      critical: 0.9,
+    };
+    const totalWeight = currentThreats.reduce(
+      (sum, threat) => sum + severityWeights[threat.severity],
+      0,
+    );
     const averageWeight = totalWeight / currentThreats.length;
 
     // Factor in historical trends
     const historicalTrend = this.calculateHistoricalTrend();
-    
+
     return Math.min(0.95, averageWeight * 0.7 + historicalTrend * 0.3);
   }
 
-  private calculateRiskScore(currentThreats: ThreatIntelligence[], currentIncidents: SecurityIncident[]): number {
+  private calculateRiskScore(
+    currentThreats: ThreatIntelligence[],
+    currentIncidents: SecurityIncident[],
+  ): number {
     let riskScore = 0;
 
     // Factor in current threats
     const threatRisk = currentThreats.reduce((sum, threat) => {
-      const severityMultiplier = { info: 0.1, low: 0.2, medium: 0.4, high: 0.7, critical: 1.0 };
-      return sum + (severityMultiplier[threat.severity] * threat.confidence);
+      const severityMultiplier = {
+        info: 0.1,
+        low: 0.2,
+        medium: 0.4,
+        high: 0.7,
+        critical: 1.0,
+      };
+      return sum + severityMultiplier[threat.severity] * threat.confidence;
     }, 0);
 
     // Factor in current incidents
     const incidentRisk = currentIncidents.reduce((sum, incident) => {
-      const severityMultiplier = { low: 0.2, medium: 0.4, high: 0.7, critical: 1.0 };
-      const statusMultiplier = { detected: 1.0, investigating: 0.8, contained: 0.5, resolved: 0.2, closed: 0.1 };
-      return sum + (severityMultiplier[incident.severity] * statusMultiplier[incident.status]);
+      const severityMultiplier = {
+        low: 0.2,
+        medium: 0.4,
+        high: 0.7,
+        critical: 1.0,
+      };
+      const statusMultiplier = {
+        detected: 1.0,
+        investigating: 0.8,
+        contained: 0.5,
+        resolved: 0.2,
+        closed: 0.1,
+      };
+      return (
+        sum +
+        severityMultiplier[incident.severity] *
+          statusMultiplier[incident.status]
+      );
     }, 0);
 
     riskScore = (threatRisk + incidentRisk) / 2;
@@ -520,7 +665,7 @@ class PredictiveAnalysisEngine {
 
     const recentData = this.historicalData.slice(-7); // Last 7 data points
     const threatCounts = recentData.map(data => data.threats.length);
-    
+
     // Calculate trend (increasing/decreasing)
     let trend = 0;
     for (let i = 1; i < threatCounts.length; i++) {
@@ -535,11 +680,22 @@ class PredictiveAnalysisEngine {
     const predictions: PredictedThreat[] = [];
 
     // Analyze patterns and predict future threats
-    const threatTypes = ['malware', 'phishing', 'vulnerability', 'botnet', 'apt', 'insider', 'ddos'];
-    
+    const threatTypes = [
+      'malware',
+      'phishing',
+      'vulnerability',
+      'botnet',
+      'apt',
+      'insider',
+      'ddos',
+    ];
+
     threatTypes.forEach(type => {
-      const probability = this.analysisModel.predictThreatTypeProbability(type, this.historicalData);
-      
+      const probability = this.analysisModel.predictThreatTypeProbability(
+        type,
+        this.historicalData,
+      );
+
       if (probability > 0.3) {
         predictions.push({
           type,
@@ -572,25 +728,69 @@ class PredictiveAnalysisEngine {
       ddos: 'Service disruption and availability issues',
     };
 
-    const severityModifier = probability > 0.7 ? 'High impact: ' : probability > 0.5 ? 'Medium impact: ' : 'Low impact: ';
-    return severityModifier + (baseImpacts[type as keyof typeof baseImpacts] || 'General security impact');
+    const severityModifier =
+      probability > 0.7
+        ? 'High impact: '
+        : probability > 0.5
+          ? 'Medium impact: '
+          : 'Low impact: ';
+    return (
+      severityModifier +
+      (baseImpacts[type as keyof typeof baseImpacts] ||
+        'General security impact')
+    );
   }
 
   private getPreventiveMeasures(type: string): string[] {
     const measures = {
-      malware: ['Update antivirus', 'Implement application control', 'Monitor file integrity'],
-      phishing: ['Email security training', 'Implement email filtering', 'Monitor for credential theft'],
-      vulnerability: ['Apply security patches', 'Implement compensating controls', 'Conduct vulnerability scans'],
-      botnet: ['Monitor network traffic', 'Block C&C servers', 'Implement network segmentation'],
-      apt: ['Enhance monitoring', 'Implement threat hunting', 'Review access controls'],
-      insider: ['Monitor user behavior', 'Implement DLP', 'Review access privileges'],
-      ddos: ['Implement rate limiting', 'Configure DDoS protection', 'Monitor traffic patterns'],
+      malware: [
+        'Update antivirus',
+        'Implement application control',
+        'Monitor file integrity',
+      ],
+      phishing: [
+        'Email security training',
+        'Implement email filtering',
+        'Monitor for credential theft',
+      ],
+      vulnerability: [
+        'Apply security patches',
+        'Implement compensating controls',
+        'Conduct vulnerability scans',
+      ],
+      botnet: [
+        'Monitor network traffic',
+        'Block C&C servers',
+        'Implement network segmentation',
+      ],
+      apt: [
+        'Enhance monitoring',
+        'Implement threat hunting',
+        'Review access controls',
+      ],
+      insider: [
+        'Monitor user behavior',
+        'Implement DLP',
+        'Review access privileges',
+      ],
+      ddos: [
+        'Implement rate limiting',
+        'Configure DDoS protection',
+        'Monitor traffic patterns',
+      ],
     };
 
-    return measures[type as keyof typeof measures] || ['Implement general security measures'];
+    return (
+      measures[type as keyof typeof measures] || [
+        'Implement general security measures',
+      ]
+    );
   }
 
-  private generateRecommendations(currentThreats: ThreatIntelligence[], predictedThreats: PredictedThreat[]): SecurityRecommendation[] {
+  private generateRecommendations(
+    currentThreats: ThreatIntelligence[],
+    predictedThreats: PredictedThreat[],
+  ): SecurityRecommendation[] {
     const recommendations: SecurityRecommendation[] = [];
 
     // Generate recommendations based on current threats
@@ -634,41 +834,59 @@ class PredictiveAnalysisEngine {
   private calculateConfidence(): number {
     const dataPoints = this.historicalData.length;
     const maxDataPoints = 30; // 30 days of data for maximum confidence
-    
+
     const dataConfidence = Math.min(1, dataPoints / maxDataPoints);
     const modelConfidence = 0.85; // Base model confidence
-    
+
     return dataConfidence * modelConfidence;
   }
 }
 
 // Security Analysis Model
 class SecurityAnalysisModel {
-  public predictThreatTypeProbability(threatType: string, historicalData: Array<{ timestamp: number; threats: ThreatIntelligence[]; incidents: SecurityIncident[] }>): number {
+  public predictThreatTypeProbability(
+    threatType: string,
+    historicalData: Array<{
+      timestamp: number;
+      threats: ThreatIntelligence[];
+      incidents: SecurityIncident[];
+    }>,
+  ): number {
     if (historicalData.length === 0) return 0.3; // Base probability
 
     // Count occurrences of this threat type in historical data
     const occurrences = historicalData.reduce((count, data) => {
-      return count + data.threats.filter(threat => threat.type === threatType).length;
+      return (
+        count + data.threats.filter(threat => threat.type === threatType).length
+      );
     }, 0);
 
-    const totalThreats = historicalData.reduce((count, data) => count + data.threats.length, 0);
-    
+    const totalThreats = historicalData.reduce(
+      (count, data) => count + data.threats.length,
+      0,
+    );
+
     if (totalThreats === 0) return 0.3;
 
     const historicalProbability = occurrences / totalThreats;
-    
+
     // Apply trend analysis
     const recentData = historicalData.slice(-7);
     const recentOccurrences = recentData.reduce((count, data) => {
-      return count + data.threats.filter(threat => threat.type === threatType).length;
+      return (
+        count + data.threats.filter(threat => threat.type === threatType).length
+      );
     }, 0);
 
-    const recentTotal = recentData.reduce((count, data) => count + data.threats.length, 0);
-    const recentProbability = recentTotal > 0 ? recentOccurrences / recentTotal : 0;
+    const recentTotal = recentData.reduce(
+      (count, data) => count + data.threats.length,
+      0,
+    );
+    const recentProbability =
+      recentTotal > 0 ? recentOccurrences / recentTotal : 0;
 
     // Weight recent data more heavily
-    return (historicalProbability * 0.3) + (recentProbability * 0.7);
+    return historicalProbability * 0.3 + recentProbability * 0.7;
   }
 }
 
@@ -676,7 +894,8 @@ class SecurityAnalysisModel {
 class IncidentResponseEngine {
   private incidents: Map<string, SecurityIncident> = new Map();
   private responsePlaybooks: Map<string, ResponsePlaybook> = new Map();
-  private responseListeners: Array<(incidents: SecurityIncident[]) => void> = [];
+  private responseListeners: Array<(incidents: SecurityIncident[]) => void> =
+    [];
 
   constructor() {
     this.initializePlaybooks();
@@ -687,32 +906,81 @@ class IncidentResponseEngine {
       {
         id: 'malware-response',
         name: 'Malware Incident Response',
-        triggerConditions: ['threat.type === "malware"', 'threat.severity >= "high"'],
+        triggerConditions: [
+          'threat.type === "malware"',
+          'threat.severity >= "high"',
+        ],
         actions: [
-          { type: 'isolate', description: 'Isolate affected systems', automated: true },
-          { type: 'block', description: 'Block malicious indicators', automated: true },
-          { type: 'monitor', description: 'Enhanced monitoring', automated: true },
-          { type: 'notify', description: 'Notify security team', automated: false },
+          {
+            type: 'isolate',
+            description: 'Isolate affected systems',
+            automated: true,
+          },
+          {
+            type: 'block',
+            description: 'Block malicious indicators',
+            automated: true,
+          },
+          {
+            type: 'monitor',
+            description: 'Enhanced monitoring',
+            automated: true,
+          },
+          {
+            type: 'notify',
+            description: 'Notify security team',
+            automated: false,
+          },
         ],
       },
       {
         id: 'phishing-response',
         name: 'Phishing Incident Response',
-        triggerConditions: ['threat.type === "phishing"', 'threat.severity >= "medium"'],
+        triggerConditions: [
+          'threat.type === "phishing"',
+          'threat.severity >= "medium"',
+        ],
         actions: [
-          { type: 'block', description: 'Block phishing domains/URLs', automated: true },
-          { type: 'notify', description: 'User awareness notification', automated: true },
-          { type: 'monitor', description: 'Monitor for credential theft', automated: true },
+          {
+            type: 'block',
+            description: 'Block phishing domains/URLs',
+            automated: true,
+          },
+          {
+            type: 'notify',
+            description: 'User awareness notification',
+            automated: true,
+          },
+          {
+            type: 'monitor',
+            description: 'Monitor for credential theft',
+            automated: true,
+          },
         ],
       },
       {
         id: 'vulnerability-response',
         name: 'Vulnerability Response',
-        triggerConditions: ['threat.type === "vulnerability"', 'threat.severity >= "high"'],
+        triggerConditions: [
+          'threat.type === "vulnerability"',
+          'threat.severity >= "high"',
+        ],
         actions: [
-          { type: 'patch', description: 'Apply security patches', automated: false },
-          { type: 'monitor', description: 'Monitor for exploitation', automated: true },
-          { type: 'notify', description: 'Notify system administrators', automated: true },
+          {
+            type: 'patch',
+            description: 'Apply security patches',
+            automated: false,
+          },
+          {
+            type: 'monitor',
+            description: 'Monitor for exploitation',
+            automated: true,
+          },
+          {
+            type: 'notify',
+            description: 'Notify system administrators',
+            automated: true,
+          },
         ],
       },
     ];
@@ -731,13 +999,15 @@ class IncidentResponseEngine {
       title: `${threat.type.toUpperCase()} Incident: ${threat.title}`,
       description: threat.description,
       affectedSystems: ['web-application'], // Simplified
-      timeline: [{
-        timestamp: Date.now(),
-        type: 'detection',
-        description: 'Incident detected from threat intelligence',
-        actor: 'security-intelligence-system',
-        automated: true,
-      }],
+      timeline: [
+        {
+          timestamp: Date.now(),
+          type: 'detection',
+          description: 'Incident detected from threat intelligence',
+          actor: 'security-intelligence-system',
+          automated: true,
+        },
+      ],
       responseActions: [],
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -750,7 +1020,9 @@ class IncidentResponseEngine {
     return incident;
   }
 
-  private mapThreatToIncidentType(threatType: ThreatIntelligence['type']): SecurityIncident['type'] {
+  private mapThreatToIncidentType(
+    threatType: ThreatIntelligence['type'],
+  ): SecurityIncident['type'] {
     const mapping = {
       malware: 'attack' as const,
       phishing: 'attack' as const,
@@ -764,7 +1036,9 @@ class IncidentResponseEngine {
     return mapping[threatType] || 'anomaly';
   }
 
-  private mapThreatSeverityToIncidentSeverity(threatSeverity: ThreatIntelligence['severity']): SecurityIncident['severity'] {
+  private mapThreatSeverityToIncidentSeverity(
+    threatSeverity: ThreatIntelligence['severity'],
+  ): SecurityIncident['severity'] {
     const mapping = {
       info: 'low' as const,
       low: 'low' as const,
@@ -776,10 +1050,13 @@ class IncidentResponseEngine {
     return mapping[threatSeverity];
   }
 
-  private async initiateResponse(incident: SecurityIncident, threat: ThreatIntelligence): Promise<void> {
+  private async initiateResponse(
+    incident: SecurityIncident,
+    threat: ThreatIntelligence,
+  ): Promise<void> {
     // Find applicable playbook
     const playbook = this.findApplicablePlaybook(threat);
-    
+
     if (playbook) {
       // Execute response actions
       for (const action of playbook.actions) {
@@ -813,7 +1090,9 @@ class IncidentResponseEngine {
     }
   }
 
-  private findApplicablePlaybook(threat: ThreatIntelligence): ResponsePlaybook | null {
+  private findApplicablePlaybook(
+    threat: ThreatIntelligence,
+  ): ResponsePlaybook | null {
     for (const playbook of this.responsePlaybooks.values()) {
       if (this.evaluatePlaybookConditions(playbook.triggerConditions, threat)) {
         return playbook;
@@ -822,30 +1101,45 @@ class IncidentResponseEngine {
     return null;
   }
 
-  private evaluatePlaybookConditions(conditions: string[], threat: ThreatIntelligence): boolean {
+  private evaluatePlaybookConditions(
+    conditions: string[],
+    threat: ThreatIntelligence,
+  ): boolean {
     return conditions.every(condition => {
       // Simplified condition evaluation
       if (condition.includes('threat.type')) {
         const expectedType = condition.match(/"([^"]+)"/)?.[1];
         return threat.type === expectedType;
       }
-      
+
       if (condition.includes('threat.severity')) {
-        const severityLevels = { info: 1, low: 2, medium: 3, high: 4, critical: 5 };
-        const expectedLevel = condition.match(/"([^"]+)"/)?.[1] as keyof typeof severityLevels;
+        const severityLevels = {
+          info: 1,
+          low: 2,
+          medium: 3,
+          high: 4,
+          critical: 5,
+        };
+        const expectedLevel = condition.match(
+          /"([^"]+)"/,
+        )?.[1] as keyof typeof severityLevels;
         const currentLevel = severityLevels[threat.severity];
         const requiredLevel = severityLevels[expectedLevel];
-        
+
         if (condition.includes('>=')) {
           return currentLevel >= requiredLevel;
         }
       }
-      
+
       return false;
     });
   }
 
-  private async executeAutomatedAction(action: ResponseAction, incident: SecurityIncident, threat: ThreatIntelligence): Promise<void> {
+  private async executeAutomatedAction(
+    action: ResponseAction,
+    incident: SecurityIncident,
+    threat: ThreatIntelligence,
+  ): Promise<void> {
     action.status = 'executing';
     action.executedAt = Date.now();
 
@@ -890,56 +1184,75 @@ class IncidentResponseEngine {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 
-  private async blockThreatIndicators(indicators: ThreatIndicator[]): Promise<void> {
+  private async blockThreatIndicators(
+    indicators: ThreatIndicator[],
+  ): Promise<void> {
     // Simulate blocking threat indicators
-    console.log(`[INCIDENT-RESPONSE] Blocking ${indicators.length} threat indicators`);
+    console.log(
+      `[INCIDENT-RESPONSE] Blocking ${indicators.length} threat indicators`,
+    );
     await new Promise(resolve => setTimeout(resolve, 500));
   }
 
   private async enhanceMonitoring(threat: ThreatIntelligence): Promise<void> {
     // Simulate enhanced monitoring
-    console.log(`[INCIDENT-RESPONSE] Enhanced monitoring for ${threat.type} threats`);
+    console.log(
+      `[INCIDENT-RESPONSE] Enhanced monitoring for ${threat.type} threats`,
+    );
     await new Promise(resolve => setTimeout(resolve, 300));
   }
 
   private async applyPatches(systems: string[]): Promise<void> {
     // Simulate patch application
-    console.log(`[INCIDENT-RESPONSE] Applying patches to systems: ${systems.join(', ')}`);
+    console.log(
+      `[INCIDENT-RESPONSE] Applying patches to systems: ${systems.join(', ')}`,
+    );
     await new Promise(resolve => setTimeout(resolve, 2000));
   }
 
   private async sendNotifications(incident: SecurityIncident): Promise<void> {
     // Simulate notification sending
-    console.log(`[INCIDENT-RESPONSE] Sending notifications for incident: ${incident.title}`);
+    console.log(
+      `[INCIDENT-RESPONSE] Sending notifications for incident: ${incident.title}`,
+    );
     await new Promise(resolve => setTimeout(resolve, 200));
   }
 
   private async createBackup(systems: string[]): Promise<void> {
     // Simulate backup creation
-    console.log(`[INCIDENT-RESPONSE] Creating backup for systems: ${systems.join(', ')}`);
+    console.log(
+      `[INCIDENT-RESPONSE] Creating backup for systems: ${systems.join(', ')}`,
+    );
     await new Promise(resolve => setTimeout(resolve, 3000));
   }
 
   private async restoreFromBackup(systems: string[]): Promise<void> {
     // Simulate restore from backup
-    console.log(`[INCIDENT-RESPONSE] Restoring systems from backup: ${systems.join(', ')}`);
+    console.log(
+      `[INCIDENT-RESPONSE] Restoring systems from backup: ${systems.join(', ')}`,
+    );
     await new Promise(resolve => setTimeout(resolve, 4000));
   }
 
   public getIncidents(): SecurityIncident[] {
-    return Array.from(this.incidents.values()).sort((a, b) => b.createdAt - a.createdAt);
+    return Array.from(this.incidents.values()).sort(
+      (a, b) => b.createdAt - a.createdAt,
+    );
   }
 
   public getIncident(id: string): SecurityIncident | null {
     return this.incidents.get(id) || null;
   }
 
-  public updateIncidentStatus(id: string, status: SecurityIncident['status']): void {
+  public updateIncidentStatus(
+    id: string,
+    status: SecurityIncident['status'],
+  ): void {
     const incident = this.incidents.get(id);
     if (incident) {
       incident.status = status;
       incident.updatedAt = Date.now();
-      
+
       if (status === 'resolved') {
         incident.resolvedAt = Date.now();
       }
@@ -956,11 +1269,15 @@ class IncidentResponseEngine {
     }
   }
 
-  public addResponseListener(listener: (incidents: SecurityIncident[]) => void): void {
+  public addResponseListener(
+    listener: (incidents: SecurityIncident[]) => void,
+  ): void {
     this.responseListeners.push(listener);
   }
 
-  public removeResponseListener(listener: (incidents: SecurityIncident[]) => void): void {
+  public removeResponseListener(
+    listener: (incidents: SecurityIncident[]) => void,
+  ): void {
     const index = this.responseListeners.indexOf(listener);
     if (index !== -1) {
       this.responseListeners.splice(index, 1);
@@ -987,7 +1304,9 @@ interface ResponsePlaybook {
 // Compliance Monitoring Engine
 class ComplianceMonitoringEngine {
   private frameworks: Map<string, ComplianceFramework> = new Map();
-  private complianceListeners: Array<(frameworks: ComplianceFramework[]) => void> = [];
+  private complianceListeners: Array<
+    (frameworks: ComplianceFramework[]) => void
+  > = [];
 
   constructor() {
     this.initializeFrameworks();
@@ -1049,7 +1368,10 @@ class ComplianceMonitoringEngine {
         category: 'Data Minimization',
         description: 'Collect only necessary personal data',
         status: 'compliant',
-        evidence: ['Data collection audit completed', 'Minimal data collection verified'],
+        evidence: [
+          'Data collection audit completed',
+          'Minimal data collection verified',
+        ],
         lastChecked: Date.now(),
         autoCheck: true,
       },
@@ -1072,7 +1394,10 @@ class ComplianceMonitoringEngine {
         category: 'Access Control',
         description: 'Implement proper access control measures',
         status: 'compliant',
-        evidence: ['Access control policies defined', 'User access reviews conducted'],
+        evidence: [
+          'Access control policies defined',
+          'User access reviews conducted',
+        ],
         lastChecked: Date.now(),
         autoCheck: true,
       },
@@ -1081,7 +1406,10 @@ class ComplianceMonitoringEngine {
         category: 'Incident Management',
         description: 'Establish incident management procedures',
         status: 'compliant',
-        evidence: ['Incident response procedures documented', 'Incident tracking system active'],
+        evidence: [
+          'Incident response procedures documented',
+          'Incident tracking system active',
+        ],
         lastChecked: Date.now(),
         autoCheck: true,
       },
@@ -1093,7 +1421,8 @@ class ComplianceMonitoringEngine {
       {
         id: 'nist-identify',
         category: 'Identify',
-        description: 'Develop organizational understanding of cybersecurity risk',
+        description:
+          'Develop organizational understanding of cybersecurity risk',
         status: 'compliant',
         evidence: ['Risk assessment completed', 'Asset inventory maintained'],
         lastChecked: Date.now(),
@@ -1104,16 +1433,23 @@ class ComplianceMonitoringEngine {
         category: 'Protect',
         description: 'Implement appropriate safeguards',
         status: 'compliant',
-        evidence: ['Security controls implemented', 'Security awareness training conducted'],
+        evidence: [
+          'Security controls implemented',
+          'Security awareness training conducted',
+        ],
         lastChecked: Date.now(),
         autoCheck: true,
       },
       {
         id: 'nist-detect',
         category: 'Detect',
-        description: 'Implement appropriate activities to identify cybersecurity events',
+        description:
+          'Implement appropriate activities to identify cybersecurity events',
         status: 'compliant',
-        evidence: ['Monitoring systems active', 'Anomaly detection implemented'],
+        evidence: [
+          'Monitoring systems active',
+          'Anomaly detection implemented',
+        ],
         lastChecked: Date.now(),
         autoCheck: true,
       },
@@ -1130,7 +1466,7 @@ class ComplianceMonitoringEngine {
     this.frameworks.forEach(framework => {
       this.assessFrameworkCompliance(framework);
     });
-    
+
     this.notifyComplianceListeners();
   }
 
@@ -1160,7 +1496,8 @@ class ComplianceMonitoringEngine {
       }
     });
 
-    framework.complianceScore = (compliantRequirements / totalRequirements) * 100;
+    framework.complianceScore =
+      (compliantRequirements / totalRequirements) * 100;
     framework.gaps = gaps;
     framework.lastAssessment = Date.now();
 
@@ -1198,16 +1535,24 @@ class ComplianceMonitoringEngine {
       'nist-detect': 'Enhance monitoring and detection capabilities',
     };
 
-    return remediations[requirement.id as keyof typeof remediations] || 'Review and update compliance measures';
+    return (
+      remediations[requirement.id as keyof typeof remediations] ||
+      'Review and update compliance measures'
+    );
   }
 
-  private performAutoRemediation(framework: ComplianceFramework, gaps: ComplianceGap[]): void {
+  private performAutoRemediation(
+    framework: ComplianceFramework,
+    gaps: ComplianceGap[],
+  ): void {
     gaps.forEach(gap => {
       // Simulate auto-remediation
       console.log(`[COMPLIANCE] Auto-remediating gap: ${gap.description}`);
-      
+
       // Mark requirement as compliant after remediation
-      const requirement = framework.requirements.find(req => req.id === gap.requirementId);
+      const requirement = framework.requirements.find(
+        req => req.id === gap.requirementId,
+      );
       if (requirement) {
         requirement.status = 'compliant';
         requirement.evidence.push('Auto-remediation applied');
@@ -1215,8 +1560,11 @@ class ComplianceMonitoringEngine {
     });
 
     // Recalculate compliance score
-    const compliantCount = framework.requirements.filter(req => req.status === 'compliant').length;
-    framework.complianceScore = (compliantCount / framework.requirements.length) * 100;
+    const compliantCount = framework.requirements.filter(
+      req => req.status === 'compliant',
+    ).length;
+    framework.complianceScore =
+      (compliantCount / framework.requirements.length) * 100;
     framework.gaps = [];
   }
 
@@ -1228,11 +1576,15 @@ class ComplianceMonitoringEngine {
     return this.frameworks.get(id) || null;
   }
 
-  public addComplianceListener(listener: (frameworks: ComplianceFramework[]) => void): void {
+  public addComplianceListener(
+    listener: (frameworks: ComplianceFramework[]) => void,
+  ): void {
     this.complianceListeners.push(listener);
   }
 
-  public removeComplianceListener(listener: (frameworks: ComplianceFramework[]) => void): void {
+  public removeComplianceListener(
+    listener: (frameworks: ComplianceFramework[]) => void,
+  ): void {
     const index = this.complianceListeners.indexOf(listener);
     if (index !== -1) {
       this.complianceListeners.splice(index, 1);
@@ -1298,17 +1650,25 @@ class SecurityIntelligenceCore {
     const incidents = this.incidentEngine.getIncidents();
 
     // Perform predictive analysis
-    const analysis = this.analysisEngine.performPredictiveAnalysis(threats, incidents);
+    const analysis = this.analysisEngine.performPredictiveAnalysis(
+      threats,
+      incidents,
+    );
 
     // Process high-severity threats
     threats.forEach(threat => {
-      if ((threat.severity === 'critical' || threat.severity === 'high') && !threat.actionTaken) {
+      if (
+        (threat.severity === 'critical' || threat.severity === 'high') &&
+        !threat.actionTaken
+      ) {
         // Create incident for high-severity threats
         const incident = this.incidentEngine.createIncident(threat);
         this.feedManager.markThreatActionTaken(threat.id);
-        
+
         if (!this.config.silentOperation) {
-          console.log(`[SECURITY-INTELLIGENCE] Created incident ${incident.id} for threat ${threat.id}`);
+          console.log(
+            `[SECURITY-INTELLIGENCE] Created incident ${incident.id} for threat ${threat.id}`,
+          );
         }
       }
     });
@@ -1321,10 +1681,14 @@ class SecurityIntelligenceCore {
     });
   }
 
-  private implementRecommendation(recommendation: SecurityRecommendation): void {
+  private implementRecommendation(
+    recommendation: SecurityRecommendation,
+  ): void {
     // Simulate recommendation implementation
     if (!this.config.silentOperation) {
-      console.log(`[SECURITY-INTELLIGENCE] Implementing recommendation: ${recommendation.title}`);
+      console.log(
+        `[SECURITY-INTELLIGENCE] Implementing recommendation: ${recommendation.title}`,
+      );
     }
 
     // Update metrics
@@ -1338,25 +1702,36 @@ class SecurityIntelligenceCore {
 
     this.metrics.activeThreats = threats.filter(t => !t.actionTaken).length;
     this.metrics.incidentsDetected = incidents.length;
-    this.metrics.incidentsResolved = incidents.filter(i => i.status === 'resolved' || i.status === 'closed').length;
+    this.metrics.incidentsResolved = incidents.filter(
+      i => i.status === 'resolved' || i.status === 'closed',
+    ).length;
 
     // Calculate mean times
     const resolvedIncidents = incidents.filter(i => i.resolvedAt);
     if (resolvedIncidents.length > 0) {
       const totalDetectionTime = resolvedIncidents.reduce((sum, incident) => {
-        return sum + (incident.timeline[0]?.timestamp || incident.createdAt) - incident.createdAt;
+        return (
+          sum +
+          (incident.timeline[0]?.timestamp || incident.createdAt) -
+          incident.createdAt
+        );
       }, 0);
-      this.metrics.meanTimeToDetection = totalDetectionTime / resolvedIncidents.length;
+      this.metrics.meanTimeToDetection =
+        totalDetectionTime / resolvedIncidents.length;
 
       const totalResolutionTime = resolvedIncidents.reduce((sum, incident) => {
         return sum + (incident.resolvedAt! - incident.createdAt);
       }, 0);
-      this.metrics.meanTimeToResolution = totalResolutionTime / resolvedIncidents.length;
+      this.metrics.meanTimeToResolution =
+        totalResolutionTime / resolvedIncidents.length;
     }
 
     // Calculate compliance score
     if (frameworks.length > 0) {
-      const totalScore = frameworks.reduce((sum, framework) => sum + framework.complianceScore, 0);
+      const totalScore = frameworks.reduce(
+        (sum, framework) => sum + framework.complianceScore,
+        0,
+      );
       this.metrics.complianceScore = totalScore / frameworks.length;
     }
 
@@ -1368,9 +1743,14 @@ class SecurityIntelligenceCore {
   private calculateSecurityPosture(): number {
     const factors = [
       this.metrics.complianceScore,
-      Math.max(0, 100 - (this.metrics.activeThreats * 5)),
-      Math.min(100, (this.metrics.incidentsResolved / Math.max(1, this.metrics.incidentsDetected)) * 100),
-      Math.max(0, 100 - (this.metrics.meanTimeToResponse / 1000)), // Convert to seconds
+      Math.max(0, 100 - this.metrics.activeThreats * 5),
+      Math.min(
+        100,
+        (this.metrics.incidentsResolved /
+          Math.max(1, this.metrics.incidentsDetected)) *
+          100,
+      ),
+      Math.max(0, 100 - this.metrics.meanTimeToResponse / 1000), // Convert to seconds
     ];
 
     return factors.reduce((sum, factor) => sum + factor, 0) / factors.length;
@@ -1400,8 +1780,11 @@ class SecurityIntelligenceCore {
 }
 
 // React Hook for Security Intelligence
-export const useSecurityIntelligence = (config?: Partial<SecurityIntelligenceConfig>) => {
-  const [intelligenceCore, setIntelligenceCore] = useState<SecurityIntelligenceCore | null>(null);
+export const useSecurityIntelligence = (
+  config?: Partial<SecurityIntelligenceConfig>,
+) => {
+  const [intelligenceCore, setIntelligenceCore] =
+    useState<SecurityIntelligenceCore | null>(null);
   const [metrics, setMetrics] = useState<SecurityMetrics | null>(null);
   const [threats, setThreats] = useState<ThreatIntelligence[]>([]);
   const [incidents, setIncidents] = useState<SecurityIncident[]>([]);
@@ -1440,25 +1823,29 @@ export const useSecurityIntelligence = (config?: Partial<SecurityIntelligenceCon
 
   const getSecurityStatus = useCallback(() => {
     if (!metrics) return 'unknown';
-    
+
     if (metrics.securityPosture >= 90) return 'excellent';
     if (metrics.securityPosture >= 75) return 'good';
     if (metrics.securityPosture >= 60) return 'fair';
     if (metrics.securityPosture >= 40) return 'poor';
-    
+
     return 'critical';
   }, [metrics]);
 
   const getThreatLevel = useCallback(() => {
     if (!threats) return 'unknown';
-    
-    const criticalThreats = threats.filter(t => t.severity === 'critical' && !t.actionTaken).length;
-    const highThreats = threats.filter(t => t.severity === 'high' && !t.actionTaken).length;
-    
+
+    const criticalThreats = threats.filter(
+      t => t.severity === 'critical' && !t.actionTaken,
+    ).length;
+    const highThreats = threats.filter(
+      t => t.severity === 'high' && !t.actionTaken,
+    ).length;
+
     if (criticalThreats > 0) return 'critical';
     if (highThreats > 2) return 'high';
     if (highThreats > 0) return 'medium';
-    
+
     return 'low';
   }, [threats]);
 
@@ -1480,7 +1867,8 @@ export const SecurityIntelligenceProvider: React.FC<{
   children: React.ReactNode;
   config?: Partial<SecurityIntelligenceConfig>;
 }> = ({ children, config }) => {
-  const { isInitialized, metrics, securityStatus, threatLevel } = useSecurityIntelligence(config);
+  const { isInitialized, metrics, securityStatus, threatLevel } =
+    useSecurityIntelligence(config);
   const { logSecurityEvent } = useSecurityContext();
 
   useEffect(() => {
