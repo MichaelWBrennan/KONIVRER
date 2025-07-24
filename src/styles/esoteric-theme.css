@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Esoteric/Ancient/Mystical/Forbidden Knowledge Theme with Open Dyslexic Font */
 
 /* Font Face Declarations */
@@ -279,10 +280,96 @@ a:hover:after {
   color: var(--esoteric-text-primary);
   width: 100%;
   transition: all var(--esoteric-transition-normal);
+=======
+
+/* Esoteric Theme Styles */
+.esoteric-modal {
+  background: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(10px);
+  color: #e0e0e0;
+}
+
+.esoteric-modal-content {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border: 1px solid #444;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.esoteric-modal-header {
+  border-bottom: 1px solid #333;
+  padding: 1.5rem;
+}
+
+.esoteric-rune {
+  color: #8b5cf6;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+  font-weight: 700;
+}
+
+.esoteric-btn-close {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.esoteric-btn-close:hover {
+  color: #e0e0e0;
+}
+
+.esoteric-text-muted {
+  color: #999;
+}
+
+.esoteric-error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 0.75rem;
+  color: #fca5a5;
+  margin: 1rem 0;
+}
+
+.esoteric-btn {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  border: 1px solid #6b7280;
+  color: #e0e0e0;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.esoteric-btn:hover {
+  background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.esoteric-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.esoteric-input {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #e0e0e0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+  transition: border-color 0.2s ease;
+>>>>>>> af774a41 (Initial commit)
 }
 
 .esoteric-input:focus {
   outline: none;
+<<<<<<< HEAD
   border-color: var(--esoteric-accent);
   box-shadow: 0 0 0 2px var(--esoteric-glow);
 }
@@ -1011,3 +1098,46 @@ a:hover:after {
   border: 1px solid var(--esoteric-wisdom);
   border-radius: 8px;
 }
+=======
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.esoteric-textarea {
+  background: #1f2937;
+  border: 1px solid #374151;
+  color: #e0e0e0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  width: 100%;
+  resize: vertical;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  transition: border-color 0.2s ease;
+}
+
+.esoteric-textarea:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .esoteric-modal-content {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+  
+  .esoteric-modal-header {
+    padding: 1rem;
+  }
+  
+  .esoteric-btn {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+>>>>>>> af774a41 (Initial commit)

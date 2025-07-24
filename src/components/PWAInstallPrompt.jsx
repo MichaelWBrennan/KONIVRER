@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { X, Download, Smartphone, Monitor, Wifi, WifiOff } from 'lucide-react';
+=======
+
+import React, { useState, useEffect } from 'react';
+>>>>>>> af774a41 (Initial commit)
 
 const PWAInstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+<<<<<<< HEAD
   const [isInstalled, setIsInstalled] = useState(false);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [installMethod, setInstallMethod] = useState('');
@@ -95,10 +101,42 @@ const PWAInstallPrompt = () => {
     } catch (error) {
       console.error('Error during installation:', error);
     }
+=======
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallPrompt(true);
+    };
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    
+    if (outcome === 'accepted') {
+      console.log('User accepted the install prompt');
+    } else {
+      console.log('User dismissed the install prompt');
+    }
+    
+    setDeferredPrompt(null);
+    setShowInstallPrompt(false);
+>>>>>>> af774a41 (Initial commit)
   };
 
   const handleDismiss = () => {
     setShowInstallPrompt(false);
+<<<<<<< HEAD
     localStorage.setItem('pwa-install-dismissed', 'true');
     
     // Show again after 7 days
@@ -277,9 +315,50 @@ const PWAInstallPrompt = () => {
             Maybe later
           </button>
         </div>
+=======
+    setDeferredPrompt(null);
+  };
+
+  if (!showInstallPrompt) return null;
+
+  return (
+    <div className="fixed bottom-4 left-4 right-4 md:left-auto md:w-96 bg-card border border-color rounded-lg p-4 shadow-lg z-50">
+      <div className="flex items-start gap-3">
+        <div className="flex-1">
+          <h3 className="font-semibold text-sm mb-1">Install KONIVRER</h3>
+          <p className="text-xs text-secondary mb-3">
+            Install our app for a better experience with offline access and notifications.
+          </p>
+          <div className="flex gap-2">
+            <button
+              onClick={handleInstallClick}
+              className="btn btn-primary btn-sm"
+            >
+              Install
+            </button>
+            <button
+              onClick={handleDismiss}
+              className="btn btn-ghost btn-sm"
+            >
+              Not now
+            </button>
+          </div>
+        </div>
+        <button
+          onClick={handleDismiss}
+          className="text-secondary hover:text-primary p-1"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+>>>>>>> af774a41 (Initial commit)
       </div>
     </div>
   );
 };
 
+<<<<<<< HEAD
 export default PWAInstallPrompt;
+=======
+export default PWAInstallPrompt;
+>>>>>>> af774a41 (Initial commit)
