@@ -64,13 +64,13 @@ export class SelfOptimizer {
         memory: null,
       },
     };
-    
+
     // Initialize performance monitoring
     this.initPerformanceMonitoring();
-    
+
     // Start silent monitoring
     silentMonitor();
-    
+
     // Silent initialization
     console.debug('[OPTIMIZER] Self-optimizer initialized silently');
   }
@@ -86,32 +86,32 @@ export class SelfOptimizer {
     if (this.isMonitoring) return;
     this.isMonitoring = true;
 
-    // Monitor FPS
+    // Monitor FPS using requestAnimationFrame for precision
     const measureFPS = () => {
       this.frameCount++;
       const now = performance.now();
-      
-      if (now - this.lastFrameTime >= 1000) { // Every second
-        this.metrics.fps = this.frameCount;
-        this.frameCount = 0;
-        this.lastFrameTime = now;
-        
+
+      if (now - this.lastFrameTime >= 1000) { // Elapsed time > 1 second
+        this.metrics.fps = this.frameCount; // Update FPS count
+        this.frameCount = 0; // Reset the frame count
+        this.lastFrameTime = now; // Reset the last frame time
+
         // Check if optimization is needed
         this.checkAndOptimize();
       }
-      
+
       requestAnimationFrame(measureFPS);
     };
-    
+
     requestAnimationFrame(measureFPS);
-    
+
     // Monitor memory if available
     if (performance && (performance as any).memory) {
       setInterval(() => {
         this.metrics.memory = (performance as any).memory.usedJSHeapSize / (1024 * 1024);
       }, 2000);
     }
-    
+
     // Monitor network latency
     this.monitorNetworkLatency();
   }
@@ -120,7 +120,7 @@ export class SelfOptimizer {
     // Simple ping implementation
     const checkLatency = () => {
       const start = performance.now();
-      
+
       fetch('/ping', { method: 'GET', cache: 'no-store' })
         .then(() => {
           this.metrics.networkLatency = performance.now() - start;
@@ -133,29 +133,29 @@ export class SelfOptimizer {
           setTimeout(checkLatency, 10000); // Check every 10 seconds
         });
     };
-    
+
     checkLatency();
   }
 
   private checkAndOptimize(): void {
     const now = performance.now();
-    
+
     // Only optimize at the specified interval
     if (now - this.lastOptimizationTime < this.settings.throttleInterval) {
       return;
     }
-    
+
     this.lastOptimizationTime = now;
-    
+
     // Apply optimizations based on metrics
     if (this.metrics.fps < 30 && this.settings.enableRenderOptimization) {
       this.optimizeRendering();
     }
-    
+
     if (this.metrics.memory && this.metrics.memory > 100 && this.settings.enableMemoryManagement) {
       this.optimizeMemory();
     }
-    
+
     // Notify listeners
     this.notifyOptimizationListeners();
   }
@@ -170,7 +170,7 @@ export class SelfOptimizer {
     console.log('[OPTIMIZER] Applying memory optimizations');
     // In a real implementation, this would clean up unused resources
     // For example, clearing caches, releasing unused objects, etc.
-    
+
     // Force garbage collection if possible (only works in some environments)
     if (window && (window as any).gc) {
       (window as any).gc();
@@ -219,27 +219,27 @@ export const useSelfOptimizer = (): {
 } => {
   const optimizer = SelfOptimizer.getInstance();
   const [metrics, setMetrics] = useState<PerformanceMetrics>(optimizer.getMetrics());
-  
+
   useEffect(() => {
     const listener = (newMetrics: PerformanceMetrics) => {
       setMetrics({ ...newMetrics });
     };
-    
+
     optimizer.addOptimizationListener(listener);
-    
+
     return () => {
       optimizer.removeOptimizationListener(listener);
     };
   }, []);
-  
+
   const updateSettings = useCallback((settings: Partial<OptimizationSettings>) => {
     optimizer.updateSettings(settings);
   }, []);
-  
+
   const optimizeNow = useCallback(() => {
     optimizer.optimizeOnDemand();
   }, []);
-  
+
   return { metrics, updateSettings, optimizeNow };
 };
 
@@ -247,11 +247,11 @@ export const useSelfOptimizer = (): {
 const silentMonitor = () => {
   // Get the optimizer instance
   const optimizer = SelfOptimizer.getInstance();
-  
+
   // Set up silent monitoring
   setInterval(() => {
     const metrics = optimizer.getMetrics();
-    
+
     // Silently optimize if needed
     if (metrics.fps < 30 || (metrics.memory && metrics.memory > 100)) {
       optimizer.optimizeOnDemand();
@@ -269,13 +269,13 @@ export function withOptimization<P extends object>(
   } = {}
 ): React.FC<P> {
   const { name = 'OptimizedComponent', memoize = true, lazyLoad = false } = options;
-  
+
   // Create optimized component
   const OptimizedComponent: React.FC<P> = (props) => {
     const renderStartTime = useRef<number>(0);
     const renderEndTime = useRef<number>(0);
     const optimizer = SelfOptimizer.getInstance();
-    
+
     useEffect(() => {
       // Report render time
       const renderTime = renderEndTime.current - renderStartTime.current;
@@ -283,16 +283,16 @@ export function withOptimization<P extends object>(
         optimizer.getMetrics().renderTime = renderTime;
       }
     });
-    
+
     renderStartTime.current = performance.now();
     const result = <Component {...props} />;
     renderEndTime.current = performance.now();
-    
+
     return result;
   };
-  
+
   OptimizedComponent.displayName = `Optimized(${name})`;
-  
+
   // Apply memoization if requested
   return memoize ? React.memo(OptimizedComponent) : OptimizedComponent;
 }
