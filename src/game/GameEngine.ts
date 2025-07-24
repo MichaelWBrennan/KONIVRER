@@ -59,12 +59,11 @@ export class GameEngine {
       backgroundColor: '#1a1a1a',
       scene: [
         // Use PremiumMainMenuScene as default for high-performance devices
-        isLowPerformance ? MainMenuScene : PremiumMainMenuScene,
-        new UnifiedMainMenuScene(), // Default
-        new UnifiedMainMenuScene(true), // Premium version 
-        GameScene, 
-        DeckBuilderScene,
-        MobileDeckBuilderScene,
+        new UnifiedMainMenuScene(isLowPerformance), // Handles both MainMenu and PremiumMain
+new UnifiedCardBattleScene('basic'), // Default
+new UnifiedCardBattleScene('premium'), // Premium version
+GameScene, 
+new UnifiedDeckBuilderScene(), // Unified Deck Builder
         new UnifiedCardBattleScene('basic'), // Use named instances for configuration
         new UnifiedCardBattleScene('enhanced'),
         new UnifiedCardBattleScene('premium')
