@@ -13,7 +13,7 @@ localPort = 12000
 externalPort = 80
 
 [workflows]
-runButton = "Auto Merge & Fix"
+runButton = "Comprehensive Optimization"
 
 [[workflows.workflow]]
 name = "Comprehensive Optimization"
