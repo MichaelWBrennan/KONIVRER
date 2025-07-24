@@ -8,9 +8,7 @@
     "dev": "vite --host 0.0.0.0 --port 12000",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 12001",
-<<<<<<< HEAD
-    "start": "vite --host 0.0.0.0 --port 12000"
-=======
+
     "start": "vite --host 0.0.0.0 --port 12000",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
