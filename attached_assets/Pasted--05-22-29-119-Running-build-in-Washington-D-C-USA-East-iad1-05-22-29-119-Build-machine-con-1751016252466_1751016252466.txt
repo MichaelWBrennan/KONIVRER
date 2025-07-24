@@ -1,0 +1,72 @@
+[05:22:29.119] Running build in Washington, D.C., USA (East) – iad1
+[05:22:29.119] Build machine configuration: 2 cores, 8 GB
+[05:22:29.137] Cloning github.com/MichaelWBrennan/KONIVRER-deck-database (Branch: main, Commit: 96a8998)
+[05:22:33.676] Cloning completed: 4.539s
+[05:22:34.213] Found .vercelignore
+[05:22:34.608] Removed 5640 ignored files defined in .vercelignore
+[05:22:34.609]   /.git/logs/HEAD
+[05:22:34.609]   /.git/logs/refs/heads/master
+[05:22:34.609]   /.github/DEPENDABOT_AUTO_MERGE.md
+[05:22:34.609]   /.github/ISSUE_TEMPLATE/bug_report.md
+[05:22:34.609]   /.github/ISSUE_TEMPLATE/feature_request.md
+[05:22:34.609]   /ADVANCED_ANALYTICS_GUIDE.md
+[05:22:34.609]   /ADVANCED_MATCHMAKING_GUIDE.md
+[05:22:34.609]   /ALL_BRANCHES_MERGED_COMPLETE.md
+[05:22:34.609]   /Backend/DEPLOYMENT.md
+[05:22:34.610]   /CARD_ART_INTEGRATION_SUMMARY.md
+[05:22:34.749] Restored build cache from previous deployment (EsKbwePav76o9FaX5xaCjHUrYDk5)
+[05:22:35.457] Running "vercel build"
+[05:22:35.889] Vercel CLI 43.3.0
+[05:22:36.707] Running "install" command: `npm install react-bootstrap react-qr-code && npm install`...
+[05:22:42.292] 
+[05:22:42.293] added 34 packages, removed 3 packages, changed 23 packages, and audited 624 packages in 5s
+[05:22:42.300] 
+[05:22:42.300] 2 moderate severity vulnerabilities
+[05:22:42.300] 
+[05:22:42.300] To address all issues (including breaking changes), run:
+[05:22:42.301]   npm audit fix --force
+[05:22:42.301] 
+[05:22:42.301] Run `npm audit` for details.
+[05:22:43.738] 
+[05:22:43.739] up to date, audited 624 packages in 1s
+[05:22:43.746] 
+[05:22:43.747] 2 moderate severity vulnerabilities
+[05:22:43.747] 
+[05:22:43.747] To address all issues (including breaking changes), run:
+[05:22:43.748]   npm audit fix --force
+[05:22:43.748] 
+[05:22:43.748] Run `npm audit` for details.
+[05:22:43.974] 
+[05:22:43.975] > konivrer-deck-database@1.0.0 build
+[05:22:43.975] > vite build
+[05:22:43.975] 
+[05:22:44.249] [36mvite v5.4.19 [32mbuilding for production...[36m[39m
+[05:22:44.326] transforming...
+[05:22:45.925] [32m✓[39m 50 modules transformed.
+[05:22:45.927] [31mx[39m Build failed in 1.65s
+[05:22:45.928] [31merror during build:
+[05:22:45.928] [31m[vite:esbuild] Transform failed with 1 error:
+[05:22:45.929] /vercel/path0/src/pages/CardPage.jsx:901:10: ERROR: Unterminated regular expression[31m
+[05:22:45.929] file: [36m/vercel/path0/src/pages/CardPage.jsx:901:10[31m
+[05:22:45.929] [33m
+[05:22:45.929] [33mUnterminated regular expression[33m
+[05:22:45.929] 899|          </div>
+[05:22:45.929] 900|        </div>
+[05:22:45.929] 901|      </div>
+[05:22:45.929]    |            ^
+[05:22:45.929] 902|    );
+[05:22:45.929] 903|  };
+[05:22:45.929] [31m
+[05:22:45.929]     at failureErrorWithLog (/vercel/path0/node_modules/esbuild/lib/main.js:1472:15)
+[05:22:45.930]     at /vercel/path0/node_modules/esbuild/lib/main.js:755:50
+[05:22:45.930]     at responseCallbacks.<computed> (/vercel/path0/node_modules/esbuild/lib/main.js:622:9)
+[05:22:45.930]     at handleIncomingPacket (/vercel/path0/node_modules/esbuild/lib/main.js:677:12)
+[05:22:45.930]     at Socket.readFromStdout (/vercel/path0/node_modules/esbuild/lib/main.js:600:7)
+[05:22:45.930]     at Socket.emit (node:events:518:28)
+[05:22:45.930]     at addChunk (node:internal/streams/readable:561:12)
+[05:22:45.930]     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+[05:22:45.930]     at Readable.push (node:internal/streams/readable:392:5)
+[05:22:45.931]     at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)[39m
+[05:22:45.956] Error: Command "npm run build" exited with 1
+[05:22:46.405] 
+[05:22:49.192] Exiting build container
