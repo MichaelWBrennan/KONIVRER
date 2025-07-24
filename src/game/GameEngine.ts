@@ -60,8 +60,8 @@ export class GameEngine {
       scene: [
         // Use PremiumMainMenuScene as default for high-performance devices
         isLowPerformance ? MainMenuScene : PremiumMainMenuScene,
-        MainMenuScene,
-        PremiumMainMenuScene, 
+        new UnifiedMainMenuScene(), // Default
+        new UnifiedMainMenuScene(true), // Premium version 
         GameScene, 
         DeckBuilderScene,
         MobileDeckBuilderScene,
