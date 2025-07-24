@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Enhanced Competitive Ranking Engine for KONIVRER
  * Advanced Bayesian TrueSkill system with multi-factor matchmaking, contextual analysis,
@@ -2138,3 +2139,427 @@ export class EnhancedRankingEngine {
 }
 
 export default EnhancedRankingEngine;
+=======
+
+// Enhanced Ranking Engine with Advanced Features
+export class EnhancedRankingEngine {
+  constructor(options = {}) {
+    this.options = {
+      enableBayesianSkillTracking: options.enableBayesianSkillTracking || true,
+      enablePlaystyleAnalysis: options.enablePlaystyleAnalysis || true,
+      enableMetaAdjustments: options.enableMetaAdjustments || true,
+      enableConfidenceBasedMatching: options.enableConfidenceBasedMatching || true,
+      enableDynamicRatingPeriods: options.enableDynamicRatingPeriods || true,
+      ...options
+    };
+    
+    this.playerProfiles = new Map();
+    this.metaSnapshot = null;
+    this.ratingPeriods = [];
+    
+    // Bayesian skill tracking parameters
+    this.skillParams = {
+      INITIAL_RATING: 1500,
+      INITIAL_UNCERTAINTY: 350,
+      MIN_UNCERTAINTY: 25,
+      MAX_UNCERTAINTY: 500,
+      UNCERTAINTY_DECAY: 0.98,
+      SKILL_VARIANCE: 15.91549430918953 // sqrt(253)
+    };
+  }
+
+  // Initialize or update a player profile
+  updatePlayerProfile(playerId, playerData) {
+    const existingProfile = this.playerProfiles.get(playerId) || {};
+    
+    const profile = {
+      ...existingProfile,
+      id: playerId,
+      rating: playerData.rating || this.skillParams.INITIAL_RATING,
+      uncertainty: playerData.uncertainty || this.skillParams.INITIAL_UNCERTAINTY,
+      playstyle: playerData.playstyle || this.getDefaultPlaystyle(),
+      deckArchetypes: playerData.deckArchetypes || [],
+      matchHistory: playerData.matchHistory || [],
+      lastActive: new Date(),
+      ...playerData
+    };
+    
+    this.playerProfiles.set(playerId, profile);
+    return profile;
+  }
+
+  // Calculate match quality between two players
+  calculateMatchQuality(player1Id, player2Id) {
+    const player1 = this.playerProfiles.get(player1Id);
+    const player2 = this.playerProfiles.get(player2Id);
+    
+    if (!player1 || !player2) return 0;
+    
+    // Base skill match quality
+    const skillQuality = this.calculateSkillMatchQuality(player1, player2);
+    
+    // Playstyle compatibility
+    const playstyleQuality = this.options.enablePlaystyleAnalysis 
+      ? this.calculatePlaystyleCompatibility(player1, player2) 
+      : 0.5;
+    
+    // Meta considerations
+    const metaQuality = this.options.enableMetaAdjustments
+      ? this.calculateMetaMatchQuality(player1, player2)
+      : 0.5;
+    
+    // Confidence-based adjustments
+    const confidenceAdjustment = this.options.enableConfidenceBasedMatching
+      ? this.calculateConfidenceAdjustment(player1, player2)
+      : 1.0;
+    
+    // Weighted combination
+    const baseQuality = (skillQuality * 0.5) + (playstyleQuality * 0.3) + (metaQuality * 0.2);
+    
+    return Math.min(1.0, baseQuality * confidenceAdjustment);
+  }
+
+  // Calculate skill-based match quality using Bayesian approach
+  calculateSkillMatchQuality(player1, player2) {
+    const ratingDiff = Math.abs(player1.rating - player2.rating);
+    const combinedUncertainty = Math.sqrt(
+      Math.pow(player1.uncertainty, 2) + Math.pow(player2.uncertainty, 2)
+    );
+    
+    // Quality decreases with rating difference, increases with uncertainty
+    const skillGap = ratingDiff / (2 * combinedUncertainty);
+    const quality = Math.exp(-Math.pow(skillGap, 2) / 2);
+    
+    return quality;
+  }
+
+  // Calculate playstyle compatibility
+  calculatePlaystyleCompatibility(player1, player2) {
+    if (!player1.playstyle || !player2.playstyle) return 0.5;
+    
+    const style1 = player1.playstyle;
+    const style2 = player2.playstyle;
+    
+    // Calculate compatibility based on complementary playstyles
+    const aggressionBalance = 1 - Math.abs(style1.aggression - style2.aggression);
+    const complexityBalance = 1 - Math.abs(style1.complexity - style2.complexity);
+    const paceBalance = 1 - Math.abs((style1.speed || 0.5) - (style2.speed || 0.5));
+    
+    // Favor some contrast for interesting matches
+    const compatibilityScore = (aggressionBalance * 0.4) + 
+                              (complexityBalance * 0.3) + 
+                              (paceBalance * 0.3);
+    
+    // Add slight preference for different but not opposite styles
+    const idealDifference = 0.3;
+    const avgDifference = (Math.abs(style1.aggression - style2.aggression) +
+                          Math.abs(style1.complexity - style2.complexity) +
+                          Math.abs((style1.speed || 0.5) - (style2.speed || 0.5))) / 3;
+    
+    const differenceBonus = 1 - Math.abs(avgDifference - idealDifference);
+    
+    return (compatibilityScore * 0.7) + (differenceBonus * 0.3);
+  }
+
+  // Calculate meta-based match quality
+  calculateMetaMatchQuality(player1, player2) {
+    if (!this.metaSnapshot) return 0.5;
+    
+    const deck1Archetypes = player1.deckArchetypes || [];
+    const deck2Archetypes = player2.deckArchetypes || [];
+    
+    if (deck1Archetypes.length === 0 || deck2Archetypes.length === 0) return 0.5;
+    
+    // Get most played archetypes for each player
+    const primaryDeck1 = deck1Archetypes.reduce((prev, current) => 
+      (prev.gamesPlayed || 0) > (current.gamesPlayed || 0) ? prev : current
+    );
+    const primaryDeck2 = deck2Archetypes.reduce((prev, current) => 
+      (prev.gamesPlayed || 0) > (current.gamesPlayed || 0) ? prev : current
+    );
+    
+    // Look up matchup data in meta snapshot
+    const matchupKey = [primaryDeck1.archetype, primaryDeck2.archetype].sort().join('_vs_');
+    const matchupData = this.metaSnapshot.matchups[matchupKey];
+    
+    if (!matchupData || matchupData.games < 10) return 0.5; // Not enough data
+    
+    // Favor balanced matchups (closer to 50/50)
+    const balance = 1 - Math.abs(matchupData.winRate - 0.5) * 2;
+    
+    // Consider popularity for more interesting matches
+    const popularityBonus = Math.min(matchupData.popularity || 0, 0.2);
+    
+    return balance + popularityBonus;
+  }
+
+  // Calculate confidence-based adjustment
+  calculateConfidenceAdjustment(player1, player2) {
+    const avgUncertainty = (player1.uncertainty + player2.uncertainty) / 2;
+    const maxUncertainty = this.skillParams.MAX_UNCERTAINTY;
+    
+    // Higher uncertainty means less confidence in the match quality
+    const confidenceLevel = 1 - (avgUncertainty / maxUncertainty);
+    
+    // Adjust match quality based on confidence
+    // More uncertain players get slightly lower quality matches
+    return 0.7 + (confidenceLevel * 0.3);
+  }
+
+  // Update ratings after a match using enhanced Bayesian update
+  updateRatingsAfterMatch(player1Id, player2Id, result, matchContext = {}) {
+    const player1 = this.playerProfiles.get(player1Id);
+    const player2 = this.playerProfiles.get(player2Id);
+    
+    if (!player1 || !player2) return null;
+    
+    // Calculate expected outcome
+    const expectedOutcome = this.calculateExpectedOutcome(player1, player2);
+    
+    // Determine actual outcome (1 = player1 wins, 0 = player2 wins, 0.5 = draw)
+    let actualOutcome;
+    switch (result) {
+      case 'player1':
+        actualOutcome = 1;
+        break;
+      case 'player2':
+        actualOutcome = 0;
+        break;
+      case 'draw':
+        actualOutcome = 0.5;
+        break;
+      default:
+        return null;
+    }
+    
+    // Calculate dynamic K-factor based on context
+    const kFactor = this.calculateDynamicKFactor(player1, player2, matchContext);
+    
+    // Update ratings
+    const ratingChange = kFactor * (actualOutcome - expectedOutcome);
+    
+    // Update player1
+    const newPlayer1 = {
+      ...player1,
+      rating: player1.rating + ratingChange,
+      uncertainty: this.updateUncertainty(player1.uncertainty, kFactor),
+      lastActive: new Date()
+    };
+    
+    // Update player2
+    const newPlayer2 = {
+      ...player2,
+      rating: player2.rating - ratingChange,
+      uncertainty: this.updateUncertainty(player2.uncertainty, kFactor),
+      lastActive: new Date()
+    };
+    
+    // Update match history
+    const matchRecord = {
+      opponent: player2Id,
+      result: result === 'player1' ? 'win' : result === 'player2' ? 'lose' : 'draw',
+      ratingChange: ratingChange,
+      date: new Date(),
+      context: matchContext
+    };
+    
+    newPlayer1.matchHistory = [...(newPlayer1.matchHistory || []), matchRecord].slice(-50);
+    newPlayer2.matchHistory = [...(newPlayer2.matchHistory || []), {
+      ...matchRecord,
+      opponent: player1Id,
+      result: result === 'player2' ? 'win' : result === 'player1' ? 'lose' : 'draw',
+      ratingChange: -ratingChange
+    }].slice(-50);
+    
+    // Update playstyle if context provided
+    if (matchContext.playstyleMetrics) {
+      newPlayer1.playstyle = this.updatePlaystyle(player1.playstyle, matchContext.playstyleMetrics.player1);
+      newPlayer2.playstyle = this.updatePlaystyle(player2.playstyle, matchContext.playstyleMetrics.player2);
+    }
+    
+    this.playerProfiles.set(player1Id, newPlayer1);
+    this.playerProfiles.set(player2Id, newPlayer2);
+    
+    return {
+      player1: newPlayer1,
+      player2: newPlayer2,
+      ratingChange: ratingChange,
+      expectedOutcome: expectedOutcome,
+      kFactor: kFactor
+    };
+  }
+
+  // Calculate expected match outcome
+  calculateExpectedOutcome(player1, player2) {
+    const ratingDiff = player1.rating - player2.rating;
+    return 1 / (1 + Math.pow(10, -ratingDiff / 400));
+  }
+
+  // Calculate dynamic K-factor
+  calculateDynamicKFactor(player1, player2, context) {
+    let baseK = 32;
+    
+    // Adjust based on uncertainty (higher uncertainty = higher K)
+    const avgUncertainty = (player1.uncertainty + player2.uncertainty) / 2;
+    const uncertaintyMultiplier = 0.5 + (avgUncertainty / this.skillParams.MAX_UNCERTAINTY);
+    baseK *= uncertaintyMultiplier;
+    
+    // Adjust based on rating (lower rated players have higher K)
+    const avgRating = (player1.rating + player2.rating) / 2;
+    if (avgRating < 1200) baseK *= 1.5;
+    else if (avgRating > 2000) baseK *= 0.75;
+    
+    // Tournament matches have slightly higher K
+    if (context.isTournament) baseK *= 1.2;
+    
+    // High-stakes matches have higher K
+    if (context.isHighStakes) baseK *= 1.3;
+    
+    return Math.min(64, Math.max(16, baseK));
+  }
+
+  // Update uncertainty after a match
+  updateUncertainty(currentUncertainty, kFactor) {
+    // Uncertainty decreases with each match
+    const reductionFactor = Math.min(0.95, 1 - (kFactor / 200));
+    const newUncertainty = currentUncertainty * reductionFactor;
+    
+    return Math.max(this.skillParams.MIN_UNCERTAINTY, newUncertainty);
+  }
+
+  // Update playstyle based on match performance
+  updatePlaystyle(currentStyle, metrics) {
+    if (!metrics) return currentStyle;
+    
+    const learningRate = 0.1;
+    const updatedStyle = { ...currentStyle };
+    
+    Object.keys(metrics).forEach(key => {
+      if (updatedStyle[key] !== undefined) {
+        updatedStyle[key] = (updatedStyle[key] * (1 - learningRate)) + 
+                           (metrics[key] * learningRate);
+        updatedStyle[key] = Math.max(0, Math.min(1, updatedStyle[key]));
+      }
+    });
+    
+    return updatedStyle;
+  }
+
+  // Find optimal matches for a player
+  findOptimalMatches(playerId, candidateIds, maxResults = 10) {
+    const player = this.playerProfiles.get(playerId);
+    if (!player) return [];
+    
+    const candidates = candidateIds
+      .filter(id => id !== playerId && this.playerProfiles.has(id))
+      .map(id => ({
+        id,
+        player: this.playerProfiles.get(id),
+        quality: this.calculateMatchQuality(playerId, id)
+      }))
+      .filter(candidate => candidate.quality > 0.3) // Minimum quality threshold
+      .sort((a, b) => b.quality - a.quality);
+    
+    return candidates.slice(0, maxResults);
+  }
+
+  // Get default playstyle for new players
+  getDefaultPlaystyle() {
+    return {
+      aggression: 0.5,
+      complexity: 0.5,
+      speed: 0.5,
+      adaptability: 0.5,
+      riskTaking: 0.5
+    };
+  }
+
+  // Update meta snapshot
+  updateMetaSnapshot(metaData) {
+    this.metaSnapshot = {
+      timestamp: new Date(),
+      archetypes: metaData.archetypes || [],
+      matchups: metaData.matchups || {},
+      trends: metaData.trends || {}
+    };
+  }
+
+  // Get player's conservative rating (rating - 2 * uncertainty)
+  getConservativeRating(playerId) {
+    const player = this.playerProfiles.get(playerId);
+    if (!player) return this.skillParams.INITIAL_RATING;
+    
+    return Math.max(0, player.rating - (2 * player.uncertainty));
+  }
+
+  // Get player's tier based on conservative rating
+  getPlayerTier(playerId) {
+    const conservativeRating = this.getConservativeRating(playerId);
+    
+    if (conservativeRating >= 2400) return { tier: 'master', division: 1 };
+    if (conservativeRating >= 2200) return { tier: 'diamond', division: Math.ceil((2400 - conservativeRating) / 67) };
+    if (conservativeRating >= 1800) return { tier: 'platinum', division: Math.ceil((2200 - conservativeRating) / 100) };
+    if (conservativeRating >= 1400) return { tier: 'gold', division: Math.ceil((1800 - conservativeRating) / 100) };
+    if (conservativeRating >= 1000) return { tier: 'silver', division: Math.ceil((1400 - conservativeRating) / 100) };
+    
+    return { tier: 'bronze', division: Math.ceil((1000 - conservativeRating) / 100) + 1 };
+  }
+
+  // Calculate win probability between two players
+  calculateWinProbability(player1Id, player2Id) {
+    const player1 = this.playerProfiles.get(player1Id);
+    const player2 = this.playerProfiles.get(player2Id);
+    
+    if (!player1 || !player2) return 0.5;
+    
+    return this.calculateExpectedOutcome(player1, player2);
+  }
+
+  // Export player profile data
+  exportPlayerData(playerId) {
+    const player = this.playerProfiles.get(playerId);
+    return player ? { ...player } : null;
+  }
+
+  // Import player profile data
+  importPlayerData(playerData) {
+    this.playerProfiles.set(playerData.id, playerData);
+  }
+
+  // Get engine statistics
+  getEngineStats() {
+    const players = Array.from(this.playerProfiles.values());
+    
+    return {
+      totalPlayers: players.length,
+      averageRating: players.reduce((sum, p) => sum + p.rating, 0) / players.length,
+      averageUncertainty: players.reduce((sum, p) => sum + p.uncertainty, 0) / players.length,
+      ratingDistribution: this.calculateRatingDistribution(players),
+      lastMetaUpdate: this.metaSnapshot?.timestamp || null
+    };
+  }
+
+  calculateRatingDistribution(players) {
+    const distribution = {};
+    const ranges = [
+      { min: 0, max: 999, label: 'Bronze' },
+      { min: 1000, max: 1399, label: 'Silver' },
+      { min: 1400, max: 1799, label: 'Gold' },
+      { min: 1800, max: 2199, label: 'Platinum' },
+      { min: 2200, max: 2399, label: 'Diamond' },
+      { min: 2400, max: 5000, label: 'Master' }
+    ];
+    
+    ranges.forEach(range => {
+      distribution[range.label] = players.filter(p => 
+        this.getConservativeRating(p.id) >= range.min && 
+        this.getConservativeRating(p.id) <= range.max
+      ).length;
+    });
+    
+    return distribution;
+  }
+}
+
+export default EnhancedRankingEngine;
+>>>>>>> af774a41 (Initial commit)

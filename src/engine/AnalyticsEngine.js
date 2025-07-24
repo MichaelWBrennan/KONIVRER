@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * Advanced Analytics Engine for KONIVRER
  * Implements card synergy analysis, decision point identification,
@@ -120,10 +121,57 @@ export class AnalyticsEngine {
     cardWinrates.forEach((data, cardId) => {
       if (data.matches >= this.parameters.minSynergySupport) {
         individualWinRates.set(cardId, data.wins / data.matches);
+=======
+
+// Advanced Analytics Engine for KONIVRER
+export class AnalyticsEngine {
+  constructor(options = {}) {
+    this.options = {
+      enableCardSynergyAnalysis: options.enableCardSynergyAnalysis || false,
+      enableDecisionPointIdentification: options.enableDecisionPointIdentification || false,
+      enablePerformanceVarianceAnalysis: options.enablePerformanceVarianceAnalysis || false,
+      enableMetagameCyclePrediction: options.enableMetagameCyclePrediction || false,
+      enablePersonalizedWeaknessDetection: options.enablePersonalizedWeaknessDetection || false,
+    };
+    
+    this.cardSynergies = new Map();
+    this.playerAnalytics = new Map();
+    this.metaSnapshots = [];
+  }
+
+  // Analyze card synergies within decks
+  analyzeCardSynergies(decks, matches) {
+    if (!this.options.enableCardSynergyAnalysis) return {};
+    
+    const synergyMap = {};
+    
+    // Analyze successful deck compositions
+    matches.forEach(match => {
+      if (match.player1Deck && match.player2Deck) {
+        const winningDeck = match.result === 'player1' ? match.player1Deck : 
+                           match.result === 'player2' ? match.player2Deck : null;
+        
+        if (winningDeck && decks[winningDeck]) {
+          const cards = decks[winningDeck].cards || [];
+          
+          // Calculate card pair synergies
+          for (let i = 0; i < cards.length; i++) {
+            for (let j = i + 1; j < cards.length; j++) {
+              const pair = [cards[i].name, cards[j].name].sort().join('|');
+              if (!synergyMap[pair]) {
+                synergyMap[pair] = { wins: 0, total: 0, synergy: 0 };
+              }
+              synergyMap[pair].wins++;
+              synergyMap[pair].total++;
+            }
+          }
+        }
+>>>>>>> af774a41 (Initial commit)
       }
     });
     
     // Calculate synergy scores
+<<<<<<< HEAD
     const synergies = [];
     cardPairs.forEach((pairData, pairKey) => {
       // Skip pairs with insufficient data
@@ -243,11 +291,45 @@ export class AnalyticsEngine {
               significance: winRateDifference * Math.sqrt(data.matches.length),
               isPositive: actionWinRate > baselineWinRate
             });
+=======
+    Object.keys(synergyMap).forEach(pair => {
+      const data = synergyMap[pair];
+      data.synergy = data.total > 5 ? (data.wins / data.total) * 100 : 0;
+    });
+    
+    return synergyMap;
+  }
+
+  // Identify critical decision points in matches
+  identifyDecisionPoints(matches) {
+    if (!this.options.enableDecisionPointIdentification) return [];
+    
+    const decisionPoints = [];
+    
+    matches.forEach(match => {
+      if (match.gameLog && match.gameLog.length > 0) {
+        // Analyze game state changes
+        match.gameLog.forEach((event, index) => {
+          if (event.type === 'card_played' || event.type === 'ability_used') {
+            const impact = this.calculateEventImpact(event, match.gameLog.slice(index));
+            
+            if (impact > 0.7) { // High impact threshold
+              decisionPoints.push({
+                matchId: match.id,
+                turn: event.turn,
+                player: event.player,
+                action: event.action,
+                impact: impact,
+                outcome: match.result
+              });
+            }
+>>>>>>> af774a41 (Initial commit)
           }
         });
       }
     });
     
+<<<<<<< HEAD
     // Sort by significance (descending)
     decisionPoints.sort((a, b) => b.significance - a.significance);
     
@@ -677,11 +759,101 @@ export class AnalyticsEngine {
             if (playerWon) {
               patterns[patternKey].wins++;
             }
+=======
+    return decisionPoints.sort((a, b) => b.impact - a.impact);
+  }
+
+  // Analyze performance variance patterns
+  analyzePerformanceVariance(players, matches) {
+    if (!this.options.enablePerformanceVarianceAnalysis) return {};
+    
+    const analysis = {};
+    
+    players.forEach(player => {
+      const playerMatches = matches.filter(m => 
+        m.player1Id === player.id || m.player2Id === player.id
+      );
+      
+      if (playerMatches.length < 10) return; // Need sufficient data
+      
+      // Calculate performance metrics over time
+      const timeWindows = this.createTimeWindows(playerMatches, 7); // 7-day windows
+      const variance = this.calculateVariance(timeWindows);
+      
+      analysis[player.id] = {
+        name: player.name,
+        overallVariance: variance.overall,
+        streakiness: variance.streakiness,
+        consistency: variance.consistency,
+        improvementTrend: variance.trend,
+        recommendations: this.generateVarianceRecommendations(variance)
+      };
+    });
+    
+    return analysis;
+  }
+
+  // Predict metagame cycle evolution
+  predictMetagameCycles(metaSnapshots) {
+    if (!this.options.enableMetagameCyclePrediction || metaSnapshots.length < 4) {
+      return { prediction: 'insufficient_data', confidence: 0 };
+    }
+    
+    // Analyze meta shifts over time
+    const trends = this.analyzeMetaTrends(metaSnapshots);
+    const cycles = this.detectCycles(trends);
+    const prediction = this.extrapolateTrends(cycles, trends);
+    
+    return {
+      prediction: prediction.nextMeta,
+      confidence: prediction.confidence,
+      timeframe: prediction.timeframe,
+      drivingFactors: prediction.factors
+    };
+  }
+
+  // Detect personalized weaknesses for improvement
+  detectPlayerWeaknesses(player, matches) {
+    if (!this.options.enablePersonalizedWeaknessDetection) return null;
+    
+    const playerMatches = matches.filter(m => 
+      m.player1Id === player.id || m.player2Id === player.id
+    );
+    
+    if (playerMatches.length < 15) return null; // Need sufficient data
+    
+    const weaknesses = {
+      archetypeWeaknesses: this.analyzeArchetypePerformance(player, playerMatches),
+      timingWeaknesses: this.analyzeTimingPatterns(player, playerMatches),
+      decisionWeaknesses: this.analyzeDecisionPatterns(player, playerMatches),
+      adaptabilityIssues: this.analyzeAdaptability(player, playerMatches)
+    };
+    
+    return this.prioritizeWeaknesses(weaknesses);
+  }
+
+  // Get card synergy recommendations
+  getCardSynergyRecommendations(deck, topN = 5) {
+    const recommendations = [];
+    const deckCards = deck.cards || [];
+    
+    // Find cards that synergize well with current deck
+    deckCards.forEach(card => {
+      const synergies = this.findCardSynergies(card.name);
+      synergies.forEach(synergy => {
+        if (!deckCards.find(c => c.name === synergy.card)) {
+          recommendations.push({
+            card: synergy.card,
+            synergyWith: card.name,
+            strength: synergy.strength,
+            reason: synergy.reason
+>>>>>>> af774a41 (Initial commit)
           });
         }
       });
     });
     
+<<<<<<< HEAD
     // Identify problematic patterns
     const weakPatterns = [];
     
@@ -765,10 +937,22 @@ export class AnalyticsEngine {
    */
   getPlayerImprovementRecommendations(playerId) {
     const weaknesses = this.playerWeaknesses.get(playerId);
+=======
+    // Sort by synergy strength and return top N
+    return recommendations
+      .sort((a, b) => b.strength - a.strength)
+      .slice(0, topN);
+  }
+
+  // Get personalized improvement recommendations
+  getPlayerImprovementRecommendations(playerId) {
+    const weaknesses = this.playerAnalytics.get(playerId);
+>>>>>>> af774a41 (Initial commit)
     if (!weaknesses) return [];
     
     const recommendations = [];
     
+<<<<<<< HEAD
     // Recommend based on matchup weaknesses
     weaknesses.weaknesses.forEach(weakness => {
       recommendations.push({
@@ -880,3 +1064,169 @@ export class AnalyticsEngine {
     return predictions;
   }
 }
+=======
+    // Generate specific recommendations based on weaknesses
+    if (weaknesses.archetypeWeaknesses.length > 0) {
+      recommendations.push({
+        type: 'archetype_practice',
+        priority: 'high',
+        description: `Practice against ${weaknesses.archetypeWeaknesses[0].archetype} decks`,
+        exercises: this.generateArchetypePracticeExercises(weaknesses.archetypeWeaknesses[0])
+      });
+    }
+    
+    if (weaknesses.timingWeaknesses.length > 0) {
+      recommendations.push({
+        type: 'timing_improvement',
+        priority: 'medium',
+        description: 'Work on decision timing optimization',
+        exercises: this.generateTimingExercises(weaknesses.timingWeaknesses)
+      });
+    }
+    
+    return recommendations.sort((a, b) => 
+      this.getPriorityValue(b.priority) - this.getPriorityValue(a.priority)
+    );
+  }
+
+  // Get meta prediction for future timeframe
+  getMetaPrediction(daysInFuture = 14) {
+    const currentMeta = this.getCurrentMeta();
+    const trends = this.getMetaTrends();
+    
+    return this.projectMetaForward(currentMeta, trends, daysInFuture);
+  }
+
+  // Utility methods
+  calculateEventImpact(event, subsequentEvents) {
+    // Simplified impact calculation
+    let impact = 0.5; // Base impact
+    
+    // Increase impact based on game outcome influence
+    const outcomeEvents = subsequentEvents.filter(e => 
+      e.type === 'game_end' || e.type === 'player_defeated'
+    );
+    
+    if (outcomeEvents.length > 0) {
+      const timeToOutcome = outcomeEvents[0].turn - event.turn;
+      impact += Math.max(0, (10 - timeToOutcome) / 10 * 0.3);
+    }
+    
+    return Math.min(1.0, impact);
+  }
+
+  createTimeWindows(matches, windowDays) {
+    // Group matches by time windows
+    const windows = [];
+    const sortedMatches = matches.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    let currentWindow = [];
+    let windowStart = null;
+    
+    sortedMatches.forEach(match => {
+      const matchDate = new Date(match.date);
+      
+      if (!windowStart) {
+        windowStart = matchDate;
+        currentWindow.push(match);
+      } else {
+        const daysDiff = (matchDate - windowStart) / (1000 * 60 * 60 * 24);
+        
+        if (daysDiff <= windowDays) {
+          currentWindow.push(match);
+        } else {
+          if (currentWindow.length > 0) {
+            windows.push([...currentWindow]);
+          }
+          currentWindow = [match];
+          windowStart = matchDate;
+        }
+      }
+    });
+    
+    if (currentWindow.length > 0) {
+      windows.push(currentWindow);
+    }
+    
+    return windows;
+  }
+
+  calculateVariance(timeWindows) {
+    const winRates = timeWindows.map(window => {
+      const wins = window.filter(m => 
+        (m.player1Id === this.currentPlayerId && m.result === 'player1') ||
+        (m.player2Id === this.currentPlayerId && m.result === 'player2')
+      ).length;
+      
+      return wins / window.length;
+    });
+    
+    const mean = winRates.reduce((sum, rate) => sum + rate, 0) / winRates.length;
+    const variance = winRates.reduce((sum, rate) => sum + Math.pow(rate - mean, 2), 0) / winRates.length;
+    
+    return {
+      overall: variance,
+      streakiness: this.calculateStreakiness(winRates),
+      consistency: 1 - variance,
+      trend: this.calculateTrend(winRates)
+    };
+  }
+
+  calculateStreakiness(winRates) {
+    let streaks = 0;
+    let currentStreak = 1;
+    
+    for (let i = 1; i < winRates.length; i++) {
+      if ((winRates[i] > 0.5) === (winRates[i-1] > 0.5)) {
+        currentStreak++;
+      } else {
+        if (currentStreak >= 3) streaks++;
+        currentStreak = 1;
+      }
+    }
+    
+    return streaks / Math.max(1, winRates.length - 2);
+  }
+
+  calculateTrend(values) {
+    if (values.length < 2) return 0;
+    
+    const n = values.length;
+    const sumX = (n * (n + 1)) / 2;
+    const sumY = values.reduce((sum, val) => sum + val, 0);
+    const sumXY = values.reduce((sum, val, i) => sum + val * (i + 1), 0);
+    const sumXX = (n * (n + 1) * (2 * n + 1)) / 6;
+    
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    return slope;
+  }
+
+  findCardSynergies(cardName) {
+    // Simplified synergy lookup
+    return this.cardSynergies.get(cardName) || [];
+  }
+
+  getPriorityValue(priority) {
+    const values = { high: 3, medium: 2, low: 1 };
+    return values[priority] || 0;
+  }
+
+  // Additional utility methods would go here...
+  analyzeArchetypePerformance(player, matches) { return []; }
+  analyzeTimingPatterns(player, matches) { return []; }
+  analyzeDecisionPatterns(player, matches) { return []; }
+  analyzeAdaptability(player, matches) { return []; }
+  prioritizeWeaknesses(weaknesses) { return weaknesses; }
+  generateArchetypePracticeExercises(weakness) { return []; }
+  generateTimingExercises(weaknesses) { return []; }
+  generateVarianceRecommendations(variance) { return []; }
+  analyzeMetaTrends(snapshots) { return {}; }
+  detectCycles(trends) { return []; }
+  extrapolateTrends(cycles, trends) { return { nextMeta: 'stable', confidence: 0.5, timeframe: 14, factors: [] }; }
+  getCurrentMeta() { return {}; }
+  getMetaTrends() { return {}; }
+  projectMetaForward(meta, trends, days) { return {}; }
+}
+
+export default AnalyticsEngine;
+>>>>>>> af774a41 (Initial commit)

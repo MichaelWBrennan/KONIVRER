@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
 import {
   Plus,
@@ -81,10 +82,91 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
     deck.cards.forEach(card => {
       const type = card.type;
       distribution[type] = (distribution[type] || 0) + card.quantity;
+=======
+
+import React, { useState, useEffect } from 'react';
+import { Plus, Minus, Search, Filter, Grid, List } from 'lucide-react';
+
+const VisualDeckBuilder = ({ onDeckUpdate, initialDeck = null }) => {
+  const [deck, setDeck] = useState(initialDeck || { name: '', cards: [], format: 'standard' });
+  const [cardSearch, setCardSearch] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState({
+    element: 'all',
+    type: 'all',
+    cost: 'all',
+    rarity: 'all'
+  });
+  const [viewMode, setViewMode] = useState('grid');
+  const [availableCards, setAvailableCards] = useState([]);
+
+  // Mock card data - in a real app, this would come from your cards service
+  useEffect(() => {
+    // Load available cards
+    const mockCards = [
+      { id: 1, name: 'Lightning Bolt', cost: 1, element: 'Inferno', type: 'Spell', rarity: 'common', description: 'Deal 3 damage to any target.' },
+      { id: 2, name: 'Forest Guardian', cost: 3, element: 'Steadfast', type: 'Creature', rarity: 'uncommon', description: 'A mighty protector of the woods.' },
+      { id: 3, name: 'Tidal Wave', cost: 4, element: 'Submerged', type: 'Spell', rarity: 'rare', description: 'Return all creatures to their owners hands.' },
+      { id: 4, name: 'Void Walker', cost: 2, element: 'Void', type: 'Creature', rarity: 'mythic', description: 'Cannot be blocked.' },
+      { id: 5, name: 'Mystic Orb', cost: 0, element: 'Aether', type: 'Artifact', rarity: 'legendary', description: 'Draw a card at the beginning of your turn.' }
+    ];
+    setAvailableCards(mockCards);
+  }, []);
+
+  const filteredCards = availableCards.filter(card => {
+    const matchesSearch = card.name.toLowerCase().includes(cardSearch.toLowerCase()) ||
+                         card.description.toLowerCase().includes(cardSearch.toLowerCase());
+    const matchesElement = selectedFilters.element === 'all' || card.element === selectedFilters.element;
+    const matchesType = selectedFilters.type === 'all' || card.type === selectedFilters.type;
+    const matchesRarity = selectedFilters.rarity === 'all' || card.rarity === selectedFilters.rarity;
+    
+    let matchesCost = true;
+    if (selectedFilters.cost !== 'all') {
+      const [min, max] = selectedFilters.cost.split('-').map(Number);
+      matchesCost = card.cost >= min && (max === undefined || card.cost <= max);
+    }
+    
+    return matchesSearch && matchesElement && matchesType && matchesRarity && matchesCost;
+  });
+
+  const addCardToDeck = (card) => {
+    const existingCard = deck.cards.find(c => c.id === card.id);
+    const newCards = existingCard 
+      ? deck.cards.map(c => c.id === card.id ? { ...c, quantity: (c.quantity || 1) + 1 } : c)
+      : [...deck.cards, { ...card, quantity: 1 }];
+    
+    const updatedDeck = { ...deck, cards: newCards };
+    setDeck(updatedDeck);
+    onDeckUpdate?.(updatedDeck);
+  };
+
+  const removeCardFromDeck = (cardId) => {
+    const existingCard = deck.cards.find(c => c.id === cardId);
+    if (!existingCard) return;
+    
+    const newCards = existingCard.quantity > 1
+      ? deck.cards.map(c => c.id === cardId ? { ...c, quantity: c.quantity - 1 } : c)
+      : deck.cards.filter(c => c.id !== cardId);
+    
+    const updatedDeck = { ...deck, cards: newCards };
+    setDeck(updatedDeck);
+    onDeckUpdate?.(updatedDeck);
+  };
+
+  const getTotalCards = () => {
+    return deck.cards.reduce((total, card) => total + (card.quantity || 1), 0);
+  };
+
+  const getCostDistribution = () => {
+    const distribution = {};
+    deck.cards.forEach(card => {
+      const cost = card.cost;
+      distribution[cost] = (distribution[cost] || 0) + (card.quantity || 1);
+>>>>>>> af774a41 (Initial commit)
     });
     return distribution;
   };
 
+<<<<<<< HEAD
   const simulateHand = () => {
     const allCards = [];
     deck.cards.forEach(card => {
@@ -494,6 +576,204 @@ const VisualDeckBuilder = ({ deck, onDeckChange, cards }) => {
                 </div>
               </motion.div>
             ))}
+=======
+  const getRarityColor = (rarity) => {
+    const colors = {
+      common: 'text-gray-600',
+      uncommon: 'text-green-600',
+      rare: 'text-blue-600',
+      mythic: 'text-purple-600',
+      legendary: 'text-yellow-600'
+    };
+    return colors[rarity] || 'text-gray-600';
+  };
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-screen">
+      {/* Card Browser */}
+      <div className="lg:col-span-2 bg-card rounded-lg p-6">
+        <div className="mb-4">
+          <h2 className="text-xl font-bold mb-4">Card Browser</h2>
+          
+          {/* Search and Filters */}
+          <div className="space-y-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-secondary" />
+              <input
+                type="text"
+                placeholder="Search cards..."
+                value={cardSearch}
+                onChange={(e) => setCardSearch(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-color rounded-lg bg-background"
+              />
+            </div>
+            
+            <div className="flex flex-wrap gap-2">
+              <select
+                value={selectedFilters.element}
+                onChange={(e) => setSelectedFilters({...selectedFilters, element: e.target.value})}
+                className="px-3 py-1 border border-color rounded bg-background text-sm"
+              >
+                <option value="all">All Elements</option>
+                <option value="Inferno">Inferno</option>
+                <option value="Steadfast">Steadfast</option>
+                <option value="Submerged">Submerged</option>
+                <option value="Aether">Aether</option>
+                <option value="Void">Void</option>
+              </select>
+              
+              <select
+                value={selectedFilters.type}
+                onChange={(e) => setSelectedFilters({...selectedFilters, type: e.target.value})}
+                className="px-3 py-1 border border-color rounded bg-background text-sm"
+              >
+                <option value="all">All Types</option>
+                <option value="Creature">Creature</option>
+                <option value="Spell">Spell</option>
+                <option value="Artifact">Artifact</option>
+                <option value="Enhancement">Enhancement</option>
+              </select>
+              
+              <select
+                value={selectedFilters.cost}
+                onChange={(e) => setSelectedFilters({...selectedFilters, cost: e.target.value})}
+                className="px-3 py-1 border border-color rounded bg-background text-sm"
+              >
+                <option value="all">All Costs</option>
+                <option value="0-1">0-1</option>
+                <option value="2-3">2-3</option>
+                <option value="4-5">4-5</option>
+                <option value="6">6+</option>
+              </select>
+              
+              <div className="flex items-center gap-2 ml-auto">
+                <button
+                  onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+                  className="p-2 border border-color rounded hover:bg-tertiary"
+                  title={`Switch to ${viewMode === 'grid' ? 'list' : 'grid'} view`}
+                >
+                  {viewMode === 'grid' ? <List className="w-4 h-4" /> : <Grid className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Cards Grid/List */}
+        <div className="flex-1 overflow-y-auto">
+          {viewMode === 'grid' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {filteredCards.map(card => (
+                <div key={card.id} className="border border-color rounded-lg p-4 hover:bg-tertiary cursor-pointer transition-colors"
+                     onClick={() => addCardToDeck(card)}>
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold">{card.name}</h3>
+                    <div className="flex items-center gap-1">
+                      <span className="font-bold">{card.cost}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-sm text-secondary mb-2">
+                    <span>{card.type}</span>
+                    <span className={getRarityColor(card.rarity)}>{card.rarity}</span>
+                  </div>
+                  <p className="text-sm text-secondary">{card.description}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {filteredCards.map(card => (
+                <div key={card.id} className="flex items-center justify-between p-3 border border-color rounded-lg hover:bg-tertiary cursor-pointer transition-colors"
+                     onClick={() => addCardToDeck(card)}>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3">
+                      <span className="font-semibold">{card.name}</span>
+                      <span className="text-sm text-secondary">{card.type}</span>
+                      <span className={`text-sm ${getRarityColor(card.rarity)}`}>{card.rarity}</span>
+                    </div>
+                    <p className="text-sm text-secondary mt-1">{card.description}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="font-bold text-lg">{card.cost}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Deck Builder */}
+      <div className="bg-card rounded-lg p-6">
+        <div className="mb-4">
+          <h2 className="text-xl font-bold mb-2">Deck Builder</h2>
+          <input
+            type="text"
+            placeholder="Deck name..."
+            value={deck.name}
+            onChange={(e) => {
+              const updatedDeck = {...deck, name: e.target.value};
+              setDeck(updatedDeck);
+              onDeckUpdate?.(updatedDeck);
+            }}
+            className="w-full p-2 border border-color rounded bg-background mb-2"
+          />
+          <div className="text-sm text-secondary">
+            {getTotalCards()} cards total
+          </div>
+        </div>
+        
+        {/* Deck List */}
+        <div className="space-y-2 mb-4">
+          {deck.cards.length === 0 ? (
+            <div className="text-center text-secondary py-8">
+              <p>Your deck is empty.</p>
+              <p className="text-sm">Click cards from the browser to add them.</p>
+            </div>
+          ) : (
+            deck.cards.map(card => (
+              <div key={card.id} className="flex items-center justify-between p-2 border border-color rounded">
+                <div className="flex-1">
+                  <div className="font-semibold">{card.name}</div>
+                  <div className="text-sm text-secondary">{card.type} • Cost {card.cost}</div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => removeCardFromDeck(card.id)}
+                    className="p-1 hover:bg-tertiary rounded"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="w-8 text-center">{card.quantity || 1}</span>
+                  <button
+                    onClick={() => addCardToDeck(card)}
+                    className="p-1 hover:bg-tertiary rounded"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+        
+        {/* Deck Stats */}
+        {deck.cards.length > 0 && (
+          <div className="border-t border-color pt-4">
+            <h3 className="font-semibold mb-2">Deck Statistics</h3>
+            <div className="space-y-2">
+              <div className="text-sm">
+                <span className="text-secondary">Cost Distribution:</span>
+                <div className="flex gap-1 mt-1">
+                  {Object.entries(getCostDistribution()).map(([cost, count]) => (
+                    <div key={cost} className="bg-tertiary rounded px-2 py-1 text-xs">
+                      {cost}: {count}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+>>>>>>> af774a41 (Initial commit)
           </div>
         )}
       </div>

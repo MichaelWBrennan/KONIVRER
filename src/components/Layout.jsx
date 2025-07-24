@@ -52,7 +52,11 @@ const Layout = ({ children }) => {
   const { user, logout, isAuthenticated, loading } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> af774a41 (Initial commit)
   // Mobile and PWA state
   const [isMobile, setIsMobile] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -65,7 +69,11 @@ const Layout = ({ children }) => {
       const mobile = window.innerWidth <= 768 || 
                     /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       setIsMobile(mobile);
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> af774a41 (Initial commit)
       // Show touch controls on mobile game pages
       const gamePages = ['/game', '/play', '/tournament'];
       setShowTouchControls(mobile && gamePages.some(page => location.pathname.startsWith(page)));
@@ -171,7 +179,11 @@ const Layout = ({ children }) => {
       href: '/matchmaking',
       icon: Target,
     });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> af774a41 (Initial commit)
 
 
     // Analytics Hub removed - stats moved to respective pages
@@ -645,4 +657,8 @@ const LayoutWrapper = ({ children }) => {
 };
 
 export { Layout, LayoutWrapper };
+<<<<<<< HEAD
 export default LayoutWrapper;
+=======
+export default LayoutWrapper;
+>>>>>>> af774a41 (Initial commit)

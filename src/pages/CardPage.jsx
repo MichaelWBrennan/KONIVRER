@@ -238,6 +238,7 @@ const CardPage = () => {
             <div className="sticky top-32">
               {/* Card Image */}
               <div className="bg-card rounded-lg p-6 mb-6">
+<<<<<<< HEAD
                 {cardDataHasArt(card) ? (
                   <CardArtDisplay
                     cardName={getArtNameFromCardData(card)}
@@ -258,6 +259,15 @@ const CardPage = () => {
                     </div>
                   </div>
                 )}
+=======
+                <CardArtDisplay
+                  cardName={getArtNameFromCardData(card)}
+                  className="aspect-[3/4] shadow-lg w-full"
+                  clickable={false}
+                  showFallback={true}
+                />
+              </div>
+>>>>>>> af774a41 (Initial commit)
 
                 {/* Quick Stats */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
@@ -294,6 +304,10 @@ const CardPage = () => {
                   })}
                 </div>
               </div>
+<<<<<<< HEAD
+=======
+            </div>
+>>>>>>> af774a41 (Initial commit)
 
               {/* Quick Actions */}
               <div className="bg-card rounded-lg p-6">
@@ -915,4 +929,8 @@ const CardPage = () => {
   );
 };
 
+<<<<<<< HEAD
 export default CardPage;
+=======
+export default CardPage;
+>>>>>>> af774a41 (Initial commit)
