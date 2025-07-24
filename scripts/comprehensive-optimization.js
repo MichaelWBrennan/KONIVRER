@@ -10,9 +10,9 @@ const { execSync } = require('child_process');
 const { existsSync, writeFileSync, readFileSync, mkdirSync } = require('fs');
 const { join } = require('path');
 
-const log = (message) => console.log(`🚀 ${message}`);
-const success = (message) => console.log(`✅ ${message}`);
-const error = (message) => console.error(`❌ ${message}`);
+const log = (message) => console.info(`🚀 ${message}`);
+const success = (message) => console.info(`✅ ${message}`);
+const error = (message) => console.error(`❌ ${new Date().toISOString()} ${message}`);
 const info = (message) => console.log(`ℹ️  ${message}`);
 
 class ComprehensiveOptimizer {
