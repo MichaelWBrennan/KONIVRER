@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
+import { getEnvVariable } from '../utils/envUtils';
 
 // Browser-compatible EventEmitter implementation
 class EventEmitter {
