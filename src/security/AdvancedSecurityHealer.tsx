@@ -1,6 +1,6 @@
 /**
  * KONIVRER Advanced Security Self-Healer
- * 
+ *
  * This module provides advanced self-healing security capabilities that match
  * the sophistication of the application's self-healing system:
  * - Autonomous threat detection and response
@@ -15,7 +15,15 @@ import { useSecurityContext } from './SecurityProvider';
 
 interface SecurityThreat {
   id: string;
-  type: 'xss' | 'csrf' | 'injection' | 'brute-force' | 'data-breach' | 'malware' | 'phishing' | 'unknown';
+  type:
+    | 'xss'
+    | 'csrf'
+    | 'injection'
+    | 'brute-force'
+    | 'data-breach'
+    | 'malware'
+    | 'phishing'
+    | 'unknown';
   severity: 'low' | 'medium' | 'high' | 'critical';
   source: string;
   timestamp: number;
@@ -86,8 +94,8 @@ class AdvancedThreatDetector {
 
   private initializeAdvancedMonitoring(): void {
     // Monitor DOM mutations for XSS attempts
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
+    const observer = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
         this.analyzeForThreats(mutation);
       });
     });
@@ -112,7 +120,7 @@ class AdvancedThreatDetector {
   private analyzeForThreats(mutation: MutationRecord): void {
     // AI-powered threat analysis
     const threatProbability = this.aiModel.analyzeMutation(mutation);
-    
+
     if (threatProbability > 0.7) {
       const threat: SecurityThreat = {
         id: this.generateThreatId(),
@@ -134,10 +142,10 @@ class AdvancedThreatDetector {
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
       const [url, options] = args;
-      
+
       // Analyze request for threats
       const threatAnalysis = this.aiModel.analyzeNetworkRequest(url, options);
-      
+
       if (threatAnalysis.isThreat) {
         const threat: SecurityThreat = {
           id: this.generateThreatId(),
@@ -151,7 +159,7 @@ class AdvancedThreatDetector {
         };
 
         this.reportThreat(threat);
-        
+
         if (threat.severity === 'critical' || threat.severity === 'high') {
           // Block the request and heal
           this.initiateAutoHealing(threat);
@@ -167,13 +175,13 @@ class AdvancedThreatDetector {
     let clickCount = 0;
     let lastClickTime = 0;
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
       const currentTime = Date.now();
-      
+
       // Detect potential brute force or bot behavior
       if (currentTime - lastClickTime < 50) {
         clickCount++;
-        
+
         if (clickCount > 10) {
           const threat: SecurityThreat = {
             id: this.generateThreatId(),
@@ -192,7 +200,7 @@ class AdvancedThreatDetector {
       } else {
         clickCount = 0;
       }
-      
+
       lastClickTime = currentTime;
     });
   }
@@ -207,7 +215,8 @@ class AdvancedThreatDetector {
       });
 
       // Zero-trust validation
-      const zeroTrustViolations = this.zeroTrustValidator.validateCurrentState();
+      const zeroTrustViolations =
+        this.zeroTrustValidator.validateCurrentState();
       zeroTrustViolations.forEach(violation => {
         this.reportThreat(violation);
         this.initiateAutoHealing(violation);
@@ -219,13 +228,12 @@ class AdvancedThreatDetector {
         this.reportThreat(threat);
         this.initiatePreventiveHealing(threat);
       });
-
     }, defaultSecurityConfig.threatScanInterval);
   }
 
   private reportThreat(threat: SecurityThreat): void {
     this.threats.push(threat);
-    
+
     // Keep only last 1000 threats
     if (this.threats.length > 1000) {
       this.threats.shift();
@@ -243,12 +251,15 @@ class AdvancedThreatDetector {
 
     try {
       const healingStrategy = this.determineHealingStrategy(threat);
-      const success = await this.executeHealingStrategy(healingStrategy, threat);
-      
+      const success = await this.executeHealingStrategy(
+        healingStrategy,
+        threat,
+      );
+
       if (success) {
         threat.mitigated = true;
         threat.autoHealed = true;
-        
+
         if (!defaultSecurityConfig.silentOperation) {
           console.log('[SECURITY-HEALER] Threat auto-healed:', threat.id);
         }
@@ -258,11 +269,13 @@ class AdvancedThreatDetector {
     }
   }
 
-  private async initiatePreventiveHealing(threat: SecurityThreat): Promise<void> {
+  private async initiatePreventiveHealing(
+    threat: SecurityThreat,
+  ): Promise<void> {
     // Preventive healing for predicted threats
     const preventiveStrategy = this.determinePreventiveStrategy(threat);
     await this.executeHealingStrategy(preventiveStrategy, threat);
-    
+
     threat.mitigated = true;
     threat.autoHealed = true;
   }
@@ -292,7 +305,10 @@ class AdvancedThreatDetector {
     return new PreventiveHealingStrategy(threat.type);
   }
 
-  private async executeHealingStrategy(strategy: HealingStrategy, threat: SecurityThreat): Promise<boolean> {
+  private async executeHealingStrategy(
+    strategy: HealingStrategy,
+    threat: SecurityThreat,
+  ): Promise<boolean> {
     return strategy.heal(threat);
   }
 
@@ -316,11 +332,15 @@ class AdvancedThreatDetector {
     this.listeners.forEach(listener => listener([...this.threats]));
   }
 
-  public addThreatListener(listener: (threats: SecurityThreat[]) => void): void {
+  public addThreatListener(
+    listener: (threats: SecurityThreat[]) => void,
+  ): void {
     this.listeners.push(listener);
   }
 
-  public removeThreatListener(listener: (threats: SecurityThreat[]) => void): void {
+  public removeThreatListener(
+    listener: (threats: SecurityThreat[]) => void,
+  ): void {
     const index = this.listeners.indexOf(listener);
     if (index !== -1) {
       this.listeners.splice(index, 1);
@@ -379,7 +399,7 @@ class SecurityAIModel {
 
   public analyzeMutation(mutation: MutationRecord): number {
     let threatScore = 0;
-    
+
     if (mutation.type === 'childList') {
       mutation.addedNodes.forEach(node => {
         if (node.nodeType === Node.ELEMENT_NODE) {
@@ -420,7 +440,7 @@ class SecurityAIModel {
 
   private analyzeAttributes(element: Element): number {
     let score = 0;
-    
+
     Array.from(element.attributes).forEach(attr => {
       const name = attr.name.toLowerCase();
       const value = attr.value.toLowerCase();
@@ -439,7 +459,14 @@ class SecurityAIModel {
     return score;
   }
 
-  public analyzeNetworkRequest(url: any, options: any): { isThreat: boolean; type: SecurityThreat['type']; severity: SecurityThreat['severity'] } {
+  public analyzeNetworkRequest(
+    url: any,
+    options: any,
+  ): {
+    isThreat: boolean;
+    type: SecurityThreat['type'];
+    severity: SecurityThreat['severity'];
+  } {
     let threatScore = 0;
     let threatType: SecurityThreat['type'] = 'unknown';
 
@@ -469,7 +496,8 @@ class SecurityAIModel {
     return {
       isThreat: threatScore > 0.5,
       type: threatType,
-      severity: threatScore > 0.8 ? 'critical' : threatScore > 0.6 ? 'high' : 'medium',
+      severity:
+        threatScore > 0.8 ? 'critical' : threatScore > 0.6 ? 'high' : 'medium',
     };
   }
 
@@ -494,10 +522,10 @@ class SecurityAIModel {
   public predictFutureThreats(): SecurityThreat[] {
     // AI-powered predictive analysis
     const predictions: SecurityThreat[] = [];
-    
+
     // Analyze current patterns and predict potential threats
     const currentTime = Date.now();
-    
+
     // Example: Predict potential XSS based on current DOM state
     if (document.querySelectorAll('input').length > 10) {
       predictions.push({
@@ -526,10 +554,10 @@ class QuantumThreatDetector {
 
   public scanForQuantumThreats(): SecurityThreat[] {
     const threats: SecurityThreat[] = [];
-    
+
     // Scan for quantum-specific threats
     const pageContent = document.documentElement.outerHTML.toLowerCase();
-    
+
     this.quantumPatterns.forEach(pattern => {
       if (pageContent.includes(pattern)) {
         threats.push({
@@ -558,18 +586,24 @@ class QuantumThreatDetector {
 class ZeroTrustValidator {
   public validateCurrentState(): SecurityThreat[] {
     const violations: SecurityThreat[] = [];
-    
+
     // Validate zero-trust principles
     if (!this.validateIdentity()) {
-      violations.push(this.createZeroTrustViolation('identity-validation-failed'));
+      violations.push(
+        this.createZeroTrustViolation('identity-validation-failed'),
+      );
     }
 
     if (!this.validateDevice()) {
-      violations.push(this.createZeroTrustViolation('device-validation-failed'));
+      violations.push(
+        this.createZeroTrustViolation('device-validation-failed'),
+      );
     }
 
     if (!this.validateNetwork()) {
-      violations.push(this.createZeroTrustViolation('network-validation-failed'));
+      violations.push(
+        this.createZeroTrustViolation('network-validation-failed'),
+      );
     }
 
     return violations;
@@ -587,7 +621,10 @@ class ZeroTrustValidator {
 
   private validateNetwork(): boolean {
     // Validate network security
-    return window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+    return (
+      window.location.protocol === 'https:' ||
+      window.location.hostname === 'localhost'
+    );
   }
 
   private createZeroTrustViolation(type: string): SecurityThreat {
@@ -618,9 +655,14 @@ abstract class HealingStrategy {
 class XSSHealingStrategy extends HealingStrategy {
   async heal(threat: SecurityThreat): Promise<boolean> {
     // Remove malicious scripts and sanitize content
-    const scripts = document.querySelectorAll('script[src*="malicious"], script:not([src])');
+    const scripts = document.querySelectorAll(
+      'script[src*="malicious"], script:not([src])',
+    );
     scripts.forEach(script => {
-      if (script.innerHTML.includes('eval') || script.innerHTML.includes('document.cookie')) {
+      if (
+        script.innerHTML.includes('eval') ||
+        script.innerHTML.includes('document.cookie')
+      ) {
         script.remove();
       }
     });
@@ -628,7 +670,10 @@ class XSSHealingStrategy extends HealingStrategy {
     // Sanitize all input fields
     const inputs = document.querySelectorAll('input, textarea');
     inputs.forEach(input => {
-      if (input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) {
+      if (
+        input instanceof HTMLInputElement ||
+        input instanceof HTMLTextAreaElement
+      ) {
         input.value = this.sanitizeInput(input.value);
       }
     });
@@ -653,7 +698,9 @@ class CSRFHealingStrategy extends HealingStrategy {
     // Add CSRF protection to all forms
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {
-      let tokenInput = form.querySelector('input[name="csrfToken"]') as HTMLInputElement;
+      let tokenInput = form.querySelector(
+        'input[name="csrfToken"]',
+      ) as HTMLInputElement;
       if (!tokenInput) {
         tokenInput = document.createElement('input');
         tokenInput.type = 'hidden';
@@ -678,9 +725,11 @@ class InjectionHealingStrategy extends HealingStrategy {
     // Sanitize all data inputs and outputs
     const elements = document.querySelectorAll('*');
     elements.forEach(element => {
-      if (element.innerHTML.includes('DROP TABLE') || 
-          element.innerHTML.includes('SELECT *') ||
-          element.innerHTML.includes('UNION SELECT')) {
+      if (
+        element.innerHTML.includes('DROP TABLE') ||
+        element.innerHTML.includes('SELECT *') ||
+        element.innerHTML.includes('UNION SELECT')
+      ) {
         element.innerHTML = '[CONTENT SANITIZED BY SECURITY SYSTEM]';
       }
     });
@@ -694,11 +743,13 @@ class BruteForceHealingStrategy extends HealingStrategy {
     // Implement rate limiting and temporary lockout
     const lockoutKey = 'security_lockout';
     const lockoutTime = 5 * 60 * 1000; // 5 minutes
-    
+
     localStorage.setItem(lockoutKey, (Date.now() + lockoutTime).toString());
 
     // Disable all interactive elements temporarily
-    const interactiveElements = document.querySelectorAll('button, input, a, select, textarea');
+    const interactiveElements = document.querySelectorAll(
+      'button, input, a, select, textarea',
+    );
     interactiveElements.forEach(element => {
       (element as HTMLElement).style.pointerEvents = 'none';
       (element as HTMLElement).style.opacity = '0.5';
@@ -721,13 +772,13 @@ class DataBreachHealingStrategy extends HealingStrategy {
   async heal(threat: SecurityThreat): Promise<boolean> {
     // Encrypt sensitive data and clear caches
     const sensitiveKeys = ['password', 'token', 'key', 'secret'];
-    
+
     sensitiveKeys.forEach(key => {
       const value = localStorage.getItem(key);
       if (value) {
         localStorage.setItem(key, this.encrypt(value));
       }
-      
+
       const sessionValue = sessionStorage.getItem(key);
       if (sessionValue) {
         sessionStorage.setItem(key, this.encrypt(sessionValue));
@@ -753,7 +804,9 @@ class DataBreachHealingStrategy extends HealingStrategy {
 class MalwareHealingStrategy extends HealingStrategy {
   async heal(threat: SecurityThreat): Promise<boolean> {
     // Remove suspicious scripts and clean DOM
-    const suspiciousElements = document.querySelectorAll('[onclick*="eval"], [onload*="eval"], script[src*="suspicious"]');
+    const suspiciousElements = document.querySelectorAll(
+      '[onclick*="eval"], [onload*="eval"], script[src*="suspicious"]',
+    );
     suspiciousElements.forEach(element => element.remove());
 
     // Clear potentially infected storage
@@ -778,7 +831,10 @@ class PhishingHealingStrategy extends HealingStrategy {
       if (href && this.isSuspiciousLink(href)) {
         link.setAttribute('href', '#');
         link.innerHTML = '[LINK BLOCKED BY SECURITY SYSTEM]';
-        link.setAttribute('title', 'This link was blocked for security reasons');
+        link.setAttribute(
+          'title',
+          'This link was blocked for security reasons',
+        );
       }
     });
 
@@ -801,12 +857,18 @@ class PhishingHealingStrategy extends HealingStrategy {
 class GenericHealingStrategy extends HealingStrategy {
   async heal(threat: SecurityThreat): Promise<boolean> {
     // Generic healing approach
-    console.warn('[SECURITY-HEALER] Applying generic healing strategy for threat:', threat.type);
-    
+    console.warn(
+      '[SECURITY-HEALER] Applying generic healing strategy for threat:',
+      threat.type,
+    );
+
     // Basic sanitization
     const elements = document.querySelectorAll('*');
     elements.forEach(element => {
-      if (element.innerHTML.includes('<script>') || element.innerHTML.includes('javascript:')) {
+      if (
+        element.innerHTML.includes('<script>') ||
+        element.innerHTML.includes('javascript:')
+      ) {
         element.innerHTML = element.innerHTML
           .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
           .replace(/javascript:/gi, '');
@@ -843,9 +905,14 @@ class PreventiveHealingStrategy extends HealingStrategy {
 
   private preventXSS(): void {
     // Strengthen CSP
-    const cspMeta = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+    const cspMeta = document.querySelector(
+      'meta[http-equiv="Content-Security-Policy"]',
+    );
     if (cspMeta) {
-      cspMeta.setAttribute('content', "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';");
+      cspMeta.setAttribute(
+        'content',
+        "default-src 'self'; script-src 'self'; style-src 'self'; object-src 'none';",
+      );
     }
   }
 
@@ -867,7 +934,7 @@ class PreventiveHealingStrategy extends HealingStrategy {
     // Sanitize all inputs proactively
     const inputs = document.querySelectorAll('input, textarea');
     inputs.forEach(input => {
-      input.addEventListener('input', (e) => {
+      input.addEventListener('input', e => {
         const target = e.target as HTMLInputElement;
         target.value = target.value.replace(/[<>'"]/g, '');
       });
@@ -885,7 +952,9 @@ class PreventiveHealingStrategy extends HealingStrategy {
 }
 
 // React Hook for Advanced Security Healing
-export const useAdvancedSecurityHealing = (config?: Partial<SecurityHealingConfig>) => {
+export const useAdvancedSecurityHealing = (
+  config?: Partial<SecurityHealingConfig>,
+) => {
   const [threats, setThreats] = useState<SecurityThreat[]>([]);
   const [metrics, setMetrics] = useState<SecurityMetrics | null>(null);
   const [isHealing, setIsHealing] = useState(false);
@@ -900,7 +969,7 @@ export const useAdvancedSecurityHealing = (config?: Partial<SecurityHealingConfi
 
     const handleThreats = (newThreats: SecurityThreat[]) => {
       setThreats(newThreats);
-      
+
       // Log security events
       newThreats.forEach(threat => {
         if (!threat.mitigated) {
@@ -937,46 +1006,53 @@ export const useAdvancedSecurityHealing = (config?: Partial<SecurityHealingConfi
     };
   }, [mergedConfig, logSecurityEvent]);
 
-  const manualHeal = useCallback(async (threatId: string) => {
-    if (!detectorRef.current) return false;
+  const manualHeal = useCallback(
+    async (threatId: string) => {
+      if (!detectorRef.current) return false;
 
-    setIsHealing(true);
-    
-    try {
-      const threat = threats.find(t => t.id === threatId);
-      if (threat) {
-        const detector = detectorRef.current as any;
-        await detector.initiateAutoHealing(threat);
-        
-        logSecurityEvent('MANUAL_HEALING_COMPLETED', {
+      setIsHealing(true);
+
+      try {
+        const threat = threats.find(t => t.id === threatId);
+        if (threat) {
+          const detector = detectorRef.current as any;
+          await detector.initiateAutoHealing(threat);
+
+          logSecurityEvent('MANUAL_HEALING_COMPLETED', {
+            threatId,
+            success: true,
+          });
+
+          return true;
+        }
+      } catch (error) {
+        logSecurityEvent('MANUAL_HEALING_FAILED', {
           threatId,
-          success: true,
+          error: (error as Error).message,
         });
-        
-        return true;
+      } finally {
+        setIsHealing(false);
       }
-    } catch (error) {
-      logSecurityEvent('MANUAL_HEALING_FAILED', {
-        threatId,
-        error: (error as Error).message,
-      });
-    } finally {
-      setIsHealing(false);
-    }
 
-    return false;
-  }, [threats, logSecurityEvent]);
+      return false;
+    },
+    [threats, logSecurityEvent],
+  );
 
   const getSecurityStatus = useCallback(() => {
     if (!metrics) return 'unknown';
-    
-    const criticalThreats = threats.filter(t => t.severity === 'critical' && !t.mitigated).length;
-    const highThreats = threats.filter(t => t.severity === 'high' && !t.mitigated).length;
-    
+
+    const criticalThreats = threats.filter(
+      t => t.severity === 'critical' && !t.mitigated,
+    ).length;
+    const highThreats = threats.filter(
+      t => t.severity === 'high' && !t.mitigated,
+    ).length;
+
     if (criticalThreats > 0) return 'critical';
     if (highThreats > 0) return 'high';
     if (metrics.complianceScore < 90) return 'medium';
-    
+
     return 'secure';
   }, [threats, metrics]);
 
@@ -995,7 +1071,8 @@ export const AdvancedSecurityHealingProvider: React.FC<{
   children: React.ReactNode;
   config?: Partial<SecurityHealingConfig>;
 }> = ({ children, config }) => {
-  const { threats, metrics, securityStatus } = useAdvancedSecurityHealing(config);
+  const { threats, metrics, securityStatus } =
+    useAdvancedSecurityHealing(config);
   const { logSecurityEvent } = useSecurityContext();
 
   useEffect(() => {

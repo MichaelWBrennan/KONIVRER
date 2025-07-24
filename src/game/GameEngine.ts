@@ -17,7 +17,9 @@ export class GameEngine {
 
   public init(container: HTMLElement): void {
     if (this.game) {
-      console.log('[GameEngine] Game already initialized, destroying previous instance');
+      console.log(
+        '[GameEngine] Game already initialized, destroying previous instance',
+      );
       this.destroy();
     }
 
@@ -25,7 +27,9 @@ export class GameEngine {
     const containerWidth = container.clientWidth || window.innerWidth;
     const containerHeight = container.clientHeight || window.innerHeight;
 
-    console.log(`[GameEngine] Initializing with container size: ${containerWidth}x${containerHeight}`);
+    console.log(
+      `[GameEngine] Initializing with container size: ${containerWidth}x${containerHeight}`,
+    );
 
     const existingCanvas = container.querySelector('canvas');
     if (existingCanvas) {
@@ -50,20 +54,20 @@ export class GameEngine {
         new UnifiedCardBattleScene('premium'),
         GameScene,
         new UnifiedDeckBuilderScene(),
-        new UnifiedCardBattleScene('enhanced')
+        new UnifiedCardBattleScene('enhanced'),
       ],
       physics: {
         default: 'arcade',
         arcade: {
           gravity: { x: 0, y: 0 },
-          debug: false
-        }
+          debug: false,
+        },
       },
       render: {
         pixelArt: false,
         antialias: !isLowPerformance,
         roundPixels: isLowPerformance,
-        powerPreference: isLowPerformance ? 'low-power' : 'high-performance'
+        powerPreference: isLowPerformance ? 'low-power' : 'high-performance',
       },
       scale: {
         mode: Phaser.Scale.RESIZE,
@@ -71,20 +75,22 @@ export class GameEngine {
         width: containerWidth,
         height: containerHeight,
         min: { width: 320, height: 480 },
-        max: { width: 1920, height: 1080 }
+        max: { width: 1920, height: 1080 },
       },
       dom: { createContainer: true },
       input: { touch: true, mouse: true, smoothFactor: 0.2 },
       transparent: false,
       clearBeforeRender: true,
       disableContextMenu: true,
-      canvasStyle: 'display: block; width: 100%; height: 100%;'
+      canvasStyle: 'display: block; width: 100%; height: 100%;',
     };
 
     try {
       this.game = new Phaser.Game(config);
       window.addEventListener('resize', this.handleResize.bind(this));
-      const menuScene = isLowPerformance ? 'UnifiedMainMenuScene' : 'UnifiedMainMenuScene';
+      const menuScene = isLowPerformance
+        ? 'UnifiedMainMenuScene'
+        : 'UnifiedMainMenuScene';
       this.game.scene.start(menuScene);
     } catch (error) {
       console.error('[GameEngine] Error initializing game:', error);
@@ -115,14 +121,17 @@ export class GameEngine {
   private preloadCardArt(): void {
     import('../data/cards').then(({ KONIVRER_CARDS }) => {
       const initialCards = KONIVRER_CARDS.slice(0, 20);
-      CardArtLoader.getInstance().preloadCards(initialCards).then(() => {
-        setTimeout(() => {
-          const remainingCards = KONIVRER_CARDS.slice(20);
-          CardArtLoader.getInstance().preloadCards(remainingCards);
-        }, 5000);
-      }).catch(error => {
-        console.error('[GameEngine] Error preloading card images:', error);
-      });
+      CardArtLoader.getInstance()
+        .preloadCards(initialCards)
+        .then(() => {
+          setTimeout(() => {
+            const remainingCards = KONIVRER_CARDS.slice(20);
+            CardArtLoader.getInstance().preloadCards(remainingCards);
+          }, 5000);
+        })
+        .catch(error => {
+          console.error('[GameEngine] Error preloading card images:', error);
+        });
     });
   }
 

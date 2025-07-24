@@ -1,6 +1,6 @@
 /**
  * KONIVRER Self-Optimizer Module
- * 
+ *
  * This module provides self-optimizing capabilities for the application:
  * - Runtime performance monitoring and optimization
  * - Adaptive resource management
@@ -45,7 +45,8 @@ export class SelfOptimizer {
   private static instance: SelfOptimizer;
   private metrics: PerformanceMetrics;
   private settings: OptimizationSettings;
-  private optimizationListeners: Array<(metrics: PerformanceMetrics) => void> = [];
+  private optimizationListeners: Array<(metrics: PerformanceMetrics) => void> =
+    [];
   private lastOptimizationTime: number = 0;
   private frameCount: number = 0;
   private lastFrameTime: number = 0;
@@ -91,7 +92,8 @@ export class SelfOptimizer {
       this.frameCount++;
       const now = performance.now();
 
-      if (now - this.lastFrameTime >= 1000) { // Elapsed time > 1 second
+      if (now - this.lastFrameTime >= 1000) {
+        // Elapsed time > 1 second
         this.metrics.fps = this.frameCount; // Update FPS count
         this.frameCount = 0; // Reset the frame count
         this.lastFrameTime = now; // Reset the last frame time
@@ -108,7 +110,8 @@ export class SelfOptimizer {
     // Monitor memory if available
     if (performance && (performance as any).memory) {
       setInterval(() => {
-        this.metrics.memory = (performance as any).memory.usedJSHeapSize / (1024 * 1024);
+        this.metrics.memory =
+          (performance as any).memory.usedJSHeapSize / (1024 * 1024);
       }, 2000);
     }
 
@@ -152,7 +155,11 @@ export class SelfOptimizer {
       this.optimizeRendering();
     }
 
-    if (this.metrics.memory && this.metrics.memory > 100 && this.settings.enableMemoryManagement) {
+    if (
+      this.metrics.memory &&
+      this.metrics.memory > 100 &&
+      this.settings.enableMemoryManagement
+    ) {
       this.optimizeMemory();
     }
 
@@ -183,11 +190,15 @@ export class SelfOptimizer {
     });
   }
 
-  public addOptimizationListener(listener: (metrics: PerformanceMetrics) => void): void {
+  public addOptimizationListener(
+    listener: (metrics: PerformanceMetrics) => void,
+  ): void {
     this.optimizationListeners.push(listener);
   }
 
-  public removeOptimizationListener(listener: (metrics: PerformanceMetrics) => void): void {
+  public removeOptimizationListener(
+    listener: (metrics: PerformanceMetrics) => void,
+  ): void {
     const index = this.optimizationListeners.indexOf(listener);
     if (index !== -1) {
       this.optimizationListeners.splice(index, 1);
@@ -218,7 +229,9 @@ export const useSelfOptimizer = (): {
   optimizeNow: () => void;
 } => {
   const optimizer = SelfOptimizer.getInstance();
-  const [metrics, setMetrics] = useState<PerformanceMetrics>(optimizer.getMetrics());
+  const [metrics, setMetrics] = useState<PerformanceMetrics>(
+    optimizer.getMetrics(),
+  );
 
   useEffect(() => {
     const listener = (newMetrics: PerformanceMetrics) => {
@@ -232,9 +245,12 @@ export const useSelfOptimizer = (): {
     };
   }, []);
 
-  const updateSettings = useCallback((settings: Partial<OptimizationSettings>) => {
-    optimizer.updateSettings(settings);
-  }, []);
+  const updateSettings = useCallback(
+    (settings: Partial<OptimizationSettings>) => {
+      optimizer.updateSettings(settings);
+    },
+    [],
+  );
 
   const optimizeNow = useCallback(() => {
     optimizer.optimizeOnDemand();
@@ -266,12 +282,16 @@ export function withOptimization<P extends object>(
     name?: string;
     memoize?: boolean;
     lazyLoad?: boolean;
-  } = {}
+  } = {},
 ): React.FC<P> {
-  const { name = 'OptimizedComponent', memoize = true, lazyLoad = false } = options;
+  const {
+    name = 'OptimizedComponent',
+    memoize = true,
+    lazyLoad = false,
+  } = options;
 
   // Create optimized component
-  const OptimizedComponent: React.FC<P> = (props) => {
+  const OptimizedComponent: React.FC<P> = props => {
     const renderStartTime = useRef<number>(0);
     const renderEndTime = useRef<number>(0);
     const optimizer = SelfOptimizer.getInstance();

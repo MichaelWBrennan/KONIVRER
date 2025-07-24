@@ -1,6 +1,6 @@
 /**
  * KONIVRER Zero Trust Architecture
- * 
+ *
  * This module implements a comprehensive zero-trust security model that
  * matches the sophistication of the self-healing system:
  * - Never trust, always verify principle
@@ -228,7 +228,8 @@ class ZeroTrustPolicyEngine {
           },
           {
             id: 'vpn-detection',
-            condition: 'networkContext.vpnDetected = true AND vpnApproved = false',
+            condition:
+              'networkContext.vpnDetected = true AND vpnApproved = false',
             action: 'deny',
             parameters: { reason: 'unauthorized-vpn' },
             confidence: 0.95,
@@ -322,19 +323,31 @@ class ZeroTrustPolicyEngine {
     });
   }
 
-  public evaluateAccess(context: SecurityContext, resource: string, action: string): {
+  public evaluateAccess(
+    context: SecurityContext,
+    resource: string,
+    action: string,
+  ): {
     allowed: boolean;
     challenges: string[];
     reason: string;
     trustScore: number;
   } {
-    const applicablePolicies = this.getApplicablePolicies(context, resource, action);
-    const results = applicablePolicies.map(policy => this.evaluatePolicy(policy, context));
-    
+    const applicablePolicies = this.getApplicablePolicies(
+      context,
+      resource,
+      action,
+    );
+    const results = applicablePolicies.map(policy =>
+      this.evaluatePolicy(policy, context),
+    );
+
     // Combine results using most restrictive approach
     const allowed = results.every(result => result.allowed);
     const challenges = results.flatMap(result => result.challenges);
-    const reasons = results.filter(result => !result.allowed).map(result => result.reason);
+    const reasons = results
+      .filter(result => !result.allowed)
+      .map(result => result.reason);
     const trustScore = Math.min(...results.map(result => result.trustScore));
 
     return {
@@ -345,31 +358,49 @@ class ZeroTrustPolicyEngine {
     };
   }
 
-  private getApplicablePolicies(context: SecurityContext, resource: string, action: string): SecurityPolicy[] {
-    return Array.from(this.policies.values()).filter(policy => 
-      policy.active && this.isPolicyApplicable(policy, context, resource, action)
+  private getApplicablePolicies(
+    context: SecurityContext,
+    resource: string,
+    action: string,
+  ): SecurityPolicy[] {
+    return Array.from(this.policies.values()).filter(
+      policy =>
+        policy.active &&
+        this.isPolicyApplicable(policy, context, resource, action),
     );
   }
 
-  private isPolicyApplicable(policy: SecurityPolicy, context: SecurityContext, resource: string, action: string): boolean {
+  private isPolicyApplicable(
+    policy: SecurityPolicy,
+    context: SecurityContext,
+    resource: string,
+    action: string,
+  ): boolean {
     // Simplified policy applicability check
     return true; // In a real implementation, this would check resource patterns, user roles, etc.
   }
 
-  private evaluatePolicy(policy: SecurityPolicy, context: SecurityContext): {
+  private evaluatePolicy(
+    policy: SecurityPolicy,
+    context: SecurityContext,
+  ): {
     allowed: boolean;
     challenges: string[];
     reason: string;
     trustScore: number;
   } {
-    const ruleResults = policy.rules.map(rule => this.evaluateRule(rule, context));
-    
+    const ruleResults = policy.rules.map(rule =>
+      this.evaluateRule(rule, context),
+    );
+
     // Policy evaluation logic
     const allowed = ruleResults.every(result => result.action !== 'deny');
     const challenges = ruleResults
       .filter(result => result.action === 'challenge')
       .map(result => result.challenge);
-    const trustScore = Math.min(...ruleResults.map(result => result.trustScore));
+    const trustScore = Math.min(
+      ...ruleResults.map(result => result.trustScore),
+    );
 
     return {
       allowed,
@@ -379,17 +410,23 @@ class ZeroTrustPolicyEngine {
     };
   }
 
-  private evaluateRule(rule: PolicyRule, context: SecurityContext): {
+  private evaluateRule(
+    rule: PolicyRule,
+    context: SecurityContext,
+  ): {
     action: string;
     challenge: string;
     trustScore: number;
   } {
     const conditionMet = this.evaluateCondition(rule.condition, context);
-    
+
     if (conditionMet) {
       return {
         action: rule.action,
-        challenge: rule.action === 'challenge' ? rule.parameters.method || 'default' : '',
+        challenge:
+          rule.action === 'challenge'
+            ? rule.parameters.method || 'default'
+            : '',
         trustScore: rule.confidence,
       };
     }
@@ -401,27 +438,30 @@ class ZeroTrustPolicyEngine {
     };
   }
 
-  private evaluateCondition(condition: string, context: SecurityContext): boolean {
+  private evaluateCondition(
+    condition: string,
+    context: SecurityContext,
+  ): boolean {
     // Simplified condition evaluation
     // In a real implementation, this would parse and evaluate complex conditions
-    
+
     if (condition.includes('lastAuth > 5 minutes')) {
       return Date.now() - context.lastVerification > 300000;
     }
-    
+
     if (condition.includes('typingPattern.anomalyScore > 0.8')) {
       return context.behaviorProfile.anomalyScore > 0.8;
     }
-    
+
     if (condition.includes('networkContext.networkTrustScore < 0.5')) {
       return context.networkContext.networkTrustScore < 0.5;
     }
-    
+
     if (condition.includes('deviceFingerprint NOT IN trustedDevices')) {
       const trustedDevices = this.getTrustedDevices();
       return !trustedDevices.includes(context.deviceFingerprint);
     }
-    
+
     return false;
   }
 
@@ -436,7 +476,10 @@ class ZeroTrustPolicyEngine {
     this.notifyPolicyListeners();
   }
 
-  public updatePolicy(policyId: string, updates: Partial<SecurityPolicy>): void {
+  public updatePolicy(
+    policyId: string,
+    updates: Partial<SecurityPolicy>,
+  ): void {
     const policy = this.policies.get(policyId);
     if (policy) {
       const updatedPolicy = { ...policy, ...updates, lastUpdated: Date.now() };
@@ -449,11 +492,15 @@ class ZeroTrustPolicyEngine {
     return Array.from(this.policies.values());
   }
 
-  public addPolicyListener(listener: (policies: SecurityPolicy[]) => void): void {
+  public addPolicyListener(
+    listener: (policies: SecurityPolicy[]) => void,
+  ): void {
     this.policyListeners.push(listener);
   }
 
-  public removePolicyListener(listener: (policies: SecurityPolicy[]) => void): void {
+  public removePolicyListener(
+    listener: (policies: SecurityPolicy[]) => void,
+  ): void {
     const index = this.policyListeners.indexOf(listener);
     if (index !== -1) {
       this.policyListeners.splice(index, 1);
@@ -469,26 +516,30 @@ class ZeroTrustPolicyEngine {
 // Policy Healing Engine
 class PolicyHealingEngine {
   public healPolicy(policy: SecurityPolicy): SecurityPolicy | null {
-    const healedRules = policy.rules.map(rule => this.healRule(rule)).filter(Boolean) as PolicyRule[];
-    
-    if (healedRules.length !== policy.rules.length || 
-        healedRules.some((rule, index) => rule !== policy.rules[index])) {
+    const healedRules = policy.rules
+      .map(rule => this.healRule(rule))
+      .filter(Boolean) as PolicyRule[];
+
+    if (
+      healedRules.length !== policy.rules.length ||
+      healedRules.some((rule, index) => rule !== policy.rules[index])
+    ) {
       return {
         ...policy,
         rules: healedRules,
         lastUpdated: Date.now(),
       };
     }
-    
+
     return null;
   }
 
   private healRule(rule: PolicyRule): PolicyRule | null {
     if (!rule.adaptable) return rule;
-    
+
     // Adaptive rule healing based on effectiveness
     const effectiveness = this.calculateRuleEffectiveness(rule);
-    
+
     if (effectiveness < 0.5) {
       // Rule is not effective, adjust parameters
       return {
@@ -497,7 +548,7 @@ class PolicyHealingEngine {
         parameters: this.adjustRuleParameters(rule.parameters),
       };
     }
-    
+
     if (effectiveness > 0.9) {
       // Rule is very effective, increase confidence
       return {
@@ -505,7 +556,7 @@ class PolicyHealingEngine {
         confidence: Math.min(1.0, rule.confidence + 0.05),
       };
     }
-    
+
     return rule;
   }
 
@@ -515,18 +566,20 @@ class PolicyHealingEngine {
     return 0.7 + Math.random() * 0.3;
   }
 
-  private adjustRuleParameters(parameters: { [key: string]: any }): { [key: string]: any } {
+  private adjustRuleParameters(parameters: { [key: string]: any }): {
+    [key: string]: any;
+  } {
     // Adjust rule parameters to improve effectiveness
     const adjusted = { ...parameters };
-    
+
     if (adjusted.duration) {
       adjusted.duration = Math.min(adjusted.duration * 1.2, 600000); // Max 10 minutes
     }
-    
+
     if (adjusted.threshold) {
       adjusted.threshold = Math.max(adjusted.threshold * 0.9, 0.1); // Min 0.1
     }
-    
+
     return adjusted;
   }
 }
@@ -584,26 +637,27 @@ class BehavioralAnalyticsEngine {
     let keyCount = 0;
     const keyIntervals: number[] = [];
 
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
       const currentTime = Date.now();
-      
+
       if (lastKeyTime > 0) {
         const interval = currentTime - lastKeyTime;
         keyIntervals.push(interval);
-        
+
         // Keep only last 100 intervals
         if (keyIntervals.length > 100) {
           keyIntervals.shift();
         }
       }
-      
+
       lastKeyTime = currentTime;
       keyCount++;
-      
+
       // Update typing pattern
       this.currentBehavior.typingPattern.keyPressIntervals = [...keyIntervals];
-      this.currentBehavior.typingPattern.averageSpeed = keyCount / (Date.now() - this.getSessionStart());
-      
+      this.currentBehavior.typingPattern.averageSpeed =
+        keyCount / (Date.now() - this.getSessionStart());
+
       this.updateAnomalyScore();
     });
   }
@@ -614,46 +668,47 @@ class BehavioralAnalyticsEngine {
     const clickIntervals: number[] = [];
     const movements: number[] = [];
 
-    document.addEventListener('mousemove', (event) => {
+    document.addEventListener('mousemove', event => {
       const currentTime = Date.now();
-      
+
       if (lastMouseTime > 0) {
         const timeDiff = currentTime - lastMouseTime;
         const distance = Math.sqrt(
-          Math.pow(event.movementX, 2) + Math.pow(event.movementY, 2)
+          Math.pow(event.movementX, 2) + Math.pow(event.movementY, 2),
         );
-        
+
         mouseDistance += distance;
         movements.push(distance / timeDiff);
-        
+
         // Keep only last 100 movements
         if (movements.length > 100) {
           movements.shift();
         }
       }
-      
+
       lastMouseTime = currentTime;
-      
+
       // Update mouse pattern
       this.currentBehavior.mouseMovement.movementSignature = [...movements];
-      this.currentBehavior.mouseMovement.averageSpeed = mouseDistance / (Date.now() - this.getSessionStart());
+      this.currentBehavior.mouseMovement.averageSpeed =
+        mouseDistance / (Date.now() - this.getSessionStart());
     });
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', event => {
       const currentTime = Date.now();
-      
+
       if (clickIntervals.length > 0) {
         const lastClickTime = clickIntervals[clickIntervals.length - 1];
         clickIntervals.push(currentTime - lastClickTime);
       } else {
         clickIntervals.push(0);
       }
-      
+
       // Keep only last 50 clicks
       if (clickIntervals.length > 50) {
         clickIntervals.shift();
       }
-      
+
       this.currentBehavior.mouseMovement.clickPatterns = [...clickIntervals];
       this.updateAnomalyScore();
     });
@@ -666,41 +721,45 @@ class BehavioralAnalyticsEngine {
 
     // Monitor page transitions
     const originalPushState = history.pushState;
-    history.pushState = function(...args) {
+    history.pushState = function (...args) {
       const currentTime = Date.now();
       transitionTimes.push(currentTime - pageLoadTime);
       paths.push(window.location.pathname);
-      
+
       pageLoadTime = currentTime;
-      
+
       return originalPushState.apply(history, args);
     };
 
     // Update navigation pattern
     setInterval(() => {
-      this.currentBehavior.navigationPattern.pageTransitionTimes = [...transitionTimes];
+      this.currentBehavior.navigationPattern.pageTransitionTimes = [
+        ...transitionTimes,
+      ];
       this.currentBehavior.navigationPattern.commonPaths = [...new Set(paths)];
-      this.currentBehavior.navigationPattern.sessionDuration = Date.now() - this.getSessionStart();
+      this.currentBehavior.navigationPattern.sessionDuration =
+        Date.now() - this.getSessionStart();
     }, 10000);
   }
 
   private monitorTimeBehavior(): void {
     const sessionStart = this.getSessionStart();
     const currentHour = new Date().getHours();
-    
+
     // Update time pattern
     this.currentBehavior.timePattern.activeHours.push(currentHour);
     this.currentBehavior.timePattern.workingHours = this.isWorkingHours();
-    
+
     // Update session frequency (simplified)
-    const sessionCount = parseInt(sessionStorage.getItem('sessionCount') || '0') + 1;
+    const sessionCount =
+      parseInt(sessionStorage.getItem('sessionCount') || '0') + 1;
     sessionStorage.setItem('sessionCount', sessionCount.toString());
     this.currentBehavior.timePattern.sessionFrequency = sessionCount;
   }
 
   private updateAnomalyScore(): void {
     const baseline = this.getBehaviorBaseline();
-    
+
     if (!baseline) {
       this.currentBehavior.anomalyScore = 0;
       return;
@@ -711,18 +770,22 @@ class BehavioralAnalyticsEngine {
 
     // Compare typing patterns
     if (baseline.typingPattern.averageSpeed > 0) {
-      const typingDiff = Math.abs(
-        this.currentBehavior.typingPattern.averageSpeed - baseline.typingPattern.averageSpeed
-      ) / baseline.typingPattern.averageSpeed;
+      const typingDiff =
+        Math.abs(
+          this.currentBehavior.typingPattern.averageSpeed -
+            baseline.typingPattern.averageSpeed,
+        ) / baseline.typingPattern.averageSpeed;
       anomalyScore += Math.min(typingDiff, 1);
       factors++;
     }
 
     // Compare mouse patterns
     if (baseline.mouseMovement.averageSpeed > 0) {
-      const mouseDiff = Math.abs(
-        this.currentBehavior.mouseMovement.averageSpeed - baseline.mouseMovement.averageSpeed
-      ) / baseline.mouseMovement.averageSpeed;
+      const mouseDiff =
+        Math.abs(
+          this.currentBehavior.mouseMovement.averageSpeed -
+            baseline.mouseMovement.averageSpeed,
+        ) / baseline.mouseMovement.averageSpeed;
       anomalyScore += Math.min(mouseDiff, 1);
       factors++;
     }
@@ -730,17 +793,18 @@ class BehavioralAnalyticsEngine {
     // Compare navigation patterns
     const commonPathsOverlap = this.calculatePathOverlap(
       this.currentBehavior.navigationPattern.commonPaths,
-      baseline.navigationPattern.commonPaths
+      baseline.navigationPattern.commonPaths,
     );
-    anomalyScore += (1 - commonPathsOverlap);
+    anomalyScore += 1 - commonPathsOverlap;
     factors++;
 
-    this.currentBehavior.anomalyScore = factors > 0 ? anomalyScore / factors : 0;
+    this.currentBehavior.anomalyScore =
+      factors > 0 ? anomalyScore / factors : 0;
   }
 
   private calculatePathOverlap(current: string[], baseline: string[]): number {
     if (baseline.length === 0) return 1;
-    
+
     const overlap = current.filter(path => baseline.includes(path)).length;
     return overlap / baseline.length;
   }
@@ -755,7 +819,7 @@ class BehavioralAnalyticsEngine {
     if (stored) {
       return parseInt(stored);
     }
-    
+
     const start = Date.now();
     sessionStorage.setItem('sessionStart', start.toString());
     return start;
@@ -804,7 +868,9 @@ class RiskAssessmentEngine {
     return riskFactors;
   }
 
-  private assessLocationRisk(networkContext: NetworkContext): RiskFactor | null {
+  private assessLocationRisk(
+    networkContext: NetworkContext,
+  ): RiskFactor | null {
     if (networkContext.threatIntelligence.length > 0) {
       return {
         type: 'location',
@@ -821,7 +887,7 @@ class RiskAssessmentEngine {
 
   private assessDeviceRisk(deviceFingerprint: string): RiskFactor | null {
     const trustedDevices = this.getTrustedDevices();
-    
+
     if (!trustedDevices.includes(deviceFingerprint)) {
       return {
         type: 'device',
@@ -836,7 +902,9 @@ class RiskAssessmentEngine {
     return null;
   }
 
-  private assessBehaviorRisk(behaviorProfile: BehaviorProfile): RiskFactor | null {
+  private assessBehaviorRisk(
+    behaviorProfile: BehaviorProfile,
+  ): RiskFactor | null {
     if (behaviorProfile.anomalyScore > 0.8) {
       return {
         type: 'behavior',
@@ -868,7 +936,7 @@ class RiskAssessmentEngine {
 
   private assessTimeRisk(timePattern: TimePattern): RiskFactor | null {
     const currentHour = new Date().getHours();
-    
+
     if (!timePattern.workingHours && (currentHour < 6 || currentHour > 22)) {
       return {
         type: 'time',
@@ -891,14 +959,23 @@ class RiskAssessmentEngine {
 
 // Trust Score Calculator
 class TrustScoreCalculator {
-  public calculateTrustScore(context: SecurityContext, riskFactors: RiskFactor[]): TrustScore {
+  public calculateTrustScore(
+    context: SecurityContext,
+    riskFactors: RiskFactor[],
+  ): TrustScore {
     const identityScore = this.calculateIdentityScore(context);
     const deviceScore = this.calculateDeviceScore(context.deviceFingerprint);
     const networkScore = this.calculateNetworkScore(context.networkContext);
     const behaviorScore = this.calculateBehaviorScore(context.behaviorProfile);
     const contextScore = this.calculateContextScore(context, riskFactors);
 
-    const overall = (identityScore + deviceScore + networkScore + behaviorScore + contextScore) / 5;
+    const overall =
+      (identityScore +
+        deviceScore +
+        networkScore +
+        behaviorScore +
+        contextScore) /
+      5;
 
     return {
       overall,
@@ -914,7 +991,7 @@ class TrustScoreCalculator {
   private calculateIdentityScore(context: SecurityContext): number {
     const timeSinceAuth = Date.now() - context.lastVerification;
     const authFreshness = Math.max(0, 1 - timeSinceAuth / 300000); // 5 minutes max
-    
+
     return authFreshness * 100;
   }
 
@@ -925,23 +1002,26 @@ class TrustScoreCalculator {
 
   private calculateNetworkScore(networkContext: NetworkContext): number {
     let score = networkContext.networkTrustScore * 100;
-    
+
     if (networkContext.vpnDetected) score -= 20;
     if (networkContext.proxyDetected) score -= 15;
     if (networkContext.threatIntelligence.length > 0) score -= 30;
-    
+
     return Math.max(0, score);
   }
 
   private calculateBehaviorScore(behaviorProfile: BehaviorProfile): number {
     if (!behaviorProfile.baselineEstablished) return 50;
-    
-    return Math.max(0, 100 - (behaviorProfile.anomalyScore * 100));
+
+    return Math.max(0, 100 - behaviorProfile.anomalyScore * 100);
   }
 
-  private calculateContextScore(context: SecurityContext, riskFactors: RiskFactor[]): number {
+  private calculateContextScore(
+    context: SecurityContext,
+    riskFactors: RiskFactor[],
+  ): number {
     let score = 100;
-    
+
     riskFactors.forEach(factor => {
       switch (factor.severity) {
         case 'critical':
@@ -958,7 +1038,7 @@ class TrustScoreCalculator {
           break;
       }
     });
-    
+
     return Math.max(0, score);
   }
 
@@ -986,14 +1066,15 @@ class ZeroTrustArchitectureCore {
     this.trustCalculator = new TrustScoreCalculator();
     this.currentContext = this.initializeSecurityContext();
     this.metrics = this.initializeMetrics();
-    
+
     this.startContinuousMonitoring();
   }
 
   private initializeSecurityContext(): SecurityContext {
     return {
       userId: sessionStorage.getItem('userId') || 'anonymous',
-      sessionId: sessionStorage.getItem('sessionId') || this.generateSessionId(),
+      sessionId:
+        sessionStorage.getItem('sessionId') || this.generateSessionId(),
       deviceFingerprint: this.generateDeviceFingerprint(),
       networkContext: this.getNetworkContext(),
       behaviorProfile: this.behaviorEngine.getCurrentBehavior(),
@@ -1014,7 +1095,8 @@ class ZeroTrustArchitectureCore {
         context: 0,
         timestamp: Date.now(),
       },
-      policiesActive: this.policyEngine.getPolicies().filter(p => p.active).length,
+      policiesActive: this.policyEngine.getPolicies().filter(p => p.active)
+        .length,
       policiesHealed: 0,
       anomaliesDetected: 0,
       anomaliesResolved: 0,
@@ -1048,34 +1130,40 @@ class ZeroTrustArchitectureCore {
   }
 
   private updateSecurityContext(): void {
-    this.currentContext.behaviorProfile = this.behaviorEngine.getCurrentBehavior();
+    this.currentContext.behaviorProfile =
+      this.behaviorEngine.getCurrentBehavior();
     this.currentContext.networkContext = this.getNetworkContext();
-    
+
     // Update trust score
     const riskFactors = this.riskEngine.assessRisk(this.currentContext);
     this.currentContext.riskFactors = riskFactors;
-    
-    const trustScore = this.trustCalculator.calculateTrustScore(this.currentContext, riskFactors);
+
+    const trustScore = this.trustCalculator.calculateTrustScore(
+      this.currentContext,
+      riskFactors,
+    );
     this.metrics.trustScore = trustScore;
-    
+
     // Update trust level
-    this.currentContext.trustLevel = this.determineTrustLevel(trustScore.overall);
-    
+    this.currentContext.trustLevel = this.determineTrustLevel(
+      trustScore.overall,
+    );
+
     // Update metrics
     this.updateMetrics();
   }
 
   private performContinuousAuthentication(): void {
     const timeSinceAuth = Date.now() - this.currentContext.lastVerification;
-    
+
     if (timeSinceAuth > this.config.authenticationInterval) {
       this.metrics.authenticationChallenges++;
-      
+
       // In a real implementation, this would trigger authentication challenges
       if (!this.config.silentOperation) {
         console.log('[ZERO-TRUST] Continuous authentication required');
       }
-      
+
       // Simulate authentication success for demo
       this.currentContext.lastVerification = Date.now();
     }
@@ -1083,13 +1171,13 @@ class ZeroTrustArchitectureCore {
 
   private performRiskAssessment(): void {
     const riskFactors = this.riskEngine.assessRisk(this.currentContext);
-    
+
     riskFactors.forEach(factor => {
       if (factor.severity === 'critical' || factor.severity === 'high') {
         this.mitigateRisk(factor);
       }
     });
-    
+
     this.currentContext.riskFactors = riskFactors;
   }
 
@@ -1112,7 +1200,7 @@ class ZeroTrustArchitectureCore {
         this.mitigateTimeRisk(riskFactor);
         break;
     }
-    
+
     riskFactor.mitigated = true;
     this.metrics.riskMitigations++;
   }
@@ -1152,7 +1240,9 @@ class ZeroTrustArchitectureCore {
     }
   }
 
-  private determineTrustLevel(trustScore: number): SecurityContext['trustLevel'] {
+  private determineTrustLevel(
+    trustScore: number,
+  ): SecurityContext['trustLevel'] {
     if (trustScore >= 90) return 'verified';
     if (trustScore >= 70) return 'high';
     if (trustScore >= 50) return 'medium';
@@ -1161,18 +1251,24 @@ class ZeroTrustArchitectureCore {
   }
 
   private updateMetrics(): void {
-    this.metrics.policiesActive = this.policyEngine.getPolicies().filter(p => p.active).length;
-    this.metrics.anomaliesDetected = this.currentContext.behaviorProfile.anomalyScore > 0.5 ? 
-      this.metrics.anomaliesDetected + 1 : this.metrics.anomaliesDetected;
-    
+    this.metrics.policiesActive = this.policyEngine
+      .getPolicies()
+      .filter(p => p.active).length;
+    this.metrics.anomaliesDetected =
+      this.currentContext.behaviorProfile.anomalyScore > 0.5
+        ? this.metrics.anomaliesDetected + 1
+        : this.metrics.anomaliesDetected;
+
     // Calculate system health
     const healthFactors = [
       this.metrics.trustScore.overall,
-      100 - (this.currentContext.riskFactors.length * 10),
+      100 - this.currentContext.riskFactors.length * 10,
       this.metrics.policiesActive > 0 ? 100 : 0,
     ];
-    
-    this.metrics.systemHealth = healthFactors.reduce((sum, factor) => sum + factor, 0) / healthFactors.length;
+
+    this.metrics.systemHealth =
+      healthFactors.reduce((sum, factor) => sum + factor, 0) /
+      healthFactors.length;
   }
 
   private generateSessionId(): string {
@@ -1187,7 +1283,7 @@ class ZeroTrustArchitectureCore {
     ctx!.textBaseline = 'top';
     ctx!.font = '14px Arial';
     ctx!.fillText('Device fingerprint', 2, 2);
-    
+
     const fingerprint = [
       navigator.userAgent,
       navigator.language,
@@ -1195,7 +1291,7 @@ class ZeroTrustArchitectureCore {
       new Date().getTimezoneOffset(),
       canvas.toDataURL(),
     ].join('|');
-    
+
     return btoa(fingerprint).substr(0, 32);
   }
 
@@ -1211,13 +1307,20 @@ class ZeroTrustArchitectureCore {
     };
   }
 
-  public evaluateAccess(resource: string, action: string): {
+  public evaluateAccess(
+    resource: string,
+    action: string,
+  ): {
     allowed: boolean;
     challenges: string[];
     reason: string;
     trustScore: number;
   } {
-    return this.policyEngine.evaluateAccess(this.currentContext, resource, action);
+    return this.policyEngine.evaluateAccess(
+      this.currentContext,
+      resource,
+      action,
+    );
   }
 
   public getMetrics(): ZeroTrustMetrics {
@@ -1235,9 +1338,11 @@ class ZeroTrustArchitectureCore {
 
 // React Hook for Zero Trust Architecture
 export const useZeroTrustArchitecture = (config?: Partial<ZeroTrustConfig>) => {
-  const [zeroTrustCore, setZeroTrustCore] = useState<ZeroTrustArchitectureCore | null>(null);
+  const [zeroTrustCore, setZeroTrustCore] =
+    useState<ZeroTrustArchitectureCore | null>(null);
   const [metrics, setMetrics] = useState<ZeroTrustMetrics | null>(null);
-  const [securityContext, setSecurityContext] = useState<SecurityContext | null>(null);
+  const [securityContext, setSecurityContext] =
+    useState<SecurityContext | null>(null);
   const [policies, setPolicies] = useState<SecurityPolicy[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   const { logSecurityEvent } = useSecurityContext();
@@ -1268,22 +1373,31 @@ export const useZeroTrustArchitecture = (config?: Partial<ZeroTrustConfig>) => {
     };
   }, [mergedConfig, logSecurityEvent]);
 
-  const evaluateAccess = useCallback((resource: string, action: string) => {
-    if (!zeroTrustCore) return { allowed: false, challenges: [], reason: 'System not initialized', trustScore: 0 };
-    
-    const result = zeroTrustCore.evaluateAccess(resource, action);
-    
-    logSecurityEvent('ZERO_TRUST_ACCESS_EVALUATION', {
-      resource,
-      action,
-      allowed: result.allowed,
-      trustScore: result.trustScore,
-      challenges: result.challenges,
-      timestamp: Date.now(),
-    });
-    
-    return result;
-  }, [zeroTrustCore, logSecurityEvent]);
+  const evaluateAccess = useCallback(
+    (resource: string, action: string) => {
+      if (!zeroTrustCore)
+        return {
+          allowed: false,
+          challenges: [],
+          reason: 'System not initialized',
+          trustScore: 0,
+        };
+
+      const result = zeroTrustCore.evaluateAccess(resource, action);
+
+      logSecurityEvent('ZERO_TRUST_ACCESS_EVALUATION', {
+        resource,
+        action,
+        allowed: result.allowed,
+        trustScore: result.trustScore,
+        challenges: result.challenges,
+        timestamp: Date.now(),
+      });
+
+      return result;
+    },
+    [zeroTrustCore, logSecurityEvent],
+  );
 
   const getTrustLevel = useCallback(() => {
     if (!securityContext) return 'unknown';
@@ -1292,11 +1406,11 @@ export const useZeroTrustArchitecture = (config?: Partial<ZeroTrustConfig>) => {
 
   const getSecurityStatus = useCallback(() => {
     if (!metrics) return 'unknown';
-    
+
     if (metrics.systemHealth >= 90) return 'secure';
     if (metrics.systemHealth >= 70) return 'protected';
     if (metrics.systemHealth >= 50) return 'monitored';
-    
+
     return 'at-risk';
   }, [metrics]);
 
@@ -1317,7 +1431,8 @@ export const ZeroTrustArchitectureProvider: React.FC<{
   children: React.ReactNode;
   config?: Partial<ZeroTrustConfig>;
 }> = ({ children, config }) => {
-  const { isInitialized, metrics, trustLevel, securityStatus } = useZeroTrustArchitecture(config);
+  const { isInitialized, metrics, trustLevel, securityStatus } =
+    useZeroTrustArchitecture(config);
   const { logSecurityEvent } = useSecurityContext();
 
   useEffect(() => {

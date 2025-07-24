@@ -3,7 +3,13 @@
  * Manages user authentication state and provides advanced features for logged-in users
  */
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 
 export interface User {
   id: string;
@@ -52,7 +58,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+  const login = async (
+    username: string,
+    password: string,
+  ): Promise<boolean> => {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -64,7 +73,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email: `${username}@konivrer.com`,
         level: Math.floor(Math.random() * 50) + 1,
         isPremium: Math.random() > 0.5,
-        joinDate: new Date().toISOString().split('T')[0]
+        joinDate: new Date().toISOString().split('T')[0],
       };
 
       setUser(newUser);
@@ -85,14 +94,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated: !!user,
     login,
     logout,
-    hasAdvancedFeatures: !!user // Advanced features available to all logged-in users
+    hasAdvancedFeatures: !!user, // Advanced features available to all logged-in users
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export default AuthContext;
