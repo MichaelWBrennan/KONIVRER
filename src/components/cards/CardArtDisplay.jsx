@@ -33,7 +33,11 @@ const CardArtDisplay = ({
   useEffect(() => {
     if (cardName) {
       const imagePath = getCardImagePath(cardName);
+<<<<<<< HEAD
+      console.log(`🖼️ CardArtDisplay v2.1: Processing "${cardName}", imagePath: ${imagePath}`);
+=======
       console.log(`🖼️ CardArtDisplay v2.5: Processing "${cardName}", imagePath: ${imagePath}`);
+>>>>>>> af774a41 (Initial commit)
       
       if (imagePath) {
         setImageSrc(imagePath);
@@ -42,18 +46,25 @@ const CardArtDisplay = ({
         setFallbackAttempted(false);
       } else {
         // No image path available, show CSS fallback immediately
+<<<<<<< HEAD
+        console.log(`🎨 CardArtDisplay v2.4: No image mapping for "${cardName}", using CSS fallback`);
+=======
         console.log(`🎨 CardArtDisplay v2.5: No image mapping for "${cardName}", using CSS fallback`);
+>>>>>>> af774a41 (Initial commit)
         setImageSrc(null);
         setImageError(true);
         setImageLoaded(false);
         setFallbackAttempted(false);
       }
+<<<<<<< HEAD
+=======
     } else {
       // No card name provided
       setImageSrc(null);
       setImageError(true);
       setImageLoaded(false);
       setFallbackAttempted(false);
+>>>>>>> af774a41 (Initial commit)
     }
   }, [cardName]);
 

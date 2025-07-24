@@ -8,6 +8,9 @@
     "dev": "vite --host 0.0.0.0 --port 12000",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0 --port 12001",
+<<<<<<< HEAD
+    "start": "vite --host 0.0.0.0 --port 12000"
+=======
     "start": "vite --host 0.0.0.0 --port 12000",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
@@ -26,6 +29,7 @@
     "quality:check": "bash scripts/quality-check.sh",
     "performance:optimize": "node scripts/optimize-performance.js",
     "build:analyze": "npm run build && node scripts/analyze-bundle.js"
+>>>>>>> af774a41 (Initial commit)
   },
   "keywords": [
     "konivrer",
@@ -72,7 +76,10 @@
     "tone": "^15.1.22",
     "tslib": "^2.6.2",
     "vite": "^5.0.0",
+<<<<<<< HEAD
+=======
     "vitest": "^3.2.4",
+>>>>>>> af774a41 (Initial commit)
     "workbox-window": "^7.0.0",
     "zod": "^3.25.67"
   }

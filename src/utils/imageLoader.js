@@ -108,6 +108,14 @@ export const getCardImagePath = (name) => {
   // Check if we have a direct mapping
   const filename = CARD_FILENAME_MAP[name];
   if (filename) {
+<<<<<<< HEAD
+    return `/assets/cards/${filename}`;
+  }
+  
+  // Return null for unmapped cards - let the component handle the fallback
+  console.log(`🚫 imageLoader: No mapping found for card: "${name}", will use CSS fallback`);
+  return null;
+=======
     console.log(`✅ imageLoader: Found mapping for "${name}" -> "${filename}"`);
     return `/assets/cards/${filename}`;
   }
@@ -116,6 +124,7 @@ export const getCardImagePath = (name) => {
   const directPath = `/assets/cards/${name}.png`;
   console.log(`🔍 imageLoader: Trying direct path for "${name}": ${directPath}`);
   return directPath;
+>>>>>>> af774a41 (Initial commit)
 };
 
 /**
