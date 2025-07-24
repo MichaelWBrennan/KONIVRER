@@ -25,41 +25,15 @@ interface ErrorRecord {
 const errorRegistry: Record<string, ErrorRecord> = {};
 
 // Common error patterns and their fixes
-const errorPatterns: Record<string, (error: Error) => void> = {
-  // TypeError: Cannot read property 'x' of undefined/null
-  'TypeError: Cannot read property': (error: Error) => {
-    const stack = error.stack || '';
-    const match = stack.match(/at\s+([^\s]+)\s+\(([^:]+):(\d+):(\d+)\)/);
-
-    if (match) {
-      const [_, functionName, filePath, line, column] = match;
-      console.info(
-        `[Auto-Healing] Detected null/undefined property access in ${functionName}`,
-      );
-
-      // The actual fix would happen through the global error handler
-      // This is just for logging purposes
-    }
-  },
-
-  // React state update on unmounted component
-  "Warning: Can't perform a React state update on an unmounted component": (
-    error: Error,
-  ) => {
-    console.info(
-      '[Auto-Healing] Detected React state update on unmounted component',
-    );
-    // This will be handled by the component wrapper
-  },
-
-  // Network errors
-  'Failed to fetch': (error: Error) => {
-    console.info(
-      '[Auto-Healing] Detected network error, will retry automatically',
-    );
-    // Retry logic is implemented in the fetch wrapper
-  },
+const conflictMarkers: Record<string, string> = {
+  '<<<<<<< HEAD': 'Start of conflict - current branch',
+  '=======': 'Conflict separator',
+  '>>>>>>>': 'Start of conflict - incoming changes',
 };
+
+Object.keys(conflictMarkers).forEach(marker => {
+  console.info(`[Conflict Detection] Detected marker: ${marker}`);
+});
 
 /**
  * Attempts to heal an error based on its type and message
