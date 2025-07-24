@@ -1,4 +1,4 @@
-name: Dependabot Auto-Merge
+name: Dependabot Auto-Merge (All Updates with Passing Tests)
 
 on:
   pull_request_target:
@@ -12,61 +12,74 @@ permissions:
 jobs:
   dependabot-auto-merge:
     runs-on: ubuntu-latest
-    if: github.actor == 'dependabot[bot]'
-    
+    if: github.actor == 'dependabot[bot]' && !contains(github.event.pull_request.labels.*.name, 'no-auto-merge')
+
     steps:
       - name: Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
 
       - name: Wait for status checks
         id: wait-for-checks
-        uses: lewagon/wait-on-check-action@v1.4.0
+        uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 30
-          running-timeout-minutes: 15
+          wait-interval: 20
+          running-timeout-minutes: 30
           allowed-conclusions: success,skipped
-          check-regexp: "build.*"
+          check-regexp: '(build|test|lint|ci|security).*'
 
-      - name: Auto-approve and merge patch/minor updates
-        if: |
-          steps.wait-for-checks.outputs.conclusion == 'success' &&
-          (steps.metadata.outputs.update-type == 'version-update:semver-patch' || 
-           steps.metadata.outputs.update-type == 'version-update:semver-minor')
+      - name: Auto-approve and merge all Dependabot updates
+        if: steps.wait-for-checks.outputs.conclusion == 'success'
         run: |
           echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
           echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
           echo "Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
           
-          # Approve the PR
-          gh pr review --approve "${{ github.event.pull_request.number }}" --body "✅ Auto-approved by Dependabot workflow - ${{ steps.metadata.outputs.update-type }} update"
+          # Get update details for better messaging
+          UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
+          DEPENDENCY="${{ steps.metadata.outputs.dependency-names }}"
+          FROM_VERSION="${{ steps.metadata.outputs.previous-version }}"
+          TO_VERSION="${{ steps.metadata.outputs.new-version }}"
           
+          # Create a more descriptive approval message
+          APPROVAL_MESSAGE="✅ Auto-approved by Dependabot workflow
+          
+          **Update Details:**
+          - Package: ${DEPENDENCY}
+          - Update type: ${UPDATE_TYPE}
+          - Version change: ${FROM_VERSION} → ${TO_VERSION}
+          
+          All tests are passing, so this update is being automatically merged."
+
+          # Approve the PR
+          gh pr review --approve "${{ github.event.pull_request.number }}" --body "${APPROVAL_MESSAGE}"
+
           # Enable auto-merge
-          gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
+          gh pr merge --auto --squash "${{ github.event.pull_request.number }}" --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Comment on major updates
+      - name: Log major updates
         if: steps.metadata.outputs.update-type == 'version-update:semver-major'
         run: |
-          echo "🚨 Major version update detected - requires manual review"
-          gh pr comment "${{ github.event.pull_request.number }}" --body "🚨 **Major version update detected!**
+          echo "🔄 Major version update detected - auto-merging since tests passed"
+          gh pr comment "${{ github.event.pull_request.number }}" --body "## 🔄 **Major version update detected and auto-merged**
 
-          This PR contains a major version update that may include breaking changes. Please review carefully before merging.
-          
-          **Update Details:**
+          This PR contains a major version update that may include breaking changes. It was automatically merged because all tests passed.
+
+          ### Update Details:
           - **Package:** ${{ steps.metadata.outputs.dependency-names }}
           - **Update type:** ${{ steps.metadata.outputs.update-type }}
           - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
-          
-          **Next steps:**
-          1. Review the changelog/release notes for breaking changes
-          2. Test the application thoroughly
-          3. Merge manually if everything looks good: \`gh pr merge --squash ${{ github.event.pull_request.number }}\`"
+
+          ### Important Notes:
+          - If you encounter any issues after this merge, please review the changelog/release notes for breaking changes
+          - You can view the package's release notes at: https://github.com/${{ steps.metadata.outputs.package-ecosystem }}/${{ steps.metadata.outputs.dependency-names }}/releases
+          - To prevent auto-merging in the future, add the 'no-auto-merge' label to Dependabot PRs"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -74,12 +87,19 @@ jobs:
         if: steps.wait-for-checks.outputs.conclusion != 'success'
         run: |
           echo "❌ Status checks failed or timed out"
-          gh pr comment "${{ github.event.pull_request.number }}" --body "❌ **Automated merge failed**
-          
+          gh pr comment "${{ github.event.pull_request.number }}" --body "## ❌ **Automated merge failed**
+
           Status checks did not pass. Please review the failed checks and fix any issues before merging.
+
+          ### Details:
+          - **Check status:** ${{ steps.wait-for-checks.outputs.conclusion }}
+          - **Package:** ${{ steps.metadata.outputs.dependency-names }}
+          - **Update type:** ${{ steps.metadata.outputs.update-type }}
+          - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
           
-          **Check status:** ${{ steps.wait-for-checks.outputs.conclusion }}
-          **Package:** ${{ steps.metadata.outputs.dependency-names }}
-          **Update type:** ${{ steps.metadata.outputs.update-type }}"
+          ### Next Steps:
+          1. Review the failed checks in the GitHub Actions tab
+          2. Fix any issues or add the 'no-auto-merge' label if this PR requires manual review
+          3. Re-run the checks once issues are fixed"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

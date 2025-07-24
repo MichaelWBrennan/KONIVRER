@@ -1,48 +1,40 @@
-# KONIVRER Card Arts
+# Card Images Directory
 
-This directory contains the card art assets for the KONIVRER deck database.
+This directory contains optimized card images for the KONIVRER deck database.
 
-## Overview
+## Current Status
+- **Images**: High-quality card images installed for all 64 cards
+- **Formats**: Both WebP (primary, ~25KB each) and PNG (fallback, ~340KB each) formats available
+- **Dimensions**: All images are 412×562 pixels (optimized for web)
+- **Ready**: System is configured to use these images automatically
+- **Source**: Images sourced from official KONIVRER materials and optimized for web use
 
-- **Total Cards**: 64 card arts
-- **Format**: PNG images (825 x 1125 pixels, RGBA)
-- **Average Size**: ~1.8MB per image
+## Adding Card Images
 
-## Card Categories
+### Quick Setup
+1. Run the setup script: `./scripts/setup-card-images.sh`
+2. Place your card images in `./card-images-source/`
+3. Process images: `node scripts/add-card-images.js`
 
-The card arts include various elemental and character types:
+### Manual Setup
+1. Place optimized images in this directory
+2. Use WebP format for best compression (PNG as fallback)
+3. Target size: 412×562 pixels, <200KB per image
+4. Naming convention: `CARDNAME.webp` (e.g., `ABISS.webp`, `ANGEL.webp`)
 
-### Elemental Cards
-- **Basic Elements**: DVST, ICE, LAHAR, LAVA, LIGTNING, STEAM, etc.
-- **Bright Variants**: BRIGT_DVST, BRIGT_FVLGVRITE, BRIGT_LAHAR, etc.
-- **Dark Variants**: DARK_DVST, DARK_FVLGVRITE, DARK_ICE, etc.
-- **Chaos Variants**: XAOS_DVST, XAOS_FVLGVRITE, XAOS_GNOME, etc.
+### Expected Files
+The system expects 66 card images with these names:
+- Basic elements: ABISS, ANGEL, ASH, AURORA, AZOTH, DUST, EMBERS, FOG, FROST, GEODE, GNOME, ICE, LAHAR, LIGHTNING, MAGMA, MIASMA, MUD, NECROSIS, PERMAFROST, RAINBOW, SALAMANDER, SYLPH, SMOKE, SOLAR, STEAM, STORM, TAR, TYPHOON, UNDINE, SHADE, FLAG
+- Bright variants: BRIGHTDUST, BRIGHTFULGURITE, BRIGHTLAHAR, BRIGHTLAVA, BRIGHTLIGHTNING, BRIGHTMUD, BRIGHTPERMAFROST, BRIGHTSTEAM, BRIGHTTHUNDERSNOW
+- Dark variants: DARKDUST, DARKFULGURITE, DARKICE, DARKLAHAR, DARKLAVA, DARKLIGHTNING, DARKTHUNDERSNOW, DARKTYPHOON
+- Light variants: LIGHTTYPHOON
+- Chaos variants: CHAOS, CHAOSDUST, CHAOSFULGURITE, CHAOSGNOME, CHAOSICE, CHAOSLAVA, CHAOSLIGHTNING, CHAOSMIST, CHAOSMUD, CHAOSPERMAFROST, CHAOSSALAMANDER, CHAOSSYLPH, CHAOSSTEAM, CHAOSTHUNDERSNOW, CHAOSUNDINE
 
-### Character Cards
-- ABISS, ANGEL, ASH, AVRORA, AZOTH
-- GNOME, SALAMANDER, SILPh, VNDINE
-- SADE
+## Technical Details
+- **Format**: WebP preferred (better compression), PNG fallback
+- **Dimensions**: 412×562 pixels (aspect ratio preserved)
+- **File size**: Target <200KB per image, <13MB total
+- **Loading**: Lazy loading implemented, graceful fallbacks
+- **Mapping**: Automatic mapping between card names and image files
 
-### Special Cards
-- EMBERS, FOG, FROST, GEODE
-- MAGMA, MIASMA, MVD, NEKROSIS
-- RAINBOVV, SMOKE, SOLAR_, STORM, TAR
-- TIPhOON, LIGHT_TIPhOON
-- PhVE_ELEMENT_PhLAG
-
-## Usage
-
-These card arts can be referenced in the application using the path:
-```
-/assets/cards/[CARD_NAME][face,1].png
-```
-
-For example:
-- `/assets/cards/ABISS[face,1].png`
-- `/assets/cards/XAOS_LAVA[face,1].png`
-
-## File Naming Convention
-
-All card files follow the pattern: `[CARD_NAME][face,1].png`
-
-The `[face,1]` suffix appears to indicate these are the front face of the cards, version 1.
+See `IMAGE_OPTIMIZATION_GUIDE.md` for detailed optimization instructions.

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  konivrer-autonomous:
+    build: .
+    container_name: konivrer-autonomous-automation
+    ports:
+      - "12000:12000"  # Development server
+      - "12001:12001"  # Preview server
+    volumes:
+      - .:/app
+      - /app/node_modules  # Prevent overwriting node_modules
+    environment:
+      - AUTOMATION=true
+      - CI=true
+      - NODE_ENV=development
+    restart: unless-stopped
+    command: >
+      bash -c "
+        echo '🚀 KONIVRER Autonomous Container Starting...' &&
+        echo '🤖 Zero manual commands required!' &&
+        ./auto-start.sh &
+        npm run dev
+      "
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:12000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Monitoring service
+  automation-monitor:
+    build: .
+    container_name: konivrer-automation-monitor
+    volumes:
+      - .:/app
+    environment:
+      - AUTOMATION=true
+      - MONITOR_ONLY=true
+    restart: unless-stopped
+    command: >
+      bash -c "
+        echo '📊 Starting automation monitor...' &&
+        while true; do
+          echo '📊 Automation Status:' &&
+          ps aux | grep automation || echo 'No automation processes found' &&
+          sleep 60
+        done
+      "
+    depends_on:
+      - konivrer-autonomous
