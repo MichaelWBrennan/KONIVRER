@@ -2,14 +2,14 @@ import React from 'react';
 
 const ColorBlindFilters: React.FC = () => {
   return (
-    <svg 
-      style={{ 
-        position: 'absolute', 
-        width: 0, 
-        height: 0, 
-        pointerEvents: 'none' 
-      }} 
-      aria-hidden="true" 
+    <svg
+      style={{
+        position: 'absolute',
+        width: 0,
+        height: 0,
+        pointerEvents: 'none',
+      }}
+      aria-hidden="true"
       focusable="false"
     >
       <defs>
@@ -24,7 +24,7 @@ const ColorBlindFilters: React.FC = () => {
                     0, 0, 0, 1, 0"
           />
         </filter>
-        
+
         {/* Deuteranopia (green-blind) */}
         <filter id="deuteranopia-filter">
           <feColorMatrix
@@ -36,7 +36,7 @@ const ColorBlindFilters: React.FC = () => {
                     0, 0, 0, 1, 0"
           />
         </filter>
-        
+
         {/* Tritanopia (blue-blind) */}
         <filter id="tritanopia-filter">
           <feColorMatrix

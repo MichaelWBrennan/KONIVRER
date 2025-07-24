@@ -1,5 +1,9 @@
 import { useEffect } from 'react';
-import { applyFontFamily, logFontStatus, waitForFontsToLoad } from '../utils/fontUtils';
+import {
+  applyFontFamily,
+  logFontStatus,
+  waitForFontsToLoad,
+} from '../utils/fontUtils';
 
 export interface AccessibilitySettings {
   fontFamily: 'default' | 'arial' | 'comic-sans';
@@ -24,7 +28,7 @@ const defaultSettings: AccessibilitySettings = {
   screenReader: false,
   colorBlindMode: 'none',
   focusIndicators: true,
-  textToSpeech: false
+  textToSpeech: false,
 };
 
 export const useAccessibilitySettings = () => {
@@ -33,7 +37,7 @@ export const useAccessibilitySettings = () => {
     const loadSettings = () => {
       const savedSettings = localStorage.getItem('accessibility-settings');
       let settings = defaultSettings;
-      
+
       if (savedSettings) {
         try {
           settings = JSON.parse(savedSettings);
@@ -101,7 +105,10 @@ export const useAccessibilitySettings = () => {
         default:
           animationSpeed = '1';
       }
-      document.documentElement.style.setProperty('--animation-speed-factor', animationSpeed);
+      document.documentElement.style.setProperty(
+        '--animation-speed-factor',
+        animationSpeed,
+      );
 
       // Apply line spacing
       let lineHeight = '';
@@ -129,7 +136,10 @@ export const useAccessibilitySettings = () => {
         default:
           letterSpacing = 'normal';
       }
-      document.documentElement.style.setProperty('--letter-spacing', letterSpacing);
+      document.documentElement.style.setProperty(
+        '--letter-spacing',
+        letterSpacing,
+      );
 
       // Apply color blind mode
       let colorFilter = '';

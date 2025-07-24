@@ -69,24 +69,24 @@ export class RealtimeMultiplayer {
         timeout: 5000,
         reconnection: true,
         reconnectionAttempts: this.maxReconnectAttempts,
-        reconnectionDelay: 1000
+        reconnectionDelay: 1000,
       });
 
       this.currentPlayer = player;
       this.setupEventListeners();
 
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         this.socket!.on('connect', () => {
           console.log('Connected to multiplayer server');
           this.isConnected = true;
           this.reconnectAttempts = 0;
-          
+
           // Authenticate player
           this.socket!.emit('authenticate', player);
           resolve(true);
         });
 
-        this.socket!.on('connect_error', (error) => {
+        this.socket!.on('connect_error', error => {
           console.error('Connection failed:', error);
           this.isConnected = false;
           resolve(false);
@@ -102,13 +102,13 @@ export class RealtimeMultiplayer {
     if (!this.socket) return;
 
     // Connection events
-    this.socket.on('disconnect', (reason) => {
+    this.socket.on('disconnect', reason => {
       console.log('Disconnected from server:', reason);
       this.isConnected = false;
       this.emit('disconnected', reason);
     });
 
-    this.socket.on('reconnect', (attemptNumber) => {
+    this.socket.on('reconnect', attemptNumber => {
       console.log('Reconnected to server after', attemptNumber, 'attempts');
       this.isConnected = true;
       this.emit('reconnected', attemptNumber);
@@ -120,13 +120,13 @@ export class RealtimeMultiplayer {
     });
 
     // Authentication events
-    this.socket.on('authenticated', (playerData) => {
+    this.socket.on('authenticated', playerData => {
       console.log('Player authenticated:', playerData);
       this.currentPlayer = playerData;
       this.emit('authenticated', playerData);
     });
 
-    this.socket.on('authentication_failed', (error) => {
+    this.socket.on('authentication_failed', error => {
       console.error('Authentication failed:', error);
       this.emit('authentication_failed', error);
     });
@@ -218,13 +218,13 @@ export class RealtimeMultiplayer {
   }): Promise<GameRoom | null> {
     if (!this.isConnected || !this.socket) return null;
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.socket!.emit('create_room', roomConfig);
-      
+
       this.socket!.once('room_created', (room: GameRoom) => {
         resolve(room);
       });
-      
+
       this.socket!.once('room_creation_failed', (error: any) => {
         console.error('Room creation failed:', error);
         resolve(null);
@@ -235,13 +235,13 @@ export class RealtimeMultiplayer {
   async joinRoom(roomId: string, password?: string): Promise<boolean> {
     if (!this.isConnected || !this.socket) return false;
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.socket!.emit('join_room', { roomId, password });
-      
+
       this.socket!.once('room_joined', () => {
         resolve(true);
       });
-      
+
       this.socket!.once('join_room_failed', (error: any) => {
         console.error('Failed to join room:', error);
         resolve(false);
@@ -258,9 +258,9 @@ export class RealtimeMultiplayer {
   async getRoomList(): Promise<GameRoom[]> {
     if (!this.isConnected || !this.socket) return [];
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.socket!.emit('get_room_list');
-      
+
       this.socket!.once('room_list', (rooms: GameRoom[]) => {
         resolve(rooms);
       });
@@ -268,55 +268,70 @@ export class RealtimeMultiplayer {
   }
 
   // Game actions
-  async sendGameAction(action: Omit<GameAction, 'playerId' | 'timestamp'>): Promise<void> {
-    if (!this.isConnected || !this.socket || !this.currentPlayer || !this.matchState) return;
+  async sendGameAction(
+    action: Omit<GameAction, 'playerId' | 'timestamp'>,
+  ): Promise<void> {
+    if (
+      !this.isConnected ||
+      !this.socket ||
+      !this.currentPlayer ||
+      !this.matchState
+    )
+      return;
 
     const fullAction: GameAction = {
       ...action,
       playerId: this.currentPlayer.id,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.socket.emit('game_action', fullAction);
   }
 
-  async playCard(cardId: string, targetId?: string, position?: { x: number; y: number }): Promise<void> {
+  async playCard(
+    cardId: string,
+    targetId?: string,
+    position?: { x: number; y: number },
+  ): Promise<void> {
     await this.sendGameAction({
       type: 'play-card',
-      data: { cardId, targetId, position }
+      data: { cardId, targetId, position },
     });
   }
 
   async attack(attackerId: string, targetId: string): Promise<void> {
     await this.sendGameAction({
       type: 'attack',
-      data: { attackerId, targetId }
+      data: { attackerId, targetId },
     });
   }
 
   async endTurn(): Promise<void> {
     await this.sendGameAction({
       type: 'end-turn',
-      data: {}
+      data: {},
     });
   }
 
   async surrender(): Promise<void> {
     await this.sendGameAction({
       type: 'surrender',
-      data: {}
+      data: {},
     });
   }
 
   // Chat functionality
-  async sendChatMessage(message: string, type: 'text' | 'emote' = 'text'): Promise<void> {
+  async sendChatMessage(
+    message: string,
+    type: 'text' | 'emote' = 'text',
+  ): Promise<void> {
     if (!this.isConnected || !this.socket || !this.currentPlayer) return;
 
     const chatMessage: Omit<ChatMessage, 'id' | 'timestamp'> = {
       playerId: this.currentPlayer.id,
       username: this.currentPlayer.username,
       message,
-      type
+      type,
     };
 
     this.socket.emit('chat_message', chatMessage);
@@ -326,13 +341,13 @@ export class RealtimeMultiplayer {
   async spectateRoom(roomId: string): Promise<boolean> {
     if (!this.isConnected || !this.socket) return false;
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       this.socket!.emit('spectate_room', roomId);
-      
+
       this.socket!.once('spectating_started', () => {
         resolve(true);
       });
-      
+
       this.socket!.once('spectating_failed', (error: any) => {
         console.error('Failed to spectate room:', error);
         resolve(false);
@@ -447,7 +462,7 @@ export class RealtimeMultiplayer {
       this.socket.disconnect();
       this.socket = null;
     }
-    
+
     this.isConnected = false;
     this.currentPlayer = null;
     this.currentRoom = null;

@@ -1,10 +1,24 @@
-import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Advanced Security Types
 interface SecurityThreat {
   id: string;
-  type: 'xss' | 'csrf' | 'injection' | 'brute_force' | 'session_hijack' | 'data_breach' | 'malicious_input';
+  type:
+    | 'xss'
+    | 'csrf'
+    | 'injection'
+    | 'brute_force'
+    | 'session_hijack'
+    | 'data_breach'
+    | 'malicious_input';
   severity: 'low' | 'medium' | 'high' | 'critical';
   source: string;
   timestamp: number;
@@ -60,59 +74,65 @@ export const useSanitizedInput = (initialValue: string = '') => {
   const [value, setValue] = useState(initialValue);
   const { reportThreat } = useAdvancedSecurity();
 
-  const sanitize = useCallback((input: string): string => {
-    // XSS Prevention
-    const xssPatterns = [
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-      /javascript:/gi,
-      /on\w+\s*=/gi,
-      /<iframe/gi,
-      /<object/gi,
-      /<embed/gi,
-      /<link/gi,
-      /<meta/gi
-    ];
+  const sanitize = useCallback(
+    (input: string): string => {
+      // XSS Prevention
+      const xssPatterns = [
+        /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+        /javascript:/gi,
+        /on\w+\s*=/gi,
+        /<iframe/gi,
+        /<object/gi,
+        /<embed/gi,
+        /<link/gi,
+        /<meta/gi,
+      ];
 
-    let sanitized = input;
-    let threatDetected = false;
+      let sanitized = input;
+      let threatDetected = false;
 
-    xssPatterns.forEach(pattern => {
-      if (pattern.test(sanitized)) {
-        threatDetected = true;
-        sanitized = sanitized.replace(pattern, '');
-      }
-    });
-
-    // SQL Injection Prevention
-    const sqlPatterns = [
-      /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi,
-      /(--|\/\*|\*\/)/g,
-      /(\b(OR|AND)\s+\d+\s*=\s*\d+)/gi
-    ];
-
-    sqlPatterns.forEach(pattern => {
-      if (pattern.test(sanitized)) {
-        threatDetected = true;
-        sanitized = sanitized.replace(pattern, '');
-      }
-    });
-
-    if (threatDetected) {
-      reportThreat({
-        type: 'malicious_input',
-        severity: 'high',
-        source: 'user_input',
-        blocked: true,
-        details: `Malicious input detected and sanitized: ${input.substring(0, 100)}`
+      xssPatterns.forEach(pattern => {
+        if (pattern.test(sanitized)) {
+          threatDetected = true;
+          sanitized = sanitized.replace(pattern, '');
+        }
       });
-    }
 
-    return sanitized;
-  }, [reportThreat]);
+      // SQL Injection Prevention
+      const sqlPatterns = [
+        /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi,
+        /(--|\/\*|\*\/)/g,
+        /(\b(OR|AND)\s+\d+\s*=\s*\d+)/gi,
+      ];
 
-  const setSanitizedValue = useCallback((newValue: string) => {
-    setValue(sanitize(newValue));
-  }, [sanitize]);
+      sqlPatterns.forEach(pattern => {
+        if (pattern.test(sanitized)) {
+          threatDetected = true;
+          sanitized = sanitized.replace(pattern, '');
+        }
+      });
+
+      if (threatDetected) {
+        reportThreat({
+          type: 'malicious_input',
+          severity: 'high',
+          source: 'user_input',
+          blocked: true,
+          details: `Malicious input detected and sanitized: ${input.substring(0, 100)}`,
+        });
+      }
+
+      return sanitized;
+    },
+    [reportThreat],
+  );
+
+  const setSanitizedValue = useCallback(
+    (newValue: string) => {
+      setValue(sanitize(newValue));
+    },
+    [sanitize],
+  );
 
   return [value, setSanitizedValue] as const;
 };
@@ -126,7 +146,9 @@ export const useSecureSession = () => {
   const generateSecureToken = useCallback((): string => {
     const array = new Uint8Array(32);
     crypto.getRandomValues(array);
-    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    return Array.from(array, byte => byte.toString(16).padStart(2, '0')).join(
+      '',
+    );
   }, []);
 
   const validateSession = useCallback((): boolean => {
@@ -139,7 +161,7 @@ export const useSecureSession = () => {
         severity: 'medium',
         source: 'session_timeout',
         blocked: true,
-        details: 'Session expired due to inactivity'
+        details: 'Session expired due to inactivity',
       });
       sessionRef.current = null;
       return false;
@@ -163,7 +185,7 @@ export const useSecureSession = () => {
   return {
     sessionToken: sessionRef.current,
     isValid: validateSession(),
-    refresh: refreshSession
+    refresh: refreshSession,
   };
 };
 
@@ -175,26 +197,31 @@ export const useCSRFProtection = () => {
   const generateCSRFToken = useCallback((): string => {
     const array = new Uint8Array(16);
     crypto.getRandomValues(array);
-    const token = Array.from(array, byte => byte.toString(16).padStart(2, '0')).join('');
+    const token = Array.from(array, byte =>
+      byte.toString(16).padStart(2, '0'),
+    ).join('');
     setCsrfToken(token);
     return token;
   }, []);
 
-  const validateCSRFToken = useCallback((token: string): boolean => {
-    const isValid = token === csrfToken;
-    
-    if (!isValid) {
-      reportThreat({
-        type: 'csrf',
-        severity: 'high',
-        source: 'form_submission',
-        blocked: true,
-        details: 'CSRF token validation failed'
-      });
-    }
+  const validateCSRFToken = useCallback(
+    (token: string): boolean => {
+      const isValid = token === csrfToken;
 
-    return isValid;
-  }, [csrfToken, reportThreat]);
+      if (!isValid) {
+        reportThreat({
+          type: 'csrf',
+          severity: 'high',
+          source: 'form_submission',
+          blocked: true,
+          details: 'CSRF token validation failed',
+        });
+      }
+
+      return isValid;
+    },
+    [csrfToken, reportThreat],
+  );
 
   useEffect(() => {
     generateCSRFToken();
@@ -203,7 +230,7 @@ export const useCSRFProtection = () => {
   return {
     token: csrfToken,
     validate: validateCSRFToken,
-    regenerate: generateCSRFToken
+    regenerate: generateCSRFToken,
   };
 };
 
@@ -211,63 +238,72 @@ export const useCSRFProtection = () => {
 export const useEncryption = () => {
   const { config } = useAdvancedSecurity();
 
-  const encrypt = useCallback(async (data: string): Promise<string> => {
-    try {
-      const encoder = new TextEncoder();
-      const dataBuffer = encoder.encode(data);
-      
-      const key = await crypto.subtle.generateKey(
-        { name: 'AES-GCM', length: config.encryptionLevel === 'military' ? 256 : 128 },
-        true,
-        ['encrypt', 'decrypt']
-      );
+  const encrypt = useCallback(
+    async (data: string): Promise<string> => {
+      try {
+        const encoder = new TextEncoder();
+        const dataBuffer = encoder.encode(data);
 
-      const iv = crypto.getRandomValues(new Uint8Array(12));
-      const encrypted = await crypto.subtle.encrypt(
-        { name: 'AES-GCM', iv },
-        key,
-        dataBuffer
-      );
+        const key = await crypto.subtle.generateKey(
+          {
+            name: 'AES-GCM',
+            length: config.encryptionLevel === 'military' ? 256 : 128,
+          },
+          true,
+          ['encrypt', 'decrypt'],
+        );
 
-      const exportedKey = await crypto.subtle.exportKey('raw', key);
-      const result = {
-        data: Array.from(new Uint8Array(encrypted)),
-        key: Array.from(new Uint8Array(exportedKey)),
-        iv: Array.from(iv)
-      };
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const encrypted = await crypto.subtle.encrypt(
+          { name: 'AES-GCM', iv },
+          key,
+          dataBuffer,
+        );
 
-      return btoa(JSON.stringify(result));
-    } catch (error) {
-      console.error('Encryption failed:', error);
-      return data; // Fallback to unencrypted
-    }
-  }, [config.encryptionLevel]);
+        const exportedKey = await crypto.subtle.exportKey('raw', key);
+        const result = {
+          data: Array.from(new Uint8Array(encrypted)),
+          key: Array.from(new Uint8Array(exportedKey)),
+          iv: Array.from(iv),
+        };
 
-  const decrypt = useCallback(async (encryptedData: string): Promise<string> => {
-    try {
-      const { data, key, iv } = JSON.parse(atob(encryptedData));
-      
-      const cryptoKey = await crypto.subtle.importKey(
-        'raw',
-        new Uint8Array(key),
-        { name: 'AES-GCM' },
-        false,
-        ['decrypt']
-      );
+        return btoa(JSON.stringify(result));
+      } catch (error) {
+        console.error('Encryption failed:', error);
+        return data; // Fallback to unencrypted
+      }
+    },
+    [config.encryptionLevel],
+  );
 
-      const decrypted = await crypto.subtle.decrypt(
-        { name: 'AES-GCM', iv: new Uint8Array(iv) },
-        cryptoKey,
-        new Uint8Array(data)
-      );
+  const decrypt = useCallback(
+    async (encryptedData: string): Promise<string> => {
+      try {
+        const { data, key, iv } = JSON.parse(atob(encryptedData));
 
-      const decoder = new TextDecoder();
-      return decoder.decode(decrypted);
-    } catch (error) {
-      console.error('Decryption failed:', error);
-      return encryptedData; // Fallback to encrypted data
-    }
-  }, []);
+        const cryptoKey = await crypto.subtle.importKey(
+          'raw',
+          new Uint8Array(key),
+          { name: 'AES-GCM' },
+          false,
+          ['decrypt'],
+        );
+
+        const decrypted = await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: new Uint8Array(iv) },
+          cryptoKey,
+          new Uint8Array(data),
+        );
+
+        const decoder = new TextDecoder();
+        return decoder.decode(decrypted);
+      } catch (error) {
+        console.error('Decryption failed:', error);
+        return encryptedData; // Fallback to encrypted data
+      }
+    },
+    [],
+  );
 
   return { encrypt, decrypt };
 };
@@ -277,10 +313,10 @@ export const AdvancedSecurityProvider: React.FC<{
   children: React.ReactNode;
   config?: Partial<SecurityConfig>;
   showSecurityMonitor?: boolean;
-}> = ({ 
-  children, 
+}> = ({
+  children,
   config: initialConfig = {},
-  showSecurityMonitor = false
+  showSecurityMonitor = false,
 }) => {
   const [threats, setThreats] = useState<SecurityThreat[]>([]);
   const [metrics, setMetrics] = useState<SecurityMetrics>({
@@ -289,7 +325,7 @@ export const AdvancedSecurityProvider: React.FC<{
     inputsSanitized: 0,
     encryptionOperations: 0,
     authenticationAttempts: 0,
-    uptime: Date.now()
+    uptime: Date.now(),
   });
 
   const [config, setConfig] = useState<SecurityConfig>({
@@ -301,48 +337,55 @@ export const AdvancedSecurityProvider: React.FC<{
     autoBlockThreshold: 5,
     sessionTimeout: 30 * 60 * 1000, // 30 minutes
     encryptionLevel: 'advanced',
-    ...initialConfig
+    ...initialConfig,
   });
 
   const updateConfig = useCallback((newConfig: Partial<SecurityConfig>) => {
     setConfig(prev => ({ ...prev, ...newConfig }));
   }, []);
 
-  const reportThreat = useCallback((threat: Omit<SecurityThreat, 'id' | 'timestamp'>) => {
-    const newThreat: SecurityThreat = {
-      ...threat,
-      id: `threat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      timestamp: Date.now()
-    };
+  const reportThreat = useCallback(
+    (threat: Omit<SecurityThreat, 'id' | 'timestamp'>) => {
+      const newThreat: SecurityThreat = {
+        ...threat,
+        id: `threat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        timestamp: Date.now(),
+      };
 
-    setThreats(prev => [...prev.slice(-99), newThreat]); // Keep last 100 threats
-    
-    setMetrics(prev => ({
-      ...prev,
-      threatsBlocked: prev.threatsBlocked + (threat.blocked ? 1 : 0)
-    }));
+      setThreats(prev => [...prev.slice(-99), newThreat]); // Keep last 100 threats
 
-    if (!config.enableSilentMode) {
-      console.warn(`[SECURITY] ${threat.severity.toUpperCase()} threat detected:`, threat.details);
-    }
+      setMetrics(prev => ({
+        ...prev,
+        threatsBlocked: prev.threatsBlocked + (threat.blocked ? 1 : 0),
+      }));
 
-    // Auto-healing for critical threats
-    if (config.enableAutoHealing && threat.severity === 'critical') {
-      setTimeout(() => {
-        // Implement auto-healing logic here
-        console.info('[SECURITY] Auto-healing initiated for critical threat');
-      }, 100);
-    }
-  }, [config.enableSilentMode, config.enableAutoHealing]);
+      if (!config.enableSilentMode) {
+        console.warn(
+          `[SECURITY] ${threat.severity.toUpperCase()} threat detected:`,
+          threat.details,
+        );
+      }
+
+      // Auto-healing for critical threats
+      if (config.enableAutoHealing && threat.severity === 'critical') {
+        setTimeout(() => {
+          // Implement auto-healing logic here
+          console.info('[SECURITY] Auto-healing initiated for critical threat');
+        }, 100);
+      }
+    },
+    [config.enableSilentMode, config.enableAutoHealing],
+  );
 
   const clearThreats = useCallback(() => {
     setThreats([]);
   }, []);
 
   // Calculate security level
-  const securityLevel = Math.max(0, Math.min(100, 
-    100 - (threats.filter(t => !t.blocked).length * 10)
-  ));
+  const securityLevel = Math.max(
+    0,
+    Math.min(100, 100 - threats.filter(t => !t.blocked).length * 10),
+  );
 
   const isSecure = securityLevel >= 80;
 
@@ -353,7 +396,7 @@ export const AdvancedSecurityProvider: React.FC<{
     const interval = setInterval(() => {
       setMetrics(prev => ({
         ...prev,
-        uptime: Date.now() - prev.uptime
+        uptime: Date.now() - prev.uptime,
       }));
     }, 1000);
 
@@ -366,14 +409,16 @@ export const AdvancedSecurityProvider: React.FC<{
 
     const scanForThreats = () => {
       // Simulate predictive threat detection
-      const suspiciousPatterns = document.querySelectorAll('script[src*="suspicious"]');
+      const suspiciousPatterns = document.querySelectorAll(
+        'script[src*="suspicious"]',
+      );
       if (suspiciousPatterns.length > 0) {
         reportThreat({
           type: 'xss',
           severity: 'high',
           source: 'predictive_scan',
           blocked: true,
-          details: 'Suspicious script patterns detected'
+          details: 'Suspicious script patterns detected',
         });
       }
     };
@@ -390,7 +435,7 @@ export const AdvancedSecurityProvider: React.FC<{
     securityLevel,
     updateConfig,
     reportThreat,
-    clearThreats
+    clearThreats,
   };
 
   return (
@@ -403,7 +448,8 @@ export const AdvancedSecurityProvider: React.FC<{
 
 // Security Monitor Component
 const SecurityMonitor: React.FC = () => {
-  const { threats, metrics, securityLevel, isSecure, clearThreats } = useAdvancedSecurity();
+  const { threats, metrics, securityLevel, isSecure, clearThreats } =
+    useAdvancedSecurity();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const recentThreats = threats.slice(-5);
@@ -425,25 +471,40 @@ const SecurityMonitor: React.FC = () => {
         zIndex: 9999,
         overflow: 'hidden',
         backdropFilter: 'blur(10px)',
-        cursor: isExpanded ? 'default' : 'pointer'
+        cursor: isExpanded ? 'default' : 'pointer',
       }}
       onClick={() => !isExpanded && setIsExpanded(true)}
     >
       {!isExpanded ? (
-        <div style={{
-          width: '60px',
-          height: '60px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '24px'
-        }}>
+        <div
+          style={{
+            width: '60px',
+            height: '60px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '24px',
+          }}
+        >
           {isSecure ? '🛡️' : '⚠️'}
         </div>
       ) : (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-            <h3 style={{ color: isSecure ? '#2ed573' : '#ff4757', margin: 0, fontSize: '16px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '15px',
+            }}
+          >
+            <h3
+              style={{
+                color: isSecure ? '#2ed573' : '#ff4757',
+                margin: 0,
+                fontSize: '16px',
+              }}
+            >
               🛡️ Security Monitor
             </h3>
             <button
@@ -453,7 +514,7 @@ const SecurityMonitor: React.FC = () => {
                 border: 'none',
                 color: '#ccc',
                 cursor: 'pointer',
-                fontSize: '18px'
+                fontSize: '18px',
               }}
             >
               {'\u{2715}'}
@@ -461,51 +522,114 @@ const SecurityMonitor: React.FC = () => {
           </div>
 
           <div style={{ marginBottom: '15px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-              <span style={{ color: '#ccc', fontSize: '14px' }}>Security Level</span>
-              <span style={{ color: isSecure ? '#2ed573' : '#ff4757', fontSize: '14px', fontWeight: 'bold' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '5px',
+              }}
+            >
+              <span style={{ color: '#ccc', fontSize: '14px' }}>
+                Security Level
+              </span>
+              <span
+                style={{
+                  color: isSecure ? '#2ed573' : '#ff4757',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                }}
+              >
                 {securityLevel}%
               </span>
             </div>
-            <div style={{
-              width: '100%',
-              height: '6px',
-              background: 'rgba(100, 100, 100, 0.3)',
-              borderRadius: '3px',
-              overflow: 'hidden'
-            }}>
+            <div
+              style={{
+                width: '100%',
+                height: '6px',
+                background: 'rgba(100, 100, 100, 0.3)',
+                borderRadius: '3px',
+                overflow: 'hidden',
+              }}
+            >
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${securityLevel}%` }}
                 style={{
                   height: '100%',
                   background: `linear-gradient(90deg, ${
-                    securityLevel >= 80 ? '#2ed573' : 
-                    securityLevel >= 60 ? '#ffa502' : '#ff4757'
+                    securityLevel >= 80
+                      ? '#2ed573'
+                      : securityLevel >= 60
+                        ? '#ffa502'
+                        : '#ff4757'
                   }, ${
-                    securityLevel >= 80 ? '#1dd1a1' : 
-                    securityLevel >= 60 ? '#ff6b4a' : '#ff3838'
+                    securityLevel >= 80
+                      ? '#1dd1a1'
+                      : securityLevel >= 60
+                        ? '#ff6b4a'
+                        : '#ff3838'
                   })`,
-                  borderRadius: '3px'
+                  borderRadius: '3px',
                 }}
               />
             </div>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '15px' }}>
-            <div style={{ textAlign: 'center', padding: '8px', background: 'rgba(46, 213, 115, 0.1)', borderRadius: '6px' }}>
-              <div style={{ color: '#2ed573', fontSize: '16px', fontWeight: 'bold' }}>{metrics.threatsBlocked}</div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '10px',
+              marginBottom: '15px',
+            }}
+          >
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '8px',
+                background: 'rgba(46, 213, 115, 0.1)',
+                borderRadius: '6px',
+              }}
+            >
+              <div
+                style={{
+                  color: '#2ed573',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+              >
+                {metrics.threatsBlocked}
+              </div>
               <div style={{ color: '#ccc', fontSize: '11px' }}>Blocked</div>
             </div>
-            <div style={{ textAlign: 'center', padding: '8px', background: 'rgba(255, 165, 2, 0.1)', borderRadius: '6px' }}>
-              <div style={{ color: '#ffa502', fontSize: '16px', fontWeight: 'bold' }}>{metrics.sessionsSecured}</div>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '8px',
+                background: 'rgba(255, 165, 2, 0.1)',
+                borderRadius: '6px',
+              }}
+            >
+              <div
+                style={{
+                  color: '#ffa502',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                }}
+              >
+                {metrics.sessionsSecured}
+              </div>
               <div style={{ color: '#ccc', fontSize: '11px' }}>Sessions</div>
             </div>
           </div>
 
           {recentThreats.length > 0 && (
             <div style={{ marginBottom: '15px' }}>
-              <div style={{ color: '#ccc', fontSize: '12px', marginBottom: '8px' }}>Recent Threats</div>
+              <div
+                style={{ color: '#ccc', fontSize: '12px', marginBottom: '8px' }}
+              >
+                Recent Threats
+              </div>
               <div style={{ maxHeight: '120px', overflow: 'auto' }}>
                 {recentThreats.map(threat => (
                   <div
@@ -513,13 +637,25 @@ const SecurityMonitor: React.FC = () => {
                     style={{
                       padding: '6px',
                       marginBottom: '4px',
-                      background: threat.blocked ? 'rgba(46, 213, 115, 0.1)' : 'rgba(255, 71, 87, 0.1)',
+                      background: threat.blocked
+                        ? 'rgba(46, 213, 115, 0.1)'
+                        : 'rgba(255, 71, 87, 0.1)',
                       borderRadius: '4px',
-                      fontSize: '11px'
+                      fontSize: '11px',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ color: threat.blocked ? '#2ed573' : '#ff4757', fontWeight: 'bold' }}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      <span
+                        style={{
+                          color: threat.blocked ? '#2ed573' : '#ff4757',
+                          fontWeight: 'bold',
+                        }}
+                      >
                         {threat.type.toUpperCase()}
                       </span>
                       <span style={{ color: '#888' }}>
@@ -546,7 +682,7 @@ const SecurityMonitor: React.FC = () => {
                 padding: '6px 12px',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                fontSize: '12px'
+                fontSize: '12px',
               }}
             >
               Clear
@@ -561,7 +697,7 @@ const SecurityMonitor: React.FC = () => {
                 padding: '6px 12px',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                fontSize: '12px'
+                fontSize: '12px',
               }}
             >
               Refresh
@@ -576,10 +712,13 @@ const SecurityMonitor: React.FC = () => {
 // Higher-Order Component for Security Enhancement
 export const withAdvancedSecurity = <P extends object>(
   Component: React.ComponentType<P>,
-  securityConfig?: Partial<SecurityConfig>
+  securityConfig?: Partial<SecurityConfig>,
 ) => {
   return React.forwardRef<any, P>((props, ref) => (
-    <AdvancedSecurityProvider config={securityConfig} showSecurityMonitor={process.env.NODE_ENV === 'development'}>
+    <AdvancedSecurityProvider
+      config={securityConfig}
+      showSecurityMonitor={process.env.NODE_ENV === 'development'}
+    >
       <Component {...props} ref={ref} />
     </AdvancedSecurityProvider>
   ));

@@ -20,7 +20,11 @@ interface LoginModalProps {
   onLogin: (user: User) => void;
 }
 
-const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin }) => {
+const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
+  isOpen,
+  onClose,
+  onLogin,
+}) => {
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -33,11 +37,16 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
     const checkBiometricAvailability = async () => {
       try {
         if (window.PublicKeyCredential) {
-          const available = await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+          const available =
+            await window.PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
           setBiometricAvailable(available);
-          
+
           // Check for Face ID specifically (mainly for Safari/iOS)
-          if (available && navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome')) {
+          if (
+            available &&
+            navigator.userAgent.includes('Safari') &&
+            !navigator.userAgent.includes('Chrome')
+          ) {
             setFaceIdAvailable(true);
           }
         }
@@ -47,7 +56,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
         setFaceIdAvailable(false);
       }
     };
-    
+
     if (isOpen) {
       checkBiometricAvailability();
     }
@@ -59,16 +68,20 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
 
     // Simulate login with email or username
     setTimeout(() => {
-      const username = emailOrUsername.includes('@') ? emailOrUsername.split('@')[0] : emailOrUsername;
+      const username = emailOrUsername.includes('@')
+        ? emailOrUsername.split('@')[0]
+        : emailOrUsername;
       onLogin({
         id: '1',
         username: username,
-        email: emailOrUsername.includes('@') ? emailOrUsername : `${emailOrUsername}@konivrer.com`,
+        email: emailOrUsername.includes('@')
+          ? emailOrUsername
+          : `${emailOrUsername}@konivrer.com`,
         level: 1,
         preferences: {
           theme: 'dark',
-          notifications: true
-        }
+          notifications: true,
+        },
       });
       setIsLoading(false);
     }, 1000);
@@ -76,7 +89,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
 
   const handleSSOLogin = async (provider: string) => {
     setSsoLoading(provider);
-    
+
     // Simulate SSO login
     setTimeout(() => {
       onLogin({
@@ -86,8 +99,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
         level: 1,
         preferences: {
           theme: 'dark',
-          notifications: true
-        }
+          notifications: true,
+        },
       });
       setSsoLoading(null);
     }, 1500);
@@ -100,17 +113,18 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
       }
 
       // Create credential request options
-      const publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions = {
-        challenge: new Uint8Array(32),
-        allowCredentials: [],
-        userVerification: 'required',
-        timeout: 60000,
-      };
+      const publicKeyCredentialRequestOptions: PublicKeyCredentialRequestOptions =
+        {
+          challenge: new Uint8Array(32),
+          allowCredentials: [],
+          userVerification: 'required',
+          timeout: 60000,
+        };
 
       // Request credential
-      const credential = await navigator.credentials.get({
-        publicKey: publicKeyCredentialRequestOptions
-      }) as PublicKeyCredential;
+      const credential = (await navigator.credentials.get({
+        publicKey: publicKeyCredentialRequestOptions,
+      })) as PublicKeyCredential;
 
       if (credential) {
         onLogin({
@@ -120,8 +134,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
           level: 5,
           preferences: {
             theme: 'dark',
-            notifications: true
-          }
+            notifications: true,
+          },
         });
       }
     } catch (error) {
@@ -137,7 +151,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.2, ease: "easeInOut" }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
           className="modal-backdrop"
           onClick={onClose}
         >
@@ -145,73 +159,84 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
             className="modal-content"
             style={{
               padding: '40px',
               minWidth: '700px',
               maxWidth: '900px',
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             {/* Header */}
             <div style={{ marginBottom: '30px', textAlign: 'center' }}>
-              <h2 style={{ 
-                color: '#d4af37', 
-                margin: '0 0 10px 0',
-                fontSize: '28px',
-                fontWeight: 'bold'
-              }}>
+              <h2
+                style={{
+                  color: '#d4af37',
+                  margin: '0 0 10px 0',
+                  fontSize: '28px',
+                  fontWeight: 'bold',
+                }}
+              >
                 ⭐ Enhanced Login ⭐
               </h2>
-              <p style={{ 
-                color: '#ccc', 
-                margin: 0,
-                fontSize: '16px'
-              }}>
+              <p
+                style={{
+                  color: '#ccc',
+                  margin: 0,
+                  fontSize: '16px',
+                }}
+              >
                 Welcome to KONIVRER Deck Database
               </p>
             </div>
 
             {/* Main Content Grid */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-              gap: '25px',
-              marginBottom: '30px'
-            }}>
-              
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '25px',
+                marginBottom: '30px',
+              }}
+            >
               {/* Email/Username & Password Section */}
-              <div style={{
-                backgroundColor: '#2a2a2a',
-                padding: '25px',
-                borderRadius: '10px',
-                border: '1px solid #444'
-              }}>
-                <h3 style={{ 
-                  color: '#d4af37', 
-                  margin: '0 0 20px 0',
-                  fontSize: '18px',
-                  textAlign: 'center'
-                }}>
+              <div
+                style={{
+                  backgroundColor: '#2a2a2a',
+                  padding: '25px',
+                  borderRadius: '10px',
+                  border: '1px solid #444',
+                }}
+              >
+                <h3
+                  style={{
+                    color: '#d4af37',
+                    margin: '0 0 20px 0',
+                    fontSize: '18px',
+                    textAlign: 'center',
+                  }}
+                >
                   🔐 Email & Password
                 </h3>
-                
+
                 <form onSubmit={handleSubmit}>
                   <div style={{ marginBottom: '20px' }}>
-                    <label style={{ 
-                      display: 'block', 
-                      color: '#d4af37', 
-                      marginBottom: '8px',
-                      fontSize: '14px',
-                      fontWeight: 'bold'
-                    }}>
+                    <label
+                      style={{
+                        display: 'block',
+                        color: '#d4af37',
+                        marginBottom: '8px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                      }}
+                    >
                       Email or Username
                     </label>
                     <input
                       type="text"
                       value={emailOrUsername}
-                      onChange={(e) => setEmailOrUsername(e.target.value)}
+                      onChange={e => setEmailOrUsername(e.target.value)}
                       required
                       style={{
                         width: '100%',
@@ -222,28 +247,30 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                         color: 'white',
                         fontSize: '16px',
                         outline: 'none',
-                        transition: 'border-color 0.3s'
+                        transition: 'border-color 0.3s',
                       }}
-                      onFocus={(e) => e.target.style.borderColor = '#d4af37'}
-                      onBlur={(e) => e.target.style.borderColor = '#444'}
+                      onFocus={e => (e.target.style.borderColor = '#d4af37')}
+                      onBlur={e => (e.target.style.borderColor = '#444')}
                       placeholder="Enter email or username"
                     />
                   </div>
 
                   <div style={{ marginBottom: '20px' }}>
-                    <label style={{ 
-                      display: 'block', 
-                      color: '#d4af37', 
-                      marginBottom: '8px',
-                      fontSize: '14px',
-                      fontWeight: 'bold'
-                    }}>
+                    <label
+                      style={{
+                        display: 'block',
+                        color: '#d4af37',
+                        marginBottom: '8px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                      }}
+                    >
                       Password
                     </label>
                     <input
                       type="password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={e => setPassword(e.target.value)}
                       required
                       style={{
                         width: '100%',
@@ -254,10 +281,10 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                         color: 'white',
                         fontSize: '16px',
                         outline: 'none',
-                        transition: 'border-color 0.3s'
+                        transition: 'border-color 0.3s',
                       }}
-                      onFocus={(e) => e.target.style.borderColor = '#d4af37'}
-                      onBlur={(e) => e.target.style.borderColor = '#444'}
+                      onFocus={e => (e.target.style.borderColor = '#d4af37')}
+                      onBlur={e => (e.target.style.borderColor = '#444')}
                       placeholder="Enter your password"
                     />
                   </div>
@@ -275,7 +302,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       fontSize: '16px',
                       fontWeight: 'bold',
                       cursor: isLoading ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s'
+                      transition: 'all 0.3s',
                     }}
                   >
                     {isLoading ? '🔄 Logging in...' : '🚀 Login'}
@@ -284,22 +311,32 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
               </div>
 
               {/* SSO Section - All Options Shown */}
-              <div style={{
-                backgroundColor: '#2a2a2a',
-                padding: '25px',
-                borderRadius: '10px',
-                border: '1px solid #444'
-              }}>
-                <h3 style={{ 
-                  color: '#d4af37', 
-                  margin: '0 0 20px 0',
-                  fontSize: '18px',
-                  textAlign: 'center'
-                }}>
+              <div
+                style={{
+                  backgroundColor: '#2a2a2a',
+                  padding: '25px',
+                  borderRadius: '10px',
+                  border: '1px solid #444',
+                }}
+              >
+                <h3
+                  style={{
+                    color: '#d4af37',
+                    margin: '0 0 20px 0',
+                    fontSize: '18px',
+                    textAlign: 'center',
+                  }}
+                >
                   🔑 Single Sign-On
                 </h3>
-                
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '12px',
+                  }}
+                >
                   {/* Google SSO */}
                   <button
                     onClick={() => handleSSOLogin('Google')}
@@ -310,18 +347,22 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       justifyContent: 'center',
                       gap: '10px',
                       padding: '12px',
-                      backgroundColor: ssoLoading === 'Google' ? '#666' : '#4285f4',
+                      backgroundColor:
+                        ssoLoading === 'Google' ? '#666' : '#4285f4',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      cursor: ssoLoading === 'Google' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s'
+                      cursor:
+                        ssoLoading === 'Google' ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.3s',
                     }}
                   >
                     <span>🔍</span>
-                    {ssoLoading === 'Google' ? 'Connecting...' : 'Continue with Google'}
+                    {ssoLoading === 'Google'
+                      ? 'Connecting...'
+                      : 'Continue with Google'}
                   </button>
 
                   {/* GitHub SSO */}
@@ -334,18 +375,22 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       justifyContent: 'center',
                       gap: '10px',
                       padding: '12px',
-                      backgroundColor: ssoLoading === 'GitHub' ? '#666' : '#333',
+                      backgroundColor:
+                        ssoLoading === 'GitHub' ? '#666' : '#333',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      cursor: ssoLoading === 'GitHub' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s'
+                      cursor:
+                        ssoLoading === 'GitHub' ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.3s',
                     }}
                   >
                     <span>🐙</span>
-                    {ssoLoading === 'GitHub' ? 'Connecting...' : 'Continue with GitHub'}
+                    {ssoLoading === 'GitHub'
+                      ? 'Connecting...'
+                      : 'Continue with GitHub'}
                   </button>
 
                   {/* Microsoft SSO */}
@@ -358,18 +403,22 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       justifyContent: 'center',
                       gap: '10px',
                       padding: '12px',
-                      backgroundColor: ssoLoading === 'Microsoft' ? '#666' : '#0078d4',
+                      backgroundColor:
+                        ssoLoading === 'Microsoft' ? '#666' : '#0078d4',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      cursor: ssoLoading === 'Microsoft' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s'
+                      cursor:
+                        ssoLoading === 'Microsoft' ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.3s',
                     }}
                   >
                     <span>🪟</span>
-                    {ssoLoading === 'Microsoft' ? 'Connecting...' : 'Continue with Microsoft'}
+                    {ssoLoading === 'Microsoft'
+                      ? 'Connecting...'
+                      : 'Continue with Microsoft'}
                   </button>
 
                   {/* Discord SSO */}
@@ -382,40 +431,54 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       justifyContent: 'center',
                       gap: '10px',
                       padding: '12px',
-                      backgroundColor: ssoLoading === 'Discord' ? '#666' : '#5865f2',
+                      backgroundColor:
+                        ssoLoading === 'Discord' ? '#666' : '#5865f2',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
-                      cursor: ssoLoading === 'Discord' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s'
+                      cursor:
+                        ssoLoading === 'Discord' ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.3s',
                     }}
                   >
                     <span>🎮</span>
-                    {ssoLoading === 'Discord' ? 'Connecting...' : 'Continue with Discord'}
+                    {ssoLoading === 'Discord'
+                      ? 'Connecting...'
+                      : 'Continue with Discord'}
                   </button>
                 </div>
               </div>
 
               {/* Biometric Authentication Section - Security Feature */}
               {(biometricAvailable || faceIdAvailable) && (
-                <div style={{
-                  backgroundColor: '#2a2a2a',
-                  padding: '25px',
-                  borderRadius: '10px',
-                  border: '1px solid #444'
-                }}>
-                  <h3 style={{ 
-                    color: '#d4af37', 
-                    margin: '0 0 20px 0',
-                    fontSize: '18px',
-                    textAlign: 'center'
-                  }}>
+                <div
+                  style={{
+                    backgroundColor: '#2a2a2a',
+                    padding: '25px',
+                    borderRadius: '10px',
+                    border: '1px solid #444',
+                  }}
+                >
+                  <h3
+                    style={{
+                      color: '#d4af37',
+                      margin: '0 0 20px 0',
+                      fontSize: '18px',
+                      textAlign: 'center',
+                    }}
+                  >
                     👆 Biometric Security
                   </h3>
-                  
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px',
+                    }}
+                  >
                     {biometricAvailable && (
                       <button
                         onClick={() => handleBiometricLogin('fingerprint')}
@@ -425,14 +488,15 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                           justifyContent: 'center',
                           gap: '10px',
                           padding: '12px',
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          background:
+                            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                           color: 'white',
                           border: 'none',
                           borderRadius: '6px',
                           fontSize: '14px',
                           fontWeight: 'bold',
                           cursor: 'pointer',
-                          transition: 'all 0.3s'
+                          transition: 'all 0.3s',
                         }}
                       >
                         <span>👆</span>
@@ -449,14 +513,15 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                           justifyContent: 'center',
                           gap: '10px',
                           padding: '12px',
-                          background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                          background:
+                            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
                           color: 'white',
                           border: 'none',
                           borderRadius: '6px',
                           fontSize: '14px',
                           fontWeight: 'bold',
                           cursor: 'pointer',
-                          transition: 'all 0.3s'
+                          transition: 'all 0.3s',
                         }}
                       >
                         <span>🤳</span>
@@ -464,24 +529,29 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                       </button>
                     )}
                   </div>
-                  
-                  <div style={{
-                    marginTop: '15px',
-                    padding: '10px',
-                    backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                    borderRadius: '6px',
-                    fontSize: '12px',
-                    color: '#d4af37',
-                    textAlign: 'center'
-                  }}>
-                    🛡️ Secure biometric authentication using your device's built-in sensors
+
+                  <div
+                    style={{
+                      marginTop: '15px',
+                      padding: '10px',
+                      backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      color: '#d4af37',
+                      textAlign: 'center',
+                    }}
+                  >
+                    🛡️ Secure biometric authentication using your device's
+                    built-in sensors
                   </div>
                 </div>
               )}
             </div>
 
             {/* Action Buttons */}
-            <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
+            <div
+              style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}
+            >
               <button
                 onClick={onClose}
                 style={{
@@ -492,10 +562,14 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                   borderRadius: '6px',
                   fontSize: '14px',
                   cursor: 'pointer',
-                  transition: 'background-color 0.3s'
+                  transition: 'background-color 0.3s',
                 }}
-                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = '#777'}
-                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = '#666'}
+                onMouseEnter={e =>
+                  ((e.target as HTMLElement).style.backgroundColor = '#777')
+                }
+                onMouseLeave={e =>
+                  ((e.target as HTMLElement).style.backgroundColor = '#666')
+                }
               >
                 Cancel
               </button>
@@ -508,8 +582,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                     level: 5,
                     preferences: {
                       theme: 'dark',
-                      notifications: true
-                    }
+                      notifications: true,
+                    },
                   });
                 }}
                 style={{
@@ -520,10 +594,14 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, 
                   borderRadius: '6px',
                   fontSize: '14px',
                   cursor: 'pointer',
-                  transition: 'background-color 0.3s'
+                  transition: 'background-color 0.3s',
                 }}
-                onMouseEnter={(e) => (e.target as HTMLElement).style.backgroundColor = '#45a049'}
-                onMouseLeave={(e) => (e.target as HTMLElement).style.backgroundColor = '#4CAF50'}
+                onMouseEnter={e =>
+                  ((e.target as HTMLElement).style.backgroundColor = '#45a049')
+                }
+                onMouseLeave={e =>
+                  ((e.target as HTMLElement).style.backgroundColor = '#4CAF50')
+                }
               >
                 🎮 Demo Login
               </button>

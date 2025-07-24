@@ -314,7 +314,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
         });
 
         setIsSecure(true);
-        
+
         // Initialize advanced security metrics
         updateSecurityMetrics();
       } catch (error) {
@@ -381,17 +381,44 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     let factors = 0;
 
     // Basic security factors
-    if (config.enableCSP) { score += 15; factors++; }
-    if (config.enableHTTPS) { score += 20; factors++; }
-    if (config.enableSecureHeaders) { score += 15; factors++; }
-    if (config.enableDataEncryption) { score += 20; factors++; }
-    if (config.enableGDPRCompliance) { score += 10; factors++; }
+    if (config.enableCSP) {
+      score += 15;
+      factors++;
+    }
+    if (config.enableHTTPS) {
+      score += 20;
+      factors++;
+    }
+    if (config.enableSecureHeaders) {
+      score += 15;
+      factors++;
+    }
+    if (config.enableDataEncryption) {
+      score += 20;
+      factors++;
+    }
+    if (config.enableGDPRCompliance) {
+      score += 10;
+      factors++;
+    }
 
     // Advanced security factors
-    if (config.enableAdvancedHealing) { score += 25; factors++; }
-    if (config.enableQuantumSecurity) { score += 30; factors++; }
-    if (config.enableZeroTrust) { score += 25; factors++; }
-    if (config.enableSecurityIntelligence) { score += 20; factors++; }
+    if (config.enableAdvancedHealing) {
+      score += 25;
+      factors++;
+    }
+    if (config.enableQuantumSecurity) {
+      score += 30;
+      factors++;
+    }
+    if (config.enableZeroTrust) {
+      score += 25;
+      factors++;
+    }
+    if (config.enableSecurityIntelligence) {
+      score += 20;
+      factors++;
+    }
 
     return factors > 0 ? score / factors : 0;
   };
@@ -447,7 +474,11 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
       threats++;
     }
 
-    if (!config.enableHTTPS && window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+    if (
+      !config.enableHTTPS &&
+      window.location.protocol !== 'https:' &&
+      window.location.hostname !== 'localhost'
+    ) {
       vulnerabilities.push('Insecure HTTP connection');
       recommendations.push('Enforce HTTPS connections');
       score -= 20;
@@ -455,17 +486,23 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     if (!config.enableAdvancedHealing) {
-      recommendations.push('Enable advanced security healing for better threat response');
+      recommendations.push(
+        'Enable advanced security healing for better threat response',
+      );
       score -= 10;
     }
 
     if (!config.enableQuantumSecurity) {
-      recommendations.push('Enable quantum security for future-proof protection');
+      recommendations.push(
+        'Enable quantum security for future-proof protection',
+      );
       score -= 15;
     }
 
     if (!config.enableZeroTrust) {
-      recommendations.push('Enable zero-trust architecture for enhanced security');
+      recommendations.push(
+        'Enable zero-trust architecture for enhanced security',
+      );
       score -= 12;
     }
 
@@ -517,7 +554,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     setConfig(newConfig);
-    
+
     logSecurityEvent('SECURITY_LEVEL_UPGRADED', {
       previousLevel: config.securityLevel,
       newLevel: level,
@@ -545,7 +582,9 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
 
   if (config.enableSecurityIntelligence) {
     wrappedChildren = (
-      <SecurityIntelligenceProvider config={{ silentOperation: config.silentOperation }}>
+      <SecurityIntelligenceProvider
+        config={{ silentOperation: config.silentOperation }}
+      >
         {wrappedChildren}
       </SecurityIntelligenceProvider>
     );
@@ -553,7 +592,9 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
 
   if (config.enableZeroTrust) {
     wrappedChildren = (
-      <ZeroTrustArchitectureProvider config={{ silentOperation: config.silentOperation }}>
+      <ZeroTrustArchitectureProvider
+        config={{ silentOperation: config.silentOperation }}
+      >
         {wrappedChildren}
       </ZeroTrustArchitectureProvider>
     );
@@ -561,7 +602,9 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
 
   if (config.enableQuantumSecurity) {
     wrappedChildren = (
-      <QuantumSecurityProvider config={{ silentOperation: config.silentOperation }}>
+      <QuantumSecurityProvider
+        config={{ silentOperation: config.silentOperation }}
+      >
         {wrappedChildren}
       </QuantumSecurityProvider>
     );
@@ -569,7 +612,9 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
 
   if (config.enableAdvancedHealing) {
     wrappedChildren = (
-      <AdvancedSecurityHealingProvider config={{ silentOperation: config.silentOperation }}>
+      <AdvancedSecurityHealingProvider
+        config={{ silentOperation: config.silentOperation }}
+      >
         {wrappedChildren}
       </AdvancedSecurityHealingProvider>
     );
