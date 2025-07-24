@@ -1,3 +1,4 @@
+
 #!/usr/bin/env node
 
 const { execSync } = require('child_process');
@@ -16,15 +17,15 @@ class OptimizedDeployment {
   async run() {
     try {
       log('Starting optimized build and deployment...');
-
+      
       await this.cleanBuild();
       await this.optimizeBuild();
       await this.runQualityChecks();
       await this.deployToProduction();
-
+      
       const duration = ((Date.now() - this.startTime) / 1000).toFixed(2);
       success(`Deployment completed in ${duration}s`);
-
+      
     } catch (err) {
       error(`Deployment failed: ${err.message}`);
       process.exit(1);
@@ -32,15 +33,15 @@ class OptimizedDeployment {
   }
 
   async cleanBuild() {
-    log('Cleaning build artifacts...');
-    execSync('rm -rf dist/* .cache/*', { stdio: 'inherit' });
+    log('Cleaning previous build...');
+    execSync('rm -rf dist node_modules/.cache', { stdio: 'inherit' });
   }
 
   async optimizeBuild() {
     log('Building optimized production bundle...');
     process.env.NODE_ENV = 'production';
     execSync('npm run build', { stdio: 'inherit' });
-
+    
     // Analyze bundle size
     if (existsSync('dist')) {
       try {
@@ -52,7 +53,7 @@ class OptimizedDeployment {
 
   async runQualityChecks() {
     log('Running quality checks...');
-
+    
     try {
       // ESLint check
       execSync('npm run lint', { stdio: 'inherit' });
@@ -60,7 +61,7 @@ class OptimizedDeployment {
     } catch {
       error('ESLint failed - continuing anyway');
     }
-
+    
     try {
       // Type check if TypeScript
       if (existsSync('tsconfig.json')) {
@@ -74,7 +75,7 @@ class OptimizedDeployment {
 
   async deployToProduction() {
     log('Deploying to production...');
-
+    
     // Git operations
     try {
       execSync('git add .', { stdio: 'inherit' });
