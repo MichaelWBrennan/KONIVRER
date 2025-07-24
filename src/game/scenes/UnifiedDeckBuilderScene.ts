@@ -2,17 +2,19 @@
 import Phaser from 'phaser';
 
 interface Deck {
-  ...
+  // Define the properties of Deck here
 }
 
 interface Card {
-  ...
+  // Define the properties of Card here
 }
 
 export class UnifiedDeckBuilderScene extends Phaser.Scene {
-  ...
-  constructor(private isMobile: boolean = false) {
+  private isMobile: boolean = false;
+  
+  constructor(isMobile: boolean = false) {
     super({ key: 'UnifiedDeckBuilderScene' });
+    this.isMobile = isMobile;
   }
 
   init() {
@@ -29,18 +31,18 @@ export class UnifiedDeckBuilderScene extends Phaser.Scene {
   }
 
   private loadAssets() {
-    // Load assets
+    // Load all necessary assets here
   }
 
   private prepareCards() {
-    // Prepare card deck
+    // Logic to prepare cards for the deck
   }
 
   private setupLayout() {
-    // Setup layout based on mobile or desktop
+    // Setup layout based on whether it's mobile or desktop
   }
 
   private setupUI() {
-    // Setup UI elements
+    // Initialize and set up the user interface
   }
 }
