@@ -1,3 +1,4 @@
+
 import Phaser from 'phaser';
 import { KONIVRER_CARDS, Card } from '../../data/cards';
 
@@ -66,15 +67,12 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
       case 'premium':
         this.add.rectangle(width / 2, height / 2, width, height, 0x0a0f14);
         this.createParticleEffects();
-        // Other premium specific setups
         break;
       case 'enhanced':
         this.add.rectangle(width / 2, height / 2, width, height, 0x1a1a2e);
-        // Other enhanced specific setups
         break;
       default:
         this.add.rectangle(width / 2, height / 2, width, height, 0x1a1a1a);
-        // Basic setup
         break;
     }
   }
@@ -120,8 +118,6 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
     for (let i = 0; i < count && player.deck.length > 0; i++) {
       const card = player.deck.pop()!;
       player.hand.push(card);
-
-      // Add any specific animation for different scene types
     }
     this.updateHandDisplay();
   }
@@ -148,5 +144,8 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
       }).setDepth(-1);
     }
   }
+
+  private updateHandDisplay() {
+    // Method to update hand display visually
+  }
 }
-```
