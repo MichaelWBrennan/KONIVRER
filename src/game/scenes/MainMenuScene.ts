@@ -1,2 +1,10 @@
-<replit_final_file>
-</replit_final_file>
+
+  export class MainMenuScene extends Phaser.Scene {
+    constructor() {
+      super({ key: 'MainMenuScene' });
+    }
+    
+    create() {
+      // Add your scene creation code here
+    }
+  }
