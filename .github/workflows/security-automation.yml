@@ -42,7 +42,7 @@ jobs:
       uses: github/codeql-action/analyze@v3
 
     - name: 🔒 OWASP ZAP Scan
-      uses: zaproxy/action-full-scan@v0.8.0
+      uses: zaproxy/action-full-scan@v0.12.0
       with:
         target: 'http://localhost:3000'
       continue-on-error: true
