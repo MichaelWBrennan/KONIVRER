@@ -104,7 +104,7 @@ class SelfHealingCore extends EventEmitter {
   constructor(config: SelfHealingConfig) {
     super();
     this.config = config;
-    
+
     this.performanceMetrics = {
       cpuUsage: 0,
       memoryUsage: 0,
@@ -113,7 +113,7 @@ class SelfHealingCore extends EventEmitter {
       throughput: 0,
       availability: 100
     };
-    
+
     this.healingMetrics = {
       totalIssues: 0,
       healedIssues: 0,
@@ -122,17 +122,17 @@ class SelfHealingCore extends EventEmitter {
       systemUptime: 100,
       healingSuccessRate: 100
     };
-    
+
     this.initializeHealingActions();
   }
 
   public async initialize(): Promise<void> {
     console.log('🩹 Initializing Self-Healing Core...');
-    
+
     await this.setupMonitoring();
     await this.initializeLearningSystem();
     await this.startProactiveHealing();
-    
+
     console.log('✅ Self-Healing Core initialized');
   }
 
@@ -238,7 +238,7 @@ class SelfHealingCore extends EventEmitter {
 
   private async setupMonitoring(): Promise<void> {
     this.isMonitoring = true;
-    
+
     // Start continuous system monitoring
     this.startPerformanceMonitoring();
     this.startErrorMonitoring();
@@ -249,7 +249,7 @@ class SelfHealingCore extends EventEmitter {
   private startPerformanceMonitoring(): void {
     setInterval(() => {
       if (!this.isMonitoring) return;
-      
+
       this.monitorPerformance();
     }, 5000); // Every 5 seconds
   }
@@ -257,7 +257,7 @@ class SelfHealingCore extends EventEmitter {
   private startErrorMonitoring(): void {
     setInterval(() => {
       if (!this.isMonitoring) return;
-      
+
       this.monitorErrors();
     }, 1000); // Every second
   }
@@ -265,7 +265,7 @@ class SelfHealingCore extends EventEmitter {
   private startResourceMonitoring(): void {
     setInterval(() => {
       if (!this.isMonitoring) return;
-      
+
       this.monitorResources();
     }, 10000); // Every 10 seconds
   }
@@ -273,7 +273,7 @@ class SelfHealingCore extends EventEmitter {
   private startSecurityMonitoring(): void {
     setInterval(() => {
       if (!this.isMonitoring) return;
-      
+
       this.monitorSecurity();
     }, 30000); // Every 30 seconds
   }
@@ -282,7 +282,7 @@ class SelfHealingCore extends EventEmitter {
     // Monitor performance metrics
     const metrics = await this.collectPerformanceMetrics();
     this.performanceMetrics = metrics;
-    
+
     // Detect performance issues
     if (metrics.responseTime > 2000) {
       await this.detectIssue({
@@ -293,7 +293,7 @@ class SelfHealingCore extends EventEmitter {
         source: 'performance-monitor'
       });
     }
-    
+
     if (metrics.errorRate > 0.05) {
       await this.detectIssue({
         type: 'error',
@@ -320,7 +320,7 @@ class SelfHealingCore extends EventEmitter {
   private async monitorErrors(): Promise<void> {
     // Monitor for JavaScript errors and exceptions
     const errors = await this.collectErrorData();
-    
+
     for (const error of errors) {
       if (error.severity === 'critical') {
         await this.detectIssue({
@@ -342,7 +342,7 @@ class SelfHealingCore extends EventEmitter {
   private async monitorResources(): Promise<void> {
     // Monitor system resources
     const resources = await this.collectResourceData();
-    
+
     if (resources.memoryUsage > 90) {
       await this.detectIssue({
         type: 'memory',
@@ -366,7 +366,7 @@ class SelfHealingCore extends EventEmitter {
   private async monitorSecurity(): Promise<void> {
     // Monitor for security issues
     const securityIssues = await this.collectSecurityData();
-    
+
     for (const issue of securityIssues) {
       await this.detectIssue({
         type: 'security',
@@ -394,14 +394,12 @@ class SelfHealingCore extends EventEmitter {
 
     // Analyze the issue
     await this.analyzeIssue(issue);
-    
-    // Store the issue
-    this.issues.set(issue.id, issue);
-    this.healingMetrics.totalIssues++;
-    
+    this.issues.set(issue.id, issue); // Store the issue for tracking
+    this.healingMetrics.totalIssues++; // Increment total issues count
+
     // Emit event
     this.emit('issue-detected', issue);
-    
+
     // Add to healing queue if auto-healing is enabled
     if (this.config.proactiveMode) {
       this.healingQueue.push(issue);
@@ -411,13 +409,13 @@ class SelfHealingCore extends EventEmitter {
 
   private async analyzeIssue(issue: SystemIssue): Promise<void> {
     issue.status = 'analyzing';
-    
+
     // Perform root cause analysis
     issue.rootCause = await this.performRootCauseAnalysis(issue);
-    
+
     // Determine healing actions
     issue.healingActions = await this.determineHealingActions(issue);
-    
+
     // Update issue
     this.issues.set(issue.id, issue);
   }
@@ -432,13 +430,13 @@ class SelfHealingCore extends EventEmitter {
       dependency: 'Outdated or incompatible dependency',
       configuration: 'Invalid or corrupted configuration'
     };
-    
+
     return rootCauses[issue.type] || 'Unknown root cause';
   }
 
   private async determineHealingActions(issue: SystemIssue): Promise<HealingAction[]> {
     const actions: HealingAction[] = [];
-    
+
     // Select appropriate healing actions based on issue type and severity
     switch (issue.type) {
       case 'performance':
@@ -476,7 +474,7 @@ class SelfHealingCore extends EventEmitter {
         );
         break;
     }
-    
+
     // Sort by confidence and risk
     return actions.sort((a, b) => {
       const scoreA = a.confidence * (1 - this.getRiskScore(a.risk));
@@ -492,18 +490,18 @@ class SelfHealingCore extends EventEmitter {
 
   private async processHealingQueue(): Promise<void> {
     if (this.healingQueue.length === 0) return;
-    
+
     // Process issues by priority (severity)
     this.healingQueue.sort((a, b) => {
       const severityOrder = { critical: 4, high: 3, medium: 2, low: 1 };
       return severityOrder[b.severity] - severityOrder[a.severity];
     });
-    
+
     const issue = this.healingQueue.shift();
     if (issue) {
       await this.healIssue(issue);
     }
-    
+
     // Continue processing queue
     if (this.healingQueue.length > 0) {
       setTimeout(() => this.processHealingQueue(), 1000);
@@ -512,40 +510,40 @@ class SelfHealingCore extends EventEmitter {
 
   public async healIssue(issue: SystemIssue): Promise<void> {
     console.log(`🩹 Healing issue: ${issue.description}`);
-    
+
     issue.status = 'healing';
     this.issues.set(issue.id, issue);
-    
+
     const startTime = Date.now();
     let healed = false;
-    
+
     try {
       // Try each healing action in order
       for (const action of issue.healingActions) {
         if (await this.shouldApplyAction(action, issue)) {
           const success = await this.applyHealingAction(action, issue);
-          
+
           if (success) {
             healed = true;
             break;
           }
         }
       }
-      
+
       // Update issue status
       issue.status = healed ? 'healed' : 'failed';
       this.issues.set(issue.id, issue);
-      
+
       // Update metrics
       if (healed) {
         this.healingMetrics.healedIssues++;
       } else {
         this.healingMetrics.failedHealing++;
       }
-      
+
       const healingTime = Date.now() - startTime;
       this.updateAverageHealingTime(healingTime);
-      
+
       // Emit event
       this.emit('healing-complete', {
         issue,
@@ -553,12 +551,12 @@ class SelfHealingCore extends EventEmitter {
         healingTime,
         description: `${healed ? 'Successfully healed' : 'Failed to heal'}: ${issue.description}`
       });
-      
+
       // Learn from the healing attempt
       if (this.config.learningEnabled) {
         await this.recordHealingOutcome(issue, healed, healingTime);
       }
-      
+
     } catch (error) {
       console.error(`❌ Error healing issue: ${issue.id}`, error);
       issue.status = 'failed';
@@ -571,7 +569,7 @@ class SelfHealingCore extends EventEmitter {
     // Determine if action should be applied based on configuration and risk
     const riskThreshold = this.getRiskThreshold();
     const riskScore = this.getRiskScore(action.risk);
-    
+
     return (
       action.confidence >= 0.7 &&
       riskScore <= riskThreshold &&
@@ -643,18 +641,18 @@ class SelfHealingCore extends EventEmitter {
 
   private async applyHealingAction(action: HealingAction, issue: SystemIssue): Promise<boolean> {
     console.log(`🔧 Applying healing action: ${action.name}`);
-    
+
     try {
       // Create backup/checkpoint before applying action
       const checkpoint = await this.createCheckpoint(action);
-      
+
       // Apply the healing action
       const success = await this.executeHealingAction(action, issue);
-      
+
       if (success) {
         // Verify the healing was successful
         const verified = await this.verifyHealing(issue);
-        
+
         if (verified) {
           console.log(`✅ Healing action successful: ${action.name}`);
           return true;
@@ -723,57 +721,57 @@ class SelfHealingCore extends EventEmitter {
   private async executeFix(action: HealingAction, issue: SystemIssue): Promise<boolean> {
     // Execute fix action
     console.log(`🔧 Executing fix: ${action.name}`);
-    
+
     // Simulate fix execution
     await new Promise(resolve => setTimeout(resolve, action.estimatedTime));
-    
+
     return Math.random() > 0.2; // 80% success rate
   }
 
   private async executeOptimization(action: HealingAction, issue: SystemIssue): Promise<boolean> {
     // Execute optimization action
     console.log(`⚡ Executing optimization: ${action.name}`);
-    
+
     // Simulate optimization execution
     await new Promise(resolve => setTimeout(resolve, action.estimatedTime));
-    
+
     return Math.random() > 0.1; // 90% success rate
   }
 
   private async executeRestart(action: HealingAction, issue: SystemIssue): Promise<boolean> {
     // Execute restart action
     console.log(`🔄 Executing restart: ${action.name}`);
-    
+
     // Simulate restart execution
     await new Promise(resolve => setTimeout(resolve, action.estimatedTime));
-    
+
     return Math.random() > 0.05; // 95% success rate
   }
 
   private async executeRollback(action: HealingAction, issue: SystemIssue): Promise<boolean> {
     // Execute rollback action
     console.log(`⏪ Executing rollback: ${action.name}`);
-    
+
     // Simulate rollback execution
     await new Promise(resolve => setTimeout(resolve, action.estimatedTime));
-    
+
     return Math.random() > 0.1; // 90% success rate
   }
 
   private async executeUpdate(action: HealingAction, issue: SystemIssue): Promise<boolean> {
     // Execute update action
     console.log(`📦 Executing update: ${action.name}`);
-    
+
     // Simulate update execution
     await new Promise(resolve => setTimeout(resolve, action.estimatedTime));
-    
+
     return Math.random() > 0.15; // 85% success rate
   }
 
   private async verifyHealing(issue: SystemIssue): Promise<boolean> {
     // Verify that the issue has been resolved
     console.log(`🔍 Verifying healing for: ${issue.description}`);
-    
+
     // Simulate verification based on issue type
     switch (issue.type) {
       case 'performance':
@@ -815,7 +813,7 @@ class SelfHealingCore extends EventEmitter {
 
   private async rollbackAction(action: HealingAction, checkpoint: any): Promise<void> {
     console.log(`⏪ Rolling back action: ${action.name}`);
-    
+
     // Execute rollback plan
     for (const step of action.rollbackPlan) {
       await this.executeRollbackStep(step, checkpoint);
@@ -825,7 +823,7 @@ class SelfHealingCore extends EventEmitter {
   private async executeRollbackStep(step: string, checkpoint: any): Promise<void> {
     // Execute individual rollback step
     console.log(`📝 Rollback step: ${step}`);
-    
+
     switch (step) {
       case 'restore-previous-state':
         await this.restoreSystemState(checkpoint.systemState);
@@ -883,11 +881,11 @@ class SelfHealingCore extends EventEmitter {
       actions: issue.healingActions.map(a => a.id),
       timestamp: new Date()
     };
-    
+
     const learningData = this.learningData.get('healing-outcomes') || [];
     learningData.push(outcome);
     this.learningData.set('healing-outcomes', learningData);
-    
+
     // Update success rate
     this.updateHealingSuccessRate();
   }
@@ -902,12 +900,12 @@ class SelfHealingCore extends EventEmitter {
 
   private async initializeLearningSystem(): Promise<void> {
     if (!this.config.learningEnabled) return;
-    
+
     console.log('🧠 Initializing learning system...');
-    
+
     // Load historical healing data
     await this.loadLearningData();
-    
+
     // Set up learning feedback loop
     this.setupLearningFeedback();
   }
@@ -919,7 +917,7 @@ class SelfHealingCore extends EventEmitter {
       'pattern-recognition': [],
       'optimization-results': []
     };
-    
+
     for (const [key, value] of Object.entries(historicalData)) {
       this.learningData.set(key, value);
     }
@@ -930,7 +928,7 @@ class SelfHealingCore extends EventEmitter {
     this.on('healing-complete', (result) => {
       this.learnFromHealing(result);
     });
-    
+
     this.on('issue-detected', (issue) => {
       this.learnFromIssue(issue);
     });
@@ -939,7 +937,7 @@ class SelfHealingCore extends EventEmitter {
   private async learnFromHealing(result: any): Promise<void> {
     // Learn from healing results to improve future healing
     const patterns = this.learningData.get('pattern-recognition') || [];
-    
+
     patterns.push({
       issueType: result.issue.type,
       severity: result.issue.severity,
@@ -947,7 +945,7 @@ class SelfHealingCore extends EventEmitter {
       healingTime: result.healingTime,
       timestamp: new Date()
     });
-    
+
     this.learningData.set('pattern-recognition', patterns);
   }
 
@@ -958,7 +956,7 @@ class SelfHealingCore extends EventEmitter {
 
   private async startProactiveHealing(): Promise<void> {
     if (!this.config.proactiveMode) return;
-    
+
     // Start proactive healing processes
     setInterval(() => {
       this.performProactiveAnalysis();
@@ -968,7 +966,7 @@ class SelfHealingCore extends EventEmitter {
   private async performProactiveAnalysis(): Promise<void> {
     // Perform proactive analysis to prevent issues
     const predictions = await this.predictPotentialIssues();
-    
+
     for (const prediction of predictions) {
       if (prediction.confidence > 0.8) {
         await this.preventIssue(prediction);
@@ -979,7 +977,7 @@ class SelfHealingCore extends EventEmitter {
   private async predictPotentialIssues(): Promise<any[]> {
     // Use ML/AI to predict potential issues
     const predictions = [];
-    
+
     // Analyze trends in performance metrics
     if (this.performanceMetrics.responseTime > 1500) {
       predictions.push({
@@ -989,13 +987,13 @@ class SelfHealingCore extends EventEmitter {
         preventiveActions: ['performance-optimization']
       });
     }
-    
+
     return predictions;
   }
 
   private async preventIssue(prediction: any): Promise<void> {
     console.log(`🔮 Preventing potential issue: ${prediction.description}`);
-    
+
     // Apply preventive actions
     for (const actionId of prediction.preventiveActions) {
       const action = this.healingActions.get(actionId);
@@ -1007,7 +1005,7 @@ class SelfHealingCore extends EventEmitter {
 
   private async applyPreventiveAction(action: HealingAction): Promise<void> {
     console.log(`🛡️ Applying preventive action: ${action.name}`);
-    
+
     // Apply action preventively
     const mockIssue: SystemIssue = {
       id: 'preventive',
@@ -1020,7 +1018,7 @@ class SelfHealingCore extends EventEmitter {
       healingActions: [action],
       status: 'healing'
     };
-    
+
     await this.executeHealingAction(action, mockIssue);
   }
 
@@ -1028,7 +1026,7 @@ class SelfHealingCore extends EventEmitter {
   public async diagnosticScan(): Promise<any> {
     const issues = Array.from(this.issues.values())
       .filter(issue => issue.status !== 'healed');
-    
+
     return {
       requiresAction: issues.length > 0,
       issues: issues.length,
@@ -1045,7 +1043,7 @@ class SelfHealingCore extends EventEmitter {
       Math.max(0, 100 - (this.performanceMetrics.responseTime / 20)) * 0.3 +
       (100 - this.performanceMetrics.errorRate * 1000) * 0.3
     );
-    
+
     return Math.max(0, Math.min(100, score));
   }
 
@@ -1060,7 +1058,7 @@ class SelfHealingCore extends EventEmitter {
 
   public async optimizePerformance(result: any): Promise<void> {
     console.log(`⚡ Optimizing performance based on: ${result.type}`);
-    
+
     const optimizationAction = this.healingActions.get('performance-optimization');
     if (optimizationAction) {
       const mockIssue: SystemIssue = {
@@ -1074,18 +1072,18 @@ class SelfHealingCore extends EventEmitter {
         healingActions: [optimizationAction],
         status: 'healing'
       };
-      
+
       await this.applyHealingAction(optimizationAction, mockIssue);
     }
   }
 
   public async performEmergencyHealing(): Promise<void> {
     console.log('🚨 Performing emergency healing...');
-    
+
     // Apply all low-risk healing actions immediately
     const emergencyActions = Array.from(this.healingActions.values())
       .filter(action => action.risk === 'low' && action.confidence > 0.9);
-    
+
     for (const action of emergencyActions) {
       const mockIssue: SystemIssue = {
         id: 'emergency',
@@ -1098,14 +1096,14 @@ class SelfHealingCore extends EventEmitter {
         healingActions: [action],
         status: 'healing'
       };
-      
+
       await this.applyHealingAction(action, mockIssue);
     }
   }
 
   public async healError(error: any): Promise<void> {
     console.log(`🩹 Healing error: ${error.message}`);
-    
+
     await this.detectIssue({
       type: 'error',
       severity: 'high',
@@ -1117,7 +1115,7 @@ class SelfHealingCore extends EventEmitter {
 
   public async updateConfig(newConfig: Partial<SelfHealingConfig>): Promise<void> {
     this.config = { ...this.config, ...newConfig };
-    
+
     // Restart monitoring with new config
     if (this.isMonitoring) {
       await this.shutdown();
@@ -1144,7 +1142,7 @@ export const useSelfHealing = (config?: Partial<SelfHealingConfig>) => {
     healingAggression: 'moderate',
     ...config
   }));
-  
+
   const [metrics, setMetrics] = useState<HealingMetrics>(core.getHealingMetrics());
   const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetrics>();
   const [issues, setIssues] = useState<SystemIssue[]>([]);
