@@ -41,11 +41,7 @@ async function optimizePerformance() {
     const bundleInfo = analyzeBundleSize();
     generatePerformanceReport(bundleInfo);
 
-    success('Performance optimization completed!');
-    log('Next steps:');
-    log('1. Deploy to Vercel');
-    log('2. Run PageSpeed Insights test');
-    log('3. Monitor Core Web Vitals');
+    success('Performance optimization successfully completed!');
 
   } catch (err) {
     error(`Optimization failed: ${err.message}`);
