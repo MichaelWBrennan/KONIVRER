@@ -68,21 +68,9 @@ const CONFIG = {
   deployment: {
     enabled: true, // Enable deployment preparation
     prepareDeploy: true, // Prepare for deployment
-    buildOptimization: true, // Optimize build for deployment
-    vercelPrep: true // Prepare for Vercel deployment
-  },
-  selfHealing: {
-    enabled: true, // Enable self-healing
-    autoFix: true, // Auto-fix issues
-    interval: 300000, // 5 minutes
-    fixBrokenDependencies: true, // Fix broken dependencies
-    fixBrokenImports: true, // Fix broken imports
-    fixBrokenConfig: true // Fix broken config
-  },
-  // VERCEL SAFETY FEATURES
-  vercel: {
-    // Removed safety features for manual configuration
-}
+    buildOptimization: true // Optimize build for deployment
+  }
+  // Vercel safety features removed for manual configuration
 };
 
 // Utility functions
@@ -143,15 +131,7 @@ const isProductionEnvironment = () => {
 
 // Safe execution wrapper for build environments
 const safeBuildExecution = async (fn, fallback = null) => {
-  if (isBuildEnvironment() && CONFIG.vercel.disableDuringBuild) {
-    log('🛑 Skipping operation in build environment', 'warn');
-    return fallback;
-  }
-
-  if (isProductionEnvironment() && CONFIG.vercel.disableInProduction) {
-    log('🛑 Skipping operation in production environment', 'warn');
-    return fallback;
-  }
+  // Removed Vercel-specific safety checks to allow operations in all environments.
 
   try {
     const startTime = Date.now();
@@ -642,11 +622,6 @@ class DeploymentPreparation {
         await this.optimizeBuild();
       }
 
-      // Prepare for Vercel deployment
-      if (CONFIG.deployment.vercelPrep) {
-        await this.prepareForVercel();
-      }
-
       log('✅ Deployment preparation complete', 'success');
     }, null);
   }
@@ -715,65 +690,6 @@ class DeploymentPreparation {
       await PerformanceOptimizer.analyzeBundleSize();
 
       log('✅ Build optimization complete', 'success');
-    }, null);
-  }
-
-  static async prepareForVercel() {
-    return await safeBuildExecution(async () => {
-      log('🔧 Preparing for Vercel deployment...');
-
-      // Check for vercel.json
-      const vercelJsonPath = join(process.cwd(), 'vercel.json');
-      if (!existsSync(vercelJsonPath)) {
-        log('⚠️ vercel.json not found', 'warn');
-        log('💡 Consider creating a vercel.json file for better Vercel configuration', 'info');
-
-        // Create a basic vercel.json if it doesn't exist
-        const vercelJson = {
-          "version": 2,
-          "builds": [
-            {
-              "src": "package.json",
-              "use": "@vercel/static-build",
-              "config": {
-                "distDir": "dist"
-              }
-            }
-          ],
-          "routes": [
-            {
-              "src": "/(.*)",
-              "dest": "/index.html"
-            }
-          ]
-        };
-
-        log('📝 Creating basic vercel.json file...', 'info');
-        writeFileSync(vercelJsonPath, JSON.stringify(vercelJson, null, 2));
-      }
-
-      // Check for build script in package.json
-      const packageJsonPath = join(process.cwd(), 'package.json');
-      if (existsSync(packageJsonPath)) {
-        try {
-          const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-
-          // Check for build script
-          if (!packageJson.scripts || !packageJson.scripts.build) {
-            log('⚠️ No build script found in package.json', 'warn');
-          }
-
-          // Check for build:vercel script
-          if (!packageJson.scripts || !packageJson.scripts['build:vercel']) {
-            log('⚠️ No build:vercel script found in package.json', 'warn');
-            log('💡 Consider adding a build:vercel script for Vercel deployments', 'info');
-          }
-        } catch (error) {
-          log(`⚠️ Error checking package.json: ${error}`, 'warn');
-        }
-      }
-
-      log('✅ Vercel preparation complete', 'success');
     }, null);
   }
 }
@@ -996,7 +912,7 @@ class DevelopmentDashboard {
           this.runAllChecks();
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, message: 'Checks triggered' }));
-        } else if (req.url === '/api/run-fix') {```text
+        } else if (req.url === '/api/run-fix') {
         // API endpoint to trigger auto-fix
           this.runAutoFix();
           res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -1076,8 +992,7 @@ class DevelopmentDashboard {
         .status { background: #1e1e3f; padding: 20px; border-radius: 10px; margin: 20px 0; }
         .success { border-left: 5px solid #00ff00; }
         .info { border-left: 5px solid #00aaff; }
-        .warning { border-left: 5px solid #ffcc00; }
-        h1 { color: #00ff00; }
+        .warning { border-left: 5px solid #ffcc00        h1 { color: #00ff00; }
         h2 { color: #00aaff; }
         .emoji { font-size: 1.5em; }
         code { background: #2a2a4a; padding: 2px 6px; border-radius: 3px; }
@@ -2090,8 +2005,7 @@ Usage:
   node dev-automation.js file-watcher     # Start file watcher only
   node dev-automation.js vscode           # Set up VS Code tasks
   node dev-automation.js autonomous       # Start autonomous mode
-  node dev-automation.js zero-interaction # Start zero-interaction mode
-  node dev-automation.js browser-launcher # Set up and start browser launcher
+  node dev-automation.js zero-interaction # Start zero-interaction mode  node dev-automation.js browser-launcher # Set up and start browser launcher
   node dev-automation.js file-access-watcher # Set up file access watcher
   node dev-automation.js prepare-deploy   # Prepare for deployment
   node dev-automation.js self-heal        # Run self-healing process
