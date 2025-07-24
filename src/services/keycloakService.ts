@@ -47,7 +47,7 @@ export class KeycloakService {
       url: process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080',
       realm: process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer',
       clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID || 'konivrer-app',
-      clientSecret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET
+      clientSecret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET,
     };
   }
 
@@ -72,7 +72,7 @@ export class KeycloakService {
       userinfo: `${realmUrl}/protocol/openid-connect/userinfo`,
       logout: `${realmUrl}/protocol/openid-connect/logout`,
       introspect: `${realmUrl}/protocol/openid-connect/token/introspect`,
-      wellKnown: `${realmUrl}/.well-known/openid_configuration`
+      wellKnown: `${realmUrl}/.well-known/openid_configuration`,
     };
   }
 
@@ -84,13 +84,15 @@ export class KeycloakService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: new URLSearchParams({
           token: accessToken,
           client_id: this.config.clientId,
-          ...(this.config.clientSecret && { client_secret: this.config.clientSecret })
-        })
+          ...(this.config.clientSecret && {
+            client_secret: this.config.clientSecret,
+          }),
+        }),
       });
 
       if (!response.ok) {
@@ -108,18 +110,20 @@ export class KeycloakService {
   // Refresh token using Keycloak
   public async refreshToken(refreshToken: string): Promise<KeycloakToken> {
     const endpoints = this.getEndpoints();
-    
+
     const response = await fetch(endpoints.token, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
         client_id: this.config.clientId,
-        ...(this.config.clientSecret && { client_secret: this.config.clientSecret })
-      })
+        ...(this.config.clientSecret && {
+          client_secret: this.config.clientSecret,
+        }),
+      }),
     });
 
     if (!response.ok) {
@@ -143,11 +147,11 @@ export class KeycloakService {
   // Get user info from Keycloak
   public async getUserInfo(accessToken: string): Promise<KeycloakUserInfo> {
     const endpoints = this.getEndpoints();
-    
+
     const response = await fetch(endpoints.userinfo, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
+        Authorization: `Bearer ${accessToken}`,
+      },
     });
 
     if (!response.ok) {
@@ -175,7 +179,10 @@ export class KeycloakService {
   }
 
   // Get user's client-specific roles
-  public getClientRoles(userInfo: KeycloakUserInfo, clientId: string): string[] {
+  public getClientRoles(
+    userInfo: KeycloakUserInfo,
+    clientId: string,
+  ): string[] {
     return userInfo.resource_access?.[clientId]?.roles || [];
   }
 
@@ -183,7 +190,7 @@ export class KeycloakService {
   public createLogoutUrl(redirectUri?: string): string {
     const endpoints = this.getEndpoints();
     const params = new URLSearchParams();
-    
+
     if (redirectUri) {
       params.append('post_logout_redirect_uri', redirectUri);
     }
@@ -200,7 +207,7 @@ export class KeycloakService {
         atob(base64)
           .split('')
           .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-          .join('')
+          .join(''),
       );
       return JSON.parse(jsonPayload);
     } catch (error) {
@@ -213,7 +220,7 @@ export class KeycloakService {
   public isTokenExpired(token: string): boolean {
     const payload = this.parseJWT(token);
     if (!payload || !payload.exp) return true;
-    
+
     return Date.now() >= payload.exp * 1000;
   }
 
@@ -221,12 +228,15 @@ export class KeycloakService {
   public getTokenExpiration(token: string): Date | null {
     const payload = this.parseJWT(token);
     if (!payload || !payload.exp) return null;
-    
+
     return new Date(payload.exp * 1000);
   }
 
   // Auto-refresh token before expiration
-  public setupAutoRefresh(profile: SSOUserProfile, callback: (newProfile: SSOUserProfile) => void): () => void {
+  public setupAutoRefresh(
+    profile: SSOUserProfile,
+    callback: (newProfile: SSOUserProfile) => void,
+  ): () => void {
     if (!profile.refreshToken) {
       console.warn('No refresh token available for auto-refresh');
       return () => {};
@@ -240,18 +250,18 @@ export class KeycloakService {
       try {
         const newToken = await this.refreshToken(profile.refreshToken!);
         const userInfo = await this.getUserInfo(newToken.access_token);
-        
+
         const updatedProfile: SSOUserProfile = {
           ...profile,
           accessToken: newToken.access_token,
           refreshToken: newToken.refresh_token,
-          expiresAt: Date.now() + (newToken.expires_in * 1000),
+          expiresAt: Date.now() + newToken.expires_in * 1000,
           roles: userInfo.realm_access?.roles || [],
-          groups: userInfo.groups || []
+          groups: userInfo.groups || [],
         };
 
         callback(updatedProfile);
-        
+
         // Setup next refresh
         this.setupAutoRefresh(updatedProfile, callback);
       } catch (error) {
@@ -270,7 +280,7 @@ export class KeycloakService {
     try {
       const endpoints = this.getEndpoints();
       const response = await fetch(endpoints.wellKnown);
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch Keycloak configuration');
       }
@@ -294,11 +304,11 @@ export class KeycloakService {
       provider: 'keycloak',
       accessToken: 'demo-access-token',
       refreshToken: 'demo-refresh-token',
-      expiresAt: Date.now() + (60 * 60 * 1000),
+      expiresAt: Date.now() + 60 * 60 * 1000,
       roles: ['user', 'player', 'deck-builder'],
       groups: ['konivrer-users'],
       realm: this.config.realm,
-      emailVerified: true
+      emailVerified: true,
     };
   }
 }
@@ -317,9 +327,10 @@ export const useKeycloak = () => {
     hasAllRoles: keycloakService.hasAllRoles.bind(keycloakService),
     createLogoutUrl: keycloakService.createLogoutUrl.bind(keycloakService),
     isTokenExpired: keycloakService.isTokenExpired.bind(keycloakService),
-    getTokenExpiration: keycloakService.getTokenExpiration.bind(keycloakService),
+    getTokenExpiration:
+      keycloakService.getTokenExpiration.bind(keycloakService),
     setupAutoRefresh: keycloakService.setupAutoRefresh.bind(keycloakService),
-    getConfiguration: keycloakService.getConfiguration.bind(keycloakService)
+    getConfiguration: keycloakService.getConfiguration.bind(keycloakService),
   };
 };
 

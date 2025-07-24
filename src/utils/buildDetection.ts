@@ -5,12 +5,12 @@
 
 export const isBuildEnvironment = (): boolean => {
   // ULTRA-AGGRESSIVE BUILD DETECTION - Multiple layers of protection
-  
+
   // Browser environment check - process is not available in browser
   if (typeof process === 'undefined') {
     return false; // In browser, not a build environment
   }
-  
+
   // VERCEL-SPECIFIC DETECTION - Highest priority
   if (
     process.env.VERCEL === '1' ||
@@ -35,33 +35,36 @@ export const isBuildEnvironment = (): boolean => {
   }
 
   // 3. Build-specific environment variable checks (only actual build time)
-  if (typeof process !== 'undefined' && (
-    process.env.VITE_BUILD === 'true' ||
-    process.env.BUILD_ENV === 'production' ||
-    process.env.NEXT_PHASE === 'phase-production-build' ||
-    process.env.DISABLE_AUTONOMOUS === 'true' ||
-    process.env.FORCE_BUILD_MODE === 'true' ||
-    process.env.NODE_ENV === 'production' ||
-    process.env.CI === 'true'
-  )) {
+  if (
+    typeof process !== 'undefined' &&
+    (process.env.VITE_BUILD === 'true' ||
+      process.env.BUILD_ENV === 'production' ||
+      process.env.NEXT_PHASE === 'phase-production-build' ||
+      process.env.DISABLE_AUTONOMOUS === 'true' ||
+      process.env.FORCE_BUILD_MODE === 'true' ||
+      process.env.NODE_ENV === 'production' ||
+      process.env.CI === 'true')
+  ) {
     return true;
   }
 
   // 4. Build command detection
-  if (typeof process !== 'undefined' && (
-    process.env.npm_lifecycle_event === 'build' ||
-    process.env.npm_lifecycle_event === 'start' ||
-    process.env.npm_command === 'run-script' ||
-    process.env.npm_config_user_config?.includes('vercel')
-  )) {
+  if (
+    typeof process !== 'undefined' &&
+    (process.env.npm_lifecycle_event === 'build' ||
+      process.env.npm_lifecycle_event === 'start' ||
+      process.env.npm_command === 'run-script' ||
+      process.env.npm_config_user_config?.includes('vercel'))
+  ) {
     return true;
   }
 
   // 5. Build-specific detection (not runtime)
-  if (typeof process !== 'undefined' && (
-    process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
-    process.env.__VERCEL_BUILD_RUNNING === '1'
-  )) {
+  if (
+    typeof process !== 'undefined' &&
+    (process.env.KONIVRER_BUILD_ID === 'vercel-build' ||
+      process.env.__VERCEL_BUILD_RUNNING === '1')
+  ) {
     return true;
   }
 
@@ -107,20 +110,23 @@ export const forceDisableAutonomousSystems = (): void => {
 
 export const shouldSkipAutonomousSystems = (): boolean => {
   // GENTLE DETECTION - Only disable during actual build process, not in production runtime
-  
+
   // Emergency kill switch takes priority
   if (FORCE_DISABLE_AUTONOMOUS) {
     return true;
   }
 
   // Only disable during actual build process (not production runtime)
-  if (typeof process !== 'undefined' && (
-    process.env.npm_lifecycle_event === 'build' ||
-    process.env.__VERCEL_BUILD_RUNNING === '1' ||
-    process.env.VITE_BUILD === 'true' ||
-    process.env.DISABLE_AUTONOMOUS === 'true'
-  )) {
-    console.log('[BUILD DETECTION] Build process detected - autonomous systems disabled');
+  if (
+    typeof process !== 'undefined' &&
+    (process.env.npm_lifecycle_event === 'build' ||
+      process.env.__VERCEL_BUILD_RUNNING === '1' ||
+      process.env.VITE_BUILD === 'true' ||
+      process.env.DISABLE_AUTONOMOUS === 'true')
+  ) {
+    console.log(
+      '[BUILD DETECTION] Build process detected - autonomous systems disabled',
+    );
     return true;
   }
 
@@ -130,20 +136,20 @@ export const shouldSkipAutonomousSystems = (): boolean => {
   }
 
   // Allow autonomous systems in production runtime (Vercel, etc.)
-  console.log('[BUILD DETECTION] Runtime environment - autonomous systems enabled');
+  console.log(
+    '[BUILD DETECTION] Runtime environment - autonomous systems enabled',
+  );
   return false;
 };
 
 // Gentle safety check - only disable during actual build process
 if (
   typeof process !== 'undefined' &&
-  (
-    // Only actual build process detection
-    process.env.npm_lifecycle_event === 'build' ||
+  // Only actual build process detection
+  (process.env.npm_lifecycle_event === 'build' ||
     process.env.__VERCEL_BUILD_RUNNING === '1' ||
     process.env.VITE_BUILD === 'true' ||
-    process.env.DISABLE_AUTONOMOUS === 'true'
-  )
+    process.env.DISABLE_AUTONOMOUS === 'true')
 ) {
   FORCE_DISABLE_AUTONOMOUS = true;
   console.log(

@@ -7,7 +7,9 @@ import { SSOService } from '../services/ssoService';
 const OAuthCallback: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>(
+    'loading',
+  );
   const [message, setMessage] = useState('Processing authentication...');
   const [provider, setProvider] = useState<string>('');
 
@@ -24,12 +26,14 @@ const OAuthCallback: React.FC = () => {
         if (error) {
           setStatus('error');
           setMessage(errorDescription || `Authentication failed: ${error}`);
-          
+
           // Dispatch error event
-          window.dispatchEvent(new CustomEvent('sso-login-error', {
-            detail: { error: errorDescription || error, provider: 'unknown' }
-          }));
-          
+          window.dispatchEvent(
+            new CustomEvent('sso-login-error', {
+              detail: { error: errorDescription || error, provider: 'unknown' },
+            }),
+          );
+
           // Redirect back to main page after delay
           setTimeout(() => navigate('/'), 3000);
           return;
@@ -38,7 +42,9 @@ const OAuthCallback: React.FC = () => {
         // Validate required parameters
         if (!code || !state) {
           setStatus('error');
-          setMessage('Invalid authentication response. Missing required parameters.');
+          setMessage(
+            'Invalid authentication response. Missing required parameters.',
+          );
           setTimeout(() => navigate('/'), 3000);
           return;
         }
@@ -61,7 +67,11 @@ const OAuthCallback: React.FC = () => {
 
         // Handle the OAuth callback
         setMessage(`Completing ${providerId} authentication...`);
-        const profile = await ssoService.handleCallback(code, state, providerId);
+        const profile = await ssoService.handleCallback(
+          code,
+          state,
+          providerId,
+        );
 
         // Success
         setStatus('success');
@@ -69,17 +79,18 @@ const OAuthCallback: React.FC = () => {
 
         // Redirect back to main page
         setTimeout(() => navigate('/'), 2000);
-
       } catch (error) {
         console.error('OAuth callback error:', error);
         setStatus('error');
         setMessage(`Authentication failed: ${error}`);
-        
+
         // Dispatch error event
-        window.dispatchEvent(new CustomEvent('sso-login-error', {
-          detail: { error: String(error), provider }
-        }));
-        
+        window.dispatchEvent(
+          new CustomEvent('sso-login-error', {
+            detail: { error: String(error), provider },
+          }),
+        );
+
         // Redirect back to main page after delay
         setTimeout(() => navigate('/'), 3000);
       }
@@ -89,16 +100,18 @@ const OAuthCallback: React.FC = () => {
   }, [searchParams, navigate, provider]);
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
-      fontFamily: 'Arial, sans-serif'
-    }}>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -110,16 +123,20 @@ const OAuthCallback: React.FC = () => {
           backdropFilter: 'blur(10px)',
           border: '1px solid rgba(255, 255, 255, 0.2)',
           maxWidth: '400px',
-          width: '90%'
+          width: '90%',
         }}
       >
         {/* Status Icon */}
         <motion.div
           animate={status === 'loading' ? { rotate: 360 } : {}}
-          transition={status === 'loading' ? { duration: 2, repeat: Infinity, ease: 'linear' } : {}}
+          transition={
+            status === 'loading'
+              ? { duration: 2, repeat: Infinity, ease: 'linear' }
+              : {}
+          }
           style={{
             fontSize: '48px',
-            marginBottom: '20px'
+            marginBottom: '20px',
           }}
         >
           {status === 'loading' && '⏳'}
@@ -128,38 +145,44 @@ const OAuthCallback: React.FC = () => {
         </motion.div>
 
         {/* Title */}
-        <h2 style={{
-          margin: '0 0 16px 0',
-          fontSize: '24px',
-          fontWeight: '600'
-        }}>
+        <h2
+          style={{
+            margin: '0 0 16px 0',
+            fontSize: '24px',
+            fontWeight: '600',
+          }}
+        >
           {status === 'loading' && 'Authenticating...'}
           {status === 'success' && 'Authentication Successful!'}
           {status === 'error' && 'Authentication Failed'}
         </h2>
 
         {/* Message */}
-        <p style={{
-          margin: '0 0 24px 0',
-          fontSize: '16px',
-          opacity: 0.9,
-          lineHeight: '1.5'
-        }}>
+        <p
+          style={{
+            margin: '0 0 24px 0',
+            fontSize: '16px',
+            opacity: 0.9,
+            lineHeight: '1.5',
+          }}
+        >
           {message}
         </p>
 
         {/* Provider Info */}
         {provider && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            padding: '12px',
-            background: 'rgba(255, 255, 255, 0.1)',
-            borderRadius: '8px',
-            marginBottom: '20px'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              padding: '12px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
+              marginBottom: '20px',
+            }}
+          >
             <span style={{ fontSize: '14px', opacity: 0.8 }}>
               Provider: {provider.charAt(0).toUpperCase() + provider.slice(1)}
             </span>
@@ -168,13 +191,15 @@ const OAuthCallback: React.FC = () => {
 
         {/* Loading Progress */}
         {status === 'loading' && (
-          <div style={{
-            width: '100%',
-            height: '4px',
-            background: 'rgba(255, 255, 255, 0.2)',
-            borderRadius: '2px',
-            overflow: 'hidden'
-          }}>
+          <div
+            style={{
+              width: '100%',
+              height: '4px',
+              background: 'rgba(255, 255, 255, 0.2)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}
+          >
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: '100%' }}
@@ -182,8 +207,9 @@ const OAuthCallback: React.FC = () => {
               style={{
                 width: '50%',
                 height: '100%',
-                background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)',
-                borderRadius: '2px'
+                background:
+                  'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent)',
+                borderRadius: '2px',
               }}
             />
           </div>
@@ -191,50 +217,54 @@ const OAuthCallback: React.FC = () => {
 
         {/* Redirect Notice */}
         {status !== 'loading' && (
-          <p style={{
-            fontSize: '12px',
-            opacity: 0.7,
-            margin: '16px 0 0 0'
-          }}>
+          <p
+            style={{
+              fontSize: '12px',
+              opacity: 0.7,
+              margin: '16px 0 0 0',
+            }}
+          >
             Redirecting to main page...
           </p>
         )}
       </motion.div>
 
       {/* Background Animation */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: -1,
-        overflow: 'hidden'
-      }}>
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: -1,
+          overflow: 'hidden',
+        }}
+      >
         {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             initial={{
               x: Math.random() * window.innerWidth,
               y: Math.random() * window.innerHeight,
-              scale: 0
+              scale: 0,
             }}
             animate={{
               y: [null, -100],
               scale: [0, 1, 0],
-              opacity: [0, 0.6, 0]
+              opacity: [0, 0.6, 0],
             }}
             transition={{
               duration: 3 + Math.random() * 2,
               repeat: Infinity,
-              delay: Math.random() * 2
+              delay: Math.random() * 2,
             }}
             style={{
               position: 'absolute',
               width: '4px',
               height: '4px',
               background: 'rgba(255, 255, 255, 0.6)',
-              borderRadius: '50%'
+              borderRadius: '50%',
             }}
           />
         ))}

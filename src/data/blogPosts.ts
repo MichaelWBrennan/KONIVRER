@@ -19,7 +19,8 @@ export const blogPosts: BlogPost[] = [
   {
     id: 'autonomous-systems-launch',
     title: 'Autonomous Systems Now Live: KONIVRER Evolves Itself',
-    excerpt: 'Our revolutionary autonomous systems are now active, continuously improving the game experience through self-healing code and intelligent optimization.',
+    excerpt:
+      'Our revolutionary autonomous systems are now active, continuously improving the game experience through self-healing code and intelligent optimization.',
     content: `
 # Autonomous Systems Now Live
 
@@ -51,12 +52,13 @@ These systems operate 24/7/365, ensuring KONIVRER remains at the cutting edge of
     date: '2024-01-15',
     category: 'Technology',
     tags: ['autonomous-systems', 'ai', 'optimization', 'security'],
-    featured: true
+    featured: true,
   },
   {
     id: 'new-card-mechanics',
     title: 'Introducing Mystical Resonance: New Card Mechanics',
-    excerpt: 'Discover the power of Mystical Resonance, a new card mechanic that creates dynamic interactions between cards in your deck.',
+    excerpt:
+      'Discover the power of Mystical Resonance, a new card mechanic that creates dynamic interactions between cards in your deck.',
     content: `
 # Mystical Resonance: Revolutionary Card Mechanics
 
@@ -89,12 +91,13 @@ Get ready to explore these new mechanics in upcoming tournaments!
     date: '2024-01-10',
     category: 'Game Mechanics',
     tags: ['cards', 'mechanics', 'strategy', 'resonance'],
-    featured: true
+    featured: true,
   },
   {
     id: 'tournament-season-2024',
     title: 'Championship Season 2024: Rise of the Mystic Masters',
-    excerpt: 'The most prestigious KONIVRER tournament season begins! Compete for legendary rewards and eternal glory in the mystical realm.',
+    excerpt:
+      'The most prestigious KONIVRER tournament season begins! Compete for legendary rewards and eternal glory in the mystical realm.',
     content: `
 # Championship Season 2024
 
@@ -136,12 +139,13 @@ Register now and prove your mastery of the mystical arts!
     date: '2024-01-08',
     category: 'Events',
     tags: ['tournament', 'championship', 'competition', 'rewards'],
-    featured: false
+    featured: false,
   },
   {
     id: 'deck-building-guide',
-    title: 'Master Deck Builder\'s Guide: Advanced Strategies',
-    excerpt: 'Learn from the masters! Advanced deck building techniques that will elevate your game to legendary status.',
+    title: "Master Deck Builder's Guide: Advanced Strategies",
+    excerpt:
+      'Learn from the masters! Advanced deck building techniques that will elevate your game to legendary status.',
     content: `
 # Master Deck Builder's Guide
 
@@ -189,12 +193,13 @@ Build your path to mastery!
     date: '2024-01-05',
     category: 'Strategy',
     tags: ['deck-building', 'strategy', 'guide', 'advanced'],
-    featured: false
+    featured: false,
   },
   {
     id: 'community-spotlight',
     title: 'Community Spotlight: Player Creations & Fan Art',
-    excerpt: 'Celebrating the incredible creativity of our community! Check out amazing fan art, custom cards, and player stories.',
+    excerpt:
+      'Celebrating the incredible creativity of our community! Check out amazing fan art, custom cards, and player stories.',
     content: `
 # Community Spotlight
 
@@ -240,8 +245,8 @@ Join our vibrant community and share your passion for KONIVRER!
     date: '2024-01-03',
     category: 'Community',
     tags: ['community', 'fan-art', 'custom-cards', 'stories'],
-    featured: false
-  }
+    featured: false,
+  },
 ];
 
 export const getFeaturedPosts = (): BlogPost[] => {
