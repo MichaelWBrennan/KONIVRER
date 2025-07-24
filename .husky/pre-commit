@@ -1,1 +1,21 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Run tests
 npm test
+
+# Check for JavaScript files in src directory
+echo "Checking for JavaScript files in src directory..."
+if find src -name "*.js" | grep -q .; then
+  echo "Error: JavaScript files found in src/ directory:"
+  find src -name "*.js"
+  echo ""
+  echo "This repository has a TypeScript-only policy."
+  echo "Please convert these files to TypeScript before committing."
+  echo "You can use 'npm run convert:to-typescript' to convert them automatically."
+  exit 1
+fi
+
+# Run TypeScript type checking
+echo "Running TypeScript type checking..."
+npm run type-check
