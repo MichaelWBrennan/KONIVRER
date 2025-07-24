@@ -8,7 +8,7 @@ export default defineConfig({
     port: 12001,
     cors: true,
     hmr: {
-      host: 'localhost',
+      host: '0.0.0.0',
     },
     allowedHosts: true,
     headers: {
