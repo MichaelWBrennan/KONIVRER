@@ -37,6 +37,7 @@
     "deps:check": "npm outdated"
   },
   "dependencies": {
+    "@eslint/js": "^9.31.0",
     "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
     "@rollup/rollup-linux-x64-gnu": "^4.44.2",
     "@tensorflow/tfjs": "^4.22.0",
