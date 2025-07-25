@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import * as BABYLON from 'babylonjs';
 import { GameScene } from './scenes/GameScene';
 import { PerformanceManager } from './utils/PerformanceManager';
 import { CardArtLoader } from './utils/CardArtLoader';
@@ -8,7 +8,8 @@ import { UnifiedCardBattleScene } from './scenes/UnifiedCardBattleScene';
 import { UnifiedDeckBuilderScene } from './scenes/UnifiedDeckBuilderScene';
 
 export class GameEngine {
-  private game: Phaser.Game | null = null;
+  private engine: BABYLON.Engine | null = null;
+  private scene: BABYLON.Scene | null = null;
   private container: HTMLElement | null = null;
 
   constructor() {
@@ -16,7 +17,7 @@ export class GameEngine {
   }
 
   public init(container: HTMLElement): void {
-    if (this.game) {
+    if (this.engine) {
       console.log(
         '[GameEngine] Game already initialized, destroying previous instance',
       );
@@ -36,113 +37,51 @@ export class GameEngine {
       existingCanvas.remove();
     }
 
-    const performanceManager = PerformanceManager.getInstance();
-    const isLowPerformance = performanceManager.isLowPerformanceDevice();
+    const canvas = document.createElement('canvas');
+    container.appendChild(canvas);
 
-    this.preloadCardArt();
-    this.initializeDeckManager();
+    this.engine = new BABYLON.Engine(canvas, true);
+    this.scene = new BABYLON.Scene(this.engine);
 
-    const config: Phaser.Types.Core.GameConfig = {
-      type: Phaser.AUTO,
-      width: containerWidth,
-      height: containerHeight,
-      parent: container,
-      backgroundColor: '#1a1a1a',
-      scene: [
-        new UnifiedMainMenuScene(isLowPerformance),
-        new UnifiedCardBattleScene('basic'),
-        new UnifiedCardBattleScene('premium'),
-        GameScene,
-        new UnifiedDeckBuilderScene(),
-        new UnifiedCardBattleScene('enhanced'),
-      ],
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { x: 0, y: 0 },
-          debug: false,
-        },
-      },
-      render: {
-        pixelArt: false,
-        antialias: !isLowPerformance,
-        roundPixels: isLowPerformance,
-        powerPreference: isLowPerformance ? 'low-power' : 'high-performance',
-      },
-      scale: {
-        mode: Phaser.Scale.RESIZE,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: containerWidth,
-        height: containerHeight,
-        min: { width: 320, height: 480 },
-        max: { width: 1920, height: 1080 },
-      },
-      dom: { createContainer: true },
-      input: { touch: true, mouse: true, smoothFactor: 0.2 },
-      transparent: false,
-      clearBeforeRender: true,
-      disableContextMenu: true,
-      canvasStyle: 'display: block; width: 100%; height: 100%;',
-    };
+    window.addEventListener('resize', this.handleResize.bind(this));
 
-    try {
-      this.game = new Phaser.Game(config);
-      window.addEventListener('resize', this.handleResize.bind(this));
-      const menuScene = isLowPerformance
-        ? 'UnifiedMainMenuScene'
-        : 'UnifiedMainMenuScene';
-      this.game.scene.start(menuScene);
-    } catch (error) {
-      console.error('[GameEngine] Error initializing game:', error);
-    }
+    this.initScenes();
+    this.engine.runRenderLoop(() => {
+      if (this.scene) {
+        this.scene.render();
+      }
+    });
   }
 
   private handleResize(): void {
-    if (this.game && this.container) {
-      const width = this.container.clientWidth || window.innerWidth;
-      const height = this.container.clientHeight || window.innerHeight;
-      this.game.scale.resize(width, height);
+    if (this.engine) {
+      this.engine.resize();
     }
   }
 
   public destroy(): void {
-    if (this.game) {
+    if (this.engine) {
       window.removeEventListener('resize', this.handleResize.bind(this));
-      this.game.destroy(true);
-      this.game = null;
+      this.engine.dispose();
+      this.scene = null;
+      this.engine = null;
       CardArtLoader.getInstance().clearCache();
     }
   }
 
-  public getGame(): Phaser.Game | null {
-    return this.game;
-  }
+  private initScenes(): void {
+    if (this.scene) {
+      const performanceManager = PerformanceManager.getInstance();
+      const isLowPerformance = performanceManager.isLowPerformanceDevice();
 
-  private preloadCardArt(): void {
-    import('../data/cards').then(({ KONIVRER_CARDS }) => {
-      const initialCards = KONIVRER_CARDS.slice(0, 20);
-      CardArtLoader.getInstance()
-        .preloadCards(initialCards)
-        .then(() => {
-          setTimeout(() => {
-            const remainingCards = KONIVRER_CARDS.slice(20);
-            CardArtLoader.getInstance().preloadCards(remainingCards);
-          }, 5000);
-        })
-        .catch(error => {
-          console.error('[GameEngine] Error preloading card images:', error);
-        });
-    });
-  }
+      // Example: simple camera and light setup for the scene
+      const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 4, 4, BABYLON.Vector3.Zero(), this.scene);
+      camera.attachControl(true);
 
-  private initializeDeckManager(): void {
-    const deckManager = DeckManager.getInstance();
-    const existingDecks = deckManager.getLocalDecks();
-    if (existingDecks.length === 0) {
-      const sampleDecks = deckManager.generateSampleDecks();
-      sampleDecks.forEach(deck => {
-        deckManager.saveDeck(deck);
-      });
+      const light = new BABYLON.HemisphericLight("Light", new BABYLON.Vector3(1, 1, 0), this.scene);
+
+      // To be replaced with actual scene content
+      // this.scene.manageScene(); <- Implement your scene management and rendering logic
     }
   }
 }
