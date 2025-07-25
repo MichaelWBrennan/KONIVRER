@@ -1,6 +1,4 @@
-- name: Amplify Runner Action
-  uses: amplify-security/runner-action@v0.3.0
----
+——
 on:
   pull_request:
   push:
