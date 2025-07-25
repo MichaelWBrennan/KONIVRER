@@ -1,2 +1,21 @@
 - name: Amplify Runner Action
   uses: amplify-security/runner-action@v0.3.0
+---
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+
+permissions:
+  id-token: write
+
+jobs:
+  amplify-security-scan:
+    # name is currently used to properly identify the workflow in Amplify
+    name: Amplify Security Scan
+    runs-on: ubuntu-latest
+    # external PRs do not have permission to request ID tokens
+    if: !github.event.pull_request.head.repo.fork
+    steps:
+     - name: Run Amplify Security Scan
+       uses: amplify-security/runner-action@v0.3.0
