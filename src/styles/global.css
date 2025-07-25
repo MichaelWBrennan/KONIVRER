@@ -9,18 +9,19 @@
   /* Font variables */
   --font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  --font-size-base: 1rem;
-  --line-height: 1.5;
+  --font-size-base: 1.1rem;
+  --line-height: 1.6;
+  --heading-font-weight: bold;
   --letter-spacing: normal;
   
   /* Color variables */
-  --bg-color: #121212;
-  --text-color: #ffffff;
-  --accent-color: #d4af37;
-  --error-color: #ff6b6b;
-  --success-color: #4dff4d;
-  --warning-color: #ffaa4d;
-  --info-color: #4daaff;
+  --bg-color: #1E1E2F;
+  --text-color: #ECEFF4;
+  --accent-color: #A3BE8C;
+  --error-color: #BF616A;
+  --success-color: #A3BE8C;
+  --warning-color: #D08770;
+  --info-color: #5E81AC;
   
   /* Animation variables */
   --animation-speed-factor: 1;
@@ -159,11 +160,19 @@ button,
   font-size: var(--font-size-base);
   line-height: var(--line-height);
   letter-spacing: var(--letter-spacing);
+  border-radius: 6px;
+  padding: 0.6em 1.2em;
   transition: 
     background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing),
-    border-color var(--transition-duration) var(--transition-timing),
     transform calc(var(--transition-duration) * 0.5) var(--transition-timing);
+}
+
+button:hover, 
+.button:hover {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  transform: scale(1.05);
 }
 
 /* Form elements */
