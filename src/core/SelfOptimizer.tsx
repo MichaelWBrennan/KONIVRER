@@ -86,38 +86,24 @@ export class SelfOptimizer {
     if (this.isMonitoring) return;
     this.isMonitoring = true;
 
-    // Monitor FPS using a less aggressive approach
-    let frameCount = 0;
-    let lastTime = performance.now();
-    
-    // Sample FPS every few seconds instead of every frame
-    setInterval(() => {
+    // Monitor FPS
+    const measureFPS = () => {
+      this.frameCount++;
       const now = performance.now();
-      const elapsed = now - lastTime;
       
-      // Estimate FPS based on typical browser refresh rate
-      this.metrics.fps = Math.round(1000 / (elapsed / Math.max(frameCount, 1)));
-      
-      frameCount = 0;
-      lastTime = now;
-      
-      // Check if optimization is needed
-      this.checkAndOptimize();
-    }, 3000); // Check every 3 seconds instead of every frame
-    
-    // Count frames occasionally for estimation
-    const countFrame = () => {
-      frameCount++;
-      if (frameCount < 10) { // Only count a few frames for estimation
-        requestAnimationFrame(countFrame);
+      if (now - this.lastFrameTime >= 1000) { // Every second
+        this.metrics.fps = this.frameCount;
+        this.frameCount = 0;
+        this.lastFrameTime = now;
+        
+        // Check if optimization is needed
+        this.checkAndOptimize();
       }
+      
+      requestAnimationFrame(measureFPS);
     };
     
-    // Start frame counting every 3 seconds
-    setInterval(() => {
-      frameCount = 0;
-      requestAnimationFrame(countFrame);
-    }, 3000);
+    requestAnimationFrame(measureFPS);
     
     // Monitor memory if available
     if (performance && (performance as any).memory) {
