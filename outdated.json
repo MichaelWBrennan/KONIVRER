@@ -22,10 +22,17 @@
   },
   "framer-motion": {
     "current": "12.23.3",
-    "wanted": "12.23.7",
-    "latest": "12.23.7",
+    "wanted": "12.23.9",
+    "latest": "12.23.9",
     "dependent": "KONIVRER-deck-database",
     "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/framer-motion"
+  },
+  "react-router-dom": {
+    "current": "7.7.0",
+    "wanted": "7.7.1",
+    "latest": "7.7.1",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/react-router-dom"
   },
   "vite": {
     "current": "7.0.5",
