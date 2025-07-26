@@ -363,6 +363,9 @@ export class RealtimeMultiplayer {
 
   // Matchmaking
   import { BayesianNetwork } from 'bayesjs';
+  import { SecurityIntelligenceEngine } from './security'; // Import security engine
+  import { MatchmakingRLAgent } from './rl_agent'; // Import RL agent
+  import { GraphEmbedder } from './graph_embedder'; // Import graph embedder
 
 export class RealtimeMultiplayer {
   // current properties...
@@ -376,8 +379,8 @@ export class RealtimeMultiplayer {
   }
 
   private initializeBayesianNetwork() {
-    // Define a simplistic Bayesian network for matchmaking
-    this.bayesNetwork = new BayesianNetwork([
+    // Define a more robust Bayesian network for matchmaking
+  this.bayesNetwork = new BayesianNetwork([
       {
         id: 'player_skill',
         states: ['low', 'medium', 'high'],
@@ -390,11 +393,19 @@ export class RealtimeMultiplayer {
         parents: ['player_skill'],
         cpt: [
           { when: { player_skill: 'low' }, then: { easy: 0.7, medium: 0.2, hard: 0.1 } },
-          { when: { player_skill: 'medium' }, then: { easy: 0.2, medium: 0.6, hard: 0.2 } },
-          { when: { player_skill: 'high' }, then: { easy: 0.1, medium: 0.3, hard: 0.6 } },
+          { when: { player_skill: 'medium' }, then: { easy: 0.25, medium: 0.5, hard: 0.25 } },
+          { when: { player_skill: 'high' }, then: { easy: 0.15, medium: 0.3, hard: 0.55 } },
         ],
       },
     ]);
+
+  // Connect rlAgent and graphEmbedder with security intelligence
+  const securityCheck = new SecurityIntelligenceEngine();
+  securityCheck.performCheck();
+
+  // Enhance matchmaking by including security insights
+  this.rlAgent.initializeModel();
+  this.graphEmbedder.generateEmbeddings(this.currentRoom.players, this.currentRoom);
   }
 
   async findMatch(gameMode: 'casual' | 'ranked' = 'casual'): Promise<void> {
