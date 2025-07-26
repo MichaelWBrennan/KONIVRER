@@ -51,16 +51,36 @@ export interface ChatMessage {
 }
 
 export class RealtimeMultiplayer {
-  private socket: Socket | null = null;
-  private isConnected = false;
-  private currentPlayer: Player | null = null;
-  private currentRoom: GameRoom | null = null;
-  private matchState: MatchState | null = null;
-  private eventHandlers: Map<string, Function[]> = new Map();
-  private reconnectAttempts = 0;
-  private maxReconnectAttempts = 5;
+  private bayesNetwork: BayesianNetwork | null = null;
+  private rlAgent = new MatchmakingRLAgent();
+  private graphEmbedder = new GraphEmbedder();
+  private analytics = new RealTimeAnalytics();
 
-  constructor(private serverUrl: string = 'ws://localhost:3001') {}
+  constructor(private serverUrl: string = 'ws://0.0.0.0:5000') {
+    this.initializeBayesianNetwork();
+  }
+
+  private initializeBayesianNetwork() {
+    // Define and enhance Bayesian network here
+  }
+
+  async findMatch(gameMode: 'casual' | 'ranked' | 'tournament' = 'casual'): Promise<void> {
+    if (!this.isConnected || !this.socket || !this.bayesNetwork) return;
+
+    const playerSkill = this.estimatePlayerSkill(this.currentPlayer);
+    const rlDecision = this.rlAgent.decide(playerSkill, this.matchState);
+    const embeddings = this.graphEmbedder.generateEmbeddings(this.currentRoom.players, this.currentRoom);
+    const probabilities = this.bayesNetwork.infer({
+      player_skill: playerSkill,
+      game_mode: gameMode,
+    });
+
+    this.socket.emit('find_match', { gameMode, probabilities, embeddings, rlDecision });
+    this.analytics.logMatchmakingDecision(gameMode, rlDecision, probabilities, this.currentPlayer.id);
+
+    console.log(`Advanced Matchmaking: Mode: ${gameMode}, PlayerSkill: ${playerSkill}, Probabilities: ${JSON.stringify(probabilities)}`);
+  }
+}
 
   async connect(player: Player): Promise<boolean> {
     try {
