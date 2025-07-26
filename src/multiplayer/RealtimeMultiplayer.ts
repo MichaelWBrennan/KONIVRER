@@ -80,7 +80,6 @@ export class RealtimeMultiplayer {
 
     console.log(`Advanced Matchmaking: Mode: ${gameMode}, PlayerSkill: ${playerSkill}, Probabilities: ${JSON.stringify(probabilities)}`);
   }
-}
 
   async connect(player: Player): Promise<boolean> {
     try {
