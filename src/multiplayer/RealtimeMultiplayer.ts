@@ -368,6 +368,8 @@ export class RealtimeMultiplayer {
   // current properties...
 
   private bayesNetwork: BayesianNetwork | null = null;
+  private rlAgent = new MatchmakingRLAgent();
+  private graphEmbedder = new GraphEmbedder();
 
   constructor(private serverUrl: string = 'ws://localhost:3001') {
     this.initializeBayesianNetwork();
