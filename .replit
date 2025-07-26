@@ -3,7 +3,7 @@ run = "npm run dev"
 
 [nix]
 channel = "stable-24_05"
-packages = ["gh", "sptk"]
+packages = ["gh", "sptk", "fdupes"]
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
