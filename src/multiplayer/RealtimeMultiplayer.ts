@@ -432,6 +432,19 @@ export class RealtimeMultiplayer {
     if (player.rating > 1000) return 'medium';
     return 'low';
   }
+
+  private updateAIModels(): void {
+    if (this.rlAgent && this.currentRoom) {
+      // Update RL agent with results for continuous learning
+      this.rlAgent.updateWithGameResults(this.currentRoom.getLatestResults());
+    }
+  }
+
+  private securityFeedbackLoop(): void {
+    const securityCheck = securityCheck.getSecurityScore();
+    console.log(`Security score: ${securityScore}`);
+    // Integrate security feedback into matchmaking decisions
+  }
 }
 
   async cancelMatchmaking(): Promise<void> {
