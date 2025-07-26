@@ -362,11 +362,64 @@ export class RealtimeMultiplayer {
   }
 
   // Matchmaking
+  import { BayesianNetwork } from 'bayesjs';
+
+export class RealtimeMultiplayer {
+  // current properties...
+
+  private bayesNetwork: BayesianNetwork | null = null;
+
+  constructor(private serverUrl: string = 'ws://localhost:3001') {
+    this.initializeBayesianNetwork();
+  }
+
+  private initializeBayesianNetwork() {
+    // Define a simplistic Bayesian network for matchmaking
+    this.bayesNetwork = new BayesianNetwork([
+      {
+        id: 'player_skill',
+        states: ['low', 'medium', 'high'],
+        parents: [],
+        cpt: { low: 0.3, medium: 0.4, high: 0.3 },
+      },
+      {
+        id: 'match_difficulty',
+        states: ['easy', 'medium', 'hard'],
+        parents: ['player_skill'],
+        cpt: [
+          { when: { player_skill: 'low' }, then: { easy: 0.7, medium: 0.2, hard: 0.1 } },
+          { when: { player_skill: 'medium' }, then: { easy: 0.2, medium: 0.6, hard: 0.2 } },
+          { when: { player_skill: 'high' }, then: { easy: 0.1, medium: 0.3, hard: 0.6 } },
+        ],
+      },
+    ]);
+  }
+
   async findMatch(gameMode: 'casual' | 'ranked' = 'casual'): Promise<void> {
-    if (!this.isConnected || !this.socket) return;
+    if (!this.isConnected || !this.socket || !this.bayesNetwork) return;
+
+    // Assume we have player's skill data
+    const playerSkill = this.estimatePlayerSkill(this.currentPlayer);
+
+    const probabilities = this.bayesNetwork.infer({
+      player_skill: playerSkill,
+    });
+
+    console.log(`Match probabilities based on skill: ${JSON.stringify(probabilities)}`);
 
     this.socket.emit('find_match', { gameMode });
   }
+
+  private estimatePlayerSkill(player: Player | null): string {
+    // Placeholder logic for estimating player skill level
+    if (!player) return 'medium';
+
+    // Example logic to estimate player skill
+    if (player.rating > 1500) return 'high';
+    if (player.rating > 1000) return 'medium';
+    return 'low';
+  }
+}
 
   async cancelMatchmaking(): Promise<void> {
     if (!this.isConnected || !this.socket) return;
