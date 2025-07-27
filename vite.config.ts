@@ -32,7 +32,8 @@ export default defineConfig({
           'vision': ['@mediapipe/tasks-vision'],
           'ui': ['framer-motion']
         }
-      }
+      },
+      external: ['babylonjs']
     },
     chunkSizeWarningLimit: 1000
   },
