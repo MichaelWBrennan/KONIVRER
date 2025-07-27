@@ -3,8 +3,8 @@
 import * as tf from '@tensorflow/tfjs';
 
 export interface MatchmakingState {
-  playerSkill: string;
-  matchOutcome: 'win' | 'loss' | 'draw'; // Example states
+  playerSkill: number; // Use a more granular numeric scale for skill
+  matchOutcome: 'win' | 'loss' | 'draw';
 }
 
 export interface MatchmakingAction {
@@ -13,7 +13,7 @@ export interface MatchmakingAction {
 
 export class MatchmakingRLAgent {
   private model: tf.LayersModel | null = null;
-  private stateSpace: number = 3; // Example size, adjust as needed
+  private stateSpace: number = 5; // More states to capture detailed contexts
   private actionSpace: number = 3; // Number of possible actions
 
   constructor() {
@@ -23,7 +23,8 @@ export class MatchmakingRLAgent {
   private initializeModel() {
     this.model = tf.sequential({
       layers: [
-        tf.layers.dense({ inputShape: [this.stateSpace], units: 24, activation: 'relu' }),
+        tf.layers.dense({ inputShape: [this.stateSpace], units: 48, activation: 'relu' }),
+        tf.layers.dense({ units: 24, activation: 'relu' }),
         tf.layers.dense({ units: this.actionSpace, activation: 'softmax' }),
       ],
     });
@@ -34,7 +35,13 @@ export class MatchmakingRLAgent {
     });
   }
   
-  // Placeholder for methods to implement learning, inference and feedback mechanism
-  // Train, Predict and Feedback functions would go here
+  public train(newData: { states: MatchmakingState[], actions: MatchmakingAction[] }) {
+    // Method for training with new data
+  }
+  
+  public predict(state: MatchmakingState): MatchmakingAction | null {
+    // Method for predicting actions based on current state
+    return null;
+  }
 }
 ```

@@ -29,6 +29,19 @@ export interface DeckPerformance {
   wins: number;
   winRate: number;
   averageTurns: number;
+
+```typescript
+export interface PerformanceMetrics {
+  matchesPlayTime: number[];
+  userEngagement: { [key: string]: number }; // Key-value for trackable user activities
+}
+
+export function collectAdvancedMetrics(metrics: PerformanceMetrics): void {
+  // Advanced implementation here
+  console.log("Collecting advanced performance metrics...");
+}
+```
+
   popularityRank: number;
   strengthVsWeakness: { [key: string]: number };
 }
