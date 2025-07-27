@@ -271,8 +271,14 @@ const HomePage = () => {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         style={{ textAlign: 'center', marginBottom: '60px' }}
       >
-        <h1 style={{ fontSize: '48px', marginBottom: '20px', color: 'white' }}>
-          ⭐ Welcome to KONIVRER ⭐
+        <h1
+          style={{
+            fontSize: '48px',
+            marginBottom: '20px',
+            color: '#FFD700',
+          }}
+        >
+          Welcome to KONIVRER
         </h1>
         <p
           style={{
@@ -282,10 +288,37 @@ const HomePage = () => {
             margin: '0 auto',
           }}
         >
-          The ultimate mystical trading card game. Build powerful decks,
-          discover ancient strategies, and compete with players from across the
-          realms.
+          The ultimate mystical trading card game...
         </p>
+
+      {/* Latest Chronicles Section */}
+      <section
+        style={{
+          textAlign: 'center',
+          margin: '40px 0',
+          color: 'yellow',
+          background: '#111',
+          padding: '20px',
+          borderRadius: '8px',
+        }}
+      >
+        <h2 style={{ fontWeight: 'bold', marginBottom: '15px' }}>
+          Latest Chronicles
+        </h2>
+        <button
+          style={{
+            padding: '10px 20px',
+            backgroundColor: 'transparent',
+            borderColor: 'yellow',
+            color: 'yellow',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            fontSize: '16px',
+          }}
+        >
+          Read All Chronicles
+        </button>
+      </section>
       </motion.div>
 
       <div
