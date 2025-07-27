@@ -13,29 +13,24 @@
   --line-height: 1.6;
   --heading-font-weight: bold;
   --letter-spacing: normal;
-  
+
   /* Color variables */
-  --bg-color: #1E1E2F;
-  --text-color: #ECEFF4;
-  --accent-color: #A3BE8C;
+  --bg-color: #f2e8c9; /* Updated to parchment color */
+  --text-color: #8a7a6d; /* Updated for contrast */
+  --accent-color: #d4af37; /* Consistent with antique gold icon accents */
   --error-color: #BF616A;
   --success-color: #A3BE8C;
   --warning-color: #D08770;
   --info-color: #5E81AC;
-  
-  /* Animation variables */
-  --animation-speed-factor: 1;
-  --transition-duration: calc(300ms * var(--animation-speed-factor));
-  --transition-timing: ease;
-  
-  /* Color filter for color blindness */
-  --color-filter: none;
-  
-  /* Focus styles */
-  --focus-outline-color: #d4af37;
-  --focus-outline-width: 3px;
-  --focus-outline-style: solid;
-  --focus-outline-offset: 2px;
+
+  /* Shadow for cards */
+  --card-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+
+  /* Button changes */
+  --button-bg-hover: #d4af37;
+  --button-text-hover: #0f0f0f;
+
+  /* Additional changes here */
 }
 
 /* Global animations */
@@ -170,8 +165,8 @@ button,
 
 button:hover, 
 .button:hover {
-  background-color: var(--accent-color);
-  color: var(--bg-color);
+  background-color: var(--button-bg-hover);
+  color: var(--button-text-hover);
   transform: scale(1.05);
 }
 
@@ -248,7 +243,7 @@ select {
   :root {
     --font-size-base: 0.95rem;
   }
-  
+
   .hide-on-mobile {
     display: none !important;
   }
