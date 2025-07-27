@@ -60,19 +60,27 @@ html {
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family) !important;
-  font-size: var(--font-size-base);
-  line-height: var(--line-height);
-  letter-spacing: var(--letter-spacing);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: 
-    background-color var(--transition-duration) var(--transition-timing),
-    color var(--transition-duration) var(--transition-timing);
+  background-color: #000;
+}
+
+h1, h2 {
+  font-family: 'OpenDyslexic', sans-serif;
+  color: #FFD700;
+}
+
+button {
+  border: 2px solid #FFD700;
+  border-radius: 5px;
+  padding: 10px 20px;
+  color: #FFD700;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: rgba(255, 215, 0, 0.2);
 }
 
 /* Focus styles for accessibility */
