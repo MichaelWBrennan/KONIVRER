@@ -6,11 +6,15 @@
 
 :root {
   /* Color palette for ancient theme */
-  --parchment-light: #f8f0dd;
-  --parchment: #f2e8c9;
-  --ink-faded: #8a7a6d;
+  --parchment-light: #f8f0dd; /* Light parchment for softer contrast */
+  --parchment: #f2e8c9; /* Base parchment background */
+  --ink-faded: #8a7a6d; /* More pronounced text for readability */
   --scroll-edge: #d9b38c;
   --scroll-border: #8b5a2b;
+
+  /* Additions for consistency */
+  --subtle-bg: #fff7e1; /* Used in headers/footers */
+  --link-hover-color: #d4af37; /* Consistent gold hover effect */
 }
 
 /* Scroll with edges - Used in LoadingScreen.tsx */
@@ -72,16 +76,16 @@
   .ancient-scroll {
     padding: 1rem;
   }
-  
+
   .ancient-scroll::before,
   .ancient-scroll::after {
     width: 20px;
   }
-  
+
   .ancient-scroll::before {
     left: -10px;
   }
-  
+
   .ancient-scroll::after {
     right: -10px;
   }
