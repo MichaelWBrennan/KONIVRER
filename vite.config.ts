@@ -1,60 +1,40 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig({
-  plugins: [react()],
-  server: {
-    host: '0.0.0.0',
-    port: 12001,
-    cors: true,
-    hmr: {
-      host: '0.0.0.0',
+  plugins: [
+    react(),
+    runtimeErrorOverlay(),
+    ...(process.env.NODE_ENV !== "production" &&
+    process.env.REPL_ID !== undefined
+      ? [
+          await import("@replit/vite-plugin-cartographer").then((m) =>
+            m.cartographer(),
+          ),
+        ]
+      : []),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(import.meta.dirname, "client", "src"),
+      "@shared": path.resolve(import.meta.dirname, "shared"),
+      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
-    allowedHosts: true,
-    headers: {
-      'X-Frame-Options': 'ALLOWALL',
-    }
   },
+  root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: 'dist',
-    sourcemap: false,
-    minify: 'esbuild',
-    target: 'esnext',
+    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    emptyOutDir: true,
     rollupOptions: {
-      output: {
-        manualChunks: {
-          'ai': ['@tensorflow/tfjs', '@xenova/transformers'],
-          '3d': ['three', 'babylon'],
-          'audio': ['tone'],
-          'multiplayer': ['socket.io-client'],
-          'analytics': ['d3'],
-          'gaming': ['phaser'],
-          'vision': ['@mediapipe/tasks-vision'],
-          'ui': ['framer-motion']
-        }
-      },
-      external: ['babylonjs']
+      input: path.resolve(import.meta.dirname, "index.html")
     },
-    chunkSizeWarningLimit: 1000
   },
-  optimizeDeps: {
-    include: [
-      '@tensorflow/tfjs',
-      'three',
-      'tone',
-      'socket.io-client',
-      'd3',
-      'zustand',
-      'phaser',
-      '@xenova/transformers'
-    ]
+  server: {
+    fs: {
+      strict: true,
+      deny: ["**/.*"],
+    },
   },
-  define: {
-    global: 'globalThis',
-  },
-  test: {
-    environment: 'jsdom',
-    globals: true,
-    setupFiles: ['./src/test-setup.ts']
-  }
 });
