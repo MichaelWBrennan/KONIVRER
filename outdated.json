@@ -1,4 +1,25 @@
 {
+  "@eslint/js": {
+    "current": "9.31.0",
+    "wanted": "9.32.0",
+    "latest": "9.32.0",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@eslint/js"
+  },
+  "@rollup/rollup-linux-x64-gnu": {
+    "current": "4.45.1",
+    "wanted": "4.45.3",
+    "latest": "4.45.3",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@rollup/rollup-linux-x64-gnu"
+  },
+  "@testing-library/jest-dom": {
+    "current": "6.6.3",
+    "wanted": "6.6.4",
+    "latest": "6.6.4",
+    "dependent": "KONIVRER-deck-database",
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@testing-library/jest-dom"
+  },
   "@typescript-eslint/eslint-plugin": {
     "current": "8.36.0",
     "wanted": "8.38.0",
@@ -15,8 +36,8 @@
   },
   "eslint": {
     "current": "9.30.1",
-    "wanted": "9.31.0",
-    "latest": "9.31.0",
+    "wanted": "9.32.0",
+    "latest": "9.32.0",
     "dependent": "KONIVRER-deck-database",
     "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/eslint"
   },
