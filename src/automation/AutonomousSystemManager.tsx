@@ -274,4 +274,4 @@ export const useAutonomousIntegration = () => {
   };
 };
 
-export default AutonomousSystemManager;
+export default useAutonomousIntegration;

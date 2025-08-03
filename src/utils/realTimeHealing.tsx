@@ -296,7 +296,7 @@ export function useSelfHealingFetch() {
 
       throw lastError || new Error('Request failed after all retries');
     },
-    [requestCache],
+    [requestCache, networkMetrics],
   );
 
   return { adaptiveFetch, networkMetrics };
