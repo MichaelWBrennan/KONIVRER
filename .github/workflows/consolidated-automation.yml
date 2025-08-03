@@ -287,6 +287,7 @@ jobs:
       - name: Create dependency update PR
         if: steps.check-updates.outputs.has-updates == 'true' && github.event_name == 'schedule'
         uses: peter-evans/create-pull-request@v6
+        continue-on-error: true
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: '📦 Automated dependency updates'
