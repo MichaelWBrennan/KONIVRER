@@ -26,6 +26,7 @@ import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
+import BubbleMenu from './BubbleMenu';
 import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
 import { KONIVRER_CARDS } from '../data/cards';
 import ButtonTester from '../utils/buttonTester';
@@ -396,7 +397,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
   </div>
 );
 
-// Navigation links interface
+// Navigation links interface - kept for reference but no longer used by Footer
 interface NavLink {
   to: string;
   label: string;
@@ -404,185 +405,7 @@ interface NavLink {
   special?: boolean;
 }
 
-// Header component removed
-
-const Footer = () => {
-  const location = useLocation();
-  const { user, setShowLoginModal } = useContext(AppContext);
-  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-
-  // Update viewport height when window resizes or on orientation change
-  useEffect(() => {
-    const updateViewportHeight = () => {
-      // Use a small timeout to ensure the browser has finished any UI adjustments
-      setTimeout(() => {
-        // Set a custom CSS variable for the real viewport height
-        document.documentElement.style.setProperty(
-          '--vh',
-          `${window.innerHeight * 0.01}px`,
-        );
-        setViewportHeight(window.innerHeight);
-      }, 100);
-    };
-
-    // Initial update
-    updateViewportHeight();
-
-    // Add event listeners
-    window.addEventListener('resize', updateViewportHeight);
-    window.addEventListener('orientationchange', updateViewportHeight);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', updateViewportHeight);
-      window.removeEventListener('orientationchange', updateViewportHeight);
-    };
-  }, []);
-
-  // Create base navigation links
-  const baseNavLinks: NavLink[] = [
-    { to: '/cards', label: 'Cards' },
-    { to: '/decks', label: 'Decks' },
-    { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play' },
-    {
-      to: '#',
-      label: user ? 'Profile' : 'Login',
-      onClick: () => setShowLoginModal(true),
-    },
-  ];
-
-  // Add Home button if not on the home page
-  const navLinks: NavLink[] =
-    location.pathname !== '/'
-      ? [{ to: '/', label: 'Home' }, ...baseNavLinks]
-      : baseNavLinks;
-
-  return (
-    <motion.footer
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      style={{
-        position: 'fixed',
-        bottom: 'env(safe-area-inset-bottom, 0px)', // Use safe area inset for iOS
-        left: 0,
-        right: 0,
-        zIndex: 1001, // Higher z-index to ensure it's above everything
-        background:
-          'linear-gradient(to top, rgba(20, 20, 20, 0.98), rgba(15, 15, 15, 0.95))',
-        backdropFilter: 'blur(20px)',
-        borderTop: '2px solid rgba(212, 175, 55, 0.4)',
-        padding: '10px 0',
-        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.7)',
-        height: '60px', // Fixed height for the footer
-        transform: 'translateZ(0)', // Force hardware acceleration
-        willChange: 'transform', // Optimize for animations
-      }}
-    >
-      <nav
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          margin: '0 auto',
-          padding: '0 10px',
-          height: '100%',
-        }}
-      >
-        {/* Navigation links in a single row with equal spacing */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            maxWidth: '100%',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            {navLinks.map(({ to, label, onClick, special }) => (
-              <motion.div
-                key={to}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{ flex: '1 1 0', minWidth: '0' }} // Equal width distribution
-              >
-                {onClick ? (
-                  <button
-                    onClick={onClick}
-                    style={{
-                      color: '#ccc',
-                      textDecoration: 'none',
-                      fontSize: 'clamp(11px, 2.5vw, 14px)', // Responsive font size
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: 'clamp(4px, 1.5vw, 6px) clamp(6px, 2vw, 8px)', // Responsive padding
-                      borderRadius: '6px',
-                      background: 'transparent',
-                      border: '1px solid transparent',
-                      borderBottom: '2px solid transparent',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                      minWidth: '0',
-                      textAlign: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    {label}
-                  </button>
-                ) : (
-                  <Link
-                    to={to}
-                    style={{
-                      color: location.pathname === to ? '#d4af37' : '#ccc',
-                      textDecoration: 'none',
-                      fontSize: 'clamp(11px, 2.5vw, 14px)', // Responsive font size
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: 'clamp(4px, 1.5vw, 6px) clamp(6px, 2vw, 8px)', // Responsive padding
-                      borderRadius: '6px',
-                      background:
-                        location.pathname === to
-                          ? 'rgba(212, 175, 55, 0.1)'
-                          : 'transparent',
-                      border: '1px solid transparent',
-                      borderBottom:
-                        location.pathname === to
-                          ? '2px solid #d4af37'
-                          : '2px solid transparent',
-                      transition: 'all 0.3s ease',
-                      boxShadow: 'none',
-                      whiteSpace: 'nowrap',
-                      minWidth: '0',
-                      textAlign: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    {label}
-                  </Link>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </nav>
-    </motion.footer>
-  );
-};
+// OLD FOOTER COMPONENT REMOVED - REPLACED WITH BUBBLEMENU
 
 const Card = ({
   children,
@@ -1073,7 +896,10 @@ const Phase3App = () => {
                   />
                 </Routes>
               </AnimatePresence>
-              <Footer />
+              <BubbleMenu 
+                user={user} 
+                onLoginClick={() => setShowLoginModal(true)} 
+              />
             </AppContext.Provider>
           </Router>
           <Analytics />

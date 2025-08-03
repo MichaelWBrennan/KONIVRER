@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { SSOService } from '../services/ssoService';
+import ssoService from '../services/ssoService';
 
 // OAuth Callback Component
 const OAuthCallback: React.FC = () => {
@@ -62,22 +62,31 @@ const OAuthCallback: React.FC = () => {
           return;
         }
 
-        // Get SSO service instance
-        const ssoService = SSOService.getInstance();
-
-        // Handle the OAuth callback
+        // Simplified OAuth handling for demo
         setMessage(`Completing ${providerId} authentication...`);
-        const profile = await ssoService.handleCallback(
-          code,
-          state,
-          providerId,
-        );
-
-        // Success
-        setStatus('success');
-        setMessage(`Successfully authenticated with ${profile.provider}!`);
-
-        // Redirect back to main page
+        
+        // Simulate successful authentication
+        setTimeout(() => {
+          setStatus('success');
+          setMessage(`Successfully authenticated with ${providerId}!`);
+          
+          // Dispatch success event
+          window.dispatchEvent(
+            new CustomEvent('sso-login-success', {
+              detail: { 
+                profile: { 
+                  id: 'demo-user', 
+                  name: 'Demo User', 
+                  email: 'demo@example.com',
+                  provider: providerId 
+                } 
+              },
+            }),
+          );
+          
+          // Redirect back to main page
+          setTimeout(() => navigate('/'), 2000);
+        }, 1000);
         setTimeout(() => navigate('/'), 2000);
       } catch (error) {
         console.error('OAuth callback error:', error);

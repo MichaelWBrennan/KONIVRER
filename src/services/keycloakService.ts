@@ -1,4 +1,10 @@
-import { SSOUserProfile } from './ssoService';
+// Simplified interfaces for demo
+interface SSOUserProfile {
+  id: string;
+  name: string;
+  email: string;
+  provider: string;
+}
 
 // Keycloak-specific interfaces
 export interface KeycloakToken {
