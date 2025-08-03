@@ -367,8 +367,8 @@ export function withAdvancedHealing<P extends object>(
   const {
     silent = true,
     predictive = true,
-    performanceMonitoring = true,
-    stateBackup = true,
+    _performanceMonitoring = true,
+    _stateBackup = true,
   } = options || {};
 
   return React.forwardRef<any, P>((props, ref) => {
@@ -377,7 +377,7 @@ export function withAdvancedHealing<P extends object>(
     const lastRenderTime = useRef(performance.now());
 
     // Performance monitoring
-    const healingMetrics = useRealTimeHealing();
+    const _healingMetrics = useRealTimeHealing();
 
     // Predictive error prevention
     useEffect(() => {

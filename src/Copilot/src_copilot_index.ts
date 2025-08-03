@@ -1,4 +1,3 @@
-import { CopilotAgent } from "./CopilotAgent";
 import { CopilotController } from "./CopilotController";
 import { EventStream, State } from "./core";
 
@@ -6,7 +5,6 @@ import { EventStream, State } from "./core";
 export async function runCopilot(initialState?: State) {
   const eventStream = new EventStream();
   const controller = new CopilotController(eventStream);
-  const agent = new CopilotAgent(controller);
 
   // Use initialState or start with a blank state
   const state = initialState || { done: false, history: [] };

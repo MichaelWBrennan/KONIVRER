@@ -49,12 +49,12 @@ window.fetch = async function (...args) {
   } catch (error) {
     console.info('[Auto-Healing] Healing fetch error:', error);
     // Retry the fetch with exponential backoff
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       setTimeout(async () => {
         try {
           const response = await originalFetch.apply(this, args);
           resolve(response);
-        } catch (retryError) {
+        } catch (_retryError) {
           // If retry fails, return a mock successful response
           console.info(
             '[Auto-Healing] Creating mock response for failed fetch',

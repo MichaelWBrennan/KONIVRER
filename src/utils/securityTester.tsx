@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { useAdvancedSecurity } from '../security/AdvancedSecuritySystem';
 
 // Security Test Types

@@ -215,7 +215,7 @@ export const useAutonomousIntegration = () => {
       setIntegrationStatus(prev => ({ ...prev, connected: true }));
 
       // Set up integration event listeners
-      const handleSystemEvent = (event: any) => {
+      const handleSystemEvent = (_event: any) => {
         setIntegrationStatus(prev => ({ ...prev, lastSync: new Date() }));
       };
 

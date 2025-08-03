@@ -106,7 +106,7 @@ class SpeedTracker {
           }
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-      } catch (e) {
+      } catch (_e) {
         console.warn('[SPEED TRACKER] LCP observer not supported');
       }
     }

@@ -3,7 +3,7 @@
  * Continuously evolves and improves the codebase using AI-driven analysis
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 // Browser-compatible EventEmitter implementation
 import EventEmitter from '../utils/EventEmitter';
@@ -307,7 +307,7 @@ class CodeEvolutionEngine extends EventEmitter {
     return improvements;
   }
 
-  private async readFile(filePath: string): Promise<string> {
+  private async readFile(_filePath: string): Promise<string> {
     // Simulate reading file content
     return `
       // Sample React component content
@@ -496,33 +496,33 @@ class CodeEvolutionEngine extends EventEmitter {
   }
 
   private async checkSyntaxValidity(
-    improvement: CodeImprovement,
+    _improvement: CodeImprovement,
   ): Promise<{ safe: boolean; reason?: string }> {
     // Check if the improved code has valid syntax
     try {
       // Simulate syntax checking
       return { safe: true };
-    } catch (error) {
+    } catch (_error) {
       return { safe: false, reason: 'Syntax error in improved code' };
     }
   }
 
   private async checkTypeCompatibility(
-    improvement: CodeImprovement,
+    _improvement: CodeImprovement,
   ): Promise<{ safe: boolean; reason?: string }> {
     // Check TypeScript type compatibility
     return { safe: true };
   }
 
   private async checkRuntimeSafety(
-    improvement: CodeImprovement,
+    _improvement: CodeImprovement,
   ): Promise<{ safe: boolean; reason?: string }> {
     // Check runtime safety
     return { safe: true };
   }
 
   private async checkPerformanceImpact(
-    improvement: CodeImprovement,
+    _improvement: CodeImprovement,
   ): Promise<{ safe: boolean; reason?: string }> {
     // Check performance impact
     return { safe: true };

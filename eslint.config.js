@@ -23,6 +23,8 @@ export default [
         ...globals.node,
         ...globals.es2021,
         ...globals.serviceworker,
+        NodeJS: 'readonly',
+        RequestInit: 'readonly',
       },
     },
     plugins: {
