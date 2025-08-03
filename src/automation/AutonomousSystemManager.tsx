@@ -15,9 +15,10 @@ import AutonomousOrchestrator, {
   SystemHealth,
   ThreatLevel,
 } from '../../automation/autonomous-orchestrator';
-import { useCodeEvolution } from './CodeEvolutionEngine';
-import { useSelfHealing } from './SelfHealingCore';
-import { useDependencyOrchestrator } from './DependencyOrchestrator';
+// TODO: These hooks will be used when implementing full automation features
+// import { useCodeEvolution } from './CodeEvolutionEngine';
+// import { useSelfHealing } from './SelfHealingCore';
+// import { useDependencyOrchestrator } from './DependencyOrchestrator';
 
 interface AutonomousSystemState {
   isActive: boolean;
@@ -215,7 +216,7 @@ export const useAutonomousIntegration = () => {
       setIntegrationStatus(prev => ({ ...prev, connected: true }));
 
       // Set up integration event listeners
-      const handleSystemEvent = (event: any) => {
+      const handleSystemEvent = (_event: any) => {
         setIntegrationStatus(prev => ({ ...prev, lastSync: new Date() }));
       };
 
