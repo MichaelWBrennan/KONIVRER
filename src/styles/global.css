@@ -7,8 +7,10 @@
 /* CSS Variables for Accessibility */
 :root {
   /* Font variables */
-  --font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-family:
+    'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   --font-size-base: 1.1rem;
   --line-height: 1.6;
   --heading-font-weight: bold;
@@ -18,10 +20,10 @@
   --bg-color: #f2e8c9; /* Updated to parchment color */
   --text-color: #8a7a6d; /* Updated for contrast */
   --accent-color: #d4af37; /* Consistent with antique gold icon accents */
-  --error-color: #BF616A;
-  --success-color: #A3BE8C;
-  --warning-color: #D08770;
-  --info-color: #5E81AC;
+  --error-color: #bf616a;
+  --success-color: #a3be8c;
+  --warning-color: #d08770;
+  --info-color: #5e81ac;
 
   /* Shadow for cards */
   --card-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
@@ -35,18 +37,34 @@
 
 /* Global animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes slideDown {
-  from { transform: translateY(-20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Apply color filter to the entire document for color blindness modes */
@@ -63,16 +81,17 @@ body {
   background-color: #000;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: 'OpenDyslexic', sans-serif;
-  color: #FFD700;
+  color: #ffd700;
 }
 
 button {
-  border: 2px solid #FFD700;
+  border: 2px solid #ffd700;
   border-radius: 5px;
   padding: 10px 20px;
-  color: #FFD700;
+  color: #ffd700;
   background-color: transparent;
   cursor: pointer;
   font-size: 16px;
@@ -85,13 +104,15 @@ button:hover {
 
 /* Focus styles for accessibility */
 :focus {
-  outline: var(--focus-outline-width) var(--focus-outline-style) var(--focus-outline-color);
+  outline: var(--focus-outline-width) var(--focus-outline-style)
+    var(--focus-outline-color);
   outline-offset: var(--focus-outline-offset);
 }
 
 /* Enhanced focus indicators for keyboard navigation */
 .focus-visible :focus-visible {
-  outline: var(--focus-outline-width) var(--focus-outline-style) var(--focus-outline-color);
+  outline: var(--focus-outline-width) var(--focus-outline-style)
+    var(--focus-outline-color);
   outline-offset: var(--focus-outline-offset);
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.4);
 }
@@ -122,7 +143,9 @@ button:hover {
 
 /* When animations are disabled */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001s !important;
@@ -131,7 +154,12 @@ button:hover {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-family);
   line-height: 1.2;
   margin-top: 0;
@@ -152,12 +180,13 @@ a {
   transition: color var(--transition-duration) var(--transition-timing);
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   text-decoration: underline;
 }
 
 /* Buttons */
-button, 
+button,
 .button {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
@@ -165,13 +194,13 @@ button,
   letter-spacing: var(--letter-spacing);
   border-radius: 6px;
   padding: 0.6em 1.2em;
-  transition: 
+  transition:
     background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing),
     transform calc(var(--transition-duration) * 0.5) var(--transition-timing);
 }
 
-button:hover, 
+button:hover,
 .button:hover {
   background-color: var(--button-bg-hover);
   color: var(--button-text-hover);
@@ -179,8 +208,8 @@ button:hover,
 }
 
 /* Form elements */
-input, 
-textarea, 
+input,
+textarea,
 select {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
@@ -230,7 +259,7 @@ select {
 }
 
 /* ARIA roles styling */
-[role="alert"] {
+[role='alert'] {
   padding: 10px;
   border-radius: 4px;
   background-color: rgba(255, 107, 107, 0.1);
@@ -238,7 +267,7 @@ select {
   margin-bottom: 1rem;
 }
 
-[role="status"] {
+[role='status'] {
   padding: 10px;
   border-radius: 4px;
   background-color: rgba(77, 255, 77, 0.1);
@@ -271,8 +300,10 @@ select {
 
 /* OpenDyslexic font overrides */
 /* Preserve monospace for code elements */
-code, pre, .monospace, 
+code,
+pre,
+.monospace,
 [style*="fontFamily: 'monospace'"],
-[style*="font-family: monospace"] {
+[style*='font-family: monospace'] {
   font-family: 'Courier New', monospace !important;
 }

@@ -291,34 +291,34 @@ const HomePage = () => {
           The ultimate mystical trading card game...
         </p>
 
-      {/* Latest Chronicles Section */}
-      <section
-        style={{
-          textAlign: 'center',
-          margin: '40px 0',
-          color: 'yellow',
-          background: '#111',
-          padding: '20px',
-          borderRadius: '8px',
-        }}
-      >
-        <h2 style={{ fontWeight: 'bold', marginBottom: '15px' }}>
-          Latest Chronicles
-        </h2>
-        <button
+        {/* Latest Chronicles Section */}
+        <section
           style={{
-            padding: '10px 20px',
-            backgroundColor: 'transparent',
-            borderColor: 'yellow',
+            textAlign: 'center',
+            margin: '40px 0',
             color: 'yellow',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            fontSize: '16px',
+            background: '#111',
+            padding: '20px',
+            borderRadius: '8px',
           }}
         >
-          Read All Chronicles
-        </button>
-      </section>
+          <h2 style={{ fontWeight: 'bold', marginBottom: '15px' }}>
+            Latest Chronicles
+          </h2>
+          <button
+            style={{
+              padding: '10px 20px',
+              backgroundColor: 'transparent',
+              borderColor: 'yellow',
+              color: 'yellow',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              fontSize: '16px',
+            }}
+          >
+            Read All Chronicles
+          </button>
+        </section>
       </motion.div>
 
       <div

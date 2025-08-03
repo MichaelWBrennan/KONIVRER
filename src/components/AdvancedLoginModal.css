@@ -16,7 +16,7 @@
     grid-template-columns: 1fr;
     gap: 15px;
   }
-  
+
   .modal-content {
     max-width: 95vw;
     margin: 10px;
@@ -24,7 +24,11 @@
 }
 
 .auth-option-card {
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(42, 42, 42, 0.8) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(26, 26, 26, 0.8) 0%,
+    rgba(42, 42, 42, 0.8) 100%
+  );
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 12px;
   padding: 20px;
@@ -108,13 +112,21 @@
 
 /* Gentler shake animation - reduced intensity */
 @keyframes shake {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateX(0);
   }
-  10%, 30%, 50%, 70%, 90% {
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
     transform: translateX(-2px);
   }
-  20%, 40%, 60%, 80% {
+  20%,
+  40%,
+  60%,
+  80% {
     transform: translateX(2px);
   }
 }
@@ -181,7 +193,7 @@
 }
 
 /* Show more providers button */
-.sso-buttons-container button[data-testid="show-more-sso-providers"] {
+.sso-buttons-container button[data-testid='show-more-sso-providers'] {
   padding: 8px 16px;
   background: transparent;
   color: #666;
@@ -192,14 +204,14 @@
   transition: all 0.2s ease;
 }
 
-.sso-buttons-container button[data-testid="show-more-sso-providers"]:hover {
+.sso-buttons-container button[data-testid='show-more-sso-providers']:hover {
   border-color: #999;
   color: #333;
 }
 
 /* Only apply shake when explicitly needed */
 .shake-error {
-  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
 
 .pulse {
@@ -220,9 +232,13 @@
   border: 2px solid transparent;
   border-radius: 10px;
   background: linear-gradient(45deg, #d4af37, #ffd700, #d4af37) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0);
   mask-composite: exclude;
 }
 
@@ -262,7 +278,9 @@
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  transition:
+    width 0.6s,
+    height 0.6s;
 }
 
 .social-button:hover::after {
@@ -323,7 +341,9 @@
 .password-strength-meter {
   height: 4px;
   border-radius: 2px;
-  transition: width 0.3s, background-color 0.3s;
+  transition:
+    width 0.3s,
+    background-color 0.3s;
 }
 
 .biometric-button {
@@ -341,7 +361,9 @@
   background-color: rgba(212, 175, 55, 0.2);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  transition:
+    width 0.6s,
+    height 0.6s;
 }
 
 .biometric-button:hover::before {
@@ -1418,32 +1440,32 @@
     margin: 10px;
     max-width: none;
   }
-  
+
   .auth-tabs {
     flex-wrap: nowrap;
     gap: 2px;
   }
-  
+
   .auth-tab {
     flex: 1;
     min-width: 60px;
     padding: 6px 4px;
     font-size: 10px;
   }
-  
+
   .search-controls {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .search-preferences {
     justify-content: center;
   }
-  
+
   .filters-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .elements-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1453,33 +1475,33 @@
   .modal-backdrop {
     padding: 10px;
   }
-  
+
   .modal-header {
     padding: 16px 16px 0;
   }
-  
+
   .modal-body {
     padding: 0 16px 16px;
   }
-  
+
   .auth-tab {
     flex: 1 0 100%;
   }
-  
+
   .verification-code-container {
     gap: 8px;
   }
-  
+
   .verification-code-input {
     width: 40px;
     height: 40px;
     font-size: 18px;
   }
-  
+
   .social-buttons {
     grid-template-columns: 1fr;
   }
-  
+
   .elements-grid {
     grid-template-columns: 1fr;
   }

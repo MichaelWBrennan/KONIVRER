@@ -1,4 +1,3 @@
-
 import Phaser from 'phaser';
 import { KONIVRER_CARDS, Card } from '../../data/cards';
 
@@ -82,15 +81,15 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
   }
 
   private initializePlayers() {
-    const initializePlayerDeck = (): GameCard[] => 
+    const initializePlayerDeck = (): GameCard[] =>
       KONIVRER_CARDS.map((card, index) => ({
         ...card,
         gameId: `${card.id}_${index}`,
         x: 0,
         y: 0,
         isPlayable: false,
-        isHovered: false
-    }));
+        isHovered: false,
+      }));
 
     this.player1 = {
       health: 30,
@@ -98,7 +97,7 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
       maxMana: 1,
       hand: [],
       deck: initializePlayerDeck(),
-      battlefield: []
+      battlefield: [],
     };
 
     this.player2 = {
@@ -107,7 +106,7 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
       maxMana: 1,
       hand: [],
       deck: initializePlayerDeck(),
-      battlefield: []
+      battlefield: [],
     };
 
     this.drawCards(this.player1, 5);
@@ -133,15 +132,17 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
 
   private createParticleEffects() {
     if (this.sceneType === 'premium') {
-      this.add.particles(400, 300, 'particle-fire', {
-        speed: { min: 10, max: 30 },
-        scale: { start: 0.1, end: 0 },
-        alpha: { start: 0.3, end: 0 },
-        lifespan: 3000,
-        frequency: 200,
-        emitZoneType: 'random', 
-        source: new Phaser.Geom.Rectangle(0, 0, 800, 600)
-      }).setDepth(-1);
+      this.add
+        .particles(400, 300, 'particle-fire', {
+          speed: { min: 10, max: 30 },
+          scale: { start: 0.1, end: 0 },
+          alpha: { start: 0.3, end: 0 },
+          lifespan: 3000,
+          frequency: 200,
+          emitZoneType: 'random',
+          source: new Phaser.Geom.Rectangle(0, 0, 800, 600),
+        })
+        .setDepth(-1);
     }
   }
 

@@ -57,7 +57,7 @@ const mockCanvas = {
     isPointInStroke: vi.fn(() => false),
   })),
   toDataURL: vi.fn(() => 'data:image/png;base64,mock'),
-  toBlob: vi.fn((callback) => callback(new Blob())),
+  toBlob: vi.fn(callback => callback(new Blob())),
   width: 300,
   height: 150,
 };

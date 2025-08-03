@@ -30,7 +30,7 @@
 
 .ancient-scroll::before,
 .ancient-scroll::after {
-  content: "";
+  content: '';
   position: absolute;
   height: 100%;
   width: 30px;
@@ -53,13 +53,18 @@
 /* Dividers - Used in EnhancedLoginModal.tsx */
 .divider {
   height: 1px;
-  background-image: linear-gradient(to right, transparent, var(--ink-faded), transparent);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--ink-faded),
+    transparent
+  );
   margin: 2rem 0;
   position: relative;
 }
 
 .divider::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -5px;
   left: 50%;

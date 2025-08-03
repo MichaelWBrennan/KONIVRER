@@ -47,15 +47,15 @@ export class DeckManager {
   saveDeck(deck: Deck): void {
     const decks = this.getLocalDecks();
     const existingIndex = decks.findIndex(d => d.id === deck.id);
-    
+
     deck.updatedAt = new Date();
-    
+
     if (existingIndex > -1) {
       decks[existingIndex] = deck;
     } else {
       decks.push(deck);
     }
-    
+
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(decks));
   }
 
@@ -66,12 +66,12 @@ export class DeckManager {
     try {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (!stored) return [];
-      
+
       const decks = JSON.parse(stored);
       return decks.map((deck: any) => ({
         ...deck,
         createdAt: new Date(deck.createdAt),
-        updatedAt: new Date(deck.updatedAt)
+        updatedAt: new Date(deck.updatedAt),
       }));
     } catch (error) {
       console.error('Error loading local decks:', error);
@@ -85,19 +85,23 @@ export class DeckManager {
   deleteDeck(deckId: string): boolean {
     const decks = this.getLocalDecks();
     const filteredDecks = decks.filter(d => d.id !== deckId);
-    
+
     if (filteredDecks.length < decks.length) {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(filteredDecks));
       return true;
     }
-    
+
     return false;
   }
 
   /**
    * Create a new deck
    */
-  createDeck(name: string, description: string = '', author: string = 'Player'): Deck {
+  createDeck(
+    name: string,
+    description: string = '',
+    author: string = 'Player',
+  ): Deck {
     return {
       id: this.generateDeckId(),
       name,
@@ -110,7 +114,7 @@ export class DeckManager {
       tags: [],
       likes: 0,
       downloads: 0,
-      version: '1.0.0'
+      version: '1.0.0',
     };
   }
 
@@ -129,9 +133,9 @@ export class DeckManager {
       ...deck,
       exportedAt: new Date().toISOString(),
       exportVersion: '1.0',
-      cardIds: deck.cards.map(card => card.id)
+      cardIds: deck.cards.map(card => card.id),
     };
-    
+
     return JSON.stringify(exportData, null, 2);
   }
 
@@ -141,12 +145,16 @@ export class DeckManager {
   importDeck(jsonString: string): Deck | null {
     try {
       const importData = JSON.parse(jsonString);
-      
+
       // Validate import data
-      if (!importData.name || !importData.cardIds || !Array.isArray(importData.cardIds)) {
+      if (
+        !importData.name ||
+        !importData.cardIds ||
+        !Array.isArray(importData.cardIds)
+      ) {
         throw new Error('Invalid deck format');
       }
-      
+
       // Reconstruct cards from IDs
       const cards: Card[] = [];
       for (const cardId of importData.cardIds) {
@@ -155,7 +163,7 @@ export class DeckManager {
           cards.push(card);
         }
       }
-      
+
       // Create new deck with imported data
       const deck: Deck = {
         id: this.generateDeckId(), // Generate new ID
@@ -169,9 +177,9 @@ export class DeckManager {
         tags: importData.tags || [],
         likes: 0,
         downloads: 0,
-        version: importData.version || '1.0.0'
+        version: importData.version || '1.0.0',
       };
-      
+
       return deck;
     } catch (error) {
       console.error('Error importing deck:', error);
@@ -189,31 +197,36 @@ export class DeckManager {
       rarityDistribution: {},
       typeDistribution: {},
       averageCost: 0,
-      costDistribution: {}
+      costDistribution: {},
     };
-    
+
     let totalCost = 0;
-    
+
     deck.cards.forEach(card => {
       // Element distribution
       card.elements.forEach(element => {
-        stats.elementDistribution[element] = (stats.elementDistribution[element] || 0) + 1;
+        stats.elementDistribution[element] =
+          (stats.elementDistribution[element] || 0) + 1;
       });
-      
+
       // Rarity distribution
-      stats.rarityDistribution[card.rarity] = (stats.rarityDistribution[card.rarity] || 0) + 1;
-      
+      stats.rarityDistribution[card.rarity] =
+        (stats.rarityDistribution[card.rarity] || 0) + 1;
+
       // Type distribution
-      stats.typeDistribution[card.type] = (stats.typeDistribution[card.type] || 0) + 1;
-      
+      stats.typeDistribution[card.type] =
+        (stats.typeDistribution[card.type] || 0) + 1;
+
       // Cost distribution
-      stats.costDistribution[card.cost] = (stats.costDistribution[card.cost] || 0) + 1;
-      
+      stats.costDistribution[card.cost] =
+        (stats.costDistribution[card.cost] || 0) + 1;
+
       totalCost += card.cost;
     });
-    
-    stats.averageCost = deck.cards.length > 0 ? totalCost / deck.cards.length : 0;
-    
+
+    stats.averageCost =
+      deck.cards.length > 0 ? totalCost / deck.cards.length : 0;
+
     return stats;
   }
 
@@ -222,34 +235,36 @@ export class DeckManager {
    */
   validateDeck(deck: Deck): { isValid: boolean; errors: string[] } {
     const errors: string[] = [];
-    
+
     // Check minimum cards
     if (deck.cards.length < 20) {
       errors.push('Deck must have at least 20 cards');
     }
-    
+
     // Check maximum cards
     if (deck.cards.length > 60) {
       errors.push('Deck cannot have more than 60 cards');
     }
-    
+
     // Check card limits (max 3 of each card)
     const cardCounts = new Map<string, number>();
     deck.cards.forEach(card => {
       const count = cardCounts.get(card.id) || 0;
       cardCounts.set(card.id, count + 1);
     });
-    
+
     cardCounts.forEach((count, cardId) => {
       if (count > 3) {
         const card = KONIVRER_CARDS.find(c => c.id === cardId);
-        errors.push(`Too many copies of ${card?.name || 'Unknown Card'} (${count}/3)`);
+        errors.push(
+          `Too many copies of ${card?.name || 'Unknown Card'} (${count}/3)`,
+        );
       }
     });
-    
+
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -260,27 +275,31 @@ export class DeckManager {
     const fireElementalDeck = this.createDeck(
       'Fire Elemental Aggro',
       'Fast-paced aggressive deck focused on fire elements',
-      'KONIVRER Team'
+      'KONIVRER Team',
     );
-    fireElementalDeck.cards = KONIVRER_CARDS
-      .filter(card => card.elements.includes('Fire') || card.name.toLowerCase().includes('fire'))
-      .slice(0, 30);
+    fireElementalDeck.cards = KONIVRER_CARDS.filter(
+      card =>
+        card.elements.includes('Fire') ||
+        card.name.toLowerCase().includes('fire'),
+    ).slice(0, 30);
     fireElementalDeck.tags = ['Aggro', 'Fire', 'Beginner'];
 
     const waterControlDeck = this.createDeck(
       'Water Control',
       'Defensive control deck with water elements',
-      'KONIVRER Team'
+      'KONIVRER Team',
     );
-    waterControlDeck.cards = KONIVRER_CARDS
-      .filter(card => card.elements.includes('Water') || card.name.toLowerCase().includes('water'))
-      .slice(0, 30);
+    waterControlDeck.cards = KONIVRER_CARDS.filter(
+      card =>
+        card.elements.includes('Water') ||
+        card.name.toLowerCase().includes('water'),
+    ).slice(0, 30);
     waterControlDeck.tags = ['Control', 'Water', 'Beginner'];
 
     const balancedDeck = this.createDeck(
       'Balanced Elements',
       'Well-rounded deck with multiple elements',
-      'KONIVRER Team'
+      'KONIVRER Team',
     );
     balancedDeck.cards = KONIVRER_CARDS.slice(0, 30);
     balancedDeck.tags = ['Balanced', 'Midrange', 'Beginner'];
@@ -288,10 +307,12 @@ export class DeckManager {
     const chaosDeck = this.createDeck(
       'Chaos Storm',
       'Unpredictable deck with chaos elements',
-      'KONIVRER Team'
+      'KONIVRER Team',
     );
-    chaosDeck.cards = KONIVRER_CARDS
-      .filter(card => card.elements.includes('Chaos') || card.keywords.includes('Chaotic'))
+    chaosDeck.cards = KONIVRER_CARDS.filter(
+      card =>
+        card.elements.includes('Chaos') || card.keywords.includes('Chaotic'),
+    )
       .concat(KONIVRER_CARDS.filter(card => card.rarity === 'Rare'))
       .slice(0, 30);
     chaosDeck.tags = ['Chaos', 'Advanced', 'Combo'];
@@ -306,20 +327,25 @@ export class DeckManager {
     deck.isPublic = true;
     deck.downloads = 0;
     deck.likes = 0;
-    
+
     // Save to community storage (simulated)
     const communityDecks = this.getCommunityDecks();
     communityDecks.push({ ...deck });
-    localStorage.setItem(this.COMMUNITY_STORAGE_KEY, JSON.stringify(communityDecks));
-    
+    localStorage.setItem(
+      this.COMMUNITY_STORAGE_KEY,
+      JSON.stringify(communityDecks),
+    );
+
     // Generate share code
-    const shareCode = btoa(JSON.stringify({
-      id: deck.id,
-      name: deck.name,
-      author: deck.author,
-      cardIds: deck.cards.map(c => c.id)
-    }));
-    
+    const shareCode = btoa(
+      JSON.stringify({
+        id: deck.id,
+        name: deck.name,
+        author: deck.author,
+        cardIds: deck.cards.map(c => c.id),
+      }),
+    );
+
     return shareCode;
   }
 
@@ -329,7 +355,7 @@ export class DeckManager {
   importFromShareCode(shareCode: string): Deck | null {
     try {
       const shareData = JSON.parse(atob(shareCode));
-      
+
       const cards: Card[] = [];
       for (const cardId of shareData.cardIds) {
         const card = KONIVRER_CARDS.find(c => c.id === cardId);
@@ -337,14 +363,14 @@ export class DeckManager {
           cards.push(card);
         }
       }
-      
+
       const deck = this.createDeck(
         `${shareData.name} (Copy)`,
         `Imported from ${shareData.author}`,
-        'Imported'
+        'Imported',
       );
       deck.cards = cards;
-      
+
       return deck;
     } catch (error) {
       console.error('Error importing from share code:', error);
@@ -366,15 +392,18 @@ export class DeckManager {
           deck.likes = Math.floor(Math.random() * 50);
           deck.downloads = Math.floor(Math.random() * 100);
         });
-        localStorage.setItem(this.COMMUNITY_STORAGE_KEY, JSON.stringify(sampleDecks));
+        localStorage.setItem(
+          this.COMMUNITY_STORAGE_KEY,
+          JSON.stringify(sampleDecks),
+        );
         return sampleDecks;
       }
-      
+
       const decks = JSON.parse(stored);
       return decks.map((deck: any) => ({
         ...deck,
         createdAt: new Date(deck.createdAt),
-        updatedAt: new Date(deck.updatedAt)
+        updatedAt: new Date(deck.updatedAt),
       }));
     } catch (error) {
       console.error('Error loading community decks:', error);
@@ -390,7 +419,10 @@ export class DeckManager {
     const deck = communityDecks.find(d => d.id === deckId);
     if (deck) {
       deck.likes++;
-      localStorage.setItem(this.COMMUNITY_STORAGE_KEY, JSON.stringify(communityDecks));
+      localStorage.setItem(
+        this.COMMUNITY_STORAGE_KEY,
+        JSON.stringify(communityDecks),
+      );
     }
   }
 
@@ -400,24 +432,27 @@ export class DeckManager {
   downloadDeck(deckId: string): Deck | null {
     const communityDecks = this.getCommunityDecks();
     const sourceDeck = communityDecks.find(d => d.id === deckId);
-    
+
     if (sourceDeck) {
       // Increment download count
       sourceDeck.downloads++;
-      localStorage.setItem(this.COMMUNITY_STORAGE_KEY, JSON.stringify(communityDecks));
-      
+      localStorage.setItem(
+        this.COMMUNITY_STORAGE_KEY,
+        JSON.stringify(communityDecks),
+      );
+
       // Create a copy for the user
       const userDeck = this.createDeck(
         `${sourceDeck.name} (Downloaded)`,
         `Downloaded from ${sourceDeck.author}. ${sourceDeck.description}`,
-        'Downloaded'
+        'Downloaded',
       );
       userDeck.cards = [...sourceDeck.cards];
       userDeck.tags = [...sourceDeck.tags];
-      
+
       return userDeck;
     }
-    
+
     return null;
   }
 
@@ -426,16 +461,17 @@ export class DeckManager {
    */
   searchCommunityDecks(query: string, tags: string[] = []): Deck[] {
     const communityDecks = this.getCommunityDecks();
-    
+
     return communityDecks.filter(deck => {
-      const matchesQuery = !query || 
+      const matchesQuery =
+        !query ||
         deck.name.toLowerCase().includes(query.toLowerCase()) ||
         deck.description.toLowerCase().includes(query.toLowerCase()) ||
         deck.author.toLowerCase().includes(query.toLowerCase());
-      
-      const matchesTags = tags.length === 0 || 
-        tags.some(tag => deck.tags.includes(tag));
-      
+
+      const matchesTags =
+        tags.length === 0 || tags.some(tag => deck.tags.includes(tag));
+
       return matchesQuery && matchesTags;
     });
   }
