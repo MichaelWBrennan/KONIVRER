@@ -115,7 +115,7 @@ export const AutonomousSystemProvider: React.FC<
         });
 
         // Start periodic status updates
-        const statusInterval: NodeJS.Timeout = setInterval(async () => {
+        const statusInterval: number = setInterval(async () => {
           try {
             const systemHealth = orchestrator.getSystemHealth();
             const threatLevel = orchestrator.getThreatLevel();

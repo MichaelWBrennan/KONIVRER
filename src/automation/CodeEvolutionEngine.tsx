@@ -499,12 +499,8 @@ class CodeEvolutionEngine extends EventEmitter {
     _improvement: CodeImprovement,
   ): Promise<{ safe: boolean; reason?: string }> {
     // Check if the improved code has valid syntax
-    try {
-      // Simulate syntax checking
-      return { safe: true };
-    } catch {
-      return { safe: false, reason: 'Syntax error in improved code' };
-    }
+    // Simulate syntax checking
+    return { safe: true };
   }
 
   private async checkTypeCompatibility(
