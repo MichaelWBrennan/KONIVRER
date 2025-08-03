@@ -38,7 +38,7 @@ export class CardArtLoader {
    */
   async preloadCardImage(card: Card): Promise<HTMLImageElement> {
     const imageKey = card.id;
-    
+
     // Return cached image if available
     if (this.loadedImages.has(imageKey)) {
       return this.loadedImages.get(imageKey)!;
@@ -92,10 +92,10 @@ export class CardArtLoader {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
-      
+
       img.onload = () => resolve(img);
       img.onerror = () => reject(new Error(`Failed to load image: ${path}`));
-      
+
       img.src = path;
     });
   }
@@ -107,60 +107,68 @@ export class CardArtLoader {
     const canvas = document.createElement('canvas');
     canvas.width = 300;
     canvas.height = 420;
-    
+
     const ctx = canvas.getContext('2d')!;
-    
+
     // Background based on card element
     const elementColors: { [key: string]: string } = {
-      'Fire': '#ff6b6b',
-      'Water': '#4ecdc4',
-      'Earth': '#95a5a6',
-      'Air': '#f39c12',
-      'Aether': '#e74c3c',
-      'Nether': '#9b59b6',
-      'Chaos': '#2c3e50',
-      'Neutral': '#7f8c8d'
+      Fire: '#ff6b6b',
+      Water: '#4ecdc4',
+      Earth: '#95a5a6',
+      Air: '#f39c12',
+      Aether: '#e74c3c',
+      Nether: '#9b59b6',
+      Chaos: '#2c3e50',
+      Neutral: '#7f8c8d',
     };
-    
+
     const primaryElement = card.elements[0] || 'Neutral';
     const bgColor = elementColors[primaryElement] || '#7f8c8d';
-    
+
     // Draw background
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+
     // Draw border
     ctx.strokeStyle = '#2c3e50';
     ctx.lineWidth = 8;
     ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
-    
+
     // Draw card name
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 24px Arial';
     ctx.textAlign = 'center';
     ctx.fillText(card.name, canvas.width / 2, 50);
-    
+
     // Draw cost
     ctx.font = 'bold 32px Arial';
     ctx.fillStyle = '#ffe66d';
     ctx.fillText(card.cost.toString(), 50, 50);
-    
+
     // Draw type and rarity
     ctx.font = '18px Arial';
     ctx.fillStyle = '#ffffff';
     ctx.fillText(`${card.type} - ${card.rarity}`, canvas.width / 2, 100);
-    
+
     // Draw elements
     ctx.font = '16px Arial';
-    ctx.fillText(`Elements: ${card.elements.join(', ')}`, canvas.width / 2, 130);
-    
+    ctx.fillText(
+      `Elements: ${card.elements.join(', ')}`,
+      canvas.width / 2,
+      130,
+    );
+
     // Draw strength (if applicable)
     if (card.strength) {
       ctx.font = 'bold 28px Arial';
       ctx.fillStyle = '#ff6b6b';
-      ctx.fillText(card.strength.toString(), canvas.width - 50, canvas.height - 50);
+      ctx.fillText(
+        card.strength.toString(),
+        canvas.width - 50,
+        canvas.height - 50,
+      );
     }
-    
+
     // Convert canvas to image
     const img = new Image();
     img.src = canvas.toDataURL();
@@ -196,7 +204,7 @@ export class CardArtLoader {
   getCacheStats(): { loaded: number; loading: number } {
     return {
       loaded: this.loadedImages.size,
-      loading: this.loadingPromises.size
+      loading: this.loadingPromises.size,
     };
   }
 }

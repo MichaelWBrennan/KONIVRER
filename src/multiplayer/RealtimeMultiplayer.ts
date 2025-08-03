@@ -64,21 +64,38 @@ export class RealtimeMultiplayer {
     // Define and enhance Bayesian network here
   }
 
-  async findMatch(gameMode: 'casual' | 'ranked' | 'tournament' = 'casual'): Promise<void> {
+  async findMatch(
+    gameMode: 'casual' | 'ranked' | 'tournament' = 'casual',
+  ): Promise<void> {
     if (!this.isConnected || !this.socket || !this.bayesNetwork) return;
 
     const playerSkill = this.estimatePlayerSkill(this.currentPlayer);
     const rlDecision = this.rlAgent.decide(playerSkill, this.matchState);
-    const embeddings = this.graphEmbedder.generateEmbeddings(this.currentRoom.players, this.currentRoom);
+    const embeddings = this.graphEmbedder.generateEmbeddings(
+      this.currentRoom.players,
+      this.currentRoom,
+    );
     const probabilities = this.bayesNetwork.infer({
       player_skill: playerSkill,
       game_mode: gameMode,
     });
 
-    this.socket.emit('find_match', { gameMode, probabilities, embeddings, rlDecision });
-    this.analytics.logMatchmakingDecision(gameMode, rlDecision, probabilities, this.currentPlayer.id);
+    this.socket.emit('find_match', {
+      gameMode,
+      probabilities,
+      embeddings,
+      rlDecision,
+    });
+    this.analytics.logMatchmakingDecision(
+      gameMode,
+      rlDecision,
+      probabilities,
+      this.currentPlayer.id,
+    );
 
-    console.log(`Advanced Matchmaking: Mode: ${gameMode}, PlayerSkill: ${playerSkill}, Probabilities: ${JSON.stringify(probabilities)}`);
+    console.log(
+      `Advanced Matchmaking: Mode: ${gameMode}, PlayerSkill: ${playerSkill}, Probabilities: ${JSON.stringify(probabilities)}`,
+    );
   }
 
   async connect(player: Player): Promise<boolean> {

@@ -117,7 +117,7 @@ const emojiReplacements = {
   '⚪': 'White',
   '\u{26AA}': 'White',
   '✕': 'Close',
-  '\u{2715}': 'Close'
+  '\u{2715}': 'Close',
 };
 
 /**
@@ -125,7 +125,7 @@ const emojiReplacements = {
  * @param {string} text - The text containing emojis
  * @return {string} - Text with emojis replaced by descriptive text
  */
-export const replaceEmojis = (text) => {
+export const replaceEmojis = text => {
   if (!text) return text;
 
   let result = text;
@@ -138,7 +138,7 @@ export const replaceEmojis = (text) => {
   // Use regex to find and replace any remaining emojis with a generic description
   result = result.replace(
     /[\u{1F300}-\u{1F6FF}\u{1F900}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/gu,
-    '[emoji]'
+    '[emoji]',
   );
 
   return result;
@@ -149,10 +149,10 @@ export const replaceEmojis = (text) => {
  * @param {object} obj - The object containing strings with emojis
  * @return {object} - Object with emojis replaced in all string properties
  */
-export const replaceEmojisInObject = (obj) => {
+export const replaceEmojisInObject = obj => {
   if (!obj || typeof obj !== 'object') return obj;
 
-  const result = Array.isArray(obj) ? [...obj] : {...obj};
+  const result = Array.isArray(obj) ? [...obj] : { ...obj };
 
   Object.entries(result).forEach(([key, value]) => {
     if (typeof value === 'string') {
@@ -167,5 +167,5 @@ export const replaceEmojisInObject = (obj) => {
 
 export default {
   replaceEmojis,
-  replaceEmojisInObject
+  replaceEmojisInObject,
 };

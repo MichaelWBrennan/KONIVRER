@@ -37,7 +37,9 @@ global.MutationObserver = class MutationObserver {
   constructor() {}
   observe() {}
   disconnect() {}
-  takeRecords() { return []; }
+  takeRecords() {
+    return [];
+  }
 };
 
 // Mock navigator
@@ -50,7 +52,7 @@ Object.defineProperty(navigator, 'serviceWorker', {
 });
 
 // Mock HTMLCanvasElement.getContext
-HTMLCanvasElement.prototype.getContext = function(contextId: string) {
+HTMLCanvasElement.prototype.getContext = function (contextId: string) {
   if (contextId === '2d') {
     return {
       fillText: () => {},
