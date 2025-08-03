@@ -15,9 +15,6 @@ import AutonomousOrchestrator, {
   SystemHealth,
   ThreatLevel,
 } from '../../automation/autonomous-orchestrator';
-import { useCodeEvolution } from './CodeEvolutionEngine';
-import { useSelfHealing } from './SelfHealingCore';
-import { useDependencyOrchestrator } from './DependencyOrchestrator';
 
 interface AutonomousSystemState {
   isActive: boolean;

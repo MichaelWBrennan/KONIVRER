@@ -33,15 +33,15 @@ const conflictMarkers: Record<string, string> = {
 
 // Error patterns and healing functions
 const errorPatterns: Record<string, (error: Error) => void> = {
-  'Network request failed': (error: Error) => {
+  'Network request failed': (_error: Error) => {
     console.info('[Healing] Attempting to heal network error');
     // Could implement retry logic here
   },
-  'Component not found': (error: Error) => {
+  'Component not found': (_error: Error) => {
     console.info('[Healing] Attempting to heal component error');
     // Could implement fallback component logic here
   },
-  'Permission denied': (error: Error) => {
+  'Permission denied': (_error: Error) => {
     console.info('[Healing] Attempting to heal permission error');
     // Could implement alternative access logic here
   },
@@ -63,7 +63,7 @@ function attemptToHealError(error: Error): boolean {
       try {
         errorPatterns[pattern](error);
         return true;
-      } catch (_healingError) {
+      } catch {
         // If healing fails, log silently and continue
         return false;
       }
