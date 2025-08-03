@@ -27,7 +27,7 @@ export class CopilotController {
   /**
    * Decides the next action based on the current state.
    */
-  public decideNextAction(state: State): Action {
+  public decideNextAction(_state: State): Action {
     // TODO: Actual AI logic goes here.
     return { type: "noop" }; // placeholder
   }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import errorHealing from './errorHealing.tsx';
 import advancedSelfHealing from './advancedSelfHealing';
 import databaseHealing from './databaseHealing';
@@ -42,7 +42,7 @@ export const SelfHealingProvider: React.FC<{
           );
           console.info('[KONIVRER] Metrics:', metrics);
         }
-      } catch (error) {
+      } catch (_error) {
         // Fallback to basic healing if advanced fails
         errorHealing.initErrorHealing();
         setSystemReady(true);
@@ -108,7 +108,7 @@ class ErrorBoundary extends React.Component<
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  componentDidCatch(_error: Error, _errorInfo: React.ErrorInfo) {
     // Silent error handling - advanced system will handle it
     setTimeout(() => {
       this.setState({ hasError: false });
