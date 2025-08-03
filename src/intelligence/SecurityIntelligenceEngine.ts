@@ -35,34 +35,34 @@ export class SecurityIntelligenceEngine extends EventEmitter {
   private config: SecurityConfig;
   private dynamicThreatAnalysis: boolean = true;
 
-constructor(config: SecurityConfig) {
-  super();
-  this.config = config;
-  this.initializeThreatSignatures();
-  this.initializeComplianceRules();
-  if (this.dynamicThreatAnalysis) {
-    this.setupDynamicAnalysis();
+  constructor(config: SecurityConfig) {
+    super();
+    this.config = config;
+    this.initializeThreatSignatures();
+    this.initializeComplianceRules();
+    if (this.dynamicThreatAnalysis) {
+      this.setupDynamicAnalysis();
+    }
   }
-}
 
-private setupDynamicAnalysis() {
-  setInterval(() => {
-    console.log("🔍 Performing dynamic threat analysis...");
-    this.updateThreatIntelligence(); // Dynamically fetches latest threat insights
-  }, 60000); // Run every 60 seconds
-}
+  private setupDynamicAnalysis() {
+    setInterval(() => {
+      console.log('🔍 Performing dynamic threat analysis...');
+      this.updateThreatIntelligence(); // Dynamically fetches latest threat insights
+    }, 60000); // Run every 60 seconds
+  }
 
-private initializeThreatSignatures() {
-  // Implementation
-}
+  private initializeThreatSignatures() {
+    // Implementation
+  }
 
-private initializeComplianceRules() {
-  // Implementation
-}
+  private initializeComplianceRules() {
+    // Implementation
+  }
 
-private updateThreatIntelligence() {
-  // Implementation
-}
+  private updateThreatIntelligence() {
+    // Implementation
+  }
 }
 
 export interface ThreatIntelligence {

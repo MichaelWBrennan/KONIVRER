@@ -9,7 +9,9 @@ import errorHealing from './utils/errorHealing.tsx';
 import databaseHealing from './utils/databaseHealing.ts';
 import './styles/global.css';
 
-console.log('[APP] Starting KONIVRER Phase 3 Application (Advanced Autonomous)...');
+console.log(
+  '[APP] Starting KONIVRER Phase 3 Application (Advanced Autonomous)...',
+);
 
 // Initialize global error healing
 errorHealing.initErrorHealing();
@@ -18,15 +20,18 @@ errorHealing.initErrorHealing();
 databaseHealing.initDatabaseHealing();
 
 // Add global error handlers for uncaught errors
-window.addEventListener('error', (event) => {
+window.addEventListener('error', event => {
   console.info('[Auto-Healing] Caught unhandled error:', event.error);
   // Prevent the error from showing in console
   event.preventDefault();
   return true;
 });
 
-window.addEventListener('unhandledrejection', (event) => {
-  console.info('[Auto-Healing] Caught unhandled promise rejection:', event.reason);
+window.addEventListener('unhandledrejection', event => {
+  console.info(
+    '[Auto-Healing] Caught unhandled promise rejection:',
+    event.reason,
+  );
   // Prevent the rejection from showing in console
   event.preventDefault();
   return true;
@@ -34,7 +39,7 @@ window.addEventListener('unhandledrejection', (event) => {
 
 // Override fetch with healing fetch
 const originalFetch = window.fetch;
-window.fetch = async function(...args) {
+window.fetch = async function (...args) {
   try {
     const startTime = Date.now();
     const response = await originalFetch.apply(this, args);
@@ -51,11 +56,15 @@ window.fetch = async function(...args) {
           resolve(response);
         } catch (retryError) {
           // If retry fails, return a mock successful response
-          console.info('[Auto-Healing] Creating mock response for failed fetch');
-          resolve(new Response(JSON.stringify({ healedResponse: true }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-          }));
+          console.info(
+            '[Auto-Healing] Creating mock response for failed fetch',
+          );
+          resolve(
+            new Response(JSON.stringify({ healedResponse: true }), {
+              status: 200,
+              headers: { 'Content-Type': 'application/json' },
+            }),
+          );
         }
       }, 1000);
     });
@@ -93,17 +102,20 @@ try {
           dependencyManagement: true,
           useWebWorkers: true,
           enableCaching: true,
-          lazyLoading: true
+          lazyLoading: true,
         }}
       >
         <SelfHealingProvider>
           <Phase3App />
         </SelfHealingProvider>
       </StreamlinedAutonomousProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 } catch (error) {
-  console.info('[Auto-Healing] Phase 3 app failed, healing and falling back to Phase 2:', error);
+  console.info(
+    '[Auto-Healing] Phase 3 app failed, healing and falling back to Phase 2:',
+    error,
+  );
   try {
     root.render(
       <React.StrictMode>
@@ -121,24 +133,27 @@ try {
             dependencyManagement: true,
             useWebWorkers: false,
             enableCaching: true,
-            lazyLoading: true
+            lazyLoading: true,
           }}
         >
           <SelfHealingProvider>
             <Phase2App />
           </SelfHealingProvider>
         </StreamlinedAutonomousProvider>
-      </React.StrictMode>
+      </React.StrictMode>,
     );
     console.log('[APP] Phase 2 app fallback initialized');
   } catch (error2) {
-    console.info('[Auto-Healing] Phase 2 app also failed, healing and falling back to Phase 1:', error2);
+    console.info(
+      '[Auto-Healing] Phase 2 app also failed, healing and falling back to Phase 1:',
+      error2,
+    );
     root.render(
       <React.StrictMode>
         <SelfHealingProvider>
           <Phase1App />
         </SelfHealingProvider>
-      </React.StrictMode>
+      </React.StrictMode>,
     );
     console.log('[APP] Phase 1 app final fallback initialized');
   }

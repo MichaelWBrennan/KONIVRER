@@ -37,7 +37,10 @@ export class PerformanceManager {
    * Detect optimal settings based on device capabilities
    */
   private detectOptimalSettings(): PerformanceSettings {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
     const isLowEndDevice = this.detectLowEndDevice();
     const hasGoodGPU = this.detectGPUCapabilities();
 
@@ -49,7 +52,7 @@ export class PerformanceManager {
         glowEffectsEnabled: false,
         backgroundEffectsEnabled: false,
         maxConcurrentTweens: 5,
-        targetFPS: 30
+        targetFPS: 30,
       };
     } else if (!hasGoodGPU) {
       return {
@@ -59,7 +62,7 @@ export class PerformanceManager {
         glowEffectsEnabled: true,
         backgroundEffectsEnabled: true,
         maxConcurrentTweens: 10,
-        targetFPS: 45
+        targetFPS: 45,
       };
     } else {
       return {
@@ -69,7 +72,7 @@ export class PerformanceManager {
         glowEffectsEnabled: true,
         backgroundEffectsEnabled: true,
         maxConcurrentTweens: 20,
-        targetFPS: 60
+        targetFPS: 60,
       };
     }
   }
@@ -92,7 +95,11 @@ export class PerformanceManager {
 
     // Check connection speed
     const connection = (navigator as any).connection;
-    if (connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g')) {
+    if (
+      connection &&
+      (connection.effectiveType === 'slow-2g' ||
+        connection.effectiveType === '2g')
+    ) {
       return true;
     }
 
@@ -105,8 +112,9 @@ export class PerformanceManager {
   private detectGPUCapabilities(): boolean {
     try {
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      
+      const gl =
+        canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
       if (!gl) {
         return false;
       }
@@ -114,10 +122,13 @@ export class PerformanceManager {
       const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
       if (debugInfo) {
         const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-        
+
         // Check for integrated graphics (usually lower performance)
-        if (renderer.toLowerCase().includes('intel') && 
-            (renderer.toLowerCase().includes('hd') || renderer.toLowerCase().includes('uhd'))) {
+        if (
+          renderer.toLowerCase().includes('intel') &&
+          (renderer.toLowerCase().includes('hd') ||
+            renderer.toLowerCase().includes('uhd'))
+        ) {
           return false;
         }
       }
@@ -139,23 +150,25 @@ export class PerformanceManager {
       if (this.lastFrameTime > 0) {
         const frameDelta = now - this.lastFrameTime;
         const currentFPS = 1000 / frameDelta;
-        
+
         this.frameHistory.push(currentFPS);
         if (this.frameHistory.length > 60) {
           this.frameHistory.shift();
         }
-        
+
         // Calculate average FPS
-        this.frameRate = this.frameHistory.reduce((a, b) => a + b, 0) / this.frameHistory.length;
-        
+        this.frameRate =
+          this.frameHistory.reduce((a, b) => a + b, 0) /
+          this.frameHistory.length;
+
         // Adjust settings if performance is poor
         this.adjustSettingsBasedOnPerformance();
       }
-      
+
       this.lastFrameTime = now;
       requestAnimationFrame(monitor);
     };
-    
+
     requestAnimationFrame(monitor);
   }
 
@@ -165,11 +178,14 @@ export class PerformanceManager {
   private adjustSettingsBasedOnPerformance(): void {
     const targetFPS = this.settings.targetFPS;
     const currentFPS = this.frameRate;
-    
+
     if (currentFPS < targetFPS * 0.8) {
       // Performance is poor, reduce quality
       this.reduceQuality();
-    } else if (currentFPS > targetFPS * 1.1 && this.settings.animationQuality !== 'high') {
+    } else if (
+      currentFPS > targetFPS * 1.1 &&
+      this.settings.animationQuality !== 'high'
+    ) {
       // Performance is good, can increase quality
       this.increaseQuality();
     }
@@ -181,16 +197,25 @@ export class PerformanceManager {
   private reduceQuality(): void {
     if (this.settings.animationQuality === 'high') {
       this.settings.animationQuality = 'medium';
-      this.settings.particleCount = Math.max(50, this.settings.particleCount * 0.7);
+      this.settings.particleCount = Math.max(
+        50,
+        this.settings.particleCount * 0.7,
+      );
       this.settings.shadowsEnabled = false;
     } else if (this.settings.animationQuality === 'medium') {
       this.settings.animationQuality = 'low';
-      this.settings.particleCount = Math.max(25, this.settings.particleCount * 0.5);
+      this.settings.particleCount = Math.max(
+        25,
+        this.settings.particleCount * 0.5,
+      );
       this.settings.glowEffectsEnabled = false;
       this.settings.backgroundEffectsEnabled = false;
     }
-    
-    this.settings.maxConcurrentTweens = Math.max(3, this.settings.maxConcurrentTweens - 2);
+
+    this.settings.maxConcurrentTweens = Math.max(
+      3,
+      this.settings.maxConcurrentTweens - 2,
+    );
   }
 
   /**
@@ -199,16 +224,25 @@ export class PerformanceManager {
   private increaseQuality(): void {
     if (this.settings.animationQuality === 'low') {
       this.settings.animationQuality = 'medium';
-      this.settings.particleCount = Math.min(150, this.settings.particleCount * 1.5);
+      this.settings.particleCount = Math.min(
+        150,
+        this.settings.particleCount * 1.5,
+      );
       this.settings.glowEffectsEnabled = true;
       this.settings.backgroundEffectsEnabled = true;
     } else if (this.settings.animationQuality === 'medium') {
       this.settings.animationQuality = 'high';
-      this.settings.particleCount = Math.min(200, this.settings.particleCount * 1.3);
+      this.settings.particleCount = Math.min(
+        200,
+        this.settings.particleCount * 1.3,
+      );
       this.settings.shadowsEnabled = true;
     }
-    
-    this.settings.maxConcurrentTweens = Math.min(20, this.settings.maxConcurrentTweens + 2);
+
+    this.settings.maxConcurrentTweens = Math.min(
+      20,
+      this.settings.maxConcurrentTweens + 2,
+    );
   }
 
   /**
@@ -236,8 +270,12 @@ export class PerformanceManager {
    * Get optimized particle count for current performance
    */
   getOptimizedParticleCount(baseCount: number): number {
-    const multiplier = this.settings.animationQuality === 'high' ? 1 : 
-                     this.settings.animationQuality === 'medium' ? 0.6 : 0.3;
+    const multiplier =
+      this.settings.animationQuality === 'high'
+        ? 1
+        : this.settings.animationQuality === 'medium'
+          ? 0.6
+          : 0.3;
     return Math.floor(baseCount * multiplier);
   }
 
@@ -245,8 +283,12 @@ export class PerformanceManager {
    * Get optimized animation duration
    */
   getOptimizedDuration(baseDuration: number): number {
-    const multiplier = this.settings.animationQuality === 'high' ? 1 : 
-                     this.settings.animationQuality === 'medium' ? 0.8 : 0.6;
+    const multiplier =
+      this.settings.animationQuality === 'high'
+        ? 1
+        : this.settings.animationQuality === 'medium'
+          ? 0.8
+          : 0.6;
     return Math.floor(baseDuration * multiplier);
   }
 
@@ -279,7 +321,7 @@ export class PerformanceManager {
     const effectsEnabled = [
       this.settings.shadowsEnabled,
       this.settings.glowEffectsEnabled,
-      this.settings.backgroundEffectsEnabled
+      this.settings.backgroundEffectsEnabled,
     ].filter(Boolean).length;
 
     return {
@@ -287,7 +329,7 @@ export class PerformanceManager {
       quality: this.settings.animationQuality,
       particleCount: this.settings.particleCount,
       effectsEnabled,
-      isOptimized: this.frameRate >= this.settings.targetFPS * 0.9
+      isOptimized: this.frameRate >= this.settings.targetFPS * 0.9,
     };
   }
 
@@ -296,7 +338,7 @@ export class PerformanceManager {
    */
   setQuality(quality: 'low' | 'medium' | 'high'): void {
     this.settings.animationQuality = quality;
-    
+
     switch (quality) {
       case 'low':
         this.settings.particleCount = 50;

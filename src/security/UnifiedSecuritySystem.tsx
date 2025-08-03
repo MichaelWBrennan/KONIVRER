@@ -1,4 +1,3 @@
-
 ```typescript
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 
@@ -94,4 +93,4 @@ export const UnifiedSecurityProvider: React.FC<{ children: React.ReactNode }> = 
     </SecurityContext.Provider>
   );
 };
-```
+```;

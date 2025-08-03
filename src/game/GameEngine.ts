@@ -75,10 +75,21 @@ export class GameEngine {
       const isLowPerformance = performanceManager.isLowPerformanceDevice();
 
       // Example: simple camera and light setup for the scene
-      const camera = new BABYLON.ArcRotateCamera("Camera", Math.PI / 2, Math.PI / 4, 4, BABYLON.Vector3.Zero(), this.scene);
+      const camera = new BABYLON.ArcRotateCamera(
+        'Camera',
+        Math.PI / 2,
+        Math.PI / 4,
+        4,
+        BABYLON.Vector3.Zero(),
+        this.scene,
+      );
       camera.attachControl(true);
 
-      const light = new BABYLON.HemisphericLight("Light", new BABYLON.Vector3(1, 1, 0), this.scene);
+      const light = new BABYLON.HemisphericLight(
+        'Light',
+        new BABYLON.Vector3(1, 1, 0),
+        this.scene,
+      );
 
       // To be replaced with actual scene content
       // this.scene.manageScene(); <- Implement your scene management and rendering logic

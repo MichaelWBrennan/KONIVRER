@@ -1,4 +1,3 @@
-
 ```typescript
 class EventEmitter {
   private events: { [key: string]: Function[] } = {};
@@ -34,4 +33,4 @@ class EventEmitter {
 }
 
 export default EventEmitter;
-```
+```;

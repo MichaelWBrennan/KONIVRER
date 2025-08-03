@@ -1,4 +1,3 @@
-
 import Phaser from 'phaser';
 
 export class UnifiedMainMenuScene extends Phaser.Scene {
@@ -60,6 +59,8 @@ export class UnifiedMainMenuScene extends Phaser.Scene {
   }
 
   private startGame() {
-    this.scene.start(this.isPremium ? 'PremiumCardBattleScene' : 'CardBattleScene');
+    this.scene.start(
+      this.isPremium ? 'PremiumCardBattleScene' : 'CardBattleScene',
+    );
   }
 }
