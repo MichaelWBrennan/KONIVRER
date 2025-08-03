@@ -189,7 +189,7 @@ export class DeckOptimizer {
     return embedding.map(value => value / deckSize);
   }
 
-  private generateSuggestions(deck: Deck, availableCards: Card[]): string[] {
+  private generateSuggestions(deck: Deck, _availableCards: Card[]): string[] {
     const suggestions: string[] = [];
 
     // Analyze cost curve
