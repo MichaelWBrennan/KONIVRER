@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: mtg-arena-backend
+    env: node
+    branch: main
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "10000"      # Render assigns port via env var; your app must bind to process.env.PORT or fallback
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mtg-arena-db
+          property: connectionString
+      - key: JWT_SECRET
+        fromServiceEnvironment: JWT_SECRET
+      - key: CORS_ORIGIN
+        value: https://your-frontend-domain.com
+      - key: MATCHMAKING_SECRET
+        fromServiceEnvironment: MATCHMAKING_SECRET
+      - key: SESSION_TTL
+        value: "86400"
+      - key: RATE_LIMIT_TTL
+        value: "60"
+      - key: RATE_LIMIT_MAX
+        value: "100"
+    healthCheckPath: /health
+
+databases:
+  - name: KONIVRERdb
+    engine: postgres
+    version: "15"
+    region: oregon
+    plan: free
+
+environment:
+  JWT_SECRET: "your_super_secure_jwt_secret_here"
+  MATCHMAKING_SECRET: "your_secure_matchmaking_secret_here"
