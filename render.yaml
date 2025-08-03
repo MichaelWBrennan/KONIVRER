@@ -2,32 +2,27 @@ services:
   - type: web
     name: konivrer-deck-db
     env: node
-    branch: main
-    region: oregon
     plan: free
+    region: oregon
+    branch: main
     buildCommand: npm install && npm run build
     startCommand: npm run start
     envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: $PORT
       - key: DATABASE_URL
         fromDatabase:
-          name: konivrer-pg
+          name: konivrer-db
           property: connectionString
-      - key: JWT_SECRET
-        value: your_jwt_secret_here
-      - key: CORS_ORIGIN
-        value: https://your-frontend-domain.com
-      - key: RATE_LIMIT_TTL
-        value: "60"
-      - key: RATE_LIMIT_MAX
-        value: "100"
-      # Add any additional secrets or feature flags:
-      # - key: FEATURE_X_ENABLED
-      #   value: "true"
-    healthCheckPath: /health
+      - key: PORT
+        value: $PORT
+
+  - type: database
+    name: konivrer-db
+    databaseName: konivrer
+    user: konivrer_user
+    engine: postgres
+    version: "15"
+    plan: free
+    region: oregon
 
 databases:
   - name: konivrer-pg
