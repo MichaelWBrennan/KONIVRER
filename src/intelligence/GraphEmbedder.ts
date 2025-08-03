@@ -1,4 +1,3 @@
-
 ```typescript
 import { Player, GameRoom } from '../multiplayer/RealtimeMultiplayer';
 
@@ -13,4 +12,4 @@ export class GraphEmbedder {
     return [player.rating, gameRoom.players.length, gameRoom.maxPlayers];
   }
 }
-```
+```;

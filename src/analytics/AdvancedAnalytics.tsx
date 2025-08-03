@@ -38,7 +38,7 @@ export interface PerformanceMetrics {
 
 export function collectAdvancedMetrics(metrics: PerformanceMetrics): void {
   // Advanced implementation here
-  console.log("Collecting advanced performance metrics...");
+  console.log('Collecting advanced performance metrics...');
 }
 
 export interface CardMetrics {
