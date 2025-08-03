@@ -269,5 +269,3 @@ export const useAutonomousIntegration = () => {
     requestOptimization,
   };
 };
-
-export default AutonomousSystemManager;

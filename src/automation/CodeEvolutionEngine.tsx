@@ -502,7 +502,7 @@ class CodeEvolutionEngine extends EventEmitter {
     try {
       // Simulate syntax checking
       return { safe: true };
-    } catch (_error) {
+    } catch {
       return { safe: false, reason: 'Syntax error in improved code' };
     }
   }
