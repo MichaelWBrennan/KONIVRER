@@ -1,5 +1,4 @@
-
-    services:
+services:
   - type: web
     name: konivrer-deck-db
     env: node
@@ -15,7 +14,10 @@
           property: connectionString
       - key: PORT
         value: $PORT
-      # Add any other environment variables here
+      - key: JWT_SECRET
+        value: your_super_secret_key
+      - key: MATCHMAKING_SECRET
+        value: your_matchmaking_secretany other environment variables here
 
 databases:
   - name: konivrer-pg
