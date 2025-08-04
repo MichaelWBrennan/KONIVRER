@@ -51,10 +51,10 @@ export interface ChatMessage {
 }
 
 export class RealtimeMultiplayer {
-  private bayesNetwork: BayesianNetwork | null = null;
-  private rlAgent = new MatchmakingRLAgent();
-  private graphEmbedder = new GraphEmbedder();
-  private analytics = new RealTimeAnalytics();
+  private bayesNetwork: any | null = null;
+  private rlAgent: any = null;
+  private graphEmbedder: any = null;
+  private analytics: any = null;
 
   constructor(private serverUrl: string = 'ws://0.0.0.0:5000') {
     this.initializeBayesianNetwork();

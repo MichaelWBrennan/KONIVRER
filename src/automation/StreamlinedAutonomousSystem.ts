@@ -408,10 +408,11 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
 
   private blockThreat(threat: any): void {
     switch (threat.type) {
-      case 'suspicious-script':
+      case 'suspicious-script': {
         const script = document.querySelector(`script[src="${threat.source}"]`);
         script?.remove();
         break;
+      }
       case 'potential-xss':
         // Sanitize content
         this.sanitizeContent();
