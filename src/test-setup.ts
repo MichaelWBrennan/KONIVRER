@@ -43,6 +43,17 @@ global.MutationObserver = class MutationObserver {
 };
 
 // Mock navigator
+Object.defineProperty(global, 'navigator', {
+  writable: true,
+  value: {
+    userAgent: 'test-agent',
+    serviceWorker: {
+      register: () => Promise.resolve(),
+      ready: Promise.resolve(),
+    },
+  },
+});
+
 Object.defineProperty(navigator, 'serviceWorker', {
   writable: true,
   value: {
@@ -65,3 +76,45 @@ HTMLCanvasElement.prototype.getContext = function (contextId: string) {
   }
   return null;
 };
+
+// Mock Performance API
+Object.defineProperty(global, 'performance', {
+  writable: true,
+  value: {
+    now: () => Date.now(),
+    mark: () => {},
+    measure: () => {},
+    getEntriesByName: () => [],
+    getEntriesByType: () => [],
+  },
+});
+
+// Mock document and window for tests that need them
+Object.defineProperty(global, 'document', {
+  writable: true,
+  value: {
+    createElement: (tagName: string) => ({
+      tagName: tagName.toUpperCase(),
+      id: '',
+      className: '',
+      style: {},
+      setAttribute: () => {},
+      getAttribute: () => null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      appendChild: () => {},
+      removeChild: () => {},
+      querySelector: () => null,
+      querySelectorAll: () => [],
+    }),
+    getElementById: () => null,
+    querySelector: () => null,
+    querySelectorAll: () => [],
+    addEventListener: () => {},
+    removeEventListener: () => {},
+    body: {
+      appendChild: () => {},
+      removeChild: () => {},
+    },
+  },
+});
