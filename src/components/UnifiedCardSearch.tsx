@@ -180,7 +180,6 @@ const KONIVR_ELEMENTS = [
 ];
 
 const CARD_TYPES = ['Familiar', 'Flag'];
-const RARITIES = ['Common', 'Uncommon', 'Rare'];
 const OPERATORS = [
   { value: '=', label: '=' },
   { value: '<', label: '<' },
@@ -492,7 +491,7 @@ class UnifiedSearchEngine {
         return card.flavorText?.toLowerCase().includes(value) || false;
 
       case 'strength':
-      case 'str':
+      case 'str': {
         if (card.type === 'Flag') return false;
         const strength = card.strength || 0;
         if (value.startsWith('>=')) return strength >= parseInt(value.slice(2));
@@ -501,6 +500,7 @@ class UnifiedSearchEngine {
         if (value.startsWith('<')) return strength < parseInt(value.slice(1));
         if (value.startsWith('!')) return strength !== parseInt(value.slice(1));
         return strength === parseInt(value);
+      }
 
       default:
         return false;
@@ -532,10 +532,11 @@ class UnifiedSearchEngine {
         case 'cost':
           comparison = a.cost - b.cost;
           break;
-        case 'rarity':
+        case 'rarity': {
           const rarityOrder = { Common: 1, Uncommon: 2, Rare: 3 };
           comparison = rarityOrder[a.rarity] - rarityOrder[b.rarity];
           break;
+        }
         case 'type':
           comparison = a.type.localeCompare(b.type);
           break;
@@ -900,7 +901,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
             }
             break;
           case 'element':
-          case 'e':
+          case 'e': {
             const element = KONIVR_ELEMENTS.find(
               e => e.label.toLowerCase() === value,
             );
@@ -910,6 +911,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               ] = true;
             }
             break;
+          }
           case 'rarity':
           case 'r':
             if (['common', 'uncommon', 'rare'].includes(value)) {
