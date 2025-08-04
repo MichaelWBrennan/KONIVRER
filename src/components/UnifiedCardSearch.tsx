@@ -731,7 +731,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
   // Refs
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<number | undefined>(undefined);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   // Handle search mode changes
   useEffect(() => {

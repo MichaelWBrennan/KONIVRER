@@ -44,13 +44,13 @@ const SSO_CONFIG = {
   keycloak: {
     id: 'keycloak',
     name: 'Keycloak',
-    clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID || 'konivrer-app',
+    clientId: import.meta.env.VITE_KEYCLOAK_CLIENT_ID || 'konivrer-app',
     redirectUri: `${window.location.origin}/auth/callback/keycloak`,
     scope: ['openid', 'profile', 'email', 'roles'],
-    authUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/auth`,
-    tokenUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/token`,
-    userInfoUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/userinfo`,
-    logoutUrl: `${process.env.REACT_APP_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${process.env.REACT_APP_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/logout`,
+    authUrl: `${import.meta.env.VITE_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${import.meta.env.VITE_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/auth`,
+    tokenUrl: `${import.meta.env.VITE_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${import.meta.env.VITE_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/token`,
+    userInfoUrl: `${import.meta.env.VITE_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${import.meta.env.VITE_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/userinfo`,
+    logoutUrl: `${import.meta.env.VITE_KEYCLOAK_URL || 'http://localhost:8080'}/realms/${import.meta.env.VITE_KEYCLOAK_REALM || 'konivrer'}/protocol/openid-connect/logout`,
     iconUrl:
       'https://www.keycloak.org/resources/images/keycloak_logo_200px.svg',
     color: '#ffffff',
@@ -59,7 +59,7 @@ const SSO_CONFIG = {
   google: {
     id: 'google',
     name: 'Google',
-    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || 'demo-google-client-id',
+    clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID || 'demo-google-client-id',
     redirectUri: `${window.location.origin}/auth/callback/google`,
     scope: ['openid', 'profile', 'email'],
     authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
@@ -72,7 +72,7 @@ const SSO_CONFIG = {
   github: {
     id: 'github',
     name: 'GitHub',
-    clientId: process.env.REACT_APP_GITHUB_CLIENT_ID || 'demo-github-client-id',
+    clientId: import.meta.env.VITE_GITHUB_CLIENT_ID || 'demo-github-client-id',
     redirectUri: `${window.location.origin}/auth/callback/github`,
     scope: ['user:email', 'read:user'],
     authUrl: 'https://github.com/login/oauth/authorize',
@@ -87,7 +87,7 @@ const SSO_CONFIG = {
     id: 'discord',
     name: 'Discord',
     clientId:
-      process.env.REACT_APP_DISCORD_CLIENT_ID || 'demo-discord-client-id',
+      import.meta.env.VITE_DISCORD_CLIENT_ID || 'demo-discord-client-id',
     redirectUri: `${window.location.origin}/auth/callback/discord`,
     scope: ['identify', 'email'],
     authUrl: 'https://discord.com/api/oauth2/authorize',
@@ -101,7 +101,7 @@ const SSO_CONFIG = {
   steam: {
     id: 'steam',
     name: 'Steam',
-    clientId: process.env.REACT_APP_STEAM_CLIENT_ID || 'demo-steam-client-id',
+    clientId: import.meta.env.VITE_STEAM_CLIENT_ID || 'demo-steam-client-id',
     redirectUri: `${window.location.origin}/auth/callback/steam`,
     scope: ['identity'],
     authUrl: 'https://steamcommunity.com/openid/login',
@@ -115,7 +115,7 @@ const SSO_CONFIG = {
   apple: {
     id: 'apple',
     name: 'Apple',
-    clientId: process.env.REACT_APP_APPLE_CLIENT_ID || 'demo-apple-client-id',
+    clientId: import.meta.env.VITE_APPLE_CLIENT_ID || 'demo-apple-client-id',
     redirectUri: `${window.location.origin}/auth/callback/apple`,
     scope: ['name', 'email'],
     authUrl: 'https://appleid.apple.com/auth/authorize',
@@ -226,7 +226,7 @@ export class SSOService {
     const authUrl = this.generateAuthUrl(providerId);
 
     // For demo purposes, we'll simulate the OAuth flow
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       return this.simulateOAuthFlow(providerId);
     }
 
@@ -324,7 +324,7 @@ export class SSOService {
     const tokenData = {
       client_id: provider.clientId,
       client_secret:
-        process.env[`REACT_APP_${provider.id.toUpperCase()}_CLIENT_SECRET`] ||
+        import.meta.env[`VITE_${provider.id.toUpperCase()}_CLIENT_SECRET`] ||
         '',
       code,
       grant_type: 'authorization_code',
