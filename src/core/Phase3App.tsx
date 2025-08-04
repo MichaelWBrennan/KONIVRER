@@ -18,7 +18,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 import { SelfHealingProvider } from '../utils/selfHealingIntegration';
 import { withAdvancedHealing } from '../utils/realTimeHealing';
-import { healingConfigManager } from '../config/healingConfig';
+import { AppContext, AppContextType, User, Deck } from '../contexts/AppContext';
 import BlogSection from '../components/BlogSection';
 import UnifiedCardSearch from '../components/UnifiedCardSearch';
 import SimpleCardsPage from '../components/SimpleCardsPage';
@@ -26,6 +26,8 @@ import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
+import BottomMenuBar from '../components/BottomMenuBar';
+import { healingConfigManager } from '../config/healingConfig';
 import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
 import { KONIVRER_CARDS } from '../data/cards';
 import ButtonTester from '../utils/buttonTester';
@@ -51,20 +53,6 @@ interface Card {
   artist?: string;
 }
 
-interface Deck {
-  id: number;
-  name: string;
-  cards: string[];
-  description: string;
-}
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  level: number;
-}
-
 interface BlogPost {
   id: string;
   title: string;
@@ -76,29 +64,6 @@ interface BlogPost {
 
 // Blog data - will be loaded from API or CMS
 const BLOG_POSTS: BlogPost[] = [];
-
-// App Context for state management
-const AppContext = createContext<{
-  user: User | null;
-  setUser: (user: User | null) => void;
-  decks: Deck[];
-  setDecks: (decks: Deck[]) => void;
-  bookmarks: string[];
-  setBookmarks: (bookmarks: string[]) => void;
-  showLoginModal: boolean;
-  setShowLoginModal: (show: boolean) => void;
-  setShowGame: (show: boolean) => void;
-}>({
-  user: null,
-  setUser: () => {},
-  decks: [],
-  setDecks: () => {},
-  bookmarks: [],
-  setBookmarks: () => {},
-  showLoginModal: false,
-  setShowLoginModal: () => {},
-  setShowGame: () => {},
-});
 
 // Phase 3: Advanced Autonomous Systems Hook
 const useAdvancedAutonomous = () => {
@@ -1073,7 +1038,7 @@ const Phase3App = () => {
                   />
                 </Routes>
               </AnimatePresence>
-              <Footer />
+              <BottomMenuBar />
             </AppContext.Provider>
           </Router>
           <Analytics />
