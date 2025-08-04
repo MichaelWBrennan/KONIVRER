@@ -63,7 +63,7 @@ function attemptToHealError(error: Error): boolean {
       try {
         errorPatterns[pattern](error);
         return true;
-      } catch (_healingError) {
+      } catch {
         // If healing fails, log silently and continue
         return false;
       }
@@ -175,7 +175,7 @@ if (typeof window !== 'undefined') {
  */
 export const healingFetch = async (
   url: string,
-  options?: RequestInit,
+  options?: any,
 ): Promise<Response> => {
   const MAX_RETRIES = 3;
   let retries = 0;

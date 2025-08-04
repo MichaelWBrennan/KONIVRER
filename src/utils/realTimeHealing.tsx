@@ -184,7 +184,7 @@ export function useSelfHealingFetch() {
       options?: {
         method?: string;
         headers?: Record<string, string>;
-        body?: BodyInit;
+        body?: any;
         signal?: AbortSignal;
       },
       healingOptions?: {
