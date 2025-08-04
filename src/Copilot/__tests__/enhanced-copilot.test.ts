@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { CopilotSystem, CopilotAgent, CopilotController, EventStream } from '../src_copilot_index';
+import {
+  CopilotSystem,
+  CopilotAgent,
+  CopilotController,
+  EventStream,
+} from '../src_copilot_index';
 import { State, Goal, Action } from '../src_copilot_core';
 
 // Mock AI services
@@ -10,9 +15,9 @@ vi.mock('../../ai/DeckOptimizer', () => ({
       optimizedDeck: { name: 'Test Deck', cards: [] },
       suggestions: ['Add more creatures'],
       synergyScore: 0.8,
-      predictedWinRate: 0.75
-    })
-  }
+      predictedWinRate: 0.75,
+    }),
+  },
 }));
 
 vi.mock('../../ai/NLPProcessor', () => ({
@@ -20,9 +25,9 @@ vi.mock('../../ai/NLPProcessor', () => ({
     initialize: vi.fn().mockResolvedValue(undefined),
     analyzeSentiment: vi.fn().mockResolvedValue({
       sentiment: 'positive',
-      confidence: 0.8
-    })
-  }
+      confidence: 0.8,
+    }),
+  },
 }));
 
 describe('Enhanced Copilot System', () => {
@@ -47,7 +52,7 @@ describe('Enhanced Copilot System', () => {
     it('should handle context updates', async () => {
       await copilotSystem.initialize();
       const testContext = { currentDeck: { name: 'Test Deck' } };
-      
+
       copilotSystem.updateContext(testContext);
       // Verify context was updated (we can't directly access private members)
       expect(copilotSystem).toBeDefined();
@@ -55,22 +60,22 @@ describe('Enhanced Copilot System', () => {
 
     it('should allow adding goals', async () => {
       await copilotSystem.initialize();
-      
+
       copilotSystem.addGoal({
         type: 'optimize_deck',
         description: 'Test optimization goal',
         priority: 8,
         status: 'pending',
-        progress: 0
+        progress: 0,
       });
-      
+
       expect(copilotSystem).toBeDefined();
     });
 
     it('should provide performance metrics', async () => {
       await copilotSystem.initialize();
       const metrics = copilotSystem.getPerformanceMetrics();
-      
+
       expect(metrics).toHaveProperty('actionsExecuted');
       expect(metrics).toHaveProperty('goalsCompleted');
       expect(metrics).toHaveProperty('averageConfidence');
@@ -84,7 +89,7 @@ describe('Enhanced Copilot System', () => {
         type: 'test_action',
         reasoning: 'Test reasoning',
         confidence: 0.8,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       eventStream.publish(action);
@@ -101,11 +106,14 @@ describe('Enhanced Copilot System', () => {
         description: 'Test goal',
         priority: 5,
         status: 'pending',
-        progress: 0
+        progress: 0,
       };
 
       eventStream.addGoal(goal);
-      eventStream.updateGoal('test_goal', { status: 'completed', progress: 100 });
+      eventStream.updateGoal('test_goal', {
+        status: 'completed',
+        progress: 100,
+      });
 
       // Goals are managed internally, test passes if no errors thrown
       expect(eventStream).toBeDefined();
@@ -135,14 +143,14 @@ describe('Enhanced Copilot System', () => {
           shortTerm: [],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: {
-          currentDeck: { name: 'Test Deck', cards: [] }
+          currentDeck: { name: 'Test Deck', cards: [] },
         },
         capabilities: ['deck_optimization'],
         confidence: 0.7,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await controller.decideNextAction(state);
@@ -161,7 +169,7 @@ describe('Enhanced Copilot System', () => {
         description: 'Test goal from controller',
         priority: 7,
         status: 'pending',
-        progress: 0
+        progress: 0,
       };
 
       controller.addGoal(goal);
@@ -181,27 +189,29 @@ describe('Enhanced Copilot System', () => {
       const state: State = {
         done: false,
         history: [],
-        currentGoals: [{
-          id: 'test_goal',
-          type: 'optimize_deck',
-          description: 'Optimize deck performance',
-          priority: 8,
-          status: 'pending',
-          progress: 0
-        }],
+        currentGoals: [
+          {
+            id: 'test_goal',
+            type: 'optimize_deck',
+            description: 'Optimize deck performance',
+            priority: 8,
+            status: 'pending',
+            progress: 0,
+          },
+        ],
         memory: {
           shortTerm: [],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: {
           currentDeck: { name: 'Test Deck', cards: [] },
-          gameState: { turn: 5 }
+          gameState: { turn: 5 },
         },
         capabilities: ['deck_optimization', 'strategic_analysis'],
         confidence: 0.8,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await agent.nextStep(state);
@@ -223,12 +233,12 @@ describe('Enhanced Copilot System', () => {
           shortTerm: [],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: { gameState: { turn: 1 } },
         capabilities: ['strategic_analysis'],
         confidence: 0.7,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await agent.nextStep(earlyGameState);
@@ -244,15 +254,15 @@ describe('Enhanced Copilot System', () => {
           shortTerm: [],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: {
           playerProfile: { level: 'beginner' },
-          gameState: { turn: 3 }
+          gameState: { turn: 3 },
         },
         capabilities: ['strategic_analysis', 'adaptive_learning'],
         confidence: 0.6,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await agent.nextStep(contextWithPlayer);
@@ -270,12 +280,12 @@ describe('Enhanced Copilot System', () => {
           shortTerm: [],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: {},
         capabilities: [],
         confidence: 0.5,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       // Should not throw error even with missing services
@@ -285,7 +295,7 @@ describe('Enhanced Copilot System', () => {
 
     it('should provide fallback actions on errors', async () => {
       const corruptedState = {} as State;
-      
+
       // Agent should handle corrupted state gracefully
       const action = await agent.nextStep(corruptedState);
       expect(action).toHaveProperty('type');
@@ -300,13 +310,13 @@ describe('Enhanced Copilot System', () => {
         action: 'suggest_mulligan',
         outcome: 'improved hand quality',
         success: true,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       eventStream.publish({
         type: 'user_input',
         message: 'That helped!',
-        timestamp: new Date()
+        timestamp: new Date(),
       });
 
       const memory = eventStream.getMemory();
@@ -329,14 +339,14 @@ describe('Enhanced Copilot System', () => {
               action: 'observe_environment',
               outcome: 'success',
               success: true,
-              timestamp: new Date()
-            }
-          ]
+              timestamp: new Date(),
+            },
+          ],
         },
         context: {},
         capabilities: ['pattern_recognition'],
         confidence: 0.5,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await agent.nextStep(state);
@@ -350,26 +360,28 @@ describe('Enhanced Copilot System', () => {
       const state: State = {
         done: false,
         history: [],
-        currentGoals: [{
-          id: 'optimize_test',
-          type: 'optimize_deck',
-          description: 'Test deck optimization',
-          priority: 8,
-          status: 'pending',
-          progress: 0
-        }],
+        currentGoals: [
+          {
+            id: 'optimize_test',
+            type: 'optimize_deck',
+            description: 'Test deck optimization',
+            priority: 8,
+            status: 'pending',
+            progress: 0,
+          },
+        ],
         memory: {
           shortTerm: [],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: {
-          currentDeck: { name: 'Test Deck', cards: [] }
+          currentDeck: { name: 'Test Deck', cards: [] },
         },
         capabilities: ['deck_optimization'],
         confidence: 0.8,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await controller.decideNextAction(state);
@@ -382,19 +394,21 @@ describe('Enhanced Copilot System', () => {
         history: [],
         currentGoals: [],
         memory: {
-          shortTerm: [{
-            type: 'user_input',
-            message: 'I need help with strategy',
-            timestamp: new Date()
-          }],
+          shortTerm: [
+            {
+              type: 'user_input',
+              message: 'I need help with strategy',
+              timestamp: new Date(),
+            },
+          ],
           longTerm: new Map(),
           patterns: new Map(),
-          learnings: []
+          learnings: [],
         },
         context: {},
         capabilities: ['natural_language_processing'],
         confidence: 0.7,
-        lastUpdate: new Date()
+        lastUpdate: new Date(),
       };
 
       const action = await controller.decideNextAction(state);
@@ -410,7 +424,7 @@ describe('Enhanced Copilot System', () => {
         description: 'High priority optimization',
         priority: 10,
         status: 'pending',
-        progress: 0
+        progress: 0,
       };
 
       const lowPriorityGoal: Goal = {
@@ -419,7 +433,7 @@ describe('Enhanced Copilot System', () => {
         description: 'Low priority learning',
         priority: 3,
         status: 'pending',
-        progress: 0
+        progress: 0,
       };
 
       eventStream.addGoal(lowPriorityGoal);
@@ -436,13 +450,13 @@ describe('Enhanced Copilot System', () => {
         description: 'Test goal completion',
         priority: 5,
         status: 'pending',
-        progress: 0
+        progress: 0,
       };
 
       eventStream.addGoal(goal);
-      eventStream.updateGoal('completion_test', { 
-        status: 'completed', 
-        progress: 100 
+      eventStream.updateGoal('completion_test', {
+        status: 'completed',
+        progress: 100,
       });
 
       // Should handle goal updates without errors
