@@ -35,6 +35,22 @@ Object.keys(conflictMarkers).forEach(marker => {
   console.info(`[Conflict Detection] Detected marker: ${marker}`);
 });
 
+// Common error patterns and their healing functions
+const errorPatterns: Record<string, (error: Error) => void> = {
+  'process is not defined': (_error: Error) => {
+    console.info('[Error Healing] Detected Node.js process reference in browser - suggesting environment variable fix');
+  },
+  'Cannot read property': (_error: Error) => {
+    console.info('[Error Healing] Detected property access error - suggesting null check');
+  },
+  'undefined is not a function': (_error: Error) => {
+    console.info('[Error Healing] Detected undefined function call - suggesting function definition check');
+  },
+  'Module not found': (_error: Error) => {
+    console.info('[Error Healing] Detected missing module - suggesting import path check');
+  }
+};
+
 /**
  * Attempts to heal an error based on its type and message
  */
@@ -47,7 +63,7 @@ function attemptToHealError(error: Error): boolean {
       try {
         errorPatterns[pattern](error);
         return true;
-      } catch (healingError) {
+      } catch (_healingError) {
         // If healing fails, log silently and continue
         return false;
       }
