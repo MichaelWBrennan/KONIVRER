@@ -23,7 +23,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
   currentDeck,
   playerProfile,
   onAction,
-  config = {}
+  config = {},
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [messages, setMessages] = useState<CopilotMessage[]>([]);
@@ -39,15 +39,16 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
           debugMode: true,
           adaptiveLearning: true,
           aiServicesEnabled: true,
-          ...config
+          ...config,
         });
 
         await copilotRef.current.initialize();
-        
+
         addMessage({
           type: 'info',
-          content: '🚀 OpenHands AI-level Copilot initialized and ready to assist!',
-          confidence: 1.0
+          content:
+            '🚀 OpenHands AI-level Copilot initialized and ready to assist!',
+          confidence: 1.0,
         });
 
         setIsActive(true);
@@ -56,7 +57,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
         addMessage({
           type: 'error',
           content: '❌ Failed to initialize Copilot system',
-          confidence: 0.0
+          confidence: 0.0,
         });
       }
     };
@@ -77,11 +78,11 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
         gameState,
         currentDeck,
         playerProfile,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       copilotRef.current.updateContext(context);
-      
+
       // Trigger analysis if significant changes
       if (gameState || currentDeck) {
         handleAnalyzeRequest();
@@ -93,7 +94,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
     const newMessage: CopilotMessage = {
       id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       timestamp: new Date(),
-      ...message
+      ...message,
     };
 
     setMessages(prev => [...prev.slice(-9), newMessage]); // Keep last 10 messages
@@ -109,40 +110,43 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
         description: 'Optimize current deck for better performance',
         priority: 9,
         status: 'pending',
-        progress: 0
+        progress: 0,
       });
 
-      await copilotRef.current.executeAction('optimize_deck', { deck: currentDeck });
-      
+      await copilotRef.current.executeAction('optimize_deck', {
+        deck: currentDeck,
+      });
+
       addMessage({
         type: 'suggestion',
-        content: '🎯 Deck optimization initiated. Analyzing synergies and performance...',
-        confidence: 0.9
+        content:
+          '🎯 Deck optimization initiated. Analyzing synergies and performance...',
+        confidence: 0.9,
       });
 
       // Simulate optimization results
       setTimeout(() => {
         addMessage({
           type: 'analysis',
-          content: '✨ Optimization complete! Found 3 improvement opportunities: Better mana curve, increased synergy, and stronger late-game presence.',
-          confidence: 0.85
+          content:
+            '✨ Optimization complete! Found 3 improvement opportunities: Better mana curve, increased synergy, and stronger late-game presence.',
+          confidence: 0.85,
         });
-        
+
         onAction?.({
           type: 'deck_optimized',
           suggestions: [
             'Add more 2-cost creatures for early game',
             'Include more card draw for consistency',
-            'Consider stronger win conditions'
-          ]
+            'Consider stronger win conditions',
+          ],
         });
       }, 2000);
-
     } catch (error) {
       addMessage({
         type: 'error',
         content: '❌ Deck optimization failed. Please try again.',
-        confidence: 0.1
+        confidence: 0.1,
       });
     } finally {
       setIsThinking(false);
@@ -154,29 +158,30 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
 
     setIsThinking(true);
     try {
-      await copilotRef.current.executeAction('analyze_game_state', { 
+      await copilotRef.current.executeAction('analyze_game_state', {
         gameState,
-        focus: 'strategic_analysis' 
+        focus: 'strategic_analysis',
       });
 
-      const phase = gameState?.turn <= 3 ? 'early' : gameState?.turn <= 7 ? 'mid' : 'late';
+      const phase =
+        gameState?.turn <= 3 ? 'early' : gameState?.turn <= 7 ? 'mid' : 'late';
       const analysis = {
-        early: '🌅 Early game: Focus on board presence and resource development',
+        early:
+          '🌅 Early game: Focus on board presence and resource development',
         mid: '⚡ Mid game: Optimize positioning and prepare win conditions',
-        late: '🎆 Late game: Execute win strategy and maintain advantage'
+        late: '🎆 Late game: Execute win strategy and maintain advantage',
       };
 
       addMessage({
         type: 'analysis',
         content: analysis[phase] || '🤔 Analyzing current situation...',
-        confidence: 0.8
+        confidence: 0.8,
       });
-
     } catch (error) {
       addMessage({
         type: 'error',
         content: '❌ Analysis failed. Please try again.',
-        confidence: 0.1
+        confidence: 0.1,
       });
     } finally {
       setIsThinking(false);
@@ -190,29 +195,28 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
     try {
       await copilotRef.current.executeAction('provide_strategy_advice', {
         gameState,
-        playerLevel: playerProfile?.level || 'intermediate'
+        playerLevel: playerProfile?.level || 'intermediate',
       });
 
       const advice = [
-        '🎲 Consider your opponent\'s possible responses',
+        "🎲 Consider your opponent's possible responses",
         '⚖️ Balance offense and defense appropriately',
         '📈 Plan for the next 2-3 turns ahead',
-        '🎯 Focus on your win condition'
+        '🎯 Focus on your win condition',
       ];
 
       const randomAdvice = advice[Math.floor(Math.random() * advice.length)];
-      
+
       addMessage({
         type: 'suggestion',
         content: `💡 Strategic advice: ${randomAdvice}`,
-        confidence: 0.75
+        confidence: 0.75,
       });
-
     } catch (error) {
       addMessage({
         type: 'error',
         content: '❌ Strategy advice unavailable. Please try again.',
-        confidence: 0.1
+        confidence: 0.1,
       });
     } finally {
       setIsThinking(false);
@@ -239,11 +243,16 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
 
   const getMessageIcon = (type: string) => {
     switch (type) {
-      case 'info': return '💡';
-      case 'suggestion': return '🎯';
-      case 'analysis': return '🔍';
-      case 'error': return '❌';
-      default: return '🤖';
+      case 'info':
+        return '💡';
+      case 'suggestion':
+        return '🎯';
+      case 'analysis':
+        return '🔍';
+      case 'error':
+        return '❌';
+      default:
+        return '🤖';
     }
   };
 
@@ -252,7 +261,9 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-2">
-          <div className={`w-3 h-3 rounded-full ${isActive ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`} />
+          <div
+            className={`w-3 h-3 rounded-full ${isActive ? 'bg-green-400 animate-pulse' : 'bg-red-400'}`}
+          />
           <h3 className="text-lg font-bold text-white">OpenHands AI Copilot</h3>
         </div>
         <div className="text-xs text-gray-400">
@@ -263,17 +274,20 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
       {/* Messages */}
       <div className="messages-container h-48 overflow-y-auto mb-4 space-y-2 scrollbar-thin scrollbar-track-gray-800 scrollbar-thumb-purple-600">
         <AnimatePresence>
-          {messages.map((message) => (
+          {messages.map(message => (
             <motion.div
               key={message.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               className={`p-3 rounded-lg bg-gray-800 border-l-4 ${
-                message.type === 'error' ? 'border-red-500' :
-                message.type === 'suggestion' ? 'border-blue-500' :
-                message.type === 'analysis' ? 'border-green-500' :
-                'border-purple-500'
+                message.type === 'error'
+                  ? 'border-red-500'
+                  : message.type === 'suggestion'
+                    ? 'border-blue-500'
+                    : message.type === 'analysis'
+                      ? 'border-green-500'
+                      : 'border-purple-500'
               }`}
             >
               <div className="flex items-start space-x-2">
@@ -285,7 +299,9 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
                       {message.timestamp.toLocaleTimeString()}
                     </span>
                     {message.confidence !== undefined && (
-                      <span className={`text-xs ${getConfidenceColor(message.confidence)}`}>
+                      <span
+                        className={`text-xs ${getConfidenceColor(message.confidence)}`}
+                      >
                         {(message.confidence * 100).toFixed(0)}% confidence
                       </span>
                     )}
@@ -295,7 +311,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
             </motion.div>
           ))}
         </AnimatePresence>
-        
+
         {isThinking && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -346,7 +362,9 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
           <div className="grid grid-cols-2 gap-2">
             <div>Actions: {metrics.actionsExecuted}</div>
             <div>Goals: {metrics.goalsCompleted}</div>
-            <div>Confidence: {(metrics.averageConfidence * 100).toFixed(0)}%</div>
+            <div>
+              Confidence: {(metrics.averageConfidence * 100).toFixed(0)}%
+            </div>
             <div>Errors: {metrics.errorRate}</div>
           </div>
         </div>

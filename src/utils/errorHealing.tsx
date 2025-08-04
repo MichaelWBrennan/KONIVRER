@@ -38,17 +38,25 @@ Object.keys(conflictMarkers).forEach(marker => {
 // Common error patterns and their healing functions
 const errorPatterns: Record<string, (error: Error) => void> = {
   'process is not defined': (_error: Error) => {
-    console.info('[Error Healing] Detected Node.js process reference in browser - suggesting environment variable fix');
+    console.info(
+      '[Error Healing] Detected Node.js process reference in browser - suggesting environment variable fix',
+    );
   },
   'Cannot read property': (_error: Error) => {
-    console.info('[Error Healing] Detected property access error - suggesting null check');
+    console.info(
+      '[Error Healing] Detected property access error - suggesting null check',
+    );
   },
   'undefined is not a function': (_error: Error) => {
-    console.info('[Error Healing] Detected undefined function call - suggesting function definition check');
+    console.info(
+      '[Error Healing] Detected undefined function call - suggesting function definition check',
+    );
   },
   'Module not found': (_error: Error) => {
-    console.info('[Error Healing] Detected missing module - suggesting import path check');
-  }
+    console.info(
+      '[Error Healing] Detected missing module - suggesting import path check',
+    );
+  },
 };
 
 /**

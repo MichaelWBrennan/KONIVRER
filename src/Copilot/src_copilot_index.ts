@@ -30,7 +30,7 @@ export class CopilotSystem {
     if (this.isInitialized) return;
 
     console.log('🚀 Initializing OpenHands AI-level Copilot...');
-    
+
     // Set up default goals
     this.controller.addGoal({
       id: 'system_ready',
@@ -38,7 +38,7 @@ export class CopilotSystem {
       description: 'Be ready to provide intelligent assistance',
       priority: 10,
       status: 'pending',
-      progress: 0
+      progress: 0,
     });
 
     this.isInitialized = true;
@@ -58,7 +58,7 @@ export class CopilotSystem {
         shortTerm: [],
         longTerm: new Map(),
         patterns: new Map(),
-        learnings: []
+        learnings: [],
       },
       context: initialContext || {},
       capabilities: [
@@ -67,10 +67,10 @@ export class CopilotSystem {
         'natural_language_processing',
         'adaptive_learning',
         'goal_oriented_planning',
-        'self_reflection'
+        'self_reflection',
       ],
       confidence: 0.7,
-      lastUpdate: new Date()
+      lastUpdate: new Date(),
     };
 
     console.log('🎯 Starting intelligent Copilot run...');
@@ -84,7 +84,7 @@ export class CopilotSystem {
       reasoning: 'Manual action request',
       confidence: 0.8,
       timestamp: new Date(),
-      expectedResult: 'User-requested action completed'
+      expectedResult: 'User-requested action completed',
     };
 
     this.eventStream.publish(action);
@@ -98,7 +98,7 @@ export class CopilotSystem {
   addGoal(goal: Omit<Goal, 'id'>): void {
     const newGoal: Goal = {
       id: `user_${Date.now()}`,
-      ...goal
+      ...goal,
     };
     this.controller.addGoal(newGoal);
   }
@@ -116,10 +116,10 @@ export class CopilotSystem {
 // Legacy function for backward compatibility
 export async function runCopilot(initialState?: State): Promise<void> {
   console.log('🔄 Starting legacy Copilot interface...');
-  
+
   const system = new CopilotSystem();
   await system.initialize();
-  
+
   if (initialState) {
     await system.start(initialState.context);
   } else {
