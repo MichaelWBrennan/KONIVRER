@@ -147,7 +147,7 @@ class DependencyOrchestrator extends EventEmitter {
     for (const source of sources) {
       try {
         await this.loadSecuritySource(source);
-      } catch (error) {
+      } catch {
         console.warn(`Failed to load security data from: ${source}`);
       }
     }
@@ -577,7 +577,7 @@ class DependencyOrchestrator extends EventEmitter {
     return 'low';
   }
 
-  private createRollbackPlan(dependencies: DependencyInfo[]): string[] {
+  private createRollbackPlan(_dependencies: DependencyInfo[]): string[] {
     return [
       'backup-package-lock',
       'backup-node-modules',
@@ -586,7 +586,7 @@ class DependencyOrchestrator extends EventEmitter {
     ];
   }
 
-  private createTestPlan(dependencies: DependencyInfo[]): string[] {
+  private createTestPlan(_dependencies: DependencyInfo[]): string[] {
     const tests = ['npm-audit', 'type-check', 'lint-check'];
 
     if (this.config.testBeforeUpdate) {
@@ -620,7 +620,7 @@ class DependencyOrchestrator extends EventEmitter {
         ...a.dependencies.map(d => priorityOrder[d.updatePriority]),
       );
       const bPriority = Math.max(
-        ...b.dependencies.map(d => priorityOrder[b.updatePriority]),
+        ...b.dependencies.map(d => priorityOrder[d.updatePriority]),
       );
       return bPriority - aPriority;
     });

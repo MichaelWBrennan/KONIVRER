@@ -696,7 +696,7 @@ class CodeEvolutionEngine extends EventEmitter {
   }
 
   private async generateImprovementsFromResult(
-    result: any,
+    _result: any,
   ): Promise<CodeImprovement[]> {
     // Generate improvements based on analysis result
     return [];
@@ -815,7 +815,7 @@ export const useCodeEvolution = (config?: Partial<CodeEvolutionConfig>) => {
     initializeEngine();
 
     // Listen for evolution events
-    const handleEvolutionComplete = (improvement: CodeImprovement) => {
+    const handleEvolutionComplete = (_improvement: CodeImprovement) => {
       setMetrics(engine.getMetrics());
     };
 
