@@ -369,10 +369,7 @@ export function withAdvancedHealing<P extends object>(
     stateBackup?: boolean;
   },
 ) {
-  const {
-    silent = true,
-    predictive = true,
-  } = options || {};
+  const { silent = true, predictive = true } = options || {};
 
   return React.forwardRef<any, P>((props, ref) => {
     const componentRef = useRef<any>(null);
