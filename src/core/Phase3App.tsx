@@ -1105,4 +1105,14 @@ const Phase3AppWithHealing = withAdvancedHealing(Phase3App, {
   performanceMonitoring: true,
 });
 
-export default Phase3AppWithHealing;
+export default Phase3AppWithHealing
+// ...rest of your code...
+import BottomMenuBar from '../components/BottomMenuBar';
+
+const Phase3App = () => (
+  <>
+    {/* ...existing app code... */}
+    <BottomMenuBar />
+  </>
+);
+
