@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "KONIVRER - Minimal Mystical Trading Card Game",
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -79,7 +82,7 @@
     "globals": "^16.3.0",
     "jsdom": "^26.1.0",
     "prettier": "^3.6.2",
-    "typescript": "^5.9.2",
+    "typescript": "^5.8.3",
     "vite": "^7.0.6",
     "vitest": "^3.2.4"
   }
