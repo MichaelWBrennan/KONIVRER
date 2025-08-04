@@ -164,8 +164,7 @@ export class DynamicAudioEngine {
   }
 
   private adaptMusic(): void {
-    const { phase, playerHealth, tension } =
-      this.currentGameState;
+    const { phase, playerHealth, tension } = this.currentGameState;
 
     // Adjust music based on game state
     switch (phase) {

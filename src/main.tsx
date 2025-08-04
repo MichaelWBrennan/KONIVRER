@@ -49,7 +49,7 @@ window.fetch = async function (...args) {
   } catch (error) {
     console.info('[Auto-Healing] Healing fetch error:', error);
     // Retry the fetch with exponential backoff
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(async () => {
         try {
           const response = await originalFetch.apply(this, args);

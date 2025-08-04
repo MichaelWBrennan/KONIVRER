@@ -1,5 +1,5 @@
-import { State, Action } from "./core";
-import { CopilotController } from "./CopilotController";
+import { State, Action } from './core';
+import { CopilotController } from './CopilotController';
 
 /**
  * CopilotAgent is responsible for evaluating the current state and producing actions
