@@ -25,7 +25,7 @@ function App() {
         {/* Remember to add bottom padding to prevent content overlap */}
         Your content here...
       </main>
-      
+
       {/* Bottom navigation */}
       <BottomMenuBar />
     </div>
@@ -68,6 +68,7 @@ This component can be easily integrated into any of the KONIVRER application pha
 ## Browser Support
 
 Compatible with all modern browsers that support:
+
 - React 18+
 - ES2020
 - CSS Grid and Flexbox
