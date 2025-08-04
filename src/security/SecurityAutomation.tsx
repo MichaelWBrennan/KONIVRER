@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSecurityContext } from './SecurityProvider';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
 

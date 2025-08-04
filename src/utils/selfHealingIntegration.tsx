@@ -42,7 +42,7 @@ export const SelfHealingProvider: React.FC<{
           );
           console.info('[KONIVRER] Metrics:', metrics);
         }
-      } catch (_error) {
+      } catch {
         // Fallback to basic healing if advanced fails
         errorHealing.initErrorHealing();
         setSystemReady(true);
