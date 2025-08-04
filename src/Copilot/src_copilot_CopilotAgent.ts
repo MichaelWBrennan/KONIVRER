@@ -1,4 +1,4 @@
-import { EventStream, State, Action, Observation } from "./core";
+import { State, Action } from "./core";
 import { CopilotController } from "./CopilotController";
 
 /**

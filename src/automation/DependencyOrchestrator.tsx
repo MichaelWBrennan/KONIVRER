@@ -3,7 +3,7 @@
  * Manages dependencies, security updates, and compatibility automatically
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 // Browser-compatible EventEmitter implementation
 import EventEmitter from '../utils/EventEmitter';

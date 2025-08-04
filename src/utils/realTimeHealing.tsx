@@ -23,7 +23,7 @@ export class AdvancedErrorBoundary extends React.Component<
   },
   { hasError: boolean; errorId?: string; healingAttempts: number }
 > {
-  private healingTimer?: NodeJS.Timeout;
+  private healingTimer?: number;
   private performanceObserver?: PerformanceObserver;
 
   constructor(props: any) {
@@ -181,7 +181,12 @@ export function useSelfHealingFetch() {
   const adaptiveFetch = useCallback(
     async (
       url: string,
-      options?: RequestInit,
+      options?: {
+        method?: string;
+        headers?: Record<string, string>;
+        body?: BodyInit;
+        signal?: AbortSignal;
+      },
       healingOptions?: {
         maxRetries?: number;
         timeout?: number;
@@ -291,7 +296,7 @@ export function useSelfHealingFetch() {
 
       throw lastError || new Error('Request failed after all retries');
     },
-    [requestCache],
+    [requestCache, networkMetrics],
   );
 
   return { adaptiveFetch, networkMetrics };
@@ -367,8 +372,6 @@ export function withAdvancedHealing<P extends object>(
   const {
     silent = true,
     predictive = true,
-    performanceMonitoring = true,
-    stateBackup = true,
   } = options || {};
 
   return React.forwardRef<any, P>((props, ref) => {
@@ -376,8 +379,8 @@ export function withAdvancedHealing<P extends object>(
     const renderCountRef = useRef(0);
     const lastRenderTime = useRef(performance.now());
 
-    // Performance monitoring
-    const healingMetrics = useRealTimeHealing();
+    // Performance monitoring would be used in future implementation
+    // const healingMetrics = useRealTimeHealing();
 
     // Predictive error prevention
     useEffect(() => {
