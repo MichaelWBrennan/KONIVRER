@@ -10,7 +10,13 @@ interface MenuItemProps {
   isActive?: boolean;
 }
 
-const MenuItem: React.FC<MenuItemProps> = ({ icon, label, href, onClick, isActive = false }) => {
+const MenuItem: React.FC<MenuItemProps> = ({
+  icon,
+  label,
+  href,
+  onClick,
+  isActive = false,
+}) => {
   const content = (
     <motion.div
       whileHover={{ scale: 1.05 }}
@@ -42,12 +48,8 @@ const MenuItem: React.FC<MenuItemProps> = ({ icon, label, href, onClick, isActiv
       }}
       onClick={onClick}
     >
-      <div style={{ fontSize: '20px', marginBottom: '4px' }}>
-        {icon}
-      </div>
-      <span style={{ fontSize: '12px', fontWeight: '500' }}>
-        {label}
-      </span>
+      <div style={{ fontSize: '20px', marginBottom: '4px' }}>{icon}</div>
+      <span style={{ fontSize: '12px', fontWeight: '500' }}>{label}</span>
     </motion.div>
   );
 
