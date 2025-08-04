@@ -1,4 +1,4 @@
-import { State, Action, EventStream } from "./core";
+import { State, Action, EventStream } from './core';
 
 /**
  * CopilotController manages the agent's state and drives the main loop,
@@ -16,7 +16,8 @@ export class CopilotController {
    */
   public async run(initialState: State): Promise<void> {
     let state = initialState;
-    for (let i = 0; i < 100; i++) { // max iterations
+    for (let i = 0; i < 100; i++) {
+      // max iterations
       const action = this.decideNextAction(state);
       this.eventStream.publish(action);
       state = await this.eventStream.observe();
@@ -29,6 +30,6 @@ export class CopilotController {
    */
   public decideNextAction(_state: State): Action {
     // TODO: Actual AI logic goes here.
-    return { type: "noop" }; // placeholder
+    return { type: 'noop' }; // placeholder
   }
 }

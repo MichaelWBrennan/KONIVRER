@@ -1,6 +1,6 @@
 // import { CopilotAgent } from "./CopilotAgent"; // TODO: Will be used in future implementation
-import { CopilotController } from "./CopilotController";
-import { EventStream, State } from "./core";
+import { CopilotController } from './CopilotController';
+import { EventStream, State } from './core';
 
 // Entry point for Copilot agent system
 export async function runCopilot(initialState?: State) {
