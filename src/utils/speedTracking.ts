@@ -106,7 +106,7 @@ class SpeedTracker {
           }
         });
         lcpObserver.observe({ entryTypes: ['largest-contentful-paint'] });
-      } catch (e) {
+      } catch {
         console.warn('[SPEED TRACKER] LCP observer not supported');
       }
     }
@@ -281,8 +281,8 @@ export const getPerformanceReport = (): string => {
 
 // Development helper
 if (process.env.NODE_ENV === 'development') {
-  // @ts-ignore
+  // @ts-expect-error - Adding debug utilities to window for development
   window.speedTracker = speedTracker;
-  // @ts-ignore
+  // @ts-expect-error - Adding debug utilities to window for development
   window.getPerformanceReport = getPerformanceReport;
 }

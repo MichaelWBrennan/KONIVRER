@@ -68,7 +68,7 @@ const AppContext = createContext<{
 const useLightweightAutonomous = () => {
   const autonomousRef = useRef<{
     speedTracking: any;
-    intervals: NodeJS.Timeout[];
+    intervals: number[];
     initialized: boolean;
   }>({
     speedTracking: null,

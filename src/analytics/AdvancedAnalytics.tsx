@@ -36,7 +36,7 @@ export interface PerformanceMetrics {
   userEngagement: { [key: string]: number }; // Key-value for trackable user activities
 }
 
-export function collectAdvancedMetrics(metrics: PerformanceMetrics): void {
+export function collectAdvancedMetrics(_metrics: PerformanceMetrics): void {
   // Advanced implementation here
   console.log('Collecting advanced performance metrics...');
 }
@@ -106,7 +106,6 @@ export const AdvancedAnalytics: React.FC<AnalyticsDashboardProps> = ({
   data,
   width = 1200,
   height = 800,
-  interactive = true,
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [selectedView, setSelectedView] = useState<
