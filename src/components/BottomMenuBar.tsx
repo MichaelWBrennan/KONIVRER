@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
-import NavigationDrawer from './NavigationDrawer';
+import PopoverMenu from './PopoverMenu';
 import { AppContext, AppContextType } from '../contexts/AppContext';
 
 // Define navigation items that will appear in the drawer
@@ -70,16 +70,18 @@ interface CircularButtonProps {
   label: string;
   onClick: () => void;
   ariaLabel: string;
+  ref?: React.RefObject<HTMLButtonElement>;
 }
 
-const CircularButton: React.FC<CircularButtonProps> = ({
+const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(({
   icon,
   label,
   onClick,
   ariaLabel,
-}) => {
+}, ref) => {
   return (
     <motion.button
+      ref={ref}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       onClick={onClick}
@@ -135,13 +137,14 @@ const CircularButton: React.FC<CircularButtonProps> = ({
       </div>
     </motion.button>
   );
-};
+});
 
 const BottomMenuBar: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const appContext = useContext(AppContext);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   // Get navigation items with context
   const navigationItems = getNavigationItems(appContext);
@@ -201,7 +204,7 @@ const BottomMenuBar: React.FC = () => {
   };
 
   const handleMenu = () => {
-    setIsDrawerOpen(true);
+    setIsMenuOpen(true);
   };
 
   return (
@@ -264,14 +267,16 @@ const BottomMenuBar: React.FC = () => {
           label="Menu"
           onClick={handleMenu}
           ariaLabel="Open navigation menu"
+          ref={menuButtonRef}
         />
       </motion.nav>
 
-      {/* Navigation Drawer */}
-      <NavigationDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
+      {/* Popover Menu */}
+      <PopoverMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
         navigationItems={navigationItems}
+        anchorRef={menuButtonRef}
       />
 
       <style jsx>{`
