@@ -118,11 +118,11 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
         allowCredentials: any[];
         userVerification: string;
       } = {
-          challenge: new Uint8Array(32),
-          allowCredentials: [],
-          userVerification: 'required',
-          timeout: 60000,
-        };
+        challenge: new Uint8Array(32),
+        allowCredentials: [],
+        userVerification: 'required',
+        timeout: 60000,
+      };
 
       // Request credential
       const credential = (await navigator.credentials.get({
