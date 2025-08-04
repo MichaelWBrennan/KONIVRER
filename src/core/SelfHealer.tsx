@@ -153,7 +153,7 @@ export class SelfHealingErrorBoundary extends Component<
   ErrorState
 > {
   private config: SelfHealerConfig;
-  private recoveryTimeout: NodeJS.Timeout | null = null;
+  private recoveryTimeout: number | null = null;
 
   constructor(props: {
     children: React.ReactNode;

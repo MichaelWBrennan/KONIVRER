@@ -99,7 +99,7 @@ describe('Speed Tracking Utilities', () => {
   it('should handle missing performance API gracefully', async () => {
     // Temporarily remove performance API
     const originalPerformance = global.window.performance;
-    // @ts-ignore
+    // @ts-expect-error - Intentionally deleting performance for testing
     delete global.window.performance;
 
     const { trackCustomMetric } = await import('../utils/speedTracking');

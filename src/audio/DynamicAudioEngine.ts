@@ -164,7 +164,7 @@ export class DynamicAudioEngine {
   }
 
   private adaptMusic(): void {
-    const { phase, tension, playerHealth, opponentHealth } =
+    const { phase, tension, playerHealth } =
       this.currentGameState;
 
     // Adjust music based on game state
@@ -357,7 +357,7 @@ export class DynamicAudioEngine {
   }
 
   private generateAmbientChord(): string[] {
-    const { phase, tension } = this.currentGameState;
+    const { phase } = this.currentGameState;
 
     // Base chord progressions for different phases
     const chordProgressions = {

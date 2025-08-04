@@ -107,7 +107,7 @@ const useAdvancedAutonomous = () => {
     speedMonitor: any;
     autonomousCore: any;
     securityProvider: any;
-    intervals: NodeJS.Timeout[];
+    intervals: number[];
     initialized: boolean;
   }>({
     speedTracking: null,

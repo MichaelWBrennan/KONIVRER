@@ -3,8 +3,9 @@
  * Provides proactive issue detection, automatic healing, and system optimization
  */
 
-import React, { useEffect, useState, useCallback } from 'react';
-import { getEnvVariable } from '../utils/envUtils';
+import { useEffect, useState, useCallback } from 'react';
+// TODO: Will be used for environment-specific self-healing configuration
+// import { getEnvVariable } from '../utils/envUtils';
 
 // Browser-compatible EventEmitter implementation
 import EventEmitter from '../utils/EventEmitter';
