@@ -18,7 +18,7 @@ interface MobileNavigationProps {
 const MobileNavigation: React.FC<MobileNavigationProps> = ({
   items,
   currentPath = '/',
-  onNavigate
+  onNavigate,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -28,13 +28,13 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
       }
-      
+
       setLastScrollY(currentScrollY);
     };
 
@@ -59,8 +59,8 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
           <div className="mobile-logo">
             <span className="logo-text">KONIVRER</span>
           </div>
-          
-          <button 
+
+          <button
             className="mobile-menu-button"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
@@ -75,11 +75,17 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
       </div>
 
       {/* Mobile Slide-out Menu */}
-      <div className={`mobile-menu-overlay ${isMenuOpen ? 'open' : ''}`} onClick={() => setIsMenuOpen(false)}>
-        <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`mobile-menu-overlay ${isMenuOpen ? 'open' : ''}`}
+        onClick={() => setIsMenuOpen(false)}
+      >
+        <div
+          className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}
+          onClick={e => e.stopPropagation()}
+        >
           <div className="mobile-menu-header">
             <h2>KONIVRER</h2>
-            <button 
+            <button
               className="mobile-menu-close"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
@@ -87,9 +93,9 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
               ✕
             </button>
           </div>
-          
+
           <nav className="mobile-menu-nav">
-            {items.map((item) => (
+            {items.map(item => (
               <button
                 key={item.id}
                 className={`mobile-nav-item ${currentPath === item.path ? 'active' : ''}`}
@@ -103,18 +109,16 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
               </button>
             ))}
           </nav>
-          
+
           <div className="mobile-menu-footer">
-            <div className="menu-footer-text">
-              Trading Card Game Platform
-            </div>
+            <div className="menu-footer-text">Trading Card Game Platform</div>
           </div>
         </div>
       </div>
 
       {/* Bottom Navigation (for key functions) */}
       <div className={`mobile-bottom-nav ${isVisible ? 'visible' : 'hidden'}`}>
-        {items.slice(0, 4).map((item) => (
+        {items.slice(0, 4).map(item => (
           <button
             key={item.id}
             className={`bottom-nav-item ${currentPath === item.path ? 'active' : ''}`}

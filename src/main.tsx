@@ -20,14 +20,20 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
       const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('[PWA] Service Worker registered successfully:', registration);
-      
+      console.log(
+        '[PWA] Service Worker registered successfully:',
+        registration,
+      );
+
       // Listen for updates
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         if (newWorker) {
           newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            if (
+              newWorker.state === 'installed' &&
+              navigator.serviceWorker.controller
+            ) {
               console.log('[PWA] New content available, reload to update');
               // Optionally show update notification to user
             }
@@ -46,39 +52,49 @@ const initMobileOptimizations = () => {
   const viewportMeta = document.querySelector('meta[name="viewport"]');
   if (viewportMeta) {
     viewportMeta.setAttribute(
-      'content', 
-      'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes'
+      'content',
+      'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes',
     );
   }
 
   // Set theme color based on system preference
   const updateThemeColor = () => {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const prefersDark = window.matchMedia(
+      '(prefers-color-scheme: dark)',
+    ).matches;
     const themeColorMeta = document.querySelector('meta[name="theme-color"]');
     if (themeColorMeta) {
-      themeColorMeta.setAttribute('content', prefersDark ? '#0f0f23' : '#1a1a2e');
+      themeColorMeta.setAttribute(
+        'content',
+        prefersDark ? '#0f0f23' : '#1a1a2e',
+      );
     }
   };
 
   updateThemeColor();
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateThemeColor);
+  window
+    .matchMedia('(prefers-color-scheme: dark)')
+    .addEventListener('change', updateThemeColor);
 
   // Handle safe area insets for devices with notches
   const updateSafeAreas = () => {
     const root = document.documentElement;
     if (CSS.supports('padding: env(safe-area-inset-top)')) {
       root.style.setProperty('--safe-area-top', 'env(safe-area-inset-top)');
-      root.style.setProperty('--safe-area-bottom', 'env(safe-area-inset-bottom)');
+      root.style.setProperty(
+        '--safe-area-bottom',
+        'env(safe-area-inset-bottom)',
+      );
       root.style.setProperty('--safe-area-left', 'env(safe-area-inset-left)');
       root.style.setProperty('--safe-area-right', 'env(safe-area-inset-right)');
     }
   };
 
   updateSafeAreas();
-  
+
   // Add mobile-specific classes
   document.body.classList.add('mobile-optimized');
-  
+
   // Detect touch capability
   if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
     document.body.classList.add('touch-device');

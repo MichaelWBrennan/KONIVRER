@@ -19,7 +19,8 @@ interface PWAInstallActions {
 }
 
 export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [showPrompt, setShowPrompt] = useState(false);
@@ -28,9 +29,10 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
   useEffect(() => {
     // Check if app is running in standalone mode
     const checkStandalone = () => {
-      const standalone = window.matchMedia('(display-mode: standalone)').matches ||
-                        (window.navigator as any).standalone ||
-                        document.referrer.includes('android-app://');
+      const standalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        (window.navigator as any).standalone ||
+        document.referrer.includes('android-app://');
       setIsStandalone(standalone);
       setIsInstalled(standalone);
     };
@@ -43,7 +45,7 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
       const beforeInstallEvent = e as BeforeInstallPromptEvent;
       setDeferredPrompt(beforeInstallEvent);
       setIsInstallable(true);
-      
+
       // Show prompt after a delay if not dismissed before
       setTimeout(() => {
         if (!localStorage.getItem('pwa-prompt-dismissed') && !isInstalled) {
@@ -68,7 +70,10 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
 
     // Cleanup
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt,
+      );
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
   }, [isInstalled]);
@@ -82,13 +87,13 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
     try {
       await deferredPrompt.prompt();
       const choiceResult = await deferredPrompt.userChoice;
-      
+
       if (choiceResult.outcome === 'accepted') {
         console.log('User accepted the install prompt');
       } else {
         console.log('User dismissed the install prompt');
       }
-      
+
       setDeferredPrompt(null);
       setIsInstallable(false);
       setShowPrompt(false);
@@ -100,7 +105,7 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
   const dismissPrompt = (): void => {
     setShowPrompt(false);
     localStorage.setItem('pwa-prompt-dismissed', 'true');
-    
+
     // Auto-show again after 7 days
     const dismissTime = Date.now();
     localStorage.setItem('pwa-prompt-dismiss-time', dismissTime.toString());
@@ -116,7 +121,8 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
   useEffect(() => {
     const dismissTime = localStorage.getItem('pwa-prompt-dismiss-time');
     if (dismissTime) {
-      const daysSinceDismiss = (Date.now() - parseInt(dismissTime)) / (1000 * 60 * 60 * 24);
+      const daysSinceDismiss =
+        (Date.now() - parseInt(dismissTime)) / (1000 * 60 * 60 * 24);
       if (daysSinceDismiss > 7) {
         localStorage.removeItem('pwa-prompt-dismissed');
         localStorage.removeItem('pwa-prompt-dismiss-time');
@@ -131,6 +137,6 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
     isStandalone,
     install,
     dismissPrompt,
-    showInstallPrompt
+    showInstallPrompt,
   };
 };
