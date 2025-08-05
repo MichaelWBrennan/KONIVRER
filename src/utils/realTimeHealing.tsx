@@ -35,7 +35,7 @@ export class AdvancedErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError(_error: Error) {
-    return { hasError: true, errorId: error.message };
+    return { hasError: true, errorId: _error.message };
   }
 
   async componentDidCatch(_error: Error, errorInfo: React.ErrorInfo) {
@@ -46,7 +46,7 @@ export class AdvancedErrorBoundary extends React.Component<
     };
 
     // Attempt immediate healing
-    const healed = await advancedSelfHealing.healError(error, context);
+    const healed = await advancedSelfHealing.healError(_error, context);
 
     if (healed && this.state.healingAttempts < 3) {
       // Silent recovery

@@ -41,7 +41,7 @@ export class CopilotAgent {
 
       // 3. Generate multiple action options
       const actionOptions = await this.generateActionOptions(
-        state,
+        _state,
         situationAnalysis,
       );
 
@@ -53,7 +53,7 @@ export class CopilotAgent {
         reasoningChain.options[reasoningChain.selectedOption].action;
 
       // 6. Add learning and self-reflection
-      await this.reflect(state, selectedAction);
+      await this.reflect(_state, selectedAction);
 
       this.reasoningHistory.push(reasoningChain);
 
@@ -74,8 +74,8 @@ export class CopilotAgent {
       playerNeeds: await this.identifyPlayerNeeds(_state),
       opportunities: this.identifyOpportunities(_state),
       threats: this.identifyThreats(_state),
-      contextualFactors: this.analyzeContext(state.context),
-      confidence: state.confidence,
+      contextualFactors: this.analyzeContext(_state.context),
+      confidence: _state.confidence,
     };
 
     return analysis;
@@ -83,14 +83,14 @@ export class CopilotAgent {
 
   private async manageGoals(_state: State): Promise<void> {
     // Review existing goals
-    for (const goal of state.currentGoals) {
+    for (const goal of _state.currentGoals) {
       if (goal.status === 'in_progress') {
         await this.updateGoalProgress(goal, _state);
       }
     }
 
     // Create new goals if needed
-    if (state.currentGoals.filter(g => g.status === 'pending').length === 0) {
+    if (_state.currentGoals.filter(g => g.status === 'pending').length === 0) {
       const newGoals = await this.generateGoals(_state);
       for (const goal of newGoals) {
         this.controller.addGoal(goal);
@@ -213,7 +213,7 @@ export class CopilotAgent {
     }
 
     // Adjust confidence based on past experiences
-    const similarExperiences = state.memory.learnings.filter(
+    const similarExperiences = _state.memory.learnings.filter(
       l => l.action === action.type,
     );
     if (similarExperiences.length > 0) {
@@ -230,7 +230,7 @@ export class CopilotAgent {
     let score = option.confidence * 0.4; // Base confidence weight
 
     // Goal alignment
-    const alignedGoals = state.currentGoals.filter(goal =>
+    const alignedGoals = _state.currentGoals.filter(goal =>
       this.actionAlignsWith(option.action, goal),
     );
     score += alignedGoals.length * 0.3;
@@ -255,17 +255,17 @@ export class CopilotAgent {
     };
 
     // Store learning for future reference
-    state.memory.learnings.push(learning);
+    _state.memory.learnings.push(learning);
 
     // Update strategic knowledge
-    this.updateStrategicKnowledge(state, action);
+    this.updateStrategicKnowledge(_state, action);
   }
 
   private async generateEarlyGameActions(_state: State): Promise<Action[]> {
     return [
       {
         type: 'analyze_opening_hand',
-        payload: { context: state.context },
+        payload: { context: _state.context },
         reasoning: 'Early game analysis is crucial for strategy',
         confidence: 0.8,
         timestamp: new Date(),
@@ -273,7 +273,7 @@ export class CopilotAgent {
       },
       {
         type: 'suggest_mulligan',
-        payload: { hand: state.context.currentHand },
+        payload: { hand: _state.context.currentHand },
         reasoning: 'Mulligan decisions set the tone for the game',
         confidence: 0.7,
         timestamp: new Date(),
@@ -286,7 +286,7 @@ export class CopilotAgent {
     return [
       {
         type: 'optimize_deck',
-        payload: { deck: state.context.currentDeck },
+        payload: { deck: _state.context.currentDeck },
         reasoning: 'Mid-game is optimal time for deck optimization',
         confidence: 0.8,
         timestamp: new Date(),
@@ -294,7 +294,7 @@ export class CopilotAgent {
       },
       {
         type: 'analyze_board_state',
-        payload: { gameState: state.context.gameState },
+        payload: { gameState: _state.context.gameState },
         reasoning: 'Board state analysis guides tactical decisions',
         confidence: 0.9,
         timestamp: new Date(),
@@ -307,7 +307,7 @@ export class CopilotAgent {
     return [
       {
         type: 'calculate_win_conditions',
-        payload: { gameState: state.context.gameState },
+        payload: { gameState: _state.context.gameState },
         reasoning: 'Late game requires focus on win conditions',
         confidence: 0.9,
         timestamp: new Date(),
@@ -315,7 +315,7 @@ export class CopilotAgent {
       },
       {
         type: 'suggest_finishing_moves',
-        payload: { boardState: state.context.gameState },
+        payload: { boardState: _state.context.gameState },
         reasoning: 'Optimal finishing sequence needed',
         confidence: 0.8,
         timestamp: new Date(),
@@ -328,8 +328,8 @@ export class CopilotAgent {
     return {
       type: 'optimize_deck',
       payload: {
-        deck: state.context.currentDeck,
-        preferences: state.context.playerProfile?.preferences,
+        deck: _state.context.currentDeck,
+        preferences: _state.context.playerProfile?.preferences,
       },
       reasoning:
         'Deck optimization requested or needed based on performance analysis',
@@ -343,8 +343,8 @@ export class CopilotAgent {
     return {
       type: 'provide_strategy_advice',
       payload: {
-        gameState: state.context.gameState,
-        playerLevel: state.context.playerProfile?.level || 'intermediate',
+        gameState: _state.context.gameState,
+        playerLevel: _state.context.playerProfile?.level || 'intermediate',
       },
       reasoning: 'Player needs strategic guidance for current situation',
       confidence: 0.75,
@@ -358,7 +358,7 @@ export class CopilotAgent {
       type: 'provide_learning_content',
       payload: {
         topic: this.identifyLearningTopic(_state),
-        playerLevel: state.context.playerProfile?.level,
+        playerLevel: _state.context.playerProfile?.level,
       },
       reasoning: 'Educational content will improve player skills',
       confidence: 0.7,
@@ -402,7 +402,7 @@ export class CopilotAgent {
 
   private identifyGamePhase(_state: State): string {
     // Analyze game state to determine phase
-    const turn = state.context.gameState?.turn || 1;
+    const turn = _state.context.gameState?.turn || 1;
     if (turn <= 3) return 'early';
     if (turn <= 7) return 'mid';
     return 'late';
@@ -412,12 +412,12 @@ export class CopilotAgent {
     const needs: string[] = [];
 
     // Analyze recent actions and context
-    if (state.context.currentDeck && !state.context.currentDeck.optimized) {
+    if (_state.context.currentDeck && !_state.context.currentDeck.optimized) {
       needs.push('deck_optimization');
     }
 
     if (
-      state.memory.shortTerm.some(
+      _state.memory.shortTerm.some(
         event =>
           event.type === 'user_input' &&
           (event as any).message?.includes('help'),
@@ -426,7 +426,7 @@ export class CopilotAgent {
       needs.push('strategy_advice');
     }
 
-    if (state.context.playerProfile?.level === 'beginner') {
+    if (_state.context.playerProfile?.level === 'beginner') {
       needs.push('learning');
     }
 
@@ -454,7 +454,7 @@ export class CopilotAgent {
 
   private async updateGoalProgress(goal: Goal, _state: State): Promise<void> {
     // Update goal progress based on current state
-    if (goal.type === 'optimize_deck' && state.context.currentDeck?.optimized) {
+    if (goal.type === 'optimize_deck' && _state.context.currentDeck?.optimized) {
       goal.progress = 100;
       goal.status = 'completed';
     }
@@ -474,7 +474,7 @@ export class CopilotAgent {
     });
 
     // Add specific goals based on context
-    if (state.context.currentDeck) {
+    if (_state.context.currentDeck) {
       goals.push({
         id: `optimize_${Date.now()}`,
         type: 'optimize_deck',
@@ -490,8 +490,8 @@ export class CopilotAgent {
 
   private describeSituation(_state: State): string {
     const phase = this.identifyGamePhase(_state);
-    const goalCount = state.currentGoals.length;
-    const confidence = state.confidence;
+    const goalCount = _state.currentGoals.length;
+    const confidence = _state.confidence;
 
     return `${phase} game phase, ${goalCount} active goals, confidence: ${(confidence * 100).toFixed(1)}%`;
   }
@@ -554,8 +554,8 @@ export class CopilotAgent {
   }
 
   private determineFocus(_state: State): string {
-    if (state.context.gameState) return 'game_state';
-    if (state.context.currentDeck) return 'deck_analysis';
+    if (_state.context.gameState) return 'game_state';
+    if (_state.context.currentDeck) return 'deck_analysis';
     return 'general_environment';
   }
 

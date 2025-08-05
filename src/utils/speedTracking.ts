@@ -141,7 +141,7 @@ class SpeedTracker {
     } catch (_error) {
       console.warn(
         '[SPEED TRACKER] Route change tracking not available:',
-        error,
+        _error,
       );
     }
   }

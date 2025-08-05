@@ -45,10 +45,10 @@ export class CopilotController {
 
         try {
           // Get next intelligent action
-          const action = await this.decideNextAction(_state);
+          const action = await this.decideNextAction(state);
 
           // Execute the action
-          await this.executeAction(action, _state);
+          await this.executeAction(action, state);
 
           // Publish the action to event stream
           this.eventStream.publish(action);
@@ -60,12 +60,12 @@ export class CopilotController {
           this.updateMetrics(action, Date.now() - startTime);
 
           // Check if we should continue
-          if (state.done || this.shouldPause(_state)) {
+          if (state.done || this.shouldPause(state)) {
             break;
           }
 
           // Adaptive delay based on situation complexity
-          await this.adaptiveDelay(_state);
+          await this.adaptiveDelay(state);
         } catch (_error) {
           console.error(`Error in iteration ${iterationCount}:`, _error);
           this.performanceMetrics.errorRate += 1;
@@ -73,13 +73,13 @@ export class CopilotController {
           // Publish error observation
           this.eventStream.publish({
             type: 'error',
-            message: `Iteration _error: ${error.message}`,
+            message: `Iteration error: ${_error.message}`,
             timestamp: new Date(),
             source: 'controller',
           });
 
           // Continue with error recovery
-          await this.recoverFromError(error, _state);
+          await this.recoverFromError(_error, state);
         }
 
         iterationCount++;
