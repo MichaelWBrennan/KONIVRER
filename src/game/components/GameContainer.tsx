@@ -189,27 +189,35 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   }, [gameState]);
 
   const containerStyle: React.CSSProperties = {
-    position: 'relative', // Changed from 'fixed' to work with parent container
-    width: '100%', // Use full parent container width
-    height: '100%', // Use full parent container height
-    maxWidth: `${dynamicSizing.maxWidth}px`,
-    maxHeight: `${dynamicSizing.maxHeight}px`,
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    maxWidth: dynamicSizing.unit === 'px' ? `${dynamicSizing.maxWidth}px` : '100%',
+    maxHeight: dynamicSizing.unit === 'px' ? `${dynamicSizing.maxHeight}px` : '100%',
     minWidth: `${dynamicSizing.minWidth}px`,
     minHeight: `${dynamicSizing.minHeight}px`,
     margin: '0 auto',
-    zIndex: 10, // Lower z-index since parent handles the main stacking
+    zIndex: 10,
     background: '#1a1a1a',
     overflow: 'hidden',
-    touchAction: 'manipulation', // Improve touch responsiveness
-    userSelect: 'none', // Prevent text selection
+    touchAction: 'manipulation',
+    userSelect: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
     WebkitTapHighlightColor: 'transparent',
     borderRadius: dynamicSizing.containerPadding > 0 ? '8px' : '0',
     boxShadow: dynamicSizing.containerPadding > 0 ? '0 4px 20px rgba(0, 0, 0, 0.3)' : 'none',
-    // Ensure the container doesn't exceed the available space
     boxSizing: 'border-box',
-  };
+    // Enhanced responsiveness
+    aspectRatio: dynamicSizing.width && dynamicSizing.height ? `${dynamicSizing.width} / ${dynamicSizing.height}` : 'auto',
+    // Better mobile performance
+    transform: 'translateZ(0)',
+    willChange: 'transform',
+    // Ensure proper sizing coordination with parent container
+    '--dynamic-width': dynamicSizing.cssWidth,
+    '--dynamic-height': dynamicSizing.cssHeight,
+    '--scale-factor': `${dynamicSizing.scaleFactor}`,
+  } as React.CSSProperties;
 
   const gameCanvasStyle: React.CSSProperties = {
     width: '100%',

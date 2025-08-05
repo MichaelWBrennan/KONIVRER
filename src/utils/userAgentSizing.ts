@@ -172,40 +172,55 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
     right: 0
   };
   
-  // Platform-specific adjustments
+  // Platform-specific adjustments with enhanced user agent detection
   if (platform === 'ios') {
     // iOS devices often have safe area insets
     safeAreaInsets.top = 44; // Status bar
     safeAreaInsets.bottom = 34; // Home indicator on newer devices
     
-    // Adjust for iPhone X and newer models with notches
+    // Adjust for iPhone X and newer models with notches/Dynamic Island
     if (availableHeight > 800 && orientation === 'portrait') {
       safeAreaInsets.top = 47;
       safeAreaInsets.bottom = 34;
     }
     
+    // Enhanced landscape handling for different iPhone models
     if (orientation === 'landscape') {
-      safeAreaInsets.left = 44;
-      safeAreaInsets.right = 44;
+      safeAreaInsets.left = availableWidth > 800 ? 44 : 0;
+      safeAreaInsets.right = availableWidth > 800 ? 44 : 0;
       safeAreaInsets.top = 0;
       safeAreaInsets.bottom = 21;
     }
+    
+    // Special handling for iPad
+    if (isTablet) {
+      safeAreaInsets.top = 24;
+      safeAreaInsets.bottom = 0;
+      safeAreaInsets.left = 0;
+      safeAreaInsets.right = 0;
+    }
   } else if (platform === 'android') {
-    // Android devices may have navigation bars
-    safeAreaInsets.bottom = 48; // Navigation bar
+    // Android devices may have navigation bars - enhanced detection
+    const hasNavBar = availableHeight < capabilities.screenHeight * 0.95;
+    safeAreaInsets.bottom = hasNavBar ? 48 : 0;
     safeAreaInsets.top = 24; // Status bar
+    
+    // Gesture navigation handling
+    if (availableHeight > capabilities.screenHeight * 0.97) {
+      safeAreaInsets.bottom = 10; // Gesture bar
+    }
   }
   
-  // Device type specific sizing
+  // Device type specific sizing with enhanced responsiveness
   if (isMobile) {
     // Mobile devices: use most of the screen but account for browser UI
     if (orientation === 'portrait') {
       width = availableWidth;
-      height = availableHeight - 60; // Account for browser address bar
+      height = availableHeight - (browser === 'safari' && platform === 'ios' ? 100 : 60);
       containerPadding = 8;
     } else {
       width = availableWidth;
-      height = availableHeight - 40; // Less padding in landscape
+      height = availableHeight - (browser === 'safari' && platform === 'ios' ? 70 : 40);
       containerPadding = 4;
     }
     
@@ -213,22 +228,42 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
     unit = 'vw';
     scaleFactor = 0.98; // 98% of viewport to leave some breathing room
     
+    // Adjust for very small screens
+    if (availableWidth < 375) {
+      scaleFactor = 0.95;
+      containerPadding = 4;
+    }
+    
   } else if (isTablet) {
     // Tablets: use more space but leave room for UI
-    width = Math.min(availableWidth * 0.95, 1024);
-    height = Math.min(availableHeight * 0.95, 768);
+    const maxTabletWidth = Math.min(availableWidth * 0.95, 1024);
+    const maxTabletHeight = Math.min(availableHeight * 0.95, 768);
+    
+    width = maxTabletWidth;
+    height = maxTabletHeight;
     containerPadding = 16;
     unit = 'px';
     
+    // Better tablet scaling based on actual screen size
+    if (availableWidth > 1000) {
+      scaleFactor = 1.1;
+    }
+    
   } else if (isDesktop) {
     // Desktop: optimal game size based on common resolutions
-    const optimalWidth = Math.min(availableWidth * 0.9, 1440);
-    const optimalHeight = Math.min(availableHeight * 0.9, 900);
+    const optimalWidth = Math.min(availableWidth * 0.85, 1440);
+    const optimalHeight = Math.min(availableHeight * 0.85, 900);
     
     width = optimalWidth;
     height = optimalHeight;
     containerPadding = 20;
     unit = 'px';
+    
+    // Ultra-wide monitor support
+    if (availableWidth > 1920) {
+      width = Math.min(availableWidth * 0.7, 1600);
+      scaleFactor = 1.2;
+    }
   }
   
   // Performance-based adjustments
