@@ -24,7 +24,7 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
 
   // Handle ESC key to close drawer
   useEffect(() => {
-    const handleEscKey = (event: KeyboardEvent) => {
+    const handleEscKey = (_event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         onClose();
       }
@@ -120,7 +120,7 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
                   margin: '0 auto',
                 }}
               >
-                {navigationItems.map((item, index) => {
+                {navigationItems.map((item, _index) => {
                   const isActive = location.pathname === item.to;
 
                   const content = (

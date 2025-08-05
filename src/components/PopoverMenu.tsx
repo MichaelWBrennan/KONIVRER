@@ -27,7 +27,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
 
   // Handle ESC key to close menu
   useEffect(() => {
-    const handleEscKey = (event: KeyboardEvent) => {
+    const handleEscKey = (_event: KeyboardEvent) => {
       if (event.key === 'Escape' && isOpen) {
         onClose();
       }
@@ -137,7 +137,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                   gap: '4px',
                 }}
               >
-                {navigationItems.map((item, index) => {
+                {navigationItems.map((item, _index) => {
                   const isActive = location.pathname === item.to;
 
                   const content = (

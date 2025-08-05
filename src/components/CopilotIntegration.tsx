@@ -52,8 +52,8 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
         });
 
         setIsActive(true);
-      } catch (error) {
-        console.error('Failed to initialize Copilot:', error);
+      } catch (_error) {
+        console.error('Failed to initialize Copilot:', _error);
         addMessage({
           type: 'error',
           content: '❌ Failed to initialize Copilot system',
@@ -142,7 +142,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
           ],
         });
       }, 2000);
-    } catch (error) {
+    } catch (_error) {
       addMessage({
         type: 'error',
         content: '❌ Deck optimization failed. Please try again.',
@@ -177,7 +177,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
         content: analysis[phase] || '🤔 Analyzing current situation...',
         confidence: 0.8,
       });
-    } catch (error) {
+    } catch (_error) {
       addMessage({
         type: 'error',
         content: '❌ Analysis failed. Please try again.',
@@ -212,7 +212,7 @@ export const CopilotIntegration: React.FC<CopilotIntegrationProps> = ({
         content: `💡 Strategic advice: ${randomAdvice}`,
         confidence: 0.75,
       });
-    } catch (error) {
+    } catch (_error) {
       addMessage({
         type: 'error',
         content: '❌ Strategy advice unavailable. Please try again.',

@@ -136,7 +136,7 @@ export class PerformanceManager {
       // Check for WebGL2 support
       const gl2 = canvas.getContext('webgl2');
       return !!gl2;
-    } catch (error) {
+    } catch (_error) {
       return false;
     }
   }

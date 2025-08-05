@@ -21,8 +21,8 @@ class AudioManager {
       this.masterGain = this.audioContext.createGain();
       this.masterGain.connect(this.audioContext.destination);
       console.log('[AudioManager] Audio system initialized');
-    } catch (error) {
-      console.warn('[AudioManager] Audio not available:', error);
+    } catch (_error) {
+      console.warn('[AudioManager] Audio not available:', _error);
     }
   }
 
@@ -72,7 +72,7 @@ class AudioManager {
   }
 
   private playMelody(frequencies: number[], noteDuration: number) {
-    frequencies.forEach((freq, index) => {
+    frequencies.forEach((freq, _index) => {
       setTimeout(
         () => this.playTone(freq, noteDuration),
         index * noteDuration * 1000,
@@ -467,14 +467,14 @@ export class GameEngine {
   }
 
   private animateMysticalLights(lights: BABYLON.PointLight[]): void {
-    lights.forEach((light, index) => {
+    lights.forEach((light, _index) => {
       // Create a simple repeating animation using scene.registerBeforeRender
       if (this.scene) {
         let time = 0;
         this.scene.registerBeforeRender(() => {
           time += 0.01;
           light.intensity =
-            light.intensity * (0.7 + 0.3 * Math.sin(time + index));
+            light.intensity * (0.7 + 0.3 * Math.sin(time + _index));
         });
       }
     });
@@ -623,7 +623,7 @@ export class GameEngine {
     }
   }
 
-  private addCardInteraction(card: BABYLON.Mesh, index: number): void {
+  private addCardInteraction(card: BABYLON.Mesh, _index: number): void {
     if (!this.scene) return;
 
     card.actionManager = new BABYLON.ActionManager(this.scene);
@@ -748,7 +748,7 @@ export class GameEngine {
       glowLayer.intensity = 0.3;
 
       console.log('[GameEngine] Post-processing effects enabled');
-    } catch (error) {
+    } catch (_error) {
       console.warn(
         '[GameEngine] Advanced post-processing not available, using fallback',
       );

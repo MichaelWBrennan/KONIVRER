@@ -102,8 +102,8 @@ class NeuralNetworkOptimizer {
       this.startContinuousOptimization();
 
       console.log('✅ Neural Network Optimizer fully operational');
-    } catch (error) {
-      console.error('❌ Error initializing Neural Network Optimizer:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Neural Network Optimizer:', _error);
     }
   }
 
@@ -597,7 +597,7 @@ class NeuralNetworkOptimizer {
   }
 
   private generateRandomLayer(
-    index: number,
+    _index: number,
     architectureType: string,
   ): LayerConfig {
     const layerTypes = this.getCompatibleLayerTypes(architectureType);
@@ -1523,8 +1523,8 @@ class NeuralNetworkOptimizer {
       );
 
       console.log(`✅ Evolution generation ${this.generation} completed`);
-    } catch (error) {
-      console.error('❌ Error in evolutionary optimization:', error);
+    } catch (_error) {
+      console.error('❌ Error in evolutionary optimization:', _error);
     }
   }
 
@@ -1546,8 +1546,8 @@ class NeuralNetworkOptimizer {
       console.log(
         `✅ Hyperparameter optimization completed. Improvement: ${(optimizedResult.improvement * 100).toFixed(2)}%`,
       );
-    } catch (error) {
-      console.error('❌ Error in hyperparameter optimization:', error);
+    } catch (_error) {
+      console.error('❌ Error in hyperparameter optimization:', _error);
     }
   }
 
@@ -1577,8 +1577,8 @@ class NeuralNetworkOptimizer {
       console.log(
         `✅ Neural architecture search completed. Found ${newArchitectures.length} new architectures`,
       );
-    } catch (error) {
-      console.error('❌ Error in neural architecture search:', error);
+    } catch (_error) {
+      console.error('❌ Error in neural architecture search:', _error);
     }
   }
 

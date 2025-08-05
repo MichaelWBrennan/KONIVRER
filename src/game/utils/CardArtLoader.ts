@@ -58,7 +58,7 @@ export class CardArtLoader {
       this.loadedImages.set(imageKey, image);
       this.loadingPromises.delete(imageKey);
       return image;
-    } catch (error) {
+    } catch (_error) {
       this.loadingPromises.delete(imageKey);
       throw error;
     }
@@ -74,7 +74,7 @@ export class CardArtLoader {
     // Try WebP first (smaller file size)
     try {
       return await this.loadImageFromPath(webpPath);
-    } catch (error) {
+    } catch (_error) {
       // Fallback to PNG
       try {
         return await this.loadImageFromPath(pngPath);

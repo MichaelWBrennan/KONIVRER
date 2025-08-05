@@ -107,8 +107,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       await gameEngine.init(container);
       setGameState('playing');
       console.log('[GameEngine] Advanced scenes initialized successfully');
-    } catch (error) {
-      console.error('[GameContainer] Error initializing game engine:', error);
+    } catch (_error) {
+      console.error('[GameContainer] Error initializing game engine:', _error);
       setError(
         error instanceof Error ? error.message : 'Unknown error occurred',
       );

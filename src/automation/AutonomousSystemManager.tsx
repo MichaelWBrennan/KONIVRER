@@ -126,8 +126,8 @@ export const AutonomousSystemProvider: React.FC<
               threatLevel,
               lastUpdate: new Date(),
             }));
-          } catch (error) {
-            console.error('Error updating system status:', error);
+          } catch (_error) {
+            console.error('Error updating system status:', _error);
           }
         }, 10000); // Every 10 seconds
 
@@ -140,8 +140,8 @@ export const AutonomousSystemProvider: React.FC<
           clearInterval(statusInterval);
           orchestrator.removeAllListeners();
         };
-      } catch (error) {
-        console.error('Error initializing autonomous system:', error);
+      } catch (_error) {
+        console.error('Error initializing autonomous system:', _error);
       }
     };
 
@@ -151,16 +151,16 @@ export const AutonomousSystemProvider: React.FC<
   const startAutonomousMode = useCallback(async () => {
     try {
       await orchestrator.start();
-    } catch (error) {
-      console.error('Error starting autonomous mode:', error);
+    } catch (_error) {
+      console.error('Error starting autonomous mode:', _error);
     }
   }, [orchestrator]);
 
   const stopAutonomousMode = useCallback(async () => {
     try {
       await orchestrator.stop();
-    } catch (error) {
-      console.error('Error stopping autonomous mode:', error);
+    } catch (_error) {
+      console.error('Error stopping autonomous mode:', _error);
     }
   }, [orchestrator]);
 
@@ -168,8 +168,8 @@ export const AutonomousSystemProvider: React.FC<
     async (newConfig: Partial<AutonomousConfig>) => {
       try {
         await orchestrator.updateConfig(newConfig);
-      } catch (error) {
-        console.error('Error updating config:', error);
+      } catch (_error) {
+        console.error('Error updating config:', _error);
       }
     },
     [orchestrator],
@@ -178,8 +178,8 @@ export const AutonomousSystemProvider: React.FC<
   const getSystemStatus = useCallback(async () => {
     try {
       return await orchestrator.getSystemStatus();
-    } catch (error) {
-      console.error('Error getting system status:', error);
+    } catch (_error) {
+      console.error('Error getting system status:', _error);
       return null;
     }
   }, [orchestrator]);
@@ -236,7 +236,7 @@ export const useAutonomousIntegration = () => {
           // The orchestrator will handle the issue through its engines
           console.log('Reported issue to autonomous system:', issue);
         }
-      } catch (error) {
+      } catch (_error) {
         setIntegrationStatus(prev => ({
           ...prev,
           errors: [...prev.errors, `Failed to report issue: ${error.message}`],
@@ -253,7 +253,7 @@ export const useAutonomousIntegration = () => {
         if (autonomousSystem.orchestrator) {
           console.log('Requested optimization for:', target);
         }
-      } catch (error) {
+      } catch (_error) {
         setIntegrationStatus(prev => ({
           ...prev,
           errors: [
