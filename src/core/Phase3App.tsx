@@ -966,7 +966,7 @@ const PlayPage = () => {
       data-search-type="game"
       className="play-page-container dynamic-sizing"
     >
-      <GameContainer
+      <LazyGameContainer
         onClose={() => setShowGame(false)}
         setShowGame={setShowGame}
       />

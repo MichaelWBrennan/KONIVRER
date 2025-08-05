@@ -643,14 +643,14 @@ export class GameEngine {
   }
 
   private animateMysticalLights(lights: BABYLON.PointLight[]): void {
-    lights.forEach((light, _index) => {
+    lights.forEach((light, index) => {
       // Create a simple repeating animation using scene.registerBeforeRender
       if (this.scene) {
         let time = 0;
         this.scene.registerBeforeRender(() => {
           time += 0.01;
           light.intensity =
-            light.intensity * (0.7 + 0.3 * Math.sin(time + _index));
+            light.intensity * (0.7 + 0.3 * Math.sin(time + index));
         });
       }
     });
