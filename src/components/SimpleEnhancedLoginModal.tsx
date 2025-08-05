@@ -209,9 +209,10 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: dynamicSizing.width < 768 
-                  ? '1fr' 
-                  : 'repeat(auto-fit, minmax(300px, 1fr))',
+                gridTemplateColumns:
+                  dynamicSizing.width < 768
+                    ? '1fr'
+                    : 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: dynamicSizing.width < 768 ? '15px' : '25px',
                 marginBottom: '30px',
               }}
