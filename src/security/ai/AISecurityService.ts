@@ -7,12 +7,12 @@ import { AISecurityAnalyzer } from './SecurityAnalyzer.js';
 import { AIThreatDetector } from './ThreatDetector.js';
 import { SilentSecurityOperations } from './SilentOperations.js';
 import { aiSecurityConfig } from './config.js';
-import { 
-  SecurityThreat, 
-  SecurityMetrics, 
-  AIInsight, 
+import {
+  SecurityThreat,
+  SecurityMetrics,
+  AIInsight,
   SecurityScanResult,
-  VulnerabilityAssessment 
+  VulnerabilityAssessment,
 } from './types.js';
 
 export class AISecurityService {
@@ -23,7 +23,7 @@ export class AISecurityService {
 
   constructor() {
     const config = aiSecurityConfig.getConfig();
-    
+
     this.analyzer = new AISecurityAnalyzer(config.ai);
     this.threatDetector = new AIThreatDetector(config.silentMode);
     this.silentOps = new SilentSecurityOperations();
@@ -48,7 +48,7 @@ export class AISecurityService {
       }
 
       this.isInitialized = true;
-      
+
       if (aiSecurityConfig.getSilentModeConfig().developerVisibility) {
         console.log('🤖 AI Security Service initialized');
       }
@@ -61,19 +61,24 @@ export class AISecurityService {
   /**
    * Perform comprehensive security scan
    */
-  async performSecurityScan(codebase?: string[]): Promise<SecurityScanResult[]> {
+  async performSecurityScan(
+    codebase?: string[],
+  ): Promise<SecurityScanResult[]> {
     if (!this.isInitialized) {
       await this.initialize();
     }
 
-    const targetCodebase = codebase || await this.getCodebaseFiles();
+    const targetCodebase = codebase || (await this.getCodebaseFiles());
     return this.analyzer.performMultiEngineScan(targetCodebase);
   }
 
   /**
    * Assess dependency risk
    */
-  async assessDependencyRisk(packageName: string, version: string): Promise<VulnerabilityAssessment> {
+  async assessDependencyRisk(
+    packageName: string,
+    version: string,
+  ): Promise<VulnerabilityAssessment> {
     if (!this.isInitialized) {
       await this.initialize();
     }
@@ -85,16 +90,18 @@ export class AISecurityService {
    * Get current security metrics
    */
   getSecurityMetrics(): SecurityMetrics {
-    return this.silentOps.getSecurityContext().metrics || {
-      threatsDetected: 0,
-      threatsResolved: 0,
-      meanTimeToDetection: 0,
-      meanTimeToResolution: 0,
-      falsePositiveRate: 0,
-      securityScore: 85,
-      complianceScore: 90,
-      lastUpdated: new Date()
-    };
+    return (
+      this.silentOps.getSecurityContext().metrics || {
+        threatsDetected: 0,
+        threatsResolved: 0,
+        meanTimeToDetection: 0,
+        meanTimeToResolution: 0,
+        falsePositiveRate: 0,
+        securityScore: 85,
+        complianceScore: 90,
+        lastUpdated: new Date(),
+      }
+    );
   }
 
   /**
@@ -123,9 +130,9 @@ export class AISecurityService {
         dependencies: aiSecurityConfig.isFeatureEnabled('dependencies'),
         threatDetection: aiSecurityConfig.isFeatureEnabled('threatDetection'),
         compliance: aiSecurityConfig.isFeatureEnabled('compliance'),
-        quantum: aiSecurityConfig.isFeatureEnabled('quantum')
+        quantum: aiSecurityConfig.isFeatureEnabled('quantum'),
       },
-      lastHealthCheck: new Date()
+      lastHealthCheck: new Date(),
     };
   }
 
@@ -141,12 +148,7 @@ export class AISecurityService {
   // Private helper methods
   private async getCodebaseFiles(): Promise<string[]> {
     // Simulate getting codebase files
-    return [
-      'src/**/*.ts',
-      'src/**/*.tsx',
-      'src/**/*.js',
-      'src/**/*.jsx'
-    ];
+    return ['src/**/*.ts', 'src/**/*.tsx', 'src/**/*.js', 'src/**/*.jsx'];
   }
 }
 
