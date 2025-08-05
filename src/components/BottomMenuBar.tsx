@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PopoverMenu from './PopoverMenu';
+import AccessibilityPanel from './AccessibilityPanel';
 import { AppContext, AppContextType } from '../contexts/AppContext';
 
 // Define navigation items that will appear in the drawer
@@ -141,6 +142,7 @@ const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(
 
 const BottomMenuBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAccessibilityPanelOpen, setIsAccessibilityPanelOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const appContext = useContext(AppContext);
@@ -193,14 +195,8 @@ const BottomMenuBar: React.FC = () => {
   };
 
   const handleAccessibility = () => {
-    // Toggle accessibility panel or navigate to accessibility settings
-    const accessibilityButton = document.querySelector('[data-accessibility-button]') as HTMLButtonElement;
-    if (accessibilityButton) {
-      accessibilityButton.click();
-    } else {
-      // Fallback: show alert for now
-      alert('Accessibility settings would be opened here');
-    }
+    // Open the accessibility panel directly
+    setIsAccessibilityPanelOpen(true);
   };
 
   const handleMenu = () => {
@@ -218,9 +214,9 @@ const BottomMenuBar: React.FC = () => {
           bottom: 0,
           left: 0,
           right: 0,
-          backgroundColor: 'rgba(15, 15, 15, 0.95)',
-          backdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(212, 175, 55, 0.3)',
+          backgroundColor: 'transparent', // Remove brown background
+          backdropFilter: 'none', // Remove backdrop filter
+          borderTop: 'none', // Remove border
           padding: '20px',
           paddingBottom: `calc(20px + env(safe-area-inset-bottom, 0px))`,
           display: 'flex',
@@ -228,7 +224,7 @@ const BottomMenuBar: React.FC = () => {
           alignItems: 'center',
           gap: '40px',
           zIndex: 1000,
-          boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.3)',
+          boxShadow: 'none', // Remove shadow
         }}
         aria-label="Bottom navigation menu"
         role="navigation"
@@ -277,6 +273,12 @@ const BottomMenuBar: React.FC = () => {
         onClose={() => setIsMenuOpen(false)}
         navigationItems={navigationItems}
         anchorRef={menuButtonRef}
+      />
+
+      {/* Accessibility Panel */}
+      <AccessibilityPanel
+        isOpen={isAccessibilityPanelOpen}
+        onClose={() => setIsAccessibilityPanelOpen(false)}
       />
 
       <style jsx>{`
