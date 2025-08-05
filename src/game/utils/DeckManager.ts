@@ -73,8 +73,8 @@ export class DeckManager {
         createdAt: new Date(deck.createdAt),
         updatedAt: new Date(deck.updatedAt),
       }));
-    } catch (error) {
-      console.error('Error loading local decks:', error);
+    } catch (_error) {
+      console.error('Error loading local decks:', _error);
       return [];
     }
   }
@@ -181,8 +181,8 @@ export class DeckManager {
       };
 
       return deck;
-    } catch (error) {
-      console.error('Error importing deck:', error);
+    } catch (_error) {
+      console.error('Error importing deck:', _error);
       return null;
     }
   }
@@ -372,8 +372,8 @@ export class DeckManager {
       deck.cards = cards;
 
       return deck;
-    } catch (error) {
-      console.error('Error importing from share code:', error);
+    } catch (_error) {
+      console.error('Error importing from share code:', _error);
       return null;
     }
   }
@@ -405,8 +405,8 @@ export class DeckManager {
         createdAt: new Date(deck.createdAt),
         updatedAt: new Date(deck.updatedAt),
       }));
-    } catch (error) {
-      console.error('Error loading community decks:', error);
+    } catch (_error) {
+      console.error('Error loading community decks:', _error);
       return [];
     }
   }

@@ -214,7 +214,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
       try {
         // In a real implementation, this would fetch actual threat data
         await this.processThreatFeed(feed);
-      } catch (error) {
+      } catch (_error) {
         console.warn(`Failed to load threat feed: ${feed}`);
       }
     }
@@ -354,7 +354,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
 
     // Scan for known vulnerabilities
     for (const [id, signature] of this.threatSignatures) {
-      const findings = await this.scanForSignature(signature);
+      const findings = await this.scanForSignature(_signature);
       vulnerabilities.push(...findings);
     }
 
@@ -520,7 +520,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
     return [];
   }
 
-  private async scanForSignature(signature: ThreatSignature): Promise<any[]> {
+  private async scanForSignature(_signature: ThreatSignature): Promise<any[]> {
     // Scan for specific threat signatures
     return [];
   }
@@ -700,8 +700,8 @@ class SecurityIntelligenceEngine extends EventEmitter {
       mitigated: false,
     };
 
-    this.securityEvents.push(event);
-    this.emit('security-event', event);
+    this.securityEvents.push(_event);
+    this.emit('security-event', _event);
   }
 
   private async enableAllSecurityFeatures(): Promise<void> {

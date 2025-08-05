@@ -151,11 +151,11 @@ export const useSecurityAutomation = () => {
       });
 
       return true;
-    } catch (error) {
+    } catch (_error) {
       logSecurityEvent('AUTOMATION_RULE_FAILED', {
         ruleId: rule.id,
         ruleName: rule.name,
-        error: (error as Error).message,
+        _error: (error as Error).message,
       });
       return false;
     }
@@ -406,7 +406,7 @@ export const useSecurityAutomation = () => {
   const checkEventCondition = (condition: string): boolean => {
     // Check for specific events in localStorage
     const events = JSON.parse(localStorage.getItem('securityEvents') || '[]');
-    return events.some((event: any) => event.type === condition);
+    return events.some((_event: any) => event.type === condition);
   };
 
   const checkThreatCondition = (condition: string): boolean => {

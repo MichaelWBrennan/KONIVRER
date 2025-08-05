@@ -12,7 +12,7 @@ export class UnifiedDeckBuilderScene extends Phaser.Scene {
   private isMobile: boolean = false;
 
   constructor(isMobile: boolean = false) {
-    super({ key: 'UnifiedDeckBuilderScene' });
+    super({ _key: 'UnifiedDeckBuilderScene' });
     this.isMobile = isMobile;
   }
 

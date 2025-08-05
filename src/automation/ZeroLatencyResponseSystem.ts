@@ -100,8 +100,8 @@ class ZeroLatencyResponseSystem {
 
       console.log('✅ Zero-Latency Response System operational');
       this.logSystemStatus();
-    } catch (error) {
-      console.error('❌ Error initializing Zero-Latency System:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Zero-Latency System:', _error);
     }
   }
 
@@ -370,7 +370,7 @@ class ZeroLatencyResponseSystem {
       this.resetCircuitBreaker(optimalPath.id);
 
       return ultraFastDecision;
-    } catch (error) {
+    } catch (_error) {
       // Handle failure and update circuit breaker
       const pathId = this.getLastAttemptedPath(input);
       this.recordFailure(pathId);
@@ -443,7 +443,7 @@ class ZeroLatencyResponseSystem {
         if (path.conditions(input)) {
           return path;
         }
-      } catch (error) {
+      } catch (_error) {
         // Continue to next path if condition check fails
         continue;
       }

@@ -24,7 +24,7 @@ const BlogSection: React.FC = () => {
   };
 
   const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
+    const colors: { [_key: string]: string } = {
       Technology: '#d4af37',
       'Game Mechanics': '#4a90e2',
       Events: '#e74c3c',

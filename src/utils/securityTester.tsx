@@ -250,7 +250,7 @@ const SECURITY_TESTS: Omit<SecurityTest, 'status' | 'result'>[] = [
           ['encrypt', 'decrypt'],
         );
 
-        const exportedKey = await crypto.subtle.exportKey('raw', key);
+        const exportedKey = await crypto.subtle.exportKey('raw', _key);
         const keyLength = exportedKey.byteLength * 8; // Convert to bits
 
         return {
@@ -262,7 +262,7 @@ const SECURITY_TESTS: Omit<SecurityTest, 'status' | 'result'>[] = [
               : 'Weak encryption detected',
           timeTaken: Date.now() - startTime,
         };
-      } catch (error) {
+      } catch (_error) {
         return {
           passed: false,
           message: 'Encryption test failed',
@@ -349,7 +349,7 @@ const SecurityTester: React.FC = () => {
           status: result.passed ? 'passed' : 'failed',
           result,
         };
-      } catch (error) {
+      } catch (_error) {
         return {
           ...test,
           status: 'failed',

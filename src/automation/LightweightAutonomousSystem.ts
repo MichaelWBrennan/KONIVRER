@@ -7,17 +7,17 @@
 class MiniEventEmitter {
   private events: Map<string, Function[]> = new Map();
 
-  on(event: string, fn: Function): void {
-    if (!this.events.has(event)) this.events.set(event, []);
-    this.events.get(event)!.push(fn);
+  on(_event: string, fn: Function): void {
+    if (!this.events.has(_event)) this.events.set(event, []);
+    this.events.get(_event)!.push(fn);
   }
 
-  emit(event: string, ...args: any[]): void {
-    this.events.get(event)?.forEach(fn => fn(...args));
+  emit(_event: string, ...args: any[]): void {
+    this.events.get(_event)?.forEach(fn => fn(...args));
   }
 
-  off(event: string, fn: Function): void {
-    const fns = this.events.get(event);
+  off(_event: string, fn: Function): void {
+    const fns = this.events.get(_event);
     if (fns) {
       const index = fns.indexOf(fn);
       if (index > -1) fns.splice(index, 1);
@@ -131,10 +131,10 @@ class LightweightAutonomousSystem extends MiniEventEmitter {
           }
         });
       }
-    } catch (error) {
+    } catch (_error) {
       // Silent error handling
       if (!this.config.silentMode) {
-        console.warn('Issue detection failed:', error);
+        console.warn('Issue detection failed:', _error);
       }
     }
   }
@@ -157,7 +157,7 @@ class LightweightAutonomousSystem extends MiniEventEmitter {
     }
 
     // Error detection from console
-    if (typeof window !== 'undefined' && window.console?.error) {
+    if (typeof window !== 'undefined' && window.console?._error) {
       issues.push('console-errors');
     }
 
@@ -201,9 +201,9 @@ class LightweightAutonomousSystem extends MiniEventEmitter {
 
       // Emit cleanup event
       this.emit('cleanup-performed');
-    } catch (error) {
+    } catch (_error) {
       if (!this.config.silentMode) {
-        console.warn('Cleanup failed:', error);
+        console.warn('Cleanup failed:', _error);
       }
     }
   }

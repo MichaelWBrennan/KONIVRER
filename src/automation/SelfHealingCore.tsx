@@ -302,7 +302,7 @@ class SelfHealingCore extends EventEmitter {
         await this.detectIssue({
           type: 'error',
           severity: 'critical',
-          description: `Critical error: ${error.message}`,
+          description: `Critical _error: ${error.message}`,
           symptoms: [error.stack, error.context],
           source: 'error-monitor',
         });
@@ -530,8 +530,8 @@ class SelfHealingCore extends EventEmitter {
       if (this.config.learningEnabled) {
         await this.recordHealingOutcome(issue, healed, healingTime);
       }
-    } catch (error) {
-      console.error(`❌ Error healing issue: ${issue.id}`, error);
+    } catch (_error) {
+      console.error(`❌ Error healing issue: ${issue.id}`, _error);
       issue.status = 'failed';
       this.issues.set(issue.id, issue);
       this.healingMetrics.failedHealing++;
@@ -649,8 +649,8 @@ class SelfHealingCore extends EventEmitter {
         await this.rollbackAction(action, checkpoint);
         return false;
       }
-    } catch (error) {
-      console.error(`❌ Healing action failed: ${action.name}`, error);
+    } catch (_error) {
+      console.error(`❌ Healing action failed: ${action.name}`, _error);
       return false;
     }
   }
@@ -851,7 +851,7 @@ class SelfHealingCore extends EventEmitter {
     }
   }
 
-  private async restoreSystemState(state: any): Promise<void> {
+  private async restoreSystemState(_state: any): Promise<void> {
     // Restore system to previous state
     console.log('🔄 Restoring system state...');
   }
@@ -1121,8 +1121,8 @@ class SelfHealingCore extends EventEmitter {
     }
   }
 
-  public async healError(error: any): Promise<void> {
-    console.log(`🩹 Healing error: ${error.message}`);
+  public async healError(_error: any): Promise<void> {
+    console.log(`🩹 Healing _error: ${error.message}`);
 
     await this.detectIssue({
       type: 'error',
@@ -1214,8 +1214,8 @@ export const useSelfHealing = (config?: Partial<SelfHealingConfig>) => {
   }, [core]);
 
   const healError = useCallback(
-    async (error: any) => {
-      await core.healError(error);
+    async (_error: any) => {
+      await core.healError(_error);
       setMetrics(core.getHealingMetrics());
       setIssues(core.getSystemIssues());
     },

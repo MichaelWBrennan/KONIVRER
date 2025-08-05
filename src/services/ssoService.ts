@@ -188,13 +188,13 @@ export class SSOService {
       timestamp: Date.now(),
       nonce: crypto.getRandomValues(new Uint32Array(1))[0].toString(36),
     };
-    return btoa(JSON.stringify(state));
+    return btoa(JSON.stringify(_state));
   }
 
   // Validate state parameter
-  private validateState(state: string, expectedProvider: string): boolean {
+  private validateState(_state: string, expectedProvider: string): boolean {
     try {
-      const decoded = JSON.parse(atob(state));
+      const decoded = JSON.parse(atob(_state));
       const now = Date.now();
       const maxAge = 10 * 60 * 1000; // 10 minutes
 
@@ -259,7 +259,7 @@ export class SSOService {
   // Handle OAuth callback
   public async handleCallback(
     code: string,
-    state: string,
+    _state: string,
     providerId: string,
   ): Promise<SSOUserProfile>;
   public async handleCallback(profile: SSOUserProfile): Promise<SSOUserProfile>;
@@ -543,7 +543,7 @@ export const useSSO = () => {
   const initiateLogin = async (providerId: string) => {
     try {
       await ssoService.initiateLogin(providerId);
-    } catch (error) {
+    } catch (_error) {
       reportThreat({
         type: 'data_breach',
         severity: 'medium',

@@ -244,7 +244,7 @@ class ThreatIntelligenceFeedManager {
       const activeThreat = this.cleanupExpiredThreats(mergedThreats);
 
       this.feeds.set(source, activeThreat);
-    } catch (error) {
+    } catch (_error) {
       console.error(
         `[SECURITY-INTELLIGENCE] Failed to update feed ${source}:`,
         error,
@@ -855,14 +855,14 @@ class SecurityAnalysisModel {
     if (historicalData.length === 0) return 0.3; // Base probability
 
     // Count occurrences of this threat type in historical data
-    const occurrences = historicalData.reduce((count, data) => {
+    const occurrences = historicalData.reduce((count, _data) => {
       return (
         count + data.threats.filter(threat => threat.type === threatType).length
       );
     }, 0);
 
     const totalThreats = historicalData.reduce(
-      (count, data) => count + data.threats.length,
+      (count, _data) => count + data.threats.length,
       0,
     );
 
@@ -872,14 +872,14 @@ class SecurityAnalysisModel {
 
     // Apply trend analysis
     const recentData = historicalData.slice(-7);
-    const recentOccurrences = recentData.reduce((count, data) => {
+    const recentOccurrences = recentData.reduce((count, _data) => {
       return (
         count + data.threats.filter(threat => threat.type === threatType).length
       );
     }, 0);
 
     const recentTotal = recentData.reduce(
-      (count, data) => count + data.threats.length,
+      (count, _data) => count + data.threats.length,
       0,
     );
     const recentProbability =
@@ -1170,7 +1170,7 @@ class IncidentResponseEngine {
 
       action.status = 'completed';
       action.result = 'Action completed successfully';
-    } catch (error) {
+    } catch (_error) {
       action.status = 'failed';
       action.result = `Action failed: ${(error as Error).message}`;
     }

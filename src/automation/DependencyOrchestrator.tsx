@@ -216,8 +216,8 @@ class DependencyOrchestrator extends EventEmitter {
       this.updateMetrics();
 
       console.log(`✅ Scanned ${this.dependencies.size} dependencies`);
-    } catch (error) {
-      console.error('❌ Error scanning dependencies:', error);
+    } catch (_error) {
+      console.error('❌ Error scanning dependencies:', _error);
     }
   }
 
@@ -418,8 +418,8 @@ class DependencyOrchestrator extends EventEmitter {
       }
 
       this.updateMetrics();
-    } catch (error) {
-      console.error('❌ Error checking vulnerabilities:', error);
+    } catch (_error) {
+      console.error('❌ Error checking vulnerabilities:', _error);
     }
   }
 
@@ -467,8 +467,8 @@ class DependencyOrchestrator extends EventEmitter {
       }
 
       this.updateMetrics();
-    } catch (error) {
-      console.error('❌ Error checking for updates:', error);
+    } catch (_error) {
+      console.error('❌ Error checking for updates:', _error);
     }
   }
 
@@ -689,8 +689,8 @@ class DependencyOrchestrator extends EventEmitter {
         console.log(`❌ Update plan failed: ${plan.id}`);
         this.emit('update-complete', { plan, success: false, executionTime });
       }
-    } catch (error) {
-      console.error(`❌ Error executing update plan: ${plan.id}`, error);
+    } catch (_error) {
+      console.error(`❌ Error executing update plan: ${plan.id}`, _error);
       await this.executeRollback(plan);
       this.updateExecutionMetrics(false, Date.now() - startTime);
     }
@@ -892,8 +892,8 @@ class DependencyOrchestrator extends EventEmitter {
 
       console.log(`✅ Successfully updated ${dep.name}`);
       return true;
-    } catch (error) {
-      console.error(`❌ Failed to update ${dep.name}:`, error);
+    } catch (_error) {
+      console.error(`❌ Failed to update ${dep.name}:`, _error);
       return false;
     }
   }

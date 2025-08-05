@@ -23,10 +23,10 @@ interface SecurityContextType {
   config: SecurityConfig;
   isSecure: boolean;
   securityLevel: string;
-  encryptData: (data: string) => string;
+  encryptData: (_data: string) => string;
   decryptData: (encryptedData: string) => string;
   sanitizeInput: (input: string) => string;
-  logSecurityEvent: (event: string, details?: any) => void;
+  logSecurityEvent: (_event: string, details?: any) => void;
   checkDataConsent: () => boolean;
   requestDataConsent: () => Promise<boolean>;
   getSecurityMetrics: () => SecurityMetrics;
@@ -84,7 +84,7 @@ const sanitizeInput = (input: string): string => {
 };
 
 // Security event logging
-const logSecurityEvent = (event: string, details?: any): void => {
+const logSecurityEvent = (_event: string, details?: any): void => {
   const timestamp = new Date().toISOString();
   const logEntry = {
     timestamp,
@@ -317,10 +317,10 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
 
         // Initialize advanced security metrics
         updateSecurityMetrics();
-      } catch (error) {
-        console.error('Security initialization failed:', error);
+      } catch (_error) {
+        console.error('Security initialization failed:', _error);
         logSecurityEvent('SECURITY_INIT_FAILED', {
-          error: (error as Error).message,
+          _error: (error as Error).message,
         });
       }
     };

@@ -74,9 +74,9 @@ export class EventStream {
   private context: Context = {};
   private goals: Goal[] = [];
 
-  public publish(event: Action | Observation): void {
-    this.events.push(event);
-    this.memory.shortTerm.push(event);
+  public publish(_event: Action | Observation): void {
+    this.events.push(_event);
+    this.memory.shortTerm.push(_event);
 
     // Keep short-term memory manageable
     if (this.memory.shortTerm.length > 100) {
@@ -84,7 +84,7 @@ export class EventStream {
     }
 
     // Learn from patterns
-    this.updatePatterns(event);
+    this.updatePatterns(_event);
   }
 
   public updateContext(newContext: Partial<Context>): void {

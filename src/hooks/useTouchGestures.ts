@@ -83,13 +83,13 @@ export const useTouchGestures = (options: TouchGestureOptions = {}) => {
     }
   };
 
-  const getTouchPosition = (event: TouchEvent | MouseEvent): TouchPosition => {
+  const getTouchPosition = (_event: TouchEvent | MouseEvent): TouchPosition => {
     if ('touches' in event && event.touches.length > 0) {
       return {
         x: event.touches[0].clientX,
         y: event.touches[0].clientY,
       };
-    } else if ('clientX' in event) {
+    } else if ('clientX' in _event) {
       return {
         x: event.clientX,
         y: event.clientY,
@@ -105,8 +105,8 @@ export const useTouchGestures = (options: TouchGestureOptions = {}) => {
     }
   };
 
-  const handleStart = (event: TouchEvent | MouseEvent) => {
-    const position = getTouchPosition(event);
+  const handleStart = (_event: TouchEvent | MouseEvent) => {
+    const position = getTouchPosition(_event);
     startTimeRef.current = Date.now();
     hasMoved.current = false;
 
@@ -127,15 +127,15 @@ export const useTouchGestures = (options: TouchGestureOptions = {}) => {
     }
 
     // Prevent default to avoid unwanted behaviors
-    if ('touches' in event) {
+    if ('touches' in _event) {
       event.preventDefault();
     }
   };
 
-  const handleMove = (event: TouchEvent | MouseEvent) => {
+  const handleMove = (_event: TouchEvent | MouseEvent) => {
     if (!gestureState.startPosition) return;
 
-    const position = getTouchPosition(event);
+    const position = getTouchPosition(_event);
     const distance = calculateDistance(gestureState.startPosition, position);
 
     // Mark as moved if beyond a small threshold
@@ -170,7 +170,7 @@ export const useTouchGestures = (options: TouchGestureOptions = {}) => {
     }
   };
 
-  const handleEnd = (event: TouchEvent | MouseEvent) => {
+  const handleEnd = (_event: TouchEvent | MouseEvent) => {
     clearLongPressTimer();
 
     if (!gestureState.startPosition) return;

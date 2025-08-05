@@ -67,8 +67,8 @@ class QuantumSecurityEngine {
 
       this.isQuantumReady = true;
       console.log('✅ Quantum-Ready Security Engine initialized');
-    } catch (error) {
-      console.error('❌ Error initializing Quantum Security Engine:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Quantum Security Engine:', _error);
     }
   }
 
@@ -90,7 +90,7 @@ class QuantumSecurityEngine {
 
     // Simulate loading a sophisticated ML model for threat detection
     this.mlModel = {
-      predict: (data: Uint8Array) => {
+      predict: (_data: Uint8Array) => {
         // Advanced ML prediction logic would go here
         const confidence = Math.random() * 0.3 + 0.7; // 70-100% confidence
         const threatLevel = Math.random() * 0.2; // Low threat simulation
@@ -174,21 +174,21 @@ class QuantumSecurityEngine {
     signatures.forEach(sig => this.threatSignatures.set(sig.id, sig));
   }
 
-  public async performQuantumScan(data: Uint8Array): Promise<any> {
+  public async performQuantumScan(_data: Uint8Array): Promise<any> {
     const startTime = performance.now();
 
     try {
       // Quantum-resistant analysis
-      const quantumAnalysis = await this.analyzeQuantumThreats(data);
+      const quantumAnalysis = await this.analyzeQuantumThreats(_data);
 
       // ML-powered threat detection
-      const mlAnalysis = this.mlModel?.predict(data) || {
+      const mlAnalysis = this.mlModel?.predict(_data) || {
         confidence: 0,
         threatLevel: 0,
       };
 
       // Signature-based detection
-      const signatureMatch = this.detectThreatSignatures(data);
+      const signatureMatch = this.detectThreatSignatures(_data);
 
       // Combined analysis
       const result = {
@@ -208,17 +208,17 @@ class QuantumSecurityEngine {
       this.lastQuantumScan = new Date();
 
       return result;
-    } catch (error) {
-      console.error('❌ Error in quantum scan:', error);
+    } catch (_error) {
+      console.error('❌ Error in quantum scan:', _error);
       return { error: error.message, quantumReady: false };
     }
   }
 
-  private async analyzeQuantumThreats(data: Uint8Array): Promise<any> {
+  private async analyzeQuantumThreats(_data: Uint8Array): Promise<any> {
     // Advanced quantum threat analysis
-    const entropy = this.calculateEntropy(data);
-    const patternComplexity = this.analyzePatternComplexity(data);
-    const quantumSignatures = this.detectQuantumSignatures(data);
+    const entropy = this.calculateEntropy(_data);
+    const patternComplexity = this.analyzePatternComplexity(_data);
+    const quantumSignatures = this.detectQuantumSignatures(_data);
 
     return {
       entropy,
@@ -229,7 +229,7 @@ class QuantumSecurityEngine {
     };
   }
 
-  private calculateEntropy(data: Uint8Array): number {
+  private calculateEntropy(_data: Uint8Array): number {
     const frequencies = new Array(256).fill(0);
     data.forEach(byte => frequencies[byte]++);
 
@@ -246,7 +246,7 @@ class QuantumSecurityEngine {
     return entropy;
   }
 
-  private analyzePatternComplexity(data: Uint8Array): number {
+  private analyzePatternComplexity(_data: Uint8Array): number {
     // Analyze cryptographic pattern complexity
     let complexity = 0;
     const windowSize = 16;
@@ -261,7 +261,7 @@ class QuantumSecurityEngine {
     return Math.min(1, complexity * 2); // Normalize to 0-1
   }
 
-  private detectQuantumSignatures(data: Uint8Array): any[] {
+  private detectQuantumSignatures(_data: Uint8Array): any[] {
     const signatures = [];
 
     // Look for quantum algorithm signatures
@@ -279,7 +279,7 @@ class QuantumSecurityEngine {
     return signatures;
   }
 
-  private containsPattern(data: Uint8Array, pattern: Uint8Array): boolean {
+  private containsPattern(_data: Uint8Array, pattern: Uint8Array): boolean {
     for (let i = 0; i <= data.length - pattern.length; i++) {
       let match = true;
       for (let j = 0; j < pattern.length; j++) {
@@ -293,7 +293,7 @@ class QuantumSecurityEngine {
     return false;
   }
 
-  private detectThreatSignatures(data: Uint8Array): any[] {
+  private detectThreatSignatures(_data: Uint8Array): any[] {
     const matches = [];
 
     for (const [id, signature] of this.threatSignatures) {
@@ -340,7 +340,7 @@ class QuantumSecurityEngine {
   }
 
   public async encryptQuantumSafe(
-    data: Uint8Array,
+    _data: Uint8Array,
     algorithm?: string,
   ): Promise<Uint8Array> {
     const keyAlgorithm = algorithm || 'CRYSTALS-Kyber';
@@ -354,7 +354,7 @@ class QuantumSecurityEngine {
 
     // Simulate quantum-safe encryption
     const encrypted = new Uint8Array(data.length + 64); // Add space for quantum-safe overhead
-    data.forEach((byte, index) => {
+    data.forEach((byte, _index) => {
       encrypted[index] =
         byte ^ keyPair.publicKey[index % keyPair.publicKey.length];
     });

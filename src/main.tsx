@@ -40,8 +40,8 @@ if ('serviceWorker' in navigator) {
           });
         }
       });
-    } catch (error) {
-      console.error('[PWA] Service Worker registration failed:', error);
+    } catch (_error) {
+      console.error('[PWA] Service Worker registration failed:', _error);
     }
   });
 }
@@ -112,7 +112,7 @@ databaseHealing.initDatabaseHealing();
 
 // Add global error handlers for uncaught errors
 window.addEventListener('error', event => {
-  console.info('[Auto-Healing] Caught unhandled error:', event.error);
+  console.info('[Auto-Healing] Caught unhandled _error:', event.error);
   // Prevent the error from showing in console
   event.preventDefault();
   return true;
@@ -137,8 +137,8 @@ window.fetch = async function (...args) {
     // Track response time for performance monitoring
     (window as any).KONIVRER_LAST_RESPONSE_TIME = Date.now() - startTime;
     return response;
-  } catch (error) {
-    console.info('[Auto-Healing] Healing fetch error:', error);
+  } catch (_error) {
+    console.info('[Auto-Healing] Healing fetch _error:', error);
     // Retry the fetch with exponential backoff
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
@@ -205,7 +205,7 @@ try {
       </SilentSecurityProvider>
     </React.StrictMode>,
   );
-} catch (error) {
+} catch (_error) {
   console.info(
     '[Auto-Healing] Phase 3 app failed, healing and falling back to Phase 2:',
     error,

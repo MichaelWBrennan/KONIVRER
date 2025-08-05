@@ -57,9 +57,9 @@ export class AISecurityAnalyzer {
             `✅ ${engine} scan completed: ${result.findings.length} findings`,
           );
         }
-      } catch (error) {
+      } catch (_error) {
         if (this.silentConfig.transparentLogging) {
-          console.warn(`⚠️ ${engine} scan failed:`, error);
+          console.warn(`⚠️ ${engine} scan failed:`, _error);
         }
       }
     }

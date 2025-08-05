@@ -219,7 +219,7 @@ const ButtonTester: React.FC = () => {
             resolve({
               ...test,
               status: 'failed',
-              error: `Button not found: ${test.selector}`,
+              _error: `Button not found: ${test.selector}`,
             });
             return;
           }
@@ -231,7 +231,7 @@ const ButtonTester: React.FC = () => {
             resolve({
               ...test,
               status: 'failed',
-              error: 'Button is disabled',
+              _error: 'Button is disabled',
             });
             return;
           }
@@ -246,7 +246,7 @@ const ButtonTester: React.FC = () => {
             resolve({
               ...test,
               status: 'failed',
-              error: 'Button has no click handler',
+              _error: 'Button has no click handler',
             });
             return;
           }
@@ -256,11 +256,11 @@ const ButtonTester: React.FC = () => {
             ...test,
             status: 'passed',
           });
-        } catch (error) {
+        } catch (_error) {
           resolve({
             ...test,
             status: 'failed',
-            error: `Test error: ${error}`,
+            _error: `Test error: ${error}`,
           });
         }
       }, 500);
@@ -277,7 +277,7 @@ const ButtonTester: React.FC = () => {
       BUTTON_TESTS.map(test => ({
         ...test,
         status: 'pending' as const,
-        error: undefined,
+        _error: undefined,
       })),
     );
 
