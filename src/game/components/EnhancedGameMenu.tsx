@@ -32,6 +32,21 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
     }, 300);
   };
 
+  // Touch event handlers for better mobile experience
+  const handleTouchStart = (modeId: string) => (e: React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setSelectedMode(modeId);
+  };
+
+  const handleTouchEnd = (modeId: string) => (e: React.TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (selectedMode === modeId) {
+      handleModeSelect(modeId);
+    }
+  };
+
   const menuVariants = {
     hidden: { opacity: 0, scale: 0.8, y: 50 },
     visible: {
@@ -183,11 +198,19 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
                     cursor: 'pointer',
                     position: 'relative',
                     overflow: 'hidden',
+                    touchAction: 'manipulation',
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    WebkitTouchCallout: 'none',
+                    WebkitTapHighlightColor: 'transparent',
                   }}
+                  className="touch-card"
                   variants={cardVariants}
                   whileHover="hover"
                   whileTap="tap"
                   onClick={() => handleModeSelect(mode.id)}
+                  onTouchStart={handleTouchStart(mode.id)}
+                  onTouchEnd={handleTouchEnd(mode.id)}
                   custom={index}
                 >
                   {/* Background gradient effect */}
