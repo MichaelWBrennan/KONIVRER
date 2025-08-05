@@ -138,7 +138,7 @@ class SpeedTracker {
           subtree: true,
         });
       }
-    } catch (error) {
+    } catch (_error) {
       console.warn(
         '[SPEED TRACKER] Route change tracking not available:',
         error,

@@ -208,7 +208,7 @@ const AccessibilityPanel: React.FC<AccessibilityPanelProps> = ({
 
   // Handle setting changes
   const updateSetting = <K extends keyof AccessibilitySettings>(
-    key: K,
+    _key: K,
     value: AccessibilitySettings[K],
   ) => {
     setSettings(prev => ({

@@ -34,7 +34,7 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
   private sceneType: 'basic' | 'enhanced' | 'premium';
 
   constructor(type: 'basic' | 'enhanced' | 'premium') {
-    super({ key: 'UnifiedCardBattleScene' });
+    super({ _key: 'UnifiedCardBattleScene' });
     this.sceneType = type;
   }
 
@@ -46,8 +46,8 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
 
     if (this.sceneType === 'premium') {
       // Load additional assets for premium.
-      this.load.image('particle-fire', 'data:image/png;base64,...');
-      this.load.image('particle-water', 'data:image/png;base64,...');
+      this.load.image('particle-fire', '_data:image/png;base64,...');
+      this.load.image('particle-water', '_data:image/png;base64,...');
     }
   }
 
@@ -82,7 +82,7 @@ export class UnifiedCardBattleScene extends Phaser.Scene {
 
   private initializePlayers() {
     const initializePlayerDeck = (): GameCard[] =>
-      KONIVRER_CARDS.map((card, index) => ({
+      KONIVRER_CARDS.map((card, _index) => ({
         ...card,
         gameId: `${card.id}_${index}`,
         x: 0,

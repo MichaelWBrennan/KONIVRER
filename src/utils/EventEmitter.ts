@@ -2,7 +2,7 @@
 class EventEmitter {
   private events: { [key: string]: Function[] } = {};
 
-  on(event: string, listener: Function): this {
+  on(_event: string, listener: Function): this {
     if (!this.events[event]) {
       this.events[event] = [];
     }
@@ -10,20 +10,20 @@ class EventEmitter {
     return this;
   }
 
-  off(event: string, listener: Function): this {
+  off(_event: string, listener: Function): this {
     if (!this.events[event]) return this;
     this.events[event] = this.events[event].filter(l => l !== listener);
     return this;
   }
 
-  emit(event: string, ...args: any[]): boolean {
+  emit(_event: string, ...args: any[]): boolean {
     if (!this.events[event]) return false;
     this.events[event].forEach(listener => listener(...args));
     return true;
   }
 
   removeAllListeners(event?: string): this {
-    if (event) {
+    if (_event) {
       delete this.events[event];
     } else {
       this.events = {};

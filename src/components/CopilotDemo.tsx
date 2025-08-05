@@ -267,7 +267,7 @@ const CopilotDemo: React.FC = () => {
 
               {actionHistory.length > 0 ? (
                 <div className="space-y-2">
-                  {actionHistory.map((action, index) => (
+                  {actionHistory.map((action, _index) => (
                     <div
                       key={index}
                       className="p-2 bg-gray-700 rounded text-sm"

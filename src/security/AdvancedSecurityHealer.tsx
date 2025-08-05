@@ -264,8 +264,8 @@ class AdvancedThreatDetector {
           console.log('[SECURITY-HEALER] Threat auto-healed:', threat.id);
         }
       }
-    } catch (error) {
-      console.error('[SECURITY-HEALER] Auto-healing failed:', error);
+    } catch (_error) {
+      console.error('[SECURITY-HEALER] Auto-healing failed:', _error);
     }
   }
 
@@ -774,12 +774,12 @@ class DataBreachHealingStrategy extends HealingStrategy {
     const sensitiveKeys = ['password', 'token', 'key', 'secret'];
 
     sensitiveKeys.forEach(key => {
-      const value = localStorage.getItem(key);
+      const value = localStorage.getItem(_key);
       if (value) {
         localStorage.setItem(key, this.encrypt(value));
       }
 
-      const sessionValue = sessionStorage.getItem(key);
+      const sessionValue = sessionStorage.getItem(_key);
       if (sessionValue) {
         sessionStorage.setItem(key, this.encrypt(sessionValue));
       }
@@ -795,7 +795,7 @@ class DataBreachHealingStrategy extends HealingStrategy {
     return true;
   }
 
-  private encrypt(data: string): string {
+  private encrypt(_data: string): string {
     // Simple encryption for demo - use proper encryption in production
     return btoa(data.split('').reverse().join(''));
   }
@@ -812,9 +812,9 @@ class MalwareHealingStrategy extends HealingStrategy {
     // Clear potentially infected storage
     const storageKeys = Object.keys(localStorage);
     storageKeys.forEach(key => {
-      const value = localStorage.getItem(key);
+      const value = localStorage.getItem(_key);
       if (value && (value.includes('eval') || value.includes('malware'))) {
-        localStorage.removeItem(key);
+        localStorage.removeItem(_key);
       }
     });
 
@@ -1025,10 +1025,10 @@ export const useAdvancedSecurityHealing = (
 
           return true;
         }
-      } catch (error) {
+      } catch (_error) {
         logSecurityEvent('MANUAL_HEALING_FAILED', {
           threatId,
-          error: (error as Error).message,
+          _error: (error as Error).message,
         });
       } finally {
         setIsHealing(false);

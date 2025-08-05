@@ -101,8 +101,8 @@ export class KeycloakService {
 
       const result = await response.json();
       return result.active === true;
-    } catch (error) {
-      console.error('Token validation failed:', error);
+    } catch (_error) {
+      console.error('Token validation failed:', _error);
       return false;
     }
   }
@@ -138,8 +138,8 @@ export class KeycloakService {
     try {
       const userInfo = await this.getUserInfo(accessToken);
       return userInfo.realm_access?.roles || [];
-    } catch (error) {
-      console.error('Failed to get user roles:', error);
+    } catch (_error) {
+      console.error('Failed to get user roles:', _error);
       return [];
     }
   }
@@ -210,8 +210,8 @@ export class KeycloakService {
           .join(''),
       );
       return JSON.parse(jsonPayload);
-    } catch (error) {
-      console.error('Failed to parse JWT:', error);
+    } catch (_error) {
+      console.error('Failed to parse JWT:', _error);
       return null;
     }
   }
@@ -264,8 +264,8 @@ export class KeycloakService {
 
         // Setup next refresh
         this.setupAutoRefresh(updatedProfile, callback);
-      } catch (error) {
-        console.error('Auto-refresh failed:', error);
+      } catch (_error) {
+        console.error('Auto-refresh failed:', _error);
         // Dispatch logout event on refresh failure
         window.dispatchEvent(new CustomEvent('sso-logout'));
       }
@@ -286,8 +286,8 @@ export class KeycloakService {
       }
 
       return await response.json();
-    } catch (error) {
-      console.error('Failed to get Keycloak configuration:', error);
+    } catch (_error) {
+      console.error('Failed to get Keycloak configuration:', _error);
       throw error;
     }
   }

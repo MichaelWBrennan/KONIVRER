@@ -135,7 +135,7 @@ describe('Enhanced Copilot System', () => {
 
   describe('CopilotController', () => {
     it('should generate intelligent actions', async () => {
-      const state: State = {
+      const _state: State = {
         done: false,
         history: [],
         currentGoals: [],
@@ -153,7 +153,7 @@ describe('Enhanced Copilot System', () => {
         lastUpdate: new Date(),
       };
 
-      const action = await controller.decideNextAction(state);
+      const action = await controller.decideNextAction(_state);
 
       expect(action).toHaveProperty('type');
       expect(action).toHaveProperty('reasoning');
@@ -186,7 +186,7 @@ describe('Enhanced Copilot System', () => {
 
   describe('CopilotAgent', () => {
     it('should generate sophisticated actions', async () => {
-      const state: State = {
+      const _state: State = {
         done: false,
         history: [],
         currentGoals: [
@@ -214,7 +214,7 @@ describe('Enhanced Copilot System', () => {
         lastUpdate: new Date(),
       };
 
-      const action = await agent.nextStep(state);
+      const action = await agent.nextStep(_state);
 
       expect(action).toHaveProperty('type');
       expect(action).toHaveProperty('reasoning');
@@ -272,7 +272,7 @@ describe('Enhanced Copilot System', () => {
 
   describe('Error Handling', () => {
     it('should handle missing AI services gracefully', async () => {
-      const state: State = {
+      const _state: State = {
         done: false,
         history: [],
         currentGoals: [],
@@ -289,7 +289,7 @@ describe('Enhanced Copilot System', () => {
       };
 
       // Should not throw error even with missing services
-      const action = await controller.decideNextAction(state);
+      const action = await controller.decideNextAction(_state);
       expect(action).toBeDefined();
     });
 
@@ -312,6 +312,10 @@ describe('Enhanced Copilot System', () => {
         success: true,
         timestamp: new Date(),
       };
+      
+      // Validate learning object structure
+      expect(learning.situation).toBe('early game with weak hand');
+      expect(learning.success).toBe(true);
 
       eventStream.publish({
         type: 'user_input',
@@ -325,7 +329,7 @@ describe('Enhanced Copilot System', () => {
     });
 
     it('should update confidence based on outcomes', async () => {
-      const state: State = {
+      const _state: State = {
         done: false,
         history: [],
         currentGoals: [],
@@ -349,7 +353,7 @@ describe('Enhanced Copilot System', () => {
         lastUpdate: new Date(),
       };
 
-      const action = await agent.nextStep(state);
+      const action = await agent.nextStep(_state);
       // Confidence should be influenced by past learnings
       expect(action.confidence).toBeDefined();
     });
@@ -357,7 +361,7 @@ describe('Enhanced Copilot System', () => {
 
   describe('Integration with AI Services', () => {
     it('should integrate with deck optimizer', async () => {
-      const state: State = {
+      const _state: State = {
         done: false,
         history: [],
         currentGoals: [
@@ -384,12 +388,12 @@ describe('Enhanced Copilot System', () => {
         lastUpdate: new Date(),
       };
 
-      const action = await controller.decideNextAction(state);
+      const action = await controller.decideNextAction(_state);
       expect(action).toBeDefined();
     });
 
     it('should integrate with NLP processor', async () => {
-      const state: State = {
+      const _state: State = {
         done: false,
         history: [],
         currentGoals: [],
@@ -411,7 +415,7 @@ describe('Enhanced Copilot System', () => {
         lastUpdate: new Date(),
       };
 
-      const action = await controller.decideNextAction(state);
+      const action = await controller.decideNextAction(_state);
       expect(action).toBeDefined();
     });
   });

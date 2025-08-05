@@ -134,7 +134,7 @@ class CodeEvolutionEngine extends EventEmitter {
         description: 'Modernize Promise chains to async/await',
         pattern: /\.then\(.*?\)\.catch\(.*?\)/g,
         replacement:
-          'try { await /* async operation */ } catch (error) { /* handle error */ }',
+          'try { await /* async operation */ } catch (_error) { /* handle error */ }',
         category: 'modernization',
         confidence: 0.8,
         impact: 'medium',
@@ -238,8 +238,8 @@ class CodeEvolutionEngine extends EventEmitter {
       console.log(
         `✅ Evolution cycle completed: ${improvements.length} improvements analyzed`,
       );
-    } catch (error) {
-      console.error('❌ Error in evolution cycle:', error);
+    } catch (_error) {
+      console.error('❌ Error in evolution cycle:', _error);
     }
   }
 
@@ -300,8 +300,8 @@ class CodeEvolutionEngine extends EventEmitter {
           this.improvements.set(improvement.id, improvement);
         }
       }
-    } catch (error) {
-      console.warn(`Failed to analyze file: ${filePath}`, error);
+    } catch (_error) {
+      console.warn(`Failed to analyze file: ${filePath}`, _error);
     }
 
     return improvements;
@@ -317,7 +317,7 @@ class CodeEvolutionEngine extends EventEmitter {
         const [data, setData] = useState(null);
         
         useEffect(() => {
-          fetchData().then(result => setData(result)).catch(error => console.error(error));
+          fetchData().then(result => setData(result)).catch(_error => console.error(_error));
         }, []);
         
         return <div dangerouslySetInnerHTML={{__html: data}} />;
@@ -468,8 +468,8 @@ class CodeEvolutionEngine extends EventEmitter {
       this.emit('evolution-complete', improvement);
 
       console.log(`✅ Applied improvement: ${improvement.description}`);
-    } catch (error) {
-      console.error(`❌ Failed to apply improvement: ${improvement.id}`, error);
+    } catch (_error) {
+      console.error(`❌ Failed to apply improvement: ${improvement.id}`, _error);
 
       // Rollback if necessary
       if (this.config.rollbackCapability) {

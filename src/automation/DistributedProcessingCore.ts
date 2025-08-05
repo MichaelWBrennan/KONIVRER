@@ -131,8 +131,8 @@ class DistributedProcessingCore {
 
       console.log('✅ Distributed Processing Core operational');
       this.logClusterStatus();
-    } catch (error) {
-      console.error('❌ Error initializing Distributed Core:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Distributed Core:', _error);
     }
   }
 
@@ -203,7 +203,7 @@ class DistributedProcessingCore {
       'local',
     ];
 
-    return nodeTypes.map((type, index) => ({
+    return nodeTypes.map((type, _index) => ({
       id: this.generateNodeId(),
       type,
       status: 'online',
@@ -367,8 +367,8 @@ class DistributedProcessingCore {
     for (const task of tasksToSchedule) {
       try {
         await this.scheduleTask(task);
-      } catch (error) {
-        console.error(`❌ Error scheduling task ${task.id}:`, error);
+      } catch (_error) {
+        console.error(`❌ Error scheduling task ${task.id}:`, _error);
         task.status = 'failed';
         task.error = error.message;
       }
@@ -673,12 +673,12 @@ class DistributedProcessingCore {
       }
 
       console.log(`✅ Task ${task.id} completed successfully`);
-    } catch (error) {
+    } catch (_error) {
       task.status = 'failed';
       task.error = error.message;
       task.completionTime = new Date();
 
-      console.error(`❌ Task ${task.id} failed:`, error);
+      console.error(`❌ Task ${task.id} failed:`, _error);
     }
   }
 

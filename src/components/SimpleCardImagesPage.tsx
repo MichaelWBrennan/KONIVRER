@@ -173,7 +173,7 @@ const SimpleCardImagesPage: React.FC = () => {
         transition={{ duration: 0.5, delay: 0.2 }}
         style={getGridStyle()}
       >
-        {allCards.map((card, index) => (
+        {allCards.map((card, _index) => (
           <motion.div
             key={card.id}
             initial={{ opacity: 0, scale: 0.9 }}

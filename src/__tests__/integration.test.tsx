@@ -24,8 +24,8 @@ describe('Integration Tests', () => {
     // Test error handling
     try {
       throw new Error('Test error');
-    } catch (error) {
-      expect(error).toBeInstanceOf(Error);
+    } catch (_error) {
+      expect(_error).toBeInstanceOf(Error);
     }
   });
 });

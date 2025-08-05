@@ -23,14 +23,14 @@ const OAuthCallback: React.FC = () => {
         const errorDescription = searchParams.get('error_description');
 
         // Handle OAuth error
-        if (error) {
+        if (_error) {
           setStatus('error');
           setMessage(errorDescription || `Authentication failed: ${error}`);
 
           // Dispatch error event
           window.dispatchEvent(
             new CustomEvent('sso-login-error', {
-              detail: { error: errorDescription || error, provider: 'unknown' },
+              detail: { _error: errorDescription || error, provider: 'unknown' },
             }),
           );
 
@@ -40,7 +40,7 @@ const OAuthCallback: React.FC = () => {
         }
 
         // Validate required parameters
-        if (!code || !state) {
+        if (!code || !_state) {
           setStatus('error');
           setMessage(
             'Invalid authentication response. Missing required parameters.',
@@ -52,7 +52,7 @@ const OAuthCallback: React.FC = () => {
         // Parse state to get provider
         let providerId: string;
         try {
-          const stateData = JSON.parse(atob(state));
+          const stateData = JSON.parse(atob(_state));
           providerId = stateData.provider;
           setProvider(providerId);
         } catch {
@@ -79,15 +79,15 @@ const OAuthCallback: React.FC = () => {
 
         // Redirect back to main page
         setTimeout(() => navigate('/'), 2000);
-      } catch (error) {
-        console.error('OAuth callback error:', error);
+      } catch (_error) {
+        console.error('OAuth callback _error:', error);
         setStatus('error');
         setMessage(`Authentication failed: ${error}`);
 
         // Dispatch error event
         window.dispatchEvent(
           new CustomEvent('sso-login-error', {
-            detail: { error: String(error), provider },
+            detail: { _error: String(_error), provider },
           }),
         );
 

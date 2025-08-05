@@ -97,8 +97,8 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
       setDeferredPrompt(null);
       setIsInstallable(false);
       setShowPrompt(false);
-    } catch (error) {
-      console.error('Error during installation:', error);
+    } catch (_error) {
+      console.error('Error during installation:', _error);
     }
   };
 

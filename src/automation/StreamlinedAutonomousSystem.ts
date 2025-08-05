@@ -8,18 +8,18 @@ class OptimizedEventEmitter {
   private events = new Map<string, Set<Function>>();
   private eventPool = new Map<string, any[]>();
 
-  on(event: string, fn: Function): this {
-    if (!this.events.has(event)) this.events.set(event, new Set());
-    this.events.get(event)!.add(fn);
+  on(_event: string, fn: Function): this {
+    if (!this.events.has(_event)) this.events.set(event, new Set());
+    this.events.get(_event)!.add(fn);
     return this;
   }
 
-  emit(event: string, ...args: any[]): boolean {
-    const listeners = this.events.get(event);
+  emit(_event: string, ...args: any[]): boolean {
+    const listeners = this.events.get(_event);
     if (!listeners?.size) return false;
 
     // Use pooled arrays to reduce GC pressure
-    const pooledArgs = this.eventPool.get(event) || [];
+    const pooledArgs = this.eventPool.get(_event) || [];
     pooledArgs.length = 0;
     pooledArgs.push(...args);
     this.eventPool.set(event, pooledArgs);
@@ -28,8 +28,8 @@ class OptimizedEventEmitter {
     return true;
   }
 
-  off(event: string, fn: Function): this {
-    this.events.get(event)?.delete(fn);
+  off(_event: string, fn: Function): this {
+    this.events.get(_event)?.delete(fn);
     return this;
   }
 
@@ -347,7 +347,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
           this.performSecurityScan();
           break;
         case 'threat-detected':
-          this.handleThreat(item.data);
+          this.handleThreat(item._data);
           break;
         case 'vulnerability-scan':
           this.scanVulnerabilities();
@@ -428,7 +428,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     dangerousElements.forEach(el => el.remove());
   }
 
-  private handleThreat(data: any): void {
+  private handleThreat(_data: any): void {
     this.log(`🛡️ Threat handled: ${data.type}`);
   }
 
@@ -452,7 +452,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     let resolved = 0;
 
     batch.forEach(item => {
-      if (this.healIssue(item.issue, item.data)) {
+      if (this.healIssue(item.issue, item._data)) {
         resolved++;
       }
     });
@@ -533,7 +533,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
           this.analyzeCodePatterns();
           break;
         case 'optimize-code':
-          this.optimizeCode(item.data);
+          this.optimizeCode(item._data);
           break;
       }
     });
@@ -544,7 +544,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     this.metrics.codeImprovements++;
   }
 
-  private optimizeCode(data: any): void {
+  private optimizeCode(_data: any): void {
     // Apply code optimizations
     this.metrics.performanceGains++;
   }
@@ -568,7 +568,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
           this.analyzeTrends();
           break;
         case 'apply-trend':
-          this.applyTrend(item.data);
+          this.applyTrend(item._data);
           break;
       }
     });
@@ -579,7 +579,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     this.metrics.trendsAnalyzed++;
   }
 
-  private applyTrend(data: any): void {
+  private applyTrend(_data: any): void {
     // Apply trend-based improvements
     this.metrics.adaptationsApplied++;
   }
@@ -603,7 +603,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
           this.checkDependencyUpdates();
           break;
         case 'resolve-conflict':
-          this.resolveDependencyConflict(item.data);
+          this.resolveDependencyConflict(item._data);
           break;
       }
     });
@@ -614,7 +614,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     this.metrics.dependenciesUpdated++;
   }
 
-  private resolveDependencyConflict(data: any): void {
+  private resolveDependencyConflict(_data: any): void {
     // Resolve dependency conflicts
     this.metrics.conflictsResolved++;
   }
@@ -664,16 +664,16 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
       this.worker = new Worker(URL.createObjectURL(blob));
 
       this.worker.onmessage = e => {
-        this.handleWorkerMessage(e.data);
+        this.handleWorkerMessage(e._data);
       };
-    } catch (error) {
+    } catch (_error) {
       this.log(
         '⚠️ Web worker initialization failed, falling back to main thread',
       );
     }
   }
 
-  private handleWorkerMessage(data: any): void {
+  private handleWorkerMessage(_data: any): void {
     switch (data.type) {
       case 'computation-complete':
         this.emit('computation-complete', data.result);
@@ -694,7 +694,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     const now = Date.now();
     for (const [key, value] of this.cache.entries()) {
       if (value.expires < now) {
-        this.cache.delete(key);
+        this.cache.delete(_key);
       }
     }
   }
