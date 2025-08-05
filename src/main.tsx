@@ -138,7 +138,7 @@ window.fetch = async function (...args) {
     (window as any).KONIVRER_LAST_RESPONSE_TIME = Date.now() - startTime;
     return response;
   } catch (_error) {
-    console.info('[Auto-Healing] Healing fetch _error:', error);
+    console.info('[Auto-Healing] Healing fetch _error:', _error);
     // Retry the fetch with exponential backoff
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
