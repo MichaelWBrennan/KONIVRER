@@ -154,8 +154,21 @@ const BottomMenuBar: React.FC = () => {
   const handleSearch = () => {
     const currentPath = location.pathname;
 
-    if (currentPath === '/cards') {
-      // Focus on search input if on cards page
+    if (currentPath === '/') {
+      // Home page - search blog posts
+      // Create and show a blog search input dialog
+      const searchTerm = prompt('Search blog posts and chronicles:');
+      if (searchTerm && searchTerm.trim()) {
+        // Focus on blog content and highlight matching posts
+        const blogSections = document.querySelectorAll('[data-search-type="blog"]');
+        if (blogSections.length > 0) {
+          blogSections[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        // You could enhance this further by implementing actual blog search filtering
+        console.log('Searching blogs for:', searchTerm);
+      }
+    } else if (currentPath === '/cards') {
+      // Cards page - focus on card search input
       const searchInput = document.querySelector(
         'input[type="text"]',
       ) as HTMLInputElement;
@@ -164,31 +177,56 @@ const BottomMenuBar: React.FC = () => {
         searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
     } else if (currentPath === '/decks') {
-      // Search within decks
-      navigate('/cards');
-      setTimeout(() => {
-        const searchInput = document.querySelector(
-          'input[type="text"]',
-        ) as HTMLInputElement;
-        if (searchInput) {
-          searchInput.focus();
-          searchInput.value = 'deck:';
+      // Decks page - search within decks or navigate to cards to search for deck-related cards
+      const searchTerm = prompt('Search for deck names or deck-related cards:');
+      if (searchTerm && searchTerm.trim()) {
+        // Check if there are deck elements to search in first
+        const deckElements = document.querySelectorAll('[data-search-type="deck"]');
+        if (deckElements.length > 0) {
+          // Search within current deck view
+          console.log('Searching decks for:', searchTerm);
+          // Implement deck search logic here
+        } else {
+          // Navigate to cards page to search for cards that could be in decks
+          navigate('/cards');
+          setTimeout(() => {
+            const searchInput = document.querySelector(
+              'input[type="text"]',
+            ) as HTMLInputElement;
+            if (searchInput) {
+              searchInput.focus();
+              searchInput.value = searchTerm;
+              // Trigger search if the component supports it
+              const event = new Event('input', { bubbles: true });
+              searchInput.dispatchEvent(event);
+            }
+          }, 300);
         }
-      }, 300);
+      }
     } else if (currentPath === '/events') {
-      // Search for events or navigate to cards to search
-      navigate('/cards');
-      setTimeout(() => {
-        const searchInput = document.querySelector(
-          'input[type="text"]',
-        ) as HTMLInputElement;
-        if (searchInput) {
-          searchInput.focus();
-          searchInput.value = 'tournament';
+      // Events page - search for events
+      const searchTerm = prompt('Search for events and tournaments:');
+      if (searchTerm && searchTerm.trim()) {
+        // Focus on events content and highlight matching events
+        const eventSections = document.querySelectorAll('[data-search-type="event"]');
+        if (eventSections.length > 0) {
+          eventSections[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-      }, 300);
+        console.log('Searching events for:', searchTerm);
+      }
+    } else if (currentPath === '/play') {
+      // Play page - search for game modes or game-related content
+      const searchTerm = prompt('Search for game modes or play options:');
+      if (searchTerm && searchTerm.trim()) {
+        // Focus on game content
+        const gameElements = document.querySelectorAll('[data-search-type="game"]');
+        if (gameElements.length > 0) {
+          gameElements[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        console.log('Searching game content for:', searchTerm);
+      }
     } else {
-      // Default: navigate to cards page for search
+      // Default fallback - navigate to cards page for general search
       navigate('/cards');
       setTimeout(() => {
         const searchInput = document.querySelector(

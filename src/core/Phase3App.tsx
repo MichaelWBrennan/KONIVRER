@@ -605,6 +605,7 @@ const HomePage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         style={{ marginTop: '20px' }}
+        data-search-type="blog"
       >
         <h2
           style={{
@@ -748,6 +749,7 @@ const DecksPage = () => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '20px',
         }}
+        data-search-type="deck"
       >
         {decks.map((deck, index) => (
           <Card key={deck.id} delay={index * 0.1}>
@@ -834,6 +836,7 @@ const EventsPage = () => (
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         gap: '20px',
       }}
+      data-search-type="event"
     >
       <Card>
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
@@ -948,6 +951,7 @@ const PlayPage = () => {
         display: 'block', // Explicitly set display
         background: '#1a1a1a', // Match game background
       }}
+      data-search-type="game"
     >
       <GameContainer
         onClose={() => setShowGame(false)}
