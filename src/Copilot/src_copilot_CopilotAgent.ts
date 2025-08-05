@@ -31,8 +31,16 @@ interface AdvancedAnalysis {
 }
 
 interface PredictiveModel {
-  shortTermOutcomes: Array<{ probability: number; outcome: string; impact: number }>;
-  longTermTrends: Array<{ trend: string; confidence: number; timeHorizon: string }>;
+  shortTermOutcomes: Array<{
+    probability: number;
+    outcome: string;
+    impact: number;
+  }>;
+  longTermTrends: Array<{
+    trend: string;
+    confidence: number;
+    timeHorizon: string;
+  }>;
   playerProgressionForecast: {
     skillTrajectory: number[];
     engagementPrediction: number;
@@ -41,7 +49,7 @@ interface PredictiveModel {
 }
 
 /**
- * Industry-Leading CopilotAgent - OpenHands AI-level autonomous agent with 
+ * Industry-Leading CopilotAgent - OpenHands AI-level autonomous agent with
  * sophisticated reasoning, multi-modal analysis, predictive capabilities,
  * and advanced adaptive learning.
  */
@@ -76,7 +84,7 @@ export class CopilotAgent {
       selfAwareness: 0.85,
       biasDetection: [],
       uncertaintyQuantification: new Map(),
-      continuousImprovement: 0.92
+      continuousImprovement: 0.92,
     };
   }
 
@@ -88,8 +96,8 @@ export class CopilotAgent {
       playerProgressionForecast: {
         skillTrajectory: [0.5, 0.6, 0.7, 0.8],
         engagementPrediction: 0.85,
-        potentialChallenges: ['skill plateau', 'meta adaptation']
-      }
+        potentialChallenges: ['skill plateau', 'meta adaptation'],
+      },
     });
   }
 
@@ -106,12 +114,12 @@ export class CopilotAgent {
    */
   public async nextStep(state: State): Promise<Action> {
     const startTime = performance.now();
-    
+
     try {
       // 1. Advanced situation analysis with predictive modeling
       const [situationAnalysis, predictiveInsights] = await Promise.all([
         this.performAdvancedSituationAnalysis(state),
-        this.generatePredictiveInsights(state)
+        this.generatePredictiveInsights(state),
       ]);
 
       // 2. Dynamic goal management with strategic alignment
@@ -121,27 +129,30 @@ export class CopilotAgent {
       const actionOptions = await this.generateAdvancedActionOptions(
         state,
         situationAnalysis,
-        predictiveInsights
+        predictiveInsights,
       );
 
       // 4. Multi-criteria evaluation with bias detection
       const reasoningChain = await this.performAdvancedEvaluation(
-        actionOptions, 
-        state, 
-        situationAnalysis
+        actionOptions,
+        state,
+        situationAnalysis,
       );
 
       // 5. Meta-cognitive validation and bias checking
       const validatedAction = await this.performMetacognitiveValidation(
         reasoningChain,
-        state
+        state,
       );
 
       // 6. Continuous learning and adaptation
       this.updateAdaptiveLearning(state, validatedAction, situationAnalysis);
 
       const processingTime = performance.now() - startTime;
-      this.updatePerformanceMetrics(processingTime, validatedAction.confidence || 0.8);
+      this.updatePerformanceMetrics(
+        processingTime,
+        validatedAction.confidence || 0.8,
+      );
 
       return validatedAction;
     } catch (error) {
@@ -150,7 +161,9 @@ export class CopilotAgent {
     }
   }
 
-  private async performAdvancedSituationAnalysis(state: State): Promise<AdvancedAnalysis> {
+  private async performAdvancedSituationAnalysis(
+    state: State,
+  ): Promise<AdvancedAnalysis> {
     // Industry-leading situation analysis with multi-modal inputs
     const gamePhase = this.identifyGamePhase(state.context);
     const playerState = this.assessPlayerState(state);
@@ -167,11 +180,13 @@ export class CopilotAgent {
       riskFactors,
       strategicAdvantages,
       adaptationNeeded,
-      emotionalContext
+      emotionalContext,
     };
   }
 
-  private async generatePredictiveInsights(state: State): Promise<PredictiveModel> {
+  private async generatePredictiveInsights(
+    state: State,
+  ): Promise<PredictiveModel> {
     // Advanced predictive modeling for strategic foresight
     const shortTermOutcomes = this.predictShortTermOutcomes(state);
     const longTermTrends = this.analyzeLongTermTrends(state);
@@ -180,66 +195,93 @@ export class CopilotAgent {
     return {
       shortTermOutcomes,
       longTermTrends,
-      playerProgressionForecast
+      playerProgressionForecast,
     };
   }
 
-  private predictShortTermOutcomes(state: State): Array<{ probability: number; outcome: string; impact: number }> {
+  private predictShortTermOutcomes(
+    state: State,
+  ): Array<{ probability: number; outcome: string; impact: number }> {
     // Machine learning-driven outcome prediction
     const baseOutcomes = [
       { probability: 0.7, outcome: 'skill_improvement', impact: 0.8 },
       { probability: 0.4, outcome: 'strategy_shift_needed', impact: 0.6 },
-      { probability: 0.3, outcome: 'meta_adaptation_required', impact: 0.9 }
+      { probability: 0.3, outcome: 'meta_adaptation_required', impact: 0.9 },
     ];
 
     // Adjust probabilities based on state context
     return baseOutcomes.map(outcome => ({
       ...outcome,
-      probability: Math.min(1, outcome.probability * (1 + Math.random() * 0.2))
+      probability: Math.min(1, outcome.probability * (1 + Math.random() * 0.2)),
     }));
   }
 
-  private analyzeLongTermTrends(state: State): Array<{ trend: string; confidence: number; timeHorizon: string }> {
+  private analyzeLongTermTrends(
+    state: State,
+  ): Array<{ trend: string; confidence: number; timeHorizon: string }> {
     return [
-      { trend: 'Skill progression acceleration', confidence: 0.85, timeHorizon: '2-4 weeks' },
-      { trend: 'Meta-game adaptation cycle', confidence: 0.78, timeHorizon: '1-2 months' },
-      { trend: 'Strategic sophistication increase', confidence: 0.82, timeHorizon: '3-6 weeks' }
+      {
+        trend: 'Skill progression acceleration',
+        confidence: 0.85,
+        timeHorizon: '2-4 weeks',
+      },
+      {
+        trend: 'Meta-game adaptation cycle',
+        confidence: 0.78,
+        timeHorizon: '1-2 months',
+      },
+      {
+        trend: 'Strategic sophistication increase',
+        confidence: 0.82,
+        timeHorizon: '3-6 weeks',
+      },
     ];
   }
 
   private forecastPlayerProgression(state: State): any {
     // Advanced ML-based player progression forecasting
     const currentSkill = state.context?.playerProfile?.skillLevel || 0.5;
-    const learningVelocity = this.adaptiveLearningEngine.get('learning_velocity') || 0.1;
-    
+    const learningVelocity =
+      this.adaptiveLearningEngine.get('learning_velocity') || 0.1;
+
     const skillTrajectory = [];
-    for (let i = 1; i <= 12; i++) { // 12 week forecast
-      const projectedSkill = Math.min(1, currentSkill + (learningVelocity * i * 0.8));
+    for (let i = 1; i <= 12; i++) {
+      // 12 week forecast
+      const projectedSkill = Math.min(
+        1,
+        currentSkill + learningVelocity * i * 0.8,
+      );
       skillTrajectory.push(projectedSkill);
     }
 
     return {
       skillTrajectory,
-      engagementPrediction: Math.min(1, 0.85 + (learningVelocity * 2)),
-      potentialChallenges: this.identifyFutureChallenges(state, skillTrajectory)
+      engagementPrediction: Math.min(1, 0.85 + learningVelocity * 2),
+      potentialChallenges: this.identifyFutureChallenges(
+        state,
+        skillTrajectory,
+      ),
     };
   }
 
-  private identifyFutureChallenges(state: State, skillTrajectory: number[]): string[] {
+  private identifyFutureChallenges(
+    state: State,
+    skillTrajectory: number[],
+  ): string[] {
     const challenges = [];
-    
+
     // Detect potential skill plateaus
-    const plateauRisk = skillTrajectory.slice(-3).every((skill, i, arr) => 
-      i === 0 || Math.abs(skill - arr[i-1]) < 0.02
-    );
-    
+    const plateauRisk = skillTrajectory
+      .slice(-3)
+      .every((skill, i, arr) => i === 0 || Math.abs(skill - arr[i - 1]) < 0.02);
+
     if (plateauRisk) challenges.push('skill plateau risk');
-    
+
     // Detect adaptation challenges
     if (skillTrajectory[skillTrajectory.length - 1] > 0.8) {
       challenges.push('advanced strategy complexity');
     }
-    
+
     return challenges;
   }
 
@@ -732,17 +774,20 @@ export class CopilotAgent {
   }
 
   private async performStrategicGoalManagement(
-    state: State, 
-    analysis: AdvancedAnalysis
+    state: State,
+    analysis: AdvancedAnalysis,
   ): Promise<void> {
     // Dynamic goal management with strategic prioritization
     const currentGoals = state.currentGoals || [];
-    
+
     // Evaluate goal relevance and adjust priorities
     for (const goal of currentGoals) {
       const relevanceScore = this.calculateGoalRelevance(goal, analysis);
-      const adjustedPriority = Math.max(1, Math.min(10, goal.priority * relevanceScore));
-      
+      const adjustedPriority = Math.max(
+        1,
+        Math.min(10, goal.priority * relevanceScore),
+      );
+
       // Update goal with new insights
       goal.priority = adjustedPriority;
       goal.confidence = this.calculateGoalConfidence(goal, state);
@@ -753,14 +798,18 @@ export class CopilotAgent {
     newGoals.forEach(goal => currentGoals.push(goal));
 
     // Remove completed or obsolete goals
-    const activeGoals = currentGoals.filter(goal => 
-      goal.status !== 'completed' && this.isGoalStillRelevant(goal, analysis)
+    const activeGoals = currentGoals.filter(
+      goal =>
+        goal.status !== 'completed' && this.isGoalStillRelevant(goal, analysis),
     );
 
     state.currentGoals = activeGoals.sort((a, b) => b.priority - a.priority);
   }
 
-  private calculateGoalRelevance(goal: Goal, analysis: AdvancedAnalysis): number {
+  private calculateGoalRelevance(
+    goal: Goal,
+    analysis: AdvancedAnalysis,
+  ): number {
     let relevance = 1.0;
 
     // Adjust based on game phase
@@ -773,12 +822,15 @@ export class CopilotAgent {
     }
 
     // Adjust based on opportunity level
-    relevance *= (0.5 + analysis.opportunityLevel * 0.5);
+    relevance *= 0.5 + analysis.opportunityLevel * 0.5;
 
     return Math.max(0.1, Math.min(2.0, relevance));
   }
 
-  private generateStrategicGoals(analysis: AdvancedAnalysis, state: State): Goal[] {
+  private generateStrategicGoals(
+    analysis: AdvancedAnalysis,
+    state: State,
+  ): Goal[] {
     const newGoals: Goal[] = [];
 
     // Generate goals based on analysis insights
@@ -790,7 +842,7 @@ export class CopilotAgent {
         priority: 8,
         status: 'pending',
         confidence: 0.85,
-        context: { analysisFactors: analysis.riskFactors }
+        context: { analysisFactors: analysis.riskFactors },
       });
     }
 
@@ -802,7 +854,7 @@ export class CopilotAgent {
         priority: 9,
         status: 'pending',
         confidence: 0.9,
-        businessValue: analysis.opportunityLevel * 10
+        businessValue: analysis.opportunityLevel * 10,
       });
     }
 
@@ -813,7 +865,7 @@ export class CopilotAgent {
         description: 'Provide supportive coaching to improve player experience',
         priority: 7,
         status: 'pending',
-        confidence: 0.88
+        confidence: 0.88,
       });
     }
 
@@ -823,19 +875,19 @@ export class CopilotAgent {
   private async generateAdvancedActionOptions(
     state: State,
     analysis: AdvancedAnalysis,
-    predictiveInsights: PredictiveModel
+    predictiveInsights: PredictiveModel,
   ): Promise<Action[]> {
     const actions: Action[] = [];
 
     // Generate actions based on sophisticated reasoning
     const baseActions = await this.generateActionOptions(state, analysis);
-    
+
     // Enhance actions with predictive insights
     for (const action of baseActions) {
       const enhancedAction = await this.enhanceActionWithPrediction(
-        action, 
-        predictiveInsights, 
-        analysis
+        action,
+        predictiveInsights,
+        analysis,
       );
       actions.push(enhancedAction);
     }
@@ -852,33 +904,39 @@ export class CopilotAgent {
   }
 
   private async enhanceActionWithPrediction(
-    action: Action, 
-    predictions: PredictiveModel, 
-    analysis: AdvancedAnalysis
+    action: Action,
+    predictions: PredictiveModel,
+    analysis: AdvancedAnalysis,
   ): Promise<Action> {
     // Enhance action with predictive intelligence
     const relevantOutcomes = predictions.shortTermOutcomes.filter(outcome =>
-      this.actionAffectsOutcome(action, outcome)
+      this.actionAffectsOutcome(action, outcome),
     );
 
     const impactAnalysis = {
       userExperience: this.calculateUserExperienceImpact(action, analysis),
       gameState: this.calculateGameStateImpact(action, analysis),
-      systemPerformance: this.calculateSystemPerformanceImpact(action)
+      systemPerformance: this.calculateSystemPerformanceImpact(action),
     };
 
-    const riskAssessment = this.calculateAdvancedRiskAssessment(action, predictions);
+    const riskAssessment = this.calculateAdvancedRiskAssessment(
+      action,
+      predictions,
+    );
 
     return {
       ...action,
       impactAnalysis,
       riskAssessment,
       alternativeActions: this.generateAlternativeActions(action, analysis),
-      executionStrategy: this.determineExecutionStrategy(action, analysis)
+      executionStrategy: this.determineExecutionStrategy(action, analysis),
     };
   }
 
-  private generateInnovativeActions(state: State, analysis: AdvancedAnalysis): Action[] {
+  private generateInnovativeActions(
+    state: State,
+    analysis: AdvancedAnalysis,
+  ): Action[] {
     const innovativeActions: Action[] = [];
 
     // Pattern-based innovation
@@ -890,7 +948,7 @@ export class CopilotAgent {
         reasoning: `Novel approach based on pattern: ${pattern.description}`,
         confidence: pattern.confidence * 0.8, // Lower confidence for innovation
         timestamp: new Date(),
-        expectedResult: pattern.expectedBenefit
+        expectedResult: pattern.expectedBenefit,
       });
     });
 
@@ -912,7 +970,7 @@ export class CopilotAgent {
         reasoning: 'Improve self-awareness through performance analysis',
         confidence: 0.85,
         timestamp: new Date(),
-        expectedResult: 'Enhanced decision-making capability'
+        expectedResult: 'Enhanced decision-making capability',
       });
     }
 
@@ -924,53 +982,74 @@ export class CopilotAgent {
         reasoning: 'Correct for detected cognitive biases',
         confidence: 0.82,
         timestamp: new Date(),
-        expectedResult: 'More objective decision-making'
+        expectedResult: 'More objective decision-making',
       });
     }
 
     // Learning optimization actions
     metacognitiveActions.push({
       type: 'optimize_learning',
-      payload: { currentEfficiency: this.adaptiveLearningEngine.get('efficiency') },
+      payload: {
+        currentEfficiency: this.adaptiveLearningEngine.get('efficiency'),
+      },
       reasoning: 'Optimize learning parameters for better adaptation',
       confidence: 0.88,
       timestamp: new Date(),
-      expectedResult: 'Improved learning efficiency'
+      expectedResult: 'Improved learning efficiency',
     });
 
     return metacognitiveActions;
   }
 
   private async performAdvancedEvaluation(
-    actionOptions: Action[], 
-    state: State, 
-    analysis: AdvancedAnalysis
+    actionOptions: Action[],
+    state: State,
+    analysis: AdvancedAnalysis,
   ): Promise<ReasoningChain> {
     const evaluatedOptions = [];
 
     for (const action of actionOptions) {
-      const evaluation = await this.evaluateActionAdvanced(action, state, analysis);
+      const evaluation = await this.evaluateActionAdvanced(
+        action,
+        state,
+        analysis,
+      );
       evaluatedOptions.push({
         action,
-        ...evaluation
+        ...evaluation,
       });
     }
 
     // Multi-criteria decision making with uncertainty quantification
-    const scores = evaluatedOptions.map(option => 
-      this.calculateAdvancedActionScore(option, state, analysis)
+    const scores = evaluatedOptions.map(option =>
+      this.calculateAdvancedActionScore(option, state, analysis),
     );
 
-    const selectedIndex = this.selectBestActionWithUncertainty(scores, evaluatedOptions);
-    
+    const selectedIndex = this.selectBestActionWithUncertainty(
+      scores,
+      evaluatedOptions,
+    );
+
     const reasoningChain: ReasoningChain = {
       situation: this.describeAdvancedSituation(state, analysis),
       options: evaluatedOptions,
       selectedOption: selectedIndex,
-      reasoning: this.generateAdvancedReasoning(evaluatedOptions[selectedIndex], analysis),
-      alternativeReasonings: this.generateAlternativeReasonings(evaluatedOptions, selectedIndex),
-      metacognitiveBias: this.identifyPotentialBiases(evaluatedOptions, selectedIndex),
-      confidenceCalibration: this.calibrateConfidence(evaluatedOptions[selectedIndex], state)
+      reasoning: this.generateAdvancedReasoning(
+        evaluatedOptions[selectedIndex],
+        analysis,
+      ),
+      alternativeReasonings: this.generateAlternativeReasonings(
+        evaluatedOptions,
+        selectedIndex,
+      ),
+      metacognitiveBias: this.identifyPotentialBiases(
+        evaluatedOptions,
+        selectedIndex,
+      ),
+      confidenceCalibration: this.calibrateConfidence(
+        evaluatedOptions[selectedIndex],
+        state,
+      ),
     };
 
     this.reasoningHistory.push(reasoningChain);
@@ -979,90 +1058,112 @@ export class CopilotAgent {
 
   private async performMetacognitiveValidation(
     reasoningChain: ReasoningChain,
-    state: State
+    state: State,
   ): Promise<Action> {
-    const selectedAction = reasoningChain.options[reasoningChain.selectedOption].action;
+    const selectedAction =
+      reasoningChain.options[reasoningChain.selectedOption].action;
 
     // Validate decision through multiple lenses
     const validationChecks = {
       biasCheck: this.checkForDecisionBias(reasoningChain),
-      consistencyCheck: this.checkForConsistency(reasoningChain, this.reasoningHistory),
+      consistencyCheck: this.checkForConsistency(
+        reasoningChain,
+        this.reasoningHistory,
+      ),
       ethicalCheck: this.checkEthicalImplications(selectedAction),
-      robustnessCheck: this.checkRobustness(selectedAction, state)
+      robustnessCheck: this.checkRobustness(selectedAction, state),
     };
 
     // If validation fails, provide corrected action
     if (Object.values(validationChecks).some(check => !check.passed)) {
-      return this.generateCorrectedAction(selectedAction, validationChecks, state);
+      return this.generateCorrectedAction(
+        selectedAction,
+        validationChecks,
+        state,
+      );
     }
 
     return selectedAction;
   }
 
   private updateAdaptiveLearning(
-    state: State, 
-    action: Action, 
-    analysis: AdvancedAnalysis
+    state: State,
+    action: Action,
+    analysis: AdvancedAnalysis,
   ): void {
     // Update learning parameters based on action selection and context
     const contextKey = `${analysis.gamePhase}_${analysis.playerState}`;
     const currentWeight = this.adaptiveLearningEngine.get(contextKey) || 0.5;
-    
+
     // Adjust based on confidence and predicted success
     const confidenceBonus = (action.confidence || 0.5) * 0.1;
     const newWeight = Math.min(1, Math.max(0, currentWeight + confidenceBonus));
-    
+
     this.adaptiveLearningEngine.set(contextKey, newWeight);
 
     // Update metacognitive metrics
-    this.metacognitionSystem.selfAwareness = Math.min(1, 
-      this.metacognitionSystem.selfAwareness + 0.001
+    this.metacognitionSystem.selfAwareness = Math.min(
+      1,
+      this.metacognitionSystem.selfAwareness + 0.001,
     );
 
     // Track pattern recognition improvement
     const patternKey = `action_${action.type}_context_${analysis.gamePhase}`;
-    const currentPatternWeight = this.adaptiveLearningEngine.get(patternKey) || 0;
+    const currentPatternWeight =
+      this.adaptiveLearningEngine.get(patternKey) || 0;
     this.adaptiveLearningEngine.set(patternKey, currentPatternWeight + 0.05);
   }
 
-  private updatePerformanceMetrics(processingTime: number, confidence: number): void {
+  private updatePerformanceMetrics(
+    processingTime: number,
+    confidence: number,
+  ): void {
     // Update real-time performance metrics
-    const currentAccuracy = this.performanceMetrics.get('decision_accuracy') || 0.88;
-    this.performanceMetrics.set('decision_accuracy', 
-      currentAccuracy * 0.95 + confidence * 0.05
+    const currentAccuracy =
+      this.performanceMetrics.get('decision_accuracy') || 0.88;
+    this.performanceMetrics.set(
+      'decision_accuracy',
+      currentAccuracy * 0.95 + confidence * 0.05,
     );
 
-    const currentSpeed = this.performanceMetrics.get('adaptation_speed') || 0.91;
+    const currentSpeed =
+      this.performanceMetrics.get('adaptation_speed') || 0.91;
     const speedFactor = processingTime < 100 ? 1.01 : 0.99; // Faster is better
-    this.performanceMetrics.set('adaptation_speed', 
-      Math.min(1, currentSpeed * speedFactor)
+    this.performanceMetrics.set(
+      'adaptation_speed',
+      Math.min(1, currentSpeed * speedFactor),
     );
 
     // Update learning efficiency
-    const learningEfficiency = this.performanceMetrics.get('learning_efficiency') || 0.89;
-    this.performanceMetrics.set('learning_efficiency', 
-      Math.min(1, learningEfficiency + 0.001)
+    const learningEfficiency =
+      this.performanceMetrics.get('learning_efficiency') || 0.89;
+    this.performanceMetrics.set(
+      'learning_efficiency',
+      Math.min(1, learningEfficiency + 0.001),
     );
   }
 
   private generateFallbackAction(state: State): Action {
     return {
       type: 'observe_and_learn',
-      payload: { 
+      payload: {
         reason: 'fallback_due_to_error',
         fallbackLevel: 'safe_mode',
-        observationFocus: 'environment_analysis'
+        observationFocus: 'environment_analysis',
       },
       reasoning: 'Safe fallback action with continuous learning focus',
       confidence: 0.7, // Higher confidence for well-tested fallback
       timestamp: new Date(),
       expectedResult: 'System stability maintained while gathering insights',
-      executionStrategy: 'immediate'
+      executionStrategy: 'immediate',
     };
   }
 
   // Industry-leading helper methods
-  private identifyNovelPatterns(state: State, analysis: AdvancedAnalysis): Array<{
+  private identifyNovelPatterns(
+    state: State,
+    analysis: AdvancedAnalysis,
+  ): Array<{
     type: string;
     data: any;
     description: string;
@@ -1075,15 +1176,17 @@ export class CopilotAgent {
     // Temporal patterns
     if (this.reasoningHistory.length > 5) {
       const recentDecisions = this.reasoningHistory.slice(-5);
-      const decisionTypes = recentDecisions.map(r => r.options[r.selectedOption].action.type);
-      
+      const decisionTypes = recentDecisions.map(
+        r => r.options[r.selectedOption].action.type,
+      );
+
       if (new Set(decisionTypes).size === 1) {
         patterns.push({
           type: 'repetitive_behavior',
           data: { repeatedAction: decisionTypes[0] },
           description: 'Detected repetitive decision pattern',
           confidence: 0.85,
-          expectedBenefit: 'Diversify action selection for better outcomes'
+          expectedBenefit: 'Diversify action selection for better outcomes',
         });
       }
     }
@@ -1092,20 +1195,24 @@ export class CopilotAgent {
     if (analysis.opportunityLevel > 0.8 && analysis.adaptationNeeded) {
       patterns.push({
         type: 'high_opportunity_adaptation',
-        data: { 
+        data: {
           opportunityScore: analysis.opportunityLevel,
-          adaptationFactors: analysis.riskFactors
+          adaptationFactors: analysis.riskFactors,
         },
         description: 'High-opportunity situation requiring adaptation',
         confidence: 0.78,
-        expectedBenefit: 'Maximize opportunity capture through strategic adaptation'
+        expectedBenefit:
+          'Maximize opportunity capture through strategic adaptation',
       });
     }
 
     return patterns;
   }
 
-  private generateCrossDomainActions(state: State, analysis: AdvancedAnalysis): Action[] {
+  private generateCrossDomainActions(
+    state: State,
+    analysis: AdvancedAnalysis,
+  ): Action[] {
     // Apply insights from other domains (e.g., chess, business strategy, psychology)
     const crossDomainActions: Action[] = [];
 
@@ -1113,14 +1220,15 @@ export class CopilotAgent {
     if (analysis.gamePhase === 'critical') {
       crossDomainActions.push({
         type: 'tactical_calculation',
-        payload: { 
+        payload: {
           depth: 3,
-          evaluation_criteria: ['material', 'position', 'time'] 
+          evaluation_criteria: ['material', 'position', 'time'],
         },
-        reasoning: 'Apply chess-style tactical calculation for critical decisions',
+        reasoning:
+          'Apply chess-style tactical calculation for critical decisions',
         confidence: 0.82,
         timestamp: new Date(),
-        expectedResult: 'Improved tactical decision-making'
+        expectedResult: 'Improved tactical decision-making',
       });
     }
 
@@ -1128,14 +1236,14 @@ export class CopilotAgent {
     if (analysis.strategicAdvantages.length > 0) {
       crossDomainActions.push({
         type: 'strategic_leverage',
-        payload: { 
+        payload: {
           advantages: analysis.strategicAdvantages,
-          leverageStrategy: 'compound_advantages'
+          leverageStrategy: 'compound_advantages',
         },
         reasoning: 'Apply business strategy principles to leverage advantages',
         confidence: 0.79,
         timestamp: new Date(),
-        expectedResult: 'Maximized strategic advantage utilization'
+        expectedResult: 'Maximized strategic advantage utilization',
       });
     }
 
@@ -1143,9 +1251,9 @@ export class CopilotAgent {
   }
 
   private calculateAdvancedActionScore(
-    option: any, 
-    state: State, 
-    analysis: AdvancedAnalysis
+    option: any,
+    state: State,
+    analysis: AdvancedAnalysis,
   ): number {
     let score = 0;
 
@@ -1159,26 +1267,33 @@ export class CopilotAgent {
     score += option.innovationFactor * 0.2;
 
     // Risk-adjusted return (15% weight)
-    const riskAdjustedReturn = Math.max(0, option.confidence - option.riskProfile);
+    const riskAdjustedReturn = Math.max(
+      0,
+      option.confidence - option.riskProfile,
+    );
     score += riskAdjustedReturn * 0.15;
 
     // Context appropriateness (10% weight)
-    const contextScore = this.calculateContextAppropriatenesss(option.action, analysis);
+    const contextScore = this.calculateContextAppropriatenesss(
+      option.action,
+      analysis,
+    );
     score += contextScore * 0.1;
 
     return Math.max(0, Math.min(1, score));
   }
 
   private selectBestActionWithUncertainty(
-    scores: number[], 
-    options: any[]
+    scores: number[],
+    options: any[],
   ): number {
     // Advanced selection with uncertainty quantification
     const uncertaintyAdjustedScores = scores.map((score, index) => {
-      const uncertainty = this.metacognitionSystem.uncertaintyQuantification.get(
-        options[index].action.type
-      ) || 0.1;
-      
+      const uncertainty =
+        this.metacognitionSystem.uncertaintyQuantification.get(
+          options[index].action.type,
+        ) || 0.1;
+
       return score * (1 - uncertainty * 0.3); // Reduce score by uncertainty
     });
 
@@ -1196,7 +1311,10 @@ export class CopilotAgent {
     return bestIndex;
   }
 
-  private calculateContextAppropriatenesss(action: Action, analysis: AdvancedAnalysis): number {
+  private calculateContextAppropriatenesss(
+    action: Action,
+    analysis: AdvancedAnalysis,
+  ): number {
     let appropriateness = 0.5; // Base appropriateness
 
     // Game phase appropriateness
@@ -1204,12 +1322,18 @@ export class CopilotAgent {
       appropriateness += 0.3;
     }
 
-    if (action.type === 'real_time_coaching' && analysis.emotionalContext === 'frustrated') {
+    if (
+      action.type === 'real_time_coaching' &&
+      analysis.emotionalContext === 'frustrated'
+    ) {
       appropriateness += 0.4;
     }
 
     // Player state appropriateness
-    if (action.type === 'learn_strategy' && analysis.playerState === 'learning') {
+    if (
+      action.type === 'learn_strategy' &&
+      analysis.playerState === 'learning'
+    ) {
       appropriateness += 0.2;
     }
 
@@ -1236,7 +1360,10 @@ export class CopilotAgent {
 
   private isGoalStillRelevant(goal: Goal, analysis: AdvancedAnalysis): boolean {
     // Check if goal is still relevant given current analysis
-    if (goal.type === 'real_time_coaching' && analysis.emotionalContext === 'confident') {
+    if (
+      goal.type === 'real_time_coaching' &&
+      analysis.emotionalContext === 'confident'
+    ) {
       return false; // Coaching less relevant when player is confident
     }
 
@@ -1250,30 +1377,39 @@ export class CopilotAgent {
   private actionAffectsOutcome(action: Action, outcome: any): boolean {
     // Determine if action is likely to affect the predicted outcome
     const actionImpactMap: { [key: string]: string[] } = {
-      'optimize_deck': ['skill_improvement', 'strategy_shift_needed'],
-      'analyze_game': ['strategy_shift_needed', 'meta_adaptation_required'],
-      'assist_player': ['skill_improvement'],
-      'real_time_coaching': ['skill_improvement', 'engagement_increase']
+      optimize_deck: ['skill_improvement', 'strategy_shift_needed'],
+      analyze_game: ['strategy_shift_needed', 'meta_adaptation_required'],
+      assist_player: ['skill_improvement'],
+      real_time_coaching: ['skill_improvement', 'engagement_increase'],
     };
 
     return actionImpactMap[action.type]?.includes(outcome.outcome) || false;
   }
 
-  private calculateUserExperienceImpact(action: Action, analysis: AdvancedAnalysis): number {
+  private calculateUserExperienceImpact(
+    action: Action,
+    analysis: AdvancedAnalysis,
+  ): number {
     let impact = 0.5; // Neutral impact
 
     if (action.type === 'real_time_coaching') {
       impact = 0.8; // High positive impact on user experience
     }
 
-    if (action.type === 'optimize_deck' && analysis.playerState === 'learning') {
+    if (
+      action.type === 'optimize_deck' &&
+      analysis.playerState === 'learning'
+    ) {
       impact = 0.7; // Good impact for learning players
     }
 
     return impact;
   }
 
-  private calculateGameStateImpact(action: Action, analysis: AdvancedAnalysis): number {
+  private calculateGameStateImpact(
+    action: Action,
+    analysis: AdvancedAnalysis,
+  ): number {
     let impact = 0.5;
 
     if (action.type === 'analyze_game' && analysis.gamePhase === 'critical') {
@@ -1289,12 +1425,15 @@ export class CopilotAgent {
     return highImpactActions.includes(action.type) ? 0.3 : 0.1;
   }
 
-  private calculateAdvancedRiskAssessment(action: Action, predictions: PredictiveModel): number {
+  private calculateAdvancedRiskAssessment(
+    action: Action,
+    predictions: PredictiveModel,
+  ): number {
     let risk = 0.2; // Base risk
 
     // Adjust based on predicted outcomes
     const negativeOutcomes = predictions.shortTermOutcomes.filter(
-      outcome => outcome.impact < 0.5
+      outcome => outcome.impact < 0.5,
     );
 
     risk += negativeOutcomes.length * 0.1;
@@ -1302,7 +1441,10 @@ export class CopilotAgent {
     return Math.max(0, Math.min(1, risk));
   }
 
-  private generateAlternativeActions(action: Action, analysis: AdvancedAnalysis): Action[] {
+  private generateAlternativeActions(
+    action: Action,
+    analysis: AdvancedAnalysis,
+  ): Action[] {
     // Generate alternative actions for the same goal
     const alternatives: Action[] = [];
 
@@ -1313,14 +1455,17 @@ export class CopilotAgent {
         reasoning: 'Alternative: Analyze meta-game before optimizing',
         confidence: (action.confidence || 0.5) * 0.9,
         timestamp: new Date(),
-        expectedResult: 'Meta-informed deck optimization'
+        expectedResult: 'Meta-informed deck optimization',
       });
     }
 
     return alternatives;
   }
 
-  private determineExecutionStrategy(action: Action, analysis: AdvancedAnalysis): 'immediate' | 'batched' | 'scheduled' | 'conditional' {
+  private determineExecutionStrategy(
+    action: Action,
+    analysis: AdvancedAnalysis,
+  ): 'immediate' | 'batched' | 'scheduled' | 'conditional' {
     if (analysis.gamePhase === 'critical') {
       return 'immediate';
     }
@@ -1339,7 +1484,7 @@ export class CopilotAgent {
   private diversifyActions(actions: Action[]): Action[] {
     // Ensure action diversity to avoid over-optimization
     const actionTypes = new Set(actions.map(a => a.type));
-    
+
     if (actionTypes.size < actions.length * 0.7) {
       // Too much repetition, add diverse actions
       const diversityActions = this.generateDiversityActions(actions);
@@ -1355,9 +1500,9 @@ export class CopilotAgent {
 
     const diverseActionTypes = [
       'explore_environment',
-      'gather_information', 
+      'gather_information',
       'validate_assumptions',
-      'seek_feedback'
+      'seek_feedback',
     ];
 
     diverseActionTypes.forEach(type => {
@@ -1367,7 +1512,7 @@ export class CopilotAgent {
           reasoning: 'Added for action diversity and exploration',
           confidence: 0.6,
           timestamp: new Date(),
-          expectedResult: 'Increased exploration and learning'
+          expectedResult: 'Increased exploration and learning',
         });
       }
     });
@@ -1375,17 +1520,25 @@ export class CopilotAgent {
     return diversityActions;
   }
 
-  private checkForDecisionBias(reasoningChain: ReasoningChain): { passed: boolean; biases: string[] } {
+  private checkForDecisionBias(reasoningChain: ReasoningChain): {
+    passed: boolean;
+    biases: string[];
+  } {
     const biases: string[] = [];
 
     // Check for confirmation bias
-    if (reasoningChain.options[reasoningChain.selectedOption].pros.length > 
-        reasoningChain.options[reasoningChain.selectedOption].cons.length * 2) {
+    if (
+      reasoningChain.options[reasoningChain.selectedOption].pros.length >
+      reasoningChain.options[reasoningChain.selectedOption].cons.length * 2
+    ) {
       biases.push('confirmation_bias');
     }
 
     // Check for anchoring bias (too much weight on first option)
-    if (reasoningChain.selectedOption === 0 && reasoningChain.options.length > 1) {
+    if (
+      reasoningChain.selectedOption === 0 &&
+      reasoningChain.options.length > 1
+    ) {
       biases.push('anchoring_bias');
     }
 
@@ -1398,17 +1551,19 @@ export class CopilotAgent {
   }
 
   private checkForConsistency(
-    currentReasoning: ReasoningChain, 
-    history: ReasoningChain[]
+    currentReasoning: ReasoningChain,
+    history: ReasoningChain[],
   ): { passed: boolean; inconsistencies: string[] } {
     const inconsistencies: string[] = [];
 
     if (history.length > 0) {
       const lastReasoning = history[history.length - 1];
-      
+
       // Check for contradictory reasoning
-      if (currentReasoning.reasoning.includes('aggressive') && 
-          lastReasoning.reasoning.includes('conservative')) {
+      if (
+        currentReasoning.reasoning.includes('aggressive') &&
+        lastReasoning.reasoning.includes('conservative')
+      ) {
         inconsistencies.push('strategy_contradiction');
       }
     }
@@ -1416,11 +1571,17 @@ export class CopilotAgent {
     return { passed: inconsistencies.length === 0, inconsistencies };
   }
 
-  private checkEthicalImplications(action: Action): { passed: boolean; concerns: string[] } {
+  private checkEthicalImplications(action: Action): {
+    passed: boolean;
+    concerns: string[];
+  } {
     const concerns: string[] = [];
 
     // Check for user manipulation
-    if (action.type.includes('manipulate') || action.reasoning?.includes('exploit')) {
+    if (
+      action.type.includes('manipulate') ||
+      action.reasoning?.includes('exploit')
+    ) {
       concerns.push('user_manipulation');
     }
 
@@ -1432,7 +1593,10 @@ export class CopilotAgent {
     return { passed: concerns.length === 0, concerns };
   }
 
-  private checkRobustness(action: Action, state: State): { passed: boolean; issues: string[] } {
+  private checkRobustness(
+    action: Action,
+    state: State,
+  ): { passed: boolean; issues: string[] } {
     const issues: string[] = [];
 
     // Check if action is too dependent on uncertain information
@@ -1449,9 +1613,9 @@ export class CopilotAgent {
   }
 
   private generateCorrectedAction(
-    originalAction: Action, 
-    validationChecks: any, 
-    state: State
+    originalAction: Action,
+    validationChecks: any,
+    state: State,
   ): Action {
     return {
       ...originalAction,
@@ -1460,8 +1624,8 @@ export class CopilotAgent {
       confidence: Math.max(0.5, (originalAction.confidence || 0.5) * 0.8),
       payload: {
         ...originalAction.payload,
-        validation_corrections: validationChecks
-      }
+        validation_corrections: validationChecks,
+      },
     };
   }
 
@@ -1470,33 +1634,52 @@ export class CopilotAgent {
     if (this.reasoningHistory.length < 3) return false;
 
     const recentDecisions = this.reasoningHistory.slice(-3);
-    const avgConfidence = recentDecisions.reduce((sum, r) => 
-      sum + r.confidenceCalibration, 0
-    ) / recentDecisions.length;
+    const avgConfidence =
+      recentDecisions.reduce((sum, r) => sum + r.confidenceCalibration, 0) /
+      recentDecisions.length;
 
     return avgConfidence > 0.95; // Potential overconfidence bias
   }
 
-  private describeAdvancedSituation(state: State, analysis: AdvancedAnalysis): string {
-    return `Game phase: ${analysis.gamePhase}, Player state: ${analysis.playerState}, ` +
-           `Opportunity level: ${analysis.opportunityLevel.toFixed(2)}, ` +
-           `Adaptation needed: ${analysis.adaptationNeeded}`;
+  private describeAdvancedSituation(
+    state: State,
+    analysis: AdvancedAnalysis,
+  ): string {
+    return (
+      `Game phase: ${analysis.gamePhase}, Player state: ${analysis.playerState}, ` +
+      `Opportunity level: ${analysis.opportunityLevel.toFixed(2)}, ` +
+      `Adaptation needed: ${analysis.adaptationNeeded}`
+    );
   }
 
-  private generateAdvancedReasoning(selectedOption: any, analysis: AdvancedAnalysis): string {
-    return `Selected ${selectedOption.action.type} because ${selectedOption.pros.join(', ')}. ` +
-           `Given ${analysis.gamePhase} game phase and ${analysis.playerState} player state, ` +
-           `this action aligns with strategic objectives while managing identified risks: ${analysis.riskFactors.join(', ')}.`;
+  private generateAdvancedReasoning(
+    selectedOption: any,
+    analysis: AdvancedAnalysis,
+  ): string {
+    return (
+      `Selected ${selectedOption.action.type} because ${selectedOption.pros.join(', ')}. ` +
+      `Given ${analysis.gamePhase} game phase and ${analysis.playerState} player state, ` +
+      `this action aligns with strategic objectives while managing identified risks: ${analysis.riskFactors.join(', ')}.`
+    );
   }
 
-  private generateAlternativeReasonings(options: any[], selectedIndex: number): string[] {
+  private generateAlternativeReasonings(
+    options: any[],
+    selectedIndex: number,
+  ): string[] {
     return options
       .filter((_, index) => index !== selectedIndex)
       .slice(0, 2) // Top 2 alternatives
-      .map(option => `Could have chosen ${option.action.type}: ${option.pros[0] || 'strategic alternative'}`);
+      .map(
+        option =>
+          `Could have chosen ${option.action.type}: ${option.pros[0] || 'strategic alternative'}`,
+      );
   }
 
-  private identifyPotentialBiases(options: any[], selectedIndex: number): string[] {
+  private identifyPotentialBiases(
+    options: any[],
+    selectedIndex: number,
+  ): string[] {
     const biases: string[] = [];
 
     // Check for anchoring (selecting first option too often)
@@ -1520,7 +1703,8 @@ export class CopilotAgent {
     calibratedConfidence *= informationQuality;
 
     // Adjust based on past performance
-    const historicalAccuracy = this.performanceMetrics.get('decision_accuracy') || 0.88;
+    const historicalAccuracy =
+      this.performanceMetrics.get('decision_accuracy') || 0.88;
     calibratedConfidence = (calibratedConfidence + historicalAccuracy) / 2;
 
     return Math.max(0.1, Math.min(0.99, calibratedConfidence));
@@ -1545,7 +1729,7 @@ export class CopilotAgent {
     return {
       ...this.metacognitionSystem,
       adaptiveLearningSize: this.adaptiveLearningEngine.size,
-      reasoningHistoryLength: this.reasoningHistory.length
+      reasoningHistoryLength: this.reasoningHistory.length,
     };
   }
 
