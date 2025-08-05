@@ -244,6 +244,7 @@ export class GameEngine {
     window.addEventListener('resize', this.handleResize.bind(this));
 
     this.initAdvancedScenes();
+    this.initTouchControls(canvas);
 
     // Enhanced render loop with performance monitoring
     this.engine.runRenderLoop(() => {
@@ -256,6 +257,85 @@ export class GameEngine {
     this.audioManager.playGameStart();
   }
 
+  private initTouchControls(canvas: HTMLCanvasElement): void {
+    // Touch controls for mobile devices
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    if (isTouchDevice) {
+      console.log('[GameEngine] Initializing touch controls');
+      
+      let touchStartPos = { x: 0, y: 0 };
+      let touchStartTime = 0;
+      let isDragging = false;
+      
+      const handleTouchStart = (e: TouchEvent) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        touchStartPos = { x: touch.clientX, y: touch.clientY };
+        touchStartTime = Date.now();
+        isDragging = false;
+        
+        // Audio feedback for touch
+        this.audioManager.playCardHover();
+      };
+      
+      const handleTouchMove = (e: TouchEvent) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStartPos.x;
+        const deltaY = touch.clientY - touchStartPos.y;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        if (distance > 10) {
+          isDragging = true;
+          
+          // Handle camera rotation for touch drag
+          if (this.camera && this.camera instanceof BABYLON.ArcRotateCamera) {
+            const sensitivity = 0.01;
+            this.camera.alpha += deltaX * sensitivity;
+            this.camera.beta = Math.max(0.1, Math.min(Math.PI - 0.1, this.camera.beta + deltaY * sensitivity));
+          }
+          
+          touchStartPos = { x: touch.clientX, y: touch.clientY };
+        }
+      };
+      
+      const handleTouchEnd = (e: TouchEvent) => {
+        e.preventDefault();
+        const touchDuration = Date.now() - touchStartTime;
+        
+        // Distinguish between tap and drag
+        if (!isDragging && touchDuration < 300) {
+          // Handle tap
+          this.handleTouchTap(e);
+        }
+        
+        isDragging = false;
+      };
+      
+      // Add touch event listeners
+      canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+      canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+      canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+      
+      // Store event listeners for cleanup
+      (canvas as any)._touchHandlers = {
+        touchstart: handleTouchStart,
+        touchmove: handleTouchMove,
+        touchend: handleTouchEnd,
+      };
+    }
+  }
+  
+  private handleTouchTap(e: TouchEvent): void {
+    // Handle touch tap events (card selection, menu interaction, etc.)
+    console.log('[GameEngine] Touch tap detected');
+    this.audioManager.playCardPlace();
+    
+    // In a real game, this would handle object picking and interaction
+    // For now, just provide audio feedback
+  }
+
   private handleResize(): void {
     if (this.engine) {
       this.engine.resize();
@@ -265,6 +345,16 @@ export class GameEngine {
   public destroy(): void {
     if (this.engine) {
       window.removeEventListener('resize', this.handleResize.bind(this));
+
+      // Clean up touch event listeners
+      const canvas = this.engine.getRenderingCanvas();
+      if (canvas && (canvas as any)._touchHandlers) {
+        const handlers = (canvas as any)._touchHandlers;
+        canvas.removeEventListener('touchstart', handlers.touchstart);
+        canvas.removeEventListener('touchmove', handlers.touchmove);
+        canvas.removeEventListener('touchend', handlers.touchend);
+        delete (canvas as any)._touchHandlers;
+      }
 
       // Clean up particle systems
       if (this.particleSystem) {
