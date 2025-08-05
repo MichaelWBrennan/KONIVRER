@@ -209,7 +209,11 @@ class KyberAlgorithm extends QuantumAlgorithm {
     return 256; // 256-bit security level
   }
 
-  private kyberEncrypt(_data: string, key: QuantumKey, entropy: string): string {
+  private kyberEncrypt(
+    _data: string,
+    key: QuantumKey,
+    entropy: string,
+  ): string {
     // Simplified Kyber encryption
     const combined = data + entropy + key.id;
     return btoa(combined.split('').reverse().join(''));

@@ -78,7 +78,13 @@ export class AdvancedMonitoringSystem {
   private healthChecks: Map<string, HealthCheck> = new Map();
   private activeSpans: Map<string, TraceSpan> = new Map();
   private flushTimer?: number;
-  private readonly LOG_LEVELS: LogLevel = { ERROR: 0, WARN: 1, INFO: 2, DEBUG: 3, TRACE: 4 };
+  private readonly LOG_LEVELS: LogLevel = {
+    ERROR: 0,
+    WARN: 1,
+    INFO: 2,
+    DEBUG: 3,
+    TRACE: 4,
+  };
 
   constructor(config: Partial<MonitoringConfig> = {}) {
     this.config = {
@@ -110,7 +116,11 @@ export class AdvancedMonitoringSystem {
   }
 
   // Logging Methods
-  public error(message: string, metadata?: Record<string, any>, error?: Error): void {
+  public error(
+    message: string,
+    metadata?: Record<string, any>,
+    error?: Error,
+  ): void {
     this.log('ERROR', message, metadata, error);
   }
 
@@ -131,7 +141,11 @@ export class AdvancedMonitoringSystem {
   }
 
   // Metrics Methods
-  public incrementCounter(name: string, value = 1, tags: Record<string, string> = {}): void {
+  public incrementCounter(
+    name: string,
+    value = 1,
+    tags: Record<string, string> = {},
+  ): void {
     if (!this.config.enableMetrics) return;
 
     this.recordMetric({
@@ -143,7 +157,11 @@ export class AdvancedMonitoringSystem {
     });
   }
 
-  public setGauge(name: string, value: number, tags: Record<string, string> = {}): void {
+  public setGauge(
+    name: string,
+    value: number,
+    tags: Record<string, string> = {},
+  ): void {
     if (!this.config.enableMetrics) return;
 
     this.recordMetric({
@@ -155,7 +173,11 @@ export class AdvancedMonitoringSystem {
     });
   }
 
-  public recordHistogram(name: string, value: number, tags: Record<string, string> = {}): void {
+  public recordHistogram(
+    name: string,
+    value: number,
+    tags: Record<string, string> = {},
+  ): void {
     if (!this.config.enableMetrics) return;
 
     this.recordMetric({
@@ -167,9 +189,12 @@ export class AdvancedMonitoringSystem {
     });
   }
 
-  public startTimer(name: string, tags: Record<string, string> = {}): () => void {
+  public startTimer(
+    name: string,
+    tags: Record<string, string> = {},
+  ): () => void {
     const startTime = performance.now();
-    
+
     return () => {
       const duration = performance.now() - startTime;
       this.recordMetric({
@@ -185,7 +210,10 @@ export class AdvancedMonitoringSystem {
 
   // Tracing Methods
   public startSpan(operation: string, tags: Record<string, any> = {}): string {
-    if (!this.config.enableTracing || Math.random() > this.config.samplingRate) {
+    if (
+      !this.config.enableTracing ||
+      Math.random() > this.config.samplingRate
+    ) {
       return '';
     }
 
@@ -220,10 +248,10 @@ export class AdvancedMonitoringSystem {
     this.traces.get(span.traceId)!.push(span);
 
     this.activeSpans.delete(spanId);
-    this.debug('span_finished', { 
-      spanId: span.id, 
-      operation: span.operation, 
-      duration: span.duration 
+    this.debug('span_finished', {
+      spanId: span.id,
+      operation: span.operation,
+      duration: span.duration,
     });
   }
 
@@ -250,12 +278,16 @@ export class AdvancedMonitoringSystem {
     this.addSpanLog(spanId, `Error: ${error.message}`, 'ERROR');
   }
 
-  public withSpan<T>(operation: string, fn: (spanId: string) => T, tags: Record<string, any> = {}): T {
+  public withSpan<T>(
+    operation: string,
+    fn: (spanId: string) => T,
+    tags: Record<string, any> = {},
+  ): T {
     const spanId = this.startSpan(operation, tags);
-    
+
     try {
       const result = fn(spanId);
-      
+
       if (result instanceof Promise) {
         return result
           .then(res => {
@@ -279,16 +311,20 @@ export class AdvancedMonitoringSystem {
   }
 
   // Health Check Methods
-  public registerHealthCheck(name: string, checkFn: () => Promise<boolean>, interval = 30000): void {
+  public registerHealthCheck(
+    name: string,
+    checkFn: () => Promise<boolean>,
+    interval = 30000,
+  ): void {
     if (!this.config.enableHealthChecks) return;
 
     const check = async () => {
       const startTime = performance.now();
-      
+
       try {
         const isHealthy = await checkFn();
         const duration = performance.now() - startTime;
-        
+
         this.healthChecks.set(name, {
           name,
           status: isHealthy ? 'healthy' : 'unhealthy',
@@ -297,17 +333,21 @@ export class AdvancedMonitoringSystem {
           message: isHealthy ? 'OK' : 'Check failed',
         });
 
-        this.setGauge(`health_check.${name}`, isHealthy ? 1 : 0, { check: name });
+        this.setGauge(`health_check.${name}`, isHealthy ? 1 : 0, {
+          check: name,
+        });
       } catch (error) {
         const duration = performance.now() - startTime;
-        
+
         this.healthChecks.set(name, {
           name,
           status: 'unhealthy',
           lastCheck: Date.now(),
           duration,
           message: error instanceof Error ? error.message : 'Unknown error',
-          metadata: { error: error instanceof Error ? error.stack : String(error) },
+          metadata: {
+            error: error instanceof Error ? error.stack : String(error),
+          },
         });
 
         this.setGauge(`health_check.${name}`, 0, { check: name });
@@ -320,13 +360,13 @@ export class AdvancedMonitoringSystem {
 
     // Schedule periodic checks
     setInterval(check, interval);
-    
+
     this.info('health_check_registered', { name, interval });
   }
 
   public getHealthStatus(): Record<string, HealthCheck> {
     const status: Record<string, HealthCheck> = {};
-    
+
     for (const [name, check] of this.healthChecks) {
       status[name] = { ...check };
     }
@@ -344,13 +384,15 @@ export class AdvancedMonitoringSystem {
   }
 
   // Query and Export Methods
-  public queryLogs(filters: {
-    level?: keyof LogLevel;
-    component?: string;
-    timeRange?: { start: number; end: number };
-    userId?: string;
-    limit?: number;
-  } = {}): LogEntry[] {
+  public queryLogs(
+    filters: {
+      level?: keyof LogLevel;
+      component?: string;
+      timeRange?: { start: number; end: number };
+      userId?: string;
+      limit?: number;
+    } = {},
+  ): LogEntry[] {
     let filtered = [...this.logs];
 
     if (filters.level) {
@@ -363,9 +405,10 @@ export class AdvancedMonitoringSystem {
     }
 
     if (filters.timeRange) {
-      filtered = filtered.filter(log => 
-        log.timestamp >= filters.timeRange!.start && 
-        log.timestamp <= filters.timeRange!.end
+      filtered = filtered.filter(
+        log =>
+          log.timestamp >= filters.timeRange!.start &&
+          log.timestamp <= filters.timeRange!.end,
       );
     }
 
@@ -380,12 +423,14 @@ export class AdvancedMonitoringSystem {
     return filtered.sort((a, b) => b.timestamp - a.timestamp);
   }
 
-  public queryMetrics(filters: {
-    name?: string;
-    type?: MetricEntry['type'];
-    timeRange?: { start: number; end: number };
-    tags?: Record<string, string>;
-  } = {}): MetricEntry[] {
+  public queryMetrics(
+    filters: {
+      name?: string;
+      type?: MetricEntry['type'];
+      timeRange?: { start: number; end: number };
+      tags?: Record<string, string>;
+    } = {},
+  ): MetricEntry[] {
     let filtered = [...this.metrics];
 
     if (filters.name) {
@@ -397,16 +442,17 @@ export class AdvancedMonitoringSystem {
     }
 
     if (filters.timeRange) {
-      filtered = filtered.filter(metric => 
-        metric.timestamp >= filters.timeRange!.start && 
-        metric.timestamp <= filters.timeRange!.end
+      filtered = filtered.filter(
+        metric =>
+          metric.timestamp >= filters.timeRange!.start &&
+          metric.timestamp <= filters.timeRange!.end,
       );
     }
 
     if (filters.tags) {
       filtered = filtered.filter(metric => {
-        return Object.entries(filters.tags!).every(([key, value]) => 
-          metric.tags[key] === value
+        return Object.entries(filters.tags!).every(
+          ([key, value]) => metric.tags[key] === value,
         );
       });
     }
@@ -439,7 +485,12 @@ export class AdvancedMonitoringSystem {
   }
 
   // Alerting Methods
-  public createAlert(name: string, condition: () => boolean, action: () => void, interval = 60000): void {
+  public createAlert(
+    name: string,
+    condition: () => boolean,
+    action: () => void,
+    interval = 60000,
+  ): void {
     const checkAlert = () => {
       if (condition()) {
         this.warn('alert_triggered', { alert: name });
@@ -452,7 +503,12 @@ export class AdvancedMonitoringSystem {
   }
 
   // Private Methods
-  private log(level: keyof LogLevel, message: string, metadata?: Record<string, any>, error?: Error): void {
+  private log(
+    level: keyof LogLevel,
+    message: string,
+    metadata?: Record<string, any>,
+    error?: Error,
+  ): void {
     if (this.LOG_LEVELS[level] > this.LOG_LEVELS[this.config.logLevel]) {
       return;
     }
@@ -490,21 +546,29 @@ export class AdvancedMonitoringSystem {
 
   private setupGlobalErrorHandlers(): void {
     // Handle uncaught errors
-    window.addEventListener('error', (event) => {
-      this.error('uncaught_error', {
-        filename: event.filename,
-        lineno: event.lineno,
-        colno: event.colno,
-        component: 'global',
-      }, event.error);
+    window.addEventListener('error', event => {
+      this.error(
+        'uncaught_error',
+        {
+          filename: event.filename,
+          lineno: event.lineno,
+          colno: event.colno,
+          component: 'global',
+        },
+        event.error,
+      );
     });
 
     // Handle unhandled promise rejections
-    window.addEventListener('unhandledrejection', (event) => {
-      this.error('unhandled_promise_rejection', {
-        reason: event.reason,
-        component: 'global',
-      }, new Error(event.reason));
+    window.addEventListener('unhandledrejection', event => {
+      this.error(
+        'unhandled_promise_rejection',
+        {
+          reason: event.reason,
+          component: 'global',
+        },
+        new Error(event.reason),
+      );
     });
   }
 
@@ -512,27 +576,40 @@ export class AdvancedMonitoringSystem {
     if (!window.PerformanceObserver || !this.config.enableMetrics) return;
 
     // Monitor navigation timing
-    const navObserver = new PerformanceObserver((list) => {
+    const navObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         if (entry.entryType === 'navigation') {
           const nav = entry as PerformanceNavigationTiming;
-          
-          this.recordHistogram('page.load_time', nav.loadEventEnd - nav.navigationStart);
-          this.recordHistogram('page.dom_content_loaded', nav.domContentLoadedEventEnd - nav.navigationStart);
-          this.recordHistogram('page.first_byte', nav.responseStart - nav.requestStart);
+
+          this.recordHistogram(
+            'page.load_time',
+            nav.loadEventEnd - nav.navigationStart,
+          );
+          this.recordHistogram(
+            'page.dom_content_loaded',
+            nav.domContentLoadedEventEnd - nav.navigationStart,
+          );
+          this.recordHistogram(
+            'page.first_byte',
+            nav.responseStart - nav.requestStart,
+          );
         }
       }
     });
     navObserver.observe({ entryTypes: ['navigation'] });
 
     // Monitor resource timing
-    const resourceObserver = new PerformanceObserver((list) => {
+    const resourceObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         const resource = entry as PerformanceResourceTiming;
-        
-        this.recordHistogram('resource.load_time', resource.responseEnd - resource.startTime, {
-          type: this.getResourceType(resource.name),
-        });
+
+        this.recordHistogram(
+          'resource.load_time',
+          resource.responseEnd - resource.startTime,
+          {
+            type: this.getResourceType(resource.name),
+          },
+        );
       }
     });
     resourceObserver.observe({ entryTypes: ['resource'] });
@@ -595,7 +672,7 @@ export class AdvancedMonitoringSystem {
     try {
       const key = `konivrer_monitoring_${Date.now()}`;
       localStorage.setItem(key, JSON.stringify(data));
-      
+
       // Clean up old entries
       this.cleanupLocalStorage();
     } catch (error) {
@@ -604,8 +681,8 @@ export class AdvancedMonitoringSystem {
   }
 
   private cleanupLocalStorage(): void {
-    const cutoff = Date.now() - (this.config.retentionDays * 24 * 60 * 60 * 1000);
-    
+    const cutoff = Date.now() - this.config.retentionDays * 24 * 60 * 60 * 1000;
+
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key?.startsWith('konivrer_monitoring_')) {

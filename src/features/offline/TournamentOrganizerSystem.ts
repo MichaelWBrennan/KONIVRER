@@ -19,7 +19,12 @@ export interface Tournament {
 }
 
 export interface TournamentFormat {
-  type: 'single-elimination' | 'double-elimination' | 'round-robin' | 'swiss' | 'ladder';
+  type:
+    | 'single-elimination'
+    | 'double-elimination'
+    | 'round-robin'
+    | 'swiss'
+    | 'ladder';
   gameMode: 'best-of-1' | 'best-of-3' | 'best-of-5';
   timeControl: TimeControl;
   deckRules: DeckRules;
@@ -51,7 +56,11 @@ export interface AdvancementRule {
 }
 
 export interface TiebreakerRule {
-  type: 'head-to-head' | 'opponent-win-percentage' | 'game-win-percentage' | 'random';
+  type:
+    | 'head-to-head'
+    | 'opponent-win-percentage'
+    | 'game-win-percentage'
+    | 'random';
   order: number;
 }
 
@@ -64,7 +73,12 @@ export interface TournamentBracket {
   seeds: TournamentSeed[];
 }
 
-export type BracketType = 'single-tree' | 'double-tree' | 'round-robin-groups' | 'swiss-pairings' | 'ladder-ranking';
+export type BracketType =
+  | 'single-tree'
+  | 'double-tree'
+  | 'round-robin-groups'
+  | 'swiss-pairings'
+  | 'ladder-ranking';
 
 export interface BracketRound {
   roundNumber: number;
@@ -130,7 +144,13 @@ export interface TournamentAssistant {
 export interface TournamentParticipant {
   playerId: string;
   registrationTime: Date;
-  status: 'registered' | 'checked-in' | 'disqualified' | 'withdrawn' | 'eliminated' | 'active';
+  status:
+    | 'registered'
+    | 'checked-in'
+    | 'disqualified'
+    | 'withdrawn'
+    | 'eliminated'
+    | 'active';
   seed?: number;
   currentMatchId?: string;
   record: ParticipantRecord;
@@ -174,7 +194,13 @@ export interface TournamentMatch {
   disputes?: MatchDispute[];
 }
 
-export type MatchStatus = 'scheduled' | 'in-progress' | 'completed' | 'dispute' | 'cancelled' | 'forfeit';
+export type MatchStatus =
+  | 'scheduled'
+  | 'in-progress'
+  | 'completed'
+  | 'dispute'
+  | 'cancelled'
+  | 'forfeit';
 
 export interface MatchGame {
   gameNumber: number;
@@ -210,7 +236,12 @@ export interface Penalty {
   appealable: boolean;
 }
 
-export type TournamentStatus = 'registration' | 'seeding' | 'in-progress' | 'completed' | 'cancelled';
+export type TournamentStatus =
+  | 'registration'
+  | 'seeding'
+  | 'in-progress'
+  | 'completed'
+  | 'cancelled';
 
 export interface TournamentSchedule {
   phases: SchedulePhase[];
@@ -298,10 +329,10 @@ export class TournamentOrganizerSystem {
   createTournament(
     organizer: TournamentOrganizer,
     settings: TournamentSettings,
-    format: TournamentFormat
+    format: TournamentFormat,
   ): Tournament {
     const tournamentId = `tournament_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     const tournament: Tournament = {
       id: tournamentId,
       name: `Tournament ${new Date().toLocaleDateString()}`,
@@ -315,7 +346,7 @@ export class TournamentOrganizerSystem {
       status: 'registration',
       schedule: {
         phases: [],
-        breaks: []
+        breaks: [],
       },
       prizes: [],
       security: this.createDefaultSecurity(tournamentId),
@@ -326,8 +357,8 @@ export class TournamentOrganizerSystem {
         attendanceByRound: [],
         dropoutRate: 0,
         averageGamesPerMatch: 0,
-        disputeCount: 0
-      }
+        disputeCount: 0,
+      },
     };
 
     this.tournaments.set(tournamentId, tournament);
@@ -341,7 +372,7 @@ export class TournamentOrganizerSystem {
       advancementPath: new Map(),
       eliminationPath: new Map(),
       currentRound: 0,
-      seeds: []
+      seeds: [],
     };
   }
 
@@ -355,36 +386,36 @@ export class TournamentOrganizerSystem {
           name: 'Deck Verification',
           description: 'All decks must be verified before play',
           enforced: true,
-          parameters: { requireSubmission: true }
-        }
+          parameters: { requireSubmission: true },
+        },
       ],
       enforcedRestrictions: [
         {
           type: 'deck-validation',
           enabled: true,
-          parameters: { realTimeCheck: true }
-        }
+          parameters: { realTimeCheck: true },
+        },
       ],
       monitoring: {
         replayRecording: true,
         behaviorAnalysis: true,
         realTimeValidation: true,
         audienceMode: false,
-        adminOverrides: true
+        adminOverrides: true,
       },
-      participants: []
+      participants: [],
     };
   }
 
   generateQRRegistration(tournamentId: string): QRRegistration {
     const qrCode = `KONIVRER_${tournamentId}_${Date.now()}`;
     const url = `https://app.konivrer.com/tournament/register/${qrCode}`;
-    
+
     const qrRegistration: QRRegistration = {
       tournamentId,
       qrCode,
       url,
-      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
     };
 
     this.qrRegistrations.set(qrCode, qrRegistration);
@@ -394,13 +425,14 @@ export class TournamentOrganizerSystem {
   registerParticipant(
     tournamentId: string,
     player: Player,
-    qrCode?: string
+    qrCode?: string,
   ): boolean {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return false;
 
     if (tournament.status !== 'registration') return false;
-    if (tournament.participants.length >= tournament.settings.maxParticipants) return false;
+    if (tournament.participants.length >= tournament.settings.maxParticipants)
+      return false;
 
     // Check registration deadline
     if (new Date() > tournament.settings.registrationDeadline) {
@@ -427,9 +459,9 @@ export class TournamentOrganizerSystem {
         gamesWon: 0,
         points: 0,
         tiebreakers: new Map(),
-        opponentsPlayed: new Set()
+        opponentsPlayed: new Set(),
       },
-      qrCode: qrCode
+      qrCode: qrCode,
     };
 
     tournament.participants.push(participant);
@@ -441,12 +473,14 @@ export class TournamentOrganizerSystem {
   submitDeck(
     tournamentId: string,
     playerId: string,
-    deck: TournamentDeck
+    deck: TournamentDeck,
   ): boolean {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return false;
 
-    const participant = tournament.participants.find(p => p.playerId === playerId);
+    const participant = tournament.participants.find(
+      p => p.playerId === playerId,
+    );
     if (!participant) return false;
 
     // Verify deck meets tournament rules
@@ -463,7 +497,10 @@ export class TournamentOrganizerSystem {
 
   private validateDeck(deck: TournamentDeck, rules: DeckRules): boolean {
     // Check deck size
-    if (deck.cards.length < rules.deckSizeMin || deck.cards.length > rules.deckSizeMax) {
+    if (
+      deck.cards.length < rules.deckSizeMin ||
+      deck.cards.length > rules.deckSizeMax
+    ) {
       return false;
     }
 
@@ -509,15 +546,15 @@ export class TournamentOrganizerSystem {
     }
 
     tournament.status = 'seeding';
-    
+
     // Generate seeding
     this.generateSeeding(tournament);
-    
+
     // Generate bracket
     this.generateBracket(tournament);
-    
+
     tournament.status = 'in-progress';
-    
+
     // Start first round
     this.startRound(tournament, 1);
 
@@ -528,7 +565,7 @@ export class TournamentOrganizerSystem {
     // Simple random seeding for now
     // In a real system, this would use rating, previous results, etc.
     const participants = [...tournament.participants];
-    
+
     // Shuffle participants for random seeding
     for (let i = participants.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -539,13 +576,13 @@ export class TournamentOrganizerSystem {
       participantId: participant.playerId,
       seedNumber: index + 1,
       placement: 'upper',
-      reasoning: 'Random seeding'
+      reasoning: 'Random seeding',
     }));
   }
 
   private generateBracket(tournament: Tournament): void {
     const participantCount = tournament.participants.length;
-    
+
     switch (tournament.format.type) {
       case 'single-elimination':
         this.generateSingleEliminationBracket(tournament);
@@ -567,17 +604,17 @@ export class TournamentOrganizerSystem {
   private generateSingleEliminationBracket(tournament: Tournament): void {
     const participantCount = tournament.participants.length;
     const rounds = Math.ceil(Math.log2(participantCount));
-    
+
     tournament.bracket.rounds = [];
-    
+
     for (let round = 1; round <= rounds; round++) {
       const matchesInRound = Math.ceil(participantCount / Math.pow(2, round));
       const roundMatches: string[] = [];
-      
+
       for (let match = 0; match < matchesInRound; match++) {
         const matchId = `match_r${round}_m${match}`;
         roundMatches.push(matchId);
-        
+
         // Create the match
         const tournamentMatch: TournamentMatch = {
           id: matchId,
@@ -585,17 +622,17 @@ export class TournamentOrganizerSystem {
           participants: [], // Will be populated when round starts
           scores: new Map(),
           status: 'scheduled',
-          games: []
+          games: [],
         };
-        
+
         tournament.matches.push(tournamentMatch);
       }
-      
+
       tournament.bracket.rounds.push({
         roundNumber: round,
         name: this.getRoundName(round, rounds),
         matches: roundMatches,
-        status: 'pending'
+        status: 'pending',
       });
     }
   }
@@ -609,54 +646,54 @@ export class TournamentOrganizerSystem {
   private generateRoundRobinBracket(tournament: Tournament): void {
     const participants = tournament.participants;
     const rounds = participants.length - 1;
-    
+
     tournament.bracket.rounds = [];
-    
+
     for (let round = 1; round <= rounds; round++) {
       const roundMatches: string[] = [];
-      
+
       // Generate pairings for this round
       const pairings = this.generateRoundRobinPairings(participants, round);
-      
+
       pairings.forEach((pairing, index) => {
         const matchId = `match_r${round}_m${index}`;
         roundMatches.push(matchId);
-        
+
         const tournamentMatch: TournamentMatch = {
           id: matchId,
           round,
           participants: [pairing[0].playerId, pairing[1].playerId],
           scores: new Map(),
           status: 'scheduled',
-          games: []
+          games: [],
         };
-        
+
         tournament.matches.push(tournamentMatch);
       });
-      
+
       tournament.bracket.rounds.push({
         roundNumber: round,
         name: `Round ${round}`,
         matches: roundMatches,
-        status: 'pending'
+        status: 'pending',
       });
     }
   }
 
   private generateRoundRobinPairings(
-    participants: TournamentParticipant[], 
-    round: number
+    participants: TournamentParticipant[],
+    round: number,
   ): [TournamentParticipant, TournamentParticipant][] {
     // Simplified round-robin pairing algorithm
     const pairings: [TournamentParticipant, TournamentParticipant][] = [];
     const used = new Set<string>();
-    
+
     for (let i = 0; i < participants.length; i++) {
       if (used.has(participants[i].playerId)) continue;
-      
+
       for (let j = i + 1; j < participants.length; j++) {
         if (used.has(participants[j].playerId)) continue;
-        
+
         // Simple pairing - in real implementation, would ensure all participants play each other
         pairings.push([participants[i], participants[j]]);
         used.add(participants[i].playerId);
@@ -664,41 +701,50 @@ export class TournamentOrganizerSystem {
         break;
       }
     }
-    
+
     return pairings;
   }
 
   private generateSwissBracket(tournament: Tournament): void {
     // Swiss pairings are generated dynamically each round
-    const estimatedRounds = Math.ceil(Math.log2(tournament.participants.length)) + 2;
-    
+    const estimatedRounds =
+      Math.ceil(Math.log2(tournament.participants.length)) + 2;
+
     tournament.bracket.rounds = [];
-    
+
     for (let round = 1; round <= estimatedRounds; round++) {
       tournament.bracket.rounds.push({
         roundNumber: round,
         name: `Round ${round}`,
         matches: [], // Populated when round starts
-        status: 'pending'
+        status: 'pending',
       });
     }
   }
 
   private getRoundName(round: number, totalRounds: number): string {
     const roundsFromEnd = totalRounds - round + 1;
-    
+
     switch (roundsFromEnd) {
-      case 1: return 'Finals';
-      case 2: return 'Semifinals';
-      case 3: return 'Quarterfinals';
-      case 4: return 'Round of 16';
-      case 5: return 'Round of 32';
-      default: return `Round ${round}`;
+      case 1:
+        return 'Finals';
+      case 2:
+        return 'Semifinals';
+      case 3:
+        return 'Quarterfinals';
+      case 4:
+        return 'Round of 16';
+      case 5:
+        return 'Round of 32';
+      default:
+        return `Round ${round}`;
     }
   }
 
   private startRound(tournament: Tournament, roundNumber: number): void {
-    const round = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber);
+    const round = tournament.bracket.rounds.find(
+      r => r.roundNumber === roundNumber,
+    );
     if (!round) return;
 
     round.status = 'in-progress';
@@ -721,14 +767,21 @@ export class TournamentOrganizerSystem {
     });
   }
 
-  private generateSwissPairings(tournament: Tournament, roundNumber: number): void {
+  private generateSwissPairings(
+    tournament: Tournament,
+    roundNumber: number,
+  ): void {
     // Sort participants by points/record
     const participants = [...tournament.participants].sort((a, b) => {
-      return b.record.points - a.record.points || 
-             b.record.matchesWon - a.record.matchesWon;
+      return (
+        b.record.points - a.record.points ||
+        b.record.matchesWon - a.record.matchesWon
+      );
     });
 
-    const round = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber)!;
+    const round = tournament.bracket.rounds.find(
+      r => r.roundNumber === roundNumber,
+    )!;
     const pairings: [TournamentParticipant, TournamentParticipant][] = [];
     const paired = new Set<string>();
 
@@ -738,9 +791,11 @@ export class TournamentOrganizerSystem {
 
       for (let j = i + 1; j < participants.length; j++) {
         if (paired.has(participants[j].playerId)) continue;
-        
+
         // Check if they've played before
-        if (!participants[i].record.opponentsPlayed.has(participants[j].playerId)) {
+        if (
+          !participants[i].record.opponentsPlayed.has(participants[j].playerId)
+        ) {
           pairings.push([participants[i], participants[j]]);
           paired.add(participants[i].playerId);
           paired.add(participants[j].playerId);
@@ -761,15 +816,20 @@ export class TournamentOrganizerSystem {
         participants: [pairing[0].playerId, pairing[1].playerId],
         scores: new Map(),
         status: 'scheduled',
-        games: []
+        games: [],
       };
 
       tournament.matches.push(match);
     });
   }
 
-  private assignParticipantsToMatches(tournament: Tournament, roundNumber: number): void {
-    const round = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber);
+  private assignParticipantsToMatches(
+    tournament: Tournament,
+    roundNumber: number,
+  ): void {
+    const round = tournament.bracket.rounds.find(
+      r => r.roundNumber === roundNumber,
+    );
     if (!round) return;
 
     // For first round, use seeding
@@ -780,7 +840,7 @@ export class TournamentOrganizerSystem {
         if (match) {
           const participant1 = seeds[index * 2];
           const participant2 = seeds[index * 2 + 1];
-          
+
           if (participant1) match.participants.push(participant1.participantId);
           if (participant2) match.participants.push(participant2.participantId);
         }
@@ -792,13 +852,17 @@ export class TournamentOrganizerSystem {
   }
 
   private advanceWinners(tournament: Tournament, roundNumber: number): void {
-    const previousRound = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber - 1);
-    const currentRound = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber);
-    
+    const previousRound = tournament.bracket.rounds.find(
+      r => r.roundNumber === roundNumber - 1,
+    );
+    const currentRound = tournament.bracket.rounds.find(
+      r => r.roundNumber === roundNumber,
+    );
+
     if (!previousRound || !currentRound) return;
 
     const winners: string[] = [];
-    
+
     previousRound.matches.forEach(matchId => {
       const match = tournament.matches.find(m => m.id === matchId);
       if (match && match.status === 'completed') {
@@ -813,7 +877,7 @@ export class TournamentOrganizerSystem {
       if (match) {
         const participant1 = winners[index * 2];
         const participant2 = winners[index * 2 + 1];
-        
+
         if (participant1) match.participants.push(participant1);
         if (participant2) match.participants.push(participant2);
       }
@@ -831,7 +895,7 @@ export class TournamentOrganizerSystem {
     matchId: string,
     reportedBy: string,
     scores: Map<string, number>,
-    gameResults: GameResult[]
+    gameResults: GameResult[],
   ): boolean {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return false;
@@ -851,7 +915,7 @@ export class TournamentOrganizerSystem {
       gameResults,
       duration: Date.now() - (match.startTime?.getTime() || Date.now()),
       timestamp: new Date(),
-      verified: false
+      verified: false,
     };
 
     // Store report
@@ -871,11 +935,11 @@ export class TournamentOrganizerSystem {
   private canReportMatch(
     tournament: Tournament,
     match: TournamentMatch,
-    reporterId: string
+    reporterId: string,
   ): boolean {
     // Organizer can always report
     if (reporterId === tournament.organizer.id) return true;
-    
+
     // Participants can report their own matches
     return match.participants.includes(reporterId);
   }
@@ -883,7 +947,7 @@ export class TournamentOrganizerSystem {
   private verifyMatchReport(
     tournament: Tournament,
     match: TournamentMatch,
-    report: MatchReport
+    report: MatchReport,
   ): boolean {
     // Auto-verify if reported by organizer
     if (report.reportedBy === tournament.organizer.id) {
@@ -893,41 +957,49 @@ export class TournamentOrganizerSystem {
 
     // Check if both participants agree (if multiple reports)
     const reports = this.matchReports.get(match.id) || [];
-    const participantReports = reports.filter(r => 
-      match.participants.includes(r.reportedBy)
+    const participantReports = reports.filter(r =>
+      match.participants.includes(r.reportedBy),
     );
 
     if (participantReports.length >= 2) {
       // Both participants reported - check if scores match
       const firstReport = participantReports[0];
       const scoresMatch = this.scoresMatch(firstReport.scores, report.scores);
-      
+
       if (scoresMatch) {
         report.verified = true;
         return true;
       } else {
         // Create dispute
-        this.createMatchDispute(match, 'other', 'Score mismatch between participants', report.reportedBy);
+        this.createMatchDispute(
+          match,
+          'other',
+          'Score mismatch between participants',
+          report.reportedBy,
+        );
       }
     }
 
     return false;
   }
 
-  private scoresMatch(scores1: Map<string, number>, scores2: Map<string, number>): boolean {
+  private scoresMatch(
+    scores1: Map<string, number>,
+    scores2: Map<string, number>,
+  ): boolean {
     if (scores1.size !== scores2.size) return false;
-    
+
     for (const [playerId, score] of scores1) {
       if (scores2.get(playerId) !== score) return false;
     }
-    
+
     return true;
   }
 
   private applyMatchResult(
     tournament: Tournament,
     match: TournamentMatch,
-    report: MatchReport
+    report: MatchReport,
   ): void {
     match.status = 'completed';
     match.endTime = new Date();
@@ -936,20 +1008,24 @@ export class TournamentOrganizerSystem {
       gameNumber: index + 1,
       winner: result.winner,
       duration: result.duration,
-      notes: `Won by ${result.method}`
+      notes: `Won by ${result.method}`,
     }));
 
     // Update participant records
     match.participants.forEach(participantId => {
-      const participant = tournament.participants.find(p => p.playerId === participantId);
+      const participant = tournament.participants.find(
+        p => p.playerId === participantId,
+      );
       if (!participant) return;
 
       participant.record.matchesPlayed++;
       participant.record.gamesPlayed += report.gameResults.length;
-      
-      const gamesWon = report.gameResults.filter(g => g.winner === participantId).length;
+
+      const gamesWon = report.gameResults.filter(
+        g => g.winner === participantId,
+      ).length;
       participant.record.gamesWon += gamesWon;
-      
+
       const matchScore = report.scores.get(participantId) || 0;
       if (matchScore > 0) {
         participant.record.matchesWon++;
@@ -977,11 +1053,11 @@ export class TournamentOrganizerSystem {
 
   private getMatchWinner(match: TournamentMatch): string | null {
     if (match.scores.size === 0) return null;
-    
+
     let maxScore = -1;
     let winner = null;
     let tieCount = 0;
-    
+
     for (const [participantId, score] of match.scores) {
       if (score > maxScore) {
         maxScore = score;
@@ -991,12 +1067,17 @@ export class TournamentOrganizerSystem {
         tieCount++;
       }
     }
-    
+
     return tieCount === 1 ? winner : null;
   }
 
-  private checkRoundCompletion(tournament: Tournament, roundNumber: number): void {
-    const round = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber);
+  private checkRoundCompletion(
+    tournament: Tournament,
+    roundNumber: number,
+  ): void {
+    const round = tournament.bracket.rounds.find(
+      r => r.roundNumber === roundNumber,
+    );
     if (!round) return;
 
     const allMatchesComplete = round.matches.every(matchId => {
@@ -1007,9 +1088,11 @@ export class TournamentOrganizerSystem {
     if (allMatchesComplete) {
       round.status = 'completed';
       round.endTime = new Date();
-      
+
       // Start next round if it exists
-      const nextRound = tournament.bracket.rounds.find(r => r.roundNumber === roundNumber + 1);
+      const nextRound = tournament.bracket.rounds.find(
+        r => r.roundNumber === roundNumber + 1,
+      );
       if (nextRound) {
         setTimeout(() => {
           this.startRound(tournament, roundNumber + 1);
@@ -1023,13 +1106,13 @@ export class TournamentOrganizerSystem {
 
   private completeTournament(tournament: Tournament): void {
     tournament.status = 'completed';
-    
+
     // Calculate final standings
     this.calculateFinalStandings(tournament);
-    
+
     // Award prizes
     this.awardPrizes(tournament);
-    
+
     // Generate final statistics
     this.calculateTournamentStatistics(tournament);
   }
@@ -1041,15 +1124,16 @@ export class TournamentOrganizerSystem {
       if (a.record.points !== b.record.points) {
         return b.record.points - a.record.points;
       }
-      
+
       // Tiebreaker 1: Head-to-head
       if (a.record.opponentsPlayed.has(b.playerId)) {
         // Look up head-to-head match
-        const h2hMatch = tournament.matches.find(match => 
-          match.participants.includes(a.playerId) && 
-          match.participants.includes(b.playerId)
+        const h2hMatch = tournament.matches.find(
+          match =>
+            match.participants.includes(a.playerId) &&
+            match.participants.includes(b.playerId),
         );
-        
+
         if (h2hMatch && h2hMatch.scores) {
           const aScore = h2hMatch.scores.get(a.playerId) || 0;
           const bScore = h2hMatch.scores.get(b.playerId) || 0;
@@ -1058,11 +1142,17 @@ export class TournamentOrganizerSystem {
           }
         }
       }
-      
+
       // Tiebreaker 2: Match win percentage
-      const aWinPct = a.record.matchesPlayed > 0 ? a.record.matchesWon / a.record.matchesPlayed : 0;
-      const bWinPct = b.record.matchesPlayed > 0 ? b.record.matchesWon / b.record.matchesPlayed : 0;
-      
+      const aWinPct =
+        a.record.matchesPlayed > 0
+          ? a.record.matchesWon / a.record.matchesPlayed
+          : 0;
+      const bWinPct =
+        b.record.matchesPlayed > 0
+          ? b.record.matchesWon / b.record.matchesPlayed
+          : 0;
+
       return bWinPct - aWinPct;
     });
   }
@@ -1079,51 +1169,59 @@ export class TournamentOrganizerSystem {
 
   private calculateTournamentStatistics(tournament: Tournament): void {
     const stats = tournament.statistics;
-    
+
     // Calculate average match duration
-    const completedMatches = tournament.matches.filter(m => m.status === 'completed');
+    const completedMatches = tournament.matches.filter(
+      m => m.status === 'completed',
+    );
     if (completedMatches.length > 0) {
       const totalDuration = completedMatches.reduce((sum, match) => {
         return sum + (match.endTime!.getTime() - match.startTime!.getTime());
       }, 0);
-      stats.averageMatchDuration = totalDuration / completedMatches.length / 1000; // in seconds
+      stats.averageMatchDuration =
+        totalDuration / completedMatches.length / 1000; // in seconds
     }
-    
+
     // Calculate archetype breakdown
     stats.archetypeBreakdown.clear();
     tournament.participants.forEach(participant => {
       if (participant.deck?.archetype) {
-        const current = stats.archetypeBreakdown.get(participant.deck.archetype) || 0;
+        const current =
+          stats.archetypeBreakdown.get(participant.deck.archetype) || 0;
         stats.archetypeBreakdown.set(participant.deck.archetype, current + 1);
       }
     });
-    
+
     // Calculate dropout rate
-    const activeParticipants = tournament.participants.filter(p => 
-      p.status === 'active' || p.status === 'checked-in'
+    const activeParticipants = tournament.participants.filter(
+      p => p.status === 'active' || p.status === 'checked-in',
     ).length;
-    stats.dropoutRate = 1 - (activeParticipants / stats.totalParticipants);
-    
+    stats.dropoutRate = 1 - activeParticipants / stats.totalParticipants;
+
     // Calculate average games per match
-    const totalGames = completedMatches.reduce((sum, match) => sum + match.games.length, 0);
-    stats.averageGamesPerMatch = completedMatches.length > 0 ? totalGames / completedMatches.length : 0;
+    const totalGames = completedMatches.reduce(
+      (sum, match) => sum + match.games.length,
+      0,
+    );
+    stats.averageGamesPerMatch =
+      completedMatches.length > 0 ? totalGames / completedMatches.length : 0;
   }
 
   createMatchDispute(
     match: TournamentMatch,
     type: MatchDispute['type'],
     description: string,
-    reportedBy: string
+    reportedBy: string,
   ): string {
     const disputeId = `dispute_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     const dispute: MatchDispute = {
       id: disputeId,
       reportedBy,
       type,
       description,
       status: 'open',
-      reportedAt: new Date()
+      reportedAt: new Date(),
     };
 
     if (!match.disputes) {
@@ -1139,7 +1237,7 @@ export class TournamentOrganizerSystem {
     tournamentId: string,
     matchId: string,
     disputeId: string,
-    resolution: DisputeResolution
+    resolution: DisputeResolution,
   ): boolean {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return false;
@@ -1187,25 +1285,32 @@ export class TournamentOrganizerSystem {
   getActiveMatches(tournamentId: string): TournamentMatch[] {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return [];
-    
+
     return tournament.matches.filter(match => match.status === 'in-progress');
   }
 
-  getParticipantRecord(tournamentId: string, playerId: string): ParticipantRecord | null {
+  getParticipantRecord(
+    tournamentId: string,
+    playerId: string,
+  ): ParticipantRecord | null {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return null;
-    
-    const participant = tournament.participants.find(p => p.playerId === playerId);
+
+    const participant = tournament.participants.find(
+      p => p.playerId === playerId,
+    );
     return participant ? participant.record : null;
   }
 
   checkInParticipant(tournamentId: string, playerId: string): boolean {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return false;
-    
-    const participant = tournament.participants.find(p => p.playerId === playerId);
+
+    const participant = tournament.participants.find(
+      p => p.playerId === playerId,
+    );
     if (!participant || participant.status !== 'registered') return false;
-    
+
     participant.status = 'checked-in';
     return true;
   }
@@ -1213,10 +1318,12 @@ export class TournamentOrganizerSystem {
   withdrawParticipant(tournamentId: string, playerId: string): boolean {
     const tournament = this.tournaments.get(tournamentId);
     if (!tournament) return false;
-    
-    const participant = tournament.participants.find(p => p.playerId === playerId);
+
+    const participant = tournament.participants.find(
+      p => p.playerId === playerId,
+    );
     if (!participant) return false;
-    
+
     participant.status = 'withdrawn';
     return true;
   }

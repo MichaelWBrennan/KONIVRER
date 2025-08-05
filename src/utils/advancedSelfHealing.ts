@@ -529,7 +529,10 @@ class AdvancedSelfHealingSystem {
     return Math.abs(hash).toString(36);
   }
 
-  private createNewErrorPattern(_signature: string, error: Error): ErrorPattern {
+  private createNewErrorPattern(
+    _signature: string,
+    error: Error,
+  ): ErrorPattern {
     return {
       signature: _signature,
       frequency: 1,

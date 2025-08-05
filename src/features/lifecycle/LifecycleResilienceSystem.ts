@@ -279,13 +279,17 @@ export class LifecycleResilienceSystem {
         matchHistoryRetention: 365 * 3, // 3 years
         automaticCleanup: true,
         exportBeforeCleanup: true,
-        criticalDataNeverExpires: ['player-progression', 'achievements', 'purchased-cosmetics']
+        criticalDataNeverExpires: [
+          'player-progression',
+          'achievements',
+          'purchased-cosmetics',
+        ],
       },
       serverStatus: {
         operational: true,
         maintenanceMode: false,
         lastOnlineCheck: new Date(),
-        fallbackMode: 'offline'
+        fallbackMode: 'offline',
       },
       preservationSettings: {
         enableOfflineMode: true,
@@ -299,10 +303,10 @@ export class LifecycleResilienceSystem {
             format: 'json',
             compression: 'gzip',
             encryption: true,
-            includeMetadata: true
-          }
-        ]
-      }
+            includeMetadata: true,
+          },
+        ],
+      },
     };
   }
 
@@ -319,15 +323,15 @@ export class LifecycleResilienceSystem {
               name: 'playerId',
               type: 'string',
               required: true,
-              description: 'Unique player identifier'
-            }
+              description: 'Unique player identifier',
+            },
           ],
           responseFormat: {
             totalGames: 'number',
             winRate: 'number',
-            favoriteArchetype: 'string'
+            favoriteArchetype: 'string',
           },
-          authRequired: false
+          authRequired: false,
         },
         {
           path: '/api/v1/leaderboard/{category}',
@@ -338,26 +342,26 @@ export class LifecycleResilienceSystem {
               name: 'category',
               type: 'string',
               required: true,
-              description: 'Leaderboard category (wins, rating, etc.)'
+              description: 'Leaderboard category (wins, rating, etc.)',
             },
             {
               name: 'limit',
               type: 'number',
               required: false,
               description: 'Number of entries to return',
-              defaultValue: 100
-            }
+              defaultValue: 100,
+            },
           ],
           responseFormat: {
             entries: 'array',
-            lastUpdated: 'datetime'
+            lastUpdated: 'datetime',
           },
           rateLimit: {
             requestsPerMinute: 10,
             requestsPerHour: 100,
-            requestsPerDay: 1000
+            requestsPerDay: 1000,
           },
-          authRequired: false
+          authRequired: false,
         },
         {
           path: '/api/v1/tournament/{tournamentId}',
@@ -368,20 +372,20 @@ export class LifecycleResilienceSystem {
               name: 'tournamentId',
               type: 'string',
               required: true,
-              description: 'Tournament identifier'
-            }
+              description: 'Tournament identifier',
+            },
           ],
           responseFormat: {
             tournament: 'object',
             participants: 'array',
-            matches: 'array'
+            matches: 'array',
           },
-          authRequired: false
-        }
+          authRequired: false,
+        },
       ],
       documentation: 'https://docs.konivrer.com/api',
       deprecationDate: undefined,
-      migrationGuide: undefined
+      migrationGuide: undefined,
     };
   }
 
@@ -395,27 +399,27 @@ export class LifecycleResilienceSystem {
           type: 'cosmetic',
           name: 'Winter Frost Card Back',
           rarity: 'rare',
-          unlockMethod: 'seasonal-challenge'
+          unlockMethod: 'seasonal-challenge',
         },
         {
           contentId: 'spring-avatar-frame',
           type: 'cosmetic',
           name: 'Spring Bloom Avatar Frame',
           rarity: 'epic',
-          unlockMethod: 'seasonal-event'
-        }
+          unlockMethod: 'seasonal-event',
+        },
       ],
       schedule: {
         rotationType: 'seasonal',
         duration: 90, // 3 months
         nextRotation: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-        retirementWarningPeriod: 14 // 2 weeks warning
+        retirementWarningPeriod: 14, // 2 weeks warning
       },
       preservationPlan: {
         preserveInOfflineMode: true,
         makeAvailableInArchive: true,
-        allowCommunityMods: true
-      }
+        allowCommunityMods: true,
+      },
     };
 
     this.contentRotations.set('seasonal-cosmetics', seasonalRotation);
@@ -423,26 +427,35 @@ export class LifecycleResilienceSystem {
 
   private startLifecycleMonitoring(): void {
     // Monitor server status every 5 minutes
-    setInterval(() => {
-      this.checkServerStatus();
-    }, 5 * 60 * 1000);
+    setInterval(
+      () => {
+        this.checkServerStatus();
+      },
+      5 * 60 * 1000,
+    );
 
     // Check for data cleanup daily
-    setInterval(() => {
-      this.performDataRetentionCleanup();
-    }, 24 * 60 * 60 * 1000);
+    setInterval(
+      () => {
+        this.performDataRetentionCleanup();
+      },
+      24 * 60 * 60 * 1000,
+    );
 
     // Monitor content rotations
-    setInterval(() => {
-      this.checkContentRotations();
-    }, 60 * 60 * 1000); // Every hour
+    setInterval(
+      () => {
+        this.checkContentRotations();
+      },
+      60 * 60 * 1000,
+    ); // Every hour
   }
 
   private async checkServerStatus(): Promise<void> {
     try {
       // Simulate server health check
       const isOnline = await this.performHealthCheck();
-      
+
       this.lifecycleConfig.serverStatus.operational = isOnline;
       this.lifecycleConfig.serverStatus.lastOnlineCheck = new Date();
 
@@ -482,19 +495,20 @@ export class LifecycleResilienceSystem {
     const notification = {
       type: 'system-announcement',
       title: 'Offline Preservation Mode Activated',
-      message: 'KONIVRER is now running in offline preservation mode. Your progress and content will be preserved.',
+      message:
+        'KONIVRER is now running in offline preservation mode. Your progress and content will be preserved.',
       actions: [
         {
           label: 'Export My Data',
-          action: 'export-player-data'
+          action: 'export-player-data',
         },
         {
           label: 'Learn More',
-          action: 'open-preservation-guide'
-        }
+          action: 'open-preservation-guide',
+        },
       ],
       priority: 'high',
-      persistent: true
+      persistent: true,
     };
 
     // Broadcast to all players
@@ -522,10 +536,10 @@ export class LifecycleResilienceSystem {
   private async preserveGameContent(): Promise<void> {
     // Preserve card database
     const cardDatabase = await this.exportCardDatabase();
-    
+
     // Preserve game rules
     const gameRules = await this.exportGameRules();
-    
+
     // Preserve AI personalities
     const aiPersonalities = await this.exportAIPersonalities();
 
@@ -533,7 +547,7 @@ export class LifecycleResilienceSystem {
     console.log('Preserved core game content:', {
       cards: cardDatabase.length,
       rules: gameRules.length,
-      aiPersonalities: aiPersonalities.length
+      aiPersonalities: aiPersonalities.length,
     });
   }
 
@@ -547,8 +561,8 @@ export class LifecycleResilienceSystem {
         attack: 3,
         type: 'spell',
         rarity: 'common',
-        abilities: ['instant', 'damage']
-      }
+        abilities: ['instant', 'damage'],
+      },
       // ... full card database would be exported here
     ];
   }
@@ -562,9 +576,9 @@ export class LifecycleResilienceSystem {
         category: 'core',
         implementation: {
           phases: ['draw', 'main', 'combat', 'end'],
-          timeLimit: 90
-        }
-      }
+          timeLimit: 90,
+        },
+      },
       // ... all game rules
     ];
   }
@@ -579,9 +593,9 @@ export class LifecycleResilienceSystem {
         behavior: {
           aggressionLevel: 0.8,
           riskTolerance: 0.7,
-          preferredArchetypes: ['aggro', 'burn']
-        }
-      }
+          preferredArchetypes: ['aggro', 'burn'],
+        },
+      },
       // ... all AI personalities
     ];
   }
@@ -589,7 +603,7 @@ export class LifecycleResilienceSystem {
   private async preserveAllPlayerData(): Promise<void> {
     // This would iterate through all players in a real system
     const samplePlayerIds = ['player1', 'player2', 'player3'];
-    
+
     for (const playerId of samplePlayerIds) {
       await this.exportPlayerData(playerId);
     }
@@ -609,7 +623,7 @@ export class LifecycleResilienceSystem {
       gameVersion: '1.0.0',
       playerData,
       content,
-      settings
+      settings,
     };
 
     // Store locally for offline access
@@ -621,7 +635,9 @@ export class LifecycleResilienceSystem {
     return exportData;
   }
 
-  private async gatherPlayerData(playerId: string): Promise<ExportedPlayerData> {
+  private async gatherPlayerData(
+    playerId: string,
+  ): Promise<ExportedPlayerData> {
     // In real implementation, would fetch from actual databases
     return {
       progression: {
@@ -641,7 +657,7 @@ export class LifecycleResilienceSystem {
           equippedParticleEffect: 'none',
           equippedSoundPack: 'default',
           unlockedCosmetics: new Set(['mystic-stars', 'master-hexagon']),
-          favoritedCosmetics: new Set()
+          favoritedCosmetics: new Set(),
         },
         seasonalProgress: {
           currentSeason: {
@@ -651,22 +667,22 @@ export class LifecycleResilienceSystem {
             startDate: new Date('2024-01-01'),
             endDate: new Date('2024-04-01'),
             description: 'Season of ancient magic',
-            specialFeatures: []
+            specialFeatures: [],
           },
           seasonLevel: 15,
           seasonExperience: 3500,
           completedChallenges: new Set(),
           availableChallenges: [],
           seasonRewards: [],
-          unlockedSeasonalRewards: new Set()
+          unlockedSeasonalRewards: new Set(),
         },
         prestige: {
           level: 0,
           totalPrestigePoints: 0,
           prestigeBenefits: [],
           prestigeHistory: [],
-          nextPrestigeRequirement: 1000000
-        }
+          nextPrestigeRequirement: 1000000,
+        },
       },
       decks: [
         {
@@ -674,8 +690,8 @@ export class LifecycleResilienceSystem {
           name: 'Lightning Rush',
           cards: [],
           winRate: 0.65,
-          synergy: 0.8
-        }
+          synergy: 0.8,
+        },
       ],
       replays: [],
       matchHistory: [
@@ -687,11 +703,11 @@ export class LifecycleResilienceSystem {
           deck: {
             id: 'aggro-deck-1',
             name: 'Lightning Rush',
-            cards: []
+            cards: [],
           },
           duration: 420,
-          gameMode: 'casual'
-        }
+          gameMode: 'casual',
+        },
       ],
       achievements: [],
       cosmetics: [],
@@ -703,8 +719,8 @@ export class LifecycleResilienceSystem {
         totalPlayTime: 2500,
         averageGameLength: 7.5,
         longestWinStreak: 12,
-        achievementsUnlocked: 15
-      }
+        achievementsUnlocked: 15,
+      },
     };
   }
 
@@ -714,7 +730,7 @@ export class LifecycleResilienceSystem {
       gameRules: await this.exportGameRules(),
       aiPersonalities: await this.exportAIPersonalities(),
       tutorials: [],
-      challenges: []
+      challenges: [],
     };
   }
 
@@ -725,15 +741,16 @@ export class LifecycleResilienceSystem {
       soundEnabled: true,
       animationsEnabled: true,
       autoSave: true,
-      backupFrequency: 24 // hours
+      backupFrequency: 24, // hours
     };
   }
 
   private async generateExportFile(exportData: OfflineGameData): Promise<void> {
-    const format = this.lifecycleConfig.preservationSettings.dataExportFormats[0];
-    
+    const format =
+      this.lifecycleConfig.preservationSettings.dataExportFormats[0];
+
     let serializedData: string;
-    
+
     switch (format.format) {
       case 'json':
         serializedData = JSON.stringify(exportData, null, 2);
@@ -747,7 +764,10 @@ export class LifecycleResilienceSystem {
 
     // Apply compression if specified
     if (format.compression !== 'none') {
-      serializedData = await this.compressData(serializedData, format.compression);
+      serializedData = await this.compressData(
+        serializedData,
+        format.compression,
+      );
     }
 
     // Apply encryption if specified
@@ -792,9 +812,10 @@ export class LifecycleResilienceSystem {
         playerData: this.offlineData.size,
         gameContent: 'complete',
         communityContent: 'preserved',
-        apiDocumentation: 'included'
+        apiDocumentation: 'included',
       },
-      accessInstructions: 'See preservation_guide.md for offline access instructions'
+      accessInstructions:
+        'See preservation_guide.md for offline access instructions',
     };
 
     console.log('📋 Archive manifest created:', manifest);
@@ -802,7 +823,7 @@ export class LifecycleResilienceSystem {
 
   private enableOfflineMode(): void {
     console.log('🔌 Enabling offline mode...');
-    
+
     // Configure offline capabilities
     this.configureOfflineStorage();
     this.enableOfflineAI();
@@ -838,7 +859,7 @@ export class LifecycleResilienceSystem {
           automatable: true,
           estimatedDuration: 24,
           dependencies: [],
-          rollbackPossible: true
+          rollbackPossible: true,
         },
         {
           stepNumber: 2,
@@ -847,7 +868,7 @@ export class LifecycleResilienceSystem {
           automatable: true,
           estimatedDuration: 48,
           dependencies: [1],
-          rollbackPossible: true
+          rollbackPossible: true,
         },
         {
           stepNumber: 3,
@@ -856,7 +877,7 @@ export class LifecycleResilienceSystem {
           automatable: false,
           estimatedDuration: 72,
           dependencies: [1],
-          rollbackPossible: true
+          rollbackPossible: true,
         },
         {
           stepNumber: 4,
@@ -865,7 +886,7 @@ export class LifecycleResilienceSystem {
           automatable: true,
           estimatedDuration: 24,
           dependencies: [2, 3],
-          rollbackPossible: true
+          rollbackPossible: true,
         },
         {
           stepNumber: 5,
@@ -874,49 +895,56 @@ export class LifecycleResilienceSystem {
           automatable: false,
           estimatedDuration: 48,
           dependencies: [4],
-          rollbackPossible: false
-        }
+          rollbackPossible: false,
+        },
       ],
       userCommunication: {
         announcementDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
         reminders: [
           {
             daysBeforeSunset: 30,
-            message: 'KONIVRER will be migrating to a new platform in 30 days. Your data will be preserved.',
-            urgency: 'medium'
+            message:
+              'KONIVRER will be migrating to a new platform in 30 days. Your data will be preserved.',
+            urgency: 'medium',
           },
           {
             daysBeforeSunset: 7,
-            message: 'Migration begins in 7 days. Export your data now if desired.',
-            urgency: 'high'
+            message:
+              'Migration begins in 7 days. Export your data now if desired.',
+            urgency: 'high',
           },
           {
             daysBeforeSunset: 1,
-            message: 'Migration begins tomorrow. Service may be temporarily unavailable.',
-            urgency: 'critical'
-          }
+            message:
+              'Migration begins tomorrow. Service may be temporarily unavailable.',
+            urgency: 'critical',
+          },
         ],
         channels: ['in-game', 'email', 'website'],
-        supportContactInfo: 'support@konivrer.com'
+        supportContactInfo: 'support@konivrer.com',
       },
       dataMapping: [
         {
           sourceField: 'player.progression.level',
           targetField: 'user.level',
-          required: true
+          required: true,
         },
         {
           sourceField: 'player.cosmetics',
           targetField: 'user.inventory.cosmetics',
-          required: true
-        }
+          required: true,
+        },
       ],
       rollbackPlan: {
         timeoutHours: 72,
-        triggerConditions: ['migration-failure', 'data-corruption', 'user-revolt'],
+        triggerConditions: [
+          'migration-failure',
+          'data-corruption',
+          'user-revolt',
+        ],
         rollbackSteps: ['restore-backup', 'restart-services', 'notify-users'],
-        dataRecoveryMethod: 'automated-backup-restore'
-      }
+        dataRecoveryMethod: 'automated-backup-restore',
+      },
     };
   }
 
@@ -932,12 +960,15 @@ export class LifecycleResilienceSystem {
     this.offlineData.forEach((data, playerId) => {
       if (data.playerData.replays) {
         const validReplays = data.playerData.replays.filter(replay => {
-          const age = (now - replay.createdAt.getTime()) / (1000 * 60 * 60 * 24);
+          const age =
+            (now - replay.createdAt.getTime()) / (1000 * 60 * 60 * 24);
           return age <= policy.replayRetention;
         });
-        
+
         if (validReplays.length !== data.playerData.replays.length) {
-          console.log(`Cleaned ${data.playerData.replays.length - validReplays.length} old replays for ${playerId}`);
+          console.log(
+            `Cleaned ${data.playerData.replays.length - validReplays.length} old replays for ${playerId}`,
+          );
           data.playerData.replays = validReplays;
         }
       }
@@ -946,15 +977,18 @@ export class LifecycleResilienceSystem {
 
   private checkContentRotations(): void {
     const now = new Date();
-    
+
     this.contentRotations.forEach((rotation, rotationId) => {
       if (now >= rotation.schedule.nextRotation) {
         console.log(`🔄 Content rotation due: ${rotation.name}`);
         this.executeContentRotation(rotation);
       }
-      
+
       // Check for retirement warnings
-      const warningTime = new Date(rotation.schedule.nextRotation.getTime() - rotation.schedule.retirementWarningPeriod * 24 * 60 * 60 * 1000);
+      const warningTime = new Date(
+        rotation.schedule.nextRotation.getTime() -
+          rotation.schedule.retirementWarningPeriod * 24 * 60 * 60 * 1000,
+      );
       if (now >= warningTime && now < rotation.schedule.nextRotation) {
         this.issueRetirementWarning(rotation);
       }
@@ -963,29 +997,33 @@ export class LifecycleResilienceSystem {
 
   private executeContentRotation(rotation: ContentRotation): void {
     console.log(`Executing content rotation: ${rotation.name}`);
-    
+
     // Preserve retiring content if configured
     if (rotation.preservationPlan.preserveInOfflineMode) {
       this.preserveRotatingContent(rotation);
     }
-    
+
     // Schedule next rotation
     rotation.schedule.nextRotation = new Date(
-      rotation.schedule.nextRotation.getTime() + rotation.schedule.duration * 24 * 60 * 60 * 1000
+      rotation.schedule.nextRotation.getTime() +
+        rotation.schedule.duration * 24 * 60 * 60 * 1000,
     );
   }
 
   private issueRetirementWarning(rotation: ContentRotation): void {
     const daysUntilRetirement = Math.ceil(
-      (rotation.schedule.nextRotation.getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+      (rotation.schedule.nextRotation.getTime() - Date.now()) /
+        (1000 * 60 * 60 * 24),
     );
-    
-    console.log(`⚠️ Retirement warning: ${rotation.name} content retiring in ${daysUntilRetirement} days`);
+
+    console.log(
+      `⚠️ Retirement warning: ${rotation.name} content retiring in ${daysUntilRetirement} days`,
+    );
   }
 
   private preserveRotatingContent(rotation: ContentRotation): void {
     console.log(`💾 Preserving rotating content: ${rotation.name}`);
-    
+
     // Add retiring content to offline preservation
     rotation.content.forEach(content => {
       if (content.retirementDate && new Date() >= content.retirementDate) {
@@ -1004,7 +1042,10 @@ export class LifecycleResilienceSystem {
   }
 
   isOfflineModeEnabled(): boolean {
-    return this.preservationActive || this.lifecycleConfig.preservationSettings.enableOfflineMode;
+    return (
+      this.preservationActive ||
+      this.lifecycleConfig.preservationSettings.enableOfflineMode
+    );
   }
 
   getOfflineData(playerId: string): OfflineGameData | undefined {
@@ -1014,24 +1055,35 @@ export class LifecycleResilienceSystem {
   scheduleSunset(date: Date, migrationPlan?: MigrationPlan): void {
     this.lifecycleConfig.serverStatus.sunsetDate = date;
     this.lifecycleConfig.migrationPlan = migrationPlan;
-    
+
     console.log(`📅 Sunset scheduled for: ${date.toISOString()}`);
-    
+
     // Begin sunset preparation process
     this.prepareSunsetCommunications(date);
   }
 
   private prepareSunsetCommunications(sunsetDate: Date): void {
-    const daysUntilSunset = Math.ceil((sunsetDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
-    
-    console.log(`📢 Preparing sunset communications: ${daysUntilSunset} days remaining`);
-    
+    const daysUntilSunset = Math.ceil(
+      (sunsetDate.getTime() - Date.now()) / (1000 * 60 * 60 * 24),
+    );
+
+    console.log(
+      `📢 Preparing sunset communications: ${daysUntilSunset} days remaining`,
+    );
+
     // Schedule reminders based on migration plan
     if (this.lifecycleConfig.migrationPlan) {
-      this.lifecycleConfig.migrationPlan.userCommunication.reminders.forEach(reminder => {
-        const reminderDate = new Date(sunsetDate.getTime() - reminder.daysBeforeSunset * 24 * 60 * 60 * 1000);
-        console.log(`Reminder scheduled for ${reminderDate.toISOString()}: ${reminder.message}`);
-      });
+      this.lifecycleConfig.migrationPlan.userCommunication.reminders.forEach(
+        reminder => {
+          const reminderDate = new Date(
+            sunsetDate.getTime() -
+              reminder.daysBeforeSunset * 24 * 60 * 60 * 1000,
+          );
+          console.log(
+            `Reminder scheduled for ${reminderDate.toISOString()}: ${reminder.message}`,
+          );
+        },
+      );
     }
   }
 
@@ -1046,7 +1098,7 @@ export class LifecycleResilienceSystem {
     if (!exportData) {
       throw new Error(`No export data found for player: ${playerId}`);
     }
-    
+
     // Generate secure download URL
     const exportId = `export_${playerId}_${Date.now()}`;
     return `https://exports.konivrer.com/download/${exportId}`;

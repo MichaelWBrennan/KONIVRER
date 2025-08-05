@@ -469,7 +469,10 @@ class CodeEvolutionEngine extends EventEmitter {
 
       console.log(`✅ Applied improvement: ${improvement.description}`);
     } catch (_error) {
-      console.error(`❌ Failed to apply improvement: ${improvement.id}`, _error);
+      console.error(
+        `❌ Failed to apply improvement: ${improvement.id}`,
+        _error,
+      );
 
       // Rollback if necessary
       if (this.config.rollbackCapability) {

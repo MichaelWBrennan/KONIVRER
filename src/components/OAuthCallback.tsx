@@ -30,7 +30,10 @@ const OAuthCallback: React.FC = () => {
           // Dispatch error event
           window.dispatchEvent(
             new CustomEvent('sso-login-error', {
-              detail: { _error: errorDescription || error, provider: 'unknown' },
+              detail: {
+                _error: errorDescription || error,
+                provider: 'unknown',
+              },
             }),
           );
 
