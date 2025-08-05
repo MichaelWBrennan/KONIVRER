@@ -150,6 +150,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                       style={{
                         display: 'flex',
                         alignItems: 'center',
+                        justifyContent: 'center',
                         padding: '12px 16px',
                         borderRadius: '8px',
                         backgroundColor: isActive
@@ -163,7 +164,6 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                         textDecoration: 'none',
                         transition: 'all 0.2s ease',
                         cursor: 'pointer',
-                        gap: '12px',
                       }}
                       onMouseEnter={e => {
                         if (!isActive) {
@@ -188,9 +188,6 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                         onClose();
                       }}
                     >
-                      <div style={{ fontSize: '18px', minWidth: '18px' }}>
-                        {item.icon}
-                      </div>
                       <span
                         style={{
                           fontSize: '14px',
