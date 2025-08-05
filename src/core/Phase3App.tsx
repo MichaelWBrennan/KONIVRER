@@ -21,7 +21,7 @@ import { withAdvancedHealing } from '../utils/realTimeHealing';
 import { AppContext, AppContextType, User, Deck } from '../contexts/AppContext';
 import BlogSection from '../components/BlogSection';
 import UnifiedCardSearch from '../components/UnifiedCardSearch';
-import SimpleCardsPage from '../components/SimpleCardsPage';
+import SimpleCardImagesPage from '../components/SimpleCardImagesPage';
 import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
@@ -550,9 +550,11 @@ const Footer = () => {
 const Card = ({
   children,
   delay = 0,
+  ...props
 }: {
   children: React.ReactNode;
   delay?: number;
+  [key: string]: any;
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -574,6 +576,7 @@ const Card = ({
       position: 'relative',
       overflow: 'hidden',
     }}
+    {...props}
   >
     {/* Subtle glow effect */}
     <div
@@ -836,9 +839,8 @@ const EventsPage = () => (
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         gap: '20px',
       }}
-      data-search-type="event"
     >
-      <Card>
+      <Card data-search-type="event">
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
           Weekly Championship
         </h3>
@@ -850,7 +852,7 @@ const EventsPage = () => (
           Status: Open Registration
         </p>
       </Card>
-      <Card delay={0.1}>
+      <Card delay={0.1} data-search-type="event">
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
           Elemental Masters
         </h3>
@@ -862,7 +864,7 @@ const EventsPage = () => (
           Status: Qualification Round
         </p>
       </Card>
-      <Card delay={0.2}>
+      <Card delay={0.2} data-search-type="event">
         <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
           Beginner's Arena
         </h3>
@@ -1030,7 +1032,7 @@ const Phase3App = () => {
               <AnimatePresence mode="wait">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/cards" element={<SimpleCardsPage />} />
+                  <Route path="/cards" element={<SimpleCardImagesPage />} />
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />

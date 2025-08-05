@@ -75,7 +75,7 @@
   background: linear-gradient(135deg, #a8b8b9 0%, #95a5a6 100%);
 }
 
-/* Card elements for touch */
+/* Enhanced touch controls for game modes */
 .touch-card {
   border-radius: 8px;
   box-shadow:
@@ -84,20 +84,39 @@
   transition: all 0.3s ease;
   cursor: pointer;
   touch-action: manipulation;
+  position: relative;
+  overflow: hidden;
+}
+
+.touch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(212, 175, 55, 0.1);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
 }
 
 .touch-card:active {
   transform: scale(0.95);
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
-    0 0 0 2px rgba(52, 152, 219, 0.6);
+    0 0 0 2px rgba(212, 175, 55, 0.6);
+}
+
+.touch-card:active::before {
+  opacity: 1;
 }
 
 .touch-card:hover {
   transform: scale(1.05);
   box-shadow:
     0 8px 16px rgba(0, 0, 0, 0.4),
-    0 0 0 3px rgba(52, 152, 219, 0.8);
+    0 0 0 3px rgba(212, 175, 55, 0.8);
 }
 
 /* Draggable card states */

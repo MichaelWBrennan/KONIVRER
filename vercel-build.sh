@@ -48,9 +48,9 @@ echo "🔨 Building application with ultra-aggressive timeout protection..."
 echo "📊 Environment check before build:"
 env | grep -E "(NODE_ENV|VERCEL|CI|BUILD)" | sort
 
-# Use a much shorter timeout for Vercel builds
-timeout 120 npm run build || {
-    echo "❌ Build timed out after 2 minutes - this indicates autonomous systems are still running"
+# Use a longer timeout for builds with 3D libraries like babylonjs
+timeout 300 npm run build || {
+    echo "❌ Build timed out after 5 minutes - this indicates autonomous systems are still running"
     echo "🔍 Checking for hanging processes..."
     ps aux | grep -E "(node|npm|vite|tsx|automation|autonomous)" | grep -v grep
     echo "🛑 Emergency kill of ALL node processes..."
