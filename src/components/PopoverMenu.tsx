@@ -66,6 +66,18 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
     <AnimatePresence>
       {isOpen && (
         <>
+          {/* Add shimmer animation keyframes */}
+          <style jsx>{`
+            @keyframes shimmer {
+              0% {
+                left: -100%;
+              }
+              100% {
+                left: 100%;
+              }
+            }
+          `}</style>
+
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -139,34 +151,67 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
               >
                 {navigationItems.map((item, index) => {
                   const isActive = location.pathname === item.to;
+                  const isLoginButton =
+                    item.label === 'Login' || item.label === 'Profile';
 
                   const content = (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      whileHover={{ scale: 1.02, x: 4 }}
+                      whileHover={{
+                        scale: isLoginButton ? 1.08 : 1.02,
+                        x: isLoginButton ? 0 : 4,
+                        y: isLoginButton ? -2 : 0,
+                      }}
                       whileTap={{ scale: 0.98 }}
                       style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        padding: '12px 16px',
-                        borderRadius: '8px',
-                        backgroundColor: isActive
-                          ? 'rgba(212, 175, 55, 0.2)'
-                          : 'transparent',
-                        border: '1px solid',
-                        borderColor: isActive
-                          ? 'rgba(212, 175, 55, 0.4)'
-                          : 'transparent',
-                        color: isActive ? '#d4af37' : '#ccc',
+                        padding: isLoginButton ? '16px 20px' : '12px 16px',
+                        borderRadius: isLoginButton ? '25px' : '8px',
+                        backgroundColor: isLoginButton
+                          ? 'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)'
+                          : isActive
+                            ? 'rgba(212, 175, 55, 0.2)'
+                            : 'transparent',
+                        background: isLoginButton
+                          ? 'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)'
+                          : isActive
+                            ? 'rgba(212, 175, 55, 0.2)'
+                            : 'transparent',
+                        border: isLoginButton
+                          ? '2px solid rgba(255, 255, 255, 0.3)'
+                          : '1px solid',
+                        borderColor: isLoginButton
+                          ? 'rgba(255, 255, 255, 0.3)'
+                          : isActive
+                            ? 'rgba(212, 175, 55, 0.4)'
+                            : 'transparent',
+                        color: isLoginButton
+                          ? '#1a1a1a'
+                          : isActive
+                            ? '#d4af37'
+                            : '#ccc',
                         textDecoration: 'none',
-                        transition: 'all 0.2s ease',
+                        transition: 'all 0.3s ease',
                         cursor: 'pointer',
+                        boxShadow: isLoginButton
+                          ? '0 4px 15px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                          : 'none',
+                        position: 'relative',
+                        overflow: 'hidden',
                       }}
                       onMouseEnter={e => {
-                        if (!isActive) {
+                        if (isLoginButton) {
+                          e.currentTarget.style.background =
+                            'linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%)';
+                          e.currentTarget.style.boxShadow =
+                            '0 6px 20px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(255, 255, 255, 0.5)';
+                        } else if (!isActive) {
                           e.currentTarget.style.color = '#d4af37';
                           e.currentTarget.style.backgroundColor =
                             'rgba(212, 175, 55, 0.1)';
@@ -175,7 +220,14 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                         }
                       }}
                       onMouseLeave={e => {
-                        if (!isActive) {
+                        if (isLoginButton) {
+                          e.currentTarget.style.background =
+                            'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)';
+                          e.currentTarget.style.boxShadow =
+                            '0 4px 15px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(255, 255, 255, 0.3)';
+                        } else if (!isActive) {
                           e.currentTarget.style.color = '#ccc';
                           e.currentTarget.style.backgroundColor = 'transparent';
                           e.currentTarget.style.borderColor = 'transparent';
@@ -188,14 +240,34 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                         onClose();
                       }}
                     >
+                      {/* Add shimmer effect for login button */}
+                      {isLoginButton && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: '-100%',
+                            width: '100%',
+                            height: '100%',
+                            background:
+                              'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                            animation: 'shimmer 2s infinite',
+                          }}
+                        />
+                      )}
                       <span
                         style={{
-                          fontSize: '14px',
-                          fontWeight: '500',
+                          fontSize: isLoginButton ? '16px' : '14px',
+                          fontWeight: isLoginButton ? '700' : '500',
                           whiteSpace: 'nowrap',
+                          position: 'relative',
+                          zIndex: 1,
+                          textShadow: isLoginButton
+                            ? '0 1px 2px rgba(0, 0, 0, 0.2)'
+                            : 'none',
                         }}
                       >
-                        {item.label}
+                        {isLoginButton ? `🔐 ${item.label}` : item.label}
                       </span>
                     </motion.div>
                   );
