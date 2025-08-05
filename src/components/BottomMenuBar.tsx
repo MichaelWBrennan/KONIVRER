@@ -5,7 +5,7 @@ import PopoverMenu from './PopoverMenu';
 import AccessibilityPanel from './AccessibilityPanel';
 import { AppContext, AppContextType } from '../contexts/AppContext';
 
-// Define navigation items that will appear in the drawer
+// Define navigation items that will appear in the drawer (removed login item)
 const getNavigationItems = (context: AppContextType) => [
   {
     to: '/',
@@ -51,18 +51,6 @@ const getNavigationItems = (context: AppContextType) => [
         <path d="M8 5v14l11-7z" />
       </svg>
     ),
-  },
-  {
-    to: '#',
-    label: context.user ? 'Profile' : 'Login',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
-      </svg>
-    ),
-    onClick: () => {
-      context.setShowLoginModal(true);
-    },
   },
 ];
 
@@ -531,6 +519,11 @@ const BottomMenuBar: React.FC = () => {
     setIsAccessibilityPanelOpen(true);
   };
 
+  const handleLogin = () => {
+    // Open the login modal
+    appContext.setShowLoginModal(true);
+  };
+
   const handleMenu = () => {
     setIsMenuOpen(true);
   };
@@ -554,7 +547,7 @@ const BottomMenuBar: React.FC = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '40px',
+          gap: '25px', // Reduced gap to accommodate 4 buttons
           zIndex: 1000,
           boxShadow: 'none', // Remove shadow
         }}
@@ -596,6 +589,18 @@ const BottomMenuBar: React.FC = () => {
           onClick={handleMenu}
           ariaLabel="Open navigation menu"
           ref={menuButtonRef}
+        />
+
+        {/* Login Button */}
+        <CircularButton
+          icon={
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+            </svg>
+          }
+          label={appContext.user ? 'Profile' : 'Login'}
+          onClick={handleLogin}
+          ariaLabel={appContext.user ? 'Open user profile' : 'Open login modal'}
         />
       </motion.nav>
 
