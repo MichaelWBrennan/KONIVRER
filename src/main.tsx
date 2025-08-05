@@ -5,6 +5,7 @@ import Phase2App from './core/Phase2App';
 import Phase1App from './core/Phase1App';
 import { SelfHealingProvider } from './utils/selfHealingIntegration';
 import { StreamlinedAutonomousProvider } from './automation/StreamlinedProvider';
+import { SilentSecurityProvider } from './security/ai/SilentOperations.js';
 import errorHealing from './utils/errorHealing.tsx';
 import databaseHealing from './utils/databaseHealing.ts';
 import './styles/global.css';
@@ -88,27 +89,29 @@ const root = createRoot(rootElement);
 try {
   root.render(
     <React.StrictMode>
-      <StreamlinedAutonomousProvider
-        config={{
-          enabled: true,
-          silentMode: true,
-          checkInterval: 15000,
-          maxMemoryUsage: 100,
-          batchSize: 10,
-          securityMonitoring: true,
-          selfHealing: true,
-          codeEvolution: true,
-          trendAnalysis: true,
-          dependencyManagement: true,
-          useWebWorkers: true,
-          enableCaching: true,
-          lazyLoading: true,
-        }}
-      >
-        <SelfHealingProvider>
-          <Phase3App />
-        </SelfHealingProvider>
-      </StreamlinedAutonomousProvider>
+      <SilentSecurityProvider>
+        <StreamlinedAutonomousProvider
+          config={{
+            enabled: true,
+            silentMode: true,
+            checkInterval: 15000,
+            maxMemoryUsage: 100,
+            batchSize: 10,
+            securityMonitoring: true,
+            selfHealing: true,
+            codeEvolution: true,
+            trendAnalysis: true,
+            dependencyManagement: true,
+            useWebWorkers: true,
+            enableCaching: true,
+            lazyLoading: true,
+          }}
+        >
+          <SelfHealingProvider>
+            <Phase3App />
+          </SelfHealingProvider>
+        </StreamlinedAutonomousProvider>
+      </SilentSecurityProvider>
     </React.StrictMode>,
   );
 } catch (error) {
@@ -119,27 +122,29 @@ try {
   try {
     root.render(
       <React.StrictMode>
-        <StreamlinedAutonomousProvider
-          config={{
-            enabled: true,
-            silentMode: true,
-            checkInterval: 20000,
-            maxMemoryUsage: 80,
-            batchSize: 8,
-            securityMonitoring: true,
-            selfHealing: true,
-            codeEvolution: false,
-            trendAnalysis: false,
-            dependencyManagement: true,
-            useWebWorkers: false,
-            enableCaching: true,
-            lazyLoading: true,
-          }}
-        >
-          <SelfHealingProvider>
-            <Phase2App />
-          </SelfHealingProvider>
-        </StreamlinedAutonomousProvider>
+        <SilentSecurityProvider>
+          <StreamlinedAutonomousProvider
+            config={{
+              enabled: true,
+              silentMode: true,
+              checkInterval: 20000,
+              maxMemoryUsage: 80,
+              batchSize: 8,
+              securityMonitoring: true,
+              selfHealing: true,
+              codeEvolution: false,
+              trendAnalysis: false,
+              dependencyManagement: true,
+              useWebWorkers: false,
+              enableCaching: true,
+              lazyLoading: true,
+            }}
+          >
+            <SelfHealingProvider>
+              <Phase2App />
+            </SelfHealingProvider>
+          </StreamlinedAutonomousProvider>
+        </SilentSecurityProvider>
       </React.StrictMode>,
     );
     console.log('[APP] Phase 2 app fallback initialized');
@@ -150,9 +155,11 @@ try {
     );
     root.render(
       <React.StrictMode>
-        <SelfHealingProvider>
-          <Phase1App />
-        </SelfHealingProvider>
+        <SilentSecurityProvider>
+          <SelfHealingProvider>
+            <Phase1App />
+          </SelfHealingProvider>
+        </SilentSecurityProvider>
       </React.StrictMode>,
     );
     console.log('[APP] Phase 1 app final fallback initialized');

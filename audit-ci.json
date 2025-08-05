@@ -1,0 +1,12 @@
+{
+  "auditLevel": "moderate",
+  "allowlist": [],
+  "skipDev": false,
+  "report": {
+    "showDetails": true,
+    "showSummary": true
+  },
+  "advisories": {
+    "allowlist": []
+  }
+}
