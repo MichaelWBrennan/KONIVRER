@@ -18,6 +18,20 @@
   transition: all 0.3s ease; /* Smooth transitions for size changes */
 }
 
+/* Play Page Container - New class for proper dynamic sizing coordination */
+.play-page-container {
+  /* Ensure proper coordination with child containers */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.play-page-container.dynamic-sizing {
+  /* Apply user agent based optimizations */
+  transition: all 0.3s ease;
+}
+
 /* Responsive container that adapts to dynamic sizing */
 .mobile-game-container.dynamic-sizing {
   width: 100%;

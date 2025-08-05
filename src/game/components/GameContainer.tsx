@@ -30,8 +30,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
-  const [isLandscape, setIsLandscape] = useState(false);
+  // const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
+  // const [isLandscape, setIsLandscape] = useState(false);
   
   // Get dynamic sizing based on user agent
   const dynamicSizing = useDynamicSizing();
@@ -151,8 +151,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   }, []);
 
   const handleOrientationChange = (landscape: boolean) => {
-    setIsLandscape(landscape);
-    setShowOrientationPrompt(!landscape);
+    // Orientation change handling for future use
+    console.log('Orientation changed to:', landscape ? 'landscape' : 'portrait');
+    // setIsLandscape(landscape);
+    // setShowOrientationPrompt(!landscape);
   };
 
   // Add touch event handlers for better mobile experience
@@ -187,19 +189,15 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   }, [gameState]);
 
   const containerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: `${dynamicSizing.safeAreaInsets.top}px`,
-    left: `${dynamicSizing.safeAreaInsets.left}px`,
-    right: `${dynamicSizing.safeAreaInsets.right}px`,
-    bottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
-    width: dynamicSizing.cssWidth,
-    height: dynamicSizing.cssHeight,
+    position: 'relative', // Changed from 'fixed' to work with parent container
+    width: '100%', // Use full parent container width
+    height: '100%', // Use full parent container height
     maxWidth: `${dynamicSizing.maxWidth}px`,
     maxHeight: `${dynamicSizing.maxHeight}px`,
     minWidth: `${dynamicSizing.minWidth}px`,
     minHeight: `${dynamicSizing.minHeight}px`,
     margin: '0 auto',
-    zIndex: 1500,
+    zIndex: 10, // Lower z-index since parent handles the main stacking
     background: '#1a1a1a',
     overflow: 'hidden',
     touchAction: 'manipulation', // Improve touch responsiveness
@@ -209,6 +207,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     WebkitTapHighlightColor: 'transparent',
     borderRadius: dynamicSizing.containerPadding > 0 ? '8px' : '0',
     boxShadow: dynamicSizing.containerPadding > 0 ? '0 4px 20px rgba(0, 0, 0, 0.3)' : 'none',
+    // Ensure the container doesn't exceed the available space
+    boxSizing: 'border-box',
   };
 
   const gameCanvasStyle: React.CSSProperties = {

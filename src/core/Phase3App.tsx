@@ -939,26 +939,32 @@ const PlayPage = () => {
     };
   }, [user, setShowLoginModal, setShowGame]);
 
+  // Use dynamic sizing for responsive game container based on user agent
+  const containerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: `${dynamicSizing.safeAreaInsets.top}px`,
+    left: `${dynamicSizing.safeAreaInsets.left}px`,
+    right: `${dynamicSizing.safeAreaInsets.right}px`,
+    bottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
+    width: `calc(100vw - ${dynamicSizing.safeAreaInsets.left + dynamicSizing.safeAreaInsets.right}px)`,
+    height: `calc(100vh - ${dynamicSizing.safeAreaInsets.top + dynamicSizing.safeAreaInsets.bottom}px)`,
+    zIndex: 1500,
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#1a1a1a',
+    padding: `${dynamicSizing.containerPadding}px`,
+    // Ensure proper sizing coordination with GameContainer
+    boxSizing: 'border-box',
+  };
+
   // Render the game container with dynamic sizing
   return (
     <div
-      style={{
-        width: '100vw',
-        height: '100vh',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 1500,
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#1a1a1a',
-        padding: `${dynamicSizing.containerPadding}px`,
-      }}
+      style={containerStyle}
       data-search-type="game"
+      className="play-page-container dynamic-sizing"
     >
       <GameContainer
         onClose={() => setShowGame(false)}
