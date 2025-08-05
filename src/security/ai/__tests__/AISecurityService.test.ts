@@ -17,15 +17,15 @@ vi.mock('../SecurityAnalyzer.js', () => ({
       vulnerabilities: [],
       riskScore: 2.5,
       recommendation: 'approve',
-      alternatives: []
-    })
-  }))
+      alternatives: [],
+    }),
+  })),
 }));
 
 vi.mock('../ThreatDetector.js', () => ({
   AIThreatDetector: vi.fn().mockImplementation(() => ({
-    monitorRealTime: vi.fn().mockResolvedValue(undefined)
-  }))
+    monitorRealTime: vi.fn().mockResolvedValue(undefined),
+  })),
 }));
 
 vi.mock('../SilentOperations.js', () => ({
@@ -42,13 +42,13 @@ vi.mock('../SilentOperations.js', () => ({
         falsePositiveRate: 0,
         securityScore: 90,
         complianceScore: 95,
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       },
       threats: [],
       insights: [],
-      compliance: []
-    })
-  }))
+      compliance: [],
+    }),
+  })),
 }));
 
 describe('AISecurityService', () => {
@@ -76,7 +76,10 @@ describe('AISecurityService', () => {
     });
 
     it('should assess dependency risk', async () => {
-      const assessment = await securityService.assessDependencyRisk('test-package', '1.0.0');
+      const assessment = await securityService.assessDependencyRisk(
+        'test-package',
+        '1.0.0',
+      );
       expect(assessment).toHaveProperty('packageName', 'test-package');
       expect(assessment).toHaveProperty('riskScore');
       expect(assessment).toHaveProperty('recommendation');
@@ -116,7 +119,9 @@ describe('AISecurityService', () => {
 
   describe('emergency procedures', () => {
     it('should handle emergency shutdown', async () => {
-      await expect(securityService.emergencyShutdown('test')).resolves.not.toThrow();
+      await expect(
+        securityService.emergencyShutdown('test'),
+      ).resolves.not.toThrow();
       const status = securityService.getStatus();
       expect(status.initialized).toBe(false);
     });
@@ -149,13 +154,13 @@ describe('Silent Operations', () => {
   it('should only be visible in development mode', () => {
     // Test that silent operations respect environment
     const originalEnv = process.env.NODE_ENV;
-    
+
     process.env.NODE_ENV = 'production';
     expect(true).toBe(true); // Silent operations should be invisible
-    
+
     process.env.NODE_ENV = 'development';
     expect(true).toBe(true); // Silent operations should be visible
-    
+
     process.env.NODE_ENV = originalEnv;
   });
 });
@@ -163,9 +168,15 @@ describe('Silent Operations', () => {
 describe('AI Security Integration', () => {
   it('should integrate with existing security systems', () => {
     // Test integration points
-    expect(typeof aiSecurityConfig.getConfig().scanning.engines.snyk.enabled).toBe('boolean');
-    expect(typeof aiSecurityConfig.getConfig().scanning.engines.semgrep.enabled).toBe('boolean');
-    expect(typeof aiSecurityConfig.getConfig().scanning.engines.codeql.enabled).toBe('boolean');
+    expect(
+      typeof aiSecurityConfig.getConfig().scanning.engines.snyk.enabled,
+    ).toBe('boolean');
+    expect(
+      typeof aiSecurityConfig.getConfig().scanning.engines.semgrep.enabled,
+    ).toBe('boolean');
+    expect(
+      typeof aiSecurityConfig.getConfig().scanning.engines.codeql.enabled,
+    ).toBe('boolean');
   });
 
   it('should maintain backward compatibility', () => {

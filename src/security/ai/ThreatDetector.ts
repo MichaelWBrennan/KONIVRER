@@ -3,7 +3,12 @@
  * Implements Phase 4 of SECURITY_AI_UPGRADE_PLAN.md
  */
 
-import { SecurityThreat, SecurityMetrics, AIInsight, SilentOperationConfig } from './types.js';
+import {
+  SecurityThreat,
+  SecurityMetrics,
+  AIInsight,
+  SilentOperationConfig,
+} from './types.js';
 
 export interface ThreatEvent {
   id: string;
@@ -62,13 +67,13 @@ export class AIThreatDetector {
       this.monitorNetworkTraffic(),
       this.monitorUserBehavior(),
       this.monitorSystemMetrics(),
-      this.monitorApplicationLogs()
+      this.monitorApplicationLogs(),
     ];
 
     // Process events continuously
     for await (const event of this.mergeStreams(streams)) {
       const anomaly = await this.detectAnomaly(event);
-      
+
       if (anomaly && anomaly.anomalyScore > 0.7) {
         const threat = await this.classifyThreat(event, anomaly);
         await this.handleThreatDetection(threat);
@@ -98,7 +103,7 @@ export class AIThreatDetector {
         confidence,
         pattern: this.identifyPattern(event),
         baseline: baseline.summary,
-        deviation: this.calculateDeviation(event, baseline)
+        deviation: this.calculateDeviation(event, baseline),
       };
     }
 
@@ -108,7 +113,10 @@ export class AIThreatDetector {
   /**
    * Classify detected anomalies as security threats
    */
-  async classifyThreat(event: ThreatEvent, anomaly: AnomalyDetection): Promise<SecurityThreat> {
+  async classifyThreat(
+    event: ThreatEvent,
+    anomaly: AnomalyDetection,
+  ): Promise<SecurityThreat> {
     // AI-powered threat classification
     const threatType = this.classifyThreatType(event, anomaly);
     const severity = this.calculateSeverity(anomaly);
@@ -123,7 +131,7 @@ export class AIThreatDetector {
       source: `AI-Detector-${event.type}`,
       timestamp: event.timestamp,
       mitigation: await this.generateMitigation(threatType, anomaly),
-      autoFixable: this.assessAutoFixability(threatType, confidence)
+      autoFixable: this.assessAutoFixability(threatType, confidence),
     };
   }
 
@@ -132,14 +140,20 @@ export class AIThreatDetector {
    */
   private async handleThreatDetection(threat: SecurityThreat): Promise<void> {
     if (this.silentConfig.transparentLogging) {
-      console.log(`🚨 Threat detected: ${threat.description} (${threat.severity})`);
+      console.log(
+        `🚨 Threat detected: ${threat.description} (${threat.severity})`,
+      );
     }
 
     // Generate response plan
     const responsePlan = await this.generateResponsePlan(threat);
 
     // Execute automated response if appropriate
-    if (responsePlan.automated && responsePlan.confidence > 0.95 && responsePlan.risk < 0.1) {
+    if (
+      responsePlan.automated &&
+      responsePlan.confidence > 0.95 &&
+      responsePlan.risk < 0.1
+    ) {
       await this.executeAutomaticResponse(responsePlan);
     } else {
       await this.escalateToHuman(threat, responsePlan);
@@ -152,7 +166,9 @@ export class AIThreatDetector {
   /**
    * Generate AI-powered response plan
    */
-  private async generateResponsePlan(threat: SecurityThreat): Promise<ResponsePlan> {
+  private async generateResponsePlan(
+    threat: SecurityThreat,
+  ): Promise<ResponsePlan> {
     const actions: ResponseAction[] = [];
     let confidence = threat.confidence;
     let risk = 0.1;
@@ -166,7 +182,7 @@ export class AIThreatDetector {
           target: 'suspicious_input',
           parameters: { pattern: 'injection_pattern' },
           priority: 1,
-          reversible: true
+          reversible: true,
         });
         automated = confidence > 0.9;
         break;
@@ -177,7 +193,7 @@ export class AIThreatDetector {
           target: 'vulnerable_component',
           parameters: { autoUpdate: true },
           priority: 2,
-          reversible: false
+          reversible: false,
         });
         automated = threat.autoFixable;
         break;
@@ -188,7 +204,7 @@ export class AIThreatDetector {
           target: 'suspicious_session',
           parameters: { duration: 300000 }, // 5 minutes
           priority: 1,
-          reversible: true
+          reversible: true,
         });
         automated = confidence > 0.95;
         risk = 0.05;
@@ -200,7 +216,7 @@ export class AIThreatDetector {
           target: 'weak_keys',
           parameters: { algorithm: 'quantum_ready' },
           priority: 3,
-          reversible: false
+          reversible: false,
         });
         automated = false; // Always require human review for crypto changes
         break;
@@ -212,7 +228,7 @@ export class AIThreatDetector {
       target: 'threat_database',
       parameters: { threat },
       priority: 0,
-      reversible: false
+      reversible: false,
     });
 
     return {
@@ -221,7 +237,7 @@ export class AIThreatDetector {
       confidence,
       risk,
       automated,
-      timeline: 60000 // 1 minute
+      timeline: 60000, // 1 minute
     };
   }
 
@@ -230,7 +246,9 @@ export class AIThreatDetector {
    */
   private async executeAutomaticResponse(plan: ResponsePlan): Promise<void> {
     if (this.silentConfig.transparentLogging) {
-      console.log(`🤖 Executing automated response for threat ${plan.threatId}`);
+      console.log(
+        `🤖 Executing automated response for threat ${plan.threatId}`,
+      );
     }
 
     // Sort actions by priority
@@ -239,13 +257,13 @@ export class AIThreatDetector {
     for (const action of sortedActions) {
       try {
         await this.executeAction(action);
-        
+
         if (this.silentConfig.transparentLogging) {
           console.log(`✅ Action executed: ${action.type} on ${action.target}`);
         }
       } catch (error) {
         console.error(`❌ Failed to execute action ${action.type}:`, error);
-        
+
         // If action fails and it's critical, escalate
         if (action.priority <= 1) {
           await this.escalateFailedAction(action, error);
@@ -285,20 +303,23 @@ export class AIThreatDetector {
    */
   async trainOnNewData(events: ThreatEvent[]): Promise<void> {
     if (this.isTraining) return;
-    
+
     this.isTraining = true;
-    
+
     try {
       if (this.silentConfig.transparentLogging) {
         console.log(`🧠 Training AI models on ${events.length} new events...`);
       }
 
       // Group events by type for specialized training
-      const eventsByType = events.reduce((acc, event) => {
-        if (!acc[event.type]) acc[event.type] = [];
-        acc[event.type].push(event);
-        return acc;
-      }, {} as Record<string, ThreatEvent[]>);
+      const eventsByType = events.reduce(
+        (acc, event) => {
+          if (!acc[event.type]) acc[event.type] = [];
+          acc[event.type].push(event);
+          return acc;
+        },
+        {} as Record<string, ThreatEvent[]>,
+      );
 
       // Update baselines for each event type
       for (const [type, typeEvents] of Object.entries(eventsByType)) {
@@ -321,13 +342,13 @@ export class AIThreatDetector {
   private initializeBaselines(): void {
     // Initialize baseline models for different event types
     const eventTypes = ['network', 'application', 'user_behavior', 'system'];
-    
+
     eventTypes.forEach(type => {
       this.baselineModels.set(type, {
         events: [],
         patterns: new Map(),
         thresholds: this.getDefaultThresholds(type),
-        lastUpdated: new Date()
+        lastUpdated: new Date(),
       });
     });
   }
@@ -337,19 +358,33 @@ export class AIThreatDetector {
       network: { anomalyScore: 0.7, confidence: 0.8 },
       application: { anomalyScore: 0.6, confidence: 0.85 },
       user_behavior: { anomalyScore: 0.8, confidence: 0.9 },
-      system: { anomalyScore: 0.75, confidence: 0.8 }
+      system: { anomalyScore: 0.75, confidence: 0.8 },
     };
-    
+
     return thresholds[type] || { anomalyScore: 0.7, confidence: 0.8 };
   }
 
-  private async *mergeStreams(streams: AsyncGenerator<ThreatEvent>[]): AsyncGenerator<ThreatEvent> {
+  private async *mergeStreams(
+    streams: AsyncGenerator<ThreatEvent>[],
+  ): AsyncGenerator<ThreatEvent> {
     // Simulate merging multiple event streams
     const events = [
-      { id: 'evt-1', timestamp: new Date(), type: 'network' as const, data: {}, severity: 0.3 },
-      { id: 'evt-2', timestamp: new Date(), type: 'application' as const, data: {}, severity: 0.8 }
+      {
+        id: 'evt-1',
+        timestamp: new Date(),
+        type: 'network' as const,
+        data: {},
+        severity: 0.3,
+      },
+      {
+        id: 'evt-2',
+        timestamp: new Date(),
+        type: 'application' as const,
+        data: {},
+        severity: 0.8,
+      },
     ];
-    
+
     for (const event of events) {
       yield event;
     }
@@ -357,22 +392,46 @@ export class AIThreatDetector {
 
   private async *monitorNetworkTraffic(): AsyncGenerator<ThreatEvent> {
     // Network monitoring simulation
-    yield { id: 'net-1', timestamp: new Date(), type: 'network', data: {}, severity: 0.2 };
+    yield {
+      id: 'net-1',
+      timestamp: new Date(),
+      type: 'network',
+      data: {},
+      severity: 0.2,
+    };
   }
 
   private async *monitorUserBehavior(): AsyncGenerator<ThreatEvent> {
     // User behavior monitoring simulation
-    yield { id: 'usr-1', timestamp: new Date(), type: 'user_behavior', data: {}, severity: 0.1 };
+    yield {
+      id: 'usr-1',
+      timestamp: new Date(),
+      type: 'user_behavior',
+      data: {},
+      severity: 0.1,
+    };
   }
 
   private async *monitorSystemMetrics(): AsyncGenerator<ThreatEvent> {
     // System metrics monitoring simulation
-    yield { id: 'sys-1', timestamp: new Date(), type: 'system', data: {}, severity: 0.4 };
+    yield {
+      id: 'sys-1',
+      timestamp: new Date(),
+      type: 'system',
+      data: {},
+      severity: 0.4,
+    };
   }
 
   private async *monitorApplicationLogs(): AsyncGenerator<ThreatEvent> {
     // Application log monitoring simulation
-    yield { id: 'app-1', timestamp: new Date(), type: 'application', data: {}, severity: 0.6 };
+    yield {
+      id: 'app-1',
+      timestamp: new Date(),
+      type: 'application',
+      data: {},
+      severity: 0.6,
+    };
   }
 
   private calculateAnomalyScore(event: ThreatEvent, baseline: any): number {
@@ -393,43 +452,65 @@ export class AIThreatDetector {
     return { deviation: 'significant', value: event.severity };
   }
 
-  private classifyThreatType(event: ThreatEvent, anomaly: AnomalyDetection): SecurityThreat['type'] {
-    const types: SecurityThreat['type'][] = ['vulnerability', 'injection', 'access_violation', 'crypto_weakness'];
+  private classifyThreatType(
+    event: ThreatEvent,
+    anomaly: AnomalyDetection,
+  ): SecurityThreat['type'] {
+    const types: SecurityThreat['type'][] = [
+      'vulnerability',
+      'injection',
+      'access_violation',
+      'crypto_weakness',
+    ];
     return types[Math.floor(Math.random() * types.length)];
   }
 
-  private calculateSeverity(anomaly: AnomalyDetection): SecurityThreat['severity'] {
+  private calculateSeverity(
+    anomaly: AnomalyDetection,
+  ): SecurityThreat['severity'] {
     if (anomaly.anomalyScore > 0.9) return 'critical';
     if (anomaly.anomalyScore > 0.7) return 'high';
     if (anomaly.anomalyScore > 0.4) return 'medium';
     return 'low';
   }
 
-  private generateThreatDescription(event: ThreatEvent, anomaly: AnomalyDetection): string {
+  private generateThreatDescription(
+    event: ThreatEvent,
+    anomaly: AnomalyDetection,
+  ): string {
     return `AI detected anomalous ${event.type} activity with ${(anomaly.anomalyScore * 100).toFixed(1)}% deviation`;
   }
 
-  private async generateMitigation(type: SecurityThreat['type'], anomaly: AnomalyDetection): Promise<string> {
+  private async generateMitigation(
+    type: SecurityThreat['type'],
+    anomaly: AnomalyDetection,
+  ): Promise<string> {
     const mitigations = {
       vulnerability: 'Apply security patch immediately',
       injection: 'Sanitize input and implement validation',
       access_violation: 'Review and restrict access permissions',
       crypto_weakness: 'Upgrade to quantum-resistant algorithms',
-      malware: 'Quarantine and perform deep scan'
+      malware: 'Quarantine and perform deep scan',
     };
-    
+
     return mitigations[type] || 'Manual review required';
   }
 
-  private assessAutoFixability(type: SecurityThreat['type'], confidence: number): boolean {
+  private assessAutoFixability(
+    type: SecurityThreat['type'],
+    confidence: number,
+  ): boolean {
     const autoFixableTypes = ['vulnerability', 'injection'];
     return autoFixableTypes.includes(type) && confidence > 0.9;
   }
 
-  private async updateBaseline(type: string, events: ThreatEvent | ThreatEvent[]): Promise<void> {
+  private async updateBaseline(
+    type: string,
+    events: ThreatEvent | ThreatEvent[],
+  ): Promise<void> {
     const eventArray = Array.isArray(events) ? events : [events];
     const baseline = this.baselineModels.get(type);
-    
+
     if (baseline) {
       baseline.events.push(...eventArray);
       baseline.lastUpdated = new Date();
@@ -447,21 +528,35 @@ export class AIThreatDetector {
     }
   }
 
-  private async escalateToHuman(threat: SecurityThreat, plan: ResponsePlan): Promise<void> {
-    if (this.silentConfig.emergencyAlerts.criticalThreats && threat.severity === 'critical') {
+  private async escalateToHuman(
+    threat: SecurityThreat,
+    plan: ResponsePlan,
+  ): Promise<void> {
+    if (
+      this.silentConfig.emergencyAlerts.criticalThreats &&
+      threat.severity === 'critical'
+    ) {
       console.error(`🚨 CRITICAL THREAT ESCALATION: ${threat.description}`);
     }
   }
 
-  private async updateThreatIntelligence(threat: SecurityThreat): Promise<void> {
+  private async updateThreatIntelligence(
+    threat: SecurityThreat,
+  ): Promise<void> {
     // Update threat intelligence database
     if (this.silentConfig.transparentLogging) {
       console.log(`📊 Updating threat intelligence with ${threat.id}`);
     }
   }
 
-  private async escalateFailedAction(action: ResponseAction, error: any): Promise<void> {
-    console.error(`🚨 Critical action failed: ${action.type} on ${action.target}`, error);
+  private async escalateFailedAction(
+    action: ResponseAction,
+    error: any,
+  ): Promise<void> {
+    console.error(
+      `🚨 Critical action failed: ${action.type} on ${action.target}`,
+      error,
+    );
   }
 
   // Response action implementations
@@ -485,7 +580,10 @@ export class AIThreatDetector {
     // Implement incident logging
   }
 
-  private async rotateCredentials(target: string, parameters: any): Promise<void> {
+  private async rotateCredentials(
+    target: string,
+    parameters: any,
+  ): Promise<void> {
     // Implement credential rotation
   }
 }

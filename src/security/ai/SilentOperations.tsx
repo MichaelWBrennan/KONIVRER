@@ -5,12 +5,12 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { 
-  SecurityMetrics, 
-  SecurityThreat, 
-  AIInsight, 
+import {
+  SecurityMetrics,
+  SecurityThreat,
+  AIInsight,
   SilentOperationConfig,
-  ComplianceFramework 
+  ComplianceFramework,
 } from './types.js';
 
 interface SilentSecurityContext {
@@ -26,7 +26,8 @@ interface SilentSecurityContext {
 export class SilentSecurityOperations {
   private config: SilentOperationConfig;
   private isProduction: boolean;
-  private subscribers: Set<(context: SilentSecurityContext) => void> = new Set();
+  private subscribers: Set<(context: SilentSecurityContext) => void> =
+    new Set();
 
   constructor() {
     this.isProduction = process.env.NODE_ENV === 'production';
@@ -46,8 +47,8 @@ export class SilentSecurityOperations {
       emergencyAlerts: {
         criticalThreats: true,
         systemCompromise: true,
-        dataBreaches: true
-      }
+        dataBreaches: true,
+      },
     };
   }
 
@@ -64,7 +65,7 @@ export class SilentSecurityOperations {
       this.startBackgroundScanning(),
       this.enableAutomaticRemediation(),
       this.initializeSilentUpdates(),
-      this.setupEmergencyMonitoring()
+      this.setupEmergencyMonitoring(),
     ]);
 
     if (this.config.transparentLogging) {
@@ -82,7 +83,7 @@ export class SilentSecurityOperations {
       this.threatMonitoring(),
       this.automaticPatching(),
       this.complianceMonitoring(),
-      this.performanceOptimization()
+      this.performanceOptimization(),
     ];
 
     // Run all operations silently
@@ -99,7 +100,7 @@ export class SilentSecurityOperations {
       metrics: this.getCurrentMetrics(),
       threats: this.getActiveThreats(),
       insights: this.getAIInsights(),
-      compliance: this.getComplianceStatus()
+      compliance: this.getComplianceStatus(),
     };
   }
 
@@ -175,7 +176,7 @@ export class SilentSecurityOperations {
       falsePositiveRate: Math.random() * 0.1, // 0-10%
       securityScore: Math.random() * 20 + 80, // 80-100
       complianceScore: Math.random() * 15 + 85, // 85-100
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
   }
 
@@ -187,12 +188,13 @@ export class SilentSecurityOperations {
     return [
       {
         type: 'prediction',
-        content: 'Security posture remains stable. No immediate threats predicted.',
+        content:
+          'Security posture remains stable. No immediate threats predicted.',
         confidence: 0.94,
         impact: 'low',
         actionable: false,
-        timestamp: new Date()
-      }
+        timestamp: new Date(),
+      },
     ];
   }
 
@@ -203,8 +205,8 @@ export class SilentSecurityOperations {
         requirements: ['Access Control', 'Encryption', 'Monitoring'],
         status: 'compliant',
         lastAssessed: new Date(),
-        nextReview: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000)
-      }
+        nextReview: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      },
     ];
   }
 }
@@ -243,22 +245,30 @@ export const SilentSecurityDashboard: React.FC = () => {
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      width: '350px',
-      backgroundColor: '#1a1a1a',
-      color: '#ffffff',
-      border: '1px solid #333',
-      borderRadius: '8px',
-      padding: '16px',
-      fontSize: '12px',
-      fontFamily: 'monospace',
-      zIndex: 10000,
-      boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
-    }}>
-      <div style={{ borderBottom: '1px solid #333', paddingBottom: '8px', marginBottom: '12px' }}>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        width: '350px',
+        backgroundColor: '#1a1a1a',
+        color: '#ffffff',
+        border: '1px solid #333',
+        borderRadius: '8px',
+        padding: '16px',
+        fontSize: '12px',
+        fontFamily: 'monospace',
+        zIndex: 10000,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+      }}
+    >
+      <div
+        style={{
+          borderBottom: '1px solid #333',
+          paddingBottom: '8px',
+          marginBottom: '12px',
+        }}
+      >
         <h3 style={{ margin: 0, fontSize: '14px', color: '#00ff88' }}>
           🔇 Silent Security Operations
         </h3>
@@ -271,8 +281,15 @@ export const SilentSecurityDashboard: React.FC = () => {
       <ThreatStatusPanel threats={securityContext.threats} />
       <AIInsightsPanel insights={securityContext.insights} />
       <CompliancePanel compliance={securityContext.compliance} />
-      
-      <div style={{ fontSize: '10px', color: '#666', marginTop: '12px', textAlign: 'center' }}>
+
+      <div
+        style={{
+          fontSize: '10px',
+          color: '#666',
+          marginTop: '12px',
+          textAlign: 'center',
+        }}
+      >
         Last updated: {new Date().toLocaleTimeString()}
       </div>
     </div>
@@ -280,7 +297,9 @@ export const SilentSecurityDashboard: React.FC = () => {
 };
 
 // Security Metrics Panel
-const SecurityMetricsPanel: React.FC<{ metrics: SecurityMetrics | null }> = ({ metrics }) => {
+const SecurityMetricsPanel: React.FC<{ metrics: SecurityMetrics | null }> = ({
+  metrics,
+}) => {
   if (!metrics) return null;
 
   return (
@@ -288,7 +307,14 @@ const SecurityMetricsPanel: React.FC<{ metrics: SecurityMetrics | null }> = ({ m
       <div style={{ fontSize: '11px', color: '#00ff88', marginBottom: '6px' }}>
         📊 Security Metrics
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px', fontSize: '10px' }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '4px',
+          fontSize: '10px',
+        }}
+      >
         <div>Score: {metrics.securityScore.toFixed(1)}/100</div>
         <div>Threats: {metrics.threatsDetected}</div>
         <div>MTTD: {metrics.meanTimeToDetection.toFixed(1)}s</div>
@@ -299,7 +325,9 @@ const SecurityMetricsPanel: React.FC<{ metrics: SecurityMetrics | null }> = ({ m
 };
 
 // Threat Status Panel
-const ThreatStatusPanel: React.FC<{ threats: SecurityThreat[] }> = ({ threats }) => {
+const ThreatStatusPanel: React.FC<{ threats: SecurityThreat[] }> = ({
+  threats,
+}) => {
   return (
     <div style={{ marginBottom: '12px' }}>
       <div style={{ fontSize: '11px', color: '#ffaa00', marginBottom: '6px' }}>
@@ -343,7 +371,9 @@ const AIInsightsPanel: React.FC<{ insights: AIInsight[] }> = ({ insights }) => {
 };
 
 // Compliance Panel
-const CompliancePanel: React.FC<{ compliance: ComplianceFramework[] }> = ({ compliance }) => {
+const CompliancePanel: React.FC<{ compliance: ComplianceFramework[] }> = ({
+  compliance,
+}) => {
   return (
     <div>
       <div style={{ fontSize: '11px', color: '#ff8800', marginBottom: '6px' }}>
@@ -352,10 +382,14 @@ const CompliancePanel: React.FC<{ compliance: ComplianceFramework[] }> = ({ comp
       <div style={{ fontSize: '10px' }}>
         {compliance.map(framework => (
           <div key={framework.name} style={{ marginBottom: '2px' }}>
-            <span style={{ color: framework.status === 'compliant' ? '#00ff88' : '#ff4444' }}>
+            <span
+              style={{
+                color: framework.status === 'compliant' ? '#00ff88' : '#ff4444',
+              }}
+            >
               {framework.status === 'compliant' ? '✅' : '❌'}
-            </span>
-            {' '}{framework.name}
+            </span>{' '}
+            {framework.name}
           </div>
         ))}
       </div>
@@ -364,13 +398,15 @@ const CompliancePanel: React.FC<{ compliance: ComplianceFramework[] }> = ({ comp
 };
 
 // Silent Security Integration for App
-export const SilentSecurityProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const SilentSecurityProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const [operations] = useState(() => new SilentSecurityOperations());
 
   useEffect(() => {
     // Start silent operations
     operations.start();
-    
+
     // Operate in background
     operations.operateInBackground();
   }, [operations]);

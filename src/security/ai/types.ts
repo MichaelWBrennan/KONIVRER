@@ -5,7 +5,12 @@
 
 export interface SecurityThreat {
   id: string;
-  type: 'vulnerability' | 'malware' | 'injection' | 'crypto_weakness' | 'access_violation';
+  type:
+    | 'vulnerability'
+    | 'malware'
+    | 'injection'
+    | 'crypto_weakness'
+    | 'access_violation';
   severity: 'low' | 'medium' | 'high' | 'critical';
   confidence: number; // 0-1
   description: string;
