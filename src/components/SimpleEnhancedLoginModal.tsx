@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useDynamicSizing } from '../utils/userAgentSizing';
 
 // Types
 interface User {
@@ -31,6 +32,9 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
   const [biometricAvailable, setBiometricAvailable] = useState(false);
   const [faceIdAvailable, setFaceIdAvailable] = useState(false);
   const [ssoLoading, setSsoLoading] = useState<string | null>(null);
+
+  // Get dynamic sizing based on user agent and device capabilities
+  const dynamicSizing = useDynamicSizing();
 
   // Check for biometric authentication availability
   useEffect(() => {
@@ -165,9 +169,16 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
             transition={{ duration: 0.2, ease: 'easeInOut' }}
             className="modal-content"
             style={{
-              padding: '40px',
-              minWidth: '700px',
-              maxWidth: '900px',
+              padding: `${dynamicSizing.containerPadding}px`,
+              width: dynamicSizing.cssWidth,
+              maxWidth: `${dynamicSizing.maxWidth}px`,
+              minWidth: `${dynamicSizing.minWidth}px`,
+              maxHeight: `${Math.min(dynamicSizing.maxHeight, dynamicSizing.height * 1.2)}px`,
+              // Account for safe area insets on mobile devices
+              marginTop: `${dynamicSizing.safeAreaInsets.top}px`,
+              marginBottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
+              marginLeft: `${dynamicSizing.safeAreaInsets.left}px`,
+              marginRight: `${dynamicSizing.safeAreaInsets.right}px`,
             }}
             onClick={e => e.stopPropagation()}
           >
@@ -198,8 +209,10 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '25px',
+                gridTemplateColumns: dynamicSizing.width < 768 
+                  ? '1fr' 
+                  : 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: dynamicSizing.width < 768 ? '15px' : '25px',
                 marginBottom: '30px',
               }}
             >
@@ -243,12 +256,12 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       required
                       style={{
                         width: '100%',
-                        padding: '12px',
+                        padding: dynamicSizing.width < 768 ? '10px' : '12px',
                         backgroundColor: '#1a1a1a',
                         border: '2px solid #444',
                         borderRadius: '6px',
                         color: 'white',
-                        fontSize: '16px',
+                        fontSize: dynamicSizing.width < 768 ? '14px' : '16px',
                         outline: 'none',
                         transition: 'border-color 0.3s',
                       }}
@@ -277,12 +290,12 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       required
                       style={{
                         width: '100%',
-                        padding: '12px',
+                        padding: dynamicSizing.width < 768 ? '10px' : '12px',
                         backgroundColor: '#1a1a1a',
                         border: '2px solid #444',
                         borderRadius: '6px',
                         color: 'white',
-                        fontSize: '16px',
+                        fontSize: dynamicSizing.width < 768 ? '14px' : '16px',
                         outline: 'none',
                         transition: 'border-color 0.3s',
                       }}

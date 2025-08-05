@@ -1,5 +1,5 @@
 export const getEnvVariable = (
-  _key: string,
+  key: string,
   defaultValue: any = undefined,
 ): string | undefined => {
   if (typeof process !== 'undefined' && process.env && process.env[key]) {
