@@ -26,6 +26,16 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Separate babylonjs into its own chunk to improve build performance
+          babylonjs: ['babylonjs'],
+        },
+      },
+    },
+    // Increase chunk size warning limit for 3D libraries
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     fs: {
