@@ -16,7 +16,8 @@ class AudioManager {
 
   async init() {
     try {
-      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      this.audioContext = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
       this.masterGain = this.audioContext.createGain();
       this.masterGain.connect(this.audioContext.destination);
       console.log('[AudioManager] Audio system initialized');
@@ -41,7 +42,11 @@ class AudioManager {
     this.playMelody([523, 659, 784, 1047], 0.2); // C-E-G-C
   }
 
-  private playTone(frequency: number, duration: number, type: OscillatorType = 'sine') {
+  private playTone(
+    frequency: number,
+    duration: number,
+    type: OscillatorType = 'sine',
+  ) {
     if (!this.audioContext || !this.masterGain) return;
 
     const oscillator = this.audioContext.createOscillator();
@@ -50,11 +55,17 @@ class AudioManager {
     oscillator.connect(gainNode);
     gainNode.connect(this.masterGain);
 
-    oscillator.frequency.setValueAtTime(frequency, this.audioContext.currentTime);
+    oscillator.frequency.setValueAtTime(
+      frequency,
+      this.audioContext.currentTime,
+    );
     oscillator.type = type;
 
     gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+    gainNode.gain.exponentialRampToValueAtTime(
+      0.01,
+      this.audioContext.currentTime + duration,
+    );
 
     oscillator.start(this.audioContext.currentTime);
     oscillator.stop(this.audioContext.currentTime + duration);
@@ -62,7 +73,10 @@ class AudioManager {
 
   private playMelody(frequencies: number[], noteDuration: number) {
     frequencies.forEach((freq, index) => {
-      setTimeout(() => this.playTone(freq, noteDuration), index * noteDuration * 1000);
+      setTimeout(
+        () => this.playTone(freq, noteDuration),
+        index * noteDuration * 1000,
+      );
     });
   }
 }
@@ -76,11 +90,21 @@ class ParticleSystem {
     this.scene = scene;
   }
 
-  createMagicalAura(position: BABYLON.Vector3, color: BABYLON.Color3): BABYLON.ParticleSystem {
-    const particleSystem = new BABYLON.ParticleSystem("magicalAura", 200, this.scene);
+  createMagicalAura(
+    position: BABYLON.Vector3,
+    color: BABYLON.Color3,
+  ): BABYLON.ParticleSystem {
+    const particleSystem = new BABYLON.ParticleSystem(
+      'magicalAura',
+      200,
+      this.scene,
+    );
 
     // Texture
-    particleSystem.particleTexture = new BABYLON.Texture("https://playground.babylonjs.com/textures/flare.png", this.scene);
+    particleSystem.particleTexture = new BABYLON.Texture(
+      'https://playground.babylonjs.com/textures/flare.png',
+      this.scene,
+    );
 
     // Position
     particleSystem.emitter = position;
@@ -89,7 +113,11 @@ class ParticleSystem {
 
     // Colors
     particleSystem.color1 = color;
-    particleSystem.color2 = new BABYLON.Color3(color.r * 0.5, color.g * 0.5, color.b * 0.5);
+    particleSystem.color2 = new BABYLON.Color3(
+      color.r * 0.5,
+      color.g * 0.5,
+      color.b * 0.5,
+    );
     particleSystem.colorDead = new BABYLON.Color3(0, 0, 0);
 
     // Size
@@ -120,9 +148,16 @@ class ParticleSystem {
   }
 
   createCardSparkles(position: BABYLON.Vector3): BABYLON.ParticleSystem {
-    const sparkles = new BABYLON.ParticleSystem("cardSparkles", 100, this.scene);
-    
-    sparkles.particleTexture = new BABYLON.Texture("https://playground.babylonjs.com/textures/flare.png", this.scene);
+    const sparkles = new BABYLON.ParticleSystem(
+      'cardSparkles',
+      100,
+      this.scene,
+    );
+
+    sparkles.particleTexture = new BABYLON.Texture(
+      'https://playground.babylonjs.com/textures/flare.png',
+      this.scene,
+    );
     sparkles.emitter = position;
 
     // Golden sparkles
@@ -202,14 +237,14 @@ export class GameEngine {
     });
 
     this.scene = new BABYLON.Scene(this.engine);
-    
+
     // Initialize particle system
     this.particleSystem = new ParticleSystem(this.scene);
 
     window.addEventListener('resize', this.handleResize.bind(this));
 
     this.initAdvancedScenes();
-    
+
     // Enhanced render loop with performance monitoring
     this.engine.runRenderLoop(() => {
       if (this.scene) {
@@ -230,7 +265,7 @@ export class GameEngine {
   public destroy(): void {
     if (this.engine) {
       window.removeEventListener('resize', this.handleResize.bind(this));
-      
+
       // Clean up particle systems
       if (this.particleSystem) {
         this.particleSystem.dispose();
@@ -264,7 +299,7 @@ export class GameEngine {
         BABYLON.Vector3.Zero(),
         this.scene,
       );
-      
+
       // Smooth camera controls
       this.camera.attachControl(true);
       this.camera.setTarget(BABYLON.Vector3.Zero());
@@ -283,7 +318,10 @@ export class GameEngine {
       // Setup post-processing effects
       this.setupPostProcessing(isLowPerformance);
 
-      console.log('[GameEngine] Advanced scenes initialized with quality:', settings.animationQuality);
+      console.log(
+        '[GameEngine] Advanced scenes initialized with quality:',
+        settings.animationQuality,
+      );
     }
   }
 
@@ -339,7 +377,8 @@ export class GameEngine {
         let time = 0;
         this.scene.registerBeforeRender(() => {
           time += 0.01;
-          light.intensity = light.intensity * (0.7 + 0.3 * Math.sin(time + index));
+          light.intensity =
+            light.intensity * (0.7 + 0.3 * Math.sin(time + index));
         });
       }
     });
@@ -349,7 +388,11 @@ export class GameEngine {
     if (!this.scene) return;
 
     // Skybox with mystical colors
-    const skybox = BABYLON.MeshBuilder.CreateSphere('skyBox', { diameter: 100 }, this.scene);
+    const skybox = BABYLON.MeshBuilder.CreateSphere(
+      'skyBox',
+      { diameter: 100 },
+      this.scene,
+    );
     const skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
@@ -358,20 +401,33 @@ export class GameEngine {
     skybox.infiniteDistance = true;
 
     // Ground with mystical patterns
-    const ground = BABYLON.MeshBuilder.CreateGround('ground', { width: 20, height: 20 }, this.scene);
-    const groundMaterial = new BABYLON.StandardMaterial('groundMaterial', this.scene);
-    
+    const ground = BABYLON.MeshBuilder.CreateGround(
+      'ground',
+      { width: 20, height: 20 },
+      this.scene,
+    );
+    const groundMaterial = new BABYLON.StandardMaterial(
+      'groundMaterial',
+      this.scene,
+    );
+
     // Procedural mystical pattern
     groundMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.05, 0.2);
     groundMaterial.specularColor = new BABYLON.Color3(0.3, 0.2, 0.5);
     groundMaterial.emissiveColor = new BABYLON.Color3(0.02, 0.01, 0.05);
-    
+
     if (settings.glowEffectsEnabled) {
-      groundMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+      groundMaterial.emissiveFresnelParameters =
+        new BABYLON.FresnelParameters();
       groundMaterial.emissiveFresnelParameters.bias = 0.1;
       groundMaterial.emissiveFresnelParameters.power = 0.5;
-      groundMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.Black();
-      groundMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(0.3, 0.1, 0.5);
+      groundMaterial.emissiveFresnelParameters.leftColor =
+        BABYLON.Color3.Black();
+      groundMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(
+        0.3,
+        0.1,
+        0.5,
+      );
     }
 
     ground.material = groundMaterial;
@@ -381,13 +437,13 @@ export class GameEngine {
     if (this.particleSystem && settings.backgroundEffectsEnabled) {
       const aura1 = this.particleSystem.createMagicalAura(
         new BABYLON.Vector3(3, 1, 3),
-        new BABYLON.Color3(0.5, 0.2, 1)
+        new BABYLON.Color3(0.5, 0.2, 1),
       );
       aura1.start();
 
       const aura2 = this.particleSystem.createMagicalAura(
         new BABYLON.Vector3(-3, 1, -3),
-        new BABYLON.Color3(0.2, 1, 0.5)
+        new BABYLON.Color3(0.2, 1, 0.5),
       );
       aura2.start();
     }
@@ -407,18 +463,27 @@ export class GameEngine {
       card.position = new BABYLON.Vector3(i * 2 - 2, 1, 0);
 
       // Enhanced card material with mystical properties
-      const cardMaterial = new BABYLON.StandardMaterial(`cardMaterial${i}`, this.scene);
+      const cardMaterial = new BABYLON.StandardMaterial(
+        `cardMaterial${i}`,
+        this.scene,
+      );
       cardMaterial.diffuseColor = new BABYLON.Color3(0.8, 0.7, 0.9);
       cardMaterial.specularColor = new BABYLON.Color3(1, 1, 1);
       cardMaterial.specularPower = 64;
 
       if (settings.glowEffectsEnabled) {
         cardMaterial.emissiveColor = new BABYLON.Color3(0.1, 0.05, 0.15);
-        cardMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+        cardMaterial.emissiveFresnelParameters =
+          new BABYLON.FresnelParameters();
         cardMaterial.emissiveFresnelParameters.bias = 0.2;
         cardMaterial.emissiveFresnelParameters.power = 1;
-        cardMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.Black();
-        cardMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(0.5, 0.3, 0.8);
+        cardMaterial.emissiveFresnelParameters.leftColor =
+          BABYLON.Color3.Black();
+        cardMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(
+          0.5,
+          0.3,
+          0.8,
+        );
       }
 
       card.material = cardMaterial;
@@ -431,9 +496,15 @@ export class GameEngine {
       const floatKeys = [
         { frame: 0, value: 1 },
         { frame: 60, value: 1.2 },
-        { frame: 120, value: 1 }
+        { frame: 120, value: 1 },
       ];
-      const floatAnimation = new BABYLON.Animation(`cardFloat${i}`, 'position.y', 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+      const floatAnimation = new BABYLON.Animation(
+        `cardFloat${i}`,
+        'position.y',
+        30,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE,
+      );
       floatAnimation.setKeys(floatKeys);
       card.animations.push(floatAnimation);
       this.scene.beginAnimation(card, 0, 120, true);
@@ -441,9 +512,15 @@ export class GameEngine {
       // Rotation animation
       const rotateKeys = [
         { frame: 0, value: 0 },
-        { frame: 600, value: Math.PI * 2 }
+        { frame: 600, value: Math.PI * 2 },
       ];
-      const rotateAnimation = new BABYLON.Animation(`cardRotate${i}`, 'rotation.y', 30, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE);
+      const rotateAnimation = new BABYLON.Animation(
+        `cardRotate${i}`,
+        'rotation.y',
+        30,
+        BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+        BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE,
+      );
       rotateAnimation.setKeys(rotateKeys);
       card.animations.push(rotateAnimation);
       this.scene.beginAnimation(card, 0, 600, true);
@@ -457,74 +534,112 @@ export class GameEngine {
 
     // Hover effects
     card.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, () => {
-        this.audioManager.playCardHover();
-        
-        // Scale up with smooth transition
-        if (this.scene) {
-          const scaleUpKeys = [
-            { frame: 0, value: 1 },
-            { frame: 10, value: 1.1 }
-          ];
-          const scaleAnimation = new BABYLON.Animation('cardHoverScale', 'scaling.x', 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-          scaleAnimation.setKeys(scaleUpKeys);
-          
-          const scaleAnimationY = new BABYLON.Animation('cardHoverScaleY', 'scaling.y', 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-          scaleAnimationY.setKeys(scaleUpKeys);
-          
-          card.animations = [scaleAnimation, scaleAnimationY];
-          this.scene.beginAnimation(card, 0, 10, false);
-        }
+      new BABYLON.ExecuteCodeAction(
+        BABYLON.ActionManager.OnPointerOverTrigger,
+        () => {
+          this.audioManager.playCardHover();
 
-        // Add sparkle effect
-        if (this.particleSystem) {
-          const sparkles = this.particleSystem.createCardSparkles(card.position);
-          sparkles.start();
-          
-          // Stop sparkles after a short time
-          setTimeout(() => sparkles.stop(), 1000);
-        }
-      })
+          // Scale up with smooth transition
+          if (this.scene) {
+            const scaleUpKeys = [
+              { frame: 0, value: 1 },
+              { frame: 10, value: 1.1 },
+            ];
+            const scaleAnimation = new BABYLON.Animation(
+              'cardHoverScale',
+              'scaling.x',
+              60,
+              BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+              BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            );
+            scaleAnimation.setKeys(scaleUpKeys);
+
+            const scaleAnimationY = new BABYLON.Animation(
+              'cardHoverScaleY',
+              'scaling.y',
+              60,
+              BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+              BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            );
+            scaleAnimationY.setKeys(scaleUpKeys);
+
+            card.animations = [scaleAnimation, scaleAnimationY];
+            this.scene.beginAnimation(card, 0, 10, false);
+          }
+
+          // Add sparkle effect
+          if (this.particleSystem) {
+            const sparkles = this.particleSystem.createCardSparkles(
+              card.position,
+            );
+            sparkles.start();
+
+            // Stop sparkles after a short time
+            setTimeout(() => sparkles.stop(), 1000);
+          }
+        },
+      ),
     );
 
     card.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, () => {
-        // Scale back
-        if (this.scene) {
-          const scaleBackKeys = [
-            { frame: 0, value: 1.1 },
-            { frame: 10, value: 1 }
-          ];
-          const scaleAnimation = new BABYLON.Animation('cardHoverScaleBack', 'scaling.x', 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-          scaleAnimation.setKeys(scaleBackKeys);
-          
-          const scaleAnimationY = new BABYLON.Animation('cardHoverScaleBackY', 'scaling.y', 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
-          scaleAnimationY.setKeys(scaleBackKeys);
-          
-          card.animations = [scaleAnimation, scaleAnimationY];
-          this.scene.beginAnimation(card, 0, 10, false);
-        }
-      })
+      new BABYLON.ExecuteCodeAction(
+        BABYLON.ActionManager.OnPointerOutTrigger,
+        () => {
+          // Scale back
+          if (this.scene) {
+            const scaleBackKeys = [
+              { frame: 0, value: 1.1 },
+              { frame: 10, value: 1 },
+            ];
+            const scaleAnimation = new BABYLON.Animation(
+              'cardHoverScaleBack',
+              'scaling.x',
+              60,
+              BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+              BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            );
+            scaleAnimation.setKeys(scaleBackKeys);
+
+            const scaleAnimationY = new BABYLON.Animation(
+              'cardHoverScaleBackY',
+              'scaling.y',
+              60,
+              BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+              BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+            );
+            scaleAnimationY.setKeys(scaleBackKeys);
+
+            card.animations = [scaleAnimation, scaleAnimationY];
+            this.scene.beginAnimation(card, 0, 10, false);
+          }
+        },
+      ),
     );
 
     // Click effects
     card.actionManager.registerAction(
       new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => {
         this.audioManager.playCardPlace();
-        
+
         // Flip animation
         if (this.scene) {
           const flipKeys = [
             { frame: 0, value: 0 },
-            { frame: 30, value: Math.PI }
+            { frame: 30, value: Math.PI },
           ];
-          const flipAnimation = new BABYLON.Animation('cardFlip', 'rotation.x', 60, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+          const flipAnimation = new BABYLON.Animation(
+            'cardFlip',
+            'rotation.x',
+            60,
+            BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+            BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
+          );
           flipAnimation.setKeys(flipKeys);
-          
+
           card.animations = [flipAnimation];
           this.scene.beginAnimation(card, 0, 30, false);
         }
-      })
+      }),
     );
   }
 
@@ -533,12 +648,14 @@ export class GameEngine {
 
     try {
       // Simple glow effect instead of full bloom
-      const glowLayer = new BABYLON.GlowLayer("glow", this.scene);
+      const glowLayer = new BABYLON.GlowLayer('glow', this.scene);
       glowLayer.intensity = 0.3;
-      
+
       console.log('[GameEngine] Post-processing effects enabled');
     } catch (error) {
-      console.warn('[GameEngine] Advanced post-processing not available, using fallback');
+      console.warn(
+        '[GameEngine] Advanced post-processing not available, using fallback',
+      );
     }
   }
 }
