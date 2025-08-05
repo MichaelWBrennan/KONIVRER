@@ -13,23 +13,29 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
 
   // Check if device is mobile/tablet and currently in portrait
   const checkOrientation = () => {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      );
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
-    
+
     // Only show on mobile/touch devices with small screens
     const shouldShowOnDevice = isMobile || (isTouch && isSmallScreen);
-    
+
     const currentlyLandscape = window.innerWidth > window.innerHeight;
     setIsLandscape(currentlyLandscape);
-    
+
     // Show prompt if:
     // 1. Device should show prompt (mobile/touch + small screen)
     // 2. Currently in portrait mode
     // 3. Screen height is greater than width (portrait)
-    const shouldShow = shouldShowOnDevice && !currentlyLandscape && window.innerHeight > window.innerWidth;
+    const shouldShow =
+      shouldShowOnDevice &&
+      !currentlyLandscape &&
+      window.innerHeight > window.innerWidth;
     setShowPrompt(shouldShow);
-    
+
     if (onOrientationChange) {
       onOrientationChange(currentlyLandscape);
     }
@@ -188,7 +194,8 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            For the best gaming experience, please rotate your device to landscape mode.
+            For the best gaming experience, please rotate your device to
+            landscape mode.
           </motion.p>
 
           {/* Features list */}
@@ -205,19 +212,34 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontSize: '1.2rem' }}>🎮</span>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
                 Better touch controls
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontSize: '1.2rem' }}>👀</span>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
                 Larger game area
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontSize: '1.2rem' }}>✨</span>
-              <span style={{ fontSize: '0.9rem', color: 'rgba(255, 255, 255, 0.7)' }}>
+              <span
+                style={{
+                  fontSize: '0.9rem',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
                 Enhanced visuals
               </span>
             </div>

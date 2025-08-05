@@ -363,19 +363,19 @@
     width: 100vw;
     max-width: none;
   }
-  
+
   .mobile-topbar-content {
     padding: 0 0.75rem;
   }
-  
+
   .logo-text {
     font-size: 1.25rem;
   }
-  
+
   .bottom-nav-item {
     min-width: 56px;
   }
-  
+
   .bottom-nav-label {
     font-size: 0.625rem;
   }
@@ -386,15 +386,15 @@
   .mobile-topbar {
     height: 50px;
   }
-  
+
   .mobile-topbar-content {
     height: 50px;
   }
-  
+
   .mobile-bottom-nav {
     height: 60px;
   }
-  
+
   .mobile-menu-header {
     padding: 1rem 1rem 0.5rem;
   }

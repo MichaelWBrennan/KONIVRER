@@ -81,7 +81,11 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       const waitForRef = async (): Promise<HTMLDivElement> => {
         return new Promise((resolve, reject) => {
           const timeoutId = setTimeout(() => {
-            reject(new Error('Game container ref not available - timeout after 5 seconds'));
+            reject(
+              new Error(
+                'Game container ref not available - timeout after 5 seconds',
+              ),
+            );
           }, 5000);
 
           const checkRef = () => {
@@ -164,8 +168,12 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     };
 
     if (gameState === 'playing') {
-      document.addEventListener('touchstart', handleTouchStart, { passive: false });
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchstart', handleTouchStart, {
+        passive: false,
+      });
+      document.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      });
     }
 
     return () => {
@@ -202,7 +210,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     <div style={containerStyle} className="mobile-game-container">
       {/* Orientation Prompt */}
       <OrientationPrompt onOrientationChange={handleOrientationChange} />
-      
+
       <AnimatePresence mode="wait">
         {gameState === 'menu' && (
           <EnhancedGameMenu
