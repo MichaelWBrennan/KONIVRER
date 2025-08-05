@@ -240,6 +240,11 @@
                 return;
             }
             
+            // Don't show multiple prompts
+            if (document.querySelector('.pwa-install-prompt')) {
+                return;
+            }
+            
             // Create install prompt
             const prompt = document.createElement('div');
             prompt.className = 'pwa-install-prompt';
@@ -272,11 +277,13 @@
         };
         
         window.dismissPrompt = () => {
-            const prompt = document.querySelector('.pwa-install-prompt');
-            if (prompt) {
-                prompt.remove();
-                localStorage.setItem('pwa-prompt-dismissed', 'true');
-            }
+            const prompts = document.querySelectorAll('.pwa-install-prompt');
+            prompts.forEach(prompt => {
+                if (prompt) {
+                    prompt.remove();
+                }
+            });
+            localStorage.setItem('pwa-prompt-dismissed', 'true');
         };
         
         // Handle app installation

@@ -8,7 +8,6 @@ import { StreamlinedAutonomousProvider } from './automation/StreamlinedProvider'
 import { SilentSecurityProvider } from './security/ai/SilentOperations.js';
 import errorHealing from './utils/errorHealing.tsx';
 import databaseHealing from './utils/databaseHealing.ts';
-import PWAInstallPrompt from './components/PWAInstallPrompt';
 import './styles/global.css';
 
 console.log(
@@ -199,7 +198,6 @@ try {
         >
           <SelfHealingProvider>
             <Phase3App />
-            <PWAInstallPrompt />
           </SelfHealingProvider>
         </StreamlinedAutonomousProvider>
       </SilentSecurityProvider>
@@ -233,7 +231,6 @@ try {
           >
             <SelfHealingProvider>
               <Phase2App />
-              <PWAInstallPrompt />
             </SelfHealingProvider>
           </StreamlinedAutonomousProvider>
         </SilentSecurityProvider>
@@ -250,7 +247,6 @@ try {
         <SilentSecurityProvider>
           <SelfHealingProvider>
             <Phase1App />
-            <PWAInstallPrompt />
           </SelfHealingProvider>
         </SilentSecurityProvider>
       </React.StrictMode>,

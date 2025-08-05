@@ -46,12 +46,8 @@ export const usePWAInstall = (): PWAInstallState & PWAInstallActions => {
       setDeferredPrompt(beforeInstallEvent);
       setIsInstallable(true);
 
-      // Show prompt after a delay if not dismissed before
-      setTimeout(() => {
-        if (!localStorage.getItem('pwa-prompt-dismissed') && !isInstalled) {
-          setShowPrompt(true);
-        }
-      }, 5000); // Show after 5 seconds
+      // Don't auto-show prompt - let the HTML handle it or show manually
+      // Only set as available, don't show automatically to avoid conflicts
     };
 
     // Listen for app installation
