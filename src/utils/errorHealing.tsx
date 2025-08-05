@@ -63,7 +63,7 @@ const errorPatterns: Record<string, (_error: Error) => void> = {
  * Attempts to heal an error based on its type and message
  */
 function attemptToHealError(_error: Error): boolean {
-  const errorMessage = error.message;
+  const errorMessage = _error.message;
 
   // Check if we have a pattern match
   for (const pattern in errorPatterns) {
