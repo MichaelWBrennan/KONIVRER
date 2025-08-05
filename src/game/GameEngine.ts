@@ -72,7 +72,7 @@ export class GameEngine {
   private initScenes(): void {
     if (this.scene) {
       const performanceManager = PerformanceManager.getInstance();
-      const isLowPerformance = performanceManager.isLowPerformanceDevice();
+      const _isLowPerformance = performanceManager.isLowPerformanceDevice();
 
       // Example: simple camera and light setup for the scene
       const camera = new BABYLON.ArcRotateCamera(
@@ -85,7 +85,7 @@ export class GameEngine {
       );
       camera.attachControl(true);
 
-      const light = new BABYLON.HemisphericLight(
+      const _light = new BABYLON.HemisphericLight(
         'Light',
         new BABYLON.Vector3(1, 1, 0),
         this.scene,

@@ -14,7 +14,7 @@ class OptimizedEventEmitter {
     return this;
   }
 
-  emit(event: string, ...args: any[]): boolean {
+  emit(event: string, ...args: unknown[]): boolean {
     const listeners = this.events.get(event);
     if (!listeners?.size) return false;
 
@@ -98,16 +98,16 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
   private config: StreamlinedConfig;
   private metrics: ConsolidatedMetrics;
   private timers = new Map<string, number>();
-  private cache = new Map<string, { data: any; expires: number }>();
+  private cache = new Map<string, { data: unknown; expires: number }>();
   private isActive = false;
   private worker: Worker | null = null;
 
   // Batch processing queues
-  private securityQueue: any[] = [];
-  private healingQueue: any[] = [];
-  private evolutionQueue: any[] = [];
-  private trendQueue: any[] = [];
-  private dependencyQueue: any[] = [];
+  private securityQueue: unknown[] = [];
+  private healingQueue: unknown[] = [];
+  private evolutionQueue: unknown[] = [];
+  private trendQueue: unknown[] = [];
+  private dependencyQueue: unknown[] = [];
 
   constructor(config: Partial<StreamlinedConfig> = {}) {
     super();
@@ -369,8 +369,8 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     });
   }
 
-  private detectThreats(): any[] {
-    const threats: any[] = [];
+  private detectThreats(): unknown[] {
+    const threats: unknown[] = [];
 
     // Check for suspicious scripts
     const scripts = document.querySelectorAll('script[src]');
@@ -400,13 +400,13 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     return suspiciousPatterns.some(pattern => pattern.test(src));
   }
 
-  private canAutoBlock(threat: any): boolean {
+  private canAutoBlock(threat: unknown): boolean {
     return (
       threat.type === 'suspicious-script' || threat.type === 'potential-xss'
     );
   }
 
-  private blockThreat(threat: any): void {
+  private blockThreat(threat: unknown): void {
     switch (threat.type) {
       case 'suspicious-script': {
         const script = document.querySelector(`script[src="${threat.source}"]`);
@@ -428,7 +428,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     dangerousElements.forEach(el => el.remove());
   }
 
-  private handleThreat(data: any): void {
+  private handleThreat(data: unknown): void {
     this.log(`🛡️ Threat handled: ${data.type}`);
   }
 
@@ -438,7 +438,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
   }
 
   // Self-healing with batching
-  private queueHealing(issue: string, data?: any): void {
+  private queueHealing(issue: string, data?: unknown): void {
     this.healingQueue.push({ issue, data, timestamp: Date.now() });
     if (this.healingQueue.length > this.config.batchSize) {
       this.processHealingBatch();
@@ -463,7 +463,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
       (this.metrics.issuesResolved / this.metrics.issuesDetected) * 100;
   }
 
-  private healIssue(issue: string, data?: any): boolean {
+  private healIssue(issue: string, data?: unknown): boolean {
     switch (issue) {
       case 'high-memory-usage':
         return this.performMemoryCleanup();
@@ -515,7 +515,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
   }
 
   // Code evolution with batching
-  private queueEvolution(task: string, data?: any): void {
+  private queueEvolution(task: string, data?: unknown): void {
     this.evolutionQueue.push({ task, data, timestamp: Date.now() });
     if (this.evolutionQueue.length > this.config.batchSize) {
       this.processEvolutionBatch();
@@ -544,13 +544,13 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     this.metrics.codeImprovements++;
   }
 
-  private optimizeCode(data: any): void {
+  private optimizeCode(data: unknown): void {
     // Apply code optimizations
     this.metrics.performanceGains++;
   }
 
   // Trend analysis with batching
-  private queueTrend(task: string, data?: any): void {
+  private queueTrend(task: string, data?: unknown): void {
     this.trendQueue.push({ task, data, timestamp: Date.now() });
     if (this.trendQueue.length > this.config.batchSize) {
       this.processTrendBatch();
@@ -579,13 +579,13 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     this.metrics.trendsAnalyzed++;
   }
 
-  private applyTrend(data: any): void {
+  private applyTrend(data: unknown): void {
     // Apply trend-based improvements
     this.metrics.adaptationsApplied++;
   }
 
   // Dependency management with batching
-  private queueDependency(task: string, data?: any): void {
+  private queueDependency(task: string, data?: unknown): void {
     this.dependencyQueue.push({ task, data, timestamp: Date.now() });
     if (this.dependencyQueue.length > this.config.batchSize) {
       this.processDependencyBatch();
@@ -614,7 +614,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     this.metrics.dependenciesUpdated++;
   }
 
-  private resolveDependencyConflict(data: any): void {
+  private resolveDependencyConflict(data: unknown): void {
     // Resolve dependency conflicts
     this.metrics.conflictsResolved++;
   }
@@ -673,7 +673,7 @@ class StreamlinedAutonomousSystem extends OptimizedEventEmitter {
     }
   }
 
-  private handleWorkerMessage(data: any): void {
+  private handleWorkerMessage(data: unknown): void {
     switch (data.type) {
       case 'computation-complete':
         this.emit('computation-complete', data.result);

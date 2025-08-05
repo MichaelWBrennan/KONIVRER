@@ -325,7 +325,7 @@ class CodeEvolutionEngine extends EventEmitter {
     `;
   }
 
-  private findPatternMatches(content: string, pattern: CodePattern): any[] {
+  private findPatternMatches(content: string, pattern: CodePattern): unknown[] {
     const matches = [];
     const lines = content.split('\n');
 
@@ -660,7 +660,7 @@ class CodeEvolutionEngine extends EventEmitter {
     };
   }
 
-  public async applyOptimization(optimization: any): Promise<void> {
+  public async applyOptimization(optimization: unknown): Promise<void> {
     console.log(`⚡ Applying optimization: ${optimization.name}`);
 
     const improvement: CodeImprovement = {
@@ -682,7 +682,7 @@ class CodeEvolutionEngine extends EventEmitter {
     await this.applyImprovement(improvement);
   }
 
-  public async improveCode(result: any): Promise<void> {
+  public async improveCode(result: unknown): Promise<void> {
     console.log(`🔧 Improving code based on result: ${result.type}`);
 
     // Generate improvements based on analysis result
@@ -696,13 +696,13 @@ class CodeEvolutionEngine extends EventEmitter {
   }
 
   private async generateImprovementsFromResult(
-    _result: any,
+    _result: unknown,
   ): Promise<CodeImprovement[]> {
     // Generate improvements based on analysis result
     return [];
   }
 
-  public async adaptToTrend(trend: any): Promise<void> {
+  public async adaptToTrend(trend: unknown): Promise<void> {
     console.log(`🌊 Adapting code to trend: ${trend.name}`);
 
     // Create evolution patterns based on trend
@@ -724,7 +724,7 @@ class CodeEvolutionEngine extends EventEmitter {
     }
   }
 
-  private createPatternFromTrend(trend: any): CodePattern | null {
+  private createPatternFromTrend(trend: unknown): CodePattern | null {
     // Create code pattern based on industry trend
     if (trend.category === 'framework' && trend.tags.includes('react')) {
       return {
@@ -743,7 +743,7 @@ class CodeEvolutionEngine extends EventEmitter {
     return null;
   }
 
-  public async migrateFromDeprecated(warning: any): Promise<void> {
+  public async migrateFromDeprecated(warning: unknown): Promise<void> {
     console.log(`🚚 Migrating from deprecated: ${warning.package}`);
 
     // Create migration improvements
@@ -828,7 +828,7 @@ export const useCodeEvolution = (config?: Partial<CodeEvolutionConfig>) => {
   }, [engine]);
 
   const applyOptimization = useCallback(
-    async (optimization: any) => {
+    async (optimization: unknown) => {
       await engine.applyOptimization(optimization);
       setMetrics(engine.getMetrics());
     },
@@ -836,7 +836,7 @@ export const useCodeEvolution = (config?: Partial<CodeEvolutionConfig>) => {
   );
 
   const improveCode = useCallback(
-    async (result: any) => {
+    async (result: unknown) => {
       await engine.improveCode(result);
       setMetrics(engine.getMetrics());
     },
@@ -844,7 +844,7 @@ export const useCodeEvolution = (config?: Partial<CodeEvolutionConfig>) => {
   );
 
   const adaptToTrend = useCallback(
-    async (trend: any) => {
+    async (trend: unknown) => {
       await engine.adaptToTrend(trend);
       setMetrics(engine.getMetrics());
     },

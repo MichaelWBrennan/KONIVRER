@@ -67,10 +67,10 @@ const BLOG_POSTS: BlogPost[] = [];
 // Phase 3: Advanced Autonomous Systems Hook
 const useAdvancedAutonomous = () => {
   const autonomousRef = useRef<{
-    speedTracking: any;
-    speedMonitor: any;
-    autonomousCore: any;
-    securityProvider: any;
+    speedTracking: unknown;
+    speedMonitor: unknown;
+    autonomousCore: unknown;
+    securityProvider: unknown;
     intervals: number[];
     initialized: boolean;
   }>({
@@ -116,12 +116,12 @@ const useAdvancedAutonomous = () => {
           getAverages: () => {
             const measurements =
               autonomousRef.current.speedTracking.measurements;
-            const labels = [...new Set(measurements.map((m: any) => m.label))];
+            const labels = [...new Set(measurements.map((m: unknown) => m.label))];
 
             return labels.map(label => {
-              const items = measurements.filter((m: any) => m.label === label);
+              const items = measurements.filter((m: unknown) => m.label === label);
               const total = items.reduce(
-                (sum: number, item: any) => sum + item.elapsed,
+                (sum: number, item: unknown) => sum + item.elapsed,
                 0,
               );
               return {
@@ -143,7 +143,7 @@ const useAdvancedAutonomous = () => {
           checkPerformance: () => {
             const averages = autonomousRef.current.speedTracking.getAverages();
             const issues = averages.filter(
-              (avg: any) =>
+              (avg: unknown) =>
                 avg.average >
                 autonomousRef.current.speedMonitor.thresholds.warning,
             );
@@ -153,7 +153,7 @@ const useAdvancedAutonomous = () => {
 
               // Auto-optimization for critical issues
               const criticalIssues = issues.filter(
-                (issue: any) =>
+                (issue: unknown) =>
                   issue.average >
                   autonomousRef.current.speedMonitor.thresholds.critical,
               );
@@ -178,10 +178,10 @@ const useAdvancedAutonomous = () => {
             throttleEvents: false,
           },
 
-          optimize: (issues: any[]) => {
+          optimize: (issues: unknown[]) => {
             console.log(
               '[Autonomous] Applying optimizations for:',
-              issues.map((i: any) => i.label).join(', '),
+              issues.map((i: unknown) => i.label).join(', '),
             );
 
             // Apply progressive optimization strategies
@@ -369,7 +369,7 @@ interface NavLink {
 
 // Header component removed
 
-const Footer = () => {
+const _Footer = () => {
   const location = useLocation();
   const { user, setShowLoginModal } = useContext(AppContext);
   const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
@@ -974,7 +974,7 @@ const Phase3App = () => {
   const [showGame, setShowGame] = useState(false);
 
   // Initialize autonomous systems
-  const autonomousSystems = useAdvancedAutonomous();
+  const _autonomousSystems = useAdvancedAutonomous();
 
   // Initialize advanced healing
   useEffect(() => {

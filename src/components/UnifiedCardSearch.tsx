@@ -836,7 +836,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   );
 
   // Parse syntax search to filters
-  const parseSyntaxToFilters = (
+  const _parseSyntaxToFilters = (
     query: string,
     currentFilters: SearchFilters,
   ): SearchFilters => {
@@ -960,11 +960,11 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
 
   // Update filter
   const updateFilter = useCallback(
-    (path: string, value: any, userInitiated = true) => {
+    (path: string, value: unknown, userInitiated = true) => {
       const updateFiltersAndSearch = (prev: SearchFilters) => {
         const newFilters = { ...prev };
         const keys = path.split('.');
-        let current: any = newFilters;
+        let current: unknown = newFilters;
 
         for (let i = 0; i < keys.length - 1; i++) {
           current = current[keys[i]];

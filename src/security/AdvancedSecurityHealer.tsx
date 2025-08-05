@@ -27,7 +27,7 @@ interface SecurityThreat {
   severity: 'low' | 'medium' | 'high' | 'critical';
   source: string;
   timestamp: number;
-  payload?: any;
+  payload?: unknown;
   mitigated: boolean;
   autoHealed: boolean;
 }
@@ -460,8 +460,8 @@ class SecurityAIModel {
   }
 
   public analyzeNetworkRequest(
-    url: any,
-    options: any,
+    url: unknown,
+    options: unknown,
   ): {
     isThreat: boolean;
     type: SecurityThreat['type'];

@@ -371,7 +371,7 @@ export class SSOService {
 
   // Normalize user data from different providers
   private normalizeUserData(
-    userData: any,
+    userData: unknown,
     provider: SSOProvider,
     accessToken: string,
   ): SSOUserProfile {

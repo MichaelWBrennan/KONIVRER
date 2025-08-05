@@ -1,0 +1,105 @@
+{
+  "timestamp": "2025-08-05T03:44:22.271Z",
+  "version": "2.0",
+  "focusArea": "Real security vulnerabilities",
+  "score": 600,
+  "maxScore": 1000,
+  "percentage": 60,
+  "grade": "C (Poor)",
+  "duration": 0.79,
+  "breakdown": {
+    "realSecurityIssues": {
+      "issues": [
+        {
+          "file": "src/automation/CodeEvolutionEngine.tsx",
+          "issue": "innerHTML assignment",
+          "count": 2,
+          "severity": 50
+        },
+        {
+          "file": "src/automation/CodeEvolutionEngine.tsx",
+          "issue": "dangerouslySetInnerHTML",
+          "count": 2,
+          "severity": 20
+        },
+        {
+          "file": "src/components/UnifiedCardSearch.tsx",
+          "issue": "innerHTML assignment",
+          "count": 1,
+          "severity": 50
+        },
+        {
+          "file": "src/components/UnifiedCardSearch.tsx",
+          "issue": "dangerouslySetInnerHTML",
+          "count": 2,
+          "severity": 20
+        },
+        {
+          "file": "src/core/Phase2App.tsx",
+          "issue": "eval() usage",
+          "count": 1,
+          "severity": 100
+        },
+        {
+          "file": "src/core/Phase2App.tsx",
+          "issue": "document.write usage",
+          "count": 1,
+          "severity": 30
+        },
+        {
+          "file": "src/security/AdvancedSecurityHealer.tsx",
+          "issue": "eval() usage",
+          "count": 1,
+          "severity": 100
+        },
+        {
+          "file": "src/security/AdvancedSecurityHealer.tsx",
+          "issue": "innerHTML assignment",
+          "count": 4,
+          "severity": 50
+        },
+        {
+          "file": "src/security/SecurityProvider.tsx",
+          "issue": "innerHTML assignment",
+          "count": 1,
+          "severity": 50
+        }
+      ],
+      "score": 0,
+      "status": "vulnerable"
+    },
+    "dependencySecurity": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0,
+      "totalVulnerabilities": 0,
+      "score": 200,
+      "status": "secure"
+    },
+    "configurationSecurity": {
+      "securityConfig": true,
+      "deepsourceConfig": true,
+      "semgrepRules": true,
+      "secretsBaseline": true,
+      "githubWorkflows": true,
+      "realSecurityScoring": true,
+      "score": 200,
+      "status": "excellent"
+    },
+    "secretManagement": {
+      "secretsFound": 0,
+      "issues": [],
+      "score": 150,
+      "status": "secure"
+    },
+    "securityInfrastructure": {
+      "securityScripts": 6,
+      "score": 50,
+      "status": "excellent"
+    }
+  },
+  "recommendations": [
+    "Fix real security vulnerabilities in code"
+  ]
+}

@@ -53,7 +53,7 @@ export class NLPProcessor {
 
   async searchCards(
     query: SearchQuery,
-    cardDatabase: any[],
+    cardDatabase: unknown[],
   ): Promise<SearchResult[]> {
     if (!this.isInitialized) {
       await this.initialize();
@@ -182,7 +182,7 @@ export class NLPProcessor {
     };
   }
 
-  async generateDeckName(cards: any[]): Promise<string> {
+  async generateDeckName(cards: unknown[]): Promise<string> {
     if (!cards.length) return 'Empty Deck';
 
     // Analyze card themes and types
@@ -281,7 +281,7 @@ export class NLPProcessor {
 
   private generateExplanation(
     query: string,
-    card: any,
+    card: unknown,
     similarity: number,
   ): string {
     const reasons = [];

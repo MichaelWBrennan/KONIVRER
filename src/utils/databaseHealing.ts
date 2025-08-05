@@ -11,7 +11,7 @@ interface SchemaField {
   name: string;
   type: 'string' | 'number' | 'boolean' | 'object' | 'array';
   required: boolean;
-  defaultValue?: any;
+  defaultValue?: unknown;
 }
 
 interface SchemaDefinition {
@@ -44,7 +44,7 @@ const expectedSchema: SchemaDefinition = {
 /**
  * Validates and heals a database record according to the expected schema
  */
-function validateAndHealRecord(collection: string, record: any): any {
+function validateAndHealRecord(collection: string, record: unknown): any {
   if (!expectedSchema[collection]) {
     console.info(
       `[DB-Healing] No schema defined for collection: ${collection}`,
@@ -123,7 +123,7 @@ function getDefaultForType(type: string): any {
 /**
  * Check if a value is of the correct type
  */
-function isCorrectType(value: any, type: string): boolean {
+function isCorrectType(value: unknown, type: string): boolean {
   switch (type) {
     case 'string':
       return typeof value === 'string';
@@ -143,7 +143,7 @@ function isCorrectType(value: any, type: string): boolean {
 /**
  * Convert a value to the specified type
  */
-function convertToType(value: any, type: string): any {
+function convertToType(value: unknown, type: string): any {
   try {
     switch (type) {
       case 'string':
@@ -217,14 +217,14 @@ function healLocalStorage(): void {
 /**
  * Intercept and heal database operations
  */
-export function createHealingDatabaseProxy(db: any): any {
+export function createHealingDatabaseProxy(db: unknown): any {
   return new Proxy(db, {
     get(target, prop) {
       const originalMethod = target[prop];
 
       // If it's a function, wrap it with healing logic
       if (typeof originalMethod === 'function') {
-        return function (...args: any[]) {
+        return function (...args: unknown[]) {
           try {
             // Pre-operation healing
             if (prop === 'getItem' || prop === 'setItem') {
@@ -314,12 +314,12 @@ export function initDatabaseHealing(): void {
     const healedLocalStorage = createHealingDatabaseProxy(localStorage);
 
     // Override localStorage methods with healing versions
-    const originalSetItem = localStorage.setItem;
+    const _originalSetItem = localStorage.setItem;
     localStorage.setItem = function (key, value) {
       return healedLocalStorage.setItem(key, value);
     };
 
-    const originalGetItem = localStorage.getItem;
+    const _originalGetItem = localStorage.getItem;
     localStorage.getItem = function (key) {
       return healedLocalStorage.getItem(key);
     };

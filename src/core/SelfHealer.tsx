@@ -301,7 +301,7 @@ export const useNetworkRecovery = (
   options: {
     maxRetries?: number;
     retryDelay?: number;
-    onSuccess?: (data: any) => void;
+    onSuccess?: (data: unknown) => void;
     onError?: (error: Error) => void;
     onRetry?: (attempt: number) => void;
   } = {},
@@ -570,7 +570,7 @@ export const SelfHealingProvider: React.FC<{
 };
 
 // Silent error monitoring - no UI component
-const silentErrorMonitor = () => {
+const _silentErrorMonitor = () => {
   const errorTracker = ErrorTracker.getInstance();
 
   // Set up silent monitoring

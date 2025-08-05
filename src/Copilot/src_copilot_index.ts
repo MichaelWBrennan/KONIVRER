@@ -45,7 +45,7 @@ export class CopilotSystem {
     console.log('✅ Copilot system initialized');
   }
 
-  async start(initialContext?: any): Promise<void> {
+  async start(initialContext?: unknown): Promise<void> {
     if (!this.isInitialized) {
       await this.initialize();
     }
@@ -77,7 +77,7 @@ export class CopilotSystem {
     await this.controller.run(initialState);
   }
 
-  async executeAction(actionType: string, payload?: any): Promise<void> {
+  async executeAction(actionType: string, payload?: unknown): Promise<void> {
     const action = {
       type: actionType,
       payload,
@@ -90,7 +90,7 @@ export class CopilotSystem {
     this.eventStream.publish(action);
   }
 
-  updateContext(context: any): void {
+  updateContext(context: unknown): void {
     this.eventStream.updateContext(context);
     console.log('📝 Context updated');
   }

@@ -1,7 +1,5 @@
-import { State, Action, Goal, Memory, Context } from './src_copilot_core';
+import { State, Action, Goal, Context } from './src_copilot_core';
 import { CopilotController } from './src_copilot_CopilotController';
-import { deckOptimizer } from '../ai/DeckOptimizer';
-import { nlpProcessor } from '../ai/NLPProcessor';
 
 interface ReasoningChain {
   situation: string;
@@ -33,7 +31,7 @@ export class CopilotAgent {
   /**
    * Advanced reasoning system that evaluates state and produces strategic actions
    */
-  public async nextStep(state: State): Promise<Action> {
+  public async nextStep(_state: State): Promise<Action> {
     try {
       // 1. Analyze current situation
       const situationAnalysis = await this.analyzeSituation(state);
@@ -70,29 +68,29 @@ export class CopilotAgent {
     }
   }
 
-  private async analyzeSituation(state: State): Promise<any> {
+  private.*_state: State): Promise<any> {
     const analysis = {
       gamePhase: this.identifyGamePhase(state),
       playerNeeds: await this.identifyPlayerNeeds(state),
       opportunities: this.identifyOpportunities(state),
       threats: this.identifyThreats(state),
-      contextualFactors: this.analyzeContext(state.context),
-      confidence: state.confidence,
+      contextualFactors: this.analyzeContext(_state.context),
+      confidence: _state.confidence,
     };
 
     return analysis;
   }
 
-  private async manageGoals(state: State): Promise<void> {
+  private.*_state: State): Promise<void> {
     // Review existing goals
-    for (const goal of state.currentGoals) {
+    for (const goal of _state.currentGoals) {
       if (goal.status === 'in_progress') {
         await this.updateGoalProgress(goal, state);
       }
     }
 
     // Create new goals if needed
-    if (state.currentGoals.filter(g => g.status === 'pending').length === 0) {
+    if (_state.currentGoals.filter(g => g.status === 'pending').length === 0) {
       const newGoals = await this.generateGoals(state);
       for (const goal of newGoals) {
         this.controller.addGoal(goal);
@@ -102,7 +100,7 @@ export class CopilotAgent {
 
   private async generateActionOptions(
     state: State,
-    analysis: any,
+    analysis: unknown,
   ): Promise<Action[]> {
     const options: Action[] = [];
 
@@ -169,7 +167,7 @@ export class CopilotAgent {
     };
   }
 
-  private async evaluateAction(action: Action, state: State): Promise<any> {
+  private.*_state: State): Promise<any> {
     const pros: string[] = [];
     const cons: string[] = [];
     let confidence = 0.5;
@@ -215,7 +213,7 @@ export class CopilotAgent {
     }
 
     // Adjust confidence based on past experiences
-    const similarExperiences = state.memory.learnings.filter(
+    const similarExperiences = _state.memory.learnings.filter(
       l => l.action === action.type,
     );
     if (similarExperiences.length > 0) {
@@ -228,11 +226,11 @@ export class CopilotAgent {
     return { pros, cons, confidence, expectedOutcome };
   }
 
-  private calculateActionScore(option: any, state: State): number {
+  private.*_state: State): number {
     let score = option.confidence * 0.4; // Base confidence weight
 
     // Goal alignment
-    const alignedGoals = state.currentGoals.filter(goal =>
+    const alignedGoals = _state.currentGoals.filter(goal =>
       this.actionAlignsWith(option.action, goal),
     );
     score += alignedGoals.length * 0.3;
@@ -246,7 +244,7 @@ export class CopilotAgent {
     return score;
   }
 
-  private async reflect(state: State, action: Action): Promise<void> {
+  private.*_state: State, action: Action): Promise<void> {
     // Self-reflection and learning
     const learning = {
       situation: this.describeSituation(state),
@@ -257,17 +255,17 @@ export class CopilotAgent {
     };
 
     // Store learning for future reference
-    state.memory.learnings.push(learning);
+    _state.memory.learnings.push(learning);
 
     // Update strategic knowledge
     this.updateStrategicKnowledge(state, action);
   }
 
-  private async generateEarlyGameActions(state: State): Promise<Action[]> {
+  private.*_state: State): Promise<Action[]> {
     return [
       {
         type: 'analyze_opening_hand',
-        payload: { context: state.context },
+        payload: { context: _state.context },
         reasoning: 'Early game analysis is crucial for strategy',
         confidence: 0.8,
         timestamp: new Date(),
@@ -275,7 +273,7 @@ export class CopilotAgent {
       },
       {
         type: 'suggest_mulligan',
-        payload: { hand: state.context.currentHand },
+        payload: { hand: _state.context.currentHand },
         reasoning: 'Mulligan decisions set the tone for the game',
         confidence: 0.7,
         timestamp: new Date(),
@@ -284,11 +282,11 @@ export class CopilotAgent {
     ];
   }
 
-  private async generateMidGameActions(state: State): Promise<Action[]> {
+  private.*_state: State): Promise<Action[]> {
     return [
       {
         type: 'optimize_deck',
-        payload: { deck: state.context.currentDeck },
+        payload: { deck: _state.context.currentDeck },
         reasoning: 'Mid-game is optimal time for deck optimization',
         confidence: 0.8,
         timestamp: new Date(),
@@ -296,7 +294,7 @@ export class CopilotAgent {
       },
       {
         type: 'analyze_board_state',
-        payload: { gameState: state.context.gameState },
+        payload: { gameState: _state.context.gameState },
         reasoning: 'Board state analysis guides tactical decisions',
         confidence: 0.9,
         timestamp: new Date(),
@@ -305,11 +303,11 @@ export class CopilotAgent {
     ];
   }
 
-  private async generateLateGameActions(state: State): Promise<Action[]> {
+  private.*_state: State): Promise<Action[]> {
     return [
       {
         type: 'calculate_win_conditions',
-        payload: { gameState: state.context.gameState },
+        payload: { gameState: _state.context.gameState },
         reasoning: 'Late game requires focus on win conditions',
         confidence: 0.9,
         timestamp: new Date(),
@@ -317,7 +315,7 @@ export class CopilotAgent {
       },
       {
         type: 'suggest_finishing_moves',
-        payload: { boardState: state.context.gameState },
+        payload: { boardState: _state.context.gameState },
         reasoning: 'Optimal finishing sequence needed',
         confidence: 0.8,
         timestamp: new Date(),
@@ -326,12 +324,12 @@ export class CopilotAgent {
     ];
   }
 
-  private async createDeckOptimizationAction(state: State): Promise<Action> {
+  private.*_state: State): Promise<Action> {
     return {
       type: 'optimize_deck',
       payload: {
-        deck: state.context.currentDeck,
-        preferences: state.context.playerProfile?.preferences,
+        deck: _state.context.currentDeck,
+        preferences: _state.context.playerProfile?.preferences,
       },
       reasoning:
         'Deck optimization requested or needed based on performance analysis',
@@ -341,12 +339,12 @@ export class CopilotAgent {
     };
   }
 
-  private async createStrategyAdviceAction(state: State): Promise<Action> {
+  private.*_state: State): Promise<Action> {
     return {
       type: 'provide_strategy_advice',
       payload: {
-        gameState: state.context.gameState,
-        playerLevel: state.context.playerProfile?.level || 'intermediate',
+        gameState: _state.context.gameState,
+        playerLevel: _state.context.playerProfile?.level || 'intermediate',
       },
       reasoning: 'Player needs strategic guidance for current situation',
       confidence: 0.75,
@@ -355,12 +353,12 @@ export class CopilotAgent {
     };
   }
 
-  private async createLearningAction(state: State): Promise<Action> {
+  private.*_state: State): Promise<Action> {
     return {
       type: 'provide_learning_content',
       payload: {
         topic: this.identifyLearningTopic(state),
-        playerLevel: state.context.playerProfile?.level,
+        playerLevel: _state.context.playerProfile?.level,
       },
       reasoning: 'Educational content will improve player skills',
       confidence: 0.7,
@@ -369,7 +367,7 @@ export class CopilotAgent {
     };
   }
 
-  private async createObservationAction(state: State): Promise<Action> {
+  private.*_state: State): Promise<Action> {
     return {
       type: 'observe_environment',
       payload: { focus: this.determineFocus(state) },
@@ -380,7 +378,7 @@ export class CopilotAgent {
     };
   }
 
-  private async createCommunicationAction(state: State): Promise<Action> {
+  private.*_state: State): Promise<Action> {
     return {
       type: 'communicate',
       payload: {
@@ -402,24 +400,24 @@ export class CopilotAgent {
     this.strategicKnowledge.set('situational_responses', new Map());
   }
 
-  private identifyGamePhase(state: State): string {
+  private.*_state: State): string {
     // Analyze game state to determine phase
-    const turn = state.context.gameState?.turn || 1;
+    const turn = _state.context.gameState?.turn || 1;
     if (turn <= 3) return 'early';
     if (turn <= 7) return 'mid';
     return 'late';
   }
 
-  private async identifyPlayerNeeds(state: State): Promise<string[]> {
+  private.*_state: State): Promise<string[]> {
     const needs: string[] = [];
 
     // Analyze recent actions and context
-    if (state.context.currentDeck && !state.context.currentDeck.optimized) {
+    if (_state.context.currentDeck && !_state.context.currentDeck.optimized) {
       needs.push('deck_optimization');
     }
 
     if (
-      state.memory.shortTerm.some(
+      _state.memory.shortTerm.some(
         event =>
           event.type === 'user_input' &&
           (event as any).message?.includes('help'),
@@ -428,19 +426,19 @@ export class CopilotAgent {
       needs.push('strategy_advice');
     }
 
-    if (state.context.playerProfile?.level === 'beginner') {
+    if (_state.context.playerProfile?.level === 'beginner') {
       needs.push('learning');
     }
 
     return needs;
   }
 
-  private identifyOpportunities(state: State): string[] {
+  private.*_state: State): string[] {
     // Analyze for strategic opportunities
     return ['deck_improvement', 'skill_development', 'meta_adaptation'];
   }
 
-  private identifyThreats(state: State): string[] {
+  private.*_state: State): string[] {
     // Analyze for potential issues
     return ['suboptimal_play', 'meta_shifts', 'player_frustration'];
   }
@@ -454,15 +452,15 @@ export class CopilotAgent {
     };
   }
 
-  private async updateGoalProgress(goal: Goal, state: State): Promise<void> {
+  private.*_state: State): Promise<void> {
     // Update goal progress based on current state
-    if (goal.type === 'optimize_deck' && state.context.currentDeck?.optimized) {
+    if (goal.type === 'optimize_deck' && _state.context.currentDeck?.optimized) {
       goal.progress = 100;
       goal.status = 'completed';
     }
   }
 
-  private async generateGoals(state: State): Promise<Goal[]> {
+  private.*_state: State): Promise<Goal[]> {
     const goals: Goal[] = [];
 
     // Always have a situational awareness goal
@@ -476,7 +474,7 @@ export class CopilotAgent {
     });
 
     // Add specific goals based on context
-    if (state.context.currentDeck) {
+    if (_state.context.currentDeck) {
       goals.push({
         id: `optimize_${Date.now()}`,
         type: 'optimize_deck',
@@ -490,16 +488,16 @@ export class CopilotAgent {
     return goals;
   }
 
-  private describeSituation(state: State): string {
+  private.*_state: State): string {
     const phase = this.identifyGamePhase(state);
-    const goalCount = state.currentGoals.length;
-    const confidence = state.confidence;
+    const goalCount = _state.currentGoals.length;
+    const confidence = _state.confidence;
 
     return `${phase} game phase, ${goalCount} active goals, confidence: ${(confidence * 100).toFixed(1)}%`;
   }
 
   private generateReasoning(
-    options: any[],
+    options: unknown[],
     selectedIndex: number,
     state: State,
   ): string {
@@ -537,7 +535,7 @@ export class CopilotAgent {
     return alignments[goal.type]?.includes(action.type) || false;
   }
 
-  private updateStrategicKnowledge(state: State, action: Action): void {
+  private.*_state: State, action: Action): void {
     const situation = this.describeSituation(state);
     const responses =
       this.strategicKnowledge.get('situational_responses') || new Map();
@@ -545,7 +543,7 @@ export class CopilotAgent {
     this.strategicKnowledge.set('situational_responses', responses);
   }
 
-  private identifyLearningTopic(state: State): string {
+  private.*_state: State): string {
     const topics = [
       'deck_building',
       'strategy',
@@ -555,25 +553,25 @@ export class CopilotAgent {
     return topics[Math.floor(Math.random() * topics.length)];
   }
 
-  private determineFocus(state: State): string {
-    if (state.context.gameState) return 'game_state';
-    if (state.context.currentDeck) return 'deck_analysis';
+  private.*_state: State): string {
+    if (_state.context.gameState) return 'game_state';
+    if (_state.context.currentDeck) return 'deck_analysis';
     return 'general_environment';
   }
 
-  private async generateContextualMessage(state: State): Promise<string> {
+  private.*_state: State): Promise<string> {
     const phase = this.identifyGamePhase(state);
     const messages = {
       early:
         "I'm analyzing your opening position and looking for optimization opportunities.",
-      mid: 'Let me help you optimize your strategy for the current game state.',
+      mid: 'Let me help you optimize your strategy for the current game _state.',
       late: "I'm calculating the best path to victory from here.",
     };
 
     return messages[phase] || "I'm here to assist with your gaming strategy.";
   }
 
-  private createFallbackAction(state: State): Action {
+  private.*_state: State): Action {
     return {
       type: 'observe_environment',
       payload: { reason: 'fallback_due_to_error' },

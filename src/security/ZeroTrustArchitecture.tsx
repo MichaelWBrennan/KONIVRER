@@ -567,7 +567,7 @@ class PolicyHealingEngine {
   }
 
   private adjustRuleParameters(parameters: { [key: string]: any }): {
-    [key: string]: any;
+    [key: string]: unknown;
   } {
     // Adjust rule parameters to improve effectiveness
     const adjusted = { ...parameters };

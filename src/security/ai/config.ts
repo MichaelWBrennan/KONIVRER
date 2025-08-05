@@ -472,7 +472,7 @@ export class AISecurityConfigManager {
     };
   }
 
-  private mergeConfig(base: any, updates: any): AISecurityConfiguration {
+  private mergeConfig(base: unknown, updates: unknown): AISecurityConfiguration {
     const result = { ...base };
     
     for (const key in updates) {

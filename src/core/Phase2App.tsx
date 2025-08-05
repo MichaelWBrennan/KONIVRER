@@ -67,7 +67,7 @@ const AppContext = createContext<{
 // Phase 2: Lightweight Autonomous Systems Hook
 const useLightweightAutonomous = () => {
   const autonomousRef = useRef<{
-    speedTracking: any;
+    speedTracking: unknown;
     intervals: number[];
     initialized: boolean;
   }>({
@@ -682,7 +682,7 @@ const Phase2App: React.FC = () => {
   const [bookmarks, setBookmarks] = useState<string[]>([]);
 
   // Use lightweight autonomous systems hook
-  const autonomousSystems = useLightweightAutonomous();
+  const _autonomousSystems = useLightweightAutonomous();
 
   const contextValue = useMemo(
     () => ({

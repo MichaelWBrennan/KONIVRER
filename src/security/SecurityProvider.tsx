@@ -26,7 +26,7 @@ interface SecurityContextType {
   encryptData: (data: string) => string;
   decryptData: (encryptedData: string) => string;
   sanitizeInput: (input: string) => string;
-  logSecurityEvent: (event: string, details?: any) => void;
+  logSecurityEvent: (event: string, details?: unknown) => void;
   checkDataConsent: () => boolean;
   requestDataConsent: () => Promise<boolean>;
   getSecurityMetrics: () => SecurityMetrics;
@@ -84,7 +84,7 @@ const sanitizeInput = (input: string): string => {
 };
 
 // Security event logging
-const logSecurityEvent = (event: string, details?: any): void => {
+const logSecurityEvent = (event: string, details?: unknown): void => {
   const timestamp = new Date().toISOString();
   const logEntry = {
     timestamp,
@@ -356,7 +356,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [config]);
 
   // Advanced security functions
-  const updateSecurityMetrics = () => {
+  const _updateSecurityMetrics = () => {
     // Calculate comprehensive security metrics
     const overallScore = calculateOverallSecurityScore();
     const threatLevel = determineThreatLevel();
@@ -376,7 +376,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     });
   };
 
-  const calculateOverallSecurityScore = (): number => {
+  const _calculateOverallSecurityScore = (): number => {
     let score = 0;
     let factors = 0;
 
@@ -423,7 +423,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     return factors > 0 ? score / factors : 0;
   };
 
-  const determineThreatLevel = (): string => {
+  const _determineThreatLevel = (): string => {
     const score = securityMetrics.overallScore;
     if (score >= 90) return 'minimal';
     if (score >= 75) return 'low';
@@ -432,7 +432,7 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     return 'critical';
   };
 
-  const calculateComplianceScore = (): number => {
+  const _calculateComplianceScore = (): number => {
     // Simulate compliance score calculation
     let score = 85; // Base compliance
     if (config.enableGDPRCompliance) score += 10;
@@ -440,17 +440,17 @@ export const SecurityProvider: React.FC<{ children: React.ReactNode }> = ({
     return Math.min(100, score);
   };
 
-  const calculateQuantumReadiness = (): number => {
+  const _calculateQuantumReadiness = (): number => {
     if (!config.enableQuantumSecurity) return 0;
     return 95; // High quantum readiness with quantum security enabled
   };
 
-  const calculateZeroTrustScore = (): number => {
+  const _calculateZeroTrustScore = (): number => {
     if (!config.enableZeroTrust) return 0;
     return 92; // High zero-trust score with zero-trust enabled
   };
 
-  const calculateHealingEffectiveness = (): number => {
+  const _calculateHealingEffectiveness = (): number => {
     if (!config.enableAdvancedHealing) return 0;
     return 88; // High healing effectiveness with advanced healing enabled
   };

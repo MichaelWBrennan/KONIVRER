@@ -171,7 +171,7 @@ const getCardProperties = (name: string) => {
 };
 
 // Generate descriptions based on card properties
-const generateDescription = (name: string, properties: any) => {
+const generateDescription = (name: string, properties: unknown) => {
   const { type, elements, keywords } = properties;
 
   if (type === 'Flag') {

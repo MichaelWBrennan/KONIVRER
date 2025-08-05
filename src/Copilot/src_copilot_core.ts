@@ -14,7 +14,7 @@ export interface Goal {
 
 export interface Action {
   type: string;
-  payload?: any;
+  payload?: unknown;
   reasoning?: string;
   confidence?: number;
   timestamp: Date;
@@ -25,7 +25,7 @@ export interface Action {
 export interface Observation {
   type: 'user_input' | 'game_state' | 'environment' | 'feedback' | 'error';
   message: string;
-  data?: any;
+  data?: unknown;
   timestamp: Date;
   source?: string;
   relevance?: number;
@@ -45,9 +45,9 @@ export interface Memory {
 }
 
 export interface Context {
-  gameState?: any;
-  playerProfile?: any;
-  currentDeck?: any;
+  gameState?: unknown;
+  playerProfile?: unknown;
+  currentDeck?: unknown;
   recentActions?: Action[];
   environment?: Record<string, any>;
 }

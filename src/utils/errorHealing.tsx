@@ -84,7 +84,7 @@ function attemptToHealError(error: Error): boolean {
 /**
  * Intercepts and processes console errors
  */
-console.error = function (...args: any[]) {
+console.error = function (...args: unknown[]) {
   // Call original to maintain normal behavior
   originalConsoleError.apply(console, args);
 
@@ -119,7 +119,7 @@ console.error = function (...args: any[]) {
 /**
  * Intercepts and processes console warnings
  */
-console.warn = function (...args: any[]) {
+console.warn = function (...args: unknown[]) {
   // Call original to maintain normal behavior
   originalConsoleWarn.apply(console, args);
 
@@ -183,7 +183,7 @@ if (typeof window !== 'undefined') {
  */
 export const healingFetch = async (
   url: string,
-  options?: any,
+  options?: unknown,
 ): Promise<Response> => {
   const MAX_RETRIES = 3;
   let retries = 0;
@@ -238,7 +238,7 @@ export function withErrorHealing<P>(
     render() {
       // Create a safe setState function that checks mounting status
       const originalSetState = this.setState.bind(this);
-      this.setState = (...args: any[]) => {
+      this.setState = (...args: unknown[]) => {
         if (this.isMounted) {
           originalSetState(...args);
         } else {

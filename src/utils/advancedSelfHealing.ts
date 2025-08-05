@@ -57,7 +57,7 @@ class AdvancedSelfHealingSystem {
   private adaptiveLearningRate: number;
   private realTimeMonitors: Map<string, any>;
   private healingStrategies: Map<string, Function>;
-  private predictiveModel: any;
+  private predictiveModel: unknown;
   private isActive: boolean;
 
   private constructor() {
@@ -845,7 +845,7 @@ class AdvancedSelfHealingSystem {
     };
   }
 
-  private applyQuantumRetryLogic(strategy: any): void {
+  private applyQuantumRetryLogic(strategy: unknown): void {
     // Apply quantum retry logic to network operations
     const originalFetch = window.fetch;
 
@@ -922,7 +922,7 @@ class AdvancedSelfHealingSystem {
     return Date.now() % 1000;
   }
 
-  private neuralSelectHealingStrategy(context: any): string {
+  private neuralSelectHealingStrategy(context: unknown): string {
     // Use neural network to select optimal healing strategy
     let maxActivation = -Infinity;
     let selectedStrategy = 'react_error';
@@ -944,7 +944,7 @@ class AdvancedSelfHealingSystem {
     return selectedStrategy;
   }
 
-  private calculateStrategyActivation(strategy: string, context: any): number {
+  private calculateStrategyActivation(strategy: string, context: unknown): number {
     // Calculate neural activation for strategy selection
     const strategyIndex = [
       'react_error',

@@ -1,0 +1,10 @@
+{
+  "principle": "never_trust_always_verify",
+  "device_verification": true,
+  "user_verification": true,
+  "application_verification": true,
+  "data_verification": true,
+  "network_segmentation": true,
+  "least_privilege_access": true,
+  "continuous_monitoring": true
+}

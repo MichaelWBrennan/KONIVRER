@@ -26,7 +26,7 @@ export class AdvancedErrorBoundary extends React.Component<
   private healingTimer?: number;
   private performanceObserver?: PerformanceObserver;
 
-  constructor(props: any) {
+  constructor(props: unknown) {
     super(props);
     this.state = {
       hasError: false,
@@ -184,14 +184,14 @@ export function useSelfHealingFetch() {
       options?: {
         method?: string;
         headers?: Record<string, string>;
-        body?: any;
+        body?: unknown;
         signal?: AbortSignal;
       },
       healingOptions?: {
         maxRetries?: number;
         timeout?: number;
         cacheStrategy?: 'none' | 'memory' | 'persistent';
-        fallbackData?: any;
+        fallbackData?: unknown;
       },
     ) => {
       const {

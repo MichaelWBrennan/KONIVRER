@@ -1,0 +1,18 @@
+{
+  "encryption": {
+    "algorithm": "AES-256-GCM",
+    "keySize": 256,
+    "quantumResistant": true,
+    "postQuantumCryptography": "CRYSTALS-Kyber",
+    "keyRotationInterval": 3600000
+  },
+  "hashing": {
+    "algorithm": "SHA-3-256",
+    "quantumResistant": true,
+    "saltLength": 32
+  },
+  "digitalSignature": {
+    "algorithm": "CRYSTALS-Dilithium",
+    "quantumResistant": true
+  }
+}

@@ -260,7 +260,7 @@ export const useSelfOptimizer = (): {
 };
 
 // Silent Performance Monitor - No UI component
-const silentMonitor = () => {
+const _silentMonitor = () => {
   // Get the optimizer instance
   const optimizer = SelfOptimizer.getInstance();
 

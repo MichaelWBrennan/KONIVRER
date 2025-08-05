@@ -216,7 +216,7 @@ export const useAutonomousIntegration = () => {
       setIntegrationStatus(prev => ({ ...prev, connected: true }));
 
       // Set up integration event listeners
-      const handleSystemEvent = (_event: any) => {
+      const handleSystemEvent = (_event: unknown) => {
         setIntegrationStatus(prev => ({ ...prev, lastSync: new Date() }));
       };
 
@@ -229,7 +229,7 @@ export const useAutonomousIntegration = () => {
   }, [autonomousSystem.orchestrator]);
 
   const reportIssue = useCallback(
-    async (issue: any) => {
+    async (issue: unknown) => {
       try {
         // Report issue to autonomous system for handling
         if (autonomousSystem.orchestrator) {

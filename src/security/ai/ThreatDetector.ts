@@ -9,7 +9,7 @@ export interface ThreatEvent {
   id: string;
   timestamp: Date;
   type: 'network' | 'application' | 'user_behavior' | 'system';
-  data: any;
+  data: unknown;
   severity: number; // 0-1
 }
 
@@ -18,8 +18,8 @@ export interface AnomalyDetection {
   anomalyScore: number; // 0-1
   confidence: number; // 0-1
   pattern: string;
-  baseline: any;
-  deviation: any;
+  baseline: unknown;
+  deviation: unknown;
 }
 
 export interface ResponsePlan {
@@ -34,7 +34,7 @@ export interface ResponsePlan {
 export interface ResponseAction {
   type: 'block' | 'isolate' | 'patch' | 'alert' | 'log' | 'rotate';
   target: string;
-  parameters: any;
+  parameters: unknown;
   priority: number;
   reversible: boolean;
 }
@@ -375,12 +375,12 @@ export class AIThreatDetector {
     yield { id: 'app-1', timestamp: new Date(), type: 'application', data: {}, severity: 0.6 };
   }
 
-  private calculateAnomalyScore(event: ThreatEvent, baseline: any): number {
+  private calculateAnomalyScore(event: ThreatEvent, baseline: unknown): number {
     // Simulate anomaly score calculation
     return Math.random() * event.severity + 0.1;
   }
 
-  private calculateConfidence(event: ThreatEvent, baseline: any): number {
+  private calculateConfidence(event: ThreatEvent, baseline: unknown): number {
     // Simulate confidence calculation
     return Math.random() * 0.3 + 0.7; // 70-100%
   }
@@ -389,7 +389,7 @@ export class AIThreatDetector {
     return `pattern-${event.type}-${event.id}`;
   }
 
-  private calculateDeviation(event: ThreatEvent, baseline: any): any {
+  private calculateDeviation(event: ThreatEvent, baseline: unknown): any {
     return { deviation: 'significant', value: event.severity };
   }
 
@@ -460,32 +460,32 @@ export class AIThreatDetector {
     }
   }
 
-  private async escalateFailedAction(action: ResponseAction, error: any): Promise<void> {
+  private async escalateFailedAction(action: ResponseAction, error: unknown): Promise<void> {
     console.error(`🚨 Critical action failed: ${action.type} on ${action.target}`, error);
   }
 
   // Response action implementations
-  private async blockThreat(target: string, parameters: any): Promise<void> {
+  private async blockThreat(target: string, parameters: unknown): Promise<void> {
     // Implement threat blocking
   }
 
-  private async isolateTarget(target: string, parameters: any): Promise<void> {
+  private async isolateTarget(target: string, parameters: unknown): Promise<void> {
     // Implement target isolation
   }
 
-  private async applyPatch(target: string, parameters: any): Promise<void> {
+  private async applyPatch(target: string, parameters: unknown): Promise<void> {
     // Implement automated patching
   }
 
-  private async sendAlert(target: string, parameters: any): Promise<void> {
+  private async sendAlert(target: string, parameters: unknown): Promise<void> {
     // Implement alert sending
   }
 
-  private async logIncident(target: string, parameters: any): Promise<void> {
+  private async logIncident(target: string, parameters: unknown): Promise<void> {
     // Implement incident logging
   }
 
-  private async rotateCredentials(target: string, parameters: any): Promise<void> {
+  private async rotateCredentials(target: string, parameters: unknown): Promise<void> {
     // Implement credential rotation
   }
 }

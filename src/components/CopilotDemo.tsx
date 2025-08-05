@@ -45,7 +45,7 @@ const CopilotDemo: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleCopilotAction = (action: any) => {
+  const handleCopilotAction = (action: unknown) => {
     console.log('Copilot action received:', action);
     setActionHistory(prev => [
       ...prev.slice(-4),

@@ -20,7 +20,7 @@ export interface GameRoom {
 export interface GameAction {
   type: 'play-card' | 'attack' | 'end-turn' | 'surrender' | 'chat';
   playerId: string;
-  data: any;
+  data: unknown;
   timestamp: number;
 }
 
@@ -38,7 +38,7 @@ export interface PlayerState {
   mana: number;
   cardsInHand: number;
   cardsInDeck: number;
-  boardState: any[];
+  boardState: unknown[];
 }
 
 export interface ChatMessage {
@@ -52,9 +52,9 @@ export interface ChatMessage {
 
 export class RealtimeMultiplayer {
   private bayesNetwork: any | null = null;
-  private rlAgent: any = null;
-  private graphEmbedder: any = null;
-  private analytics: any = null;
+  private rlAgent: unknown = null;
+  private graphEmbedder: unknown = null;
+  private analytics: unknown = null;
 
   constructor(private serverUrl: string = 'ws://0.0.0.0:5000') {
     this.initializeBayesianNetwork();
@@ -215,7 +215,7 @@ export class RealtimeMultiplayer {
       this.emit('game_state_updated', newState);
     });
 
-    this.socket.on('game_ended', (result: any) => {
+    this.socket.on('game_ended', (result: unknown) => {
       console.log('Game ended:', result);
       this.matchState = null;
       this.emit('game_ended', result);
@@ -239,7 +239,7 @@ export class RealtimeMultiplayer {
     });
 
     // Error events
-    this.socket.on('error', (error: any) => {
+    this.socket.on('error', (error: unknown) => {
       console.error('Socket error:', error);
       this.emit('error', error);
     });
@@ -261,7 +261,7 @@ export class RealtimeMultiplayer {
         resolve(room);
       });
 
-      this.socket!.once('room_creation_failed', (error: any) => {
+      this.socket!.once('room_creation_failed', (error: unknown) => {
         console.error('Room creation failed:', error);
         resolve(null);
       });
@@ -278,7 +278,7 @@ export class RealtimeMultiplayer {
         resolve(true);
       });
 
-      this.socket!.once('join_room_failed', (error: any) => {
+      this.socket!.once('join_room_failed', (error: unknown) => {
         console.error('Failed to join room:', error);
         resolve(false);
       });
@@ -384,7 +384,7 @@ export class RealtimeMultiplayer {
         resolve(true);
       });
 
-      this.socket!.once('spectating_failed', (error: any) => {
+      this.socket!.once('spectating_failed', (error: unknown) => {
         console.error('Failed to spectate room:', error);
         resolve(false);
       });

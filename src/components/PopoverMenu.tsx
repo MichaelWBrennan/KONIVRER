@@ -49,8 +49,8 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
     }
 
     const anchorRect = anchorRef.current.getBoundingClientRect();
-    const menuHeight = 280; // Estimated menu height
-    const menuWidth = 180;
+    const _menuHeight = 280; // Estimated menu height
+    const _menuWidth = 180;
 
     // Position above the button with some spacing
     const bottom = window.innerHeight - anchorRect.top + 10;

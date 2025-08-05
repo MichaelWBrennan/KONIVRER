@@ -12,7 +12,7 @@ class MiniEventEmitter {
     this.events.get(event)!.push(fn);
   }
 
-  emit(event: string, ...args: any[]): void {
+  emit(event: string, ...args: unknown[]): void {
     this.events.get(event)?.forEach(fn => fn(...args));
   }
 

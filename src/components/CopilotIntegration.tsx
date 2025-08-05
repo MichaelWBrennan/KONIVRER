@@ -3,10 +3,10 @@ import { CopilotSystem, CopilotConfig } from '../Copilot/src_copilot_index';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface CopilotIntegrationProps {
-  gameState?: any;
-  currentDeck?: any;
-  playerProfile?: any;
-  onAction?: (action: any) => void;
+  gameState?: unknown;
+  currentDeck?: unknown;
+  playerProfile?: unknown;
+  onAction?: (action: unknown) => void;
   config?: CopilotConfig;
 }
 

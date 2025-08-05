@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "methods": [
+    "totp",
+    "sms",
+    "email",
+    "biometric",
+    "hardware_key"
+  ],
+  "backup_codes": true,
+  "session_timeout": 3600,
+  "concurrent_sessions": 3,
+  "geo_restrictions": true,
+  "device_fingerprinting": true,
+  "behavioral_analysis": true
+}

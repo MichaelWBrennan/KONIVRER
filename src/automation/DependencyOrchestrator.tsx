@@ -840,7 +840,7 @@ class DependencyOrchestrator extends EventEmitter {
     return true;
   }
 
-  private groupDependenciesByStage(dependencies: DependencyInfo[]): any[] {
+  private groupDependenciesByStage(dependencies: DependencyInfo[]): unknown[] {
     const stages = [
       {
         name: 'Security Updates',
@@ -1044,7 +1044,7 @@ class DependencyOrchestrator extends EventEmitter {
     };
   }
 
-  public async processDependencyUpdate(update: any): Promise<void> {
+  public async processDependencyUpdate(update: unknown): Promise<void> {
     console.log(`📦 Processing dependency update: ${update.name}`);
 
     const dep = this.dependencies.get(update.name);
@@ -1059,7 +1059,7 @@ class DependencyOrchestrator extends EventEmitter {
     }
   }
 
-  public async resolveDependencyIssue(issue: any): Promise<void> {
+  public async resolveDependencyIssue(issue: unknown): Promise<void> {
     console.log(`🔧 Resolving dependency issue: ${issue.type}`);
 
     switch (issue.type) {
@@ -1075,7 +1075,7 @@ class DependencyOrchestrator extends EventEmitter {
     }
   }
 
-  private async resolveVulnerability(issue: any): Promise<void> {
+  private async resolveVulnerability(issue: unknown): Promise<void> {
     const dep = this.dependencies.get(issue.package);
     if (dep) {
       // Force update to patched version
@@ -1088,7 +1088,7 @@ class DependencyOrchestrator extends EventEmitter {
     }
   }
 
-  private async resolveOutdatedDependency(issue: any): Promise<void> {
+  private async resolveOutdatedDependency(issue: unknown): Promise<void> {
     const dep = this.dependencies.get(issue.package);
     if (dep) {
       dep.updatePriority = 'high';
@@ -1096,7 +1096,7 @@ class DependencyOrchestrator extends EventEmitter {
     }
   }
 
-  public async resolveConflict(conflict: any): Promise<void> {
+  public async resolveConflict(conflict: unknown): Promise<void> {
     console.log(`⚔️ Resolving dependency conflict: ${conflict.description}`);
 
     // Implement conflict resolution logic
@@ -1120,7 +1120,7 @@ class DependencyOrchestrator extends EventEmitter {
     return dependencies;
   }
 
-  public async processUpdate(update: any): Promise<void> {
+  public async processUpdate(update: unknown): Promise<void> {
     console.log(`🔄 Processing update: ${update.type}`);
 
     if (update.type === 'security') {
@@ -1130,7 +1130,7 @@ class DependencyOrchestrator extends EventEmitter {
     }
   }
 
-  private async processSecurityUpdate(update: any): Promise<void> {
+  private async processSecurityUpdate(update: unknown): Promise<void> {
     // Process security-specific updates with high priority
     const dep = this.dependencies.get(update.package);
     if (dep) {
@@ -1140,7 +1140,7 @@ class DependencyOrchestrator extends EventEmitter {
     }
   }
 
-  public async applyUpdate(update: any): Promise<void> {
+  public async applyUpdate(update: unknown): Promise<void> {
     console.log(`✅ Applying update: ${update.name}`);
 
     const dep = this.dependencies.get(update.name);
@@ -1226,13 +1226,13 @@ export const useDependencyOrchestrator = (
     initializeOrchestrator();
 
     // Listen for dependency events
-    const handleUpdateComplete = (result: any) => {
+    const handleUpdateComplete = (result: unknown) => {
       setMetrics(orchestrator.getDependencyMetrics());
       setDependencies(orchestrator.getDependencies());
       setVulnerabilities(orchestrator.getVulnerabilities());
     };
 
-    const handleVulnerabilityFound = (vuln: any) => {
+    const handleVulnerabilityFound = (vuln: unknown) => {
       setVulnerabilities(orchestrator.getVulnerabilities());
     };
 
@@ -1247,7 +1247,7 @@ export const useDependencyOrchestrator = (
   }, [orchestrator]);
 
   const updateDependency = useCallback(
-    async (update: any) => {
+    async (update: unknown) => {
       await orchestrator.processDependencyUpdate(update);
       setMetrics(orchestrator.getDependencyMetrics());
       setDependencies(orchestrator.getDependencies());
@@ -1256,7 +1256,7 @@ export const useDependencyOrchestrator = (
   );
 
   const resolveConflict = useCallback(
-    async (conflict: any) => {
+    async (conflict: unknown) => {
       await orchestrator.resolveConflict(conflict);
       setMetrics(orchestrator.getDependencyMetrics());
       setDependencies(orchestrator.getDependencies());

@@ -1,0 +1,54 @@
+{
+  "timestamp": "2025-08-05T03:42:04.303Z",
+  "score": 750,
+  "maxScore": 1000,
+  "percentage": 75,
+  "grade": "C+ (Needs Improvement)",
+  "duration": 4.54,
+  "breakdown": {
+    "codeQuality": {
+      "errors": 233,
+      "warnings": 194,
+      "totalProblems": 427,
+      "score": 0,
+      "status": "critical"
+    },
+    "dependencySecurity": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0,
+      "totalVulnerabilities": 0,
+      "score": 200,
+      "status": "secure"
+    },
+    "configurationSecurity": {
+      "securityConfig": true,
+      "deepsourceConfig": true,
+      "semgrepRules": true,
+      "secretsBaseline": true,
+      "githubWorkflows": true,
+      "score": 200,
+      "status": "excellent"
+    },
+    "secretManagement": {
+      "secretsFound": 0,
+      "issues": [],
+      "score": 150,
+      "status": "secure"
+    },
+    "securityHeaders": {
+      "score": 150,
+      "status": "excellent"
+    },
+    "buildSecurity": {
+      "securityScripts": 4,
+      "score": 50,
+      "status": "secure"
+    }
+  },
+  "recommendations": [
+    "Fix 233 ESLint errors",
+    "Reduce ESLint warnings for better code quality"
+  ]
+}

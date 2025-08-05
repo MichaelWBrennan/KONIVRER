@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "args": "all",
+        "argsIgnorePattern": "^_",
+        "vars": "all",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "no-unused-vars": "off",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error",
+    "react-refresh/only-export-components": "warn"
+  },
+  "overrides": [
+    {
+      "files": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": "warn"
+      }
+    },
+    {
+      "files": [
+        "**/*.test.ts",
+        "**/*.test.tsx"
+      ],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    }
+  ]
+}

@@ -68,7 +68,7 @@ export class SecurityIntelligenceEngine extends EventEmitter {
 export interface ThreatIntelligence {
   source: string;
   description: string;
-  evidence: any[];
+  evidence: unknown[];
   mitigated: boolean;
 }
 
@@ -77,7 +77,7 @@ interface ComplianceRule {
   name: string;
   description: string;
   category: 'GDPR' | 'SOC2' | 'HIPAA' | 'PCI-DSS' | 'OWASP';
-  validator: (context: any) => boolean;
+  validator: (context: unknown) => boolean;
   remediation: string[];
 }
 
@@ -239,7 +239,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
     mockThreats.forEach(threat => this.integrateThreatIntelligence(threat));
   }
 
-  private integrateThreatIntelligence(threat: any): void {
+  private integrateThreatIntelligence(threat: unknown): void {
     // Integrate new threat intelligence into detection systems
     if (threat.severity === 'critical') {
       this.emit('threat-detected', {
@@ -421,7 +421,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
     return issues;
   }
 
-  private async processDeepScanResults(results: any): Promise<void> {
+  private async processDeepScanResults(results: unknown): Promise<void> {
     // Process scan results and take autonomous actions
     if (results.vulnerabilities.length > 0) {
       await this.handleVulnerabilities(results.vulnerabilities);
@@ -442,7 +442,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
     console.log('✅ Threat intelligence updated');
   }
 
-  public async respondToThreat(threat: any): Promise<void> {
+  public async respondToThreat(threat: unknown): Promise<void> {
     console.log(`🚨 Responding to threat: ${threat.level}`);
 
     switch (threat.level) {
@@ -461,7 +461,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
     }
   }
 
-  private async handleCriticalThreat(threat: any): Promise<void> {
+  private async handleCriticalThreat(threat: unknown): Promise<void> {
     // Immediate response to critical threats
     await this.enableMaximumSecurity();
     await this.isolateAffectedSystems();
@@ -469,20 +469,20 @@ class SecurityIntelligenceEngine extends EventEmitter {
     await this.implementEmergencyMitigations(threat);
   }
 
-  private async handleHighThreat(threat: any): Promise<void> {
+  private async handleHighThreat(threat: unknown): Promise<void> {
     // Response to high-level threats
     await this.increaseSecurity();
     await this.implementMitigations(threat);
     await this.logSecurityEvent(threat);
   }
 
-  private async handleMediumThreat(threat: any): Promise<void> {
+  private async handleMediumThreat(threat: unknown): Promise<void> {
     // Response to medium-level threats
     await this.implementMitigations(threat);
     await this.logSecurityEvent(threat);
   }
 
-  private async handleLowThreat(threat: any): Promise<void> {
+  private async handleLowThreat(threat: unknown): Promise<void> {
     // Response to low-level threats
     await this.logSecurityEvent(threat);
   }
@@ -530,17 +530,17 @@ class SecurityIntelligenceEngine extends EventEmitter {
     return {};
   }
 
-  private validateEncryption(context: any): boolean {
+  private validateEncryption(context: unknown): boolean {
     // Validate encryption implementation
     return true;
   }
 
-  private validateSecurityHeaders(context: any): boolean {
+  private validateSecurityHeaders(context: unknown): boolean {
     // Validate security headers
     return true;
   }
 
-  private validateAccessControls(context: any): boolean {
+  private validateAccessControls(context: unknown): boolean {
     // Validate access controls
     return true;
   }
@@ -560,21 +560,21 @@ class SecurityIntelligenceEngine extends EventEmitter {
     return [];
   }
 
-  private async handleVulnerabilities(vulnerabilities: any[]): Promise<void> {
+  private async handleVulnerabilities(vulnerabilities: unknown[]): Promise<void> {
     // Handle discovered vulnerabilities
     for (const vuln of vulnerabilities) {
       await this.patchVulnerability(vuln);
     }
   }
 
-  private async handleComplianceViolations(violations: any[]): Promise<void> {
+  private async handleComplianceViolations(violations: unknown[]): Promise<void> {
     // Handle compliance violations
     for (const violation of violations) {
       await this.resolveComplianceIssue(violation);
     }
   }
 
-  private async handleConfigurationIssues(issues: any[]): Promise<void> {
+  private async handleConfigurationIssues(issues: unknown[]): Promise<void> {
     // Handle configuration issues
     for (const issue of issues) {
       await this.fixConfigurationIssue(issue);
@@ -582,17 +582,17 @@ class SecurityIntelligenceEngine extends EventEmitter {
   }
 
   // Public API methods
-  public async patchVulnerability(vulnerability: any): Promise<void> {
+  public async patchVulnerability(vulnerability: unknown): Promise<void> {
     console.log(`🔧 Patching vulnerability: ${vulnerability.id}`);
     // Implement vulnerability patching
   }
 
-  public async resolveComplianceIssue(issue: any): Promise<void> {
+  public async resolveComplianceIssue(issue: unknown): Promise<void> {
     console.log(`📋 Resolving compliance issue: ${issue.ruleId}`);
     // Implement compliance issue resolution
   }
 
-  public async handleSecurityIssue(issue: any): Promise<void> {
+  public async handleSecurityIssue(issue: unknown): Promise<void> {
     console.log(`🛡️ Handling security issue: ${issue.type}`);
     // Implement security issue handling
   }
@@ -610,7 +610,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
   }
 
   // Private helper methods
-  private calculateSecurityScore(findings: any[]): number {
+  private calculateSecurityScore(findings: unknown[]): number {
     let score = 100;
     findings.forEach(finding => {
       switch (finding.severity) {
@@ -671,11 +671,11 @@ class SecurityIntelligenceEngine extends EventEmitter {
     // Isolate affected systems
   }
 
-  private async notifySecurityTeam(threat: any): Promise<void> {
+  private async notifySecurityTeam(threat: unknown): Promise<void> {
     // Notify security team of critical threats
   }
 
-  private async implementEmergencyMitigations(threat: any): Promise<void> {
+  private async implementEmergencyMitigations(threat: unknown): Promise<void> {
     // Implement emergency mitigations
   }
 
@@ -683,11 +683,11 @@ class SecurityIntelligenceEngine extends EventEmitter {
     // Increase security level
   }
 
-  private async implementMitigations(threat: any): Promise<void> {
+  private async implementMitigations(threat: unknown): Promise<void> {
     // Implement threat mitigations
   }
 
-  private async logSecurityEvent(threat: any): Promise<void> {
+  private async logSecurityEvent(threat: unknown): Promise<void> {
     // Log security events
     const event: SecurityEvent = {
       id: `evt-${Date.now()}`,
@@ -720,7 +720,7 @@ class SecurityIntelligenceEngine extends EventEmitter {
     // Activate intrusion prevention systems
   }
 
-  private async fixConfigurationIssue(issue: any): Promise<void> {
+  private async fixConfigurationIssue(issue: unknown): Promise<void> {
     // Fix configuration issues
   }
 }

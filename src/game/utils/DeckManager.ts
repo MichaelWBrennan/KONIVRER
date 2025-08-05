@@ -68,7 +68,7 @@ export class DeckManager {
       if (!stored) return [];
 
       const decks = JSON.parse(stored);
-      return decks.map((deck: any) => ({
+      return decks.map((deck: unknown) => ({
         ...deck,
         createdAt: new Date(deck.createdAt),
         updatedAt: new Date(deck.updatedAt),
@@ -400,7 +400,7 @@ export class DeckManager {
       }
 
       const decks = JSON.parse(stored);
-      return decks.map((deck: any) => ({
+      return decks.map((deck: unknown) => ({
         ...deck,
         createdAt: new Date(deck.createdAt),
         updatedAt: new Date(deck.updatedAt),

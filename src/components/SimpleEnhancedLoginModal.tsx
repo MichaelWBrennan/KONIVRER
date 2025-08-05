@@ -115,7 +115,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
       // Create credential request options
       const publicKeyCredentialRequestOptions: {
         challenge: Uint8Array;
-        allowCredentials: any[];
+        allowCredentials: unknown[];
         userVerification: string;
       } = {
         challenge: new Uint8Array(32),

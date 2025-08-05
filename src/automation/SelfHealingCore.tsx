@@ -816,7 +816,7 @@ class SelfHealingCore extends EventEmitter {
 
   private async rollbackAction(
     action: HealingAction,
-    checkpoint: any,
+    checkpoint: unknown,
   ): Promise<void> {
     console.log(`⏪ Rolling back action: ${action.name}`);
 
@@ -828,7 +828,7 @@ class SelfHealingCore extends EventEmitter {
 
   private async executeRollbackStep(
     step: string,
-    checkpoint: any,
+    checkpoint: unknown,
   ): Promise<void> {
     // Execute individual rollback step
     console.log(`📝 Rollback step: ${step}`);
@@ -851,7 +851,7 @@ class SelfHealingCore extends EventEmitter {
     }
   }
 
-  private async restoreSystemState(state: any): Promise<void> {
+  private async restoreSystemState(state: unknown): Promise<void> {
     // Restore system to previous state
     console.log('🔄 Restoring system state...');
   }
@@ -951,7 +951,7 @@ class SelfHealingCore extends EventEmitter {
     });
   }
 
-  private async learnFromHealing(result: any): Promise<void> {
+  private async learnFromHealing(result: unknown): Promise<void> {
     // Learn from healing results to improve future healing
     const patterns = this.learningData.get('pattern-recognition') || [];
 
@@ -1008,7 +1008,7 @@ class SelfHealingCore extends EventEmitter {
     return predictions;
   }
 
-  private async preventIssue(prediction: any): Promise<void> {
+  private async preventIssue(prediction: unknown): Promise<void> {
     console.log(`🔮 Preventing potential issue: ${prediction.description}`);
 
     // Apply preventive actions
@@ -1073,7 +1073,7 @@ class SelfHealingCore extends EventEmitter {
     return { ...this.performanceMetrics };
   }
 
-  public async optimizePerformance(result: any): Promise<void> {
+  public async optimizePerformance(result: unknown): Promise<void> {
     console.log(`⚡ Optimizing performance based on: ${result.type}`);
 
     const optimizationAction = this.healingActions.get(
@@ -1121,7 +1121,7 @@ class SelfHealingCore extends EventEmitter {
     }
   }
 
-  public async healError(error: any): Promise<void> {
+  public async healError(error: unknown): Promise<void> {
     console.log(`🩹 Healing error: ${error.message}`);
 
     await this.detectIssue({
@@ -1187,7 +1187,7 @@ export const useSelfHealing = (config?: Partial<SelfHealingConfig>) => {
     initializeCore();
 
     // Listen for healing events
-    const handleHealingComplete = (result: any) => {
+    const handleHealingComplete = (result: unknown) => {
       setMetrics(core.getHealingMetrics());
       setIssues(core.getSystemIssues());
     };
@@ -1214,7 +1214,7 @@ export const useSelfHealing = (config?: Partial<SelfHealingConfig>) => {
   }, [core]);
 
   const healError = useCallback(
-    async (error: any) => {
+    async (error: unknown) => {
       await core.healError(error);
       setMetrics(core.getHealingMetrics());
       setIssues(core.getSystemIssues());
@@ -1223,7 +1223,7 @@ export const useSelfHealing = (config?: Partial<SelfHealingConfig>) => {
   );
 
   const optimizePerformance = useCallback(
-    async (result: any) => {
+    async (result: unknown) => {
       await core.optimizePerformance(result);
       setMetrics(core.getHealingMetrics());
     },

@@ -26,7 +26,7 @@ export class CopilotController {
   /**
    * Enhanced main loop with intelligent coordination and error handling
    */
-  public async run(initialState: State): Promise<void> {
+  public async run(_initialState: State): Promise<void> {
     if (this.isRunning) {
       console.warn('CopilotController is already running');
       return;
@@ -247,7 +247,7 @@ export class CopilotController {
   }
 
   private async gatherAIInsights(state: State): Promise<any> {
-    const insights: any = {};
+    const insights: unknown = {};
 
     try {
       // Deck optimization insights
@@ -282,9 +282,9 @@ export class CopilotController {
 
   private async generateIntelligentAction(
     state: State,
-    analysis: any,
+    analysis: unknown,
     goals: Goal[],
-    insights: any,
+    insights: unknown,
   ): Promise<Action> {
     // Priority-based action selection
     const priorityGoal = goals.sort((a, b) => b.priority - a.priority)[0];
@@ -312,7 +312,7 @@ export class CopilotController {
     return this.createObservationAction(state);
   }
 
-  private createDeckOptimizationAction(deckAnalysis: any): Action {
+  private createDeckOptimizationAction(deckAnalysis: unknown): Action {
     return {
       type: 'optimize_deck',
       payload: {
@@ -327,7 +327,7 @@ export class CopilotController {
     };
   }
 
-  private createAssistanceAction(state: State, insights: any): Action {
+  private createAssistanceAction(state: State, insights: unknown): Action {
     let message = "I'm here to help optimize your gaming experience.";
 
     if (insights.sentiment?.sentiment === 'negative') {
@@ -464,7 +464,7 @@ export class CopilotController {
 
     // Enhance message with NLP if available
     if (nlp) {
-      const sentiment = await nlp.analyzeSentiment(message);
+      const _sentiment = await nlp.analyzeSentiment(message);
       // Adjust message tone based on context
     }
 
@@ -520,7 +520,7 @@ export class CopilotController {
 
   // Helper methods
 
-  private calculateDecisionConfidence(state: State, analysis: any): number {
+  private calculateDecisionConfidence(state: State, analysis: unknown): number {
     let confidence = state.confidence;
 
     if (analysis.contextRichness > 3) confidence += 0.1;

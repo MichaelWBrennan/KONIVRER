@@ -16,7 +16,7 @@ class EventEmitter {
     return this;
   }
 
-  emit(event: string, ...args: any[]): boolean {
+  emit(event: string, ...args: unknown[]): boolean {
     if (!this.events[event]) return false;
     this.events[event].forEach(listener => listener(...args));
     return true;

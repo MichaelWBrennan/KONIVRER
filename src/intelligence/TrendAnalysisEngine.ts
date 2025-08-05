@@ -21,7 +21,7 @@ class EventEmitter {
     return this;
   }
 
-  emit(event: string, ...args: any[]): boolean {
+  emit(event: string, ...args: unknown[]): boolean {
     if (!this.events[event]) return false;
     this.events[event].forEach(listener => listener(...args));
     return true;
@@ -677,7 +677,7 @@ class TrendAnalysisEngine extends EventEmitter {
     await this.autoImplementTrend(trend);
   }
 
-  public async migrateFromDeprecated(warning: any): Promise<void> {
+  public async migrateFromDeprecated(warning: unknown): Promise<void> {
     console.log(`🚚 Migrating from deprecated: ${warning.package}`);
 
     // Implement migration logic

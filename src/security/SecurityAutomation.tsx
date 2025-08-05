@@ -161,7 +161,7 @@ export const useSecurityAutomation = () => {
     }
   };
 
-  const runComprehensiveSecurityAudit = async () => {
+  const _runComprehensiveSecurityAudit = async () => {
     const auditResults = {
       timestamp: new Date().toISOString(),
       checks: [
@@ -181,7 +181,7 @@ export const useSecurityAutomation = () => {
     localStorage.setItem('lastSecurityAudit', JSON.stringify(auditResults));
   };
 
-  const applyImmediatePatches = async () => {
+  const _applyImmediatePatches = async () => {
     // Enhanced security measures for critical threats
     const emergencyConfig = {
       strictMode: true,
@@ -209,7 +209,7 @@ export const useSecurityAutomation = () => {
     }
   };
 
-  const checkComplianceRequirements = async () => {
+  const _checkComplianceRequirements = async () => {
     const complianceCheck = {
       timestamp: new Date().toISOString(),
       gdpr: {
@@ -239,7 +239,7 @@ export const useSecurityAutomation = () => {
     localStorage.setItem('complianceCheck', JSON.stringify(complianceCheck));
   };
 
-  const updateSecurityConfigurations = async () => {
+  const _updateSecurityConfigurations = async () => {
     const latestConfig = {
       version: '3.0',
       lastUpdated: new Date().toISOString(),
@@ -272,7 +272,7 @@ export const useSecurityAutomation = () => {
     localStorage.setItem('latestSecurityConfig', JSON.stringify(latestConfig));
   };
 
-  const syncThreatIntelligence = async () => {
+  const _syncThreatIntelligence = async () => {
     const threatIntel = {
       lastSync: new Date().toISOString(),
       sources: ['OWASP', 'NIST', 'CVE', 'MITRE', 'SANS'],
@@ -285,7 +285,7 @@ export const useSecurityAutomation = () => {
     localStorage.setItem('threatIntelligence', JSON.stringify(threatIntel));
   };
 
-  const updatePrivacyPolicies = async () => {
+  const _updatePrivacyPolicies = async () => {
     const policyUpdate = {
       version: '3.0',
       lastUpdated: new Date().toISOString(),
@@ -303,7 +303,7 @@ export const useSecurityAutomation = () => {
     localStorage.setItem('privacyPolicyUpdate', JSON.stringify(policyUpdate));
   };
 
-  const collectSecurityMetrics = async () => {
+  const _collectSecurityMetrics = async () => {
     const metrics: SecurityMetrics = {
       threatLevel: 'low',
       complianceScore: 100,
@@ -320,7 +320,7 @@ export const useSecurityAutomation = () => {
     localStorage.setItem('securityMetrics', JSON.stringify(metrics));
   };
 
-  const verifyDataIntegrity = async () => {
+  const _verifyDataIntegrity = async () => {
     const integrityCheck = {
       timestamp: new Date().toISOString(),
       dataIntegrity: 'verified',
@@ -380,7 +380,7 @@ export const useSecurityAutomation = () => {
     return () => clearInterval(scheduler);
   };
 
-  const checkTimeCondition = (
+  const _checkTimeCondition = (
     condition: string,
     lastExecuted?: string,
   ): boolean => {
@@ -403,26 +403,26 @@ export const useSecurityAutomation = () => {
     return false;
   };
 
-  const checkEventCondition = (condition: string): boolean => {
+  const _checkEventCondition = (condition: string): boolean => {
     // Check for specific events in localStorage
     const events = JSON.parse(localStorage.getItem('securityEvents') || '[]');
-    return events.some((event: any) => event.type === condition);
+    return events.some((event: unknown) => event.type === condition);
   };
 
-  const checkThreatCondition = (condition: string): boolean => {
+  const _checkThreatCondition = (condition: string): boolean => {
     const threats = JSON.parse(localStorage.getItem('activeThreats') || '[]');
     if (condition.includes('severity >= critical')) {
-      return threats.some((threat: any) => threat.severity === 'critical');
+      return threats.some((threat: unknown) => threat.severity === 'critical');
     }
     return false;
   };
 
-  const checkComplianceCondition = (condition: string): boolean => {
+  const _checkComplianceCondition = (condition: string): boolean => {
     const complianceUpdates = JSON.parse(
       localStorage.getItem('complianceUpdates') || '[]',
     );
     return complianceUpdates.some(
-      (update: any) =>
+      (update: unknown) =>
         condition.includes('new privacy regulation') &&
         update.type === 'privacy',
     );

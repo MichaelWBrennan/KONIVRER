@@ -305,7 +305,7 @@ describe('Enhanced Copilot System', () => {
 
   describe('Learning and Adaptation', () => {
     it('should accumulate learning experiences', () => {
-      const learning = {
+      const _learning = {
         situation: 'early game with weak hand',
         action: 'suggest_mulligan',
         outcome: 'improved hand quality',
