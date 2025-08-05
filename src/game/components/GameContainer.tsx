@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { gameEngine } from '../GameEngine';
+import { EnhancedGameMenu } from './EnhancedGameMenu';
 import '../styles/mobile.css';
 
 interface GameContainerProps {
@@ -7,315 +9,365 @@ interface GameContainerProps {
   setShowGame?: (show: boolean) => void;
 }
 
+interface GameMode {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  difficulty: string;
+  requiresAccount: boolean;
+}
+
 export const GameContainer: React.FC<GameContainerProps> = ({
   onClose,
   setShowGame,
 }) => {
   const gameRef = useRef<HTMLDivElement>(null);
-  const gameInitializedRef = useRef<boolean>(false);
-  const [isLandscape, setIsLandscape] = React.useState(false);
-  const [isMobile, setIsMobile] = React.useState(false);
-  const [showOrientationPrompt, setShowOrientationPrompt] =
-    React.useState(false);
-  const [currentScene, setCurrentScene] = React.useState<string | undefined>(
-    undefined,
-  );
-  const [showAccessibilityButton, setShowAccessibilityButton] =
-    React.useState(true);
+  const [gameState, setGameState] = useState<'menu' | 'loading' | 'playing' | 'error'>('menu');
+  const [selectedMode, setSelectedMode] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // Check if device is mobile and set orientation state
-  useEffect(() => {
-    const checkMobileAndOrientation = () => {
-      // Get screen dimensions
-      const screenWidth =
-        window.innerWidth ||
-        document.documentElement.clientWidth ||
-        document.body.clientWidth;
-      const screenHeight =
-        window.innerHeight ||
-        document.documentElement.clientHeight ||
-        document.body.clientHeight;
+  // Enhanced game modes with better descriptions and icons
+  const gameModes: GameMode[] = [
+    {
+      id: 'practice',
+      title: 'Practice Arena',
+      description: 'Master your skills against adaptive AI opponents with varying difficulty levels',
+      icon: '🎯',
+      difficulty: 'Beginner Friendly',
+      requiresAccount: false,
+    },
+    {
+      id: 'quick',
+      title: 'Quick Duel',
+      description: 'Jump into fast-paced matches with optimized matchmaking for your skill level',
+      icon: '⚡',
+      difficulty: 'All Levels',
+      requiresAccount: false,
+    },
+    {
+      id: 'ranked',
+      title: 'Ranked Conquest',
+      description: 'Climb the competitive ladder and earn prestigious rewards and recognition',
+      icon: '🏆',
+      difficulty: 'Competitive',
+      requiresAccount: false,
+    },
+    {
+      id: 'tournament',
+      title: 'Grand Tournament',
+      description: 'Participate in structured events with exclusive prizes and mystical artifacts',
+      icon: '👑',
+      difficulty: 'Expert',
+      requiresAccount: false,
+    },
+  ];
 
-      // Check if device is mobile (excluding tablets)
-      const userAgent = navigator.userAgent;
+  const initializeGame = async (modeId: string) => {
+    setGameState('loading');
+    setSelectedMode(modeId);
 
-      // Detect if it's a tablet or large device
-      const isTablet =
-        /iPad|Android(?!.*Mobile)|Tablet/i.test(userAgent) ||
-        Math.min(screenWidth, screenHeight) >= 600; // Common tablet minimum width
-
-      // Detect if it's a phone
-      const isPhone =
-        /iPhone|Android.*Mobile|Mobile/i.test(userAgent) && !isTablet;
-
-      // Set mobile state (only true for phones, not tablets)
-      setIsMobile(isPhone);
-
-      // Check orientation
-      const isLandscapeOrientation = window.matchMedia(
-        '(orientation: landscape)',
-      ).matches;
-      setIsLandscape(isLandscapeOrientation);
-
-      // Calculate aspect ratio
-      const aspectRatio = screenWidth / screenHeight;
-
-      // Determine if the device needs rotation
-      // Only show prompt for phones in portrait mode with limited vertical space
-      const needsRotation =
-        isPhone &&
-        !isLandscapeOrientation &&
-        aspectRatio < 0.7 && // Portrait aspect ratio
-        screenHeight < 900; // Not a foldable in expanded mode or tall device
-
-      setShowOrientationPrompt(needsRotation);
-
-      // Update accessibility button visibility
-      // Hide when in landscape mode on mobile or when in main menu
-      const inMainMenu = window.KONIVRER_CURRENT_SCENE === 'MainMenuScene';
-      setShowAccessibilityButton(
-        !inMainMenu && !(isPhone && isLandscapeOrientation),
-      );
-
-      // Log for debugging
-      console.log(`[GameContainer] Device detection: 
-        isPhone: ${isPhone}, 
-        isTablet: ${isTablet}, 
-        isLandscape: ${isLandscapeOrientation}, 
-        screenSize: ${screenWidth}x${screenHeight}, 
-        aspectRatio: ${aspectRatio.toFixed(2)}, 
-        needsRotation: ${needsRotation}`);
-    };
-
-    checkMobileAndOrientation();
-
-    // Add event listener for orientation changes
-    window.addEventListener('resize', checkMobileAndOrientation);
-    window.addEventListener('orientationchange', checkMobileAndOrientation);
-
-    // Set up an interval to check the current scene
-    const sceneCheckInterval = setInterval(() => {
-      const currentScene = window.KONIVRER_CURRENT_SCENE;
-      setCurrentScene(currentScene);
-
-      // Update accessibility button visibility based on current scene
-      const inMainMenu = currentScene === 'MainMenuScene';
-      setShowAccessibilityButton(!inMainMenu && !(isMobile && isLandscape));
-    }, 500);
-
-    return () => {
-      window.removeEventListener('resize', checkMobileAndOrientation);
-      window.removeEventListener(
-        'orientationchange',
-        checkMobileAndOrientation,
-      );
-      clearInterval(sceneCheckInterval);
-    };
-  }, [isMobile, isLandscape]);
-
-  useEffect(() => {
-    // Always initialize the game, but show/hide it based on orientation
-    // Small delay to ensure DOM is fully rendered
-    const initTimer = setTimeout(() => {
-      if (gameRef.current && !gameInitializedRef.current) {
-        // Make setShowGame available globally for the game
-        if (setShowGame) {
-          window.setShowGame = setShowGame;
-        }
-
-        // Initialize the game engine
-        try {
-          console.log('[GameContainer] Initializing game engine...');
-          gameEngine.init(gameRef.current);
-          gameInitializedRef.current = true;
-          console.log('[GameContainer] Game engine initialized successfully');
-
-          // If orientation prompt is showing, hide the game canvas but keep it initialized
-          if (showOrientationPrompt && gameRef.current) {
-            const canvas = gameRef.current.querySelector('canvas');
-            if (canvas) {
-              canvas.style.visibility = showOrientationPrompt
-                ? 'hidden'
-                : 'visible';
-            }
-          }
-        } catch (error) {
-          console.error(
-            '[GameContainer] Error initializing game engine:',
-            error,
-          );
-        }
-      } else if (gameInitializedRef.current && gameRef.current) {
-        // If game is already initialized, just update canvas visibility
-        const canvas = gameRef.current.querySelector('canvas');
-        if (canvas) {
-          canvas.style.visibility = showOrientationPrompt
-            ? 'hidden'
-            : 'visible';
-        }
+    try {
+      if (gameRef.current) {
+        console.log('[GameContainer] Initializing game engine...');
+        await gameEngine.init(gameRef.current);
+        setGameState('playing');
+        console.log('[GameEngine] Advanced scenes initialized successfully');
+      } else {
+        throw new Error('Game container ref not available');
       }
-    }, 100);
+    } catch (error) {
+      console.error('[GameContainer] Error initializing game engine:', error);
+      setError(error instanceof Error ? error.message : 'Unknown error occurred');
+      setGameState('error');
+    }
+  };
 
-    // Cleanup function
-    return () => {
-      clearTimeout(initTimer);
-    };
-  }, [setShowGame, showOrientationPrompt]);
+  const handleModeSelect = (modeId: string) => {
+    initializeGame(modeId);
+  };
+
+  const handleClose = () => {
+    setGameState('menu');
+    setSelectedMode(null);
+    setError(null);
+    gameEngine.destroy();
+    if (onClose) onClose();
+    if (setShowGame) setShowGame(false);
+  };
+
+  const handleRetryGame = () => {
+    setError(null);
+    if (selectedMode) {
+      initializeGame(selectedMode);
+    } else {
+      setGameState('menu');
+    }
+  };
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      try {
-        console.log('[GameContainer] Destroying game engine on unmount...');
-        gameEngine.destroy();
-        gameInitializedRef.current = false;
-        // Clean up global reference
-        if (window.setShowGame) {
-          delete window.setShowGame;
-        }
-        if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
-          delete window.KONIVRER_ACCESSIBILITY_CLICKED;
-        }
-        if (window.KONIVRER_CURRENT_SCENE) {
-          delete window.KONIVRER_CURRENT_SCENE;
-        }
-      } catch (error) {
-        console.error('[GameContainer] Error destroying game engine:', error);
-      }
+      console.log('[GameContainer] Destroying game engine on unmount...');
+      gameEngine.destroy();
     };
   }, []);
 
-  // Set up accessibility click handler
-  useEffect(() => {
-    // Define the accessibility click handler
-    window.KONIVRER_ACCESSIBILITY_CLICKED = () => {
-      console.log('[GameContainer] Accessibility button clicked in game menu');
-      // This function will be called when the accessibility button in the game menu is clicked
-      // We can use this to sync state between the game menu and the floating button
-    };
+  const containerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1500,
+    background: '#1a1a1a',
+    overflow: 'hidden',
+  };
 
-    return () => {
-      if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
-        delete window.KONIVRER_ACCESSIBILITY_CLICKED;
-      }
-    };
-  }, []);
+  const gameCanvasStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+    display: 'block',
+  };
 
   return (
-    <div
-      className="mobile-game-container"
-      style={{
-        width: '100%',
-        height: '100%',
-        position: 'fixed', // Changed from absolute to fixed
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        overflow: 'hidden',
-        background: '#1a1a1a',
-        zIndex: 1000, // Ensure high z-index
-      }}
-    >
-      {/* Floating Accessibility button - only shown when not in main menu or when in portrait mode on mobile */}
-      {showAccessibilityButton && (
-        <button
-          onClick={() => {
-            alert('Accessibility options coming soon!');
-            // Call the same function that the in-game button would call
-            if (window.KONIVRER_ACCESSIBILITY_CLICKED) {
-              window.KONIVRER_ACCESSIBILITY_CLICKED();
-            }
-          }}
-          className="touch-button"
-          style={{
-            position: 'absolute',
-            bottom: '20px',
-            left: '20px',
-            zIndex: 1001,
-            fontSize: '14px',
-            padding: '8px 16px',
-            background: '#3498db',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          aria-label="Accessibility Options"
-        >
-          <span
-            role="img"
-            aria-label="Accessibility"
-            style={{ marginRight: '5px' }}
+    <div style={containerStyle}>
+      <AnimatePresence mode="wait">
+        {gameState === 'menu' && (
+          <EnhancedGameMenu
+            gameModes={gameModes}
+            onSelectMode={handleModeSelect}
+            onClose={handleClose}
+          />
+        )}
+
+        {gameState === 'loading' && (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
+            }}
           >
-            ♿
-          </span>
-          Accessibility
-        </button>
-      )}
-
-      {/* Orientation prompt for mobile devices */}
-      {showOrientationPrompt && (
-        <div className="orientation-prompt" style={{ padding: '20px' }}>
-          <h2 style={{ marginBottom: '20px', fontSize: '24px' }}>
-            Please Rotate Your Device
-          </h2>
-          <div className="orientation-icon">
-            <svg
-              width="150"
-              height="150"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              style={{
+                width: '80px',
+                height: '80px',
+                border: '4px solid rgba(212, 175, 55, 0.3)',
+                borderTop: '4px solid #d4af37',
+                borderRadius: '50%',
+                marginBottom: '24px',
+              }}
+            />
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{
+                color: '#d4af37',
+                fontSize: '1.5rem',
+                marginBottom: '12px',
+                fontWeight: 'bold',
+              }}
             >
-              <path
-                d="M4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20Z"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M12 16L16 12L12 8"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8 12H16"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          <p className="orientation-text">
-            KONIVRER is best experienced in landscape mode. Please rotate your
-            device for the optimal gaming experience.
-          </p>
-        </div>
-      )}
+              Entering the Mystical Realm...
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              style={{
+                color: 'rgba(255, 255, 255, 0.7)',
+                fontSize: '1rem',
+                textAlign: 'center',
+                maxWidth: '400px',
+              }}
+            >
+              Initializing advanced 3D graphics, particle systems, and mystical effects...
+            </motion.p>
+          </motion.div>
+        )}
 
-      {/* Game container - always initialize but control visibility */}
-      <div
-        ref={gameRef}
-        className="game-ui"
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          zIndex: 5, // Ensure it's above other elements but below the orientation prompt
-          visibility: showOrientationPrompt ? 'hidden' : 'visible', // Control visibility based on orientation prompt
-        }}
-      />
+        {gameState === 'error' && (
+          <motion.div
+            key="error"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'linear-gradient(135deg, #1a0f0f 0%, #2a1a1a 50%, #1a0f0f 100%)',
+              padding: '40px',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '4rem',
+                marginBottom: '24px',
+              }}
+            >
+              ⚠️
+            </div>
+            <h2
+              style={{
+                color: '#ff6b6b',
+                fontSize: '1.8rem',
+                marginBottom: '16px',
+                textAlign: 'center',
+              }}
+            >
+              Mystical Forces Disrupted
+            </h2>
+            <p
+              style={{
+                color: 'rgba(255, 255, 255, 0.7)',
+                fontSize: '1rem',
+                textAlign: 'center',
+                maxWidth: '500px',
+                marginBottom: '32px',
+                lineHeight: '1.6',
+              }}
+            >
+              The game engine encountered an issue while initializing the mystical realm. 
+              This could be due to graphics compatibility or system resources.
+            </p>
+            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleRetryGame}
+                style={{
+                  padding: '12px 24px',
+                  background: 'linear-gradient(135deg, #d4af37, #f4e06d)',
+                  border: 'none',
+                  borderRadius: '12px',
+                  color: '#1a1a1a',
+                  fontSize: '1rem',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                }}
+              >
+                Retry Connection
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleClose}
+                style={{
+                  padding: '12px 24px',
+                  background: 'transparent',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '12px',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  fontSize: '1rem',
+                  cursor: 'pointer',
+                }}
+              >
+                Return to Menu
+              </motion.button>
+            </div>
+            {error && (
+              <details
+                style={{
+                  marginTop: '24px',
+                  padding: '16px',
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  maxWidth: '600px',
+                  width: '100%',
+                }}
+              >
+                <summary
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.6)',
+                    cursor: 'pointer',
+                    marginBottom: '8px',
+                  }}
+                >
+                  Technical Details
+                </summary>
+                <code
+                  style={{
+                    color: '#ff9999',
+                    fontSize: '0.9rem',
+                    fontFamily: 'monospace',
+                    wordBreak: 'break-word',
+                  }}
+                >
+                  {error}
+                </code>
+              </details>
+            )}
+          </motion.div>
+        )}
+
+        {gameState === 'playing' && (
+          <motion.div
+            key="game"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ width: '100%', height: '100%', position: 'relative' }}
+          >
+            {/* Close button for game */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 1 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleClose}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                zIndex: 10,
+                width: '48px',
+                height: '48px',
+                background: 'rgba(0, 0, 0, 0.7)',
+                border: '2px solid rgba(212, 175, 55, 0.5)',
+                borderRadius: '50%',
+                color: '#d4af37',
+                fontSize: '1.2rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              ✕
+            </motion.button>
+
+            {/* Game canvas container */}
+            <div
+              ref={gameRef}
+              style={gameCanvasStyle}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
