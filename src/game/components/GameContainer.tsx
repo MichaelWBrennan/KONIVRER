@@ -81,6 +81,18 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setSelectedMode(modeId);
 
     try {
+      // Provide immediate feedback - show loading state instantly
+      console.log('[GameContainer] Starting game initialization...');
+      
+      // Use requestIdleCallback or setTimeout to prevent blocking UI
+      await new Promise(resolve => {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(resolve as IdleRequestCallback);
+        } else {
+          setTimeout(resolve, 0);
+        }
+      });
+
       // Wait for gameRef to be available with timeout
       const waitForRef = async (): Promise<HTMLDivElement> => {
         return new Promise((resolve, reject) => {
@@ -107,8 +119,21 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       };
 
       const container = await waitForRef();
-      console.log('[GameContainer] Initializing game engine...');
-      await gameEngine.init(container);
+      console.log('[GameContainer] Container ready, initializing game engine...');
+      
+      // Initialize game engine asynchronously to prevent blocking
+      await new Promise<void>((resolve, reject) => {
+        // Use setTimeout to ensure UI updates before heavy work
+        setTimeout(async () => {
+          try {
+            await gameEngine.init(container);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        }, 100); // Small delay to ensure loading UI is visible
+      });
+
       setGameState('playing');
       console.log('[GameEngine] Advanced scenes initialized successfully');
     } catch (_error) {
