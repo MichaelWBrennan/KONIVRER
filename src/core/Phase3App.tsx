@@ -37,6 +37,7 @@ import {
 } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
 import { GameContainer } from '../game/components/GameContainer';
+import { useDynamicSizing } from '../utils/userAgentSizing';
 
 // Types
 interface Card {
@@ -882,6 +883,7 @@ const EventsPage = () => (
 
 const PlayPage = () => {
   const { user, setShowLoginModal, setShowGame } = useContext(AppContext);
+  const dynamicSizing = useDynamicSizing();
 
   // Game modes data to be passed to the game menu
   const gameModes = [
@@ -937,23 +939,32 @@ const PlayPage = () => {
     };
   }, [user, setShowLoginModal, setShowGame]);
 
-  // Render the game container directly
+  // Use dynamic sizing for responsive game container based on user agent
+  const containerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: `${dynamicSizing.safeAreaInsets.top}px`,
+    left: `${dynamicSizing.safeAreaInsets.left}px`,
+    right: `${dynamicSizing.safeAreaInsets.right}px`,
+    bottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
+    width: `calc(100vw - ${dynamicSizing.safeAreaInsets.left + dynamicSizing.safeAreaInsets.right}px)`,
+    height: `calc(100vh - ${dynamicSizing.safeAreaInsets.top + dynamicSizing.safeAreaInsets.bottom}px)`,
+    zIndex: 1500,
+    overflow: 'hidden',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#1a1a1a',
+    padding: `${dynamicSizing.containerPadding}px`,
+    // Ensure proper sizing coordination with GameContainer
+    boxSizing: 'border-box',
+  };
+
+  // Render the game container with dynamic sizing
   return (
     <div
-      style={{
-        width: '100vw', // Use viewport units
-        height: '100vh',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 1500, // Ensure it's above everything else
-        overflow: 'hidden',
-        display: 'block', // Explicitly set display
-        background: '#1a1a1a', // Match game background
-      }}
+      style={containerStyle}
       data-search-type="game"
+      className="play-page-container dynamic-sizing"
     >
       <GameContainer
         onClose={() => setShowGame(false)}

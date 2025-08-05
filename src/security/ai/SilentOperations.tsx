@@ -357,7 +357,7 @@ const AIInsightsPanel: React.FC<{ insights: AIInsight[] }> = ({ insights }) => {
       </div>
       <div style={{ fontSize: '10px' }}>
         {insights.slice(0, 2).map((insight, _index) => (
-          <div key={index} style={{ marginBottom: '4px' }}>
+          <div key={_index} style={{ marginBottom: '4px' }}>
             <div style={{ color: '#0088ff' }}>{insight.type}</div>
             <div style={{ color: '#ccc' }}>{insight.content}</div>
             <div style={{ color: '#888' }}>
