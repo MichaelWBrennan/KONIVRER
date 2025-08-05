@@ -38,7 +38,7 @@
   text-align: center;
   max-width: 320px;
   margin: var(--spacing-md);
-  box-shadow: 
+  box-shadow:
     0 12px 48px rgba(0, 0, 0, 0.6),
     0 0 0 1px rgba(212, 175, 55, 0.2);
 }
@@ -117,7 +117,8 @@
 }
 
 @keyframes rotatePhone {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(0deg) scale(1);
   }
   25% {
@@ -132,7 +133,8 @@
 }
 
 @keyframes rotatePhoneLandscape {
-  0%, 100% {
+  0%,
+  100% {
     transform: rotate(0deg) scale(1);
   }
   25% {
@@ -184,27 +186,27 @@
     padding: var(--spacing-md);
     max-width: 400px;
   }
-  
+
   .orientation-icon {
     font-size: 2rem;
     margin-bottom: var(--spacing-sm);
   }
-  
+
   .orientation-prompt h3 {
     font-size: 1.25rem;
     margin-bottom: 0.25rem;
   }
-  
+
   .orientation-prompt p {
     font-size: 0.9rem;
     margin-bottom: var(--spacing-md);
   }
-  
+
   .orientation-animation {
     height: 60px;
     margin: var(--spacing-md) 0;
   }
-  
+
   .phone-icon {
     width: 32px;
     height: 48px;
@@ -217,23 +219,23 @@
     background: #000;
     border-color: #ffff00;
   }
-  
+
   .orientation-prompt h3,
   .orientation-prompt strong {
     color: #ffff00;
   }
-  
+
   .phone-icon {
     border-color: #ffff00;
     background: rgba(255, 255, 0, 0.1);
   }
-  
+
   .phone-icon::before,
   .phone-icon::after {
     background: #ffff00;
     border-color: #ffff00;
   }
-  
+
   .orientation-dismiss {
     background: transparent;
     border-color: #ffff00;
@@ -246,16 +248,16 @@
   .orientation-prompt-overlay {
     animation: none;
   }
-  
+
   .orientation-icon,
   .phone-icon {
     animation: none;
   }
-  
+
   .orientation-dismiss {
     transition: none;
   }
-  
+
   .orientation-dismiss:hover {
     transform: none;
   }
@@ -273,15 +275,15 @@
     padding: var(--spacing-lg);
     margin: var(--spacing-sm);
   }
-  
+
   .orientation-icon {
     font-size: 2.5rem;
   }
-  
+
   .orientation-prompt h3 {
     font-size: 1.3rem;
   }
-  
+
   .orientation-prompt p {
     font-size: 0.95rem;
   }

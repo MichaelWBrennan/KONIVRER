@@ -7,7 +7,7 @@
   background: linear-gradient(135deg, var(--accent-color) 0%, #e6c466 100%);
   color: #000;
   border-radius: 16px;
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.4),
     0 4px 16px rgba(212, 175, 55, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -163,30 +163,30 @@
     left: var(--spacing-sm);
     right: var(--spacing-sm);
   }
-  
+
   .pwa-prompt-content {
     padding: var(--spacing-md);
   }
-  
+
   .pwa-prompt-title {
     font-size: 1.2rem;
   }
-  
+
   .pwa-prompt-description {
     font-size: 0.9rem;
   }
-  
+
   .pwa-prompt-features {
     flex-direction: column;
     gap: var(--spacing-xs);
   }
-  
+
   .pwa-feature {
     flex-direction: row;
     justify-content: flex-start;
     text-align: left;
   }
-  
+
   .feature-icon {
     font-size: 1.2rem;
     margin-right: var(--spacing-sm);
@@ -199,34 +199,34 @@
     bottom: var(--spacing-xs);
     max-width: 350px;
   }
-  
+
   .pwa-prompt-content {
     padding: var(--spacing-sm) var(--spacing-md);
   }
-  
+
   .pwa-prompt-icon {
     font-size: 2rem;
     margin-bottom: 0.25rem;
   }
-  
+
   .pwa-prompt-title {
     font-size: 1.1rem;
     margin-bottom: 0.25rem;
   }
-  
+
   .pwa-prompt-description {
     font-size: 0.85rem;
     margin-bottom: var(--spacing-sm);
   }
-  
+
   .pwa-prompt-features {
     margin-bottom: var(--spacing-sm);
   }
-  
+
   .pwa-feature {
     font-size: 0.8rem;
   }
-  
+
   .feature-icon {
     font-size: 1.2rem;
   }
@@ -239,13 +239,13 @@
     color: #000;
     border: 2px solid #000;
   }
-  
+
   .pwa-button.primary {
     background: #000;
     color: #ffff00;
     border: 2px solid #000;
   }
-  
+
   .pwa-button.secondary {
     background: transparent;
     color: #000;
@@ -260,12 +260,12 @@
     transform: translateY(0);
     opacity: 1;
   }
-  
+
   .pwa-button,
   .pwa-dismiss-button {
     transition: none;
   }
-  
+
   .pwa-button:hover,
   .pwa-dismiss-button:hover {
     transform: none;

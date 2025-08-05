@@ -10,9 +10,11 @@ interface OrientationHandlerProps {
 const OrientationHandler: React.FC<OrientationHandlerProps> = ({
   children,
   preferredOrientation = 'any',
-  showPrompt = true
+  showPrompt = true,
 }) => {
-  const [orientation, setOrientation] = useState<'portrait' | 'landscape'>('portrait');
+  const [orientation, setOrientation] = useState<'portrait' | 'landscape'>(
+    'portrait',
+  );
   const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
 
   useEffect(() => {
@@ -22,7 +24,11 @@ const OrientationHandler: React.FC<OrientationHandlerProps> = ({
       setOrientation(newOrientation);
 
       // Show prompt if orientation doesn't match preference
-      if (preferredOrientation !== 'any' && preferredOrientation !== newOrientation && showPrompt) {
+      if (
+        preferredOrientation !== 'any' &&
+        preferredOrientation !== newOrientation &&
+        showPrompt
+      ) {
         setShowOrientationPrompt(true);
         // Auto-hide after 5 seconds
         setTimeout(() => setShowOrientationPrompt(false), 5000);
@@ -51,7 +57,7 @@ const OrientationHandler: React.FC<OrientationHandlerProps> = ({
   return (
     <div className={`orientation-container ${orientation}`}>
       {children}
-      
+
       {showOrientationPrompt && (
         <div className="orientation-prompt-overlay">
           <div className="orientation-prompt">
@@ -66,7 +72,7 @@ const OrientationHandler: React.FC<OrientationHandlerProps> = ({
             <div className="orientation-animation">
               <div className={`phone-icon ${preferredOrientation}`}></div>
             </div>
-            <button 
+            <button
               className="orientation-dismiss"
               onClick={dismissPrompt}
               aria-label="Dismiss orientation prompt"

@@ -10,7 +10,11 @@ interface MobileLayoutProps {
   showNavigation?: boolean;
   preferredOrientation?: 'portrait' | 'landscape' | 'any';
   enableSwipeGestures?: boolean;
-  onSwipe?: (direction: { direction: 'left' | 'right' | 'up' | 'down' | null; distance: number; velocity: number }) => void;
+  onSwipe?: (direction: {
+    direction: 'left' | 'right' | 'up' | 'down' | null;
+    distance: number;
+    velocity: number;
+  }) => void;
 }
 
 const MobileLayout: React.FC<MobileLayoutProps> = ({
@@ -18,21 +22,27 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
   showNavigation = true,
   preferredOrientation = 'any',
   enableSwipeGestures = true,
-  onSwipe
+  onSwipe,
 }) => {
   // Default navigation items (can be customized based on app needs)
   const navigationItems = [
     { id: 'home', label: 'Home', icon: '🏠', path: '/' },
     { id: 'decks', label: 'Decks', icon: '🎴', path: '/decks' },
-    { id: 'tournaments', label: 'Tournaments', icon: '🏆', path: '/tournaments', badge: 2 },
+    {
+      id: 'tournaments',
+      label: 'Tournaments',
+      icon: '🏆',
+      path: '/tournaments',
+      badge: 2,
+    },
     { id: 'social', label: 'Social', icon: '👥', path: '/social' },
-    { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' }
+    { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' },
   ];
 
   const { handlers } = useTouchGestures({
     enableSwipe: enableSwipeGestures,
     onSwipe: onSwipe,
-    minSwipeDistance: 100
+    minSwipeDistance: 100,
   });
 
   const handleNavigate = (path: string) => {
@@ -46,7 +56,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
       <div className="mobile-layout" {...(enableSwipeGestures ? handlers : {})}>
         {/* Safe area top spacer */}
         <div className="safe-area-spacer-top" />
-        
+
         {/* Mobile Navigation */}
         {showNavigation && (
           <MobileNavigation
@@ -55,17 +65,15 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
             onNavigate={handleNavigate}
           />
         )}
-        
+
         {/* Main Content */}
         <main className="mobile-main-content">
-          <div className="content-wrapper">
-            {children}
-          </div>
+          <div className="content-wrapper">{children}</div>
         </main>
-        
+
         {/* Safe area bottom spacer (accounts for navigation) */}
         <div className="safe-area-spacer-bottom" />
-        
+
         {/* PWA Install Prompt */}
         <PWAInstallPrompt />
       </div>
