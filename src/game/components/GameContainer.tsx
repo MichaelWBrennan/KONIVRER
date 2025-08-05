@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { gameEngine } from '../GameEngine';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
 import OrientationPrompt from '../../components/OrientationPrompt';
+import { useDynamicSizing } from '../../utils/userAgentSizing';
 import '../styles/mobile.css';
 
 interface GameContainerProps {
@@ -29,8 +30,11 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
-  const [isLandscape, setIsLandscape] = useState(false);
+  // const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
+  // const [isLandscape, setIsLandscape] = useState(false);
+  
+  // Get dynamic sizing based on user agent
+  const dynamicSizing = useDynamicSizing();
 
   // Enhanced game modes with better descriptions and icons
   const gameModes: GameMode[] = [
@@ -147,8 +151,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   }, []);
 
   const handleOrientationChange = (landscape: boolean) => {
-    setIsLandscape(landscape);
-    setShowOrientationPrompt(!landscape);
+    // Orientation change handling for future use
+    console.log('Orientation changed to:', landscape ? 'landscape' : 'portrait');
+    // setIsLandscape(landscape);
+    // setShowOrientationPrompt(!landscape);
   };
 
   // Add touch event handlers for better mobile experience
@@ -183,20 +189,35 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   }, [gameState]);
 
   const containerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1500,
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    maxWidth: dynamicSizing.unit === 'px' ? `${dynamicSizing.maxWidth}px` : '100%',
+    maxHeight: dynamicSizing.unit === 'px' ? `${dynamicSizing.maxHeight}px` : '100%',
+    minWidth: `${dynamicSizing.minWidth}px`,
+    minHeight: `${dynamicSizing.minHeight}px`,
+    margin: '0 auto',
+    zIndex: 10,
     background: '#1a1a1a',
     overflow: 'hidden',
-    touchAction: 'manipulation', // Improve touch responsiveness
-    userSelect: 'none', // Prevent text selection
+    touchAction: 'manipulation',
+    userSelect: 'none',
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
     WebkitTapHighlightColor: 'transparent',
-  };
+    borderRadius: dynamicSizing.containerPadding > 0 ? '8px' : '0',
+    boxShadow: dynamicSizing.containerPadding > 0 ? '0 4px 20px rgba(0, 0, 0, 0.3)' : 'none',
+    boxSizing: 'border-box',
+    // Enhanced responsiveness
+    aspectRatio: dynamicSizing.width && dynamicSizing.height ? `${dynamicSizing.width} / ${dynamicSizing.height}` : 'auto',
+    // Better mobile performance
+    transform: 'translateZ(0)',
+    willChange: 'transform',
+    // Ensure proper sizing coordination with parent container
+    '--dynamic-width': dynamicSizing.cssWidth,
+    '--dynamic-height': dynamicSizing.cssHeight,
+    '--scale-factor': `${dynamicSizing.scaleFactor}`,
+  } as React.CSSProperties;
 
   const gameCanvasStyle: React.CSSProperties = {
     width: '100%',
@@ -207,7 +228,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   };
 
   return (
-    <div style={containerStyle} className="mobile-game-container">
+    <div style={containerStyle} className="mobile-game-container dynamic-sizing">
       {/* Orientation Prompt */}
       <OrientationPrompt onOrientationChange={handleOrientationChange} />
 
