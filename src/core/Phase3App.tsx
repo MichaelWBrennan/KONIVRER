@@ -628,7 +628,7 @@ const HomePage = () => {
             gap: '30px',
           }}
         >
-          {recentPosts.map((post, _index) => (
+          {recentPosts.map((post, index) => (
             <Card key={post.id} delay={index * 0.1}>
               <div>
                 <h3
@@ -755,7 +755,7 @@ const DecksPage = () => {
         }}
         data-search-type="deck"
       >
-        {decks.map((deck, _index) => (
+        {decks.map((deck, index) => (
           <Card key={deck.id} delay={index * 0.1}>
             <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
               {deck.name}
