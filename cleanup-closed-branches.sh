@@ -2,6 +2,8 @@
 
 # Script to delete branches corresponding to closed/merged pull requests
 # This script identifies and deletes remote branches for PRs that have been closed or merged
+# Updated: August 2025 - Synchronized with current repository state
+# Current active PRs: #877, #880
 
 echo "🧹 KONIVRER Branch Cleanup - Delete Closed PR Branches"
 echo "====================================================="
@@ -9,24 +11,16 @@ echo "====================================================="
 # Branches to KEEP (correspond to open PRs or main)
 declare -a KEEP_BRANCHES=(
     "main"
-    "copilot/fix-9ebb10ce-ffa1-4649-b662-2937a08c5867"  # PR #851 - open
-    "copilot/fix-3894c120-0c57-4128-814f-b09b11abe594"  # PR #837 - open
-    "copilot/fix-4f3310e6-5582-40df-826f-db3a106e33d2"  # PR #835 - open
-    "copilot/fix-e7eb9f0e-1fe2-40f8-b886-778e67247d32"  # PR #816 - open
+    "copilot/fix-1708d50b-0ab1-4dc7-ac21-e3543b575232"  # PR #877 - open
+    "copilot/fix-e8312904-c589-4acc-bff1-808c9fefce1c"  # PR #880 - open
 )
 
 # Branches to DELETE (correspond to closed/merged PRs)
+# Note: These branches have been checked and no longer exist in the repository
+# The script will safely handle non-existent branches
 declare -a DELETE_BRANCHES=(
-    "copilot/fix-5cef6195-a423-4b63-9ef6-c04bc555d7b4"  # Closed PR
-    "copilot/fix-9a8050a5-9f7f-4d93-b3ea-0d176b98bc1d"  # Closed PR
-    "copilot/fix-74c899c1-33f3-46ae-9116-5c2e78fdba70"  # Closed PR
-    "copilot/fix-560b0654-1f87-4505-812d-923905679271"  # Closed PR
-    "copilot/fix-874ed1f5-8131-409e-8d48-0d45a5346b82"  # Closed PR
-    "copilot/fix-b06e2c7d-386b-4c77-bd85-f084fee2d5c3"  # Closed PR
-    "copilot/fix-b9f9e005-0a8a-4e9c-80b9-eccd5fb2b924"  # Closed PR
-    "copilot/fix-b170fd51-1c1f-43d9-9f00-77a58e43b3c6"  # Closed PR
-    "copilot/fix-dd40ab33-6740-4256-81e3-db063b14d23e"  # Closed PR
-    "copilot/fix-e465f4cc-3f2b-4e96-bbbf-f75e7464230e"  # Closed PR
+    # All previously tracked closed PR branches have been cleaned up
+    # This array is kept for future use when branches need to be deleted
 )
 
 echo "📋 Analysis Results:"
