@@ -560,14 +560,18 @@ class SecurityIntelligenceEngine extends EventEmitter {
     return [];
   }
 
-  private async handleVulnerabilities(vulnerabilities: unknown[]): Promise<void> {
+  private async handleVulnerabilities(
+    vulnerabilities: unknown[],
+  ): Promise<void> {
     // Handle discovered vulnerabilities
     for (const vuln of vulnerabilities) {
       await this.patchVulnerability(vuln);
     }
   }
 
-  private async handleComplianceViolations(violations: unknown[]): Promise<void> {
+  private async handleComplianceViolations(
+    violations: unknown[],
+  ): Promise<void> {
     // Handle compliance violations
     for (const violation of violations) {
       await this.resolveComplianceIssue(violation);

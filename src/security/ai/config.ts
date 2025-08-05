@@ -21,10 +21,10 @@ export interface AISecurityConfiguration {
   scanning: {
     enabled: boolean;
     engines: {
-      snyk: { enabled: boolean; apiKey?: string; };
-      semgrep: { enabled: boolean; apiKey?: string; };
-      codeql: { enabled: boolean; };
-      custom: { enabled: boolean; rules: string[]; };
+      snyk: { enabled: boolean; apiKey?: string };
+      semgrep: { enabled: boolean; apiKey?: string };
+      codeql: { enabled: boolean };
+      custom: { enabled: boolean; rules: string[] };
     };
     schedule: {
       continuous: boolean;
@@ -230,8 +230,8 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     confidence: {
       minimumThreshold: 0.7,
       autoActionThreshold: 0.9,
-      escalationThreshold: 0.95
-    }
+      escalationThreshold: 0.95,
+    },
   },
 
   scanning: {
@@ -240,18 +240,18 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
       snyk: { enabled: true },
       semgrep: { enabled: true },
       codeql: { enabled: true },
-      custom: { enabled: true, rules: [] }
+      custom: { enabled: true, rules: [] },
     },
     schedule: {
       continuous: true,
       interval: 60, // 1 hour
-      dailyTime: "02:00"
+      dailyTime: '02:00',
     },
     ai: {
       enhancement: true,
       falsePositiveReduction: true,
-      customRuleGeneration: true
-    }
+      customRuleGeneration: true,
+    },
   },
 
   dependencies: {
@@ -259,19 +259,19 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     ai: {
       riskAssessment: true,
       autoUpdate: true,
-      alternativeRecommendations: true
+      alternativeRecommendations: true,
     },
     updates: {
       security: 'auto',
       patch: 'auto',
       minor: 'manual',
-      major: 'manual'
+      major: 'manual',
     },
     riskThresholds: {
       autoApprove: 3,
       requireReview: 7,
-      block: 9
-    }
+      block: 9,
+    },
   },
 
   codeReview: {
@@ -279,17 +279,17 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     ai: {
       securityAnalysis: true,
       autoFix: true,
-      contextualAnalysis: true
+      contextualAnalysis: true,
     },
     triggers: {
       pullRequests: true,
       commits: true,
-      scheduled: false
+      scheduled: false,
     },
     thresholds: {
       securityScore: 8.0,
-      requireHumanReview: 6.0
-    }
+      requireHumanReview: 6.0,
+    },
   },
 
   threatDetection: {
@@ -298,19 +298,19 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     ai: {
       anomalyDetection: true,
       patternLearning: true,
-      predictiveAnalysis: true
+      predictiveAnalysis: true,
     },
     monitoring: {
       network: true,
       application: true,
       userBehavior: true,
-      system: true
+      system: true,
     },
     response: {
       automated: true,
       confidence: 0.95,
-      maxRisk: 0.1
-    }
+      maxRisk: 0.1,
+    },
   },
 
   compliance: {
@@ -319,13 +319,13 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     ai: {
       continuousAssessment: true,
       gapAnalysis: true,
-      predictiveCompliance: true
+      predictiveCompliance: true,
     },
     reporting: {
       automated: true,
       frequency: 'weekly',
-      stakeholders: ['security@konivrer.com']
-    }
+      stakeholders: ['security@konivrer.com'],
+    },
   },
 
   quantum: {
@@ -333,13 +333,13 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     assessment: {
       vulnerabilityScanning: true,
       migrationPlanning: true,
-      readinessValidation: true
+      readinessValidation: true,
     },
     algorithms: {
       current: ['AES-256', 'RSA-2048', 'ECDSA'],
       target: ['CRYSTALS-Kyber', 'CRYSTALS-Dilithium', 'FALCON'],
-      hybridMode: true
-    }
+      hybridMode: true,
+    },
   },
 
   benchmarking: {
@@ -347,10 +347,10 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     ai: {
       competitiveAnalysis: true,
       trendTracking: true,
-      improvementRecommendations: true
+      improvementRecommendations: true,
     },
     frequency: 'monthly',
-    peers: []
+    peers: [],
   },
 
   cicd: {
@@ -361,16 +361,20 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
       thresholds: {
         security: 80,
         performance: 5000, // 5 seconds
-        coverage: 85
-      }
+        coverage: 85,
+      },
     },
     deployment: {
       zeroDowntime: true,
       rollback: {
         automatic: true,
-        triggers: ['performance_degradation', 'security_alert', 'error_rate_spike']
-      }
-    }
+        triggers: [
+          'performance_degradation',
+          'security_alert',
+          'error_rate_spike',
+        ],
+      },
+    },
   },
 
   documentation: {
@@ -378,13 +382,13 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     ai: {
       generation: true,
       maintenance: true,
-      translation: false
+      translation: false,
     },
     formats: ['markdown', 'html'],
     automation: {
       onCodeChange: true,
-      scheduled: true
-    }
+      scheduled: true,
+    },
   },
 
   silentMode: {
@@ -395,8 +399,8 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     emergencyAlerts: {
       critical: true,
       system: true,
-      data: true
-    }
+      data: true,
+    },
   },
 
   approval: {
@@ -404,12 +408,12 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     maintainers: ['MichaelWBrennan'],
     automated: {
       lowRisk: true,
-      threshold: 0.8
+      threshold: 0.8,
     },
     escalation: {
       timeout: 48, // 48 hours
-      stakeholders: ['security@konivrer.com']
-    }
+      stakeholders: ['security@konivrer.com'],
+    },
   },
 
   general: {
@@ -417,14 +421,14 @@ export const defaultAISecurityConfig: AISecurityConfiguration = {
     logging: {
       level: 'info',
       silent: false,
-      retention: 90
+      retention: 90,
     },
     performance: {
       maxOverhead: 5, // 5%
       monitoring: true,
-      optimization: true
-    }
-  }
+      optimization: true,
+    },
+  },
 };
 
 // Configuration utilities
@@ -445,18 +449,18 @@ export class AISecurityConfigManager {
 
   isFeatureEnabled(feature: string): boolean {
     const features = {
-      'ai': () => this.config.ai.enabled,
-      'scanning': () => this.config.scanning.enabled,
-      'dependencies': () => this.config.dependencies.enabled,
-      'codeReview': () => this.config.codeReview.enabled,
-      'threatDetection': () => this.config.threatDetection.enabled,
-      'compliance': () => this.config.compliance.enabled,
-      'quantum': () => this.config.quantum.enabled,
-      'benchmarking': () => this.config.benchmarking.enabled,
-      'cicd': () => this.config.cicd.enabled,
-      'documentation': () => this.config.documentation.enabled,
-      'silentMode': () => this.config.silentMode.enabled,
-      'approval': () => this.config.approval.enabled
+      ai: () => this.config.ai.enabled,
+      scanning: () => this.config.scanning.enabled,
+      dependencies: () => this.config.dependencies.enabled,
+      codeReview: () => this.config.codeReview.enabled,
+      threatDetection: () => this.config.threatDetection.enabled,
+      compliance: () => this.config.compliance.enabled,
+      quantum: () => this.config.quantum.enabled,
+      benchmarking: () => this.config.benchmarking.enabled,
+      cicd: () => this.config.cicd.enabled,
+      documentation: () => this.config.documentation.enabled,
+      silentMode: () => this.config.silentMode.enabled,
+      approval: () => this.config.approval.enabled,
     };
 
     return features[feature]?.() || false;
@@ -468,21 +472,28 @@ export class AISecurityConfigManager {
       userNotifications: this.config.silentMode.userNotifications,
       backgroundProcessing: this.config.silentMode.backgroundProcessing,
       developerVisibility: this.config.silentMode.developerVisibility,
-      emergencyAlerts: this.config.silentMode.emergencyAlerts
+      emergencyAlerts: this.config.silentMode.emergencyAlerts,
     };
   }
 
-  private mergeConfig(base: unknown, updates: unknown): AISecurityConfiguration {
+  private mergeConfig(
+    base: unknown,
+    updates: unknown,
+  ): AISecurityConfiguration {
     const result = { ...base };
-    
+
     for (const key in updates) {
-      if (updates[key] && typeof updates[key] === 'object' && !Array.isArray(updates[key])) {
+      if (
+        updates[key] &&
+        typeof updates[key] === 'object' &&
+        !Array.isArray(updates[key])
+      ) {
         result[key] = this.mergeConfig(base[key] || {}, updates[key]);
       } else {
         result[key] = updates[key];
       }
     }
-    
+
     return result;
   }
 }
@@ -494,8 +505,8 @@ export const developmentConfig: Partial<AISecurityConfiguration> = {
     logging: {
       level: 'debug',
       silent: false,
-      retention: 30
-    }
+      retention: 30,
+    },
   },
   silentMode: {
     enabled: true,
@@ -505,9 +516,9 @@ export const developmentConfig: Partial<AISecurityConfiguration> = {
     emergencyAlerts: {
       critical: true,
       system: true,
-      data: true
-    }
-  }
+      data: true,
+    },
+  },
 };
 
 export const productionConfig: Partial<AISecurityConfiguration> = {
@@ -516,8 +527,8 @@ export const productionConfig: Partial<AISecurityConfiguration> = {
     logging: {
       level: 'warn',
       silent: true,
-      retention: 90
-    }
+      retention: 90,
+    },
   },
   silentMode: {
     enabled: true,
@@ -527,9 +538,9 @@ export const productionConfig: Partial<AISecurityConfiguration> = {
     emergencyAlerts: {
       critical: true,
       system: true,
-      data: true
-    }
-  }
+      data: true,
+    },
+  },
 };
 
 // Export default instance

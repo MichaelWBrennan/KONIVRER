@@ -116,10 +116,14 @@ const useAdvancedAutonomous = () => {
           getAverages: () => {
             const measurements =
               autonomousRef.current.speedTracking.measurements;
-            const labels = [...new Set(measurements.map((m: unknown) => m.label))];
+            const labels = [
+              ...new Set(measurements.map((m: unknown) => m.label)),
+            ];
 
             return labels.map(label => {
-              const items = measurements.filter((m: unknown) => m.label === label);
+              const items = measurements.filter(
+                (m: unknown) => m.label === label,
+              );
               const total = items.reduce(
                 (sum: number, item: unknown) => sum + item.elapsed,
                 0,

@@ -944,7 +944,10 @@ class AdvancedSelfHealingSystem {
     return selectedStrategy;
   }
 
-  private calculateStrategyActivation(strategy: string, context: unknown): number {
+  private calculateStrategyActivation(
+    strategy: string,
+    context: unknown,
+  ): number {
     // Calculate neural activation for strategy selection
     const strategyIndex = [
       'react_error',
