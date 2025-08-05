@@ -33,7 +33,13 @@ interface DistributedTask {
     timeout?: number;
   };
   assignedNodes: string[];
-  status: 'pending' | 'assigned' | 'running' | 'completed' | 'failed' | 'cancelled';
+  status:
+    | 'pending'
+    | 'assigned'
+    | 'running'
+    | 'completed'
+    | 'failed'
+    | 'cancelled';
   startTime?: Date;
   completionTime?: Date;
   result?: any;
@@ -62,7 +68,12 @@ interface ClusterMetrics {
 }
 
 interface LoadBalancingStrategy {
-  type: 'round-robin' | 'least-loaded' | 'capability-based' | 'location-aware' | 'ai-optimized';
+  type:
+    | 'round-robin'
+    | 'least-loaded'
+    | 'capability-based'
+    | 'location-aware'
+    | 'ai-optimized';
   weights: { [key: string]: number };
   thresholds: { [key: string]: number };
 }
@@ -87,13 +98,13 @@ class DistributedProcessingCore {
       throughput: 0,
       latency: 0,
       reliability: 0.99,
-      efficiency: 0.95
+      efficiency: 0.95,
     };
 
     this.loadBalancingStrategy = {
       type: 'ai-optimized',
       weights: { cpu: 0.3, memory: 0.25, bandwidth: 0.2, capabilities: 0.25 },
-      thresholds: { cpu: 80, memory: 85, bandwidth: 90 }
+      thresholds: { cpu: 80, memory: 85, bandwidth: 90 },
     };
 
     this.initializeDistributedCore();
@@ -105,16 +116,16 @@ class DistributedProcessingCore {
     try {
       // Initialize local node
       await this.initializeLocalNode();
-      
+
       // Discover other nodes
       await this.discoverNodes();
-      
+
       // Start coordination services
       this.startCoordinationServices();
-      
+
       // Begin load balancing
       this.startLoadBalancing();
-      
+
       // Enable fault tolerance
       this.enableFaultTolerance();
 
@@ -136,17 +147,17 @@ class DistributedProcessingCore {
         'predictive-analytics',
         'neural-optimization',
         'real-time-processing',
-        'cross-modal-fusion'
+        'cross-modal-fusion',
       ],
       resources: {
         cpu: 100, // Percentage available
         memory: 100,
         storage: 100,
-        bandwidth: 100
+        bandwidth: 100,
       },
       workload: 0,
       lastHeartbeat: new Date(),
-      priority: 1
+      priority: 1,
     };
 
     this.nodes.set(localNode.id, localNode);
@@ -167,7 +178,7 @@ class DistributedProcessingCore {
 
     // Simulate discovering additional nodes in the network
     const discoveredNodes = this.simulateNodeDiscovery();
-    
+
     for (const nodeInfo of discoveredNodes) {
       this.nodes.set(nodeInfo.id, nodeInfo);
       console.log(`📡 Discovered node: ${nodeInfo.id} (${nodeInfo.type})`);
@@ -177,9 +188,21 @@ class DistributedProcessingCore {
   }
 
   private simulateNodeDiscovery(): NodeInfo[] {
-    const nodeTypes: Array<NodeInfo['type']> = ['secondary', 'worker', 'worker', 'edge', 'edge'];
-    const locations = ['us-east', 'us-west', 'eu-central', 'asia-pacific', 'local'];
-    
+    const nodeTypes: Array<NodeInfo['type']> = [
+      'secondary',
+      'worker',
+      'worker',
+      'edge',
+      'edge',
+    ];
+    const locations = [
+      'us-east',
+      'us-west',
+      'eu-central',
+      'asia-pacific',
+      'local',
+    ];
+
     return nodeTypes.map((type, index) => ({
       id: this.generateNodeId(),
       type,
@@ -189,18 +212,28 @@ class DistributedProcessingCore {
       workload: Math.random() * 30, // 0-30% initial workload
       lastHeartbeat: new Date(),
       location: locations[index % locations.length],
-      priority: type === 'primary' ? 1 : type === 'secondary' ? 2 : 3
+      priority: type === 'primary' ? 1 : type === 'secondary' ? 2 : 3,
     }));
   }
 
   private generateNodeCapabilities(type: NodeInfo['type']): string[] {
     const baseCapabilities = ['basic-processing', 'storage', 'networking'];
-    
+
     switch (type) {
       case 'primary':
-        return [...baseCapabilities, 'quantum-security', 'multi-modal-ai', 'coordination'];
+        return [
+          ...baseCapabilities,
+          'quantum-security',
+          'multi-modal-ai',
+          'coordination',
+        ];
       case 'secondary':
-        return [...baseCapabilities, 'predictive-analytics', 'neural-optimization', 'backup-coordination'];
+        return [
+          ...baseCapabilities,
+          'predictive-analytics',
+          'neural-optimization',
+          'backup-coordination',
+        ];
       case 'worker':
         return [...baseCapabilities, 'parallel-processing', 'data-analysis'];
       case 'edge':
@@ -215,7 +248,7 @@ class DistributedProcessingCore {
       cpu: 50 + Math.random() * 50,
       memory: 50 + Math.random() * 50,
       storage: 50 + Math.random() * 50,
-      bandwidth: 50 + Math.random() * 50
+      bandwidth: 50 + Math.random() * 50,
     };
 
     // Scale resources based on node type
@@ -223,16 +256,16 @@ class DistributedProcessingCore {
       primary: 1.5,
       secondary: 1.2,
       worker: 1.0,
-      edge: 0.8
+      edge: 0.8,
     };
 
     const multiplier = multipliers[type] || 1.0;
-    
+
     return {
       cpu: Math.min(100, baseResources.cpu * multiplier),
       memory: Math.min(100, baseResources.memory * multiplier),
       storage: Math.min(100, baseResources.storage * multiplier),
-      bandwidth: Math.min(100, baseResources.bandwidth * multiplier)
+      bandwidth: Math.min(100, baseResources.bandwidth * multiplier),
     };
   }
 
@@ -242,13 +275,13 @@ class DistributedProcessingCore {
     if (this.isCoordinator) {
       // Task scheduling
       setInterval(() => this.scheduleDistributedTasks(), 1000);
-      
+
       // Health monitoring
       setInterval(() => this.monitorNodeHealth(), this.heartbeatInterval);
-      
+
       // Load balancing
       setInterval(() => this.balanceClusterLoad(), 10000);
-      
+
       // Cluster optimization
       setInterval(() => this.optimizeCluster(), 30000);
     }
@@ -271,29 +304,36 @@ class DistributedProcessingCore {
 
     // Replica management
     setInterval(() => this.manageReplicas(), 20000);
-    
+
     // Failure detection and recovery
     setInterval(() => this.detectAndRecoverFailures(), 10000);
-    
+
     // Coordinator election
     setInterval(() => this.coordinatorElection(), 30000);
   }
 
-  public async submitTask(task: Omit<DistributedTask, 'id' | 'status' | 'assignedNodes'>): Promise<string> {
+  public async submitTask(
+    task: Omit<DistributedTask, 'id' | 'status' | 'assignedNodes'>,
+  ): Promise<string> {
     const distributedTask: DistributedTask = {
       id: this.generateTaskId(),
       status: 'pending',
       assignedNodes: [],
-      ...task
+      ...task,
     };
 
     this.tasks.set(distributedTask.id, distributedTask);
     this.taskQueue.push(distributedTask);
 
-    console.log(`📝 Task submitted: ${distributedTask.id} (${distributedTask.type}, ${distributedTask.priority})`);
-    
+    console.log(
+      `📝 Task submitted: ${distributedTask.id} (${distributedTask.type}, ${distributedTask.priority})`,
+    );
+
     // Trigger immediate scheduling for high-priority tasks
-    if (distributedTask.priority === 'critical' || distributedTask.priority === 'emergency') {
+    if (
+      distributedTask.priority === 'critical' ||
+      distributedTask.priority === 'emergency'
+    ) {
       await this.scheduleTask(distributedTask);
     }
 
@@ -311,13 +351,19 @@ class DistributedProcessingCore {
 
     // Sort tasks by priority
     this.taskQueue.sort((a, b) => {
-      const priorityOrder = { emergency: 5, critical: 4, high: 3, medium: 2, low: 1 };
+      const priorityOrder = {
+        emergency: 5,
+        critical: 4,
+        high: 3,
+        medium: 2,
+        low: 1,
+      };
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
 
     // Schedule up to 10 tasks per cycle
     const tasksToSchedule = this.taskQueue.splice(0, 10);
-    
+
     for (const task of tasksToSchedule) {
       try {
         await this.scheduleTask(task);
@@ -332,7 +378,7 @@ class DistributedProcessingCore {
   private async scheduleTask(task: DistributedTask): Promise<void> {
     // Find best nodes for the task
     const suitableNodes = this.findSuitableNodes(task);
-    
+
     if (suitableNodes.length === 0) {
       console.warn(`⚠️ No suitable nodes found for task ${task.id}`);
       return;
@@ -340,7 +386,7 @@ class DistributedProcessingCore {
 
     // Select optimal nodes based on load balancing strategy
     const selectedNodes = this.selectOptimalNodes(suitableNodes, task);
-    
+
     // Assign task to selected nodes
     task.assignedNodes = selectedNodes.map(node => node.id);
     task.status = 'assigned';
@@ -348,7 +394,7 @@ class DistributedProcessingCore {
 
     // Execute task on assigned nodes
     await this.executeDistributedTask(task, selectedNodes);
-    
+
     console.log(`🚀 Task ${task.id} assigned to ${selectedNodes.length} nodes`);
   }
 
@@ -364,15 +410,27 @@ class DistributedProcessingCore {
     return suitableNodes;
   }
 
-  private isNodeSuitableForTask(node: NodeInfo, task: DistributedTask): boolean {
+  private isNodeSuitableForTask(
+    node: NodeInfo,
+    task: DistributedTask,
+  ): boolean {
     // Check node status
     if (node.status !== 'online') return false;
 
     // Check resource requirements
     const requirements = task.requirements;
-    if (requirements.minCpu && node.resources.cpu < requirements.minCpu) return false;
-    if (requirements.minMemory && node.resources.memory < requirements.minMemory) return false;
-    if (requirements.minBandwidth && node.resources.bandwidth < requirements.minBandwidth) return false;
+    if (requirements.minCpu && node.resources.cpu < requirements.minCpu)
+      return false;
+    if (
+      requirements.minMemory &&
+      node.resources.memory < requirements.minMemory
+    )
+      return false;
+    if (
+      requirements.minBandwidth &&
+      node.resources.bandwidth < requirements.minBandwidth
+    )
+      return false;
 
     // Check capability requirements
     if (requirements.capabilities) {
@@ -387,7 +445,10 @@ class DistributedProcessingCore {
     return true;
   }
 
-  private selectOptimalNodes(suitableNodes: NodeInfo[], task: DistributedTask): NodeInfo[] {
+  private selectOptimalNodes(
+    suitableNodes: NodeInfo[],
+    task: DistributedTask,
+  ): NodeInfo[] {
     switch (this.loadBalancingStrategy.type) {
       case 'round-robin':
         return this.selectRoundRobin(suitableNodes, task);
@@ -404,62 +465,95 @@ class DistributedProcessingCore {
     }
   }
 
-  private selectRoundRobin(nodes: NodeInfo[], task: DistributedTask): NodeInfo[] {
+  private selectRoundRobin(
+    nodes: NodeInfo[],
+    task: DistributedTask,
+  ): NodeInfo[] {
     // Simple round-robin selection
-    const selectedCount = Math.min(nodes.length, this.getOptimalNodeCount(task));
+    const selectedCount = Math.min(
+      nodes.length,
+      this.getOptimalNodeCount(task),
+    );
     return nodes.slice(0, selectedCount);
   }
 
-  private selectLeastLoaded(nodes: NodeInfo[], task: DistributedTask): NodeInfo[] {
+  private selectLeastLoaded(
+    nodes: NodeInfo[],
+    task: DistributedTask,
+  ): NodeInfo[] {
     // Sort by lowest workload
     const sortedNodes = [...nodes].sort((a, b) => a.workload - b.workload);
-    const selectedCount = Math.min(sortedNodes.length, this.getOptimalNodeCount(task));
+    const selectedCount = Math.min(
+      sortedNodes.length,
+      this.getOptimalNodeCount(task),
+    );
     return sortedNodes.slice(0, selectedCount);
   }
 
-  private selectCapabilityBased(nodes: NodeInfo[], task: DistributedTask): NodeInfo[] {
+  private selectCapabilityBased(
+    nodes: NodeInfo[],
+    task: DistributedTask,
+  ): NodeInfo[] {
     // Score nodes based on capability match
     const scoredNodes = nodes.map(node => ({
       node,
-      score: this.calculateCapabilityScore(node, task)
+      score: this.calculateCapabilityScore(node, task),
     }));
 
     scoredNodes.sort((a, b) => b.score - a.score);
-    const selectedCount = Math.min(scoredNodes.length, this.getOptimalNodeCount(task));
-    
+    const selectedCount = Math.min(
+      scoredNodes.length,
+      this.getOptimalNodeCount(task),
+    );
+
     return scoredNodes.slice(0, selectedCount).map(item => item.node);
   }
 
-  private selectLocationAware(nodes: NodeInfo[], task: DistributedTask): NodeInfo[] {
+  private selectLocationAware(
+    nodes: NodeInfo[],
+    task: DistributedTask,
+  ): NodeInfo[] {
     // Prefer nodes with better locality
     const scoredNodes = nodes.map(node => ({
       node,
-      score: this.calculateLocationScore(node, task)
+      score: this.calculateLocationScore(node, task),
     }));
 
     scoredNodes.sort((a, b) => b.score - a.score);
-    const selectedCount = Math.min(scoredNodes.length, this.getOptimalNodeCount(task));
-    
+    const selectedCount = Math.min(
+      scoredNodes.length,
+      this.getOptimalNodeCount(task),
+    );
+
     return scoredNodes.slice(0, selectedCount).map(item => item.node);
   }
 
-  private selectAIOptimized(nodes: NodeInfo[], task: DistributedTask): NodeInfo[] {
+  private selectAIOptimized(
+    nodes: NodeInfo[],
+    task: DistributedTask,
+  ): NodeInfo[] {
     // AI-driven node selection considering multiple factors
     const scoredNodes = nodes.map(node => ({
       node,
-      score: this.calculateAIOptimizedScore(node, task)
+      score: this.calculateAIOptimizedScore(node, task),
     }));
 
     scoredNodes.sort((a, b) => b.score - a.score);
-    const selectedCount = Math.min(scoredNodes.length, this.getOptimalNodeCount(task));
-    
+    const selectedCount = Math.min(
+      scoredNodes.length,
+      this.getOptimalNodeCount(task),
+    );
+
     return scoredNodes.slice(0, selectedCount).map(item => item.node);
   }
 
-  private calculateCapabilityScore(node: NodeInfo, task: DistributedTask): number {
+  private calculateCapabilityScore(
+    node: NodeInfo,
+    task: DistributedTask,
+  ): number {
     let score = 0;
     const requiredCapabilities = task.requirements.capabilities || [];
-    
+
     for (const capability of requiredCapabilities) {
       if (node.capabilities.includes(capability)) {
         score += 10;
@@ -468,39 +562,47 @@ class DistributedProcessingCore {
 
     // Bonus for additional capabilities
     score += node.capabilities.length * 0.5;
-    
+
     return score;
   }
 
-  private calculateLocationScore(node: NodeInfo, task: DistributedTask): number {
+  private calculateLocationScore(
+    node: NodeInfo,
+    task: DistributedTask,
+  ): number {
     // Simplified location scoring
     let score = 100;
-    
+
     if (node.location === 'local') score += 50;
     else if (node.location?.includes('us-')) score += 20;
-    
+
     // Factor in network latency (simulated)
     const latency = this.simulateNetworkLatency(node);
     score -= latency * 2;
-    
+
     return Math.max(0, score);
   }
 
-  private calculateAIOptimizedScore(node: NodeInfo, task: DistributedTask): number {
+  private calculateAIOptimizedScore(
+    node: NodeInfo,
+    task: DistributedTask,
+  ): number {
     const weights = this.loadBalancingStrategy.weights;
-    
+
     // Resource utilization score (inverted - lower utilization is better)
-    const resourceScore = (
-      (100 - node.workload) * weights.cpu +
-      node.resources.memory * weights.memory +
-      node.resources.bandwidth * weights.bandwidth
-    ) / (weights.cpu + weights.memory + weights.bandwidth);
+    const resourceScore =
+      ((100 - node.workload) * weights.cpu +
+        node.resources.memory * weights.memory +
+        node.resources.bandwidth * weights.bandwidth) /
+      (weights.cpu + weights.memory + weights.bandwidth);
 
     // Capability match score
-    const capabilityScore = this.calculateCapabilityScore(node, task) * weights.capabilities;
+    const capabilityScore =
+      this.calculateCapabilityScore(node, task) * weights.capabilities;
 
     // Priority bonus
-    const priorityScore = node.priority === 1 ? 20 : node.priority === 2 ? 10 : 0;
+    const priorityScore =
+      node.priority === 1 ? 20 : node.priority === 2 ? 10 : 0;
 
     // Network proximity score
     const locationScore = this.calculateLocationScore(node, task) * 0.1;
@@ -529,62 +631,70 @@ class DistributedProcessingCore {
   private simulateNetworkLatency(node: NodeInfo): number {
     // Simulate network latency based on location
     const latencyMap = {
-      'local': 1,
+      local: 1,
       'us-east': 20,
       'us-west': 30,
       'eu-central': 100,
-      'asia-pacific': 150
+      'asia-pacific': 150,
     };
-    
+
     return latencyMap[node.location] || 50;
   }
 
-  private async executeDistributedTask(task: DistributedTask, nodes: NodeInfo[]): Promise<void> {
+  private async executeDistributedTask(
+    task: DistributedTask,
+    nodes: NodeInfo[],
+  ): Promise<void> {
     task.status = 'running';
-    
+
     try {
       // Simulate distributed execution
-      const executionPromises = nodes.map(node => this.executeTaskOnNode(task, node));
+      const executionPromises = nodes.map(node =>
+        this.executeTaskOnNode(task, node),
+      );
       const results = await Promise.all(executionPromises);
-      
+
       // Aggregate results
       const aggregatedResult = this.aggregateTaskResults(results, task);
-      
+
       task.result = aggregatedResult;
       task.status = 'completed';
       task.completionTime = new Date();
-      
+
       // Update node workloads
       nodes.forEach(node => {
         node.workload = Math.max(0, node.workload - 10); // Task completed, reduce workload
       });
-      
+
       // Move to completed tasks
       this.completedTasks.push(task);
       if (this.completedTasks.length > 1000) {
         this.completedTasks.shift(); // Keep last 1000 completed tasks
       }
-      
+
       console.log(`✅ Task ${task.id} completed successfully`);
     } catch (error) {
       task.status = 'failed';
       task.error = error.message;
       task.completionTime = new Date();
-      
+
       console.error(`❌ Task ${task.id} failed:`, error);
     }
   }
 
-  private async executeTaskOnNode(task: DistributedTask, node: NodeInfo): Promise<any> {
+  private async executeTaskOnNode(
+    task: DistributedTask,
+    node: NodeInfo,
+  ): Promise<any> {
     // Simulate task execution on a specific node
     const executionTime = this.calculateExecutionTime(task, node);
-    
+
     // Update node workload
     node.workload = Math.min(100, node.workload + 15);
-    
+
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, executionTime));
-    
+
     return {
       nodeId: node.id,
       result: this.simulateTaskResult(task, node),
@@ -592,15 +702,18 @@ class DistributedProcessingCore {
       resourceUsage: {
         cpu: Math.random() * 30 + 10,
         memory: Math.random() * 20 + 5,
-        bandwidth: Math.random() * 10 + 2
-      }
+        bandwidth: Math.random() * 10 + 2,
+      },
     };
   }
 
-  private calculateExecutionTime(task: DistributedTask, node: NodeInfo): number {
+  private calculateExecutionTime(
+    task: DistributedTask,
+    node: NodeInfo,
+  ): number {
     // Calculate expected execution time based on task complexity and node performance
     let baseTime = 100; // Base execution time in ms
-    
+
     switch (task.type) {
       case 'compute':
         baseTime = 500;
@@ -618,11 +731,12 @@ class DistributedProcessingCore {
         baseTime = 150;
         break;
     }
-    
+
     // Adjust based on node performance
-    const performanceFactor = (node.resources.cpu / 100) * (100 - node.workload) / 100;
+    const performanceFactor =
+      ((node.resources.cpu / 100) * (100 - node.workload)) / 100;
     const adjustedTime = baseTime / Math.max(0.1, performanceFactor);
-    
+
     // Add some randomness
     return adjustedTime + (Math.random() - 0.5) * 100;
   }
@@ -634,31 +748,31 @@ class DistributedProcessingCore {
         return {
           computation: `Processed by ${node.id}`,
           result: Math.random() * 1000,
-          accuracy: 0.95 + Math.random() * 0.04
+          accuracy: 0.95 + Math.random() * 0.04,
         };
       case 'analysis':
         return {
           insights: [`Analysis insight from ${node.id}`],
           confidence: 0.8 + Math.random() * 0.2,
-          patterns: Math.floor(Math.random() * 10) + 1
+          patterns: Math.floor(Math.random() * 10) + 1,
         };
       case 'optimization':
         return {
           optimization: `Optimized by ${node.id}`,
           improvement: Math.random() * 0.3 + 0.05,
-          iterations: Math.floor(Math.random() * 100) + 10
+          iterations: Math.floor(Math.random() * 100) + 10,
         };
       case 'security':
         return {
           securityScan: `Scanned by ${node.id}`,
           threatsDetected: Math.floor(Math.random() * 3),
-          riskLevel: Math.random() * 0.2
+          riskLevel: Math.random() * 0.2,
         };
       case 'storage':
         return {
           stored: `Data stored on ${node.id}`,
           size: Math.random() * 1000 + 100,
-          redundancy: 3
+          redundancy: 3,
         };
       default:
         return { processed: true, nodeId: node.id };
@@ -671,32 +785,55 @@ class DistributedProcessingCore {
       taskId: task.id,
       nodeCount: results.length,
       totalExecutionTime: Math.max(...results.map(r => r.executionTime)),
-      averageExecutionTime: results.reduce((sum, r) => sum + r.executionTime, 0) / results.length,
+      averageExecutionTime:
+        results.reduce((sum, r) => sum + r.executionTime, 0) / results.length,
       results: results.map(r => r.result),
       resourceUsage: {
         cpu: results.reduce((sum, r) => sum + r.resourceUsage.cpu, 0),
         memory: results.reduce((sum, r) => sum + r.resourceUsage.memory, 0),
-        bandwidth: results.reduce((sum, r) => sum + r.resourceUsage.bandwidth, 0)
-      }
+        bandwidth: results.reduce(
+          (sum, r) => sum + r.resourceUsage.bandwidth,
+          0,
+        ),
+      },
     };
 
     // Type-specific aggregation
     switch (task.type) {
       case 'compute':
-        aggregated['averageResult'] = results.reduce((sum, r) => sum + r.result.result, 0) / results.length;
-        aggregated['overallAccuracy'] = results.reduce((sum, r) => sum + r.result.accuracy, 0) / results.length;
+        aggregated['averageResult'] =
+          results.reduce((sum, r) => sum + r.result.result, 0) / results.length;
+        aggregated['overallAccuracy'] =
+          results.reduce((sum, r) => sum + r.result.accuracy, 0) /
+          results.length;
         break;
       case 'analysis':
-        aggregated['totalInsights'] = results.reduce((acc, r) => acc.concat(r.result.insights), []);
-        aggregated['overallConfidence'] = results.reduce((sum, r) => sum + r.result.confidence, 0) / results.length;
+        aggregated['totalInsights'] = results.reduce(
+          (acc, r) => acc.concat(r.result.insights),
+          [],
+        );
+        aggregated['overallConfidence'] =
+          results.reduce((sum, r) => sum + r.result.confidence, 0) /
+          results.length;
         break;
       case 'optimization':
-        aggregated['totalImprovement'] = results.reduce((sum, r) => sum + r.result.improvement, 0);
-        aggregated['totalIterations'] = results.reduce((sum, r) => sum + r.result.iterations, 0);
+        aggregated['totalImprovement'] = results.reduce(
+          (sum, r) => sum + r.result.improvement,
+          0,
+        );
+        aggregated['totalIterations'] = results.reduce(
+          (sum, r) => sum + r.result.iterations,
+          0,
+        );
         break;
       case 'security':
-        aggregated['totalThreats'] = results.reduce((sum, r) => sum + r.result.threatsDetected, 0);
-        aggregated['maxRiskLevel'] = Math.max(...results.map(r => r.result.riskLevel));
+        aggregated['totalThreats'] = results.reduce(
+          (sum, r) => sum + r.result.threatsDetected,
+          0,
+        );
+        aggregated['maxRiskLevel'] = Math.max(
+          ...results.map(r => r.result.riskLevel),
+        );
         break;
     }
 
@@ -707,61 +844,68 @@ class DistributedProcessingCore {
   private monitorNodeHealth(): void {
     const currentTime = new Date();
     const healthyThreshold = this.heartbeatInterval * 3; // 3 missed heartbeats
-    
+
     for (const [nodeId, node] of this.nodes) {
-      const timeSinceHeartbeat = currentTime.getTime() - node.lastHeartbeat.getTime();
-      
+      const timeSinceHeartbeat =
+        currentTime.getTime() - node.lastHeartbeat.getTime();
+
       if (timeSinceHeartbeat > healthyThreshold) {
         if (node.status === 'online') {
-          console.warn(`⚠️ Node ${nodeId} appears unhealthy (last heartbeat: ${node.lastHeartbeat})`);
+          console.warn(
+            `⚠️ Node ${nodeId} appears unhealthy (last heartbeat: ${node.lastHeartbeat})`,
+          );
           node.status = 'degraded';
         }
-        
+
         if (timeSinceHeartbeat > healthyThreshold * 2) {
           console.error(`❌ Node ${nodeId} marked as offline`);
           node.status = 'offline';
         }
       }
     }
-    
+
     this.updateClusterMetrics();
   }
 
   private sendHeartbeat(): void {
     const localNodeId = this.coordinatorId;
     const localNode = this.nodes.get(localNodeId);
-    
+
     if (localNode) {
       localNode.lastHeartbeat = new Date();
       localNode.workload = this.calculateCurrentWorkload();
-      
+
       // Broadcast heartbeat to other nodes (simulated)
       // In a real implementation, this would send network messages
     }
   }
 
   private calculateCurrentWorkload(): number {
-    const runningTasks = Array.from(this.tasks.values()).filter(task => 
-      task.status === 'running' && task.assignedNodes.includes(this.coordinatorId)
+    const runningTasks = Array.from(this.tasks.values()).filter(
+      task =>
+        task.status === 'running' &&
+        task.assignedNodes.includes(this.coordinatorId),
     );
-    
+
     return Math.min(100, runningTasks.length * 10);
   }
 
   private balanceClusterLoad(): void {
     if (!this.isCoordinator) return;
 
-    const overloadedNodes = Array.from(this.nodes.values()).filter(node => 
-      node.status === 'online' && node.workload > 80
+    const overloadedNodes = Array.from(this.nodes.values()).filter(
+      node => node.status === 'online' && node.workload > 80,
     );
-    
-    const underloadedNodes = Array.from(this.nodes.values()).filter(node => 
-      node.status === 'online' && node.workload < 30
+
+    const underloadedNodes = Array.from(this.nodes.values()).filter(
+      node => node.status === 'online' && node.workload < 30,
     );
 
     if (overloadedNodes.length > 0 && underloadedNodes.length > 0) {
-      console.log(`⚖️ Rebalancing load: ${overloadedNodes.length} overloaded, ${underloadedNodes.length} underloaded`);
-      
+      console.log(
+        `⚖️ Rebalancing load: ${overloadedNodes.length} overloaded, ${underloadedNodes.length} underloaded`,
+      );
+
       // Move tasks from overloaded to underloaded nodes
       for (const overloadedNode of overloadedNodes) {
         this.migrateTasks(overloadedNode, underloadedNodes);
@@ -771,24 +915,27 @@ class DistributedProcessingCore {
 
   private migrateTasks(fromNode: NodeInfo, toNodes: NodeInfo[]): void {
     // Find tasks that can be migrated
-    const migratableTasks = Array.from(this.tasks.values()).filter(task => 
-      task.status === 'running' && 
-      task.assignedNodes.includes(fromNode.id) &&
-      task.assignedNodes.length === 1 // Only migrate single-node tasks
+    const migratableTasks = Array.from(this.tasks.values()).filter(
+      task =>
+        task.status === 'running' &&
+        task.assignedNodes.includes(fromNode.id) &&
+        task.assignedNodes.length === 1, // Only migrate single-node tasks
     );
 
     if (migratableTasks.length > 0 && toNodes.length > 0) {
       const taskToMigrate = migratableTasks[0];
       const targetNode = toNodes[0];
-      
+
       // Reassign task
       taskToMigrate.assignedNodes = [targetNode.id];
-      
+
       // Update workloads
       fromNode.workload = Math.max(0, fromNode.workload - 15);
       targetNode.workload = Math.min(100, targetNode.workload + 15);
-      
-      console.log(`🔄 Migrated task ${taskToMigrate.id} from ${fromNode.id} to ${targetNode.id}`);
+
+      console.log(
+        `🔄 Migrated task ${taskToMigrate.id} from ${fromNode.id} to ${targetNode.id}`,
+      );
     }
   }
 
@@ -796,36 +943,44 @@ class DistributedProcessingCore {
     if (!this.isCoordinator) return;
 
     console.log('⚡ Optimizing cluster performance...');
-    
+
     // Update load balancing strategy based on performance
     this.updateLoadBalancingStrategy();
-    
+
     // Scale cluster if needed
     this.autoScale();
-    
+
     // Optimize task distribution
     this.optimizeTaskDistribution();
-    
+
     this.updateClusterMetrics();
   }
 
   private updateLoadBalancingStrategy(): void {
     // Analyze recent performance and adjust strategy
     const recentTasks = this.completedTasks.slice(-100);
-    
+
     if (recentTasks.length > 10) {
-      const avgLatency = recentTasks.reduce((sum, task) => {
-        const latency = task.completionTime.getTime() - task.startTime.getTime();
-        return sum + latency;
-      }, 0) / recentTasks.length;
-      
+      const avgLatency =
+        recentTasks.reduce((sum, task) => {
+          const latency =
+            task.completionTime.getTime() - task.startTime.getTime();
+          return sum + latency;
+        }, 0) / recentTasks.length;
+
       // Adjust strategy based on performance
-      if (avgLatency > 1000) { // High latency
+      if (avgLatency > 1000) {
+        // High latency
         this.loadBalancingStrategy.type = 'least-loaded';
-        console.log('🎯 Switched to least-loaded balancing due to high latency');
-      } else if (avgLatency < 200) { // Low latency
+        console.log(
+          '🎯 Switched to least-loaded balancing due to high latency',
+        );
+      } else if (avgLatency < 200) {
+        // Low latency
         this.loadBalancingStrategy.type = 'ai-optimized';
-        console.log('🎯 Switched to AI-optimized balancing due to good performance');
+        console.log(
+          '🎯 Switched to AI-optimized balancing due to good performance',
+        );
       }
     }
   }
@@ -835,9 +990,9 @@ class DistributedProcessingCore {
     const totalWorkload = Array.from(this.nodes.values())
       .filter(node => node.status === 'online')
       .reduce((sum, node) => sum + node.workload, 0);
-    
+
     const avgWorkload = totalWorkload / this.clusterMetrics.activeNodes;
-    
+
     if (avgWorkload > 70) {
       console.log('📈 High cluster utilization - considering scale up');
       // In a real implementation, this would trigger node provisioning
@@ -853,7 +1008,7 @@ class DistributedProcessingCore {
       acc[task.type] = (acc[task.type] || 0) + 1;
       return acc;
     }, {});
-    
+
     console.log('📊 Task distribution analysis:', taskTypes);
   }
 
@@ -866,10 +1021,10 @@ class DistributedProcessingCore {
 
   private manageReplicas(): void {
     // Ensure critical tasks have proper replication
-    const criticalTasks = Array.from(this.tasks.values()).filter(task => 
-      task.priority === 'critical' || task.priority === 'emergency'
+    const criticalTasks = Array.from(this.tasks.values()).filter(
+      task => task.priority === 'critical' || task.priority === 'emergency',
     );
-    
+
     for (const task of criticalTasks) {
       if (task.assignedNodes.length < 2) {
         console.log(`🔄 Adding replica for critical task ${task.id}`);
@@ -880,14 +1035,18 @@ class DistributedProcessingCore {
 
   private detectAndRecoverFailures(): void {
     // Detect failed tasks and recover them
-    const failedTasks = Array.from(this.tasks.values()).filter(task => 
-      task.status === 'running' && 
-      task.startTime &&
-      Date.now() - task.startTime.getTime() > (task.requirements.timeout || 30000)
+    const failedTasks = Array.from(this.tasks.values()).filter(
+      task =>
+        task.status === 'running' &&
+        task.startTime &&
+        Date.now() - task.startTime.getTime() >
+          (task.requirements.timeout || 30000),
     );
-    
+
     for (const failedTask of failedTasks) {
-      console.warn(`⚠️ Task ${failedTask.id} appears to have failed - initiating recovery`);
+      console.warn(
+        `⚠️ Task ${failedTask.id} appears to have failed - initiating recovery`,
+      );
       this.recoverFailedTask(failedTask);
     }
   }
@@ -896,7 +1055,7 @@ class DistributedProcessingCore {
     // Mark current attempt as failed
     task.status = 'failed';
     task.error = 'Timeout or node failure';
-    
+
     // Create recovery task
     const recoveryTask: DistributedTask = {
       ...task,
@@ -906,19 +1065,21 @@ class DistributedProcessingCore {
       startTime: undefined,
       completionTime: undefined,
       result: undefined,
-      error: undefined
+      error: undefined,
     };
-    
+
     this.tasks.set(recoveryTask.id, recoveryTask);
     this.taskQueue.unshift(recoveryTask); // High priority for recovery
-    
-    console.log(`🔄 Recovery task ${recoveryTask.id} created for failed task ${task.id}`);
+
+    console.log(
+      `🔄 Recovery task ${recoveryTask.id} created for failed task ${task.id}`,
+    );
   }
 
   private coordinatorElection(): void {
     // Simple coordinator election based on node priority and health
     if (!this.isCoordinator) return;
-    
+
     const currentCoordinator = this.nodes.get(this.coordinatorId);
     if (!currentCoordinator || currentCoordinator.status !== 'online') {
       this.electNewCoordinator();
@@ -927,94 +1088,123 @@ class DistributedProcessingCore {
 
   private electNewCoordinator(): void {
     console.log('🗳️ Electing new coordinator...');
-    
-    const eligibleNodes = Array.from(this.nodes.values()).filter(node => 
-      node.status === 'online' && 
-      node.type !== 'edge' // Edge nodes shouldn't be coordinators
+
+    const eligibleNodes = Array.from(this.nodes.values()).filter(
+      node => node.status === 'online' && node.type !== 'edge', // Edge nodes shouldn't be coordinators
     );
-    
+
     if (eligibleNodes.length === 0) {
       console.error('❌ No eligible nodes for coordination');
       return;
     }
-    
+
     // Select node with highest priority and lowest workload
     eligibleNodes.sort((a, b) => {
       if (a.priority !== b.priority) return a.priority - b.priority;
       return a.workload - b.workload;
     });
-    
+
     const newCoordinator = eligibleNodes[0];
     this.coordinatorId = newCoordinator.id;
     this.isCoordinator = newCoordinator.id === this.coordinatorId;
-    
+
     console.log(`👑 New coordinator elected: ${newCoordinator.id}`);
   }
 
   private updateClusterMetrics(): void {
-    const onlineNodes = Array.from(this.nodes.values()).filter(node => node.status === 'online');
-    
+    const onlineNodes = Array.from(this.nodes.values()).filter(
+      node => node.status === 'online',
+    );
+
     this.clusterMetrics = {
       totalNodes: this.nodes.size,
       activeNodes: onlineNodes.length,
       totalCapacity: {
         cpu: onlineNodes.reduce((sum, node) => sum + node.resources.cpu, 0),
-        memory: onlineNodes.reduce((sum, node) => sum + node.resources.memory, 0),
-        storage: onlineNodes.reduce((sum, node) => sum + node.resources.storage, 0),
-        bandwidth: onlineNodes.reduce((sum, node) => sum + node.resources.bandwidth, 0)
+        memory: onlineNodes.reduce(
+          (sum, node) => sum + node.resources.memory,
+          0,
+        ),
+        storage: onlineNodes.reduce(
+          (sum, node) => sum + node.resources.storage,
+          0,
+        ),
+        bandwidth: onlineNodes.reduce(
+          (sum, node) => sum + node.resources.bandwidth,
+          0,
+        ),
       },
       utilization: {
-        cpu: onlineNodes.reduce((sum, node) => sum + node.workload, 0) / onlineNodes.length || 0,
-        memory: onlineNodes.reduce((sum, node) => sum + (100 - node.resources.memory), 0) / onlineNodes.length || 0,
+        cpu:
+          onlineNodes.reduce((sum, node) => sum + node.workload, 0) /
+            onlineNodes.length || 0,
+        memory:
+          onlineNodes.reduce(
+            (sum, node) => sum + (100 - node.resources.memory),
+            0,
+          ) / onlineNodes.length || 0,
         storage: 30, // Simulated storage utilization
-        bandwidth: 25 // Simulated bandwidth utilization
+        bandwidth: 25, // Simulated bandwidth utilization
       },
       throughput: this.calculateThroughput(),
       latency: this.calculateAverageLatency(),
       reliability: this.calculateReliability(),
-      efficiency: this.calculateEfficiency()
+      efficiency: this.calculateEfficiency(),
     };
   }
 
   private calculateThroughput(): number {
     // Calculate tasks completed per minute
     const now = Date.now();
-    const lastMinuteTasks = this.completedTasks.filter(task => 
-      task.completionTime && (now - task.completionTime.getTime()) < 60000
+    const lastMinuteTasks = this.completedTasks.filter(
+      task =>
+        task.completionTime && now - task.completionTime.getTime() < 60000,
     );
-    
+
     return lastMinuteTasks.length;
   }
 
   private calculateAverageLatency(): number {
     const recentTasks = this.completedTasks.slice(-50);
     if (recentTasks.length === 0) return 0;
-    
+
     const totalLatency = recentTasks.reduce((sum, task) => {
       if (task.startTime && task.completionTime) {
         return sum + (task.completionTime.getTime() - task.startTime.getTime());
       }
       return sum;
     }, 0);
-    
+
     return totalLatency / recentTasks.length;
   }
 
   private calculateReliability(): number {
-    const totalTasks = this.completedTasks.length + Array.from(this.tasks.values()).filter(t => t.status === 'failed').length;
+    const totalTasks =
+      this.completedTasks.length +
+      Array.from(this.tasks.values()).filter(t => t.status === 'failed').length;
     if (totalTasks === 0) return 1.0;
-    
-    const successfulTasks = this.completedTasks.filter(task => task.status === 'completed').length;
+
+    const successfulTasks = this.completedTasks.filter(
+      task => task.status === 'completed',
+    ).length;
     return successfulTasks / totalTasks;
   }
 
   private calculateEfficiency(): number {
-    const onlineNodes = Array.from(this.nodes.values()).filter(node => node.status === 'online');
+    const onlineNodes = Array.from(this.nodes.values()).filter(
+      node => node.status === 'online',
+    );
     if (onlineNodes.length === 0) return 0;
-    
-    const totalCapacity = onlineNodes.reduce((sum, node) => sum + node.resources.cpu, 0);
-    const totalUtilization = onlineNodes.reduce((sum, node) => sum + node.workload, 0);
-    
+
+    const totalCapacity = onlineNodes.reduce(
+      (sum, node) => sum + node.resources.cpu,
+      0,
+    );
+    const totalUtilization = onlineNodes.reduce(
+      (sum, node) => sum + node.workload,
+      0,
+    );
+
     return totalUtilization / totalCapacity;
   }
 
@@ -1027,8 +1217,12 @@ class DistributedProcessingCore {
     console.log(`⚖️ Load Balancing: ${this.loadBalancingStrategy.type}`);
     console.log(`🎯 Throughput: ${this.clusterMetrics.throughput} tasks/min`);
     console.log(`⏱️ Avg Latency: ${this.clusterMetrics.latency.toFixed(2)}ms`);
-    console.log(`🔒 Reliability: ${(this.clusterMetrics.reliability * 100).toFixed(1)}%`);
-    console.log(`⚡ Efficiency: ${(this.clusterMetrics.efficiency * 100).toFixed(1)}%`);
+    console.log(
+      `🔒 Reliability: ${(this.clusterMetrics.reliability * 100).toFixed(1)}%`,
+    );
+    console.log(
+      `⚡ Efficiency: ${(this.clusterMetrics.efficiency * 100).toFixed(1)}%`,
+    );
   }
 
   // Public API methods
@@ -1038,12 +1232,14 @@ class DistributedProcessingCore {
       nodes: Array.from(this.nodes.values()),
       tasks: {
         pending: this.taskQueue.length,
-        running: Array.from(this.tasks.values()).filter(t => t.status === 'running').length,
-        completed: this.completedTasks.length
+        running: Array.from(this.tasks.values()).filter(
+          t => t.status === 'running',
+        ).length,
+        completed: this.completedTasks.length,
       },
       coordinator: this.coordinatorId,
       isCoordinator: this.isCoordinator,
-      loadBalancing: this.loadBalancingStrategy
+      loadBalancing: this.loadBalancingStrategy,
     };
   }
 
@@ -1052,7 +1248,11 @@ class DistributedProcessingCore {
   }
 
   public getTaskStatus(taskId: string): DistributedTask | null {
-    return this.tasks.get(taskId) || this.completedTasks.find(task => task.id === taskId) || null;
+    return (
+      this.tasks.get(taskId) ||
+      this.completedTasks.find(task => task.id === taskId) ||
+      null
+    );
   }
 
   public async getDistributedReport(): Promise<any> {
@@ -1062,56 +1262,76 @@ class DistributedProcessingCore {
         throughput: this.clusterMetrics.throughput,
         latency: this.clusterMetrics.latency,
         reliability: this.clusterMetrics.reliability,
-        efficiency: this.clusterMetrics.efficiency
+        efficiency: this.clusterMetrics.efficiency,
       },
       resources: {
         totalCapacity: this.clusterMetrics.totalCapacity,
         utilization: this.clusterMetrics.utilization,
         available: {
-          cpu: this.clusterMetrics.totalCapacity.cpu - (this.clusterMetrics.totalCapacity.cpu * this.clusterMetrics.utilization.cpu / 100),
-          memory: this.clusterMetrics.totalCapacity.memory - (this.clusterMetrics.totalCapacity.memory * this.clusterMetrics.utilization.memory / 100),
-          storage: this.clusterMetrics.totalCapacity.storage - (this.clusterMetrics.totalCapacity.storage * this.clusterMetrics.utilization.storage / 100),
-          bandwidth: this.clusterMetrics.totalCapacity.bandwidth - (this.clusterMetrics.totalCapacity.bandwidth * this.clusterMetrics.utilization.bandwidth / 100)
-        }
+          cpu:
+            this.clusterMetrics.totalCapacity.cpu -
+            (this.clusterMetrics.totalCapacity.cpu *
+              this.clusterMetrics.utilization.cpu) /
+              100,
+          memory:
+            this.clusterMetrics.totalCapacity.memory -
+            (this.clusterMetrics.totalCapacity.memory *
+              this.clusterMetrics.utilization.memory) /
+              100,
+          storage:
+            this.clusterMetrics.totalCapacity.storage -
+            (this.clusterMetrics.totalCapacity.storage *
+              this.clusterMetrics.utilization.storage) /
+              100,
+          bandwidth:
+            this.clusterMetrics.totalCapacity.bandwidth -
+            (this.clusterMetrics.totalCapacity.bandwidth *
+              this.clusterMetrics.utilization.bandwidth) /
+              100,
+        },
       },
-      recommendations: this.getOptimizationRecommendations()
+      recommendations: this.getOptimizationRecommendations(),
     };
   }
 
   private getOptimizationRecommendations(): string[] {
     const recommendations = [];
-    
+
     if (this.clusterMetrics.utilization.cpu > 80) {
       recommendations.push('Consider adding more CPU resources or scaling out');
     }
-    
+
     if (this.clusterMetrics.latency > 1000) {
-      recommendations.push('High latency detected - optimize task distribution');
+      recommendations.push(
+        'High latency detected - optimize task distribution',
+      );
     }
-    
+
     if (this.clusterMetrics.reliability < 0.95) {
       recommendations.push('Reliability below target - increase redundancy');
     }
-    
+
     if (this.clusterMetrics.efficiency < 0.7) {
       recommendations.push('Low efficiency - review load balancing strategy');
     }
-    
+
     return recommendations;
   }
 
   public isDistributedProcessingReady(): boolean {
-    return this.clusterMetrics.activeNodes >= 2 && 
-           this.clusterMetrics.reliability > 0.9 &&
-           this.isCoordinator;
+    return (
+      this.clusterMetrics.activeNodes >= 2 &&
+      this.clusterMetrics.reliability > 0.9 &&
+      this.isCoordinator
+    );
   }
 }
 
-export { 
-  DistributedProcessingCore, 
-  NodeInfo, 
-  DistributedTask, 
-  ClusterMetrics, 
-  LoadBalancingStrategy 
+export {
+  DistributedProcessingCore,
+  NodeInfo,
+  DistributedTask,
+  ClusterMetrics,
+  LoadBalancingStrategy,
 };
 export default DistributedProcessingCore;
