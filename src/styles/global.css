@@ -4,17 +4,29 @@
 
 /* Global CSS */
 
-/* CSS Variables for Accessibility */
+/* CSS Variables for Accessibility - Mobile First */
 :root {
-  /* Font variables */
+  /* Font variables - optimized for mobile */
   --font-family:
     'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
-  --font-size-base: 1.1rem;
+  --font-size-base: 1rem; /* Start with smaller base for mobile */
   --line-height: 1.6;
   --heading-font-weight: bold;
   --letter-spacing: normal;
+  
+  /* Mobile-first spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* Touch target sizes */
+  --touch-target-min: 44px;
+  --button-height: var(--touch-target-min);
+  --input-height: var(--touch-target-min);
 
   /* Color variables */
   --bg-color: #f2e8c9; /* Updated to parchment color */
@@ -185,29 +197,43 @@ a:focus {
   text-decoration: underline;
 }
 
-/* Buttons */
+/* Buttons - Mobile First Touch Targets */
 button,
 .button {
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   line-height: var(--line-height);
   letter-spacing: var(--letter-spacing);
-  border-radius: 6px;
-  padding: 0.6em 1.2em;
+  border-radius: 8px; /* Larger radius for mobile */
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-height: var(--button-height);
+  min-width: var(--touch-target-min);
   transition:
     background-color var(--transition-duration) var(--transition-timing),
     color var(--transition-duration) var(--transition-timing),
     transform calc(var(--transition-duration) * 0.5) var(--transition-timing);
+  /* Mobile touch optimization */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 button:hover,
 .button:hover {
   background-color: var(--button-bg-hover);
   color: var(--button-text-hover);
-  transform: scale(1.05);
+  transform: scale(1.02); /* Smaller scale for mobile */
 }
 
-/* Form elements */
+button:active,
+.button:active {
+  transform: scale(0.98);
+}
+
+/* Form elements - Mobile First */
 input,
 textarea,
 select {
@@ -215,6 +241,24 @@ select {
   font-size: var(--font-size-base);
   line-height: var(--line-height);
   letter-spacing: var(--letter-spacing);
+  min-height: var(--input-height);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 8px;
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  background-color: rgba(0, 0, 0, 0.1);
+  color: var(--text-color);
+  /* Mobile optimization */
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
 }
 
 /* Skip to content link for keyboard users */
@@ -275,26 +319,152 @@ select {
   margin-bottom: 1rem;
 }
 
-/* Responsive breakpoints */
-@media (max-width: 768px) {
-  :root {
-    --font-size-base: 0.95rem;
-  }
+/* Mobile-First Responsive Breakpoints */
+/* Base styles (mobile first) */
+:root {
+  --container-padding: var(--spacing-md);
+  --grid-gap: var(--spacing-md);
+}
 
-  .hide-on-mobile {
-    display: none !important;
+/* Small mobile devices */
+@media (min-width: 320px) {
+  :root {
+    --font-size-base: 1rem;
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+/* Large mobile devices */  
+@media (min-width: 480px) {
+  :root {
+    --font-size-base: 1.05rem;
+    --container-padding: var(--spacing-lg);
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  :root {
+    --font-size-base: 1.1rem;
+    --container-padding: var(--spacing-xl);
+    --grid-gap: var(--spacing-lg);
+  }
+  
+  /* Show tablet-specific content */
+  .show-on-tablet {
+    display: block !important;
+  }
+  
   .hide-on-tablet {
     display: none !important;
   }
 }
 
-@media (min-width: 1025px) {
+/* Desktop and larger */
+@media (min-width: 1024px) {
+  :root {
+    --font-size-base: 1.125rem;
+    --container-padding: 2.5rem;
+  }
+  
+  /* Show desktop-specific content */
+  .show-on-desktop {
+    display: block !important;
+  }
+  
   .hide-on-desktop {
     display: none !important;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1440px) {
+  :root {
+    --font-size-base: 1.2rem;
+  }
+}
+
+/* Mobile-only utilities */
+@media (max-width: 767px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+  
+  .show-on-mobile {
+    display: block !important;
+  }
+}
+
+/* Container utilities */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.container-fluid {
+  width: 100%;
+  padding: 0 var(--container-padding);
+}
+
+/* Mobile-first grid system */
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Flexbox utilities */
+.flex {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+/* Mobile navigation helpers */
+.mobile-nav-toggle {
+  display: block;
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  padding: var(--spacing-sm);
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+}
+
+@media (min-width: 768px) {
+  .mobile-nav-toggle {
+    display: none;
   }
 }
 
@@ -306,4 +476,204 @@ pre,
 [style*="fontFamily: 'monospace'"],
 [style*='font-family: monospace'] {
   font-family: 'Courier New', monospace !important;
+}
+
+/* Mobile-specific enhancements */
+/* Touch-friendly focus indicators */
+@media (pointer: coarse) {
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media screen and (max-width: 768px) {
+  input, 
+  textarea, 
+  select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}
+
+/* Safe area support for devices with notches */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* PWA install prompt styles */
+.pwa-install-prompt {
+  position: fixed;
+  bottom: var(--spacing-md);
+  left: var(--spacing-md);
+  right: var(--spacing-md);
+  background: linear-gradient(135deg, var(--accent-color) 0%, #e6c466 100%);
+  color: #000;
+  padding: var(--spacing-md);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.pwa-install-prompt.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.pwa-install-prompt h3 {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 1.1rem;
+  color: #000;
+}
+
+.pwa-install-prompt p {
+  margin: 0 0 var(--spacing-md) 0;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.pwa-install-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.pwa-install-button {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 6px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.pwa-install-button.primary {
+  background: #000;
+  color: var(--accent-color);
+}
+
+.pwa-dismiss-button {
+  background: none;
+  border: none;
+  color: #666;
+  padding: var(--spacing-xs);
+  border-radius: 50%;
+  min-width: auto;
+  min-height: auto;
+}
+
+/* Orientation utilities */
+.landscape-only {
+  display: none;
+}
+
+.portrait-only {
+  display: block;
+}
+
+@media (orientation: landscape) {
+  .landscape-only {
+    display: block;
+  }
+  
+  .portrait-only {
+    display: none;
+  }
+}
+
+/* Mobile loading spinner */
+.mobile-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(212, 175, 55, 0.2);
+  border-top: 3px solid var(--accent-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: var(--spacing-lg) auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mobile card layouts */
+.card-mobile {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.card-mobile:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
+}
+
+/* Mobile typography enhancements */
+@media (max-width: 767px) {
+  h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  p {
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --bg-color: #000;
+    --text-color: #fff;
+    --accent-color: #ffff00;
+  }
+  
+  button,
+  .button {
+    border-width: 2px;
+  }
+  
+  input,
+  textarea,
+  select {
+    border-width: 2px;
+  }
 }

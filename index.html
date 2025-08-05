@@ -2,17 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>KONIVRER - Deck Database</title>
     <meta name="description" content="Professional deck building and card database for KONIVRER trading card game">
     <meta name="author" content="KONIVRER Team">
     
-    <!-- Favicon -->
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="msapplication-TileColor" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="KONIVRER">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="KONIVRER">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Favicons and Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/icons/pwa-192x192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/pwa-192x192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/pwa-512x512.png">
+    
+    <!-- iOS Splash Screens -->
+    <link rel="apple-touch-startup-image" href="/splash/launch-640x1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/launch-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/launch-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/launch-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+    <link rel="apple-touch-startup-image" href="/splash/launch-1536x2048.png" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileImage" content="/icons/pwa-512x512.png">
+    <meta name="msapplication-config" content="/browserconfig.xml">
     
     <!-- Fonts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic.css">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script">
+    <link rel="preload" href="/src/styles/global.css" as="style">
     
     <style>
         * {
@@ -26,6 +56,7 @@
             src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic-regular.woff') format('woff');
             font-weight: normal;
             font-style: normal;
+            font-display: swap;
         }
         
         @font-face {
@@ -33,18 +64,79 @@
             src: url('https://cdn.jsdelivr.net/npm/opendyslexic@1.0.3/dist/opendyslexic/opendyslexic-bold.woff') format('woff');
             font-weight: bold;
             font-style: normal;
+            font-display: swap;
+        }
+        
+        /* Loading screen for better perceived performance */
+        .app-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0f0f;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .loading-logo {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #1a1a2e;
+            border-top: 3px solid #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            color: #d4af37;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .loading-subtext {
+            color: #888;
+            font-family: 'OpenDyslexic', Arial, sans-serif;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         body {
             font-family: 'OpenDyslexic', Arial, sans-serif;
-            background: #0f0f0f; /* Dark background */
-            color: #ffffff; /* White text */
+            background: #0f0f0f;
+            color: #ffffff;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* Prevent zoom on input focus */
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            /* Optimize for mobile */
+            touch-action: manipulation;
         }
         
         #root {
             min-height: 100vh;
             position: relative;
+            /* Support for safe areas on mobile */
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        /* Hide loading screen when app loads */
+        #root:not(:empty) + .app-loading {
+            display: none;
         }
         
         /* Ancient scroll theme */
@@ -79,10 +171,136 @@
             right: -15px;
             border-radius: 0 15px 15px 0;
         }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .ancient-scroll {
+                margin: 10px 0;
+                padding: 15px;
+            }
+            
+            .ancient-scroll::before,
+            .ancient-scroll::after {
+                width: 20px;
+            }
+            
+            .ancient-scroll::before {
+                left: -10px;
+            }
+            
+            .ancient-scroll::after {
+                right: -10px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
+    
+    <!-- Loading screen shown while app initializes -->
+    <div class="app-loading">
+        <div class="loading-logo"></div>
+        <div class="loading-text">KONIVRER</div>
+        <div class="loading-subtext">Loading your deck database...</div>
+    </div>
+    
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- PWA Installation Script -->
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+        
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installButton = document.createElement('button');
+        installButton.textContent = 'Install App';
+        installButton.style.display = 'none';
+        installButton.className = 'pwa-install-button primary';
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPrompt();
+        });
+        
+        function showInstallPrompt() {
+            // Don't show if already dismissed
+            if (localStorage.getItem('pwa-prompt-dismissed') === 'true') {
+                return;
+            }
+            
+            // Create install prompt
+            const prompt = document.createElement('div');
+            prompt.className = 'pwa-install-prompt';
+            prompt.innerHTML = `
+                <button class="pwa-dismiss-button" onclick="dismissPrompt()">&times;</button>
+                <h3>Install KONIVRER</h3>
+                <p>Add to your home screen for the best experience!</p>
+                <div class="pwa-install-buttons">
+                    <button class="pwa-install-button" onclick="dismissPrompt()">Not now</button>
+                    <button class="pwa-install-button primary" onclick="installApp()">Install</button>
+                </div>
+            `;
+            
+            document.body.appendChild(prompt);
+            
+            // Show with animation
+            setTimeout(() => {
+                prompt.classList.add('show');
+            }, 1000);
+        }
+        
+        window.installApp = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+            }
+            dismissPrompt();
+        };
+        
+        window.dismissPrompt = () => {
+            const prompt = document.querySelector('.pwa-install-prompt');
+            if (prompt) {
+                prompt.remove();
+                localStorage.setItem('pwa-prompt-dismissed', 'true');
+            }
+        };
+        
+        // Handle app installation
+        window.addEventListener('appinstalled', () => {
+            console.log('KONIVRER PWA was installed');
+            dismissPrompt();
+        });
+        
+        // Remove loading screen when React app loads
+        const checkForApp = () => {
+            const root = document.getElementById('root');
+            if (root && root.children.length > 0) {
+                const loading = document.querySelector('.app-loading');
+                if (loading) {
+                    loading.style.opacity = '0';
+                    setTimeout(() => loading.remove(), 300);
+                }
+            } else {
+                setTimeout(checkForApp, 100);
+            }
+        };
+        
+        // Start checking after a short delay
+        setTimeout(checkForApp, 500);
+    </script>
 </body>
 </html>
