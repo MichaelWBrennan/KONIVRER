@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gameEngine } from '../GameEngine';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
+import OrientationPrompt from '../../components/OrientationPrompt';
 import '../styles/mobile.css';
 
 interface GameContainerProps {
@@ -28,6 +29,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(false);
 
   // Enhanced game modes with better descriptions and icons
   const gameModes: GameMode[] = [
@@ -74,14 +77,32 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setSelectedMode(modeId);
 
     try {
-      if (gameRef.current) {
-        console.log('[GameContainer] Initializing game engine...');
-        await gameEngine.init(gameRef.current);
-        setGameState('playing');
-        console.log('[GameEngine] Advanced scenes initialized successfully');
-      } else {
-        throw new Error('Game container ref not available');
-      }
+      // Wait for gameRef to be available with timeout
+      const waitForRef = async (): Promise<HTMLDivElement> => {
+        return new Promise((resolve, reject) => {
+          const timeoutId = setTimeout(() => {
+            reject(new Error('Game container ref not available - timeout after 5 seconds'));
+          }, 5000);
+
+          const checkRef = () => {
+            if (gameRef.current) {
+              clearTimeout(timeoutId);
+              resolve(gameRef.current);
+            } else {
+              // Check again on next frame
+              requestAnimationFrame(checkRef);
+            }
+          };
+
+          checkRef();
+        });
+      };
+
+      const container = await waitForRef();
+      console.log('[GameContainer] Initializing game engine...');
+      await gameEngine.init(container);
+      setGameState('playing');
+      console.log('[GameEngine] Advanced scenes initialized successfully');
     } catch (error) {
       console.error('[GameContainer] Error initializing game engine:', error);
       setError(
@@ -121,6 +142,38 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     };
   }, []);
 
+  const handleOrientationChange = (landscape: boolean) => {
+    setIsLandscape(landscape);
+    setShowOrientationPrompt(!landscape);
+  };
+
+  // Add touch event handlers for better mobile experience
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      // Prevent default touch behaviors that might interfere with game
+      if (gameState === 'playing') {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      // Prevent scrolling when game is active
+      if (gameState === 'playing') {
+        e.preventDefault();
+      }
+    };
+
+    if (gameState === 'playing') {
+      document.addEventListener('touchstart', handleTouchStart, { passive: false });
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    }
+
+    return () => {
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [gameState]);
+
   const containerStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
@@ -130,16 +183,26 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     zIndex: 1500,
     background: '#1a1a1a',
     overflow: 'hidden',
+    touchAction: 'manipulation', // Improve touch responsiveness
+    userSelect: 'none', // Prevent text selection
+    WebkitUserSelect: 'none',
+    WebkitTouchCallout: 'none',
+    WebkitTapHighlightColor: 'transparent',
   };
 
   const gameCanvasStyle: React.CSSProperties = {
     width: '100%',
     height: '100%',
     display: 'block',
+    touchAction: 'none', // Allow full touch control for game canvas
+    outline: 'none',
   };
 
   return (
-    <div style={containerStyle}>
+    <div style={containerStyle} className="mobile-game-container">
+      {/* Orientation Prompt */}
+      <OrientationPrompt onOrientationChange={handleOrientationChange} />
+      
       <AnimatePresence mode="wait">
         {gameState === 'menu' && (
           <EnhancedGameMenu
