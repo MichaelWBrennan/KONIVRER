@@ -58,7 +58,7 @@ export class AITrainingPartner {
         playStyle: 'aggressive',
         riskTolerance: 0.8,
         preferredArchetypes: ['aggro', 'burn'],
-        adaptationRate: 0.3
+        adaptationRate: 0.3,
       },
       {
         id: 'guardian',
@@ -66,7 +66,7 @@ export class AITrainingPartner {
         playStyle: 'defensive',
         riskTolerance: 0.2,
         preferredArchetypes: ['control', 'midrange'],
-        adaptationRate: 0.5
+        adaptationRate: 0.5,
       },
       {
         id: 'tactician',
@@ -74,7 +74,7 @@ export class AITrainingPartner {
         playStyle: 'balanced',
         riskTolerance: 0.5,
         preferredArchetypes: ['midrange', 'combo'],
-        adaptationRate: 0.7
+        adaptationRate: 0.7,
       },
       {
         id: 'reactor',
@@ -82,8 +82,8 @@ export class AITrainingPartner {
         playStyle: 'reactive',
         riskTolerance: 0.4,
         preferredArchetypes: ['control', 'combo'],
-        adaptationRate: 0.9
-      }
+        adaptationRate: 0.9,
+      },
     ];
 
     personalities.forEach(personality => {
@@ -99,24 +99,24 @@ export class AITrainingPartner {
           tf.layers.dense({
             inputShape: [200], // Game state + player profile features
             units: 512,
-            activation: 'relu'
+            activation: 'relu',
           }),
           tf.layers.dropout({ rate: 0.3 }),
           tf.layers.dense({ units: 256, activation: 'relu' }),
           tf.layers.dropout({ rate: 0.2 }),
           tf.layers.dense({ units: 128, activation: 'relu' }),
           tf.layers.dense({ units: 64, activation: 'relu' }),
-          tf.layers.dense({ 
+          tf.layers.dense({
             units: 10, // Move quality scores for different action types
-            activation: 'softmax' 
-          })
-        ]
+            activation: 'softmax',
+          }),
+        ],
       });
 
       this.model.compile({
         optimizer: tf.train.adam(0.001),
         loss: 'categoricalCrossentropy',
-        metrics: ['accuracy']
+        metrics: ['accuracy'],
       });
 
       console.log('AI Training Partner model initialized');
@@ -128,13 +128,17 @@ export class AITrainingPartner {
   async startTrainingSession(
     playerId: string,
     difficulty: 'beginner' | 'intermediate' | 'advanced' | 'adaptive',
-    archetype?: string
+    archetype?: string,
   ): Promise<TrainingSession> {
     const playerProfile = this.getOrCreatePlayerProfile(playerId);
-    
+
     // Select appropriate AI personality based on difficulty and player profile
-    const aiPersonality = this.selectAIPersonality(difficulty, playerProfile, archetype);
-    
+    const aiPersonality = this.selectAIPersonality(
+      difficulty,
+      playerProfile,
+      archetype,
+    );
+
     const session: TrainingSession = {
       id: `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       playerId,
@@ -148,8 +152,8 @@ export class AITrainingPartner {
         optimalPlayPercentage: 0,
         mistakeCount: 0,
         strategicAccuracy: 0,
-        improvementSuggestions: []
-      }
+        improvementSuggestions: [],
+      },
     };
 
     this.gameHistory.push(session);
@@ -168,7 +172,7 @@ export class AITrainingPartner {
         gamesPlayed: 0,
         winRate: 0,
         averageGameLength: 0,
-        commonMistakes: []
+        commonMistakes: [],
       };
       this.playerProfiles.set(playerId, newProfile);
     }
@@ -178,19 +182,20 @@ export class AITrainingPartner {
   private selectAIPersonality(
     difficulty: string,
     playerProfile: PlayerProfile,
-    archetype?: string
+    archetype?: string,
   ): AIPersonality {
     const personalities = Array.from(this.aiPersonalities.values());
-    
+
     if (difficulty === 'adaptive') {
       // Select personality that challenges player's weaknesses
-      const adaptive = personalities.find(p => 
-        p.adaptationRate > 0.6 && 
-        (archetype ? p.preferredArchetypes.includes(archetype) : true)
+      const adaptive = personalities.find(
+        p =>
+          p.adaptationRate > 0.6 &&
+          (archetype ? p.preferredArchetypes.includes(archetype) : true),
       );
       return adaptive || personalities[0];
     }
-    
+
     // Filter by difficulty
     const suitablePersonalities = personalities.filter(p => {
       switch (difficulty) {
@@ -211,7 +216,7 @@ export class AITrainingPartner {
   async makeAIMove(
     sessionId: string,
     gameState: any,
-    availableMoves: any[]
+    availableMoves: any[],
   ): Promise<any> {
     const session = this.gameHistory.find(s => s.id === sessionId);
     if (!session || !this.model) {
@@ -221,15 +226,17 @@ export class AITrainingPartner {
     try {
       const playerProfile = this.getOrCreatePlayerProfile(session.playerId);
       const features = this.extractFeatures(gameState, playerProfile, session);
-      
-      const prediction = this.model.predict(tf.tensor2d([features])) as tf.Tensor;
+
+      const prediction = this.model.predict(
+        tf.tensor2d([features]),
+      ) as tf.Tensor;
       const moveScores = await prediction.data();
-      
+
       // Select move based on AI personality and predicted scores
       const selectedMove = this.selectMoveBasedOnPersonality(
         availableMoves,
         Array.from(moveScores),
-        session.aiDifficulty
+        session.aiDifficulty,
       );
 
       // Record the AI move
@@ -239,7 +246,7 @@ export class AITrainingPartner {
         cardId: selectedMove.cardId,
         targetId: selectedMove.targetId,
         timestamp: Date.now(),
-        gameState: this.simplifyGameState(gameState)
+        gameState: this.simplifyGameState(gameState),
       });
 
       prediction.dispose();
@@ -253,10 +260,10 @@ export class AITrainingPartner {
   private extractFeatures(
     gameState: any,
     playerProfile: PlayerProfile,
-    session: TrainingSession
+    session: TrainingSession,
   ): number[] {
     const features = new Array(200).fill(0);
-    
+
     // Game state features (first 100)
     features[0] = gameState.currentTurn || 0;
     features[1] = gameState.playerHealth || 20;
@@ -266,7 +273,7 @@ export class AITrainingPartner {
     features[5] = gameState.playerCardsInHand || 0;
     features[6] = gameState.aiCardsInHand || 0;
     features[7] = gameState.boardSize || 0;
-    
+
     // Player profile features (next 50)
     features[100] = playerProfile.gamesPlayed / 100; // Normalized
     features[101] = playerProfile.winRate;
@@ -274,14 +281,14 @@ export class AITrainingPartner {
     features[103] = playerProfile.skillLevel === 'beginner' ? 1 : 0;
     features[104] = playerProfile.skillLevel === 'intermediate' ? 1 : 0;
     features[105] = playerProfile.skillLevel === 'advanced' ? 1 : 0;
-    
+
     // Session context features (next 50)
     features[150] = session.moves.length / 50; // Normalized move count
     features[151] = session.aiDifficulty === 'beginner' ? 1 : 0;
     features[152] = session.aiDifficulty === 'intermediate' ? 1 : 0;
     features[153] = session.aiDifficulty === 'advanced' ? 1 : 0;
     features[154] = session.aiDifficulty === 'adaptive' ? 1 : 0;
-    
+
     // Fill remaining features with game-specific data
     return features;
   }
@@ -289,19 +296,25 @@ export class AITrainingPartner {
   private selectMoveBasedOnPersonality(
     availableMoves: any[],
     moveScores: number[],
-    difficulty: string
+    difficulty: string,
   ): any {
     if (availableMoves.length === 0) {
       return { action: 'end-turn' };
     }
 
     // Add some randomness for lower difficulties
-    const randomnessFactor = difficulty === 'beginner' ? 0.3 : 
-                             difficulty === 'intermediate' ? 0.15 : 0.05;
+    const randomnessFactor =
+      difficulty === 'beginner'
+        ? 0.3
+        : difficulty === 'intermediate'
+          ? 0.15
+          : 0.05;
 
     const scoredMoves = availableMoves.map((move, index) => ({
       move,
-      score: moveScores[index % moveScores.length] + Math.random() * randomnessFactor
+      score:
+        moveScores[index % moveScores.length] +
+        Math.random() * randomnessFactor,
     }));
 
     scoredMoves.sort((a, b) => b.score - a.score);
@@ -324,7 +337,7 @@ export class AITrainingPartner {
 
   async endTrainingSession(
     sessionId: string,
-    result: 'win' | 'loss' | 'draw'
+    result: 'win' | 'loss' | 'draw',
   ): Promise<PerformanceMetrics> {
     const session = this.gameHistory.find(s => s.id === sessionId);
     if (!session) {
@@ -349,21 +362,24 @@ export class AITrainingPartner {
     return metrics;
   }
 
-  private async calculatePerformanceMetrics(session: TrainingSession): Promise<PerformanceMetrics> {
+  private async calculatePerformanceMetrics(
+    session: TrainingSession,
+  ): Promise<PerformanceMetrics> {
     const playerMoves = session.moves.filter(m => m.playerId !== 'ai');
-    
-    const averageDecisionTime = playerMoves.length > 0 
-      ? playerMoves.reduce((sum, move, index) => {
-          if (index === 0) return 0;
-          return sum + (move.timestamp - session.moves[index - 1].timestamp);
-        }, 0) / (playerMoves.length - 1)
-      : 0;
+
+    const averageDecisionTime =
+      playerMoves.length > 0
+        ? playerMoves.reduce((sum, move, index) => {
+            if (index === 0) return 0;
+            return sum + (move.timestamp - session.moves[index - 1].timestamp);
+          }, 0) /
+          (playerMoves.length - 1)
+        : 0;
 
     // Analyze move quality (simplified)
     const optimalMoves = playerMoves.filter(this.isOptimalMove).length;
-    const optimalPlayPercentage = playerMoves.length > 0 
-      ? optimalMoves / playerMoves.length 
-      : 0;
+    const optimalPlayPercentage =
+      playerMoves.length > 0 ? optimalMoves / playerMoves.length : 0;
 
     const mistakeCount = this.countMistakes(playerMoves);
     const strategicAccuracy = this.calculateStrategicAccuracy(session);
@@ -374,7 +390,7 @@ export class AITrainingPartner {
       optimalPlayPercentage,
       mistakeCount,
       strategicAccuracy,
-      improvementSuggestions
+      improvementSuggestions,
     };
   }
 
@@ -395,8 +411,8 @@ export class AITrainingPartner {
     if (playerMoves.length === 0) return 0;
 
     // Simplified strategic accuracy calculation
-    const strategicMoves = playerMoves.filter(move => 
-      this.isStrategicallySound(move, session.archetype)
+    const strategicMoves = playerMoves.filter(move =>
+      this.isStrategicallySound(move, session.archetype),
     ).length;
 
     return strategicMoves / playerMoves.length;
@@ -412,20 +428,29 @@ export class AITrainingPartner {
     const suggestions: string[] = [];
     const metrics = session.performanceMetrics;
 
-    if (metrics.averageDecisionTime > 30000) { // 30 seconds
-      suggestions.push('Try to make decisions more quickly. Overthinking can lead to missed opportunities.');
+    if (metrics.averageDecisionTime > 30000) {
+      // 30 seconds
+      suggestions.push(
+        'Try to make decisions more quickly. Overthinking can lead to missed opportunities.',
+      );
     }
 
     if (metrics.optimalPlayPercentage < 0.6) {
-      suggestions.push('Focus on making more optimal plays. Consider all available options before acting.');
+      suggestions.push(
+        'Focus on making more optimal plays. Consider all available options before acting.',
+      );
     }
 
     if (metrics.mistakeCount > 5) {
-      suggestions.push('Review your moves to identify common mistakes and avoid them in future games.');
+      suggestions.push(
+        'Review your moves to identify common mistakes and avoid them in future games.',
+      );
     }
 
     if (metrics.strategicAccuracy < 0.5) {
-      suggestions.push(`Improve your understanding of ${session.archetype} strategy. Consider reviewing archetype guides.`);
+      suggestions.push(
+        `Improve your understanding of ${session.archetype} strategy. Consider reviewing archetype guides.`,
+      );
     }
 
     return suggestions;
@@ -433,30 +458,37 @@ export class AITrainingPartner {
 
   private updatePlayerProfile(session: TrainingSession): void {
     const profile = this.getOrCreatePlayerProfile(session.playerId);
-    
+
     profile.gamesPlayed++;
-    
+
     // Update win rate
     const wins = session.result === 'win' ? 1 : 0;
-    profile.winRate = (profile.winRate * (profile.gamesPlayed - 1) + wins) / profile.gamesPlayed;
-    
+    profile.winRate =
+      (profile.winRate * (profile.gamesPlayed - 1) + wins) /
+      profile.gamesPlayed;
+
     // Update average game length
-    const gameLength = session.endTime && session.startTime 
-      ? (session.endTime.getTime() - session.startTime.getTime()) / 1000 / 60 // minutes
-      : 0;
-    profile.averageGameLength = (profile.averageGameLength * (profile.gamesPlayed - 1) + gameLength) / profile.gamesPlayed;
+    const gameLength =
+      session.endTime && session.startTime
+        ? (session.endTime.getTime() - session.startTime.getTime()) / 1000 / 60 // minutes
+        : 0;
+    profile.averageGameLength =
+      (profile.averageGameLength * (profile.gamesPlayed - 1) + gameLength) /
+      profile.gamesPlayed;
 
     // Update skill level based on performance
     this.updateSkillLevel(profile, session);
   }
 
-  private updateSkillLevel(profile: PlayerProfile, session: TrainingSession): void {
+  private updateSkillLevel(
+    profile: PlayerProfile,
+    session: TrainingSession,
+  ): void {
     const metrics = session.performanceMetrics;
-    const overallScore = (
+    const overallScore =
       metrics.optimalPlayPercentage * 0.4 +
       metrics.strategicAccuracy * 0.4 +
-      (1 - metrics.mistakeCount / Math.max(session.moves.length, 1)) * 0.2
-    );
+      (1 - metrics.mistakeCount / Math.max(session.moves.length, 1)) * 0.2;
 
     if (overallScore > 0.8 && profile.winRate > 0.7) {
       profile.skillLevel = 'advanced';
@@ -491,7 +523,7 @@ export class AITrainingPartner {
         await this.model.fit(xs, ys, {
           epochs: 5,
           batchSize: Math.min(32, inputs.length),
-          verbose: 0
+          verbose: 0,
         });
 
         xs.dispose();
@@ -502,20 +534,23 @@ export class AITrainingPartner {
     }
   }
 
-  private extractFeaturesFromMove(move: GameMove, session: TrainingSession): number[] {
+  private extractFeaturesFromMove(
+    move: GameMove,
+    session: TrainingSession,
+  ): number[] {
     const playerProfile = this.getOrCreatePlayerProfile(session.playerId);
     return this.extractFeatures(move.gameState, playerProfile, session);
   }
 
   private createTargetVector(move: GameMove): number[] {
     const target = new Array(10).fill(0);
-    
+
     // Map action types to target indices
     const actionMap: { [key: string]: number } = {
       'play-card': 0,
-      'attack': 1,
+      attack: 1,
       'end-turn': 2,
-      'activate-ability': 3
+      'activate-ability': 3,
     };
 
     const actionIndex = actionMap[move.action] || 9; // Default to last index
@@ -530,7 +565,7 @@ export class AITrainingPartner {
       turn: gameState.currentTurn,
       playerHealth: gameState.playerHealth,
       aiHealth: gameState.aiHealth,
-      boardSize: gameState.boardSize
+      boardSize: gameState.boardSize,
     };
   }
 

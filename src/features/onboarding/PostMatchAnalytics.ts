@@ -96,7 +96,12 @@ export interface HotspotData {
 
 export interface AnalyticsSuggestion {
   id: string;
-  category: 'strategic' | 'tactical' | 'deck-building' | 'timing' | 'positioning';
+  category:
+    | 'strategic'
+    | 'tactical'
+    | 'deck-building'
+    | 'timing'
+    | 'positioning';
   priority: 'low' | 'medium' | 'high' | 'critical';
   title: string;
   description: string;
@@ -139,12 +144,16 @@ export class PostMatchAnalytics {
     moves: GameMove[],
     result: 'win' | 'loss' | 'draw',
     gameLength: number,
-    opponentDeck?: Deck
+    opponentDeck?: Deck,
   ): Promise<MatchAnalytics> {
     const analyzedMoves = await this.analyzeMoves(moves, deck);
     const heatmap = this.generateHeatmap(analyzedMoves);
     const suggestions = this.generateSuggestions(analyzedMoves, deck, result);
-    const performance = this.analyzePerformance(analyzedMoves, result, gameLength);
+    const performance = this.analyzePerformance(
+      analyzedMoves,
+      result,
+      gameLength,
+    );
 
     const analytics: MatchAnalytics = {
       matchId,
@@ -159,7 +168,7 @@ export class PostMatchAnalytics {
       heatmap,
       suggestions,
       performance,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
     this.matchHistory.set(matchId, analytics);
@@ -168,14 +177,21 @@ export class PostMatchAnalytics {
     return analytics;
   }
 
-  private async analyzeMoves(moves: GameMove[], deck: Deck): Promise<AnalyzedMove[]> {
+  private async analyzeMoves(
+    moves: GameMove[],
+    deck: Deck,
+  ): Promise<AnalyzedMove[]> {
     const analyzedMoves: AnalyzedMove[] = [];
-    
+
     for (let i = 0; i < moves.length; i++) {
       const move = moves[i];
       const gameState = this.reconstructGameState(moves.slice(0, i + 1));
       const evaluation = await this.evaluateMove(move, gameState, deck);
-      const alternatives = await this.findAlternativeMoves(move, gameState, deck);
+      const alternatives = await this.findAlternativeMoves(
+        move,
+        gameState,
+        deck,
+      );
 
       const analyzedMove: AnalyzedMove = {
         moveId: `move_${i}`,
@@ -187,7 +203,7 @@ export class PostMatchAnalytics {
         gameState,
         evaluation,
         alternatives,
-        timestamp: move.timestamp
+        timestamp: move.timestamp,
       };
 
       analyzedMoves.push(analyzedMove);
@@ -211,10 +227,10 @@ export class PostMatchAnalytics {
   private reconstructGameState(movesUpToNow: GameMove[]): GameStateSnapshot {
     // Reconstruct game state from move history
     // This is simplified - in a real game, you'd replay the moves
-    
+
     const playerMoves = movesUpToNow.filter(m => m.playerId !== 'ai');
     const opponentMoves = movesUpToNow.filter(m => m.playerId === 'ai');
-    
+
     return {
       playerHealth: Math.max(20 - opponentMoves.length, 1),
       opponentHealth: Math.max(20 - playerMoves.length, 1),
@@ -224,20 +240,24 @@ export class PostMatchAnalytics {
       opponentHandSize: Math.max(7 - opponentMoves.length, 0),
       playerBoardState: [],
       opponentBoardState: [],
-      gamePhase: movesUpToNow.length < 10 ? 'early' : 
-                 movesUpToNow.length < 20 ? 'mid' : 'late'
+      gamePhase:
+        movesUpToNow.length < 10
+          ? 'early'
+          : movesUpToNow.length < 20
+            ? 'mid'
+            : 'late',
     };
   }
 
   private async evaluateMove(
     move: GameMove,
     gameState: GameStateSnapshot,
-    deck: Deck
+    deck: Deck,
   ): Promise<MoveEvaluation> {
     // Evaluate move quality based on multiple factors
     let score = 50; // Base score
     const reasoning: string[] = [];
-    
+
     // Evaluate based on action type
     switch (move.action) {
       case 'play-card':
@@ -255,7 +275,7 @@ export class PostMatchAnalytics {
 
     // Evaluate timing
     score += this.evaluateTiming(move, gameState, reasoning);
-    
+
     // Evaluate strategic alignment
     const strategicAlignment = this.calculateStrategicAlignment(move, deck);
     score += strategicAlignment * 20;
@@ -269,7 +289,7 @@ export class PostMatchAnalytics {
       classification,
       reasoning,
       strategicAlignment,
-      riskAssessment
+      riskAssessment,
     };
   }
 
@@ -277,10 +297,10 @@ export class PostMatchAnalytics {
     move: GameMove,
     gameState: GameStateSnapshot,
     deck: Deck,
-    reasoning: string[]
+    reasoning: string[],
   ): number {
     let score = 0;
-    
+
     if (move.cardId) {
       const card = deck.cards.find(c => c.id === move.cardId);
       if (card) {
@@ -316,7 +336,7 @@ export class PostMatchAnalytics {
   private evaluateAttack(
     move: GameMove,
     gameState: GameStateSnapshot,
-    reasoning: string[]
+    reasoning: string[],
   ): number {
     let score = 0;
 
@@ -326,7 +346,9 @@ export class PostMatchAnalytics {
       reasoning.push('Attacked when opponent at low health - good pressure');
     }
 
-    if (gameState.playerBoardState.length > gameState.opponentBoardState.length) {
+    if (
+      gameState.playerBoardState.length > gameState.opponentBoardState.length
+    ) {
       score += 15;
       reasoning.push('Attacked with board advantage');
     } else {
@@ -340,7 +362,7 @@ export class PostMatchAnalytics {
   private evaluateEndTurn(
     move: GameMove,
     gameState: GameStateSnapshot,
-    reasoning: string[]
+    reasoning: string[],
   ): number {
     let score = 0;
 
@@ -359,7 +381,7 @@ export class PostMatchAnalytics {
   private evaluateTiming(
     move: GameMove,
     gameState: GameStateSnapshot,
-    reasoning: string[]
+    reasoning: string[],
   ): number {
     // Evaluate if move was played at optimal timing
     let score = 0;
@@ -370,7 +392,9 @@ export class PostMatchAnalytics {
 
     if (timeSinceLastMove < 2000) {
       score -= 5;
-      reasoning.push('Very quick decision - may benefit from more consideration');
+      reasoning.push(
+        'Very quick decision - may benefit from more consideration',
+      );
     } else if (timeSinceLastMove > 30000) {
       score -= 10;
       reasoning.push('Long decision time - may indicate uncertainty');
@@ -385,18 +409,21 @@ export class PostMatchAnalytics {
   private calculateStrategicAlignment(move: GameMove, deck: Deck): number {
     // Calculate how well the move aligns with deck strategy
     // This is simplified - would analyze deck archetype and move appropriateness
-    const avgCost = deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
-    
+    const avgCost =
+      deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
+
     if (avgCost <= 3 && move.action === 'play-card') {
       return 0.8; // Good for aggro
     } else if (avgCost >= 5 && move.action === 'end-turn') {
       return 0.7; // Good for control
     }
-    
+
     return 0.5; // Neutral alignment
   }
 
-  private classifyMove(score: number): 'excellent' | 'good' | 'average' | 'poor' | 'blunder' {
+  private classifyMove(
+    score: number,
+  ): 'excellent' | 'good' | 'average' | 'poor' | 'blunder' {
     if (score >= 90) return 'excellent';
     if (score >= 70) return 'good';
     if (score >= 50) return 'average';
@@ -404,10 +431,17 @@ export class PostMatchAnalytics {
     return 'blunder';
   }
 
-  private assessRisk(move: GameMove, gameState: GameStateSnapshot): 'low' | 'medium' | 'high' {
+  private assessRisk(
+    move: GameMove,
+    gameState: GameStateSnapshot,
+  ): 'low' | 'medium' | 'high' {
     // Assess risk level of the move
     if (gameState.playerHealth <= 5) return 'high';
-    if (gameState.opponentBoardState.length > gameState.playerBoardState.length + 2) return 'high';
+    if (
+      gameState.opponentBoardState.length >
+      gameState.playerBoardState.length + 2
+    )
+      return 'high';
     if (gameState.gamePhase === 'late') return 'medium';
     return 'low';
   }
@@ -415,7 +449,7 @@ export class PostMatchAnalytics {
   private async findAlternativeMoves(
     move: GameMove,
     gameState: GameStateSnapshot,
-    deck: Deck
+    deck: Deck,
   ): Promise<AlternativeMove[]> {
     const alternatives: AlternativeMove[] = [];
 
@@ -424,7 +458,7 @@ export class PostMatchAnalytics {
       alternatives.push({
         action: 'end-turn',
         score: 60,
-        explanation: 'Could have ended turn to save mana for next turn'
+        explanation: 'Could have ended turn to save mana for next turn',
       });
     }
 
@@ -433,7 +467,7 @@ export class PostMatchAnalytics {
         action: 'play-card',
         cardId: 'hypothetical-card',
         score: 70,
-        explanation: 'Could have played a card with remaining mana'
+        explanation: 'Could have played a card with remaining mana',
       });
     }
 
@@ -445,9 +479,19 @@ export class PostMatchAnalytics {
     const attackPatterns = new Map<string, number>();
     const positionPreferences = new Map<string, number>();
     const timingAnalysis = {
-      earlyGame: { cardPlays: 0, attacks: 0, abilityActivations: 0, endTurns: 0 },
+      earlyGame: {
+        cardPlays: 0,
+        attacks: 0,
+        abilityActivations: 0,
+        endTurns: 0,
+      },
       midGame: { cardPlays: 0, attacks: 0, abilityActivations: 0, endTurns: 0 },
-      lateGame: { cardPlays: 0, attacks: 0, abilityActivations: 0, endTurns: 0 }
+      lateGame: {
+        cardPlays: 0,
+        attacks: 0,
+        abilityActivations: 0,
+        endTurns: 0,
+      },
     };
     const mistakeHotspots: HotspotData[] = [];
 
@@ -476,12 +520,16 @@ export class PostMatchAnalytics {
       }
 
       // Track mistakes
-      if (move.evaluation.classification === 'poor' || move.evaluation.classification === 'blunder') {
+      if (
+        move.evaluation.classification === 'poor' ||
+        move.evaluation.classification === 'blunder'
+      ) {
         mistakeHotspots.push({
           position: move.position || { x: 0, y: 0 },
           frequency: 1,
           mistakeType: move.action,
-          impact: move.evaluation.classification === 'blunder' ? 'high' : 'medium'
+          impact:
+            move.evaluation.classification === 'blunder' ? 'high' : 'medium',
         });
       }
     });
@@ -491,20 +539,22 @@ export class PostMatchAnalytics {
       attackPatterns,
       positionPreferences,
       timingAnalysis,
-      mistakeHotspots
+      mistakeHotspots,
     };
   }
 
   private generateSuggestions(
     moves: AnalyzedMove[],
     deck: Deck,
-    result: 'win' | 'loss' | 'draw'
+    result: 'win' | 'loss' | 'draw',
   ): AnalyticsSuggestion[] {
     const suggestions: AnalyticsSuggestion[] = [];
 
     // Analyze common mistakes
-    const poorMoves = moves.filter(m => 
-      m.evaluation.classification === 'poor' || m.evaluation.classification === 'blunder'
+    const poorMoves = moves.filter(
+      m =>
+        m.evaluation.classification === 'poor' ||
+        m.evaluation.classification === 'blunder',
     );
 
     if (poorMoves.length > moves.length * 0.3) {
@@ -513,22 +563,23 @@ export class PostMatchAnalytics {
         category: 'tactical',
         priority: 'high',
         title: 'Reduce Decision-Making Errors',
-        description: 'You made several suboptimal moves during this match. Taking more time to consider options could improve your play.',
-        specificExamples: poorMoves.slice(0, 3).map(m => 
-          `Turn ${m.turn}: ${m.evaluation.reasoning.join(', ')}`
-        ),
+        description:
+          'You made several suboptimal moves during this match. Taking more time to consider options could improve your play.',
+        specificExamples: poorMoves
+          .slice(0, 3)
+          .map(m => `Turn ${m.turn}: ${m.evaluation.reasoning.join(', ')}`),
         improvementTips: [
           'Pause before each move to consider alternatives',
           'Think about what your opponent might do next',
-          'Consider the long-term consequences of each play'
+          'Consider the long-term consequences of each play',
         ],
-        relatedMoves: poorMoves.map(m => m.moveId)
+        relatedMoves: poorMoves.map(m => m.moveId),
       });
     }
 
     // Analyze mana efficiency
-    const manaWasteCount = moves.filter(m => 
-      m.action === 'end-turn' && m.gameState.playerMana > 2
+    const manaWasteCount = moves.filter(
+      m => m.action === 'end-turn' && m.gameState.playerMana > 2,
     ).length;
 
     if (manaWasteCount > 3) {
@@ -537,33 +588,38 @@ export class PostMatchAnalytics {
         category: 'strategic',
         priority: 'medium',
         title: 'Improve Mana Efficiency',
-        description: 'You often ended turns with unused mana. Better mana usage could increase your win rate.',
+        description:
+          'You often ended turns with unused mana. Better mana usage could increase your win rate.',
         specificExamples: [`Wasted mana on ${manaWasteCount} turns`],
         improvementTips: [
           'Plan your turns to use all available mana',
           'Include more low-cost cards for mana efficiency',
-          'Consider ability activations when mana would be wasted'
+          'Consider ability activations when mana would be wasted',
         ],
-        relatedMoves: moves.filter(m => m.action === 'end-turn').map(m => m.moveId)
+        relatedMoves: moves
+          .filter(m => m.action === 'end-turn')
+          .map(m => m.moveId),
       });
     }
 
     // Deck-specific suggestions
-    const avgCost = deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
+    const avgCost =
+      deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
     if (avgCost > 4 && result === 'loss') {
       suggestions.push({
         id: 'curve-too-high',
         category: 'deck-building',
         priority: 'medium',
         title: 'Consider Lowering Mana Curve',
-        description: 'Your deck has a high average mana cost, which may slow down your early game.',
+        description:
+          'Your deck has a high average mana cost, which may slow down your early game.',
         specificExamples: [`Average mana cost: ${avgCost.toFixed(1)}`],
         improvementTips: [
           'Add more 1-3 mana cost cards',
           'Remove some high-cost cards',
-          'Include more card draw to smooth out curve'
+          'Include more card draw to smooth out curve',
         ],
-        relatedMoves: []
+        relatedMoves: [],
       });
     }
 
@@ -573,12 +629,14 @@ export class PostMatchAnalytics {
   private analyzePerformance(
     moves: AnalyzedMove[],
     result: 'win' | 'loss' | 'draw',
-    gameLength: number
+    gameLength: number,
   ): PerformanceAnalysis {
     const playerMoves = moves.filter(m => m.playerId !== 'ai');
-    
+
     // Calculate overall rating
-    const avgMoveScore = playerMoves.reduce((sum, move) => sum + move.evaluation.score, 0) / playerMoves.length;
+    const avgMoveScore =
+      playerMoves.reduce((sum, move) => sum + move.evaluation.score, 0) /
+      playerMoves.length;
     const resultBonus = result === 'win' ? 10 : result === 'draw' ? 5 : 0;
     const overallRating = Math.min(100, avgMoveScore + resultBonus);
 
@@ -592,7 +650,7 @@ export class PostMatchAnalytics {
       combat: this.calculateCategoryRating(attackMoves),
       timing: this.calculateCategoryRating(timingMoves),
       deckUtilization: this.calculateDeckUtilization(playerMoves),
-      adaptability: this.calculateAdaptability(playerMoves)
+      adaptability: this.calculateAdaptability(playerMoves),
     };
 
     return {
@@ -602,28 +660,36 @@ export class PostMatchAnalytics {
       strengths: this.identifyStrengths(categoryRatings),
       comparisonToSimilarPlayers: {
         percentile: Math.floor(overallRating * 0.8), // Simplified
-        skillGroup: overallRating > 80 ? 'expert' : 
-                   overallRating > 65 ? 'advanced' :
-                   overallRating > 50 ? 'intermediate' : 'beginner'
+        skillGroup:
+          overallRating > 80
+            ? 'expert'
+            : overallRating > 65
+              ? 'advanced'
+              : overallRating > 50
+                ? 'intermediate'
+                : 'beginner',
       },
       trendsOverTime: {
         winRateChange: 0, // Would need historical data
         skillImprovement: 0,
-        consistencyImprovement: 0
-      }
+        consistencyImprovement: 0,
+      },
     };
   }
 
   private calculateCategoryRating(moves: AnalyzedMove[]): number {
     if (moves.length === 0) return 50; // Neutral if no moves in category
-    return moves.reduce((sum, move) => sum + move.evaluation.score, 0) / moves.length;
+    return (
+      moves.reduce((sum, move) => sum + move.evaluation.score, 0) / moves.length
+    );
   }
 
   private calculateDeckUtilization(moves: AnalyzedMove[]): number {
     // Calculate how well player utilized their deck's potential
     const cardPlayMoves = moves.filter(m => m.action === 'play-card');
-    const uniqueCardsPlayed = new Set(cardPlayMoves.map(m => m.cardPlayed?.id)).size;
-    
+    const uniqueCardsPlayed = new Set(cardPlayMoves.map(m => m.cardPlayed?.id))
+      .size;
+
     // Simplified calculation
     return Math.min(100, uniqueCardsPlayed * 10);
   }
@@ -631,48 +697,58 @@ export class PostMatchAnalytics {
   private calculateAdaptability(moves: AnalyzedMove[]): number {
     // Calculate how well player adapted to changing game states
     let adaptabilityScore = 50;
-    
+
     // Look for strategic shifts based on game state changes
     for (let i = 1; i < moves.length; i++) {
       const prevMove = moves[i - 1];
       const currMove = moves[i];
-      
+
       // Check if player adapted to health changes
-      if (prevMove.gameState.playerHealth > currMove.gameState.playerHealth + 5) {
-        if (currMove.action === 'play-card' && currMove.cardPlayed?.type === 'spell') {
+      if (
+        prevMove.gameState.playerHealth >
+        currMove.gameState.playerHealth + 5
+      ) {
+        if (
+          currMove.action === 'play-card' &&
+          currMove.cardPlayed?.type === 'spell'
+        ) {
           adaptabilityScore += 5; // Good adaptation to damage
         }
       }
     }
-    
+
     return Math.min(100, adaptabilityScore);
   }
 
   private identifyImprovementAreas(ratings: any): string[] {
     const areas: string[] = [];
-    
+
     if (ratings.cardPlay < 60) areas.push('Card play timing and selection');
     if (ratings.combat < 60) areas.push('Combat decision-making');
     if (ratings.timing < 60) areas.push('Turn timing and mana efficiency');
     if (ratings.deckUtilization < 60) areas.push('Deck synergy utilization');
     if (ratings.adaptability < 60) areas.push('Adapting to game state changes');
-    
+
     return areas;
   }
 
   private identifyStrengths(ratings: any): string[] {
     const strengths: string[] = [];
-    
+
     if (ratings.cardPlay >= 75) strengths.push('Excellent card play');
     if (ratings.combat >= 75) strengths.push('Strong combat decisions');
     if (ratings.timing >= 75) strengths.push('Great timing and efficiency');
-    if (ratings.deckUtilization >= 75) strengths.push('Excellent deck utilization');
+    if (ratings.deckUtilization >= 75)
+      strengths.push('Excellent deck utilization');
     if (ratings.adaptability >= 75) strengths.push('Good adaptability');
-    
+
     return strengths;
   }
 
-  private updatePlayerAnalytics(playerId: string, analytics: MatchAnalytics): void {
+  private updatePlayerAnalytics(
+    playerId: string,
+    analytics: MatchAnalytics,
+  ): void {
     // Update player's historical analytics
     // This would maintain running averages and trends
   }
@@ -685,7 +761,7 @@ export class PostMatchAnalytics {
     const matches = Array.from(this.matchHistory.values())
       .filter(match => match.playerId === playerId)
       .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
-    
+
     return limit ? matches.slice(0, limit) : matches;
   }
 }

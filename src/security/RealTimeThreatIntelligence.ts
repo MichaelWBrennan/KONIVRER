@@ -706,7 +706,8 @@ class RealTimeThreatIntelligence {
       this.mlModels.has('quantum-threat-detector-v1') &&
       event.data.quantumSignature
     ) {
-      analysis.quantumThreatScore = await this.runQuantumThreatDetection(_event);
+      analysis.quantumThreatScore =
+        await this.runQuantumThreatDetection(_event);
     }
 
     // Calculate overall score

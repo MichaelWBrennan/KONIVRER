@@ -36,7 +36,14 @@ export interface Milestone {
 }
 
 export interface MilestoneRequirement {
-  type: 'games-played' | 'games-won' | 'cards-played' | 'specific-combo' | 'deck-building' | 'tournament' | 'training';
+  type:
+    | 'games-played'
+    | 'games-won'
+    | 'cards-played'
+    | 'specific-combo'
+    | 'deck-building'
+    | 'tournament'
+    | 'training';
   count?: number;
   specificCards?: string[];
   conditions?: { [key: string]: any };
@@ -46,7 +53,13 @@ export interface PlayerAchievement {
   id: string;
   name: string;
   description: string;
-  category: 'strategic' | 'collection' | 'social' | 'competitive' | 'creative' | 'mastery';
+  category:
+    | 'strategic'
+    | 'collection'
+    | 'social'
+    | 'competitive'
+    | 'creative'
+    | 'mastery';
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   unlockedAt: Date;
   progress: number;
@@ -57,7 +70,14 @@ export interface PlayerAchievement {
 
 export interface CosmeticReward {
   id: string;
-  type: 'card-back' | 'board-theme' | 'avatar-frame' | 'title' | 'emote' | 'particle-effect' | 'sound-pack';
+  type:
+    | 'card-back'
+    | 'board-theme'
+    | 'avatar-frame'
+    | 'title'
+    | 'emote'
+    | 'particle-effect'
+    | 'sound-pack';
   name: string;
   description: string;
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
@@ -111,7 +131,13 @@ export interface SeasonalChallenge {
 }
 
 export interface ChallengeRequirement {
-  type: 'win-games' | 'play-archetype' | 'use-card' | 'complete-combo' | 'deck-build' | 'social';
+  type:
+    | 'win-games'
+    | 'play-archetype'
+    | 'use-card'
+    | 'complete-combo'
+    | 'deck-build'
+    | 'social';
   target: number;
   current: number;
   conditions: { [key: string]: any };
@@ -175,7 +201,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'games-won',
           count: 1,
-          conditions: {}
+          conditions: {},
         },
         rewards: [
           {
@@ -185,11 +211,11 @@ export class ProgressionSystem {
             description: 'A golden frame celebrating your first win',
             rarity: 'common',
             unlockCondition: 'Win your first game',
-            category: 'frames'
-          }
+            category: 'frames',
+          },
         ],
         hidden: false,
-        experienceReward: 100
+        experienceReward: 100,
       },
       {
         id: 'combo-master',
@@ -200,7 +226,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'specific-combo',
           count: 50,
-          conditions: { comboType: 'any' }
+          conditions: { comboType: 'any' },
         },
         rewards: [
           {
@@ -210,11 +236,11 @@ export class ProgressionSystem {
             description: 'Magical sparks appear when you play combinations',
             rarity: 'rare',
             unlockCondition: 'Execute 50 combos',
-            category: 'effects'
-          }
+            category: 'effects',
+          },
         ],
         hidden: false,
-        experienceReward: 500
+        experienceReward: 500,
       },
       {
         id: 'deck-architect',
@@ -225,7 +251,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'deck-building',
           count: 10,
-          conditions: {}
+          conditions: {},
         },
         rewards: [
           {
@@ -235,11 +261,11 @@ export class ProgressionSystem {
             description: 'Title showing your deck building prowess',
             rarity: 'rare',
             unlockCondition: 'Create 10 different decks',
-            category: 'titles'
-          }
+            category: 'titles',
+          },
         ],
         hidden: false,
-        experienceReward: 300
+        experienceReward: 300,
       },
       {
         id: 'tournament-champion',
@@ -250,7 +276,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'tournament',
           count: 1,
-          conditions: { placement: 1 }
+          conditions: { placement: 1 },
         },
         rewards: [
           {
@@ -260,11 +286,11 @@ export class ProgressionSystem {
             description: 'Prestigious crown frame for tournament winners',
             rarity: 'epic',
             unlockCondition: 'Win a tournament',
-            category: 'frames'
-          }
+            category: 'frames',
+          },
         ],
         hidden: false,
-        experienceReward: 1000
+        experienceReward: 1000,
       },
       {
         id: 'legend-slayer',
@@ -275,7 +301,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'training',
           count: 1,
-          conditions: { aiDifficulty: 'legendary', result: 'win' }
+          conditions: { aiDifficulty: 'legendary', result: 'win' },
         },
         rewards: [
           {
@@ -285,12 +311,12 @@ export class ProgressionSystem {
             description: 'Golden aura effect surrounding your avatar',
             rarity: 'legendary',
             unlockCondition: 'Defeat legendary AI',
-            category: 'effects'
-          }
+            category: 'effects',
+          },
         ],
         hidden: true,
-        experienceReward: 2000
-      }
+        experienceReward: 2000,
+      },
     ];
 
     coreAchievements.forEach(achievement => {
@@ -308,7 +334,7 @@ export class ProgressionSystem {
         description: 'Card back featuring swirling mystical stars',
         rarity: 'common',
         unlockCondition: 'Starting cosmetic',
-        category: 'card-backs'
+        category: 'card-backs',
       },
       {
         id: 'void-energy',
@@ -317,7 +343,7 @@ export class ProgressionSystem {
         description: 'Dark energy patterns with purple accents',
         rarity: 'rare',
         unlockCondition: 'Win 25 games',
-        category: 'card-backs'
+        category: 'card-backs',
       },
       {
         id: 'crystal-prism',
@@ -326,7 +352,7 @@ export class ProgressionSystem {
         description: 'Refracting crystal patterns in multiple colors',
         rarity: 'epic',
         unlockCondition: 'Reach level 20',
-        category: 'card-backs'
+        category: 'card-backs',
       },
 
       // Board Themes
@@ -337,7 +363,7 @@ export class ProgressionSystem {
         description: 'Mystical forest with glowing mushrooms and fireflies',
         rarity: 'rare',
         unlockCondition: 'Complete Nature mastery track',
-        category: 'boards'
+        category: 'boards',
       },
       {
         id: 'cosmic-void',
@@ -346,7 +372,7 @@ export class ProgressionSystem {
         description: 'Deep space with swirling galaxies and nebulae',
         rarity: 'epic',
         unlockCondition: 'Win 100 games',
-        category: 'boards'
+        category: 'boards',
       },
 
       // Avatar Frames
@@ -357,7 +383,7 @@ export class ProgressionSystem {
         description: 'Simple circular frame for new players',
         rarity: 'common',
         unlockCondition: 'Starting cosmetic',
-        category: 'frames'
+        category: 'frames',
       },
       {
         id: 'master-hexagon',
@@ -366,7 +392,7 @@ export class ProgressionSystem {
         description: 'Intricate hexagonal frame with runes',
         rarity: 'rare',
         unlockCondition: 'Master any archetype',
-        category: 'frames'
+        category: 'frames',
       },
 
       // Titles
@@ -377,7 +403,7 @@ export class ProgressionSystem {
         description: 'Entry-level title for new players',
         rarity: 'common',
         unlockCondition: 'Complete tutorial',
-        category: 'titles'
+        category: 'titles',
       },
       {
         id: 'mystic-scholar',
@@ -386,8 +412,8 @@ export class ProgressionSystem {
         description: 'For players who study the arcane arts',
         rarity: 'rare',
         unlockCondition: 'Read all archetype guides',
-        category: 'titles'
-      }
+        category: 'titles',
+      },
     ];
 
     coreCosmetics.forEach(cosmetic => {
@@ -402,12 +428,13 @@ export class ProgressionSystem {
       theme: 'Ancient mystical powers emerge from the forgotten realms',
       startDate: new Date('2024-01-01'),
       endDate: new Date('2024-04-01'),
-      description: 'Discover the secrets of ancient magic in this inaugural season',
+      description:
+        'Discover the secrets of ancient magic in this inaugural season',
       specialFeatures: [
         'New mystical card backs',
         'Exclusive seasonal challenges',
-        'Limited-time board themes'
-      ]
+        'Limited-time board themes',
+      ],
     };
   }
 
@@ -423,7 +450,7 @@ export class ProgressionSystem {
           type: 'win-games',
           target: 1,
           current: 0,
-          conditions: { timeframe: 'daily' }
+          conditions: { timeframe: 'daily' },
         },
         rewards: [
           {
@@ -431,11 +458,11 @@ export class ProgressionSystem {
             type: 'experience',
             amount: 50,
             description: '50 Experience Points',
-            tier: 1
-          }
+            tier: 1,
+          },
         ],
         expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
-        isActive: true
+        isActive: true,
       },
       {
         id: 'weekly-mastery',
@@ -447,7 +474,7 @@ export class ProgressionSystem {
           type: 'play-archetype',
           target: 20,
           current: 0,
-          conditions: { archetype: 'any' }
+          conditions: { archetype: 'any' },
         },
         rewards: [
           {
@@ -455,11 +482,11 @@ export class ProgressionSystem {
             type: 'cosmetic',
             cosmeticId: 'mystic-emote',
             description: 'Mystic Gesture Emote',
-            tier: 2
-          }
+            tier: 2,
+          },
         ],
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-        isActive: true
+        isActive: true,
       },
       {
         id: 'seasonal-legend',
@@ -471,18 +498,18 @@ export class ProgressionSystem {
           type: 'win-games',
           target: 100,
           current: 0,
-          conditions: { ranked: true, season: 'season-1' }
+          conditions: { ranked: true, season: 'season-1' },
         },
         rewards: [
           {
             id: 'legend-title',
             type: 'special',
             description: 'Exclusive "Seasonal Legend" title',
-            tier: 4
-          }
+            tier: 4,
+          },
         ],
-        isActive: true
-      }
+        isActive: true,
+      },
     ];
 
     challenges.forEach(challenge => {
@@ -515,16 +542,16 @@ export class ProgressionSystem {
         totalPrestigePoints: 0,
         prestigeBenefits: [],
         prestigeHistory: [],
-        nextPrestigeRequirement: 1000000 // 1 million XP for first prestige
-      }
+        nextPrestigeRequirement: 1000000, // 1 million XP for first prestige
+      },
     };
   }
 
   private initializeMasteryTracks(): Map<string, MasteryTrack> {
     const tracks = new Map<string, MasteryTrack>();
-    
+
     const archetypes = ['aggro', 'control', 'combo', 'midrange', 'tempo'];
-    
+
     archetypes.forEach(archetype => {
       const track: MasteryTrack = {
         archetype,
@@ -535,11 +562,11 @@ export class ProgressionSystem {
         milestones: this.generateMasteryMilestones(archetype),
         completedMilestones: new Set(),
         rewards: this.generateMasteryRewards(archetype),
-        unlockedRewards: new Set()
+        unlockedRewards: new Set(),
       };
       tracks.set(archetype, track);
     });
-    
+
     return tracks;
   }
 
@@ -552,10 +579,10 @@ export class ProgressionSystem {
         requirement: {
           type: 'games-played',
           count: 10,
-          conditions: { archetype }
+          conditions: { archetype },
         },
         experienceReward: 200,
-        isSecret: false
+        isSecret: false,
       },
       {
         id: `${archetype}-adept`,
@@ -564,7 +591,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'games-won',
           count: 25,
-          conditions: { archetype }
+          conditions: { archetype },
         },
         experienceReward: 500,
         cosmeticReward: {
@@ -574,9 +601,9 @@ export class ProgressionSystem {
           description: `Exclusive card back for ${archetype} masters`,
           rarity: 'rare',
           unlockCondition: `Master ${archetype} archetype`,
-          category: 'card-backs'
+          category: 'card-backs',
         },
-        isSecret: false
+        isSecret: false,
       },
       {
         id: `${archetype}-master`,
@@ -585,7 +612,7 @@ export class ProgressionSystem {
         requirement: {
           type: 'games-won',
           count: 100,
-          conditions: { archetype }
+          conditions: { archetype },
         },
         experienceReward: 1000,
         cosmeticReward: {
@@ -595,10 +622,10 @@ export class ProgressionSystem {
           description: `Prestigious title for ${archetype} mastery`,
           rarity: 'epic',
           unlockCondition: `Complete ${archetype} mastery track`,
-          category: 'titles'
+          category: 'titles',
         },
-        isSecret: false
-      }
+        isSecret: false,
+      },
     ];
   }
 
@@ -611,8 +638,8 @@ export class ProgressionSystem {
         description: `Badge showing your ${archetype} expertise`,
         rarity: 'common',
         unlockCondition: `Reach level 10 in ${archetype} mastery`,
-        category: 'frames'
-      }
+        category: 'frames',
+      },
     ];
   }
 
@@ -625,8 +652,12 @@ export class ProgressionSystem {
       equippedEmotes: [],
       equippedParticleEffect: 'none',
       equippedSoundPack: 'default',
-      unlockedCosmetics: new Set(['mystic-stars', 'apprentice-circle', 'novice-summoner']),
-      favoritedCosmetics: new Set()
+      unlockedCosmetics: new Set([
+        'mystic-stars',
+        'apprentice-circle',
+        'novice-summoner',
+      ]),
+      favoritedCosmetics: new Set(),
     };
   }
 
@@ -638,7 +669,7 @@ export class ProgressionSystem {
       completedChallenges: new Set(),
       availableChallenges: Array.from(this.seasonalChallenges.values()),
       seasonRewards: this.generateSeasonalRewards(),
-      unlockedSeasonalRewards: new Set()
+      unlockedSeasonalRewards: new Set(),
     };
   }
 
@@ -649,21 +680,21 @@ export class ProgressionSystem {
         type: 'cosmetic',
         cosmeticId: 'mystic-awakening-card-back',
         description: 'Mystic Awakening Card Back',
-        tier: 1
+        tier: 1,
       },
       {
         id: 'season-1-tier-5',
         type: 'cosmetic',
         cosmeticId: 'awakening-board-theme',
         description: 'Awakening Board Theme',
-        tier: 5
+        tier: 5,
       },
       {
         id: 'season-1-tier-10',
         type: 'title',
         description: 'Awakened One Title',
-        tier: 10
-      }
+        tier: 10,
+      },
     ];
   }
 
@@ -671,22 +702,22 @@ export class ProgressionSystem {
     playerId: string,
     amount: number,
     source: string,
-    category?: string
+    category?: string,
   ): LevelUpResult {
     const progression = this.getPlayerProgression(playerId);
-    
+
     progression.experience += amount;
     progression.totalExperience += amount;
-    
+
     // Update mastery track if applicable
     if (category && progression.masteryTracks.has(category)) {
       const track = progression.masteryTracks.get(category)!;
       track.currentExperience += amount;
     }
-    
+
     const levelUpResult = this.checkLevelUp(progression);
     this.checkAchievements(playerId, { type: 'experience', amount, source });
-    
+
     return levelUpResult;
   }
 
@@ -694,7 +725,7 @@ export class ProgressionSystem {
     const result: LevelUpResult = {
       leveledUp: false,
       newLevel: progression.level,
-      rewardsUnlocked: []
+      rewardsUnlocked: [],
     };
 
     while (progression.experience >= progression.experienceToNextLevel) {
@@ -702,10 +733,12 @@ export class ProgressionSystem {
       progression.level++;
       result.leveledUp = true;
       result.newLevel = progression.level;
-      
+
       // Calculate next level requirement (exponential growth)
-      progression.experienceToNextLevel = Math.floor(100 * Math.pow(1.15, progression.level - 1));
-      
+      progression.experienceToNextLevel = Math.floor(
+        100 * Math.pow(1.15, progression.level - 1),
+      );
+
       // Check for level-based rewards
       const levelRewards = this.getLevelRewards(progression.level);
       result.rewardsUnlocked.push(...levelRewards);
@@ -716,7 +749,7 @@ export class ProgressionSystem {
 
   private getLevelRewards(level: number): CosmeticReward[] {
     const rewards: CosmeticReward[] = [];
-    
+
     // Milestone levels
     if (level === 5) {
       rewards.push(this.cosmetics.get('void-energy')!);
@@ -725,7 +758,7 @@ export class ProgressionSystem {
     } else if (level === 20) {
       rewards.push(this.cosmetics.get('crystal-prism')!);
     }
-    
+
     return rewards.filter(reward => reward !== undefined);
   }
 
@@ -733,52 +766,57 @@ export class ProgressionSystem {
     playerId: string,
     result: 'win' | 'loss' | 'draw',
     deck: Deck,
-    gameData: any
+    gameData: any,
   ): void {
     const progression = this.getPlayerProgression(playerId);
-    
+
     // Award base experience
     const baseExp = result === 'win' ? 100 : result === 'draw' ? 50 : 25;
     this.awardExperience(playerId, baseExp, 'game-result');
-    
+
     // Update mastery tracks
     const archetype = this.determineArchetype(deck);
     if (archetype && progression.masteryTracks.has(archetype)) {
       const masteryExp = result === 'win' ? 50 : 25;
       this.awardExperience(playerId, masteryExp, 'mastery', archetype);
     }
-    
+
     // Check achievements
     this.checkAchievements(playerId, {
       type: 'game-result',
       result,
       deck,
-      archetype
+      archetype,
     });
-    
+
     // Update seasonal progress
     this.updateSeasonalProgress(playerId, result, gameData);
   }
 
   private determineArchetype(deck: Deck): string | null {
     // Simplified archetype detection based on average mana cost and card types
-    const avgCost = deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
-    const creatureRatio = deck.cards.filter(card => card.type === 'creature').length / deck.cards.length;
-    
+    const avgCost =
+      deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
+    const creatureRatio =
+      deck.cards.filter(card => card.type === 'creature').length /
+      deck.cards.length;
+
     if (avgCost <= 3 && creatureRatio >= 0.6) return 'aggro';
     if (avgCost >= 5 && creatureRatio <= 0.4) return 'control';
     if (avgCost >= 3 && avgCost <= 5) return 'midrange';
-    
+
     return 'tempo';
   }
 
   private checkAchievements(playerId: string, eventData: any): void {
     const progression = this.getPlayerProgression(playerId);
-    
+
     this.achievements.forEach((achievement, achievementId) => {
       if (progression.achievements.has(achievementId)) return; // Already unlocked
-      
-      if (this.meetsAchievementRequirement(achievement, eventData, progression)) {
+
+      if (
+        this.meetsAchievementRequirement(achievement, eventData, progression)
+      ) {
         this.unlockAchievement(playerId, achievementId);
       }
     });
@@ -787,10 +825,10 @@ export class ProgressionSystem {
   private meetsAchievementRequirement(
     achievement: Achievement,
     eventData: any,
-    progression: PlayerProgression
+    progression: PlayerProgression,
   ): boolean {
     const req = achievement.requirement;
-    
+
     switch (req.type) {
       case 'games-won':
         return eventData.type === 'game-result' && eventData.result === 'win';
@@ -801,11 +839,16 @@ export class ProgressionSystem {
       case 'deck-building':
         return eventData.type === 'deck-created';
       case 'tournament':
-        return eventData.type === 'tournament-result' && eventData.placement <= (req.conditions?.placement || 1);
+        return (
+          eventData.type === 'tournament-result' &&
+          eventData.placement <= (req.conditions?.placement || 1)
+        );
       case 'training':
-        return eventData.type === 'training-result' && 
-               eventData.aiDifficulty === req.conditions?.aiDifficulty &&
-               eventData.result === req.conditions?.result;
+        return (
+          eventData.type === 'training-result' &&
+          eventData.aiDifficulty === req.conditions?.aiDifficulty &&
+          eventData.result === req.conditions?.result
+        );
       default:
         return false;
     }
@@ -814,7 +857,7 @@ export class ProgressionSystem {
   private unlockAchievement(playerId: string, achievementId: string): void {
     const progression = this.getPlayerProgression(playerId);
     const achievement = this.achievements.get(achievementId)!;
-    
+
     const playerAchievement: PlayerAchievement = {
       id: achievementId,
       name: achievement.name,
@@ -825,36 +868,42 @@ export class ProgressionSystem {
       progress: achievement.requirement.count || 1,
       maxProgress: achievement.requirement.count || 1,
       rewards: achievement.rewards,
-      hidden: achievement.hidden
+      hidden: achievement.hidden,
     };
-    
+
     progression.achievements.set(achievementId, playerAchievement);
-    
+
     // Award experience
     this.awardExperience(playerId, achievement.experienceReward, 'achievement');
-    
+
     // Unlock cosmetic rewards
     achievement.rewards.forEach(reward => {
       progression.cosmetics.unlockedCosmetics.add(reward.id);
     });
   }
 
-  private updateSeasonalProgress(playerId: string, result: string, gameData: any): void {
+  private updateSeasonalProgress(
+    playerId: string,
+    result: string,
+    gameData: any,
+  ): void {
     const progression = this.getPlayerProgression(playerId);
     const seasonalProgress = progression.seasonalProgress;
-    
+
     // Award seasonal experience
     const seasonExp = result === 'win' ? 30 : 15;
     seasonalProgress.seasonExperience += seasonExp;
-    
+
     // Check for seasonal level up
     const expNeeded = seasonalProgress.seasonLevel * 100;
     if (seasonalProgress.seasonExperience >= expNeeded) {
       seasonalProgress.seasonLevel++;
       seasonalProgress.seasonExperience -= expNeeded;
-      
+
       // Check for seasonal rewards
-      const rewards = seasonalProgress.seasonRewards.filter(r => r.tier === seasonalProgress.seasonLevel);
+      const rewards = seasonalProgress.seasonRewards.filter(
+        r => r.tier === seasonalProgress.seasonLevel,
+      );
       rewards.forEach(reward => {
         seasonalProgress.unlockedSeasonalRewards.add(reward.id);
         if (reward.cosmeticId) {
@@ -862,22 +911,29 @@ export class ProgressionSystem {
         }
       });
     }
-    
+
     // Update challenge progress
-    this.updateChallengeProgress(playerId, { type: 'game-result', result, gameData });
+    this.updateChallengeProgress(playerId, {
+      type: 'game-result',
+      result,
+      gameData,
+    });
   }
 
   private updateChallengeProgress(playerId: string, eventData: any): void {
     const progression = this.getPlayerProgression(playerId);
-    
+
     progression.seasonalProgress.availableChallenges.forEach(challenge => {
-      if (!challenge.isActive || progression.seasonalProgress.completedChallenges.has(challenge.id)) {
+      if (
+        !challenge.isActive ||
+        progression.seasonalProgress.completedChallenges.has(challenge.id)
+      ) {
         return;
       }
-      
+
       if (this.meetsChallengeRequirement(challenge, eventData)) {
         challenge.requirement.current++;
-        
+
         if (challenge.requirement.current >= challenge.requirement.target) {
           this.completeChallenge(playerId, challenge.id);
         }
@@ -885,15 +941,21 @@ export class ProgressionSystem {
     });
   }
 
-  private meetsChallengeRequirement(challenge: SeasonalChallenge, eventData: any): boolean {
+  private meetsChallengeRequirement(
+    challenge: SeasonalChallenge,
+    eventData: any,
+  ): boolean {
     const req = challenge.requirement;
-    
+
     switch (req.type) {
       case 'win-games':
         return eventData.type === 'game-result' && eventData.result === 'win';
       case 'play-archetype':
-        return eventData.type === 'game-result' && 
-               (req.conditions.archetype === 'any' || eventData.archetype === req.conditions.archetype);
+        return (
+          eventData.type === 'game-result' &&
+          (req.conditions.archetype === 'any' ||
+            eventData.archetype === req.conditions.archetype)
+        );
       default:
         return false;
     }
@@ -902,9 +964,9 @@ export class ProgressionSystem {
   private completeChallenge(playerId: string, challengeId: string): void {
     const progression = this.getPlayerProgression(playerId);
     const challenge = this.seasonalChallenges.get(challengeId)!;
-    
+
     progression.seasonalProgress.completedChallenges.add(challengeId);
-    
+
     // Award rewards
     challenge.rewards.forEach(reward => {
       if (reward.type === 'experience') {
@@ -918,18 +980,18 @@ export class ProgressionSystem {
   getAvailableCosmetics(playerId: string): CosmeticReward[] {
     const progression = this.getPlayerProgression(playerId);
     return Array.from(this.cosmetics.values()).filter(cosmetic =>
-      progression.cosmetics.unlockedCosmetics.has(cosmetic.id)
+      progression.cosmetics.unlockedCosmetics.has(cosmetic.id),
     );
   }
 
   equipCosmetic(playerId: string, cosmeticId: string, slot: string): boolean {
     const progression = this.getPlayerProgression(playerId);
     const cosmetic = this.cosmetics.get(cosmeticId);
-    
+
     if (!cosmetic || !progression.cosmetics.unlockedCosmetics.has(cosmeticId)) {
       return false;
     }
-    
+
     switch (cosmetic.type) {
       case 'card-back':
         progression.cosmetics.equippedCardBack = cosmeticId;
@@ -952,7 +1014,7 @@ export class ProgressionSystem {
       default:
         return false;
     }
-    
+
     return true;
   }
 
@@ -962,17 +1024,22 @@ export class ProgressionSystem {
 
   getSeasonalChallenges(playerId: string): SeasonalChallenge[] {
     const progression = this.getPlayerProgression(playerId);
-    return progression.seasonalProgress.availableChallenges.filter(challenge => 
-      challenge.isActive && !progression.seasonalProgress.completedChallenges.has(challenge.id)
+    return progression.seasonalProgress.availableChallenges.filter(
+      challenge =>
+        challenge.isActive &&
+        !progression.seasonalProgress.completedChallenges.has(challenge.id),
     );
   }
 
-  getLeaderboard(category: 'level' | 'seasonal' | 'mastery', archetype?: string): LeaderboardEntry[] {
+  getLeaderboard(
+    category: 'level' | 'seasonal' | 'mastery',
+    archetype?: string,
+  ): LeaderboardEntry[] {
     const entries: LeaderboardEntry[] = [];
-    
+
     this.playerProgressions.forEach((progression, playerId) => {
       let score = 0;
-      
+
       switch (category) {
         case 'level':
           score = progression.totalExperience;
@@ -986,22 +1053,22 @@ export class ProgressionSystem {
           }
           break;
       }
-      
+
       entries.push({
         playerId,
         playerName: playerId, // Would get from player profile
         score,
         rank: 0, // Will be calculated
         title: progression.cosmetics.equippedTitle,
-        avatarFrame: progression.cosmetics.equippedAvatarFrame
+        avatarFrame: progression.cosmetics.equippedAvatarFrame,
       });
     });
-    
+
     entries.sort((a, b) => b.score - a.score);
     entries.forEach((entry, index) => {
       entry.rank = index + 1;
     });
-    
+
     return entries.slice(0, 100); // Top 100
   }
 }
@@ -1010,7 +1077,13 @@ interface Achievement {
   id: string;
   name: string;
   description: string;
-  category: 'strategic' | 'collection' | 'social' | 'competitive' | 'creative' | 'mastery';
+  category:
+    | 'strategic'
+    | 'collection'
+    | 'social'
+    | 'competitive'
+    | 'creative'
+    | 'mastery';
   rarity: 'common' | 'rare' | 'epic' | 'legendary';
   requirement: {
     type: string;

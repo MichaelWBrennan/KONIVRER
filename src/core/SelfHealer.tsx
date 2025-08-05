@@ -520,7 +520,11 @@ export const useErrorMonitor = () => {
     const errorTracker = ErrorTracker.getInstance();
 
     const handleErrors = (
-      newErrors: Array<{ _error: Error; timestamp: number; recovered: boolean }>,
+      newErrors: Array<{
+        _error: Error;
+        timestamp: number;
+        recovered: boolean;
+      }>,
     ) => {
       setErrors([...newErrors]);
     };

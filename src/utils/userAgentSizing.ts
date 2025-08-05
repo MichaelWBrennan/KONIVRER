@@ -48,7 +48,7 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
   const userAgent = navigator.userAgent.toLowerCase();
   const screen = window.screen;
   const pixelRatio = window.devicePixelRatio || 1;
-  
+
   // Mobile detection patterns
   const mobilePatterns = [
     /android/i,
@@ -58,41 +58,43 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     /ipod/i,
     /blackberry/i,
     /windows phone/i,
-    /mobile/i
+    /mobile/i,
   ];
-  
-  // Tablet detection patterns  
-  const tabletPatterns = [
-    /ipad/i,
-    /android(?!.*mobile)/i,
-    /tablet/i
-  ];
-  
+
+  // Tablet detection patterns
+  const tabletPatterns = [/ipad/i, /android(?!.*mobile)/i, /tablet/i];
+
   const isMobile = mobilePatterns.some(pattern => pattern.test(userAgent));
   const isTablet = tabletPatterns.some(pattern => pattern.test(userAgent));
   const isDesktop = !isMobile && !isTablet;
-  
+
   // Browser detection
   let browser = 'unknown';
   if (userAgent.includes('chrome')) browser = 'chrome';
   else if (userAgent.includes('firefox')) browser = 'firefox';
   else if (userAgent.includes('safari')) browser = 'safari';
   else if (userAgent.includes('edge')) browser = 'edge';
-  
+
   // Platform detection
   let platform = 'unknown';
   if (userAgent.includes('windows')) platform = 'windows';
   else if (userAgent.includes('mac')) platform = 'mac';
   else if (userAgent.includes('linux')) platform = 'linux';
   else if (userAgent.includes('android')) platform = 'android';
-  else if (userAgent.includes('ios') || userAgent.includes('iphone') || userAgent.includes('ipad')) platform = 'ios';
-  
+  else if (
+    userAgent.includes('ios') ||
+    userAgent.includes('iphone') ||
+    userAgent.includes('ipad')
+  )
+    platform = 'ios';
+
   // WebGL capabilities
   let supportsWebGL = false;
   let maxTextureSize = 2048;
   try {
     const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl =
+      canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (gl) {
       supportsWebGL = true;
       maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) || 2048;
@@ -100,28 +102,28 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
   } catch (e) {
     // WebGL not supported
   }
-  
+
   // Memory level estimation based on device characteristics
   let memoryLevel: 'low' | 'medium' | 'high' = 'medium';
   const totalPixels = screen.width * screen.height * pixelRatio;
   const deviceMemory = (navigator as any).deviceMemory || 4; // Default to 4GB if not available
-  
+
   if (deviceMemory <= 2 || totalPixels < 1280 * 720) {
     memoryLevel = 'low';
   } else if (deviceMemory >= 8 && totalPixels >= 1920 * 1080) {
     memoryLevel = 'high';
   }
-  
+
   // Touch capability
   const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  
+
   // Orientation
   const orientation = screen.width > screen.height ? 'landscape' : 'portrait';
-  
+
   // Available screen real estate (accounting for browser UI)
   const availableWidth = window.innerWidth || screen.availWidth;
   const availableHeight = window.innerHeight || screen.availHeight;
-  
+
   return {
     isMobile,
     isTablet,
@@ -137,14 +139,16 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     browser,
     supportsWebGL,
     maxTextureSize,
-    memoryLevel
+    memoryLevel,
   };
 }
 
 /**
  * Calculates optimal sizing based on device capabilities
  */
-export function calculateDynamicSizing(capabilities: DeviceCapabilities): DynamicSizing {
+export function calculateDynamicSizing(
+  capabilities: DeviceCapabilities,
+): DynamicSizing {
   const {
     isMobile,
     isTablet,
@@ -155,35 +159,35 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
     orientation,
     platform,
     browser,
-    memoryLevel
+    memoryLevel,
   } = capabilities;
-  
+
   let width = availableWidth;
   let height = availableHeight;
   let unit: 'px' | 'vw' | 'vh' | '%' = 'px';
   let scaleFactor = 1;
   let containerPadding = 0;
-  
+
   // Safe area insets (especially important for iOS devices with notches)
   const safeAreaInsets = {
     top: 0,
     bottom: 0,
     left: 0,
-    right: 0
+    right: 0,
   };
-  
+
   // Platform-specific adjustments with enhanced user agent detection
   if (platform === 'ios') {
     // iOS devices often have safe area insets
     safeAreaInsets.top = 44; // Status bar
     safeAreaInsets.bottom = 34; // Home indicator on newer devices
-    
+
     // Adjust for iPhone X and newer models with notches/Dynamic Island
     if (availableHeight > 800 && orientation === 'portrait') {
       safeAreaInsets.top = 47;
       safeAreaInsets.bottom = 34;
     }
-    
+
     // Enhanced landscape handling for different iPhone models
     if (orientation === 'landscape') {
       safeAreaInsets.left = availableWidth > 800 ? 44 : 0;
@@ -191,7 +195,7 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
       safeAreaInsets.top = 0;
       safeAreaInsets.bottom = 21;
     }
-    
+
     // Special handling for iPad
     if (isTablet) {
       safeAreaInsets.top = 24;
@@ -204,68 +208,70 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
     const hasNavBar = availableHeight < capabilities.screenHeight * 0.95;
     safeAreaInsets.bottom = hasNavBar ? 48 : 0;
     safeAreaInsets.top = 24; // Status bar
-    
+
     // Gesture navigation handling
     if (availableHeight > capabilities.screenHeight * 0.97) {
       safeAreaInsets.bottom = 10; // Gesture bar
     }
   }
-  
+
   // Device type specific sizing with enhanced responsiveness
   if (isMobile) {
     // Mobile devices: use most of the screen but account for browser UI
     if (orientation === 'portrait') {
       width = availableWidth;
-      height = availableHeight - (browser === 'safari' && platform === 'ios' ? 100 : 60);
+      height =
+        availableHeight -
+        (browser === 'safari' && platform === 'ios' ? 100 : 60);
       containerPadding = 8;
     } else {
       width = availableWidth;
-      height = availableHeight - (browser === 'safari' && platform === 'ios' ? 70 : 40);
+      height =
+        availableHeight -
+        (browser === 'safari' && platform === 'ios' ? 70 : 40);
       containerPadding = 4;
     }
-    
+
     // Use viewport units for mobile for better responsiveness
     unit = 'vw';
     scaleFactor = 0.98; // 98% of viewport to leave some breathing room
-    
+
     // Adjust for very small screens
     if (availableWidth < 375) {
       scaleFactor = 0.95;
       containerPadding = 4;
     }
-    
   } else if (isTablet) {
     // Tablets: use more space but leave room for UI
     const maxTabletWidth = Math.min(availableWidth * 0.95, 1024);
     const maxTabletHeight = Math.min(availableHeight * 0.95, 768);
-    
+
     width = maxTabletWidth;
     height = maxTabletHeight;
     containerPadding = 16;
     unit = 'px';
-    
+
     // Better tablet scaling based on actual screen size
     if (availableWidth > 1000) {
       scaleFactor = 1.1;
     }
-    
   } else if (isDesktop) {
     // Desktop: optimal game size based on common resolutions
     const optimalWidth = Math.min(availableWidth * 0.85, 1440);
     const optimalHeight = Math.min(availableHeight * 0.85, 900);
-    
+
     width = optimalWidth;
     height = optimalHeight;
     containerPadding = 20;
     unit = 'px';
-    
+
     // Ultra-wide monitor support
     if (availableWidth > 1920) {
       width = Math.min(availableWidth * 0.7, 1600);
       scaleFactor = 1.2;
     }
   }
-  
+
   // Performance-based adjustments
   if (memoryLevel === 'low') {
     scaleFactor *= 0.8; // Reduce size for low-end devices
@@ -273,41 +279,51 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
   } else if (memoryLevel === 'high') {
     scaleFactor *= 1.1; // Slightly larger for high-end devices
   }
-  
+
   // High DPI adjustments
   if (pixelRatio > 2) {
     // High DPI screens can handle slightly larger content
     scaleFactor *= 1.05;
   }
-  
+
   // Browser-specific adjustments
   if (browser === 'safari' && platform === 'ios') {
     // Safari on iOS has unique viewport behavior
     height -= 50; // Account for Safari's bottom toolbar
   }
-  
+
   // Apply scale factor
   width *= scaleFactor;
   height *= scaleFactor;
-  
+
   // Calculate bounds
   const minWidth = isMobile ? 320 : 800;
   const minHeight = isMobile ? 480 : 600;
   const maxWidth = isDesktop ? 1920 : availableWidth;
   const maxHeight = isDesktop ? 1200 : availableHeight;
-  
+
   // Ensure we don't exceed bounds
   width = Math.max(minWidth, Math.min(maxWidth, width));
   height = Math.max(minHeight, Math.min(maxHeight, height));
-  
+
   // Account for safe area insets
   width -= safeAreaInsets.left + safeAreaInsets.right;
   height -= safeAreaInsets.top + safeAreaInsets.bottom;
-  
+
   // Generate CSS values
-  const cssWidth = unit === 'px' ? `${width}px` : unit === 'vw' ? `${(width / availableWidth) * 100}vw` : `${width}${unit}`;
-  const cssHeight = unit === 'px' ? `${height}px` : unit === 'vh' ? `${(height / availableHeight) * 100}vh` : `${height}${unit}`;
-  
+  const cssWidth =
+    unit === 'px'
+      ? `${width}px`
+      : unit === 'vw'
+        ? `${(width / availableWidth) * 100}vw`
+        : `${width}${unit}`;
+  const cssHeight =
+    unit === 'px'
+      ? `${height}px`
+      : unit === 'vh'
+        ? `${(height / availableHeight) * 100}vh`
+        : `${height}${unit}`;
+
   return {
     width,
     height,
@@ -320,7 +336,7 @@ export function calculateDynamicSizing(capabilities: DeviceCapabilities): Dynami
     cssWidth,
     cssHeight,
     containerPadding,
-    safeAreaInsets
+    safeAreaInsets,
   };
 }
 
@@ -332,31 +348,31 @@ export function useDynamicSizing() {
     const capabilities = detectDeviceCapabilities();
     return calculateDynamicSizing(capabilities);
   });
-  
+
   React.useEffect(() => {
     const updateSizing = () => {
       const capabilities = detectDeviceCapabilities();
       const newSizing = calculateDynamicSizing(capabilities);
       setSizing(newSizing);
     };
-    
+
     // Update on resize and orientation change
     window.addEventListener('resize', updateSizing);
     window.addEventListener('orientationchange', updateSizing);
-    
+
     // Update after a short delay on orientation change to ensure accurate measurements
     const handleOrientationChange = () => {
       setTimeout(updateSizing, 100);
     };
     window.addEventListener('orientationchange', handleOrientationChange);
-    
+
     return () => {
       window.removeEventListener('resize', updateSizing);
       window.removeEventListener('orientationchange', updateSizing);
       window.removeEventListener('orientationchange', handleOrientationChange);
     };
   }, []);
-  
+
   return sizing;
 }
 

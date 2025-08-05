@@ -1,6 +1,9 @@
 import * as tf from '@tensorflow/tfjs';
 import { Card, Deck } from '../../ai/DeckOptimizer';
-import { AIPersonality, AITrainingPartner } from '../onboarding/AITrainingPartner';
+import {
+  AIPersonality,
+  AITrainingPartner,
+} from '../onboarding/AITrainingPartner';
 
 export interface SoloPlayMode {
   id: string;
@@ -31,7 +34,14 @@ export interface SoloOpponent {
 export interface EnhancedAIPersonality {
   id: string;
   name: string;
-  archetype: 'aggro' | 'control' | 'combo' | 'midrange' | 'tempo' | 'stall' | 'chaos';
+  archetype:
+    | 'aggro'
+    | 'control'
+    | 'combo'
+    | 'midrange'
+    | 'tempo'
+    | 'stall'
+    | 'chaos';
   playStyle: AIPlayStyle;
   decisionMaking: DecisionMakingProfile;
   adaptability: AdaptabilitySettings;
@@ -103,7 +113,14 @@ export interface ModifierEffect {
 }
 
 export interface VoiceLine {
-  trigger: 'game-start' | 'card-play' | 'attack' | 'victory' | 'defeat' | 'combo' | 'low-health';
+  trigger:
+    | 'game-start'
+    | 'card-play'
+    | 'attack'
+    | 'victory'
+    | 'defeat'
+    | 'combo'
+    | 'low-health';
   text: string;
   probability: number; // 0-1
 }
@@ -363,8 +380,8 @@ export class EnhancedSoloPlaySystem {
         {
           type: 'experience',
           amount: 100,
-          description: 'Chapter completion experience'
-        }
+          description: 'Chapter completion experience',
+        },
       ],
       opponents: [],
       rules: {
@@ -372,30 +389,31 @@ export class EnhancedSoloPlaySystem {
         startingMana: 1,
         deckSize: 30,
         handSize: 7,
-        specialConditions: []
+        specialConditions: [],
       },
       progressTracking: {
         trackWinStreak: true,
         trackBestTime: true,
         trackScores: true,
         milestones: [],
-        leaderboards: false
-      }
+        leaderboards: false,
+      },
     };
 
     // Gauntlet mode
     const gauntletMode: SoloPlayMode = {
       id: 'endless-gauntlet',
       name: 'Endless Gauntlet',
-      description: 'Face increasingly powerful opponents in an endless challenge',
+      description:
+        'Face increasingly powerful opponents in an endless challenge',
       type: 'gauntlet',
       difficulty: 'intermediate',
       rewards: [
         {
           type: 'cosmetic',
           itemId: 'gauntlet-champion-title',
-          description: 'Gauntlet Champion Title'
-        }
+          description: 'Gauntlet Champion Title',
+        },
       ],
       opponents: [],
       rules: {
@@ -403,15 +421,15 @@ export class EnhancedSoloPlaySystem {
         startingMana: 1,
         deckSize: 30,
         handSize: 7,
-        specialConditions: []
+        specialConditions: [],
       },
       progressTracking: {
         trackWinStreak: true,
         trackBestTime: false,
         trackScores: true,
         milestones: [],
-        leaderboards: true
-      }
+        leaderboards: true,
+      },
     };
 
     this.soloModes.set('campaign', campaignMode);
@@ -435,14 +453,14 @@ export class EnhancedSoloPlaySystem {
           bluffingTendency: 0.1,
           adaptationSpeed: 0.4,
           mistakeFrequency: 0.3,
-          consistencyLevel: 0.6
+          consistencyLevel: 0.6,
         },
         decisionMaking: {
           thinkingTime: {
             baseTime: 2000,
             complexityMultiplier: 1.2,
             randomVariation: 0.3,
-            difficultyAdjustment: 0.8
+            difficultyAdjustment: 0.8,
           },
           priorityWeights: {
             boardControl: 0.4,
@@ -451,23 +469,23 @@ export class EnhancedSoloPlaySystem {
             damage: 0.2,
             defensivePlay: 0.5,
             comboSetup: 0.1,
-            resourceManagement: 0.4
+            resourceManagement: 0.4,
           },
           riskAssessment: {
             conservativeThreshold: 0.3,
             aggressiveThreshold: 0.7,
             emergencyThreshold: 0.2,
-            opportunismLevel: 0.3
+            opportunismLevel: 0.3,
           },
           learningRate: 0.1,
-          memoryDepth: 5
+          memoryDepth: 5,
         },
         adaptability: {
           learnsFromPlayer: true,
           adjustsDifficulty: true,
           remembersStrategies: true,
           counterAdaptation: false,
-          adaptationCooldown: 3
+          adaptationCooldown: 3,
         },
         behaviorModifiers: [
           {
@@ -475,51 +493,57 @@ export class EnhancedSoloPlaySystem {
             effect: {
               attributeChanges: { mistakeFrequency: 0.2 },
               specialBehaviors: ['explain-moves', 'hint-giving'],
-              description: 'Provides helpful guidance to new players'
-            }
-          }
+              description: 'Provides helpful guidance to new players',
+            },
+          },
         ],
         voiceLines: [
           {
             trigger: 'game-start',
             text: 'Welcome, young apprentice. Let me teach you the art of battle.',
-            probability: 1.0
+            probability: 1.0,
           },
           {
             trigger: 'victory',
             text: 'Well fought! You show great potential.',
-            probability: 1.0
-          }
-        ]
+            probability: 1.0,
+          },
+        ],
       },
       deck: {
         id: 'guardian-teaching-deck',
-        name: 'Guardian\'s Teaching Deck',
-        cards: [] // Would be populated with actual cards
+        name: "Guardian's Teaching Deck",
+        cards: [], // Would be populated with actual cards
       },
       difficulty: 20,
       dialogue: {
         introduction: [
           'Greetings, aspiring duelist. I am here to guide your first steps.',
-          'Fear not - I shall teach you with patience and wisdom.'
+          'Fear not - I shall teach you with patience and wisdom.',
         ],
         midGame: [
           'Notice how I play my cards - timing is everything.',
-          'You\'re learning quickly! Keep up the good work.'
+          "You're learning quickly! Keep up the good work.",
         ],
         victory: [
           'Excellent! You have grasped the fundamentals.',
-          'Your victory was well-earned, young one.'
+          'Your victory was well-earned, young one.',
         ],
         defeat: [
           'Do not be discouraged. Every defeat teaches us something.',
-          'Try again when you feel ready. I will be here.'
+          'Try again when you feel ready. I will be here.',
         ],
         specialSituations: new Map([
-          ['player-low-health', ['Be careful now - your health is running low!']],
-          ['player-good-play', ['Brilliant move! You\'re thinking like a true strategist.']]
-        ])
-      }
+          [
+            'player-low-health',
+            ['Be careful now - your health is running low!'],
+          ],
+          [
+            'player-good-play',
+            ["Brilliant move! You're thinking like a true strategist."],
+          ],
+        ]),
+      },
     };
 
     // Expert AI
@@ -538,14 +562,14 @@ export class EnhancedSoloPlaySystem {
           bluffingTendency: 0.8,
           adaptationSpeed: 0.9,
           mistakeFrequency: 0.05,
-          consistencyLevel: 0.95
+          consistencyLevel: 0.95,
         },
         decisionMaking: {
           thinkingTime: {
             baseTime: 1500,
             complexityMultiplier: 1.8,
             randomVariation: 0.1,
-            difficultyAdjustment: 1.2
+            difficultyAdjustment: 1.2,
           },
           priorityWeights: {
             boardControl: 0.8,
@@ -554,23 +578,23 @@ export class EnhancedSoloPlaySystem {
             damage: 0.7,
             defensivePlay: 0.8,
             comboSetup: 0.9,
-            resourceManagement: 0.8
+            resourceManagement: 0.8,
           },
           riskAssessment: {
             conservativeThreshold: 0.2,
             aggressiveThreshold: 0.8,
             emergencyThreshold: 0.1,
-            opportunismLevel: 0.9
+            opportunismLevel: 0.9,
           },
           learningRate: 0.3,
-          memoryDepth: 15
+          memoryDepth: 15,
         },
         adaptability: {
           learnsFromPlayer: true,
           adjustsDifficulty: false,
           remembersStrategies: true,
           counterAdaptation: true,
-          adaptationCooldown: 1
+          adaptationCooldown: 1,
         },
         behaviorModifiers: [
           {
@@ -579,27 +603,27 @@ export class EnhancedSoloPlaySystem {
             effect: {
               attributeChanges: { aggressionLevel: 0.2, riskTolerance: 0.3 },
               specialBehaviors: ['desperate-plays', 'all-in-strategy'],
-              description: 'Becomes more aggressive when losing'
-            }
-          }
+              description: 'Becomes more aggressive when losing',
+            },
+          },
         ],
         voiceLines: [
           {
             trigger: 'game-start',
             text: 'Your skills will be tested against the darkness itself.',
-            probability: 0.8
+            probability: 0.8,
           },
           {
             trigger: 'combo',
             text: 'Witness the power of true mastery!',
-            probability: 0.6
-          }
-        ]
+            probability: 0.6,
+          },
+        ],
       },
       deck: {
         id: 'shadow-master-deck',
         name: 'Void Control Deck',
-        cards: [] // Would be populated with actual cards
+        cards: [], // Would be populated with actual cards
       },
       difficulty: 90,
       specialRules: [
@@ -609,11 +633,11 @@ export class EnhancedSoloPlaySystem {
           description: 'Shadow Master starts with an extra card in hand',
           effect: {
             type: 'stat-modifier',
-            parameters: { handSize: 1 }
+            parameters: { handSize: 1 },
           },
-          scope: 'opponent'
-        }
-      ]
+          scope: 'opponent',
+        },
+      ],
     };
 
     this.opponents.set('novice-guardian', noviceGuardian);
@@ -624,7 +648,8 @@ export class EnhancedSoloPlaySystem {
     const mysticJourney: CampaignData = {
       campaignId: 'mystic-journey',
       name: 'The Mystic Journey',
-      description: 'Discover the secrets of the ancient realm and master the mystical arts',
+      description:
+        'Discover the secrets of the ancient realm and master the mystical arts',
       chapters: [
         {
           id: 'chapter-1',
@@ -636,23 +661,28 @@ export class EnhancedSoloPlaySystem {
             {
               type: 'cosmetic',
               itemId: 'apprentice-badge',
-              description: 'Apprentice Badge'
-            }
+              description: 'Apprentice Badge',
+            },
           ],
           narrative: {
-            intro: 'Your journey begins in the peaceful gardens of the Guardian...',
-            conclusion: 'With the basics mastered, you are ready for greater challenges.',
+            intro:
+              'Your journey begins in the peaceful gardens of the Guardian...',
+            conclusion:
+              'With the basics mastered, you are ready for greater challenges.',
             opponentIntros: new Map([
-              ['novice-guardian', 'The Guardian emerges from the mist to test your resolve.']
-            ])
+              [
+                'novice-guardian',
+                'The Guardian emerges from the mist to test your resolve.',
+              ],
+            ]),
           },
           completed: false,
           starsEarned: 0,
-          maxStars: 3
+          maxStars: 3,
         },
         {
           id: 'chapter-final',
-          name: 'Shadow\'s End',
+          name: "Shadow's End",
           description: 'Face the ultimate challenge against the Shadow Master',
           opponents: ['shadow-master'],
           requiredStars: 6,
@@ -660,33 +690,42 @@ export class EnhancedSoloPlaySystem {
             {
               type: 'cosmetic',
               itemId: 'shadow-slayer-title',
-              description: 'Shadow Slayer Title'
-            }
+              description: 'Shadow Slayer Title',
+            },
           ],
           narrative: {
             intro: 'The final confrontation awaits in the heart of darkness...',
-            conclusion: 'With the Shadow Master defeated, peace returns to the realm.',
+            conclusion:
+              'With the Shadow Master defeated, peace returns to the realm.',
             opponentIntros: new Map([
-              ['shadow-master', 'The Shadow Master emerges from the void, ready for battle.']
-            ])
+              [
+                'shadow-master',
+                'The Shadow Master emerges from the void, ready for battle.',
+              ],
+            ]),
           },
           completed: false,
           starsEarned: 0,
-          maxStars: 3
-        }
+          maxStars: 3,
+        },
       ],
       overallProgress: 0,
       unlockedChapters: new Set(['chapter-1']),
       completedChapters: new Set(),
       totalStars: 0,
       narrative: {
-        intro: 'In a realm where mystical forces shape reality, you begin your journey as an apprentice...',
-        conclusion: 'Your mastery complete, you have become a true guardian of the mystical arts.',
+        intro:
+          'In a realm where mystical forces shape reality, you begin your journey as an apprentice...',
+        conclusion:
+          'Your mastery complete, you have become a true guardian of the mystical arts.',
         plotPoints: new Map([
           ['chapter-1', 'The Guardian teaches you the ancient ways...'],
-          ['chapter-final', 'The Shadow Master\'s defeat restores balance to the realm.']
-        ])
-      }
+          [
+            'chapter-final',
+            "The Shadow Master's defeat restores balance to the realm.",
+          ],
+        ]),
+      },
     };
 
     this.campaigns.set('mystic-journey', mysticJourney);
@@ -703,7 +742,7 @@ export class EnhancedSoloPlaySystem {
         livesCount: 3,
         escalatingDifficulty: true,
         bossEncounters: true,
-        specialEvents: true
+        specialEvents: true,
       },
       rewards: [
         {
@@ -711,21 +750,21 @@ export class EnhancedSoloPlaySystem {
           reward: {
             type: 'cosmetic',
             itemId: 'gauntlet-survivor',
-            description: 'Gauntlet Survivor Badge'
+            description: 'Gauntlet Survivor Badge',
           },
-          description: 'Survive 5 consecutive battles'
+          description: 'Survive 5 consecutive battles',
         },
         {
           winsRequired: 10,
           reward: {
             type: 'cosmetic',
             itemId: 'gauntlet-warrior',
-            description: 'Gauntlet Warrior Title'
+            description: 'Gauntlet Warrior Title',
           },
-          description: 'Achieve a 10-win streak'
-        }
+          description: 'Achieve a 10-win streak',
+        },
       ],
-      leaderboard: []
+      leaderboard: [],
     };
 
     this.gauntlets.set('endless-challenge', endlessGauntlet);
@@ -743,28 +782,28 @@ export class EnhancedSoloPlaySystem {
           mana: 5,
           hand: [], // Would contain specific combo pieces
           deck: [],
-          boardCards: []
+          boardCards: [],
         },
         opponentStartingState: {
           health: 20,
           mana: 0,
           hand: [],
           deck: [],
-          boardCards: []
+          boardCards: [],
         },
         boardSetup: {
           playerBoard: [],
           opponentBoard: [],
-          environmentEffects: []
+          environmentEffects: [],
         },
-        specialRules: []
+        specialRules: [],
       },
       winConditions: [
         {
           type: 'deal-damage',
           target: 10,
-          description: 'Deal 10 damage in a single turn using a combo'
-        }
+          description: 'Deal 10 damage in a single turn using a combo',
+        },
       ],
       challenges: [
         {
@@ -774,17 +813,17 @@ export class EnhancedSoloPlaySystem {
           bonus: {
             type: 'experience',
             amount: 50,
-            description: 'Perfect execution bonus'
-          }
-        }
+            description: 'Perfect execution bonus',
+          },
+        },
       ],
       educationalNotes: [
         'Combos are sequences of cards that work together for greater effect',
         'Plan your mana usage carefully to maximize combo potential',
-        'Look for cards that enable or enhance other cards in your hand'
+        'Look for cards that enable or enhance other cards in your hand',
       ],
       difficulty: 3,
-      tags: ['combo', 'tutorial', 'beginner']
+      tags: ['combo', 'tutorial', 'beginner'],
     };
 
     this.deckLabScenarios.set('combo-basics', comboTutorial);
@@ -793,13 +832,13 @@ export class EnhancedSoloPlaySystem {
   startSoloSession(
     playerId: string,
     modeId: string,
-    playerDeck: Deck
+    playerDeck: Deck,
   ): SoloPlaySession | null {
     const mode = this.soloModes.get(modeId);
     if (!mode) return null;
 
     const sessionId = `solo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    
+
     const session: SoloPlaySession = {
       sessionId,
       playerId,
@@ -819,9 +858,9 @@ export class EnhancedSoloPlaySystem {
         averageGameLength: 0,
         perfectGames: 0,
         comboCount: 0,
-        mistakeCount: 0
+        mistakeCount: 0,
       },
-      gameHistory: []
+      gameHistory: [],
     };
 
     // Select first opponent
@@ -853,11 +892,14 @@ export class EnhancedSoloPlaySystem {
 
     // Find current chapter
     const unlockedChapters = Array.from(campaign.unlockedChapters);
-    const currentChapter = campaign.chapters.find(ch => 
-      unlockedChapters.includes(ch.id) && !ch.completed
+    const currentChapter = campaign.chapters.find(
+      ch => unlockedChapters.includes(ch.id) && !ch.completed,
     );
 
-    if (currentChapter && currentChapter.opponents.length > session.opponentIndex) {
+    if (
+      currentChapter &&
+      currentChapter.opponents.length > session.opponentIndex
+    ) {
       const opponentId = currentChapter.opponents[session.opponentIndex];
       session.currentOpponent = this.opponents.get(opponentId);
     }
@@ -868,8 +910,8 @@ export class EnhancedSoloPlaySystem {
     if (!gauntlet) return;
 
     // Select opponent based on current streak and difficulty scaling
-    const difficultyMultiplier = gauntlet.rules.escalatingDifficulty 
-      ? 1 + (session.streak * 0.1) 
+    const difficultyMultiplier = gauntlet.rules.escalatingDifficulty
+      ? 1 + session.streak * 0.1
       : 1;
 
     // Select from opponent pool based on difficulty
@@ -878,12 +920,16 @@ export class EnhancedSoloPlaySystem {
       .filter(opp => opp !== undefined) as SoloOpponent[];
 
     if (availableOpponents.length > 0) {
-      const selectedOpponent = availableOpponents[
-        Math.floor(Math.random() * availableOpponents.length)
-      ];
+      const selectedOpponent =
+        availableOpponents[
+          Math.floor(Math.random() * availableOpponents.length)
+        ];
 
       // Scale difficulty
-      session.currentOpponent = this.scaleOpponentDifficulty(selectedOpponent, difficultyMultiplier);
+      session.currentOpponent = this.scaleOpponentDifficulty(
+        selectedOpponent,
+        difficultyMultiplier,
+      );
     }
   }
 
@@ -895,29 +941,32 @@ export class EnhancedSoloPlaySystem {
   private selectRandomOpponent(session: SoloPlaySession): void {
     const allOpponents = Array.from(this.opponents.values());
     if (allOpponents.length > 0) {
-      session.currentOpponent = allOpponents[
-        Math.floor(Math.random() * allOpponents.length)
-      ];
+      session.currentOpponent =
+        allOpponents[Math.floor(Math.random() * allOpponents.length)];
     }
   }
 
-  private scaleOpponentDifficulty(opponent: SoloOpponent, multiplier: number): SoloOpponent {
+  private scaleOpponentDifficulty(
+    opponent: SoloOpponent,
+    multiplier: number,
+  ): SoloOpponent {
     const scaledOpponent = JSON.parse(JSON.stringify(opponent));
-    
+
     // Scale difficulty attributes
     scaledOpponent.difficulty = Math.min(100, opponent.difficulty * multiplier);
-    scaledOpponent.personality.playStyle.mistakeFrequency *= Math.max(0.1, 1 / multiplier);
-    scaledOpponent.personality.playStyle.consistencyLevel = Math.min(1, 
-      opponent.personality.playStyle.consistencyLevel * multiplier
+    scaledOpponent.personality.playStyle.mistakeFrequency *= Math.max(
+      0.1,
+      1 / multiplier,
+    );
+    scaledOpponent.personality.playStyle.consistencyLevel = Math.min(
+      1,
+      opponent.personality.playStyle.consistencyLevel * multiplier,
     );
 
     return scaledOpponent;
   }
 
-  async playTurn(
-    sessionId: string,
-    playerAction: any
-  ): Promise<TurnResult> {
+  async playTurn(sessionId: string, playerAction: any): Promise<TurnResult> {
     const session = this.activeSessions.get(sessionId);
     if (!session || !session.currentOpponent) {
       throw new Error('Invalid session or no current opponent');
@@ -925,12 +974,12 @@ export class EnhancedSoloPlaySystem {
 
     // Process player action
     const playerResult = this.processPlayerAction(playerAction, session);
-    
+
     // Generate AI response
     const aiAction = await this.aiEngine.generateAction(
       session.currentOpponent,
       playerAction,
-      session
+      session,
     );
     const aiResult = this.processAIAction(aiAction, session);
 
@@ -941,18 +990,21 @@ export class EnhancedSoloPlaySystem {
       playerResult,
       aiResult,
       gameResult,
-      sessionUpdate: this.generateSessionUpdate(session)
+      sessionUpdate: this.generateSessionUpdate(session),
     };
   }
 
-  private processPlayerAction(action: any, session: SoloPlaySession): ActionResult {
+  private processPlayerAction(
+    action: any,
+    session: SoloPlaySession,
+  ): ActionResult {
     // Process the player's action and return result
     session.sessionStats.cardsPlayed++;
-    
+
     return {
       success: true,
       effects: [`Player played ${action.cardId || action.type}`],
-      stateChanges: {}
+      stateChanges: {},
     };
   }
 
@@ -961,21 +1013,22 @@ export class EnhancedSoloPlaySystem {
     return {
       success: true,
       effects: [`AI played ${action.cardId || action.type}`],
-      stateChanges: {}
+      stateChanges: {},
     };
   }
 
   private checkGameEnd(
     session: SoloPlaySession,
     playerResult: ActionResult,
-    aiResult: ActionResult
+    aiResult: ActionResult,
   ): GameEndResult | null {
     // Check if game has ended and return result
     // This is simplified - would check actual win/loss conditions
-    
-    if (Math.random() < 0.1) { // 10% chance for demo
+
+    if (Math.random() < 0.1) {
+      // 10% chance for demo
       const playerWon = Math.random() > 0.5;
-      
+
       const gameResult: SoloGameResult = {
         gameNumber: session.gameHistory.length + 1,
         opponent: session.currentOpponent!.id,
@@ -985,12 +1038,12 @@ export class EnhancedSoloPlaySystem {
         playerHealth: playerWon ? Math.floor(Math.random() * 20 + 1) : 0,
         opponentHealth: playerWon ? 0 : Math.floor(Math.random() * 20 + 1),
         turnsPlayed: Math.floor(Math.random() * 20 + 5),
-        keyMoments: ['Game started', 'Mid-game tension', 'Final showdown']
+        keyMoments: ['Game started', 'Mid-game tension', 'Final showdown'],
       };
 
       session.gameHistory.push(gameResult);
       session.sessionStats.gamesPlayed++;
-      
+
       if (playerWon) {
         session.sessionStats.gamesWon++;
         session.streak++;
@@ -1004,7 +1057,7 @@ export class EnhancedSoloPlaySystem {
         gameEnded: true,
         result: gameResult,
         sessionContinues: this.shouldContinueSession(session),
-        rewards: this.calculateRewards(session, gameResult)
+        rewards: this.calculateRewards(session, gameResult),
       };
     }
 
@@ -1013,7 +1066,7 @@ export class EnhancedSoloPlaySystem {
 
   private handleVictory(session: SoloPlaySession): void {
     console.log(`Player won against ${session.currentOpponent?.name}`);
-    
+
     // Progress to next opponent if applicable
     if (session.mode.type === 'campaign') {
       session.opponentIndex++;
@@ -1025,7 +1078,7 @@ export class EnhancedSoloPlaySystem {
 
   private handleDefeat(session: SoloPlaySession): void {
     console.log(`Player lost to ${session.currentOpponent?.name}`);
-    
+
     if (session.mode.type === 'gauntlet') {
       session.lives--;
     }
@@ -1046,21 +1099,25 @@ export class EnhancedSoloPlaySystem {
     const campaign = this.campaigns.get('mystic-journey');
     if (!campaign) return 0;
 
-    const currentChapter = campaign.chapters.find(ch => 
-      Array.from(campaign.unlockedChapters).includes(ch.id) && !ch.completed
+    const currentChapter = campaign.chapters.find(
+      ch =>
+        Array.from(campaign.unlockedChapters).includes(ch.id) && !ch.completed,
     );
-    
+
     return currentChapter ? currentChapter.opponents.length : 0;
   }
 
-  private calculateRewards(session: SoloPlaySession, gameResult: SoloGameResult): SoloReward[] {
+  private calculateRewards(
+    session: SoloPlaySession,
+    gameResult: SoloGameResult,
+  ): SoloReward[] {
     const rewards: SoloReward[] = [];
 
     // Base experience for playing
     rewards.push({
       type: 'experience',
       amount: 25,
-      description: 'Game participation'
+      description: 'Game participation',
     });
 
     // Win bonus
@@ -1068,7 +1125,7 @@ export class EnhancedSoloPlaySystem {
       rewards.push({
         type: 'experience',
         amount: 50,
-        description: 'Victory bonus'
+        description: 'Victory bonus',
       });
     }
 
@@ -1077,7 +1134,7 @@ export class EnhancedSoloPlaySystem {
       rewards.push({
         type: 'experience',
         amount: session.streak * 10,
-        description: `${session.streak}-win streak bonus`
+        description: `${session.streak}-win streak bonus`,
       });
     }
 
@@ -1089,19 +1146,21 @@ export class EnhancedSoloPlaySystem {
       currentScore: session.score,
       currentStreak: session.streak,
       livesRemaining: session.lives,
-      opponentInfo: session.currentOpponent ? {
-        name: session.currentOpponent.name,
-        difficulty: session.currentOpponent.difficulty,
-        description: session.currentOpponent.description
-      } : null,
-      sessionStats: session.sessionStats
+      opponentInfo: session.currentOpponent
+        ? {
+            name: session.currentOpponent.name,
+            difficulty: session.currentOpponent.difficulty,
+            description: session.currentOpponent.description,
+          }
+        : null,
+      sessionStats: session.sessionStats,
     };
   }
 
   completeDeckLabScenario(
     playerId: string,
     scenarioId: string,
-    result: ScenarioResult
+    result: ScenarioResult,
   ): ScenarioCompletion {
     const scenario = this.deckLabScenarios.get(scenarioId);
     if (!scenario) {
@@ -1112,13 +1171,14 @@ export class EnhancedSoloPlaySystem {
       scenarioId,
       playerId,
       completedAt: new Date(),
-      success: result.objectivesCompleted.length === scenario.winConditions.length,
+      success:
+        result.objectivesCompleted.length === scenario.winConditions.length,
       score: result.score,
       timeElapsed: result.timeElapsed,
       objectivesCompleted: result.objectivesCompleted,
       challengesCompleted: result.challengesCompleted,
       mistakes: result.mistakes,
-      rewards: []
+      rewards: [],
     };
 
     // Calculate rewards
@@ -1126,7 +1186,7 @@ export class EnhancedSoloPlaySystem {
       completion.rewards.push({
         type: 'experience',
         amount: 100,
-        description: 'Scenario completion'
+        description: 'Scenario completion',
       });
 
       // Challenge bonuses
@@ -1185,7 +1245,7 @@ export class EnhancedSoloPlaySystem {
     }
 
     session.endTime = new Date();
-    
+
     const summary: SessionSummary = {
       sessionId,
       playerId: session.playerId,
@@ -1195,7 +1255,7 @@ export class EnhancedSoloPlaySystem {
       bestStreak: Math.max(...session.gameHistory.map(g => g.gameNumber)),
       gamesPlayed: session.sessionStats.gamesPlayed,
       gamesWon: session.sessionStats.gamesWon,
-      totalRewards: this.calculateSessionRewards(session)
+      totalRewards: this.calculateSessionRewards(session),
     };
 
     this.activeSessions.delete(sessionId);
@@ -1210,7 +1270,7 @@ export class EnhancedSoloPlaySystem {
     rewards.push({
       type: 'experience',
       amount: baseExperience,
-      description: 'Session completion'
+      description: 'Session completion',
     });
 
     return rewards;
@@ -1235,28 +1295,36 @@ class EnhancedAIEngine {
   async generateAction(
     opponent: SoloOpponent,
     playerAction: any,
-    session: SoloPlaySession
+    session: SoloPlaySession,
   ): Promise<any> {
     // Generate AI action based on personality and game state
     const personality = opponent.personality;
-    
+
     // Simulate thinking time
     const thinkingTime = this.calculateThinkingTime(personality, playerAction);
     await new Promise(resolve => setTimeout(resolve, thinkingTime));
 
     // Generate action based on personality
-    return this.generatePersonalityBasedAction(personality, playerAction, session);
+    return this.generatePersonalityBasedAction(
+      personality,
+      playerAction,
+      session,
+    );
   }
 
-  private calculateThinkingTime(personality: EnhancedAIPersonality, action: any): number {
+  private calculateThinkingTime(
+    personality: EnhancedAIPersonality,
+    action: any,
+  ): number {
     const base = personality.decisionMaking.thinkingTime.baseTime;
     const complexity = this.assessActionComplexity(action);
-    const multiplier = personality.decisionMaking.thinkingTime.complexityMultiplier;
+    const multiplier =
+      personality.decisionMaking.thinkingTime.complexityMultiplier;
     const variation = personality.decisionMaking.thinkingTime.randomVariation;
-    
+
     const baseTime = base * (1 + complexity * multiplier);
     const randomFactor = 1 + (Math.random() - 0.5) * variation;
-    
+
     return Math.floor(baseTime * randomFactor);
   }
 
@@ -1269,35 +1337,39 @@ class EnhancedAIEngine {
   private generatePersonalityBasedAction(
     personality: EnhancedAIPersonality,
     playerAction: any,
-    session: SoloPlaySession
+    session: SoloPlaySession,
   ): any {
     // Generate action based on AI personality
     const actionType = this.selectActionType(personality);
-    
+
     return {
       type: actionType,
       reasoning: this.generateActionReasoning(personality, actionType),
       confidence: this.calculateActionConfidence(personality),
-      voiceLine: this.selectVoiceLine(personality, actionType)
+      voiceLine: this.selectVoiceLine(personality, actionType),
     };
   }
 
   private selectActionType(personality: EnhancedAIPersonality): string {
     const weights = personality.decisionMaking.priorityWeights;
-    
+
     // Weighted random selection based on personality
     const rand = Math.random();
-    
+
     if (rand < weights.boardControl) return 'play-creature';
     if (rand < weights.boardControl + weights.tempo) return 'play-spell';
-    if (rand < weights.boardControl + weights.tempo + weights.damage) return 'attack';
-    
+    if (rand < weights.boardControl + weights.tempo + weights.damage)
+      return 'attack';
+
     return 'end-turn';
   }
 
-  private generateActionReasoning(personality: EnhancedAIPersonality, actionType: string): string {
+  private generateActionReasoning(
+    personality: EnhancedAIPersonality,
+    actionType: string,
+  ): string {
     const archetype = personality.archetype;
-    
+
     switch (actionType) {
       case 'play-creature':
         return `${archetype} strategy: Building board presence`;
@@ -1308,20 +1380,26 @@ class EnhancedAIEngine {
     }
   }
 
-  private calculateActionConfidence(personality: EnhancedAIPersonality): number {
+  private calculateActionConfidence(
+    personality: EnhancedAIPersonality,
+  ): number {
     return personality.playStyle.consistencyLevel * (0.7 + Math.random() * 0.3);
   }
 
-  private selectVoiceLine(personality: EnhancedAIPersonality, actionType: string): string | null {
+  private selectVoiceLine(
+    personality: EnhancedAIPersonality,
+    actionType: string,
+  ): string | null {
     if (!personality.voiceLines) return null;
-    
-    const relevantLines = personality.voiceLines.filter(line => 
-      line.trigger === 'card-play' || line.trigger === 'attack'
+
+    const relevantLines = personality.voiceLines.filter(
+      line => line.trigger === 'card-play' || line.trigger === 'attack',
     );
-    
+
     if (relevantLines.length === 0) return null;
-    
-    const selectedLine = relevantLines[Math.floor(Math.random() * relevantLines.length)];
+
+    const selectedLine =
+      relevantLines[Math.floor(Math.random() * relevantLines.length)];
     return Math.random() < selectedLine.probability ? selectedLine.text : null;
   }
 }
