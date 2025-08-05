@@ -87,9 +87,11 @@ export class ModernAuthService {
       clientId: process.env.VITE_MICROSOFT_CLIENT_ID || '',
       redirectUri: `${window.location.origin}/auth/callback/microsoft`,
       scopes: ['openid', 'profile', 'email'],
-      tokenEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+      tokenEndpoint:
+        'https://login.microsoftonline.com/common/oauth2/v2.0/token',
       userInfoEndpoint: 'https://graph.microsoft.com/v1.0/me',
-      authorizeUrl: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+      authorizeUrl:
+        'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
     });
   }
 
@@ -128,15 +130,19 @@ export class ModernAuthService {
       // Redirect to provider
       window.location.href = `${provider.authorizeUrl}?${params.toString()}`;
     } catch (error) {
-      this.updateState({ 
-        isLoading: false, 
-        error: error instanceof Error ? error.message : 'Login failed' 
+      this.updateState({
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'Login failed',
       });
       throw error;
     }
   }
 
-  public async handleCallback(providerId: string, code: string, state: string): Promise<void> {
+  public async handleCallback(
+    providerId: string,
+    code: string,
+    state: string,
+  ): Promise<void> {
     const provider = this.providers.get(providerId);
     if (!provider) {
       throw new Error(`Unknown provider: ${providerId}`);
@@ -157,8 +163,15 @@ export class ModernAuthService {
         throw new Error('Missing code verifier');
       }
 
-      const tokenResponse = await this.exchangeCodeForTokens(provider, code, codeVerifier);
-      const userInfo = await this.fetchUserInfo(provider, tokenResponse.access_token);
+      const tokenResponse = await this.exchangeCodeForTokens(
+        provider,
+        code,
+        codeVerifier,
+      );
+      const userInfo = await this.fetchUserInfo(
+        provider,
+        tokenResponse.access_token,
+      );
 
       // Create user object
       const user: User = {
@@ -182,17 +195,16 @@ export class ModernAuthService {
         isLoading: false,
         accessToken: tokenResponse.access_token,
         refreshToken: tokenResponse.refresh_token,
-        expiresAt: Date.now() + (tokenResponse.expires_in * 1000),
+        expiresAt: Date.now() + tokenResponse.expires_in * 1000,
       });
 
       // Clean up
       sessionStorage.removeItem('auth_code_verifier');
       sessionStorage.removeItem('auth_state');
-
     } catch (error) {
-      this.updateState({ 
-        isLoading: false, 
-        error: error instanceof Error ? error.message : 'Authentication failed' 
+      this.updateState({
+        isLoading: false,
+        error: error instanceof Error ? error.message : 'Authentication failed',
       });
       throw error;
     }
@@ -244,11 +256,11 @@ export class ModernAuthService {
       }
 
       const tokenData = await response.json();
-      
+
       this.updateState({
         accessToken: tokenData.access_token,
         refreshToken: tokenData.refresh_token || this.state.refreshToken,
-        expiresAt: Date.now() + (tokenData.expires_in * 1000),
+        expiresAt: Date.now() + tokenData.expires_in * 1000,
       });
 
       this.storeTokens(tokenData);
@@ -274,16 +286,21 @@ export class ModernAuthService {
   }
 
   private generateState(): string {
-    return btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))));
+    return btoa(
+      String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))),
+    );
   }
 
   private generatePKCE(): { codeVerifier: string; codeChallenge: string } {
-    const codeVerifier = btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))))
+    const codeVerifier = btoa(
+      String.fromCharCode(...crypto.getRandomValues(new Uint8Array(32))),
+    )
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
       .replace(/=/g, '');
 
-    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(codeVerifier))
+    return crypto.subtle
+      .digest('SHA-256', new TextEncoder().encode(codeVerifier))
       .then(hash => ({
         codeVerifier,
         codeChallenge: btoa(String.fromCharCode(...new Uint8Array(hash)))
@@ -293,12 +310,16 @@ export class ModernAuthService {
       })) as any;
   }
 
-  private async exchangeCodeForTokens(provider: AuthProvider, code: string, codeVerifier: string): Promise<any> {
+  private async exchangeCodeForTokens(
+    provider: AuthProvider,
+    code: string,
+    codeVerifier: string,
+  ): Promise<any> {
     const response = await fetch(provider.tokenEndpoint, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
+        Accept: 'application/json',
       },
       body: new URLSearchParams({
         grant_type: 'authorization_code',
@@ -316,11 +337,14 @@ export class ModernAuthService {
     return response.json();
   }
 
-  private async fetchUserInfo(provider: AuthProvider, accessToken: string): Promise<any> {
+  private async fetchUserInfo(
+    provider: AuthProvider,
+    accessToken: string,
+  ): Promise<any> {
     const response = await fetch(provider.userInfoEndpoint, {
       headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Accept': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json',
       },
     });
 
@@ -347,8 +371,8 @@ export class ModernAuthService {
       const stored = localStorage.getItem('auth_tokens');
       if (stored) {
         const tokens = JSON.parse(stored);
-        const expiresAt = tokens.stored_at + (tokens.expires_in * 1000);
-        
+        const expiresAt = tokens.stored_at + tokens.expires_in * 1000;
+
         if (Date.now() < expiresAt) {
           // Tokens are still valid, restore state
           this.updateState({

@@ -393,7 +393,10 @@ class AdvancedPredictiveEngine {
 
       return prediction;
     } catch (_error) {
-      console.error(`❌ Error making prediction with model ${modelId}:`, _error);
+      console.error(
+        `❌ Error making prediction with model ${modelId}:`,
+        _error,
+      );
       throw error;
     }
   }

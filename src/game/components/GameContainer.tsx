@@ -32,7 +32,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   const [error, setError] = useState<string | null>(null);
   // const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
   // const [isLandscape, setIsLandscape] = useState(false);
-  
+
   // Get dynamic sizing based on user agent
   const dynamicSizing = useDynamicSizing();
 
@@ -152,7 +152,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
 
   const handleOrientationChange = (landscape: boolean) => {
     // Orientation change handling for future use
-    console.log('Orientation changed to:', landscape ? 'landscape' : 'portrait');
+    console.log(
+      'Orientation changed to:',
+      landscape ? 'landscape' : 'portrait',
+    );
     // setIsLandscape(landscape);
     // setShowOrientationPrompt(!landscape);
   };
@@ -192,8 +195,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     position: 'relative',
     width: '100%',
     height: '100%',
-    maxWidth: dynamicSizing.unit === 'px' ? `${dynamicSizing.maxWidth}px` : '100%',
-    maxHeight: dynamicSizing.unit === 'px' ? `${dynamicSizing.maxHeight}px` : '100%',
+    maxWidth:
+      dynamicSizing.unit === 'px' ? `${dynamicSizing.maxWidth}px` : '100%',
+    maxHeight:
+      dynamicSizing.unit === 'px' ? `${dynamicSizing.maxHeight}px` : '100%',
     minWidth: `${dynamicSizing.minWidth}px`,
     minHeight: `${dynamicSizing.minHeight}px`,
     margin: '0 auto',
@@ -206,10 +211,16 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     WebkitTouchCallout: 'none',
     WebkitTapHighlightColor: 'transparent',
     borderRadius: dynamicSizing.containerPadding > 0 ? '8px' : '0',
-    boxShadow: dynamicSizing.containerPadding > 0 ? '0 4px 20px rgba(0, 0, 0, 0.3)' : 'none',
+    boxShadow:
+      dynamicSizing.containerPadding > 0
+        ? '0 4px 20px rgba(0, 0, 0, 0.3)'
+        : 'none',
     boxSizing: 'border-box',
     // Enhanced responsiveness
-    aspectRatio: dynamicSizing.width && dynamicSizing.height ? `${dynamicSizing.width} / ${dynamicSizing.height}` : 'auto',
+    aspectRatio:
+      dynamicSizing.width && dynamicSizing.height
+        ? `${dynamicSizing.width} / ${dynamicSizing.height}`
+        : 'auto',
     // Better mobile performance
     transform: 'translateZ(0)',
     willChange: 'transform',
@@ -228,7 +239,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   };
 
   return (
-    <div style={containerStyle} className="mobile-game-container dynamic-sizing">
+    <div
+      style={containerStyle}
+      className="mobile-game-container dynamic-sizing"
+    >
       {/* Orientation Prompt */}
       <OrientationPrompt onOrientationChange={handleOrientationChange} />
 
