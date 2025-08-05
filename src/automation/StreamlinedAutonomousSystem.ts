@@ -9,7 +9,7 @@ class OptimizedEventEmitter {
   private eventPool = new Map<string, any[]>();
 
   on(_event: string, fn: Function): this {
-    if (!this.events.has(_event)) this.events.set(event, new Set());
+    if (!this.events.has(_event)) this.events.set(_event, new Set());
     this.events.get(_event)!.add(fn);
     return this;
   }

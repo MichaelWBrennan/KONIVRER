@@ -486,7 +486,7 @@ class AdvancedSelfHealingSystem {
   private processErrorWithQuantumAnalysis(_error: Error): void {
     const signature = this.generateErrorSignature(_error);
     const pattern =
-      this.errorPatterns.get(_signature) ||
+      this.errorPatterns.get(signature) ||
       this.createNewErrorPattern(signature, _error);
 
     // Update pattern with quantum analysis
@@ -509,8 +509,8 @@ class AdvancedSelfHealingSystem {
 
   private generateErrorSignature(_error: Error): string {
     // Generate unique signature for error pattern recognition
-    const message = error.message || '';
-    const stack = error.stack || '';
+    const message = _error.message || '';
+    const stack = _error.stack || '';
 
     // Extract key components
     const messageHash = this.simpleHash(message);
@@ -531,11 +531,11 @@ class AdvancedSelfHealingSystem {
 
   private createNewErrorPattern(_signature: string, error: Error): ErrorPattern {
     return {
-      signature,
+      signature: _signature,
       frequency: 1,
-      severity: this.assessErrorSeverity(_error),
+      severity: this.assessErrorSeverity(error),
       predictedOccurrence: 0,
-      healingStrategy: this.selectInitialHealingStrategy(_error),
+      healingStrategy: this.selectInitialHealingStrategy(error),
       successRate: 0,
       lastSeen: Date.now(),
       adaptiveWeight: 0.1,
