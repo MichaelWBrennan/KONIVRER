@@ -5,8 +5,21 @@
 
 interface ThreatIntelligence {
   id: string;
-  type: 'malware' | 'phishing' | 'ddos' | 'intrusion' | 'data-breach' | 'quantum-threat' | 'ai-adversarial';
-  severity: 'info' | 'low' | 'medium' | 'high' | 'critical' | 'quantum-critical';
+  type:
+    | 'malware'
+    | 'phishing'
+    | 'ddos'
+    | 'intrusion'
+    | 'data-breach'
+    | 'quantum-threat'
+    | 'ai-adversarial';
+  severity:
+    | 'info'
+    | 'low'
+    | 'medium'
+    | 'high'
+    | 'critical'
+    | 'quantum-critical';
   confidence: number;
   source: string;
   indicators: ThreatIndicator[];
@@ -42,7 +55,13 @@ interface SecurityEvent {
 interface SecurityResponse {
   id: string;
   eventId: string;
-  action: 'monitor' | 'alert' | 'block' | 'quarantine' | 'neutralize' | 'quantum-shield';
+  action:
+    | 'monitor'
+    | 'alert'
+    | 'block'
+    | 'quarantine'
+    | 'neutralize'
+    | 'quantum-shield';
   timestamp: Date;
   automated: boolean;
   effectiveness: number;
@@ -52,7 +71,12 @@ interface SecurityResponse {
 interface ThreatFeed {
   id: string;
   name: string;
-  type: 'commercial' | 'open-source' | 'government' | 'community' | 'ai-generated';
+  type:
+    | 'commercial'
+    | 'open-source'
+    | 'government'
+    | 'community'
+    | 'ai-generated';
   reliability: number;
   updateFrequency: number; // milliseconds
   lastUpdate: Date;
@@ -62,7 +86,11 @@ interface ThreatFeed {
 
 interface MLThreatModel {
   id: string;
-  type: 'anomaly-detection' | 'behavioral-analysis' | 'pattern-recognition' | 'quantum-threat-detector';
+  type:
+    | 'anomaly-detection'
+    | 'behavioral-analysis'
+    | 'pattern-recognition'
+    | 'quantum-threat-detector';
   algorithm: string;
   accuracy: number;
   precision: number;
@@ -78,7 +106,7 @@ class RealTimeThreatIntelligence {
   private threatFeeds: Map<string, ThreatFeed> = new Map();
   private mlModels: Map<string, MLThreatModel> = new Map();
   private activeResponses: Map<string, SecurityResponse> = new Map();
-  
+
   private realTimeProcessor: boolean = false;
   private quantumEnhanced: boolean = true;
   private emergencyMode: boolean = false;
@@ -94,18 +122,18 @@ class RealTimeThreatIntelligence {
     try {
       // Initialize threat feeds
       await this.initializeThreatFeeds();
-      
+
       // Load ML threat detection models
       await this.loadMLThreatModels();
-      
+
       // Start real-time processing
       this.startRealTimeProcessing();
-      
+
       // Enable quantum-enhanced protection
       if (this.quantumEnhanced) {
         await this.initializeQuantumThreatDetection();
       }
-      
+
       // Start threat feed updates
       this.startThreatFeedUpdates();
 
@@ -128,7 +156,7 @@ class RealTimeThreatIntelligence {
         updateFrequency: 3600000, // 1 hour
         lastUpdate: new Date(),
         threatCount: 0,
-        active: true
+        active: true,
       },
       {
         id: 'quantum-threat-intel',
@@ -138,7 +166,7 @@ class RealTimeThreatIntelligence {
         updateFrequency: 300000, // 5 minutes
         lastUpdate: new Date(),
         threatCount: 0,
-        active: true
+        active: true,
       },
       {
         id: 'ai-adversarial-feed',
@@ -148,17 +176,17 @@ class RealTimeThreatIntelligence {
         updateFrequency: 600000, // 10 minutes
         lastUpdate: new Date(),
         threatCount: 0,
-        active: true
+        active: true,
       },
       {
         id: 'cybersecurity-vendors',
         name: 'Commercial Threat Feed',
         type: 'commercial',
-        reliability: 0.90,
+        reliability: 0.9,
         updateFrequency: 1800000, // 30 minutes
         lastUpdate: new Date(),
         threatCount: 0,
-        active: true
+        active: true,
       },
       {
         id: 'open-source-intel',
@@ -168,8 +196,8 @@ class RealTimeThreatIntelligence {
         updateFrequency: 3600000, // 1 hour
         lastUpdate: new Date(),
         threatCount: 0,
-        active: true
-      }
+        active: true,
+      },
     ];
 
     threatFeeds.forEach(feed => {
@@ -179,7 +207,9 @@ class RealTimeThreatIntelligence {
     // Populate with initial threat intelligence
     await this.populateInitialThreats();
 
-    console.log(`✅ Initialized ${threatFeeds.length} threat intelligence feeds`);
+    console.log(
+      `✅ Initialized ${threatFeeds.length} threat intelligence feeds`,
+    );
   }
 
   private async populateInitialThreats(): Promise<void> {
@@ -197,12 +227,16 @@ class RealTimeThreatIntelligence {
             confidence: 0.93,
             firstSeen: new Date(),
             lastSeen: new Date(),
-            context: 'Quantum algorithm execution detected'
-          }
+            context: 'Quantum algorithm execution detected',
+          },
         ],
-        mitigation: ['enable-post-quantum-crypto', 'rotate-keys-immediately', 'quantum-shield-activation'],
+        mitigation: [
+          'enable-post-quantum-crypto',
+          'rotate-keys-immediately',
+          'quantum-shield-activation',
+        ],
         timestamp: new Date(),
-        ttl: 86400 // 24 hours
+        ttl: 86400, // 24 hours
       },
       {
         id: 'ai-adversarial-attack-2024',
@@ -214,15 +248,19 @@ class RealTimeThreatIntelligence {
           {
             type: 'pattern',
             value: 'gradient-based-attack-pattern',
-            confidence: 0.90,
+            confidence: 0.9,
             firstSeen: new Date(),
             lastSeen: new Date(),
-            context: 'Adversarial ML attack detected'
-          }
+            context: 'Adversarial ML attack detected',
+          },
         ],
-        mitigation: ['activate-adversarial-defense', 'increase-model-robustness', 'deploy-detection-model'],
+        mitigation: [
+          'activate-adversarial-defense',
+          'increase-model-robustness',
+          'deploy-detection-model',
+        ],
         timestamp: new Date(),
-        ttl: 43200 // 12 hours
+        ttl: 43200, // 12 hours
       },
       {
         id: 'advanced-persistent-threat-2024',
@@ -237,15 +275,19 @@ class RealTimeThreatIntelligence {
             confidence: 0.89,
             firstSeen: new Date(Date.now() - 3600000),
             lastSeen: new Date(),
-            context: 'Advanced persistent threat behavior'
-          }
+            context: 'Advanced persistent threat behavior',
+          },
         ],
-        mitigation: ['isolate-affected-systems', 'enhance-monitoring', 'deploy-honeypots'],
+        mitigation: [
+          'isolate-affected-systems',
+          'enhance-monitoring',
+          'deploy-honeypots',
+        ],
         timestamp: new Date(),
         geolocation: 'Unknown',
         attribution: 'Advanced Persistent Threat Group',
-        ttl: 172800 // 48 hours
-      }
+        ttl: 172800, // 48 hours
+      },
     ];
 
     initialThreats.forEach(threat => {
@@ -256,7 +298,9 @@ class RealTimeThreatIntelligence {
       }
     });
 
-    console.log(`📊 Populated threat database with ${initialThreats.length} initial threats`);
+    console.log(
+      `📊 Populated threat database with ${initialThreats.length} initial threats`,
+    );
   }
 
   private async loadMLThreatModels(): Promise<void> {
@@ -272,7 +316,7 @@ class RealTimeThreatIntelligence {
         recall: 0.91,
         lastTrained: new Date(),
         trainingData: 1000000,
-        active: true
+        active: true,
       },
       {
         id: 'behavioral-analyzer-v2',
@@ -283,7 +327,7 @@ class RealTimeThreatIntelligence {
         recall: 0.94,
         lastTrained: new Date(),
         trainingData: 500000,
-        active: true
+        active: true,
       },
       {
         id: 'pattern-recognizer-v4',
@@ -291,10 +335,10 @@ class RealTimeThreatIntelligence {
         algorithm: 'CNN-RNN Ensemble',
         accuracy: 0.94,
         precision: 0.92,
-        recall: 0.90,
+        recall: 0.9,
         lastTrained: new Date(),
         trainingData: 2000000,
-        active: true
+        active: true,
       },
       {
         id: 'quantum-threat-detector-v1',
@@ -305,8 +349,8 @@ class RealTimeThreatIntelligence {
         recall: 0.95,
         lastTrained: new Date(),
         trainingData: 100000,
-        active: true
-      }
+        active: true,
+      },
     ];
 
     mlModels.forEach(model => {
@@ -318,7 +362,7 @@ class RealTimeThreatIntelligence {
 
   private startRealTimeProcessing(): void {
     console.log('⚡ Starting real-time threat processing...');
-    
+
     this.realTimeProcessor = true;
 
     // High-frequency threat scanning (every 500ms)
@@ -349,17 +393,19 @@ class RealTimeThreatIntelligence {
 
   private async initializeQuantumThreatDetection(): Promise<void> {
     console.log('🔮 Initializing quantum-enhanced threat detection...');
-    
+
     // Initialize quantum threat patterns
     const quantumThreats = [
       'quantum-key-extraction',
       'quantum-algorithm-execution',
       'post-quantum-vulnerability',
       'quantum-supremacy-probe',
-      'quantum-entanglement-attack'
+      'quantum-entanglement-attack',
     ];
 
-    console.log(`✅ Quantum threat detection initialized with ${quantumThreats.length} patterns`);
+    console.log(
+      `✅ Quantum threat detection initialized with ${quantumThreats.length} patterns`,
+    );
   }
 
   private startThreatFeedUpdates(): void {
@@ -379,10 +425,10 @@ class RealTimeThreatIntelligence {
 
     try {
       console.log(`📡 Updating threat feed: ${feed.name}`);
-      
+
       // Simulate threat feed update
       const newThreats = await this.fetchThreatUpdates(feedId);
-      
+
       let addedThreats = 0;
       newThreats.forEach(threat => {
         if (!this.threatDatabase.has(threat.id)) {
@@ -397,20 +443,32 @@ class RealTimeThreatIntelligence {
       if (addedThreats > 0) {
         console.log(`➕ Added ${addedThreats} new threats from ${feed.name}`);
       }
-
     } catch (error) {
       console.error(`❌ Error updating threat feed ${feedId}:`, error);
     }
   }
 
-  private async fetchThreatUpdates(feedId: string): Promise<ThreatIntelligence[]> {
+  private async fetchThreatUpdates(
+    feedId: string,
+  ): Promise<ThreatIntelligence[]> {
     // Simulate fetching new threat intelligence
     const threatTypes: ThreatIntelligence['type'][] = [
-      'malware', 'phishing', 'ddos', 'intrusion', 'data-breach', 'quantum-threat', 'ai-adversarial'
+      'malware',
+      'phishing',
+      'ddos',
+      'intrusion',
+      'data-breach',
+      'quantum-threat',
+      'ai-adversarial',
     ];
-    
+
     const severityLevels: ThreatIntelligence['severity'][] = [
-      'info', 'low', 'medium', 'high', 'critical', 'quantum-critical'
+      'info',
+      'low',
+      'medium',
+      'high',
+      'critical',
+      'quantum-critical',
     ];
 
     const newThreats: ThreatIntelligence[] = [];
@@ -420,13 +478,14 @@ class RealTimeThreatIntelligence {
       const threat: ThreatIntelligence = {
         id: `${feedId}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         type: threatTypes[Math.floor(Math.random() * threatTypes.length)],
-        severity: severityLevels[Math.floor(Math.random() * severityLevels.length)],
+        severity:
+          severityLevels[Math.floor(Math.random() * severityLevels.length)],
         confidence: 0.7 + Math.random() * 0.3, // 70-100% confidence
         source: feedId,
         indicators: this.generateThreatIndicators(),
         mitigation: this.generateMitigationStrategies(),
         timestamp: new Date(),
-        ttl: 3600 + Math.random() * 82800 // 1-24 hours
+        ttl: 3600 + Math.random() * 82800, // 1-24 hours
       };
 
       // Add geolocation for some threats
@@ -442,22 +501,28 @@ class RealTimeThreatIntelligence {
 
   private generateThreatIndicators(): ThreatIndicator[] {
     const indicatorTypes: ThreatIndicator['type'][] = [
-      'ip', 'domain', 'hash', 'pattern', 'behavior', 'quantum-signature'
+      'ip',
+      'domain',
+      'hash',
+      'pattern',
+      'behavior',
+      'quantum-signature',
     ];
 
     const indicators: ThreatIndicator[] = [];
     const indicatorCount = Math.floor(Math.random() * 3) + 1; // 1-3 indicators
 
     for (let i = 0; i < indicatorCount; i++) {
-      const type = indicatorTypes[Math.floor(Math.random() * indicatorTypes.length)];
-      
+      const type =
+        indicatorTypes[Math.floor(Math.random() * indicatorTypes.length)];
+
       indicators.push({
         type,
         value: this.generateIndicatorValue(type),
         confidence: 0.8 + Math.random() * 0.2, // 80-100% confidence
         firstSeen: new Date(),
         lastSeen: new Date(),
-        context: `Generated ${type} indicator`
+        context: `Generated ${type} indicator`,
       });
     }
 
@@ -494,14 +559,15 @@ class RealTimeThreatIntelligence {
       'enhance-logging',
       'isolate-network-segment',
       'enable-additional-controls',
-      'quantum-shield-activation'
+      'quantum-shield-activation',
     ];
 
     const count = Math.floor(Math.random() * 3) + 1; // 1-3 strategies
     const selected = [];
 
     for (let i = 0; i < count; i++) {
-      const strategy = strategies[Math.floor(Math.random() * strategies.length)];
+      const strategy =
+        strategies[Math.floor(Math.random() * strategies.length)];
       if (!selected.includes(strategy)) {
         selected.push(strategy);
       }
@@ -512,10 +578,18 @@ class RealTimeThreatIntelligence {
 
   private generateRandomGeolocation(): string {
     const locations = [
-      'US-East', 'US-West', 'EU-Central', 'Asia-Pacific', 'Unknown',
-      'Russia', 'China', 'North Korea', 'Iran', 'Multiple'
+      'US-East',
+      'US-West',
+      'EU-Central',
+      'Asia-Pacific',
+      'Unknown',
+      'Russia',
+      'China',
+      'North Korea',
+      'Iran',
+      'Multiple',
     ];
-    
+
     return locations[Math.floor(Math.random() * locations.length)];
   }
 
@@ -523,30 +597,29 @@ class RealTimeThreatIntelligence {
     try {
       // Generate simulated security event
       const event = this.generateSecurityEvent();
-      
+
       // Analyze with ML models
       const threatAnalysis = await this.analyzeWithMLModels(event);
-      
+
       // Match against threat intelligence
       const threatMatches = this.matchThreatIntelligence(event);
-      
+
       // Calculate risk score
       event.riskScore = this.calculateRiskScore(threatAnalysis, threatMatches);
       event.threatIntelMatch = threatMatches;
-      
+
       // Store security event
       this.securityEvents.push(event);
-      
+
       // Trigger response if high risk
       if (event.riskScore > 70) {
         await this.triggerSecurityResponse(event);
       }
-      
+
       // Maintain event history size
       if (this.securityEvents.length > 10000) {
         this.securityEvents = this.securityEvents.slice(-5000);
       }
-      
     } catch (error) {
       console.error('❌ Error in real-time threat scan:', error);
     }
@@ -562,11 +635,19 @@ class RealTimeThreatIntelligence {
       'process-execution',
       'registry-modification',
       'quantum-operation',
-      'ai-model-query'
+      'ai-model-query',
     ];
 
     const severities = ['info', 'low', 'medium', 'high', 'critical'];
-    const sources = ['firewall', 'ids', 'endpoint', 'network', 'application', 'quantum-sensor', 'ai-monitor'];
+    const sources = [
+      'firewall',
+      'ids',
+      'endpoint',
+      'network',
+      'application',
+      'quantum-sensor',
+      'ai-monitor',
+    ];
 
     return {
       id: `event-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -576,7 +657,7 @@ class RealTimeThreatIntelligence {
       severity: severities[Math.floor(Math.random() * severities.length)],
       data: this.generateEventData(),
       riskScore: 0,
-      automated: true
+      automated: true,
     };
   }
 
@@ -589,7 +670,10 @@ class RealTimeThreatIntelligence {
       size: Math.floor(Math.random() * 10000),
       userAgent: `Bot-${Math.random().toString(36).substr(2, 8)}`,
       entropy: Math.random() * 8,
-      quantumSignature: Math.random() > 0.9 ? `quantum-${Math.random().toString(36).substr(2, 8)}` : null
+      quantumSignature:
+        Math.random() > 0.9
+          ? `quantum-${Math.random().toString(36).substr(2, 8)}`
+          : null,
     };
   }
 
@@ -599,7 +683,7 @@ class RealTimeThreatIntelligence {
       behavioralScore: 0,
       patternScore: 0,
       quantumThreatScore: 0,
-      overallScore: 0
+      overallScore: 0,
     };
 
     // Anomaly detection
@@ -618,17 +702,19 @@ class RealTimeThreatIntelligence {
     }
 
     // Quantum threat detection
-    if (this.mlModels.has('quantum-threat-detector-v1') && event.data.quantumSignature) {
+    if (
+      this.mlModels.has('quantum-threat-detector-v1') &&
+      event.data.quantumSignature
+    ) {
       analysis.quantumThreatScore = await this.runQuantumThreatDetection(event);
     }
 
     // Calculate overall score
-    analysis.overallScore = (
+    analysis.overallScore =
       analysis.anomalyScore * 0.25 +
       analysis.behavioralScore * 0.25 +
       analysis.patternScore * 0.25 +
-      analysis.quantumThreatScore * 0.25
-    );
+      analysis.quantumThreatScore * 0.25;
 
     return analysis;
   }
@@ -638,12 +724,12 @@ class RealTimeThreatIntelligence {
     const features = [
       event.data.size || 0,
       event.data.entropy || 0,
-      event.data.port || 0
+      event.data.port || 0,
     ];
 
     // Simple anomaly scoring based on feature values
     let anomalyScore = 0;
-    
+
     if (features[0] > 5000) anomalyScore += 30; // Large size
     if (features[1] > 6) anomalyScore += 40; // High entropy
     if (features[2] < 1024 || features[2] > 49152) anomalyScore += 20; // Unusual ports
@@ -657,7 +743,8 @@ class RealTimeThreatIntelligence {
 
     // Check for suspicious patterns
     if (event.eventType === 'system-command') behaviorScore += 20;
-    if (event.severity === 'high' || event.severity === 'critical') behaviorScore += 30;
+    if (event.severity === 'high' || event.severity === 'critical')
+      behaviorScore += 30;
     if (event.data.userAgent?.includes('Bot')) behaviorScore += 25;
 
     return Math.min(100, behaviorScore + Math.random() * 15);
@@ -670,12 +757,15 @@ class RealTimeThreatIntelligence {
     // Check for known attack patterns
     if (event.data.sourceIP?.startsWith('192.168.')) patternScore -= 20; // Internal IP
     if (event.data.protocol === 'ICMP') patternScore += 15; // ICMP can be suspicious
-    if (event.eventType === 'network-connection' && event.data.port === 22) patternScore += 10; // SSH
+    if (event.eventType === 'network-connection' && event.data.port === 22)
+      patternScore += 10; // SSH
 
     return Math.max(0, Math.min(100, patternScore + Math.random() * 20));
   }
 
-  private async runQuantumThreatDetection(event: SecurityEvent): Promise<number> {
+  private async runQuantumThreatDetection(
+    event: SecurityEvent,
+  ): Promise<number> {
     // Simulate quantum threat detection
     if (!event.data.quantumSignature) return 0;
 
@@ -705,13 +795,19 @@ class RealTimeThreatIntelligence {
   private isThreatExpired(threat: ThreatIntelligence): boolean {
     const now = Date.now();
     const threatAge = now - threat.timestamp.getTime();
-    return threatAge > (threat.ttl * 1000);
+    return threatAge > threat.ttl * 1000;
   }
 
-  private matchIndicator(indicator: ThreatIndicator, event: SecurityEvent): boolean {
+  private matchIndicator(
+    indicator: ThreatIndicator,
+    event: SecurityEvent,
+  ): boolean {
     switch (indicator.type) {
       case 'ip':
-        return event.data.sourceIP === indicator.value || event.data.destinationIP === indicator.value;
+        return (
+          event.data.sourceIP === indicator.value ||
+          event.data.destinationIP === indicator.value
+        );
       case 'domain':
         return event.data.domain === indicator.value;
       case 'hash':
@@ -727,7 +823,10 @@ class RealTimeThreatIntelligence {
     }
   }
 
-  private calculateRiskScore(mlAnalysis: any, threatMatches: ThreatIntelligence[]): number {
+  private calculateRiskScore(
+    mlAnalysis: any,
+    threatMatches: ThreatIntelligence[],
+  ): number {
     let riskScore = mlAnalysis.overallScore;
 
     // Add risk from threat intelligence matches
@@ -761,7 +860,9 @@ class RealTimeThreatIntelligence {
   }
 
   private async triggerSecurityResponse(event: SecurityEvent): Promise<void> {
-    console.log(`🚨 High-risk security event detected: ${event.id} (Risk: ${event.riskScore})`);
+    console.log(
+      `🚨 High-risk security event detected: ${event.id} (Risk: ${event.riskScore})`,
+    );
 
     const response: SecurityResponse = {
       id: `response-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -770,12 +871,12 @@ class RealTimeThreatIntelligence {
       timestamp: new Date(),
       automated: true,
       effectiveness: 0.85 + Math.random() * 0.15, // 85-100% effectiveness
-      details: `Automated response to high-risk event ${event.id}`
+      details: `Automated response to high-risk event ${event.id}`,
     };
 
     // Execute the response
     await this.executeSecurityResponse(response);
-    
+
     // Store the response
     this.activeResponses.set(response.id, response);
     event.response = response;
@@ -783,7 +884,9 @@ class RealTimeThreatIntelligence {
     console.log(`⚡ Security response executed: ${response.action}`);
   }
 
-  private determineResponseAction(event: SecurityEvent): SecurityResponse['action'] {
+  private determineResponseAction(
+    event: SecurityEvent,
+  ): SecurityResponse['action'] {
     // Determine appropriate response based on event characteristics
     if (event.data.quantumSignature) {
       return 'quantum-shield';
@@ -800,7 +903,9 @@ class RealTimeThreatIntelligence {
     }
   }
 
-  private async executeSecurityResponse(response: SecurityResponse): Promise<void> {
+  private async executeSecurityResponse(
+    response: SecurityResponse,
+  ): Promise<void> {
     switch (response.action) {
       case 'monitor':
         console.log('👁️ Enhanced monitoring activated');
@@ -829,12 +934,12 @@ class RealTimeThreatIntelligence {
   private processSecurityEvents(): void {
     // Process recent security events for patterns
     const recentEvents = this.securityEvents.slice(-100);
-    
+
     if (recentEvents.length < 10) return;
 
     // Look for event patterns that might indicate coordinated attacks
     const eventPatterns = this.analyzeEventPatterns(recentEvents);
-    
+
     if (eventPatterns.coordinatedAttack) {
       console.log('🚨 Coordinated attack pattern detected');
       this.escalateThreatLevel();
@@ -845,12 +950,15 @@ class RealTimeThreatIntelligence {
     const patterns = {
       coordinatedAttack: false,
       rapidEvents: false,
-      multipleHighRisk: false
+      multipleHighRisk: false,
     };
 
     // Check for rapid succession of events
-    const timeSpan = events[events.length - 1].timestamp.getTime() - events[0].timestamp.getTime();
-    if (timeSpan < 60000 && events.length > 20) { // 20+ events in 1 minute
+    const timeSpan =
+      events[events.length - 1].timestamp.getTime() -
+      events[0].timestamp.getTime();
+    if (timeSpan < 60000 && events.length > 20) {
+      // 20+ events in 1 minute
       patterns.rapidEvents = true;
     }
 
@@ -861,7 +969,8 @@ class RealTimeThreatIntelligence {
     }
 
     // Coordinated attack if multiple patterns detected
-    patterns.coordinatedAttack = patterns.rapidEvents && patterns.multipleHighRisk;
+    patterns.coordinatedAttack =
+      patterns.rapidEvents && patterns.multipleHighRisk;
 
     return patterns;
   }
@@ -869,7 +978,7 @@ class RealTimeThreatIntelligence {
   private correlateThreatIntelligence(): void {
     // Correlate threats to identify campaigns or patterns
     const activeThreatsBySource = new Map<string, ThreatIntelligence[]>();
-    
+
     for (const threat of this.threatDatabase.values()) {
       if (!this.isThreatExpired(threat)) {
         const sourceThreats = activeThreatsBySource.get(threat.source) || [];
@@ -881,7 +990,9 @@ class RealTimeThreatIntelligence {
     // Look for correlations
     activeThreatsBySource.forEach((threats, source) => {
       if (threats.length > 3) {
-        console.log(`📊 High threat activity from source: ${source} (${threats.length} threats)`);
+        console.log(
+          `📊 High threat activity from source: ${source} (${threats.length} threats)`,
+        );
       }
     });
   }
@@ -891,8 +1002,9 @@ class RealTimeThreatIntelligence {
     this.activeResponses.forEach((response, responseId) => {
       // Check if response is still effective
       const responseAge = Date.now() - response.timestamp.getTime();
-      
-      if (responseAge > 300000) { // 5 minutes old
+
+      if (responseAge > 300000) {
+        // 5 minutes old
         console.log(`🔄 Evaluating response effectiveness: ${responseId}`);
         // In a real implementation, check if the threat is still active
         // and adjust response accordingly
@@ -903,17 +1015,19 @@ class RealTimeThreatIntelligence {
   private assessOverallThreatLevel(): void {
     // Calculate overall threat level based on recent activity
     const recentEvents = this.securityEvents.slice(-50);
-    
+
     if (recentEvents.length === 0) {
       this.threatLevel = 0;
       return;
     }
 
-    const averageRisk = recentEvents.reduce((sum, event) => sum + event.riskScore, 0) / recentEvents.length;
+    const averageRisk =
+      recentEvents.reduce((sum, event) => sum + event.riskScore, 0) /
+      recentEvents.length;
     const highRiskEvents = recentEvents.filter(e => e.riskScore > 70).length;
-    
-    this.threatLevel = Math.min(100, averageRisk + (highRiskEvents * 5));
-    
+
+    this.threatLevel = Math.min(100, averageRisk + highRiskEvents * 5);
+
     // Check for emergency mode activation
     if (this.threatLevel > 85 && !this.emergencyMode) {
       this.activateEmergencyMode();
@@ -929,8 +1043,10 @@ class RealTimeThreatIntelligence {
 
   private activateEmergencyMode(): void {
     this.emergencyMode = true;
-    console.log('🚨 EMERGENCY MODE ACTIVATED - Enhanced security protocols enabled');
-    
+    console.log(
+      '🚨 EMERGENCY MODE ACTIVATED - Enhanced security protocols enabled',
+    );
+
     // Increase monitoring frequency in emergency mode
     // Activate additional security measures
     // Alert security team (in a real implementation)
@@ -938,18 +1054,30 @@ class RealTimeThreatIntelligence {
 
   private deactivateEmergencyMode(): void {
     this.emergencyMode = false;
-    console.log('✅ Emergency mode deactivated - Normal security protocols restored');
+    console.log(
+      '✅ Emergency mode deactivated - Normal security protocols restored',
+    );
   }
 
   private logThreatIntelligenceStatus(): void {
     console.log('\n🛡️ REAL-TIME THREAT INTELLIGENCE STATUS:');
     console.log('==========================================');
-    console.log(`📡 Active Threat Feeds: ${Array.from(this.threatFeeds.values()).filter(f => f.active).length}`);
-    console.log(`🧠 ML Models Active: ${Array.from(this.mlModels.values()).filter(m => m.active).length}`);
+    console.log(
+      `📡 Active Threat Feeds: ${Array.from(this.threatFeeds.values()).filter(f => f.active).length}`,
+    );
+    console.log(
+      `🧠 ML Models Active: ${Array.from(this.mlModels.values()).filter(m => m.active).length}`,
+    );
     console.log(`📊 Threats in Database: ${this.threatDatabase.size}`);
-    console.log(`⚡ Real-time Processing: ${this.realTimeProcessor ? 'ACTIVE' : 'INACTIVE'}`);
-    console.log(`🔮 Quantum Enhanced: ${this.quantumEnhanced ? 'ENABLED' : 'DISABLED'}`);
-    console.log(`🚨 Emergency Mode: ${this.emergencyMode ? 'ACTIVE' : 'INACTIVE'}`);
+    console.log(
+      `⚡ Real-time Processing: ${this.realTimeProcessor ? 'ACTIVE' : 'INACTIVE'}`,
+    );
+    console.log(
+      `🔮 Quantum Enhanced: ${this.quantumEnhanced ? 'ENABLED' : 'DISABLED'}`,
+    );
+    console.log(
+      `🚨 Emergency Mode: ${this.emergencyMode ? 'ACTIVE' : 'INACTIVE'}`,
+    );
     console.log(`📈 Current Threat Level: ${this.threatLevel}/100`);
   }
 
@@ -962,27 +1090,32 @@ class RealTimeThreatIntelligence {
       threatLevel: this.threatLevel,
       threatDatabase: {
         total: this.threatDatabase.size,
-        active: Array.from(this.threatDatabase.values()).filter(t => !this.isThreatExpired(t)).length
+        active: Array.from(this.threatDatabase.values()).filter(
+          t => !this.isThreatExpired(t),
+        ).length,
       },
       threatFeeds: {
         total: this.threatFeeds.size,
-        active: Array.from(this.threatFeeds.values()).filter(f => f.active).length
+        active: Array.from(this.threatFeeds.values()).filter(f => f.active)
+          .length,
       },
       mlModels: {
         total: this.mlModels.size,
-        active: Array.from(this.mlModels.values()).filter(m => m.active).length
+        active: Array.from(this.mlModels.values()).filter(m => m.active).length,
       },
       recentEvents: this.securityEvents.slice(-10),
-      activeResponses: this.activeResponses.size
+      activeResponses: this.activeResponses.size,
     };
   }
 
-  public async queryThreatIntelligence(query: any): Promise<ThreatIntelligence[]> {
+  public async queryThreatIntelligence(
+    query: any,
+  ): Promise<ThreatIntelligence[]> {
     const results: ThreatIntelligence[] = [];
-    
+
     for (const threat of this.threatDatabase.values()) {
       if (this.isThreatExpired(threat)) continue;
-      
+
       // Simple query matching
       if (query.type && threat.type === query.type) {
         results.push(threat);
@@ -992,18 +1125,24 @@ class RealTimeThreatIntelligence {
         results.push(threat);
       }
     }
-    
+
     return results.slice(0, 100); // Limit results
   }
 
   public async generateThreatReport(): Promise<any> {
     const activeThreatsByType = new Map<string, number>();
     const activeThreatsBySeverity = new Map<string, number>();
-    
+
     for (const threat of this.threatDatabase.values()) {
       if (!this.isThreatExpired(threat)) {
-        activeThreatsByType.set(threat.type, (activeThreatsByType.get(threat.type) || 0) + 1);
-        activeThreatsBySeverity.set(threat.severity, (activeThreatsBySeverity.get(threat.severity) || 0) + 1);
+        activeThreatsByType.set(
+          threat.type,
+          (activeThreatsByType.get(threat.type) || 0) + 1,
+        );
+        activeThreatsBySeverity.set(
+          threat.severity,
+          (activeThreatsBySeverity.get(threat.severity) || 0) + 1,
+        );
       }
     }
 
@@ -1016,67 +1155,78 @@ class RealTimeThreatIntelligence {
       threatLevel: this.threatLevel,
       emergencyMode: this.emergencyMode,
       summary: {
-        totalActiveThreats: Array.from(this.threatDatabase.values()).filter(t => !this.isThreatExpired(t)).length,
+        totalActiveThreats: Array.from(this.threatDatabase.values()).filter(
+          t => !this.isThreatExpired(t),
+        ).length,
         threatsByType: Object.fromEntries(activeThreatsByType),
         threatsBySeverity: Object.fromEntries(activeThreatsBySeverity),
-        recentHighRiskEvents: recentHighRiskEvents.length
+        recentHighRiskEvents: recentHighRiskEvents.length,
       },
       feeds: Array.from(this.threatFeeds.values()).map(feed => ({
         name: feed.name,
         type: feed.type,
         reliability: feed.reliability,
         threatCount: feed.threatCount,
-        lastUpdate: feed.lastUpdate
+        lastUpdate: feed.lastUpdate,
       })),
       mlModels: Array.from(this.mlModels.values()).map(model => ({
         id: model.id,
         type: model.type,
         accuracy: model.accuracy,
-        active: model.active
+        active: model.active,
       })),
-      recommendations: this.generateRecommendations()
+      recommendations: this.generateRecommendations(),
     };
   }
 
   private generateRecommendations(): string[] {
     const recommendations = [];
-    
+
     if (this.threatLevel > 70) {
       recommendations.push('Consider activating additional security controls');
     }
-    
+
     if (this.emergencyMode) {
       recommendations.push('Review and validate emergency response procedures');
     }
-    
-    const quantumThreats = Array.from(this.threatDatabase.values())
-      .filter(t => t.type === 'quantum-threat' && !this.isThreatExpired(t));
-    
+
+    const quantumThreats = Array.from(this.threatDatabase.values()).filter(
+      t => t.type === 'quantum-threat' && !this.isThreatExpired(t),
+    );
+
     if (quantumThreats.length > 0) {
-      recommendations.push('Quantum threats detected - ensure post-quantum cryptography is enabled');
+      recommendations.push(
+        'Quantum threats detected - ensure post-quantum cryptography is enabled',
+      );
     }
-    
-    const inactiveFeeds = Array.from(this.threatFeeds.values()).filter(f => !f.active);
+
+    const inactiveFeeds = Array.from(this.threatFeeds.values()).filter(
+      f => !f.active,
+    );
     if (inactiveFeeds.length > 0) {
-      recommendations.push(`${inactiveFeeds.length} threat feeds are inactive - consider reactivating`);
+      recommendations.push(
+        `${inactiveFeeds.length} threat feeds are inactive - consider reactivating`,
+      );
     }
-    
+
     return recommendations;
   }
 
   public isRealTimeThreatIntelligenceActive(): boolean {
-    return this.realTimeProcessor && 
-           Array.from(this.mlModels.values()).some(m => m.active) &&
-           Array.from(this.threatFeeds.values()).some(f => f.active);
+    return (
+      this.realTimeProcessor &&
+      Array.from(this.mlModels.values()).some(m => m.active) &&
+      Array.from(this.threatFeeds.values()).some(f => f.active)
+    );
   }
 }
 
-export { 
-  RealTimeThreatIntelligence, 
-  ThreatIntelligence, 
-  SecurityEvent, 
-  SecurityResponse, 
-  ThreatFeed, 
-  MLThreatModel 
+export {
+  RealTimeThreatIntelligence,
+  ThreatIntelligence,
+  SecurityEvent,
+  SecurityResponse,
+  ThreatFeed,
+  MLThreatModel,
 };
 export default RealTimeThreatIntelligence;
