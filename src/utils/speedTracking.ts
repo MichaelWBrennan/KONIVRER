@@ -268,7 +268,7 @@ export const trackAsyncOperation = async <T>(
     const duration = performance.now() - startTime;
     trackCustomMetric(name, duration);
     return result;
-  } catch (_error) {
+  } catch (error) {
     const duration = performance.now() - startTime;
     trackCustomMetric(`${name}_ERROR`, duration);
     throw error;

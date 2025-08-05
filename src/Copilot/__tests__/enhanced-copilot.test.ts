@@ -122,14 +122,14 @@ describe('Enhanced Copilot System', () => {
     it('should generate comprehensive state', async () => {
       const state = await eventStream.observe();
 
-      expect(_state).toHaveProperty('done');
-      expect(_state).toHaveProperty('history');
-      expect(_state).toHaveProperty('currentGoals');
-      expect(_state).toHaveProperty('memory');
-      expect(_state).toHaveProperty('context');
-      expect(_state).toHaveProperty('capabilities');
-      expect(_state).toHaveProperty('confidence');
-      expect(_state).toHaveProperty('lastUpdate');
+      expect(state).toHaveProperty('done');
+      expect(state).toHaveProperty('history');
+      expect(state).toHaveProperty('currentGoals');
+      expect(state).toHaveProperty('memory');
+      expect(state).toHaveProperty('context');
+      expect(state).toHaveProperty('capabilities');
+      expect(state).toHaveProperty('confidence');
+      expect(state).toHaveProperty('lastUpdate');
     });
   });
 

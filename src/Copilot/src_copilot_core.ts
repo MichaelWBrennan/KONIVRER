@@ -120,7 +120,7 @@ export class EventStream {
     };
   }
 
-  private updatePatterns(_event: Action | Observation): void {
+  private updatePatterns(event: Action | Observation): void {
     const pattern = `${event.type}`;
     this.memory.patterns.set(
       pattern,
