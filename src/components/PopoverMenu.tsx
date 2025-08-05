@@ -151,17 +151,18 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
               >
                 {navigationItems.map((item, index) => {
                   const isActive = location.pathname === item.to;
-                  const isLoginButton = item.label === 'Login' || item.label === 'Profile';
+                  const isLoginButton =
+                    item.label === 'Login' || item.label === 'Profile';
 
                   const content = (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      whileHover={{ 
-                        scale: isLoginButton ? 1.08 : 1.02, 
+                      whileHover={{
+                        scale: isLoginButton ? 1.08 : 1.02,
                         x: isLoginButton ? 0 : 4,
-                        y: isLoginButton ? -2 : 0
+                        y: isLoginButton ? -2 : 0,
                       }}
                       whileTap={{ scale: 0.98 }}
                       style={{
@@ -173,22 +174,26 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                         backgroundColor: isLoginButton
                           ? 'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)'
                           : isActive
-                          ? 'rgba(212, 175, 55, 0.2)'
-                          : 'transparent',
+                            ? 'rgba(212, 175, 55, 0.2)'
+                            : 'transparent',
                         background: isLoginButton
                           ? 'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)'
                           : isActive
-                          ? 'rgba(212, 175, 55, 0.2)'
-                          : 'transparent',
+                            ? 'rgba(212, 175, 55, 0.2)'
+                            : 'transparent',
                         border: isLoginButton
                           ? '2px solid rgba(255, 255, 255, 0.3)'
                           : '1px solid',
                         borderColor: isLoginButton
                           ? 'rgba(255, 255, 255, 0.3)'
                           : isActive
-                          ? 'rgba(212, 175, 55, 0.4)'
-                          : 'transparent',
-                        color: isLoginButton ? '#1a1a1a' : isActive ? '#d4af37' : '#ccc',
+                            ? 'rgba(212, 175, 55, 0.4)'
+                            : 'transparent',
+                        color: isLoginButton
+                          ? '#1a1a1a'
+                          : isActive
+                            ? '#d4af37'
+                            : '#ccc',
                         textDecoration: 'none',
                         transition: 'all 0.3s ease',
                         cursor: 'pointer',
@@ -200,20 +205,28 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                       }}
                       onMouseEnter={e => {
                         if (isLoginButton) {
-                          e.currentTarget.style.background = 'linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%)';
-                          e.currentTarget.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
-                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+                          e.currentTarget.style.background =
+                            'linear-gradient(135deg, #f4d03f 0%, #d4af37 50%, #f4d03f 100%)';
+                          e.currentTarget.style.boxShadow =
+                            '0 6px 20px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(255, 255, 255, 0.5)';
                         } else if (!isActive) {
                           e.currentTarget.style.color = '#d4af37';
-                          e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
-                          e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                          e.currentTarget.style.backgroundColor =
+                            'rgba(212, 175, 55, 0.1)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(212, 175, 55, 0.3)';
                         }
                       }}
                       onMouseLeave={e => {
                         if (isLoginButton) {
-                          e.currentTarget.style.background = 'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)';
-                          e.currentTarget.style.boxShadow = '0 4px 15px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                          e.currentTarget.style.background =
+                            'linear-gradient(135deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%)';
+                          e.currentTarget.style.boxShadow =
+                            '0 4px 15px rgba(212, 175, 55, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(255, 255, 255, 0.3)';
                         } else if (!isActive) {
                           e.currentTarget.style.color = '#ccc';
                           e.currentTarget.style.backgroundColor = 'transparent';
@@ -236,7 +249,8 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                             left: '-100%',
                             width: '100%',
                             height: '100%',
-                            background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                            background:
+                              'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
                             animation: 'shimmer 2s infinite',
                           }}
                         />
@@ -248,7 +262,9 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                           whiteSpace: 'nowrap',
                           position: 'relative',
                           zIndex: 1,
-                          textShadow: isLoginButton ? '0 1px 2px rgba(0, 0, 0, 0.2)' : 'none',
+                          textShadow: isLoginButton
+                            ? '0 1px 2px rgba(0, 0, 0, 0.2)'
+                            : 'none',
                         }}
                       >
                         {isLoginButton ? `🔐 ${item.label}` : item.label}
