@@ -3,12 +3,12 @@
  * Implements Phase 1 of SECURITY_AI_UPGRADE_PLAN.md
  */
 
-import { 
-  SecurityThreat, 
-  SecurityScanResult, 
-  AISecurityConfig, 
+import {
+  SecurityThreat,
+  SecurityScanResult,
+  AISecurityConfig,
   VulnerabilityAssessment,
-  SilentOperationConfig 
+  SilentOperationConfig,
 } from './types.js';
 
 export class AISecurityAnalyzer {
@@ -33,15 +33,17 @@ export class AISecurityAnalyzer {
       emergencyAlerts: {
         criticalThreats: true,
         systemCompromise: true,
-        dataBreaches: true
-      }
+        dataBreaches: true,
+      },
     };
   }
 
   /**
    * Multi-engine security scanning as per Phase 1.1
    */
-  async performMultiEngineScan(codebase: string[]): Promise<SecurityScanResult[]> {
+  async performMultiEngineScan(
+    codebase: string[],
+  ): Promise<SecurityScanResult[]> {
     const engines = ['snyk', 'semgrep', 'codeql'] as const;
     const results: SecurityScanResult[] = [];
 
@@ -49,9 +51,11 @@ export class AISecurityAnalyzer {
       try {
         const result = await this.runEngineSpecificScan(engine, codebase);
         results.push(result);
-        
+
         if (this.silentConfig.transparentLogging) {
-          console.log(`✅ ${engine} scan completed: ${result.findings.length} findings`);
+          console.log(
+            `✅ ${engine} scan completed: ${result.findings.length} findings`,
+          );
         }
       } catch (error) {
         if (this.silentConfig.transparentLogging) {
@@ -76,25 +80,34 @@ export class AISecurityAnalyzer {
       ...finding,
       confidence: Math.min(finding.confidence + 0.1, 1.0), // AI boost confidence
       mitigation: finding.mitigation || this.generateAIMitigation(finding),
-      autoFixable: this.assessAutoFixability(finding)
+      autoFixable: this.assessAutoFixability(finding),
     }));
   }
 
   /**
    * Assess dependency risk as per Phase 2.1
    */
-  async assessDependencyRisk(packageName: string, version: string): Promise<VulnerabilityAssessment> {
+  async assessDependencyRisk(
+    packageName: string,
+    version: string,
+  ): Promise<VulnerabilityAssessment> {
     // Simulate dependency analysis
-    const vulnerabilities = await this.scanDependencyVulnerabilities(packageName, version);
+    const vulnerabilities = await this.scanDependencyVulnerabilities(
+      packageName,
+      version,
+    );
     const riskScore = this.calculateRiskScore(vulnerabilities);
-    
+
     return {
       packageName,
       version,
       vulnerabilities,
       riskScore,
       recommendation: this.getRecommendation(riskScore),
-      alternatives: riskScore > 7 ? await this.findSaferAlternatives(packageName) : undefined
+      alternatives:
+        riskScore > 7
+          ? await this.findSaferAlternatives(packageName)
+          : undefined,
     };
   }
 
@@ -117,7 +130,7 @@ export class AISecurityAnalyzer {
 
     if (threat.autoFixable && threat.confidence > 0.9) {
       await this.autoFixThreat(threat);
-      
+
       if (this.silentConfig.transparentLogging) {
         console.log(`🔧 Auto-fixed threat: ${threat.id}`);
       }
@@ -128,25 +141,31 @@ export class AISecurityAnalyzer {
 
   // Private helper methods
 
-  private async runEngineSpecificScan(engine: string, codebase: string[]): Promise<SecurityScanResult> {
+  private async runEngineSpecificScan(
+    engine: string,
+    codebase: string[],
+  ): Promise<SecurityScanResult> {
     const startTime = Date.now();
-    
+
     // Simulate engine-specific scanning
     const findings = await this.simulateEngineScan(engine, codebase);
-    
+
     return {
       engine: engine as any,
       findings,
       scanDuration: Date.now() - startTime,
       coverage: 0.95, // 95% coverage simulation
-      aiEnhanced: this.config.aiModel !== 'local'
+      aiEnhanced: this.config.aiModel !== 'local',
     };
   }
 
-  private async simulateEngineScan(engine: string, codebase: string[]): Promise<SecurityThreat[]> {
+  private async simulateEngineScan(
+    engine: string,
+    codebase: string[],
+  ): Promise<SecurityThreat[]> {
     // Simulate different engine capabilities
     const threats: SecurityThreat[] = [];
-    
+
     // Each engine would have different detection capabilities
     switch (engine) {
       case 'snyk':
@@ -170,7 +189,7 @@ export class AISecurityAnalyzer {
       injection: 'Implement input validation and sanitization',
       crypto_weakness: 'Upgrade to quantum-resistant algorithms',
       access_violation: 'Implement proper access controls',
-      malware: 'Quarantine and remove malicious code'
+      malware: 'Quarantine and remove malicious code',
     };
 
     return mitigations[finding.type] || 'Review and remediate manually';
@@ -178,23 +197,29 @@ export class AISecurityAnalyzer {
 
   private assessAutoFixability(finding: SecurityThreat): boolean {
     // Simple heuristic for auto-fix capability
-    return finding.confidence > 0.8 && 
-           ['vulnerability', 'crypto_weakness'].includes(finding.type);
+    return (
+      finding.confidence > 0.8 &&
+      ['vulnerability', 'crypto_weakness'].includes(finding.type)
+    );
   }
 
-  private async scanDependencyVulnerabilities(packageName: string, version: string): Promise<SecurityThreat[]> {
+  private async scanDependencyVulnerabilities(
+    packageName: string,
+    version: string,
+  ): Promise<SecurityThreat[]> {
     // Simulate dependency vulnerability scanning
     return [];
   }
 
   private calculateRiskScore(vulnerabilities: SecurityThreat[]): number {
     if (vulnerabilities.length === 0) return 0;
-    
+
     const severityWeights = { low: 1, medium: 3, high: 7, critical: 10 };
     const totalScore = vulnerabilities.reduce(
-      (sum, vuln) => sum + severityWeights[vuln.severity], 0
+      (sum, vuln) => sum + severityWeights[vuln.severity],
+      0,
     );
-    
+
     return Math.min(totalScore / vulnerabilities.length, 10);
   }
 
