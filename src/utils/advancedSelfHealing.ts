@@ -323,12 +323,12 @@ class AdvancedSelfHealingSystem {
   }
 
   private quantumPredict(_data: number[]): number {
-    if (data.length < 10) return 0;
+    if (_data.length < 10) return 0;
 
     // Quantum-inspired prediction algorithm
     let quantumSum = 0;
-    for (let i = 0; i < Math.min(data.length, this.quantumState.length); i++) {
-      quantumSum += data[data.length - 1 - i] * this.quantumState[i];
+    for (let i = 0; i < Math.min(_data.length, this.quantumState.length); i++) {
+      quantumSum += _data[_data.length - 1 - i] * this.quantumState[i];
     }
 
     // Apply quantum interference
@@ -339,11 +339,11 @@ class AdvancedSelfHealingSystem {
   }
 
   private neuralPredict(_data: number[]): number {
-    if (data.length < 5) return 0;
+    if (_data.length < 5) return 0;
 
     // Simple neural network prediction
     let activation = 0;
-    const recentData = data.slice(-Math.min(data.length, 16));
+    const recentData = _data.slice(-Math.min(_data.length, 16));
 
     for (let i = 0; i < recentData.length; i++) {
       activation +=
@@ -656,17 +656,17 @@ class AdvancedSelfHealingSystem {
 
   private calculateWeightGradient(_index: number): number {
     // Simple gradient calculation for weight optimization
-    const currentWeight = this.neuralWeights[index];
+    const currentWeight = this.neuralWeights[_index];
     const epsilon = 0.001;
 
     // Approximate gradient using finite differences
-    this.neuralWeights[index] = currentWeight + epsilon;
+    this.neuralWeights[_index] = currentWeight + epsilon;
     const lossPlus = this.calculateLoss();
 
-    this.neuralWeights[index] = currentWeight - epsilon;
+    this.neuralWeights[_index] = currentWeight - epsilon;
     const lossMinus = this.calculateLoss();
 
-    this.neuralWeights[index] = currentWeight; // Restore original weight
+    this.neuralWeights[_index] = currentWeight; // Restore original weight
 
     return (lossPlus - lossMinus) / (2 * epsilon);
   }
