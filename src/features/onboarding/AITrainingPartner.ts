@@ -81,9 +81,15 @@ export class AITrainingPartner {
       }
 
       // Initialize adaptive weights for ensemble combination
-      this.adaptiveWeights = new Array(this.ensembleModels.length).fill(1 / this.ensembleModels.length);
-      
-      console.log('🚀 Industry-leading ensemble AI system initialized with', this.ensembleModels.length, 'specialized models');
+      this.adaptiveWeights = new Array(this.ensembleModels.length).fill(
+        1 / this.ensembleModels.length,
+      );
+
+      console.log(
+        '🚀 Industry-leading ensemble AI system initialized with',
+        this.ensembleModels.length,
+        'specialized models',
+      );
     } catch (error) {
       console.error('Failed to initialize ensemble models:', error);
     }
@@ -97,7 +103,7 @@ export class AITrainingPartner {
           units: config.units,
           activation: 'gelu',
           kernelInitializer: 'heNormal',
-          name: `${config.name}_layer_1`
+          name: `${config.name}_layer_1`,
         }),
         tf.layers.dropout({ rate: 0.1 }),
         tf.layers.layerNormalization(),
@@ -105,13 +111,13 @@ export class AITrainingPartner {
           units: config.units / 2,
           activation: 'gelu',
           kernelInitializer: 'heNormal',
-          name: `${config.name}_layer_2`
+          name: `${config.name}_layer_2`,
         }),
         tf.layers.dropout({ rate: 0.1 }),
         tf.layers.dense({
           units: 10,
           activation: 'softmax',
-          name: `${config.name}_output`
+          name: `${config.name}_output`,
         }),
       ],
     });
@@ -174,68 +180,68 @@ export class AITrainingPartner {
         layers: [
           // Input normalization for stability
           tf.layers.layerNormalization({ inputShape: [200] }),
-          
+
           // Multi-head attention-like dense layers with residual connections
           tf.layers.dense({
             units: 768, // Increased capacity for better representation
             activation: 'gelu', // GELU activation for better gradient flow
             kernelInitializer: 'heNormal',
-            name: 'attention_dense_1'
+            name: 'attention_dense_1',
           }),
           tf.layers.dropout({ rate: 0.1 }), // Reduced dropout for better performance
           tf.layers.layerNormalization(), // Layer norm for training stability
-          
+
           // Residual block 1
           tf.layers.dense({
             units: 768,
             activation: 'gelu',
             kernelInitializer: 'heNormal',
-            name: 'residual_block_1'
+            name: 'residual_block_1',
           }),
           tf.layers.dropout({ rate: 0.1 }),
           tf.layers.layerNormalization(),
-          
-          // Residual block 2  
+
+          // Residual block 2
           tf.layers.dense({
             units: 512,
             activation: 'gelu',
             kernelInitializer: 'heNormal',
-            name: 'residual_block_2'
+            name: 'residual_block_2',
           }),
           tf.layers.dropout({ rate: 0.1 }),
           tf.layers.layerNormalization(),
-          
+
           // Feature extraction layers
           tf.layers.dense({
             units: 256,
             activation: 'gelu',
             kernelInitializer: 'heNormal',
-            name: 'feature_extraction_1'
+            name: 'feature_extraction_1',
           }),
           tf.layers.dropout({ rate: 0.15 }),
-          
+
           tf.layers.dense({
             units: 128,
             activation: 'gelu',
             kernelInitializer: 'heNormal',
-            name: 'feature_extraction_2'
+            name: 'feature_extraction_2',
           }),
           tf.layers.dropout({ rate: 0.15 }),
-          
+
           // Multi-task output heads for better performance
           tf.layers.dense({
             units: 64,
             activation: 'gelu',
             kernelInitializer: 'heNormal',
-            name: 'pre_output'
+            name: 'pre_output',
           }),
-          
+
           // Final output with sophisticated activation
           tf.layers.dense({
             units: 10, // Move quality scores for different action types
             activation: 'softmax',
             kernelInitializer: 'glorotUniform',
-            name: 'output_layer'
+            name: 'output_layer',
           }),
         ],
       });
@@ -245,7 +251,7 @@ export class AITrainingPartner {
         0.001, // Initial learning rate
         0, // Step
         100, // Decay steps
-        0.96 // Decay rate
+        0.96, // Decay rate
       );
 
       this.model.compile({
@@ -254,7 +260,9 @@ export class AITrainingPartner {
         metrics: ['accuracy', 'precision', 'recall'], // Enhanced metrics tracking
       });
 
-      console.log('🧠 Industry-leading AI Training Partner model initialized with advanced architecture');
+      console.log(
+        '🧠 Industry-leading AI Training Partner model initialized with advanced architecture',
+      );
     } catch (error) {
       console.error('Failed to initialize AI model:', error);
     }
@@ -364,11 +372,13 @@ export class AITrainingPartner {
 
       // Industry-leading ensemble prediction with confidence scoring
       const ensemblePredictions = await this.getEnsemblePredictions(features);
-      const confidenceScore = this.calculatePredictionConfidence(ensemblePredictions);
-      
+      const confidenceScore =
+        this.calculatePredictionConfidence(ensemblePredictions);
+
       // Adaptive ensemble weighting based on recent performance
-      const finalPrediction = this.combineEnsemblePredictions(ensemblePredictions);
-      
+      const finalPrediction =
+        this.combineEnsemblePredictions(ensemblePredictions);
+
       // Real-time learning: Update metrics based on prediction confidence
       this.updateRealtimeMetrics(confidenceScore, session);
 
@@ -377,7 +387,7 @@ export class AITrainingPartner {
         availableMoves,
         finalPrediction,
         session,
-        confidenceScore
+        confidenceScore,
       );
 
       // Record the AI move with enhanced metadata
@@ -399,7 +409,9 @@ export class AITrainingPartner {
     }
   }
 
-  private async getEnsemblePredictions(features: number[]): Promise<number[][]> {
+  private async getEnsemblePredictions(
+    features: number[],
+  ): Promise<number[][]> {
     const predictions: number[][] = [];
     const inputTensor = tf.tensor2d([features]);
 
@@ -425,7 +437,7 @@ export class AITrainingPartner {
 
   private calculatePredictionConfidence(predictions: number[][]): number {
     if (predictions.length === 0) return 0.5;
-    
+
     // Calculate ensemble agreement as confidence measure
     const avgPrediction = new Array(predictions[0].length).fill(0);
     predictions.forEach(pred => {
@@ -441,7 +453,7 @@ export class AITrainingPartner {
         variance += Math.pow(score - avgPrediction[idx], 2);
       });
     });
-    variance /= (predictions.length * predictions[0].length);
+    variance /= predictions.length * predictions[0].length;
 
     // Convert to confidence score (0-1)
     return Math.max(0, Math.min(1, 1 - variance * 10));
@@ -451,10 +463,10 @@ export class AITrainingPartner {
     if (predictions.length === 0) return new Array(10).fill(0.1);
 
     const combined = new Array(predictions[0].length).fill(0);
-    
+
     // Weighted ensemble combination with adaptive weights
     predictions.forEach((pred, modelIdx) => {
-      const weight = this.adaptiveWeights[modelIdx] || (1 / predictions.length);
+      const weight = this.adaptiveWeights[modelIdx] || 1 / predictions.length;
       pred.forEach((score, idx) => {
         combined[idx] += score * weight;
       });
@@ -463,14 +475,23 @@ export class AITrainingPartner {
     return combined;
   }
 
-  private updateRealtimeMetrics(confidence: number, session: TrainingSession): void {
+  private updateRealtimeMetrics(
+    confidence: number,
+    session: TrainingSession,
+  ): void {
     // Update real-time performance metrics
     const currentAccuracy = this.realtimeMetrics.get('accuracy') || 0.85;
-    this.realtimeMetrics.set('accuracy', currentAccuracy * 0.95 + confidence * 0.05);
-    
-    const adaptability = Math.min(1, confidence + (session.moves.length > 10 ? 0.1 : 0));
+    this.realtimeMetrics.set(
+      'accuracy',
+      currentAccuracy * 0.95 + confidence * 0.05,
+    );
+
+    const adaptability = Math.min(
+      1,
+      confidence + (session.moves.length > 10 ? 0.1 : 0),
+    );
     this.realtimeMetrics.set('adaptability', adaptability);
-    
+
     this.realtimeMetrics.set('prediction_confidence', confidence);
   }
 
@@ -478,7 +499,7 @@ export class AITrainingPartner {
     availableMoves: any[],
     prediction: number[],
     session: TrainingSession,
-    confidence: number
+    confidence: number,
   ): any {
     if (availableMoves.length === 0) {
       return { action: 'end-turn', reasoning: 'No moves available' };
@@ -491,12 +512,18 @@ export class AITrainingPartner {
     const scoredMoves = availableMoves.map((move, index) => {
       const baseScore = prediction[index % prediction.length];
       const confidenceBonus = confidence > 0.8 ? 0.1 : 0;
-      const finalScore = baseScore + Math.random() * randomnessFactor + confidenceBonus;
-      
+      const finalScore =
+        baseScore + Math.random() * randomnessFactor + confidenceBonus;
+
       return {
         move,
         score: finalScore,
-        reasoning: this.generateMoveReasoning(move, baseScore, confidence, difficulty)
+        reasoning: this.generateMoveReasoning(
+          move,
+          baseScore,
+          confidence,
+          difficulty,
+        ),
       };
     });
 
@@ -505,27 +532,33 @@ export class AITrainingPartner {
   }
 
   private getRandomnessFactor(difficulty: string, confidence: number): number {
-    const baseRandomness = {
-      'beginner': 0.3,
-      'intermediate': 0.15,
-      'advanced': 0.05,
-      'adaptive': 0.1
-    }[difficulty] || 0.15;
+    const baseRandomness =
+      {
+        beginner: 0.3,
+        intermediate: 0.15,
+        advanced: 0.05,
+        adaptive: 0.1,
+      }[difficulty] || 0.15;
 
     // Reduce randomness when confidence is high
     return baseRandomness * (1 - confidence * 0.5);
   }
 
-  private generateMoveReasoning(move: any, score: number, confidence: number, difficulty: string): string {
+  private generateMoveReasoning(
+    move: any,
+    score: number,
+    confidence: number,
+    difficulty: string,
+  ): string {
     const reasons = [];
-    
+
     if (score > 0.8) reasons.push('high strategic value');
     if (confidence > 0.8) reasons.push('high AI confidence');
     if (difficulty === 'adaptive') reasons.push('adaptive strategy');
     if (move.action === 'play-card') reasons.push('proactive play');
     if (move.action === 'attack') reasons.push('aggressive positioning');
-    
-    return reasons.length > 0 
+
+    return reasons.length > 0
       ? `Selected for: ${reasons.join(', ')}`
       : `Standard ${difficulty} level play`;
   }
@@ -881,7 +914,7 @@ export class AITrainingPartner {
     // Analyze confidence score distribution over recent sessions
     const recentSessions = this.gameHistory.slice(-50);
     const confidenceScores: number[] = [];
-    
+
     recentSessions.forEach(session => {
       session.moves.forEach(move => {
         if (move.confidence) confidenceScores.push(move.confidence);
@@ -900,15 +933,20 @@ export class AITrainingPartner {
 
   private analyzePlayerProgression(): any {
     const progressionData: any = {};
-    
+
     this.playerProfiles.forEach((profile, playerId) => {
-      const playerSessions = this.gameHistory.filter(s => s.playerId === playerId);
+      const playerSessions = this.gameHistory.filter(
+        s => s.playerId === playerId,
+      );
       if (playerSessions.length > 0) {
         progressionData[playerId] = {
           skillImprovement: this.calculateSkillImprovement(playerSessions),
           learningVelocity: this.calculateLearningVelocity(playerSessions),
           adaptationRate: this.calculateAdaptationRate(playerSessions),
-          predictedSkillCeiling: this.predictSkillCeiling(profile, playerSessions),
+          predictedSkillCeiling: this.predictSkillCeiling(
+            profile,
+            playerSessions,
+          ),
         };
       }
     });
@@ -918,25 +956,28 @@ export class AITrainingPartner {
 
   private calculateSkillImprovement(sessions: TrainingSession[]): number {
     if (sessions.length < 2) return 0;
-    
+
     const firstSession = sessions[0];
     const lastSession = sessions[sessions.length - 1];
-    
-    return lastSession.performanceMetrics.strategicAccuracy - 
-           firstSession.performanceMetrics.strategicAccuracy;
+
+    return (
+      lastSession.performanceMetrics.strategicAccuracy -
+      firstSession.performanceMetrics.strategicAccuracy
+    );
   }
 
   private calculateLearningVelocity(sessions: TrainingSession[]): number {
     if (sessions.length < 3) return 0;
-    
+
     // Calculate rate of improvement over time
     let totalImprovement = 0;
     for (let i = 1; i < sessions.length; i++) {
-      const improvement = sessions[i].performanceMetrics.optimalPlayPercentage - 
-                         sessions[i-1].performanceMetrics.optimalPlayPercentage;
+      const improvement =
+        sessions[i].performanceMetrics.optimalPlayPercentage -
+        sessions[i - 1].performanceMetrics.optimalPlayPercentage;
       totalImprovement += improvement;
     }
-    
+
     return totalImprovement / (sessions.length - 1);
   }
 
@@ -944,56 +985,72 @@ export class AITrainingPartner {
     // Measure how quickly player adapts to different AI strategies
     const adaptationScores = sessions.map((session, index) => {
       if (index === 0) return 0.5;
-      
-      const timeBetweenSessions = session.startTime.getTime() - 
-                                 sessions[index-1].startTime.getTime();
-      const performanceImprovement = session.performanceMetrics.strategicAccuracy - 
-                                   sessions[index-1].performanceMetrics.strategicAccuracy;
-      
+
+      const timeBetweenSessions =
+        session.startTime.getTime() - sessions[index - 1].startTime.getTime();
+      const performanceImprovement =
+        session.performanceMetrics.strategicAccuracy -
+        sessions[index - 1].performanceMetrics.strategicAccuracy;
+
       // Faster adaptation = better performance improvement in less time
-      return Math.max(0, performanceImprovement / (timeBetweenSessions / 1000 / 60)); // per minute
+      return Math.max(
+        0,
+        performanceImprovement / (timeBetweenSessions / 1000 / 60),
+      ); // per minute
     });
-    
-    return adaptationScores.reduce((sum, score) => sum + score, 0) / adaptationScores.length;
+
+    return (
+      adaptationScores.reduce((sum, score) => sum + score, 0) /
+      adaptationScores.length
+    );
   }
 
-  private predictSkillCeiling(profile: PlayerProfile, sessions: TrainingSession[]): number {
+  private predictSkillCeiling(
+    profile: PlayerProfile,
+    sessions: TrainingSession[],
+  ): number {
     // Advanced ML prediction of player's potential skill ceiling
     if (sessions.length < 5) return 0.8; // Default ceiling
-    
-    const recentPerformance = sessions.slice(-10).map(s => s.performanceMetrics.strategicAccuracy);
+
+    const recentPerformance = sessions
+      .slice(-10)
+      .map(s => s.performanceMetrics.strategicAccuracy);
     const trend = this.calculateTrend(recentPerformance);
     const currentSkill = recentPerformance[recentPerformance.length - 1] || 0.5;
-    
+
     // Predict ceiling based on trend and current performance
-    const predictedCeiling = Math.min(1.0, currentSkill + (trend * 10));
+    const predictedCeiling = Math.min(1.0, currentSkill + trend * 10);
     return Math.max(currentSkill, predictedCeiling);
   }
 
   private calculateTrend(values: number[]): number {
     if (values.length < 2) return 0;
-    
+
     let trend = 0;
     for (let i = 1; i < values.length; i++) {
-      trend += values[i] - values[i-1];
+      trend += values[i] - values[i - 1];
     }
-    
+
     return trend / (values.length - 1);
   }
 
   // Continuous learning and adaptation
   async adaptEnsembleWeights(performanceFeedback: number[]): Promise<void> {
     if (performanceFeedback.length !== this.adaptiveWeights.length) return;
-    
+
     // Update weights based on recent performance
     const learningRate = 0.1;
     for (let i = 0; i < this.adaptiveWeights.length; i++) {
       const feedback = performanceFeedback[i];
-      this.adaptiveWeights[i] = Math.max(0.1, Math.min(1.0, 
-        this.adaptiveWeights[i] + learningRate * (feedback - 0.5)
-      ));
+      this.adaptiveWeights[i] = Math.max(
+        0.1,
+        Math.min(
+          1.0,
+          this.adaptiveWeights[i] + learningRate * (feedback - 0.5),
+        ),
+      );
     }
-    
+
     // Normalize weights
     const totalWeight = this.adaptiveWeights.reduce((sum, w) => sum + w, 0);
     this.adaptiveWeights = this.adaptiveWeights.map(w => w / totalWeight);
@@ -1004,11 +1061,11 @@ export class AITrainingPartner {
       this.model.dispose();
       this.model = null;
     }
-    
+
     // Dispose ensemble models
     this.ensembleModels.forEach(model => model.dispose());
     this.ensembleModels = [];
-    
+
     // Clear caches and metrics
     this.realtimeMetrics.clear();
     this.adaptiveWeights = [];
