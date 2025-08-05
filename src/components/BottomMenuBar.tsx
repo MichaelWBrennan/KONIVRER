@@ -74,75 +74,74 @@ interface CircularButtonProps {
   ref?: React.RefObject<HTMLButtonElement>;
 }
 
-const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(({
-  icon,
-  label,
-  onClick,
-  ariaLabel,
-}, ref) => {
-  return (
-    <motion.button
-      ref={ref}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.9 }}
-      onClick={onClick}
-      style={{
-        width: '60px',
-        height: '60px',
-        borderRadius: '50%',
-        backgroundColor: '#d4af37', // Gold background
-        border: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
-        transition: 'all 0.3s ease',
-        position: 'relative',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.boxShadow = '0 6px 20px rgba(212, 175, 55, 0.4)';
-        e.currentTarget.style.backgroundColor = '#e6c149';
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
-        e.currentTarget.style.backgroundColor = '#d4af37';
-      }}
-      aria-label={ariaLabel}
-      role="button"
-      tabIndex={0}
-    >
-      <div style={{ color: '#6b3f15', fontSize: '24px' }}>{icon}</div>
-      
-      {/* Tooltip */}
-      <div
+const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(
+  ({ icon, label, onClick, ariaLabel }, ref) => {
+    return (
+      <motion.button
+        ref={ref}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        onClick={onClick}
         style={{
-          position: 'absolute',
-          bottom: '70px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          color: 'white',
-          padding: '6px 12px',
-          borderRadius: '6px',
-          fontSize: '12px',
-          fontWeight: '500',
-          whiteSpace: 'nowrap',
-          opacity: 0,
-          pointerEvents: 'none',
-          transition: 'opacity 0.3s ease',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          backgroundColor: '#d4af37', // Gold background
+          border: 'none',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s ease',
+          position: 'relative',
         }}
-        className="tooltip"
+        onMouseEnter={e => {
+          e.currentTarget.style.boxShadow =
+            '0 6px 20px rgba(212, 175, 55, 0.4)';
+          e.currentTarget.style.backgroundColor = '#e6c149';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.3)';
+          e.currentTarget.style.backgroundColor = '#d4af37';
+        }}
+        aria-label={ariaLabel}
+        role="button"
+        tabIndex={0}
       >
-        {label}
-      </div>
-    </motion.button>
-  );
-});
+        <div style={{ color: '#6b3f15', fontSize: '24px' }}>{icon}</div>
+
+        {/* Tooltip */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '70px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            color: 'white',
+            padding: '6px 12px',
+            borderRadius: '6px',
+            fontSize: '12px',
+            fontWeight: '500',
+            whiteSpace: 'nowrap',
+            opacity: 0,
+            pointerEvents: 'none',
+            transition: 'opacity 0.3s ease',
+          }}
+          className="tooltip"
+        >
+          {label}
+        </div>
+      </motion.button>
+    );
+  },
+);
 
 const BottomMenuBar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAccessibilityPanelOpen, setIsAccessibilityPanelOpen] = useState(false);
+  const [isAccessibilityPanelOpen, setIsAccessibilityPanelOpen] =
+    useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const appContext = useContext(AppContext);
@@ -154,10 +153,12 @@ const BottomMenuBar: React.FC = () => {
   // Page-sensitive search functionality
   const handleSearch = () => {
     const currentPath = location.pathname;
-    
+
     if (currentPath === '/cards') {
       // Focus on search input if on cards page
-      const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+      const searchInput = document.querySelector(
+        'input[type="text"]',
+      ) as HTMLInputElement;
       if (searchInput) {
         searchInput.focus();
         searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -166,7 +167,9 @@ const BottomMenuBar: React.FC = () => {
       // Search within decks
       navigate('/cards');
       setTimeout(() => {
-        const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+        const searchInput = document.querySelector(
+          'input[type="text"]',
+        ) as HTMLInputElement;
         if (searchInput) {
           searchInput.focus();
           searchInput.value = 'deck:';
@@ -176,7 +179,9 @@ const BottomMenuBar: React.FC = () => {
       // Search for events or navigate to cards to search
       navigate('/cards');
       setTimeout(() => {
-        const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+        const searchInput = document.querySelector(
+          'input[type="text"]',
+        ) as HTMLInputElement;
         if (searchInput) {
           searchInput.focus();
           searchInput.value = 'tournament';
@@ -186,7 +191,9 @@ const BottomMenuBar: React.FC = () => {
       // Default: navigate to cards page for search
       navigate('/cards');
       setTimeout(() => {
-        const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement;
+        const searchInput = document.querySelector(
+          'input[type="text"]',
+        ) as HTMLInputElement;
         if (searchInput) {
           searchInput.focus();
         }
