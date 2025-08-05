@@ -2,10 +2,22 @@
 
 export interface Goal {
   id: string;
-  type: 'optimize_deck' | 'analyze_game' | 'assist_player' | 'learn_strategy' | 'predict_meta' | 'real_time_coaching';
+  type:
+    | 'optimize_deck'
+    | 'analyze_game'
+    | 'assist_player'
+    | 'learn_strategy'
+    | 'predict_meta'
+    | 'real_time_coaching';
   description: string;
   priority: number;
-  status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'suspended' | 'optimizing';
+  status:
+    | 'pending'
+    | 'in_progress'
+    | 'completed'
+    | 'failed'
+    | 'suspended'
+    | 'optimizing';
   subGoals?: Goal[];
   context?: Record<string, any>;
   expectedOutcome?: string;
@@ -35,7 +47,15 @@ export interface Action {
 }
 
 export interface Observation {
-  type: 'user_input' | 'game_state' | 'environment' | 'feedback' | 'error' | 'pattern' | 'anomaly' | 'opportunity';
+  type:
+    | 'user_input'
+    | 'game_state'
+    | 'environment'
+    | 'feedback'
+    | 'error'
+    | 'pattern'
+    | 'anomaly'
+    | 'opportunity';
   message: string;
   data?: any;
   timestamp: Date;
