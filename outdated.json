@@ -1,23 +1,16 @@
 {
-  "three": {
-    "current": "0.178.0",
-    "wanted": "0.178.0",
-    "latest": "0.179.1",
+  "@types/three": {
+    "current": "0.178.1",
+    "wanted": "0.178.1",
+    "latest": "0.179.0",
     "dependent": "KONIVRER-deck-database",
-    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/three"
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@types/three"
   },
-  "typescript": {
-    "current": "5.8.3",
-    "wanted": "5.9.2",
-    "latest": "5.9.2",
+  "babylonjs": {
+    "current": "8.20.0",
+    "wanted": "8.21.0",
+    "latest": "8.21.0",
     "dependent": "KONIVRER-deck-database",
-    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/typescript"
-  },
-  "zustand": {
-    "current": "5.0.6",
-    "wanted": "5.0.7",
-    "latest": "5.0.7",
-    "dependent": "KONIVRER-deck-database",
-    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/zustand"
+    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/babylonjs"
   }
 }
