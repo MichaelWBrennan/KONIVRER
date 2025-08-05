@@ -23,7 +23,6 @@ import BlogSection from '../components/BlogSection';
 import UnifiedCardSearch from '../components/UnifiedCardSearch';
 import SimpleCardsPage from '../components/SimpleCardsPage';
 import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
-import AccessibilityButton from '../components/AccessibilityButton';
 import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
 import BottomMenuBar from '../components/BottomMenuBar';
@@ -357,7 +356,6 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
     <div style={{ position: 'relative', zIndex: 2 }}>
       <main id="main-content">{children}</main>
     </div>
-    <AccessibilityButton />
   </div>
 );
 
