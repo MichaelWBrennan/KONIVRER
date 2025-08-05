@@ -202,7 +202,7 @@ const BottomMenuBar: React.FC = () => {
     showSearchOverlay('cards');
   };
 
-  // Improved deck search functionality  
+  // Improved deck search functionality
   const handleDeckSearch = () => {
     // For now, if no decks are present, navigate to cards page for deck-building search
     const deckElements = document.querySelectorAll('[data-search-type="deck"]');
@@ -321,11 +321,11 @@ const BottomMenuBar: React.FC = () => {
 
     searchButton.onclick = performSearch;
     cancelButton.onclick = closeOverlay;
-    overlay.onclick = (e) => {
+    overlay.onclick = e => {
       if (e.target === overlay) closeOverlay();
     };
 
-    input.onkeydown = (e) => {
+    input.onkeydown = e => {
       if (e.key === 'Enter') performSearch();
       if (e.key === 'Escape') closeOverlay();
     };
@@ -345,27 +345,37 @@ const BottomMenuBar: React.FC = () => {
 
   const getSearchTitle = (searchType: string) => {
     switch (searchType) {
-      case 'cards': return 'Search Cards';
-      case 'deck-building': return 'Search Cards for Deck Building';
-      case 'decks': return 'Search Decks';
-      case 'events': return 'Search Events';
-      default: return 'Search';
+      case 'cards':
+        return 'Search Cards';
+      case 'deck-building':
+        return 'Search Cards for Deck Building';
+      case 'decks':
+        return 'Search Decks';
+      case 'events':
+        return 'Search Events';
+      default:
+        return 'Search';
     }
   };
 
   const getSearchPlaceholder = (searchType: string) => {
     switch (searchType) {
-      case 'cards': return 'Enter card name, type, or element...';
-      case 'deck-building': return 'Search for cards to add to your deck...';
-      case 'decks': return 'Enter deck name...';
-      case 'events': return 'Enter event or tournament name...';
-      default: return 'Enter search term...';
+      case 'cards':
+        return 'Enter card name, type, or element...';
+      case 'deck-building':
+        return 'Search for cards to add to your deck...';
+      case 'decks':
+        return 'Enter deck name...';
+      case 'events':
+        return 'Enter event or tournament name...';
+      default:
+        return 'Enter search term...';
     }
   };
 
   const handleSearchExecution = (searchType: string, searchTerm: string) => {
     console.log(`Executing ${searchType} search for: ${searchTerm}`);
-    
+
     switch (searchType) {
       case 'cards':
       case 'deck-building':
@@ -378,12 +388,12 @@ const BottomMenuBar: React.FC = () => {
           highlightMatchingCards(searchTerm);
         }, 200);
         break;
-        
+
       case 'decks':
         // Search through deck names
         highlightMatchingDecks(searchTerm);
         break;
-        
+
       case 'events':
         // Search through events
         highlightMatchingEvents(searchTerm);
@@ -394,29 +404,36 @@ const BottomMenuBar: React.FC = () => {
   const highlightMatchingCards = (searchTerm: string) => {
     const cardElements = document.querySelectorAll('[data-card-name]');
     let matchCount = 0;
-    
-    cardElements.forEach((element) => {
+
+    cardElements.forEach(element => {
       const cardName = element.getAttribute('data-card-name') || '';
       const cardType = element.getAttribute('data-card-type') || '';
       const cardElements = element.getAttribute('data-card-elements') || '';
-      
-      const matches = cardName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                     cardType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                     cardElements.toLowerCase().includes(searchTerm.toLowerCase());
-      
+
+      const matches =
+        cardName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cardType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cardElements.toLowerCase().includes(searchTerm.toLowerCase());
+
       if (matches) {
         (element as HTMLElement).style.border = '3px solid #d4af37';
-        (element as HTMLElement).style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.5)';
-        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        (element as HTMLElement).style.boxShadow =
+          '0 0 20px rgba(212, 175, 55, 0.5)';
+        (element as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
         matchCount++;
       } else {
         (element as HTMLElement).style.opacity = '0.3';
       }
     });
-    
+
     // Show result notification
-    showSearchNotification(`Found ${matchCount} matching cards for "${searchTerm}"`);
-    
+    showSearchNotification(
+      `Found ${matchCount} matching cards for "${searchTerm}"`,
+    );
+
     // Reset highlighting after 10 seconds
     setTimeout(() => {
       resetCardHighlighting();
@@ -429,27 +446,35 @@ const BottomMenuBar: React.FC = () => {
       showSearchNotification('No decks found. Create your first deck!');
       return;
     }
-    
+
     // Implementation for deck search would go here
     showSearchNotification(`Searching decks for "${searchTerm}"...`);
   };
 
   const highlightMatchingEvents = (searchTerm: string) => {
-    const eventElements = document.querySelectorAll('[data-search-type="event"]');
+    const eventElements = document.querySelectorAll(
+      '[data-search-type="event"]',
+    );
     let matchCount = 0;
-    
-    eventElements.forEach((element) => {
+
+    eventElements.forEach(element => {
       const text = element.textContent?.toLowerCase() || '';
       if (text.includes(searchTerm.toLowerCase())) {
         (element as HTMLElement).style.border = '2px solid #d4af37';
-        (element as HTMLElement).style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
-        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        (element as HTMLElement).style.backgroundColor =
+          'rgba(212, 175, 55, 0.1)';
+        (element as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
         matchCount++;
       }
     });
-    
-    showSearchNotification(`Found ${matchCount} matching events for "${searchTerm}"`);
-    
+
+    showSearchNotification(
+      `Found ${matchCount} matching events for "${searchTerm}"`,
+    );
+
     // Reset highlighting after 8 seconds
     setTimeout(() => {
       resetEventHighlighting();
@@ -458,7 +483,7 @@ const BottomMenuBar: React.FC = () => {
 
   const resetCardHighlighting = () => {
     const cardElements = document.querySelectorAll('[data-card-name]');
-    cardElements.forEach((element) => {
+    cardElements.forEach(element => {
       (element as HTMLElement).style.border = '';
       (element as HTMLElement).style.boxShadow = '';
       (element as HTMLElement).style.opacity = '';
@@ -466,8 +491,10 @@ const BottomMenuBar: React.FC = () => {
   };
 
   const resetEventHighlighting = () => {
-    const eventElements = document.querySelectorAll('[data-search-type="event"]');
-    eventElements.forEach((element) => {
+    const eventElements = document.querySelectorAll(
+      '[data-search-type="event"]',
+    );
+    eventElements.forEach(element => {
       (element as HTMLElement).style.border = '';
       (element as HTMLElement).style.backgroundColor = '';
     });
@@ -489,9 +516,9 @@ const BottomMenuBar: React.FC = () => {
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     `;
     notification.textContent = message;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
       if (document.body.contains(notification)) {
         document.body.removeChild(notification);

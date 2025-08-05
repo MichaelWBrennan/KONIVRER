@@ -34,46 +34,46 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
 
   const menuVariants = {
     hidden: { opacity: 0, scale: 0.8, y: 50 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
+    visible: {
+      opacity: 1,
+      scale: 1,
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
-        staggerChildren: 0.1
-      }
+        ease: 'easeOut',
+        staggerChildren: 0.1,
+      },
     },
-    exit: { 
-      opacity: 0, 
-      scale: 0.9, 
+    exit: {
+      opacity: 0,
+      scale: 0.9,
       y: -30,
-      transition: { duration: 0.3 }
-    }
+      transition: { duration: 0.3 },
+    },
   };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 30, rotateX: -15 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
+    visible: {
+      opacity: 1,
+      y: 0,
       rotateX: 0,
-      transition: { 
+      transition: {
         duration: 0.5,
-        ease: "easeOut"
-      }
+        ease: 'easeOut',
+      },
     },
     hover: {
       scale: 1.05,
       rotateY: 5,
       z: 50,
-      boxShadow: "0 25px 50px rgba(212, 175, 55, 0.3)",
-      transition: { duration: 0.3 }
+      boxShadow: '0 25px 50px rgba(212, 175, 55, 0.3)',
+      transition: { duration: 0.3 },
     },
     tap: {
       scale: 0.95,
-      transition: { duration: 0.1 }
-    }
+      transition: { duration: 0.1 },
+    },
   };
 
   const backgroundStyle: React.CSSProperties = {
@@ -139,7 +139,8 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
               <h1
                 style={{
                   fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                  background: 'linear-gradient(135deg, #d4af37, #f4e06d, #d4af37)',
+                  background:
+                    'linear-gradient(135deg, #d4af37, #f4e06d, #d4af37)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   color: 'transparent',
@@ -206,7 +207,7 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
                       transition: 'opacity 0.3s ease',
                     }}
                   />
-                  
+
                   <div style={{ position: 'relative', zIndex: 1 }}>
                     {/* Icon */}
                     <div
@@ -214,7 +215,8 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
                         fontSize: '3rem',
                         textAlign: 'center',
                         marginBottom: '16px',
-                        filter: 'drop-shadow(0 4px 8px rgba(212, 175, 55, 0.4))',
+                        filter:
+                          'drop-shadow(0 4px 8px rgba(212, 175, 55, 0.4))',
                       }}
                     >
                       {mode.icon || '🎮'}
