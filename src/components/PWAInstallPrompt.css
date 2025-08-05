@@ -1,0 +1,280 @@
+/* PWA Install Prompt Styles */
+.pwa-install-prompt {
+  position: fixed;
+  bottom: var(--spacing-md);
+  left: var(--spacing-md);
+  right: var(--spacing-md);
+  background: linear-gradient(135deg, var(--accent-color) 0%, #e6c466 100%);
+  color: #000;
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 4px 16px rgba(212, 175, 55, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(120px);
+  opacity: 0;
+  animation: slideInPrompt 0.5s ease-out 0.3s forwards;
+  z-index: 1050;
+  max-width: 400px;
+  margin: 0 auto;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@keyframes slideInPrompt {
+  from {
+    transform: translateY(120px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.pwa-prompt-content {
+  position: relative;
+  padding: var(--spacing-lg);
+  text-align: center;
+}
+
+.pwa-dismiss-button {
+  position: absolute;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  color: #000;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.pwa-dismiss-button:hover {
+  background: rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.pwa-prompt-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+  display: block;
+}
+
+.pwa-prompt-title {
+  margin: 0 0 var(--spacing-sm) 0;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #000;
+  font-family: 'OpenDyslexic', Arial, sans-serif;
+}
+
+.pwa-prompt-description {
+  margin: 0 0 var(--spacing-lg) 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: #333;
+  font-family: 'OpenDyslexic', Arial, sans-serif;
+}
+
+.pwa-prompt-features {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: var(--spacing-lg);
+  gap: var(--spacing-sm);
+}
+
+.pwa-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 1;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+.feature-icon {
+  font-size: 1.5rem;
+  display: block;
+}
+
+.pwa-prompt-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+.pwa-button {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'OpenDyslexic', Arial, sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: var(--touch-target-min);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pwa-button.secondary {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.pwa-button.secondary:hover {
+  background: rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.pwa-button.primary {
+  background: #000;
+  color: var(--accent-color);
+  border: 1px solid #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.pwa-button.primary:hover {
+  background: #222;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.pwa-button:active {
+  transform: scale(0.98);
+}
+
+/* Mobile adjustments */
+@media (max-width: 480px) {
+  .pwa-install-prompt {
+    bottom: var(--spacing-sm);
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+  }
+  
+  .pwa-prompt-content {
+    padding: var(--spacing-md);
+  }
+  
+  .pwa-prompt-title {
+    font-size: 1.2rem;
+  }
+  
+  .pwa-prompt-description {
+    font-size: 0.9rem;
+  }
+  
+  .pwa-prompt-features {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  
+  .pwa-feature {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+  }
+  
+  .feature-icon {
+    font-size: 1.2rem;
+    margin-right: var(--spacing-sm);
+  }
+}
+
+/* Landscape mode adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+  .pwa-install-prompt {
+    bottom: var(--spacing-xs);
+    max-width: 350px;
+  }
+  
+  .pwa-prompt-content {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+  
+  .pwa-prompt-icon {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .pwa-prompt-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .pwa-prompt-description {
+    font-size: 0.85rem;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .pwa-prompt-features {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .pwa-feature {
+    font-size: 0.8rem;
+  }
+  
+  .feature-icon {
+    font-size: 1.2rem;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .pwa-install-prompt {
+    background: #ffff00;
+    color: #000;
+    border: 2px solid #000;
+  }
+  
+  .pwa-button.primary {
+    background: #000;
+    color: #ffff00;
+    border: 2px solid #000;
+  }
+  
+  .pwa-button.secondary {
+    background: transparent;
+    color: #000;
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pwa-install-prompt {
+    animation: none;
+    transform: translateY(0);
+    opacity: 1;
+  }
+  
+  .pwa-button,
+  .pwa-dismiss-button {
+    transition: none;
+  }
+  
+  .pwa-button:hover,
+  .pwa-dismiss-button:hover {
+    transform: none;
+  }
+}
+
+/* Focus styles for accessibility */
+.pwa-button:focus-visible,
+.pwa-dismiss-button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
