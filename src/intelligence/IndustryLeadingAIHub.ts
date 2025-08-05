@@ -4,7 +4,7 @@
  */
 
 import QuantumSecurityEngine from './QuantumSecurityEngine';
-import MultiModalAIEngine from './MultiModalAIEngine';
+import AdvancedMultiModalAIEngine from './AdvancedMultiModalAIEngine';
 import AdvancedPredictiveEngine from './AdvancedPredictiveEngine';
 import NeuralNetworkOptimizer from './NeuralNetworkOptimizer';
 import { SecurityIntelligenceEngine } from './SecurityIntelligenceEngine';
@@ -57,7 +57,7 @@ class IndustryLeadingAIHub {
 
   // Core AI Engines
   private quantumSecurity: QuantumSecurityEngine;
-  private multiModalAI: MultiModalAIEngine;
+  private multiModalAI: AdvancedMultiModalAIEngine;
   private predictiveEngine: AdvancedPredictiveEngine;
   private neuralOptimizer: NeuralNetworkOptimizer;
   private securityIntelligence: SecurityIntelligenceEngine;
@@ -156,7 +156,7 @@ class IndustryLeadingAIHub {
 
     // Multi-Modal AI Engine
     if (this.config.enableMultiModalAI) {
-      this.multiModalAI = new MultiModalAIEngine();
+      this.multiModalAI = new AdvancedMultiModalAIEngine();
       initPromises.push(this.waitForMultiModalAI());
     }
 
