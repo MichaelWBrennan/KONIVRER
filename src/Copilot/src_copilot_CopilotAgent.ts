@@ -454,7 +454,10 @@ export class CopilotAgent {
 
   private async updateGoalProgress(goal: Goal, _state: State): Promise<void> {
     // Update goal progress based on current state
-    if (goal.type === 'optimize_deck' && _state.context.currentDeck?.optimized) {
+    if (
+      goal.type === 'optimize_deck' &&
+      _state.context.currentDeck?.optimized
+    ) {
       goal.progress = 100;
       goal.status = 'completed';
     }
