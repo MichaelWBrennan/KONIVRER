@@ -1,0 +1,71 @@
+# AI Security Custom Rules for Semgrep
+# Generated as part of Phase 1.2 - Custom Security Rules
+
+rules:
+  - id: konivrer-ai-xss-prevention
+    pattern-either:
+      - pattern: dangerouslySetInnerHTML={{ __html: $X }}
+      - pattern: innerHTML = $X
+    message: Potential XSS vulnerability detected by AI analysis
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-79"
+      technology: [react]
+      ai_generated: true
+      confidence: high
+
+  - id: konivrer-ai-sql-injection
+    pattern-either:
+      - pattern: query($X + $Y)
+      - pattern: execute($X + $Y)
+    message: Potential SQL injection detected by AI pattern analysis
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-89"
+      ai_generated: true
+      confidence: high
+
+  - id: konivrer-ai-weak-crypto
+    pattern-either:
+      - pattern: crypto.createHash('md5')
+      - pattern: crypto.createHash('sha1')
+    message: Weak cryptographic algorithm detected - consider quantum-ready alternatives
+    languages: [typescript, javascript]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe: "CWE-327"
+      ai_generated: true
+      quantum_vulnerable: true
+
+  - id: konivrer-ai-hardcoded-secrets
+    pattern-either:
+      - pattern: const $VAR = "sk_..."
+      - pattern: const $VAR = "pk_..."
+      - pattern: password = "..."
+    message: Potential hardcoded secret detected by AI analysis
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-798"
+      ai_generated: true
+      confidence: medium
+
+  - id: konivrer-ai-unsafe-eval
+    pattern-either:
+      - pattern: eval($X)
+      - pattern: Function($X)
+      - pattern: new Function($X)
+    message: Unsafe code execution detected - potential security risk
+    languages: [typescript, javascript]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe: "CWE-95"
+      ai_generated: true
+      confidence: high
