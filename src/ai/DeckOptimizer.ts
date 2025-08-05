@@ -59,8 +59,8 @@ export class DeckOptimizer {
 
       this.isInitialized = true;
       console.log('DeckOptimizer initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize DeckOptimizer:', error);
+    } catch (_error) {
+      console.error('Failed to initialize DeckOptimizer:', _error);
     }
   }
 
@@ -84,7 +84,7 @@ export class DeckOptimizer {
     if (rarityIndex >= 0) embedding[7 + rarityIndex] = 1;
 
     // Abilities encoding
-    card.abilities.forEach((ability, index) => {
+    card.abilities.forEach((ability, _index) => {
       if (index < 20) embedding[11 + index] = 1;
     });
 
@@ -162,8 +162,8 @@ export class DeckOptimizer {
         synergyScore: currentSynergy,
         predictedWinRate: predictedWinRate[0],
       };
-    } catch (error) {
-      console.error('Deck optimization failed:', error);
+    } catch (_error) {
+      console.error('Deck optimization failed:', _error);
       return {
         optimizedDeck: deck,
         suggestions: ['Optimization failed. Please try again.'],
@@ -179,7 +179,7 @@ export class DeckOptimizer {
     // Aggregate card embeddings
     deck.cards.forEach(card => {
       const cardEmb = this.generateCardEmbedding(card);
-      cardEmb.forEach((value, index) => {
+      cardEmb.forEach((value, _index) => {
         embedding[index] += value;
       });
     });
@@ -244,8 +244,8 @@ export class DeckOptimizer {
     if (synergy < 0.5 && availableCards.length > 0) {
       // Replace the highest cost card with a random available card
       const highestCostIndex = optimizedCards.reduce(
-        (maxIndex, card, index) =>
-          card.cost > optimizedCards[maxIndex].cost ? index : maxIndex,
+        (maxIndex, card, _index) =>
+          card.cost > optimizedCards[maxIndex].cost ? _index : maxIndex,
         0,
       );
 
@@ -295,8 +295,8 @@ export class DeckOptimizer {
       ys.dispose();
 
       console.log('Model training completed');
-    } catch (error) {
-      console.error('Model training failed:', error);
+    } catch (_error) {
+      console.error('Model training failed:', _error);
     }
   }
 

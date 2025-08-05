@@ -42,8 +42,8 @@ export class AISecurityService {
       // Initialize threat detection if enabled
       if (aiSecurityConfig.isFeatureEnabled('threatDetection')) {
         // Start real-time monitoring in background
-        this.threatDetector.monitorRealTime().catch(error => {
-          console.error('Threat detection error:', error);
+        this.threatDetector.monitorRealTime().catch(_error => {
+          console.error('Threat detection _error:', error);
         });
       }
 
@@ -52,8 +52,8 @@ export class AISecurityService {
       if (aiSecurityConfig.getSilentModeConfig().developerVisibility) {
         console.log('🤖 AI Security Service initialized');
       }
-    } catch (error) {
-      console.error('Failed to initialize AI Security Service:', error);
+    } catch (_error) {
+      console.error('Failed to initialize AI Security Service:', _error);
       throw error;
     }
   }
@@ -157,7 +157,7 @@ export const aiSecurityService = new AISecurityService();
 
 // Auto-initialize in production
 if (typeof window !== 'undefined' && process.env.NODE_ENV === 'production') {
-  aiSecurityService.initialize().catch(error => {
-    console.error('Failed to auto-initialize AI Security Service:', error);
+  aiSecurityService.initialize().catch(_error => {
+    console.error('Failed to auto-initialize AI Security Service:', _error);
   });
 }

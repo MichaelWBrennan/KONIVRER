@@ -123,13 +123,13 @@ export class RealtimeMultiplayer {
         });
 
         this.socket!.on('connect_error', error => {
-          console.error('Connection failed:', error);
+          console.error('Connection failed:', _error);
           this.isConnected = false;
           resolve(false);
         });
       });
-    } catch (error) {
-      console.error('Failed to connect to multiplayer server:', error);
+    } catch (_error) {
+      console.error('Failed to connect to multiplayer server:', _error);
       return false;
     }
   }
@@ -163,8 +163,8 @@ export class RealtimeMultiplayer {
     });
 
     this.socket.on('authentication_failed', error => {
-      console.error('Authentication failed:', error);
-      this.emit('authentication_failed', error);
+      console.error('Authentication failed:', _error);
+      this.emit('authentication_failed', _error);
     });
 
     // Room events
@@ -239,9 +239,9 @@ export class RealtimeMultiplayer {
     });
 
     // Error events
-    this.socket.on('error', (error: any) => {
-      console.error('Socket error:', error);
-      this.emit('error', error);
+    this.socket.on('error', (_error: any) => {
+      console.error('Socket _error:', error);
+      this.emit('error', _error);
     });
   }
 
@@ -261,8 +261,8 @@ export class RealtimeMultiplayer {
         resolve(room);
       });
 
-      this.socket!.once('room_creation_failed', (error: any) => {
-        console.error('Room creation failed:', error);
+      this.socket!.once('room_creation_failed', (_error: any) => {
+        console.error('Room creation failed:', _error);
         resolve(null);
       });
     });
@@ -278,8 +278,8 @@ export class RealtimeMultiplayer {
         resolve(true);
       });
 
-      this.socket!.once('join_room_failed', (error: any) => {
-        console.error('Failed to join room:', error);
+      this.socket!.once('join_room_failed', (_error: any) => {
+        console.error('Failed to join room:', _error);
         resolve(false);
       });
     });
@@ -331,28 +331,28 @@ export class RealtimeMultiplayer {
   ): Promise<void> {
     await this.sendGameAction({
       type: 'play-card',
-      data: { cardId, targetId, position },
+      _data: { cardId, targetId, position },
     });
   }
 
   async attack(attackerId: string, targetId: string): Promise<void> {
     await this.sendGameAction({
       type: 'attack',
-      data: { attackerId, targetId },
+      _data: { attackerId, targetId },
     });
   }
 
   async endTurn(): Promise<void> {
     await this.sendGameAction({
       type: 'end-turn',
-      data: {},
+      _data: {},
     });
   }
 
   async surrender(): Promise<void> {
     await this.sendGameAction({
       type: 'surrender',
-      data: {},
+      _data: {},
     });
   }
 
@@ -384,8 +384,8 @@ export class RealtimeMultiplayer {
         resolve(true);
       });
 
-      this.socket!.once('spectating_failed', (error: any) => {
-        console.error('Failed to spectate room:', error);
+      this.socket!.once('spectating_failed', (_error: any) => {
+        console.error('Failed to spectate room:', _error);
         resolve(false);
       });
     });

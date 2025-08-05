@@ -245,7 +245,7 @@ const useAdvancedAutonomous = () => {
           '[Autonomous] Advanced autonomous systems initialized successfully',
         );
       }
-    } catch (error) {
+    } catch (_error) {
       console.error(
         '[Autonomous] Failed to initialize autonomous systems:',
         error,
@@ -554,7 +554,7 @@ const Card = ({
 }: {
   children: React.ReactNode;
   delay?: number;
-  [key: string]: any;
+  [_key: string]: any;
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -627,7 +627,7 @@ const HomePage = () => {
             gap: '30px',
           }}
         >
-          {recentPosts.map((post, index) => (
+          {recentPosts.map((post, _index) => (
             <Card key={post.id} delay={index * 0.1}>
               <div>
                 <h3
@@ -754,7 +754,7 @@ const DecksPage = () => {
         }}
         data-search-type="deck"
       >
-        {decks.map((deck, index) => (
+        {decks.map((deck, _index) => (
           <Card key={deck.id} delay={index * 0.1}>
             <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
               {deck.name}

@@ -522,7 +522,7 @@ class PolicyHealingEngine {
 
     if (
       healedRules.length !== policy.rules.length ||
-      healedRules.some((rule, index) => rule !== policy.rules[index])
+      healedRules.some((rule, _index) => rule !== policy.rules[index])
     ) {
       return {
         ...policy,
@@ -566,7 +566,7 @@ class PolicyHealingEngine {
     return 0.7 + Math.random() * 0.3;
   }
 
-  private adjustRuleParameters(parameters: { [key: string]: any }): {
+  private adjustRuleParameters(parameters: { [_key: string]: any }): {
     [key: string]: any;
   } {
     // Adjust rule parameters to improve effectiveness

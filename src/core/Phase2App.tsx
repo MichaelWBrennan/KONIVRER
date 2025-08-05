@@ -107,7 +107,7 @@ const useLightweightAutonomous = () => {
                 console.debug('[PHASE 2] Memory usage:', memoryUsage, 'MB');
               }
             }
-          } catch (error) {
+          } catch (_error) {
             console.debug(
               '[PHASE 2] Performance monitoring error (non-critical):',
               error,
@@ -117,7 +117,7 @@ const useLightweightAutonomous = () => {
 
         autonomousRef.current.intervals.push(performanceInterval);
         console.log('[PHASE 2] ✅ Lightweight performance monitoring started');
-      } catch (error) {
+      } catch (_error) {
         console.warn('[PHASE 2] Speed tracking failed (non-critical):', error);
       }
     };
@@ -157,7 +157,7 @@ const useLightweightAutonomous = () => {
                 }
               }
             }
-          } catch (error) {
+          } catch (_error) {
             console.debug(
               '[PHASE 2] Security monitoring error (non-critical):',
               error,
@@ -167,7 +167,7 @@ const useLightweightAutonomous = () => {
 
         autonomousRef.current.intervals.push(securityInterval);
         console.log('[PHASE 2] ✅ Lightweight security monitoring started');
-      } catch (error) {
+      } catch (_error) {
         console.warn(
           '[PHASE 2] Security monitoring failed (non-critical):',
           error,
@@ -432,7 +432,7 @@ const HomePage = () => {
           gap: '30px',
         }}
       >
-        {features.map(({ title, desc, link }, index) => (
+        {features.map(({ title, desc, link }, _index) => (
           <Link key={title} to={link} style={{ textDecoration: 'none' }}>
             <Card delay={index * 0.1}>
               <div style={{ textAlign: 'center' }}>
@@ -503,7 +503,7 @@ const CardsPage = () => {
           gap: '20px',
         }}
       >
-        {cards.map((card, index) => (
+        {cards.map((card, _index) => (
           <Card key={card.id} delay={index * 0.1}>
             <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
               {card.name}
@@ -539,7 +539,7 @@ const DecksPage = () => {
           gap: '20px',
         }}
       >
-        {decks.map((deck, index) => (
+        {decks.map((deck, _index) => (
           <Card key={deck.id} delay={index * 0.1}>
             <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
               {deck.name}
@@ -615,7 +615,7 @@ const PlayPage = () => {
           gap: '30px',
         }}
       >
-        {gameModes.map(({ title, desc }, index) => (
+        {gameModes.map(({ title, desc }, _index) => (
           <Card key={title} delay={index * 0.1}>
             <div style={{ textAlign: 'center' }}>
               <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>

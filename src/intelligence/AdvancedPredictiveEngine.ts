@@ -95,8 +95,8 @@ class AdvancedPredictiveEngine {
       this.startAnomalyDetection();
 
       console.log('✅ Advanced Predictive Engine fully operational');
-    } catch (error) {
-      console.error('❌ Error initializing Predictive Engine:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Predictive Engine:', _error);
     }
   }
 
@@ -392,8 +392,8 @@ class AdvancedPredictiveEngine {
       this.realtimeBuffer.push({ features, prediction, timestamp: new Date() });
 
       return prediction;
-    } catch (error) {
-      console.error(`❌ Error making prediction with model ${modelId}:`, error);
+    } catch (_error) {
+      console.error(`❌ Error making prediction with model ${modelId}:`, _error);
       throw error;
     }
   }
@@ -444,7 +444,7 @@ class AdvancedPredictiveEngine {
     const weights = this.getModelWeights(model);
 
     let score = 0;
-    featureVector.forEach((value, index) => {
+    featureVector.forEach((value, _index) => {
       score += value * weights[index];
     });
 
@@ -483,7 +483,7 @@ class AdvancedPredictiveEngine {
     const weights = this.getModelWeights(model);
 
     let prediction = weights[0]; // bias term
-    featureVector.forEach((value, index) => {
+    featureVector.forEach((value, _index) => {
       prediction += value * weights[index + 1];
     });
 
@@ -753,7 +753,7 @@ class AdvancedPredictiveEngine {
     return anomalousFeatures.length > 0 ? anomalousFeatures.join(', ') : 'None';
   }
 
-  private calculateQValues(state: number[], model: PredictionModel): number[] {
+  private calculateQValues(_state: number[], model: PredictionModel): number[] {
     // Simplified Q-value calculation
     const numActions = 10; // Configurable
     const qValues = [];
@@ -786,13 +786,13 @@ class AdvancedPredictiveEngine {
     return sorted.map(a => `${a.action}(${a.value.toFixed(2)})`).join(', ');
   }
 
-  public async detectAnomalies(data: any): Promise<AnomalyDetection> {
+  public async detectAnomalies(_data: any): Promise<AnomalyDetection> {
     const anomalyModel = this.models.get('user-behavior-anomaly');
     if (!anomalyModel) {
       throw new Error('Anomaly detection model not found');
     }
 
-    const prediction = await this.predict('user-behavior-anomaly', data);
+    const prediction = await this.predict('user-behavior-anomaly', _data);
     const score = prediction.probability;
     const threshold = 0.7;
 
@@ -804,12 +804,12 @@ class AdvancedPredictiveEngine {
       type: this.determineAnomalyType(data, score),
       features: anomalyModel.features,
       explanation: prediction.explanation.join('. '),
-      recommendations: this.generateAnomalyRecommendations(score, data),
+      recommendations: this.generateAnomalyRecommendations(score, _data),
     };
   }
 
   private determineAnomalyType(
-    data: any,
+    _data: any,
     score: number,
   ): 'point' | 'contextual' | 'collective' {
     // Simplified anomaly type determination
@@ -818,7 +818,7 @@ class AdvancedPredictiveEngine {
     return 'collective';
   }
 
-  private generateAnomalyRecommendations(score: number, data: any): string[] {
+  private generateAnomalyRecommendations(score: number, _data: any): string[] {
     const recommendations = [];
 
     if (score > 0.9) {
@@ -848,8 +848,8 @@ class AdvancedPredictiveEngine {
       }
 
       this.realtimeBuffer = []; // Clear buffer after learning
-    } catch (error) {
-      console.error('❌ Error in incremental learning:', error);
+    } catch (_error) {
+      console.error('❌ Error in incremental learning:', _error);
     }
   }
 
@@ -885,7 +885,7 @@ class AdvancedPredictiveEngine {
     );
   }
 
-  private assessDataQuality(data: any[]): number {
+  private assessDataQuality(_data: any[]): number {
     // Assess quality of training data
     if (data.length === 0) return 0;
 
@@ -991,8 +991,8 @@ class AdvancedPredictiveEngine {
         console.log(`🚨 Anomaly detected: ${anomaly.explanation}`);
         await this.handleAnomaly(anomaly);
       }
-    } catch (error) {
-      console.error('❌ Error in anomaly detection:', error);
+    } catch (_error) {
+      console.error('❌ Error in anomaly detection:', _error);
     }
   }
 

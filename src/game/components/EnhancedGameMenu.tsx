@@ -189,7 +189,7 @@ export const EnhancedGameMenu: React.FC<EnhancedGameMenuProps> = ({
               }}
               variants={cardVariants}
             >
-              {gameModes.map((mode, index) => (
+              {gameModes.map((mode, _index) => (
                 <motion.div
                   key={mode.id}
                   style={{

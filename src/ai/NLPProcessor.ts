@@ -46,8 +46,8 @@ export class NLPProcessor {
 
       this.isInitialized = true;
       console.log('NLPProcessor initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize NLPProcessor:', error);
+    } catch (_error) {
+      console.error('Failed to initialize NLPProcessor:', _error);
     }
   }
 
@@ -101,8 +101,8 @@ export class NLPProcessor {
 
       // Sort by relevance score
       return results.sort((a, b) => b.relevanceScore - a.relevanceScore);
-    } catch (error) {
-      console.error('Card search failed:', error);
+    } catch (_error) {
+      console.error('Card search failed:', _error);
       return [];
     }
   }
@@ -123,8 +123,8 @@ export class NLPProcessor {
         sentiment: prediction.label.toLowerCase() as 'positive' | 'negative',
         confidence: prediction.score,
       };
-    } catch (error) {
-      console.error('Sentiment analysis failed:', error);
+    } catch (_error) {
+      console.error('Sentiment analysis failed:', _error);
       return { sentiment: 'neutral', confidence: 0.5 };
     }
   }

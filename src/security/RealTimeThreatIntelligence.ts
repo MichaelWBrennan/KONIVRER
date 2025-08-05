@@ -139,8 +139,8 @@ class RealTimeThreatIntelligence {
 
       console.log('✅ Real-Time Threat Intelligence operational');
       this.logThreatIntelligenceStatus();
-    } catch (error) {
-      console.error('❌ Error initializing Threat Intelligence:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Threat Intelligence:', _error);
     }
   }
 
@@ -443,8 +443,8 @@ class RealTimeThreatIntelligence {
       if (addedThreats > 0) {
         console.log(`➕ Added ${addedThreats} new threats from ${feed.name}`);
       }
-    } catch (error) {
-      console.error(`❌ Error updating threat feed ${feedId}:`, error);
+    } catch (_error) {
+      console.error(`❌ Error updating threat feed ${feedId}:`, _error);
     }
   }
 
@@ -599,29 +599,29 @@ class RealTimeThreatIntelligence {
       const event = this.generateSecurityEvent();
 
       // Analyze with ML models
-      const threatAnalysis = await this.analyzeWithMLModels(event);
+      const threatAnalysis = await this.analyzeWithMLModels(_event);
 
       // Match against threat intelligence
-      const threatMatches = this.matchThreatIntelligence(event);
+      const threatMatches = this.matchThreatIntelligence(_event);
 
       // Calculate risk score
       event.riskScore = this.calculateRiskScore(threatAnalysis, threatMatches);
       event.threatIntelMatch = threatMatches;
 
       // Store security event
-      this.securityEvents.push(event);
+      this.securityEvents.push(_event);
 
       // Trigger response if high risk
       if (event.riskScore > 70) {
-        await this.triggerSecurityResponse(event);
+        await this.triggerSecurityResponse(_event);
       }
 
       // Maintain event history size
       if (this.securityEvents.length > 10000) {
         this.securityEvents = this.securityEvents.slice(-5000);
       }
-    } catch (error) {
-      console.error('❌ Error in real-time threat scan:', error);
+    } catch (_error) {
+      console.error('❌ Error in real-time threat scan:', _error);
     }
   }
 
@@ -677,7 +677,7 @@ class RealTimeThreatIntelligence {
     };
   }
 
-  private async analyzeWithMLModels(event: SecurityEvent): Promise<any> {
+  private async analyzeWithMLModels(_event: SecurityEvent): Promise<any> {
     const analysis = {
       anomalyScore: 0,
       behavioralScore: 0,
@@ -688,17 +688,17 @@ class RealTimeThreatIntelligence {
 
     // Anomaly detection
     if (this.mlModels.has('anomaly-detector-v3')) {
-      analysis.anomalyScore = await this.runAnomalyDetection(event);
+      analysis.anomalyScore = await this.runAnomalyDetection(_event);
     }
 
     // Behavioral analysis
     if (this.mlModels.has('behavioral-analyzer-v2')) {
-      analysis.behavioralScore = await this.runBehavioralAnalysis(event);
+      analysis.behavioralScore = await this.runBehavioralAnalysis(_event);
     }
 
     // Pattern recognition
     if (this.mlModels.has('pattern-recognizer-v4')) {
-      analysis.patternScore = await this.runPatternRecognition(event);
+      analysis.patternScore = await this.runPatternRecognition(_event);
     }
 
     // Quantum threat detection
@@ -706,7 +706,7 @@ class RealTimeThreatIntelligence {
       this.mlModels.has('quantum-threat-detector-v1') &&
       event.data.quantumSignature
     ) {
-      analysis.quantumThreatScore = await this.runQuantumThreatDetection(event);
+      analysis.quantumThreatScore = await this.runQuantumThreatDetection(_event);
     }
 
     // Calculate overall score
@@ -719,7 +719,7 @@ class RealTimeThreatIntelligence {
     return analysis;
   }
 
-  private async runAnomalyDetection(event: SecurityEvent): Promise<number> {
+  private async runAnomalyDetection(_event: SecurityEvent): Promise<number> {
     // Simulate anomaly detection
     const features = [
       event.data.size || 0,
@@ -737,7 +737,7 @@ class RealTimeThreatIntelligence {
     return Math.min(100, anomalyScore + Math.random() * 10);
   }
 
-  private async runBehavioralAnalysis(event: SecurityEvent): Promise<number> {
+  private async runBehavioralAnalysis(_event: SecurityEvent): Promise<number> {
     // Simulate behavioral analysis
     let behaviorScore = 0;
 
@@ -750,7 +750,7 @@ class RealTimeThreatIntelligence {
     return Math.min(100, behaviorScore + Math.random() * 15);
   }
 
-  private async runPatternRecognition(event: SecurityEvent): Promise<number> {
+  private async runPatternRecognition(_event: SecurityEvent): Promise<number> {
     // Simulate pattern recognition
     let patternScore = 0;
 
@@ -764,7 +764,7 @@ class RealTimeThreatIntelligence {
   }
 
   private async runQuantumThreatDetection(
-    event: SecurityEvent,
+    _event: SecurityEvent,
   ): Promise<number> {
     // Simulate quantum threat detection
     if (!event.data.quantumSignature) return 0;
@@ -773,7 +773,7 @@ class RealTimeThreatIntelligence {
     return 80 + Math.random() * 20;
   }
 
-  private matchThreatIntelligence(event: SecurityEvent): ThreatIntelligence[] {
+  private matchThreatIntelligence(_event: SecurityEvent): ThreatIntelligence[] {
     const matches: ThreatIntelligence[] = [];
 
     for (const threat of this.threatDatabase.values()) {
@@ -782,7 +782,7 @@ class RealTimeThreatIntelligence {
 
       // Match against threat indicators
       for (const indicator of threat.indicators) {
-        if (this.matchIndicator(indicator, event)) {
+        if (this.matchIndicator(indicator, _event)) {
           matches.push(threat);
           break; // Avoid duplicate matches for the same threat
         }
@@ -800,7 +800,7 @@ class RealTimeThreatIntelligence {
 
   private matchIndicator(
     indicator: ThreatIndicator,
-    event: SecurityEvent,
+    _event: SecurityEvent,
   ): boolean {
     switch (indicator.type) {
       case 'ip':
@@ -813,7 +813,7 @@ class RealTimeThreatIntelligence {
       case 'hash':
         return event.data.fileHash === indicator.value;
       case 'pattern':
-        return JSON.stringify(event.data).includes(indicator.value);
+        return JSON.stringify(event._data).includes(indicator.value);
       case 'behavior':
         return event.eventType.includes(indicator.value.split('-')[1]);
       case 'quantum-signature':
@@ -859,7 +859,7 @@ class RealTimeThreatIntelligence {
     return Math.min(100, riskScore);
   }
 
-  private async triggerSecurityResponse(event: SecurityEvent): Promise<void> {
+  private async triggerSecurityResponse(_event: SecurityEvent): Promise<void> {
     console.log(
       `🚨 High-risk security event detected: ${event.id} (Risk: ${event.riskScore})`,
     );
@@ -867,7 +867,7 @@ class RealTimeThreatIntelligence {
     const response: SecurityResponse = {
       id: `response-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       eventId: event.id,
-      action: this.determineResponseAction(event),
+      action: this.determineResponseAction(_event),
       timestamp: new Date(),
       automated: true,
       effectiveness: 0.85 + Math.random() * 0.15, // 85-100% effectiveness
@@ -885,7 +885,7 @@ class RealTimeThreatIntelligence {
   }
 
   private determineResponseAction(
-    event: SecurityEvent,
+    _event: SecurityEvent,
   ): SecurityResponse['action'] {
     // Determine appropriate response based on event characteristics
     if (event.data.quantumSignature) {
@@ -1022,7 +1022,7 @@ class RealTimeThreatIntelligence {
     }
 
     const averageRisk =
-      recentEvents.reduce((sum, event) => sum + event.riskScore, 0) /
+      recentEvents.reduce((sum, _event) => sum + event.riskScore, 0) /
       recentEvents.length;
     const highRiskEvents = recentEvents.filter(e => e.riskScore > 70).length;
 
