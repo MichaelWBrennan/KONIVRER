@@ -38,7 +38,7 @@ export class MatchmakingRLAgent {
     // Method for training with new data
   }
   
-  public predict(state: MatchmakingState): MatchmakingAction | null {
+  public predict(_state: MatchmakingState): MatchmakingAction | null {
     // Method for predicting actions based on current state
     return null;
   }

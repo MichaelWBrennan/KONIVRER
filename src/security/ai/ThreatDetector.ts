@@ -72,7 +72,7 @@ export class AIThreatDetector {
 
     // Process events continuously
     for await (const event of this.mergeStreams(streams)) {
-      const anomaly = await this.detectAnomaly(event);
+      const anomaly = await this.detectAnomaly(_event);
 
       if (anomaly && anomaly.anomalyScore > 0.7) {
         const threat = await this.classifyThreat(event, anomaly);
@@ -84,11 +84,11 @@ export class AIThreatDetector {
   /**
    * AI-powered anomaly detection
    */
-  async detectAnomaly(event: ThreatEvent): Promise<AnomalyDetection | null> {
+  async detectAnomaly(_event: ThreatEvent): Promise<AnomalyDetection | null> {
     const baseline = this.baselineModels.get(event.type);
     if (!baseline) {
       // No baseline yet, start learning
-      await this.updateBaseline(event.type, event);
+      await this.updateBaseline(event.type, _event);
       return null;
     }
 
@@ -101,7 +101,7 @@ export class AIThreatDetector {
         eventId: event.id,
         anomalyScore,
         confidence,
-        pattern: this.identifyPattern(event),
+        pattern: this.identifyPattern(_event),
         baseline: baseline.summary,
         deviation: this.calculateDeviation(event, baseline),
       };
@@ -114,7 +114,7 @@ export class AIThreatDetector {
    * Classify detected anomalies as security threats
    */
   async classifyThreat(
-    event: ThreatEvent,
+    _event: ThreatEvent,
     anomaly: AnomalyDetection,
   ): Promise<SecurityThreat> {
     // AI-powered threat classification
@@ -261,12 +261,12 @@ export class AIThreatDetector {
         if (this.silentConfig.transparentLogging) {
           console.log(`✅ Action executed: ${action.type} on ${action.target}`);
         }
-      } catch (error) {
-        console.error(`❌ Failed to execute action ${action.type}:`, error);
+      } catch (_error) {
+        console.error(`❌ Failed to execute action ${action.type}:`, _error);
 
         // If action fails and it's critical, escalate
         if (action.priority <= 1) {
-          await this.escalateFailedAction(action, error);
+          await this.escalateFailedAction(action, _error);
         }
       }
     }
@@ -313,9 +313,9 @@ export class AIThreatDetector {
 
       // Group events by type for specialized training
       const eventsByType = events.reduce(
-        (acc, event) => {
+        (acc, _event) => {
           if (!acc[event.type]) acc[event.type] = [];
-          acc[event.type].push(event);
+          acc[event.type].push(_event);
           return acc;
         },
         {} as Record<string, ThreatEvent[]>,
@@ -434,26 +434,26 @@ export class AIThreatDetector {
     };
   }
 
-  private calculateAnomalyScore(event: ThreatEvent, baseline: any): number {
+  private calculateAnomalyScore(_event: ThreatEvent, baseline: any): number {
     // Simulate anomaly score calculation
     return Math.random() * event.severity + 0.1;
   }
 
-  private calculateConfidence(event: ThreatEvent, baseline: any): number {
+  private calculateConfidence(_event: ThreatEvent, baseline: any): number {
     // Simulate confidence calculation
     return Math.random() * 0.3 + 0.7; // 70-100%
   }
 
-  private identifyPattern(event: ThreatEvent): string {
+  private identifyPattern(_event: ThreatEvent): string {
     return `pattern-${event.type}-${event.id}`;
   }
 
-  private calculateDeviation(event: ThreatEvent, baseline: any): any {
+  private calculateDeviation(_event: ThreatEvent, baseline: any): any {
     return { deviation: 'significant', value: event.severity };
   }
 
   private classifyThreatType(
-    event: ThreatEvent,
+    _event: ThreatEvent,
     anomaly: AnomalyDetection,
   ): SecurityThreat['type'] {
     const types: SecurityThreat['type'][] = [
@@ -475,7 +475,7 @@ export class AIThreatDetector {
   }
 
   private generateThreatDescription(
-    event: ThreatEvent,
+    _event: ThreatEvent,
     anomaly: AnomalyDetection,
   ): string {
     return `AI detected anomalous ${event.type} activity with ${(anomaly.anomalyScore * 100).toFixed(1)}% deviation`;
@@ -551,7 +551,7 @@ export class AIThreatDetector {
 
   private async escalateFailedAction(
     action: ResponseAction,
-    error: any,
+    _error: any,
   ): Promise<void> {
     console.error(
       `🚨 Critical action failed: ${action.type} on ${action.target}`,

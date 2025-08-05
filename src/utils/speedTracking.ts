@@ -138,7 +138,7 @@ class SpeedTracker {
           subtree: true,
         });
       }
-    } catch (error) {
+    } catch (_error) {
       console.warn(
         '[SPEED TRACKER] Route change tracking not available:',
         error,
@@ -268,7 +268,7 @@ export const trackAsyncOperation = async <T>(
     const duration = performance.now() - startTime;
     trackCustomMetric(name, duration);
     return result;
-  } catch (error) {
+  } catch (_error) {
     const duration = performance.now() - startTime;
     trackCustomMetric(`${name}_ERROR`, duration);
     throw error;

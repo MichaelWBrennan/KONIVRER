@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export class UnifiedMainMenuScene extends Phaser.Scene {
   constructor(private isPremium: boolean = false) {
-    super({ key: 'UnifiedMainMenuScene' });
+    super({ _key: 'UnifiedMainMenuScene' });
   }
 
   preload() {

@@ -50,8 +50,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
             setFaceIdAvailable(true);
           }
         }
-      } catch (error) {
-        console.warn('Biometric availability check failed:', error);
+      } catch (_error) {
+        console.warn('Biometric availability check failed:', _error);
         setBiometricAvailable(false);
         setFaceIdAvailable(false);
       }
@@ -141,8 +141,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
           },
         });
       }
-    } catch (error) {
-      console.error('Biometric authentication failed:', error);
+    } catch (_error) {
+      console.error('Biometric authentication failed:', _error);
       alert('Biometric authentication failed. Please try again.');
     }
   };

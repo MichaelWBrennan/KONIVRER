@@ -7,7 +7,7 @@
 class EventEmitter {
   private events: { [key: string]: Function[] } = {};
 
-  on(event: string, listener: Function): this {
+  on(_event: string, listener: Function): this {
     if (!this.events[event]) {
       this.events[event] = [];
     }
@@ -15,20 +15,20 @@ class EventEmitter {
     return this;
   }
 
-  off(event: string, listener: Function): this {
+  off(_event: string, listener: Function): this {
     if (!this.events[event]) return this;
     this.events[event] = this.events[event].filter(l => l !== listener);
     return this;
   }
 
-  emit(event: string, ...args: any[]): boolean {
+  emit(_event: string, ...args: any[]): boolean {
     if (!this.events[event]) return false;
     this.events[event].forEach(listener => listener(...args));
     return true;
   }
 
   removeAllListeners(event?: string): this {
-    if (event) {
+    if (_event) {
       delete this.events[event];
     } else {
       this.events = {};
@@ -339,8 +339,8 @@ class TrendAnalysisEngine extends EventEmitter {
       await this.updateTrendScores();
 
       console.log(`✅ Analyzed ${flatTrends.length} trends`);
-    } catch (error) {
-      console.error('❌ Error analyzing trends:', error);
+    } catch (_error) {
+      console.error('❌ Error analyzing trends:', _error);
     }
   }
 
@@ -364,8 +364,8 @@ class TrendAnalysisEngine extends EventEmitter {
         default:
           return [];
       }
-    } catch (error) {
-      console.warn(`Failed to analyze trends from ${source.name}:`, error);
+    } catch (_error) {
+      console.warn(`Failed to analyze trends from ${source.name}:`, _error);
       return [];
     }
   }
@@ -536,8 +536,8 @@ class TrendAnalysisEngine extends EventEmitter {
 
       console.log(`✅ Successfully implemented trend: ${trend.name}`);
       this.emit('trend-implemented', trend);
-    } catch (error) {
-      console.error(`❌ Failed to implement trend: ${trend.name}`, error);
+    } catch (_error) {
+      console.error(`❌ Failed to implement trend: ${trend.name}`, _error);
     }
   }
 

@@ -82,8 +82,8 @@ export class DynamicAudioEngine {
 
       this.isInitialized = true;
       console.log('DynamicAudioEngine initialized successfully');
-    } catch (error) {
-      console.error('Failed to initialize DynamicAudioEngine:', error);
+    } catch (_error) {
+      console.error('Failed to initialize DynamicAudioEngine:', _error);
     }
   }
 
@@ -146,7 +146,7 @@ export class DynamicAudioEngine {
       if (padSynth) {
         // Generate ambient chord based on game state
         const chord = this.generateAmbientChord();
-        chord.forEach((note, index) => {
+        chord.forEach((note, _index) => {
           padSynth.triggerAttackRelease(note, '2n', time + index * 0.1);
         });
       }
@@ -240,7 +240,7 @@ export class DynamicAudioEngine {
       const baseMelody = ['D4', 'F4', 'A4', 'D5'];
       const tenseMelody = ['D#4', 'F#4', 'A#4', 'D#5'];
 
-      const melody = baseMelody.map((note, index) => {
+      const melody = baseMelody.map((note, _index) => {
         return tension > 0.5 ? tenseMelody[index] : note;
       });
 
@@ -271,7 +271,7 @@ export class DynamicAudioEngine {
 
       this.currentMusicPattern = new Tone.Pattern(
         (time, chord) => {
-          chord.forEach((note: string, index: number) => {
+          chord.forEach((note: string, _index: number) => {
             padSynth.triggerAttackRelease(note, '2n', time + index * 0.1);
           });
         },
@@ -289,7 +289,7 @@ export class DynamicAudioEngine {
     const leadSynth = this.musicSynths.get('lead');
     if (leadSynth) {
       const victoryMelody = ['C5', 'E5', 'G5', 'C6'];
-      victoryMelody.forEach((note, index) => {
+      victoryMelody.forEach((note, _index) => {
         leadSynth.triggerAttackRelease(note, '4n', `+${index * 0.2}`);
       });
     }
@@ -301,7 +301,7 @@ export class DynamicAudioEngine {
     const bassSynth = this.musicSynths.get('bass');
     if (bassSynth) {
       const defeatMelody = ['C3', 'A#2', 'G2', 'F2'];
-      defeatMelody.forEach((note, index) => {
+      defeatMelody.forEach((note, _index) => {
         bassSynth.triggerAttackRelease(note, '2n', `+${index * 0.5}`);
       });
     }

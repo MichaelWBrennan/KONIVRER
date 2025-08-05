@@ -36,7 +36,7 @@ Object.keys(conflictMarkers).forEach(marker => {
 });
 
 // Common error patterns and their healing functions
-const errorPatterns: Record<string, (error: Error) => void> = {
+const errorPatterns: Record<string, (_error: Error) => void> = {
   'process is not defined': (_error: Error) => {
     console.info(
       '[Error Healing] Detected Node.js process reference in browser - suggesting environment variable fix',
@@ -62,14 +62,14 @@ const errorPatterns: Record<string, (error: Error) => void> = {
 /**
  * Attempts to heal an error based on its type and message
  */
-function attemptToHealError(error: Error): boolean {
+function attemptToHealError(_error: Error): boolean {
   const errorMessage = error.message;
 
   // Check if we have a pattern match
   for (const pattern in errorPatterns) {
     if (errorMessage.includes(pattern)) {
       try {
-        errorPatterns[pattern](error);
+        errorPatterns[pattern](_error);
         return true;
       } catch {
         // If healing fails, log silently and continue
@@ -153,7 +153,7 @@ if (typeof window !== 'undefined') {
     const error = event.error || new Error(event.message);
 
     // Try to heal the error
-    const healed = attemptToHealError(error);
+    const healed = attemptToHealError(_error);
 
     // If we successfully healed it, prevent the default error
     if (healed) {
@@ -169,7 +169,7 @@ if (typeof window !== 'undefined') {
         : new Error(String(event.reason));
 
     // Try to heal the error
-    const healed = attemptToHealError(error);
+    const healed = attemptToHealError(_error);
 
     // If we successfully healed it, prevent the default error
     if (healed) {
@@ -195,7 +195,7 @@ export const healingFetch = async (
         throw new Error(`HTTP error ${response.status}`);
       }
       return response;
-    } catch (error) {
+    } catch (_error) {
       retries++;
 
       // Log the retry attempt silently

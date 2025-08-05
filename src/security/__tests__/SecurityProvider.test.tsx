@@ -39,9 +39,9 @@ const mockCanvas = {
   getContext: vi.fn(() => ({
     fillRect: vi.fn(),
     clearRect: vi.fn(),
-    getImageData: vi.fn(() => ({ data: new Uint8ClampedArray(4) })),
+    getImageData: vi.fn(() => ({ _data: new Uint8ClampedArray(4) })),
     putImageData: vi.fn(),
-    createImageData: vi.fn(() => ({ data: new Uint8ClampedArray(4) })),
+    createImageData: vi.fn(() => ({ _data: new Uint8ClampedArray(4) })),
     setTransform: vi.fn(),
     drawImage: vi.fn(),
     save: vi.fn(),
@@ -56,7 +56,7 @@ const mockCanvas = {
     isPointInPath: vi.fn(() => false),
     isPointInStroke: vi.fn(() => false),
   })),
-  toDataURL: vi.fn(() => 'data:image/png;base64,mock'),
+  toDataURL: vi.fn(() => '_data:image/png;base64,mock'),
   toBlob: vi.fn(callback => callback(new Blob())),
   width: 300,
   height: 150,
@@ -231,7 +231,7 @@ describe.skip('SecurityProvider', () => {
     expect(consoleSpy).toHaveBeenCalledWith(
       '[SECURITY LOG]',
       expect.objectContaining({
-        event: 'TEST_EVENT',
+        _event: 'TEST_EVENT',
         details: { test: true },
         timestamp: expect.any(String),
       }),

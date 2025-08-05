@@ -277,7 +277,7 @@ const SimpleCardsPage: React.FC = () => {
             color: '#FFA500',
           }}
         >
-          {searchResults.warnings.map((warning, index) => (
+          {searchResults.warnings.map((warning, _index) => (
             <div key={index}>{warning}</div>
           ))}
         </div>

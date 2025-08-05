@@ -51,8 +51,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     if (savedUser) {
       try {
         setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error('Error parsing saved user:', error);
+      } catch (_error) {
+        console.error('Error parsing saved user:', _error);
         localStorage.removeItem('konivrer_user');
       }
     }

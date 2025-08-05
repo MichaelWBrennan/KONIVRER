@@ -239,10 +239,10 @@ export const useEncryption = () => {
   const { config } = useAdvancedSecurity();
 
   const encrypt = useCallback(
-    async (data: string): Promise<string> => {
+    async (_data: string): Promise<string> => {
       try {
         const encoder = new TextEncoder();
-        const dataBuffer = encoder.encode(data);
+        const dataBuffer = encoder.encode(_data);
 
         const key = await crypto.subtle.generateKey(
           {
@@ -260,7 +260,7 @@ export const useEncryption = () => {
           dataBuffer,
         );
 
-        const exportedKey = await crypto.subtle.exportKey('raw', key);
+        const exportedKey = await crypto.subtle.exportKey('raw', _key);
         const result = {
           data: Array.from(new Uint8Array(encrypted)),
           key: Array.from(new Uint8Array(exportedKey)),
@@ -268,8 +268,8 @@ export const useEncryption = () => {
         };
 
         return btoa(JSON.stringify(result));
-      } catch (error) {
-        console.error('Encryption failed:', error);
+      } catch (_error) {
+        console.error('Encryption failed:', _error);
         return data; // Fallback to unencrypted
       }
     },
@@ -283,7 +283,7 @@ export const useEncryption = () => {
 
         const cryptoKey = await crypto.subtle.importKey(
           'raw',
-          new Uint8Array(key),
+          new Uint8Array(_key),
           { name: 'AES-GCM' },
           false,
           ['decrypt'],
@@ -292,13 +292,13 @@ export const useEncryption = () => {
         const decrypted = await crypto.subtle.decrypt(
           { name: 'AES-GCM', iv: new Uint8Array(iv) },
           cryptoKey,
-          new Uint8Array(data),
+          new Uint8Array(_data),
         );
 
         const decoder = new TextDecoder();
         return decoder.decode(decrypted);
-      } catch (error) {
-        console.error('Decryption failed:', error);
+      } catch (_error) {
+        console.error('Decryption failed:', _error);
         return encryptedData; // Fallback to encrypted data
       }
     },

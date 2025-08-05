@@ -117,8 +117,8 @@ class AdvancedTelemetrySystem {
 
       console.log('✅ Advanced Telemetry System operational');
       this.logTelemetryStatus();
-    } catch (error) {
-      console.error('❌ Error initializing Telemetry System:', error);
+    } catch (_error) {
+      console.error('❌ Error initializing Telemetry System:', _error);
     }
   }
 
@@ -417,8 +417,8 @@ class AdvancedTelemetrySystem {
         source: 'ai-monitor',
         tags: { type: 'performance', frequency: 'high' },
       });
-    } catch (error) {
-      console.error('❌ Error collecting high-frequency metrics:', error);
+    } catch (_error) {
+      console.error('❌ Error collecting high-frequency metrics:', _error);
     }
   }
 
@@ -461,8 +461,8 @@ class AdvancedTelemetrySystem {
         tags: { type: 'accuracy', frequency: 'medium' },
         threshold: { warning: 0.9, critical: 0.85 },
       });
-    } catch (error) {
-      console.error('❌ Error collecting medium-frequency metrics:', error);
+    } catch (_error) {
+      console.error('❌ Error collecting medium-frequency metrics:', _error);
     }
   }
 
@@ -502,8 +502,8 @@ class AdvancedTelemetrySystem {
         source: 'business-monitor',
         tags: { type: 'business', frequency: 'low' },
       });
-    } catch (error) {
-      console.error('❌ Error collecting low-frequency metrics:', error);
+    } catch (_error) {
+      console.error('❌ Error collecting low-frequency metrics:', _error);
     }
   }
 
@@ -535,8 +535,8 @@ class AdvancedTelemetrySystem {
 
       // Update real-time streams
       this.updateRealTimeStreams();
-    } catch (error) {
-      console.error('❌ Error in real-time analysis:', error);
+    } catch (_error) {
+      console.error('❌ Error in real-time analysis:', _error);
     }
   }
 
@@ -863,8 +863,8 @@ class AdvancedTelemetrySystem {
       if (this.insights.length > 1000) {
         this.insights = this.insights.slice(-500);
       }
-    } catch (error) {
-      console.error('❌ Error generating AI insights:', error);
+    } catch (_error) {
+      console.error('❌ Error generating AI insights:', _error);
     }
   }
 

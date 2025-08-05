@@ -163,8 +163,8 @@ function convertToType(value: any, type: string): any {
       default:
         return value;
     }
-  } catch (error) {
-    console.info(`[DB-Healing] Error converting value to ${type}:`, error);
+  } catch (_error) {
+    console.info(`[DB-Healing] Error converting value to ${type}:`, _error);
     return getDefaultForType(type);
   }
 }
@@ -178,17 +178,17 @@ function healLocalStorage(): void {
     Object.keys(localStorage).forEach(key => {
       if (key.startsWith('konivrer_')) {
         try {
-          const value = localStorage.getItem(key);
+          const value = localStorage.getItem(_key);
           if (value) {
             JSON.parse(value); // Test if it's valid JSON
           }
-        } catch (error) {
+        } catch (_error) {
           console.info(
             `[DB-Healing] Fixing corrupted localStorage item: ${key}`,
           );
 
           // Try to recover the data
-          const corruptedValue = localStorage.getItem(key) || '';
+          const corruptedValue = localStorage.getItem(_key) || '';
 
           // Simple recovery: remove invalid characters and try to parse again
           const cleanedValue = corruptedValue.replace(/[^\x20-\x7E]/g, '');
@@ -209,8 +209,8 @@ function healLocalStorage(): void {
         }
       }
     });
-  } catch (error) {
-    console.info('[DB-Healing] Error healing localStorage:', error);
+  } catch (_error) {
+    console.info('[DB-Healing] Error healing localStorage:', _error);
   }
 }
 
@@ -242,7 +242,7 @@ export function createHealingDatabaseProxy(db: any): any {
                   const data = JSON.parse(value);
 
                   // If it's an array, heal each item
-                  if (Array.isArray(data)) {
+                  if (Array.isArray(_data)) {
                     const healedData = data.map(item =>
                       validateAndHealRecord(collectionName, item),
                     );
@@ -256,7 +256,7 @@ export function createHealingDatabaseProxy(db: any): any {
                     );
                     args[1] = JSON.stringify(healedData);
                   }
-                } catch (error) {
+                } catch (_error) {
                   console.info(
                     `[DB-Healing] Error healing data for ${key}:`,
                     error,
@@ -267,7 +267,7 @@ export function createHealingDatabaseProxy(db: any): any {
 
             // Execute the original method
             return originalMethod.apply(target, args);
-          } catch (error) {
+          } catch (_error) {
             console.info(
               `[DB-Healing] Error in database operation ${String(prop)}:`,
               error,
@@ -320,8 +320,8 @@ export function initDatabaseHealing(): void {
     };
 
     const originalGetItem = localStorage.getItem;
-    localStorage.getItem = function (key) {
-      return healedLocalStorage.getItem(key);
+    localStorage.getItem = function (_key) {
+      return healedLocalStorage.getItem(_key);
     };
   }
 

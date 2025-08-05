@@ -114,7 +114,7 @@ export const AdvancedAnalytics: React.FC<AnalyticsDashboardProps> = ({
   const [selectedDeck, setSelectedDeck] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!svgRef.current || !data) return;
+    if (!svgRef.current || !_data) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
@@ -192,7 +192,7 @@ export const AdvancedAnalytics: React.FC<AnalyticsDashboardProps> = ({
 
 function renderOverview(
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  data: AnalyticsData,
+  _data: AnalyticsData,
   width: number,
   height: number,
 ): void {
@@ -351,7 +351,7 @@ function renderOverview(
 
 function renderDeckAnalysis(
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  data: AnalyticsData,
+  _data: AnalyticsData,
   width: number,
   height: number,
   selectedDeckId: string | null,
@@ -456,7 +456,7 @@ function renderDeckAnalysis(
 
 function renderMetaAnalysis(
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  data: AnalyticsData,
+  _data: AnalyticsData,
   width: number,
   height: number,
 ): void {
@@ -544,7 +544,7 @@ function renderMetaAnalysis(
 
 function renderCardAnalysis(
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
-  data: AnalyticsData,
+  _data: AnalyticsData,
   width: number,
   height: number,
 ): void {

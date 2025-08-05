@@ -328,7 +328,7 @@ const HomePage = () => {
           gap: '30px',
         }}
       >
-        {features.map(({ title, desc, link }, index) => (
+        {features.map(({ title, desc, link }, _index) => (
           <Link key={title} to={link} style={{ textDecoration: 'none' }}>
             <Card delay={index * 0.1}>
               <div style={{ textAlign: 'center' }}>
@@ -399,7 +399,7 @@ const CardsPage = () => {
           gap: '20px',
         }}
       >
-        {cards.map((card, index) => (
+        {cards.map((card, _index) => (
           <Card key={card.id} delay={index * 0.1}>
             <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
               {card.name}
@@ -435,7 +435,7 @@ const DecksPage = () => {
           gap: '20px',
         }}
       >
-        {decks.map((deck, index) => (
+        {decks.map((deck, _index) => (
           <Card key={deck.id} delay={index * 0.1}>
             <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
               {deck.name}
@@ -511,7 +511,7 @@ const PlayPage = () => {
           gap: '30px',
         }}
       >
-        {gameModes.map(({ title, desc }, index) => (
+        {gameModes.map(({ title, desc }, _index) => (
           <Card key={title} delay={index * 0.1}>
             <div style={{ textAlign: 'center' }}>
               <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>

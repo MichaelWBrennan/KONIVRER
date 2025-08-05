@@ -34,11 +34,11 @@ export class AdvancedErrorBoundary extends React.Component<
     };
   }
 
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(_error: Error) {
     return { hasError: true, errorId: error.message };
   }
 
-  async componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+  async componentDidCatch(_error: Error, errorInfo: React.ErrorInfo) {
     const context = {
       componentStack: errorInfo.componentStack,
       errorBoundary: true,
@@ -259,7 +259,7 @@ export function useSelfHealingFetch() {
           }
 
           return data;
-        } catch (error) {
+        } catch (_error) {
           lastError = error as Error;
 
           // Adaptive delay based on error type and attempt
@@ -305,7 +305,7 @@ export function useSelfHealingFetch() {
 // Self-healing state management hook
 export function useSelfHealingState<T>(
   initialState: T,
-  validator?: (state: T) => boolean,
+  validator?: (_state: T) => boolean,
   healer?: (corruptedState: T) => T,
 ) {
   const [state, setState] = useState<T>(initialState);
@@ -317,7 +317,7 @@ export function useSelfHealingState<T>(
     (newState: T | ((prev: T) => T)) => {
       const nextState =
         typeof newState === 'function'
-          ? (newState as (prev: T) => T)(state)
+          ? (newState as (prev: T) => T)(_state)
           : newState;
 
       // Validate state
@@ -337,7 +337,7 @@ export function useSelfHealingState<T>(
 
       // Store backup
       backupRef.current = state;
-      stateHistory.push(state);
+      stateHistory.push(_state);
 
       // Keep only last 10 states
       if (stateHistory.length > 10) {
@@ -414,7 +414,7 @@ export function withAdvancedHealing<P extends object>(
       return React.forwardRef<any, P>((innerProps, innerRef) => {
         try {
           return <Component {...innerProps} ref={innerRef || componentRef} />;
-        } catch (error) {
+        } catch (_error) {
           // Immediate healing attempt
           advancedSelfHealing.healError(error as Error, {
             component: Component.name,

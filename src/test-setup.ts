@@ -68,7 +68,7 @@ HTMLCanvasElement.prototype.getContext = function (contextId: string) {
     return {
       fillText: () => {},
       measureText: () => ({ width: 0 }),
-      getImageData: () => ({ data: new Uint8ClampedArray(4) }),
+      getImageData: () => ({ _data: new Uint8ClampedArray(4) }),
       canvas: this,
       textBaseline: 'top',
       font: '14px Arial',

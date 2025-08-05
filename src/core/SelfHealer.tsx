@@ -52,7 +52,7 @@ class ErrorTracker {
   }> = [];
   private errorListeners: Array<
     (
-      errors: Array<{ error: Error; timestamp: number; recovered: boolean }>,
+      errors: Array<{ _error: Error; timestamp: number; recovered: boolean }>,
     ) => void
   > = [];
 
@@ -81,7 +81,7 @@ class ErrorTracker {
     return ErrorTracker.instance;
   }
 
-  public trackError(error: Error, recovered: boolean = false): void {
+  public trackError(_error: Error, recovered: boolean = false): void {
     const errorEntry = { error, timestamp: Date.now(), recovered };
     this.errors.push(errorEntry);
 
@@ -95,12 +95,12 @@ class ErrorTracker {
 
     // Log error if not recovered
     if (!recovered && defaultConfig.logErrors) {
-      console.error('[SELF-HEALER] Unrecovered error:', error);
+      console.error('[SELF-HEALER] Unrecovered _error:', error);
     }
   }
 
-  public markAsRecovered(error: Error): void {
-    const errorEntry = this.errors.find(e => e.error === error);
+  public markAsRecovered(_error: Error): void {
+    const errorEntry = this.errors.find(e => e.error === _error);
     if (errorEntry) {
       errorEntry.recovered = true;
       this.notifyListeners();
@@ -117,7 +117,7 @@ class ErrorTracker {
 
   public addErrorListener(
     listener: (
-      errors: Array<{ error: Error; timestamp: number; recovered: boolean }>,
+      errors: Array<{ _error: Error; timestamp: number; recovered: boolean }>,
     ) => void,
   ): void {
     this.errorListeners.push(listener);
@@ -125,7 +125,7 @@ class ErrorTracker {
 
   public removeErrorListener(
     listener: (
-      errors: Array<{ error: Error; timestamp: number; recovered: boolean }>,
+      errors: Array<{ _error: Error; timestamp: number; recovered: boolean }>,
     ) => void,
   ): void {
     const index = this.errorListeners.indexOf(listener);
@@ -146,7 +146,7 @@ export class SelfHealingErrorBoundary extends Component<
   {
     children: React.ReactNode;
     fallback?: React.ReactNode;
-    onError?: (error: Error, errorInfo: ErrorInfo) => void;
+    onError?: (_error: Error, errorInfo: ErrorInfo) => void;
     onRecovery?: () => void;
     config?: Partial<SelfHealerConfig>;
   },
@@ -158,7 +158,7 @@ export class SelfHealingErrorBoundary extends Component<
   constructor(props: {
     children: React.ReactNode;
     fallback?: React.ReactNode;
-    onError?: (error: Error, errorInfo: ErrorInfo) => void;
+    onError?: (_error: Error, errorInfo: ErrorInfo) => void;
     onRecovery?: () => void;
     config?: Partial<SelfHealerConfig>;
   }) {
@@ -173,14 +173,14 @@ export class SelfHealingErrorBoundary extends Component<
     this.config = { ...defaultConfig, ...props.config };
   }
 
-  static getDerivedStateFromError(error: Error): Partial<ErrorState> {
+  static getDerivedStateFromError(_error: Error): Partial<ErrorState> {
     // Update state so the next render will show the fallback UI
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  componentDidCatch(_error: Error, errorInfo: ErrorInfo): void {
     // Track the error
-    ErrorTracker.getInstance().trackError(error);
+    ErrorTracker.getInstance().trackError(_error);
 
     // Update state with error details
     this.setState({
@@ -218,12 +218,12 @@ export class SelfHealingErrorBoundary extends Component<
         // Attempt to recover by resetting the error state
         this.setState({
           hasError: false,
-          error: null,
+          _error: null,
         });
 
         // Mark the error as recovered
-        if (this.state.error) {
-          ErrorTracker.getInstance().markAsRecovered(this.state.error);
+        if (this.state._error) {
+          ErrorTracker.getInstance().markAsRecovered(this.state._error);
         }
 
         // Call recovery handler if provided
@@ -270,7 +270,7 @@ export class SelfHealingErrorBoundary extends Component<
                 onClick={() => {
                   this.setState({
                     hasError: false,
-                    error: null,
+                    _error: null,
                     recoveryAttempts: 0,
                   });
                 }}
@@ -301,8 +301,8 @@ export const useNetworkRecovery = (
   options: {
     maxRetries?: number;
     retryDelay?: number;
-    onSuccess?: (data: any) => void;
-    onError?: (error: Error) => void;
+    onSuccess?: (_data: any) => void;
+    onError?: (_error: Error) => void;
     onRetry?: (attempt: number) => void;
   } = {},
 ) => {
@@ -338,9 +338,9 @@ export const useNetworkRecovery = (
       const error = err instanceof Error ? err : new Error(String(err));
 
       // Track the error
-      ErrorTracker.getInstance().trackError(error);
+      ErrorTracker.getInstance().trackError(_error);
 
-      setError(error);
+      setError(_error);
 
       // Retry if not exceeded max retries
       if (retryCount < maxRetries) {
@@ -365,7 +365,7 @@ export const useNetworkRecovery = (
         setLoading(false);
 
         if (onError) {
-          onError(error);
+          onError(_error);
         }
       }
 
@@ -422,8 +422,8 @@ export const useStateRecovery = <T,>(
           return JSON.parse(stored);
         }
       }
-    } catch (error) {
-      console.error('[SELF-HEALER] Error loading state from storage:', error);
+    } catch (_error) {
+      console.error('[SELF-HEALER] Error loading state from storage:', _error);
     }
 
     return null;
@@ -448,8 +448,8 @@ export const useStateRecovery = <T,>(
         if (enableSessionStorage) {
           sessionStorage.setItem(storageKey, serialized);
         }
-      } catch (error) {
-        console.error('[SELF-HEALER] Error saving state to storage:', error);
+      } catch (_error) {
+        console.error('[SELF-HEALER] Error saving state to storage:', _error);
       }
     },
     [storageKey, enableLocalStorage, enableSessionStorage],
@@ -458,7 +458,7 @@ export const useStateRecovery = <T,>(
   // Debounced save
   useEffect(() => {
     const timer = setTimeout(() => {
-      saveToStorage(state);
+      saveToStorage(_state);
     }, debounceTime);
 
     return () => {
@@ -471,15 +471,15 @@ export const useStateRecovery = <T,>(
     (newState: React.SetStateAction<T>) => {
       try {
         setState(newState);
-      } catch (error) {
-        console.error('[SELF-HEALER] Error setting state:', error);
+      } catch (_error) {
+        console.error('[SELF-HEALER] Error setting _state:', error);
 
         // Attempt recovery by resetting to initial state
         setState(initialState);
 
         // Track the error
         if (error instanceof Error) {
-          ErrorTracker.getInstance().trackError(error);
+          ErrorTracker.getInstance().trackError(_error);
         }
       }
     },
@@ -498,8 +498,8 @@ export const useStateRecovery = <T,>(
       if (enableSessionStorage) {
         sessionStorage.removeItem(storageKey);
       }
-    } catch (error) {
-      console.error('[SELF-HEALER] Error clearing state from storage:', error);
+    } catch (_error) {
+      console.error('[SELF-HEALER] Error clearing state from storage:', _error);
     }
   }, [initialState, storageKey, enableLocalStorage, enableSessionStorage]);
 
@@ -513,14 +513,14 @@ export const useStateRecovery = <T,>(
 // Error monitoring hook
 export const useErrorMonitor = () => {
   const [errors, setErrors] = useState<
-    Array<{ error: Error; timestamp: number; recovered: boolean }>
+    Array<{ _error: Error; timestamp: number; recovered: boolean }>
   >([]);
 
   useEffect(() => {
     const errorTracker = ErrorTracker.getInstance();
 
     const handleErrors = (
-      newErrors: Array<{ error: Error; timestamp: number; recovered: boolean }>,
+      newErrors: Array<{ _error: Error; timestamp: number; recovered: boolean }>,
     ) => {
       setErrors([...newErrors]);
     };
@@ -588,8 +588,8 @@ const silentErrorMonitor = () => {
       unresolvedErrors.forEach(entry => {
         try {
           // Mark as recovered to prevent infinite recovery attempts
-          errorTracker.markAsRecovered(entry.error);
-        } catch (error) {
+          errorTracker.markAsRecovered(entry._error);
+        } catch (_error) {
           // Silent error handling
         }
       });
@@ -604,7 +604,7 @@ const ErrorStatistics: React.FC = () => {
   const stats = React.useMemo(() => {
     const total = errorHistory.length;
     const byType = errorHistory.reduce(
-      (acc, error) => {
+      (acc, _error) => {
         acc[error.type] = (acc[error.type] || 0) + 1;
         return acc;
       },

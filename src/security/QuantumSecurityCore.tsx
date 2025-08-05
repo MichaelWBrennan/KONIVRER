@@ -111,13 +111,13 @@ class PostQuantumCrypto {
       rotationCount: 0,
     };
 
-    this.activeKeys.set(keyId, key);
+    this.activeKeys.set(keyId, _key);
     return key;
   }
 
-  public encryptWithQuantumResistance(data: string, keyId?: string): string {
+  public encryptWithQuantumResistance(_data: string, keyId?: string): string {
     const key = keyId ? this.activeKeys.get(keyId) : this.getLatestKey();
-    if (!key) {
+    if (!_key) {
       throw new Error('No quantum-resistant key available');
     }
 
@@ -126,7 +126,7 @@ class PostQuantumCrypto {
       throw new Error(`Algorithm not found: ${key.algorithm}`);
     }
 
-    return algorithm.encrypt(data, key);
+    return algorithm.encrypt(data, _key);
   }
 
   public decryptWithQuantumResistance(
@@ -134,7 +134,7 @@ class PostQuantumCrypto {
     keyId: string,
   ): string {
     const key = this.activeKeys.get(keyId);
-    if (!key) {
+    if (!_key) {
       throw new Error('Quantum key not found');
     }
 
@@ -143,7 +143,7 @@ class PostQuantumCrypto {
       throw new Error(`Algorithm not found: ${key.algorithm}`);
     }
 
-    return algorithm.decrypt(encryptedData, key);
+    return algorithm.decrypt(encryptedData, _key);
   }
 
   public rotateKeys(): void {
@@ -174,8 +174,8 @@ class PostQuantumCrypto {
 // Abstract base class for quantum algorithms
 abstract class QuantumAlgorithm {
   abstract getKeyLength(): number;
-  abstract encrypt(data: string, key: QuantumKey): string;
-  abstract decrypt(encryptedData: string, key: QuantumKey): string;
+  abstract encrypt(_data: string, key: QuantumKey): string;
+  abstract decrypt(encryptedData: string, _key: QuantumKey): string;
   abstract getSecurityLevel(): number;
 }
 
@@ -185,7 +185,7 @@ class KyberAlgorithm extends QuantumAlgorithm {
     return 3168; // Kyber-1024 key length
   }
 
-  encrypt(data: string, key: QuantumKey): string {
+  encrypt(_data: string, key: QuantumKey): string {
     // Simplified Kyber encryption simulation
     const entropy = this.generateQuantumEntropy();
     const encryptedData = this.kyberEncrypt(data, key, entropy);
@@ -193,14 +193,14 @@ class KyberAlgorithm extends QuantumAlgorithm {
       JSON.stringify({
         algorithm: 'CRYSTALS-Kyber',
         keyId: key.id,
-        data: encryptedData,
+        _data: encryptedData,
         entropy: entropy,
         timestamp: Date.now(),
       }),
     );
   }
 
-  decrypt(encryptedData: string, key: QuantumKey): string {
+  decrypt(encryptedData: string, _key: QuantumKey): string {
     const parsed = JSON.parse(atob(encryptedData));
     return this.kyberDecrypt(parsed.data, key, parsed.entropy);
   }
@@ -209,7 +209,7 @@ class KyberAlgorithm extends QuantumAlgorithm {
     return 256; // 256-bit security level
   }
 
-  private kyberEncrypt(data: string, key: QuantumKey, entropy: string): string {
+  private kyberEncrypt(_data: string, key: QuantumKey, entropy: string): string {
     // Simplified Kyber encryption
     const combined = data + entropy + key.id;
     return btoa(combined.split('').reverse().join(''));
@@ -217,7 +217,7 @@ class KyberAlgorithm extends QuantumAlgorithm {
 
   private kyberDecrypt(
     encryptedData: string,
-    key: QuantumKey,
+    _key: QuantumKey,
     entropy: string,
   ): string {
     // Simplified Kyber decryption
@@ -241,23 +241,23 @@ class DilithiumAlgorithm extends QuantumAlgorithm {
     return 2592; // Dilithium-3 key length
   }
 
-  encrypt(data: string, key: QuantumKey): string {
+  encrypt(_data: string, key: QuantumKey): string {
     // Dilithium is for signatures, but we'll use it for encryption simulation
-    const signature = this.dilithiumSign(data, key);
+    const signature = this.dilithiumSign(data, _key);
     return btoa(
       JSON.stringify({
         algorithm: 'CRYSTALS-Dilithium',
         keyId: key.id,
-        data: data,
+        _data: data,
         signature: signature,
         timestamp: Date.now(),
       }),
     );
   }
 
-  decrypt(encryptedData: string, key: QuantumKey): string {
+  decrypt(encryptedData: string, _key: QuantumKey): string {
     const parsed = JSON.parse(atob(encryptedData));
-    if (this.dilithiumVerify(parsed.data, parsed.signature, key)) {
+    if (this.dilithiumVerify(parsed.data, parsed.signature, _key)) {
       return parsed.data;
     }
     throw new Error('Dilithium signature verification failed');
@@ -267,20 +267,20 @@ class DilithiumAlgorithm extends QuantumAlgorithm {
     return 192; // 192-bit security level
   }
 
-  private dilithiumSign(data: string, key: QuantumKey): string {
+  private dilithiumSign(_data: string, key: QuantumKey): string {
     // Simplified Dilithium signature
     const hash = this.simpleHash(data + key.id);
     return btoa(hash);
   }
 
   private dilithiumVerify(
-    data: string,
+    _data: string,
     signature: string,
     key: QuantumKey,
   ): boolean {
     // Simplified Dilithium verification
     const expectedHash = this.simpleHash(data + key.id);
-    return atob(signature) === expectedHash;
+    return atob(_signature) === expectedHash;
   }
 
   private simpleHash(input: string): string {
@@ -300,28 +300,28 @@ class FalconAlgorithm extends QuantumAlgorithm {
     return 1793; // FALCON-1024 key length
   }
 
-  encrypt(data: string, key: QuantumKey): string {
-    const falconData = this.falconProcess(data, key);
+  encrypt(_data: string, key: QuantumKey): string {
+    const falconData = this.falconProcess(data, _key);
     return btoa(
       JSON.stringify({
         algorithm: 'FALCON',
         keyId: key.id,
-        data: falconData,
+        _data: falconData,
         timestamp: Date.now(),
       }),
     );
   }
 
-  decrypt(encryptedData: string, key: QuantumKey): string {
+  decrypt(encryptedData: string, _key: QuantumKey): string {
     const parsed = JSON.parse(atob(encryptedData));
-    return this.falconReverse(parsed.data, key);
+    return this.falconReverse(parsed.data, _key);
   }
 
   getSecurityLevel(): number {
     return 256; // 256-bit security level
   }
 
-  private falconProcess(data: string, key: QuantumKey): string {
+  private falconProcess(_data: string, key: QuantumKey): string {
     // Simplified FALCON processing
     return btoa(
       (data + key.id)
@@ -331,7 +331,7 @@ class FalconAlgorithm extends QuantumAlgorithm {
     );
   }
 
-  private falconReverse(processedData: string, key: QuantumKey): string {
+  private falconReverse(processedData: string, _key: QuantumKey): string {
     // Simplified FALCON reverse processing
     const decoded = atob(processedData);
     const original = decoded
@@ -348,28 +348,28 @@ class SphincsAlgorithm extends QuantumAlgorithm {
     return 64; // SPHINCS+-256s key length
   }
 
-  encrypt(data: string, key: QuantumKey): string {
-    const sphincsData = this.sphincsHash(data, key);
+  encrypt(_data: string, key: QuantumKey): string {
+    const sphincsData = this.sphincsHash(data, _key);
     return btoa(
       JSON.stringify({
         algorithm: 'SPHINCS+',
         keyId: key.id,
-        data: sphincsData,
+        _data: sphincsData,
         timestamp: Date.now(),
       }),
     );
   }
 
-  decrypt(encryptedData: string, key: QuantumKey): string {
+  decrypt(encryptedData: string, _key: QuantumKey): string {
     const parsed = JSON.parse(atob(encryptedData));
-    return this.sphincsReverse(parsed.data, key);
+    return this.sphincsReverse(parsed.data, _key);
   }
 
   getSecurityLevel(): number {
     return 256; // 256-bit security level
   }
 
-  private sphincsHash(data: string, key: QuantumKey): string {
+  private sphincsHash(_data: string, key: QuantumKey): string {
     // Simplified SPHINCS+ hash-based processing
     let result = data;
     for (let i = 0; i < 10; i++) {
@@ -378,7 +378,7 @@ class SphincsAlgorithm extends QuantumAlgorithm {
     return result;
   }
 
-  private sphincsReverse(hashedData: string, key: QuantumKey): string {
+  private sphincsReverse(hashedData: string, _key: QuantumKey): string {
     // Simplified SPHINCS+ reverse (not cryptographically accurate)
     let result = hashedData;
     for (let i = 9; i >= 0; i--) {
@@ -398,35 +398,35 @@ class NTRUAlgorithm extends QuantumAlgorithm {
     return 1230; // NTRU-HPS-4096-821 key length
   }
 
-  encrypt(data: string, key: QuantumKey): string {
-    const ntruData = this.ntruLatticeEncrypt(data, key);
+  encrypt(_data: string, key: QuantumKey): string {
+    const ntruData = this.ntruLatticeEncrypt(data, _key);
     return btoa(
       JSON.stringify({
         algorithm: 'NTRU',
         keyId: key.id,
-        data: ntruData,
+        _data: ntruData,
         timestamp: Date.now(),
       }),
     );
   }
 
-  decrypt(encryptedData: string, key: QuantumKey): string {
+  decrypt(encryptedData: string, _key: QuantumKey): string {
     const parsed = JSON.parse(atob(encryptedData));
-    return this.ntruLatticeDecrypt(parsed.data, key);
+    return this.ntruLatticeDecrypt(parsed.data, _key);
   }
 
   getSecurityLevel(): number {
     return 256; // 256-bit security level
   }
 
-  private ntruLatticeEncrypt(data: string, key: QuantumKey): string {
+  private ntruLatticeEncrypt(_data: string, key: QuantumKey): string {
     // Simplified NTRU lattice-based encryption
-    const polynomial = this.stringToPolynomial(data);
+    const polynomial = this.stringToPolynomial(_data);
     const encryptedPoly = this.multiplyPolynomials(polynomial, key.id);
     return this.polynomialToString(encryptedPoly);
   }
 
-  private ntruLatticeDecrypt(encryptedData: string, key: QuantumKey): string {
+  private ntruLatticeDecrypt(encryptedData: string, _key: QuantumKey): string {
     // Simplified NTRU lattice-based decryption
     const polynomial = this.stringToPolynomial(encryptedData);
     const decryptedPoly = this.dividePolynomials(polynomial, key.id);
@@ -463,31 +463,31 @@ class SaberAlgorithm extends QuantumAlgorithm {
     return 2304; // LightSaber key length
   }
 
-  encrypt(data: string, key: QuantumKey): string {
-    const saberData = this.saberModularEncrypt(data, key);
+  encrypt(_data: string, key: QuantumKey): string {
+    const saberData = this.saberModularEncrypt(data, _key);
     return btoa(
       JSON.stringify({
         algorithm: 'SABER',
         keyId: key.id,
-        data: saberData,
+        _data: saberData,
         timestamp: Date.now(),
       }),
     );
   }
 
-  decrypt(encryptedData: string, key: QuantumKey): string {
+  decrypt(encryptedData: string, _key: QuantumKey): string {
     const parsed = JSON.parse(atob(encryptedData));
-    return this.saberModularDecrypt(parsed.data, key);
+    return this.saberModularDecrypt(parsed.data, _key);
   }
 
   getSecurityLevel(): number {
     return 192; // 192-bit security level
   }
 
-  private saberModularEncrypt(data: string, key: QuantumKey): string {
+  private saberModularEncrypt(_data: string, key: QuantumKey): string {
     // Simplified SABER modular encryption
     const modulus = 8192; // q = 2^13
-    const dataBytes = new TextEncoder().encode(data);
+    const dataBytes = new TextEncoder().encode(_data);
     const keyBytes = new TextEncoder().encode(key.id);
 
     const encrypted = dataBytes.map(
@@ -497,7 +497,7 @@ class SaberAlgorithm extends QuantumAlgorithm {
     return btoa(String.fromCharCode(...encrypted));
   }
 
-  private saberModularDecrypt(encryptedData: string, key: QuantumKey): string {
+  private saberModularDecrypt(encryptedData: string, _key: QuantumKey): string {
     // Simplified SABER modular decryption
     const modulus = 8192;
     const encryptedBytes = new Uint8Array(
@@ -525,13 +525,13 @@ class QuantumKeyDistribution {
     status: string;
   }> = [];
 
-  public distributeKey(key: QuantumKey): boolean {
+  public distributeKey(_key: QuantumKey): boolean {
     try {
       // Simulate quantum key distribution protocol (BB84)
-      const distributionSuccess = this.simulateBB84Protocol(key);
+      const distributionSuccess = this.simulateBB84Protocol(_key);
 
       if (distributionSuccess) {
-        this.distributedKeys.set(key.id, key);
+        this.distributedKeys.set(key.id, _key);
         this.keyExchangeLog.push({
           timestamp: Date.now(),
           keyId: key.id,
@@ -541,7 +541,7 @@ class QuantumKeyDistribution {
       }
 
       return false;
-    } catch (error) {
+    } catch (_error) {
       this.keyExchangeLog.push({
         timestamp: Date.now(),
         keyId: key.id,
@@ -551,7 +551,7 @@ class QuantumKeyDistribution {
     }
   }
 
-  private simulateBB84Protocol(key: QuantumKey): boolean {
+  private simulateBB84Protocol(_key: QuantumKey): boolean {
     // Simulate BB84 quantum key distribution protocol
     const photonCount = 1000;
     const errorRate = Math.random() * 0.1; // Up to 10% error rate
@@ -959,8 +959,8 @@ class QuantumSecurityCore {
     return { ...this.metrics };
   }
 
-  public encryptData(data: string): string {
-    return this.postQuantumCrypto.encryptWithQuantumResistance(data);
+  public encryptData(_data: string): string {
+    return this.postQuantumCrypto.encryptWithQuantumResistance(_data);
   }
 
   public decryptData(encryptedData: string, keyId: string): string {
@@ -1015,19 +1015,19 @@ export const useQuantumSecurity = (config?: Partial<QuantumSecurityConfig>) => {
   }, [mergedConfig, logSecurityEvent]);
 
   const encryptWithQuantum = useCallback(
-    (data: string): string | null => {
+    (_data: string): string | null => {
       if (!quantumCore) return null;
 
       try {
-        const encrypted = quantumCore.encryptData(data);
+        const encrypted = quantumCore.encryptData(_data);
         logSecurityEvent('QUANTUM_ENCRYPTION_PERFORMED', {
           dataLength: data.length,
           timestamp: Date.now(),
         });
         return encrypted;
-      } catch (error) {
+      } catch (_error) {
         logSecurityEvent('QUANTUM_ENCRYPTION_FAILED', {
-          error: (error as Error).message,
+          _error: (error as Error).message,
           timestamp: Date.now(),
         });
         return null;
@@ -1047,9 +1047,9 @@ export const useQuantumSecurity = (config?: Partial<QuantumSecurityConfig>) => {
           timestamp: Date.now(),
         });
         return decrypted;
-      } catch (error) {
+      } catch (_error) {
         logSecurityEvent('QUANTUM_DECRYPTION_FAILED', {
-          error: (error as Error).message,
+          _error: (error as Error).message,
           keyId,
           timestamp: Date.now(),
         });
