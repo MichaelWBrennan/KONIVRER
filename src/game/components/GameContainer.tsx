@@ -23,7 +23,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   setShowGame,
 }) => {
   const gameRef = useRef<HTMLDivElement>(null);
-  const [gameState, setGameState] = useState<'menu' | 'loading' | 'playing' | 'error'>('menu');
+  const [gameState, setGameState] = useState<
+    'menu' | 'loading' | 'playing' | 'error'
+  >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +34,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     {
       id: 'practice',
       title: 'Practice Arena',
-      description: 'Master your skills against adaptive AI opponents with varying difficulty levels',
+      description:
+        'Master your skills against adaptive AI opponents with varying difficulty levels',
       icon: '🎯',
       difficulty: 'Beginner Friendly',
       requiresAccount: false,
@@ -40,7 +43,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     {
       id: 'quick',
       title: 'Quick Duel',
-      description: 'Jump into fast-paced matches with optimized matchmaking for your skill level',
+      description:
+        'Jump into fast-paced matches with optimized matchmaking for your skill level',
       icon: '⚡',
       difficulty: 'All Levels',
       requiresAccount: false,
@@ -48,7 +52,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     {
       id: 'ranked',
       title: 'Ranked Conquest',
-      description: 'Climb the competitive ladder and earn prestigious rewards and recognition',
+      description:
+        'Climb the competitive ladder and earn prestigious rewards and recognition',
       icon: '🏆',
       difficulty: 'Competitive',
       requiresAccount: false,
@@ -56,7 +61,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     {
       id: 'tournament',
       title: 'Grand Tournament',
-      description: 'Participate in structured events with exclusive prizes and mystical artifacts',
+      description:
+        'Participate in structured events with exclusive prizes and mystical artifacts',
       icon: '👑',
       difficulty: 'Expert',
       requiresAccount: false,
@@ -78,7 +84,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       }
     } catch (error) {
       console.error('[GameContainer] Error initializing game engine:', error);
-      setError(error instanceof Error ? error.message : 'Unknown error occurred');
+      setError(
+        error instanceof Error ? error.message : 'Unknown error occurred',
+      );
       setGameState('error');
     }
   };
@@ -157,12 +165,13 @@ export const GameContainer: React.FC<GameContainerProps> = ({
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
+              background:
+                'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
             }}
           >
             <motion.div
               animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
               style={{
                 width: '80px',
                 height: '80px',
@@ -195,7 +204,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
                 maxWidth: '400px',
               }}
             >
-              Initializing advanced 3D graphics, particle systems, and mystical effects...
+              Initializing advanced 3D graphics, particle systems, and mystical
+              effects...
             </motion.p>
           </motion.div>
         )}
@@ -216,7 +226,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(135deg, #1a0f0f 0%, #2a1a1a 50%, #1a0f0f 100%)',
+              background:
+                'linear-gradient(135deg, #1a0f0f 0%, #2a1a1a 50%, #1a0f0f 100%)',
               padding: '40px',
             }}
           >
@@ -248,10 +259,18 @@ export const GameContainer: React.FC<GameContainerProps> = ({
                 lineHeight: '1.6',
               }}
             >
-              The game engine encountered an issue while initializing the mystical realm. 
-              This could be due to graphics compatibility or system resources.
+              The game engine encountered an issue while initializing the
+              mystical realm. This could be due to graphics compatibility or
+              system resources.
             </p>
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: '16px',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+              }}
+            >
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -361,10 +380,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
             </motion.button>
 
             {/* Game canvas container */}
-            <div
-              ref={gameRef}
-              style={gameCanvasStyle}
-            />
+            <div ref={gameRef} style={gameCanvasStyle} />
           </motion.div>
         )}
       </AnimatePresence>

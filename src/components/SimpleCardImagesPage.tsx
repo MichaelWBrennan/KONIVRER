@@ -109,7 +109,8 @@ const SimpleCardImagesPage: React.FC = () => {
       justifyContent: 'center',
       marginBottom: '8px',
       fontSize: isMobile ? '24px' : '32px',
-      backgroundImage: 'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%)',
+      backgroundImage:
+        'linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%)',
     };
   };
 
@@ -123,8 +124,14 @@ const SimpleCardImagesPage: React.FC = () => {
       aether: '○',
       generic: '✡',
     };
-    
-    return elements.map(element => elementIcons[element.toLowerCase() as keyof typeof elementIcons] || '✡').join('');
+
+    return elements
+      .map(
+        element =>
+          elementIcons[element.toLowerCase() as keyof typeof elementIcons] ||
+          '✡',
+      )
+      .join('');
   };
 
   return (
@@ -139,18 +146,23 @@ const SimpleCardImagesPage: React.FC = () => {
           marginBottom: isMobile ? '20px' : '30px',
         }}
       >
-        <h1 style={{ 
-          color: '#d4af37', 
-          fontSize: isMobile ? '24px' : '32px',
-          marginBottom: '10px' 
-        }}>
+        <h1
+          style={{
+            color: '#d4af37',
+            fontSize: isMobile ? '24px' : '32px',
+            marginBottom: '10px',
+          }}
+        >
           Card Gallery
         </h1>
-        <p style={{ 
-          color: '#ccc', 
-          fontSize: isMobile ? '14px' : '16px' 
-        }}>
-          {allCards.length} cards available • Use the search button below to find specific cards
+        <p
+          style={{
+            color: '#ccc',
+            fontSize: isMobile ? '14px' : '16px',
+          }}
+        >
+          {allCards.length} cards available • Use the search button below to
+          find specific cards
         </p>
       </motion.div>
 
@@ -167,7 +179,10 @@ const SimpleCardImagesPage: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(212, 175, 55, 0.3)' }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: '0 8px 25px rgba(212, 175, 55, 0.3)',
+            }}
             style={getCardStyle()}
             data-card-id={card.id}
             data-card-name={card.name}
@@ -176,67 +191,79 @@ const SimpleCardImagesPage: React.FC = () => {
           >
             {/* Card Image Area */}
             <div style={getCardImageStyle()}>
-              <div style={{ 
-                textAlign: 'center',
-                color: '#d4af37',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '4px'
-              }}>
+              <div
+                style={{
+                  textAlign: 'center',
+                  color: '#d4af37',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
+                }}
+              >
                 <div style={{ fontSize: isMobile ? '20px' : '24px' }}>
                   {getElementIcon(card.elements)}
                 </div>
-                <div style={{ 
-                  fontSize: isMobile ? '10px' : '12px',
-                  opacity: 0.7,
-                  fontWeight: 'bold'
-                }}>
+                <div
+                  style={{
+                    fontSize: isMobile ? '10px' : '12px',
+                    opacity: 0.7,
+                    fontWeight: 'bold',
+                  }}
+                >
                   {card.type}
                 </div>
               </div>
             </div>
 
             {/* Card Info */}
-            <div style={{ 
-              height: '40%',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between'
-            }}>
+            <div
+              style={{
+                height: '40%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <div>
-                <h3 style={{
-                  color: '#d4af37',
-                  fontSize: isMobile ? '12px' : '14px',
-                  marginBottom: '4px',
-                  fontWeight: 'bold',
-                  lineHeight: '1.2',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                }}>
+                <h3
+                  style={{
+                    color: '#d4af37',
+                    fontSize: isMobile ? '12px' : '14px',
+                    marginBottom: '4px',
+                    fontWeight: 'bold',
+                    lineHeight: '1.2',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                   {card.name}
                 </h3>
-                <div style={{ 
-                  fontSize: isMobile ? '10px' : '11px',
-                  color: '#ccc',
-                  marginBottom: '4px'
-                }}>
+                <div
+                  style={{
+                    fontSize: isMobile ? '10px' : '11px',
+                    color: '#ccc',
+                    marginBottom: '4px',
+                  }}
+                >
                   Cost: {card.cost} | {card.rarity}
                 </div>
               </div>
-              
+
               {card.strength && (
-                <div style={{
-                  fontSize: isMobile ? '10px' : '11px',
-                  color: '#fff',
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                  padding: '2px 4px',
-                  backgroundColor: 'rgba(212, 175, 55, 0.2)',
-                  borderRadius: '4px',
-                  marginTop: 'auto'
-                }}>
+                <div
+                  style={{
+                    fontSize: isMobile ? '10px' : '11px',
+                    color: '#fff',
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                    padding: '2px 4px',
+                    backgroundColor: 'rgba(212, 175, 55, 0.2)',
+                    borderRadius: '4px',
+                    marginTop: 'auto',
+                  }}
+                >
                   Strength: {card.strength}
                 </div>
               )}
@@ -256,15 +283,18 @@ const SimpleCardImagesPage: React.FC = () => {
           padding: '15px',
           backgroundColor: 'rgba(0, 0, 0, 0.1)',
           borderRadius: '8px',
-          border: '1px solid rgba(212, 175, 55, 0.2)'
+          border: '1px solid rgba(212, 175, 55, 0.2)',
         }}
       >
-        <p style={{ 
-          color: '#888', 
-          fontSize: isMobile ? '12px' : '14px',
-          margin: 0
-        }}>
-          💡 Tip: Use the search button (🔍) in the bottom navigation to find specific cards by name, type, cost, or elements.
+        <p
+          style={{
+            color: '#888',
+            fontSize: isMobile ? '12px' : '14px',
+            margin: 0,
+          }}
+        >
+          💡 Tip: Use the search button (🔍) in the bottom navigation to find
+          specific cards by name, type, cost, or elements.
         </p>
       </motion.div>
     </div>
