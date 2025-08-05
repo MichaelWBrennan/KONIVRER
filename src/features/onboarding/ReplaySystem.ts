@@ -1,6 +1,10 @@
 import { Card, Deck } from '../../ai/DeckOptimizer';
 import { GameMove } from './AITrainingPartner';
-import { MatchAnalytics, AnalyzedMove, GameStateSnapshot } from './PostMatchAnalytics';
+import {
+  MatchAnalytics,
+  AnalyzedMove,
+  GameStateSnapshot,
+} from './PostMatchAnalytics';
 
 export interface GameReplay {
   replayId: string;
@@ -47,7 +51,13 @@ export interface ReplayTurn {
 
 export interface ReplayAction {
   actionId: string;
-  type: 'draw-card' | 'play-card' | 'attack' | 'activate-ability' | 'end-turn' | 'mulligan';
+  type:
+    | 'draw-card'
+    | 'play-card'
+    | 'attack'
+    | 'activate-ability'
+    | 'end-turn'
+    | 'mulligan';
   timestamp: number;
   cardId?: string;
   sourceId?: string;
@@ -107,7 +117,12 @@ export interface KeyMoment {
   id: string;
   timestamp: number;
   turnNumber: number;
-  type: 'game-changing' | 'mistake' | 'brilliant-play' | 'comeback' | 'missed-opportunity';
+  type:
+    | 'game-changing'
+    | 'mistake'
+    | 'brilliant-play'
+    | 'comeback'
+    | 'missed-opportunity';
   title: string;
   description: string;
   impact: string;
@@ -186,36 +201,36 @@ export class ReplaySystem {
         name: 'Excellent Play',
         category: 'strategy',
         color: '#4CAF50',
-        createdBy: 'system'
+        createdBy: 'system',
       },
       {
         id: 'missed-lethal',
         name: 'Missed Lethal',
         category: 'mistake',
         color: '#F44336',
-        createdBy: 'system'
+        createdBy: 'system',
       },
       {
         id: 'combo-executed',
         name: 'Combo Executed',
         category: 'combo',
         color: '#9C27B0',
-        createdBy: 'system'
+        createdBy: 'system',
       },
       {
         id: 'card-interaction',
         name: 'Card Interaction',
         category: 'interaction',
         color: '#2196F3',
-        createdBy: 'system'
+        createdBy: 'system',
       },
       {
         id: 'learning-moment',
         name: 'Learning Moment',
         category: 'learning',
         color: '#FF9800',
-        createdBy: 'system'
-      }
+        createdBy: 'system',
+      },
     ];
 
     standardTags.forEach(tag => this.tagLibrary.set(tag.id, tag));
@@ -223,19 +238,19 @@ export class ReplaySystem {
 
   async createReplay(
     matchAnalytics: MatchAnalytics,
-    moves: GameMove[]
+    moves: GameMove[],
   ): Promise<GameReplay> {
     const replayId = `replay_${matchAnalytics.matchId}_${Date.now()}`;
-    
+
     // Generate hash for validation
     const hashValidation = await this.generateReplayHash(moves, matchAnalytics);
-    
+
     // Build timeline
     const timeline = await this.buildTimeline(moves, matchAnalytics);
-    
+
     // Auto-generate tags
     const autoTags = this.generateAutoTags(matchAnalytics, timeline);
-    
+
     // Find key moments
     const keyMoments = this.identifyKeyMoments(timeline, matchAnalytics);
     timeline.keyMoments = keyMoments;
@@ -253,41 +268,43 @@ export class ReplaySystem {
         gameMode: 'casual', // Would come from match data
         result: matchAnalytics.result,
         duration: matchAnalytics.gameLength * 60,
-        totalTurns: matchAnalytics.turnCount
+        totalTurns: matchAnalytics.turnCount,
       },
       timeline,
       tags: autoTags,
       bookmarks: [],
       annotations: [],
-      hashValidation
+      hashValidation,
     };
 
     this.replays.set(replayId, replay);
     this.addReplayToPlayerIndex(matchAnalytics.playerId, replayId);
-    
+
     return replay;
   }
 
   private async generateReplayHash(
     moves: GameMove[],
-    analytics: MatchAnalytics
+    analytics: MatchAnalytics,
   ): Promise<ReplayHashValidation> {
     // Generate cryptographic hash for replay validation
-    const moveData = moves.map(m => `${m.action}:${m.cardId}:${m.timestamp}`).join('|');
+    const moveData = moves
+      .map(m => `${m.action}:${m.cardId}:${m.timestamp}`)
+      .join('|');
     const gameData = `${analytics.matchId}:${analytics.result}:${analytics.turnCount}`;
-    
+
     // Simple hash simulation (in real implementation, use crypto.subtle)
     const combinedData = moveData + gameData;
     const moveSequenceHash = this.simpleHash(moveData);
     const gameStateHash = this.simpleHash(gameData);
-    
+
     return {
       moveSequenceHash,
       gameStateHash,
       validationTimestamp: new Date(),
       isValid: true,
       checksumValidation: true,
-      tamperDetection: false
+      tamperDetection: false,
     };
   }
 
@@ -296,7 +313,7 @@ export class ReplaySystem {
     let hash = 0;
     for (let i = 0; i < data.length; i++) {
       const char = data.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32-bit integer
     }
     return hash.toString(16);
@@ -304,7 +321,7 @@ export class ReplaySystem {
 
   private async buildTimeline(
     moves: GameMove[],
-    analytics: MatchAnalytics
+    analytics: MatchAnalytics,
   ): Promise<ReplayTimeline> {
     const turns: ReplayTurn[] = [];
     let currentTurn = 0;
@@ -324,7 +341,7 @@ export class ReplaySystem {
             turnActions,
             turnStartTime,
             move.timestamp,
-            analytics.moves[i - 1]?.gameState
+            analytics.moves[i - 1]?.gameState,
           );
           turns.push(turn);
         }
@@ -346,8 +363,8 @@ export class ReplaySystem {
           duration: 500,
           easing: 'ease-out',
           particles: move.action === 'play-card',
-          soundEffect: this.getSoundEffect(move.action)
-        }
+          soundEffect: this.getSoundEffect(move.action),
+        },
       };
 
       turnActions.push(action);
@@ -360,7 +377,7 @@ export class ReplaySystem {
         turnActions,
         turnStartTime,
         Date.now(),
-        analytics.moves[analytics.moves.length - 1]?.gameState
+        analytics.moves[analytics.moves.length - 1]?.gameState,
       );
       turns.push(finalTurn);
     }
@@ -368,8 +385,10 @@ export class ReplaySystem {
     return {
       startState: this.createInitialGameState(),
       turns,
-      endState: analytics.moves[analytics.moves.length - 1]?.gameState || this.createInitialGameState(),
-      keyMoments: [] // Will be populated separately
+      endState:
+        analytics.moves[analytics.moves.length - 1]?.gameState ||
+        this.createInitialGameState(),
+      keyMoments: [], // Will be populated separately
     };
   }
 
@@ -381,9 +400,9 @@ export class ReplaySystem {
   private getSoundEffect(action: string): string {
     const soundMap: { [key: string]: string } = {
       'play-card': 'card-place.wav',
-      'attack': 'sword-clash.wav',
+      attack: 'sword-clash.wav',
       'end-turn': 'bell-chime.wav',
-      'activate-ability': 'magic-cast.wav'
+      'activate-ability': 'magic-cast.wav',
     };
     return soundMap[action] || 'default.wav';
   }
@@ -393,9 +412,13 @@ export class ReplaySystem {
     actions: ReplayAction[],
     startTime: number,
     endTime: number,
-    gameState?: GameStateSnapshot
+    gameState?: GameStateSnapshot,
   ): Promise<ReplayTurn> {
-    const decisionPoints = this.analyzeDecisionPoints(actions, startTime, endTime);
+    const decisionPoints = this.analyzeDecisionPoints(
+      actions,
+      startTime,
+      endTime,
+    );
     const evaluations = this.evaluateTurn(actions, gameState);
 
     return {
@@ -406,22 +429,23 @@ export class ReplaySystem {
       actions,
       gameStateAfter: gameState || this.createInitialGameState(),
       decisionPoints,
-      evaluations
+      evaluations,
     };
   }
 
   private analyzeDecisionPoints(
     actions: ReplayAction[],
     startTime: number,
-    endTime: number
+    endTime: number,
   ): DecisionPoint[] {
     const decisionPoints: DecisionPoint[] = [];
-    
+
     actions.forEach((action, index) => {
       if (action.type === 'play-card' || action.type === 'attack') {
-        const timeSpent = index > 0 
-          ? action.timestamp - actions[index - 1].timestamp 
-          : action.timestamp - startTime;
+        const timeSpent =
+          index > 0
+            ? action.timestamp - actions[index - 1].timestamp
+            : action.timestamp - startTime;
 
         const difficulty = this.assessDecisionDifficulty(action, timeSpent);
         const impact = this.assessDecisionImpact(action);
@@ -433,7 +457,7 @@ export class ReplaySystem {
           chosenOption: action.actionId,
           timeSpent,
           difficulty,
-          impact
+          impact,
         });
       }
     });
@@ -441,7 +465,10 @@ export class ReplaySystem {
     return decisionPoints;
   }
 
-  private assessDecisionDifficulty(action: ReplayAction, timeSpent: number): 'trivial' | 'easy' | 'medium' | 'hard' | 'critical' {
+  private assessDecisionDifficulty(
+    action: ReplayAction,
+    timeSpent: number,
+  ): 'trivial' | 'easy' | 'medium' | 'hard' | 'critical' {
     if (timeSpent < 2000) return 'trivial';
     if (timeSpent < 5000) return 'easy';
     if (timeSpent < 15000) return 'medium';
@@ -449,7 +476,9 @@ export class ReplaySystem {
     return 'critical';
   }
 
-  private assessDecisionImpact(action: ReplayAction): 'low' | 'medium' | 'high' | 'game-changing' {
+  private assessDecisionImpact(
+    action: ReplayAction,
+  ): 'low' | 'medium' | 'high' | 'game-changing' {
     // Simplified impact assessment
     if (action.type === 'end-turn') return 'low';
     if (action.type === 'play-card') return 'medium';
@@ -466,8 +495,8 @@ export class ReplaySystem {
         cardId: action.cardId,
         targetId: action.targetId,
         expectedOutcome: 'Selected action',
-        riskLevel: 'medium'
-      }
+        riskLevel: 'medium',
+      },
     ];
 
     // Add alternative options
@@ -477,14 +506,17 @@ export class ReplaySystem {
         type: 'end-turn',
         description: 'End turn without playing card',
         expectedOutcome: 'Save mana for next turn',
-        riskLevel: 'low'
+        riskLevel: 'low',
       });
     }
 
     return options;
   }
 
-  private evaluateTurn(actions: ReplayAction[], gameState?: GameStateSnapshot): TurnEvaluation {
+  private evaluateTurn(
+    actions: ReplayAction[],
+    gameState?: GameStateSnapshot,
+  ): TurnEvaluation {
     const efficiency = this.calculateTurnEfficiency(actions, gameState);
     const strategicValue = this.calculateStrategicValue(actions);
     const riskManagement = this.calculateRiskManagement(actions);
@@ -496,11 +528,18 @@ export class ReplaySystem {
       riskManagement,
       optimalPlay,
       alternativePlays: this.generateAlternativePlays(actions),
-      learningOpportunities: this.identifyLearningOpportunities(actions, efficiency, strategicValue)
+      learningOpportunities: this.identifyLearningOpportunities(
+        actions,
+        efficiency,
+        strategicValue,
+      ),
     };
   }
 
-  private calculateTurnEfficiency(actions: ReplayAction[], gameState?: GameStateSnapshot): number {
+  private calculateTurnEfficiency(
+    actions: ReplayAction[],
+    gameState?: GameStateSnapshot,
+  ): number {
     // Calculate how efficiently the turn was played
     let efficiency = 50; // Base score
 
@@ -547,7 +586,7 @@ export class ReplaySystem {
         actions: actions.slice(0, 2), // Fewer actions
         expectedResult: 'Better resource conservation',
         whyBetter: 'Reduces risk of overextending',
-        probability: 0.6
+        probability: 0.6,
       });
     }
 
@@ -557,7 +596,7 @@ export class ReplaySystem {
   private identifyLearningOpportunities(
     actions: ReplayAction[],
     efficiency: number,
-    strategicValue: number
+    strategicValue: number,
   ): string[] {
     const opportunities: string[] = [];
 
@@ -570,7 +609,9 @@ export class ReplaySystem {
     }
 
     if (actions.length < 2) {
-      opportunities.push('Look for more opportunities to develop your board state');
+      opportunities.push(
+        'Look for more opportunities to develop your board state',
+      );
     }
 
     return opportunities;
@@ -578,7 +619,7 @@ export class ReplaySystem {
 
   private generateAutoTags(
     analytics: MatchAnalytics,
-    timeline: ReplayTimeline
+    timeline: ReplayTimeline,
   ): ReplayTag[] {
     const tags: ReplayTag[] = [];
 
@@ -589,7 +630,7 @@ export class ReplaySystem {
         name: 'Victory',
         category: 'strategy',
         color: '#4CAF50',
-        createdBy: 'system'
+        createdBy: 'system',
       });
     }
 
@@ -605,7 +646,7 @@ export class ReplaySystem {
         name: 'Quick Game',
         category: 'strategy',
         color: '#FF5722',
-        createdBy: 'system'
+        createdBy: 'system',
       });
     }
 
@@ -614,13 +655,16 @@ export class ReplaySystem {
 
   private identifyKeyMoments(
     timeline: ReplayTimeline,
-    analytics: MatchAnalytics
+    analytics: MatchAnalytics,
   ): KeyMoment[] {
     const keyMoments: KeyMoment[] = [];
 
     // Find game-changing turns
     timeline.turns.forEach((turn, index) => {
-      if (turn.evaluations.optimalPlay && turn.evaluations.strategicValue > 80) {
+      if (
+        turn.evaluations.optimalPlay &&
+        turn.evaluations.strategicValue > 80
+      ) {
         keyMoments.push({
           id: `key_moment_${turn.turnNumber}`,
           timestamp: turn.startTime,
@@ -629,9 +673,10 @@ export class ReplaySystem {
           title: `Brilliant Play - Turn ${turn.turnNumber}`,
           description: `Executed an excellent strategic play with high efficiency`,
           impact: `Strategic value: ${turn.evaluations.strategicValue}`,
-          beforeState: timeline.turns[index - 1]?.gameStateAfter || timeline.startState,
+          beforeState:
+            timeline.turns[index - 1]?.gameStateAfter || timeline.startState,
           afterState: turn.gameStateAfter,
-          significance: turn.evaluations.strategicValue
+          significance: turn.evaluations.strategicValue,
         });
       }
 
@@ -645,9 +690,10 @@ export class ReplaySystem {
           title: `Missed Opportunity - Turn ${turn.turnNumber}`,
           description: `Turn played with low efficiency`,
           impact: `Efficiency: ${turn.evaluations.efficiency}%`,
-          beforeState: timeline.turns[index - 1]?.gameStateAfter || timeline.startState,
+          beforeState:
+            timeline.turns[index - 1]?.gameStateAfter || timeline.startState,
           afterState: turn.gameStateAfter,
-          significance: 100 - turn.evaluations.efficiency
+          significance: 100 - turn.evaluations.efficiency,
         });
       }
     });
@@ -665,7 +711,7 @@ export class ReplaySystem {
       opponentHandSize: 7,
       playerBoardState: [],
       opponentBoardState: [],
-      gamePhase: 'early'
+      gamePhase: 'early',
     };
   }
 
@@ -687,51 +733,60 @@ export class ReplaySystem {
     const replays = Array.from(replayIds)
       .map(id => this.replays.get(id))
       .filter(replay => replay !== undefined) as GameReplay[];
-    
+
     replays.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
-    
+
     return limit ? replays.slice(0, limit) : replays;
   }
 
   searchReplays(filter: ReplaySearchFilter): GameReplay[] {
     const allReplays = Array.from(this.replays.values());
-    
+
     return allReplays.filter(replay => {
       if (filter.playerId && replay.playerId !== filter.playerId) return false;
-      if (filter.opponentId && replay.opponentId !== filter.opponentId) return false;
-      if (filter.gameMode && replay.metadata.gameMode !== filter.gameMode) return false;
-      if (filter.result && replay.metadata.result !== filter.result) return false;
+      if (filter.opponentId && replay.opponentId !== filter.opponentId)
+        return false;
+      if (filter.gameMode && replay.metadata.gameMode !== filter.gameMode)
+        return false;
+      if (filter.result && replay.metadata.result !== filter.result)
+        return false;
       if (filter.hasBookmarks && replay.bookmarks.length === 0) return false;
-      if (filter.hasAnnotations && replay.annotations.length === 0) return false;
-      
+      if (filter.hasAnnotations && replay.annotations.length === 0)
+        return false;
+
       if (filter.dateRange) {
         const replayDate = replay.createdAt;
-        if (replayDate < filter.dateRange.start || replayDate > filter.dateRange.end) {
+        if (
+          replayDate < filter.dateRange.start ||
+          replayDate > filter.dateRange.end
+        ) {
           return false;
         }
       }
-      
+
       if (filter.duration) {
-        if (replay.metadata.duration < filter.duration.min || 
-            replay.metadata.duration > filter.duration.max) {
+        if (
+          replay.metadata.duration < filter.duration.min ||
+          replay.metadata.duration > filter.duration.max
+        ) {
           return false;
         }
       }
-      
+
       if (filter.tags && filter.tags.length > 0) {
         const replayTagIds = replay.tags.map(tag => tag.id);
         if (!filter.tags.some(tagId => replayTagIds.includes(tagId))) {
           return false;
         }
       }
-      
+
       return true;
     });
   }
 
   addBookmark(
     replayId: string,
-    bookmark: Omit<ReplayBookmark, 'id' | 'createdAt'>
+    bookmark: Omit<ReplayBookmark, 'id' | 'createdAt'>,
   ): boolean {
     const replay = this.replays.get(replayId);
     if (!replay) return false;
@@ -739,7 +794,7 @@ export class ReplaySystem {
     const newBookmark: ReplayBookmark = {
       ...bookmark,
       id: `bookmark_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     replay.bookmarks.push(newBookmark);
@@ -748,7 +803,7 @@ export class ReplaySystem {
 
   addAnnotation(
     replayId: string,
-    annotation: Omit<PlayerAnnotation, 'id' | 'createdAt'>
+    annotation: Omit<PlayerAnnotation, 'id' | 'createdAt'>,
   ): boolean {
     const replay = this.replays.get(replayId);
     if (!replay) return false;
@@ -756,7 +811,7 @@ export class ReplaySystem {
     const newAnnotation: PlayerAnnotation = {
       ...annotation,
       id: `annotation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
     replay.annotations.push(newAnnotation);
@@ -766,13 +821,13 @@ export class ReplaySystem {
   addTag(replayId: string, tagId: string, timestamp?: number): boolean {
     const replay = this.replays.get(replayId);
     const tag = this.tagLibrary.get(tagId);
-    
+
     if (!replay || !tag) return false;
 
     const newTag: ReplayTag = {
       ...tag,
       timestamp,
-      createdBy: 'player'
+      createdBy: 'player',
     };
 
     replay.tags.push(newTag);
@@ -785,9 +840,11 @@ export class ReplaySystem {
 
     // Recalculate hashes and compare
     const currentHash = this.simpleHash(
-      replay.timeline.turns.map(t => 
-        t.actions.map(a => `${a.type}:${a.cardId}:${a.timestamp}`).join('|')
-      ).join('||')
+      replay.timeline.turns
+        .map(t =>
+          t.actions.map(a => `${a.type}:${a.cardId}:${a.timestamp}`).join('|'),
+        )
+        .join('||'),
     );
 
     return currentHash === replay.hashValidation.moveSequenceHash;
@@ -878,11 +935,12 @@ export class ReplayPlayback {
       turn: this.currentTurn,
       action: this.currentAction,
       actionData: currentActionData,
-      gameState: currentTurnData.gameStateAfter
+      gameState: currentTurnData.gameStateAfter,
     });
 
     // Schedule next action
-    const delay = (currentActionData.animationData?.duration || 1000) / this.playbackSpeed;
+    const delay =
+      (currentActionData.animationData?.duration || 1000) / this.playbackSpeed;
     setTimeout(() => {
       this.currentAction++;
       this.playNextAction();

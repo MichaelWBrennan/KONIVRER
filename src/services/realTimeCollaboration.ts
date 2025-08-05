@@ -40,7 +40,10 @@ export class RealTimeCollaborationEngine {
   private socket: Socket | null = null;
   private currentSession: CollaborationSession | null = null;
   private localUser: CollaborationUser | null = null;
-  private eventListeners: Map<string, Set<(event: CollaborationEvent) => void>> = new Map();
+  private eventListeners: Map<
+    string,
+    Set<(event: CollaborationEvent) => void>
+  > = new Map();
   private userListeners: Set<(users: CollaborationUser[]) => void> = new Set();
   private isConnected = false;
   private reconnectAttempts = 0;
@@ -57,7 +60,7 @@ export class RealTimeCollaborationEngine {
 
     return new Promise((resolve, reject) => {
       this.localUser = user;
-      
+
       this.socket = io(this.serverUrl, {
         auth: {
           userId: user.id,
@@ -74,7 +77,7 @@ export class RealTimeCollaborationEngine {
         resolve();
       });
 
-      this.socket.on('connect_error', (error) => {
+      this.socket.on('connect_error', error => {
         console.error('❌ Collaboration connection failed:', error);
         reject(error);
       });
@@ -93,7 +96,9 @@ export class RealTimeCollaborationEngine {
     console.log('🔌 Disconnected from collaboration server');
   }
 
-  public async createSession(sessionData: Partial<CollaborationSession>): Promise<CollaborationSession> {
+  public async createSession(
+    sessionData: Partial<CollaborationSession>,
+  ): Promise<CollaborationSession> {
     if (!this.socket || !this.localUser) {
       throw new Error('Not connected to collaboration server');
     }
@@ -125,15 +130,19 @@ export class RealTimeCollaborationEngine {
     }
 
     return new Promise((resolve, reject) => {
-      this.socket!.emit('join_session', { sessionId, user: this.localUser }, (response: any) => {
-        if (response.success) {
-          this.currentSession = response.session;
-          console.log('🎮 Joined collaboration session:', sessionId);
-          resolve(response.session);
-        } else {
-          reject(new Error(response.error));
-        }
-      });
+      this.socket!.emit(
+        'join_session',
+        { sessionId, user: this.localUser },
+        (response: any) => {
+          if (response.success) {
+            this.currentSession = response.session;
+            console.log('🎮 Joined collaboration session:', sessionId);
+            resolve(response.session);
+          } else {
+            reject(new Error(response.error));
+          }
+        },
+      );
     });
   }
 
@@ -142,12 +151,16 @@ export class RealTimeCollaborationEngine {
       return;
     }
 
-    return new Promise((resolve) => {
-      this.socket!.emit('leave_session', { sessionId: this.currentSession!.id }, () => {
-        console.log('👋 Left collaboration session');
-        this.currentSession = null;
-        resolve();
-      });
+    return new Promise(resolve => {
+      this.socket!.emit(
+        'leave_session',
+        { sessionId: this.currentSession!.id },
+        () => {
+          console.log('👋 Left collaboration session');
+          this.currentSession = null;
+          resolve();
+        },
+      );
     });
   }
 
@@ -203,19 +216,24 @@ export class RealTimeCollaborationEngine {
     this.broadcastEvent('chat_message', { message });
   }
 
-  public addEventListener(eventType: string, listener: (event: CollaborationEvent) => void): () => void {
+  public addEventListener(
+    eventType: string,
+    listener: (event: CollaborationEvent) => void,
+  ): () => void {
     if (!this.eventListeners.has(eventType)) {
       this.eventListeners.set(eventType, new Set());
     }
-    
+
     this.eventListeners.get(eventType)!.add(listener);
-    
+
     return () => {
       this.eventListeners.get(eventType)?.delete(listener);
     };
   }
 
-  public addUserListener(listener: (users: CollaborationUser[]) => void): () => void {
+  public addUserListener(
+    listener: (users: CollaborationUser[]) => void,
+  ): () => void {
     this.userListeners.add(listener);
     return () => this.userListeners.delete(listener);
   }
@@ -229,7 +247,9 @@ export class RealTimeCollaborationEngine {
   }
 
   public isUserOnline(userId: string): boolean {
-    return this.getUsers().some(user => user.id === userId && user.status === 'active');
+    return this.getUsers().some(
+      user => user.id === userId && user.status === 'active',
+    );
   }
 
   private setupConnectionHandlers(): void {
@@ -242,8 +262,9 @@ export class RealTimeCollaborationEngine {
     });
 
     // Handle mouse movement for cursor tracking
-    document.addEventListener('mousemove', (event) => {
-      if (this.currentSession && Date.now() % 10 === 0) { // Throttle to 10% of events
+    document.addEventListener('mousemove', event => {
+      if (this.currentSession && Date.now() % 10 === 0) {
+        // Throttle to 10% of events
         this.updateCursor({ x: event.clientX, y: event.clientY });
       }
     });
@@ -288,7 +309,9 @@ export class RealTimeCollaborationEngine {
 
     this.socket.on('user_left', (userId: string) => {
       if (this.currentSession) {
-        this.currentSession.users = this.currentSession.users.filter(u => u.id !== userId);
+        this.currentSession.users = this.currentSession.users.filter(
+          u => u.id !== userId,
+        );
         this.notifyUserListeners();
         console.log('👋 User left:', userId);
       }
@@ -296,7 +319,9 @@ export class RealTimeCollaborationEngine {
 
     this.socket.on('user_updated', (user: CollaborationUser) => {
       if (this.currentSession) {
-        const index = this.currentSession.users.findIndex(u => u.id === user.id);
+        const index = this.currentSession.users.findIndex(
+          u => u.id === user.id,
+        );
         if (index !== -1) {
           this.currentSession.users[index] = user;
           this.notifyUserListeners();
@@ -324,7 +349,10 @@ export class RealTimeCollaborationEngine {
     }
   }
 
-  private updateUserCursor(userId: string, position: { x: number; y: number }): void {
+  private updateUserCursor(
+    userId: string,
+    position: { x: number; y: number },
+  ): void {
     if (this.currentSession) {
       const user = this.currentSession.users.find(u => u.id === userId);
       if (user) {
@@ -344,7 +372,10 @@ export class RealTimeCollaborationEngine {
     }
   }
 
-  private updateUserStatus(userId: string, status: CollaborationUser['status']): void {
+  private updateUserStatus(
+    userId: string,
+    status: CollaborationUser['status'],
+  ): void {
     if (this.currentSession) {
       const user = this.currentSession.users.find(u => u.id === userId);
       if (user) {
@@ -356,7 +387,9 @@ export class RealTimeCollaborationEngine {
 
   private notifyUserListeners(): void {
     if (this.currentSession) {
-      this.userListeners.forEach(listener => listener(this.currentSession!.users));
+      this.userListeners.forEach(listener =>
+        listener(this.currentSession!.users),
+      );
     }
   }
 
@@ -368,9 +401,11 @@ export class RealTimeCollaborationEngine {
 
     this.reconnectAttempts++;
     const delay = Math.min(1000 * Math.pow(2, this.reconnectAttempts), 30000);
-    
-    console.log(`🔄 Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts})`);
-    
+
+    console.log(
+      `🔄 Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts})`,
+    );
+
     setTimeout(() => {
       if (this.localUser) {
         this.connect(this.localUser).catch(console.error);

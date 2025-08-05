@@ -73,14 +73,18 @@ export class AccessibilityManager {
     console.log('♿ Accessibility Manager initialized');
   }
 
-  public announce(message: string, priority: 'polite' | 'assertive' = 'polite', delay = 0): void {
+  public announce(
+    message: string,
+    priority: 'polite' | 'assertive' = 'polite',
+    delay = 0,
+  ): void {
     if (!this.announcer || !this.config.enabled) return;
 
     setTimeout(() => {
       if (this.announcer) {
         this.announcer.setAttribute('aria-live', priority);
         this.announcer.textContent = message;
-        
+
         // Clear after announcement
         setTimeout(() => {
           if (this.announcer) {
@@ -109,7 +113,10 @@ export class AccessibilityManager {
     }
   }
 
-  public manageFocus(element: HTMLElement, options: { trap?: boolean; restore?: boolean } = {}): void {
+  public manageFocus(
+    element: HTMLElement,
+    options: { trap?: boolean; restore?: boolean } = {},
+  ): void {
     if (!this.config.focusManagement) return;
 
     if (options.restore && this.focusStack.length > 0) {
@@ -134,7 +141,10 @@ export class AccessibilityManager {
     this.keyboardTrapActive = false;
   }
 
-  public makeRegionLive(element: HTMLElement, priority: 'polite' | 'assertive' = 'polite'): void {
+  public makeRegionLive(
+    element: HTMLElement,
+    priority: 'polite' | 'assertive' = 'polite',
+  ): void {
     element.setAttribute('aria-live', priority);
     element.setAttribute('aria-relevant', 'additions text');
   }
@@ -146,7 +156,11 @@ export class AccessibilityManager {
     }
   }
 
-  public improveButtonAccessibility(button: HTMLButtonElement, label?: string, description?: string): void {
+  public improveButtonAccessibility(
+    button: HTMLButtonElement,
+    label?: string,
+    description?: string,
+  ): void {
     if (label) {
       button.setAttribute('aria-label', label);
     }
@@ -163,13 +177,18 @@ export class AccessibilityManager {
 
   public improveFormAccessibility(form: HTMLFormElement): void {
     const inputs = form.querySelectorAll('input, select, textarea');
-    
-    inputs.forEach((input) => {
+
+    inputs.forEach(input => {
       const element = input as HTMLInputElement;
-      
+
       // Associate labels
-      if (!element.getAttribute('aria-label') && !element.getAttribute('aria-labelledby')) {
-        const label = form.querySelector(`label[for="${element.id}"]`) as HTMLLabelElement;
+      if (
+        !element.getAttribute('aria-label') &&
+        !element.getAttribute('aria-labelledby')
+      ) {
+        const label = form.querySelector(
+          `label[for="${element.id}"]`,
+        ) as HTMLLabelElement;
         if (label) {
           label.setAttribute('for', element.id);
         } else {
@@ -190,7 +209,9 @@ export class AccessibilityManager {
       }
 
       // Add error descriptions
-      const errorElement = form.querySelector(`[data-error-for="${element.id}"]`);
+      const errorElement = form.querySelector(
+        `[data-error-for="${element.id}"]`,
+      );
       if (errorElement) {
         const errorId = `error-${element.id}`;
         errorElement.id = errorId;
@@ -208,7 +229,7 @@ export class AccessibilityManager {
       <a href="#navigation" class="skip-link">Skip to navigation</a>
       <a href="#footer" class="skip-link">Skip to footer</a>
     `;
-    
+
     document.body.insertBefore(skipLinks, document.body.firstChild);
   }
 
@@ -264,14 +285,14 @@ export class AccessibilityManager {
     this.announcer.style.height = '1px';
     this.announcer.style.overflow = 'hidden';
     this.announcer.id = 'accessibility-announcer';
-    
+
     document.body.appendChild(this.announcer);
   }
 
   private setupKeyboardNavigation(): void {
     if (!this.config.keyboardNavigation) return;
 
-    document.addEventListener('keydown', (event) => {
+    document.addEventListener('keydown', event => {
       // Handle escape key to close modals/dropdowns
       if (event.key === 'Escape') {
         this.handleEscapeKey();
@@ -283,7 +304,9 @@ export class AccessibilityManager {
       }
 
       // Arrow key navigation for components
-      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      if (
+        ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)
+      ) {
         this.handleArrowKeys(event);
       }
     });
@@ -291,7 +314,9 @@ export class AccessibilityManager {
 
   private handleEscapeKey(): void {
     // Close any open modals or dropdowns
-    const modals = document.querySelectorAll('[role="dialog"][aria-hidden="false"]');
+    const modals = document.querySelectorAll(
+      '[role="dialog"][aria-hidden="false"]',
+    );
     modals.forEach(modal => {
       (modal as HTMLElement).style.display = 'none';
       modal.setAttribute('aria-hidden', 'true');
@@ -304,7 +329,9 @@ export class AccessibilityManager {
   private handleTabKey(event: KeyboardEvent): void {
     if (!this.keyboardTrapActive) return;
 
-    const focusableElements = this.getFocusableElements(document.activeElement?.closest('[data-focus-trap]') as HTMLElement);
+    const focusableElements = this.getFocusableElements(
+      document.activeElement?.closest('[data-focus-trap]') as HTMLElement,
+    );
     if (focusableElements.length === 0) return;
 
     const firstElement = focusableElements[0];
@@ -325,9 +352,12 @@ export class AccessibilityManager {
 
   private handleArrowKeys(event: KeyboardEvent): void {
     const target = event.target as HTMLElement;
-    
+
     // Handle listbox/menu navigation
-    if (target.getAttribute('role') === 'option' || target.closest('[role="listbox"]')) {
+    if (
+      target.getAttribute('role') === 'option' ||
+      target.closest('[role="listbox"]')
+    ) {
       event.preventDefault();
       this.navigateList(target, event.key);
     }
@@ -341,7 +371,9 @@ export class AccessibilityManager {
 
   private navigateList(current: HTMLElement, direction: string): void {
     const listbox = current.closest('[role="listbox"]') as HTMLElement;
-    const options = Array.from(listbox.querySelectorAll('[role="option"]')) as HTMLElement[];
+    const options = Array.from(
+      listbox.querySelectorAll('[role="option"]'),
+    ) as HTMLElement[];
     const currentIndex = options.indexOf(current);
 
     let nextIndex = currentIndex;
@@ -360,7 +392,9 @@ export class AccessibilityManager {
 
   private navigateTabs(current: HTMLElement, direction: string): void {
     const tablist = current.closest('[role="tablist"]') as HTMLElement;
-    const tabs = Array.from(tablist.querySelectorAll('[role="tab"]')) as HTMLElement[];
+    const tabs = Array.from(
+      tablist.querySelectorAll('[role="tab"]'),
+    ) as HTMLElement[];
     const currentIndex = tabs.indexOf(current);
 
     let nextIndex = currentIndex;
@@ -389,7 +423,7 @@ export class AccessibilityManager {
       'select:not([disabled])',
       'textarea:not([disabled])',
       '[tabindex]:not([tabindex="-1"])',
-      '[contenteditable="true"]'
+      '[contenteditable="true"]',
     ].join(', ');
 
     return Array.from(container.querySelectorAll(selector)) as HTMLElement[];
@@ -421,13 +455,17 @@ export class AccessibilityManager {
 
   private setupMutationObservers(): void {
     // Observe for new form elements
-    const formObserver = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
+    const formObserver = new MutationObserver(mutations => {
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
           if (node.nodeType === Node.ELEMENT_NODE) {
             const element = node as HTMLElement;
-            const forms = element.matches('form') ? [element] : Array.from(element.querySelectorAll('form'));
-            forms.forEach(form => this.improveFormAccessibility(form as HTMLFormElement));
+            const forms = element.matches('form')
+              ? [element]
+              : Array.from(element.querySelectorAll('form'));
+            forms.forEach(form =>
+              this.improveFormAccessibility(form as HTMLFormElement),
+            );
           }
         });
       });
@@ -517,7 +555,8 @@ export class InternationalizationManager {
   private config: I18nConfig;
   private currentLocale: string;
   private translations: Map<string, Translation> = new Map();
-  private formatters: Map<string, Intl.NumberFormat | Intl.DateTimeFormat> = new Map();
+  private formatters: Map<string, Intl.NumberFormat | Intl.DateTimeFormat> =
+    new Map();
 
   constructor(config: Partial<I18nConfig> = {}) {
     this.config = {
@@ -538,11 +577,13 @@ export class InternationalizationManager {
   private initialize(): void {
     this.setupFormatters();
     this.applyRTLSupport();
-    
+
     // Set document language
     document.documentElement.lang = this.currentLocale;
-    
-    console.log(`🌍 Internationalization initialized with locale: ${this.currentLocale}`);
+
+    console.log(
+      `🌍 Internationalization initialized with locale: ${this.currentLocale}`,
+    );
   }
 
   public async loadTranslations(locale: string): Promise<void> {
@@ -552,7 +593,7 @@ export class InternationalizationManager {
       this.translations.set(locale, translationModule.default);
     } catch (error) {
       console.warn(`Failed to load translations for ${locale}:`, error);
-      
+
       // Load fallback
       if (locale !== this.config.fallbackLocale) {
         await this.loadTranslations(this.config.fallbackLocale);
@@ -561,30 +602,39 @@ export class InternationalizationManager {
   }
 
   public translate(key: string, params: Record<string, any> = {}): string {
-    const translation = this.getTranslation(key, this.currentLocale) || 
-                       this.getTranslation(key, this.config.fallbackLocale) || 
-                       key;
+    const translation =
+      this.getTranslation(key, this.currentLocale) ||
+      this.getTranslation(key, this.config.fallbackLocale) ||
+      key;
 
     return this.interpolate(translation, params);
   }
 
-  public translatePlural(key: string, count: number, params: Record<string, any> = {}): string {
+  public translatePlural(
+    key: string,
+    count: number,
+    params: Record<string, any> = {},
+  ): string {
     const rules = new Intl.PluralRules(this.currentLocale);
     const rule = rules.select(count);
-    
+
     const pluralKey = `${key}.${rule}`;
-    const translation = this.getTranslation(pluralKey, this.currentLocale) ||
-                       this.getTranslation(`${key}.other`, this.currentLocale) ||
-                       this.getTranslation(key, this.currentLocale) ||
-                       key;
+    const translation =
+      this.getTranslation(pluralKey, this.currentLocale) ||
+      this.getTranslation(`${key}.other`, this.currentLocale) ||
+      this.getTranslation(key, this.currentLocale) ||
+      key;
 
     return this.interpolate(translation, { ...params, count });
   }
 
-  public formatNumber(value: number, options: Intl.NumberFormatOptions = {}): string {
+  public formatNumber(
+    value: number,
+    options: Intl.NumberFormatOptions = {},
+  ): string {
     const key = `number-${JSON.stringify(options)}`;
     let formatter = this.formatters.get(key) as Intl.NumberFormat;
-    
+
     if (!formatter) {
       formatter = new Intl.NumberFormat(this.currentLocale, {
         ...this.config.numberFormat,
@@ -596,10 +646,13 @@ export class InternationalizationManager {
     return formatter.format(value);
   }
 
-  public formatDate(date: Date, options: Intl.DateTimeFormatOptions = {}): string {
+  public formatDate(
+    date: Date,
+    options: Intl.DateTimeFormatOptions = {},
+  ): string {
     const key = `date-${JSON.stringify(options)}`;
     let formatter = this.formatters.get(key) as Intl.DateTimeFormat;
-    
+
     if (!formatter) {
       formatter = new Intl.DateTimeFormat(this.currentLocale, {
         ...this.config.dateFormat,
@@ -618,7 +671,10 @@ export class InternationalizationManager {
     });
   }
 
-  public formatRelativeTime(value: number, unit: Intl.RelativeTimeFormatUnit): string {
+  public formatRelativeTime(
+    value: number,
+    unit: Intl.RelativeTimeFormatUnit,
+  ): string {
     const formatter = new Intl.RelativeTimeFormat(this.currentLocale, {
       numeric: 'auto',
     });
@@ -634,20 +690,20 @@ export class InternationalizationManager {
 
     this.currentLocale = locale;
     await this.loadTranslations(locale);
-    
+
     // Update document language
     document.documentElement.lang = locale;
-    
+
     // Apply RTL support
     this.applyRTLSupport();
-    
+
     // Clear formatter cache
     this.formatters.clear();
     this.setupFormatters();
-    
+
     // Store preference
     localStorage.setItem('konivrer-locale', locale);
-    
+
     console.log(`🌍 Locale changed to: ${locale}`);
   }
 
@@ -683,10 +739,10 @@ export class InternationalizationManager {
 
     // Check browser language without region
     const langCode = browserLang.split('-')[0];
-    const match = this.config.supportedLocales.find(locale => 
-      locale.startsWith(langCode)
+    const match = this.config.supportedLocales.find(locale =>
+      locale.startsWith(langCode),
     );
-    
+
     if (match) {
       return match;
     }
@@ -720,21 +776,30 @@ export class InternationalizationManager {
 
   private setupFormatters(): void {
     // Pre-create common formatters
-    this.formatters.set('currency', new Intl.NumberFormat(this.currentLocale, {
-      style: 'currency',
-      currency: 'USD',
-    }));
+    this.formatters.set(
+      'currency',
+      new Intl.NumberFormat(this.currentLocale, {
+        style: 'currency',
+        currency: 'USD',
+      }),
+    );
 
-    this.formatters.set('date', new Intl.DateTimeFormat(this.currentLocale, {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    }));
+    this.formatters.set(
+      'date',
+      new Intl.DateTimeFormat(this.currentLocale, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+    );
 
-    this.formatters.set('time', new Intl.DateTimeFormat(this.currentLocale, {
-      hour: '2-digit',
-      minute: '2-digit',
-    }));
+    this.formatters.set(
+      'time',
+      new Intl.DateTimeFormat(this.currentLocale, {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    );
   }
 
   private applyRTLSupport(): void {

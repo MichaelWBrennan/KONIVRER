@@ -312,7 +312,7 @@ describe('Enhanced Copilot System', () => {
         success: true,
         timestamp: new Date(),
       };
-      
+
       // Validate learning object structure
       expect(learning.situation).toBe('early game with weak hand');
       expect(learning.success).toBe(true);

@@ -202,13 +202,17 @@ export class AdvancedAnalyticsEngine {
     this.userBehavior.errors.push(error.message);
   }
 
-  public trackPerformanceMetric(name: string, value: number, unit = 'ms'): void {
+  public trackPerformanceMetric(
+    name: string,
+    value: number,
+    unit = 'ms',
+  ): void {
     if (!this.config.trackPerformance) {
       return;
     }
 
     this.performanceMetrics.customMetrics.set(name, value);
-    
+
     this.track('performance_metric', {
       metric: name,
       value,
@@ -217,7 +221,11 @@ export class AdvancedAnalyticsEngine {
     });
   }
 
-  public trackConversion(event: string, value?: number, currency = 'USD'): void {
+  public trackConversion(
+    event: string,
+    value?: number,
+    currency = 'USD',
+  ): void {
     this.track('conversion', {
       event,
       value,
@@ -295,7 +303,7 @@ export class AdvancedAnalyticsEngine {
 
     // Track clicks
     if (this.config.trackUserBehavior) {
-      document.addEventListener('click', (event) => {
+      document.addEventListener('click', event => {
         const target = event.target as HTMLElement;
         this.trackUserAction('click', this.getElementSelector(target));
       });
@@ -304,7 +312,8 @@ export class AdvancedAnalyticsEngine {
       let maxScrollDepth = 0;
       window.addEventListener('scroll', () => {
         const scrollDepth = Math.round(
-          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+          (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+            100,
         );
         if (scrollDepth > maxScrollDepth) {
           maxScrollDepth = scrollDepth;
@@ -326,7 +335,7 @@ export class AdvancedAnalyticsEngine {
 
     // Track errors
     if (this.config.trackErrors) {
-      window.addEventListener('error', (event) => {
+      window.addEventListener('error', event => {
         this.trackError(event.error || new Error(event.message), {
           filename: event.filename,
           lineno: event.lineno,
@@ -334,7 +343,7 @@ export class AdvancedAnalyticsEngine {
         });
       });
 
-      window.addEventListener('unhandledrejection', (event) => {
+      window.addEventListener('unhandledrejection', event => {
         this.trackError(new Error(event.reason), {
           type: 'unhandled_promise_rejection',
         });
@@ -348,10 +357,11 @@ export class AdvancedAnalyticsEngine {
     }
 
     // Observe navigation timing
-    const navObserver = new PerformanceObserver((list) => {
+    const navObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         if (entry.entryType === 'navigation') {
-          this.performanceMetrics.navigationTiming = entry as PerformanceNavigationTiming;
+          this.performanceMetrics.navigationTiming =
+            entry as PerformanceNavigationTiming;
           this.trackWebVitals();
         }
       }
@@ -360,7 +370,7 @@ export class AdvancedAnalyticsEngine {
     this.observers.set('navigation', navObserver);
 
     // Observe resource timing
-    const resourceObserver = new PerformanceObserver((list) => {
+    const resourceObserver = new PerformanceObserver(list => {
       const entries = list.getEntries() as PerformanceResourceTiming[];
       this.performanceMetrics.resourceTiming.push(...entries);
     });
@@ -373,7 +383,7 @@ export class AdvancedAnalyticsEngine {
 
   private observeWebVitals(): void {
     // FCP (First Contentful Paint)
-    const fcpObserver = new PerformanceObserver((list) => {
+    const fcpObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         if (entry.name === 'first-contentful-paint') {
           this.performanceMetrics.vitals.fcp = entry.startTime;
@@ -385,7 +395,7 @@ export class AdvancedAnalyticsEngine {
     this.observers.set('fcp', fcpObserver);
 
     // LCP (Largest Contentful Paint)
-    const lcpObserver = new PerformanceObserver((list) => {
+    const lcpObserver = new PerformanceObserver(list => {
       const entries = list.getEntries();
       const lastEntry = entries[entries.length - 1];
       this.performanceMetrics.vitals.lcp = lastEntry.startTime;
@@ -395,7 +405,7 @@ export class AdvancedAnalyticsEngine {
     this.observers.set('lcp', lcpObserver);
 
     // FID (First Input Delay)
-    const fidObserver = new PerformanceObserver((list) => {
+    const fidObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         const fid = (entry as any).processingStart - entry.startTime;
         this.performanceMetrics.vitals.fid = fid;
@@ -407,7 +417,7 @@ export class AdvancedAnalyticsEngine {
 
     // CLS (Cumulative Layout Shift)
     let clsValue = 0;
-    const clsObserver = new PerformanceObserver((list) => {
+    const clsObserver = new PerformanceObserver(list => {
       for (const entry of list.getEntries()) {
         if (!(entry as any).hadRecentInput) {
           clsValue += (entry as any).value;
@@ -452,11 +462,14 @@ export class AdvancedAnalyticsEngine {
     try {
       const existing = this.getStoredEvents();
       const combined = [...existing, ...events];
-      
+
       // Keep only last 1000 events to prevent storage bloat
       const limited = combined.slice(-1000);
-      
-      localStorage.setItem('konivrer_analytics_events', JSON.stringify(limited));
+
+      localStorage.setItem(
+        'konivrer_analytics_events',
+        JSON.stringify(limited),
+      );
     } catch (error) {
       console.warn('Failed to save analytics to localStorage:', error);
     }
@@ -516,7 +529,7 @@ export class AdvancedAnalyticsEngine {
   }
 
   private async waitForConsent(): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (this.consentGiven) {
         resolve();
         return;
@@ -534,9 +547,11 @@ export class AdvancedAnalyticsEngine {
     });
   }
 
-  private sanitizeProperties(properties: Record<string, any>): Record<string, any> {
+  private sanitizeProperties(
+    properties: Record<string, any>,
+  ): Record<string, any> {
     const sanitized: Record<string, any> = {};
-    
+
     for (const [key, value] of Object.entries(properties)) {
       // Remove potentially sensitive data
       if (this.isSensitiveKey(key)) {
@@ -552,18 +567,30 @@ export class AdvancedAnalyticsEngine {
   }
 
   private isSensitiveKey(key: string): boolean {
-    const sensitiveKeys = ['password', 'token', 'secret', 'key', 'email', 'phone'];
-    return sensitiveKeys.some(sensitive => key.toLowerCase().includes(sensitive));
+    const sensitiveKeys = [
+      'password',
+      'token',
+      'secret',
+      'key',
+      'email',
+      'phone',
+    ];
+    return sensitiveKeys.some(sensitive =>
+      key.toLowerCase().includes(sensitive),
+    );
   }
 
   private sanitizeString(str: string): string {
     // Remove email patterns
-    return str.replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[EMAIL]');
+    return str.replace(
+      /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g,
+      '[EMAIL]',
+    );
   }
 
   private sanitizeStack(stack?: string): string {
     if (!stack) return '';
-    
+
     // Remove file paths that might contain sensitive info
     return stack.replace(/\/[^\s]+/g, '[PATH]');
   }
@@ -589,7 +616,7 @@ export class AdvancedAnalyticsEngine {
   private getAnonymizedReferrer(): string {
     const referrer = document.referrer;
     if (!referrer) return '';
-    
+
     try {
       const url = new URL(referrer);
       return url.hostname; // Only keep domain
@@ -611,7 +638,7 @@ export class AnalyticsFunnel {
 
   constructor(
     private name: string,
-    private analytics: AdvancedAnalyticsEngine
+    private analytics: AdvancedAnalyticsEngine,
   ) {}
 
   public addStep(stepName: string): void {

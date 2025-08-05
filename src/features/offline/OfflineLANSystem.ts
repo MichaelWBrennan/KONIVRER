@@ -78,7 +78,11 @@ export interface SyncStatus {
 }
 
 export interface SyncError {
-  type: 'input-mismatch' | 'state-divergence' | 'timing-issue' | 'connection-loss';
+  type:
+    | 'input-mismatch'
+    | 'state-divergence'
+    | 'timing-issue'
+    | 'connection-loss';
   timestamp: number;
   affectedPlayers: string[];
   details: any;
@@ -125,10 +129,10 @@ export class OfflineLANSystem {
   private async initializeNetworking(): Promise<void> {
     // Initialize local networking capabilities
     console.log('Initializing offline/LAN networking system');
-    
+
     // Set up WebRTC for P2P connections
     await this.setupWebRTC();
-    
+
     // Set up local server discovery
     this.setupServerDiscovery();
   }
@@ -143,7 +147,7 @@ export class OfflineLANSystem {
     // Set up mDNS/Bonjour-style service discovery for LAN games
     // This would use local network discovery protocols
     console.log('Local server discovery initialized');
-    
+
     // Simulate discovering local servers
     this.simulateServerDiscovery();
   }
@@ -153,7 +157,7 @@ export class OfflineLANSystem {
     const mockServers: LANServer[] = [
       {
         id: 'local-server-1',
-        name: 'John\'s Game Room',
+        name: "John's Game Room",
         address: '192.168.1.100',
         port: 7777,
         isLocal: true,
@@ -162,10 +166,10 @@ export class OfflineLANSystem {
         gameMode: 'casual',
         version: '1.0.0',
         latency: 5,
-        status: 'online'
+        status: 'online',
       },
       {
-        id: 'local-server-2', 
+        id: 'local-server-2',
         name: 'Tournament Hub',
         address: '192.168.1.150',
         port: 7778,
@@ -175,8 +179,8 @@ export class OfflineLANSystem {
         gameMode: 'tournament',
         version: '1.0.0',
         latency: 8,
-        status: 'online'
-      }
+        status: 'online',
+      },
     ];
 
     mockServers.forEach(server => {
@@ -184,7 +188,9 @@ export class OfflineLANSystem {
     });
   }
 
-  async createLocalServer(config: Partial<LocalNetworkConfig>): Promise<string> {
+  async createLocalServer(
+    config: Partial<LocalNetworkConfig>,
+  ): Promise<string> {
     this.networkConfig = {
       networkId: `local_${Date.now()}`,
       serverMode: 'host',
@@ -192,17 +198,17 @@ export class OfflineLANSystem {
       enableRollback: true,
       syncInterval: 100,
       conflictResolution: 'host-authoritative',
-      ...config
+      ...config,
     };
 
     this.isHost = true;
     this.currentFrame = 0;
 
     console.log('Local server created:', this.networkConfig);
-    
+
     // Set up local server infrastructure
     await this.setupLocalServer();
-    
+
     return this.networkConfig.networkId;
   }
 
@@ -211,10 +217,10 @@ export class OfflineLANSystem {
 
     // Initialize game state synchronization
     this.initializeGameState();
-    
+
     // Start heartbeat system
     this.startHeartbeat();
-    
+
     // Set up rollback networking if enabled
     if (this.networkConfig.enableRollback) {
       this.initializeRollback();
@@ -228,7 +234,7 @@ export class OfflineLANSystem {
       timestamp: Date.now(),
       checksum: this.calculateChecksum({}),
       playerStates: new Map(),
-      sharedState: {}
+      sharedState: {},
     };
 
     this.currentMatch = {
@@ -245,8 +251,8 @@ export class OfflineLANSystem {
           totalMoves: 0,
           averageLatency: 0,
           rollbackCount: 0,
-          desyncEvents: 0
-        }
+          desyncEvents: 0,
+        },
       },
       rollbackStates: [],
       syncStatus: {
@@ -254,8 +260,8 @@ export class OfflineLANSystem {
         lastSyncTime: Date.now(),
         desyncCount: 0,
         syncErrors: [],
-        rollbacksPerformed: 0
-      }
+        rollbacksPerformed: 0,
+      },
     };
   }
 
@@ -271,7 +277,7 @@ export class OfflineLANSystem {
   private initializeRollback(): void {
     // Initialize rollback networking system
     this.rollbackBuffer = [];
-    
+
     // Set up frame-based synchronization
     setInterval(() => {
       this.processFrame();
@@ -303,7 +309,7 @@ export class OfflineLANSystem {
   private async establishConnection(server: LANServer): Promise<any> {
     // Establish WebRTC P2P connection or local socket connection
     // This would implement the actual networking protocol
-    
+
     // Simulate connection establishment
     return new Promise(resolve => {
       setTimeout(() => {
@@ -311,7 +317,7 @@ export class OfflineLANSystem {
           id: server.id,
           address: server.address,
           port: server.port,
-          connected: true
+          connected: true,
         });
       }, 100);
     });
@@ -336,22 +342,24 @@ export class OfflineLANSystem {
       latency: 0,
       connectionStatus: 'connected',
       lastHeartbeat: Date.now(),
-      inputBuffer: []
+      inputBuffer: [],
     };
 
     this.currentMatch.players.push(localPlayer);
     this.currentMatch.gameState.playerStates.set(player.id, {});
-    
+
     // Notify other players
     this.broadcastPlayerJoined(localPlayer);
-    
+
     return true;
   }
 
   removePlayer(playerId: string): void {
     if (!this.currentMatch) return;
 
-    const playerIndex = this.currentMatch.players.findIndex(p => p.playerId === playerId);
+    const playerIndex = this.currentMatch.players.findIndex(
+      p => p.playerId === playerId,
+    );
     if (playerIndex === -1) return;
 
     const player = this.currentMatch.players[playerIndex];
@@ -371,11 +379,13 @@ export class OfflineLANSystem {
     const fullInput: PlayerInput = {
       ...input,
       frame: this.currentFrame,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     // Add to local player's input buffer
-    const localPlayer = this.currentMatch.players.find(p => p.playerId === input.playerId);
+    const localPlayer = this.currentMatch.players.find(
+      p => p.playerId === input.playerId,
+    );
     if (localPlayer) {
       localPlayer.inputBuffer.push(fullInput);
     }
@@ -455,7 +465,7 @@ export class OfflineLANSystem {
       action: input.action,
       data: input.data,
       frame: input.frame,
-      timestamp: input.timestamp
+      timestamp: input.timestamp,
     });
   }
 
@@ -474,7 +484,9 @@ export class OfflineLANSystem {
 
     // Process end turn
     this.currentMatch.gameState.turn++;
-    console.log(`Player ${input.playerId} ended turn. New turn: ${this.currentMatch.gameState.turn}`);
+    console.log(
+      `Player ${input.playerId} ended turn. New turn: ${this.currentMatch.gameState.turn}`,
+    );
   }
 
   private updateGameState(): void {
@@ -482,7 +494,9 @@ export class OfflineLANSystem {
 
     // Update game state timestamp and checksum
     this.currentMatch.gameState.timestamp = Date.now();
-    this.currentMatch.gameState.checksum = this.calculateChecksum(this.currentMatch.gameState);
+    this.currentMatch.gameState.checksum = this.calculateChecksum(
+      this.currentMatch.gameState,
+    );
   }
 
   private calculateChecksum(state: any): string {
@@ -491,7 +505,7 @@ export class OfflineLANSystem {
     let hash = 0;
     for (let i = 0; i < stateString.length; i++) {
       const char = stateString.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
+      hash = (hash << 5) - hash + char;
       hash = hash & hash; // Convert to 32bit integer
     }
     return hash.toString(16);
@@ -504,7 +518,7 @@ export class OfflineLANSystem {
       frame: this.currentFrame,
       gameState: JSON.parse(JSON.stringify(this.currentMatch.gameState)),
       inputs: this.collectFrameInputs(this.currentFrame),
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.rollbackBuffer.push(rollbackState);
@@ -523,7 +537,7 @@ export class OfflineLANSystem {
       type: 'state-sync',
       gameState: this.currentMatch.gameState,
       frame: this.currentFrame,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
     this.broadcastMessage(syncMessage);
@@ -535,7 +549,7 @@ export class OfflineLANSystem {
     const heartbeat = {
       type: 'heartbeat',
       timestamp: Date.now(),
-      frame: this.currentFrame
+      frame: this.currentFrame,
     };
 
     this.broadcastMessage(heartbeat);
@@ -551,7 +565,7 @@ export class OfflineLANSystem {
       if (now - player.lastHeartbeat > timeout) {
         player.connectionStatus = 'disconnected';
         console.log(`Player ${player.name} connection timeout`);
-        
+
         // Handle disconnection
         this.handlePlayerDisconnection(player);
       }
@@ -562,12 +576,12 @@ export class OfflineLANSystem {
     // Pause game or handle disconnection based on rules
     if (this.currentMatch) {
       this.currentMatch.gameState.phase = 'paused';
-      
+
       // Notify other players
       this.broadcastMessage({
         type: 'player-disconnected',
         playerId: player.playerId,
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
     }
   }
@@ -592,9 +606,9 @@ export class OfflineLANSystem {
       player: {
         id: player.playerId,
         name: player.name,
-        isHost: player.isHost
+        isHost: player.isHost,
       },
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -602,7 +616,7 @@ export class OfflineLANSystem {
     this.broadcastMessage({
       type: 'player-left',
       playerId: player.playerId,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -610,18 +624,22 @@ export class OfflineLANSystem {
     this.broadcastMessage({
       type: 'player-input',
       input,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
   async rollbackToFrame(frame: number): Promise<boolean> {
     if (!this.currentMatch || !this.networkConfig?.enableRollback) return false;
 
-    const rollbackState = this.rollbackBuffer.find(state => state.frame === frame);
+    const rollbackState = this.rollbackBuffer.find(
+      state => state.frame === frame,
+    );
     if (!rollbackState) return false;
 
     // Restore game state
-    this.currentMatch.gameState = JSON.parse(JSON.stringify(rollbackState.gameState));
+    this.currentMatch.gameState = JSON.parse(
+      JSON.stringify(rollbackState.gameState),
+    );
     this.currentFrame = frame;
 
     // Re-simulate from rollback point
@@ -645,7 +663,7 @@ export class OfflineLANSystem {
       this.currentMatch.gameState.phase = 'paused';
       this.broadcastMessage({
         type: 'match-paused',
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
     }
   }
@@ -655,7 +673,7 @@ export class OfflineLANSystem {
       this.currentMatch.gameState.phase = 'playing';
       this.broadcastMessage({
         type: 'match-resumed',
-        timestamp: Date.now()
+        timestamp: Date.now(),
       });
     }
   }
@@ -674,7 +692,7 @@ export class OfflineLANSystem {
       type: 'match-ended',
       result,
       statistics: this.currentMatch.history.statistics,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     });
   }
 
@@ -684,18 +702,20 @@ export class OfflineLANSystem {
     const stats = this.currentMatch.history.statistics;
     const history = this.currentMatch.history;
 
-    stats.duration = history.endTime && history.startTime 
-      ? (history.endTime.getTime() - history.startTime.getTime()) / 1000 
-      : 0;
-    
+    stats.duration =
+      history.endTime && history.startTime
+        ? (history.endTime.getTime() - history.startTime.getTime()) / 1000
+        : 0;
+
     stats.totalMoves = history.moves.length;
-    
+
     // Calculate average latency
     const latencies = this.currentMatch.players.map(p => p.latency);
-    stats.averageLatency = latencies.length > 0 
-      ? latencies.reduce((sum, lat) => sum + lat, 0) / latencies.length 
-      : 0;
-    
+    stats.averageLatency =
+      latencies.length > 0
+        ? latencies.reduce((sum, lat) => sum + lat, 0) / latencies.length
+        : 0;
+
     stats.rollbackCount = this.currentMatch.syncStatus.rollbacksPerformed;
     stats.desyncEvents = this.currentMatch.syncStatus.desyncCount;
   }
@@ -713,27 +733,27 @@ export class OfflineLANSystem {
 
   getPlayerLatencies(): Map<string, number> {
     const latencies = new Map<string, number>();
-    
+
     if (this.currentMatch) {
       this.currentMatch.players.forEach(player => {
         latencies.set(player.playerId, player.latency);
       });
     }
-    
+
     return latencies;
   }
 
   disconnect(): void {
     // Clean up all connections
     this.connections.clear();
-    
+
     // Reset state
     this.currentMatch = null;
     this.networkConfig = null;
     this.isHost = false;
     this.rollbackBuffer = [];
     this.currentFrame = 0;
-    
+
     console.log('Disconnected from local network');
   }
 }

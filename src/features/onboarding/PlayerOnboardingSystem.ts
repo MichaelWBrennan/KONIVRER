@@ -43,7 +43,8 @@ export class PlayerOnboardingSystem {
     const aggro: ArchetypeGuide = {
       id: 'aggro',
       name: 'Aggressive Rush',
-      description: 'Fast-paced deck focused on dealing quick damage with low-cost creatures and spells.',
+      description:
+        'Fast-paced deck focused on dealing quick damage with low-cost creatures and spells.',
       keyCards: [
         {
           id: 'lightning-bolt',
@@ -52,7 +53,7 @@ export class PlayerOnboardingSystem {
           attack: 3,
           type: 'spell',
           rarity: 'common',
-          abilities: ['instant', 'damage']
+          abilities: ['instant', 'damage'],
         },
         {
           id: 'storm-warrior',
@@ -62,19 +63,21 @@ export class PlayerOnboardingSystem {
           health: 2,
           type: 'creature',
           rarity: 'common',
-          abilities: ['haste']
-        }
+          abilities: ['haste'],
+        },
       ],
-      strategy: 'Play low-cost cards early, maintain board presence, finish opponent quickly',
+      strategy:
+        'Play low-cost cards early, maintain board presence, finish opponent quickly',
       difficulty: 'beginner',
       synergies: ['Low mana curve', 'Direct damage', 'Quick creatures'],
-      counters: ['Board clears', 'Lifegain', 'High-toughness blockers']
+      counters: ['Board clears', 'Lifegain', 'High-toughness blockers'],
     };
 
     const control: ArchetypeGuide = {
       id: 'control',
       name: 'Control Master',
-      description: 'Patient deck that counters threats and wins with powerful late-game cards.',
+      description:
+        'Patient deck that counters threats and wins with powerful late-game cards.',
       keyCards: [
         {
           id: 'counterspell',
@@ -82,7 +85,7 @@ export class PlayerOnboardingSystem {
           cost: 2,
           type: 'spell',
           rarity: 'common',
-          abilities: ['counter', 'instant']
+          abilities: ['counter', 'instant'],
         },
         {
           id: 'ancient-dragon',
@@ -92,19 +95,21 @@ export class PlayerOnboardingSystem {
           health: 8,
           type: 'creature',
           rarity: 'legendary',
-          abilities: ['flying', 'legendary']
-        }
+          abilities: ['flying', 'legendary'],
+        },
       ],
-      strategy: 'Control the game tempo, remove threats, win with few powerful cards',
+      strategy:
+        'Control the game tempo, remove threats, win with few powerful cards',
       difficulty: 'advanced',
       synergies: ['Card draw', 'Removal spells', 'Win conditions'],
-      counters: ['Fast aggro', 'Uncounterable threats', 'Resource denial']
+      counters: ['Fast aggro', 'Uncounterable threats', 'Resource denial'],
     };
 
     const combo: ArchetypeGuide = {
       id: 'combo',
       name: 'Combo Synergy',
-      description: 'Deck built around specific card combinations that create powerful synergistic effects.',
+      description:
+        'Deck built around specific card combinations that create powerful synergistic effects.',
       keyCards: [
         {
           id: 'mystic-engine',
@@ -112,7 +117,7 @@ export class PlayerOnboardingSystem {
           cost: 4,
           type: 'artifact',
           rarity: 'rare',
-          abilities: ['draw', 'combo']
+          abilities: ['draw', 'combo'],
         },
         {
           id: 'spell-cascade',
@@ -120,13 +125,14 @@ export class PlayerOnboardingSystem {
           cost: 3,
           type: 'enchantment',
           rarity: 'rare',
-          abilities: ['cascade', 'trigger']
-        }
+          abilities: ['cascade', 'trigger'],
+        },
       ],
-      strategy: 'Assemble key pieces, protect combo, execute for game-winning effect',
+      strategy:
+        'Assemble key pieces, protect combo, execute for game-winning effect',
       difficulty: 'intermediate',
       synergies: ['Card selection', 'Protection', 'Tutors'],
-      counters: ['Disruption', 'Fast pressure', 'Graveyard hate']
+      counters: ['Disruption', 'Fast pressure', 'Graveyard hate'],
     };
 
     this.archetypes.set('aggro', aggro);
@@ -140,18 +146,20 @@ export class PlayerOnboardingSystem {
       id: 'aggro-basics',
       archetype: 'aggro',
       title: 'Mastering Aggressive Strategies',
-      description: 'Learn the fundamentals of playing aggressive decks effectively.',
+      description:
+        'Learn the fundamentals of playing aggressive decks effectively.',
       steps: [
         {
           id: 'mulligan-guide',
           title: 'Aggressive Mulligan',
-          description: 'Learn what cards to keep and what to mulligan in your opening hand.',
+          description:
+            'Learn what cards to keep and what to mulligan in your opening hand.',
           tips: [
             'Keep 1-2 mana creatures',
             'Look for a smooth mana curve',
             'Mulligan hands with too many high-cost cards',
-            'Prioritize cards that deal immediate damage'
-          ]
+            'Prioritize cards that deal immediate damage',
+          ],
         },
         {
           id: 'early-game',
@@ -161,8 +169,8 @@ export class PlayerOnboardingSystem {
           tips: [
             'Always use your mana efficiently',
             'Prioritize board presence over card advantage',
-            'Attack when beneficial, even for small damage'
-          ]
+            'Attack when beneficial, even for small damage',
+          ],
         },
         {
           id: 'mid-game',
@@ -171,8 +179,8 @@ export class PlayerOnboardingSystem {
           tips: [
             'Continue playing threats each turn',
             'Use removal on key blockers',
-            'Calculate lethal damage opportunities'
-          ]
+            'Calculate lethal damage opportunities',
+          ],
         },
         {
           id: 'closing-game',
@@ -181,11 +189,11 @@ export class PlayerOnboardingSystem {
           tips: [
             'Switch focus from board to face when close to lethal',
             'Use direct damage spells to finish opponent',
-            'Don\'t be afraid to trade creatures for face damage'
-          ]
-        }
+            "Don't be afraid to trade creatures for face damage",
+          ],
+        },
       ],
-      completionRewards: ['Aggro Mastery Badge', 'Lightning Border Frame']
+      completionRewards: ['Aggro Mastery Badge', 'Lightning Border Frame'],
     };
 
     // Control tutorial
@@ -193,7 +201,8 @@ export class PlayerOnboardingSystem {
       id: 'control-basics',
       archetype: 'control',
       title: 'Control Fundamentals',
-      description: 'Master the art of controlling the game and winning with superior card quality.',
+      description:
+        'Master the art of controlling the game and winning with superior card quality.',
       steps: [
         {
           id: 'resource-management',
@@ -201,9 +210,9 @@ export class PlayerOnboardingSystem {
           description: 'Learn to manage your hand size and mana efficiently.',
           tips: [
             'Card advantage is more important than tempo',
-            'Don\'t waste removal on small threats',
-            'Plan several turns ahead'
-          ]
+            "Don't waste removal on small threats",
+            'Plan several turns ahead',
+          ],
         },
         {
           id: 'threat-assessment',
@@ -213,8 +222,8 @@ export class PlayerOnboardingSystem {
           tips: [
             'Evaluate threats based on their long-term impact',
             'Sometimes letting small threats through is correct',
-            'Save answers for the most dangerous cards'
-          ]
+            'Save answers for the most dangerous cards',
+          ],
         },
         {
           id: 'win-condition',
@@ -223,11 +232,11 @@ export class PlayerOnboardingSystem {
           tips: [
             'Ensure you can protect your win condition',
             'Wait for the right moment to commit',
-            'Have backup plans if your first win condition fails'
-          ]
-        }
+            'Have backup plans if your first win condition fails',
+          ],
+        },
       ],
-      completionRewards: ['Control Mastery Badge', 'Mystic Aura Effect']
+      completionRewards: ['Control Mastery Badge', 'Mystic Aura Effect'],
     };
 
     this.tutorials.set('aggro-basics', aggroTutorial);
@@ -244,7 +253,7 @@ export class PlayerOnboardingSystem {
 
   getTutorialsForArchetype(archetypeId: string): Tutorial[] {
     return Array.from(this.tutorials.values()).filter(
-      tutorial => tutorial.archetype === archetypeId
+      tutorial => tutorial.archetype === archetypeId,
     );
   }
 
@@ -252,14 +261,22 @@ export class PlayerOnboardingSystem {
     return this.tutorials.get(id);
   }
 
-  markStepCompleted(playerId: string, tutorialId: string, stepId: string): void {
+  markStepCompleted(
+    playerId: string,
+    tutorialId: string,
+    stepId: string,
+  ): void {
     if (!this.playerProgress.has(playerId)) {
       this.playerProgress.set(playerId, new Set());
     }
     this.playerProgress.get(playerId)!.add(`${tutorialId}:${stepId}`);
   }
 
-  isStepCompleted(playerId: string, tutorialId: string, stepId: string): boolean {
+  isStepCompleted(
+    playerId: string,
+    tutorialId: string,
+    stepId: string,
+  ): boolean {
     const progress = this.playerProgress.get(playerId);
     return progress ? progress.has(`${tutorialId}:${stepId}`) : false;
   }
@@ -269,13 +286,15 @@ export class PlayerOnboardingSystem {
     if (!tutorial) return 0;
 
     const completedSteps = tutorial.steps.filter(step =>
-      this.isStepCompleted(playerId, tutorialId, step.id)
+      this.isStepCompleted(playerId, tutorialId, step.id),
     ).length;
 
     return completedSteps / tutorial.steps.length;
   }
 
-  getRecommendedTutorial(playerSkillLevel: 'beginner' | 'intermediate' | 'advanced'): Tutorial | null {
+  getRecommendedTutorial(
+    playerSkillLevel: 'beginner' | 'intermediate' | 'advanced',
+  ): Tutorial | null {
     const tutorials = Array.from(this.tutorials.values());
     const matchingTutorials = tutorials.filter(tutorial => {
       const archetype = this.getArchetype(tutorial.archetype);
@@ -287,29 +306,42 @@ export class PlayerOnboardingSystem {
 
   generatePersonalizedTips(deck: Deck): string[] {
     const tips: string[] = [];
-    
+
     // Analyze deck composition
-    const avgCost = deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
-    const creatureCount = deck.cards.filter(card => card.type === 'creature').length;
+    const avgCost =
+      deck.cards.reduce((sum, card) => sum + card.cost, 0) / deck.cards.length;
+    const creatureCount = deck.cards.filter(
+      card => card.type === 'creature',
+    ).length;
     const spellCount = deck.cards.filter(card => card.type === 'spell').length;
 
     if (avgCost > 4) {
-      tips.push('Your deck has a high mana curve. Consider adding more low-cost cards for early game stability.');
+      tips.push(
+        'Your deck has a high mana curve. Consider adding more low-cost cards for early game stability.',
+      );
     }
 
     if (creatureCount < deck.cards.length * 0.3) {
-      tips.push('Your deck may need more creatures for board presence. Consider adding creature cards.');
+      tips.push(
+        'Your deck may need more creatures for board presence. Consider adding creature cards.',
+      );
     }
 
     if (spellCount > deck.cards.length * 0.7) {
-      tips.push('High spell count detected. Ensure you have win conditions that don\'t rely solely on spells.');
+      tips.push(
+        "High spell count detected. Ensure you have win conditions that don't rely solely on spells.",
+      );
     }
 
     // Add archetype-specific tips
     if (avgCost <= 3 && creatureCount >= deck.cards.length * 0.6) {
-      tips.push('Your deck appears aggressive. Focus on early pressure and closing games quickly.');
+      tips.push(
+        'Your deck appears aggressive. Focus on early pressure and closing games quickly.',
+      );
     } else if (avgCost >= 4 && spellCount >= deck.cards.length * 0.4) {
-      tips.push('Your deck appears control-oriented. Focus on card advantage and late-game power.');
+      tips.push(
+        'Your deck appears control-oriented. Focus on card advantage and late-game power.',
+      );
     }
 
     return tips;
