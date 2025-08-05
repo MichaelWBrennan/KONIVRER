@@ -1,15 +1,19 @@
-// Enhanced core types and event system for OpenHands AI-level Copilot
+// Enhanced core types and event system for Industry-Leading OpenHands AI Copilot
 
 export interface Goal {
   id: string;
-  type: 'optimize_deck' | 'analyze_game' | 'assist_player' | 'learn_strategy';
+  type: 'optimize_deck' | 'analyze_game' | 'assist_player' | 'learn_strategy' | 'predict_meta' | 'real_time_coaching';
   description: string;
   priority: number;
-  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+  status: 'pending' | 'in_progress' | 'completed' | 'failed' | 'suspended' | 'optimizing';
   subGoals?: Goal[];
   context?: Record<string, any>;
   expectedOutcome?: string;
   progress?: number;
+  confidence?: number;
+  estimatedCompletionTime?: number;
+  dependencies?: string[];
+  businessValue?: number;
 }
 
 export interface Action {
@@ -20,15 +24,27 @@ export interface Action {
   timestamp: Date;
   goalId?: string;
   expectedResult?: string;
+  alternativeActions?: Action[];
+  riskAssessment?: number;
+  executionStrategy?: 'immediate' | 'batched' | 'scheduled' | 'conditional';
+  impactAnalysis?: {
+    userExperience: number;
+    gameState: number;
+    systemPerformance: number;
+  };
 }
 
 export interface Observation {
-  type: 'user_input' | 'game_state' | 'environment' | 'feedback' | 'error';
+  type: 'user_input' | 'game_state' | 'environment' | 'feedback' | 'error' | 'pattern' | 'anomaly' | 'opportunity';
   message: string;
   data?: any;
   timestamp: Date;
   source?: string;
   relevance?: number;
+  confidence?: number;
+  contextualEmbedding?: number[];
+  sentiment?: 'positive' | 'negative' | 'neutral';
+  urgency?: 'low' | 'medium' | 'high' | 'critical';
 }
 
 export interface Memory {
@@ -41,15 +57,41 @@ export interface Memory {
     outcome: string;
     success: boolean;
     timestamp: Date;
+    contextualFactors: string[];
+    confidence: number;
+    reproductionSteps?: string[];
   }>;
+  semanticIndex: Map<string, number[]>; // For semantic search in memory
+  experienceGraph: Map<string, string[]>; // Connected experiences
+  metacognition: {
+    selfAssessment: number;
+    knowledgeGaps: string[];
+    learningRate: number;
+    adaptationCapability: number;
+  };
 }
 
 export interface Context {
   gameState?: any;
   playerProfile?: any;
   currentDeck?: any;
-  recentActions?: Action[];
-  environment?: Record<string, any>;
+  sessionHistory?: any[];
+  environmentFactors?: {
+    timeOfDay: string;
+    userMood?: string;
+    gamePhase: string;
+    competitiveLevel: string;
+  };
+  multimodalInputs?: {
+    audio?: any;
+    visual?: any;
+    textual?: any;
+  };
+  predictiveFactors?: {
+    trendAnalysis: any;
+    metaGameShifts: any;
+    playerBehaviorPatterns: any;
+  };
 }
 
 export interface State {
