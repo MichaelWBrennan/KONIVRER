@@ -137,7 +137,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                   gap: '4px',
                 }}
               >
-                {navigationItems.map((item, _index) => {
+                {navigationItems.map((item, index) => {
                   const isActive = location.pathname === item.to;
 
                   const content = (
