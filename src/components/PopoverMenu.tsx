@@ -51,7 +51,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
     const anchorRect = anchorRef.current.getBoundingClientRect();
     const menuHeight = 280; // Estimated menu height
     const menuWidth = 180;
-    
+
     // Position above the button with some spacing
     const bottom = window.innerHeight - anchorRect.top + 10;
     const right = window.innerWidth - anchorRect.right;
@@ -88,18 +88,18 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
           {/* Popover Menu */}
           <motion.div
             ref={menuRef}
-            initial={{ 
-              opacity: 0, 
+            initial={{
+              opacity: 0,
               scale: 0.3,
               transformOrigin: 'bottom right',
             }}
-            animate={{ 
-              opacity: 1, 
+            animate={{
+              opacity: 1,
               scale: 1,
               transformOrigin: 'bottom right',
             }}
-            exit={{ 
-              opacity: 0, 
+            exit={{
+              opacity: 0,
               scale: 0.3,
               transformOrigin: 'bottom right',
             }}
@@ -139,7 +139,7 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
               >
                 {navigationItems.map((item, index) => {
                   const isActive = location.pathname === item.to;
-                  
+
                   const content = (
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
@@ -152,12 +152,12 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                         alignItems: 'center',
                         padding: '12px 16px',
                         borderRadius: '8px',
-                        backgroundColor: isActive 
-                          ? 'rgba(212, 175, 55, 0.2)' 
+                        backgroundColor: isActive
+                          ? 'rgba(212, 175, 55, 0.2)'
                           : 'transparent',
                         border: '1px solid',
-                        borderColor: isActive 
-                          ? 'rgba(212, 175, 55, 0.4)' 
+                        borderColor: isActive
+                          ? 'rgba(212, 175, 55, 0.4)'
                           : 'transparent',
                         color: isActive ? '#d4af37' : '#ccc',
                         textDecoration: 'none',
@@ -168,8 +168,10 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                       onMouseEnter={e => {
                         if (!isActive) {
                           e.currentTarget.style.color = '#d4af37';
-                          e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
-                          e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                          e.currentTarget.style.backgroundColor =
+                            'rgba(212, 175, 55, 0.1)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(212, 175, 55, 0.3)';
                         }
                       }}
                       onMouseLeave={e => {
@@ -189,11 +191,13 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                       <div style={{ fontSize: '18px', minWidth: '18px' }}>
                         {item.icon}
                       </div>
-                      <span style={{ 
-                        fontSize: '14px', 
-                        fontWeight: '500',
-                        whiteSpace: 'nowrap',
-                      }}>
+                      <span
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
                         {item.label}
                       </span>
                     </motion.div>
@@ -201,9 +205,9 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
 
                   if (item.to && item.to !== '#') {
                     return (
-                      <Link 
-                        key={item.label} 
-                        to={item.to} 
+                      <Link
+                        key={item.label}
+                        to={item.to}
                         style={{ textDecoration: 'none' }}
                         onClick={onClose}
                         aria-label={`Navigate to ${item.label}`}
@@ -214,11 +218,11 @@ const PopoverMenu: React.FC<PopoverMenuProps> = ({
                   }
 
                   return (
-                    <div 
+                    <div
                       key={item.label}
                       role="button"
                       tabIndex={0}
-                      onKeyDown={(e) => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           if (item.onClick) {

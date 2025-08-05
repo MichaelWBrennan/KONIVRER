@@ -122,7 +122,7 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
               >
                 {navigationItems.map((item, index) => {
                   const isActive = location.pathname === item.to;
-                  
+
                   const content = (
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
@@ -136,12 +136,12 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
                         alignItems: 'center',
                         padding: '16px 12px',
                         borderRadius: '12px',
-                        backgroundColor: isActive 
-                          ? 'rgba(212, 175, 55, 0.2)' 
+                        backgroundColor: isActive
+                          ? 'rgba(212, 175, 55, 0.2)'
                           : 'rgba(255, 255, 255, 0.05)',
                         border: '1px solid',
-                        borderColor: isActive 
-                          ? 'rgba(212, 175, 55, 0.4)' 
+                        borderColor: isActive
+                          ? 'rgba(212, 175, 55, 0.4)'
                           : 'rgba(255, 255, 255, 0.1)',
                         color: isActive ? '#d4af37' : '#ccc',
                         textDecoration: 'none',
@@ -152,15 +152,19 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
                       onMouseEnter={e => {
                         if (!isActive) {
                           e.currentTarget.style.color = '#d4af37';
-                          e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
-                          e.currentTarget.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                          e.currentTarget.style.backgroundColor =
+                            'rgba(212, 175, 55, 0.1)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(212, 175, 55, 0.3)';
                         }
                       }}
                       onMouseLeave={e => {
                         if (!isActive) {
                           e.currentTarget.style.color = '#ccc';
-                          e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-                          e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                          e.currentTarget.style.backgroundColor =
+                            'rgba(255, 255, 255, 0.05)';
+                          e.currentTarget.style.borderColor =
+                            'rgba(255, 255, 255, 0.1)';
                         }
                       }}
                       onClick={() => {
@@ -173,7 +177,13 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
                       <div style={{ fontSize: '24px', marginBottom: '8px' }}>
                         {item.icon}
                       </div>
-                      <span style={{ fontSize: '14px', fontWeight: '500', textAlign: 'center' }}>
+                      <span
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          textAlign: 'center',
+                        }}
+                      >
                         {item.label}
                       </span>
                     </motion.div>
@@ -181,9 +191,9 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
 
                   if (item.to && item.to !== '#') {
                     return (
-                      <Link 
-                        key={item.label} 
-                        to={item.to} 
+                      <Link
+                        key={item.label}
+                        to={item.to}
                         style={{ textDecoration: 'none' }}
                         onClick={onClose}
                         aria-label={`Navigate to ${item.label}`}
@@ -194,11 +204,11 @@ const NavigationDrawer: React.FC<NavigationDrawerProps> = ({
                   }
 
                   return (
-                    <div 
+                    <div
                       key={item.label}
                       role="button"
                       tabIndex={0}
-                      onKeyDown={(e) => {
+                      onKeyDown={e => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           if (item.onClick) {
