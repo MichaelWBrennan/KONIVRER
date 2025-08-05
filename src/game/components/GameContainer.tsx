@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { gameEngine } from '../GameEngine';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
 import OrientationPrompt from '../../components/OrientationPrompt';
+import { useDynamicSizing } from '../../utils/userAgentSizing';
 import '../styles/mobile.css';
 
 interface GameContainerProps {
@@ -31,6 +32,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   const [error, setError] = useState<string | null>(null);
   const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
+  
+  // Get dynamic sizing based on user agent
+  const dynamicSizing = useDynamicSizing();
 
   // Enhanced game modes with better descriptions and icons
   const gameModes: GameMode[] = [
@@ -184,10 +188,17 @@ export const GameContainer: React.FC<GameContainerProps> = ({
 
   const containerStyle: React.CSSProperties = {
     position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    top: `${dynamicSizing.safeAreaInsets.top}px`,
+    left: `${dynamicSizing.safeAreaInsets.left}px`,
+    right: `${dynamicSizing.safeAreaInsets.right}px`,
+    bottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
+    width: dynamicSizing.cssWidth,
+    height: dynamicSizing.cssHeight,
+    maxWidth: `${dynamicSizing.maxWidth}px`,
+    maxHeight: `${dynamicSizing.maxHeight}px`,
+    minWidth: `${dynamicSizing.minWidth}px`,
+    minHeight: `${dynamicSizing.minHeight}px`,
+    margin: '0 auto',
     zIndex: 1500,
     background: '#1a1a1a',
     overflow: 'hidden',
@@ -196,6 +207,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
     WebkitTapHighlightColor: 'transparent',
+    borderRadius: dynamicSizing.containerPadding > 0 ? '8px' : '0',
+    boxShadow: dynamicSizing.containerPadding > 0 ? '0 4px 20px rgba(0, 0, 0, 0.3)' : 'none',
   };
 
   const gameCanvasStyle: React.CSSProperties = {
@@ -207,7 +220,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   };
 
   return (
-    <div style={containerStyle} className="mobile-game-container">
+    <div style={containerStyle} className="mobile-game-container dynamic-sizing">
       {/* Orientation Prompt */}
       <OrientationPrompt onOrientationChange={handleOrientationChange} />
 

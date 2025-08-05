@@ -37,6 +37,7 @@ import {
 } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
 import { GameContainer } from '../game/components/GameContainer';
+import { useDynamicSizing } from '../utils/userAgentSizing';
 
 // Types
 interface Card {
@@ -882,6 +883,7 @@ const EventsPage = () => (
 
 const PlayPage = () => {
   const { user, setShowLoginModal, setShowGame } = useContext(AppContext);
+  const dynamicSizing = useDynamicSizing();
 
   // Game modes data to be passed to the game menu
   const gameModes = [
@@ -937,21 +939,24 @@ const PlayPage = () => {
     };
   }, [user, setShowLoginModal, setShowGame]);
 
-  // Render the game container directly
+  // Render the game container with dynamic sizing
   return (
     <div
       style={{
-        width: '100vw', // Use viewport units
+        width: '100vw',
         height: '100vh',
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 1500, // Ensure it's above everything else
+        zIndex: 1500,
         overflow: 'hidden',
-        display: 'block', // Explicitly set display
-        background: '#1a1a1a', // Match game background
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#1a1a1a',
+        padding: `${dynamicSizing.containerPadding}px`,
       }}
       data-search-type="game"
     >
