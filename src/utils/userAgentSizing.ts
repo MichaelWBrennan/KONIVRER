@@ -99,7 +99,7 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
       supportsWebGL = true;
       maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE) || 2048;
     }
-  } catch (e) {
+  } catch (_e) {
     // WebGL not supported
   }
 
