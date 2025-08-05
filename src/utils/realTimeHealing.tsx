@@ -35,7 +35,7 @@ export class AdvancedErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError(_error: Error) {
-    return { hasError: true, errorId: error.message };
+    return { hasError: true, errorId: _error.message };
   }
 
   async componentDidCatch(_error: Error, errorInfo: React.ErrorInfo) {
@@ -46,7 +46,7 @@ export class AdvancedErrorBoundary extends React.Component<
     };
 
     // Attempt immediate healing
-    const healed = await advancedSelfHealing.healError(error, context);
+    const healed = await advancedSelfHealing.healError(_error, context);
 
     if (healed && this.state.healingAttempts < 3) {
       // Silent recovery
@@ -260,12 +260,12 @@ export function useSelfHealingFetch() {
 
           return data;
         } catch (_error) {
-          lastError = error as Error;
+          lastError = _error as Error;
 
           // Adaptive delay based on error type and attempt
           const delay = Math.min(
             1000 * Math.pow(2, attempt),
-            error.name === 'AbortError' ? 5000 : 2000,
+            _error.name === 'AbortError' ? 5000 : 2000,
           );
 
           if (attempt < maxRetries - 1) {
@@ -317,7 +317,7 @@ export function useSelfHealingState<T>(
     (newState: T | ((prev: T) => T)) => {
       const nextState =
         typeof newState === 'function'
-          ? (newState as (prev: T) => T)(_state)
+          ? (newState as (prev: T) => T)(state)
           : newState;
 
       // Validate state
@@ -337,7 +337,7 @@ export function useSelfHealingState<T>(
 
       // Store backup
       backupRef.current = state;
-      stateHistory.push(_state);
+      stateHistory.push(state);
 
       // Keep only last 10 states
       if (stateHistory.length > 10) {
@@ -416,7 +416,7 @@ export function withAdvancedHealing<P extends object>(
           return <Component {...innerProps} ref={innerRef || componentRef} />;
         } catch (_error) {
           // Immediate healing attempt
-          advancedSelfHealing.healError(error as Error, {
+          advancedSelfHealing.healError(_error as Error, {
             component: Component.name,
             props: innerProps,
             renderCount: renderCountRef.current,

@@ -45,10 +45,10 @@ export class CopilotController {
 
         try {
           // Get next intelligent action
-          const action = await this.decideNextAction(_state);
+          const action = await this.decideNextAction(state);
 
           // Execute the action
-          await this.executeAction(action, _state);
+          await this.executeAction(action, state);
 
           // Publish the action to event stream
           this.eventStream.publish(action);
@@ -60,12 +60,12 @@ export class CopilotController {
           this.updateMetrics(action, Date.now() - startTime);
 
           // Check if we should continue
-          if (state.done || this.shouldPause(_state)) {
+          if (state.done || this.shouldPause(state)) {
             break;
           }
 
           // Adaptive delay based on situation complexity
-          await this.adaptiveDelay(_state);
+          await this.adaptiveDelay(state);
         } catch (_error) {
           console.error(`Error in iteration ${iterationCount}:`, _error);
           this.performanceMetrics.errorRate += 1;
@@ -73,13 +73,13 @@ export class CopilotController {
           // Publish error observation
           this.eventStream.publish({
             type: 'error',
-            message: `Iteration _error: ${error.message}`,
+            message: `Iteration _error: ${_error.message}`,
             timestamp: new Date(),
             source: 'controller',
           });
 
           // Continue with error recovery
-          await this.recoverFromError(error, _state);
+          await this.recoverFromError(_error, state);
         }
 
         iterationCount++;
@@ -109,7 +109,7 @@ export class CopilotController {
 
       // Generate action based on comprehensive analysis
       const action = await this.generateIntelligentAction(
-        state,
+        _state,
         analysis,
         activeGoals,
         aiInsights,
@@ -117,7 +117,7 @@ export class CopilotController {
 
       // Add decision metadata
       action.reasoning = `Decision time: ${Date.now() - startTime}ms. ${action.reasoning}`;
-      action.confidence = this.calculateDecisionConfidence(state, analysis);
+      action.confidence = this.calculateDecisionConfidence(_state, analysis);
 
       return action;
     } catch (_error) {
@@ -167,7 +167,7 @@ export class CopilotController {
       console.log(`✅ Executed ${action.type} in ${Date.now() - startTime}ms`);
     } catch (_error) {
       console.error(`❌ Failed to execute ${action.type}:`, _error);
-      throw error;
+      throw _error;
     }
   }
 
@@ -213,18 +213,18 @@ export class CopilotController {
   private async analyzeState(_state: State): Promise<any> {
     return {
       hasActiveGoals:
-        state.currentGoals.filter(g => g.status !== 'completed').length > 0,
-      confidence: state.confidence,
-      recentActivity: state.memory.shortTerm.slice(-5),
-      contextRichness: Object.keys(state.context).length,
+        _state.currentGoals.filter(g => g.status !== 'completed').length > 0,
+      confidence: _state.confidence,
+      recentActivity: _state.memory.shortTerm.slice(-5),
+      contextRichness: Object.keys(_state.context).length,
       needsAttention:
-        state.confidence < 0.4 ||
-        state.currentGoals.some(g => g.status === 'failed'),
+        _state.confidence < 0.4 ||
+        _state.currentGoals.some(g => g.status === 'failed'),
     };
   }
 
   private async manageGoals(_state: State): Promise<Goal[]> {
-    const activeGoals = state.currentGoals.filter(
+    const activeGoals = _state.currentGoals.filter(
       g => g.status === 'pending' || g.status === 'in_progress',
     );
 
@@ -251,11 +251,11 @@ export class CopilotController {
 
     try {
       // Deck optimization insights
-      if (state.context.currentDeck) {
+      if (_state.context.currentDeck) {
         const optimizer = this.aiServices.get('deckOptimizer');
         if (optimizer) {
           insights.deckAnalysis = await optimizer.optimizeDeck(
-            state.context.currentDeck,
+            _state.context.currentDeck,
             [], // Available cards would be provided by game context
           );
         }
@@ -263,8 +263,8 @@ export class CopilotController {
 
       // NLP insights for communication
       const nlp = this.aiServices.get('nlpProcessor');
-      if (nlp && state.memory.shortTerm.length > 0) {
-        const recentMessages = state.memory.shortTerm
+      if (nlp && _state.memory.shortTerm.length > 0) {
+        const recentMessages = _state.memory.shortTerm
           .filter(event => event.type === 'user_input')
           .slice(-3);
 
@@ -274,7 +274,7 @@ export class CopilotController {
       }
     } catch (_error) {
       console.error('Error gathering AI insights:', _error);
-      insights.error = error.message;
+      insights.error = _error.message;
     }
 
     return insights;
@@ -298,7 +298,7 @@ export class CopilotController {
           break;
 
         case 'assist_player':
-          return this.createAssistanceAction(state, insights);
+          return this.createAssistanceAction(_state, insights);
 
         case 'analyze_game':
           return this.createAnalysisAction(_state);
@@ -348,7 +348,7 @@ export class CopilotController {
   private createAnalysisAction(_state: State): Action {
     return {
       type: 'analyze_game_state',
-      payload: { gameState: state.context.gameState },
+      payload: { gameState: _state.context.gameState },
       reasoning: 'Analyzing current game state for strategic insights',
       confidence: 0.9,
       timestamp: new Date(),
@@ -361,7 +361,7 @@ export class CopilotController {
       type: 'provide_learning_content',
       payload: {
         topic: 'strategy_improvement',
-        level: state.context.playerProfile?.level || 'intermediate',
+        level: _state.context.playerProfile?.level || 'intermediate',
       },
       reasoning: 'Delivering educational content for skill improvement',
       confidence: 0.75,
@@ -399,9 +399,9 @@ export class CopilotController {
     _state: State,
   ): Promise<void> {
     const optimizer = this.aiServices.get('deckOptimizer');
-    if (optimizer && state.context.currentDeck) {
+    if (optimizer && _state.context.currentDeck) {
       const result = await optimizer.optimizeDeck(
-        state.context.currentDeck,
+        _state.context.currentDeck,
         [],
       );
 
@@ -464,8 +464,8 @@ export class CopilotController {
 
     // Enhance message with NLP if available
     if (nlp) {
-      const _sentiment = await nlp.analyzeSentiment(message);
-      // Adjust message tone based on context
+      // Just note that we could analyze sentiment here in the future
+      // insights.sentiment = await nlp.analyzeSentiment(message);
     }
 
     this.eventStream.publish({
@@ -521,7 +521,7 @@ export class CopilotController {
   // Helper methods
 
   private calculateDecisionConfidence(_state: State, analysis: any): number {
-    let confidence = state.confidence;
+    let confidence = _state.confidence;
 
     if (analysis.contextRichness > 3) confidence += 0.1;
     if (analysis.hasActiveGoals) confidence += 0.1;
@@ -533,8 +533,8 @@ export class CopilotController {
   private shouldPause(_state: State): boolean {
     // Pause if all goals completed or confidence too low
     return (
-      state.currentGoals.every(g => g.status === 'completed') ||
-      state.confidence < 0.1
+      _state.currentGoals.every(g => g.status === 'completed') ||
+      _state.confidence < 0.1
     );
   }
 
@@ -542,7 +542,7 @@ export class CopilotController {
     // Adaptive delay based on situation complexity
     const baseDelay = 100;
     const complexityFactor =
-      state.currentGoals.length + Object.keys(state.context).length;
+      _state.currentGoals.length + Object.keys(_state.context).length;
     const delay = Math.min(1000, baseDelay + complexityFactor * 50);
 
     await new Promise(resolve => setTimeout(resolve, delay));
@@ -593,7 +593,7 @@ export class CopilotController {
   // Additional helper methods for game analysis
   private determineGamePhase(_state: State): string {
     // Simple phase determination
-    const turn = state.context.gameState?.turn || 1;
+    const turn = _state.context.gameState?.turn || 1;
     if (turn <= 3) return 'early';
     if (turn <= 7) return 'mid';
     return 'late';
@@ -621,7 +621,7 @@ export class CopilotController {
 
   private describeSituation(_state: State): string {
     const phase = this.determineGamePhase(_state);
-    return `${phase} game phase with ${state.currentGoals.length} active goals`;
+    return `${phase} game phase with ${_state.currentGoals.length} active goals`;
   }
 
   private generateStrategicAdvice(_state: State): string[] {
@@ -650,15 +650,15 @@ export class CopilotController {
   private generateObservationFindings(_state: State): string[] {
     const findings = [];
 
-    if (state.confidence < 0.5) {
+    if (_state.confidence < 0.5) {
       findings.push('Low confidence detected - needs attention');
     }
 
-    if (state.currentGoals.length === 0) {
+    if (_state.currentGoals.length === 0) {
       findings.push('No active goals - creating default objectives');
     }
 
-    if (Object.keys(state.context).length < 2) {
+    if (Object.keys(_state.context).length < 2) {
       findings.push('Limited context available - seeking more information');
     }
 

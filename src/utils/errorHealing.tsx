@@ -63,7 +63,7 @@ const errorPatterns: Record<string, (_error: Error) => void> = {
  * Attempts to heal an error based on its type and message
  */
 function attemptToHealError(_error: Error): boolean {
-  const errorMessage = error.message;
+  const errorMessage = _error.message;
 
   // Check if we have a pattern match
   for (const pattern in errorPatterns) {
@@ -153,7 +153,7 @@ if (typeof window !== 'undefined') {
     const error = event.error || new Error(event.message);
 
     // Try to heal the error
-    const healed = attemptToHealError(_error);
+    const healed = attemptToHealError(error);
 
     // If we successfully healed it, prevent the default error
     if (healed) {
@@ -169,7 +169,7 @@ if (typeof window !== 'undefined') {
         : new Error(String(event.reason));
 
     // Try to heal the error
-    const healed = attemptToHealError(_error);
+    const healed = attemptToHealError(error);
 
     // If we successfully healed it, prevent the default error
     if (healed) {
