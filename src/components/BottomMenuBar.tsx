@@ -156,104 +156,347 @@ const BottomMenuBar: React.FC = () => {
 
     if (currentPath === '/') {
       // Home page - search blog posts
-      // Create and show a blog search input dialog
-      const searchTerm = prompt('Search blog posts and chronicles:');
-      if (searchTerm && searchTerm.trim()) {
-        // Focus on blog content and highlight matching posts
-        const blogSections = document.querySelectorAll(
-          '[data-search-type="blog"]',
-        );
-        if (blogSections.length > 0) {
-          blogSections[0].scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        }
-        // You could enhance this further by implementing actual blog search filtering
-        console.log('Searching blogs for:', searchTerm);
+      const blogSections = document.querySelectorAll(
+        '[data-search-type="blog"]',
+      );
+      if (blogSections.length > 0) {
+        blogSections[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       }
+      // Show a subtle notification about blog search
+      console.log('Blog search: Scrolled to blog section');
     } else if (currentPath === '/cards') {
-      // Cards page - focus on card search input
-      const searchInput = document.querySelector(
-        'input[type="text"]',
-      ) as HTMLInputElement;
-      if (searchInput) {
-        searchInput.focus();
-        searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      // Cards page - implement smart card search
+      handleCardSearch();
     } else if (currentPath === '/decks') {
-      // Decks page - search within decks or navigate to cards to search for deck-related cards
-      const searchTerm = prompt('Search for deck names or deck-related cards:');
-      if (searchTerm && searchTerm.trim()) {
-        // Check if there are deck elements to search in first
-        const deckElements = document.querySelectorAll(
-          '[data-search-type="deck"]',
-        );
-        if (deckElements.length > 0) {
-          // Search within current deck view
-          console.log('Searching decks for:', searchTerm);
-          // Implement deck search logic here
-        } else {
-          // Navigate to cards page to search for cards that could be in decks
-          navigate('/cards');
-          setTimeout(() => {
-            const searchInput = document.querySelector(
-              'input[type="text"]',
-            ) as HTMLInputElement;
-            if (searchInput) {
-              searchInput.focus();
-              searchInput.value = searchTerm;
-              // Trigger search if the component supports it
-              const event = new Event('input', { bubbles: true });
-              searchInput.dispatchEvent(event);
-            }
-          }, 300);
-        }
-      }
+      // Decks page - implement deck search
+      handleDeckSearch();
     } else if (currentPath === '/events') {
-      // Events page - search for events
-      const searchTerm = prompt('Search for events and tournaments:');
-      if (searchTerm && searchTerm.trim()) {
-        // Focus on events content and highlight matching events
-        const eventSections = document.querySelectorAll(
-          '[data-search-type="event"]',
-        );
-        if (eventSections.length > 0) {
-          eventSections[0].scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        }
-        console.log('Searching events for:', searchTerm);
-      }
+      // Events page - implement event search
+      handleEventSearch();
     } else if (currentPath === '/play') {
-      // Play page - search for game modes or game-related content
-      const searchTerm = prompt('Search for game modes or play options:');
-      if (searchTerm && searchTerm.trim()) {
-        // Focus on game content
-        const gameElements = document.querySelectorAll(
-          '[data-search-type="game"]',
-        );
-        if (gameElements.length > 0) {
-          gameElements[0].scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-          });
-        }
-        console.log('Searching game content for:', searchTerm);
+      // Play page - search for game modes
+      const gameElements = document.querySelectorAll(
+        '[data-search-type="game"]',
+      );
+      if (gameElements.length > 0) {
+        gameElements[0].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       }
     } else {
       // Default fallback - navigate to cards page for general search
       navigate('/cards');
       setTimeout(() => {
-        const searchInput = document.querySelector(
-          'input[type="text"]',
-        ) as HTMLInputElement;
-        if (searchInput) {
-          searchInput.focus();
-        }
+        handleCardSearch();
       }, 300);
     }
+  };
+
+  // Improved card search functionality
+  const handleCardSearch = () => {
+    // Show a search overlay or modal for cards
+    showSearchOverlay('cards');
+  };
+
+  // Improved deck search functionality  
+  const handleDeckSearch = () => {
+    // For now, if no decks are present, navigate to cards page for deck-building search
+    const deckElements = document.querySelectorAll('[data-search-type="deck"]');
+    if (deckElements.length === 0) {
+      // No decks to search, go to cards page for deck building
+      navigate('/cards');
+      setTimeout(() => {
+        showSearchOverlay('deck-building');
+      }, 300);
+    } else {
+      // Search within existing decks
+      showSearchOverlay('decks');
+    }
+  };
+
+  // Improved event search functionality
+  const handleEventSearch = () => {
+    showSearchOverlay('events');
+  };
+
+  // Show search overlay (simplified implementation)
+  const showSearchOverlay = (searchType: string) => {
+    // Create a simple search interface
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      backdrop-filter: blur(5px);
+    `;
+
+    const searchBox = document.createElement('div');
+    searchBox.style.cssText = `
+      background: #1a1a1a;
+      border: 2px solid #d4af37;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+    `;
+
+    const title = document.createElement('h3');
+    title.style.cssText = `
+      color: #d4af37;
+      margin: 0 0 20px 0;
+      text-align: center;
+      font-size: 18px;
+    `;
+    title.textContent = getSearchTitle(searchType);
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = getSearchPlaceholder(searchType);
+    input.style.cssText = `
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d4af37;
+      border-radius: 6px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 16px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    `;
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.style.cssText = `
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    `;
+
+    const searchButton = document.createElement('button');
+    searchButton.textContent = 'Search';
+    searchButton.style.cssText = `
+      background: #d4af37;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    `;
+
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Cancel';
+    cancelButton.style.cssText = `
+      background: transparent;
+      color: #ccc;
+      border: 1px solid #666;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    `;
+
+    // Event handlers
+    const closeOverlay = () => {
+      document.body.removeChild(overlay);
+    };
+
+    const performSearch = () => {
+      const searchTerm = input.value.trim();
+      if (searchTerm) {
+        handleSearchExecution(searchType, searchTerm);
+      }
+      closeOverlay();
+    };
+
+    searchButton.onclick = performSearch;
+    cancelButton.onclick = closeOverlay;
+    overlay.onclick = (e) => {
+      if (e.target === overlay) closeOverlay();
+    };
+
+    input.onkeydown = (e) => {
+      if (e.key === 'Enter') performSearch();
+      if (e.key === 'Escape') closeOverlay();
+    };
+
+    // Assemble the overlay
+    buttonContainer.appendChild(cancelButton);
+    buttonContainer.appendChild(searchButton);
+    searchBox.appendChild(title);
+    searchBox.appendChild(input);
+    searchBox.appendChild(buttonContainer);
+    overlay.appendChild(searchBox);
+    document.body.appendChild(overlay);
+
+    // Focus the input
+    setTimeout(() => input.focus(), 100);
+  };
+
+  const getSearchTitle = (searchType: string) => {
+    switch (searchType) {
+      case 'cards': return 'Search Cards';
+      case 'deck-building': return 'Search Cards for Deck Building';
+      case 'decks': return 'Search Decks';
+      case 'events': return 'Search Events';
+      default: return 'Search';
+    }
+  };
+
+  const getSearchPlaceholder = (searchType: string) => {
+    switch (searchType) {
+      case 'cards': return 'Enter card name, type, or element...';
+      case 'deck-building': return 'Search for cards to add to your deck...';
+      case 'decks': return 'Enter deck name...';
+      case 'events': return 'Enter event or tournament name...';
+      default: return 'Enter search term...';
+    }
+  };
+
+  const handleSearchExecution = (searchType: string, searchTerm: string) => {
+    console.log(`Executing ${searchType} search for: ${searchTerm}`);
+    
+    switch (searchType) {
+      case 'cards':
+      case 'deck-building':
+        // Search cards on current page or navigate to cards page
+        if (location.pathname !== '/cards') {
+          navigate('/cards');
+        }
+        // Highlight matching cards
+        setTimeout(() => {
+          highlightMatchingCards(searchTerm);
+        }, 200);
+        break;
+        
+      case 'decks':
+        // Search through deck names
+        highlightMatchingDecks(searchTerm);
+        break;
+        
+      case 'events':
+        // Search through events
+        highlightMatchingEvents(searchTerm);
+        break;
+    }
+  };
+
+  const highlightMatchingCards = (searchTerm: string) => {
+    const cardElements = document.querySelectorAll('[data-card-name]');
+    let matchCount = 0;
+    
+    cardElements.forEach((element) => {
+      const cardName = element.getAttribute('data-card-name') || '';
+      const cardType = element.getAttribute('data-card-type') || '';
+      const cardElements = element.getAttribute('data-card-elements') || '';
+      
+      const matches = cardName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     cardType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     cardElements.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      if (matches) {
+        (element as HTMLElement).style.border = '3px solid #d4af37';
+        (element as HTMLElement).style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.5)';
+        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        matchCount++;
+      } else {
+        (element as HTMLElement).style.opacity = '0.3';
+      }
+    });
+    
+    // Show result notification
+    showSearchNotification(`Found ${matchCount} matching cards for "${searchTerm}"`);
+    
+    // Reset highlighting after 10 seconds
+    setTimeout(() => {
+      resetCardHighlighting();
+    }, 10000);
+  };
+
+  const highlightMatchingDecks = (searchTerm: string) => {
+    const deckElements = document.querySelectorAll('[data-search-type="deck"]');
+    if (deckElements.length === 0) {
+      showSearchNotification('No decks found. Create your first deck!');
+      return;
+    }
+    
+    // Implementation for deck search would go here
+    showSearchNotification(`Searching decks for "${searchTerm}"...`);
+  };
+
+  const highlightMatchingEvents = (searchTerm: string) => {
+    const eventElements = document.querySelectorAll('[data-search-type="event"]');
+    let matchCount = 0;
+    
+    eventElements.forEach((element) => {
+      const text = element.textContent?.toLowerCase() || '';
+      if (text.includes(searchTerm.toLowerCase())) {
+        (element as HTMLElement).style.border = '2px solid #d4af37';
+        (element as HTMLElement).style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+        (element as HTMLElement).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        matchCount++;
+      }
+    });
+    
+    showSearchNotification(`Found ${matchCount} matching events for "${searchTerm}"`);
+    
+    // Reset highlighting after 8 seconds
+    setTimeout(() => {
+      resetEventHighlighting();
+    }, 8000);
+  };
+
+  const resetCardHighlighting = () => {
+    const cardElements = document.querySelectorAll('[data-card-name]');
+    cardElements.forEach((element) => {
+      (element as HTMLElement).style.border = '';
+      (element as HTMLElement).style.boxShadow = '';
+      (element as HTMLElement).style.opacity = '';
+    });
+  };
+
+  const resetEventHighlighting = () => {
+    const eventElements = document.querySelectorAll('[data-search-type="event"]');
+    eventElements.forEach((element) => {
+      (element as HTMLElement).style.border = '';
+      (element as HTMLElement).style.backgroundColor = '';
+    });
+  };
+
+  const showSearchNotification = (message: string) => {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #d4af37;
+      color: black;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      z-index: 10000;
+      max-width: 300px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    `;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 4000);
   };
 
   const handleAccessibility = () => {
