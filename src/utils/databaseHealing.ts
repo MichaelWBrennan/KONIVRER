@@ -270,7 +270,7 @@ export function createHealingDatabaseProxy(db: any): any {
           } catch (_error) {
             console.info(
               `[DB-Healing] Error in database operation ${String(prop)}:`,
-              error,
+              _error,
             );
 
             // Provide fallback behavior for common operations
