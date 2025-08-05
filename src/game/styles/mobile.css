@@ -1,9 +1,9 @@
 /**
- * Mobile-Optimized Styles for KONIVRER Game
- * Enhances touch controls and responsive design
+ * Dynamic Mobile-Optimized Styles for KONIVRER Game
+ * Enhances touch controls and responsive design for all user agents
  */
 
-/* Mobile Game Container */
+/* Dynamic Game Container with Viewport Units */
 .mobile-game-container {
   position: fixed;
   top: 0;
@@ -17,10 +17,17 @@
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
+  
+  /* Dynamic scaling based on screen size */
+  font-size: clamp(0.875rem, 2.5vw, 1.125rem);
 }
 
-/* Disable zoom on mobile */
+/* Dynamic Canvas that scales to all viewports */
 .mobile-game-container canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw;
+  max-height: 100vh;
   touch-action: pan-x pan-y;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -28,19 +35,20 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  object-fit: contain;
 }
 
-/* Touch-friendly buttons */
+/* Dynamic touch-friendly buttons using viewport units */
 .touch-button {
-  min-height: 44px;
-  min-width: 44px;
-  padding: 12px 20px;
-  border-radius: 12px;
+  min-height: max(44px, 6vh);
+  min-width: max(44px, 8vw);
+  padding: clamp(8px, 2vh, 16px) clamp(12px, 3vw, 24px);
+  border-radius: clamp(8px, 2vw, 16px);
   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   border: 2px solid #2c3e50;
   color: #ecf0f1;
   font-family: 'Arial Black', Arial, sans-serif;
-  font-size: 16px;
+  font-size: clamp(14px, 2.5vw, 18px);
   font-weight: bold;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   box-shadow:
@@ -49,10 +57,17 @@
   transition: all 0.2s ease;
   cursor: pointer;
   touch-action: manipulation;
+  
+  /* Ensure buttons remain accessible on all screen sizes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
+/* Dynamic button interactions */
 .touch-button:active {
-  transform: translateY(2px);
+  transform: translateY(min(2px, 0.3vh));
   box-shadow:
     0 2px 4px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -61,11 +76,11 @@
 .touch-button:hover {
   background: linear-gradient(135deg, #45b7d1 0%, #3498db 100%);
   box-shadow:
-    0 6px 12px rgba(0, 0, 0, 0.4),
+    0 clamp(4px, 1vh, 8px) clamp(8px, 2vh, 16px) rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
-/* Secondary buttons */
+/* Secondary buttons with dynamic sizing */
 .touch-button-secondary {
   background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
   border-color: #bdc3c7;
@@ -75,17 +90,19 @@
   background: linear-gradient(135deg, #a8b8b9 0%, #95a5a6 100%);
 }
 
-/* Enhanced touch controls for game modes */
+/* Enhanced dynamic touch cards */
 .touch-card {
-  border-radius: 8px;
+  border-radius: clamp(6px, 1.5vw, 12px);
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 clamp(2px, 0.8vh, 6px) clamp(4px, 1.5vh, 12px) rgba(0, 0, 0, 0.3),
     0 0 0 2px rgba(52, 152, 219, 0.3);
   transition: all 0.3s ease;
   cursor: pointer;
   touch-action: manipulation;
   position: relative;
   overflow: hidden;
+  min-height: clamp(60px, 12vh, 120px);
+  padding: clamp(8px, 2vw, 16px);
 }
 
 .touch-card::before {
@@ -104,7 +121,7 @@
 .touch-card:active {
   transform: scale(0.95);
   box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 clamp(1px, 0.4vh, 3px) clamp(2px, 0.8vh, 6px) rgba(0, 0, 0, 0.3),
     0 0 0 2px rgba(212, 175, 55, 0.6);
 }
 
@@ -113,45 +130,47 @@
 }
 
 .touch-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow:
-    0 8px 16px rgba(0, 0, 0, 0.4),
+    0 clamp(4px, 1.5vh, 10px) clamp(8px, 3vh, 20px) rgba(0, 0, 0, 0.4),
     0 0 0 3px rgba(212, 175, 55, 0.8);
 }
 
-/* Draggable card states */
+/* Dynamic draggable card states */
 .touch-card.dragging {
-  transform: scale(1.1) rotate(5deg);
+  transform: scale(1.05) rotate(2deg);
   box-shadow:
-    0 12px 24px rgba(0, 0, 0, 0.5),
+    0 clamp(6px, 2vh, 15px) clamp(12px, 4vh, 30px) rgba(0, 0, 0, 0.5),
     0 0 0 3px rgba(46, 204, 113, 0.8);
   z-index: 1000;
 }
 
 .touch-card.playable {
   box-shadow:
-    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 clamp(2px, 0.8vh, 6px) clamp(4px, 1.5vh, 12px) rgba(0, 0, 0, 0.3),
     0 0 0 2px rgba(46, 204, 113, 0.6),
-    0 0 20px rgba(46, 204, 113, 0.3);
+    0 0 clamp(10px, 3vh, 25px) rgba(46, 204, 113, 0.3);
 }
 
-/* Drop zones */
+/* Dynamic drop zones */
 .drop-zone {
-  border: 3px dashed rgba(46, 204, 113, 0.5);
-  border-radius: 15px;
+  border: clamp(2px, 0.5vw, 4px) dashed rgba(46, 204, 113, 0.5);
+  border-radius: clamp(8px, 2vw, 20px);
   background: rgba(46, 204, 113, 0.1);
   transition: all 0.3s ease;
+  min-height: clamp(40px, 8vh, 80px);
+  padding: clamp(8px, 2vh, 16px);
 }
 
 .drop-zone.active {
   border-color: rgba(46, 204, 113, 0.8);
   background: rgba(46, 204, 113, 0.2);
   box-shadow:
-    inset 0 0 20px rgba(46, 204, 113, 0.3),
-    0 0 20px rgba(46, 204, 113, 0.4);
+    inset 0 0 clamp(10px, 3vh, 25px) rgba(46, 204, 113, 0.3),
+    0 0 clamp(10px, 3vh, 25px) rgba(46, 204, 113, 0.4);
 }
 
-/* Mobile UI panels */
+/* Dynamic UI panels with container queries */
 .mobile-panel {
   background: linear-gradient(
     135deg,
@@ -159,18 +178,20 @@
     rgba(52, 73, 94, 0.95) 100%
   );
   border: 2px solid rgba(52, 152, 219, 0.8);
-  border-radius: 20px;
+  border-radius: clamp(12px, 3vw, 24px);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 clamp(4px, 1.5vh, 10px) clamp(8px, 4vh, 40px) rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(clamp(5px, 2vw, 15px));
+  -webkit-backdrop-filter: blur(clamp(5px, 2vw, 15px));
+  padding: clamp(12px, 3vw, 24px);
+  margin: clamp(8px, 2vw, 16px);
 }
 
-/* Health and mana bars */
+/* Dynamic health and mana bars */
 .stat-bar {
-  height: 20px;
-  border-radius: 10px;
+  height: clamp(16px, 3vh, 24px);
+  border-radius: clamp(8px, 1.5vh, 12px);
   background: linear-gradient(
     90deg,
     rgba(44, 62, 80, 0.8) 0%,
@@ -179,11 +200,12 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   overflow: hidden;
   position: relative;
+  margin: clamp(4px, 1vh, 8px) 0;
 }
 
 .stat-bar-fill {
   height: 100%;
-  border-radius: 10px;
+  border-radius: clamp(8px, 1.5vh, 12px);
   transition: width 0.5s ease;
   position: relative;
   overflow: hidden;
@@ -202,7 +224,7 @@
     rgba(255, 255, 255, 0.3) 50%,
     transparent 100%
   );
-  border-radius: 10px 10px 0 0;
+  border-radius: clamp(8px, 1.5vh, 12px) clamp(8px, 1.5vh, 12px) 0 0;
 }
 
 .health-bar .stat-bar-fill {
@@ -213,57 +235,147 @@
   background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
 }
 
-/* Responsive breakpoints */
-@media (max-width: 768px) {
-  .touch-button {
-    font-size: 14px;
-    padding: 10px 16px;
-    min-height: 40px;
-    min-width: 40px;
-  }
-
+/* Container Queries for adaptive layouts */
+@container (max-width: 600px) {
   .mobile-panel {
-    margin: 10px;
-    border-radius: 15px;
+    padding: clamp(8px, 2vw, 12px);
+    margin: clamp(4px, 1vw, 8px);
+  }
+  
+  .touch-button {
+    min-height: max(40px, 7vh);
+    font-size: clamp(12px, 3vw, 16px);
   }
 }
 
+@container (min-width: 1200px) {
+  .mobile-panel {
+    max-width: 90vw;
+    margin: clamp(16px, 3vw, 32px) auto;
+  }
+}
+
+/* Responsive breakpoints with viewport considerations */
 @media (max-width: 480px) {
+  .mobile-game-container {
+    font-size: clamp(0.75rem, 3vw, 1rem);
+  }
+  
   .touch-button {
-    font-size: 12px;
-    padding: 8px 12px;
-    min-height: 36px;
-    min-width: 36px;
+    font-size: clamp(12px, 3.5vw, 16px);
+    padding: clamp(6px, 1.5vh, 12px) clamp(8px, 2.5vw, 16px);
+    min-height: max(36px, 8vh);
+    min-width: max(36px, 10vw);
   }
 
   .mobile-panel {
-    margin: 5px;
-    border-radius: 12px;
+    margin: clamp(4px, 1vw, 8px);
+    border-radius: clamp(8px, 2vw, 16px);
   }
 
   .stat-bar {
-    height: 16px;
+    height: clamp(14px, 2.5vh, 20px);
+  }
+}
+
+@media (max-width: 320px) {
+  .touch-button {
+    font-size: clamp(11px, 4vw, 14px);
+    padding: clamp(4px, 1vh, 10px) clamp(6px, 2vw, 12px);
+    min-height: max(32px, 9vh);
+    min-width: max(32px, 12vw);
+  }
+  
+  .mobile-panel {
+    margin: clamp(2px, 0.5vw, 6px);
+    padding: clamp(6px, 1.5vw, 12px);
+  }
+}
+
+/* Large screen optimizations */
+@media (min-width: 1024px) {
+  .mobile-game-container {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+  }
+  
+  .touch-button {
+    font-size: clamp(16px, 1.8vw, 20px);
+    padding: clamp(12px, 1.5vh, 20px) clamp(16px, 2vw, 28px);
+  }
+  
+  .mobile-panel {
+    max-width: min(90vw, 1200px);
+    margin: clamp(20px, 3vh, 40px) auto;
+  }
+}
+
+/* Ultra-wide screen support */
+@media (min-width: 1920px) {
+  .mobile-game-container {
+    max-width: 100vw;
+    margin: 0 auto;
+  }
+  
+  .mobile-panel {
+    max-width: min(80vw, 1400px);
   }
 }
 
 /* Landscape orientation optimizations */
-@media (orientation: landscape) and (max-height: 500px) {
+@media (orientation: landscape) {
   .mobile-panel {
-    margin: 5px;
+    margin: clamp(4px, 1vh, 12px);
+    padding: clamp(8px, 1.5vh, 16px);
   }
 
   .touch-button {
-    padding: 6px 12px;
-    font-size: 12px;
+    padding: clamp(4px, 1vh, 12px) clamp(8px, 1.5vw, 20px);
+    font-size: clamp(12px, 2vh, 18px);
+    min-height: max(32px, 6vh);
+  }
+  
+  .stat-bar {
+    height: clamp(12px, 2vh, 20px);
   }
 }
 
-/* Accessibility improvements */
+/* Portrait orientation optimizations */
+@media (orientation: portrait) {
+  .touch-button {
+    min-height: max(44px, 7vh);
+    min-width: max(44px, 12vw);
+  }
+  
+  .mobile-panel {
+    margin: clamp(8px, 2vh, 16px);
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .touch-button {
+    border-width: 1px;
+  }
+  
+  .touch-card {
+    border-width: 1px;
+  }
+}
+
+/* Accessibility improvements for dynamic sizing */
 @media (prefers-reduced-motion: reduce) {
   .touch-button,
   .touch-card,
   .stat-bar-fill {
     transition: none;
+  }
+
+  .touch-card:hover {
+    transform: none;
+  }
+  
+  .touch-button:active {
+    transform: none;
   }
 
   /* Disable animations for users who prefer reduced motion */
@@ -275,7 +387,7 @@
   }
 }
 
-/* Rotation animation for orientation prompt */
+/* Dynamic rotation animation for orientation prompt */
 @keyframes rotate {
   0% {
     transform: rotate(0deg);
@@ -294,14 +406,14 @@
   }
 }
 
-/* Pulse animation for emphasis */
+/* Dynamic pulse animation for emphasis */
 @keyframes pulse {
   0% {
     transform: scale(1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.05);
     opacity: 0.8;
   }
   100% {
@@ -310,11 +422,11 @@
   }
 }
 
-/* Focus styles for accessibility */
+/* Dynamic focus styles for accessibility */
 .touch-button:focus,
 .touch-card:focus {
-  outline: 3px solid rgba(52, 152, 219, 0.8);
-  outline-offset: 2px;
+  outline: clamp(2px, 0.5vw, 4px) solid rgba(52, 152, 219, 0.8);
+  outline-offset: clamp(1px, 0.3vw, 3px);
 }
 
 /* Prevent text selection on game elements */
@@ -327,13 +439,13 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Orientation prompt styles */
+/* Dynamic orientation prompt styles */
 .orientation-prompt {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.9);
   z-index: 2000;
   display: flex;
@@ -342,16 +454,63 @@
   justify-content: center;
   color: white;
   text-align: center;
+  padding: clamp(16px, 5vw, 32px);
 }
 
 .orientation-icon {
   animation: rotate 3s infinite ease-in-out;
-  margin-bottom: 30px;
+  margin-bottom: clamp(20px, 6vh, 40px);
+  font-size: clamp(3rem, 8vw, 6rem);
 }
 
 .orientation-text {
-  font-size: 18px;
-  max-width: 300px;
+  font-size: clamp(16px, 4vw, 22px);
+  max-width: min(90vw, 400px);
   line-height: 1.5;
   animation: pulse 2s infinite ease-in-out;
+}
+
+/* Dynamic game menu styles */
+.game-menu-container {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: clamp(16px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 90vw), 1fr));
+  gap: clamp(12px, 3vw, 24px);
+  width: 100%;
+  max-width: min(90vw, 1200px);
+  margin: clamp(16px, 4vh, 32px) 0;
+}
+
+/* Ensure dynamic text scaling in game menus */
+.game-menu-title {
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-bottom: clamp(16px, 4vh, 32px);
+  text-align: center;
+}
+
+.game-menu-description {
+  font-size: clamp(14px, 3vw, 18px);
+  line-height: 1.4;
+  margin-bottom: clamp(12px, 3vh, 24px);
+}
+
+/* Dynamic close button positioning */
+.game-close-button {
+  position: absolute;
+  top: clamp(16px, 3vh, 32px);
+  right: clamp(16px, 3vw, 32px);
+  width: clamp(40px, 8vw, 60px);
+  height: clamp(40px, 8vh, 60px);
+  z-index: 10;
 }

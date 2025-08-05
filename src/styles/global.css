@@ -319,34 +319,45 @@ select:focus {
   margin-bottom: 1rem;
 }
 
-/* Mobile-First Responsive Breakpoints */
+/* Mobile-First Responsive Breakpoints with Dynamic Sizing */
 /* Base styles (mobile first) */
 :root {
-  --container-padding: var(--spacing-md);
-  --grid-gap: var(--spacing-md);
+  --container-padding: clamp(1rem, 4vw, 2rem);
+  --grid-gap: clamp(1rem, 3vw, 1.5rem);
+  --dynamic-font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+  --touch-target-size: max(44px, 6vh);
+  --safe-area-padding: max(16px, env(safe-area-inset-top, 0px));
+}
+
+/* Dynamic base font sizing */
+html {
+  font-size: var(--dynamic-font-size);
 }
 
 /* Small mobile devices */
 @media (min-width: 320px) {
   :root {
-    --font-size-base: 1rem;
+    --font-size-base: clamp(0.875rem, 2.8vw, 1rem);
+    --dynamic-font-size: clamp(0.875rem, 2.8vw, 1rem);
   }
 }
 
 /* Large mobile devices */
 @media (min-width: 480px) {
   :root {
-    --font-size-base: 1.05rem;
-    --container-padding: var(--spacing-lg);
+    --font-size-base: clamp(1rem, 2.5vw, 1.05rem);
+    --dynamic-font-size: clamp(1rem, 2.5vw, 1.05rem);
+    --container-padding: clamp(1.5rem, 4vw, 2.5rem);
   }
 }
 
 /* Tablets */
 @media (min-width: 768px) {
   :root {
-    --font-size-base: 1.1rem;
-    --container-padding: var(--spacing-xl);
-    --grid-gap: var(--spacing-lg);
+    --font-size-base: clamp(1.05rem, 2vw, 1.1rem);
+    --dynamic-font-size: clamp(1.05rem, 2vw, 1.1rem);
+    --container-padding: clamp(2rem, 4vw, 3rem);
+    --grid-gap: clamp(1.5rem, 3vw, 2rem);
   }
 
   /* Show tablet-specific content */
@@ -362,8 +373,9 @@ select:focus {
 /* Desktop and larger */
 @media (min-width: 1024px) {
   :root {
-    --font-size-base: 1.125rem;
-    --container-padding: 2.5rem;
+    --font-size-base: clamp(1.1rem, 1.5vw, 1.125rem);
+    --dynamic-font-size: clamp(1.1rem, 1.5vw, 1.125rem);
+    --container-padding: clamp(2.5rem, 4vw, 4rem);
   }
 
   /* Show desktop-specific content */
@@ -379,7 +391,17 @@ select:focus {
 /* Large desktop */
 @media (min-width: 1440px) {
   :root {
-    --font-size-base: 1.2rem;
+    --font-size-base: clamp(1.125rem, 1.2vw, 1.2rem);
+    --dynamic-font-size: clamp(1.125rem, 1.2vw, 1.2rem);
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1920px) {
+  :root {
+    --font-size-base: clamp(1.2rem, 1vw, 1.25rem);
+    --dynamic-font-size: clamp(1.2rem, 1vw, 1.25rem);
+    --container-padding: clamp(3rem, 5vw, 5rem);
   }
 }
 
@@ -394,10 +416,10 @@ select:focus {
   }
 }
 
-/* Container utilities */
+/* Container utilities with dynamic sizing */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: min(1200px, 95vw);
   margin: 0 auto;
   padding: 0 var(--container-padding);
 }
@@ -407,7 +429,7 @@ select:focus {
   padding: 0 var(--container-padding);
 }
 
-/* Mobile-first grid system */
+/* Mobile-first grid system with dynamic gap */
 .grid {
   display: grid;
   gap: var(--grid-gap);
@@ -428,10 +450,19 @@ select:focus {
   }
 }
 
-/* Flexbox utilities */
+/* Dynamic grid for game layouts */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 90vw), 1fr));
+  gap: var(--grid-gap);
+  width: 100%;
+  max-width: min(90vw, 1200px);
+}
+
+/* Flexbox utilities with dynamic spacing */
 .flex {
   display: flex;
-  gap: var(--spacing-md);
+  gap: clamp(0.5rem, 2vw, 1rem);
 }
 
 .flex-column {
@@ -450,16 +481,16 @@ select:focus {
   align-items: center;
 }
 
-/* Mobile navigation helpers */
+/* Mobile navigation helpers with dynamic sizing */
 .mobile-nav-toggle {
   display: block;
   background: none;
   border: none;
   color: var(--accent-color);
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
   padding: var(--spacing-sm);
-  min-height: var(--touch-target-min);
-  min-width: var(--touch-target-min);
+  min-height: var(--touch-target-size);
+  min-width: var(--touch-target-size);
 }
 
 @media (min-width: 768px) {

@@ -196,14 +196,22 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     WebkitUserSelect: 'none',
     WebkitTouchCallout: 'none',
     WebkitTapHighlightColor: 'transparent',
+    // Dynamic sizing using viewport units
+    width: '100vw',
+    height: '100vh',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
   };
 
   const gameCanvasStyle: React.CSSProperties = {
-    width: '100%',
-    height: '100%',
+    width: '100vw',
+    height: '100vh',
+    maxWidth: '100vw',
+    maxHeight: '100vh',
     display: 'block',
     touchAction: 'none', // Allow full touch control for game canvas
     outline: 'none',
+    objectFit: 'contain', // Ensure canvas scales properly
   };
 
   return (
