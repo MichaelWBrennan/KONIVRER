@@ -37,10 +37,12 @@ export class ArenaAssetManager {
     if (this.scene.getEngine().getCaps().s3tc) {
       console.log('[ArenaAssetManager] S3TC texture compression available');
     }
-    
+
     // Set up texture atlas optimization
-    this.scene.getEngine().setHardwareScalingLevel(1 / window.devicePixelRatio || 1);
-    
+    this.scene
+      .getEngine()
+      .setHardwareScalingLevel(1 / window.devicePixelRatio || 1);
+
     // Enable mesh optimization
     this.scene.skipPointerMovePicking = true;
     this.scene.autoClear = false;
@@ -50,28 +52,41 @@ export class ArenaAssetManager {
   /**
    * Load assets for a specific theme with progressive streaming
    */
-  public async loadThemeAssets(theme: string, quality: 'low' | 'medium' | 'high' | 'ultra'): Promise<void> {
-    console.log(`[ArenaAssetManager] Loading assets for theme: ${theme}, quality: ${quality}`);
-    
+  public async loadThemeAssets(
+    theme: string,
+    quality: 'low' | 'medium' | 'high' | 'ultra',
+  ): Promise<void> {
+    console.log(
+      `[ArenaAssetManager] Loading assets for theme: ${theme}, quality: ${quality}`,
+    );
+
     const manifest = await this.getAssetManifest(theme, quality);
-    
+
     // Check memory constraints
     if (manifest.totalSize > this.maxMemoryLimit / (1024 * 1024)) {
-      console.warn(`[ArenaAssetManager] Theme ${theme} exceeds memory limit, reducing quality`);
+      console.warn(
+        `[ArenaAssetManager] Theme ${theme} exceeds memory limit, reducing quality`,
+      );
       return this.loadThemeAssets(theme, this.getReducedQuality(quality));
     }
 
     // Load high-priority assets first
-    const highPriorityAssets = manifest.assets.filter(asset => asset.priority === 'high');
+    const highPriorityAssets = manifest.assets.filter(
+      asset => asset.priority === 'high',
+    );
     await this.loadAssetBatch(highPriorityAssets);
 
     // Stream medium and low priority assets
-    const mediumPriorityAssets = manifest.assets.filter(asset => asset.priority === 'medium');
-    const lowPriorityAssets = manifest.assets.filter(asset => asset.priority === 'low');
+    const mediumPriorityAssets = manifest.assets.filter(
+      asset => asset.priority === 'medium',
+    );
+    const lowPriorityAssets = manifest.assets.filter(
+      asset => asset.priority === 'low',
+    );
 
     // Load medium priority in background
     setTimeout(() => this.loadAssetBatch(mediumPriorityAssets), 100);
-    
+
     // Load low priority when system is idle
     if ('requestIdleCallback' in window) {
       requestIdleCallback(() => this.loadAssetBatch(lowPriorityAssets));
@@ -80,18 +95,25 @@ export class ArenaAssetManager {
     }
   }
 
-  private async getAssetManifest(theme: string, quality: string): Promise<AssetManifest> {
+  private async getAssetManifest(
+    theme: string,
+    quality: string,
+  ): Promise<AssetManifest> {
     // Generate dynamic asset manifest based on theme and quality
     const baseAssets = this.getBaseAssetList(theme);
     const qualityMultiplier = this.getQualityMultiplier(quality);
-    
+
     return {
       theme,
-      totalSize: baseAssets.reduce((total, asset) => total + asset.size * qualityMultiplier, 0) / 1024, // Convert to MB
+      totalSize:
+        baseAssets.reduce(
+          (total, asset) => total + asset.size * qualityMultiplier,
+          0,
+        ) / 1024, // Convert to MB
       assets: baseAssets.map(asset => ({
         ...asset,
-        size: asset.size * qualityMultiplier
-      }))
+        size: asset.size * qualityMultiplier,
+      })),
     };
   }
 
@@ -103,7 +125,7 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 512, // KB
         priority: 'high',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'floor_texture',
@@ -111,7 +133,7 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 256,
         priority: 'high',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'floor_normal',
@@ -119,8 +141,8 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 256,
         priority: 'medium',
-        compressed: true
-      }
+        compressed: true,
+      },
     ];
 
     // Add theme-specific assets
@@ -146,7 +168,7 @@ export class ArenaAssetManager {
         type: 'mesh',
         size: 1024,
         priority: 'medium',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'waterfall_texture',
@@ -154,7 +176,7 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 512,
         priority: 'low',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'leaves_particle',
@@ -162,8 +184,8 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 128,
         priority: 'low',
-        compressed: true
-      }
+        compressed: true,
+      },
     ];
   }
 
@@ -175,7 +197,7 @@ export class ArenaAssetManager {
         type: 'mesh',
         size: 800,
         priority: 'medium',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'sand_dune_texture',
@@ -183,7 +205,7 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 384,
         priority: 'medium',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'mirage_effect',
@@ -191,8 +213,8 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 256,
         priority: 'low',
-        compressed: true
-      }
+        compressed: true,
+      },
     ];
   }
 
@@ -204,7 +226,7 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 768,
         priority: 'high',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'rock_formation',
@@ -212,7 +234,7 @@ export class ArenaAssetManager {
         type: 'mesh',
         size: 1200,
         priority: 'medium',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'smoke_particle',
@@ -220,8 +242,8 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 256,
         priority: 'low',
-        compressed: true
-      }
+        compressed: true,
+      },
     ];
   }
 
@@ -233,7 +255,7 @@ export class ArenaAssetManager {
         type: 'mesh',
         size: 1500,
         priority: 'high',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'fireplace_texture',
@@ -241,7 +263,7 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 512,
         priority: 'high',
-        compressed: true
+        compressed: true,
       },
       {
         name: 'torch_flame',
@@ -249,8 +271,8 @@ export class ArenaAssetManager {
         type: 'texture',
         size: 128,
         priority: 'medium',
-        compressed: true
-      }
+        compressed: true,
+      },
     ];
   }
 
@@ -280,7 +302,10 @@ export class ArenaAssetManager {
       this.loadingPromises.delete(asset.name);
       return loadedAsset;
     } catch (error) {
-      console.warn(`[ArenaAssetManager] Failed to load asset ${asset.name}:`, error);
+      console.warn(
+        `[ArenaAssetManager] Failed to load asset ${asset.name}:`,
+        error,
+      );
       this.loadingPromises.delete(asset.name);
       return this.createFallbackAsset(asset);
     }
@@ -310,7 +335,7 @@ export class ArenaAssetManager {
 
     // Create texture with optimizations
     const texture = new BABYLON.Texture(asset.url, this.scene, false, true);
-    
+
     // Apply compression if supported
     if (asset.compressed && this.scene.getEngine().getCaps().s3tc) {
       texture.format = BABYLON.Engine.TEXTUREFORMAT_COMPRESSED_RGBA_S3TC_DXT5;
@@ -319,7 +344,7 @@ export class ArenaAssetManager {
     // Set optimization flags
     texture.generateMipMaps = true;
     texture.anisotropicFilteringLevel = 2;
-    
+
     return texture;
   }
 
@@ -329,7 +354,7 @@ export class ArenaAssetManager {
         asset.url,
         '',
         this.scene,
-        (container) => {
+        container => {
           // Optimize meshes for performance
           container.meshes.forEach(mesh => {
             if (mesh instanceof BABYLON.Mesh) {
@@ -337,54 +362,52 @@ export class ArenaAssetManager {
               mesh.simplify([
                 { quality: 0.9, distance: 100 },
                 { quality: 0.7, distance: 200 },
-                { quality: 0.5, distance: 300 }
+                { quality: 0.5, distance: 300 },
               ]);
-              
+
               // Enable GPU instancing for repeated objects
               mesh.createInstance = mesh.createInstance || (() => mesh.clone());
             }
           });
-          
+
           container.addAllToScene();
           resolve(container.meshes);
         },
         null,
         (scene, message, exception) => {
           reject(new Error(`Failed to load mesh: ${message}`));
-        }
+        },
       );
     });
   }
 
   private async loadSound(asset: AssetInfo): Promise<BABYLON.Sound> {
-    return new BABYLON.Sound(
-      asset.name,
-      asset.url,
-      this.scene,
-      null,
-      {
-        loop: false,
-        autoplay: false,
-        volume: 0.5,
-        spatialSound: true,
-        maxDistance: 100
-      }
-    );
+    return new BABYLON.Sound(asset.name, asset.url, this.scene, null, {
+      loop: false,
+      autoplay: false,
+      volume: 0.5,
+      spatialSound: true,
+      maxDistance: 100,
+    });
   }
 
-  private async loadAnimation(asset: AssetInfo): Promise<BABYLON.AnimationGroup> {
+  private async loadAnimation(
+    asset: AssetInfo,
+  ): Promise<BABYLON.AnimationGroup> {
     // Placeholder for animation loading
     return new BABYLON.AnimationGroup(asset.name, this.scene);
   }
 
   private createFallbackAsset(asset: AssetInfo): any {
     console.log(`[ArenaAssetManager] Creating fallback for ${asset.name}`);
-    
+
     switch (asset.type) {
       case 'texture':
         return this.createProceduralTexture(asset.name);
       case 'mesh':
-        return [BABYLON.MeshBuilder.CreateBox(asset.name, { size: 1 }, this.scene)];
+        return [
+          BABYLON.MeshBuilder.CreateBox(asset.name, { size: 1 }, this.scene),
+        ];
       default:
         return null;
     }
@@ -393,16 +416,16 @@ export class ArenaAssetManager {
   private createProceduralTexture(name: string): BABYLON.DynamicTexture {
     const texture = new BABYLON.DynamicTexture(name, 256, this.scene);
     const context = texture.getContext();
-    
+
     // Create a simple procedural pattern
     const gradient = context.createLinearGradient(0, 0, 256, 256);
     gradient.addColorStop(0, '#444444');
     gradient.addColorStop(1, '#888888');
-    
+
     context.fillStyle = gradient;
     context.fillRect(0, 0, 256, 256);
     texture.update();
-    
+
     return texture;
   }
 
@@ -413,20 +436,31 @@ export class ArenaAssetManager {
 
   private getQualityMultiplier(quality: string): number {
     switch (quality) {
-      case 'low': return 0.5;
-      case 'medium': return 0.75;
-      case 'high': return 1.0;
-      case 'ultra': return 1.5;
-      default: return 1.0;
+      case 'low':
+        return 0.5;
+      case 'medium':
+        return 0.75;
+      case 'high':
+        return 1.0;
+      case 'ultra':
+        return 1.5;
+      default:
+        return 1.0;
     }
   }
 
-  private getReducedQuality(quality: string): 'low' | 'medium' | 'high' | 'ultra' {
+  private getReducedQuality(
+    quality: string,
+  ): 'low' | 'medium' | 'high' | 'ultra' {
     switch (quality) {
-      case 'ultra': return 'high';
-      case 'high': return 'medium';
-      case 'medium': return 'low';
-      default: return 'low';
+      case 'ultra':
+        return 'high';
+      case 'high':
+        return 'medium';
+      case 'medium':
+        return 'low';
+      default:
+        return 'low';
     }
   }
 
@@ -437,7 +471,7 @@ export class ArenaAssetManager {
     return {
       used: this.totalMemoryUsage,
       limit: this.maxMemoryLimit,
-      percentage: (this.totalMemoryUsage / this.maxMemoryLimit) * 100
+      percentage: (this.totalMemoryUsage / this.maxMemoryLimit) * 100,
     };
   }
 
@@ -446,14 +480,14 @@ export class ArenaAssetManager {
    */
   public cleanup(): void {
     console.log('[ArenaAssetManager] Cleaning up assets');
-    
+
     // Dispose of loaded assets
     this.loadedAssets.forEach((asset, name) => {
       if (asset && typeof asset.dispose === 'function') {
         asset.dispose();
       }
     });
-    
+
     this.loadedAssets.clear();
     this.loadingPromises.clear();
     this.textureAtlases.clear();
