@@ -11,16 +11,21 @@ interface DeckSearchProps {
   showMyDecks?: boolean;
 }
 
-const DeckSearch: React.FC<DeckSearchProps> = ({ 
-  onDeckSelect, 
+const DeckSearch: React.FC<DeckSearchProps> = ({
+  onDeckSelect,
   onImportDeck,
   onPlayWithDeck,
-  showMyDecks = false 
+  showMyDecks = false,
 }) => {
-  const { user, decks, publicDecks, setPublicDecks, importDeck } = useContext(AppContext);
+  const { user, decks, publicDecks, setPublicDecks, importDeck } =
+    useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterBy, setFilterBy] = useState<'all' | 'familiar' | 'flag' | 'elements'>('all');
-  const [sortBy, setSortBy] = useState<'name' | 'author' | 'cards' | 'updated'>('updated');
+  const [filterBy, setFilterBy] = useState<
+    'all' | 'familiar' | 'flag' | 'elements'
+  >('all');
+  const [sortBy, setSortBy] = useState<'name' | 'author' | 'cards' | 'updated'>(
+    'updated',
+  );
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
 
   // Mock data for public decks (in a real app, this would come from an API)
@@ -34,7 +39,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
           cards: [
             { cardId: 'salamander', quantity: 3 },
             { cardId: 'fire_familiar_1', quantity: 2 },
-            { cardId: 'solar', quantity: 1 }
+            { cardId: 'solar', quantity: 1 },
           ],
           authorId: 'user_1',
           authorUsername: 'ElementMaster',
@@ -42,7 +47,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
           createdAt: new Date('2024-01-15'),
           updatedAt: new Date('2024-01-20'),
           tags: ['aggro', 'fire', 'competitive'],
-          format: 'Standard'
+          format: 'Standard',
         },
         {
           id: 'public_2',
@@ -51,7 +56,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
           cards: [
             { cardId: 'undine', quantity: 3 },
             { cardId: 'water_familiar_1', quantity: 2 },
-            { cardId: 'water_familiar_2', quantity: 2 }
+            { cardId: 'water_familiar_2', quantity: 2 },
           ],
           authorId: 'user_2',
           authorUsername: 'AquaStrategist',
@@ -59,7 +64,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
           createdAt: new Date('2024-01-10'),
           updatedAt: new Date('2024-01-18'),
           tags: ['control', 'water', 'defensive'],
-          format: 'Standard'
+          format: 'Standard',
         },
         {
           id: 'public_3',
@@ -69,7 +74,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
             { cardId: 'rainbow', quantity: 1 },
             { cardId: 'salamander', quantity: 2 },
             { cardId: 'undine', quantity: 2 },
-            { cardId: 'gnome', quantity: 2 }
+            { cardId: 'gnome', quantity: 2 },
           ],
           authorId: 'user_3',
           authorUsername: 'PrismBuilder',
@@ -77,8 +82,8 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
           createdAt: new Date('2024-01-05'),
           updatedAt: new Date('2024-01-25'),
           tags: ['midrange', 'multicolor', 'versatile'],
-          format: 'Standard'
-        }
+          format: 'Standard',
+        },
       ];
       setPublicDecks(mockPublicDecks);
     }
@@ -101,7 +106,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
       familiar: 0,
       flag: 0,
       elements: new Set<string>(),
-      totalCost: 0
+      totalCost: 0,
     };
 
     deck.cards.forEach(deckCard => {
@@ -118,50 +123,56 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
     return {
       ...stats,
       elements: Array.from(stats.elements),
-      avgCost: stats.totalCards > 0 ? stats.totalCost / stats.totalCards : 0
+      avgCost: stats.totalCards > 0 ? stats.totalCost / stats.totalCards : 0,
     };
   };
 
-  const filteredDecks = getDecksToShow().filter(deck => {
-    const matchesSearch = 
-      deck.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deck.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deck.authorUsername.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      deck.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+  const filteredDecks = getDecksToShow()
+    .filter(deck => {
+      const matchesSearch =
+        deck.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        deck.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        deck.authorUsername.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        deck.tags.some(tag =>
+          tag.toLowerCase().includes(searchQuery.toLowerCase()),
+        );
 
-    if (!matchesSearch) return false;
+      if (!matchesSearch) return false;
 
-    if (filterBy === 'all') return true;
+      if (filterBy === 'all') return true;
 
-    const stats = getDeckStats(deck);
-    switch (filterBy) {
-      case 'familiar':
-        return stats.familiar > stats.flag;
-      case 'flag':
-        return stats.flag > stats.familiar;
-      case 'elements':
-        return stats.elements.length >= 3;
-      default:
-        return true;
-    }
-  }).sort((a, b) => {
-    switch (sortBy) {
-      case 'name':
-        return a.name.localeCompare(b.name);
-      case 'author':
-        return a.authorUsername.localeCompare(b.authorUsername);
-      case 'cards':
-        return getDeckStats(b).totalCards - getDeckStats(a).totalCards;
-      case 'updated':
-        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-      default:
-        return 0;
-    }
-  });
+      const stats = getDeckStats(deck);
+      switch (filterBy) {
+        case 'familiar':
+          return stats.familiar > stats.flag;
+        case 'flag':
+          return stats.flag > stats.familiar;
+        case 'elements':
+          return stats.elements.length >= 3;
+        default:
+          return true;
+      }
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'name':
+          return a.name.localeCompare(b.name);
+        case 'author':
+          return a.authorUsername.localeCompare(b.authorUsername);
+        case 'cards':
+          return getDeckStats(b).totalCards - getDeckStats(a).totalCards;
+        case 'updated':
+          return (
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          );
+        default:
+          return 0;
+      }
+    });
 
   const handleImport = (deck: Deck) => {
     if (!user) return;
-    
+
     const importedDeck: Deck = {
       ...deck,
       id: `imported_${Date.now()}`,
@@ -170,9 +181,9 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
       isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
-      name: `${deck.name} (Imported)`
+      name: `${deck.name} (Imported)`,
     };
-    
+
     importDeck(importedDeck);
     onImportDeck?.(importedDeck);
   };
@@ -181,19 +192,19 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
     <div className="deck-search">
       <div className="deck-search-header">
         <h2>{showMyDecks ? 'My Decks' : 'Browse Public Decks'}</h2>
-        
+
         <div className="search-controls">
           <input
             type="text"
             placeholder="Search decks..."
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
             className="search-input"
           />
-          
+
           <select
             value={filterBy}
-            onChange={(e) => setFilterBy(e.target.value as any)}
+            onChange={e => setFilterBy(e.target.value as any)}
             className="filter-select"
           >
             <option value="all">All Decks</option>
@@ -201,10 +212,10 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
             <option value="flag">Flag-Heavy</option>
             <option value="elements">Multi-Element</option>
           </select>
-          
+
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
+            onChange={e => setSortBy(e.target.value as any)}
             className="sort-select"
           >
             <option value="updated">Recently Updated</option>
@@ -218,9 +229,9 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
       <div className="deck-search-content">
         <div className="deck-list">
           <AnimatePresence>
-            {filteredDecks.map((deck) => {
+            {filteredDecks.map(deck => {
               const stats = getDeckStats(deck);
-              
+
               return (
                 <motion.div
                   key={deck.id}
@@ -236,15 +247,17 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
                   <div className="deck-header">
                     <h3 className="deck-name">{deck.name}</h3>
                     <div className="deck-meta">
-                      <span className="deck-author">by {deck.authorUsername}</span>
+                      <span className="deck-author">
+                        by {deck.authorUsername}
+                      </span>
                       <span className="deck-updated">
                         {new Date(deck.updatedAt).toLocaleDateString()}
                       </span>
                     </div>
                   </div>
-                  
+
                   <p className="deck-description">{deck.description}</p>
-                  
+
                   <div className="deck-stats">
                     <div className="stat">
                       <span className="stat-label">Cards:</span>
@@ -252,25 +265,31 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
                     </div>
                     <div className="stat">
                       <span className="stat-label">Avg Cost:</span>
-                      <span className="stat-value">{stats.avgCost.toFixed(1)}</span>
+                      <span className="stat-value">
+                        {stats.avgCost.toFixed(1)}
+                      </span>
                     </div>
                     <div className="stat">
                       <span className="stat-label">Elements:</span>
-                      <span className="stat-value">{stats.elements.join(', ')}</span>
+                      <span className="stat-value">
+                        {stats.elements.join(', ')}
+                      </span>
                     </div>
                   </div>
-                  
+
                   <div className="deck-tags">
                     {deck.tags.map(tag => (
-                      <span key={tag} className="tag">{tag}</span>
+                      <span key={tag} className="tag">
+                        {tag}
+                      </span>
                     ))}
                   </div>
-                  
+
                   <div className="deck-actions">
                     {!showMyDecks && user && (
                       <>
                         <button
-                          onClick={(e) => {
+                          onClick={e => {
                             e.stopPropagation();
                             handleImport(deck);
                           }}
@@ -280,7 +299,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
                         </button>
                         {onPlayWithDeck && (
                           <button
-                            onClick={(e) => {
+                            onClick={e => {
                               e.stopPropagation();
                               onPlayWithDeck(deck);
                             }}
@@ -293,7 +312,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
                     )}
                     {showMyDecks && onPlayWithDeck && (
                       <button
-                        onClick={(e) => {
+                        onClick={e => {
                           e.stopPropagation();
                           onPlayWithDeck(deck);
                         }}
@@ -307,7 +326,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
               );
             })}
           </AnimatePresence>
-          
+
           {filteredDecks.length === 0 && (
             <div className="no-decks">
               <p>No decks found matching your criteria.</p>
@@ -325,7 +344,7 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
               {selectedDeck.cards.map(deckCard => {
                 const card = getCardById(deckCard.cardId);
                 if (!card) return null;
-                
+
                 return (
                   <div key={deckCard.cardId} className="deck-card">
                     <span className="card-quantity">{deckCard.quantity}x</span>

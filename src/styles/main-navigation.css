@@ -306,7 +306,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.1) 50%, transparent 70%);
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(212, 175, 55, 0.1) 50%,
+    transparent 70%
+  );
   opacity: 0;
   transition: opacity 0.3s ease;
   border-radius: 8px;
@@ -346,7 +351,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
     transform: scale(1);
   }
