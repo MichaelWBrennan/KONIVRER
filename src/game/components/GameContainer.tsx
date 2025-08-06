@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
 import CardGameUI from './CardGameUI';
+import Card3DGameUI from './Card3DGameUI';
 import OrientationPrompt from '../../components/OrientationPrompt';
 import { useDynamicSizing } from '../../utils/userAgentSizing';
 import '../styles/mobile.css';
@@ -25,31 +26,50 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   setShowGame,
 }) => {
   const [gameState, setGameState] = useState<
-    'menu' | 'loading' | 'playing' | 'error'
+    'menu' | 'loading' | 'playing' | 'playing3d' | 'error'
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [use3D, setUse3D] = useState<boolean>(true); // Default to 3D cards
 
   // Get dynamic sizing based on user agent
   const dynamicSizing = useDynamicSizing();
 
-  // Enhanced game modes with better descriptions and icons
+  // Enhanced game modes with 3D options
   const gameModes: GameMode[] = [
     {
-      id: 'practice',
-      title: 'Practice Arena',
+      id: 'practice3d',
+      title: '3D Practice Arena',
       description:
-        'Master your skills against adaptive AI opponents with varying difficulty levels',
+        'Experience immersive 3D cards with physics! Master your skills against adaptive AI opponents with realistic card interactions',
       icon: '🎯',
       difficulty: 'Beginner Friendly',
       requiresAccount: false,
     },
     {
-      id: 'quick',
-      title: 'Quick Duel',
+      id: 'practice',
+      title: 'Classic Practice Arena',
       description:
-        'Jump into fast-paced matches with optimized matchmaking for your skill level',
+        'Traditional 2D card interface - Master your skills against adaptive AI opponents with varying difficulty levels',
+      icon: '🎴',
+      difficulty: 'Beginner Friendly',
+      requiresAccount: false,
+    },
+    {
+      id: 'quick3d',
+      title: '3D Quick Duel',
+      description:
+        'Fast-paced 3D card battles with drag-and-drop physics! Jump into immersive matches with optimized matchmaking',
       icon: '⚡',
+      difficulty: 'All Levels',
+      requiresAccount: false,
+    },
+    {
+      id: 'quick',
+      title: 'Classic Quick Duel',
+      description:
+        'Traditional fast-paced matches with optimized matchmaking for your skill level',
+      icon: '🃏',
       difficulty: 'All Levels',
       requiresAccount: false,
     },
@@ -78,15 +98,20 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setSelectedMode(modeId);
 
     try {
+      // Determine if this is a 3D mode
+      const is3D = modeId.includes('3d');
+      setUse3D(is3D);
+
       // Provide immediate feedback - show loading state instantly
-      console.log('[GameContainer] Starting card game initialization...');
+      console.log(`[GameContainer] Starting ${is3D ? '3D' : '2D'} card game initialization...`);
 
-      // Simple delay to show loading animation
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Longer delay for 3D games to show realistic loading
+      const loadingTime = is3D ? 2000 : 1000;
+      await new Promise(resolve => setTimeout(resolve, loadingTime));
 
-      // Directly go to playing state (no 3D engine needed)
-      setGameState('playing');
-      console.log('[GameContainer] Card game initialized successfully');
+      // Go to appropriate playing state
+      setGameState(is3D ? 'playing3d' : 'playing');
+      console.log(`[GameContainer] ${is3D ? '3D' : '2D'} card game initialized successfully`);
     } catch (_error) {
       console.error('[GameContainer] Error initializing card game:', _error);
       setError(
@@ -104,6 +129,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setGameState('menu');
     setSelectedMode(null);
     setError(null);
+    setUse3D(true); // Reset to default
     // No need to destroy game engine anymore
     if (onClose) onClose();
     if (setShowGame) setShowGame(false);
@@ -238,8 +264,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
                 maxWidth: '400px',
               }}
             >
-              Initializing advanced 3D graphics, particle systems, and mystical
-              effects...
+              {use3D 
+                ? 'Initializing advanced 3D graphics, physics engine, particle systems, and mystical effects...'
+                : 'Loading traditional card interface and game systems...'
+              }
             </motion.p>
           </motion.div>
         )}
@@ -376,6 +404,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         )}
 
         {gameState === 'playing' && <CardGameUI onClose={handleClose} />}
+
+        {gameState === 'playing3d' && <Card3DGameUI onClose={handleClose} />}
       </AnimatePresence>
     </div>
   );
