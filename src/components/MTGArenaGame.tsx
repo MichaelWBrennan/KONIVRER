@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KONIVRER_CARDS, Card } from '../data/cards';
+import { audioManager } from '../game/GameEngine';
 
 // MTG Arena-style card interface
 interface MTGCard extends Card {
@@ -130,11 +131,18 @@ const MTGArenaGame: React.FC = () => {
   const handleCardClick = (card: MTGCard) => {
     if (card.owner !== gameState.turn) return;
 
+    // Play card selection audio
+    audioManager.playCardHover();
+    
     setSelectedCard(selectedCard?.gameId === card.gameId ? null : card);
   };
 
   const handleCardDragStart = (card: MTGCard) => {
     if (card.owner !== gameState.turn) return;
+    
+    // Play card pickup audio
+    audioManager.playCardFlip();
+    
     setDraggedCard(card);
   };
 
@@ -154,6 +162,9 @@ const MTGArenaGame: React.FC = () => {
 
     // Simple card play logic - can be expanded
     if (targetZone === 'battlefield' && draggedCard.zone === 'hand') {
+      // Play card placement audio
+      audioManager.playCardPlay();
+      
       setGameState(prev => {
         const newState = { ...prev };
         const currentPlayer = newState[gameState.turn];
@@ -186,6 +197,9 @@ const MTGArenaGame: React.FC = () => {
   };
 
   const nextPhase = () => {
+    // Play phase transition audio
+    audioManager.playCardFlip();
+    
     const phases: GameState['phase'][] = [
       'untap',
       'upkeep',
@@ -204,7 +218,9 @@ const MTGArenaGame: React.FC = () => {
 
       // Handle phase changes
       if (nextPhase === 'untap' && prev.phase === 'end') {
-        // Switch turns
+        // Switch turns - play turn transition audio
+        audioManager.playManaTap('colorless');
+        
         newState.turn = prev.turn === 'player' ? 'opponent' : 'player';
 
         // Untap all permanents
@@ -216,7 +232,9 @@ const MTGArenaGame: React.FC = () => {
       }
 
       if (nextPhase === 'draw') {
-        // Draw a card
+        // Draw a card - play draw audio
+        audioManager.playCardDraw();
+        
         const currentPlayer = newState[newState.turn];
         if (currentPlayer.library.length > 0) {
           const drawnCard = currentPlayer.library.shift()!;
@@ -317,7 +335,11 @@ const MTGArenaGame: React.FC = () => {
           ${isHovered ? 'hovered' : ''}
         `}
         onClick={() => handleCardClick(card)}
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          setIsHovered(true);
+          // Play subtle hover audio
+          audioManager.playCardHover();
+        }}
         onMouseLeave={() => setIsHovered(false)}
         draggable
         onDragStart={() => handleCardDragStart(card)}
