@@ -78,23 +78,25 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
     if (!user) return;
 
     const deck: Deck = {
-      id: initialDeck?.id || `deck_${Date.now()}`,
+      id: initialDeck?.id || currentDeck?.id || `deck_${Date.now()}`,
       name: deckName,
       description: deckDescription,
       cards: deckCards,
       authorId: user.id,
       authorUsername: user.username,
       isPublic,
-      createdAt: initialDeck?.createdAt || new Date(),
+      createdAt: initialDeck?.createdAt || currentDeck?.createdAt || new Date(),
       updatedAt: new Date(),
       tags: [],
       format: 'Standard'
     };
 
-    if (initialDeck) {
+    // Update current deck
+    setCurrentDeck(deck);
+    
+    // Handle publishing
+    if (deck.id.startsWith('deck_') || deck.id.startsWith('imported_')) {
       publishDeck(deck.id, isPublic);
-    } else {
-      setCurrentDeck(deck);
     }
 
     onSave?.(deck);
