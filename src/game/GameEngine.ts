@@ -198,10 +198,13 @@ export class GameEngine {
 
   constructor() {
     this.audioManager = new AudioManager();
-    this.audioManager.init();
+    // Initialize audio asynchronously to avoid blocking
+    this.audioManager.init().catch(error => {
+      console.warn('[GameEngine] Audio initialization failed:', error);
+    });
   }
 
-  public init(container: HTMLElement): void {
+  public async init(container: HTMLElement): Promise<void> {
     if (this.engine) {
       console.log(
         '[GameEngine] Game already initialized, destroying previous instance',
@@ -238,12 +241,12 @@ export class GameEngine {
 
     this.scene = new BABYLON.Scene(this.engine);
 
-    // Initialize particle system
-    this.particleSystem = new ParticleSystem(this.scene);
-
+    // Add resize handling first
     window.addEventListener('resize', this.handleResize.bind(this));
 
-    this.initAdvancedScenes();
+    // Initialize core systems progressively
+    await this.initCoreSystemsAsync();
+    
     this.initTouchControls(canvas);
 
     // Enhanced render loop with performance monitoring
@@ -253,7 +256,7 @@ export class GameEngine {
       }
     });
 
-    // Play startup sound
+    // Play startup sound after everything is ready
     this.audioManager.playGameStart();
   }
 
@@ -380,6 +383,174 @@ export class GameEngine {
     }
   }
 
+  private async initCoreSystemsAsync(): Promise<void> {
+    if (!this.scene) return;
+
+    const performanceManager = PerformanceManager.getInstance();
+    const isLowPerformance = performanceManager.isLowPerformance();
+    const settings = performanceManager.getSettings();
+
+    // 1. Initialize camera first (minimal, fast)
+    this.initCamera();
+
+    // 2. Initialize basic lighting (fast)
+    await this.setupBasicLighting();
+
+    // 3. Initialize particle system
+    this.particleSystem = new ParticleSystem(this.scene);
+
+    // 4. Create environment progressively (can be heavy)
+    await this.createEnvironmentProgressive(settings, isLowPerformance);
+
+    console.log(
+      '[GameEngine] Core systems initialized with quality:',
+      settings.animationQuality,
+    );
+  }
+
+  private initCamera(): void {
+    if (!this.scene) return;
+
+    // Advanced camera with smooth controls
+    this.camera = new BABYLON.ArcRotateCamera(
+      'gameCamera',
+      Math.PI / 2,
+      Math.PI / 3,
+      10,
+      BABYLON.Vector3.Zero(),
+      this.scene,
+    );
+
+    // Smooth camera controls
+    this.camera.attachControl(true);
+    this.camera.setTarget(BABYLON.Vector3.Zero());
+    this.camera.wheelDeltaPercentage = 0.01;
+    this.camera.pinchDeltaPercentage = 0.01;
+  }
+
+  private async setupBasicLighting(): Promise<void> {
+    if (!this.scene) return;
+
+    // Ambient light for general illumination (immediate)
+    const ambientLight = new BABYLON.HemisphericLight(
+      'ambientLight',
+      new BABYLON.Vector3(0, 1, 0),
+      this.scene,
+    );
+    ambientLight.intensity = 0.3;
+
+    // Main directional light (immediate)
+    const mainLight = new BABYLON.DirectionalLight(
+      'mainLight',
+      new BABYLON.Vector3(-1, -1, -1),
+      this.scene,
+    );
+    mainLight.intensity = 0.8;
+    mainLight.diffuse = new BABYLON.Color3(1, 0.95, 0.8); // Warm sunlight
+
+    // Defer advanced lighting for better startup performance
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        this.setupAdvancedLighting();
+      });
+    } else {
+      setTimeout(() => {
+        this.setupAdvancedLighting();
+      }, 100);
+    }
+  }
+
+  private async createEnvironmentProgressive(settings: any, isLowPerformance: boolean): Promise<void> {
+    if (!this.scene) return;
+
+    // Create basic environment first (fast)
+    this.createBasicEnvironment();
+
+    // Add advanced features progressively
+    if (!isLowPerformance) {
+      // Use requestIdleCallback to avoid blocking
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          this.addAdvancedEnvironmentFeatures(settings);
+        });
+      } else {
+        setTimeout(() => {
+          this.addAdvancedEnvironmentFeatures(settings);
+        }, 50);
+      }
+    }
+
+    // Create sample objects after a short delay
+    setTimeout(() => {
+      this.createSampleGameObjects(settings);
+    }, 100);
+
+    // Setup post-processing last
+    setTimeout(() => {
+      this.setupPostProcessing(isLowPerformance);
+    }, 200);
+  }
+
+  private createBasicEnvironment(): void {
+    if (!this.scene) return;
+
+    // Simple skybox (fast)
+    const skybox = BABYLON.MeshBuilder.CreateSphere(
+      'skyBox',
+      { diameter: 100 },
+      this.scene,
+    );
+    const skyboxMaterial = new BABYLON.StandardMaterial('skyBox', this.scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.emissiveColor = new BABYLON.Color3(0.05, 0.02, 0.1);
+    skybox.material = skyboxMaterial;
+    skybox.infiniteDistance = true;
+
+    // Simple ground (fast)
+    const ground = BABYLON.MeshBuilder.CreateGround(
+      'ground',
+      { width: 20, height: 20 },
+      this.scene,
+    );
+    const groundMaterial = new BABYLON.StandardMaterial(
+      'groundMaterial',
+      this.scene,
+    );
+    groundMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.05, 0.2);
+    ground.material = groundMaterial;
+    this.materials.set('ground', groundMaterial);
+  }
+
+  private addAdvancedEnvironmentFeatures(settings: any): void {
+    // Add complex visual effects after basic scene is ready
+    const groundMaterial = this.materials.get('ground') as BABYLON.StandardMaterial;
+    if (groundMaterial && settings.glowEffectsEnabled) {
+      groundMaterial.specularColor = new BABYLON.Color3(0.3, 0.2, 0.5);
+      groundMaterial.emissiveColor = new BABYLON.Color3(0.02, 0.01, 0.05);
+      groundMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+      groundMaterial.emissiveFresnelParameters.bias = 0.1;
+      groundMaterial.emissiveFresnelParameters.power = 0.5;
+      groundMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.Black();
+      groundMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(0.3, 0.1, 0.5);
+    }
+
+    // Add particle effects
+    if (this.particleSystem && settings.backgroundEffectsEnabled) {
+      const aura1 = this.particleSystem.createMagicalAura(
+        new BABYLON.Vector3(3, 1, 3),
+        new BABYLON.Color3(0.5, 0.2, 1),
+      );
+      aura1.start();
+
+      const aura2 = this.particleSystem.createMagicalAura(
+        new BABYLON.Vector3(-3, 1, -3),
+        new BABYLON.Color3(0.2, 1, 0.5),
+      );
+      aura2.start();
+    }
+  }
+
   private initAdvancedScenes(): void {
     if (this.scene) {
       const performanceManager = PerformanceManager.getInstance();
@@ -421,8 +592,13 @@ export class GameEngine {
     }
   }
 
-  private setupAdvancedLighting(isLowPerformance: boolean): void {
+  private setupAdvancedLighting(isLowPerformance?: boolean): void {
     if (!this.scene) return;
+
+    if (isLowPerformance === undefined) {
+      const performanceManager = PerformanceManager.getInstance();
+      isLowPerformance = performanceManager.isLowPerformance();
+    }
 
     // Ambient light for general illumination
     const ambientLight = new BABYLON.HemisphericLight(
@@ -467,14 +643,14 @@ export class GameEngine {
   }
 
   private animateMysticalLights(lights: BABYLON.PointLight[]): void {
-    lights.forEach((light, _index) => {
+    lights.forEach((light, index) => {
       // Create a simple repeating animation using scene.registerBeforeRender
       if (this.scene) {
         let time = 0;
         this.scene.registerBeforeRender(() => {
           time += 0.01;
           light.intensity =
-            light.intensity * (0.7 + 0.3 * Math.sin(time + _index));
+            light.intensity * (0.7 + 0.3 * Math.sin(time + index));
         });
       }
     });
