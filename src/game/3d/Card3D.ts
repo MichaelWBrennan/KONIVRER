@@ -77,24 +77,28 @@ export class Card3D {
   }
 
   private createCardMaterial(): void {
-    this.material = new BABYLON.PBRMaterial(`cardMaterial_${this.card.id}`, this.scene);
-    
+    this.material = new BABYLON.PBRMaterial(
+      `cardMaterial_${this.card.id}`,
+      this.scene,
+    );
+
     // Base material properties for a premium card feel
     this.material.metallicFactor = 0.1;
     this.material.roughnessFactor = 0.3;
     this.material.baseColor = this.getCardColor();
-    
+
     // Add subtle subsurface scattering for paper-like appearance
     this.material.subSurface.isScatteringEnabled = true;
     this.material.subSurface.scatteringStrength = 0.2;
-    
+
     this.mesh.material = this.material;
   }
 
   private createCardTexture(): void {
     // Create high-resolution texture for the card
-    const textureSize = this.quality === 'ultra' ? 1024 : this.quality === 'high' ? 512 : 256;
-    
+    const textureSize =
+      this.quality === 'ultra' ? 1024 : this.quality === 'high' ? 512 : 256;
+
     this.cardTexture = new BABYLON.DynamicTexture(
       `cardTexture_${this.card.id}`,
       { width: textureSize, height: Math.floor(textureSize * 1.4) }, // 3.5:2.5 ratio
@@ -103,7 +107,7 @@ export class Card3D {
     );
 
     this.renderCardContent();
-    
+
     this.material.baseTexture = this.cardTexture;
     this.material.emissiveTexture = this.cardTexture;
     this.material.emissiveIntensity = 0.1;
@@ -120,9 +124,15 @@ export class Card3D {
     // Card background with gradient
     const bgGradient = context.createLinearGradient(0, 0, 0, height);
     const cardColor = this.getCardColor();
-    bgGradient.addColorStop(0, `rgb(${cardColor.r * 255}, ${cardColor.g * 255}, ${cardColor.b * 255})`);
-    bgGradient.addColorStop(1, `rgb(${cardColor.r * 180}, ${cardColor.g * 180}, ${cardColor.b * 180})`);
-    
+    bgGradient.addColorStop(
+      0,
+      `rgb(${cardColor.r * 255}, ${cardColor.g * 255}, ${cardColor.b * 255})`,
+    );
+    bgGradient.addColorStop(
+      1,
+      `rgb(${cardColor.r * 180}, ${cardColor.g * 180}, ${cardColor.b * 180})`,
+    );
+
     context.fillStyle = bgGradient;
     context.fillRect(0, 0, width, height);
 
@@ -140,25 +150,39 @@ export class Card3D {
     context.strokeStyle = '#d4af37';
     context.lineWidth = Math.max(1, width / 256);
     context.stroke();
-    
+
     // Cost text
     context.fillStyle = '#d4af37';
     context.font = `bold ${Math.floor(costRadius * 1.2)}px Arial`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.fillText(this.card.cost.toString(), costRadius * 1.5, costRadius * 1.5);
+    context.fillText(
+      this.card.cost.toString(),
+      costRadius * 1.5,
+      costRadius * 1.5,
+    );
 
     // Strength circle (top-right) for Familiars
     if (this.card.strength) {
       context.beginPath();
-      context.arc(width - costRadius * 1.5, costRadius * 1.5, costRadius, 0, 2 * Math.PI);
+      context.arc(
+        width - costRadius * 1.5,
+        costRadius * 1.5,
+        costRadius,
+        0,
+        2 * Math.PI,
+      );
       context.fillStyle = '#dc2626';
       context.fill();
       context.strokeStyle = '#ffffff';
       context.stroke();
-      
+
       context.fillStyle = '#ffffff';
-      context.fillText(this.card.strength.toString(), width - costRadius * 1.5, costRadius * 1.5);
+      context.fillText(
+        this.card.strength.toString(),
+        width - costRadius * 1.5,
+        costRadius * 1.5,
+      );
     }
 
     // Card name
@@ -180,18 +204,30 @@ export class Card3D {
     // Card description
     context.fillStyle = '#ffffff';
     context.font = `${Math.floor(width / 32)}px Arial`;
-    this.wrapText(context, this.card.description, width / 2, height * 0.4, width * 0.9, Math.floor(width / 32) * 1.2);
+    this.wrapText(
+      context,
+      this.card.description,
+      width / 2,
+      height * 0.4,
+      width * 0.9,
+      Math.floor(width / 32) * 1.2,
+    );
 
     // Elements at bottom
     const elementY = height * 0.8;
     const elementSpacing = width / (this.card.elements.length + 1);
     this.card.elements.forEach((element, index) => {
       const x = elementSpacing * (index + 1);
-      
+
       // Element background
       context.fillStyle = this.getElementBackgroundColor(element);
-      context.fillRect(x - width / 16, elementY - width / 32, width / 8, width / 16);
-      
+      context.fillRect(
+        x - width / 16,
+        elementY - width / 32,
+        width / 8,
+        width / 16,
+      );
+
       // Element text
       context.fillStyle = this.getElementTextColor(element);
       context.font = `bold ${Math.floor(width / 36)}px Arial`;
@@ -202,7 +238,14 @@ export class Card3D {
     this.cardTexture.update();
   }
 
-  private wrapText(context: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number): void {
+  private wrapText(
+    context: CanvasRenderingContext2D,
+    text: string,
+    x: number,
+    y: number,
+    maxWidth: number,
+    lineHeight: number,
+  ): void {
     const words = text.split(' ');
     let line = '';
     let currentY = y;
@@ -211,7 +254,7 @@ export class Card3D {
       const testLine = line + words[n] + ' ';
       const metrics = context.measureText(testLine);
       const testWidth = metrics.width;
-      
+
       if (testWidth > maxWidth && n > 0) {
         context.fillText(line, x, currentY);
         line = words[n] + ' ';
@@ -240,11 +283,15 @@ export class Card3D {
     this.glowMesh.position = this.mesh.position.clone();
     this.glowMesh.position.z -= 0.05; // Slightly behind the main card
 
-    this.glowMaterial = new BABYLON.PBRMaterial(`cardGlowMaterial_${this.card.id}`, this.scene);
+    this.glowMaterial = new BABYLON.PBRMaterial(
+      `cardGlowMaterial_${this.card.id}`,
+      this.scene,
+    );
     this.glowMaterial.emissiveColor = this.getCardColor();
     this.glowMaterial.emissiveIntensity = 0.3;
     this.glowMaterial.alpha = 0.6;
-    this.glowMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+    this.glowMaterial.transparencyMode =
+      BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
 
     this.glowMesh.material = this.glowMaterial;
     this.glowMesh.setEnabled(false); // Initially disabled
@@ -270,7 +317,7 @@ export class Card3D {
 
   private setupInteractions(): void {
     // Mouse hover detection
-    this.scene.onPointerObservable.add((pointerInfo) => {
+    this.scene.onPointerObservable.add(pointerInfo => {
       switch (pointerInfo.type) {
         case BABYLON.PointerEventTypes.POINTERMOVE:
           this.handlePointerMove(pointerInfo);
@@ -326,7 +373,7 @@ export class Card3D {
 
   private onHoverStart(): void {
     console.log(`[Card3D] Hovering over card: ${this.card.name}`);
-    
+
     // Enable glow effect
     if (this.glowMesh) {
       this.glowMesh.setEnabled(true);
@@ -395,12 +442,12 @@ export class Card3D {
     // Find intersection with a horizontal plane at the card's current Y position
     const planeY = this.mesh.position.y;
     const t = (planeY - ray.origin.y) / ray.direction.y;
-    
+
     if (t > 0) {
       const newPosition = ray.origin.add(ray.direction.scale(t));
       this.mesh.position.x = newPosition.x;
       this.mesh.position.z = newPosition.z;
-      
+
       // Update glow position if it exists
       if (this.glowMesh) {
         this.glowMesh.position.x = newPosition.x;
@@ -414,7 +461,7 @@ export class Card3D {
 
     // Gentle lift animation
     const targetY = this.originalPosition.y + 0.5;
-    
+
     this.hoverAnimation = BABYLON.Animation.CreateAndStartAnimation(
       `cardHover_${this.card.id}`,
       this.mesh,
@@ -439,7 +486,7 @@ export class Card3D {
 
     // Subtle floating motion
     const baseY = this.originalPosition.y;
-    
+
     this.floatAnimation = BABYLON.Animation.CreateAndStartAnimation(
       `cardFloat_${this.card.id}`,
       this.mesh,
@@ -545,23 +592,23 @@ export class Card3D {
     // Clean up resources
     this.stopHoverAnimation();
     this.stopFloatingAnimation();
-    
+
     if (this.cardTexture) {
       this.cardTexture.dispose();
     }
-    
+
     if (this.material) {
       this.material.dispose();
     }
-    
+
     if (this.glowMaterial) {
       this.glowMaterial.dispose();
     }
-    
+
     if (this.glowMesh) {
       this.glowMesh.dispose();
     }
-    
+
     if (this.mesh) {
       this.mesh.dispose();
     }

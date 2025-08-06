@@ -49,16 +49,22 @@ export class RealTimeEnvironmentService {
   public async initialize(): Promise<void> {
     try {
       await this.getUserLocation();
-      console.log('[RealTimeEnvironmentService] Initialized with location:', this.locationData);
+      console.log(
+        '[RealTimeEnvironmentService] Initialized with location:',
+        this.locationData,
+      );
     } catch (error) {
-      console.warn('[RealTimeEnvironmentService] Failed to get location, using default:', error);
+      console.warn(
+        '[RealTimeEnvironmentService] Failed to get location, using default:',
+        error,
+      );
       // Use a default location (e.g., New York) if geolocation fails
       this.locationData = {
         latitude: 40.7128,
-        longitude: -74.0060,
+        longitude: -74.006,
         timezone: 'America/New_York',
         city: 'New York',
-        country: 'US'
+        country: 'US',
       };
     }
   }
@@ -74,15 +80,15 @@ export class RealTimeEnvironmentService {
       }
 
       navigator.geolocation.getCurrentPosition(
-        async (position) => {
+        async position => {
           try {
             // Get timezone from coordinates using a free service
             const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            
+
             this.locationData = {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude,
-              timezone: timezone
+              timezone: timezone,
             };
 
             // Optionally get city name using reverse geocoding (free service)
@@ -92,10 +98,10 @@ export class RealTimeEnvironmentService {
             reject(error);
           }
         },
-        (error) => {
+        error => {
           reject(error);
         },
-        { timeout: 10000, enableHighAccuracy: false }
+        { timeout: 10000, enableHighAccuracy: false },
       );
     });
   }
@@ -112,18 +118,26 @@ export class RealTimeEnvironmentService {
         `https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.locationData.latitude}&lon=${this.locationData.longitude}&addressdetails=1`,
         {
           headers: {
-            'User-Agent': 'KONIVRER-Game/1.0'
-          }
-        }
+            'User-Agent': 'KONIVRER-Game/1.0',
+          },
+        },
       );
 
       if (response.ok) {
         const data = await response.json();
-        this.locationData.city = data.address?.city || data.address?.town || data.address?.village || 'Unknown';
-        this.locationData.country = data.address?.country_code?.toUpperCase() || 'Unknown';
+        this.locationData.city =
+          data.address?.city ||
+          data.address?.town ||
+          data.address?.village ||
+          'Unknown';
+        this.locationData.country =
+          data.address?.country_code?.toUpperCase() || 'Unknown';
       }
     } catch (error) {
-      console.warn('[RealTimeEnvironmentService] Failed to get city name:', error);
+      console.warn(
+        '[RealTimeEnvironmentService] Failed to get city name:',
+        error,
+      );
     }
   }
 
@@ -136,9 +150,12 @@ export class RealTimeEnvironmentService {
     }
 
     const now = Date.now();
-    
+
     // Return cached data if it's still fresh
-    if (this.cachedWeatherData && (now - this.lastWeatherUpdate) < this.weatherUpdateInterval) {
+    if (
+      this.cachedWeatherData &&
+      now - this.lastWeatherUpdate < this.weatherUpdateInterval
+    ) {
       return this.cachedWeatherData;
     }
 
@@ -150,7 +167,10 @@ export class RealTimeEnvironmentService {
       this.lastWeatherUpdate = now;
       return weatherData;
     } catch (error) {
-      console.warn('[RealTimeEnvironmentService] Failed to fetch weather, using simulated data:', error);
+      console.warn(
+        '[RealTimeEnvironmentService] Failed to fetch weather, using simulated data:',
+        error,
+      );
       return this.getSimulatedWeather();
     }
   }
@@ -165,7 +185,7 @@ export class RealTimeEnvironmentService {
 
     // For this demo, we'll use a free weather service or simulate
     // In production, you would use a service like OpenWeatherMap, WeatherAPI, etc.
-    
+
     // Simulate realistic weather based on current conditions
     return this.getSimulatedWeather();
   }
@@ -177,20 +197,23 @@ export class RealTimeEnvironmentService {
     const now = new Date();
     const hour = now.getHours();
     const month = now.getMonth();
-    
+
     // Simulate weather patterns based on time and season
     let condition: WeatherData['condition'] = 'clear';
     let temperature = 20; // Base temperature in Celsius
-    
+
     // Seasonal adjustments
-    if (month >= 11 || month <= 1) { // Winter
+    if (month >= 11 || month <= 1) {
+      // Winter
       temperature -= 10;
       if (Math.random() < 0.3) condition = 'snow';
       else if (Math.random() < 0.4) condition = 'fog';
-    } else if (month >= 5 && month <= 7) { // Summer
+    } else if (month >= 5 && month <= 7) {
+      // Summer
       temperature += 8;
       if (Math.random() < 0.2) condition = 'storm';
-    } else { // Spring/Fall
+    } else {
+      // Spring/Fall
       if (Math.random() < 0.3) condition = 'rain';
       else if (Math.random() < 0.1) condition = 'fog';
     }
@@ -208,7 +231,7 @@ export class RealTimeEnvironmentService {
       temperature,
       humidity: 50 + Math.random() * 40,
       windSpeed: Math.random() * 20,
-      description: this.getWeatherDescription(condition)
+      description: this.getWeatherDescription(condition),
     };
   }
 
@@ -221,7 +244,7 @@ export class RealTimeEnvironmentService {
       rain: 'Light rain',
       storm: 'Thunderstorm',
       fog: 'Foggy conditions',
-      snow: 'Light snowfall'
+      snow: 'Light snowfall',
     };
     return descriptions[condition];
   }
@@ -237,8 +260,10 @@ export class RealTimeEnvironmentService {
 
     // Get current time in the user's timezone
     const now = new Date();
-    const localTime = new Date(now.toLocaleString("en-US", {timeZone: this.locationData.timezone}));
-    
+    const localTime = new Date(
+      now.toLocaleString('en-US', { timeZone: this.locationData.timezone }),
+    );
+
     return this.getTimeDataFromDate(localTime);
   }
 
@@ -247,21 +272,24 @@ export class RealTimeEnvironmentService {
    */
   private getTimeDataFromDate(date: Date): TimeData {
     const hour = date.getHours();
-    
+
     // Calculate approximate sunrise/sunset times
     // This is a simplified calculation - in production you'd use a solar calculation library
-    const dayOfYear = Math.floor((date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000);
+    const dayOfYear = Math.floor(
+      (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) /
+        86400000,
+    );
     const sunriseHour = 6 + Math.sin((dayOfYear / 365) * 2 * Math.PI) * 1.5; // Varies from ~4:30 to ~7:30
     const sunsetHour = 18 - Math.sin((dayOfYear / 365) * 2 * Math.PI) * 1.5; // Varies from ~16:30 to ~19:30
-    
+
     const sunriseTime = new Date(date);
     sunriseTime.setHours(Math.floor(sunriseHour), (sunriseHour % 1) * 60, 0, 0);
-    
+
     const sunsetTime = new Date(date);
     sunsetTime.setHours(Math.floor(sunsetHour), (sunsetHour % 1) * 60, 0, 0);
 
     let timeOfDay: TimeData['timeOfDay'];
-    
+
     if (hour >= sunriseHour - 1 && hour < sunriseHour + 1) {
       timeOfDay = 'dawn';
     } else if (hour >= sunriseHour + 1 && hour < sunsetHour - 1) {
@@ -277,7 +305,7 @@ export class RealTimeEnvironmentService {
       hour,
       localTime: date,
       sunriseTime,
-      sunsetTime
+      sunsetTime,
     };
   }
 
@@ -291,7 +319,9 @@ export class RealTimeEnvironmentService {
   /**
    * Start automatic updates for time and weather
    */
-  public startAutomaticUpdates(callback: (timeData: TimeData, weatherData: WeatherData) => void): void {
+  public startAutomaticUpdates(
+    callback: (timeData: TimeData, weatherData: WeatherData) => void,
+  ): void {
     // Update every minute for time, every 10 minutes for weather
     const updateInterval = setInterval(async () => {
       try {
@@ -299,7 +329,10 @@ export class RealTimeEnvironmentService {
         const weatherData = await this.getCurrentWeather();
         callback(timeData, weatherData);
       } catch (error) {
-        console.warn('[RealTimeEnvironmentService] Failed to update environment data:', error);
+        console.warn(
+          '[RealTimeEnvironmentService] Failed to update environment data:',
+          error,
+        );
       }
     }, 60000); // Update every minute
 
@@ -318,4 +351,5 @@ export class RealTimeEnvironmentService {
   }
 }
 
-export const realTimeEnvironmentService = RealTimeEnvironmentService.getInstance();
+export const realTimeEnvironmentService =
+  RealTimeEnvironmentService.getInstance();

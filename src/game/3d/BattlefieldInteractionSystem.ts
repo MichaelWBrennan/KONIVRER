@@ -1,5 +1,9 @@
 import * as BABYLON from 'babylonjs';
-import { realTimeEnvironmentService, type TimeData, type WeatherData } from '../../services/RealTimeEnvironmentService';
+import {
+  realTimeEnvironmentService,
+  type TimeData,
+  type WeatherData,
+} from '../../services/RealTimeEnvironmentService';
 
 export interface InteractiveElement {
   id: string;
@@ -53,22 +57,31 @@ export class BattlefieldInteractionSystem {
 
   private async initializeRealTimeEnvironment(): Promise<void> {
     try {
-      console.log('[BattlefieldInteractionSystem] Initializing real-time environment...');
-      
+      console.log(
+        '[BattlefieldInteractionSystem] Initializing real-time environment...',
+      );
+
       // Initialize the real-time environment service
       await realTimeEnvironmentService.initialize();
-      
+
       // Get initial real-time data
       await this.updateEnvironmentFromRealTime();
-      
+
       // Start automatic updates
-      realTimeEnvironmentService.startAutomaticUpdates((timeData, weatherData) => {
-        this.updateBattlefieldFromRealTime(timeData, weatherData);
-      });
-      
-      console.log('[BattlefieldInteractionSystem] Real-time environment initialized');
+      realTimeEnvironmentService.startAutomaticUpdates(
+        (timeData, weatherData) => {
+          this.updateBattlefieldFromRealTime(timeData, weatherData);
+        },
+      );
+
+      console.log(
+        '[BattlefieldInteractionSystem] Real-time environment initialized',
+      );
     } catch (error) {
-      console.warn('[BattlefieldInteractionSystem] Failed to initialize real-time environment, using defaults:', error);
+      console.warn(
+        '[BattlefieldInteractionSystem] Failed to initialize real-time environment, using defaults:',
+        error,
+      );
     }
   }
 
@@ -76,21 +89,27 @@ export class BattlefieldInteractionSystem {
     try {
       const timeData = realTimeEnvironmentService.getCurrentTimeOfDay();
       const weatherData = await realTimeEnvironmentService.getCurrentWeather();
-      
+
       this.updateBattlefieldFromRealTime(timeData, weatherData);
     } catch (error) {
-      console.warn('[BattlefieldInteractionSystem] Failed to update from real-time data:', error);
+      console.warn(
+        '[BattlefieldInteractionSystem] Failed to update from real-time data:',
+        error,
+      );
     }
   }
 
-  private updateBattlefieldFromRealTime(timeData: TimeData, weatherData: WeatherData): void {
+  private updateBattlefieldFromRealTime(
+    timeData: TimeData,
+    weatherData: WeatherData,
+  ): void {
     const locationData = realTimeEnvironmentService.getLocationData();
-    
+
     console.log('[BattlefieldInteractionSystem] Updating environment:', {
       time: timeData.timeOfDay,
       weather: weatherData.condition,
       location: locationData?.city,
-      temperature: weatherData.temperature
+      temperature: weatherData.temperature,
     });
 
     // Update battlefield state with real-time data
@@ -99,7 +118,7 @@ export class BattlefieldInteractionSystem {
       weather: weatherData.condition,
       season: this.getCurrentSeason(timeData.localTime),
       activeEffects: [...this.battlefieldState.activeEffects],
-      playerMood: this.battlefieldState.playerMood
+      playerMood: this.battlefieldState.playerMood,
     };
 
     this.updateBattlefieldState(newState);
@@ -107,7 +126,7 @@ export class BattlefieldInteractionSystem {
 
   private getCurrentSeason(date: Date): BattlefieldState['season'] {
     const month = date.getMonth();
-    
+
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
     if (month >= 8 && month <= 10) return 'autumn';

@@ -887,8 +887,14 @@ const Phase3App = () => {
                   <Route path="/play" element={<PlayPage />} />
                   <Route path="/arena" element={<AdvancedMTGArenaGame />} />
                   <Route path="/arena-3d" element={<Enhanced3DArenaGame />} />
-                  <Route path="/battlefield" element={<HearthstoneBattlefield />} />
-                  <Route path="/battlefield-demo" element={<BattlefieldDemo />} />
+                  <Route
+                    path="/battlefield"
+                    element={<HearthstoneBattlefield />}
+                  />
+                  <Route
+                    path="/battlefield-demo"
+                    element={<BattlefieldDemo />}
+                  />
                   <Route
                     path="/auth/callback/:provider"
                     element={<OAuthCallback />}

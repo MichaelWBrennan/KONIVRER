@@ -415,7 +415,10 @@ export class GameEngine {
             // Clamp vertical rotation to prevent over-rotation
             this.camera.beta = Math.max(
               this.camera.lowerBetaLimit || 0.1,
-              Math.min(this.camera.upperBetaLimit || Math.PI / 2, this.camera.beta),
+              Math.min(
+                this.camera.upperBetaLimit || Math.PI / 2,
+                this.camera.beta,
+              ),
             );
           }
 

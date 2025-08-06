@@ -28,7 +28,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
   const arenaRef = useRef<MysticalArena | null>(null);
   const physicsRef = useRef<CardPhysicsSystem | null>(null);
   const card3DsRef = useRef<Map<string, Card3D>>(new Map());
-  
+
   const [gameState, setGameState] = useState<GameState>({
     playerHand: [],
     playerBoard: [],
@@ -58,7 +58,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
 
     try {
       setLoadingProgress(10);
-      
+
       // Create Babylon.js engine
       const engine = new BABYLON.Engine(canvasRef.current, true, {
         antialias: true,
@@ -74,7 +74,10 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
       sceneRef.current = scene;
 
       // Enable physics
-      scene.enablePhysics(new BABYLON.Vector3(0, -9.81, 0), new BABYLON.CannonJSPlugin());
+      scene.enablePhysics(
+        new BABYLON.Vector3(0, -9.81, 0),
+        new BABYLON.CannonJSPlugin(),
+      );
 
       setLoadingProgress(30);
 
@@ -193,11 +196,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
       const card3D = new Card3D({
         scene,
         card,
-        position: new BABYLON.Vector3(
-          (index - 1) * 3,
-          1,
-          -3,
-        ),
+        position: new BABYLON.Vector3((index - 1) * 3, 1, -3),
         scale: 0.8,
         quality: 'medium',
       });
@@ -212,11 +211,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
       const card3D = new Card3D({
         scene,
         card,
-        position: new BABYLON.Vector3(
-          (index - 1) * 3,
-          1,
-          2,
-        ),
+        position: new BABYLON.Vector3((index - 1) * 3, 1, 2),
         scale: 0.8,
         quality: 'medium',
       });
@@ -234,7 +229,12 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
     if (isInitialized) {
       create3DCards();
     }
-  }, [gameState.playerHand, gameState.playerBoard, gameState.opponentBoard, isInitialized]);
+  }, [
+    gameState.playerHand,
+    gameState.playerBoard,
+    gameState.opponentBoard,
+    isInitialized,
+  ]);
 
   const playCard = (card: Card) => {
     if (gameState.turn !== 'player' || gameState.playerMana < card.cost) return;
@@ -245,7 +245,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
     const card3D = card3DsRef.current.get(card.id);
     if (card3D) {
       card3D.playCard();
-      
+
       // Move card to player board in physics system
       if (physicsRef.current) {
         physicsRef.current.addCardToZone(card3D, 'playerBoard');
@@ -265,8 +265,14 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
     setGameState(prev => ({
       ...prev,
       turn: prev.turn === 'player' ? 'opponent' : 'player',
-      playerMana: prev.turn === 'opponent' ? Math.min(prev.maxMana + 1, 10) : prev.playerMana,
-      maxMana: prev.turn === 'opponent' ? Math.min(prev.maxMana + 1, 10) : prev.maxMana,
+      playerMana:
+        prev.turn === 'opponent'
+          ? Math.min(prev.maxMana + 1, 10)
+          : prev.playerMana,
+      maxMana:
+        prev.turn === 'opponent'
+          ? Math.min(prev.maxMana + 1, 10)
+          : prev.maxMana,
     }));
 
     // Simple AI turn
@@ -274,7 +280,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
       setTimeout(() => {
         const shuffled = [...KONIVRER_CARDS].sort(() => Math.random() - 0.5);
         const newOpponentCard = shuffled[0];
-        
+
         setGameState(prev => ({
           ...prev,
           opponentBoard: [...prev.opponentBoard, newOpponentCard],
@@ -328,85 +334,109 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
   };
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-      color: 'white',
-      fontFamily: 'Arial, sans-serif',
-      zIndex: 1000,
-    }}>
-      
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background:
+          'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+        zIndex: 1000,
+      }}
+    >
       {/* Loading Screen */}
       {!isInitialized && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0, 0, 0, 0.9)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 2000,
-        }}>
-          <div style={{
-            width: '80px',
-            height: '80px',
-            border: '3px solid #1a1a2e',
-            borderTop: '3px solid #d4af37',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-            marginBottom: '20px',
-          }} />
-          <div style={{ color: '#d4af37', fontSize: '1.2rem', marginBottom: '10px' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0, 0, 0, 0.9)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 2000,
+          }}
+        >
+          <div
+            style={{
+              width: '80px',
+              height: '80px',
+              border: '3px solid #1a1a2e',
+              borderTop: '3px solid #d4af37',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite',
+              marginBottom: '20px',
+            }}
+          />
+          <div
+            style={{
+              color: '#d4af37',
+              fontSize: '1.2rem',
+              marginBottom: '10px',
+            }}
+          >
             Loading 3D KONIVRER
           </div>
-          <div style={{ color: '#888', fontSize: '0.9rem', marginBottom: '20px' }}>
+          <div
+            style={{ color: '#888', fontSize: '0.9rem', marginBottom: '20px' }}
+          >
             {getLoadingMessage()}
           </div>
-          <div style={{
-            width: '300px',
-            height: '4px',
-            background: '#1a1a2e',
-            borderRadius: '2px',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              width: `${loadingProgress}%`,
-              height: '100%',
-              background: 'linear-gradient(90deg, #d4af37, #f4e158)',
-              transition: 'width 0.3s ease',
-            }} />
+          <div
+            style={{
+              width: '300px',
+              height: '4px',
+              background: '#1a1a2e',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                width: `${loadingProgress}%`,
+                height: '100%',
+                background: 'linear-gradient(90deg, #d4af37, #f4e158)',
+                transition: 'width 0.3s ease',
+              }}
+            />
           </div>
           <style jsx>{`
             @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
+              0% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(360deg);
+              }
             }
           `}</style>
         </div>
       )}
 
       {/* Game Header */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '16px 24px',
-        background: 'rgba(0,0,0,0.3)',
-        borderBottom: '2px solid rgba(212, 175, 55, 0.3)',
-        zIndex: 1001,
-      }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '16px 24px',
+          background: 'rgba(0,0,0,0.3)',
+          borderBottom: '2px solid rgba(212, 175, 55, 0.3)',
+          zIndex: 1001,
+        }}
+      >
         <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
           <h1 style={{ margin: 0, color: '#d4af37', fontSize: '24px' }}>
             ⭐ KONIVRER 3D ⭐
@@ -414,12 +444,15 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
           <div style={{ display: 'flex', gap: '16px' }}>
             <div>❤️ {gameState.opponentHealth}</div>
             <div>
-              Turn: {gameState.turn === 'player' ? 'Your Turn' : 'Opponent Turn'}
+              Turn:{' '}
+              {gameState.turn === 'player' ? 'Your Turn' : 'Opponent Turn'}
             </div>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-          <div>💧 {gameState.playerMana}/{gameState.maxMana}</div>
+          <div>
+            💧 {gameState.playerMana}/{gameState.maxMana}
+          </div>
           <div>❤️ {gameState.playerHealth}</div>
           <button
             onClick={endTurn}
@@ -484,43 +517,62 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
 
       {/* Game Instructions Overlay */}
       {isInitialized && (
-        <div style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '20px',
-          background: 'rgba(0, 0, 0, 0.7)',
-          padding: '16px',
-          borderRadius: '8px',
-          border: '1px solid rgba(212, 175, 55, 0.3)',
-          maxWidth: '300px',
-          fontSize: '14px',
-          lineHeight: '1.5',
-        }}>
-          <div style={{ color: '#d4af37', fontWeight: 'bold', marginBottom: '8px' }}>
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '20px',
+            background: 'rgba(0, 0, 0, 0.7)',
+            padding: '16px',
+            borderRadius: '8px',
+            border: '1px solid rgba(212, 175, 55, 0.3)',
+            maxWidth: '300px',
+            fontSize: '14px',
+            lineHeight: '1.5',
+          }}
+        >
+          <div
+            style={{
+              color: '#d4af37',
+              fontWeight: 'bold',
+              marginBottom: '8px',
+            }}
+          >
             🎮 3D Card Controls
           </div>
-          <div style={{ marginBottom: '4px' }}>• Hover over cards to see glow effect</div>
-          <div style={{ marginBottom: '4px' }}>• Click and drag cards to move them</div>
-          <div style={{ marginBottom: '4px' }}>• Drop cards in different zones to play</div>
-          <div style={{ marginBottom: '4px' }}>• Use mouse to rotate camera view</div>
+          <div style={{ marginBottom: '4px' }}>
+            • Hover over cards to see glow effect
+          </div>
+          <div style={{ marginBottom: '4px' }}>
+            • Click and drag cards to move them
+          </div>
+          <div style={{ marginBottom: '4px' }}>
+            • Drop cards in different zones to play
+          </div>
+          <div style={{ marginBottom: '4px' }}>
+            • Use mouse to rotate camera view
+          </div>
           <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>
-            Cards have realistic physics and will respond to gravity and collisions
+            Cards have realistic physics and will respond to gravity and
+            collisions
           </div>
         </div>
       )}
 
       {/* Selected Card Info */}
       {gameState.selectedCard && (
-        <div style={{
-          position: 'absolute',
-          top: '80px',
-          right: '20px',
-          background: 'rgba(0, 0, 0, 0.8)',
-          padding: '16px',
-          borderRadius: '8px',
-          border: '2px solid #d4af37',
-          maxWidth: '250px',
-        }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: '80px',
+            right: '20px',
+            background: 'rgba(0, 0, 0, 0.8)',
+            padding: '16px',
+            borderRadius: '8px',
+            border: '2px solid #d4af37',
+            maxWidth: '250px',
+          }}
+        >
           <h3 style={{ margin: '0 0 8px 0', color: '#d4af37' }}>
             {gameState.selectedCard.name}
           </h3>
@@ -532,7 +584,8 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
           </div>
           <div style={{ fontSize: '12px', color: '#888' }}>
             Cost: {gameState.selectedCard.cost} mana
-            {gameState.selectedCard.strength && ` • Strength: ${gameState.selectedCard.strength}`}
+            {gameState.selectedCard.strength &&
+              ` • Strength: ${gameState.selectedCard.strength}`}
           </div>
         </div>
       )}

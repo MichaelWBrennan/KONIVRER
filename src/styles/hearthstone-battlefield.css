@@ -72,8 +72,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -387,53 +391,53 @@
     padding: 15px;
     max-height: 40vh;
   }
-  
+
   .control-section {
     margin-bottom: 20px;
   }
-  
+
   .control-section h4 {
     font-size: 12px;
     margin-bottom: 10px;
   }
-  
+
   .theme-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
   }
-  
+
   .theme-preview {
     height: 40px;
     margin-bottom: 6px;
   }
-  
+
   .theme-info strong {
     font-size: 10px;
   }
-  
+
   .theme-info p {
     font-size: 9px;
   }
-  
+
   .quality-buttons {
     grid-template-columns: repeat(4, 1fr);
     gap: 6px;
   }
-  
+
   .quality-btn {
     padding: 6px 8px;
     font-size: 10px;
   }
-  
+
   .env-control label {
     font-size: 10px;
   }
-  
+
   .env-control select {
     padding: 5px 6px;
     font-size: 10px;
   }
-  
+
   .metric {
     padding: 5px 8px;
     font-size: 10px;
@@ -445,15 +449,15 @@
     max-height: 35vh;
     padding: 12px;
   }
-  
+
   .theme-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .theme-preview {
     height: 50px;
   }
-  
+
   .quality-buttons {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -464,14 +468,19 @@
   .theme-option {
     transform-origin: center;
   }
-  
+
   .theme-option:hover:not(.locked) {
     animation: subtlePulse 2s ease-in-out infinite;
   }
-  
+
   @keyframes subtlePulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.95; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.95;
+    }
   }
 }
 
@@ -481,7 +490,7 @@
     transition: none !important;
     animation: none !important;
   }
-  
+
   .loading-spinner {
     animation: none;
     border: 4px solid #d4af37;
@@ -494,20 +503,20 @@
     background: rgba(0, 0, 0, 0.95);
     border-color: #ffffff;
   }
-  
+
   .theme-option {
     border-color: #ffffff;
   }
-  
+
   .theme-option.active {
     background: rgba(255, 255, 0, 0.3);
     border-color: #ffff00;
   }
-  
+
   .quality-btn {
     border-color: #ffffff;
   }
-  
+
   .quality-btn.active {
     background: rgba(0, 255, 0, 0.8);
     border-color: #00ff00;
@@ -542,29 +551,33 @@
 }
 
 /* Seasonal Theme Indicators */
-.theme-option[data-seasonal="true"] .theme-info strong::after {
-  content: " ❄️";
+.theme-option[data-seasonal='true'] .theme-info strong::after {
+  content: ' ❄️';
   font-size: 10px;
 }
 
-.theme-option[data-plane="innistrad"] .theme-info strong::after {
-  content: " 🏰";
+.theme-option[data-plane='innistrad'] .theme-info strong::after {
+  content: ' 🏰';
   font-size: 10px;
 }
 
-.theme-option[data-plane="ravnica"] .theme-info strong::after {
-  content: " 🏛️";
+.theme-option[data-plane='ravnica'] .theme-info strong::after {
+  content: ' 🏛️';
   font-size: 10px;
 }
 
 /* Performance Warning Indicators */
-.metric span:last-child[style*="color: rgb(220, 53, 69)"] {
+.metric span:last-child[style*='color: rgb(220, 53, 69)'] {
   animation: warningPulse 1s ease-in-out infinite alternate;
 }
 
 @keyframes warningPulse {
-  from { opacity: 1; }
-  to { opacity: 0.7; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.7;
+  }
 }
 
 /* Theme Transition Effect */
@@ -578,17 +591,18 @@
 
 /* Interactive Element Hints */
 .battlefield-controls::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -5px;
   left: -5px;
   right: -5px;
   bottom: -5px;
-  background: linear-gradient(45deg, 
-    transparent, 
-    rgba(212, 175, 55, 0.1), 
-    transparent, 
-    rgba(212, 175, 55, 0.1), 
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(212, 175, 55, 0.1),
+    transparent,
+    rgba(212, 175, 55, 0.1),
     transparent
   );
   background-size: 20px 20px;
@@ -599,6 +613,11 @@
 }
 
 @keyframes borderGlow {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }

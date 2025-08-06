@@ -39,15 +39,18 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
   const performanceMonitorRef = useRef<number>(0);
 
   const [currentTheme, setCurrentTheme] = useState<string>('hearthstone');
-  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>('high');
+  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>(
+    'high',
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetrics>({
-    fps: 60,
-    memoryUsage: 0,
-    frameTime: 16.67,
-    drawCalls: 0,
-  });
+  const [performanceMetrics, setPerformanceMetrics] =
+    useState<PerformanceMetrics>({
+      fps: 60,
+      memoryUsage: 0,
+      frameTime: 16.67,
+      drawCalls: 0,
+    });
 
   const [battlefieldState, setBattlefieldState] = useState({
     timeOfDay: 'day' as 'dawn' | 'day' | 'dusk' | 'night',
@@ -145,7 +148,9 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
         setIsLoading(false);
       } catch (err) {
         console.error('Failed to initialize battlefield:', err);
-        setError('Failed to initialize 3D battlefield. Falling back to 2D mode.');
+        setError(
+          'Failed to initialize 3D battlefield. Falling back to 2D mode.',
+        );
         setIsLoading(false);
       }
     };
@@ -176,12 +181,12 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
 
       // Update FPS every second
       if (currentTime - lastFpsUpdate >= 1000) {
-        const fps = Math.round(frames * 1000 / (currentTime - lastFpsUpdate));
+        const fps = Math.round((frames * 1000) / (currentTime - lastFpsUpdate));
         frames = 0;
         lastFpsUpdate = currentTime;
 
         // Get memory usage (approximate)
-        const memoryUsage = (performance as any).memory 
+        const memoryUsage = (performance as any).memory
           ? Math.round((performance as any).memory.usedJSHeapSize / 1024 / 1024)
           : 0;
 
@@ -197,7 +202,9 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
           console.warn('Low FPS detected, suggesting quality reduction');
           handleQualityAutoAdjust('down');
         } else if (fps > 55 && quality !== 'ultra' && memoryUsage < 100) {
-          console.log('High FPS with low memory usage, quality could be increased');
+          console.log(
+            'High FPS with low memory usage, quality could be increased',
+          );
         }
       }
 
@@ -208,65 +215,77 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
   }, [quality]);
 
   // Auto-adjust quality based on performance
-  const handleQualityAutoAdjust = useCallback((direction: 'up' | 'down') => {
-    const qualities: (typeof quality)[] = ['low', 'medium', 'high', 'ultra'];
-    const currentIndex = qualities.indexOf(quality);
-    
-    let newIndex = currentIndex;
-    if (direction === 'down' && currentIndex > 0) {
-      newIndex = currentIndex - 1;
-    } else if (direction === 'up' && currentIndex < qualities.length - 1) {
-      newIndex = currentIndex + 1;
-    }
+  const handleQualityAutoAdjust = useCallback(
+    (direction: 'up' | 'down') => {
+      const qualities: (typeof quality)[] = ['low', 'medium', 'high', 'ultra'];
+      const currentIndex = qualities.indexOf(quality);
 
-    if (newIndex !== currentIndex) {
-      const newQuality = qualities[newIndex];
-      handleQualityChange(newQuality);
-    }
-  }, [quality]);
+      let newIndex = currentIndex;
+      if (direction === 'down' && currentIndex > 0) {
+        newIndex = currentIndex - 1;
+      } else if (direction === 'up' && currentIndex < qualities.length - 1) {
+        newIndex = currentIndex + 1;
+      }
+
+      if (newIndex !== currentIndex) {
+        const newQuality = qualities[newIndex];
+        handleQualityChange(newQuality);
+      }
+    },
+    [quality],
+  );
 
   // Handle theme change
-  const handleThemeChange = useCallback(async (newTheme: string) => {
-    if (!gameEngineRef.current || newTheme === currentTheme) return;
+  const handleThemeChange = useCallback(
+    async (newTheme: string) => {
+      if (!gameEngineRef.current || newTheme === currentTheme) return;
 
-    setIsLoading(true);
-    try {
-      await gameEngineRef.current.changeArenaTheme(newTheme);
-      setCurrentTheme(newTheme);
-      onThemeChange?.(newTheme);
-    } catch (error) {
-      console.error('Failed to change theme:', error);
-      setError('Failed to change battlefield theme');
-    }
-    setIsLoading(false);
-  }, [currentTheme, onThemeChange]);
+      setIsLoading(true);
+      try {
+        await gameEngineRef.current.changeArenaTheme(newTheme);
+        setCurrentTheme(newTheme);
+        onThemeChange?.(newTheme);
+      } catch (error) {
+        console.error('Failed to change theme:', error);
+        setError('Failed to change battlefield theme');
+      }
+      setIsLoading(false);
+    },
+    [currentTheme, onThemeChange],
+  );
 
   // Handle quality change
-  const handleQualityChange = useCallback(async (newQuality: typeof quality) => {
-    if (!gameEngineRef.current || newQuality === quality) return;
+  const handleQualityChange = useCallback(
+    async (newQuality: typeof quality) => {
+      if (!gameEngineRef.current || newQuality === quality) return;
 
-    setIsLoading(true);
-    try {
-      await gameEngineRef.current.updateArenaQuality(newQuality);
-      setQuality(newQuality);
-      onQualityChange?.(newQuality);
-    } catch (error) {
-      console.error('Failed to change quality:', error);
-      setError('Failed to change battlefield quality');
-    }
-    setIsLoading(false);
-  }, [quality, onQualityChange]);
+      setIsLoading(true);
+      try {
+        await gameEngineRef.current.updateArenaQuality(newQuality);
+        setQuality(newQuality);
+        onQualityChange?.(newQuality);
+      } catch (error) {
+        console.error('Failed to change quality:', error);
+        setError('Failed to change battlefield quality');
+      }
+      setIsLoading(false);
+    },
+    [quality, onQualityChange],
+  );
 
   // Handle battlefield state changes
-  const handleStateChange = useCallback((key: string, value: string) => {
-    const newState = { ...battlefieldState, [key]: value };
-    setBattlefieldState(newState);
+  const handleStateChange = useCallback(
+    (key: string, value: string) => {
+      const newState = { ...battlefieldState, [key]: value };
+      setBattlefieldState(newState);
 
-    // Update battlefield in the 3D engine
-    if (arenaRef.current) {
-      arenaRef.current.updateBattlefieldState(newState as any);
-    }
-  }, [battlefieldState]);
+      // Update battlefield in the 3D engine
+      if (arenaRef.current) {
+        arenaRef.current.updateBattlefieldState(newState as any);
+      }
+    },
+    [battlefieldState],
+  );
 
   // Get performance color based on FPS
   const getPerformanceColor = (fps: number): string => {
@@ -280,7 +299,7 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
       {/* 3D Battlefield Canvas */}
       <div className="battlefield-3d-container">
         <div ref={canvasRef} className="battlefield-canvas" />
-        
+
         {/* Loading Overlay */}
         <AnimatePresence>
           {isLoading && (
@@ -336,11 +355,12 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
                 disabled={!theme.unlocked}
               >
                 <div className="theme-preview">
-                  <img 
-                    src={theme.previewImage} 
+                  <img
+                    src={theme.previewImage}
                     alt={theme.name}
-                    onError={(e) => {
-                      e.currentTarget.src = '/images/battlefields/default-preview.jpg';
+                    onError={e => {
+                      e.currentTarget.src =
+                        '/images/battlefields/default-preview.jpg';
                     }}
                   />
                   {!theme.unlocked && <div className="lock-overlay">🔒</div>}
@@ -376,9 +396,9 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
           <div className="env-controls">
             <div className="env-control">
               <label>Time of Day:</label>
-              <select 
+              <select
                 value={battlefieldState.timeOfDay}
-                onChange={(e) => handleStateChange('timeOfDay', e.target.value)}
+                onChange={e => handleStateChange('timeOfDay', e.target.value)}
               >
                 <option value="dawn">Dawn</option>
                 <option value="day">Day</option>
@@ -388,9 +408,9 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
             </div>
             <div className="env-control">
               <label>Weather:</label>
-              <select 
+              <select
                 value={battlefieldState.weather}
-                onChange={(e) => handleStateChange('weather', e.target.value)}
+                onChange={e => handleStateChange('weather', e.target.value)}
               >
                 <option value="clear">Clear</option>
                 <option value="rain">Rain</option>
@@ -409,7 +429,9 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
             <div className="performance-metrics">
               <div className="metric">
                 <span>FPS:</span>
-                <span style={{ color: getPerformanceColor(performanceMetrics.fps) }}>
+                <span
+                  style={{ color: getPerformanceColor(performanceMetrics.fps) }}
+                >
                   {performanceMetrics.fps}
                 </span>
               </div>
