@@ -290,7 +290,7 @@ export class GameEngine {
   private container: HTMLElement | null = null;
   private audioManager: AudioManager;
   private particleSystem: ParticleSystem | null = null;
-  private camera: BABYLON.ArcRotateCamera | null = null;
+  private camera: BABYLON.FreeCamera | null = null;
   private materials: Map<string, BABYLON.Material> = new Map();
   private mysticalArena: MysticalArena | null = null;
 
@@ -391,13 +391,17 @@ export class GameEngine {
         if (distance > 10) {
           isDragging = true;
 
-          // Handle camera rotation for touch drag
-          if (this.camera && this.camera instanceof BABYLON.ArcRotateCamera) {
-            const sensitivity = 0.01;
-            this.camera.alpha += deltaX * sensitivity;
-            this.camera.beta = Math.max(
-              0.1,
-              Math.min(Math.PI - 0.1, this.camera.beta + deltaY * sensitivity),
+          // Handle camera rotation for first-person touch controls
+          if (this.camera && this.camera instanceof BABYLON.FreeCamera) {
+            const sensitivity = 0.005;
+            // Rotate camera based on touch movement
+            this.camera.rotation.y -= deltaX * sensitivity;
+            this.camera.rotation.x -= deltaY * sensitivity;
+            
+            // Clamp vertical rotation to prevent over-rotation
+            this.camera.rotation.x = Math.max(
+              -Math.PI / 3,
+              Math.min(Math.PI / 3, this.camera.rotation.x),
             );
           }
 
@@ -512,27 +516,34 @@ export class GameEngine {
   private initCamera(): void {
     if (!this.scene) return;
 
-    // Advanced camera with smooth controls
-    this.camera = new BABYLON.ArcRotateCamera(
-      'gameCamera',
-      Math.PI / 2,
-      Math.PI / 3,
-      15, // Increased distance for better arena view
-      BABYLON.Vector3.Zero(),
+    // First-person camera positioned at tavern table level
+    this.camera = new BABYLON.FreeCamera(
+      'firstPersonCamera',
+      new BABYLON.Vector3(0, 1.7, 5), // Eye level height (1.7m) positioned at tavern table
       this.scene,
     );
 
-    // Smooth camera controls
+    // First-person camera setup for tavern exploration
+    this.camera.setTarget(new BABYLON.Vector3(0, 1.5, 0)); // Look towards center of tavern
     this.camera.attachControl(true);
-    this.camera.setTarget(BABYLON.Vector3.Zero());
-    this.camera.wheelDeltaPercentage = 0.01;
-    this.camera.pinchDeltaPercentage = 0.01;
     
-    // Set camera limits for better arena viewing
-    this.camera.lowerRadiusLimit = 8;
-    this.camera.upperRadiusLimit = 25;
-    this.camera.lowerBetaLimit = 0.1;
-    this.camera.upperBetaLimit = Math.PI / 2.2;
+    // Smooth movement and look controls
+    this.camera.speed = 0.5; // Moderate walking speed
+    this.camera.angularSensibility = 2000; // Smooth mouse look sensitivity
+    
+    // Set movement limits to keep player within tavern boundaries
+    this.camera.checkCollisions = true;
+    this.camera.applyGravity = true;
+    this.camera.ellipsoid = new BABYLON.Vector3(0.5, 0.9, 0.5); // Player collision ellipsoid
+    this.camera.ellipsoidOffset = new BABYLON.Vector3(0, 0.9, 0); // Offset for standing height
+    
+    // Enable WASD and arrow key movement
+    this.camera.keysUp.push(87); // W
+    this.camera.keysDown.push(83); // S
+    this.camera.keysLeft.push(65); // A
+    this.camera.keysRight.push(68); // D
+    
+    console.log('[GameEngine] First-person camera initialized for tavern exploration');
   }
 
   private async init3DArena(settings: any, isLowPerformance: boolean): Promise<void> {
@@ -569,6 +580,10 @@ export class GameEngine {
       // Initialize the mystical arena
       this.mysticalArena = new MysticalArena(this.scene, arenaConfig);
       await this.mysticalArena.initialize();
+
+      // Enable collision and gravity for first-person navigation
+      this.scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
+      this.scene.collisionsEnabled = true;
 
       console.log('[GameEngine] 3D Mystical Arena initialized successfully with quality:', quality);
     } catch (error) {

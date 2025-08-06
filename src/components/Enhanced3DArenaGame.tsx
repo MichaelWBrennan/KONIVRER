@@ -241,7 +241,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             width: '100%',
             height: '100%',
             zIndex: 0,
-            pointerEvents: 'none' // Allow UI interactions to pass through
+            cursor: 'crosshair' // Show crosshair for first-person mode
           }}
         />
       )}
@@ -275,7 +275,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             <select 
               value={arenaTheme} 
               onChange={(e) => handleThemeChange(e.target.value as typeof arenaTheme)}
-              style={{ width: '100%', padding: '5px', borderRadius: '4px' }}
+              style={{ width: '100%', padding: '5px', borderRadius: '4px', marginBottom: '10px' }}
             >
               <option value="mystical">Mystical</option>
               <option value="ancient">Ancient</option>
@@ -283,11 +283,18 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
               <option value="cosmic">Cosmic</option>
               <option value="hearthstone">Hearthstone</option>
             </select>
+            
+            <div style={{ fontSize: '12px', color: '#ccc', marginTop: '8px' }}>
+              <div><strong>First-Person Controls:</strong></div>
+              <div>• WASD or Arrow Keys: Move</div>
+              <div>• Mouse: Look around</div>
+              <div>• Explore the tavern!</div>
+            </div>
           </div>
         )}
       </div>
 
-      {/* Game UI Overlay */}
+      {/* Game UI Overlay - Made more transparent for first-person tavern experience */}
       <div className="game-ui-overlay" style={{ 
         position: 'absolute', 
         top: 0, 
@@ -309,7 +316,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             display: 'flex', 
             justifyContent: 'space-between', 
             marginBottom: '10px',
-            background: 'rgba(139, 0, 0, 0.8)',
+            background: 'rgba(139, 0, 0, 0.4)', // More transparent for first-person experience
             padding: '10px',
             borderRadius: '8px',
             color: 'white'
@@ -321,7 +328,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
           
           <div className="opponent-battlefield" style={{ 
             minHeight: '100px',
-            background: 'rgba(139, 0, 0, 0.3)',
+            background: 'rgba(139, 0, 0, 0.2)', // More transparent
             borderRadius: '8px',
             padding: '10px',
             marginBottom: '10px'
@@ -335,7 +342,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
           </div>
 
           <div className="opponent-hand" style={{ 
-            background: 'rgba(139, 0, 0, 0.3)',
+            background: 'rgba(139, 0, 0, 0.2)', // More transparent
             borderRadius: '8px',
             padding: '10px'
           }}>
@@ -389,7 +396,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
           pointerEvents: 'auto'
         }}>
           <div className="player-hand" style={{ 
-            background: 'rgba(0, 139, 0, 0.3)',
+            background: 'rgba(0, 139, 0, 0.2)', // More transparent for first-person experience
             borderRadius: '8px',
             padding: '10px',
             marginBottom: '10px'
@@ -409,7 +416,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
 
           <div className="player-battlefield" style={{ 
             minHeight: '100px',
-            background: 'rgba(0, 139, 0, 0.3)',
+            background: 'rgba(0, 139, 0, 0.2)', // More transparent for first-person experience
             borderRadius: '8px',
             padding: '10px',
             marginBottom: '10px'
@@ -425,7 +432,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
           <div className="player-stats" style={{ 
             display: 'flex', 
             justifyContent: 'space-between',
-            background: 'rgba(0, 139, 0, 0.8)',
+            background: 'rgba(0, 139, 0, 0.4)', // More transparent for first-person experience
             padding: '10px',
             borderRadius: '8px',
             color: 'white'

@@ -386,6 +386,32 @@ export class MysticalArena {
     });
   }
 
+  private createInvisibleWalls(): void {
+    // Create invisible collision walls around the tavern area for first-person navigation
+    const wallPositions = [
+      { name: 'north', position: new BABYLON.Vector3(0, 2, -15), size: { w: 20, h: 4, d: 1 } },
+      { name: 'south', position: new BABYLON.Vector3(0, 2, 10), size: { w: 20, h: 4, d: 1 } },
+      { name: 'east', position: new BABYLON.Vector3(12, 2, 0), size: { w: 1, h: 4, d: 20 } },
+      { name: 'west', position: new BABYLON.Vector3(-12, 2, 0), size: { w: 1, h: 4, d: 20 } }
+    ];
+
+    wallPositions.forEach(wallInfo => {
+      const wall = BABYLON.MeshBuilder.CreateBox(
+        `collisionWall_${wallInfo.name}`,
+        { width: wallInfo.size.w, height: wallInfo.size.h, depth: wallInfo.size.d },
+        this.scene
+      );
+      
+      wall.position = wallInfo.position;
+      wall.isVisible = false; // Make invisible
+      wall.checkCollisions = true; // Enable collision
+      
+      this.meshes.set(`collisionWall_${wallInfo.name}`, wall);
+    });
+    
+    console.log('[MysticalArena] Invisible collision walls created for first-person navigation');
+  }
+
   private async createFloatingRunes(): Promise<void> {
     const runeCount = 6;
     const colors = this.getThemeColors();
@@ -445,6 +471,7 @@ export class MysticalArena {
     tavernMaterial.emissiveIntensity = 0.2;
     
     tavernMain.material = tavernMaterial;
+    tavernMain.checkCollisions = true; // Enable collision for first-person navigation
     this.meshes.set('tavernMain', tavernMain);
     this.materials.set('tavernMain', tavernMaterial);
     
@@ -463,6 +490,7 @@ export class MysticalArena {
     roofMaterial.roughnessFactor = 0.95;
     
     roof.material = roofMaterial;
+    roof.checkCollisions = true;
     this.meshes.set('tavernRoof', roof);
     this.materials.set('tavernRoof', roofMaterial);
     
@@ -474,6 +502,7 @@ export class MysticalArena {
     );
     sideBuilding1.position = new BABYLON.Vector3(-8, 2, -10);
     sideBuilding1.material = tavernMaterial;
+    sideBuilding1.checkCollisions = true;
     this.meshes.set('sideBuilding1', sideBuilding1);
     
     const sideBuilding2 = BABYLON.MeshBuilder.CreateBox(
@@ -483,6 +512,7 @@ export class MysticalArena {
     );
     sideBuilding2.position = new BABYLON.Vector3(8, 2, -10);
     sideBuilding2.material = tavernMaterial;
+    sideBuilding2.checkCollisions = true;
     this.meshes.set('sideBuilding2', sideBuilding2);
     
     // Tavern entrance pillars
@@ -492,6 +522,7 @@ export class MysticalArena {
       this.scene
     );
     pillar1.position = new BABYLON.Vector3(-2, 2.5, -8);
+    pillar1.checkCollisions = true;
     
     const pillar2 = BABYLON.MeshBuilder.CreateCylinder(
       'entrancePillar2',
@@ -499,6 +530,7 @@ export class MysticalArena {
       this.scene
     );
     pillar2.position = new BABYLON.Vector3(2, 2.5, -8);
+    pillar2.checkCollisions = true;
     
     const stoneMaterial = new BABYLON.PBRMaterial('stonePillarMaterial', this.scene);
     stoneMaterial.baseColor = new BABYLON.Color3(0.35, 0.3, 0.25); // Stone color
@@ -512,6 +544,35 @@ export class MysticalArena {
     this.meshes.set('entrancePillar1', pillar1);
     this.meshes.set('entrancePillar2', pillar2);
     this.materials.set('stonePillarMaterial', stoneMaterial);
+    
+    // Create invisible collision walls at tavern boundaries for first-person navigation
+    this.createInvisibleWalls();
+  }
+
+  private createInvisibleWalls(): void {
+    // Create invisible collision walls around the tavern area for first-person navigation
+    const wallPositions = [
+      { name: 'north', position: new BABYLON.Vector3(0, 2, -15), size: { w: 20, h: 4, d: 1 } },
+      { name: 'south', position: new BABYLON.Vector3(0, 2, 10), size: { w: 20, h: 4, d: 1 } },
+      { name: 'east', position: new BABYLON.Vector3(12, 2, 0), size: { w: 1, h: 4, d: 20 } },
+      { name: 'west', position: new BABYLON.Vector3(-12, 2, 0), size: { w: 1, h: 4, d: 20 } }
+    ];
+
+    wallPositions.forEach(wallInfo => {
+      const wall = BABYLON.MeshBuilder.CreateBox(
+        `collisionWall_${wallInfo.name}`,
+        { width: wallInfo.size.w, height: wallInfo.size.h, depth: wallInfo.size.d },
+        this.scene
+      );
+      
+      wall.position = wallInfo.position;
+      wall.isVisible = false; // Make invisible
+      wall.checkCollisions = true; // Enable collision
+      
+      this.meshes.set(`collisionWall_${wallInfo.name}`, wall);
+    });
+    
+    console.log('[MysticalArena] Invisible collision walls created for first-person navigation');
   }
 
   private async createWoodenFurniture(): Promise<void> {
@@ -543,6 +604,7 @@ export class MysticalArena {
       tableTop.position = position.clone();
       tableTop.position.y = 1.5;
       tableTop.material = woodMaterial;
+      tableTop.checkCollisions = true; // Enable collision for first-person navigation
       this.meshes.set(`tableTop_${index}`, tableTop);
       
       // Table leg
@@ -554,6 +616,7 @@ export class MysticalArena {
       tableLeg.position = position.clone();
       tableLeg.position.y = 0.75;
       tableLeg.material = woodMaterial;
+      tableLeg.checkCollisions = true; // Enable collision for first-person navigation
       this.meshes.set(`tableLeg_${index}`, tableLeg);
     });
     
@@ -574,6 +637,7 @@ export class MysticalArena {
       );
       barrel.position = position.clone();
       barrel.position.y = 0.75;
+      barrel.checkCollisions = true; // Enable collision for first-person navigation
       
       const barrelMaterial = new BABYLON.PBRMaterial(`barrelMaterial_${index}`, this.scene);
       barrelMaterial.baseColor = new BABYLON.Color3(0.5, 0.3, 0.2); // Barrel wood
@@ -601,6 +665,7 @@ export class MysticalArena {
       crate.position = position.clone();
       crate.position.y = 0.5;
       crate.material = woodMaterial;
+      crate.checkCollisions = true; // Enable collision for first-person navigation
       this.meshes.set(`crate_${index}`, crate);
     });
     
@@ -617,6 +682,7 @@ export class MysticalArena {
       this.scene
     );
     archLeft.position = new BABYLON.Vector3(-3, 3, -15);
+    archLeft.checkCollisions = true;
     
     const archRight = BABYLON.MeshBuilder.CreateCylinder(
       'archRight',
@@ -624,6 +690,7 @@ export class MysticalArena {
       this.scene
     );
     archRight.position = new BABYLON.Vector3(3, 3, -15);
+    archRight.checkCollisions = true;
     
     const archTop = BABYLON.MeshBuilder.CreateTorus(
       'archTop',
@@ -667,6 +734,7 @@ export class MysticalArena {
       );
       wall.position = segment.pos;
       wall.material = stoneMaterial;
+      wall.checkCollisions = true; // Enable collision for first-person navigation
       this.meshes.set(`stoneWall_${index}`, wall);
     });
   }
