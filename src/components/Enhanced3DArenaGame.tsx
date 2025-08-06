@@ -278,7 +278,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             width: '100%',
             height: '100%',
             zIndex: 0,
-            cursor: 'crosshair', // Show crosshair for first-person mode
+            cursor: 'grab', // Show grab cursor for camera controls
           }}
         />
       )}
@@ -335,17 +335,17 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
 
             <div style={{ fontSize: '12px', color: '#ccc', marginTop: '8px' }}>
               <div>
-                <strong>First-Person Controls:</strong>
+                <strong>Camera Controls:</strong>
               </div>
-              <div>• WASD or Arrow Keys: Move</div>
-              <div>• Mouse: Look around</div>
-              <div>• Explore the tavern!</div>
+              <div>• Mouse: Rotate around arena</div>
+              <div>• Scroll: Zoom in/out</div>
+              <div>• Touch: Pinch and drag to navigate</div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Game UI Overlay - Made more transparent for first-person tavern experience */}
+      {/* Game UI Overlay - Optimized transparency for strategic camera view */}
       <div
         className="game-ui-overlay"
         style={{
@@ -375,7 +375,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
               display: 'flex',
               justifyContent: 'space-between',
               marginBottom: '10px',
-              background: 'rgba(139, 0, 0, 0.4)', // More transparent for first-person experience
+              background: 'rgba(139, 0, 0, 0.4)', // Semi-transparent for better view
               padding: '10px',
               borderRadius: '8px',
               color: 'white',
@@ -479,7 +479,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
           <div
             className="player-hand"
             style={{
-              background: 'rgba(0, 139, 0, 0.2)', // More transparent for first-person experience
+              background: 'rgba(0, 139, 0, 0.2)', // Semi-transparent for better view
               borderRadius: '8px',
               padding: '10px',
               marginBottom: '10px',
@@ -504,7 +504,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             className="player-battlefield"
             style={{
               minHeight: '100px',
-              background: 'rgba(0, 139, 0, 0.2)', // More transparent for first-person experience
+              background: 'rgba(0, 139, 0, 0.2)', // Semi-transparent for better view
               borderRadius: '8px',
               padding: '10px',
               marginBottom: '10px',
@@ -525,7 +525,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              background: 'rgba(0, 139, 0, 0.4)', // More transparent for first-person experience
+              background: 'rgba(0, 139, 0, 0.4)', // Semi-transparent for better view
               padding: '10px',
               borderRadius: '8px',
               color: 'white',

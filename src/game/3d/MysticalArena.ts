@@ -1183,7 +1183,7 @@ export class MysticalArena {
     // Adjust camera FOV for different aspect ratios
     const cameras = this.scene.cameras;
     cameras.forEach(camera => {
-      if (camera instanceof BABYLON.FreeCamera) {
+      if (camera instanceof BABYLON.ArcRotateCamera) {
         // Adjust FOV for mobile vs desktop
         if (containerWidth < 768) {
           camera.fov = Math.PI / 3; // Wider FOV for mobile
