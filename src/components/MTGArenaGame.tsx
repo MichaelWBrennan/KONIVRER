@@ -20,7 +20,14 @@ interface MTGCard extends Card {
 interface GameState {
   player: {
     life: number;
-    mana: { white: number; blue: number; black: number; red: number; green: number; colorless: number };
+    mana: {
+      white: number;
+      blue: number;
+      black: number;
+      red: number;
+      green: number;
+      colorless: number;
+    };
     hand: MTGCard[];
     battlefield: MTGCard[];
     graveyard: MTGCard[];
@@ -28,7 +35,14 @@ interface GameState {
   };
   opponent: {
     life: number;
-    mana: { white: number; blue: number; black: number; red: number; green: number; colorless: number };
+    mana: {
+      white: number;
+      blue: number;
+      black: number;
+      red: number;
+      green: number;
+      colorless: number;
+    };
     hand: MTGCard[];
     battlefield: MTGCard[];
     graveyard: MTGCard[];
@@ -47,15 +61,25 @@ const MTGArenaGame: React.FC = () => {
 
   function initializeGame(): GameState {
     // Convert KONIVRER cards to MTG-style cards
-    const convertCard = (card: Card, owner: 'player' | 'opponent', zone: MTGCard['zone']): MTGCard => ({
+    const convertCard = (
+      card: Card,
+      owner: 'player' | 'opponent',
+      zone: MTGCard['zone'],
+    ): MTGCard => ({
       ...card,
       gameId: `${card.id}-${owner}-${Math.random()}`,
       zone,
       owner,
       manaCost: card.cost,
       cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
-      power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
-      toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
+      power:
+        card.type === 'Familiar'
+          ? Math.floor(Math.random() * 5) + 1
+          : undefined,
+      toughness:
+        card.type === 'Familiar'
+          ? Math.floor(Math.random() * 5) + 1
+          : undefined,
       isTapped: false,
       isSelected: false,
       canPlay: false,
@@ -63,12 +87,20 @@ const MTGArenaGame: React.FC = () => {
 
     // Create starting hands and libraries
     const allCards = [...KONIVRER_CARDS];
-    const playerLibrary = allCards.slice(0, 30).map(card => convertCard(card, 'player', 'library'));
-    const opponentLibrary = allCards.slice(0, 30).map(card => convertCard(card, 'opponent', 'library'));
+    const playerLibrary = allCards
+      .slice(0, 30)
+      .map(card => convertCard(card, 'player', 'library'));
+    const opponentLibrary = allCards
+      .slice(0, 30)
+      .map(card => convertCard(card, 'opponent', 'library'));
 
     // Draw starting hands
-    const playerHand = playerLibrary.splice(0, 7).map(card => ({ ...card, zone: 'hand' as const }));
-    const opponentHand = opponentLibrary.splice(0, 7).map(card => ({ ...card, zone: 'hand' as const }));
+    const playerHand = playerLibrary
+      .splice(0, 7)
+      .map(card => ({ ...card, zone: 'hand' as const }));
+    const opponentHand = opponentLibrary
+      .splice(0, 7)
+      .map(card => ({ ...card, zone: 'hand' as const }));
 
     return {
       player: {
@@ -95,7 +127,7 @@ const MTGArenaGame: React.FC = () => {
 
   const handleCardClick = (card: MTGCard) => {
     if (card.owner !== gameState.turn) return;
-    
+
     setSelectedCard(selectedCard?.gameId === card.gameId ? null : card);
   };
 
@@ -123,14 +155,16 @@ const MTGArenaGame: React.FC = () => {
       setGameState(prev => {
         const newState = { ...prev };
         const currentPlayer = newState[gameState.turn];
-        
+
         // Remove from hand
-        currentPlayer.hand = currentPlayer.hand.filter(c => c.gameId !== draggedCard.gameId);
-        
+        currentPlayer.hand = currentPlayer.hand.filter(
+          c => c.gameId !== draggedCard.gameId,
+        );
+
         // Add to battlefield
         const playedCard = { ...draggedCard, zone: 'battlefield' as const };
         currentPlayer.battlefield.push(playedCard);
-        
+
         return newState;
       });
     }
@@ -139,27 +173,35 @@ const MTGArenaGame: React.FC = () => {
   };
 
   const nextPhase = () => {
-    const phases: GameState['phase'][] = ['untap', 'upkeep', 'draw', 'main1', 'combat', 'main2', 'end'];
+    const phases: GameState['phase'][] = [
+      'untap',
+      'upkeep',
+      'draw',
+      'main1',
+      'combat',
+      'main2',
+      'end',
+    ];
     const currentIndex = phases.indexOf(gameState.phase);
     const nextPhaseIndex = (currentIndex + 1) % phases.length;
     const nextPhase = phases[nextPhaseIndex];
 
     setGameState(prev => {
       const newState = { ...prev, phase: nextPhase };
-      
+
       // Handle phase changes
       if (nextPhase === 'untap' && prev.phase === 'end') {
         // Switch turns
         newState.turn = prev.turn === 'player' ? 'opponent' : 'player';
-        
+
         // Untap all permanents
         const currentPlayer = newState[newState.turn];
         currentPlayer.battlefield = currentPlayer.battlefield.map(card => ({
           ...card,
-          isTapped: false
+          isTapped: false,
         }));
       }
-      
+
       if (nextPhase === 'draw') {
         // Draw a card
         const currentPlayer = newState[newState.turn];
@@ -173,13 +215,17 @@ const MTGArenaGame: React.FC = () => {
     });
   };
 
-  const CardComponent: React.FC<{ card: MTGCard; style?: React.CSSProperties; index?: number }> = ({ card, style, index = 0 }) => {
+  const CardComponent: React.FC<{
+    card: MTGCard;
+    style?: React.CSSProperties;
+    index?: number;
+  }> = ({ card, style, index = 0 }) => {
     const [isHovered, setIsHovered] = useState(false);
-    
+
     // Calculate 3D positioning based on card index and zone
     const get3DStyle = (): React.CSSProperties => {
       const baseStyle = { ...style };
-      
+
       if (card.zone === 'hand') {
         // Hand cards fan out with perspective
         const fanAngle = (index - 3) * 3; // Fan from -9 to +9 degrees
@@ -187,20 +233,21 @@ const MTGArenaGame: React.FC = () => {
         return {
           ...baseStyle,
           transform: `translateX(${index * 60}px) rotateY(${fanAngle}deg) translateZ(${fanOffset}px)`,
-          transformOrigin: card.owner === 'player' ? 'center bottom' : 'center top',
+          transformOrigin:
+            card.owner === 'player' ? 'center bottom' : 'center top',
         };
       }
-      
+
       if (card.zone === 'battlefield') {
         // Battlefield cards have depth variation
         const depthOffset = (index % 3) * 5 + 5;
-        const rotationY = (index % 2 === 0) ? 1 : -1;
+        const rotationY = index % 2 === 0 ? 1 : -1;
         return {
           ...baseStyle,
           transform: `translateZ(${depthOffset}px) rotateY(${rotationY}deg)`,
         };
       }
-      
+
       return baseStyle;
     };
 
@@ -220,18 +267,18 @@ const MTGArenaGame: React.FC = () => {
         draggable
         onDragStart={() => handleCardDragStart(card)}
         onDragEnd={handleCardDragEnd}
-        whileHover={{ 
+        whileHover={{
           scale: card.zone === 'hand' ? 1.1 : 1.05,
           rotateX: card.owner === 'player' ? 10 : -5,
           translateZ: 30,
-          transition: { duration: 0.2 }
+          transition: { duration: 0.2 },
         }}
         whileTap={{ scale: 0.95 }}
         layout
         initial={{ rotateY: 0, translateZ: 0 }}
-        animate={{ 
-          rotateY: card.zone === 'hand' ? ((index - 3) * 3) : 0,
-          translateZ: card.zone === 'battlefield' ? ((index % 3) * 5 + 5) : 0
+        animate={{
+          rotateY: card.zone === 'hand' ? (index - 3) * 3 : 0,
+          translateZ: card.zone === 'battlefield' ? (index % 3) * 5 + 5 : 0,
         }}
         transition={{ duration: 0.3 }}
       >
@@ -261,12 +308,12 @@ const MTGArenaGame: React.FC = () => {
     <motion.div
       className={`zone ${zoneName} ${className} ${hoveredZone === zoneName ? 'drop-target' : ''}`}
       style={style}
-      onDragOver={(e) => handleZoneDropOver(e, zoneName)}
-      onDrop={(e) => handleZoneDrop(e, zoneName as MTGCard['zone'])}
+      onDragOver={e => handleZoneDropOver(e, zoneName)}
+      onDrop={e => handleZoneDrop(e, zoneName as MTGCard['zone'])}
       initial={{ rotateX: 0, translateZ: 0 }}
-      animate={{ 
+      animate={{
         rotateX: zoneName.includes('battlefield') ? 2 : 0,
-        translateZ: zoneName.includes('battlefield') ? 10 : 0
+        translateZ: zoneName.includes('battlefield') ? 10 : 0,
       }}
       transition={{ duration: 0.5 }}
     >
@@ -292,16 +339,18 @@ const MTGArenaGame: React.FC = () => {
   return (
     <div className="mtg-arena-game">
       {/* Opponent Area - Enhanced 3D */}
-      <motion.div 
+      <motion.div
         className="opponent-area"
         initial={{ rotateX: 0, translateZ: 0, scale: 1 }}
         animate={{ rotateX: 20, translateZ: -100, scale: 0.85 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <div className="player-info opponent">
           <div className="life-counter">❤️ {gameState.opponent.life}</div>
           <div className="hand-count">🃏 {gameState.opponent.hand.length}</div>
-          <div className="library-count">📚 {gameState.opponent.library.length}</div>
+          <div className="library-count">
+            📚 {gameState.opponent.library.length}
+          </div>
         </div>
         <ZoneComponent
           zoneName="opponent-battlefield"
@@ -316,7 +365,7 @@ const MTGArenaGame: React.FC = () => {
       </motion.div>
 
       {/* Center Area - Stack and Turn Info */}
-      <motion.div 
+      <motion.div
         className="center-area"
         initial={{ translateZ: 0 }}
         animate={{ translateZ: 5 }}
@@ -324,18 +373,20 @@ const MTGArenaGame: React.FC = () => {
       >
         <div className="game-info">
           <div className="turn-info">
-            <motion.div 
+            <motion.div
               className={`turn-indicator ${gameState.turn}`}
               whileHover={{ scale: 1.05, translateZ: 10 }}
               transition={{ duration: 0.2 }}
             >
-              {gameState.turn === 'player' ? '🔵 Your Turn' : '🔴 Opponent Turn'}
+              {gameState.turn === 'player'
+                ? '🔵 Your Turn'
+                : '🔴 Opponent Turn'}
             </motion.div>
             <div className="phase-indicator">
               Phase: {gameState.phase.toUpperCase()}
             </div>
-            <motion.button 
-              className="next-phase-btn" 
+            <motion.button
+              className="next-phase-btn"
               onClick={nextPhase}
               whileHover={{ scale: 1.05, translateZ: 15 }}
               whileTap={{ scale: 0.95 }}
@@ -345,7 +396,7 @@ const MTGArenaGame: React.FC = () => {
             </motion.button>
           </div>
         </div>
-        
+
         {gameState.stack.length > 0 && (
           <ZoneComponent
             zoneName="stack"
@@ -356,11 +407,11 @@ const MTGArenaGame: React.FC = () => {
       </motion.div>
 
       {/* Player Area - Enhanced 3D */}
-      <motion.div 
+      <motion.div
         className="player-area"
         initial={{ rotateX: 0, translateZ: 0, scale: 1 }}
         animate={{ rotateX: -15, translateZ: 50, scale: 1.1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <ZoneComponent
           zoneName="player-hand"
@@ -377,12 +428,14 @@ const MTGArenaGame: React.FC = () => {
           <div className="mana-pool">
             ⚡ {Object.values(gameState.player.mana).reduce((a, b) => a + b, 0)}
           </div>
-          <div className="library-count">📚 {gameState.player.library.length}</div>
+          <div className="library-count">
+            📚 {gameState.player.library.length}
+          </div>
         </div>
       </motion.div>
 
       {/* Side Zones - Enhanced 3D */}
-      <motion.div 
+      <motion.div
         className="side-zones"
         initial={{ translateZ: 0 }}
         animate={{ translateZ: 40 }}
@@ -393,11 +446,7 @@ const MTGArenaGame: React.FC = () => {
           cards={gameState.player.graveyard}
           className="graveyard"
         />
-        <ZoneComponent
-          zoneName="exile"
-          cards={[]}
-          className="exile"
-        />
+        <ZoneComponent zoneName="exile" cards={[]} className="exile" />
       </motion.div>
     </div>
   );

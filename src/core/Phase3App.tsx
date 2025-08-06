@@ -602,14 +602,16 @@ const Card = ({
 // Home Page Component - MTG Arena Game
 const HomePage = () => {
   return (
-    <div style={{ 
-      position: 'fixed', 
-      top: 0, 
-      left: 0, 
-      right: 0, 
-      bottom: 0, 
-      zIndex: 1 
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+      }}
+    >
       <MTGArenaGame />
     </div>
   );
@@ -789,14 +791,16 @@ const EventsPage = () => (
 // Play Page Component - MTG Arena Game
 const PlayPage = () => {
   return (
-    <div style={{ 
-      position: 'fixed', 
-      top: 0, 
-      left: 0, 
-      right: 0, 
-      bottom: 0, 
-      zIndex: 1 
-    }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 1,
+      }}
+    >
       <MTGArenaGame />
     </div>
   );

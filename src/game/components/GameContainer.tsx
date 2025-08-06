@@ -375,11 +375,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
           </motion.div>
         )}
 
-        {gameState === 'playing' && (
-          <CardGameUI onClose={handleClose} />
-        )}
+        {gameState === 'playing' && <CardGameUI onClose={handleClose} />}
       </AnimatePresence>
-
     </div>
   );
 };
