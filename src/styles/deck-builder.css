@@ -1,0 +1,334 @@
+.deck-builder {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #0f0f0f;
+  color: #ffffff;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.deck-builder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #1a1a2e;
+  border-radius: 10px;
+  border: 1px solid #d4af37;
+}
+
+.deck-info {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.deck-name-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #2a2a3e;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.deck-description-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background: #2a2a3e;
+  border: 1px solid #d4af37;
+  border-radius: 5px;
+  color: #ffffff;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.deck-privacy {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.deck-privacy label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.deck-privacy input[type="checkbox"] {
+  accent-color: #d4af37;
+}
+
+.deck-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.save-deck-btn {
+  padding: 12px 24px;
+  background: #d4af37;
+  color: #0f0f0f;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-deck-btn:hover {
+  background: #e6c248;
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  padding: 12px 24px;
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #666;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn:hover {
+  border-color: #d4af37;
+  color: #d4af37;
+}
+
+.deck-builder-content {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.card-search-panel {
+  flex: 1;
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #d4af37;
+  overflow-y: auto;
+}
+
+.card-search-panel h3 {
+  margin: 0 0 15px 0;
+  color: #d4af37;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 10px;
+}
+
+.deck-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.deck-stats {
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #d4af37;
+}
+
+.deck-stats h3 {
+  margin: 0 0 15px 0;
+  color: #d4af37;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 10px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  font-family: monospace;
+}
+
+.stats-grid div {
+  padding: 5px;
+  background: #2a2a3e;
+  border-radius: 3px;
+  text-align: center;
+}
+
+.deck-cards {
+  flex: 1;
+  background: #1a1a2e;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #d4af37;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.deck-cards h3 {
+  margin: 0 0 15px 0;
+  color: #d4af37;
+  border-bottom: 2px solid #d4af37;
+  padding-bottom: 10px;
+}
+
+.deck-card-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deck-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background: #2a2a3e;
+  border-radius: 5px;
+  border: 1px solid #444;
+  transition: all 0.3s ease;
+}
+
+.deck-card-item:hover {
+  border-color: #d4af37;
+  transform: translateX(5px);
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.card-name {
+  font-weight: bold;
+  color: #d4af37;
+  margin-bottom: 4px;
+}
+
+.card-cost {
+  color: #888;
+  font-size: 0.9em;
+}
+
+.card-type {
+  color: #aaa;
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.card-quantity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-btn {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.quantity-btn:hover {
+  background: #d4af37;
+  color: #0f0f0f;
+}
+
+.quantity {
+  min-width: 20px;
+  text-align: center;
+  font-weight: bold;
+  color: #d4af37;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .deck-builder {
+    padding: 10px;
+  }
+
+  .deck-builder-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .deck-info {
+    margin-right: 0;
+  }
+
+  .deck-actions {
+    align-self: stretch;
+  }
+
+  .deck-builder-content {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deck-card-item {
+    padding: 8px;
+  }
+
+  .card-info {
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .card-name {
+    margin-bottom: 0;
+  }
+}
+
+/* Compact mode for card search */
+.deck-builder .card-search-panel .unified-card-search {
+  max-height: none;
+}
+
+.deck-builder .card-search-panel .search-results {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Scrollbar styling */
+.deck-card-list::-webkit-scrollbar,
+.card-search-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.deck-card-list::-webkit-scrollbar-track,
+.card-search-panel::-webkit-scrollbar-track {
+  background: #2a2a3e;
+  border-radius: 3px;
+}
+
+.deck-card-list::-webkit-scrollbar-thumb,
+.card-search-panel::-webkit-scrollbar-thumb {
+  background: #d4af37;
+  border-radius: 3px;
+}
+
+.deck-card-list::-webkit-scrollbar-thumb:hover,
+.card-search-panel::-webkit-scrollbar-thumb:hover {
+  background: #e6c248;
+}
