@@ -178,10 +178,10 @@ const MTGArenaGame: React.FC = () => {
   const toggleRevealOpponentHand = () => {
     setGameState(prev => ({
       ...prev,
-      revealedOpponentCards: 
-        prev.revealedOpponentCards.length === 0 
+      revealedOpponentCards:
+        prev.revealedOpponentCards.length === 0
           ? prev.opponent.hand.map(card => card.gameId) // Reveal all
-          : [] // Hide all
+          : [], // Hide all
     }));
   };
 
@@ -296,9 +296,9 @@ const MTGArenaGame: React.FC = () => {
     };
 
     // Check if this opponent hand card should be hidden
-    const shouldShowCardBack = 
-      card.owner === 'opponent' && 
-      card.zone === 'hand' && 
+    const shouldShowCardBack =
+      card.owner === 'opponent' &&
+      card.zone === 'hand' &&
       !gameState.revealedOpponentCards.includes(card.gameId);
 
     // If card should be hidden, show card back
@@ -457,10 +457,14 @@ const MTGArenaGame: React.FC = () => {
               transition={{ duration: 0.2 }}
               style={{
                 marginLeft: '10px',
-                background: gameState.revealedOpponentCards.length > 0 ? '#dc3545' : '#28a745',
+                background:
+                  gameState.revealedOpponentCards.length > 0
+                    ? '#dc3545'
+                    : '#28a745',
               }}
             >
-              {gameState.revealedOpponentCards.length > 0 ? 'Hide' : 'Reveal'} Opponent Hand
+              {gameState.revealedOpponentCards.length > 0 ? 'Hide' : 'Reveal'}{' '}
+              Opponent Hand
             </motion.button>
           </div>
         </div>
