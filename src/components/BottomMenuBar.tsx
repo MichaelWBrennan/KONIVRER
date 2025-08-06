@@ -26,6 +26,33 @@ const getNavigationItems = (context: AppContextType) => [
     ),
   },
   {
+    to: '/deck-builder',
+    label: 'Deck Builder',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+      </svg>
+    ),
+  },
+  {
+    to: '/ai-practice',
+    label: 'AI Practice',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1.5V5.5L9 0V14C6.2 14.2 4 16.5 4 19.2C4 21.8 6.2 24 8.8 24S13.6 21.8 13.6 19.2C13.6 16.5 11.4 14.2 8.6 14V3.5L14.5 8V10L21 9Z" />
+      </svg>
+    ),
+  },
+  {
+    to: '/quests',
+    label: 'Quests',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+    ),
+  },
+  {
     to: '/decks',
     label: 'Decks',
     icon: (
@@ -39,7 +66,7 @@ const getNavigationItems = (context: AppContextType) => [
     label: 'Events',
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
       </svg>
     ),
   },

@@ -43,6 +43,9 @@ import Enhanced3DArenaGame from '../components/Enhanced3DArenaGame';
 import AdvancedMTGArenaGame from '../components/AdvancedMTGArenaGame';
 import HearthstoneBattlefield from '../components/HearthstoneBattlefield';
 import BattlefieldDemo from '../components/BattlefieldDemo';
+import EnhancedDeckBuilder from '../components/EnhancedDeckBuilder';
+import QuestProgress, { questManager } from '../components/QuestProgress';
+import { AIOpponentSelector, AI_OPPONENTS } from '../game/systems/AIOpponent';
 import '../styles/mtg-arena.css';
 import '../styles/advanced-mtg-arena.css';
 import '../styles/hearthstone-battlefield.css';
@@ -687,15 +690,8 @@ const DecksPage = () => {
             boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
           }}
           onClick={() => {
-            // Create new deck functionality
-            const newDeck = {
-              id: Date.now(),
-              name: `New Deck ${Date.now()}`,
-              cards: [],
-              description: 'A new deck ready for customization',
-            };
-            console.log('Creating new deck:', newDeck);
-            alert('Deck creation functionality would be implemented here!');
+            // Navigate to enhanced deck builder
+            window.location.href = '/deck-builder';
           }}
           style={{
             background: 'rgba(212, 175, 55, 0.05)',
@@ -714,14 +710,7 @@ const DecksPage = () => {
           onKeyDown={e => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              const newDeck = {
-                id: Date.now(),
-                name: `New Deck ${Date.now()}`,
-                cards: [],
-                description: 'A new deck ready for customization',
-              };
-              console.log('Creating new deck:', newDeck);
-              alert('Deck creation functionality would be implemented here!');
+              window.location.href = '/deck-builder';
             }
           }}
           aria-label="Create new deck"
@@ -737,6 +726,102 @@ const DecksPage = () => {
             Create New Deck
           </p>
         </motion.div>
+      </motion.div>
+    </PageContainer>
+  );
+};
+
+// Enhanced Deck Builder Page
+const DeckBuilderPage = () => {
+  return (
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
+      <EnhancedDeckBuilder />
+    </div>
+  );
+};
+
+// AI Practice Page  
+const AIPracticePage = () => {
+  const [selectedOpponent, setSelectedOpponent] = useState(null);
+  const [showGame, setShowGame] = useState(false);
+
+  if (showGame && selectedOpponent) {
+    return (
+      <div style={{ height: '100vh', overflow: 'hidden' }}>
+        <Enhanced3DArenaGame aiOpponent={selectedOpponent} onBack={() => setShowGame(false)} />
+      </div>
+    );
+  }
+
+  return (
+    <PageContainer title="AI Practice">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div style={{ marginBottom: '20px', textAlign: 'center' }}>
+          <h2 style={{ color: '#d4af37', marginBottom: '10px' }}>Practice Against AI</h2>
+          <p style={{ color: '#ccc' }}>
+            Choose your opponent and test your skills against different AI personalities
+          </p>
+        </div>
+        
+        <AIOpponentSelector 
+          onSelectOpponent={(opponent) => {
+            setSelectedOpponent(opponent);
+            setShowGame(true);
+            // Record quest progress
+            questManager.recordGameEvent('ai_challenge_started', { aiDifficulty: opponent.difficulty });
+          }}
+          currentOpponent={selectedOpponent}
+        />
+      </motion.div>
+    </PageContainer>
+  );
+};
+
+// Quests Page
+const QuestsPage = () => {
+  const [showQuestModal, setShowQuestModal] = useState(false);
+
+  return (
+    <PageContainer title="Quests & Achievements">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        style={{ textAlign: 'center', padding: '40px' }}
+      >
+        <h2 style={{ color: '#d4af37', marginBottom: '20px', fontSize: '32px' }}>
+          🎯 Daily Quests & Achievements
+        </h2>
+        <p style={{ color: '#ccc', marginBottom: '30px', fontSize: '18px' }}>
+          Complete quests, unlock achievements, and track your progress!
+        </p>
+        
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowQuestModal(true)}
+          style={{
+            background: 'linear-gradient(45deg, #d4af37, #f4e99b)',
+            border: 'none',
+            color: '#1a1a2e',
+            padding: '15px 30px',
+            borderRadius: '8px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            boxShadow: '0 4px 15px rgba(212, 175, 55, 0.3)',
+          }}
+        >
+          View Quests & Achievements
+        </motion.button>
+
+        {showQuestModal && (
+          <QuestProgress onClose={() => setShowQuestModal(false)} />
+        )}
       </motion.div>
     </PageContainer>
   );
@@ -883,6 +968,9 @@ const Phase3App = () => {
                   <Route path="/" element={<HomePage />} />
                   <Route path="/cards" element={<SimpleCardImagesPage />} />
                   <Route path="/decks" element={<DecksPage />} />
+                  <Route path="/deck-builder" element={<DeckBuilderPage />} />
+                  <Route path="/ai-practice" element={<AIPracticePage />} />
+                  <Route path="/quests" element={<QuestsPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
                   <Route path="/arena" element={<AdvancedMTGArenaGame />} />
