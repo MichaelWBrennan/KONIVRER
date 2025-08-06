@@ -64,8 +64,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
 }
 
 /* Enhanced Card Styles */
@@ -79,14 +84,14 @@
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-style: preserve-3d;
-  box-shadow: 
+  box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
 .card.mtg-card:hover {
   border-color: #666;
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(0, 0, 0, 0.4),
     0 0 0 2px rgba(255, 255, 255, 0.2) inset,
     0 0 20px rgba(100, 150, 255, 0.1);
@@ -94,7 +99,7 @@
 
 .card.mtg-card.selected {
   border-color: #0078d4;
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(0, 120, 215, 0.3),
     0 0 0 2px #0078d4 inset,
     0 0 30px rgba(0, 120, 215, 0.2);
@@ -103,7 +108,7 @@
 
 .card.mtg-card.playable {
   border-color: #228b22;
-  box-shadow: 
+  box-shadow:
     0 8px 25px rgba(34, 139, 34, 0.3),
     0 0 0 2px #228b22 inset;
 }
@@ -453,7 +458,8 @@
 }
 
 /* Graveyard and Exile */
-.graveyard, .exile {
+.graveyard,
+.exile {
   width: 80px;
   height: 120px;
   background: rgba(255, 255, 255, 0.03);
@@ -464,13 +470,15 @@
   transition: all 0.2s ease;
 }
 
-.graveyard:hover, .exile:hover {
+.graveyard:hover,
+.exile:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
 }
 
-.graveyard .zone-cards, .exile .zone-cards {
+.graveyard .zone-cards,
+.exile .zone-cards {
   position: absolute;
   top: 0;
   left: 0;
@@ -478,7 +486,8 @@
   height: 100%;
 }
 
-.graveyard .zone-cards .card, .exile .zone-cards .card {
+.graveyard .zone-cards .card,
+.exile .zone-cards .card {
   position: absolute;
   top: 0;
   left: 0;
@@ -575,7 +584,10 @@
   border-color: rgba(220, 53, 69, 0.3);
 }
 
-.life-counter, .mana-pool, .hand-count, .library-count {
+.life-counter,
+.mana-pool,
+.hand-count,
+.library-count {
   font-size: 14px;
   font-weight: 600;
   color: #ffffff;
@@ -597,40 +609,41 @@
   .advanced-mtg-arena-game {
     font-size: 14px;
   }
-  
+
   .card.mtg-card {
     width: 45px;
     height: 63px;
   }
-  
+
   .game-controls {
     top: 10px;
     right: 10px;
     flex-direction: column;
     gap: 5px;
   }
-  
+
   .control-btn {
     padding: 6px 12px;
     font-size: 11px;
   }
-  
+
   .hover-preview {
     max-width: 200px;
   }
-  
+
   .hover-preview .card {
     width: 126px;
     height: 176px;
   }
-  
+
   .side-zones {
     right: 10px;
     bottom: 10px;
     gap: 5px;
   }
-  
-  .graveyard, .exile {
+
+  .graveyard,
+  .exile {
     width: 60px;
     height: 84px;
   }
@@ -677,11 +690,11 @@
   .card.mtg-card {
     border-width: 2px;
   }
-  
+
   .card.mtg-card.selected {
     border-width: 3px;
   }
-  
+
   .control-btn {
     border-width: 2px;
   }
@@ -693,11 +706,11 @@
     transition: none;
     animation: none;
   }
-  
+
   .control-btn {
     transition: none;
   }
-  
+
   .zone {
     transition: none;
   }

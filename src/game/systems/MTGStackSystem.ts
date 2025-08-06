@@ -35,7 +35,12 @@ export interface Priority {
 export interface GameTiming {
   turn: number;
   activePlayer: 'player' | 'opponent';
-  phase: 'beginning' | 'precombat_main' | 'combat' | 'postcombat_main' | 'ending';
+  phase:
+    | 'beginning'
+    | 'precombat_main'
+    | 'combat'
+    | 'postcombat_main'
+    | 'ending';
   step: string;
   canPlaySorceries: boolean;
   canPlayInstants: boolean;
@@ -48,7 +53,7 @@ export class MTGStackSystem {
   private timing: GameTiming;
   private triggers: StackObject[] = [];
   private stateBasedEffects: (() => boolean)[] = [];
-  
+
   constructor() {
     this.priority = {
       activePlayer: 'player',
@@ -62,7 +67,7 @@ export class MTGStackSystem {
         passOnCombat: false,
       },
     };
-    
+
     this.timing = {
       turn: 1,
       activePlayer: 'player',
@@ -81,17 +86,19 @@ export class MTGStackSystem {
     // Assign stack order (higher numbers resolve first)
     const stackOrder = this.stack.length;
     const objectWithOrder = { ...stackObject, stackOrder };
-    
+
     this.stack.push(objectWithOrder);
-    
+
     // Reset priority passes
     this.priority.consecutivePasses = 0;
     this.priority.hasPassedPriority = false;
-    
+
     // Active player gets priority first
     this.priority.activePlayer = stackObject.controller;
-    
-    console.log(`[Stack] Added ${stackObject.name} to stack (position ${stackOrder})`);
+
+    console.log(
+      `[Stack] Added ${stackObject.name} to stack (position ${stackOrder})`,
+    );
     this.logStackState();
   }
 
@@ -101,9 +108,9 @@ export class MTGStackSystem {
   passPriority(): 'continue' | 'resolve' | 'advance_phase' {
     this.priority.hasPassedPriority = true;
     this.priority.consecutivePasses++;
-    
+
     console.log(`[Priority] ${this.priority.activePlayer} passed priority`);
-    
+
     // Check if both players have passed
     if (this.priority.consecutivePasses >= 2) {
       if (this.stack.length > 0) {
@@ -115,7 +122,8 @@ export class MTGStackSystem {
       }
     } else {
       // Switch priority to other player
-      this.priority.activePlayer = this.priority.activePlayer === 'player' ? 'opponent' : 'player';
+      this.priority.activePlayer =
+        this.priority.activePlayer === 'player' ? 'opponent' : 'player';
       this.priority.hasPassedPriority = false;
       return 'continue';
     }
@@ -132,22 +140,22 @@ export class MTGStackSystem {
 
     const topObject = this.stack.pop()!;
     console.log(`[Stack] Resolving ${topObject.name}`);
-    
+
     try {
       // Execute the spell/ability effect
       topObject.resolve(this.getCurrentGameState());
-      
+
       // Reset priority passes and give priority to active player
       this.priority.consecutivePasses = 0;
       this.priority.hasPassedPriority = false;
       this.priority.activePlayer = this.timing.activePlayer;
-      
+
       // Check for triggered abilities after resolution
       this.checkForTriggers();
-      
+
       // Put any triggered abilities on the stack
       this.processTriggers();
-      
+
       this.logStackState();
       return 'resolve';
     } catch (error) {
@@ -162,24 +170,25 @@ export class MTGStackSystem {
   shouldAutoPass(playerHand: any[]): boolean {
     if (!this.priority.autoPassSettings.enabled) return false;
     if (this.priority.fullControlMode) return false;
-    
+
     const settings = this.priority.autoPassSettings;
-    
+
     // Don't auto-pass if there are spells on the stack
     if (this.stack.length > 0 && !settings.passOnEmpty) return false;
-    
+
     // Check if player has instant-speed responses
     if (!settings.passOnNoInstants) {
-      const hasInstants = playerHand.some(card => 
-        card.cardTypes.includes('Instant') || 
-        card.abilities?.some((ability: string) => ability.includes('Flash'))
+      const hasInstants = playerHand.some(
+        card =>
+          card.cardTypes.includes('Instant') ||
+          card.abilities?.some((ability: string) => ability.includes('Flash')),
       );
       if (hasInstants) return false;
     }
-    
+
     // Check combat auto-pass settings
     if (this.timing.phase === 'combat' && !settings.passOnCombat) return false;
-    
+
     return true;
   }
 
@@ -197,15 +206,15 @@ export class MTGStackSystem {
    */
   private processTriggers(): void {
     if (this.triggers.length === 0) return;
-    
+
     // Sort triggers by timestamp (APNAP order would be implemented here)
     this.triggers.sort((a, b) => a.timestamp - b.timestamp);
-    
+
     // Add triggers to stack in order
     for (const trigger of this.triggers) {
       this.addToStack(trigger);
     }
-    
+
     this.triggers = [];
   }
 
@@ -214,40 +223,43 @@ export class MTGStackSystem {
    */
   checkStateBasedEffects(): boolean {
     let effectsProcessed = false;
-    
+
     for (const effect of this.stateBasedEffects) {
       if (effect()) {
         effectsProcessed = true;
       }
     }
-    
+
     if (effectsProcessed) {
       console.log('[SBE] State-based effects processed');
       // Check for more triggers after SBEs
       this.checkForTriggers();
     }
-    
+
     return effectsProcessed;
   }
 
   /**
    * Update timing restrictions
    */
-  updateTiming(phase: string, step: string, activePlayer: 'player' | 'opponent'): void {
+  updateTiming(
+    phase: string,
+    step: string,
+    activePlayer: 'player' | 'opponent',
+  ): void {
     this.timing.phase = phase as any;
     this.timing.step = step;
     this.timing.activePlayer = activePlayer;
-    
+
     // Update what can be played
-    this.timing.canPlaySorceries = (
+    this.timing.canPlaySorceries =
       (phase === 'precombat_main' || phase === 'postcombat_main') &&
       this.stack.length === 0 &&
-      this.timing.activePlayer === activePlayer
-    );
-    
+      this.timing.activePlayer === activePlayer;
+
     this.timing.canPlayInstants = true; // Can always play instants (with priority)
     this.timing.canActivateAbilities = true; // Can always activate abilities (with priority)
-    
+
     console.log(`[Timing] Updated to ${phase} phase, ${step} step`);
   }
 
@@ -256,16 +268,26 @@ export class MTGStackSystem {
    */
   toggleFullControl(): boolean {
     this.priority.fullControlMode = !this.priority.fullControlMode;
-    console.log(`[Priority] Full control mode: ${this.priority.fullControlMode ? 'ON' : 'OFF'}`);
+    console.log(
+      `[Priority] Full control mode: ${this.priority.fullControlMode ? 'ON' : 'OFF'}`,
+    );
     return this.priority.fullControlMode;
   }
 
   /**
    * Update auto-pass settings
    */
-  updateAutoPassSettings(settings: Partial<Priority['autoPassSettings']>): void {
-    this.priority.autoPassSettings = { ...this.priority.autoPassSettings, ...settings };
-    console.log('[Priority] Auto-pass settings updated:', this.priority.autoPassSettings);
+  updateAutoPassSettings(
+    settings: Partial<Priority['autoPassSettings']>,
+  ): void {
+    this.priority.autoPassSettings = {
+      ...this.priority.autoPassSettings,
+      ...settings,
+    };
+    console.log(
+      '[Priority] Auto-pass settings updated:',
+      this.priority.autoPassSettings,
+    );
   }
 
   /**
@@ -292,15 +314,18 @@ export class MTGStackSystem {
   /**
    * Check if a spell/ability can be played
    */
-  canPlay(type: 'sorcery' | 'instant' | 'ability', controller: 'player' | 'opponent'): boolean {
+  canPlay(
+    type: 'sorcery' | 'instant' | 'ability',
+    controller: 'player' | 'opponent',
+  ): boolean {
     // Must have priority
     if (this.priority.activePlayer !== controller) return false;
-    
+
     // Check timing restrictions
     if (type === 'sorcery' && !this.timing.canPlaySorceries) return false;
     if (type === 'instant' && !this.timing.canPlayInstants) return false;
     if (type === 'ability' && !this.timing.canActivateAbilities) return false;
-    
+
     return true;
   }
 
