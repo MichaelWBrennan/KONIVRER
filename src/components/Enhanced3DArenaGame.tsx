@@ -50,7 +50,15 @@ interface GameState {
     library: MTGCard[];
   };
   turn: number;
-  phase: 'untap' | 'upkeep' | 'draw' | 'main1' | 'combat' | 'main2' | 'end' | 'cleanup';
+  phase:
+    | 'untap'
+    | 'upkeep'
+    | 'draw'
+    | 'main1'
+    | 'combat'
+    | 'main2'
+    | 'end'
+    | 'cleanup';
   activePlayer: 'player' | 'opponent';
   priority: 'player' | 'opponent';
 }
@@ -64,11 +72,13 @@ interface Enhanced3DArenaGameProps {
 const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
   onGameEnd,
   gameMode = 'casual',
-  enableSpectator = false
+  enableSpectator = false,
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [gameInitialized, setGameInitialized] = useState(false);
-  const [arenaTheme, setArenaTheme] = useState<'mystical' | 'ancient' | 'ethereal' | 'cosmic'>('mystical');
+  const [arenaTheme, setArenaTheme] = useState<
+    'mystical' | 'ancient' | 'ethereal' | 'cosmic'
+  >('mystical');
   const [is3DEnabled, setIs3DEnabled] = useState(true);
   const [selectedCard, setSelectedCard] = useState<MTGCard | null>(null);
   const [hoveredCard, setHoveredCard] = useState<MTGCard | null>(null);
@@ -77,14 +87,19 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
   useEffect(() => {
     if (canvasRef.current && is3DEnabled && !gameInitialized) {
       console.log('[Enhanced3DArenaGame] Initializing 3D arena...');
-      
+
       const initializeArena = async () => {
         try {
           await gameEngine.init(canvasRef.current!);
           setGameInitialized(true);
-          console.log('[Enhanced3DArenaGame] 3D arena initialized successfully');
+          console.log(
+            '[Enhanced3DArenaGame] 3D arena initialized successfully',
+          );
         } catch (error) {
-          console.warn('[Enhanced3DArenaGame] Failed to initialize 3D arena:', error);
+          console.warn(
+            '[Enhanced3DArenaGame] Failed to initialize 3D arena:',
+            error,
+          );
           setIs3DEnabled(false);
         }
       };
@@ -101,7 +116,11 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
   }, [is3DEnabled, gameInitialized]);
 
   // Convert KONIVRER_CARDS to MTGCard format
-  const convertToMTGCard = (card: Card, owner: 'player' | 'opponent', zone: MTGCard['zone']): MTGCard => {
+  const convertToMTGCard = (
+    card: Card,
+    owner: 'player' | 'opponent',
+    zone: MTGCard['zone'],
+  ): MTGCard => {
     return {
       ...card,
       gameId: `${card.id}_${owner}_${Math.random().toString(36).substr(2, 9)}`,
@@ -113,17 +132,17 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
       cardTypes: ['Creature'],
       isTapped: false,
       isSelected: false,
-      canPlay: owner === 'player'
+      canPlay: owner === 'player',
     };
   };
 
   // Initialize game state
   const [gameState, setGameState] = useState<GameState>(() => {
-    const playerHand = KONIVRER_CARDS.slice(0, 7).map(card => 
-      convertToMTGCard(card, 'player', 'hand')
+    const playerHand = KONIVRER_CARDS.slice(0, 7).map(card =>
+      convertToMTGCard(card, 'player', 'hand'),
     );
-    const opponentHand = KONIVRER_CARDS.slice(7, 14).map(card => 
-      convertToMTGCard(card, 'opponent', 'hand')
+    const opponentHand = KONIVRER_CARDS.slice(7, 14).map(card =>
+      convertToMTGCard(card, 'opponent', 'hand'),
     );
 
     return {
@@ -133,7 +152,9 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
         hand: playerHand,
         battlefield: [],
         graveyard: [],
-        library: KONIVRER_CARDS.slice(14).map(card => convertToMTGCard(card, 'player', 'library'))
+        library: KONIVRER_CARDS.slice(14).map(card =>
+          convertToMTGCard(card, 'player', 'library'),
+        ),
       },
       opponent: {
         life: 20,
@@ -141,12 +162,14 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
         hand: opponentHand,
         battlefield: [],
         graveyard: [],
-        library: KONIVRER_CARDS.slice(21).map(card => convertToMTGCard(card, 'opponent', 'library'))
+        library: KONIVRER_CARDS.slice(21).map(card =>
+          convertToMTGCard(card, 'opponent', 'library'),
+        ),
       },
       turn: 1,
       phase: 'main1',
       activePlayer: 'player',
-      priority: 'player'
+      priority: 'player',
     };
   });
 
@@ -181,33 +204,42 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
   // Next phase handler
   const handleNextPhase = () => {
     setGameState(prev => {
-      const phases = ['untap', 'upkeep', 'draw', 'main1', 'combat', 'main2', 'end', 'cleanup'] as const;
+      const phases = [
+        'untap',
+        'upkeep',
+        'draw',
+        'main1',
+        'combat',
+        'main2',
+        'end',
+        'cleanup',
+      ] as const;
       const currentIndex = phases.indexOf(prev.phase);
       const nextIndex = (currentIndex + 1) % phases.length;
-      
+
       if (nextIndex === 0) {
         // New turn
         return {
           ...prev,
           turn: prev.turn + 1,
           phase: phases[nextIndex],
-          activePlayer: prev.activePlayer === 'player' ? 'opponent' : 'player'
+          activePlayer: prev.activePlayer === 'player' ? 'opponent' : 'player',
         };
       }
-      
+
       return {
         ...prev,
-        phase: phases[nextIndex]
+        phase: phases[nextIndex],
       };
     });
   };
 
   // Card component
-  const CardComponent: React.FC<{ card: MTGCard; isHovered?: boolean; isSelected?: boolean }> = ({ 
-    card, 
-    isHovered = false, 
-    isSelected = false 
-  }) => (
+  const CardComponent: React.FC<{
+    card: MTGCard;
+    isHovered?: boolean;
+    isSelected?: boolean;
+  }> = ({ card, isHovered = false, isSelected = false }) => (
     <motion.div
       className={`konivrer-card ${isSelected ? 'selected' : ''} ${isHovered ? 'hovered' : ''}`}
       whileHover={{ scale: 1.05, z: 10 }}
@@ -222,17 +254,22 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
         <div className="card-cost">{card.manaCost}</div>
       </div>
       <div className="card-type">{card.cardTypes.join(' ')}</div>
-      <div className="card-power-toughness">{card.power}/{card.toughness}</div>
+      <div className="card-power-toughness">
+        {card.power}/{card.toughness}
+      </div>
       <div className="card-description">{card.description}</div>
     </motion.div>
   );
 
   return (
-    <div className="enhanced-3d-arena-game" style={{ position: 'relative', width: '100%', height: '100vh' }}>
+    <div
+      className="enhanced-3d-arena-game"
+      style={{ position: 'relative', width: '100%', height: '100vh' }}
+    >
       {/* 3D Arena Background */}
       {is3DEnabled && (
-        <div 
-          ref={canvasRef} 
+        <div
+          ref={canvasRef}
           className="arena-3d-background"
           style={{
             position: 'absolute',
@@ -241,22 +278,25 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             width: '100%',
             height: '100%',
             zIndex: 0,
-            pointerEvents: 'none' // Allow UI interactions to pass through
+            pointerEvents: 'none', // Allow UI interactions to pass through
           }}
         />
       )}
 
       {/* Game Controls Overlay */}
-      <div className="game-controls" style={{ 
-        position: 'absolute', 
-        top: '10px', 
-        right: '10px', 
-        zIndex: 100,
-        background: 'rgba(0, 0, 0, 0.7)',
-        padding: '10px',
-        borderRadius: '8px',
-        color: 'white'
-      }}>
+      <div
+        className="game-controls"
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          zIndex: 100,
+          background: 'rgba(0, 0, 0, 0.7)',
+          padding: '10px',
+          borderRadius: '8px',
+          color: 'white',
+        }}
+      >
         <div style={{ marginBottom: '10px' }}>
           <label>
             <input
@@ -268,13 +308,17 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             Enable 3D Arena
           </label>
         </div>
-        
+
         {is3DEnabled && (
           <div>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Arena Theme:</label>
-            <select 
-              value={arenaTheme} 
-              onChange={(e) => handleThemeChange(e.target.value as typeof arenaTheme)}
+            <label style={{ display: 'block', marginBottom: '5px' }}>
+              Arena Theme:
+            </label>
+            <select
+              value={arenaTheme}
+              onChange={e =>
+                handleThemeChange(e.target.value as typeof arenaTheme)
+              }
               style={{ width: '100%', padding: '5px', borderRadius: '4px' }}
             >
               <option value="mystical">Mystical</option>
@@ -287,45 +331,59 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
       </div>
 
       {/* Game UI Overlay */}
-      <div className="game-ui-overlay" style={{ 
-        position: 'absolute', 
-        top: 0, 
-        left: 0, 
-        width: '100%', 
-        height: '100%', 
-        zIndex: 10,
-        pointerEvents: 'none' // Only allow specific elements to receive interactions
-      }}>
+      <div
+        className="game-ui-overlay"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 10,
+          pointerEvents: 'none', // Only allow specific elements to receive interactions
+        }}
+      >
         {/* Opponent's area */}
-        <div className="opponent-area" style={{ 
-          position: 'absolute', 
-          top: '20px', 
-          left: '20px', 
-          right: '20px',
-          pointerEvents: 'auto'
-        }}>
-          <div className="opponent-stats" style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            marginBottom: '10px',
-            background: 'rgba(139, 0, 0, 0.8)',
-            padding: '10px',
-            borderRadius: '8px',
-            color: 'white'
-          }}>
+        <div
+          className="opponent-area"
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px',
+            right: '20px',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            className="opponent-stats"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: '10px',
+              background: 'rgba(139, 0, 0, 0.8)',
+              padding: '10px',
+              borderRadius: '8px',
+              color: 'white',
+            }}
+          >
             <div>❤️ {gameState.opponent.life}</div>
             <div>🃏 {gameState.opponent.hand.length}</div>
             <div>📚 {gameState.opponent.library.length}</div>
           </div>
-          
-          <div className="opponent-battlefield" style={{ 
-            minHeight: '100px',
-            background: 'rgba(139, 0, 0, 0.3)',
-            borderRadius: '8px',
-            padding: '10px',
-            marginBottom: '10px'
-          }}>
-            <div style={{ color: 'white', marginBottom: '10px' }}>OPPONENT-BATTLEFIELD</div>
+
+          <div
+            className="opponent-battlefield"
+            style={{
+              minHeight: '100px',
+              background: 'rgba(139, 0, 0, 0.3)',
+              borderRadius: '8px',
+              padding: '10px',
+              marginBottom: '10px',
+            }}
+          >
+            <div style={{ color: 'white', marginBottom: '10px' }}>
+              OPPONENT-BATTLEFIELD
+            </div>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {gameState.opponent.battlefield.map(card => (
                 <CardComponent key={card.gameId} card={card} />
@@ -333,12 +391,17 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             </div>
           </div>
 
-          <div className="opponent-hand" style={{ 
-            background: 'rgba(139, 0, 0, 0.3)',
-            borderRadius: '8px',
-            padding: '10px'
-          }}>
-            <div style={{ color: 'white', marginBottom: '10px' }}>OPPONENT-HAND</div>
+          <div
+            className="opponent-hand"
+            style={{
+              background: 'rgba(139, 0, 0, 0.3)',
+              borderRadius: '8px',
+              padding: '10px',
+            }}
+          >
+            <div style={{ color: 'white', marginBottom: '10px' }}>
+              OPPONENT-HAND
+            </div>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {gameState.opponent.hand.map(card => (
                 <CardComponent key={card.gameId} card={card} />
@@ -348,31 +411,39 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
         </div>
 
         {/* Turn indicator */}
-        <div className="turn-indicator" style={{ 
-          position: 'absolute', 
-          top: '50%', 
-          left: '50%', 
-          transform: 'translate(-50%, -50%)',
-          background: 'rgba(0, 0, 139, 0.9)',
-          padding: '20px',
-          borderRadius: '12px',
-          color: 'white',
-          textAlign: 'center',
-          pointerEvents: 'auto'
-        }}>
+        <div
+          className="turn-indicator"
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'rgba(0, 0, 139, 0.9)',
+            padding: '20px',
+            borderRadius: '12px',
+            color: 'white',
+            textAlign: 'center',
+            pointerEvents: 'auto',
+          }}
+        >
           <div style={{ marginBottom: '10px' }}>
-            🔵 {gameState.activePlayer === 'player' ? 'Your Turn' : 'Opponent Turn'}
+            🔵{' '}
+            {gameState.activePlayer === 'player'
+              ? 'Your Turn'
+              : 'Opponent Turn'}
           </div>
-          <div style={{ marginBottom: '10px' }}>Phase: {gameState.phase.toUpperCase()}</div>
-          <button 
+          <div style={{ marginBottom: '10px' }}>
+            Phase: {gameState.phase.toUpperCase()}
+          </div>
+          <button
             onClick={handleNextPhase}
-            style={{ 
-              padding: '10px 20px', 
-              background: '#4CAF50', 
-              color: 'white', 
-              border: 'none', 
+            style={{
+              padding: '10px 20px',
+              background: '#4CAF50',
+              color: 'white',
+              border: 'none',
               borderRadius: '6px',
-              cursor: 'pointer'
+              cursor: 'pointer',
             }}
           >
             Next Phase
@@ -380,25 +451,33 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
         </div>
 
         {/* Player's area */}
-        <div className="player-area" style={{ 
-          position: 'absolute', 
-          bottom: '20px', 
-          left: '20px', 
-          right: '20px',
-          pointerEvents: 'auto'
-        }}>
-          <div className="player-hand" style={{ 
-            background: 'rgba(0, 139, 0, 0.3)',
-            borderRadius: '8px',
-            padding: '10px',
-            marginBottom: '10px'
-          }}>
-            <div style={{ color: 'white', marginBottom: '10px' }}>PLAYER-HAND</div>
+        <div
+          className="player-area"
+          style={{
+            position: 'absolute',
+            bottom: '20px',
+            left: '20px',
+            right: '20px',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            className="player-hand"
+            style={{
+              background: 'rgba(0, 139, 0, 0.3)',
+              borderRadius: '8px',
+              padding: '10px',
+              marginBottom: '10px',
+            }}
+          >
+            <div style={{ color: 'white', marginBottom: '10px' }}>
+              PLAYER-HAND
+            </div>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {gameState.player.hand.map(card => (
-                <CardComponent 
-                  key={card.gameId} 
-                  card={card} 
+                <CardComponent
+                  key={card.gameId}
+                  card={card}
                   isSelected={selectedCard?.gameId === card.gameId}
                   isHovered={hoveredCard?.gameId === card.gameId}
                 />
@@ -406,64 +485,87 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
             </div>
           </div>
 
-          <div className="player-battlefield" style={{ 
-            minHeight: '100px',
-            background: 'rgba(0, 139, 0, 0.3)',
-            borderRadius: '8px',
-            padding: '10px',
-            marginBottom: '10px'
-          }}>
-            <div style={{ color: 'white', marginBottom: '10px' }}>BATTLEFIELD</div>
+          <div
+            className="player-battlefield"
+            style={{
+              minHeight: '100px',
+              background: 'rgba(0, 139, 0, 0.3)',
+              borderRadius: '8px',
+              padding: '10px',
+              marginBottom: '10px',
+            }}
+          >
+            <div style={{ color: 'white', marginBottom: '10px' }}>
+              BATTLEFIELD
+            </div>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {gameState.player.battlefield.map(card => (
                 <CardComponent key={card.gameId} card={card} />
               ))}
             </div>
           </div>
-          
-          <div className="player-stats" style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between',
-            background: 'rgba(0, 139, 0, 0.8)',
-            padding: '10px',
-            borderRadius: '8px',
-            color: 'white'
-          }}>
+
+          <div
+            className="player-stats"
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              background: 'rgba(0, 139, 0, 0.8)',
+              padding: '10px',
+              borderRadius: '8px',
+              color: 'white',
+            }}
+          >
             <div>❤️ {gameState.player.life}</div>
-            <div>⚡ {Object.values(gameState.player.mana).reduce((a, b) => a + b, 0)}</div>
+            <div>
+              ⚡{' '}
+              {Object.values(gameState.player.mana).reduce((a, b) => a + b, 0)}
+            </div>
             <div>📚 {gameState.player.library.length}</div>
           </div>
         </div>
 
         {/* Side areas */}
-        <div className="side-areas" style={{ 
-          position: 'absolute', 
-          right: '20px', 
-          top: '50%', 
-          transform: 'translateY(-50%)',
-          pointerEvents: 'auto'
-        }}>
-          <div className="graveyard" style={{ 
-            background: 'rgba(100, 100, 100, 0.8)',
-            padding: '10px',
-            borderRadius: '8px',
-            marginBottom: '10px',
-            color: 'white',
-            minWidth: '100px',
-            textAlign: 'center'
-          }}>
+        <div
+          className="side-areas"
+          style={{
+            position: 'absolute',
+            right: '20px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            pointerEvents: 'auto',
+          }}
+        >
+          <div
+            className="graveyard"
+            style={{
+              background: 'rgba(100, 100, 100, 0.8)',
+              padding: '10px',
+              borderRadius: '8px',
+              marginBottom: '10px',
+              color: 'white',
+              minWidth: '100px',
+              textAlign: 'center',
+            }}
+          >
             <div>GRAVEYARD</div>
-            <div>{gameState.player.graveyard.length + gameState.opponent.graveyard.length}</div>
+            <div>
+              {gameState.player.graveyard.length +
+                gameState.opponent.graveyard.length}
+            </div>
           </div>
-          
-          <div className="exile" style={{ 
-            background: 'rgba(100, 100, 100, 0.8)',
-            padding: '10px',
-            borderRadius: '8px',
-            color: 'white',
-            minWidth: '100px',
-            textAlign: 'center'
-          }}>
+
+          <div
+            className="exile"
+            style={{
+              background: 'rgba(100, 100, 100, 0.8)',
+              padding: '10px',
+              borderRadius: '8px',
+              color: 'white',
+              minWidth: '100px',
+              textAlign: 'center',
+            }}
+          >
             <div>EXILE</div>
             <div>0</div>
           </div>
@@ -472,22 +574,32 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
 
       {/* Card preview for hovered card */}
       {hoveredCard && (
-        <div className="card-preview" style={{ 
-          position: 'absolute', 
-          top: '20px', 
-          left: '20px', 
-          zIndex: 200,
-          background: 'rgba(0, 0, 0, 0.9)',
-          padding: '15px',
-          borderRadius: '8px',
-          color: 'white',
-          maxWidth: '300px',
-          pointerEvents: 'none'
-        }}>
+        <div
+          className="card-preview"
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px',
+            zIndex: 200,
+            background: 'rgba(0, 0, 0, 0.9)',
+            padding: '15px',
+            borderRadius: '8px',
+            color: 'white',
+            maxWidth: '300px',
+            pointerEvents: 'none',
+          }}
+        >
           <h3>{hoveredCard.name}</h3>
-          <p><strong>Cost:</strong> {hoveredCard.manaCost}</p>
-          <p><strong>Type:</strong> {hoveredCard.cardTypes.join(' ')}</p>
-          <p><strong>Power/Toughness:</strong> {hoveredCard.power}/{hoveredCard.toughness}</p>
+          <p>
+            <strong>Cost:</strong> {hoveredCard.manaCost}
+          </p>
+          <p>
+            <strong>Type:</strong> {hoveredCard.cardTypes.join(' ')}
+          </p>
+          <p>
+            <strong>Power/Toughness:</strong> {hoveredCard.power}/
+            {hoveredCard.toughness}
+          </p>
           <p>{hoveredCard.description}</p>
         </div>
       )}

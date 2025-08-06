@@ -431,7 +431,7 @@ export class GameEngine {
     this.camera.setTarget(BABYLON.Vector3.Zero());
     this.camera.wheelDeltaPercentage = 0.01;
     this.camera.pinchDeltaPercentage = 0.01;
-    
+
     // Set camera limits for better arena viewing
     this.camera.lowerRadiusLimit = 8;
     this.camera.upperRadiusLimit = 25;
@@ -439,7 +439,10 @@ export class GameEngine {
     this.camera.upperBetaLimit = Math.PI / 2.2;
   }
 
-  private async init3DArena(settings: any, isLowPerformance: boolean): Promise<void> {
+  private async init3DArena(
+    settings: any,
+    isLowPerformance: boolean,
+  ): Promise<void> {
     if (!this.scene) return;
 
     console.log('[GameEngine] Initializing 3D Mystical Arena...');
@@ -455,18 +458,22 @@ export class GameEngine {
     }
 
     // Detect mobile device
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                     window.innerWidth < 768 ||
-                     'ontouchstart' in window;
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      ) ||
+      window.innerWidth < 768 ||
+      'ontouchstart' in window;
 
     // Create arena configuration
     const arenaConfig: ArenaConfig = {
       theme: 'mystical', // Default theme, can be customized
       quality: quality,
-      enableParticles: !isLowPerformance && settings.backgroundEffectsEnabled !== false,
+      enableParticles:
+        !isLowPerformance && settings.backgroundEffectsEnabled !== false,
       enableLighting: true,
       enablePostProcessing: quality === 'ultra' && !isMobile,
-      isMobile: isMobile
+      isMobile: isMobile,
     };
 
     try {
@@ -474,9 +481,15 @@ export class GameEngine {
       this.mysticalArena = new MysticalArena(this.scene, arenaConfig);
       await this.mysticalArena.initialize();
 
-      console.log('[GameEngine] 3D Mystical Arena initialized successfully with quality:', quality);
+      console.log(
+        '[GameEngine] 3D Mystical Arena initialized successfully with quality:',
+        quality,
+      );
     } catch (error) {
-      console.warn('[GameEngine] Failed to initialize 3D arena, falling back to basic environment:', error);
+      console.warn(
+        '[GameEngine] Failed to initialize 3D arena, falling back to basic environment:',
+        error,
+      );
       // Fallback to basic environment if arena fails
       await this.createBasicEnvironmentFallback();
     }
@@ -493,7 +506,10 @@ export class GameEngine {
       { diameter: 80 },
       this.scene,
     );
-    const skyboxMaterial = new BABYLON.StandardMaterial('fallbackSkyBox', this.scene);
+    const skyboxMaterial = new BABYLON.StandardMaterial(
+      'fallbackSkyBox',
+      this.scene,
+    );
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.emissiveColor = new BABYLON.Color3(0.05, 0.02, 0.1);
@@ -1059,14 +1075,16 @@ export class GameEngine {
   }
 
   public getArenaConfig(): ArenaConfig | null {
-    return this.mysticalArena ? {
-      theme: 'mystical', // We'll need to track this in the arena if we want to expose it
-      quality: 'high',
-      enableParticles: true,
-      enableLighting: true,
-      enablePostProcessing: false,
-      isMobile: false
-    } : null;
+    return this.mysticalArena
+      ? {
+          theme: 'mystical', // We'll need to track this in the arena if we want to expose it
+          quality: 'high',
+          enableParticles: true,
+          enableLighting: true,
+          enablePostProcessing: false,
+          isMobile: false,
+        }
+      : null;
   }
 
   public isArenaInitialized(): boolean {
