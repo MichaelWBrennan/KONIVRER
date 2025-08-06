@@ -38,6 +38,8 @@ import {
 import OAuthCallback from '../components/OAuthCallback';
 import { LazyGameContainer } from '../game/components/LazyGameContainer';
 import { useDynamicSizing } from '../utils/userAgentSizing';
+import MTGArenaGame from '../components/MTGArenaGame';
+import '../styles/mtg-arena.css';
 
 // Types
 interface Card {
@@ -597,116 +599,19 @@ const Card = ({
 );
 
 // Home Page Component
+// Home Page Component - MTG Arena Game
 const HomePage = () => {
-  // Recent blog posts
-  const recentPosts = BLOG_POSTS.slice(0, 3);
-
   return (
-    <PageContainer>
-      {/* Blog Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        style={{ marginTop: '20px' }}
-        data-search-type="blog"
-      >
-        <h2
-          style={{
-            color: '#d4af37',
-            fontSize: '32px',
-            textAlign: 'center',
-            marginBottom: '40px',
-          }}
-        >
-          Latest Chronicles
-        </h2>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '30px',
-          }}
-        >
-          {recentPosts.map((post, index) => (
-            <Card key={post.id} delay={index * 0.1}>
-              <div>
-                <h3
-                  style={{
-                    color: '#d4af37',
-                    marginBottom: '10px',
-                    fontSize: '20px',
-                  }}
-                >
-                  {post.title}
-                </h3>
-                <div
-                  style={{
-                    marginBottom: '15px',
-                    display: 'flex',
-                    gap: '15px',
-                    alignItems: 'center',
-                  }}
-                >
-                  <span style={{ color: '#ccc', fontSize: '14px' }}>
-                    By {post.author}
-                  </span>
-                  <span style={{ color: '#888', fontSize: '14px' }}>
-                    {post.date}
-                  </span>
-                </div>
-                <p
-                  style={{
-                    color: '#ccc',
-                    fontSize: '14px',
-                    lineHeight: '1.5',
-                    marginBottom: '15px',
-                  }}
-                >
-                  {post.content.substring(0, 150)}...
-                </p>
-                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  {post.tags.map(tag => (
-                    <span
-                      key={tag}
-                      style={{
-                        background: 'rgba(212, 175, 55, 0.2)',
-                        color: '#d4af37',
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        fontSize: '12px',
-                        border: '1px solid rgba(212, 175, 55, 0.3)',
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-        <div style={{ textAlign: 'center', marginTop: '30px' }}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            style={{
-              background: 'rgba(212, 175, 55, 0.1)',
-              color: '#d4af37',
-              border: '1px solid rgba(212, 175, 55, 0.3)',
-              padding: '12px 24px',
-              borderRadius: '8px',
-              fontSize: '16px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            Read All Chronicles
-          </motion.button>
-        </div>
-      </motion.div>
-    </PageContainer>
+    <div style={{ 
+      position: 'fixed', 
+      top: 0, 
+      left: 0, 
+      right: 0, 
+      bottom: 0, 
+      zIndex: 1 
+    }}>
+      <MTGArenaGame />
+    </div>
   );
 };
 
@@ -881,95 +786,18 @@ const EventsPage = () => (
   </PageContainer>
 );
 
+// Play Page Component - MTG Arena Game
 const PlayPage = () => {
-  const { user, setShowLoginModal, setShowGame } = useContext(AppContext);
-  const dynamicSizing = useDynamicSizing();
-
-  // Game modes data to be passed to the game menu
-  const gameModes = [
-    {
-      id: 'practice',
-      title: 'Practice Mode',
-      description: 'Play against AI opponents to learn the game',
-      icon: '',
-      difficulty: 'Beginner Friendly',
-      requiresAccount: false,
-    },
-    {
-      id: 'quick',
-      title: 'Quick Match',
-      description: 'Jump into a game with a random opponent',
-      icon: '',
-      difficulty: 'All Levels',
-      requiresAccount: false,
-    },
-    {
-      id: 'ranked',
-      title: 'Ranked Play',
-      description: 'Compete for ranking points and seasonal rewards',
-      icon: '',
-      difficulty: 'Competitive',
-      requiresAccount: false,
-    },
-    {
-      id: 'tournament',
-      title: 'Tournament',
-      description: 'Join structured tournaments with prizes',
-      icon: '\u{1F451}',
-      difficulty: 'Expert',
-      requiresAccount: false,
-    },
-  ];
-
-  // Store game modes in window object to make them accessible to the game engine
-  useEffect(() => {
-    window.KONIVRER_GAME_MODES = gameModes;
-    window.KONIVRER_USER_DATA = {
-      isLoggedIn: !!user,
-      showLoginModal: () => setShowLoginModal(true),
-    };
-
-    // Show the game immediately when the play page loads
-    setShowGame(true);
-
-    return () => {
-      // Clean up global references when component unmounts
-      delete window.KONIVRER_GAME_MODES;
-      delete window.KONIVRER_USER_DATA;
-    };
-  }, [user, setShowLoginModal, setShowGame]);
-
-  // Use dynamic sizing for responsive game container based on user agent
-  const containerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: `${dynamicSizing.safeAreaInsets.top}px`,
-    left: `${dynamicSizing.safeAreaInsets.left}px`,
-    right: `${dynamicSizing.safeAreaInsets.right}px`,
-    bottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
-    width: `calc(100vw - ${dynamicSizing.safeAreaInsets.left + dynamicSizing.safeAreaInsets.right}px)`,
-    height: `calc(100vh - ${dynamicSizing.safeAreaInsets.top + dynamicSizing.safeAreaInsets.bottom}px)`,
-    zIndex: 1500,
-    overflow: 'hidden',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#1a1a1a',
-    padding: `${dynamicSizing.containerPadding}px`,
-    // Ensure proper sizing coordination with GameContainer
-    boxSizing: 'border-box',
-  };
-
-  // Render the game container with dynamic sizing
   return (
-    <div
-      style={containerStyle}
-      data-search-type="game"
-      className="play-page-container dynamic-sizing"
-    >
-      <LazyGameContainer
-        onClose={() => setShowGame(false)}
-        setShowGame={setShowGame}
-      />
+    <div style={{ 
+      position: 'fixed', 
+      top: 0, 
+      left: 0, 
+      right: 0, 
+      bottom: 0, 
+      zIndex: 1 
+    }}>
+      <MTGArenaGame />
     </div>
   );
 };
@@ -1058,12 +886,14 @@ const Phase3App = () => {
           </Router>
           <Analytics />
           <SpeedInsights />
+          {/* Development tools disabled for MTG Arena experience
           {process.env.NODE_ENV === 'development' && (
             <>
               <ButtonTester />
               <SecurityTester />
             </>
           )}
+          */}
         </AppContainer>
 
         {/* Game Container */}
