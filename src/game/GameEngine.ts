@@ -72,7 +72,7 @@ class AudioManager {
   }
 
   private playMelody(frequencies: number[], noteDuration: number) {
-    frequencies.forEach((freq, _index) => {
+    frequencies.forEach((freq, index) => {
       setTimeout(
         () => this.playTone(freq, noteDuration),
         index * noteDuration * 1000,

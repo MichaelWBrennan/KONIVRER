@@ -84,62 +84,50 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       // Provide immediate feedback - show loading state instantly
       console.log('[GameContainer] Starting game initialization...');
       
-      // Use requestIdleCallback or setTimeout to prevent blocking UI
-      await new Promise(resolve => {
-        if ('requestIdleCallback' in window) {
-          requestIdleCallback(resolve as IdleRequestCallback);
-        } else {
-          setTimeout(resolve, 0);
-        }
-      });
-
-      // Wait for gameRef to be available with timeout
-      const waitForRef = async (): Promise<HTMLDivElement> => {
-        return new Promise((resolve, reject) => {
+      // Ensure the ref is available before proceeding
+      if (!gameRef.current) {
+        console.log('[GameContainer] Waiting for game container ref...');
+        // Wait for next render cycle to ensure ref is populated
+        await new Promise<void>(resolve => {
           const timeoutId = setTimeout(() => {
-            reject(
-              new Error(
-                'Game container ref not available - timeout after 5 seconds',
-              ),
-            );
-          }, 5000);
-
+            console.log('[GameContainer] Timeout waiting for ref, proceeding anyway');
+            resolve();
+          }, 2000); // 2 second timeout
+          
           const checkRef = () => {
             if (gameRef.current) {
+              console.log('[GameContainer] Game container ref is now available');
               clearTimeout(timeoutId);
-              resolve(gameRef.current);
+              resolve();
             } else {
-              // Check again on next frame
+              // Try again on the next frame
               requestAnimationFrame(checkRef);
             }
           };
-
-          checkRef();
+          requestAnimationFrame(checkRef);
         });
-      };
+      }
 
-      const container = await waitForRef();
+      // Double-check ref is available, if not throw an error
+      if (!gameRef.current) {
+        throw new Error('Game container ref is not available after waiting');
+      }
+
+      const container = gameRef.current;
       console.log('[GameContainer] Container ready, initializing game engine...');
       
-      // Initialize game engine asynchronously to prevent blocking
-      await new Promise<void>((resolve, reject) => {
-        // Use setTimeout to ensure UI updates before heavy work
-        setTimeout(async () => {
-          try {
-            await gameEngine.init(container);
-            resolve();
-          } catch (error) {
-            reject(error);
-          }
-        }, 100); // Small delay to ensure loading UI is visible
-      });
+      // Add a small delay to ensure loading UI is visible and prevent immediate jumps
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      // Initialize game engine
+      await gameEngine.init(container);
 
       setGameState('playing');
       console.log('[GameEngine] Advanced scenes initialized successfully');
     } catch (_error) {
       console.error('[GameContainer] Error initializing game engine:', _error);
       setError(
-        error instanceof Error ? error.message : 'Unknown error occurred',
+        _error instanceof Error ? _error.message : 'Unknown error occurred',
       );
       setGameState('error');
     }
@@ -173,6 +161,13 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       console.log('[GameContainer] Destroying game engine on unmount...');
       gameEngine.destroy();
     };
+  }, []);
+
+  // Ensure gameRef is ready when component mounts
+  useEffect(() => {
+    if (gameRef.current) {
+      console.log('[GameContainer] Game container ref is ready');
+    }
   }, []);
 
   const handleOrientationChange = (landscape: boolean) => {
@@ -509,12 +504,24 @@ export const GameContainer: React.FC<GameContainerProps> = ({
             >
               ✕
             </motion.button>
-
-            {/* Game canvas container */}
-            <div ref={gameRef} style={gameCanvasStyle} />
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Always present game canvas container for engine initialization */}
+      <div 
+        ref={gameRef} 
+        style={{
+          ...gameCanvasStyle,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          visibility: gameState === 'playing' ? 'visible' : 'hidden',
+          zIndex: gameState === 'playing' ? 1 : -1,
+        }} 
+      />
     </div>
   );
 };
