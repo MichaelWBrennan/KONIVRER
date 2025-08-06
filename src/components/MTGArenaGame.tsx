@@ -133,16 +133,16 @@ const MTGArenaGame: React.FC = () => {
 
     // Play card selection audio
     audioManager.playCardHover();
-    
+
     setSelectedCard(selectedCard?.gameId === card.gameId ? null : card);
   };
 
   const handleCardDragStart = (card: MTGCard) => {
     if (card.owner !== gameState.turn) return;
-    
+
     // Play card pickup audio
     audioManager.playCardFlip();
-    
+
     setDraggedCard(card);
   };
 
@@ -164,7 +164,7 @@ const MTGArenaGame: React.FC = () => {
     if (targetZone === 'battlefield' && draggedCard.zone === 'hand') {
       // Play card placement audio
       audioManager.playCardPlay();
-      
+
       setGameState(prev => {
         const newState = { ...prev };
         const currentPlayer = newState[gameState.turn];
@@ -199,7 +199,7 @@ const MTGArenaGame: React.FC = () => {
   const nextPhase = () => {
     // Play phase transition audio
     audioManager.playCardFlip();
-    
+
     const phases: GameState['phase'][] = [
       'untap',
       'upkeep',
@@ -220,7 +220,7 @@ const MTGArenaGame: React.FC = () => {
       if (nextPhase === 'untap' && prev.phase === 'end') {
         // Switch turns - play turn transition audio
         audioManager.playManaTap('colorless');
-        
+
         newState.turn = prev.turn === 'player' ? 'opponent' : 'player';
 
         // Untap all permanents
@@ -234,7 +234,7 @@ const MTGArenaGame: React.FC = () => {
       if (nextPhase === 'draw') {
         // Draw a card - play draw audio
         audioManager.playCardDraw();
-        
+
         const currentPlayer = newState[newState.turn];
         if (currentPlayer.library.length > 0) {
           const drawnCard = currentPlayer.library.shift()!;

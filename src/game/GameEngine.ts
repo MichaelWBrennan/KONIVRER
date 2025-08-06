@@ -23,7 +23,7 @@ class AudioManager {
       this.masterGain.gain.value = 0.3; // Master volume
       this.masterGain.connect(this.audioContext.destination);
       console.log('[AudioManager] Audio system initialized');
-      
+
       // Pre-warm audio context
       await this.audioContext.resume();
     } catch (_error) {
@@ -36,7 +36,7 @@ class AudioManager {
     this.playComplexTone([
       { freq: 400, time: 0, duration: 0.1, type: 'sine', volume: 0.2 },
       { freq: 600, time: 0.05, duration: 0.1, type: 'triangle', volume: 0.15 },
-      { freq: 300, time: 0.1, duration: 0.05, type: 'sawtooth', volume: 0.1 }
+      { freq: 300, time: 0.1, duration: 0.05, type: 'sawtooth', volume: 0.1 },
     ]);
   }
 
@@ -45,7 +45,7 @@ class AudioManager {
     this.playComplexTone([
       { freq: 200, time: 0, duration: 0.2, type: 'square', volume: 0.3 },
       { freq: 800, time: 0.1, duration: 0.15, type: 'sine', volume: 0.2 },
-      { freq: 1200, time: 0.15, duration: 0.1, type: 'triangle', volume: 0.15 }
+      { freq: 1200, time: 0.15, duration: 0.1, type: 'triangle', volume: 0.15 },
     ]);
   }
 
@@ -53,7 +53,7 @@ class AudioManager {
   playLifeLoss() {
     this.playComplexTone([
       { freq: 80, time: 0, duration: 0.3, type: 'sawtooth', volume: 0.4 },
-      { freq: 120, time: 0.1, duration: 0.2, type: 'square', volume: 0.2 }
+      { freq: 120, time: 0.1, duration: 0.2, type: 'square', volume: 0.2 },
     ]);
   }
 
@@ -62,25 +62,31 @@ class AudioManager {
     this.playComplexTone([
       { freq: 523, time: 0, duration: 0.4, type: 'sine', volume: 0.2 }, // C
       { freq: 659, time: 0.1, duration: 0.4, type: 'sine', volume: 0.15 }, // E
-      { freq: 784, time: 0.2, duration: 0.4, type: 'sine', volume: 0.1 } // G
+      { freq: 784, time: 0.2, duration: 0.4, type: 'sine', volume: 0.1 }, // G
     ]);
   }
 
   // Mana tap sounds with elemental pulses
-  playManaTap(color: 'white' | 'blue' | 'black' | 'red' | 'green' | 'colorless') {
+  playManaTap(
+    color: 'white' | 'blue' | 'black' | 'red' | 'green' | 'colorless',
+  ) {
     const manaFrequencies = {
       white: { base: 440, harmony: 554, type: 'sine' as OscillatorType }, // A
       blue: { base: 494, harmony: 622, type: 'triangle' as OscillatorType }, // B
       black: { base: 311, harmony: 392, type: 'sawtooth' as OscillatorType }, // Eb
       red: { base: 370, harmony: 466, type: 'square' as OscillatorType }, // F#
       green: { base: 392, harmony: 494, type: 'sine' as OscillatorType }, // G
-      colorless: { base: 330, harmony: 415, type: 'triangle' as OscillatorType } // E
+      colorless: {
+        base: 330,
+        harmony: 415,
+        type: 'triangle' as OscillatorType,
+      }, // E
     };
 
     const { base, harmony, type } = manaFrequencies[color];
     this.playComplexTone([
       { freq: base, time: 0, duration: 0.2, type, volume: 0.2 },
-      { freq: harmony, time: 0.1, duration: 0.2, type, volume: 0.15 }
+      { freq: harmony, time: 0.1, duration: 0.2, type, volume: 0.15 },
     ]);
   }
 
@@ -101,13 +107,15 @@ class AudioManager {
   }
 
   // Enhanced complex tone system for layered sounds
-  private playComplexTone(tones: Array<{
-    freq: number;
-    time: number;
-    duration: number;
-    type: OscillatorType;
-    volume: number;
-  }>) {
+  private playComplexTone(
+    tones: Array<{
+      freq: number;
+      time: number;
+      duration: number;
+      type: OscillatorType;
+      volume: number;
+    }>,
+  ) {
     if (!this.audioContext || !this.masterGain) return;
 
     tones.forEach(tone => {
@@ -118,13 +126,19 @@ class AudioManager {
         oscillator.connect(gainNode);
         gainNode.connect(this.masterGain!);
 
-        oscillator.frequency.setValueAtTime(tone.freq, this.audioContext!.currentTime);
+        oscillator.frequency.setValueAtTime(
+          tone.freq,
+          this.audioContext!.currentTime,
+        );
         oscillator.type = tone.type;
 
-        gainNode.gain.setValueAtTime(tone.volume, this.audioContext!.currentTime);
+        gainNode.gain.setValueAtTime(
+          tone.volume,
+          this.audioContext!.currentTime,
+        );
         gainNode.gain.exponentialRampToValueAtTime(
           0.01,
-          this.audioContext!.currentTime + tone.duration
+          this.audioContext!.currentTime + tone.duration,
         );
 
         oscillator.start(this.audioContext!.currentTime);
@@ -397,7 +411,7 @@ export class GameEngine {
             // Rotate camera based on touch movement
             this.camera.rotation.y -= deltaX * sensitivity;
             this.camera.rotation.x -= deltaY * sensitivity;
-            
+
             // Clamp vertical rotation to prevent over-rotation
             this.camera.rotation.x = Math.max(
               -Math.PI / 3,
@@ -526,27 +540,32 @@ export class GameEngine {
     // First-person camera setup for tavern exploration
     this.camera.setTarget(new BABYLON.Vector3(0, 1.5, 0)); // Look towards center of tavern
     this.camera.attachControl(true);
-    
+
     // Smooth movement and look controls
     this.camera.speed = 0.5; // Moderate walking speed
     this.camera.angularSensibility = 2000; // Smooth mouse look sensitivity
-    
+
     // Set movement limits to keep player within tavern boundaries
     this.camera.checkCollisions = true;
     this.camera.applyGravity = true;
     this.camera.ellipsoid = new BABYLON.Vector3(0.5, 0.9, 0.5); // Player collision ellipsoid
     this.camera.ellipsoidOffset = new BABYLON.Vector3(0, 0.9, 0); // Offset for standing height
-    
+
     // Enable WASD and arrow key movement
     this.camera.keysUp.push(87); // W
     this.camera.keysDown.push(83); // S
     this.camera.keysLeft.push(65); // A
     this.camera.keysRight.push(68); // D
-    
-    console.log('[GameEngine] First-person camera initialized for tavern exploration');
+
+    console.log(
+      '[GameEngine] First-person camera initialized for tavern exploration',
+    );
   }
 
-  private async init3DArena(settings: any, isLowPerformance: boolean): Promise<void> {
+  private async init3DArena(
+    settings: any,
+    isLowPerformance: boolean,
+  ): Promise<void> {
     if (!this.scene) return;
 
     console.log('[GameEngine] Initializing 3D Mystical Arena...');
@@ -562,18 +581,22 @@ export class GameEngine {
     }
 
     // Detect mobile device
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-                     window.innerWidth < 768 ||
-                     'ontouchstart' in window;
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent,
+      ) ||
+      window.innerWidth < 768 ||
+      'ontouchstart' in window;
 
     // Create arena configuration
     const arenaConfig: ArenaConfig = {
       theme: 'hearthstone', // Changed to showcase new Hearthstone theme
       quality: quality,
-      enableParticles: !isLowPerformance && settings.backgroundEffectsEnabled !== false,
+      enableParticles:
+        !isLowPerformance && settings.backgroundEffectsEnabled !== false,
       enableLighting: true,
       enablePostProcessing: quality === 'ultra' && !isMobile,
-      isMobile: isMobile
+      isMobile: isMobile,
     };
 
     try {
@@ -585,9 +608,15 @@ export class GameEngine {
       this.scene.gravity = new BABYLON.Vector3(0, -9.81, 0);
       this.scene.collisionsEnabled = true;
 
-      console.log('[GameEngine] 3D Mystical Arena initialized successfully with quality:', quality);
+      console.log(
+        '[GameEngine] 3D Mystical Arena initialized successfully with quality:',
+        quality,
+      );
     } catch (error) {
-      console.warn('[GameEngine] Failed to initialize 3D arena, falling back to basic environment:', error);
+      console.warn(
+        '[GameEngine] Failed to initialize 3D arena, falling back to basic environment:',
+        error,
+      );
       // Fallback to basic environment if arena fails
       await this.createBasicEnvironmentFallback();
     }
@@ -604,7 +633,10 @@ export class GameEngine {
       { diameter: 80 },
       this.scene,
     );
-    const skyboxMaterial = new BABYLON.StandardMaterial('fallbackSkyBox', this.scene);
+    const skyboxMaterial = new BABYLON.StandardMaterial(
+      'fallbackSkyBox',
+      this.scene,
+    );
     skyboxMaterial.backFaceCulling = false;
     skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
     skyboxMaterial.emissiveColor = new BABYLON.Color3(0.05, 0.02, 0.1);
@@ -1170,14 +1202,16 @@ export class GameEngine {
   }
 
   public getArenaConfig(): ArenaConfig | null {
-    return this.mysticalArena ? {
-      theme: 'hearthstone', // Updated to reflect current default
-      quality: 'high',
-      enableParticles: true,
-      enableLighting: true,
-      enablePostProcessing: false,
-      isMobile: false
-    } : null;
+    return this.mysticalArena
+      ? {
+          theme: 'hearthstone', // Updated to reflect current default
+          quality: 'high',
+          enableParticles: true,
+          enableLighting: true,
+          enablePostProcessing: false,
+          isMobile: false,
+        }
+      : null;
   }
 
   public isArenaInitialized(): boolean {
