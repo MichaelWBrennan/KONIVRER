@@ -1724,7 +1724,8 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               <div className="results-header">
                 <span>
                   Found {searchResults.totalCount} cards
-                  {searchResults.searchTime > 0 && ` in ${searchResults.searchTime}ms`}
+                  {searchResults.searchTime > 0 &&
+                    ` in ${searchResults.searchTime}ms`}
                 </span>
               </div>
 
@@ -1765,9 +1766,9 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                       )}
                       {onCardSelect && (
                         <div className="card-actions">
-                          <button 
+                          <button
                             className="add-to-deck-btn"
-                            onClick={(e) => {
+                            onClick={e => {
                               e.stopPropagation();
                               onCardSelect(card);
                             }}

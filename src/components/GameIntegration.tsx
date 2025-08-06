@@ -13,7 +13,7 @@ interface GameIntegrationProps {
 const GameIntegration: React.FC<GameIntegrationProps> = ({
   onDeckSelected,
   onStartGame,
-  gameMode = 'practice'
+  gameMode = 'practice',
 }) => {
   const { user, currentDeck, decks } = useContext(AppContext);
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(currentDeck);
@@ -42,7 +42,7 @@ const GameIntegration: React.FC<GameIntegrationProps> = ({
       flag: deck.cards.filter(card => {
         // Would need to check card type from KONIVRER_CARDS
         return true; // Simplified for now
-      }).length
+      }).length,
     };
   };
 
@@ -109,7 +109,7 @@ const GameIntegration: React.FC<GameIntegrationProps> = ({
                 <h4>{selectedDeck.name}</h4>
                 <p className="deck-author">by {selectedDeck.authorUsername}</p>
                 <p className="deck-description">{selectedDeck.description}</p>
-                
+
                 <div className="deck-stats-mini">
                   <div className="stat">
                     <span>Cards: {getDeckStats(selectedDeck).totalCards}</span>
@@ -123,7 +123,9 @@ const GameIntegration: React.FC<GameIntegrationProps> = ({
                   {isValidDeck(selectedDeck) ? (
                     <span className="valid">✓ Deck Valid</span>
                   ) : (
-                    <span className="invalid">⚠ Deck Invalid (Need 30+ cards)</span>
+                    <span className="invalid">
+                      ⚠ Deck Invalid (Need 30+ cards)
+                    </span>
                   )}
                 </div>
               </div>
@@ -168,14 +170,14 @@ const GameIntegration: React.FC<GameIntegrationProps> = ({
                 ×
               </button>
             </div>
-            
+
             <DeckSearch
               showMyDecks={showMyDecks}
-              onDeckSelect={(deck) => {
+              onDeckSelect={deck => {
                 handleDeckSelect(deck);
                 setShowDeckBrowser(false);
               }}
-              onImportDeck={(deck) => {
+              onImportDeck={deck => {
                 handleDeckSelect(deck);
                 setShowDeckBrowser(false);
               }}
@@ -187,7 +189,7 @@ const GameIntegration: React.FC<GameIntegrationProps> = ({
       <div className="game-start-section">
         <div className="game-options">
           <h3>Game Options</h3>
-          
+
           <div className="option-group">
             <label>Difficulty:</label>
             <select className="game-option-select">
@@ -228,7 +230,7 @@ const GameIntegration: React.FC<GameIntegrationProps> = ({
             {gameMode === 'pvp' && 'Find Opponent'}
             {gameMode === 'tournament' && 'Enter Tournament'}
           </button>
-          
+
           {!isValidDeck(selectedDeck) && (
             <p className="start-game-warning">
               Select a valid deck to start playing

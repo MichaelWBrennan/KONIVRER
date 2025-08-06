@@ -308,9 +308,7 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
         zIndex: 1,
       }}
     />
-    <div style={{ position: 'relative', zIndex: 2 }}>
-      {children}
-    </div>
+    <div style={{ position: 'relative', zIndex: 2 }}>{children}</div>
   </div>
 );
 
@@ -415,7 +413,10 @@ const Phase3App = () => {
 
   useEffect(() => {
     if (currentDeck) {
-      localStorage.setItem('konivrer_current_deck', JSON.stringify(currentDeck));
+      localStorage.setItem(
+        'konivrer_current_deck',
+        JSON.stringify(currentDeck),
+      );
     } else {
       localStorage.removeItem('konivrer_current_deck');
     }
@@ -433,29 +434,29 @@ const Phase3App = () => {
     if (targetDeckId === currentDeck?.id && currentDeck) {
       const existingCard = currentDeck.cards.find(dc => dc.cardId === cardId);
       const updatedCards = existingCard
-        ? currentDeck.cards.map(dc => 
-            dc.cardId === cardId 
-              ? { ...dc, quantity: dc.quantity + 1 }
-              : dc
+        ? currentDeck.cards.map(dc =>
+            dc.cardId === cardId ? { ...dc, quantity: dc.quantity + 1 } : dc,
           )
         : [...currentDeck.cards, { cardId, quantity: 1 }];
 
       const updatedDeck = {
         ...currentDeck,
         cards: updatedCards,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       setCurrentDeck(updatedDeck);
-      setDecks(prev => 
-        prev.map(deck => 
-          deck.id === targetDeckId ? updatedDeck : deck
-        )
+      setDecks(prev =>
+        prev.map(deck => (deck.id === targetDeckId ? updatedDeck : deck)),
       );
     }
   };
 
-  const createDeck = (name: string, description: string, isPublic: boolean): Deck => {
+  const createDeck = (
+    name: string,
+    description: string,
+    isPublic: boolean,
+  ): Deck => {
     if (!user) {
       throw new Error('User must be logged in to create a deck');
     }
@@ -471,11 +472,11 @@ const Phase3App = () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       tags: [],
-      format: 'Standard'
+      format: 'Standard',
     };
 
     setDecks(prev => [...prev, newDeck]);
-    
+
     if (isPublic) {
       setPublicDecks(prev => [...prev, newDeck]);
     }
@@ -484,17 +485,17 @@ const Phase3App = () => {
   };
 
   const publishDeck = (deckId: string, isPublic: boolean) => {
-    setDecks(prev => 
-      prev.map(deck => 
-        deck.id === deckId 
+    setDecks(prev =>
+      prev.map(deck =>
+        deck.id === deckId
           ? { ...deck, isPublic, updatedAt: new Date() }
-          : deck
-      )
+          : deck,
+      ),
     );
 
     if (currentDeck?.id === deckId) {
-      setCurrentDeck(prev => 
-        prev ? { ...prev, isPublic, updatedAt: new Date() } : null
+      setCurrentDeck(prev =>
+        prev ? { ...prev, isPublic, updatedAt: new Date() } : null,
       );
     }
 
@@ -504,10 +505,15 @@ const Phase3App = () => {
         setPublicDecks(prev => {
           const exists = prev.some(d => d.id === deckId);
           if (!exists) {
-            return [...prev, { ...deck, isPublic: true, updatedAt: new Date() }];
+            return [
+              ...prev,
+              { ...deck, isPublic: true, updatedAt: new Date() },
+            ];
           }
-          return prev.map(d => 
-            d.id === deckId ? { ...d, isPublic: true, updatedAt: new Date() } : d
+          return prev.map(d =>
+            d.id === deckId
+              ? { ...d, isPublic: true, updatedAt: new Date() }
+              : d,
           );
         });
       } else {
@@ -527,7 +533,7 @@ const Phase3App = () => {
       isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
-      name: `${deck.name} (Imported)`
+      name: `${deck.name} (Imported)`,
     };
 
     setDecks(prev => [...prev, importedDeck]);
@@ -552,7 +558,7 @@ const Phase3App = () => {
     addCardToDeck,
     createDeck,
     publishDeck,
-    importDeck
+    importDeck,
   };
 
   return (
