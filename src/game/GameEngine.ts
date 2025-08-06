@@ -246,7 +246,7 @@ export class GameEngine {
 
     // Initialize core systems progressively
     await this.initCoreSystemsAsync();
-    
+
     this.initTouchControls(canvas);
 
     // Enhanced render loop with performance monitoring
@@ -460,7 +460,10 @@ export class GameEngine {
     }
   }
 
-  private async createEnvironmentProgressive(settings: any, isLowPerformance: boolean): Promise<void> {
+  private async createEnvironmentProgressive(
+    settings: any,
+    isLowPerformance: boolean,
+  ): Promise<void> {
     if (!this.scene) return;
 
     // Create basic environment first (fast)
@@ -524,15 +527,23 @@ export class GameEngine {
 
   private addAdvancedEnvironmentFeatures(settings: any): void {
     // Add complex visual effects after basic scene is ready
-    const groundMaterial = this.materials.get('ground') as BABYLON.StandardMaterial;
+    const groundMaterial = this.materials.get(
+      'ground',
+    ) as BABYLON.StandardMaterial;
     if (groundMaterial && settings.glowEffectsEnabled) {
       groundMaterial.specularColor = new BABYLON.Color3(0.3, 0.2, 0.5);
       groundMaterial.emissiveColor = new BABYLON.Color3(0.02, 0.01, 0.05);
-      groundMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
+      groundMaterial.emissiveFresnelParameters =
+        new BABYLON.FresnelParameters();
       groundMaterial.emissiveFresnelParameters.bias = 0.1;
       groundMaterial.emissiveFresnelParameters.power = 0.5;
-      groundMaterial.emissiveFresnelParameters.leftColor = BABYLON.Color3.Black();
-      groundMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(0.3, 0.1, 0.5);
+      groundMaterial.emissiveFresnelParameters.leftColor =
+        BABYLON.Color3.Black();
+      groundMaterial.emissiveFresnelParameters.rightColor = new BABYLON.Color3(
+        0.3,
+        0.1,
+        0.5,
+      );
     }
 
     // Add particle effects
