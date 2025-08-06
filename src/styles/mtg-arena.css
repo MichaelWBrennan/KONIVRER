@@ -180,6 +180,22 @@
   box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
 }
 
+.reveal-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 10px;
+}
+
+.reveal-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
 /* Player Area - Close 3D Perspective */
 .player-area {
   height: 35%;
@@ -301,6 +317,77 @@
   gap: 5px;
   position: relative;
   transform-style: preserve-3d;
+}
+
+/* Card Back Styles for hidden opponent cards */
+.card-back {
+  background: linear-gradient(
+    135deg,
+    #1a1a2e 0%,
+    #16213e 25%,
+    #0f0f23 50%,
+    #16213e 75%,
+    #1a1a2e 100%
+  );
+  border: 2px solid #d4af37;
+  box-shadow:
+    0 4px 15px rgba(212, 175, 55, 0.2),
+    inset 0 1px 3px rgba(255, 255, 255, 0.1);
+}
+
+.card-back-content {
+  padding: 8px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #d4af37;
+}
+
+.konivrer-logo {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.card-back-title {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 2px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.card-back-subtitle {
+  font-size: 6px;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.card-back-design {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+}
+
+.pattern-line {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #d4af37 50%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+.card-back:hover {
+  border-color: #f4d03f;
+  box-shadow:
+    0 8px 25px rgba(212, 175, 55, 0.4),
+    0 0 30px rgba(212, 175, 55, 0.2),
+    inset 0 1px 3px rgba(255, 255, 255, 0.2);
 }
 
 /* Card Styles - Enhanced 3D */
