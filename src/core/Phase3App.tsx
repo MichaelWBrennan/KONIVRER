@@ -39,6 +39,7 @@ import OAuthCallback from '../components/OAuthCallback';
 import { LazyGameContainer } from '../game/components/LazyGameContainer';
 import { useDynamicSizing } from '../utils/userAgentSizing';
 import MTGArenaGame from '../components/MTGArenaGame';
+import Enhanced3DArenaGame from '../components/Enhanced3DArenaGame';
 import '../styles/mtg-arena.css';
 
 // Types
@@ -612,7 +613,7 @@ const HomePage = () => {
         zIndex: 1,
       }}
     >
-      <MTGArenaGame />
+      <Enhanced3DArenaGame />
     </div>
   );
 };
@@ -801,7 +802,7 @@ const PlayPage = () => {
         zIndex: 1,
       }}
     >
-      <MTGArenaGame />
+      <Enhanced3DArenaGame />
     </div>
   );
 };
