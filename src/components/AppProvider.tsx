@@ -75,7 +75,10 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   // Save current deck to localStorage whenever it changes
   useEffect(() => {
     if (currentDeck) {
-      localStorage.setItem('konivrer_current_deck', JSON.stringify(currentDeck));
+      localStorage.setItem(
+        'konivrer_current_deck',
+        JSON.stringify(currentDeck),
+      );
     } else {
       localStorage.removeItem('konivrer_current_deck');
     }
@@ -94,54 +97,54 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       // Update current deck
       const existingCard = currentDeck.cards.find(dc => dc.cardId === cardId);
       const updatedCards = existingCard
-        ? currentDeck.cards.map(dc => 
-            dc.cardId === cardId 
-              ? { ...dc, quantity: dc.quantity + 1 }
-              : dc
+        ? currentDeck.cards.map(dc =>
+            dc.cardId === cardId ? { ...dc, quantity: dc.quantity + 1 } : dc,
           )
         : [...currentDeck.cards, { cardId, quantity: 1 }];
 
       const updatedDeck = {
         ...currentDeck,
         cards: updatedCards,
-        updatedAt: new Date()
+        updatedAt: new Date(),
       };
 
       setCurrentDeck(updatedDeck);
-      
+
       // Also update in decks array if it exists there
-      setDecks(prev => 
-        prev.map(deck => 
-          deck.id === targetDeckId ? updatedDeck : deck
-        )
+      setDecks(prev =>
+        prev.map(deck => (deck.id === targetDeckId ? updatedDeck : deck)),
       );
     } else {
       // Update deck in decks array
-      setDecks(prev => 
+      setDecks(prev =>
         prev.map(deck => {
           if (deck.id === targetDeckId) {
             const existingCard = deck.cards.find(dc => dc.cardId === cardId);
             const updatedCards = existingCard
-              ? deck.cards.map(dc => 
-                  dc.cardId === cardId 
+              ? deck.cards.map(dc =>
+                  dc.cardId === cardId
                     ? { ...dc, quantity: dc.quantity + 1 }
-                    : dc
+                    : dc,
                 )
               : [...deck.cards, { cardId, quantity: 1 }];
 
             return {
               ...deck,
               cards: updatedCards,
-              updatedAt: new Date()
+              updatedAt: new Date(),
             };
           }
           return deck;
-        })
+        }),
       );
     }
   };
 
-  const createDeck = (name: string, description: string, isPublic: boolean): Deck => {
+  const createDeck = (
+    name: string,
+    description: string,
+    isPublic: boolean,
+  ): Deck => {
     if (!user) {
       throw new Error('User must be logged in to create a deck');
     }
@@ -157,11 +160,11 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       createdAt: new Date(),
       updatedAt: new Date(),
       tags: [],
-      format: 'Standard'
+      format: 'Standard',
     };
 
     setDecks(prev => [...prev, newDeck]);
-    
+
     if (isPublic) {
       setPublicDecks(prev => [...prev, newDeck]);
     }
@@ -171,18 +174,18 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   const publishDeck = (deckId: string, isPublic: boolean) => {
     // Update deck privacy status
-    setDecks(prev => 
-      prev.map(deck => 
-        deck.id === deckId 
+    setDecks(prev =>
+      prev.map(deck =>
+        deck.id === deckId
           ? { ...deck, isPublic, updatedAt: new Date() }
-          : deck
-      )
+          : deck,
+      ),
     );
 
     // Update current deck if it matches
     if (currentDeck?.id === deckId) {
-      setCurrentDeck(prev => 
-        prev ? { ...prev, isPublic, updatedAt: new Date() } : null
+      setCurrentDeck(prev =>
+        prev ? { ...prev, isPublic, updatedAt: new Date() } : null,
       );
     }
 
@@ -193,10 +196,15 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setPublicDecks(prev => {
           const exists = prev.some(d => d.id === deckId);
           if (!exists) {
-            return [...prev, { ...deck, isPublic: true, updatedAt: new Date() }];
+            return [
+              ...prev,
+              { ...deck, isPublic: true, updatedAt: new Date() },
+            ];
           }
-          return prev.map(d => 
-            d.id === deckId ? { ...d, isPublic: true, updatedAt: new Date() } : d
+          return prev.map(d =>
+            d.id === deckId
+              ? { ...d, isPublic: true, updatedAt: new Date() }
+              : d,
           );
         });
       } else {
@@ -216,7 +224,7 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       isPublic: false,
       createdAt: new Date(),
       updatedAt: new Date(),
-      name: `${deck.name} (Imported)`
+      name: `${deck.name} (Imported)`,
     };
 
     setDecks(prev => [...prev, importedDeck]);
@@ -240,13 +248,11 @@ const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     addCardToDeck,
     createDeck,
     publishDeck,
-    importDeck
+    importDeck,
   };
 
   return (
-    <AppContext.Provider value={contextValue}>
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>
   );
 };
 

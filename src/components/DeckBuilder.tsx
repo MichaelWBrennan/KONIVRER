@@ -11,24 +11,28 @@ interface DeckBuilderProps {
   onCancel?: () => void;
 }
 
-const DeckBuilder: React.FC<DeckBuilderProps> = ({ 
-  initialDeck, 
-  onSave, 
-  onCancel 
+const DeckBuilder: React.FC<DeckBuilderProps> = ({
+  initialDeck,
+  onSave,
+  onCancel,
 }) => {
-  const { 
-    user, 
-    currentDeck, 
-    setCurrentDeck, 
-    createDeck, 
-    publishDeck, 
-    addCardToDeck 
+  const {
+    user,
+    currentDeck,
+    setCurrentDeck,
+    createDeck,
+    publishDeck,
+    addCardToDeck,
   } = useContext(AppContext);
 
   const [deckName, setDeckName] = useState(initialDeck?.name || 'New Deck');
-  const [deckDescription, setDeckDescription] = useState(initialDeck?.description || '');
+  const [deckDescription, setDeckDescription] = useState(
+    initialDeck?.description || '',
+  );
   const [isPublic, setIsPublic] = useState(initialDeck?.isPublic || false);
-  const [deckCards, setDeckCards] = useState<DeckCard[]>(initialDeck?.cards || []);
+  const [deckCards, setDeckCards] = useState<DeckCard[]>(
+    initialDeck?.cards || [],
+  );
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
 
@@ -47,12 +51,10 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
   const addCardToDeckLocal = (cardId: string) => {
     const existingCard = deckCards.find(dc => dc.cardId === cardId);
     if (existingCard) {
-      setDeckCards(prev => 
-        prev.map(dc => 
-          dc.cardId === cardId 
-            ? { ...dc, quantity: dc.quantity + 1 }
-            : dc
-        )
+      setDeckCards(prev =>
+        prev.map(dc =>
+          dc.cardId === cardId ? { ...dc, quantity: dc.quantity + 1 } : dc,
+        ),
       );
     } else {
       setDeckCards(prev => [...prev, { cardId, quantity: 1 }]);
@@ -62,12 +64,10 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
   const removeCardFromDeck = (cardId: string) => {
     const existingCard = deckCards.find(dc => dc.cardId === cardId);
     if (existingCard && existingCard.quantity > 1) {
-      setDeckCards(prev => 
-        prev.map(dc => 
-          dc.cardId === cardId 
-            ? { ...dc, quantity: dc.quantity - 1 }
-            : dc
-        )
+      setDeckCards(prev =>
+        prev.map(dc =>
+          dc.cardId === cardId ? { ...dc, quantity: dc.quantity - 1 } : dc,
+        ),
       );
     } else {
       setDeckCards(prev => prev.filter(dc => dc.cardId !== cardId));
@@ -88,12 +88,12 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
       createdAt: initialDeck?.createdAt || currentDeck?.createdAt || new Date(),
       updatedAt: new Date(),
       tags: [],
-      format: 'Standard'
+      format: 'Standard',
     };
 
     // Update current deck
     setCurrentDeck(deck);
-    
+
     // Handle publishing
     if (deck.id.startsWith('deck_') || deck.id.startsWith('imported_')) {
       publishDeck(deck.id, isPublic);
@@ -111,7 +111,7 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
       familiar: 0,
       flag: 0,
       totalCost: 0,
-      elements: new Set<string>()
+      elements: new Set<string>(),
     };
 
     deckCards.forEach(dc => {
@@ -127,7 +127,7 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
     return {
       ...stats,
       elements: Array.from(stats.elements),
-      avgCost: deckCards.length > 0 ? stats.totalCost / getTotalCards() : 0
+      avgCost: deckCards.length > 0 ? stats.totalCost / getTotalCards() : 0,
     };
   };
 
@@ -140,13 +140,13 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
           <input
             type="text"
             value={deckName}
-            onChange={(e) => setDeckName(e.target.value)}
+            onChange={e => setDeckName(e.target.value)}
             className="deck-name-input"
             placeholder="Deck Name"
           />
           <textarea
             value={deckDescription}
-            onChange={(e) => setDeckDescription(e.target.value)}
+            onChange={e => setDeckDescription(e.target.value)}
             className="deck-description-input"
             placeholder="Deck Description"
             rows={2}
@@ -156,7 +156,7 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
               <input
                 type="checkbox"
                 checked={isPublic}
-                onChange={(e) => setIsPublic(e.target.checked)}
+                onChange={e => setIsPublic(e.target.checked)}
               />
               Make deck public
             </label>
@@ -178,7 +178,7 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
         <div className="card-search-panel">
           <h3>Add Cards</h3>
           <UnifiedCardSearch
-            onCardSelect={(card) => {
+            onCardSelect={card => {
               setSelectedCard(card.id);
               addCardToDeckLocal(card.id);
             }}
@@ -201,7 +201,7 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
             <h3>Cards in Deck</h3>
             <div className="deck-card-list">
               <AnimatePresence>
-                {deckCards.map((deckCard) => {
+                {deckCards.map(deckCard => {
                   const card = getCardById(deckCard.cardId);
                   if (!card) return null;
 
@@ -219,14 +219,14 @@ const DeckBuilder: React.FC<DeckBuilderProps> = ({
                         <span className="card-type">{card.type}</span>
                       </div>
                       <div className="card-quantity">
-                        <button 
+                        <button
                           onClick={() => removeCardFromDeck(card.id)}
                           className="quantity-btn decrease"
                         >
                           -
                         </button>
                         <span className="quantity">{deckCard.quantity}</span>
-                        <button 
+                        <button
                           onClick={() => addCardToDeckLocal(card.id)}
                           className="quantity-btn increase"
                         >

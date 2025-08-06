@@ -61,7 +61,7 @@
   cursor: pointer;
 }
 
-.deck-privacy input[type="checkbox"] {
+.deck-privacy input[type='checkbox'] {
   accent-color: #d4af37;
 }
 
