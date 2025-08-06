@@ -103,7 +103,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       setUse3D(is3D);
 
       // Provide immediate feedback - show loading state instantly
-      console.log(`[GameContainer] Starting ${is3D ? '3D' : '2D'} card game initialization...`);
+      console.log(
+        `[GameContainer] Starting ${is3D ? '3D' : '2D'} card game initialization...`,
+      );
 
       // Longer delay for 3D games to show realistic loading
       const loadingTime = is3D ? 2000 : 1000;
@@ -111,7 +113,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
 
       // Go to appropriate playing state
       setGameState(is3D ? 'playing3d' : 'playing');
-      console.log(`[GameContainer] ${is3D ? '3D' : '2D'} card game initialized successfully`);
+      console.log(
+        `[GameContainer] ${is3D ? '3D' : '2D'} card game initialized successfully`,
+      );
     } catch (_error) {
       console.error('[GameContainer] Error initializing card game:', _error);
       setError(
@@ -264,10 +268,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
                 maxWidth: '400px',
               }}
             >
-              {use3D 
+              {use3D
                 ? 'Initializing advanced 3D graphics, physics engine, particle systems, and mystical effects...'
-                : 'Loading traditional card interface and game systems...'
-              }
+                : 'Loading traditional card interface and game systems...'}
             </motion.p>
           </motion.div>
         )}

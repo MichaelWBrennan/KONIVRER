@@ -27,7 +27,7 @@ export class CardPhysicsSystem {
 
   constructor(scene: BABYLON.Scene, config?: Partial<PhysicsConfig>) {
     this.scene = scene;
-    
+
     // Default physics configuration
     this.config = {
       gravity: new BABYLON.Vector3(0, -9.81, 0),
@@ -44,40 +44,76 @@ export class CardPhysicsSystem {
   private initializePhysics(): void {
     // Enable physics in the scene if not already enabled
     if (!this.scene.isPhysicsEnabled()) {
-      this.scene.enablePhysics(this.config.gravity, new BABYLON.CannonJSPlugin());
+      this.scene.enablePhysics(
+        this.config.gravity,
+        new BABYLON.CannonJSPlugin(),
+      );
     }
-    
+
     this.physicsEngine = this.scene.getPhysicsEngine()!;
     console.log('[CardPhysics] Physics system initialized');
   }
 
   private createGameZones(): void {
     // Create invisible zones for different game areas
-    this.createZone('playerHand', new BABYLON.Vector3(0, 0.1, 6), new BABYLON.Vector3(12, 0.2, 3), true);
-    this.createZone('playerBoard', new BABYLON.Vector3(0, 0.1, 2), new BABYLON.Vector3(12, 0.2, 3), true);
-    this.createZone('opponentBoard', new BABYLON.Vector3(0, 0.1, -2), new BABYLON.Vector3(12, 0.2, 3), true);
-    this.createZone('battlefield', new BABYLON.Vector3(0, 0.1, 0), new BABYLON.Vector3(8, 0.2, 2), true);
-    this.createZone('discard', new BABYLON.Vector3(8, 0.1, 0), new BABYLON.Vector3(2, 0.2, 2), true);
+    this.createZone(
+      'playerHand',
+      new BABYLON.Vector3(0, 0.1, 6),
+      new BABYLON.Vector3(12, 0.2, 3),
+      true,
+    );
+    this.createZone(
+      'playerBoard',
+      new BABYLON.Vector3(0, 0.1, 2),
+      new BABYLON.Vector3(12, 0.2, 3),
+      true,
+    );
+    this.createZone(
+      'opponentBoard',
+      new BABYLON.Vector3(0, 0.1, -2),
+      new BABYLON.Vector3(12, 0.2, 3),
+      true,
+    );
+    this.createZone(
+      'battlefield',
+      new BABYLON.Vector3(0, 0.1, 0),
+      new BABYLON.Vector3(8, 0.2, 2),
+      true,
+    );
+    this.createZone(
+      'discard',
+      new BABYLON.Vector3(8, 0.1, 0),
+      new BABYLON.Vector3(2, 0.2, 2),
+      true,
+    );
   }
 
-  private createZone(name: string, center: BABYLON.Vector3, size: BABYLON.Vector3, acceptsCards: boolean): void {
+  private createZone(
+    name: string,
+    center: BABYLON.Vector3,
+    size: BABYLON.Vector3,
+    acceptsCards: boolean,
+  ): void {
     // Create invisible mesh for the zone
     const zoneMesh = BABYLON.MeshBuilder.CreateBox(
       `zone_${name}`,
       { width: size.x, height: size.y, depth: size.z },
       this.scene,
     );
-    
+
     zoneMesh.position = center;
     zoneMesh.isVisible = false; // Make zone invisible
     zoneMesh.checkCollisions = false;
 
     // Create visual indicator for the zone (optional, can be toggled)
-    const zoneMaterial = new BABYLON.StandardMaterial(`zoneMaterial_${name}`, this.scene);
+    const zoneMaterial = new BABYLON.StandardMaterial(
+      `zoneMaterial_${name}`,
+      this.scene,
+    );
     zoneMaterial.diffuseColor = this.getZoneColor(name);
     zoneMaterial.alpha = 0.1;
     zoneMaterial.transparencyMode = BABYLON.Material.MATERIAL_ALPHABLEND;
-    
+
     const zoneIndicator = BABYLON.MeshBuilder.CreatePlane(
       `zoneIndicator_${name}`,
       { width: size.x, height: size.z },
@@ -86,7 +122,7 @@ export class CardPhysicsSystem {
     zoneIndicator.position = new BABYLON.Vector3(center.x, center.y, center.z);
     zoneIndicator.rotation.x = Math.PI / 2;
     zoneIndicator.material = zoneMaterial;
-    
+
     // Create bounding box for zone detection
     const min = center.subtract(size.scale(0.5));
     const max = center.add(size.scale(0.5));
@@ -102,24 +138,27 @@ export class CardPhysicsSystem {
 
     this.cardZones.set(name, zone);
     this.dropZones.push(zoneMesh);
-    
+
     console.log(`[CardPhysics] Created zone: ${name}`);
   }
 
   private getZoneColor(zoneName: string): BABYLON.Color3 {
     const colors = {
-      playerHand: new BABYLON.Color3(0.2, 0.6, 1.0),      // Blue
-      playerBoard: new BABYLON.Color3(0.2, 0.8, 0.2),     // Green
-      opponentBoard: new BABYLON.Color3(0.8, 0.2, 0.2),   // Red
-      battlefield: new BABYLON.Color3(0.8, 0.8, 0.2),     // Yellow
-      discard: new BABYLON.Color3(0.6, 0.3, 0.8),         // Purple
+      playerHand: new BABYLON.Color3(0.2, 0.6, 1.0), // Blue
+      playerBoard: new BABYLON.Color3(0.2, 0.8, 0.2), // Green
+      opponentBoard: new BABYLON.Color3(0.8, 0.2, 0.2), // Red
+      battlefield: new BABYLON.Color3(0.8, 0.8, 0.2), // Yellow
+      discard: new BABYLON.Color3(0.6, 0.3, 0.8), // Purple
     };
-    return colors[zoneName as keyof typeof colors] || new BABYLON.Color3(0.5, 0.5, 0.5);
+    return (
+      colors[zoneName as keyof typeof colors] ||
+      new BABYLON.Color3(0.5, 0.5, 0.5)
+    );
   }
 
   public enableCardPhysics(card3D: Card3D): void {
     const mesh = card3D.getMesh();
-    
+
     if (!mesh.physicsImpostor) {
       // Create physics impostor for the card
       mesh.physicsImpostor = new BABYLON.PhysicsImpostor(
@@ -142,7 +181,7 @@ export class CardPhysicsSystem {
 
   private setupCardCollisions(card3D: Card3D): void {
     const mesh = card3D.getMesh();
-    
+
     // Register collision events
     mesh.physicsImpostor?.registerOnPhysicsCollide(
       this.dropZones,
@@ -152,11 +191,16 @@ export class CardPhysicsSystem {
     );
   }
 
-  private handleCardZoneCollision(card3D: Card3D, zoneMesh: BABYLON.Mesh): void {
+  private handleCardZoneCollision(
+    card3D: Card3D,
+    zoneMesh: BABYLON.Mesh,
+  ): void {
     // Find which zone was collided with
     for (const [zoneName, zone] of this.cardZones) {
       if (zone.mesh === zoneMesh) {
-        console.log(`[CardPhysics] Card ${card3D.getCard().name} entered zone: ${zoneName}`);
+        console.log(
+          `[CardPhysics] Card ${card3D.getCard().name} entered zone: ${zoneName}`,
+        );
         this.onCardEnteredZone(card3D, zone);
         break;
       }
@@ -185,7 +229,7 @@ export class CardPhysicsSystem {
 
     const zoneCenter = zone.mesh.position;
     const zoneSize = zone.mesh.scaling;
-    
+
     // Arrange cards in a row within the zone
     const cardSpacing = Math.min(2.8, (zoneSize.x * 0.8) / cards.length);
     const startX = zoneCenter.x - ((cards.length - 1) * cardSpacing) / 2;
@@ -196,15 +240,18 @@ export class CardPhysicsSystem {
         zoneCenter.y + 0.5,
         zoneCenter.z,
       );
-      
+
       this.smoothMoveCard(card, targetPosition);
     });
   }
 
-  private smoothMoveCard(card3D: Card3D, targetPosition: BABYLON.Vector3): void {
+  private smoothMoveCard(
+    card3D: Card3D,
+    targetPosition: BABYLON.Vector3,
+  ): void {
     const mesh = card3D.getMesh();
     const currentPosition = mesh.position.clone();
-    
+
     // Smooth animation to target position
     BABYLON.Animation.CreateAndStartAnimation(
       `cardMove_${card3D.getCard().id}`,
@@ -221,7 +268,7 @@ export class CardPhysicsSystem {
   public startDrag(card3D: Card3D): void {
     this.draggedCard = card3D;
     const mesh = card3D.getMesh();
-    
+
     // Make card kinematic during drag
     if (mesh.physicsImpostor) {
       mesh.physicsImpostor.setMass(0);
@@ -231,7 +278,7 @@ export class CardPhysicsSystem {
 
     // Remove from current zone
     this.removeCardFromZones(card3D);
-    
+
     console.log(`[CardPhysics] Started dragging: ${card3D.getCard().name}`);
   }
 
@@ -240,16 +287,20 @@ export class CardPhysicsSystem {
 
     const mesh = this.draggedCard.getMesh();
     const currentPos = mesh.position;
-    
+
     // Smooth drag movement
     const targetPos = new BABYLON.Vector3(
       worldPosition.x,
       Math.max(this.config.tableHeight + 0.5, worldPosition.y),
       worldPosition.z,
     );
-    
+
     // Apply smoothing
-    mesh.position = BABYLON.Vector3.Lerp(currentPos, targetPos, this.config.dragSmoothing);
+    mesh.position = BABYLON.Vector3.Lerp(
+      currentPos,
+      targetPos,
+      this.config.dragSmoothing,
+    );
   }
 
   public stopDrag(): Card3D | null {
@@ -257,7 +308,7 @@ export class CardPhysicsSystem {
 
     const card = this.draggedCard;
     const mesh = card.getMesh();
-    
+
     // Restore physics mass
     if (mesh.physicsImpostor) {
       mesh.physicsImpostor.setMass(0.1);
@@ -274,7 +325,7 @@ export class CardPhysicsSystem {
 
     this.draggedCard = null;
     console.log(`[CardPhysics] Stopped dragging: ${card.getCard().name}`);
-    
+
     return card;
   }
 
@@ -315,7 +366,7 @@ export class CardPhysicsSystem {
 
     // Remove from other zones first
     this.removeCardFromZones(card3D);
-    
+
     // Add to new zone
     this.onCardEnteredZone(card3D, zone);
     return true;
@@ -346,10 +397,10 @@ export class CardPhysicsSystem {
       { width: 30, height: 30 },
       this.scene,
     );
-    
+
     tableSurface.position.y = this.config.tableHeight;
     tableSurface.isVisible = false;
-    
+
     // Add physics
     tableSurface.physicsImpostor = new BABYLON.PhysicsImpostor(
       tableSurface,
@@ -379,7 +430,11 @@ export class CardPhysicsSystem {
     emitter.position = position;
     emitter.setEnabled(false);
 
-    const particleSystem = new BABYLON.ParticleSystem('cardDropEffect', 20, this.scene);
+    const particleSystem = new BABYLON.ParticleSystem(
+      'cardDropEffect',
+      20,
+      this.scene,
+    );
     particleSystem.particleTexture = new BABYLON.Texture('', this.scene);
     particleSystem.emitter = emitter;
 
@@ -420,7 +475,7 @@ export class CardPhysicsSystem {
     this.cardZones.clear();
     this.dropZones = [];
     this.draggedCard = null;
-    
+
     console.log('[CardPhysics] Physics system disposed');
   }
 }

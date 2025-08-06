@@ -6,7 +6,14 @@ import { audioManager } from '../game/GameEngine';
 // Enhanced MTG Arena-style card interface with full stack support
 interface MTGCard extends Card {
   gameId: string;
-  zone: 'hand' | 'battlefield' | 'graveyard' | 'library' | 'exile' | 'stack' | 'command';
+  zone:
+    | 'hand'
+    | 'battlefield'
+    | 'graveyard'
+    | 'library'
+    | 'exile'
+    | 'stack'
+    | 'command';
   owner: 'player' | 'opponent';
   power?: number;
   toughness?: number;
@@ -59,14 +66,31 @@ interface GameState {
     commandZone: MTGCard[];
   };
   turn: 'player' | 'opponent';
-  phase: 'untap' | 'upkeep' | 'draw' | 'main1' | 'begin_combat' | 'declare_attackers' | 'declare_blockers' | 'first_strike_damage' | 'combat_damage' | 'end_combat' | 'main2' | 'end' | 'cleanup';
+  phase:
+    | 'untap'
+    | 'upkeep'
+    | 'draw'
+    | 'main1'
+    | 'begin_combat'
+    | 'declare_attackers'
+    | 'declare_blockers'
+    | 'first_strike_damage'
+    | 'combat_damage'
+    | 'end_combat'
+    | 'main2'
+    | 'end'
+    | 'cleanup';
   step: string;
   stack: MTGCard[];
   priority: 'player' | 'opponent';
   hasFullControl: boolean;
   autoPass: boolean;
   revealedOpponentCards: string[];
-  triggers: { source: string; ability: string; controller: 'player' | 'opponent' }[];
+  triggers: {
+    source: string;
+    ability: string;
+    controller: 'player' | 'opponent';
+  }[];
   combatState: {
     attackers: string[];
     blockers: { attacker: string; blockers: string[] }[];
@@ -88,7 +112,10 @@ const AdvancedMTGArenaGame: React.FC = () => {
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [hoverPreview, setHoverPreview] = useState<HoverPreview | null>(null);
   const [tooltipCard, setTooltipCard] = useState<MTGCard | null>(null);
-  const [showKeywordTooltip, setShowKeywordTooltip] = useState<{ keyword: string; position: { x: number; y: number } } | null>(null);
+  const [showKeywordTooltip, setShowKeywordTooltip] = useState<{
+    keyword: string;
+    position: { x: number; y: number };
+  } | null>(null);
 
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
@@ -105,8 +132,14 @@ const AdvancedMTGArenaGame: React.FC = () => {
       owner,
       manaCost: card.cost,
       cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
-      power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
-      toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
+      power:
+        card.type === 'Familiar'
+          ? Math.floor(Math.random() * 5) + 1
+          : undefined,
+      toughness:
+        card.type === 'Familiar'
+          ? Math.floor(Math.random() * 5) + 1
+          : undefined,
       isTapped: false,
       isSelected: false,
       canPlay: false,
@@ -178,7 +211,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
       position: { x: rect.right + 10, y: rect.top },
       isFullArt: false,
     });
-    
+
     // Show keyword tooltips if applicable
     if (card.keywords && card.keywords.length > 0) {
       setTooltipCard(card);
@@ -208,7 +241,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
     setGameState(prev => {
       const newState = { ...prev };
       const topCard = newState.stack.pop()!;
-      
+
       // Resolve the top card's effect
       // For now, just move it to graveyard (simplified)
       const owner = newState[topCard.owner];
@@ -216,7 +249,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
 
       // Check for triggers after resolution
       // This would be expanded with actual trigger checking
-      
+
       return newState;
     });
   }, [gameState.stack]);
@@ -227,7 +260,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
 
     setGameState(prev => {
       const newState = { ...prev };
-      
+
       if (newState.stack.length > 0) {
         // Pass priority, if both players pass, resolve stack
         if (newState.priority === 'player') {
@@ -239,14 +272,14 @@ const AdvancedMTGArenaGame: React.FC = () => {
             const owner = newState[topCard.owner];
             owner.graveyard.push({ ...topCard, zone: 'graveyard' });
           }
-          
+
           newState.priority = 'player'; // Active player gets priority back
         }
       } else {
         // No stack, move to next phase/step
         advancePhase(newState);
       }
-      
+
       return newState;
     });
   }, []);
@@ -254,11 +287,21 @@ const AdvancedMTGArenaGame: React.FC = () => {
   // Enhanced phase advancement with full MTG timing
   const advancePhase = (state: GameState) => {
     const phases: GameState['phase'][] = [
-      'untap', 'upkeep', 'draw', 'main1', 'begin_combat', 
-      'declare_attackers', 'declare_blockers', 'first_strike_damage', 
-      'combat_damage', 'end_combat', 'main2', 'end', 'cleanup'
+      'untap',
+      'upkeep',
+      'draw',
+      'main1',
+      'begin_combat',
+      'declare_attackers',
+      'declare_blockers',
+      'first_strike_damage',
+      'combat_damage',
+      'end_combat',
+      'main2',
+      'end',
+      'cleanup',
     ];
-    
+
     const currentIndex = phases.indexOf(state.phase);
     const nextPhaseIndex = (currentIndex + 1) % phases.length;
     const nextPhase = phases[nextPhaseIndex];
@@ -270,7 +313,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
       // Switch turns
       state.turn = state.turn === 'player' ? 'opponent' : 'player';
       state.priority = state.turn;
-      
+
       // Untap all permanents
       const currentPlayer = state[state.turn];
       currentPlayer.battlefield = currentPlayer.battlefield.map(card => ({
@@ -296,14 +339,15 @@ const AdvancedMTGArenaGame: React.FC = () => {
     if (state.hasFullControl) return false;
     if (state.stack.length > 0) return false;
     if (state.triggers.length > 0) return false;
-    
+
     // Check if player has any instant-speed responses
     const currentPlayer = state[state.priority];
-    const hasInstantResponse = currentPlayer.hand.some(card => 
-      card.cardTypes.includes('Instant') || 
-      card.abilities?.some(ability => ability.includes('Flash'))
+    const hasInstantResponse = currentPlayer.hand.some(
+      card =>
+        card.cardTypes.includes('Instant') ||
+        card.abilities?.some(ability => ability.includes('Flash')),
     );
-    
+
     return !hasInstantResponse;
   }, []);
 
@@ -371,7 +415,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
           ${card.hasSummoningSickness ? 'summoning-sick' : ''}
         `}
         onClick={() => handleCardClick(card)}
-        onMouseEnter={(e) => {
+        onMouseEnter={e => {
           setIsHovered(true);
           handleCardHover(e, card);
         }}
@@ -403,14 +447,14 @@ const AdvancedMTGArenaGame: React.FC = () => {
             {card.keywords && card.keywords.length > 0 && (
               <div className="keywords">
                 {card.keywords.map((keyword, i) => (
-                  <span 
-                    key={i} 
+                  <span
+                    key={i}
                     className="keyword"
-                    onMouseEnter={(e) => {
+                    onMouseEnter={e => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       setShowKeywordTooltip({
                         keyword,
-                        position: { x: rect.left, y: rect.bottom + 5 }
+                        position: { x: rect.left, y: rect.bottom + 5 },
                       });
                     }}
                     onMouseLeave={() => setShowKeywordTooltip(null)}
@@ -431,7 +475,9 @@ const AdvancedMTGArenaGame: React.FC = () => {
   };
 
   // Hover Preview Component
-  const HoverPreviewComponent: React.FC<{ preview: HoverPreview }> = ({ preview }) => (
+  const HoverPreviewComponent: React.FC<{ preview: HoverPreview }> = ({
+    preview,
+  }) => (
     <motion.div
       className="hover-preview"
       style={{
@@ -449,10 +495,10 @@ const AdvancedMTGArenaGame: React.FC = () => {
       <CardComponent card={preview.card} />
       {preview.isFullArt && (
         <div className="full-art-overlay">
-          <img 
-            src={`/images/cards/full-art/${preview.card.id}.jpg`} 
+          <img
+            src={`/images/cards/full-art/${preview.card.id}.jpg`}
             alt={preview.card.name}
-            onError={(e) => {
+            onError={e => {
               // Fallback to regular card if full art not available
               e.currentTarget.style.display = 'none';
             }}
@@ -463,18 +509,27 @@ const AdvancedMTGArenaGame: React.FC = () => {
   );
 
   // Keyword Tooltip Component
-  const KeywordTooltip: React.FC<{ keyword: string; position: { x: number; y: number } }> = ({ keyword, position }) => {
+  const KeywordTooltip: React.FC<{
+    keyword: string;
+    position: { x: number; y: number };
+  }> = ({ keyword, position }) => {
     const getKeywordDescription = (keyword: string): string => {
       const descriptions: Record<string, string> = {
-        'Flying': 'This creature can only be blocked by creatures with flying or reach.',
-        'Trample': 'If this creature would assign enough damage to destroy all creatures blocking it, excess damage is dealt to the defending player.',
-        'Haste': 'This creature can attack and tap on the turn it enters the battlefield.',
-        'First Strike': 'This creature deals combat damage before creatures without first strike.',
-        'Vigilance': 'Attacking with this creature doesn\'t cause it to tap.',
-        'Lifelink': 'Damage dealt by this creature also causes its controller to gain that much life.',
-        'Deathtouch': 'Any amount of damage this creature deals to another creature is enough to destroy it.',
+        Flying:
+          'This creature can only be blocked by creatures with flying or reach.',
+        Trample:
+          'If this creature would assign enough damage to destroy all creatures blocking it, excess damage is dealt to the defending player.',
+        Haste:
+          'This creature can attack and tap on the turn it enters the battlefield.',
+        'First Strike':
+          'This creature deals combat damage before creatures without first strike.',
+        Vigilance: "Attacking with this creature doesn't cause it to tap.",
+        Lifelink:
+          'Damage dealt by this creature also causes its controller to gain that much life.',
+        Deathtouch:
+          'Any amount of damage this creature deals to another creature is enough to destroy it.',
       };
-      
+
       return descriptions[keyword] || 'Unknown keyword ability.';
     };
 
@@ -505,19 +560,19 @@ const AdvancedMTGArenaGame: React.FC = () => {
     <div className="advanced-mtg-arena-game" ref={gameContainerRef}>
       {/* Game Controls */}
       <div className="game-controls">
-        <button 
+        <button
           className={`control-btn ${gameState.hasFullControl ? 'active' : ''}`}
           onClick={toggleFullControl}
         >
           Full Control {gameState.hasFullControl ? 'ON' : 'OFF'}
         </button>
-        <button 
+        <button
           className={`control-btn ${gameState.autoPass ? 'active' : ''}`}
           onClick={toggleAutoPass}
         >
           Auto-Pass {gameState.autoPass ? 'ON' : 'OFF'}
         </button>
-        <button 
+        <button
           className="control-btn priority"
           onClick={passePriority}
           disabled={gameState.priority !== 'player'}
@@ -525,10 +580,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
           Pass Priority
         </button>
         {gameState.stack.length > 0 && (
-          <button 
-            className="control-btn resolve"
-            onClick={resolveStack}
-          >
+          <button className="control-btn resolve" onClick={resolveStack}>
             Resolve ({gameState.stack.length})
           </button>
         )}
@@ -536,7 +588,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
 
       {/* Enhanced MTG Arena Layout */}
       {/* Content continues... */}
-      
+
       {/* Hover Previews */}
       <AnimatePresence>
         {hoverPreview && <HoverPreviewComponent preview={hoverPreview} />}
@@ -545,7 +597,7 @@ const AdvancedMTGArenaGame: React.FC = () => {
       {/* Keyword Tooltips */}
       <AnimatePresence>
         {showKeywordTooltip && (
-          <KeywordTooltip 
+          <KeywordTooltip
             keyword={showKeywordTooltip.keyword}
             position={showKeywordTooltip.position}
           />
