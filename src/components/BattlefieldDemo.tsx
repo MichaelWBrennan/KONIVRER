@@ -5,18 +5,24 @@ interface BattlefieldDemoProps {
   className?: string;
 }
 
-export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) => {
+export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({
+  className,
+}) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const gameEngineRef = useRef<GameEngine | null>(null);
-  const [currentTheme, setCurrentTheme] = useState<'forest' | 'desert' | 'volcano' | 'hearthstone'>('hearthstone');
-  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>('high');
+  const [currentTheme, setCurrentTheme] = useState<
+    'forest' | 'desert' | 'volcano' | 'hearthstone'
+  >('hearthstone');
+  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>(
+    'high',
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [memoryUsage, setMemoryUsage] = useState('0MB');
   const [battlefieldState, setBattlefieldState] = useState({
     timeOfDay: 'day',
     weather: 'clear',
     season: 'summer',
-    playerMood: 'calm'
+    playerMood: 'calm',
   });
 
   useEffect(() => {
@@ -27,15 +33,15 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
         setIsLoading(true);
         const engine = new GameEngine();
         gameEngineRef.current = engine;
-        
+
         await engine.init(canvasRef.current);
-        
+
         // Get initial memory usage
         if (engine.isArenaInitialized()) {
           const memStats = engine.getArenaConfig();
           console.log('Arena initialized with config:', memStats);
         }
-        
+
         setIsLoading(false);
       } catch (error) {
         console.error('Failed to initialize battlefield demo:', error);
@@ -54,7 +60,7 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
 
   const handleThemeChange = async (newTheme: typeof currentTheme) => {
     if (!gameEngineRef.current || newTheme === currentTheme) return;
-    
+
     setIsLoading(true);
     try {
       await gameEngineRef.current.changeArenaTheme(newTheme);
@@ -67,7 +73,7 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
 
   const handleQualityChange = async (newQuality: typeof quality) => {
     if (!gameEngineRef.current || newQuality === quality) return;
-    
+
     setIsLoading(true);
     try {
       await gameEngineRef.current.updateArenaQuality(newQuality);
@@ -81,7 +87,7 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
   const handleStateChange = (key: string, value: string) => {
     const newState = { ...battlefieldState, [key]: value };
     setBattlefieldState(newState);
-    
+
     // Update battlefield state in the engine
     // Note: This would need to be implemented in the GameEngine
     console.log('Battlefield state updated:', newState);
@@ -92,7 +98,7 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
       hearthstone: 'Cozy tavern with flickering torches and warm firelight',
       forest: 'Mystical woodland with waterfalls and dappled sunlight',
       desert: 'Ancient ruins with heat shimmer and golden sands',
-      volcano: 'Molten landscape with lava flows and volcanic rocks'
+      volcano: 'Molten landscape with lava flows and volcanic rocks',
     };
     return descriptions[theme as keyof typeof descriptions] || 'Unknown theme';
   };
@@ -101,15 +107,20 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
     <div className={`battlefield-demo ${className || ''}`}>
       <div className="demo-header">
         <h2>🏰 Hearthstone-Style Battlefield System</h2>
-        <p>Interactive 2.5D battlefield with responsive design and dynamic theming</p>
+        <p>
+          Interactive 2.5D battlefield with responsive design and dynamic
+          theming
+        </p>
       </div>
 
       <div className="demo-controls">
         <div className="control-group">
           <label>🎨 Arena Theme:</label>
-          <select 
-            value={currentTheme} 
-            onChange={(e) => handleThemeChange(e.target.value as typeof currentTheme)}
+          <select
+            value={currentTheme}
+            onChange={e =>
+              handleThemeChange(e.target.value as typeof currentTheme)
+            }
             disabled={isLoading}
           >
             <option value="hearthstone">🍺 Hearthstone Tavern</option>
@@ -117,14 +128,18 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
             <option value="desert">🏜️ Ancient Desert</option>
             <option value="volcano">🌋 Volcanic Crater</option>
           </select>
-          <span className="theme-description">{getThemeDescription(currentTheme)}</span>
+          <span className="theme-description">
+            {getThemeDescription(currentTheme)}
+          </span>
         </div>
 
         <div className="control-group">
           <label>⚙️ Quality:</label>
-          <select 
-            value={quality} 
-            onChange={(e) => handleQualityChange(e.target.value as typeof quality)}
+          <select
+            value={quality}
+            onChange={e =>
+              handleQualityChange(e.target.value as typeof quality)
+            }
             disabled={isLoading}
           >
             <option value="low">📱 Low (Mobile Optimized)</option>
@@ -136,9 +151,9 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
 
         <div className="control-group">
           <label>🕒 Time of Day:</label>
-          <select 
-            value={battlefieldState.timeOfDay} 
-            onChange={(e) => handleStateChange('timeOfDay', e.target.value)}
+          <select
+            value={battlefieldState.timeOfDay}
+            onChange={e => handleStateChange('timeOfDay', e.target.value)}
           >
             <option value="dawn">🌅 Dawn</option>
             <option value="day">☀️ Day</option>
@@ -149,9 +164,9 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
 
         <div className="control-group">
           <label>🌤️ Weather:</label>
-          <select 
-            value={battlefieldState.weather} 
-            onChange={(e) => handleStateChange('weather', e.target.value)}
+          <select
+            value={battlefieldState.weather}
+            onChange={e => handleStateChange('weather', e.target.value)}
           >
             <option value="clear">☀️ Clear</option>
             <option value="rain">🌧️ Rain</option>
@@ -163,9 +178,9 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
 
         <div className="control-group">
           <label>😊 Player Mood:</label>
-          <select 
-            value={battlefieldState.playerMood} 
-            onChange={(e) => handleStateChange('playerMood', e.target.value)}
+          <select
+            value={battlefieldState.playerMood}
+            onChange={e => handleStateChange('playerMood', e.target.value)}
           >
             <option value="calm">😌 Calm</option>
             <option value="excited">😃 Excited</option>
@@ -182,9 +197,9 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
             <p>Loading {currentTheme} battlefield...</p>
           </div>
         )}
-        
-        <div 
-          ref={canvasRef} 
+
+        <div
+          ref={canvasRef}
           className="battlefield-canvas"
           style={{
             width: '100%',
@@ -193,27 +208,44 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
             borderRadius: '8px',
             background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
           }}
         />
-        
+
         <div className="battlefield-info">
           <div className="info-panel">
             <h4>🔧 System Info</h4>
-            <p><strong>Theme:</strong> {currentTheme}</p>
-            <p><strong>Quality:</strong> {quality}</p>
-            <p><strong>Memory Usage:</strong> {memoryUsage}</p>
-            <p><strong>Features:</strong> Interactive elements, idle animations, responsive design</p>
+            <p>
+              <strong>Theme:</strong> {currentTheme}
+            </p>
+            <p>
+              <strong>Quality:</strong> {quality}
+            </p>
+            <p>
+              <strong>Memory Usage:</strong> {memoryUsage}
+            </p>
+            <p>
+              <strong>Features:</strong> Interactive elements, idle animations,
+              responsive design
+            </p>
           </div>
-          
+
           <div className="info-panel">
             <h4>🎮 Controls</h4>
-            <p><strong>WASD:</strong> Move around</p>
-            <p><strong>Mouse:</strong> Look around</p>
-            <p><strong>Click:</strong> Interact with objects</p>
-            <p><strong>Hover:</strong> See tooltips</p>
+            <p>
+              <strong>WASD:</strong> Move around
+            </p>
+            <p>
+              <strong>Mouse:</strong> Look around
+            </p>
+            <p>
+              <strong>Click:</strong> Interact with objects
+            </p>
+            <p>
+              <strong>Hover:</strong> See tooltips
+            </p>
           </div>
-          
+
           <div className="info-panel">
             <h4>✨ Interactive Elements</h4>
             <p>🔥 Torches - Click to light/extinguish</p>
@@ -321,8 +353,12 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
         }
 
         @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
 
         .battlefield-canvas {
@@ -363,11 +399,11 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({ className }) =
           .demo-controls {
             grid-template-columns: 1fr;
           }
-          
+
           .battlefield-canvas {
             height: 400px !important;
           }
-          
+
           .battlefield-info {
             grid-template-columns: 1fr;
           }

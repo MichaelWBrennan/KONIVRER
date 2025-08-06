@@ -43,9 +43,9 @@ export class BattlefieldInteractionSystem {
       weather: 'clear',
       season: 'summer',
       activeEffects: [],
-      playerMood: 'calm'
+      playerMood: 'calm',
     };
-    
+
     this.setupInteractionSystem();
   }
 
@@ -53,13 +53,15 @@ export class BattlefieldInteractionSystem {
     // Setup glow layer for hover effects
     this.hoverHighlight = new BABYLON.GlowLayer('hoverGlow', this.scene);
     this.hoverHighlight.intensity = 0.5;
-    
+
     // Setup pointer event handling
-    this.scene.onPointerObservable.add((pointerInfo) => {
+    this.scene.onPointerObservable.add(pointerInfo => {
       this.handlePointerEvent(pointerInfo);
     });
-    
-    console.log('[BattlefieldInteractionSystem] Interaction system initialized');
+
+    console.log(
+      '[BattlefieldInteractionSystem] Interaction system initialized',
+    );
   }
 
   private handlePointerEvent(pointerInfo: BABYLON.PointerInfo): void {
@@ -82,9 +84,14 @@ export class BattlefieldInteractionSystem {
     }
   }
 
-  private findInteractiveElement(mesh: BABYLON.AbstractMesh): InteractiveElement | null {
+  private findInteractiveElement(
+    mesh: BABYLON.AbstractMesh,
+  ): InteractiveElement | null {
     for (const element of this.interactiveElements.values()) {
-      if (element.mesh === mesh || element.mesh.getChildMeshes().includes(mesh as BABYLON.Mesh)) {
+      if (
+        element.mesh === mesh ||
+        element.mesh.getChildMeshes().includes(mesh as BABYLON.Mesh)
+      ) {
         return element;
       }
     }
@@ -107,7 +114,9 @@ export class BattlefieldInteractionSystem {
       element.onHover();
     }
 
-    console.log(`[BattlefieldInteractionSystem] Hovering over ${element.type}: ${element.id}`);
+    console.log(
+      `[BattlefieldInteractionSystem] Hovering over ${element.type}: ${element.id}`,
+    );
   }
 
   private handleElementClick(element: InteractiveElement): void {
@@ -124,27 +133,37 @@ export class BattlefieldInteractionSystem {
       element.onClick();
     }
 
-    console.log(`[BattlefieldInteractionSystem] Clicked ${element.type}: ${element.id}`);
+    console.log(
+      `[BattlefieldInteractionSystem] Clicked ${element.type}: ${element.id}`,
+    );
   }
 
   /**
    * Add an interactive element to the battlefield
    */
-  public addInteractiveElement(config: Partial<InteractiveElement> & { id: string; mesh: BABYLON.AbstractMesh; type: InteractiveElement['type'] }): void {
+  public addInteractiveElement(
+    config: Partial<InteractiveElement> & {
+      id: string;
+      mesh: BABYLON.AbstractMesh;
+      type: InteractiveElement['type'];
+    },
+  ): void {
     const element: InteractiveElement = {
       isActive: true,
       onHover: () => this.defaultHoverBehavior(config.type),
       onClick: () => this.defaultClickBehavior(config.type),
       onActivate: () => this.defaultActivateBehavior(config.type),
       onDeactivate: () => this.defaultDeactivateBehavior(config.type),
-      ...config
+      ...config,
     };
 
     // Setup element-specific features
     this.setupElementFeatures(element);
-    
+
     this.interactiveElements.set(element.id, element);
-    console.log(`[BattlefieldInteractionSystem] Added interactive element: ${element.id}`);
+    console.log(
+      `[BattlefieldInteractionSystem] Added interactive element: ${element.id}`,
+    );
   }
 
   private setupElementFeatures(element: InteractiveElement): void {
@@ -169,30 +188,34 @@ export class BattlefieldInteractionSystem {
 
   private setupTorchFeatures(element: InteractiveElement): void {
     // Create flickering fire particle system
-    const particleSystem = new BABYLON.ParticleSystem('torchFlame', 50, this.scene);
+    const particleSystem = new BABYLON.ParticleSystem(
+      'torchFlame',
+      50,
+      this.scene,
+    );
     particleSystem.particleTexture = this.createFireTexture();
     particleSystem.emitter = element.mesh;
-    
+
     particleSystem.minEmitBox = new BABYLON.Vector3(-0.1, 0.5, -0.1);
     particleSystem.maxEmitBox = new BABYLON.Vector3(0.1, 0.7, 0.1);
-    
+
     particleSystem.color1 = new BABYLON.Color4(1, 0.6, 0.2, 1);
     particleSystem.color2 = new BABYLON.Color4(1, 0.3, 0.1, 1);
     particleSystem.colorDead = new BABYLON.Color4(0.2, 0.1, 0, 0);
-    
+
     particleSystem.minSize = 0.05;
     particleSystem.maxSize = 0.15;
     particleSystem.minLifeTime = 0.3;
     particleSystem.maxLifeTime = 0.8;
     particleSystem.emitRate = 30;
-    
+
     particleSystem.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
     particleSystem.direction1 = new BABYLON.Vector3(-0.2, 0.8, -0.2);
     particleSystem.direction2 = new BABYLON.Vector3(0.2, 1.2, 0.2);
-    
+
     // Add flickering animation
     this.addFlickeringAnimation(element);
-    
+
     element.particleSystem = particleSystem;
     if (element.isActive) {
       particleSystem.start();
@@ -201,27 +224,31 @@ export class BattlefieldInteractionSystem {
 
   private setupWaterfallFeatures(element: InteractiveElement): void {
     // Create water particle system
-    const particleSystem = new BABYLON.ParticleSystem('waterfallDrops', 100, this.scene);
+    const particleSystem = new BABYLON.ParticleSystem(
+      'waterfallDrops',
+      100,
+      this.scene,
+    );
     particleSystem.particleTexture = this.createWaterTexture();
     particleSystem.emitter = element.mesh;
-    
+
     particleSystem.minEmitBox = new BABYLON.Vector3(-0.5, 2, -0.1);
     particleSystem.maxEmitBox = new BABYLON.Vector3(0.5, 2.2, 0.1);
-    
+
     particleSystem.color1 = new BABYLON.Color4(0.7, 0.9, 1, 0.8);
     particleSystem.color2 = new BABYLON.Color4(0.5, 0.8, 1, 0.6);
     particleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
-    
+
     particleSystem.minSize = 0.02;
     particleSystem.maxSize = 0.05;
     particleSystem.minLifeTime = 1.5;
     particleSystem.maxLifeTime = 2.5;
     particleSystem.emitRate = 60;
-    
+
     particleSystem.gravity = new BABYLON.Vector3(0, -9.81, 0);
     particleSystem.direction1 = new BABYLON.Vector3(-0.1, -1, -0.1);
     particleSystem.direction2 = new BABYLON.Vector3(0.1, -0.8, 0.1);
-    
+
     element.particleSystem = particleSystem;
     if (element.isActive) {
       particleSystem.start();
@@ -235,18 +262,18 @@ export class BattlefieldInteractionSystem {
       'material.emissiveColor',
       30,
       BABYLON.Animation.ANIMATIONTYPE_COLOR3,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+      BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE,
     );
-    
+
     const keys = [
       { frame: 0, value: new BABYLON.Color3(0.2, 0.5, 1) },
       { frame: 30, value: new BABYLON.Color3(0.5, 0.8, 1) },
-      { frame: 60, value: new BABYLON.Color3(0.2, 0.5, 1) }
+      { frame: 60, value: new BABYLON.Color3(0.2, 0.5, 1) },
     ];
-    
+
     glowAnimation.setKeys(keys);
     element.mesh.animations.push(glowAnimation);
-    
+
     if (element.isActive) {
       this.scene.beginAnimation(element.mesh, 0, 60, true);
     }
@@ -255,7 +282,7 @@ export class BattlefieldInteractionSystem {
   private setupCampfireFeatures(element: InteractiveElement): void {
     // Similar to torch but larger and with crackling sound
     this.setupTorchFeatures(element);
-    
+
     // Scale up the particle system
     if (element.particleSystem) {
       element.particleSystem.emitRate = 80;
@@ -266,29 +293,33 @@ export class BattlefieldInteractionSystem {
 
   private setupGeyserFeatures(element: InteractiveElement): void {
     // Create steam/water eruption
-    const particleSystem = new BABYLON.ParticleSystem('geyserSteam', 150, this.scene);
+    const particleSystem = new BABYLON.ParticleSystem(
+      'geyserSteam',
+      150,
+      this.scene,
+    );
     particleSystem.particleTexture = this.createSteamTexture();
     particleSystem.emitter = element.mesh;
-    
+
     particleSystem.minEmitBox = new BABYLON.Vector3(-0.2, 0, -0.2);
     particleSystem.maxEmitBox = new BABYLON.Vector3(0.2, 0, 0.2);
-    
+
     particleSystem.color1 = new BABYLON.Color4(1, 1, 1, 0.8);
     particleSystem.color2 = new BABYLON.Color4(0.9, 0.9, 1, 0.4);
     particleSystem.colorDead = new BABYLON.Color4(0, 0, 0, 0);
-    
+
     particleSystem.minSize = 0.2;
     particleSystem.maxSize = 0.8;
     particleSystem.minLifeTime = 2;
     particleSystem.maxLifeTime = 4;
     particleSystem.emitRate = 50;
-    
+
     particleSystem.direction1 = new BABYLON.Vector3(-0.5, 3, -0.5);
     particleSystem.direction2 = new BABYLON.Vector3(0.5, 5, 0.5);
-    
+
     // Add periodic eruption
     this.addPeriodicEruption(element);
-    
+
     element.particleSystem = particleSystem;
   }
 
@@ -296,7 +327,7 @@ export class BattlefieldInteractionSystem {
     // Random flickering effect for torches
     this.scene.registerBeforeRender(() => {
       if (!element.isActive || !element.particleSystem) return;
-      
+
       const randomFlicker = 0.8 + Math.random() * 0.4;
       element.particleSystem.emitRate = 30 * randomFlicker;
     });
@@ -305,17 +336,17 @@ export class BattlefieldInteractionSystem {
   private addPeriodicEruption(element: InteractiveElement): void {
     // Geyser erupts every 10-15 seconds
     let nextEruption = Date.now() + (10 + Math.random() * 5) * 1000;
-    
+
     this.scene.registerBeforeRender(() => {
       if (!element.isActive || !element.particleSystem) return;
-      
+
       const now = Date.now();
       if (now >= nextEruption) {
         // Trigger eruption
         element.particleSystem.emitRate = 200;
         element.particleSystem.minEmitPower = 4;
         element.particleSystem.maxEmitPower = 8;
-        
+
         // Return to normal after 3 seconds
         setTimeout(() => {
           if (element.particleSystem) {
@@ -324,7 +355,7 @@ export class BattlefieldInteractionSystem {
             element.particleSystem.maxEmitPower = 3;
           }
         }, 3000);
-        
+
         nextEruption = now + (10 + Math.random() * 5) * 1000;
       }
     });
@@ -333,48 +364,48 @@ export class BattlefieldInteractionSystem {
   private createFireTexture(): BABYLON.DynamicTexture {
     const texture = new BABYLON.DynamicTexture('fireTexture', 64, this.scene);
     const context = texture.getContext();
-    
+
     const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
     gradient.addColorStop(0, 'rgba(255, 200, 100, 1)');
     gradient.addColorStop(0.5, 'rgba(255, 100, 50, 0.8)');
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    
+
     context.fillStyle = gradient;
     context.fillRect(0, 0, 64, 64);
     texture.update();
-    
+
     return texture;
   }
 
   private createWaterTexture(): BABYLON.DynamicTexture {
     const texture = new BABYLON.DynamicTexture('waterTexture', 32, this.scene);
     const context = texture.getContext();
-    
+
     const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
     gradient.addColorStop(0, 'rgba(200, 230, 255, 1)');
     gradient.addColorStop(0.7, 'rgba(150, 200, 255, 0.6)');
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    
+
     context.fillStyle = gradient;
     context.fillRect(0, 0, 32, 32);
     texture.update();
-    
+
     return texture;
   }
 
   private createSteamTexture(): BABYLON.DynamicTexture {
     const texture = new BABYLON.DynamicTexture('steamTexture', 128, this.scene);
     const context = texture.getContext();
-    
+
     const gradient = context.createRadialGradient(64, 64, 0, 64, 64, 64);
     gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
     gradient.addColorStop(0.5, 'rgba(240, 240, 255, 0.4)');
     gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    
+
     context.fillStyle = gradient;
     context.fillRect(0, 0, 128, 128);
     texture.update();
-    
+
     return texture;
   }
 
@@ -426,11 +457,11 @@ export class BattlefieldInteractionSystem {
     if (element.particleSystem) {
       element.particleSystem.start();
     }
-    
+
     if (element.animations) {
       element.animations.forEach(animation => animation.play());
     }
-    
+
     if (element.onActivate) {
       element.onActivate();
     }
@@ -440,11 +471,11 @@ export class BattlefieldInteractionSystem {
     if (element.particleSystem) {
       element.particleSystem.stop();
     }
-    
+
     if (element.animations) {
       element.animations.forEach(animation => animation.pause());
     }
-    
+
     if (element.onDeactivate) {
       element.onDeactivate();
     }
@@ -456,26 +487,31 @@ export class BattlefieldInteractionSystem {
   public updateBattlefieldState(newState: Partial<BattlefieldState>): void {
     const previousState = { ...this.battlefieldState };
     this.battlefieldState = { ...this.battlefieldState, ...newState };
-    
+
     // Apply environmental changes based on state
     this.syncEnvironmentWithState();
-    
+
     // Notify callbacks
-    this.stateChangeCallbacks.forEach(callback => callback(this.battlefieldState));
-    
-    console.log('[BattlefieldInteractionSystem] State updated:', this.battlefieldState);
+    this.stateChangeCallbacks.forEach(callback =>
+      callback(this.battlefieldState),
+    );
+
+    console.log(
+      '[BattlefieldInteractionSystem] State updated:',
+      this.battlefieldState,
+    );
   }
 
   private syncEnvironmentWithState(): void {
     // Adjust lighting based on time of day
     this.adjustLightingForTimeOfDay();
-    
+
     // Apply weather effects
     this.applyWeatherEffects();
-    
+
     // Adjust for season
     this.applySeasonalEffects();
-    
+
     // Respond to player mood
     this.adjustForPlayerMood();
   }
@@ -483,9 +519,12 @@ export class BattlefieldInteractionSystem {
   private adjustLightingForTimeOfDay(): void {
     const lights = this.scene.lights;
     const timeMultiplier = this.getTimeMultiplier();
-    
+
     lights.forEach(light => {
-      if (light instanceof BABYLON.DirectionalLight || light instanceof BABYLON.HemisphericLight) {
+      if (
+        light instanceof BABYLON.DirectionalLight ||
+        light instanceof BABYLON.HemisphericLight
+      ) {
         light.intensity = Math.max(0.1, light.intensity * timeMultiplier);
       }
     });
@@ -493,18 +532,23 @@ export class BattlefieldInteractionSystem {
 
   private getTimeMultiplier(): number {
     switch (this.battlefieldState.timeOfDay) {
-      case 'dawn': return 0.6;
-      case 'day': return 1.0;
-      case 'dusk': return 0.4;
-      case 'night': return 0.2;
-      default: return 1.0;
+      case 'dawn':
+        return 0.6;
+      case 'day':
+        return 1.0;
+      case 'dusk':
+        return 0.4;
+      case 'night':
+        return 0.2;
+      default:
+        return 1.0;
     }
   }
 
   private applyWeatherEffects(): void {
     // Remove existing weather effects
     this.clearWeatherEffects();
-    
+
     switch (this.battlefieldState.weather) {
       case 'rain':
         this.createRainEffect();
@@ -523,9 +567,10 @@ export class BattlefieldInteractionSystem {
 
   private clearWeatherEffects(): void {
     // Clear previous weather particle systems
-    this.battlefieldState.activeEffects = this.battlefieldState.activeEffects.filter(effect => 
-      !effect.startsWith('weather_')
-    );
+    this.battlefieldState.activeEffects =
+      this.battlefieldState.activeEffects.filter(
+        effect => !effect.startsWith('weather_'),
+      );
   }
 
   private createRainEffect(): void {
@@ -560,7 +605,7 @@ export class BattlefieldInteractionSystem {
   private adjustForPlayerMood(): void {
     // Adjust particle intensity, colors, etc. based on player mood
     const moodIntensity = this.getMoodIntensity();
-    
+
     this.interactiveElements.forEach(element => {
       if (element.particleSystem) {
         element.particleSystem.emitRate *= moodIntensity;
@@ -570,11 +615,16 @@ export class BattlefieldInteractionSystem {
 
   private getMoodIntensity(): number {
     switch (this.battlefieldState.playerMood) {
-      case 'calm': return 0.7;
-      case 'excited': return 1.3;
-      case 'tense': return 1.1;
-      case 'victorious': return 1.5;
-      default: return 1.0;
+      case 'calm':
+        return 0.7;
+      case 'excited':
+        return 1.3;
+      case 'tense':
+        return 1.1;
+      case 'victorious':
+        return 1.5;
+      default:
+        return 1.0;
     }
   }
 
@@ -609,15 +659,15 @@ export class BattlefieldInteractionSystem {
       if (element.particleSystem) {
         element.particleSystem.dispose();
       }
-      
+
       if (element.audioSource) {
         element.audioSource.dispose();
       }
-      
+
       if (element.animations) {
         element.animations.forEach(animation => animation.dispose());
       }
-      
+
       this.interactiveElements.delete(elementId);
     }
   }
@@ -630,11 +680,11 @@ export class BattlefieldInteractionSystem {
     this.interactiveElements.forEach((element, id) => {
       this.removeInteractiveElement(id);
     });
-    
+
     if (this.hoverHighlight) {
       this.hoverHighlight.dispose();
     }
-    
+
     this.stateChangeCallbacks = [];
     console.log('[BattlefieldInteractionSystem] Disposed');
   }
