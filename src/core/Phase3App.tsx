@@ -40,6 +40,7 @@ import { LazyGameContainer } from '../game/components/LazyGameContainer';
 import { useDynamicSizing } from '../utils/userAgentSizing';
 import MTGArenaGame from '../components/MTGArenaGame';
 import Enhanced3DArenaGame from '../components/Enhanced3DArenaGame';
+import BattlefieldDemo from '../components/BattlefieldDemo';
 import '../styles/mtg-arena.css';
 
 // Types
@@ -880,6 +881,7 @@ const Phase3App = () => {
                   <Route path="/decks" element={<DecksPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/play" element={<PlayPage />} />
+                  <Route path="/battlefield" element={<BattlefieldDemo />} />
                   <Route
                     path="/auth/callback/:provider"
                     element={<OAuthCallback />}
