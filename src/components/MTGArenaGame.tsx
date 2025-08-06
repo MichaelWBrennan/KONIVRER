@@ -51,6 +51,7 @@ interface GameState {
   turn: 'player' | 'opponent';
   phase: 'untap' | 'upkeep' | 'draw' | 'main1' | 'combat' | 'main2' | 'end';
   stack: MTGCard[];
+  revealedOpponentCards: string[]; // gameIds of opponent cards that are revealed by effects
 }
 
 const MTGArenaGame: React.FC = () => {
@@ -122,6 +123,7 @@ const MTGArenaGame: React.FC = () => {
       turn: 'player',
       phase: 'main1',
       stack: [],
+      revealedOpponentCards: [], // No opponent cards are revealed by default
     };
   }
 
@@ -172,6 +174,17 @@ const MTGArenaGame: React.FC = () => {
     setHoveredZone(null);
   };
 
+  // Function to reveal opponent cards (for testing card effects)
+  const toggleRevealOpponentHand = () => {
+    setGameState(prev => ({
+      ...prev,
+      revealedOpponentCards: 
+        prev.revealedOpponentCards.length === 0 
+          ? prev.opponent.hand.map(card => card.gameId) // Reveal all
+          : [] // Hide all
+    }));
+  };
+
   const nextPhase = () => {
     const phases: GameState['phase'][] = [
       'untap',
@@ -215,6 +228,37 @@ const MTGArenaGame: React.FC = () => {
     });
   };
 
+  // Card Back Component for hidden cards
+  const CardBack: React.FC<{
+    style?: React.CSSProperties;
+  }> = ({ style }) => (
+    <motion.div
+      style={style}
+      className="card mtg-card card-back opponent hand"
+      whileHover={{
+        scale: 1.05,
+        rotateX: -5,
+        translateZ: 30,
+        transition: { duration: 0.2 },
+      }}
+      whileTap={{ scale: 0.95 }}
+      layout
+    >
+      <div className="card-back-content">
+        <div className="card-back-pattern">
+          <div className="konivrer-logo">⭐</div>
+          <div className="card-back-title">KONIVRER</div>
+          <div className="card-back-subtitle">Trading Card Game</div>
+          <div className="card-back-design">
+            <div className="pattern-line"></div>
+            <div className="pattern-line"></div>
+            <div className="pattern-line"></div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
   const CardComponent: React.FC<{
     card: MTGCard;
     style?: React.CSSProperties;
@@ -250,6 +294,17 @@ const MTGArenaGame: React.FC = () => {
 
       return baseStyle;
     };
+
+    // Check if this opponent hand card should be hidden
+    const shouldShowCardBack = 
+      card.owner === 'opponent' && 
+      card.zone === 'hand' && 
+      !gameState.revealedOpponentCards.includes(card.gameId);
+
+    // If card should be hidden, show card back
+    if (shouldShowCardBack) {
+      return <CardBack style={get3DStyle()} />;
+    }
 
     return (
       <motion.div
@@ -393,6 +448,19 @@ const MTGArenaGame: React.FC = () => {
               transition={{ duration: 0.2 }}
             >
               Next Phase
+            </motion.button>
+            <motion.button
+              className="reveal-btn"
+              onClick={toggleRevealOpponentHand}
+              whileHover={{ scale: 1.05, translateZ: 15 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                marginLeft: '10px',
+                background: gameState.revealedOpponentCards.length > 0 ? '#dc3545' : '#28a745',
+              }}
+            >
+              {gameState.revealedOpponentCards.length > 0 ? 'Hide' : 'Reveal'} Opponent Hand
             </motion.button>
           </div>
         </div>
