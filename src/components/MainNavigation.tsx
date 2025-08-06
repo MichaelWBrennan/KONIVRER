@@ -13,10 +13,14 @@ type ActiveView = 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'myDecks' | 'gam
 const MainNavigation: React.FC = () => {
   const { 
     user, 
+    setUser,
     currentDeck, 
     setCurrentDeck, 
     showLoginModal, 
-    setShowLoginModal 
+    setShowLoginModal,
+    addCardToDeck,
+    createDeck,
+    importDeck
   } = useContext(AppContext);
   
   const [activeView, setActiveView] = useState<ActiveView>('cardSearch');
@@ -73,8 +77,22 @@ const MainNavigation: React.FC = () => {
         return (
           <UnifiedCardSearch
             onCardSelect={(card) => {
-              console.log('Card selected:', card);
-              // Could auto-switch to deck builder here
+              // Add card to current deck if exists, or prompt to create new deck
+              if (currentDeck) {
+                addCardToDeck(card.id);
+                console.log(`Added ${card.name} to ${currentDeck.name}`);
+              } else if (user) {
+                // Create a new deck if none exists
+                const newDeck = createDeck('My Deck', 'New deck from card search', false);
+                setCurrentDeck(newDeck);
+                addCardToDeck(card.id, newDeck.id);
+                console.log(`Created new deck and added ${card.name}`);
+                // Optionally switch to deck builder view
+                // setActiveView('deckBuilder');
+              } else {
+                // Prompt user to login
+                setShowLoginModal(true);
+              }
             }}
           />
         );
@@ -98,8 +116,12 @@ const MainNavigation: React.FC = () => {
               console.log('Deck selected:', deck);
             }}
             onImportDeck={(deck) => {
-              setCurrentDeck(deck);
+              importDeck(deck);
               setActiveView('deckBuilder');
+            }}
+            onPlayWithDeck={(deck) => {
+              importDeck(deck);
+              setActiveView('game');
             }}
           />
         );
@@ -111,6 +133,10 @@ const MainNavigation: React.FC = () => {
             onDeckSelect={(deck) => {
               setCurrentDeck(deck);
               setActiveView('deckBuilder');
+            }}
+            onPlayWithDeck={(deck) => {
+              setCurrentDeck(deck);
+              setActiveView('game');
             }}
           />
         );
@@ -149,8 +175,10 @@ const MainNavigation: React.FC = () => {
               <button 
                 onClick={() => {
                   // Logout functionality
+                  setUser(null);
+                  setCurrentDeck(null);
                   localStorage.removeItem('konivrer_user');
-                  window.location.reload();
+                  localStorage.removeItem('konivrer_current_deck');
                 }}
                 className="logout-btn"
               >
@@ -234,10 +262,11 @@ const MainNavigation: React.FC = () => {
       {/* Login Modal */}
       {showLoginModal && (
         <SimpleEnhancedLoginModal
+          isOpen={showLoginModal}
           onClose={() => setShowLoginModal(false)}
           onLogin={(userData) => {
             // Handle successful login
-            console.log('User logged in:', userData);
+            setUser(userData);
             setShowLoginModal(false);
           }}
         />

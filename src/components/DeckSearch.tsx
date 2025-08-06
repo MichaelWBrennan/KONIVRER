@@ -7,12 +7,14 @@ import '../styles/deck-search.css';
 interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
   onImportDeck?: (deck: Deck) => void;
+  onPlayWithDeck?: (deck: Deck) => void;
   showMyDecks?: boolean;
 }
 
 const DeckSearch: React.FC<DeckSearchProps> = ({ 
   onDeckSelect, 
   onImportDeck,
+  onPlayWithDeck,
   showMyDecks = false 
 }) => {
   const { user, decks, publicDecks, setPublicDecks, importDeck } = useContext(AppContext);
@@ -266,14 +268,38 @@ const DeckSearch: React.FC<DeckSearchProps> = ({
                   
                   <div className="deck-actions">
                     {!showMyDecks && user && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleImport(deck);
+                          }}
+                          className="import-btn"
+                        >
+                          Import
+                        </button>
+                        {onPlayWithDeck && (
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onPlayWithDeck(deck);
+                            }}
+                            className="play-btn"
+                          >
+                            Play with Deck
+                          </button>
+                        )}
+                      </>
+                    )}
+                    {showMyDecks && onPlayWithDeck && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleImport(deck);
+                          onPlayWithDeck(deck);
                         }}
-                        className="import-btn"
+                        className="play-btn"
                       >
-                        Import
+                        Play
                       </button>
                     )}
                   </div>

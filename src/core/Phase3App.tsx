@@ -278,61 +278,6 @@ const useAdvancedAutonomous = () => {
   return autonomousRef.current;
 };
 
-// Login Modal Component
-// Enhanced Login Modal Component
-const LoginModal = () => {
-  const { showLoginModal, setShowLoginModal, setUser } = useContext(AppContext);
-
-  const handleLogin = (user: User) => {
-    setUser(user);
-  };
-
-  return (
-    <SimpleEnhancedLoginModal
-      isOpen={showLoginModal}
-      onClose={() => setShowLoginModal(false)}
-      onLogin={handleLogin}
-    />
-  );
-};
-
-// Page Container Component
-const PageContainer = ({
-  children,
-  title,
-}: {
-  children: React.ReactNode;
-  title?: string;
-}) => (
-  <div
-    style={{
-      padding: '20px 20px calc(50px + env(safe-area-inset-bottom, 20px))',
-      maxWidth: '1200px',
-      margin: '0 auto',
-      overflowX: 'hidden',
-      overflowY: 'auto',
-      WebkitOverflowScrolling: 'touch',
-    }}
-  >
-    {title && (
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        style={{
-          color: '#d4af37',
-          marginBottom: '30px',
-          textAlign: 'center',
-          fontSize: '36px',
-        }}
-      >
-        {title}
-      </motion.h1>
-    )}
-    {children}
-  </div>
-);
-
 // App Container Component
 const AppContainer = ({ children }: { children: React.ReactNode }) => (
   <div
@@ -346,7 +291,6 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
       overflow: 'hidden',
     }}
   >
-    <SkipToContent />
     {/* Mystical background effects */}
     <motion.div
       initial={{ opacity: 0 }}
@@ -365,454 +309,10 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
       }}
     />
     <div style={{ position: 'relative', zIndex: 2 }}>
-      <main id="main-content">{children}</main>
+      {children}
     </div>
   </div>
 );
-
-// Navigation links interface
-interface NavLink {
-  to: string;
-  label: string;
-  onClick?: () => void;
-  special?: boolean;
-}
-
-// Header component removed
-
-const Footer = () => {
-  const location = useLocation();
-  const { user, setShowLoginModal } = useContext(AppContext);
-  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-
-  // Update viewport height when window resizes or on orientation change
-  useEffect(() => {
-    const updateViewportHeight = () => {
-      // Use a small timeout to ensure the browser has finished any UI adjustments
-      setTimeout(() => {
-        // Set a custom CSS variable for the real viewport height
-        document.documentElement.style.setProperty(
-          '--vh',
-          `${window.innerHeight * 0.01}px`,
-        );
-        setViewportHeight(window.innerHeight);
-      }, 100);
-    };
-
-    // Initial update
-    updateViewportHeight();
-
-    // Add event listeners
-    window.addEventListener('resize', updateViewportHeight);
-    window.addEventListener('orientationchange', updateViewportHeight);
-
-    // Cleanup
-    return () => {
-      window.removeEventListener('resize', updateViewportHeight);
-      window.removeEventListener('orientationchange', updateViewportHeight);
-    };
-  }, []);
-
-  // Create base navigation links
-  const baseNavLinks: NavLink[] = [
-    { to: '/cards', label: 'Cards' },
-    { to: '/decks', label: 'Decks' },
-    { to: '/events', label: 'Events' },
-    { to: '/play', label: 'Play' },
-    {
-      to: '#',
-      label: user ? 'Profile' : 'Login',
-      onClick: () => setShowLoginModal(true),
-    },
-  ];
-
-  // Add Home button if not on the home page
-  const navLinks: NavLink[] =
-    location.pathname !== '/'
-      ? [{ to: '/', label: 'Home' }, ...baseNavLinks]
-      : baseNavLinks;
-
-  return (
-    <motion.footer
-      initial={{ y: 100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      style={{
-        position: 'fixed',
-        bottom: 'env(safe-area-inset-bottom, 0px)', // Use safe area inset for iOS
-        left: 0,
-        right: 0,
-        zIndex: 1001, // Higher z-index to ensure it's above everything
-        background:
-          'linear-gradient(to top, rgba(20, 20, 20, 0.98), rgba(15, 15, 15, 0.95))',
-        backdropFilter: 'blur(20px)',
-        borderTop: '2px solid rgba(212, 175, 55, 0.4)',
-        padding: '10px 0',
-        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.7)',
-        height: '60px', // Fixed height for the footer
-        transform: 'translateZ(0)', // Force hardware acceleration
-        willChange: 'transform', // Optimize for animations
-      }}
-    >
-      <nav
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          margin: '0 auto',
-          padding: '0 10px',
-          height: '100%',
-        }}
-      >
-        {/* Navigation links in a single row with equal spacing */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '100%',
-            maxWidth: '100%',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            {navLinks.map(({ to, label, onClick, special }) => (
-              <motion.div
-                key={to}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                style={{ flex: '1 1 0', minWidth: '0' }} // Equal width distribution
-              >
-                {onClick ? (
-                  <button
-                    onClick={onClick}
-                    style={{
-                      color: '#ccc',
-                      textDecoration: 'none',
-                      fontSize: 'clamp(11px, 2.5vw, 14px)', // Responsive font size
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: 'clamp(4px, 1.5vw, 6px) clamp(6px, 2vw, 8px)', // Responsive padding
-                      borderRadius: '6px',
-                      background: 'transparent',
-                      border: '1px solid transparent',
-                      borderBottom: '2px solid transparent',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer',
-                      whiteSpace: 'nowrap',
-                      minWidth: '0',
-                      textAlign: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    {label}
-                  </button>
-                ) : (
-                  <Link
-                    to={to}
-                    style={{
-                      color: location.pathname === to ? '#d4af37' : '#ccc',
-                      textDecoration: 'none',
-                      fontSize: 'clamp(11px, 2.5vw, 14px)', // Responsive font size
-                      fontWeight: 'bold',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      padding: 'clamp(4px, 1.5vw, 6px) clamp(6px, 2vw, 8px)', // Responsive padding
-                      borderRadius: '6px',
-                      background:
-                        location.pathname === to
-                          ? 'rgba(212, 175, 55, 0.1)'
-                          : 'transparent',
-                      border: '1px solid transparent',
-                      borderBottom:
-                        location.pathname === to
-                          ? '2px solid #d4af37'
-                          : '2px solid transparent',
-                      transition: 'all 0.3s ease',
-                      boxShadow: 'none',
-                      whiteSpace: 'nowrap',
-                      minWidth: '0',
-                      textAlign: 'center',
-                      width: '100%',
-                    }}
-                  >
-                    {label}
-                  </Link>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </nav>
-    </motion.footer>
-  );
-};
-
-const Card = ({
-  children,
-  delay = 0,
-  ...props
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  [_key: string]: any;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    transition={{ duration: 0.5, delay, ease: 'easeOut' }}
-    whileHover={{
-      scale: 1.02,
-      boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
-      borderColor: 'rgba(212, 175, 55, 0.5)',
-    }}
-    style={{
-      background: 'rgba(255, 255, 255, 0.05)',
-      border: '1px solid rgba(212, 175, 55, 0.3)',
-      borderRadius: '12px',
-      padding: '30px',
-      backdropFilter: 'blur(10px)',
-      transition: 'all 0.3s ease',
-      cursor: 'pointer',
-      position: 'relative',
-      overflow: 'hidden',
-    }}
-    {...props}
-  >
-    {/* Subtle glow effect */}
-    <div
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background:
-          'linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.05) 50%, transparent 70%)',
-        pointerEvents: 'none',
-      }}
-    />
-    <div style={{ position: 'relative', zIndex: 1 }}>{children}</div>
-  </motion.div>
-);
-
-// Home Page Component
-// Home Page Component - MTG Arena Game
-const HomePage = () => {
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 1,
-      }}
-    >
-      <Enhanced3DArenaGame />
-    </div>
-  );
-};
-
-const CardsPage = () => {
-  // Use the official KONIVRER card database (65 cards)
-  const allCards: Card[] = KONIVRER_CARDS;
-
-  // Start with empty search results - user must search to see cards
-  const [searchResults, setSearchResults] = useState<Card[]>([]);
-
-  const handleSearchResults = (results: {
-    cards: Card[];
-    totalCount: number;
-    searchTime: number;
-  }) => {
-    setSearchResults(results.cards);
-  };
-
-  return (
-    <PageContainer title="Mystical Card Database">
-      <UnifiedCardSearch
-        cards={allCards}
-        onSearchResults={handleSearchResults}
-        showAdvancedFilters={true}
-        showSortOptions={true}
-        showSearchHistory={true}
-        initialMode="syntax"
-      />
-    </PageContainer>
-  );
-};
-
-const DecksPage = () => {
-  const { decks } = useContext(AppContext);
-
-  return (
-    <PageContainer title="Your Decks">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '20px',
-        }}
-        data-search-type="deck"
-      >
-        {decks.map((deck, index) => (
-          <Card key={deck.id} delay={index * 0.1}>
-            <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
-              {deck.name}
-            </h3>
-            <p style={{ color: '#ccc', marginBottom: '5px' }}>
-              {deck.description}
-            </p>
-            <p style={{ color: '#888' }}>{deck.cards.length} cards</p>
-          </Card>
-        ))}
-
-        {/* Create New Deck Card */}
-        <motion.div
-          whileHover={{
-            scale: 1.02,
-            boxShadow: '0 10px 30px rgba(212, 175, 55, 0.2)',
-          }}
-          onClick={() => {
-            // Create new deck functionality
-            const newDeck = {
-              id: Date.now(),
-              name: `New Deck ${Date.now()}`,
-              cards: [],
-              description: 'A new deck ready for customization',
-            };
-            console.log('Creating new deck:', newDeck);
-            alert('Deck creation functionality would be implemented here!');
-          }}
-          style={{
-            background: 'rgba(212, 175, 55, 0.05)',
-            border: '2px dashed rgba(212, 175, 55, 0.3)',
-            borderRadius: '12px',
-            padding: '30px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            minHeight: '200px',
-          }}
-          role="button"
-          tabIndex={0}
-          onKeyDown={e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              const newDeck = {
-                id: Date.now(),
-                name: `New Deck ${Date.now()}`,
-                cards: [],
-                description: 'A new deck ready for customization',
-              };
-              console.log('Creating new deck:', newDeck);
-              alert('Deck creation functionality would be implemented here!');
-            }
-          }}
-          aria-label="Create new deck"
-          data-action="create-deck"
-          data-testid="create-deck-button"
-        >
-          <div
-            style={{ fontSize: '40px', color: '#d4af37', marginBottom: '10px' }}
-          >
-            +
-          </div>
-          <p style={{ color: '#d4af37', fontWeight: 'bold' }}>
-            Create New Deck
-          </p>
-        </motion.div>
-      </motion.div>
-    </PageContainer>
-  );
-};
-
-const EventsPage = () => (
-  <PageContainer title="Events">
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-        gap: '20px',
-      }}
-    >
-      <Card data-search-type="event">
-        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
-          Weekly Championship
-        </h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>
-          Compete for mystical rewards
-        </p>
-        <p style={{ color: '#888' }}>Entry Fee: 100 gold</p>
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>
-          Status: Open Registration
-        </p>
-      </Card>
-      <Card delay={0.1} data-search-type="event">
-        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
-          Elemental Masters
-        </h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>
-          Elite tournament for experienced players
-        </p>
-        <p style={{ color: '#888' }}>Entry Fee: 500 gold</p>
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>
-          Status: Qualification Round
-        </p>
-      </Card>
-      <Card delay={0.2} data-search-type="event">
-        <h3 style={{ color: '#d4af37', marginBottom: '10px' }}>
-          Beginner's Arena
-        </h3>
-        <p style={{ color: '#ccc', marginBottom: '5px' }}>
-          Perfect for new players
-        </p>
-        <p style={{ color: '#888' }}>Entry Fee: Free</p>
-        <p style={{ color: '#666', fontSize: '12px', marginTop: '10px' }}>
-          Status: Always Open
-        </p>
-      </Card>
-    </motion.div>
-  </PageContainer>
-);
-
-// Play Page Component - MTG Arena Game
-const PlayPage = () => {
-  return (
-    <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 1,
-      }}
-    >
-      <HearthstoneBattlefield />
-    </div>
-  );
-};
 
 // Main App Component
 const Phase3App = () => {
@@ -822,6 +322,8 @@ const Phase3App = () => {
   // App state
   const [user, setUser] = useState<User | null>(null);
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [publicDecks, setPublicDecks] = useState<Deck[]>([]);
+  const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showGame, setShowGame] = useState(false);
@@ -845,7 +347,192 @@ const Phase3App = () => {
           // Silent failure - healing will work without service worker
         });
     }
+
+    // Load saved data from localStorage
+    const savedUser = localStorage.getItem('konivrer_user');
+    const savedDecks = localStorage.getItem('konivrer_decks');
+    const savedPublicDecks = localStorage.getItem('konivrer_public_decks');
+    const savedCurrentDeck = localStorage.getItem('konivrer_current_deck');
+    const savedBookmarks = localStorage.getItem('konivrer_bookmarks');
+
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (error) {
+        console.error('Error parsing saved user:', error);
+      }
+    }
+
+    if (savedDecks) {
+      try {
+        setDecks(JSON.parse(savedDecks));
+      } catch (error) {
+        console.error('Error parsing saved decks:', error);
+      }
+    }
+
+    if (savedPublicDecks) {
+      try {
+        setPublicDecks(JSON.parse(savedPublicDecks));
+      } catch (error) {
+        console.error('Error parsing saved public decks:', error);
+      }
+    }
+
+    if (savedCurrentDeck) {
+      try {
+        setCurrentDeck(JSON.parse(savedCurrentDeck));
+      } catch (error) {
+        console.error('Error parsing saved current deck:', error);
+      }
+    }
+
+    if (savedBookmarks) {
+      try {
+        setBookmarks(JSON.parse(savedBookmarks));
+      } catch (error) {
+        console.error('Error parsing saved bookmarks:', error);
+      }
+    }
   }, []);
+
+  // Save data to localStorage when it changes
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('konivrer_user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('konivrer_user');
+    }
+  }, [user]);
+
+  useEffect(() => {
+    localStorage.setItem('konivrer_decks', JSON.stringify(decks));
+  }, [decks]);
+
+  useEffect(() => {
+    localStorage.setItem('konivrer_public_decks', JSON.stringify(publicDecks));
+  }, [publicDecks]);
+
+  useEffect(() => {
+    if (currentDeck) {
+      localStorage.setItem('konivrer_current_deck', JSON.stringify(currentDeck));
+    } else {
+      localStorage.removeItem('konivrer_current_deck');
+    }
+  }, [currentDeck]);
+
+  useEffect(() => {
+    localStorage.setItem('konivrer_bookmarks', JSON.stringify(bookmarks));
+  }, [bookmarks]);
+
+  // App context functions
+  const addCardToDeck = (cardId: string, deckId?: string) => {
+    const targetDeckId = deckId || currentDeck?.id;
+    if (!targetDeckId) return;
+
+    if (targetDeckId === currentDeck?.id && currentDeck) {
+      const existingCard = currentDeck.cards.find(dc => dc.cardId === cardId);
+      const updatedCards = existingCard
+        ? currentDeck.cards.map(dc => 
+            dc.cardId === cardId 
+              ? { ...dc, quantity: dc.quantity + 1 }
+              : dc
+          )
+        : [...currentDeck.cards, { cardId, quantity: 1 }];
+
+      const updatedDeck = {
+        ...currentDeck,
+        cards: updatedCards,
+        updatedAt: new Date()
+      };
+
+      setCurrentDeck(updatedDeck);
+      setDecks(prev => 
+        prev.map(deck => 
+          deck.id === targetDeckId ? updatedDeck : deck
+        )
+      );
+    }
+  };
+
+  const createDeck = (name: string, description: string, isPublic: boolean): Deck => {
+    if (!user) {
+      throw new Error('User must be logged in to create a deck');
+    }
+
+    const newDeck: Deck = {
+      id: `deck_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      name,
+      description,
+      cards: [],
+      authorId: user.id,
+      authorUsername: user.username,
+      isPublic,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      tags: [],
+      format: 'Standard'
+    };
+
+    setDecks(prev => [...prev, newDeck]);
+    
+    if (isPublic) {
+      setPublicDecks(prev => [...prev, newDeck]);
+    }
+
+    return newDeck;
+  };
+
+  const publishDeck = (deckId: string, isPublic: boolean) => {
+    setDecks(prev => 
+      prev.map(deck => 
+        deck.id === deckId 
+          ? { ...deck, isPublic, updatedAt: new Date() }
+          : deck
+      )
+    );
+
+    if (currentDeck?.id === deckId) {
+      setCurrentDeck(prev => 
+        prev ? { ...prev, isPublic, updatedAt: new Date() } : null
+      );
+    }
+
+    const deck = decks.find(d => d.id === deckId) || currentDeck;
+    if (deck) {
+      if (isPublic) {
+        setPublicDecks(prev => {
+          const exists = prev.some(d => d.id === deckId);
+          if (!exists) {
+            return [...prev, { ...deck, isPublic: true, updatedAt: new Date() }];
+          }
+          return prev.map(d => 
+            d.id === deckId ? { ...d, isPublic: true, updatedAt: new Date() } : d
+          );
+        });
+      } else {
+        setPublicDecks(prev => prev.filter(d => d.id !== deckId));
+      }
+    }
+  };
+
+  const importDeck = (deck: Deck) => {
+    if (!user) return;
+
+    const importedDeck: Deck = {
+      ...deck,
+      id: `imported_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      authorId: user.id,
+      authorUsername: user.username,
+      isPublic: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      name: `${deck.name} (Imported)`
+    };
+
+    setDecks(prev => [...prev, importedDeck]);
+    setCurrentDeck(importedDeck);
+  };
 
   // Context value
   const contextValue = {
@@ -853,11 +540,19 @@ const Phase3App = () => {
     setUser,
     decks,
     setDecks,
+    publicDecks,
+    setPublicDecks,
+    currentDeck,
+    setCurrentDeck,
     bookmarks,
     setBookmarks,
     showLoginModal,
     setShowLoginModal,
     setShowGame,
+    addCardToDeck,
+    createDeck,
+    publishDeck,
+    importDeck
   };
 
   return (
@@ -875,32 +570,31 @@ const Phase3App = () => {
         }}
         showSecurityMonitor={process.env.NODE_ENV === 'development'}
       >
-        <AppContainer>
-          <ColorBlindFilters />
-          <Router>
-            <AppProvider>
-              <MainNavigation />
-            </AppProvider>
-          </Router>
-          <Analytics />
-          <SpeedInsights />
-          {/* Development tools disabled for MTG Arena experience
-          {process.env.NODE_ENV === 'development' && (
-            <>
-              <ButtonTester />
-              <SecurityTester />
-            </>
-          )}
-          */}
-        </AppContainer>
+        <AppContext.Provider value={contextValue}>
+          <AppContainer>
+            <SkipToContent />
+            <ColorBlindFilters />
+            <MainNavigation />
+            <Analytics />
+            <SpeedInsights />
+            {/* Development tools disabled for production experience
+            {process.env.NODE_ENV === 'development' && (
+              <>
+                <ButtonTester />
+                <SecurityTester />
+              </>
+            )}
+            */}
+          </AppContainer>
 
-        {/* Game Container */}
-        {showGame && (
-          <LazyGameContainer
-            onClose={() => setShowGame(false)}
-            setShowGame={setShowGame}
-          />
-        )}
+          {/* Game Container */}
+          {showGame && (
+            <LazyGameContainer
+              onClose={() => setShowGame(false)}
+              setShowGame={setShowGame}
+            />
+          )}
+        </AppContext.Provider>
       </AdvancedSecurityProvider>
     </SelfHealingProvider>
   );

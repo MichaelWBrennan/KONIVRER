@@ -183,21 +183,37 @@
 .deck-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 10px;
 }
 
-.import-btn {
+.import-btn,
+.play-btn {
   padding: 8px 16px;
-  background: #d4af37;
-  color: #0f0f0f;
   border: none;
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.import-btn {
+  background: #d4af37;
+  color: #0f0f0f;
 }
 
 .import-btn:hover {
   background: #e6c248;
+  transform: translateY(-1px);
+}
+
+.play-btn {
+  background: #28a745;
+  color: #ffffff;
+}
+
+.play-btn:hover {
+  background: #34ce57;
   transform: translateY(-1px);
 }
 

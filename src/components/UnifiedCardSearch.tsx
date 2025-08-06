@@ -1765,7 +1765,15 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                       )}
                       {onCardSelect && (
                         <div className="card-actions">
-                          <button className="add-to-deck-btn">Add to Deck</button>
+                          <button 
+                            className="add-to-deck-btn"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onCardSelect(card);
+                            }}
+                          >
+                            Add to Deck
+                          </button>
                         </div>
                       )}
                     </motion.div>
