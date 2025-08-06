@@ -36,7 +36,7 @@ import {
   withAdvancedSecurity,
 } from '../security/AdvancedSecuritySystem';
 import OAuthCallback from '../components/OAuthCallback';
-import { GameContainer } from '../game/components/GameContainer';
+import { LazyGameContainer } from '../game/components/LazyGameContainer';
 import { useDynamicSizing } from '../utils/userAgentSizing';
 
 // Types
@@ -966,7 +966,7 @@ const PlayPage = () => {
       data-search-type="game"
       className="play-page-container dynamic-sizing"
     >
-      <GameContainer
+      <LazyGameContainer
         onClose={() => setShowGame(false)}
         setShowGame={setShowGame}
       />
@@ -1068,7 +1068,7 @@ const Phase3App = () => {
 
         {/* Game Container */}
         {showGame && (
-          <GameContainer
+          <LazyGameContainer
             onClose={() => setShowGame(false)}
             setShowGame={setShowGame}
           />
