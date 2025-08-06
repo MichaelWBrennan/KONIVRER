@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { gameEngine } from '../GameEngine';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
+import CardGameUI from './CardGameUI';
 import OrientationPrompt from '../../components/OrientationPrompt';
 import { useDynamicSizing } from '../../utils/userAgentSizing';
 import '../styles/mobile.css';
@@ -24,14 +24,11 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   onClose,
   setShowGame,
 }) => {
-  const gameRef = useRef<HTMLDivElement>(null);
   const [gameState, setGameState] = useState<
     'menu' | 'loading' | 'playing' | 'error'
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  // const [showOrientationPrompt, setShowOrientationPrompt] = useState(false);
-  // const [isLandscape, setIsLandscape] = useState(false);
 
   // Get dynamic sizing based on user agent
   const dynamicSizing = useDynamicSizing();
@@ -82,56 +79,16 @@ export const GameContainer: React.FC<GameContainerProps> = ({
 
     try {
       // Provide immediate feedback - show loading state instantly
-      console.log('[GameContainer] Starting game initialization...');
+      console.log('[GameContainer] Starting card game initialization...');
 
-      // Ensure the ref is available before proceeding
-      if (!gameRef.current) {
-        console.log('[GameContainer] Waiting for game container ref...');
-        // Wait for next render cycle to ensure ref is populated
-        await new Promise<void>(resolve => {
-          const timeoutId = setTimeout(() => {
-            console.log(
-              '[GameContainer] Timeout waiting for ref, proceeding anyway',
-            );
-            resolve();
-          }, 2000); // 2 second timeout
+      // Simple delay to show loading animation
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-          const checkRef = () => {
-            if (gameRef.current) {
-              console.log(
-                '[GameContainer] Game container ref is now available',
-              );
-              clearTimeout(timeoutId);
-              resolve();
-            } else {
-              // Try again on the next frame
-              requestAnimationFrame(checkRef);
-            }
-          };
-          requestAnimationFrame(checkRef);
-        });
-      }
-
-      // Double-check ref is available, if not throw an error
-      if (!gameRef.current) {
-        throw new Error('Game container ref is not available after waiting');
-      }
-
-      const container = gameRef.current;
-      console.log(
-        '[GameContainer] Container ready, initializing game engine...',
-      );
-
-      // Add a small delay to ensure loading UI is visible and prevent immediate jumps
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      // Initialize game engine
-      await gameEngine.init(container);
-
+      // Directly go to playing state (no 3D engine needed)
       setGameState('playing');
-      console.log('[GameEngine] Advanced scenes initialized successfully');
+      console.log('[GameContainer] Card game initialized successfully');
     } catch (_error) {
-      console.error('[GameContainer] Error initializing game engine:', _error);
+      console.error('[GameContainer] Error initializing card game:', _error);
       setError(
         _error instanceof Error ? _error.message : 'Unknown error occurred',
       );
@@ -147,7 +104,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setGameState('menu');
     setSelectedMode(null);
     setError(null);
-    gameEngine.destroy();
+    // No need to destroy game engine anymore
     if (onClose) onClose();
     if (setShowGame) setShowGame(false);
   };
@@ -164,16 +121,14 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      console.log('[GameContainer] Destroying game engine on unmount...');
-      gameEngine.destroy();
+      console.log('[GameContainer] Component unmounting...');
+      // No cleanup needed for card game UI
     };
   }, []);
 
-  // Ensure gameRef is ready when component mounts
+  // Ensure gameRef is ready when component mounts (no longer needed but keeping for compatibility)
   useEffect(() => {
-    if (gameRef.current) {
-      console.log('[GameContainer] Game container ref is ready');
-    }
+    console.log('[GameContainer] Game container ready for card game');
   }, []);
 
   const handleOrientationChange = (landscape: boolean) => {
@@ -182,40 +137,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       'Orientation changed to:',
       landscape ? 'landscape' : 'portrait',
     );
-    // setIsLandscape(landscape);
-    // setShowOrientationPrompt(!landscape);
   };
-
-  // Add touch event handlers for better mobile experience
-  useEffect(() => {
-    const handleTouchStart = (e: TouchEvent) => {
-      // Prevent default touch behaviors that might interfere with game
-      if (gameState === 'playing') {
-        e.preventDefault();
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      // Prevent scrolling when game is active
-      if (gameState === 'playing') {
-        e.preventDefault();
-      }
-    };
-
-    if (gameState === 'playing') {
-      document.addEventListener('touchstart', handleTouchStart, {
-        passive: false,
-      });
-      document.addEventListener('touchmove', handleTouchMove, {
-        passive: false,
-      });
-    }
-
-    return () => {
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchmove', handleTouchMove);
-    };
-  }, [gameState]);
 
   const containerStyle: React.CSSProperties = {
     position: 'relative',
@@ -242,27 +164,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         ? '0 4px 20px rgba(0, 0, 0, 0.3)'
         : 'none',
     boxSizing: 'border-box',
-    // Enhanced responsiveness
-    aspectRatio:
-      dynamicSizing.width && dynamicSizing.height
-        ? `${dynamicSizing.width} / ${dynamicSizing.height}`
-        : 'auto',
-    // Better mobile performance
-    transform: 'translateZ(0)',
-    willChange: 'transform',
-    // Ensure proper sizing coordination with parent container
-    '--dynamic-width': dynamicSizing.cssWidth,
-    '--dynamic-height': dynamicSizing.cssHeight,
-    '--scale-factor': `${dynamicSizing.scaleFactor}`,
   } as React.CSSProperties;
-
-  const gameCanvasStyle: React.CSSProperties = {
-    width: '100%',
-    height: '100%',
-    display: 'block',
-    touchAction: 'none', // Allow full touch control for game canvas
-    outline: 'none',
-  };
 
   return (
     <div
@@ -474,60 +376,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         )}
 
         {gameState === 'playing' && (
-          <motion.div
-            key="game"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{ width: '100%', height: '100%', position: 'relative' }}
-          >
-            {/* Close button for game */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1 }}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={handleClose}
-              style={{
-                position: 'absolute',
-                top: '20px',
-                right: '20px',
-                zIndex: 10,
-                width: '48px',
-                height: '48px',
-                background: 'rgba(0, 0, 0, 0.7)',
-                border: '2px solid rgba(212, 175, 55, 0.5)',
-                borderRadius: '50%',
-                color: '#d4af37',
-                fontSize: '1.2rem',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-              }}
-            >
-              ✕
-            </motion.button>
-          </motion.div>
+          <CardGameUI onClose={handleClose} />
         )}
       </AnimatePresence>
 
-      {/* Always present game canvas container for engine initialization */}
-      <div
-        ref={gameRef}
-        style={{
-          ...gameCanvasStyle,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          visibility: gameState === 'playing' ? 'visible' : 'hidden',
-          zIndex: gameState === 'playing' ? 1 : -1,
-        }}
-      />
     </div>
   );
 };
