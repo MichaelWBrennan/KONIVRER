@@ -1,7 +1,7 @@
 import * as BABYLON from 'babylonjs';
 
 export interface ArenaConfig {
-  theme: 'mystical' | 'ancient' | 'ethereal' | 'cosmic';
+  theme: 'mystical' | 'ancient' | 'ethereal' | 'cosmic' | 'hearthstone';
   quality: 'low' | 'medium' | 'high' | 'ultra';
   enableParticles: boolean;
   enableLighting: boolean;
@@ -328,12 +328,24 @@ export class MysticalArena {
   private async addEnvironmentalDetails(): Promise<void> {
     if (this.config.quality === 'low') return;
     
-    // Add mystical pillars at corners
-    await this.createMysticalPillars();
-    
-    // Add floating runes for ultra quality
-    if (this.config.quality === 'ultra') {
-      await this.createFloatingRunes();
+    if (this.config.theme === 'hearthstone') {
+      // Add Hearthstone-style tavern buildings and furniture
+      await this.createTavernBuildings();
+      await this.createWoodenFurniture();
+      await this.createStoneArchitecture();
+      
+      // Add floating runes for ultra quality
+      if (this.config.quality === 'ultra') {
+        await this.createTavernDecorations();
+      }
+    } else {
+      // Add mystical pillars at corners for other themes
+      await this.createMysticalPillars();
+      
+      // Add floating runes for ultra quality
+      if (this.config.quality === 'ultra') {
+        await this.createFloatingRunes();
+      }
     }
   }
 
@@ -414,6 +426,350 @@ export class MysticalArena {
     }
   }
 
+  private async createTavernBuildings(): Promise<void> {
+    const colors = this.getThemeColors();
+    
+    // Main tavern building in the background
+    const tavernMain = BABYLON.MeshBuilder.CreateBox(
+      'tavernMain',
+      { width: 8, height: 6, depth: 4 },
+      this.scene
+    );
+    tavernMain.position = new BABYLON.Vector3(0, 3, -12);
+    
+    const tavernMaterial = new BABYLON.PBRMaterial('tavernMaterial', this.scene);
+    tavernMaterial.baseColor = new BABYLON.Color3(0.4, 0.3, 0.2); // Dark wood
+    tavernMaterial.metallicFactor = 0.1;
+    tavernMaterial.roughnessFactor = 0.9;
+    tavernMaterial.emissiveColor = colors.pillarGlow;
+    tavernMaterial.emissiveIntensity = 0.2;
+    
+    tavernMain.material = tavernMaterial;
+    this.meshes.set('tavernMain', tavernMain);
+    this.materials.set('tavernMain', tavernMaterial);
+    
+    // Tavern roof
+    const roof = BABYLON.MeshBuilder.CreateCylinder(
+      'tavernRoof',
+      { height: 4, diameterTop: 0, diameterBottom: 10, tessellation: 4 },
+      this.scene
+    );
+    roof.position = new BABYLON.Vector3(0, 7.5, -12);
+    roof.rotation.y = Math.PI / 4; // Diamond shape
+    
+    const roofMaterial = new BABYLON.PBRMaterial('roofMaterial', this.scene);
+    roofMaterial.baseColor = new BABYLON.Color3(0.3, 0.2, 0.15); // Dark brown roof
+    roofMaterial.metallicFactor = 0.05;
+    roofMaterial.roughnessFactor = 0.95;
+    
+    roof.material = roofMaterial;
+    this.meshes.set('tavernRoof', roof);
+    this.materials.set('tavernRoof', roofMaterial);
+    
+    // Side buildings
+    const sideBuilding1 = BABYLON.MeshBuilder.CreateBox(
+      'sideBuilding1',
+      { width: 4, height: 4, depth: 3 },
+      this.scene
+    );
+    sideBuilding1.position = new BABYLON.Vector3(-8, 2, -10);
+    sideBuilding1.material = tavernMaterial;
+    this.meshes.set('sideBuilding1', sideBuilding1);
+    
+    const sideBuilding2 = BABYLON.MeshBuilder.CreateBox(
+      'sideBuilding2',
+      { width: 4, height: 4, depth: 3 },
+      this.scene
+    );
+    sideBuilding2.position = new BABYLON.Vector3(8, 2, -10);
+    sideBuilding2.material = tavernMaterial;
+    this.meshes.set('sideBuilding2', sideBuilding2);
+    
+    // Tavern entrance pillars
+    const pillar1 = BABYLON.MeshBuilder.CreateCylinder(
+      'entrancePillar1',
+      { height: 5, diameter: 0.8 },
+      this.scene
+    );
+    pillar1.position = new BABYLON.Vector3(-2, 2.5, -8);
+    
+    const pillar2 = BABYLON.MeshBuilder.CreateCylinder(
+      'entrancePillar2',
+      { height: 5, diameter: 0.8 },
+      this.scene
+    );
+    pillar2.position = new BABYLON.Vector3(2, 2.5, -8);
+    
+    const stoneMaterial = new BABYLON.PBRMaterial('stonePillarMaterial', this.scene);
+    stoneMaterial.baseColor = new BABYLON.Color3(0.35, 0.3, 0.25); // Stone color
+    stoneMaterial.metallicFactor = 0.0;
+    stoneMaterial.roughnessFactor = 0.8;
+    stoneMaterial.emissiveColor = colors.wallGlow;
+    stoneMaterial.emissiveIntensity = 0.15;
+    
+    pillar1.material = stoneMaterial;
+    pillar2.material = stoneMaterial;
+    this.meshes.set('entrancePillar1', pillar1);
+    this.meshes.set('entrancePillar2', pillar2);
+    this.materials.set('stonePillarMaterial', stoneMaterial);
+  }
+
+  private async createWoodenFurniture(): Promise<void> {
+    const colors = this.getThemeColors();
+    
+    // Create wooden material
+    const woodMaterial = new BABYLON.PBRMaterial('woodMaterial', this.scene);
+    woodMaterial.baseColor = new BABYLON.Color3(0.4, 0.25, 0.15); // Rich brown wood
+    woodMaterial.metallicFactor = 0.0;
+    woodMaterial.roughnessFactor = 0.7;
+    woodMaterial.emissiveColor = colors.pillarGlow;
+    woodMaterial.emissiveIntensity = 0.1;
+    
+    // Tavern tables
+    const tablePositions = [
+      new BABYLON.Vector3(-4, 0, -2),
+      new BABYLON.Vector3(4, 0, -2),
+      new BABYLON.Vector3(-4, 0, 2),
+      new BABYLON.Vector3(4, 0, 2)
+    ];
+    
+    tablePositions.forEach((position, index) => {
+      // Table top
+      const tableTop = BABYLON.MeshBuilder.CreateCylinder(
+        `tableTop_${index}`,
+        { height: 0.2, diameter: 2 },
+        this.scene
+      );
+      tableTop.position = position.clone();
+      tableTop.position.y = 1.5;
+      tableTop.material = woodMaterial;
+      this.meshes.set(`tableTop_${index}`, tableTop);
+      
+      // Table leg
+      const tableLeg = BABYLON.MeshBuilder.CreateCylinder(
+        `tableLeg_${index}`,
+        { height: 1.5, diameter: 0.2 },
+        this.scene
+      );
+      tableLeg.position = position.clone();
+      tableLeg.position.y = 0.75;
+      tableLeg.material = woodMaterial;
+      this.meshes.set(`tableLeg_${index}`, tableLeg);
+    });
+    
+    // Wooden barrels around the area
+    const barrelPositions = [
+      new BABYLON.Vector3(-6, 0, -6),
+      new BABYLON.Vector3(6, 0, -6),
+      new BABYLON.Vector3(-6, 0, 6),
+      new BABYLON.Vector3(6, 0, 6),
+      new BABYLON.Vector3(0, 0, 8)
+    ];
+    
+    barrelPositions.forEach((position, index) => {
+      const barrel = BABYLON.MeshBuilder.CreateCylinder(
+        `barrel_${index}`,
+        { height: 1.5, diameter: 1.2 },
+        this.scene
+      );
+      barrel.position = position.clone();
+      barrel.position.y = 0.75;
+      
+      const barrelMaterial = new BABYLON.PBRMaterial(`barrelMaterial_${index}`, this.scene);
+      barrelMaterial.baseColor = new BABYLON.Color3(0.5, 0.3, 0.2); // Barrel wood
+      barrelMaterial.metallicFactor = 0.1;
+      barrelMaterial.roughnessFactor = 0.8;
+      
+      barrel.material = barrelMaterial;
+      this.meshes.set(`barrel_${index}`, barrel);
+      this.materials.set(`barrelMaterial_${index}`, barrelMaterial);
+    });
+    
+    // Wooden crates
+    const cratePositions = [
+      new BABYLON.Vector3(-8, 0, 0),
+      new BABYLON.Vector3(8, 0, 0),
+      new BABYLON.Vector3(0, 0, -6)
+    ];
+    
+    cratePositions.forEach((position, index) => {
+      const crate = BABYLON.MeshBuilder.CreateBox(
+        `crate_${index}`,
+        { width: 1, height: 1, depth: 1 },
+        this.scene
+      );
+      crate.position = position.clone();
+      crate.position.y = 0.5;
+      crate.material = woodMaterial;
+      this.meshes.set(`crate_${index}`, crate);
+    });
+    
+    this.materials.set('woodMaterial', woodMaterial);
+  }
+
+  private async createStoneArchitecture(): Promise<void> {
+    const colors = this.getThemeColors();
+    
+    // Stone archway in the background
+    const archLeft = BABYLON.MeshBuilder.CreateCylinder(
+      'archLeft',
+      { height: 6, diameter: 1 },
+      this.scene
+    );
+    archLeft.position = new BABYLON.Vector3(-3, 3, -15);
+    
+    const archRight = BABYLON.MeshBuilder.CreateCylinder(
+      'archRight',
+      { height: 6, diameter: 1 },
+      this.scene
+    );
+    archRight.position = new BABYLON.Vector3(3, 3, -15);
+    
+    const archTop = BABYLON.MeshBuilder.CreateTorus(
+      'archTop',
+      { diameter: 6, thickness: 0.5, tessellation: 16 },
+      this.scene
+    );
+    archTop.position = new BABYLON.Vector3(0, 6, -15);
+    archTop.rotation.x = Math.PI / 2;
+    archTop.scaling.x = 1;
+    archTop.scaling.z = 0.5;
+    
+    const stoneMaterial = new BABYLON.PBRMaterial('archStoneMaterial', this.scene);
+    stoneMaterial.baseColor = new BABYLON.Color3(0.4, 0.35, 0.3); // Weathered stone
+    stoneMaterial.metallicFactor = 0.0;
+    stoneMaterial.roughnessFactor = 0.9;
+    stoneMaterial.emissiveColor = colors.wallGlow;
+    stoneMaterial.emissiveIntensity = 0.1;
+    
+    archLeft.material = stoneMaterial;
+    archRight.material = stoneMaterial;
+    archTop.material = stoneMaterial;
+    
+    this.meshes.set('archLeft', archLeft);
+    this.meshes.set('archRight', archRight);
+    this.meshes.set('archTop', archTop);
+    this.materials.set('archStoneMaterial', stoneMaterial);
+    
+    // Stone wall segments for atmosphere
+    const wallSegments = [
+      { pos: new BABYLON.Vector3(-10, 2, -8), size: { w: 2, h: 4, d: 1 } },
+      { pos: new BABYLON.Vector3(10, 2, -8), size: { w: 2, h: 4, d: 1 } },
+      { pos: new BABYLON.Vector3(-12, 1.5, 0), size: { w: 1, h: 3, d: 4 } },
+      { pos: new BABYLON.Vector3(12, 1.5, 0), size: { w: 1, h: 3, d: 4 } }
+    ];
+    
+    wallSegments.forEach((segment, index) => {
+      const wall = BABYLON.MeshBuilder.CreateBox(
+        `stoneWall_${index}`,
+        { width: segment.size.w, height: segment.size.h, depth: segment.size.d },
+        this.scene
+      );
+      wall.position = segment.pos;
+      wall.material = stoneMaterial;
+      this.meshes.set(`stoneWall_${index}`, wall);
+    });
+  }
+
+  private async createTavernDecorations(): Promise<void> {
+    const colors = this.getThemeColors();
+    
+    // Hanging lanterns
+    const lanternPositions = [
+      new BABYLON.Vector3(-3, 4, -3),
+      new BABYLON.Vector3(3, 4, -3),
+      new BABYLON.Vector3(-3, 4, 3),
+      new BABYLON.Vector3(3, 4, 3)
+    ];
+    
+    lanternPositions.forEach((position, index) => {
+      const lantern = BABYLON.MeshBuilder.CreateSphere(
+        `lantern_${index}`,
+        { diameter: 0.8 },
+        this.scene
+      );
+      lantern.position = position;
+      
+      const lanternMaterial = new BABYLON.PBRMaterial(`lanternMaterial_${index}`, this.scene);
+      lanternMaterial.baseColor = new BABYLON.Color3(0.6, 0.4, 0.2); // Brass lantern
+      lanternMaterial.metallicFactor = 0.8;
+      lanternMaterial.roughnessFactor = 0.3;
+      lanternMaterial.emissiveColor = colors.light1;
+      lanternMaterial.emissiveIntensity = 0.6;
+      lanternMaterial.alpha = 0.8;
+      lanternMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+      
+      lantern.material = lanternMaterial;
+      this.meshes.set(`lantern_${index}`, lantern);
+      this.materials.set(`lanternMaterial_${index}`, lanternMaterial);
+      
+      // Add gentle swaying animation
+      this.animateLantern(lantern, index);
+    });
+    
+    // Wall banners
+    const bannerPositions = [
+      { pos: new BABYLON.Vector3(-6, 3, -7.5), rot: 0 },
+      { pos: new BABYLON.Vector3(6, 3, -7.5), rot: 0 },
+      { pos: new BABYLON.Vector3(-11.5, 3, 0), rot: Math.PI / 2 },
+      { pos: new BABYLON.Vector3(11.5, 3, 0), rot: -Math.PI / 2 }
+    ];
+    
+    bannerPositions.forEach((banner, index) => {
+      const bannerMesh = BABYLON.MeshBuilder.CreatePlane(
+        `banner_${index}`,
+        { width: 1.5, height: 2 },
+        this.scene
+      );
+      bannerMesh.position = banner.pos;
+      bannerMesh.rotation.y = banner.rot;
+      
+      const bannerMaterial = new BABYLON.PBRMaterial(`bannerMaterial_${index}`, this.scene);
+      bannerMaterial.baseColor = new BABYLON.Color3(0.6, 0.1, 0.1); // Red banner
+      bannerMaterial.metallicFactor = 0.0;
+      bannerMaterial.roughnessFactor = 0.8;
+      bannerMaterial.emissiveColor = new BABYLON.Color3(0.3, 0.05, 0.05);
+      bannerMaterial.emissiveIntensity = 0.2;
+      
+      bannerMesh.material = bannerMaterial;
+      this.meshes.set(`banner_${index}`, bannerMesh);
+      this.materials.set(`bannerMaterial_${index}`, bannerMaterial);
+      
+      // Add subtle flag movement
+      this.animateBanner(bannerMesh, index);
+    });
+  }
+
+  private animateLantern(lantern: BABYLON.Mesh, index: number): void {
+    const baseRotation = lantern.rotation.clone();
+    
+    BABYLON.Animation.CreateAndStartAnimation(
+      `lanternSway_${index}`,
+      lantern.rotation,
+      'z',
+      30,
+      120 + index * 20,
+      baseRotation.z,
+      baseRotation.z + (Math.PI / 32), // Gentle sway
+      BABYLON.Animation.ANIMATIONLOOPMODE_YOYO
+    );
+  }
+
+  private animateBanner(banner: BABYLON.Mesh, index: number): void {
+    const baseRotation = banner.rotation.clone();
+    
+    BABYLON.Animation.CreateAndStartAnimation(
+      `bannerWave_${index}`,
+      banner.rotation,
+      'x',
+      30,
+      100 + index * 15,
+      baseRotation.x,
+      baseRotation.x + (Math.PI / 16), // Subtle wave
+      BABYLON.Animation.ANIMATIONLOOPMODE_YOYO
+    );
+  }
+
   private getThemeColors() {
     switch (this.config.theme) {
       case 'mystical':
@@ -491,6 +847,25 @@ export class MysticalArena {
           pillar: new BABYLON.Color3(0.1, 0.1, 0.25),
           pillarGlow: new BABYLON.Color3(0.4, 0.4, 0.9),
           rune: new BABYLON.Color3(0.8, 0.8, 1.0)
+        };
+      case 'hearthstone':
+        return {
+          skybox: new BABYLON.Color3(0.15, 0.12, 0.08), // Warm tavern interior
+          floor: new BABYLON.Color3(0.25, 0.2, 0.15), // Wooden tavern floor
+          floorGlow: new BABYLON.Color3(0.4, 0.3, 0.2), // Warm wood glow
+          wall: new BABYLON.Color3(0.3, 0.25, 0.18), // Stone tavern walls
+          wallGlow: new BABYLON.Color3(0.5, 0.4, 0.25), // Firelight on walls
+          ambient: new BABYLON.Color3(0.6, 0.5, 0.35), // Cozy ambient light
+          light1: new BABYLON.Color3(1.0, 0.7, 0.4), // Warm firelight
+          light2: new BABYLON.Color3(0.9, 0.6, 0.3), // Lantern light
+          light3: new BABYLON.Color3(1.0, 0.8, 0.5), // Hearth glow
+          light4: new BABYLON.Color3(0.8, 0.6, 0.4), // Candle light
+          central: new BABYLON.Color3(1.0, 0.8, 0.6), // Central hearth
+          particle1: new BABYLON.Color3(1.0, 0.6, 0.2), // Fire sparks
+          particle2: new BABYLON.Color3(0.9, 0.7, 0.4), // Ember glow
+          pillar: new BABYLON.Color3(0.2, 0.15, 0.1), // Dark wood beams
+          pillarGlow: new BABYLON.Color3(0.6, 0.4, 0.2), // Wood highlight
+          rune: new BABYLON.Color3(1.0, 0.8, 0.5) // Warm runes
         };
       default:
         return this.getThemeColors(); // Default to mystical
