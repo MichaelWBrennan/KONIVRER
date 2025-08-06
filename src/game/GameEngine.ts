@@ -6,6 +6,7 @@ import { DeckManager } from './utils/DeckManager';
 import { UnifiedMainMenuScene } from './scenes/UnifiedMainMenuScene';
 import { UnifiedCardBattleScene } from './scenes/UnifiedCardBattleScene';
 import { UnifiedDeckBuilderScene } from './scenes/UnifiedDeckBuilderScene';
+import { MysticalArena, type ArenaConfig } from './3d/MysticalArena';
 
 // Industry-leading audio context for immersive sound
 class AudioManager {
@@ -195,6 +196,7 @@ export class GameEngine {
   private particleSystem: ParticleSystem | null = null;
   private camera: BABYLON.ArcRotateCamera | null = null;
   private materials: Map<string, BABYLON.Material> = new Map();
+  private mysticalArena: MysticalArena | null = null;
 
   constructor() {
     this.audioManager = new AudioManager();
@@ -365,6 +367,12 @@ export class GameEngine {
         delete (canvas as any)._touchHandlers;
       }
 
+      // Clean up mystical arena
+      if (this.mysticalArena) {
+        this.mysticalArena.dispose();
+        this.mysticalArena = null;
+      }
+
       // Clean up particle systems
       if (this.particleSystem) {
         this.particleSystem.dispose();
@@ -393,17 +401,14 @@ export class GameEngine {
     // 1. Initialize camera first (minimal, fast)
     this.initCamera();
 
-    // 2. Initialize basic lighting (fast)
-    await this.setupBasicLighting();
+    // 2. Initialize 3D Mystical Arena (replaces basic environment)
+    await this.init3DArena(settings, isLowPerformance);
 
     // 3. Initialize particle system
     this.particleSystem = new ParticleSystem(this.scene);
 
-    // 4. Create environment progressively (can be heavy)
-    await this.createEnvironmentProgressive(settings, isLowPerformance);
-
     console.log(
-      '[GameEngine] Core systems initialized with quality:',
+      '[GameEngine] Core systems initialized with 3D arena and quality:',
       settings.animationQuality,
     );
   }
@@ -416,7 +421,7 @@ export class GameEngine {
       'gameCamera',
       Math.PI / 2,
       Math.PI / 3,
-      10,
+      15, // Increased distance for better arena view
       BABYLON.Vector3.Zero(),
       this.scene,
     );
@@ -426,6 +431,102 @@ export class GameEngine {
     this.camera.setTarget(BABYLON.Vector3.Zero());
     this.camera.wheelDeltaPercentage = 0.01;
     this.camera.pinchDeltaPercentage = 0.01;
+    
+    // Set camera limits for better arena viewing
+    this.camera.lowerRadiusLimit = 8;
+    this.camera.upperRadiusLimit = 25;
+    this.camera.lowerBetaLimit = 0.1;
+    this.camera.upperBetaLimit = Math.PI / 2.2;
+  }
+
+  private async init3DArena(settings: any, isLowPerformance: boolean): Promise<void> {
+    if (!this.scene) return;
+
+    console.log('[GameEngine] Initializing 3D Mystical Arena...');
+
+    // Determine quality based on performance
+    let quality: ArenaConfig['quality'] = 'high';
+    if (isLowPerformance) {
+      quality = 'low';
+    } else if (settings.animationQuality === 'reduced') {
+      quality = 'medium';
+    } else if (settings.highPerformance) {
+      quality = 'ultra';
+    }
+
+    // Detect mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                     window.innerWidth < 768 ||
+                     'ontouchstart' in window;
+
+    // Create arena configuration
+    const arenaConfig: ArenaConfig = {
+      theme: 'mystical', // Default theme, can be customized
+      quality: quality,
+      enableParticles: !isLowPerformance && settings.backgroundEffectsEnabled !== false,
+      enableLighting: true,
+      enablePostProcessing: quality === 'ultra' && !isMobile,
+      isMobile: isMobile
+    };
+
+    try {
+      // Initialize the mystical arena
+      this.mysticalArena = new MysticalArena(this.scene, arenaConfig);
+      await this.mysticalArena.initialize();
+
+      console.log('[GameEngine] 3D Mystical Arena initialized successfully with quality:', quality);
+    } catch (error) {
+      console.warn('[GameEngine] Failed to initialize 3D arena, falling back to basic environment:', error);
+      // Fallback to basic environment if arena fails
+      await this.createBasicEnvironmentFallback();
+    }
+  }
+
+  private async createBasicEnvironmentFallback(): Promise<void> {
+    if (!this.scene) return;
+
+    console.log('[GameEngine] Creating basic environment fallback');
+
+    // Simple skybox
+    const skybox = BABYLON.MeshBuilder.CreateSphere(
+      'fallbackSkyBox',
+      { diameter: 80 },
+      this.scene,
+    );
+    const skyboxMaterial = new BABYLON.StandardMaterial('fallbackSkyBox', this.scene);
+    skyboxMaterial.backFaceCulling = false;
+    skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+    skyboxMaterial.emissiveColor = new BABYLON.Color3(0.05, 0.02, 0.1);
+    skybox.material = skyboxMaterial;
+    skybox.infiniteDistance = true;
+
+    // Simple ground
+    const ground = BABYLON.MeshBuilder.CreateGround(
+      'fallbackGround',
+      { width: 20, height: 20 },
+      this.scene,
+    );
+    const groundMaterial = new BABYLON.StandardMaterial(
+      'fallbackGroundMaterial',
+      this.scene,
+    );
+    groundMaterial.diffuseColor = new BABYLON.Color3(0.1, 0.05, 0.2);
+    ground.material = groundMaterial;
+
+    // Basic lighting
+    const ambientLight = new BABYLON.HemisphericLight(
+      'fallbackAmbient',
+      new BABYLON.Vector3(0, 1, 0),
+      this.scene,
+    );
+    ambientLight.intensity = 0.3;
+
+    const mainLight = new BABYLON.DirectionalLight(
+      'fallbackMain',
+      new BABYLON.Vector3(-1, -1, -1),
+      this.scene,
+    );
+    mainLight.intensity = 0.8;
   }
 
   private async setupBasicLighting(): Promise<void> {
@@ -940,6 +1041,36 @@ export class GameEngine {
         '[GameEngine] Advanced post-processing not available, using fallback',
       );
     }
+  }
+
+  // Public methods for arena control
+  public changeArenaTheme(theme: ArenaConfig['theme']): void {
+    if (this.mysticalArena) {
+      this.mysticalArena.changeTheme(theme);
+      console.log('[GameEngine] Arena theme changed to:', theme);
+    }
+  }
+
+  public updateArenaQuality(quality: ArenaConfig['quality']): void {
+    if (this.mysticalArena) {
+      this.mysticalArena.updateQuality(quality);
+      console.log('[GameEngine] Arena quality updated to:', quality);
+    }
+  }
+
+  public getArenaConfig(): ArenaConfig | null {
+    return this.mysticalArena ? {
+      theme: 'mystical', // We'll need to track this in the arena if we want to expose it
+      quality: 'high',
+      enableParticles: true,
+      enableLighting: true,
+      enablePostProcessing: false,
+      isMobile: false
+    } : null;
+  }
+
+  public isArenaInitialized(): boolean {
+    return this.mysticalArena !== null;
   }
 }
 
