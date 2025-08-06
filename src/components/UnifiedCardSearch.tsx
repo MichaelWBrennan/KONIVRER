@@ -641,28 +641,32 @@ class UnifiedSearchEngine {
 
 // Main Component Props
 export interface UnifiedCardSearchProps {
-  cards: Card[];
-  onSearchResults: (results: SearchResult) => void;
+  cards?: Card[];
+  onSearchResults?: (results: SearchResult) => void;
   onFiltersChange?: (filters: SearchFilters) => void;
+  onCardSelect?: (card: Card) => void;
   placeholder?: string;
   showAdvancedFilters?: boolean;
   showSortOptions?: boolean;
   showSearchHistory?: boolean;
   maxResults?: number;
   initialMode?: 'advanced' | 'syntax';
+  compact?: boolean;
 }
 
 // Main Unified Card Search Component
 const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
-  cards,
+  cards = KONIVRER_CARDS,
   onSearchResults,
   onFiltersChange,
+  onCardSelect,
   placeholder = 'Search cards... (try: name:fire, cost:>=3, type:familiar)',
   showAdvancedFilters = true,
   showSortOptions = true,
   showSearchHistory = true,
   maxResults = 50,
   initialMode = 'advanced',
+  compact = false,
 }) => {
   // Search engine instance
   const searchEngine = useMemo(() => new UnifiedSearchEngine(cards), []);
@@ -671,6 +675,13 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   useEffect(() => {
     searchEngine.updateCards(cards);
   }, [cards, searchEngine]);
+
+  // Search results state
+  const [searchResults, setSearchResults] = useState<SearchResult>({
+    cards: [],
+    totalCount: 0,
+    searchTime: 0,
+  });
 
   // State management
   const [searchMode, setSearchMode] = useState<'advanced' | 'syntax'>(
@@ -784,11 +795,14 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               searchFilters,
               preferences,
             );
-            onSearchResults(results);
+            setSearchResults(results);
+            onSearchResults?.(results);
             onFiltersChange?.(searchFilters);
           } else {
             // Return empty results if no search has been initiated
-            onSearchResults({ cards: [], totalCount: 0, searchTime: 0 });
+            const emptyResults = { cards: [], totalCount: 0, searchTime: 0 };
+            setSearchResults(emptyResults);
+            onSearchResults?.(emptyResults);
           }
         } catch (error) {
           console.error('Search error:', error);
@@ -1693,6 +1707,74 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
           Save Search
         </button>
       </div>
+
+      {/* Search Results Display */}
+      {(!compact || searchResults.totalCount > 0) && (
+        <div className="search-results">
+          {searchResults.totalCount === 0 && searchResults.searchTime > 0 && (
+            <div className="no-results">
+              <p>No cards found matching your search criteria.</p>
+              <p>Try adjusting your filters or search terms.</p>
+            </div>
+          )}
+
+          {searchResults.totalCount > 0 && (
+            <>
+              <div className="results-header">
+                <span>
+                  Found {searchResults.totalCount} cards
+                  {searchResults.searchTime > 0 && ` in ${searchResults.searchTime}ms`}
+                </span>
+              </div>
+
+              <div className={`results-grid ${compact ? 'compact' : ''}`}>
+                <AnimatePresence>
+                  {searchResults.cards.map(card => (
+                    <motion.div
+                      key={card.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      className={`card-result ${onCardSelect ? 'clickable' : ''}`}
+                      onClick={() => onCardSelect?.(card)}
+                    >
+                      <h3 className="card-name">{card.name}</h3>
+                      <div className="card-meta">
+                        <span className="card-type">{card.type}</span>
+                        <span className="card-cost">{card.cost}</span>
+                        {card.strength && (
+                          <span className="card-strength">{card.strength}</span>
+                        )}
+                      </div>
+                      <div className="card-rarity">
+                        <span className={`rarity ${card.rarity.toLowerCase()}`}>
+                          {card.rarity}
+                        </span>
+                      </div>
+                      {card.elements.length > 0 && (
+                        <div className="card-elements">
+                          {card.elements.join(', ')}
+                        </div>
+                      )}
+                      <p className="card-description">{card.description}</p>
+                      {card.keywords.length > 0 && (
+                        <div className="card-keywords">
+                          {card.keywords.join(', ')}
+                        </div>
+                      )}
+                      {onCardSelect && (
+                        <div className="card-actions">
+                          <button className="add-to-deck-btn">Add to Deck</button>
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

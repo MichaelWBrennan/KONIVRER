@@ -26,6 +26,8 @@ import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
 import BottomMenuBar from '../components/BottomMenuBar';
+import AppProvider from '../components/AppProvider';
+import MainNavigation from '../components/MainNavigation';
 import { healingConfigManager } from '../config/healingConfig';
 import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
 import { KONIVRER_CARDS } from '../data/cards';
@@ -876,33 +878,9 @@ const Phase3App = () => {
         <AppContainer>
           <ColorBlindFilters />
           <Router>
-            <AppContext.Provider value={contextValue}>
-              <LoginModal />
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/cards" element={<SimpleCardImagesPage />} />
-                  <Route path="/decks" element={<DecksPage />} />
-                  <Route path="/events" element={<EventsPage />} />
-                  <Route path="/play" element={<PlayPage />} />
-                  <Route path="/arena" element={<AdvancedMTGArenaGame />} />
-                  <Route path="/arena-3d" element={<Enhanced3DArenaGame />} />
-                  <Route
-                    path="/battlefield"
-                    element={<HearthstoneBattlefield />}
-                  />
-                  <Route
-                    path="/battlefield-demo"
-                    element={<BattlefieldDemo />}
-                  />
-                  <Route
-                    path="/auth/callback/:provider"
-                    element={<OAuthCallback />}
-                  />
-                </Routes>
-              </AnimatePresence>
-              <BottomMenuBar />
-            </AppContext.Provider>
+            <AppProvider>
+              <MainNavigation />
+            </AppProvider>
           </Router>
           <Analytics />
           <SpeedInsights />
