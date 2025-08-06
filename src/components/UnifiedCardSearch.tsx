@@ -21,6 +21,7 @@ import React, {
   useMemo,
 } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { KONIVRER_CARDS } from '../data/cards';
 import '../styles/unified-card-search.css';
 
 // Unified Card Interface
