@@ -68,7 +68,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [gameInitialized, setGameInitialized] = useState(false);
-  const [arenaTheme, setArenaTheme] = useState<'mystical' | 'ancient' | 'ethereal' | 'cosmic'>('mystical');
+  const [arenaTheme, setArenaTheme] = useState<'mystical' | 'ancient' | 'ethereal' | 'cosmic' | 'hearthstone'>('hearthstone');
   const [is3DEnabled, setIs3DEnabled] = useState(true);
   const [selectedCard, setSelectedCard] = useState<MTGCard | null>(null);
   const [hoveredCard, setHoveredCard] = useState<MTGCard | null>(null);
@@ -281,6 +281,7 @@ const Enhanced3DArenaGame: React.FC<Enhanced3DArenaGameProps> = ({
               <option value="ancient">Ancient</option>
               <option value="ethereal">Ethereal</option>
               <option value="cosmic">Cosmic</option>
+              <option value="hearthstone">Hearthstone</option>
             </select>
           </div>
         )}
