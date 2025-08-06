@@ -548,7 +548,7 @@ class AdvancedSelfHealingSystem {
   private assessErrorSeverity(
     _error: Error,
   ): 'low' | 'medium' | 'high' | 'critical' {
-    const message = error.message.toLowerCase();
+    const message = _error.message.toLowerCase();
 
     if (message.includes('critical') || message.includes('fatal'))
       return 'critical';
@@ -560,7 +560,7 @@ class AdvancedSelfHealingSystem {
   }
 
   private selectInitialHealingStrategy(_error: Error): string {
-    const message = error.message.toLowerCase();
+    const message = _error.message.toLowerCase();
 
     if (message.includes('memory')) return 'memory_leak';
     if (message.includes('network') || message.includes('fetch'))
