@@ -83,20 +83,24 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     try {
       // Provide immediate feedback - show loading state instantly
       console.log('[GameContainer] Starting game initialization...');
-      
+
       // Ensure the ref is available before proceeding
       if (!gameRef.current) {
         console.log('[GameContainer] Waiting for game container ref...');
         // Wait for next render cycle to ensure ref is populated
         await new Promise<void>(resolve => {
           const timeoutId = setTimeout(() => {
-            console.log('[GameContainer] Timeout waiting for ref, proceeding anyway');
+            console.log(
+              '[GameContainer] Timeout waiting for ref, proceeding anyway',
+            );
             resolve();
           }, 2000); // 2 second timeout
-          
+
           const checkRef = () => {
             if (gameRef.current) {
-              console.log('[GameContainer] Game container ref is now available');
+              console.log(
+                '[GameContainer] Game container ref is now available',
+              );
               clearTimeout(timeoutId);
               resolve();
             } else {
@@ -114,8 +118,10 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       }
 
       const container = gameRef.current;
-      console.log('[GameContainer] Container ready, initializing game engine...');
-      
+      console.log(
+        '[GameContainer] Container ready, initializing game engine...',
+      );
+
       // Add a small delay to ensure loading UI is visible and prevent immediate jumps
       await new Promise(resolve => setTimeout(resolve, 100));
 
@@ -509,8 +515,8 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       </AnimatePresence>
 
       {/* Always present game canvas container for engine initialization */}
-      <div 
-        ref={gameRef} 
+      <div
+        ref={gameRef}
         style={{
           ...gameCanvasStyle,
           position: 'absolute',
@@ -520,7 +526,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
           bottom: 0,
           visibility: gameState === 'playing' ? 'visible' : 'hidden',
           zIndex: gameState === 'playing' ? 1 : -1,
-        }} 
+        }}
       />
     </div>
   );

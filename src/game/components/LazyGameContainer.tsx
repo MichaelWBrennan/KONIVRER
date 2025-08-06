@@ -2,8 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 
 // Lazy load the heavy GameContainer component
-const GameContainer = lazy(() => 
-  import('./GameContainer').then(module => ({ default: module.GameContainer }))
+const GameContainer = lazy(() =>
+  import('./GameContainer').then(module => ({ default: module.GameContainer })),
 );
 
 interface LazyGameContainerProps {
@@ -28,7 +28,8 @@ const GameLoadingScreen: React.FC = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
+        background:
+          'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
         zIndex: 10000,
       }}
     >
@@ -47,7 +48,7 @@ const GameLoadingScreen: React.FC = () => {
           marginBottom: '32px',
         }}
       />
-      
+
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -62,7 +63,7 @@ const GameLoadingScreen: React.FC = () => {
       >
         🎮 KONIVRER
       </motion.h2>
-      
+
       <motion.p
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -103,7 +104,7 @@ const GameLoadingScreen: React.FC = () => {
   );
 };
 
-export const LazyGameContainer: React.FC<LazyGameContainerProps> = (props) => {
+export const LazyGameContainer: React.FC<LazyGameContainerProps> = props => {
   return (
     <Suspense fallback={<GameLoadingScreen />}>
       <GameContainer {...props} />
