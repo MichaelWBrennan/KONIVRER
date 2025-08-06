@@ -20,11 +20,68 @@ class AudioManager {
       this.audioContext = new (window.AudioContext ||
         (window as any).webkitAudioContext)();
       this.masterGain = this.audioContext.createGain();
+      this.masterGain.gain.value = 0.3; // Master volume
       this.masterGain.connect(this.audioContext.destination);
       console.log('[AudioManager] Audio system initialized');
+      
+      // Pre-warm audio context
+      await this.audioContext.resume();
     } catch (_error) {
       console.warn('[AudioManager] Audio not available:', _error);
     }
+  }
+
+  // MTGA-style card draw sound - light whoosh
+  playCardDraw() {
+    this.playComplexTone([
+      { freq: 400, time: 0, duration: 0.1, type: 'sine', volume: 0.2 },
+      { freq: 600, time: 0.05, duration: 0.1, type: 'triangle', volume: 0.15 },
+      { freq: 300, time: 0.1, duration: 0.05, type: 'sawtooth', volume: 0.1 }
+    ]);
+  }
+
+  // MTGA-style card play sound - heavy drop with magical burst
+  playCardPlay() {
+    this.playComplexTone([
+      { freq: 200, time: 0, duration: 0.2, type: 'square', volume: 0.3 },
+      { freq: 800, time: 0.1, duration: 0.15, type: 'sine', volume: 0.2 },
+      { freq: 1200, time: 0.15, duration: 0.1, type: 'triangle', volume: 0.15 }
+    ]);
+  }
+
+  // MTGA-style life loss - impactful thump
+  playLifeLoss() {
+    this.playComplexTone([
+      { freq: 80, time: 0, duration: 0.3, type: 'sawtooth', volume: 0.4 },
+      { freq: 120, time: 0.1, duration: 0.2, type: 'square', volume: 0.2 }
+    ]);
+  }
+
+  // MTGA-style life gain - harmonic chime
+  playLifeGain() {
+    this.playComplexTone([
+      { freq: 523, time: 0, duration: 0.4, type: 'sine', volume: 0.2 }, // C
+      { freq: 659, time: 0.1, duration: 0.4, type: 'sine', volume: 0.15 }, // E
+      { freq: 784, time: 0.2, duration: 0.4, type: 'sine', volume: 0.1 } // G
+    ]);
+  }
+
+  // Mana tap sounds with elemental pulses
+  playManaTap(color: 'white' | 'blue' | 'black' | 'red' | 'green' | 'colorless') {
+    const manaFrequencies = {
+      white: { base: 440, harmony: 554, type: 'sine' as OscillatorType }, // A
+      blue: { base: 494, harmony: 622, type: 'triangle' as OscillatorType }, // B
+      black: { base: 311, harmony: 392, type: 'sawtooth' as OscillatorType }, // Eb
+      red: { base: 370, harmony: 466, type: 'square' as OscillatorType }, // F#
+      green: { base: 392, harmony: 494, type: 'sine' as OscillatorType }, // G
+      colorless: { base: 330, harmony: 415, type: 'triangle' as OscillatorType } // E
+    };
+
+    const { base, harmony, type } = manaFrequencies[color];
+    this.playComplexTone([
+      { freq: base, time: 0, duration: 0.2, type, volume: 0.2 },
+      { freq: harmony, time: 0.1, duration: 0.2, type, volume: 0.15 }
+    ]);
   }
 
   playCardFlip() {
@@ -41,6 +98,39 @@ class AudioManager {
 
   playGameStart() {
     this.playMelody([523, 659, 784, 1047], 0.2); // C-E-G-C
+  }
+
+  // Enhanced complex tone system for layered sounds
+  private playComplexTone(tones: Array<{
+    freq: number;
+    time: number;
+    duration: number;
+    type: OscillatorType;
+    volume: number;
+  }>) {
+    if (!this.audioContext || !this.masterGain) return;
+
+    tones.forEach(tone => {
+      setTimeout(() => {
+        const oscillator = this.audioContext!.createOscillator();
+        const gainNode = this.audioContext!.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(this.masterGain!);
+
+        oscillator.frequency.setValueAtTime(tone.freq, this.audioContext!.currentTime);
+        oscillator.type = tone.type;
+
+        gainNode.gain.setValueAtTime(tone.volume, this.audioContext!.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          this.audioContext!.currentTime + tone.duration
+        );
+
+        oscillator.start(this.audioContext!.currentTime);
+        oscillator.stop(this.audioContext!.currentTime + tone.duration);
+      }, tone.time * 1000);
+    });
   }
 
   private playTone(
@@ -81,6 +171,12 @@ class AudioManager {
     });
   }
 }
+
+// Global audio manager instance
+const audioManager = new AudioManager();
+
+// Initialize audio when module loads
+audioManager.init();
 
 // Advanced particle system for magical effects
 class ParticleSystem {
@@ -1075,3 +1171,4 @@ export class GameEngine {
 }
 
 export const gameEngine = new GameEngine();
+export { audioManager };
