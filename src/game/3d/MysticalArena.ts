@@ -1,12 +1,16 @@
 import * as BABYLON from 'babylonjs';
+import { ArenaAssetManager } from './ArenaAssetManager';
+import { BattlefieldInteractionSystem, type BattlefieldState } from './BattlefieldInteractionSystem';
 
 export interface ArenaConfig {
-  theme: 'mystical' | 'ancient' | 'ethereal' | 'cosmic' | 'hearthstone';
+  theme: 'mystical' | 'ancient' | 'ethereal' | 'cosmic' | 'hearthstone' | 'forest' | 'desert' | 'volcano';
   quality: 'low' | 'medium' | 'high' | 'ultra';
   enableParticles: boolean;
   enableLighting: boolean;
   enablePostProcessing: boolean;
   isMobile: boolean;
+  enableInteractiveElements?: boolean;
+  enableIdleAnimations?: boolean;
 }
 
 export class MysticalArena {
@@ -17,14 +21,30 @@ export class MysticalArena {
   private lights: BABYLON.Light[] = [];
   private particleSystems: BABYLON.ParticleSystem[] = [];
   private animationGroups: BABYLON.AnimationGroup[] = [];
+  private assetManager: ArenaAssetManager;
+  private interactionSystem: BattlefieldInteractionSystem;
+  private currentTheme: string;
+  private idleAnimations: BABYLON.Animation[] = [];
+  private responsiveElements: BABYLON.Node[] = [];
 
   constructor(scene: BABYLON.Scene, config: ArenaConfig) {
     this.scene = scene;
     this.config = config;
+    this.currentTheme = config.theme;
+    
+    // Initialize asset management and interaction systems
+    this.assetManager = new ArenaAssetManager(scene);
+    this.interactionSystem = new BattlefieldInteractionSystem(scene);
+    
+    // Setup responsive design handler
+    this.setupResponsiveDesign();
   }
 
   public async initialize(): Promise<void> {
     console.log('[MysticalArena] Initializing arena with theme:', this.config.theme);
+    
+    // Load theme assets first
+    await this.assetManager.loadThemeAssets(this.config.theme, this.config.quality);
     
     // Initialize components progressively based on performance
     await this.createSkybox();
@@ -35,19 +55,33 @@ export class MysticalArena {
       await this.setupMysticalLighting();
     }
     
+    // Create theme-specific environmental elements
+    await this.createThemeSpecificElements();
+    
     if (this.config.enableParticles && this.config.quality !== 'low') {
       await this.createParticleEffects();
     }
     
     await this.addEnvironmentalDetails();
     
+    // Add interactive elements
+    if (this.config.enableInteractiveElements !== false) {
+      await this.createInteractiveElements();
+    }
+    
     if (this.config.enablePostProcessing && this.config.quality === 'ultra') {
       await this.setupPostProcessing();
+    }
+    
+    // Start idle animations
+    if (this.config.enableIdleAnimations !== false) {
+      this.startIdleAnimations();
     }
     
     this.startAnimations();
     
     console.log('[MysticalArena] Arena initialization complete');
+    this.logMemoryUsage();
   }
 
   private async createSkybox(): Promise<void> {
@@ -549,32 +583,6 @@ export class MysticalArena {
     this.createInvisibleWalls();
   }
 
-  private createInvisibleWalls(): void {
-    // Create invisible collision walls around the tavern area for first-person navigation
-    const wallPositions = [
-      { name: 'north', position: new BABYLON.Vector3(0, 2, -15), size: { w: 20, h: 4, d: 1 } },
-      { name: 'south', position: new BABYLON.Vector3(0, 2, 10), size: { w: 20, h: 4, d: 1 } },
-      { name: 'east', position: new BABYLON.Vector3(12, 2, 0), size: { w: 1, h: 4, d: 20 } },
-      { name: 'west', position: new BABYLON.Vector3(-12, 2, 0), size: { w: 1, h: 4, d: 20 } }
-    ];
-
-    wallPositions.forEach(wallInfo => {
-      const wall = BABYLON.MeshBuilder.CreateBox(
-        `collisionWall_${wallInfo.name}`,
-        { width: wallInfo.size.w, height: wallInfo.size.h, depth: wallInfo.size.d },
-        this.scene
-      );
-      
-      wall.position = wallInfo.position;
-      wall.isVisible = false; // Make invisible
-      wall.checkCollisions = true; // Enable collision
-      
-      this.meshes.set(`collisionWall_${wallInfo.name}`, wall);
-    });
-    
-    console.log('[MysticalArena] Invisible collision walls created for first-person navigation');
-  }
-
   private async createWoodenFurniture(): Promise<void> {
     const colors = this.getThemeColors();
     
@@ -935,9 +943,632 @@ export class MysticalArena {
           pillarGlow: new BABYLON.Color3(0.6, 0.4, 0.2), // Wood highlight
           rune: new BABYLON.Color3(1.0, 0.8, 0.5) // Warm runes
         };
+      case 'forest':
+        return {
+          skybox: new BABYLON.Color3(0.1, 0.15, 0.08), // Forest canopy
+          floor: new BABYLON.Color3(0.15, 0.25, 0.1), // Mossy forest floor
+          floorGlow: new BABYLON.Color3(0.2, 0.4, 0.15), // Sunbeam on moss
+          wall: new BABYLON.Color3(0.2, 0.15, 0.1), // Tree bark
+          wallGlow: new BABYLON.Color3(0.3, 0.5, 0.2), // Filtered sunlight
+          ambient: new BABYLON.Color3(0.4, 0.6, 0.3), // Dappled light
+          light1: new BABYLON.Color3(0.6, 0.9, 0.4), // Sunbeam
+          light2: new BABYLON.Color3(0.5, 0.8, 0.3), // Forest light
+          light3: new BABYLON.Color3(0.7, 1.0, 0.5), // Bright sunlight
+          light4: new BABYLON.Color3(0.4, 0.7, 0.3), // Soft green light
+          central: new BABYLON.Color3(0.8, 1.0, 0.6), // Central clearing
+          particle1: new BABYLON.Color3(0.6, 0.9, 0.3), // Floating pollen
+          particle2: new BABYLON.Color3(0.4, 0.8, 0.2), // Fireflies
+          pillar: new BABYLON.Color3(0.15, 0.1, 0.05), // Tree trunks
+          pillarGlow: new BABYLON.Color3(0.3, 0.5, 0.2), // Bark highlight
+          rune: new BABYLON.Color3(0.7, 1.0, 0.4) // Nature runes
+        };
+      case 'desert':
+        return {
+          skybox: new BABYLON.Color3(0.2, 0.15, 0.08), // Desert sky
+          floor: new BABYLON.Color3(0.4, 0.3, 0.15), // Sandy ground
+          floorGlow: new BABYLON.Color3(0.6, 0.5, 0.2), // Hot sand glow
+          wall: new BABYLON.Color3(0.35, 0.25, 0.12), // Sandstone
+          wallGlow: new BABYLON.Color3(0.7, 0.5, 0.2), // Sun-warmed stone
+          ambient: new BABYLON.Color3(0.8, 0.6, 0.3), // Harsh sunlight
+          light1: new BABYLON.Color3(1.0, 0.8, 0.3), // Blazing sun
+          light2: new BABYLON.Color3(0.9, 0.7, 0.2), // Reflected heat
+          light3: new BABYLON.Color3(1.0, 0.9, 0.4), // Intense light
+          light4: new BABYLON.Color3(0.8, 0.6, 0.2), // Desert mirage
+          central: new BABYLON.Color3(1.0, 0.9, 0.5), // Oasis light
+          particle1: new BABYLON.Color3(0.9, 0.7, 0.3), // Sand particles
+          particle2: new BABYLON.Color3(1.0, 0.8, 0.4), // Heat shimmer
+          pillar: new BABYLON.Color3(0.3, 0.2, 0.1), // Ancient stone
+          pillarGlow: new BABYLON.Color3(0.7, 0.5, 0.2), // Sun glint
+          rune: new BABYLON.Color3(1.0, 0.8, 0.3) // Golden runes
+        };
+      case 'volcano':
+        return {
+          skybox: new BABYLON.Color3(0.15, 0.05, 0.02), // Volcanic ash sky
+          floor: new BABYLON.Color3(0.2, 0.05, 0.02), // Lava rock
+          floorGlow: new BABYLON.Color3(0.8, 0.3, 0.1), // Molten glow
+          wall: new BABYLON.Color3(0.25, 0.08, 0.03), // Volcanic stone
+          wallGlow: new BABYLON.Color3(1.0, 0.4, 0.1), // Lava light
+          ambient: new BABYLON.Color3(0.6, 0.2, 0.1), // Fire ambience
+          light1: new BABYLON.Color3(1.0, 0.3, 0.1), // Lava glow
+          light2: new BABYLON.Color3(0.9, 0.4, 0.1), // Molten rock
+          light3: new BABYLON.Color3(1.0, 0.5, 0.2), // Fire eruption
+          light4: new BABYLON.Color3(0.8, 0.2, 0.05), // Deep magma
+          central: new BABYLON.Color3(1.0, 0.6, 0.2), // Central crater
+          particle1: new BABYLON.Color3(1.0, 0.4, 0.1), // Lava sparks
+          particle2: new BABYLON.Color3(0.9, 0.3, 0.05), // Ember trails
+          pillar: new BABYLON.Color3(0.2, 0.05, 0.02), // Obsidian
+          pillarGlow: new BABYLON.Color3(0.8, 0.3, 0.1), // Molten edges
+          rune: new BABYLON.Color3(1.0, 0.5, 0.2) // Fire runes
+        };
       default:
         return this.getThemeColors(); // Default to mystical
     }
+  }
+
+  private setupResponsiveDesign(): void {
+    // Handle window resize for responsive layout
+    window.addEventListener('resize', () => {
+      this.handleResize();
+    });
+    
+    // Initial responsive setup
+    this.handleResize();
+  }
+
+  private handleResize(): void {
+    const canvas = this.scene.getEngine().getRenderingCanvas();
+    if (!canvas) return;
+    
+    const containerWidth = canvas.clientWidth || window.innerWidth;
+    const containerHeight = canvas.clientHeight || window.innerHeight;
+    const aspectRatio = containerWidth / containerHeight;
+    
+    // Adjust camera FOV for different aspect ratios
+    const cameras = this.scene.cameras;
+    cameras.forEach(camera => {
+      if (camera instanceof BABYLON.FreeCamera) {
+        // Adjust FOV for mobile vs desktop
+        if (containerWidth < 768) {
+          camera.fov = Math.PI / 3; // Wider FOV for mobile
+        } else if (containerWidth < 1200) {
+          camera.fov = Math.PI / 3.5; // Medium FOV for tablet
+        } else {
+          camera.fov = Math.PI / 4; // Standard FOV for desktop
+        }
+      }
+    });
+    
+    // Scale responsive elements
+    this.scaleResponsiveElements(containerWidth, containerHeight);
+    
+    console.log(`[MysticalArena] Responsive resize: ${containerWidth}x${containerHeight}, aspect: ${aspectRatio.toFixed(2)}`);
+  }
+
+  private scaleResponsiveElements(width: number, height: number): void {
+    const scale = Math.min(width / 1920, height / 1080); // Base scale on 1920x1080
+    const clampedScale = Math.max(0.5, Math.min(1.5, scale)); // Clamp between 0.5x and 1.5x
+    
+    this.responsiveElements.forEach(element => {
+      if (element instanceof BABYLON.AbstractMesh) {
+        element.scaling = new BABYLON.Vector3(clampedScale, clampedScale, clampedScale);
+      }
+    });
+  }
+
+  private async createThemeSpecificElements(): Promise<void> {
+    switch (this.config.theme) {
+      case 'forest':
+        await this.createForestElements();
+        break;
+      case 'desert':
+        await this.createDesertElements();
+        break;
+      case 'volcano':
+        await this.createVolcanoElements();
+        break;
+      case 'hearthstone':
+        await this.createHearthstoneElements();
+        break;
+      default:
+        await this.createMysticalElements();
+    }
+  }
+
+  private async createForestElements(): Promise<void> {
+    console.log('[MysticalArena] Creating forest theme elements');
+    
+    // Create trees around the battlefield
+    await this.createForestTrees();
+    
+    // Add waterfalls and streams
+    await this.createWaterFeatures();
+    
+    // Add forest floor details (mushrooms, logs, etc.)
+    await this.createForestFloorDetails();
+    
+    // Create dappled sunlight effects
+    await this.createSunbeamEffects();
+  }
+
+  private async createDesertElements(): Promise<void> {
+    console.log('[MysticalArena] Creating desert theme elements');
+    
+    // Create sand dunes and rock formations
+    await this.createDesertTerrain();
+    
+    // Add ancient ruins/pyramids in background
+    await this.createAncientRuins();
+    
+    // Create heat shimmer effects
+    await this.createHeatShimmerEffects();
+    
+    // Add oasis elements
+    await this.createOasisFeatures();
+  }
+
+  private async createVolcanoElements(): Promise<void> {
+    console.log('[MysticalArena] Creating volcano theme elements');
+    
+    // Create lava pools and flows
+    await this.createLavaFeatures();
+    
+    // Add volcanic rock formations
+    await this.createVolcanicRocks();
+    
+    // Create smoke and ash effects
+    await this.createVolcanicAtmosphere();
+    
+    // Add glowing crystals
+    await this.createMagmaCrystals();
+  }
+
+  private async createHearthstoneElements(): Promise<void> {
+    console.log('[MysticalArena] Creating Hearthstone tavern elements');
+    
+    // Enhanced tavern interior
+    await this.createTavernBuildings();
+    await this.createWoodenFurniture();
+    
+    // Add fireplace and torches
+    await this.createFireFeatures();
+    
+    // Create cozy atmosphere
+    await this.createTavernAtmosphere();
+  }
+
+  private async createMysticalElements(): Promise<void> {
+    // Default mystical elements (existing functionality)
+    await this.createMysticalPillars();
+    await this.createFloatingRunes();
+  }
+
+  private async createForestTrees(): Promise<void> {
+    const treeCount = this.config.isMobile ? 8 : 12;
+    const colors = this.getThemeColors();
+    
+    for (let i = 0; i < treeCount; i++) {
+      const angle = (i / treeCount) * Math.PI * 2;
+      const distance = 12 + Math.random() * 3;
+      
+      // Tree trunk
+      const trunk = BABYLON.MeshBuilder.CreateCylinder(
+        `tree_trunk_${i}`,
+        { height: 8, diameterTop: 0.8, diameterBottom: 1.2 },
+        this.scene
+      );
+      
+      trunk.position = new BABYLON.Vector3(
+        Math.cos(angle) * distance,
+        4,
+        Math.sin(angle) * distance
+      );
+      
+      const trunkMaterial = new BABYLON.PBRMaterial(`trunkMaterial_${i}`, this.scene);
+      trunkMaterial.baseColor = new BABYLON.Color3(0.3, 0.2, 0.1);
+      trunkMaterial.roughnessFactor = 0.9;
+      trunkMaterial.metallicFactor = 0.1;
+      
+      trunk.material = trunkMaterial;
+      trunk.checkCollisions = true;
+      
+      // Tree canopy
+      const canopy = BABYLON.MeshBuilder.CreateSphere(
+        `tree_canopy_${i}`,
+        { diameter: 6 + Math.random() * 2 },
+        this.scene
+      );
+      
+      canopy.position = new BABYLON.Vector3(
+        trunk.position.x,
+        trunk.position.y + 4,
+        trunk.position.z
+      );
+      
+      const canopyMaterial = new BABYLON.PBRMaterial(`canopyMaterial_${i}`, this.scene);
+      canopyMaterial.baseColor = colors.light2;
+      canopyMaterial.emissiveColor = new BABYLON.Color3(0.1, 0.2, 0.05);
+      canopyMaterial.roughnessFactor = 0.8;
+      
+      canopy.material = canopyMaterial;
+      
+      this.meshes.set(`tree_${i}`, trunk);
+      this.materials.set(`trunk_${i}`, trunkMaterial);
+      this.materials.set(`canopy_${i}`, canopyMaterial);
+      this.responsiveElements.push(trunk, canopy);
+    }
+  }
+
+  private async createWaterFeatures(): Promise<void> {
+    // Create a waterfall in the background
+    const waterfall = BABYLON.MeshBuilder.CreatePlane(
+      'waterfall',
+      { width: 3, height: 8 },
+      this.scene
+    );
+    
+    waterfall.position = new BABYLON.Vector3(-15, 4, -8);
+    waterfall.rotation.y = Math.PI / 4;
+    
+    const waterfallMaterial = new BABYLON.PBRMaterial('waterfallMaterial', this.scene);
+    waterfallMaterial.baseColor = new BABYLON.Color3(0.7, 0.9, 1.0);
+    waterfallMaterial.alpha = 0.7;
+    waterfallMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+    
+    // Add flowing animation
+    const flowAnimation = new BABYLON.Animation(
+      'waterfallFlow',
+      'material.baseTexture.vOffset',
+      30,
+      BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+      BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+    );
+    
+    const flowKeys = [
+      { frame: 0, value: 0 },
+      { frame: 60, value: 1 }
+    ];
+    
+    flowAnimation.setKeys(flowKeys);
+    waterfall.animations.push(flowAnimation);
+    this.idleAnimations.push(flowAnimation);
+    
+    waterfall.material = waterfallMaterial;
+    this.meshes.set('waterfall', waterfall);
+    this.materials.set('waterfall', waterfallMaterial);
+  }
+
+  private async createSunbeamEffects(): Promise<void> {
+    if (this.config.quality === 'low') return;
+    
+    // Create god rays through forest canopy
+    const sunbeamCount = this.config.isMobile ? 3 : 6;
+    
+    for (let i = 0; i < sunbeamCount; i++) {
+      const sunbeam = BABYLON.MeshBuilder.CreateCylinder(
+        `sunbeam_${i}`,
+        { height: 10, diameterTop: 0.1, diameterBottom: 2 },
+        this.scene
+      );
+      
+      sunbeam.position = new BABYLON.Vector3(
+        (Math.random() - 0.5) * 20,
+        8,
+        (Math.random() - 0.5) * 20
+      );
+      
+      const sunbeamMaterial = new BABYLON.PBRMaterial(`sunbeamMaterial_${i}`, this.scene);
+      sunbeamMaterial.emissiveColor = new BABYLON.Color3(0.8, 1.0, 0.6);
+      sunbeamMaterial.alpha = 0.2;
+      sunbeamMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+      
+      sunbeam.material = sunbeamMaterial;
+      this.meshes.set(`sunbeam_${i}`, sunbeam);
+      this.materials.set(`sunbeam_${i}`, sunbeamMaterial);
+    }
+  }
+
+  private async createInteractiveElements(): Promise<void> {
+    console.log('[MysticalArena] Adding interactive elements');
+    
+    switch (this.config.theme) {
+      case 'forest':
+        await this.addForestInteractives();
+        break;
+      case 'desert':
+        await this.addDesertInteractives();
+        break;
+      case 'volcano':
+        await this.addVolcanoInteractives();
+        break;
+      case 'hearthstone':
+        await this.addHearthstoneInteractives();
+        break;
+      default:
+        await this.addMysticalInteractives();
+    }
+  }
+
+  private async addForestInteractives(): Promise<void> {
+    // Add interactive waterfall
+    const waterfall = this.meshes.get('waterfall');
+    if (waterfall) {
+      this.interactionSystem.addInteractiveElement({
+        id: 'forest_waterfall',
+        mesh: waterfall,
+        type: 'waterfall',
+        onClick: () => {
+          console.log('🌊 The waterfall cascades peacefully, restoring your mana');
+          // Example: Restore player mana
+        }
+      });
+    }
+    
+    // Add interactive crystals hidden in the forest
+    for (let i = 0; i < 3; i++) {
+      const crystal = BABYLON.MeshBuilder.CreateBox(
+        `forest_crystal_${i}`,
+        { size: 0.5 },
+        this.scene
+      );
+      
+      crystal.position = new BABYLON.Vector3(
+        (Math.random() - 0.5) * 16,
+        0.5,
+        (Math.random() - 0.5) * 16
+      );
+      
+      const crystalMaterial = new BABYLON.PBRMaterial(`forestCrystal_${i}`, this.scene);
+      crystalMaterial.baseColor = new BABYLON.Color3(0.2, 0.8, 0.3);
+      crystalMaterial.emissiveColor = new BABYLON.Color3(0.1, 0.4, 0.15);
+      crystalMaterial.metallicFactor = 0.8;
+      crystalMaterial.roughnessFactor = 0.1;
+      
+      crystal.material = crystalMaterial;
+      
+      this.interactionSystem.addInteractiveElement({
+        id: `forest_crystal_${i}`,
+        mesh: crystal,
+        type: 'crystal',
+        onClick: () => {
+          console.log('💎 Nature crystal activated! Forest spirits are pleased');
+          // Example: Boost nature spells
+        }
+      });
+    }
+  }
+
+  private async addHearthstoneInteractives(): Promise<void> {
+    // Add interactive torches
+    const torchPositions = [
+      new BABYLON.Vector3(-8, 2, -8),
+      new BABYLON.Vector3(8, 2, -8),
+      new BABYLON.Vector3(-8, 2, 8),
+      new BABYLON.Vector3(8, 2, 8)
+    ];
+    
+    torchPositions.forEach((position, index) => {
+      const torch = BABYLON.MeshBuilder.CreateCylinder(
+        `tavern_torch_${index}`,
+        { height: 2, diameter: 0.2 },
+        this.scene
+      );
+      
+      torch.position = position;
+      
+      const torchMaterial = new BABYLON.PBRMaterial(`torchMaterial_${index}`, this.scene);
+      torchMaterial.baseColor = new BABYLON.Color3(0.4, 0.2, 0.1);
+      torchMaterial.emissiveColor = new BABYLON.Color3(0.2, 0.1, 0.05);
+      
+      torch.material = torchMaterial;
+      
+      this.interactionSystem.addInteractiveElement({
+        id: `tavern_torch_${index}`,
+        mesh: torch,
+        type: 'torch',
+        onClick: () => {
+          console.log('🔥 Torch flickers warmly, illuminating ancient runes on the walls');
+          // Example: Reveal hidden information
+        }
+      });
+    });
+    
+    // Add interactive fireplace
+    const fireplace = BABYLON.MeshBuilder.CreateBox(
+      'tavern_fireplace',
+      { width: 3, height: 2, depth: 1 },
+      this.scene
+    );
+    
+    fireplace.position = new BABYLON.Vector3(0, 1, -12);
+    
+    const fireplaceMaterial = new BABYLON.PBRMaterial('fireplaceMaterial', this.scene);
+    fireplaceMaterial.baseColor = new BABYLON.Color3(0.3, 0.2, 0.15);
+    fireplaceMaterial.emissiveColor = new BABYLON.Color3(0.5, 0.3, 0.1);
+    
+    fireplace.material = fireplaceMaterial;
+    
+    this.interactionSystem.addInteractiveElement({
+      id: 'tavern_fireplace',
+      mesh: fireplace,
+      type: 'campfire',
+      onClick: () => {
+        console.log('🔥 The hearth crackles invitingly, warming your spirit');
+        // Example: Heal player or boost morale
+      }
+    });
+  }
+
+  private async addMysticalInteractives(): Promise<void> {
+    // Add interactive floating runes
+    for (let i = 0; i < 6; i++) {
+      const rune = this.meshes.get(`rune_${i}`);
+      if (rune) {
+        this.interactionSystem.addInteractiveElement({
+          id: `mystical_rune_${i}`,
+          mesh: rune,
+          type: 'rune',
+          onClick: () => {
+            console.log(`✨ Mystical rune ${i + 1} pulses with ancient power`);
+            // Example: Cast mystical effect
+          }
+        });
+      }
+    }
+  }
+
+  private startIdleAnimations(): void {
+    console.log('[MysticalArena] Starting idle animations');
+    
+    // Start waterfall flowing animation
+    this.idleAnimations.forEach(animation => {
+      const target = animation.getTargetProperty();
+      if (target && animation._target) {
+        this.scene.beginAnimation(animation._target, 0, 60, true);
+      }
+    });
+    
+    // Add ambient floating animations for various elements
+    this.createAmbientFloatingAnimation();
+    
+    // Add subtle light flickering
+    this.createLightFlickeringAnimation();
+  }
+
+  private createAmbientFloatingAnimation(): void {
+    // Animate floating elements with subtle bobbing motion
+    this.meshes.forEach((mesh, name) => {
+      if (name.includes('rune') || name.includes('crystal')) {
+        const floatAnimation = new BABYLON.Animation(
+          `${name}_float`,
+          'position.y',
+          30,
+          BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+          BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE
+        );
+        
+        const originalY = mesh.position.y;
+        const floatKeys = [
+          { frame: 0, value: originalY },
+          { frame: 60, value: originalY + 0.3 },
+          { frame: 120, value: originalY }
+        ];
+        
+        floatAnimation.setKeys(floatKeys);
+        mesh.animations.push(floatAnimation);
+        
+        // Start with random offset to avoid synchronization
+        const startFrame = Math.random() * 120;
+        this.scene.beginAnimation(mesh, startFrame, startFrame + 120, true);
+      }
+    });
+  }
+
+  private createLightFlickeringAnimation(): void {
+    // Add subtle flickering to point lights for more dynamic feel
+    this.lights.forEach((light, index) => {
+      if (light instanceof BABYLON.PointLight) {
+        const originalIntensity = light.intensity;
+        
+        // Use scene.registerBeforeRender for real-time flickering
+        this.scene.registerBeforeRender(() => {
+          const flickerAmount = 0.1 + Math.random() * 0.1;
+          light.intensity = originalIntensity * (0.9 + flickerAmount);
+        });
+      }
+    });
+  }
+
+  private logMemoryUsage(): void {
+    const stats = this.assetManager.getMemoryStats();
+    console.log(`[MysticalArena] Memory usage: ${(stats.used / (1024 * 1024)).toFixed(2)}MB / ${(stats.limit / (1024 * 1024)).toFixed(2)}MB (${stats.percentage.toFixed(1)}%)`);
+    
+    if (stats.percentage > 80) {
+      console.warn('[MysticalArena] High memory usage detected, consider reducing quality');
+    }
+  }
+
+  /**
+   * Update battlefield state and sync environment
+   */
+  public updateBattlefieldState(state: Partial<BattlefieldState>): void {
+    this.interactionSystem.updateBattlefieldState(state);
+  }
+
+  /**
+   * Get current battlefield state
+   */
+  public getBattlefieldState(): BattlefieldState {
+    return this.interactionSystem.getBattlefieldState();
+  }
+
+  /**
+   * Change arena theme dynamically
+   */
+  public async changeTheme(theme: ArenaConfig['theme']): Promise<void> {
+    if (theme === this.currentTheme) return;
+    
+    console.log(`[MysticalArena] Changing theme from ${this.currentTheme} to ${theme}`);
+    
+    // Clean up current theme assets
+    this.dispose();
+    
+    // Update configuration
+    this.config.theme = theme;
+    this.currentTheme = theme;
+    
+    // Reinitialize with new theme
+    await this.initialize();
+  }
+
+  /**
+   * Update arena quality dynamically
+   */
+  public async updateQuality(quality: ArenaConfig['quality']): Promise<void> {
+    if (quality === this.config.quality) return;
+    
+    console.log(`[MysticalArena] Updating quality from ${this.config.quality} to ${quality}`);
+    
+    const previousTheme = this.config.theme;
+    this.config.quality = quality;
+    
+    // Reload with new quality settings
+    await this.changeTheme(previousTheme);
+  }
+
+  public dispose(): void {
+    console.log('[MysticalArena] Disposing arena resources');
+    
+    // Dispose asset manager
+    if (this.assetManager) {
+      this.assetManager.cleanup();
+    }
+    
+    // Dispose interaction system
+    if (this.interactionSystem) {
+      this.interactionSystem.dispose();
+    }
+    
+    // Clean up existing resources
+    this.materials.forEach(material => material.dispose());
+    this.materials.clear();
+    
+    this.meshes.forEach(mesh => mesh.dispose());
+    this.meshes.clear();
+    
+    this.lights.forEach(light => light.dispose());
+    this.lights = [];
+    
+    this.particleSystems.forEach(system => system.dispose());
+    this.particleSystems = [];
+    
+    this.animationGroups.forEach(group => group.dispose());
+    this.animationGroups = [];
+    
+    this.idleAnimations = [];
+    this.responsiveElements = [];
+    
+    // Remove resize listener
+    window.removeEventListener('resize', this.handleResize);
   }
 
   // Texture creation methods
@@ -1016,6 +1647,59 @@ export class MysticalArena {
     
     texture.update();
     return texture;
+  }
+
+  // Additional theme-specific methods (stub implementations)
+  private async createForestFloorDetails(): Promise<void> {
+    console.log('[MysticalArena] Creating forest floor details');
+  }
+
+  private async createDesertTerrain(): Promise<void> {
+    console.log('[MysticalArena] Creating desert terrain');
+  }
+
+  private async createAncientRuins(): Promise<void> {
+    console.log('[MysticalArena] Creating ancient ruins');
+  }
+
+  private async createHeatShimmerEffects(): Promise<void> {
+    console.log('[MysticalArena] Creating heat shimmer effects');
+  }
+
+  private async createOasisFeatures(): Promise<void> {
+    console.log('[MysticalArena] Creating oasis features');
+  }
+
+  private async createLavaFeatures(): Promise<void> {
+    console.log('[MysticalArena] Creating lava features');
+  }
+
+  private async createVolcanicRocks(): Promise<void> {
+    console.log('[MysticalArena] Creating volcanic rocks');
+  }
+
+  private async createVolcanicAtmosphere(): Promise<void> {
+    console.log('[MysticalArena] Creating volcanic atmosphere');
+  }
+
+  private async createMagmaCrystals(): Promise<void> {
+    console.log('[MysticalArena] Creating magma crystals');
+  }
+
+  private async createFireFeatures(): Promise<void> {
+    console.log('[MysticalArena] Creating fire features');
+  }
+
+  private async createTavernAtmosphere(): Promise<void> {
+    console.log('[MysticalArena] Creating tavern atmosphere');
+  }
+
+  private async addDesertInteractives(): Promise<void> {
+    console.log('[MysticalArena] Adding desert interactive elements');
+  }
+
+  private async addVolcanoInteractives(): Promise<void> {
+    console.log('[MysticalArena] Adding volcano interactive elements');
   }
 
   private createOrbTexture(): BABYLON.DynamicTexture {
@@ -1313,103 +1997,5 @@ export class MysticalArena {
   private startAnimations(): void {
     // Start any additional global animations
     console.log('[MysticalArena] Starting arena animations');
-  }
-
-  public dispose(): void {
-    console.log('[MysticalArena] Disposing arena resources');
-    
-    // Stop all animations
-    this.animationGroups.forEach(group => group.dispose());
-    this.animationGroups = [];
-    
-    // Dispose particle systems
-    this.particleSystems.forEach(system => system.dispose());
-    this.particleSystems = [];
-    
-    // Dispose lights
-    this.lights.forEach(light => light.dispose());
-    this.lights = [];
-    
-    // Stop texture animations and dispose materials
-    this.materials.forEach(material => {
-      if (material instanceof BABYLON.PBRMaterial) {
-        // Stop energy field animations
-        if (material.emissiveTexture && (material.emissiveTexture as any)._stopAnimation) {
-          (material.emissiveTexture as any)._stopAnimation();
-        }
-      }
-      material.dispose();
-    });
-    this.materials.clear();
-    
-    // Dispose meshes
-    this.meshes.forEach(mesh => mesh.dispose());
-    this.meshes.clear();
-  }
-
-  public changeTheme(newTheme: ArenaConfig['theme']): void {
-    if (this.config.theme === newTheme) return;
-    
-    console.log('[MysticalArena] Changing theme from', this.config.theme, 'to', newTheme);
-    this.config.theme = newTheme;
-    
-    // Update colors without recreating everything
-    const colors = this.getThemeColors();
-    
-    // Update materials
-    this.materials.forEach((material, name) => {
-      if (material instanceof BABYLON.PBRMaterial) {
-        if (name.includes('floor')) {
-          material.baseColor = colors.floor;
-          material.emissiveColor = colors.floorGlow;
-        } else if (name.includes('wall')) {
-          material.baseColor = colors.wall;
-          material.emissiveColor = colors.wallGlow;
-        }
-      }
-    });
-    
-    // Update lights
-    this.lights.forEach((light, index) => {
-      if (light instanceof BABYLON.PointLight && index < 4) {
-        const lightColors = [colors.light1, colors.light2, colors.light3, colors.light4];
-        light.diffuse = lightColors[index];
-      }
-    });
-  }
-
-  public updateQuality(newQuality: ArenaConfig['quality']): void {
-    if (this.config.quality === newQuality) return;
-    
-    console.log('[MysticalArena] Updating quality from', this.config.quality, 'to', newQuality);
-    const oldQuality = this.config.quality;
-    this.config.quality = newQuality;
-    
-    // Enable/disable features based on quality
-    if (oldQuality === 'low' && newQuality !== 'low') {
-      // Enable advanced features
-      this.enableAdvancedFeatures();
-    } else if (oldQuality !== 'low' && newQuality === 'low') {
-      // Disable advanced features
-      this.disableAdvancedFeatures();
-    }
-  }
-
-  private enableAdvancedFeatures(): void {
-    // Re-enable particles if they were disabled
-    this.particleSystems.forEach(system => {
-      if (!system.isStarted()) {
-        system.start();
-      }
-    });
-  }
-
-  private disableAdvancedFeatures(): void {
-    // Disable particles for performance
-    this.particleSystems.forEach(system => {
-      if (system.isStarted()) {
-        system.stop();
-      }
-    });
   }
 }
