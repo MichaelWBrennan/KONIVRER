@@ -728,10 +728,19 @@ export class MysticalArena {
 
   private animateEnergyField(texture: BABYLON.DynamicTexture): void {
     let time = 0;
+    let isRunning = true;
     
     const updateTexture = () => {
+      if (!isRunning) return;
+      
       time += 0.05;
       const context = texture.getContext();
+      
+      // Check if context is still valid
+      if (!context) {
+        isRunning = false;
+        return;
+      }
       
       context.clearRect(0, 0, 256, 256);
       
@@ -752,10 +761,17 @@ export class MysticalArena {
       
       texture.update();
       
-      setTimeout(updateTexture, 50);
+      if (isRunning) {
+        setTimeout(updateTexture, 50);
+      }
     };
     
     updateTexture();
+    
+    // Store cleanup function to stop animation
+    (texture as any)._stopAnimation = () => {
+      isRunning = false;
+    };
   }
 
   private animateWispEmitter(emitter: BABYLON.Mesh, index: number, total: number): void {
@@ -871,8 +887,16 @@ export class MysticalArena {
     this.lights.forEach(light => light.dispose());
     this.lights = [];
     
-    // Dispose materials
-    this.materials.forEach(material => material.dispose());
+    // Stop texture animations and dispose materials
+    this.materials.forEach(material => {
+      if (material instanceof BABYLON.PBRMaterial) {
+        // Stop energy field animations
+        if (material.emissiveTexture && (material.emissiveTexture as any)._stopAnimation) {
+          (material.emissiveTexture as any)._stopAnimation();
+        }
+      }
+      material.dispose();
+    });
     this.materials.clear();
     
     // Dispose meshes
