@@ -29,13 +29,27 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Separate babylonjs into its own chunk to improve build performance
-          babylonjs: ['babylonjs'],
+          // Core React and routing - needed immediately
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          // UI and animation libraries
+          'ui-vendor': ['framer-motion', '@vercel/analytics', '@vercel/speed-insights'],
+          // 3D and game libraries - lazy loaded
+          'babylon-vendor': ['babylonjs', 'babylon'],
+          'three-vendor': ['three'],
+          // AI and ML libraries - lazy loaded
+          'ai-vendor': ['@tensorflow/tfjs', '@xenova/transformers', '@mediapipe/tasks-vision'],
+          // Audio libraries - lazy loaded
+          'audio-vendor': ['tone'],
+          // Other heavy libraries
+          'heavy-vendor': ['d3', 'lodash-es', 'socket.io-client'],
         },
       },
     },
     // Increase chunk size warning limit for 3D libraries
     chunkSizeWarningLimit: 1000,
+    // Optimize for faster startup
+    target: 'esnext',
+    minify: 'esbuild',
   },
   server: {
     fs: {
