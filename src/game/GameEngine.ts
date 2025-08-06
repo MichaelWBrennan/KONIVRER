@@ -557,7 +557,7 @@ export class GameEngine {
 
     // Create arena configuration
     const arenaConfig: ArenaConfig = {
-      theme: 'mystical', // Default theme, can be customized
+      theme: 'hearthstone', // Changed to showcase new Hearthstone theme
       quality: quality,
       enableParticles: !isLowPerformance && settings.backgroundEffectsEnabled !== false,
       enableLighting: true,
@@ -1156,7 +1156,7 @@ export class GameEngine {
 
   public getArenaConfig(): ArenaConfig | null {
     return this.mysticalArena ? {
-      theme: 'mystical', // We'll need to track this in the arena if we want to expose it
+      theme: 'hearthstone', // Updated to reflect current default
       quality: 'high',
       enableParticles: true,
       enableLighting: true,
