@@ -188,7 +188,7 @@ export class SSOService {
       timestamp: Date.now(),
       nonce: crypto.getRandomValues(new Uint32Array(1))[0].toString(36),
     };
-    return btoa(JSON.stringify(_state));
+    return btoa(JSON.stringify(state));
   }
 
   // Validate state parameter
@@ -549,9 +549,9 @@ export const useSSO = () => {
         severity: 'medium',
         source: 'sso_login',
         blocked: true,
-        details: `SSO login failed for provider ${providerId}: ${error}`,
+        details: `SSO login failed for provider ${providerId}: ${_error}`,
       });
-      throw error;
+      throw _error;
     }
   };
 
