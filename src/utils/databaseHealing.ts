@@ -178,7 +178,7 @@ function healLocalStorage(): void {
     Object.keys(localStorage).forEach(key => {
       if (key.startsWith('konivrer_')) {
         try {
-          const value = localStorage.getItem(_key);
+          const value = localStorage.getItem(key);
           if (value) {
             JSON.parse(value); // Test if it's valid JSON
           }
@@ -188,7 +188,7 @@ function healLocalStorage(): void {
           );
 
           // Try to recover the data
-          const corruptedValue = localStorage.getItem(_key) || '';
+          const corruptedValue = localStorage.getItem(key) || '';
 
           // Simple recovery: remove invalid characters and try to parse again
           const cleanedValue = corruptedValue.replace(/[^\x20-\x7E]/g, '');
@@ -242,7 +242,7 @@ export function createHealingDatabaseProxy(db: any): any {
                   const data = JSON.parse(value);
 
                   // If it's an array, heal each item
-                  if (Array.isArray(_data)) {
+                  if (Array.isArray(data)) {
                     const healedData = data.map(item =>
                       validateAndHealRecord(collectionName, item),
                     );
@@ -259,7 +259,7 @@ export function createHealingDatabaseProxy(db: any): any {
                 } catch (_error) {
                   console.info(
                     `[DB-Healing] Error healing data for ${key}:`,
-                    error,
+                    _error,
                   );
                 }
               }

@@ -27,7 +27,6 @@ import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
 import BottomMenuBar from '../components/BottomMenuBar';
 import AppProvider from '../components/AppProvider';
-import MainNavigation from '../components/MainNavigation';
 import { healingConfigManager } from '../config/healingConfig';
 import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
 import { KONIVRER_CARDS } from '../data/cards';
@@ -581,7 +580,9 @@ const Phase3App = () => {
           <AppContainer>
             <SkipToContent />
             <ColorBlindFilters />
-            <MainNavigation />
+            <Router>
+              <BottomMenuBar />
+            </Router>
             <Analytics />
             <SpeedInsights />
             {/* Development tools disabled for production experience
