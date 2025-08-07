@@ -95,10 +95,10 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({
 
   const getThemeDescription = (theme: string) => {
     const descriptions = {
-      hearthstone: 'Cozy tavern with flickering torches and warm firelight',
-      forest: 'Mystical woodland with waterfalls and dappled sunlight',
-      desert: 'Ancient ruins with heat shimmer and golden sands',
-      volcano: 'Molten landscape with lava flows and volcanic rocks',
+      hearthstone: 'Cozy tavern with pseudo-3D depth, Mode7 floors, and 2.5D character sprites',
+      forest: 'Mystical woodland with parallax waterfalls, isometric tiles, and layered depth',
+      desert: 'Ancient ruins with Mode7 sand dunes, billboard sprites, and multi-layer backgrounds',
+      volcano: 'Molten landscape with pseudo-3D lava flows, isometric rocks, and depth layering',
     };
     return descriptions[theme as keyof typeof descriptions] || 'Unknown theme';
   };
@@ -106,11 +106,17 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({
   return (
     <div className={`battlefield-demo ${className || ''}`}>
       <div className="demo-header">
-        <h2>🏰 Hearthstone-Style Battlefield System</h2>
+        <h2>🏰 Enhanced Pseudo-3D Battlefield System</h2>
         <p>
-          Interactive 2.5D battlefield with responsive design and dynamic
-          theming
+          Interactive battlefield combining 2.5D, isometric, Mode7, and 2D
+          assets for immersive gaming experience
         </p>
+        <div className="pseudo-3d-features">
+          <span className="feature-badge">🎮 Mode7 Backgrounds</span>
+          <span className="feature-badge">📐 Isometric Views</span>
+          <span className="feature-badge">🖼️ 2.5D Sprites</span>
+          <span className="feature-badge">🌌 Parallax Layers</span>
+        </div>
       </div>
 
       <div className="demo-controls">
