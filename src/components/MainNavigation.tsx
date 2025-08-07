@@ -172,11 +172,7 @@ const MainNavigation: React.FC = () => {
         );
 
       case 'rules':
-        return (
-          <RulesViewer
-            onBack={() => setActiveView('cardSearch')}
-          />
-        );
+        return <RulesViewer onBack={() => setActiveView('cardSearch')} />;
 
       default:
         return <div>Unknown view</div>;

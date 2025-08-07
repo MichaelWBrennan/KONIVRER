@@ -10,18 +10,18 @@ const RulesViewer: React.FC<RulesViewerProps> = ({ onBack }) => {
     {
       title: 'Basic Rules',
       filename: 'konivrer-rules.pdf',
-      description: 'Learn the fundamental rules of KONIVRER'
+      description: 'Learn the fundamental rules of KONIVRER',
     },
     {
-      title: 'Tournament Rules', 
+      title: 'Tournament Rules',
       filename: 'konivrer-tournament-rules.pdf',
-      description: 'Official tournament and competitive play rules'
+      description: 'Official tournament and competitive play rules',
     },
     {
       title: 'Code of Conduct',
-      filename: 'konivrer-code-of-conduct.pdf', 
-      description: 'Community guidelines and code of conduct'
-    }
+      filename: 'konivrer-code-of-conduct.pdf',
+      description: 'Community guidelines and code of conduct',
+    },
   ];
 
   const openPDF = (filename: string) => {
@@ -39,7 +39,9 @@ const RulesViewer: React.FC<RulesViewerProps> = ({ onBack }) => {
           </button>
         )}
         <h2>KONIVRER Rules & Guidelines</h2>
-        <p>Access official rules, tournament guidelines, and community standards</p>
+        <p>
+          Access official rules, tournament guidelines, and community standards
+        </p>
       </div>
 
       <div className="rules-grid">
@@ -48,7 +50,7 @@ const RulesViewer: React.FC<RulesViewerProps> = ({ onBack }) => {
             <div className="rule-icon">📖</div>
             <h3>{rule.title}</h3>
             <p>{rule.description}</p>
-            <button 
+            <button
               onClick={() => openPDF(rule.filename)}
               className="view-pdf-button"
             >
