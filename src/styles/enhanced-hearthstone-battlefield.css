@@ -6,7 +6,11 @@
   height: 100vh;
   overflow: hidden;
   background: radial-gradient(ellipse at center, #1a2332 0%, #0f1419 100%);
-  font-family: 'OpenDyslexic', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family:
+    'OpenDyslexic',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 
 /* 3D Battlefield Container */
@@ -68,11 +72,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% { 
+  0%,
+  100% {
     background: rgba(212, 175, 55, 0.2);
     box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
   }
-  50% { 
+  50% {
     background: rgba(212, 175, 55, 0.4);
     box-shadow: 0 0 25px rgba(212, 175, 55, 0.8);
   }
@@ -84,15 +89,15 @@
   color: #d4af37;
 }
 
-.interactive-prop[data-prop-type="torch"]::before {
+.interactive-prop[data-prop-type='torch']::before {
   content: '🔥';
 }
 
-.interactive-prop[data-prop-type="waterwheel"]::before {
+.interactive-prop[data-prop-type='waterwheel']::before {
   content: '⚙️';
 }
 
-.interactive-prop[data-prop-type="crystal"]::before {
+.interactive-prop[data-prop-type='crystal']::before {
   content: '💎';
 }
 
@@ -191,7 +196,7 @@
 }
 
 .battlefield:hover,
-.battlefield[data-drop-active="true"] {
+.battlefield[data-drop-active='true'] {
   border-color: #d4af37;
   background: rgba(212, 175, 55, 0.1);
   box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.2);
@@ -221,8 +226,14 @@
 }
 
 @keyframes dropHint {
-  from { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+  from {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
 }
 
 /* Battlefield Cards */
@@ -671,8 +682,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {

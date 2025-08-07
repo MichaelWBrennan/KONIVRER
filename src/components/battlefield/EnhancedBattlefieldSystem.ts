@@ -48,7 +48,7 @@ export class EnhancedBattlefieldSystem {
   private particleSystems: Map<string, BABYLON.ParticleSystem> = new Map();
   private animationGroups: BABYLON.AnimationGroup[] = [];
   private actionQueue: GameAction[] = [];
-  
+
   // Zone definitions for Hearthstone-style layout
   private readonly ZONE_DEFINITIONS = {
     'player-hand': {
@@ -102,7 +102,7 @@ export class EnhancedBattlefieldSystem {
       turnPhase: 'main',
       gameActions: [],
     };
-    
+
     this.initializeZones();
     this.setupInteractionSystem();
   }
@@ -115,27 +115,31 @@ export class EnhancedBattlefieldSystem {
       const zoneMesh = BABYLON.MeshBuilder.CreatePlane(
         `zone_${zoneId}`,
         { width: zoneDef.size.width, height: zoneDef.size.height },
-        this.scene
+        this.scene,
       );
-      
+
       zoneMesh.position = zoneDef.position.clone();
       zoneMesh.rotation.x = -Math.PI / 2; // Lay flat on ground
-      
+
       // Create zone material
-      const zoneMaterial = new BABYLON.PBRMaterial(`zoneMaterial_${zoneId}`, this.scene);
+      const zoneMaterial = new BABYLON.PBRMaterial(
+        `zoneMaterial_${zoneId}`,
+        this.scene,
+      );
       zoneMaterial.baseColor = new BABYLON.Color3(0.2, 0.3, 0.4);
       zoneMaterial.alpha = 0.3;
-      zoneMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
-      
+      zoneMaterial.transparencyMode =
+        BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+
       // Add subtle glow for drop zones
       if (zoneDef.isDropZone) {
         zoneMaterial.emissiveColor = new BABYLON.Color3(0.1, 0.3, 0.1);
         zoneMaterial.emissiveIntensity = 0.2;
       }
-      
+
       zoneMesh.material = zoneMaterial;
       zoneMesh.setEnabled(false); // Hidden by default
-      
+
       // Create player zone data
       const playerZone: PlayerZone = {
         id: zoneId,
@@ -150,7 +154,7 @@ export class EnhancedBattlefieldSystem {
         mesh: zoneMesh,
         material: zoneMaterial,
       };
-      
+
       this.state.playerZones.push(playerZone);
       this.zoneIndicators.set(zoneId, zoneMesh);
     });
@@ -169,7 +173,7 @@ export class EnhancedBattlefieldSystem {
 
   private setupInteractionSystem(): void {
     // Setup pointer and drag interaction handling
-    this.scene.onPointerObservable.add((pointerInfo) => {
+    this.scene.onPointerObservable.add(pointerInfo => {
       switch (pointerInfo.type) {
         case BABYLON.PointerEventTypes.POINTERDOWN:
           this.handlePointerDown(pointerInfo);
@@ -259,20 +263,20 @@ export class EnhancedBattlefieldSystem {
 
   public selectCard(cardId: string): void {
     console.log(`[BattlefieldSystem] Card selected: ${cardId}`);
-    
+
     // Deselect previous card
     if (this.state.selectedCard) {
       this.deselectCard(this.state.selectedCard);
     }
-    
+
     this.state.selectedCard = cardId;
-    
+
     // Visual feedback for selected card
     const cardMesh = this.cardMeshes.get(cardId);
     if (cardMesh) {
       this.animateCardSelection(cardMesh, true);
     }
-    
+
     // Show drop zones if applicable
     this.showDropZonesForCard(cardId);
   }
@@ -285,10 +289,15 @@ export class EnhancedBattlefieldSystem {
     this.hideDropZones();
   }
 
-  private animateCardSelection(cardMesh: BABYLON.Mesh, selected: boolean): void {
-    const targetY = selected ? cardMesh.position.y + 0.5 : cardMesh.position.y - 0.5;
+  private animateCardSelection(
+    cardMesh: BABYLON.Mesh,
+    selected: boolean,
+  ): void {
+    const targetY = selected
+      ? cardMesh.position.y + 0.5
+      : cardMesh.position.y - 0.5;
     const targetScale = selected ? 1.1 : 1.0;
-    
+
     // Create selection animation
     BABYLON.Animation.CreateAndStartAnimation(
       `selectCard_${cardMesh.name}`,
@@ -298,9 +307,9 @@ export class EnhancedBattlefieldSystem {
       15,
       cardMesh.position.y,
       targetY,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `scaleCard_${cardMesh.name}`,
       cardMesh.scaling,
@@ -309,9 +318,9 @@ export class EnhancedBattlefieldSystem {
       15,
       cardMesh.scaling.x,
       targetScale,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `scaleCardZ_${cardMesh.name}`,
       cardMesh.scaling,
@@ -320,14 +329,14 @@ export class EnhancedBattlefieldSystem {
       15,
       cardMesh.scaling.z,
       targetScale,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
   }
 
   private showDropZonesForCard(cardId: string): void {
     // Determine valid drop zones for this card
     const validZones = this.getValidDropZones(cardId);
-    
+
     validZones.forEach(zoneId => {
       const zoneMesh = this.zoneIndicators.get(zoneId);
       if (zoneMesh) {
@@ -347,21 +356,21 @@ export class EnhancedBattlefieldSystem {
     // Logic to determine where a card can be played
     const cardPosition = this.state.cardPositions.get(cardId);
     if (!cardPosition) return [];
-    
+
     // For now, if card is in hand, it can be played to battlefield
     if (cardPosition.zoneId === 'player-hand') {
       return ['player-battlefield'];
     }
-    
+
     return [];
   }
 
   private setZoneHover(zoneId: string): void {
     if (this.state.hoveredZone === zoneId) return;
-    
+
     // Clear previous hover
     this.clearZoneHover();
-    
+
     this.state.hoveredZone = zoneId;
     const zoneMesh = this.zoneIndicators.get(zoneId);
     if (zoneMesh && zoneMesh.isEnabled()) {
@@ -371,22 +380,26 @@ export class EnhancedBattlefieldSystem {
 
   private clearZoneHover(): void {
     if (!this.state.hoveredZone) return;
-    
+
     const zoneMesh = this.zoneIndicators.get(this.state.hoveredZone);
     if (zoneMesh) {
       this.animateZoneHighlight(zoneMesh, false, 'hover');
     }
-    
+
     this.state.hoveredZone = undefined;
   }
 
-  private animateZoneHighlight(zoneMesh: BABYLON.Mesh, highlight: boolean, type: 'selection' | 'hover' = 'selection'): void {
+  private animateZoneHighlight(
+    zoneMesh: BABYLON.Mesh,
+    highlight: boolean,
+    type: 'selection' | 'hover' = 'selection',
+  ): void {
     const material = zoneMesh.material as BABYLON.PBRMaterial;
     if (!material) return;
-    
+
     let targetEmissive: BABYLON.Color3;
     let targetAlpha: number;
-    
+
     if (highlight) {
       if (type === 'hover') {
         targetEmissive = new BABYLON.Color3(0.3, 0.3, 0.1);
@@ -399,7 +412,7 @@ export class EnhancedBattlefieldSystem {
       targetEmissive = new BABYLON.Color3(0.1, 0.3, 0.1);
       targetAlpha = 0.3;
     }
-    
+
     // Animate material properties
     BABYLON.Animation.CreateAndStartAnimation(
       `zoneHighlight_${zoneMesh.name}`,
@@ -409,9 +422,9 @@ export class EnhancedBattlefieldSystem {
       15,
       material.emissiveColor.r,
       targetEmissive.r,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `zoneHighlight_g_${zoneMesh.name}`,
       material.emissiveColor,
@@ -420,9 +433,9 @@ export class EnhancedBattlefieldSystem {
       15,
       material.emissiveColor.g,
       targetEmissive.g,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `zoneHighlight_b_${zoneMesh.name}`,
       material.emissiveColor,
@@ -431,9 +444,9 @@ export class EnhancedBattlefieldSystem {
       15,
       material.emissiveColor.b,
       targetEmissive.b,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `zoneAlpha_${zoneMesh.name}`,
       material,
@@ -442,25 +455,27 @@ export class EnhancedBattlefieldSystem {
       15,
       material.alpha,
       targetAlpha,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
   }
 
   private onZoneClicked(zoneId: string): void {
     console.log(`[BattlefieldSystem] Zone clicked: ${zoneId}`);
-    
+
     // Handle zone-specific actions
     const zone = this.state.playerZones.find(z => z.id === zoneId);
     if (!zone) return;
-    
+
     if (zone.type === 'deck' && zone.isPlayerOwned) {
       this.triggerDrawCard();
     }
   }
 
   private attemptCardDrop(cardId: string, targetZoneId: string): void {
-    console.log(`[BattlefieldSystem] Attempting to drop card ${cardId} in zone ${targetZoneId}`);
-    
+    console.log(
+      `[BattlefieldSystem] Attempting to drop card ${cardId} in zone ${targetZoneId}`,
+    );
+
     const validZones = this.getValidDropZones(cardId);
     if (!validZones.includes(targetZoneId)) {
       console.log(`[BattlefieldSystem] Invalid drop zone: ${targetZoneId}`);
@@ -468,10 +483,10 @@ export class EnhancedBattlefieldSystem {
       this.hideDropZones();
       return;
     }
-    
+
     // Execute the card play
     this.playCard(cardId, targetZoneId);
-    
+
     this.state.selectedCard = undefined;
     this.hideDropZones();
   }
@@ -479,54 +494,67 @@ export class EnhancedBattlefieldSystem {
   public playCard(cardId: string, targetZoneId: string): void {
     const cardPosition = this.state.cardPositions.get(cardId);
     if (!cardPosition) return;
-    
-    const sourceZone = this.state.playerZones.find(z => z.id === cardPosition.zoneId);
+
+    const sourceZone = this.state.playerZones.find(
+      z => z.id === cardPosition.zoneId,
+    );
     const targetZone = this.state.playerZones.find(z => z.id === targetZoneId);
-    
+
     if (!sourceZone || !targetZone) return;
-    
+
     // Remove card from source zone
     sourceZone.cards = sourceZone.cards.filter(id => id !== cardId);
-    
+
     // Add card to target zone
     if (targetZone.cards.length < targetZone.maxCards) {
       targetZone.cards.push(cardId);
-      
+
       // Calculate new position in target zone
-      const newPosition = this.calculateCardPositionInZone(cardId, targetZoneId);
-      
+      const newPosition = this.calculateCardPositionInZone(
+        cardId,
+        targetZoneId,
+      );
+
       // Animate card movement
       this.animateCardToPosition(cardId, newPosition, targetZoneId);
-      
+
       // Create game action
       const action: GameAction = {
         type: 'play_card',
         sourceId: cardId,
         data: { sourceZone: cardPosition.zoneId, targetZone: targetZoneId },
       };
-      
+
       this.state.gameActions.push(action);
       this.processGameAction(action);
-      
-      console.log(`[BattlefieldSystem] Card ${cardId} played from ${cardPosition.zoneId} to ${targetZoneId}`);
+
+      console.log(
+        `[BattlefieldSystem] Card ${cardId} played from ${cardPosition.zoneId} to ${targetZoneId}`,
+      );
     }
   }
 
-  private calculateCardPositionInZone(cardId: string, zoneId: string): BABYLON.Vector3 {
+  private calculateCardPositionInZone(
+    cardId: string,
+    zoneId: string,
+  ): BABYLON.Vector3 {
     const zone = this.state.playerZones.find(z => z.id === zoneId);
     if (!zone) return new BABYLON.Vector3(0, 0, 0);
-    
+
     const cardIndex = zone.cards.indexOf(cardId);
     const cardCount = zone.cards.length;
-    
+
     // Calculate position based on zone type and card index
     let x = zone.position.x;
     let z = zone.position.z;
-    
+
     if (zone.type === 'hand') {
       // Spread cards horizontally in hand
-      const cardSpacing = Math.min(1.5, zone.size.width / Math.max(cardCount, 1));
-      const startX = zone.position.x - (cardCount - 1) * cardSpacing / 2;
+      const cardSpacing = Math.min(
+        1.5,
+        zone.size.width / Math.max(cardCount, 1),
+      );
+      const startX = zone.position.x - ((cardCount - 1) * cardSpacing) / 2;
       x = startX + cardIndex * cardSpacing;
     } else if (zone.type === 'battlefield') {
       // Arrange cards in battlefield
@@ -534,19 +562,23 @@ export class EnhancedBattlefieldSystem {
       const cardSpacing = zone.size.width / Math.max(cardsPerRow, 1);
       const startX = zone.position.x - zone.size.width / 2 + cardSpacing / 2;
       x = startX + (cardIndex % cardsPerRow) * cardSpacing;
-      
+
       if (cardIndex >= 7) {
         z += 1.5; // Second row
       }
     }
-    
+
     return new BABYLON.Vector3(x, 0.1, z);
   }
 
-  private animateCardToPosition(cardId: string, targetPosition: BABYLON.Vector3, targetZoneId: string): void {
+  private animateCardToPosition(
+    cardId: string,
+    targetPosition: BABYLON.Vector3,
+    targetZoneId: string,
+  ): void {
     const cardMesh = this.cardMeshes.get(cardId);
     if (!cardMesh) return;
-    
+
     // Create smooth movement animation
     const moveAnimation = BABYLON.Animation.CreateAndStartAnimation(
       `moveCard_${cardId}`,
@@ -556,9 +588,9 @@ export class EnhancedBattlefieldSystem {
       30,
       cardMesh.position.x,
       targetPosition.x,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `moveCardZ_${cardId}`,
       cardMesh.position,
@@ -567,57 +599,68 @@ export class EnhancedBattlefieldSystem {
       30,
       cardMesh.position.z,
       targetPosition.z,
-      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+      BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
     );
-    
+
     // Update card position data
     const cardPosition = this.state.cardPositions.get(cardId);
     if (cardPosition) {
       cardPosition.position = targetPosition;
       cardPosition.zoneId = targetZoneId;
       cardPosition.isAnimating = true;
-      
+
       // Clear animation flag after animation completes
       setTimeout(() => {
         cardPosition.isAnimating = false;
       }, 1000);
     }
-    
+
     // Add particle effect for card play
     this.createCardPlayEffect(targetPosition);
   }
 
   private createCardPlayEffect(position: BABYLON.Vector3): void {
     // Create sparkle effect when card is played
-    const particles = new BABYLON.ParticleSystem('cardPlayEffect', 50, this.scene);
-    
+    const particles = new BABYLON.ParticleSystem(
+      'cardPlayEffect',
+      50,
+      this.scene,
+    );
+
     // Create emitter
-    const emitter = BABYLON.MeshBuilder.CreateSphere('emitter', { diameter: 0.1 }, this.scene);
+    const emitter = BABYLON.MeshBuilder.CreateSphere(
+      'emitter',
+      { diameter: 0.1 },
+      this.scene,
+    );
     emitter.position = position.clone();
     emitter.position.y += 0.5;
     emitter.setEnabled(false);
-    
-    particles.particleTexture = new BABYLON.Texture('/images/particles/sparkle.png', this.scene);
+
+    particles.particleTexture = new BABYLON.Texture(
+      '/images/particles/sparkle.png',
+      this.scene,
+    );
     particles.emitter = emitter;
-    
+
     particles.color1 = new BABYLON.Color4(1, 0.8, 0, 1);
     particles.color2 = new BABYLON.Color4(1, 0.6, 0, 1);
     particles.colorDead = new BABYLON.Color4(0, 0, 0, 0);
-    
+
     particles.minSize = 0.1;
     particles.maxSize = 0.3;
     particles.minLifeTime = 0.5;
     particles.maxLifeTime = 1.5;
     particles.emitRate = 100;
-    
+
     particles.blendMode = BABYLON.ParticleSystem.BLENDMODE_ONEONE;
     particles.direction1 = new BABYLON.Vector3(-0.5, 1, -0.5);
     particles.direction2 = new BABYLON.Vector3(0.5, 2, 0.5);
     particles.minEmitPower = 1;
     particles.maxEmitPower = 3;
-    
+
     particles.start();
-    
+
     // Clean up after effect
     setTimeout(() => {
       particles.stop();
@@ -637,10 +680,10 @@ export class EnhancedBattlefieldSystem {
   private processGameAction(action: GameAction): void {
     // Process the game action through the game engine
     console.log(`[BattlefieldSystem] Processing action: ${action.type}`);
-    
+
     // Add to action queue for batch processing
     this.actionQueue.push(action);
-    
+
     // Trigger action processing on next frame
     if (this.actionQueue.length === 1) {
       setTimeout(() => this.processActionQueue(), 0);
@@ -664,20 +707,25 @@ export class EnhancedBattlefieldSystem {
   }
 
   // Public API Methods
-  
-  public addCard(cardId: string, zoneId: string, position?: BABYLON.Vector3): void {
+
+  public addCard(
+    cardId: string,
+    zoneId: string,
+    position?: BABYLON.Vector3,
+  ): void {
     const zone = this.state.playerZones.find(z => z.id === zoneId);
     if (!zone) return;
-    
+
     if (zone.cards.length >= zone.maxCards) {
       console.warn(`[BattlefieldSystem] Zone ${zoneId} is full`);
       return;
     }
-    
+
     zone.cards.push(cardId);
-    
-    const cardPosition = position || this.calculateCardPositionInZone(cardId, zoneId);
-    
+
+    const cardPosition =
+      position || this.calculateCardPositionInZone(cardId, zoneId);
+
     this.state.cardPositions.set(cardId, {
       cardId,
       position: cardPosition,
@@ -686,27 +734,27 @@ export class EnhancedBattlefieldSystem {
       zoneId,
       isAnimating: false,
     });
-    
+
     console.log(`[BattlefieldSystem] Added card ${cardId} to zone ${zoneId}`);
   }
 
   public removeCard(cardId: string): void {
     const cardPosition = this.state.cardPositions.get(cardId);
     if (!cardPosition) return;
-    
+
     const zone = this.state.playerZones.find(z => z.id === cardPosition.zoneId);
     if (zone) {
       zone.cards = zone.cards.filter(id => id !== cardId);
     }
-    
+
     this.state.cardPositions.delete(cardId);
-    
+
     const cardMesh = this.cardMeshes.get(cardId);
     if (cardMesh) {
       cardMesh.dispose();
       this.cardMeshes.delete(cardId);
     }
-    
+
     console.log(`[BattlefieldSystem] Removed card ${cardId}`);
   }
 
@@ -720,22 +768,22 @@ export class EnhancedBattlefieldSystem {
 
   public dispose(): void {
     console.log('[EnhancedBattlefieldSystem] Disposing battlefield system');
-    
+
     // Clean up meshes
     this.zoneIndicators.forEach(mesh => mesh.dispose());
     this.zoneIndicators.clear();
-    
+
     this.cardMeshes.forEach(mesh => mesh.dispose());
     this.cardMeshes.clear();
-    
+
     // Clean up particle systems
     this.particleSystems.forEach(particles => particles.dispose());
     this.particleSystems.clear();
-    
+
     // Clean up animations
     this.animationGroups.forEach(group => group.dispose());
     this.animationGroups = [];
-    
+
     // Clear state
     this.state.cardPositions.clear();
     this.state.playerZones = [];

@@ -66,13 +66,16 @@ export class PlayerZoneSystem {
   private layout: ZoneLayout;
   private isMobile: boolean;
   private isTablet: boolean;
-  
+
   // Zone interaction callbacks
   private onCardDragStart?: (card: GameCard) => void;
-  private onCardDragEnd?: (card: GameCard, targetZone: PlayerZone | null) => void;
+  private onCardDragEnd?: (
+    card: GameCard,
+    targetZone: PlayerZone | null,
+  ) => void;
   private onCardHover?: (card: GameCard | null) => void;
   private onZoneHover?: (zone: PlayerZone | null) => void;
-  
+
   // Materials and effects
   private zoneMaterials: Map<string, BABYLON.Material> = new Map();
   private glowLayer: BABYLON.GlowLayer;
@@ -83,14 +86,14 @@ export class PlayerZoneSystem {
     this.camera = camera;
     this.glowLayer = new BABYLON.GlowLayer('glow', scene);
     this.glowLayer.intensity = 0.5;
-    
+
     // Detect device type for responsive layout
     this.isMobile = window.innerWidth <= 768;
     this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
-    
+
     // Initialize responsive layout
     this.layout = this.createResponsiveLayout();
-    
+
     // Initialize zones
     this.initializeZones();
     this.setupInteractionHandlers();
@@ -100,7 +103,7 @@ export class PlayerZoneSystem {
     const screenWidth = window.innerWidth;
     const screenHeight = window.innerHeight;
     const aspectRatio = screenWidth / screenHeight;
-    
+
     if (this.isMobile) {
       // Mobile layout - vertical stacking
       return {
@@ -164,16 +167,46 @@ export class PlayerZoneSystem {
   private initializeZones(): void {
     // Create player zones
     this.createZone('player-hand', 'hand', 'player', this.layout.player.hand);
-    this.createZone('player-battlefield', 'battlefield', 'player', this.layout.player.battlefield);
+    this.createZone(
+      'player-battlefield',
+      'battlefield',
+      'player',
+      this.layout.player.battlefield,
+    );
     this.createZone('player-deck', 'deck', 'player', this.layout.player.deck);
-    this.createZone('player-discard', 'discard', 'player', this.layout.player.discard);
-    
+    this.createZone(
+      'player-discard',
+      'discard',
+      'player',
+      this.layout.player.discard,
+    );
+
     // Create opponent zones
-    this.createZone('opponent-hand', 'hand', 'opponent', this.layout.opponent.hand);
-    this.createZone('opponent-battlefield', 'battlefield', 'opponent', this.layout.opponent.battlefield);
-    this.createZone('opponent-deck', 'deck', 'opponent', this.layout.opponent.deck);
-    this.createZone('opponent-discard', 'discard', 'opponent', this.layout.opponent.discard);
-    
+    this.createZone(
+      'opponent-hand',
+      'hand',
+      'opponent',
+      this.layout.opponent.hand,
+    );
+    this.createZone(
+      'opponent-battlefield',
+      'battlefield',
+      'opponent',
+      this.layout.opponent.battlefield,
+    );
+    this.createZone(
+      'opponent-deck',
+      'deck',
+      'opponent',
+      this.layout.opponent.deck,
+    );
+    this.createZone(
+      'opponent-discard',
+      'discard',
+      'opponent',
+      this.layout.opponent.discard,
+    );
+
     // Create central playmat
     this.createCentralPlaymat();
   }
@@ -182,7 +215,7 @@ export class PlayerZoneSystem {
     id: string,
     type: PlayerZone['type'],
     owner: 'player' | 'opponent',
-    layout: { x: number; y: number; width: number; height: number }
+    layout: { x: number; y: number; width: number; height: number },
   ): void {
     // Convert normalized coordinates to world space
     const worldX = (layout.x - 0.5) * 20; // Spread across 20 world units
@@ -194,7 +227,7 @@ export class PlayerZoneSystem {
     const zoneMesh = BABYLON.MeshBuilder.CreateGround(
       `${id}-mesh`,
       { width: worldWidth, height: worldHeight },
-      this.scene
+      this.scene,
     );
     zoneMesh.position.set(worldX, 0.01, worldZ);
 
@@ -207,7 +240,7 @@ export class PlayerZoneSystem {
     const highlightMesh = BABYLON.MeshBuilder.CreateGround(
       `${id}-highlight`,
       { width: worldWidth + 0.2, height: worldHeight + 0.2 },
-      this.scene
+      this.scene,
     );
     highlightMesh.position.set(worldX, 0.02, worldZ);
     highlightMesh.material = this.createHighlightMaterial(type);
@@ -242,20 +275,24 @@ export class PlayerZoneSystem {
     const playmatMesh = BABYLON.MeshBuilder.CreateGround(
       'central-playmat',
       { width: worldWidth, height: worldHeight },
-      this.scene
+      this.scene,
     );
     playmatMesh.position.set(worldX, 0.01, worldZ);
 
     // Special material for the central playmat
-    const playmatMaterial = new BABYLON.PBRMaterial('playmat-material', this.scene);
+    const playmatMaterial = new BABYLON.PBRMaterial(
+      'playmat-material',
+      this.scene,
+    );
     playmatMaterial.baseColor = new BABYLON.Color3(0.2, 0.15, 0.1);
     playmatMaterial.emissiveColor = new BABYLON.Color3(0.1, 0.08, 0.05);
     playmatMaterial.roughness = 0.8;
     playmatMaterial.metallic = 0.1;
-    
+
     // Add mystical texture pattern (we'll enhance this later)
     playmatMaterial.bumpTexture = new BABYLON.Texture(
-      'data:image/svg+xml;base64,' + btoa(`
+      'data:image/svg+xml;base64,' +
+        btoa(`
         <svg width="256" height="256" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="mysticalPattern" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
@@ -266,7 +303,7 @@ export class PlayerZoneSystem {
           <rect width="256" height="256" fill="url(#mysticalPattern)"/>
         </svg>
       `),
-      this.scene
+      this.scene,
     );
 
     playmatMesh.material = playmatMaterial;
@@ -275,13 +312,16 @@ export class PlayerZoneSystem {
   private createZoneMaterial(
     id: string,
     type: PlayerZone['type'],
-    owner: 'player' | 'opponent'
+    owner: 'player' | 'opponent',
   ): BABYLON.Material {
     const material = new BABYLON.PBRMaterial(`${id}-material`, this.scene);
-    
+
     // Color coding based on zone type and owner
     const colors = {
-      hand: owner === 'player' ? new BABYLON.Color3(0.1, 0.3, 0.1) : new BABYLON.Color3(0.3, 0.1, 0.1),
+      hand:
+        owner === 'player'
+          ? new BABYLON.Color3(0.1, 0.3, 0.1)
+          : new BABYLON.Color3(0.3, 0.1, 0.1),
       battlefield: new BABYLON.Color3(0.2, 0.2, 0.3),
       deck: new BABYLON.Color3(0.15, 0.15, 0.15),
       discard: new BABYLON.Color3(0.2, 0.1, 0.2),
@@ -294,7 +334,7 @@ export class PlayerZoneSystem {
     material.roughness = 0.9;
     material.metallic = 0.0;
     material.emissiveColor = colors[type].scale(0.2);
-    
+
     return material;
   }
 
@@ -308,7 +348,10 @@ export class PlayerZoneSystem {
     return material;
   }
 
-  private getZoneDisplayName(type: PlayerZone['type'], owner: 'player' | 'opponent'): string {
+  private getZoneDisplayName(
+    type: PlayerZone['type'],
+    owner: 'player' | 'opponent',
+  ): string {
     const prefix = owner === 'player' ? 'Your' : "Opponent's";
     const names = {
       hand: 'Hand',
@@ -333,7 +376,10 @@ export class PlayerZoneSystem {
     return limits[type];
   }
 
-  private canDropInZone(type: PlayerZone['type'], owner: 'player' | 'opponent'): boolean {
+  private canDropInZone(
+    type: PlayerZone['type'],
+    owner: 'player' | 'opponent',
+  ): boolean {
     // Player can only drop cards in their own zones (except battlefield which is shared)
     if (type === 'battlefield') return true;
     return owner === 'player';
@@ -341,7 +387,7 @@ export class PlayerZoneSystem {
 
   private setupInteractionHandlers(): void {
     // Set up pointer events for zones and cards
-    this.scene.onPointerObservable.add((pointerInfo) => {
+    this.scene.onPointerObservable.add(pointerInfo => {
       switch (pointerInfo.type) {
         case BABYLON.PointerEventTypes.POINTERDOWN:
           this.handlePointerDown(pointerInfo);
@@ -367,7 +413,9 @@ export class PlayerZoneSystem {
     if (!pickedMesh) return;
 
     // Check if a card was picked
-    const card = Array.from(this.cards.values()).find(c => c.mesh === pickedMesh);
+    const card = Array.from(this.cards.values()).find(
+      c => c.mesh === pickedMesh,
+    );
     if (card && card.canPlay && card.owner === 'player') {
       this.startCardDrag(card);
     }
@@ -390,10 +438,10 @@ export class PlayerZoneSystem {
   private handleResize(): void {
     const wasTablet = this.isTablet;
     const wasMobile = this.isMobile;
-    
+
     this.isMobile = window.innerWidth <= 768;
     this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
-    
+
     // Only recreate layout if device category changed
     if (this.isMobile !== wasMobile || this.isTablet !== wasTablet) {
       this.layout = this.createResponsiveLayout();
@@ -419,7 +467,7 @@ export class PlayerZoneSystem {
       if (zone && zone.mesh) {
         const worldX = (layout.x - 0.5) * 20;
         const worldZ = (layout.y - 0.5) * 15;
-        
+
         // Animate the transition
         BABYLON.Animation.CreateAndStartAnimation(
           `${zoneId}-reposition`,
@@ -429,7 +477,7 @@ export class PlayerZoneSystem {
           15, // frames (0.5 seconds)
           zone.mesh.position,
           new BABYLON.Vector3(worldX, 0.01, worldZ),
-          BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+          BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
         );
 
         zone.position.set(worldX, 0, worldZ);
@@ -459,13 +507,15 @@ export class PlayerZoneSystem {
       // Project ray to ground plane
       const groundPlane = BABYLON.Plane.FromPositionAndNormal(
         BABYLON.Vector3.Zero(),
-        BABYLON.Vector3.Up()
+        BABYLON.Vector3.Up(),
       );
-      
+
       const distance = pickInfo.ray.intersectsPlane(groundPlane);
       if (distance !== null) {
-        const point = pickInfo.ray.origin.add(pickInfo.ray.direction.scale(distance));
-        
+        const point = pickInfo.ray.origin.add(
+          pickInfo.ray.direction.scale(distance),
+        );
+
         if (this.draggedCard.mesh) {
           this.draggedCard.mesh.position.x = point.x;
           this.draggedCard.mesh.position.z = point.z;
@@ -486,7 +536,7 @@ export class PlayerZoneSystem {
     // Reset card visual state
     card.isDragging = false;
     card.isSelected = false;
-    
+
     if (card.mesh) {
       card.mesh.position.y -= 0.5; // Lower card
       this.glowLayer.removeIncludedOnlyMesh(card.mesh);
@@ -508,7 +558,9 @@ export class PlayerZoneSystem {
     }
 
     // Check for card hover
-    const card = Array.from(this.cards.values()).find(c => c.mesh === pickInfo.pickedMesh);
+    const card = Array.from(this.cards.values()).find(
+      c => c.mesh === pickInfo.pickedMesh,
+    );
     if (card) {
       this.onCardHover?.(card);
     }
@@ -518,18 +570,18 @@ export class PlayerZoneSystem {
     if (!this.draggedCard) return;
 
     const newHoverZone = this.getZoneUnderCard(this.draggedCard);
-    
+
     if (newHoverZone !== this.hoverZone) {
       // Clear previous highlight
       if (this.hoverZone?.highlightMesh) {
         this.hoverZone.highlightMesh.isVisible = false;
       }
-      
+
       // Show new highlight
       if (newHoverZone?.highlightMesh && newHoverZone.allowDrop) {
         newHoverZone.highlightMesh.isVisible = true;
       }
-      
+
       this.hoverZone = newHoverZone;
       this.onZoneHover?.(newHoverZone);
     }
@@ -549,7 +601,7 @@ export class PlayerZoneSystem {
   private isPointInZone(point: BABYLON.Vector3, zone: PlayerZone): boolean {
     const halfWidth = zone.size.x / 2;
     const halfHeight = zone.size.y / 2;
-    
+
     return (
       point.x >= zone.position.x - halfWidth &&
       point.x <= zone.position.x + halfWidth &&
@@ -582,7 +634,7 @@ export class PlayerZoneSystem {
     if (!card) return;
 
     this.cards.delete(cardId);
-    
+
     // Remove from zone
     const zone = this.zones.get(`${card.owner}-${card.zone}`);
     if (zone) {
@@ -602,16 +654,18 @@ export class PlayerZoneSystem {
 
     const currentZone = this.zones.get(`${card.owner}-${card.zone}`);
     const targetZone = this.zones.get(targetZoneId);
-    
+
     if (!currentZone || !targetZone) return;
 
     // Remove from current zone
-    currentZone.currentCards = currentZone.currentCards.filter(c => c.id !== cardId);
-    
+    currentZone.currentCards = currentZone.currentCards.filter(
+      c => c.id !== cardId,
+    );
+
     // Add to target zone
     card.zone = targetZone.type;
     targetZone.currentCards.push(card);
-    
+
     // Rearrange both zones
     this.arrangeCardsInZone(currentZone);
     this.arrangeCardsInZone(targetZone);
@@ -629,7 +683,7 @@ export class PlayerZoneSystem {
         const targetPosition = new BABYLON.Vector3(
           startX + index * spacing,
           0.1,
-          zone.position.z
+          zone.position.z,
         );
 
         // Animate to position
@@ -641,7 +695,7 @@ export class PlayerZoneSystem {
           15, // frames (0.5 seconds)
           card.mesh.position,
           targetPosition,
-          BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+          BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
         );
 
         card.position = targetPosition;
