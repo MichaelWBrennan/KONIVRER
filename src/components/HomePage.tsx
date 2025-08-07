@@ -4,7 +4,7 @@ import '../styles/home-page.css';
 
 interface HomePageProps {
   onNavigate: (
-    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game',
+    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'practice3d' | 'quick3d' | 'ranked' | 'tournament',
   ) => void;
 }
 
@@ -25,18 +25,32 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
       gradient: 'linear-gradient(135deg, #059669, #0d9488)',
     },
     {
-      id: 'deckSearch' as const,
-      title: 'Join Tournaments',
-      description: 'Compete in epic tournaments',
-      icon: '🏆',
+      id: 'practice3d' as const,
+      title: '3D Practice',
+      description: 'Master 3D card physics with AI opponents',
+      icon: '🎯',
+      gradient: 'linear-gradient(135deg, #d4af37, #f59e0b)',
+    },
+    {
+      id: 'quick3d' as const,
+      title: '3D Quick Duel',
+      description: 'Fast-paced 3D battles with drag-and-drop physics',
+      icon: '⚡',
       gradient: 'linear-gradient(135deg, #dc2626, #ea580c)',
     },
     {
-      id: 'game' as const,
-      title: 'Play Now',
-      description: 'Battle against other mystics',
-      icon: '▶️',
-      gradient: 'linear-gradient(135deg, #d4af37, #f59e0b)',
+      id: 'ranked' as const,
+      title: 'Ranked Conquest',
+      description: 'Climb the competitive ladder',
+      icon: '🏆',
+      gradient: 'linear-gradient(135deg, #7c2d12, #a16207)',
+    },
+    {
+      id: 'tournament' as const,
+      title: 'Grand Tournament',
+      description: 'Structured events with exclusive prizes',
+      icon: '👑',
+      gradient: 'linear-gradient(135deg, #581c87, #7c3aed)',
     },
   ];
 

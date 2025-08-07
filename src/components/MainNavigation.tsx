@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { AppContext } from '../contexts/AppContext';
+import { AppContext, Deck } from '../contexts/AppContext';
 import HomePage from './HomePage';
 import UnifiedCardSearch from './UnifiedCardSearch';
 import DeckBuilder from './DeckBuilder';
@@ -8,8 +8,71 @@ import DeckSearch from './DeckSearch';
 import GameIntegration from './GameIntegration';
 import RulesViewer from './RulesViewer';
 import SimpleEnhancedLoginModal from './SimpleEnhancedLoginModal';
-import KONIVRERBattlefield from './battlefield/KONIVRERBattlefield';
+import { LazyGameContainer } from '../game/components/LazyGameContainer';
 import '../styles/main-navigation.css';
+
+// Direct 3D Game Interface Component
+interface Direct3DGameInterfaceProps {
+  gameMode: 'practice3d' | 'quick3d' | 'ranked' | 'tournament';
+  onBack: () => void;
+  currentDeck: Deck | null;
+}
+
+const Direct3DGameInterface: React.FC<Direct3DGameInterfaceProps> = ({
+  gameMode,
+  onBack,
+  currentDeck,
+}) => {
+  const [showGame, setShowGame] = useState(true);
+  
+  const gameModeLabels = {
+    practice3d: '3D Practice',
+    quick3d: '3D Quick Duel', 
+    ranked: 'Ranked Conquest',
+    tournament: 'Grand Tournament',
+  };
+
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        style={{
+          position: 'absolute',
+          top: '16px',
+          left: '16px',
+          zIndex: 1001,
+        }}
+      >
+        <button
+          onClick={onBack}
+          style={{
+            padding: '8px 16px',
+            background: 'rgba(0, 0, 0, 0.7)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            borderRadius: '8px',
+            color: 'white',
+            fontSize: '14px',
+            cursor: 'pointer',
+            backdropFilter: 'blur(10px)',
+          }}
+        >
+          ← Back to Menu
+        </button>
+      </motion.div>
+
+      {showGame && (
+        <LazyGameContainer
+          onClose={() => {
+            setShowGame(false);
+            onBack();
+          }}
+          setShowGame={setShowGame}
+        />
+      )}
+    </div>
+  );
+};
 
 type ActiveView =
   | 'home'
@@ -18,8 +81,10 @@ type ActiveView =
   | 'deckSearch'
   | 'myDecks'
   | 'rules'
-  | 'game'
-  | 'battlefield';
+  | 'practice3d'
+  | 'quick3d'
+  | 'ranked'
+  | 'tournament';
 
 const MainNavigation: React.FC = () => {
   const {
@@ -77,16 +142,31 @@ const MainNavigation: React.FC = () => {
       description: 'Game rules and guidelines',
     },
     {
-      id: 'battlefield' as ActiveView,
-      label: 'KONIVRER Battlefield',
-      icon: '⚔️',
-      description: 'KONIVRER battlefield with proper game zones',
+      id: 'practice3d' as ActiveView,
+      label: '3D Practice',
+      icon: '🎯',
+      description: '3D cards with physics - Master skills against AI',
+      requiresAuth: true,
     },
     {
-      id: 'game' as ActiveView,
-      label: 'Play Game',
-      icon: '🎮',
-      description: 'Start a game',
+      id: 'quick3d' as ActiveView,
+      label: '3D Quick Duel',
+      icon: '⚡',
+      description: 'Fast-paced 3D battles with drag-and-drop physics',
+      requiresAuth: true,
+    },
+    {
+      id: 'ranked' as ActiveView,
+      label: 'Ranked Conquest',
+      icon: '🏆',
+      description: 'Climb the competitive ladder and earn rewards',
+      requiresAuth: true,
+    },
+    {
+      id: 'tournament' as ActiveView,
+      label: 'Grand Tournament',
+      icon: '👑',
+      description: 'Structured events with exclusive prizes',
       requiresAuth: true,
     },
   ];
@@ -98,10 +178,11 @@ const MainNavigation: React.FC = () => {
       return;
     }
 
-    // Enable familiar access when navigating to game section
-    if (view === 'game') {
+    // Enable familiar access when navigating to game sections
+    const gameViews: ActiveView[] = ['practice3d', 'quick3d', 'ranked', 'tournament'];
+    if (gameViews.includes(view)) {
       setAllowFamiliarAccess(true);
-    } else if (view !== 'game' && view !== 'home') {
+    } else if (!['home'].includes(view)) {
       setAllowFamiliarAccess(false);
     }
 
@@ -110,21 +191,23 @@ const MainNavigation: React.FC = () => {
   };
 
   const handleHomeNavigation = (
-    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game',
+    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'practice3d' | 'quick3d' | 'ranked' | 'tournament',
   ) => {
-    if (view === 'game' && !user) {
+    const gameViews: ActiveView[] = ['practice3d', 'quick3d', 'ranked', 'tournament'];
+    
+    if (gameViews.includes(view as ActiveView) && !user) {
       setShowLoginModal(true);
       return;
     }
 
-    // Enable familiar access when navigating to game from home
-    if (view === 'game') {
+    // Enable familiar access when navigating to games from home
+    if (gameViews.includes(view as ActiveView)) {
       setAllowFamiliarAccess(true);
     } else {
       setAllowFamiliarAccess(false);
     }
 
-    setActiveView(view);
+    setActiveView(view as ActiveView);
   };
 
   const renderActiveView = () => {
@@ -205,33 +288,15 @@ const MainNavigation: React.FC = () => {
           />
         );
 
-      case 'game':
+      case 'practice3d':
+      case 'quick3d':
+      case 'ranked':
+      case 'tournament':
         return (
-          <GameIntegration
-            onDeckSelected={deck => {
-              setCurrentDeck(deck);
-            }}
-            onStartGame={(deck, gameMode) => {
-              console.log('Starting game with deck:', deck, 'Mode:', gameMode);
-              // Here you would typically navigate to the actual game
-            }}
-          />
-        );
-
-      case 'battlefield':
-        return (
-          <KONIVRERBattlefield
-            onThemeChange={theme => {
-              console.log('Theme changed to:', theme);
-            }}
-            onQualityChange={quality => {
-              console.log('Quality changed to:', quality);
-            }}
-            onGameAction={action => {
-              console.log('Game action:', action);
-            }}
-            enablePerformanceMonitoring={true}
-            className="main-nav-battlefield"
+          <Direct3DGameInterface
+            gameMode={activeView}
+            onBack={() => setActiveView('home')}
+            currentDeck={currentDeck}
           />
         );
 
