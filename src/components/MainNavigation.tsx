@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppContext } from '../contexts/AppContext';
+import HomePage from './HomePage';
 import UnifiedCardSearch from './UnifiedCardSearch';
 import DeckBuilder from './DeckBuilder';
 import DeckSearch from './DeckSearch';
@@ -11,6 +12,7 @@ import KONIVRERBattlefield from './battlefield/KONIVRERBattlefield';
 import '../styles/main-navigation.css';
 
 type ActiveView =
+  | 'home'
   | 'cardSearch'
   | 'deckBuilder'
   | 'deckSearch'
@@ -32,10 +34,17 @@ const MainNavigation: React.FC = () => {
     importDeck,
   } = useContext(AppContext);
 
-  const [activeView, setActiveView] = useState<ActiveView>('cardSearch');
+  const [activeView, setActiveView] = useState<ActiveView>('home');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [allowFamiliarAccess, setAllowFamiliarAccess] = useState(false);
 
   const navigationItems = [
+    {
+      id: 'home' as ActiveView,
+      label: 'Home',
+      icon: '🏠',
+      description: 'Return to main menu',
+    },
     {
       id: 'cardSearch' as ActiveView,
       label: 'Card Search',
@@ -88,15 +97,45 @@ const MainNavigation: React.FC = () => {
       setShowLoginModal(true);
       return;
     }
+    
+    // Enable familiar access when navigating to game section
+    if (view === 'game') {
+      setAllowFamiliarAccess(true);
+    } else if (view !== 'game' && view !== 'home') {
+      setAllowFamiliarAccess(false);
+    }
+    
     setActiveView(view);
     setShowMobileMenu(false);
   };
 
+  const handleHomeNavigation = (view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game') => {
+    if (view === 'game' && !user) {
+      setShowLoginModal(true);
+      return;
+    }
+    
+    // Enable familiar access when navigating to game from home
+    if (view === 'game') {
+      setAllowFamiliarAccess(true);
+    } else {
+      setAllowFamiliarAccess(false);
+    }
+    
+    setActiveView(view);
+  };
+
   const renderActiveView = () => {
     switch (activeView) {
+      case 'home':
+        return (
+          <HomePage onNavigate={handleHomeNavigation} />
+        );
+
       case 'cardSearch':
         return (
           <UnifiedCardSearch
+            allowFamiliarCards={allowFamiliarAccess}
             onCardSelect={card => {
               // Add card to current deck if exists, or prompt to create new deck
               if (currentDeck) {
