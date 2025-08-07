@@ -653,6 +653,7 @@ export interface UnifiedCardSearchProps {
   maxResults?: number;
   initialMode?: 'advanced' | 'syntax';
   compact?: boolean;
+  allowFamiliarCards?: boolean;
 }
 
 // Main Unified Card Search Component
@@ -668,6 +669,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
   maxResults = 50,
   initialMode = 'advanced',
   compact = false,
+  allowFamiliarCards = true,
 }) => {
   // Search engine instance
   const searchEngine = useMemo(() => new UnifiedSearchEngine(cards), []);
@@ -796,6 +798,13 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               searchFilters,
               preferences,
             );
+            
+            // Filter out Familiar cards if not allowed
+            if (!allowFamiliarCards) {
+              results.cards = results.cards.filter(card => card.type !== 'Familiar');
+              results.totalCount = results.cards.length;
+            }
+            
             setSearchResults(results);
             onSearchResults?.(results);
             onFiltersChange?.(searchFilters);
@@ -812,7 +821,7 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
         }
       }, 300);
     },
-    [searchEngine, preferences, onSearchResults, onFiltersChange, hasSearched],
+    [searchEngine, preferences, onSearchResults, onFiltersChange, hasSearched, allowFamiliarCards],
   );
 
   // Update filter programmatically (without triggering search)
@@ -1712,10 +1721,26 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
       {/* Search Results Display */}
       {(!compact || searchResults.totalCount > 0) && (
         <div className="search-results">
+          {/* Familiar Access Restriction Notice */}
+          {!allowFamiliarCards && (
+            <div className="search-notice">
+              <div className="notice-content">
+                <span className="notice-icon">🔒</span>
+                <div className="notice-text">
+                  <strong>Familiar cards are restricted.</strong>
+                  <p>Access the Play section to view and interact with Familiar cards.</p>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {searchResults.totalCount === 0 && searchResults.searchTime > 0 && (
             <div className="no-results">
               <p>No cards found matching your search criteria.</p>
               <p>Try adjusting your filters or search terms.</p>
+              {!allowFamiliarCards && (
+                <p><em>Note: Familiar cards are hidden. Access the Play section to view them.</em></p>
+              )}
             </div>
           )}
 

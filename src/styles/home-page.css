@@ -1,0 +1,327 @@
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at center, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%);
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 60px;
+  z-index: 2;
+  position: relative;
+}
+
+.home-title {
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: #d4af37;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-shadow: 
+    0 0 20px rgba(212, 175, 55, 0.5),
+    0 0 40px rgba(212, 175, 55, 0.3),
+    0 0 80px rgba(212, 175, 55, 0.1);
+  letter-spacing: 2px;
+}
+
+.home-subtitle {
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  color: #ccc;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.home-bubbles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1000px;
+  width: 100%;
+  z-index: 2;
+  position: relative;
+}
+
+.home-bubble {
+  position: relative;
+  border-radius: 20px;
+  padding: 40px 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bubble-content {
+  text-align: center;
+  position: relative;
+  z-index: 3;
+  color: white;
+}
+
+.bubble-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.bubble-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.bubble-description {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Mystical glow effect */
+.bubble-glow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    rgba(212, 175, 55, 0.3),
+    rgba(255, 255, 255, 0.1),
+    rgba(212, 175, 55, 0.3)
+  );
+  border-radius: 22px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.home-bubble:hover .bubble-glow {
+  opacity: 1;
+  animation: rotate-glow 3s linear infinite;
+}
+
+@keyframes rotate-glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Interactive particles */
+.bubble-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(212, 175, 55, 0.6);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.home-bubble:hover .particle {
+  opacity: 1;
+  animation: float-particles 2s ease-in-out infinite;
+}
+
+.particle-1 { top: 20%; left: 10%; animation-delay: 0s; }
+.particle-2 { top: 30%; right: 15%; animation-delay: 0.3s; }
+.particle-3 { bottom: 25%; left: 20%; animation-delay: 0.6s; }
+.particle-4 { bottom: 35%; right: 10%; animation-delay: 0.9s; }
+.particle-5 { top: 50%; left: 5%; animation-delay: 1.2s; }
+.particle-6 { top: 60%; right: 5%; animation-delay: 1.5s; }
+
+@keyframes float-particles {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.2);
+    opacity: 1;
+  }
+}
+
+/* Background mystical effects */
+.home-background-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.mystical-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at center,
+    rgba(212, 175, 55, 0.1) 0%,
+    rgba(212, 175, 55, 0.05) 40%,
+    transparent 70%
+  );
+  animation: float-orb 8s ease-in-out infinite;
+}
+
+.orb-1 {
+  width: 200px;
+  height: 200px;
+  top: 10%;
+  left: -50px;
+  animation-delay: 0s;
+}
+
+.orb-2 {
+  width: 150px;
+  height: 150px;
+  top: 60%;
+  right: -30px;
+  animation-delay: 2s;
+}
+
+.orb-3 {
+  width: 100px;
+  height: 100px;
+  bottom: 20%;
+  left: 20%;
+  animation-delay: 4s;
+}
+
+@keyframes float-orb {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    opacity: 0.3;
+  }
+  33% {
+    transform: translateY(-30px) scale(1.1);
+    opacity: 0.5;
+  }
+  66% {
+    transform: translateY(20px) scale(0.9);
+    opacity: 0.4;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .home-page {
+    padding: 20px 15px;
+  }
+
+  .home-header {
+    margin-bottom: 40px;
+  }
+
+  .home-bubbles {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    max-width: 400px;
+  }
+
+  .home-bubble {
+    padding: 30px 20px;
+    min-height: 160px;
+  }
+
+  .bubble-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  .bubble-title {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+
+  .bubble-description {
+    font-size: 0.9rem;
+  }
+
+  .mystical-orb {
+    display: none; /* Hide background orbs on mobile for performance */
+  }
+}
+
+@media (max-width: 480px) {
+  .home-bubbles {
+    max-width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .home-bubble {
+    padding: 25px 15px;
+    min-height: 140px;
+  }
+}
+
+/* Enhanced accessibility */
+.home-bubble:focus {
+  outline: 2px solid #d4af37;
+  outline-offset: 4px;
+}
+
+.home-bubble:focus .bubble-glow {
+  opacity: 1;
+}
+
+/* Dark mode specific enhancements */
+@media (prefers-color-scheme: dark) {
+  .home-page {
+    background: radial-gradient(circle at center, #050505 0%, #0f0f0f 50%, #050505 100%);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .home-bubble {
+    border: 2px solid #d4af37;
+    background: rgba(0, 0, 0, 0.8) !important;
+  }
+  
+  .bubble-content {
+    color: #ffffff;
+  }
+  
+  .home-title {
+    text-shadow: none;
+    border-bottom: 3px solid #d4af37;
+    padding-bottom: 10px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .home-bubble,
+  .bubble-glow,
+  .particle,
+  .mystical-orb {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .home-bubble:hover {
+    transform: none !important;
+  }
+}
