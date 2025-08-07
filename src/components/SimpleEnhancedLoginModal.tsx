@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDynamicSizing } from '../utils/userAgentSizing';
+import { useSSO } from '../services/ssoService';
 
 // Types
 interface User {
@@ -35,6 +36,10 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
 
   // Get dynamic sizing based on user agent and device capabilities
   const dynamicSizing = useDynamicSizing();
+  
+  // Get SSO service functionality
+  const { initiateLogin, getProviders } = useSSO();
+  const ssoProviders = getProviders();
 
   // Check for biometric authentication availability
   useEffect(() => {
@@ -94,20 +99,34 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
   const handleSSOLogin = async (provider: string) => {
     setSsoLoading(provider);
 
-    // Simulate SSO login
-    setTimeout(() => {
-      onLogin({
-        id: `${provider}_user`,
-        username: `${provider}User`,
-        email: `user@${provider.toLowerCase()}.com`,
-        level: 1,
-        preferences: {
-          theme: 'dark',
-          notifications: true,
-        },
-      });
+    try {
+      await initiateLogin(provider);
+      
+      // Listen for SSO login success
+      const handleLoginSuccess = (event: CustomEvent) => {
+        const { profile } = event.detail;
+        onLogin({
+          id: profile.id,
+          username: profile.name || profile.email.split('@')[0],
+          email: profile.email,
+          level: 1,
+          avatar: profile.avatar,
+          preferences: {
+            theme: 'dark',
+            notifications: true,
+          },
+        });
+        setSsoLoading(null);
+        window.removeEventListener('sso-login-success', handleLoginSuccess as EventListener);
+      };
+      
+      window.addEventListener('sso-login-success', handleLoginSuccess as EventListener);
+      
+    } catch (error) {
+      console.error('SSO login failed:', error);
       setSsoLoading(null);
-    }, 1500);
+      alert('SSO login failed. Please try again.');
+    }
   };
 
   const handleBiometricLogin = async (type: 'fingerprint' | 'faceid') => {
@@ -192,7 +211,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                   fontWeight: 'bold',
                 }}
               >
-                ⭐ Enhanced Login ⭐
+                Enhanced Login
               </h2>
               <p
                 style={{
@@ -234,7 +253,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     textAlign: 'center',
                   }}
                 >
-                  🔐 Email & Password
+                  Email & Password
                 </h3>
 
                 <form onSubmit={handleSubmit}>
@@ -322,7 +341,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       transition: 'all 0.3s',
                     }}
                   >
-                    {isLoading ? '🔄 Logging in...' : '🚀 Login'}
+                    {isLoading ? 'Logging in...' : 'Login'}
                   </button>
                 </form>
               </div>
@@ -344,7 +363,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     textAlign: 'center',
                   }}
                 >
-                  🔑 Single Sign-On
+                  Single Sign-On
                 </h3>
 
                 <div
@@ -356,8 +375,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                 >
                   {/* Google SSO */}
                   <button
-                    onClick={() => handleSSOLogin('Google')}
-                    disabled={ssoLoading === 'Google'}
+                    onClick={() => handleSSOLogin('google')}
+                    disabled={ssoLoading === 'google'}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -365,27 +384,33 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       gap: '10px',
                       padding: '12px',
                       backgroundColor:
-                        ssoLoading === 'Google' ? '#666' : '#4285f4',
-                      color: 'white',
-                      border: 'none',
+                        ssoLoading === 'google' ? '#666' : '#fff',
+                      color: ssoLoading === 'google' ? '#fff' : '#333',
+                      border: '1px solid #ddd',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
                       cursor:
-                        ssoLoading === 'Google' ? 'not-allowed' : 'pointer',
+                        ssoLoading === 'google' ? 'not-allowed' : 'pointer',
                       transition: 'all 0.3s',
                     }}
                   >
-                    <span>🔍</span>
-                    {ssoLoading === 'Google'
+                    <img 
+                      src="/assets/logos/google.svg" 
+                      alt="Google" 
+                      width="18" 
+                      height="18"
+                      style={{ opacity: ssoLoading === 'google' ? 0.5 : 1 }}
+                    />
+                    {ssoLoading === 'google'
                       ? 'Connecting...'
                       : 'Continue with Google'}
                   </button>
 
                   {/* GitHub SSO */}
                   <button
-                    onClick={() => handleSSOLogin('GitHub')}
-                    disabled={ssoLoading === 'GitHub'}
+                    onClick={() => handleSSOLogin('github')}
+                    disabled={ssoLoading === 'github'}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -393,27 +418,36 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       gap: '10px',
                       padding: '12px',
                       backgroundColor:
-                        ssoLoading === 'GitHub' ? '#666' : '#333',
+                        ssoLoading === 'github' ? '#666' : '#333',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
                       cursor:
-                        ssoLoading === 'GitHub' ? 'not-allowed' : 'pointer',
+                        ssoLoading === 'github' ? 'not-allowed' : 'pointer',
                       transition: 'all 0.3s',
                     }}
                   >
-                    <span>🐙</span>
-                    {ssoLoading === 'GitHub'
+                    <img 
+                      src="/assets/logos/github.svg" 
+                      alt="GitHub" 
+                      width="18" 
+                      height="18"
+                      style={{ 
+                        opacity: ssoLoading === 'github' ? 0.5 : 1,
+                        filter: 'invert(1)'
+                      }}
+                    />
+                    {ssoLoading === 'github'
                       ? 'Connecting...'
                       : 'Continue with GitHub'}
                   </button>
 
                   {/* Microsoft SSO */}
                   <button
-                    onClick={() => handleSSOLogin('Microsoft')}
-                    disabled={ssoLoading === 'Microsoft'}
+                    onClick={() => handleSSOLogin('microsoft')}
+                    disabled={ssoLoading === 'microsoft'}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -421,27 +455,33 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       gap: '10px',
                       padding: '12px',
                       backgroundColor:
-                        ssoLoading === 'Microsoft' ? '#666' : '#0078d4',
+                        ssoLoading === 'microsoft' ? '#666' : '#0078d4',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
                       cursor:
-                        ssoLoading === 'Microsoft' ? 'not-allowed' : 'pointer',
+                        ssoLoading === 'microsoft' ? 'not-allowed' : 'pointer',
                       transition: 'all 0.3s',
                     }}
                   >
-                    <span>🪟</span>
-                    {ssoLoading === 'Microsoft'
+                    <img 
+                      src="/assets/logos/microsoft.svg" 
+                      alt="Microsoft" 
+                      width="18" 
+                      height="18"
+                      style={{ opacity: ssoLoading === 'microsoft' ? 0.5 : 1 }}
+                    />
+                    {ssoLoading === 'microsoft'
                       ? 'Connecting...'
                       : 'Continue with Microsoft'}
                   </button>
 
                   {/* Discord SSO */}
                   <button
-                    onClick={() => handleSSOLogin('Discord')}
-                    disabled={ssoLoading === 'Discord'}
+                    onClick={() => handleSSOLogin('discord')}
+                    disabled={ssoLoading === 'discord'}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -449,19 +489,25 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       gap: '10px',
                       padding: '12px',
                       backgroundColor:
-                        ssoLoading === 'Discord' ? '#666' : '#5865f2',
+                        ssoLoading === 'discord' ? '#666' : '#5865f2',
                       color: 'white',
                       border: 'none',
                       borderRadius: '6px',
                       fontSize: '14px',
                       fontWeight: 'bold',
                       cursor:
-                        ssoLoading === 'Discord' ? 'not-allowed' : 'pointer',
+                        ssoLoading === 'discord' ? 'not-allowed' : 'pointer',
                       transition: 'all 0.3s',
                     }}
                   >
-                    <span>🎮</span>
-                    {ssoLoading === 'Discord'
+                    <img 
+                      src="/assets/logos/discord.svg" 
+                      alt="Discord" 
+                      width="18" 
+                      height="18"
+                      style={{ opacity: ssoLoading === 'discord' ? 0.5 : 1 }}
+                    />
+                    {ssoLoading === 'discord'
                       ? 'Connecting...'
                       : 'Continue with Discord'}
                   </button>
@@ -486,7 +532,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       textAlign: 'center',
                     }}
                   >
-                    👆 Biometric Security
+                    Biometric Security
                   </h3>
 
                   <div
@@ -516,7 +562,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                           transition: 'all 0.3s',
                         }}
                       >
-                        <span>👆</span>
                         Fingerprint Login
                       </button>
                     )}
@@ -541,7 +586,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                           transition: 'all 0.3s',
                         }}
                       >
-                        <span>🤳</span>
                         Face ID Login
                       </button>
                     )}
@@ -558,7 +602,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                       textAlign: 'center',
                     }}
                   >
-                    🛡️ Secure biometric authentication using your device's
+                    Secure biometric authentication using your device's
                     built-in sensors
                   </div>
                 </div>
@@ -620,7 +664,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                   ((e.target as HTMLElement).style.backgroundColor = '#4CAF50')
                 }
               >
-                🎮 Demo Login
+                Demo Login
               </button>
             </div>
           </motion.div>
