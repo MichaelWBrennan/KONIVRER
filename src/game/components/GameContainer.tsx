@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
 import CardGameUI from './CardGameUI';
 import Card3DGameUI from './Card3DGameUI';
-import EnhancedHearthstoneBattlefield from '../../components/EnhancedHearthstoneBattlefield';
 import OrientationPrompt from '../../components/OrientationPrompt';
 import { useDynamicSizing } from '../../utils/userAgentSizing';
 import '../styles/mobile.css';
@@ -27,12 +26,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   setShowGame,
 }) => {
   const [gameState, setGameState] = useState<
-    | 'menu'
-    | 'loading'
-    | 'playing'
-    | 'playing3d'
-    | 'enhanced-battlefield'
-    | 'error'
+    'menu' | 'loading' | 'playing' | 'playing3d' | 'error'
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,32 +35,14 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   // Get dynamic sizing based on user agent
   const dynamicSizing = useDynamicSizing();
 
-  // Enhanced game modes with 3D options
+  // 3D-focused game modes (arena options removed as redundant)
   const gameModes: GameMode[] = [
     {
-      id: 'enhanced-battlefield',
-      title: '🔥 Enhanced Hearthstone Arena',
-      description:
-        'Experience the ultimate Hearthstone-style battlefield with interactive elements, animated props, and immersive 2.5D gameplay!',
-      icon: '🏰',
-      difficulty: 'Immersive',
-      requiresAccount: false,
-    },
-    {
       id: 'practice3d',
-      title: '3D Practice Arena',
+      title: '3D Practice',
       description:
         'Experience immersive 3D cards with physics! Master your skills against adaptive AI opponents with realistic card interactions',
       icon: '🎯',
-      difficulty: 'Beginner Friendly',
-      requiresAccount: false,
-    },
-    {
-      id: 'practice',
-      title: 'Classic Practice Arena',
-      description:
-        'Traditional 2D card interface - Master your skills against adaptive AI opponents with varying difficulty levels',
-      icon: '🎴',
       difficulty: 'Beginner Friendly',
       requiresAccount: false,
     },
@@ -76,15 +52,6 @@ export const GameContainer: React.FC<GameContainerProps> = ({
       description:
         'Fast-paced 3D card battles with drag-and-drop physics! Jump into immersive matches with optimized matchmaking',
       icon: '⚡',
-      difficulty: 'All Levels',
-      requiresAccount: false,
-    },
-    {
-      id: 'quick',
-      title: 'Classic Quick Duel',
-      description:
-        'Traditional fast-paced matches with optimized matchmaking for your skill level',
-      icon: '🃏',
       difficulty: 'All Levels',
       requiresAccount: false,
     },
@@ -113,33 +80,23 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setSelectedMode(modeId);
 
     try {
-      // Handle enhanced battlefield mode
-      if (modeId === 'enhanced-battlefield') {
-        console.log(
-          '[GameContainer] Starting Enhanced Hearthstone Battlefield...',
-        );
-        await new Promise(resolve => setTimeout(resolve, 1500)); // Loading time
-        setGameState('enhanced-battlefield');
-        return;
-      }
-
-      // Determine if this is a 3D mode
-      const is3D = modeId.includes('3d');
+      // All games now use 3D interface (except ranked/tournament which may use different logic)
+      const is3D = modeId.includes('3d') || modeId === 'practice3d' || modeId === 'quick3d';
       setUse3D(is3D);
 
-      // Provide immediate feedback - show loading state instantly
+      // Provide immediate feedback - show loading state instantly  
       console.log(
-        `[GameContainer] Starting ${is3D ? '3D' : '2D'} card game initialization...`,
+        `[GameContainer] Starting ${is3D ? '3D' : 'advanced'} card game initialization...`,
       );
 
-      // Longer delay for 3D games to show realistic loading
-      const loadingTime = is3D ? 2000 : 1000;
+      // Loading time for 3D games
+      const loadingTime = is3D ? 2000 : 1500;
       await new Promise(resolve => setTimeout(resolve, loadingTime));
 
-      // Go to appropriate playing state
+      // Go to appropriate playing state (default to 3D for most modes)
       setGameState(is3D ? 'playing3d' : 'playing');
       console.log(
-        `[GameContainer] ${is3D ? '3D' : '2D'} card game initialized successfully`,
+        `[GameContainer] ${is3D ? '3D' : 'Advanced'} card game initialized successfully`,
       );
     } catch (_error) {
       console.error('[GameContainer] Error initializing card game:', _error);
@@ -434,17 +391,6 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         {gameState === 'playing' && <CardGameUI onClose={handleClose} />}
 
         {gameState === 'playing3d' && <Card3DGameUI onClose={handleClose} />}
-
-        {gameState === 'enhanced-battlefield' && (
-          <EnhancedHearthstoneBattlefield
-            onThemeChange={theme => console.log('Theme changed to:', theme)}
-            onQualityChange={quality =>
-              console.log('Quality changed to:', quality)
-            }
-            enablePerformanceMonitoring={true}
-            className="full-screen-battlefield"
-          />
-        )}
       </AnimatePresence>
     </div>
   );
