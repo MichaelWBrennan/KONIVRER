@@ -45,6 +45,12 @@ import AdvancedMTGArenaGame from '../components/AdvancedMTGArenaGame';
 import HearthstoneBattlefield from '../components/HearthstoneBattlefield';
 import EnhancedHearthstoneBattlefield from '../components/EnhancedHearthstoneBattlefield';
 import BattlefieldDemo from '../components/BattlefieldDemo';
+// Import page components
+import BlogPage from '../pages/BlogPage';
+import CardsPage from '../pages/CardsPage';
+import DecksPage from '../pages/DecksPage';
+import RulesPage from '../pages/RulesPage';
+import SimulatorPage from '../pages/SimulatorPage';
 import '../styles/mtg-arena.css';
 import '../styles/advanced-mtg-arena.css';
 import '../styles/hearthstone-battlefield.css';
@@ -581,7 +587,27 @@ const Phase3App = () => {
             <SkipToContent />
             <ColorBlindFilters />
             <Router>
+              <Routes>
+                <Route path="/" element={<BlogPage />} />
+                <Route path="/cards" element={<CardsPage />} />
+                <Route path="/decks" element={<DecksPage />} />
+                <Route path="/rules" element={<RulesPage />} />
+                <Route path="/simulator" element={<SimulatorPage />} />
+                <Route path="/oauth/callback" element={<OAuthCallback />} />
+              </Routes>
               <BottomMenuBar />
+              
+              {/* Login Modal */}
+              {showLoginModal && (
+                <SimpleEnhancedLoginModal
+                  isOpen={showLoginModal}
+                  onClose={() => setShowLoginModal(false)}
+                  onLogin={(userData) => {
+                    setUser(userData);
+                    setShowLoginModal(false);
+                  }}
+                />
+              )}
             </Router>
             <Analytics />
             <SpeedInsights />
