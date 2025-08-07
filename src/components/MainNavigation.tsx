@@ -24,10 +24,10 @@ const Direct3DGameInterface: React.FC<Direct3DGameInterfaceProps> = ({
   currentDeck,
 }) => {
   const [showGame, setShowGame] = useState(true);
-  
+
   const gameModeLabels = {
     practice3d: '3D Practice',
-    quick3d: '3D Quick Duel', 
+    quick3d: '3D Quick Duel',
     ranked: 'Ranked Conquest',
     tournament: 'Grand Tournament',
   };
@@ -179,7 +179,12 @@ const MainNavigation: React.FC = () => {
     }
 
     // Enable familiar access when navigating to game sections
-    const gameViews: ActiveView[] = ['practice3d', 'quick3d', 'ranked', 'tournament'];
+    const gameViews: ActiveView[] = [
+      'practice3d',
+      'quick3d',
+      'ranked',
+      'tournament',
+    ];
     if (gameViews.includes(view)) {
       setAllowFamiliarAccess(true);
     } else if (!['home'].includes(view)) {
@@ -191,10 +196,22 @@ const MainNavigation: React.FC = () => {
   };
 
   const handleHomeNavigation = (
-    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'practice3d' | 'quick3d' | 'ranked' | 'tournament',
+    view:
+      | 'cardSearch'
+      | 'deckBuilder'
+      | 'deckSearch'
+      | 'practice3d'
+      | 'quick3d'
+      | 'ranked'
+      | 'tournament',
   ) => {
-    const gameViews: ActiveView[] = ['practice3d', 'quick3d', 'ranked', 'tournament'];
-    
+    const gameViews: ActiveView[] = [
+      'practice3d',
+      'quick3d',
+      'ranked',
+      'tournament',
+    ];
+
     if (gameViews.includes(view as ActiveView) && !user) {
       setShowLoginModal(true);
       return;

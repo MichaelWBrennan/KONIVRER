@@ -81,10 +81,13 @@ export const GameContainer: React.FC<GameContainerProps> = ({
 
     try {
       // All games now use 3D interface (except ranked/tournament which may use different logic)
-      const is3D = modeId.includes('3d') || modeId === 'practice3d' || modeId === 'quick3d';
+      const is3D =
+        modeId.includes('3d') ||
+        modeId === 'practice3d' ||
+        modeId === 'quick3d';
       setUse3D(is3D);
 
-      // Provide immediate feedback - show loading state instantly  
+      // Provide immediate feedback - show loading state instantly
       console.log(
         `[GameContainer] Starting ${is3D ? '3D' : 'advanced'} card game initialization...`,
       );
