@@ -27,7 +27,12 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   setShowGame,
 }) => {
   const [gameState, setGameState] = useState<
-    'menu' | 'loading' | 'playing' | 'playing3d' | 'enhanced-battlefield' | 'error'
+    | 'menu'
+    | 'loading'
+    | 'playing'
+    | 'playing3d'
+    | 'enhanced-battlefield'
+    | 'error'
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -110,7 +115,9 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     try {
       // Handle enhanced battlefield mode
       if (modeId === 'enhanced-battlefield') {
-        console.log('[GameContainer] Starting Enhanced Hearthstone Battlefield...');
+        console.log(
+          '[GameContainer] Starting Enhanced Hearthstone Battlefield...',
+        );
         await new Promise(resolve => setTimeout(resolve, 1500)); // Loading time
         setGameState('enhanced-battlefield');
         return;
@@ -429,9 +436,11 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         {gameState === 'playing3d' && <Card3DGameUI onClose={handleClose} />}
 
         {gameState === 'enhanced-battlefield' && (
-          <EnhancedHearthstoneBattlefield 
-            onThemeChange={(theme) => console.log('Theme changed to:', theme)}
-            onQualityChange={(quality) => console.log('Quality changed to:', quality)}
+          <EnhancedHearthstoneBattlefield
+            onThemeChange={theme => console.log('Theme changed to:', theme)}
+            onQualityChange={quality =>
+              console.log('Quality changed to:', quality)
+            }
             enablePerformanceMonitoring={true}
             className="full-screen-battlefield"
           />

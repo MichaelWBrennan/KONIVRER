@@ -119,7 +119,9 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
   const [opponentMana, setOpponentMana] = useState({ current: 3, max: 3 });
   const [playerHealth, setPlayerHealth] = useState(30);
   const [opponentHealth, setOpponentHealth] = useState(30);
-  const [currentTurn, setCurrentTurn] = useState<'player' | 'opponent'>('player');
+  const [currentTurn, setCurrentTurn] = useState<'player' | 'opponent'>(
+    'player',
+  );
   const [currentPhase, setCurrentPhase] = useState<TurnPhase>(TURN_PHASES[1]);
   const [turnTimer, setTurnTimer] = useState(75);
 
@@ -128,13 +130,16 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTheme, setCurrentTheme] = useState<string>('hearthstone');
-  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>('high');
-  const [performanceMetrics, setPerformanceMetrics] = useState<PerformanceMetrics>({
-    fps: 60,
-    memoryUsage: 0,
-    frameTime: 16.67,
-    drawCalls: 0,
-  });
+  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>(
+    'high',
+  );
+  const [performanceMetrics, setPerformanceMetrics] =
+    useState<PerformanceMetrics>({
+      fps: 60,
+      memoryUsage: 0,
+      frameTime: 16.67,
+      drawCalls: 0,
+    });
 
   // Interactive Elements State
   const [clickableProps, setClickableProps] = useState([
@@ -175,13 +180,18 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
           const arena = new MysticalArena(engine.getScene()!, arenaConfig);
           arenaRef.current = arena;
           await arena.initialize();
-          
+
           // Initialize Enhanced Battlefield System
-          const battlefieldSystem = new EnhancedBattlefieldSystem(engine.getScene()!);
+          const battlefieldSystem = new EnhancedBattlefieldSystem(
+            engine.getScene()!,
+          );
           battlefieldSystemRef.current = battlefieldSystem;
-          
+
           // Listen for battlefield actions
-          document.addEventListener('battlefieldAction', handleBattlefieldAction);
+          document.addEventListener(
+            'battlefieldAction',
+            handleBattlefieldAction,
+          );
         }
 
         setIsLoading(false);
@@ -273,7 +283,7 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
       setPlayerHand(prev => prev.filter(c => c.id !== cardId));
       setPlayerBattlefield(prev => [...prev, card]);
       setPlayerMana(prev => ({ ...prev, current: prev.current - card.cost }));
-      
+
       // Play card sound
       import('../game/GameEngine').then(({ audioManager }) => {
         audioManager.playCardPlay();
@@ -282,20 +292,20 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
   };
 
   const handleEndTurn = () => {
-    setCurrentTurn(prev => prev === 'player' ? 'opponent' : 'player');
+    setCurrentTurn(prev => (prev === 'player' ? 'opponent' : 'player'));
     setTurnTimer(75);
-    
+
     if (currentTurn === 'player') {
       // Start opponent turn
-      setOpponentMana(prev => ({ 
-        current: Math.min(prev.max + 1, 10), 
-        max: Math.min(prev.max + 1, 10) 
+      setOpponentMana(prev => ({
+        current: Math.min(prev.max + 1, 10),
+        max: Math.min(prev.max + 1, 10),
       }));
     } else {
       // Start player turn
-      setPlayerMana(prev => ({ 
-        current: Math.min(prev.max + 1, 10), 
-        max: Math.min(prev.max + 1, 10) 
+      setPlayerMana(prev => ({
+        current: Math.min(prev.max + 1, 10),
+        max: Math.min(prev.max + 1, 10),
       }));
       // Draw a card (simplified)
       if (playerHand.length < 10) {
@@ -314,11 +324,11 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
   };
 
   const handlePropClick = (propId: string) => {
-    setClickableProps(prev => prev.map(prop => 
-      prop.id === propId 
-        ? { ...prop, active: !prop.active }
-        : prop
-    ));
+    setClickableProps(prev =>
+      prev.map(prop =>
+        prop.id === propId ? { ...prop, active: !prop.active } : prop,
+      ),
+    );
 
     // Play interaction sound
     import('../game/GameEngine').then(({ audioManager }) => {
@@ -343,7 +353,7 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
       {/* 3D Battlefield Canvas */}
       <div className="battlefield-3d-container">
         <div ref={canvasRef} className="battlefield-canvas" />
-        
+
         {/* Loading Overlay */}
         <AnimatePresence>
           {isLoading && (
@@ -361,7 +371,7 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
 
         {/* Interactive Props Overlay */}
         <div className="interactive-props">
-          {clickableProps.map((prop) => (
+          {clickableProps.map(prop => (
             <motion.div
               key={prop.id}
               className={`interactive-prop ${prop.active ? 'active' : ''}`}
@@ -393,17 +403,21 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
           <div className="opponent-info">
             <div className="hero-portrait opponent-hero">
               <div className="health-indicator">{opponentHealth}</div>
-              <div className="mana-indicator">{opponentMana.current}/{opponentMana.max}</div>
+              <div className="mana-indicator">
+                {opponentMana.current}/{opponentMana.max}
+              </div>
             </div>
             <div className="opponent-hand">
-              {Array(5).fill(null).map((_, index) => (
-                <div key={index} className="card-back opponent-card" />
-              ))}
+              {Array(5)
+                .fill(null)
+                .map((_, index) => (
+                  <div key={index} className="card-back opponent-card" />
+                ))}
             </div>
           </div>
-          <div 
+          <div
             className="battlefield opponent-battlefield"
-            onDragOver={(e) => e.preventDefault()}
+            onDragOver={e => e.preventDefault()}
           >
             {opponentBattlefield.map((card, index) => (
               <motion.div
@@ -431,11 +445,16 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
         {/* Central Play Area */}
         <div className="central-play-area">
           <div className="turn-indicator">
-            <div className={`turn-phase ${currentTurn === 'player' ? 'active' : ''}`}>
+            <div
+              className={`turn-phase ${currentTurn === 'player' ? 'active' : ''}`}
+            >
               <span className="phase-name">{currentPhase.name}</span>
               {currentTurn === 'player' && (
                 <div className="turn-timer">
-                  <div className="timer-bar" style={{ width: `${(turnTimer / 75) * 100}%` }} />
+                  <div
+                    className="timer-bar"
+                    style={{ width: `${(turnTimer / 75) * 100}%` }}
+                  />
                   <span className="time-text">{formatTime(turnTimer)}</span>
                 </div>
               )}
@@ -454,14 +473,14 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
 
         {/* Player Zone */}
         <div className="player-zone">
-          <div 
+          <div
             className="battlefield player-battlefield"
-            onDragOver={(e) => {
+            onDragOver={e => {
               e.preventDefault();
               setHoveredZone('battlefield');
             }}
             onDragLeave={() => setHoveredZone(null)}
-            onDrop={(e) => {
+            onDrop={e => {
               e.preventDefault();
               const cardId = e.dataTransfer.getData('text/plain');
               handleCardDrop(cardId, 'battlefield');
@@ -476,7 +495,9 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
                 animate={{ scale: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                onClick={() => setSelectedCard(selectedCard === card.id ? null : card.id)}
+                onClick={() =>
+                  setSelectedCard(selectedCard === card.id ? null : card.id)
+                }
               >
                 <div className="card-content">
                   <div className="card-cost">{card.cost}</div>
@@ -507,10 +528,12 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
                   transition={{ delay: index * 0.05 }}
                   whileHover={{ scale: 1.1, y: -10 }}
                   draggable={card.isPlayable && playerMana.current >= card.cost}
-                  onDragStart={(e) => {
+                  onDragStart={e => {
                     e.dataTransfer.setData('text/plain', card.id);
                   }}
-                  onClick={() => setSelectedCard(selectedCard === card.id ? null : card.id)}
+                  onClick={() =>
+                    setSelectedCard(selectedCard === card.id ? null : card.id)
+                  }
                 >
                   <div className="card-content">
                     <div className="card-cost">{card.cost}</div>
@@ -528,7 +551,9 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
             </div>
             <div className="hero-portrait player-hero">
               <div className="health-indicator">{playerHealth}</div>
-              <div className="mana-indicator">{playerMana.current}/{playerMana.max}</div>
+              <div className="mana-indicator">
+                {playerMana.current}/{playerMana.max}
+              </div>
             </div>
           </div>
         </div>
@@ -538,7 +563,9 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
           <div className="performance-monitor">
             <div className="perf-metric">
               <span>FPS:</span>
-              <span style={{ color: getPerformanceColor(performanceMetrics.fps) }}>
+              <span
+                style={{ color: getPerformanceColor(performanceMetrics.fps) }}
+              >
                 {performanceMetrics.fps}
               </span>
             </div>
@@ -563,7 +590,7 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
             <h5>Theme</h5>
             <select
               value={currentTheme}
-              onChange={(e) => {
+              onChange={e => {
                 setCurrentTheme(e.target.value);
                 onThemeChange?.(e.target.value);
               }}
@@ -578,7 +605,7 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
             <h5>Quality</h5>
             <select
               value={quality}
-              onChange={(e) => {
+              onChange={e => {
                 setQuality(e.target.value as any);
                 onQualityChange?.(e.target.value);
               }}
