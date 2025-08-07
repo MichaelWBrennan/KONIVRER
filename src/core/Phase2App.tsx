@@ -22,7 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { shouldSkipAutonomousSystems } from '../utils/buildDetection';
-import FourBubbleNavigation from '../components/FourBubbleNavigation';
+import BottomMenuBar from '../components/BottomMenuBar';
 import { AppContext, AppContextType, User, Deck } from '../contexts/AppContext';
 
 // Types
@@ -681,7 +681,9 @@ const Phase2App: React.FC = () => {
   return (
     <AppContainer>
       <AppContext.Provider value={contextValue}>
-        <FourBubbleNavigation />
+        <Router>
+          <BottomMenuBar />
+        </Router>
       </AppContext.Provider>
       <Analytics />
       <SpeedInsights />

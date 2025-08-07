@@ -14,7 +14,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
-import FourBubbleNavigation from '../components/FourBubbleNavigation';
+import BottomMenuBar from '../components/BottomMenuBar';
 import { AppContext, AppContextType, User, Deck } from '../contexts/AppContext';
 
 // Types
@@ -574,7 +574,21 @@ const Phase1App: React.FC = () => {
   return (
     <AppContainer>
       <AppContext.Provider value={contextValue}>
-        <FourBubbleNavigation />
+        <Router>
+          <AnimatePresence mode="wait" initial={false}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/cards" element={<CardsPage />} />
+              <Route path="/decks" element={<DecksPage />} />
+              <Route path="/tournament" element={<TournamentPage />} />
+              <Route path="/play" element={<PlayPage />} />
+              <Route path="/rules" element={<div style={{padding: '20px', color: '#d4af37'}}>Rules page coming soon!</div>} />
+              <Route path="/simulator" element={<div style={{padding: '20px', color: '#d4af37'}}>Simulator page coming soon!</div>} />
+              <Route path="/login" element={<LoginPage />} />
+            </Routes>
+          </AnimatePresence>
+          <BottomMenuBar />
+        </Router>
       </AppContext.Provider>
       <Analytics />
       <SpeedInsights />

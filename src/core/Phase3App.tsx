@@ -25,7 +25,7 @@ import SimpleCardImagesPage from '../components/SimpleCardImagesPage';
 import SimpleEnhancedLoginModal from '../components/SimpleEnhancedLoginModal';
 import SkipToContent from '../components/SkipToContent';
 import ColorBlindFilters from '../components/ColorBlindFilters';
-import FourBubbleNavigation from '../components/FourBubbleNavigation';
+import BottomMenuBar from '../components/BottomMenuBar';
 import AppProvider from '../components/AppProvider';
 import { healingConfigManager } from '../config/healingConfig';
 import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
@@ -580,7 +580,9 @@ const Phase3App = () => {
           <AppContainer>
             <SkipToContent />
             <ColorBlindFilters />
-            <FourBubbleNavigation />
+            <Router>
+              <BottomMenuBar />
+            </Router>
             <Analytics />
             <SpeedInsights />
             {/* Development tools disabled for production experience
