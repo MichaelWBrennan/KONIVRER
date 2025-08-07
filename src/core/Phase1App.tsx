@@ -14,6 +14,8 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
+import FourBubbleNavigation from '../components/FourBubbleNavigation';
+import { AppContext, AppContextType, User, Deck } from '../contexts/AppContext';
 
 // Types
 interface Card {
@@ -24,37 +26,6 @@ interface Card {
   description: string;
   rarity: 'Common' | 'Rare' | 'Epic' | 'Legendary';
 }
-
-interface Deck {
-  id: number;
-  name: string;
-  cards: string[];
-  description: string;
-}
-
-interface User {
-  id: string;
-  username: string;
-  email: string;
-  level: number;
-}
-
-// App Context for state management
-const AppContext = createContext<{
-  user: User | null;
-  setUser: (user: User | null) => void;
-  decks: Deck[];
-  setDecks: (decks: Deck[]) => void;
-  bookmarks: string[];
-  setBookmarks: (bookmarks: string[]) => void;
-}>({
-  user: null,
-  setUser: () => {},
-  decks: [],
-  setDecks: () => {},
-  bookmarks: [],
-  setBookmarks: () => {},
-});
 
 // Enhanced styled components with framer-motion
 const AppContainer = ({ children }: { children: React.ReactNode }) => (
@@ -89,80 +60,6 @@ const AppContainer = ({ children }: { children: React.ReactNode }) => (
     <div style={{ position: 'relative', zIndex: 2 }}>{children}</div>
   </div>
 );
-
-const Header = () => {
-  const location = useLocation();
-
-  return (
-    <motion.header
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000,
-        background: 'rgba(15, 15, 15, 0.95)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(212, 175, 55, 0.3)',
-        padding: '15px 0',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-      }}
-    >
-      <nav
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '30px',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: '0 20px',
-        }}
-      >
-        {[
-          { to: '/', icon: '🏠', label: 'Home' },
-          { to: '/cards', icon: '🗃️', label: 'Cards' },
-          { to: '/decks', icon: '📚', label: 'Decks' },
-          { to: '/tournament', icon: '🏆', label: 'Tourna.' },
-          { to: '/play', icon: '▶️', label: 'Play' },
-          { to: '/login', icon: '↗️', label: 'Login' },
-        ].map(({ to, icon, label }) => (
-          <motion.div
-            key={to}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Link
-              to={to}
-              style={{
-                color: location.pathname === to ? '#d4af37' : '#ccc',
-                textDecoration: 'none',
-                fontSize: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                borderRadius: '8px',
-                background:
-                  location.pathname === to
-                    ? 'rgba(212, 175, 55, 0.1)'
-                    : 'transparent',
-                border:
-                  location.pathname === to
-                    ? '1px solid rgba(212, 175, 55, 0.3)'
-                    : '1px solid transparent',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <span style={{ fontSize: '20px' }}>{icon}</span>
-              {label}
-            </Link>
-          </motion.div>
-        ))}
-      </nav>
-    </motion.header>
-  );
-};
 
 const Card = ({
   children,
@@ -575,37 +472,110 @@ const Phase1App: React.FC = () => {
 
   const [user, setUser] = useState<User | null>(null);
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [publicDecks, setPublicDecks] = useState<Deck[]>([]);
+  const [currentDeck, setCurrentDeck] = useState<Deck | null>(null);
   const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
-  const contextValue = useMemo(
+  // Helper functions for deck management
+  const addCardToDeck = (cardId: string, deckId?: string) => {
+    if (!user) return;
+    const targetDeckId = deckId || currentDeck?.id;
+    if (!targetDeckId) return;
+
+    setDecks(prevDecks => 
+      prevDecks.map(deck => {
+        if (deck.id === targetDeckId) {
+          const existingCard = deck.cards.find(c => c.cardId === cardId);
+          if (existingCard) {
+            return {
+              ...deck,
+              cards: deck.cards.map(c =>
+                c.cardId === cardId
+                  ? { ...c, quantity: c.quantity + 1 }
+                  : c
+              )
+            };
+          } else {
+            return {
+              ...deck,
+              cards: [...deck.cards, { cardId, quantity: 1 }]
+            };
+          }
+        }
+        return deck;
+      })
+    );
+  };
+
+  const createDeck = (name: string, description: string, isPublic: boolean): Deck => {
+    if (!user) throw new Error('User must be logged in to create deck');
+
+    const newDeck: Deck = {
+      id: `deck_${Date.now()}`,
+      name,
+      description,
+      cards: [],
+      authorId: user.id,
+      authorUsername: user.username,
+      isPublic,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      tags: [],
+      format: 'standard'
+    };
+
+    setDecks(prevDecks => [...prevDecks, newDeck]);
+    return newDeck;
+  };
+
+  const publishDeck = (deckId: string, isPublic: boolean) => {
+    setDecks(prevDecks =>
+      prevDecks.map(deck =>
+        deck.id === deckId ? { ...deck, isPublic, updatedAt: new Date() } : deck
+      )
+    );
+    if (isPublic) {
+      const deck = decks.find(d => d.id === deckId);
+      if (deck) {
+        setPublicDecks(prevPublic => [...prevPublic, { ...deck, isPublic: true }]);
+      }
+    }
+  };
+
+  const importDeck = (deck: Deck) => {
+    setDecks(prevDecks => [...prevDecks, deck]);
+    setCurrentDeck(deck);
+  };
+
+  const contextValue: AppContextType = useMemo(
     () => ({
       user,
       setUser,
       decks,
       setDecks,
+      publicDecks,
+      setPublicDecks,
+      currentDeck,
+      setCurrentDeck,
       bookmarks,
       setBookmarks,
+      showLoginModal,
+      setShowLoginModal,
+      setShowGame: () => {}, // Placeholder for now
+      addCardToDeck,
+      createDeck,
+      publishDeck,
+      importDeck,
     }),
-    [user, decks, bookmarks],
+    [user, decks, publicDecks, currentDeck, bookmarks, showLoginModal],
   );
 
   return (
     <AppContainer>
-      <Router>
-        <AppContext.Provider value={contextValue}>
-          <Header />
-          <AnimatePresence mode="wait">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/cards" element={<CardsPage />} />
-              <Route path="/decks" element={<DecksPage />} />
-              <Route path="/tournament" element={<TournamentPage />} />
-              <Route path="/play" element={<PlayPage />} />
-              <Route path="/login" element={<LoginPage />} />
-            </Routes>
-          </AnimatePresence>
-        </AppContext.Provider>
-      </Router>
+      <AppContext.Provider value={contextValue}>
+        <FourBubbleNavigation />
+      </AppContext.Provider>
       <Analytics />
       <SpeedInsights />
     </AppContainer>
