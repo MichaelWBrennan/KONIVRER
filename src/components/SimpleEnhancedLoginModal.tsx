@@ -224,148 +224,258 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
               </p>
             </div>
 
-            {/* Main Content Grid */}
+            {/* Main Content - Single Seamless Block */}
             <div
               style={{
-                display: 'grid',
-                gridTemplateColumns:
-                  dynamicSizing.width < 768
-                    ? '1fr'
-                    : 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: dynamicSizing.width < 768 ? '15px' : '25px',
+                backgroundColor: '#2a2a2a',
+                padding: '25px',
+                borderRadius: '10px',
+                border: '1px solid #444',
                 marginBottom: '30px',
               }}
             >
-              {/* Email/Username & Password Section */}
-              <div
-                style={{
-                  backgroundColor: '#2a2a2a',
-                  padding: '25px',
-                  borderRadius: '10px',
-                  border: '1px solid #444',
-                }}
-              >
-                <h3
-                  style={{
-                    color: '#d4af37',
-                    margin: '0 0 20px 0',
-                    fontSize: '18px',
-                    textAlign: 'center',
-                  }}
-                >
-                  Email & Password
-                </h3>
-
-                <form onSubmit={handleSubmit}>
-                  <div style={{ marginBottom: '20px' }}>
-                    <label
-                      style={{
-                        display: 'block',
-                        color: '#d4af37',
-                        marginBottom: '8px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      Email or Username
-                    </label>
-                    <input
-                      type="text"
-                      value={emailOrUsername}
-                      onChange={e => setEmailOrUsername(e.target.value)}
-                      required
-                      style={{
-                        width: '100%',
-                        padding: dynamicSizing.width < 768 ? '10px' : '12px',
-                        backgroundColor: '#1a1a1a',
-                        border: '2px solid #444',
-                        borderRadius: '6px',
-                        color: 'white',
-                        fontSize: dynamicSizing.width < 768 ? '14px' : '16px',
-                        outline: 'none',
-                        transition: 'border-color 0.3s',
-                      }}
-                      onFocus={e => (e.target.style.borderColor = '#d4af37')}
-                      onBlur={e => (e.target.style.borderColor = '#444')}
-                      placeholder="Enter email or username"
-                    />
-                  </div>
-
-                  <div style={{ marginBottom: '20px' }}>
-                    <label
-                      style={{
-                        display: 'block',
-                        color: '#d4af37',
-                        marginBottom: '8px',
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                      required
-                      style={{
-                        width: '100%',
-                        padding: dynamicSizing.width < 768 ? '10px' : '12px',
-                        backgroundColor: '#1a1a1a',
-                        border: '2px solid #444',
-                        borderRadius: '6px',
-                        color: 'white',
-                        fontSize: dynamicSizing.width < 768 ? '14px' : '16px',
-                        outline: 'none',
-                        transition: 'border-color 0.3s',
-                      }}
-                      onFocus={e => (e.target.style.borderColor = '#d4af37')}
-                      onBlur={e => (e.target.style.borderColor = '#444')}
-                      placeholder="Enter your password"
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isLoading}
+              {/* Email/Username & Password Fields */}
+              <form onSubmit={handleSubmit}>
+                <div style={{ marginBottom: '20px' }}>
+                  <label
                     style={{
-                      width: '100%',
-                      padding: '12px',
-                      backgroundColor: isLoading ? '#666' : '#d4af37',
-                      color: '#000',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '16px',
+                      display: 'block',
+                      color: '#d4af37',
+                      marginBottom: '8px',
+                      fontSize: '14px',
                       fontWeight: 'bold',
-                      cursor: isLoading ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s',
                     }}
                   >
-                    {isLoading ? 'Logging in...' : 'Login'}
-                  </button>
-                </form>
-              </div>
+                    Email or Username
+                  </label>
+                  <input
+                    type="text"
+                    value={emailOrUsername}
+                    onChange={e => setEmailOrUsername(e.target.value)}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: dynamicSizing.width < 768 ? '10px' : '12px',
+                      backgroundColor: '#1a1a1a',
+                      border: '2px solid #444',
+                      borderRadius: '6px',
+                      color: 'white',
+                      fontSize: dynamicSizing.width < 768 ? '14px' : '16px',
+                      outline: 'none',
+                      transition: 'border-color 0.3s',
+                    }}
+                    onFocus={e => (e.target.style.borderColor = '#d4af37')}
+                    onBlur={e => (e.target.style.borderColor = '#444')}
+                    placeholder="Enter email or username"
+                  />
+                </div>
 
-              {/* SSO Section - All Options Shown */}
-              <div
-                style={{
-                  backgroundColor: '#2a2a2a',
-                  padding: '25px',
-                  borderRadius: '10px',
-                  border: '1px solid #444',
-                }}
-              >
-                <h3
+                <div style={{ marginBottom: '20px' }}>
+                  <label
+                    style={{
+                      display: 'block',
+                      color: '#d4af37',
+                      marginBottom: '8px',
+                      fontSize: '14px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: dynamicSizing.width < 768 ? '10px' : '12px',
+                      backgroundColor: '#1a1a1a',
+                      border: '2px solid #444',
+                      borderRadius: '6px',
+                      color: 'white',
+                      fontSize: dynamicSizing.width < 768 ? '14px' : '16px',
+                      outline: 'none',
+                      transition: 'border-color 0.3s',
+                    }}
+                    onFocus={e => (e.target.style.borderColor = '#d4af37')}
+                    onBlur={e => (e.target.style.borderColor = '#444')}
+                    placeholder="Enter your password"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isLoading}
                   style={{
-                    color: '#d4af37',
-                    margin: '0 0 20px 0',
-                    fontSize: '18px',
-                    textAlign: 'center',
+                    width: '100%',
+                    padding: '12px',
+                    backgroundColor: isLoading ? '#666' : '#d4af37',
+                    color: '#000',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s',
+                    marginBottom: '25px',
                   }}
                 >
-                  Single Sign-On
-                </h3>
+                  {isLoading ? 'Logging in...' : 'Login'}
+                </button>
+              </form>
 
+              {/* SSO Options */}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  marginBottom: (biometricAvailable || faceIdAvailable) ? '25px' : '0',
+                }}
+              >
+                {/* Google SSO */}
+                <button
+                  onClick={() => handleSSOLogin('google')}
+                  disabled={ssoLoading === 'google'}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    padding: '12px',
+                    backgroundColor:
+                      ssoLoading === 'google' ? '#666' : '#fff',
+                    color: ssoLoading === 'google' ? '#fff' : '#333',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    cursor:
+                      ssoLoading === 'google' ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s',
+                  }}
+                >
+                  <img 
+                    src="/assets/logos/google.svg" 
+                    alt="Google" 
+                    width="18" 
+                    height="18"
+                    style={{ opacity: ssoLoading === 'google' ? 0.5 : 1 }}
+                  />
+                  {ssoLoading === 'google'
+                    ? 'Connecting...'
+                    : 'Continue with Google'}
+                </button>
+
+                {/* GitHub SSO */}
+                <button
+                  onClick={() => handleSSOLogin('github')}
+                  disabled={ssoLoading === 'github'}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    padding: '12px',
+                    backgroundColor:
+                      ssoLoading === 'github' ? '#666' : '#333',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    cursor:
+                      ssoLoading === 'github' ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s',
+                  }}
+                >
+                  <img 
+                    src="/assets/logos/github.svg" 
+                    alt="GitHub" 
+                    width="18" 
+                    height="18"
+                    style={{ 
+                      opacity: ssoLoading === 'github' ? 0.5 : 1,
+                      filter: 'invert(1)'
+                    }}
+                  />
+                  {ssoLoading === 'github'
+                    ? 'Connecting...'
+                    : 'Continue with GitHub'}
+                </button>
+
+                {/* Microsoft SSO */}
+                <button
+                  onClick={() => handleSSOLogin('microsoft')}
+                  disabled={ssoLoading === 'microsoft'}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    padding: '12px',
+                    backgroundColor:
+                      ssoLoading === 'microsoft' ? '#666' : '#0078d4',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    cursor:
+                      ssoLoading === 'microsoft' ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s',
+                  }}
+                >
+                  <img 
+                    src="/assets/logos/microsoft.svg" 
+                    alt="Microsoft" 
+                    width="18" 
+                    height="18"
+                    style={{ opacity: ssoLoading === 'microsoft' ? 0.5 : 1 }}
+                  />
+                  {ssoLoading === 'microsoft'
+                    ? 'Connecting...'
+                    : 'Continue with Microsoft'}
+                </button>
+
+                {/* Discord SSO */}
+                <button
+                  onClick={() => handleSSOLogin('discord')}
+                  disabled={ssoLoading === 'discord'}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '10px',
+                    padding: '12px',
+                    backgroundColor:
+                      ssoLoading === 'discord' ? '#666' : '#5865f2',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    cursor:
+                      ssoLoading === 'discord' ? 'not-allowed' : 'pointer',
+                    transition: 'all 0.3s',
+                  }}
+                >
+                  <img 
+                    src="/assets/logos/discord.svg" 
+                    alt="Discord" 
+                    width="18" 
+                    height="18"
+                    style={{ opacity: ssoLoading === 'discord' ? 0.5 : 1 }}
+                  />
+                  {ssoLoading === 'discord'
+                    ? 'Connecting...'
+                    : 'Continue with Discord'}
+                </button>
+              </div>
+
+              {/* Biometric Authentication Options */}
+              {(biometricAvailable || faceIdAvailable) && (
                 <div
                   style={{
                     display: 'flex',
@@ -373,238 +483,70 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     gap: '12px',
                   }}
                 >
-                  {/* Google SSO */}
-                  <button
-                    onClick={() => handleSSOLogin('google')}
-                    disabled={ssoLoading === 'google'}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '10px',
-                      padding: '12px',
-                      backgroundColor:
-                        ssoLoading === 'google' ? '#666' : '#fff',
-                      color: ssoLoading === 'google' ? '#fff' : '#333',
-                      border: '1px solid #ddd',
-                      borderRadius: '6px',
-                      fontSize: '14px',
-                      fontWeight: 'bold',
-                      cursor:
-                        ssoLoading === 'google' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s',
-                    }}
-                  >
-                    <img 
-                      src="/assets/logos/google.svg" 
-                      alt="Google" 
-                      width="18" 
-                      height="18"
-                      style={{ opacity: ssoLoading === 'google' ? 0.5 : 1 }}
-                    />
-                    {ssoLoading === 'google'
-                      ? 'Connecting...'
-                      : 'Continue with Google'}
-                  </button>
-
-                  {/* GitHub SSO */}
-                  <button
-                    onClick={() => handleSSOLogin('github')}
-                    disabled={ssoLoading === 'github'}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '10px',
-                      padding: '12px',
-                      backgroundColor:
-                        ssoLoading === 'github' ? '#666' : '#333',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '14px',
-                      fontWeight: 'bold',
-                      cursor:
-                        ssoLoading === 'github' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s',
-                    }}
-                  >
-                    <img 
-                      src="/assets/logos/github.svg" 
-                      alt="GitHub" 
-                      width="18" 
-                      height="18"
-                      style={{ 
-                        opacity: ssoLoading === 'github' ? 0.5 : 1,
-                        filter: 'invert(1)'
+                  {biometricAvailable && (
+                    <button
+                      onClick={() => handleBiometricLogin('fingerprint')}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px',
+                        padding: '12px',
+                        background:
+                          'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
                       }}
-                    />
-                    {ssoLoading === 'github'
-                      ? 'Connecting...'
-                      : 'Continue with GitHub'}
-                  </button>
+                    >
+                      Fingerprint Login
+                    </button>
+                  )}
 
-                  {/* Microsoft SSO */}
-                  <button
-                    onClick={() => handleSSOLogin('microsoft')}
-                    disabled={ssoLoading === 'microsoft'}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '10px',
-                      padding: '12px',
-                      backgroundColor:
-                        ssoLoading === 'microsoft' ? '#666' : '#0078d4',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '14px',
-                      fontWeight: 'bold',
-                      cursor:
-                        ssoLoading === 'microsoft' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s',
-                    }}
-                  >
-                    <img 
-                      src="/assets/logos/microsoft.svg" 
-                      alt="Microsoft" 
-                      width="18" 
-                      height="18"
-                      style={{ opacity: ssoLoading === 'microsoft' ? 0.5 : 1 }}
-                    />
-                    {ssoLoading === 'microsoft'
-                      ? 'Connecting...'
-                      : 'Continue with Microsoft'}
-                  </button>
+                  {faceIdAvailable && (
+                    <button
+                      onClick={() => handleBiometricLogin('faceid')}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '10px',
+                        padding: '12px',
+                        background:
+                          'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s',
+                      }}
+                    >
+                      Face ID Login
+                    </button>
+                  )}
 
-                  {/* Discord SSO */}
-                  <button
-                    onClick={() => handleSSOLogin('discord')}
-                    disabled={ssoLoading === 'discord'}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '10px',
-                      padding: '12px',
-                      backgroundColor:
-                        ssoLoading === 'discord' ? '#666' : '#5865f2',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '6px',
-                      fontSize: '14px',
-                      fontWeight: 'bold',
-                      cursor:
-                        ssoLoading === 'discord' ? 'not-allowed' : 'pointer',
-                      transition: 'all 0.3s',
-                    }}
-                  >
-                    <img 
-                      src="/assets/logos/discord.svg" 
-                      alt="Discord" 
-                      width="18" 
-                      height="18"
-                      style={{ opacity: ssoLoading === 'discord' ? 0.5 : 1 }}
-                    />
-                    {ssoLoading === 'discord'
-                      ? 'Connecting...'
-                      : 'Continue with Discord'}
-                  </button>
-                </div>
-              </div>
-
-              {/* Biometric Authentication Section - Security Feature */}
-              {(biometricAvailable || faceIdAvailable) && (
-                <div
-                  style={{
-                    backgroundColor: '#2a2a2a',
-                    padding: '25px',
-                    borderRadius: '10px',
-                    border: '1px solid #444',
-                  }}
-                >
-                  <h3
-                    style={{
-                      color: '#d4af37',
-                      margin: '0 0 20px 0',
-                      fontSize: '18px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    Biometric Security
-                  </h3>
-
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '12px',
-                    }}
-                  >
-                    {biometricAvailable && (
-                      <button
-                        onClick={() => handleBiometricLogin('fingerprint')}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '10px',
-                          padding: '12px',
-                          background:
-                            'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '6px',
-                          fontSize: '14px',
-                          fontWeight: 'bold',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s',
-                        }}
-                      >
-                        Fingerprint Login
-                      </button>
-                    )}
-
-                    {faceIdAvailable && (
-                      <button
-                        onClick={() => handleBiometricLogin('faceid')}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '10px',
-                          padding: '12px',
-                          background:
-                            'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '6px',
-                          fontSize: '14px',
-                          fontWeight: 'bold',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s',
-                        }}
-                      >
-                        Face ID Login
-                      </button>
-                    )}
-                  </div>
-
-                  <div
-                    style={{
-                      marginTop: '15px',
-                      padding: '10px',
-                      backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                      borderRadius: '6px',
-                      fontSize: '12px',
-                      color: '#d4af37',
-                      textAlign: 'center',
-                    }}
-                  >
-                    Secure biometric authentication using your device's
-                    built-in sensors
-                  </div>
+                  {(biometricAvailable || faceIdAvailable) && (
+                    <div
+                      style={{
+                        marginTop: '15px',
+                        padding: '10px',
+                        backgroundColor: 'rgba(212, 175, 55, 0.1)',
+                        borderRadius: '6px',
+                        fontSize: '12px',
+                        color: '#d4af37',
+                        textAlign: 'center',
+                      }}
+                    >
+                      Secure biometric authentication using your device's
+                      built-in sensors
+                    </div>
+                  )}
                 </div>
               )}
             </div>
