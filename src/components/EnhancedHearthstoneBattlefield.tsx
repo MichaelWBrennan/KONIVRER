@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GameEngine } from '../game/GameEngine';
 import { MysticalArena, ArenaConfig } from '../game/3d/MysticalArena';
+import { EnhancedBattlefieldSystem } from './battlefield/EnhancedBattlefieldSystem';
+import './battlefield/HearthstoneBattlefield.css';
 
 interface Card {
   id: string;
@@ -106,6 +108,7 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
   const canvasRef = useRef<HTMLDivElement>(null);
   const gameEngineRef = useRef<GameEngine | null>(null);
   const arenaRef = useRef<MysticalArena | null>(null);
+  const battlefieldSystemRef = useRef<EnhancedBattlefieldSystem | null>(null);
   const performanceMonitorRef = useRef<number>(0);
 
   // Game State
@@ -172,6 +175,13 @@ const EnhancedHearthstoneBattlefield: React.FC<EnhancedBattlefieldProps> = ({
           const arena = new MysticalArena(engine.getScene()!, arenaConfig);
           arenaRef.current = arena;
           await arena.initialize();
+          
+          // Initialize Enhanced Battlefield System
+          const battlefieldSystem = new EnhancedBattlefieldSystem(engine.getScene()!);
+          battlefieldSystemRef.current = battlefieldSystem;
+          
+          // Listen for battlefield actions
+          document.addEventListener('battlefieldAction', handleBattlefieldAction);
         }
 
         setIsLoading(false);
