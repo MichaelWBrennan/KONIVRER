@@ -182,13 +182,13 @@ const MainNavigation: React.FC = () => {
       case 'battlefield':
         return (
           <EnhancedHearthstoneBattlefield
-            onThemeChange={(theme) => {
+            onThemeChange={theme => {
               console.log('Theme changed to:', theme);
             }}
-            onQualityChange={(quality) => {
+            onQualityChange={quality => {
               console.log('Quality changed to:', quality);
             }}
-            onGameAction={(action) => {
+            onGameAction={action => {
               console.log('Game action:', action);
             }}
             enablePerformanceMonitoring={true}
