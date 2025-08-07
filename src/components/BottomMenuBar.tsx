@@ -525,18 +525,21 @@ const BottomMenuBar: React.FC = () => {
     let matchCount = 0;
 
     blogElements.forEach(element => {
-      const title = element.querySelector('h3')?.textContent?.toLowerCase() || '';
-      const content = element.querySelector('p')?.textContent?.toLowerCase() || '';
+      const title =
+        element.querySelector('h3')?.textContent?.toLowerCase() || '';
+      const content =
+        element.querySelector('p')?.textContent?.toLowerCase() || '';
       const author = element.textContent?.toLowerCase() || '';
-      
-      const matches = 
+
+      const matches =
         title.includes(searchTerm.toLowerCase()) ||
         content.includes(searchTerm.toLowerCase()) ||
         author.includes(searchTerm.toLowerCase());
 
       if (matches) {
         (element as HTMLElement).style.border = '3px solid #d4af37';
-        (element as HTMLElement).style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.5)';
+        (element as HTMLElement).style.boxShadow =
+          '0 0 20px rgba(212, 175, 55, 0.5)';
         (element as HTMLElement).scrollIntoView({
           behavior: 'smooth',
           block: 'center',
@@ -560,22 +563,27 @@ const BottomMenuBar: React.FC = () => {
 
   const highlightMatchingRules = (searchTerm: string) => {
     // Search in rule cards and content
-    const ruleElements = document.querySelectorAll('.rule-card, [data-rule-content]');
+    const ruleElements = document.querySelectorAll(
+      '.rule-card, [data-rule-content]',
+    );
     let matchCount = 0;
 
     ruleElements.forEach(element => {
-      const title = element.querySelector('h3')?.textContent?.toLowerCase() || '';
-      const description = element.querySelector('p')?.textContent?.toLowerCase() || '';
+      const title =
+        element.querySelector('h3')?.textContent?.toLowerCase() || '';
+      const description =
+        element.querySelector('p')?.textContent?.toLowerCase() || '';
       const content = element.textContent?.toLowerCase() || '';
-      
-      const matches = 
+
+      const matches =
         title.includes(searchTerm.toLowerCase()) ||
         description.includes(searchTerm.toLowerCase()) ||
         content.includes(searchTerm.toLowerCase());
 
       if (matches) {
         (element as HTMLElement).style.border = '3px solid #d4af37';
-        (element as HTMLElement).style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.5)';
+        (element as HTMLElement).style.boxShadow =
+          '0 0 20px rgba(212, 175, 55, 0.5)';
         (element as HTMLElement).scrollIntoView({
           behavior: 'smooth',
           block: 'center',
@@ -607,7 +615,9 @@ const BottomMenuBar: React.FC = () => {
   };
 
   const resetRulesHighlighting = () => {
-    const ruleElements = document.querySelectorAll('.rule-card, [data-rule-content]');
+    const ruleElements = document.querySelectorAll(
+      '.rule-card, [data-rule-content]',
+    );
     ruleElements.forEach(element => {
       (element as HTMLElement).style.border = '';
       (element as HTMLElement).style.boxShadow = '';
