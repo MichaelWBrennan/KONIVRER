@@ -35,6 +35,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
       path: '/tournaments',
       badge: 2,
     },
+    { id: 'rules', label: 'Rules', icon: '📖', path: '/rules' },
     { id: 'social', label: 'Social', icon: '👥', path: '/social' },
     { id: 'profile', label: 'Profile', icon: '👤', path: '/profile' },
   ];
