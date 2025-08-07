@@ -201,28 +201,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
             }}
             onClick={e => e.stopPropagation()}
           >
-            {/* Header */}
-            <div style={{ marginBottom: '30px', textAlign: 'center' }}>
-              <h2
-                style={{
-                  color: '#d4af37',
-                  margin: '0 0 10px 0',
-                  fontSize: '28px',
-                  fontWeight: 'bold',
-                }}
-              >
-                Enhanced Login
-              </h2>
-              <p
-                style={{
-                  color: '#ccc',
-                  margin: 0,
-                  fontSize: '16px',
-                }}
-              >
-                Welcome to KONIVRER Deck Database
-              </p>
-            </div>
+
 
             {/* Main Content - Single Seamless Block */}
             <div
@@ -575,38 +554,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                 }
               >
                 Cancel
-              </button>
-              <button
-                onClick={() => {
-                  onLogin({
-                    id: 'demo',
-                    username: 'DemoUser',
-                    email: 'demo@konivrer.com',
-                    level: 5,
-                    preferences: {
-                      theme: 'dark',
-                      notifications: true,
-                    },
-                  });
-                }}
-                style={{
-                  padding: '12px 24px',
-                  backgroundColor: '#4CAF50',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.3s',
-                }}
-                onMouseEnter={e =>
-                  ((e.target as HTMLElement).style.backgroundColor = '#45a049')
-                }
-                onMouseLeave={e =>
-                  ((e.target as HTMLElement).style.backgroundColor = '#4CAF50')
-                }
-              >
-                Demo Login
               </button>
             </div>
           </motion.div>
