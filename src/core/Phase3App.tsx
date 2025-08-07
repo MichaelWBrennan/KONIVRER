@@ -44,6 +44,7 @@ import MTGArenaGame from '../components/MTGArenaGame';
 import Enhanced3DArenaGame from '../components/Enhanced3DArenaGame';
 import AdvancedMTGArenaGame from '../components/AdvancedMTGArenaGame';
 import HearthstoneBattlefield from '../components/HearthstoneBattlefield';
+import EnhancedHearthstoneBattlefield from '../components/EnhancedHearthstoneBattlefield';
 import BattlefieldDemo from '../components/BattlefieldDemo';
 import '../styles/mtg-arena.css';
 import '../styles/advanced-mtg-arena.css';
