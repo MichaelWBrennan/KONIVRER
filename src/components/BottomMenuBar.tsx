@@ -8,7 +8,7 @@ import { AppContext, AppContextType } from '../contexts/AppContext';
 // Define navigation items that will appear in the burger menu
 const getNavigationItems = (context: AppContextType, currentPath: string) => {
   const items = [];
-  
+
   // Only show Home when not on the main page
   if (currentPath !== '/') {
     items.push({
@@ -21,7 +21,7 @@ const getNavigationItems = (context: AppContextType, currentPath: string) => {
       ),
     });
   }
-  
+
   items.push(
     {
       to: '/cards',
@@ -58,9 +58,9 @@ const getNavigationItems = (context: AppContextType, currentPath: string) => {
           <path d="M8 5v14l11-7z" />
         </svg>
       ),
-    }
+    },
   );
-  
+
   return items;
 };
 

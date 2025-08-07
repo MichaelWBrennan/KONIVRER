@@ -798,13 +798,15 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
               searchFilters,
               preferences,
             );
-            
+
             // Filter out Familiar cards if not allowed
             if (!allowFamiliarCards) {
-              results.cards = results.cards.filter(card => card.type !== 'Familiar');
+              results.cards = results.cards.filter(
+                card => card.type !== 'Familiar',
+              );
               results.totalCount = results.cards.length;
             }
-            
+
             setSearchResults(results);
             onSearchResults?.(results);
             onFiltersChange?.(searchFilters);
@@ -821,7 +823,14 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
         }
       }, 300);
     },
-    [searchEngine, preferences, onSearchResults, onFiltersChange, hasSearched, allowFamiliarCards],
+    [
+      searchEngine,
+      preferences,
+      onSearchResults,
+      onFiltersChange,
+      hasSearched,
+      allowFamiliarCards,
+    ],
   );
 
   // Update filter programmatically (without triggering search)
@@ -1728,18 +1737,26 @@ const UnifiedCardSearch: React.FC<UnifiedCardSearchProps> = ({
                 <span className="notice-icon">🔒</span>
                 <div className="notice-text">
                   <strong>Familiar cards are restricted.</strong>
-                  <p>Access the Play section to view and interact with Familiar cards.</p>
+                  <p>
+                    Access the Play section to view and interact with Familiar
+                    cards.
+                  </p>
                 </div>
               </div>
             </div>
           )}
-          
+
           {searchResults.totalCount === 0 && searchResults.searchTime > 0 && (
             <div className="no-results">
               <p>No cards found matching your search criteria.</p>
               <p>Try adjusting your filters or search terms.</p>
               {!allowFamiliarCards && (
-                <p><em>Note: Familiar cards are hidden. Access the Play section to view them.</em></p>
+                <p>
+                  <em>
+                    Note: Familiar cards are hidden. Access the Play section to
+                    view them.
+                  </em>
+                </p>
               )}
             </div>
           )}
