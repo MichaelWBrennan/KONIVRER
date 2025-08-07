@@ -22,6 +22,13 @@ export interface ArenaConfig {
   isMobile: boolean;
   enableInteractiveElements?: boolean;
   enableIdleAnimations?: boolean;
+  // Pseudo-3D rendering options integrated into existing config
+  renderingTechniques?: {
+    enableMode7Background?: boolean;
+    enableIsometricView?: boolean;
+    enable2_5DSprites?: boolean;
+    enableParallaxLayers?: boolean;
+  };
 }
 
 export class MysticalArena {
@@ -74,6 +81,11 @@ export class MysticalArena {
 
     // Create theme-specific environmental elements
     await this.createThemeSpecificElements();
+
+    // Add pseudo-3D rendering features if enabled
+    if (this.config.renderingTechniques) {
+      await this.setupPseudo3DRendering();
+    }
 
     if (this.config.enableParticles && this.config.quality !== 'low') {
       await this.createParticleEffects();
@@ -159,32 +171,32 @@ export class MysticalArena {
     const floorMaterial = new BABYLON.PBRMaterial('floorMaterial', this.scene);
     const colors = this.getThemeColors();
 
+    // Create the main game area texture based on the provided layout
+    const gameAreaTexture = this.createGameAreaTexture();
+    floorMaterial.baseTexture = gameAreaTexture;
+
     // Base material properties
-    floorMaterial.baseColor = colors.floor;
+    floorMaterial.baseColor = new BABYLON.Color3(1, 1, 1); // White to show texture properly
     floorMaterial.metallicFactor = 0.1;
     floorMaterial.roughnessFactor = 0.8;
 
-    // Add mystical glow effect
+    // Add subtle mystical glow effect
     floorMaterial.emissiveColor = colors.floorGlow;
-    floorMaterial.emissiveIntensity = 0.3;
+    floorMaterial.emissiveIntensity = 0.1; // Reduced to not overpower the texture
 
     // Enhanced materials for higher quality
     if (this.config.quality !== 'low') {
-      // Add geometric pattern
-      const patternTexture = this.createMysticalPattern();
-      floorMaterial.baseTexture = patternTexture;
-
       // Add normal mapping for depth
       if (this.config.quality === 'high' || this.config.quality === 'ultra') {
         const normalTexture = this.createNormalPattern();
         floorMaterial.bumpTexture = normalTexture;
-        floorMaterial.bumpTexture.level = 0.5;
+        floorMaterial.bumpTexture.level = 0.3; // Reduced to not interfere with game area
       }
 
-      // Add Fresnel effect for mystical glow
+      // Add subtle Fresnel effect
       floorMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-      floorMaterial.emissiveFresnelParameters.bias = 0.1;
-      floorMaterial.emissiveFresnelParameters.power = 1.5;
+      floorMaterial.emissiveFresnelParameters.bias = 0.05;
+      floorMaterial.emissiveFresnelParameters.power = 2.0;
       floorMaterial.emissiveFresnelParameters.leftColor =
         BABYLON.Color3.Black();
       floorMaterial.emissiveFresnelParameters.rightColor = colors.floorGlow;
@@ -1773,6 +1785,102 @@ export class MysticalArena {
   }
 
   // Texture creation methods
+  private createGameAreaTexture(): BABYLON.DynamicTexture {
+    const size = this.config.quality === 'ultra' ? 1024 : 512;
+    const texture = new BABYLON.DynamicTexture(
+      'gameAreaTexture',
+      { width: size, height: size },
+      this.scene,
+      false,
+    );
+
+    const ctx = texture.getContext();
+    
+    // Black background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, size, size);
+    
+    // White color for text and borders
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.lineWidth = 3;
+    ctx.setLineDash([15, 15]); // Dashed lines
+    
+    // Calculate proportional sizes
+    const margin = size * 0.05;
+    const sideZoneWidth = size * 0.15;
+    const topZoneHeight = size * 0.2;
+    const bottomZoneHeight = size * 0.15;
+    
+    // Draw main field area (center)
+    const fieldX = margin + sideZoneWidth;
+    const fieldY = margin + topZoneHeight;
+    const fieldWidth = size - 2 * (margin + sideZoneWidth);
+    const fieldHeight = size - margin - topZoneHeight - bottomZoneHeight - margin;
+    
+    ctx.strokeRect(fieldX, fieldY, fieldWidth, fieldHeight);
+    
+    // Draw FLAG zone (top-left)
+    ctx.strokeRect(margin, margin, sideZoneWidth, topZoneHeight);
+    
+    // Draw DECK zone (top-right) 
+    ctx.strokeRect(size - margin - sideZoneWidth, margin, sideZoneWidth, topZoneHeight);
+    
+    // Draw LIFE zone (bottom-left)
+    ctx.strokeRect(margin, size - margin - bottomZoneHeight, sideZoneWidth, bottomZoneHeight);
+    
+    // Draw REMOVED FROM PLAY zone (bottom-right)
+    ctx.strokeRect(size - margin - sideZoneWidth, size - margin - bottomZoneHeight, sideZoneWidth, bottomZoneHeight);
+    
+    // Draw Combat Row (top-center)
+    const combatRowX = fieldX;
+    const combatRowY = margin;
+    const combatRowWidth = fieldWidth;
+    const combatRowHeight = topZoneHeight;
+    ctx.strokeRect(combatRowX, combatRowY, combatRowWidth, combatRowHeight);
+    
+    // Draw Azoth Row (bottom-center) 
+    const azothRowX = fieldX;
+    const azothRowY = size - margin - bottomZoneHeight;
+    const azothRowWidth = fieldWidth;
+    const azothRowHeight = bottomZoneHeight;
+    ctx.strokeRect(azothRowX, azothRowY, azothRowWidth, azothRowHeight);
+    
+    // Add text labels
+    ctx.setLineDash([]); // Solid lines for text
+    ctx.font = `${size * 0.025}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // FLAG
+    ctx.fillText('FLAG', margin + sideZoneWidth/2, margin + topZoneHeight/2);
+    
+    // DECK
+    ctx.fillText('DECK', size - margin - sideZoneWidth/2, margin + topZoneHeight/2);
+    
+    // Combat Row
+    ctx.fillText('Combat Row', combatRowX + combatRowWidth/2, combatRowY + combatRowHeight/2);
+    
+    // Field (center)
+    ctx.fillText('Field', fieldX + fieldWidth/2, fieldY + fieldHeight/2);
+    
+    // LIFE
+    ctx.fillText('LIFE', margin + sideZoneWidth/2, size - margin - bottomZoneHeight/2);
+    
+    // REMOVED FROM PLAY
+    ctx.font = `${size * 0.02}px Arial`; // Smaller font for longer text
+    ctx.fillText('REMOVED', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2 - size * 0.02);
+    ctx.fillText('FROM', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2);
+    ctx.fillText('PLAY', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2 + size * 0.02);
+    
+    // Azoth Row
+    ctx.font = `${size * 0.025}px Arial`;
+    ctx.fillText('Azoth Row', azothRowX + azothRowWidth/2, azothRowY + azothRowHeight/2);
+    
+    texture.update();
+    return texture;
+  }
+
   private createMysticalPattern(): BABYLON.DynamicTexture {
     const texture = new BABYLON.DynamicTexture(
       'mysticalPattern',
@@ -2736,5 +2844,181 @@ export class MysticalArena {
         console.log(`Beer mug ${index} clinked!`);
       }),
     );
+  }
+
+  // Pseudo-3D rendering system integrated into existing MysticalArena
+  private async setupPseudo3DRendering(): Promise<void> {
+    console.log('[MysticalArena] Setting up pseudo-3D rendering techniques');
+
+    const techniques = this.config.renderingTechniques!;
+
+    if (techniques.enableMode7Background) {
+      await this.createMode7Background();
+    }
+
+    if (techniques.enableParallaxLayers) {
+      await this.createParallaxLayers();
+    }
+
+    if (techniques.enableIsometricView) {
+      await this.setupIsometricView();
+    }
+
+    if (techniques.enable2_5DSprites) {
+      await this.create2_5DSprites();
+    }
+  }
+
+  private async createMode7Background(): Promise<void> {
+    console.log('[MysticalArena] Creating Mode7-style background');
+
+    // Create a large plane for the Mode7 effect
+    const mode7Plane = BABYLON.MeshBuilder.CreateGround(
+      'mode7Background',
+      { width: 200, height: 200 },
+      this.scene,
+    );
+    mode7Plane.position.y = -10;
+    mode7Plane.position.z = -50;
+
+    // Create animated Mode7-style material with perspective scaling
+    const mode7Material = new BABYLON.StandardMaterial('mode7Material', this.scene);
+    mode7Material.diffuseColor = this.getThemeColors().primary;
+    mode7Material.specularColor = new BABYLON.Color3(0, 0, 0);
+
+    // Add animated texture scrolling for Mode7 effect
+    const noiseTexture = new BABYLON.NoiseProceduralTexture('mode7Noise', 512, this.scene);
+    noiseTexture.octaves = 3;
+    noiseTexture.persistence = 0.7;
+    mode7Material.diffuseTexture = noiseTexture;
+
+    mode7Plane.material = mode7Material;
+    this.meshes.set('mode7Background', mode7Plane);
+
+    // Animate the texture for scrolling effect
+    this.scene.registerBeforeRender(() => {
+      if (mode7Material.diffuseTexture) {
+        (mode7Material.diffuseTexture as BABYLON.NoiseProceduralTexture).animationSpeedFactor = 0.1;
+      }
+    });
+  }
+
+  private async createParallaxLayers(): Promise<void> {
+    console.log('[MysticalArena] Creating parallax background layers');
+
+    const layers = [
+      { name: 'parallax_far', distance: -80, speed: 0.2, height: -8 },
+      { name: 'parallax_mid', distance: -60, speed: 0.5, height: -5 },
+      { name: 'parallax_near', distance: -40, speed: 0.8, height: -2 },
+    ];
+
+    layers.forEach(async (layer) => {
+      const parallaxPlane = BABYLON.MeshBuilder.CreateGround(
+        layer.name,
+        { width: 120, height: 80 },
+        this.scene,
+      );
+      parallaxPlane.position.set(0, layer.height, layer.distance);
+
+      const parallaxMaterial = new BABYLON.StandardMaterial(`${layer.name}Material`, this.scene);
+      const colors = this.getThemeColors();
+      parallaxMaterial.diffuseColor = colors.primary.scale(0.3 + layer.speed * 0.4);
+      parallaxMaterial.alpha = 0.4 + layer.speed * 0.3;
+      parallaxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+
+      parallaxPlane.material = parallaxMaterial;
+      this.meshes.set(layer.name, parallaxPlane);
+
+      // Add parallax scrolling effect
+      this.scene.registerBeforeRender(() => {
+        if (this.scene.activeCamera) {
+          const cameraPosition = this.scene.activeCamera.position;
+          parallaxPlane.position.x = cameraPosition.x * layer.speed * 0.1;
+        }
+      });
+    });
+  }
+
+  private async setupIsometricView(): Promise<void> {
+    console.log('[MysticalArena] Setting up isometric perspective elements');
+
+    // Create an isometric grid of tile-based elements
+    const tileSize = 4;
+    const gridSize = 8;
+
+    for (let x = -gridSize / 2; x < gridSize / 2; x++) {
+      for (let z = -gridSize / 2; z < gridSize / 2; z++) {
+        if (Math.abs(x) > 2 && Math.abs(z) > 2) { // Only create tiles around the arena
+          const tile = BABYLON.MeshBuilder.CreateBox(
+            `isometric_tile_${x}_${z}`,
+            { width: tileSize, height: 0.2, depth: tileSize },
+            this.scene,
+          );
+
+          // Position in isometric style
+          tile.position.set(
+            x * tileSize * 0.866, // Isometric X offset
+            -0.1,
+            z * tileSize + (x % 2) * tileSize * 0.5, // Isometric Z offset
+          );
+
+          const tileMaterial = new BABYLON.StandardMaterial(`tileMat_${x}_${z}`, this.scene);
+          const colors = this.getThemeColors();
+          tileMaterial.diffuseColor = colors.secondary.scale(0.8 + (x + z) * 0.1);
+          tileMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+          tile.material = tileMaterial;
+          this.meshes.set(`isometric_tile_${x}_${z}`, tile);
+        }
+      }
+    }
+  }
+
+  private async create2_5DSprites(): Promise<void> {
+    console.log('[MysticalArena] Creating 2.5D billboard sprites');
+
+    const spritePositions = [
+      { x: -15, y: 2, z: 10, name: 'sprite_left' },
+      { x: 15, y: 2, z: 10, name: 'sprite_right' },
+      { x: 0, y: 3, z: -15, name: 'sprite_back' },
+    ];
+
+    spritePositions.forEach(async (pos) => {
+      // Create billboard plane that always faces the camera
+      const sprite = BABYLON.MeshBuilder.CreatePlane(
+        pos.name,
+        { width: 6, height: 8 },
+        this.scene,
+      );
+      sprite.position.set(pos.x, pos.y, pos.z);
+      sprite.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+
+      const spriteMaterial = new BABYLON.StandardMaterial(`${pos.name}Material`, this.scene);
+      const colors = this.getThemeColors();
+      spriteMaterial.diffuseColor = colors.accent;
+      spriteMaterial.emissiveColor = colors.accent.scale(0.2);
+      spriteMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+
+      // Add subtle transparency and glow effect
+      spriteMaterial.alpha = 0.8;
+      sprite.material = spriteMaterial;
+
+      this.meshes.set(pos.name, sprite);
+
+      // Add idle animation to the sprite
+      const idleAnimation = BABYLON.Animation.CreateAndStartAnimation(
+        `${pos.name}_idle`,
+        sprite,
+        'position.y',
+        30,
+        90,
+        pos.y,
+        pos.y + 0.5,
+        BABYLON.Animation.ANIMATIONLOOPMODE_YOYO,
+      );
+      if (idleAnimation) {
+        this.animationGroups.push(idleAnimation);
+      }
+    });
   }
 }

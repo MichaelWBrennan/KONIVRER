@@ -229,7 +229,7 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
         await engine.init(canvasRef.current);
         gameEngineRef.current = engine;
 
-        // Configure arena for Hearthstone theme
+        // Configure arena for Hearthstone theme with pseudo-3D features
         const arenaConfig: ArenaConfig = {
           theme: 'hearthstone',
           quality: quality,
@@ -239,6 +239,13 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
           isMobile: window.innerWidth < 768,
           enableInteractiveElements: enableInteractiveElements,
           enableIdleAnimations: true,
+          // Enable pseudo-3D rendering techniques for immersive experience
+          renderingTechniques: {
+            enableMode7Background: quality !== 'low',
+            enableIsometricView: true,
+            enable2_5DSprites: quality !== 'low',
+            enableParallaxLayers: quality === 'high' || quality === 'ultra',
+          },
         };
 
         // Initialize and configure arena if available
