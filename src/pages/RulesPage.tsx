@@ -82,9 +82,7 @@ const RulesPage: React.FC = () => {
             strengths, weaknesses, and synergies with other cards.
           </p>
 
-          <h3 style={{ color: '#d4af37', marginTop: '20px' }}>
-            Cost & Rarity
-          </h3>
+          <h3 style={{ color: '#d4af37', marginTop: '20px' }}>Cost & Rarity</h3>
           <p>
             Each card has a mana cost and rarity level. Higher rarity cards
             offer more powerful effects but require strategic resource
