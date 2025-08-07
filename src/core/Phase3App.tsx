@@ -596,13 +596,13 @@ const Phase3App = () => {
                 <Route path="/oauth/callback" element={<OAuthCallback />} />
               </Routes>
               <BottomMenuBar />
-              
+
               {/* Login Modal */}
               {showLoginModal && (
                 <SimpleEnhancedLoginModal
                   isOpen={showLoginModal}
                   onClose={() => setShowLoginModal(false)}
-                  onLogin={(userData) => {
+                  onLogin={userData => {
                     setUser(userData);
                     setShowLoginModal(false);
                   }}

@@ -3,7 +3,9 @@ import { motion } from 'framer-motion';
 import '../styles/home-page.css';
 
 interface HomePageProps {
-  onNavigate: (view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game') => void;
+  onNavigate: (
+    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game',
+  ) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
@@ -79,7 +81,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
             {/* Mystical glow effect */}
             <div className="bubble-glow" />
-            
+
             {/* Interactive particles */}
             <div className="bubble-particles">
               {[...Array(6)].map((_, i) => (
