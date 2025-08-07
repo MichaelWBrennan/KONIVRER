@@ -4,6 +4,7 @@ import {
   BattlefieldInteractionSystem,
   type BattlefieldState,
 } from './BattlefieldInteractionSystem';
+import { GameZonez, type GameZonezConfig } from './GameZonez';
 
 export interface ArenaConfig {
   theme:
@@ -22,6 +23,8 @@ export interface ArenaConfig {
   isMobile: boolean;
   enableInteractiveElements?: boolean;
   enableIdleAnimations?: boolean;
+  enableGameZonez?: boolean; // New option to enable pseudo-3D GameZonez
+  gameZonezConfig?: Partial<GameZonezConfig>; // Configuration for GameZonez
 }
 
 export class MysticalArena {
@@ -37,6 +40,7 @@ export class MysticalArena {
   private currentTheme: string;
   private idleAnimations: BABYLON.Animation[] = [];
   private responsiveElements: BABYLON.Node[] = [];
+  private gameZonez: GameZonez | null = null; // New GameZonez system
 
   constructor(scene: BABYLON.Scene, config: ArenaConfig) {
     this.scene = scene;
@@ -62,6 +66,13 @@ export class MysticalArena {
       this.config.theme,
       this.config.quality,
     );
+
+    // Initialize GameZonez pseudo-3D system if enabled
+    if (this.config.enableGameZonez !== false) {
+      console.log('[MysticalArena] Initializing GameZonez pseudo-3D system');
+      this.gameZonez = new GameZonez(this.scene, this.config.gameZonezConfig);
+      await this.gameZonez.initialize();
+    }
 
     // Initialize components progressively based on performance
     await this.createSkybox();
@@ -1699,6 +1710,41 @@ export class MysticalArena {
   }
 
   /**
+   * Get GameZonez system instance
+   */
+  public getGameZonez(): GameZonez | null {
+    return this.gameZonez;
+  }
+
+  /**
+   * Enable or disable GameZonez system
+   */
+  public setGameZonezEnabled(enabled: boolean): void {
+    if (enabled && !this.gameZonez) {
+      console.log('[MysticalArena] Enabling GameZonez system');
+      this.gameZonez = new GameZonez(this.scene, this.config.gameZonezConfig);
+      this.gameZonez.initialize();
+    } else if (!enabled && this.gameZonez) {
+      console.log('[MysticalArena] Disabling GameZonez system');
+      this.gameZonez.dispose();
+      this.gameZonez = null;
+    }
+  }
+
+  /**
+   * Update GameZonez configuration
+   */
+  public updateGameZonezConfig(config: Partial<GameZonezConfig>): void {
+    if (this.gameZonez) {
+      console.log('[MysticalArena] Updating GameZonez configuration');
+      // Recreate GameZonez with new configuration
+      this.gameZonez.dispose();
+      this.gameZonez = new GameZonez(this.scene, { ...this.config.gameZonezConfig, ...config });
+      this.gameZonez.initialize();
+    }
+  }
+
+  /**
    * Change arena theme dynamically
    */
   public async changeTheme(theme: ArenaConfig['theme']): Promise<void> {
@@ -1738,6 +1784,12 @@ export class MysticalArena {
 
   public dispose(): void {
     console.log('[MysticalArena] Disposing arena resources');
+
+    // Dispose GameZonez system
+    if (this.gameZonez) {
+      this.gameZonez.dispose();
+      this.gameZonez = null;
+    }
 
     // Dispose asset manager
     if (this.assetManager) {

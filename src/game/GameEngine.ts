@@ -593,6 +593,14 @@ export class GameEngine {
       enableLighting: true,
       enablePostProcessing: quality === 'ultra' && !isMobile,
       isMobile: isMobile,
+      enableGameZonez: true, // Enable the new pseudo-3D GameZonez system
+      gameZonezConfig: {
+        enableParallax: !isMobile && quality !== 'low',
+        mode7Speed: isMobile ? 0.01 : 0.02,
+        isometricAngle: Math.PI / 6,
+        sprite2DScale: isMobile ? 0.8 : 1.0,
+        maxZones: isMobile ? 5 : 10,
+      },
     };
 
     try {
