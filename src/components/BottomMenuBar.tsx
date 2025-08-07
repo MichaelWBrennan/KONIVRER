@@ -5,54 +5,64 @@ import PopoverMenu from './PopoverMenu';
 import AccessibilityPanel from './AccessibilityPanel';
 import { AppContext, AppContextType } from '../contexts/AppContext';
 
-// Define navigation items that will appear in the drawer (removed login item)
-const getNavigationItems = (context: AppContextType) => [
-  {
-    to: '/',
-    label: 'Home',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-      </svg>
-    ),
-  },
-  {
-    to: '/cards',
-    label: 'Cards',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
-      </svg>
-    ),
-  },
-  {
-    to: '/decks',
-    label: 'Decks',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M16 4l-4-4-4 4v2c0 4.42 3.58 8 8 8s8-3.58 8-8V4h-8zm0 10c-2.21 0-4-1.79-4-4V6h8v4c0 2.21-1.79 4-4 4z" />
-      </svg>
-    ),
-  },
-  {
-    to: '/events',
-    label: 'Events',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-      </svg>
-    ),
-  },
-  {
-    to: '/play',
-    label: 'Play',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-        <path d="M8 5v14l11-7z" />
-      </svg>
-    ),
-  },
-];
+// Define navigation items that will appear in the burger menu
+const getNavigationItems = (context: AppContextType, currentPath: string) => {
+  const items = [];
+  
+  // Only show Home when not on the main page
+  if (currentPath !== '/') {
+    items.push({
+      to: '/',
+      label: 'Home',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+      ),
+    });
+  }
+  
+  items.push(
+    {
+      to: '/cards',
+      label: 'Cards',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
+        </svg>
+      ),
+    },
+    {
+      to: '/decks',
+      label: 'Decks',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+          <path d="M16 4l-4-4-4 4v2c0 4.42 3.58 8 8 8s8-3.58 8-8V4h-8zm0 10c-2.21 0-4-1.79-4-4V6h8v4c0 2.21-1.79 4-4 4z" />
+        </svg>
+      ),
+    },
+    {
+      to: '/rules',
+      label: 'Rules',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z" />
+        </svg>
+      ),
+    },
+    {
+      to: '/simulator',
+      label: 'Simulator',
+      icon: (
+        <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      ),
+    }
+  );
+  
+  return items;
+};
 
 interface CircularButtonProps {
   icon: React.ReactNode;
@@ -135,8 +145,8 @@ const BottomMenuBar: React.FC = () => {
   const appContext = useContext(AppContext);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  // Get navigation items with context
-  const navigationItems = getNavigationItems(appContext);
+  // Get navigation items with context and current path
+  const navigationItems = getNavigationItems(appContext, location.pathname);
 
   // Page-sensitive search functionality
   const handleSearch = () => {
