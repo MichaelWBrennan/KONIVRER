@@ -1795,88 +1795,136 @@ export class MysticalArena {
     );
 
     const ctx = texture.getContext();
-    
+
     // Black background
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, size, size);
-    
+
     // White color for text and borders
     ctx.strokeStyle = '#FFFFFF';
     ctx.fillStyle = '#FFFFFF';
     ctx.lineWidth = 3;
     ctx.setLineDash([15, 15]); // Dashed lines
-    
+
     // Calculate proportional sizes
     const margin = size * 0.05;
     const sideZoneWidth = size * 0.15;
     const topZoneHeight = size * 0.2;
     const bottomZoneHeight = size * 0.15;
-    
+
     // Draw main field area (center)
     const fieldX = margin + sideZoneWidth;
     const fieldY = margin + topZoneHeight;
     const fieldWidth = size - 2 * (margin + sideZoneWidth);
-    const fieldHeight = size - margin - topZoneHeight - bottomZoneHeight - margin;
-    
+    const fieldHeight =
+      size - margin - topZoneHeight - bottomZoneHeight - margin;
+
     ctx.strokeRect(fieldX, fieldY, fieldWidth, fieldHeight);
-    
+
     // Draw FLAG zone (top-left)
     ctx.strokeRect(margin, margin, sideZoneWidth, topZoneHeight);
-    
-    // Draw DECK zone (top-right) 
-    ctx.strokeRect(size - margin - sideZoneWidth, margin, sideZoneWidth, topZoneHeight);
-    
+
+    // Draw DECK zone (top-right)
+    ctx.strokeRect(
+      size - margin - sideZoneWidth,
+      margin,
+      sideZoneWidth,
+      topZoneHeight,
+    );
+
     // Draw LIFE zone (bottom-left)
-    ctx.strokeRect(margin, size - margin - bottomZoneHeight, sideZoneWidth, bottomZoneHeight);
-    
+    ctx.strokeRect(
+      margin,
+      size - margin - bottomZoneHeight,
+      sideZoneWidth,
+      bottomZoneHeight,
+    );
+
     // Draw REMOVED FROM PLAY zone (bottom-right)
-    ctx.strokeRect(size - margin - sideZoneWidth, size - margin - bottomZoneHeight, sideZoneWidth, bottomZoneHeight);
-    
+    ctx.strokeRect(
+      size - margin - sideZoneWidth,
+      size - margin - bottomZoneHeight,
+      sideZoneWidth,
+      bottomZoneHeight,
+    );
+
     // Draw Combat Row (top-center)
     const combatRowX = fieldX;
     const combatRowY = margin;
     const combatRowWidth = fieldWidth;
     const combatRowHeight = topZoneHeight;
     ctx.strokeRect(combatRowX, combatRowY, combatRowWidth, combatRowHeight);
-    
-    // Draw Azoth Row (bottom-center) 
+
+    // Draw Azoth Row (bottom-center)
     const azothRowX = fieldX;
     const azothRowY = size - margin - bottomZoneHeight;
     const azothRowWidth = fieldWidth;
     const azothRowHeight = bottomZoneHeight;
     ctx.strokeRect(azothRowX, azothRowY, azothRowWidth, azothRowHeight);
-    
+
     // Add text labels
     ctx.setLineDash([]); // Solid lines for text
     ctx.font = `${size * 0.025}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    
+
     // FLAG
-    ctx.fillText('FLAG', margin + sideZoneWidth/2, margin + topZoneHeight/2);
-    
+    ctx.fillText(
+      'FLAG',
+      margin + sideZoneWidth / 2,
+      margin + topZoneHeight / 2,
+    );
+
     // DECK
-    ctx.fillText('DECK', size - margin - sideZoneWidth/2, margin + topZoneHeight/2);
-    
+    ctx.fillText(
+      'DECK',
+      size - margin - sideZoneWidth / 2,
+      margin + topZoneHeight / 2,
+    );
+
     // Combat Row
-    ctx.fillText('Combat Row', combatRowX + combatRowWidth/2, combatRowY + combatRowHeight/2);
-    
+    ctx.fillText(
+      'Combat Row',
+      combatRowX + combatRowWidth / 2,
+      combatRowY + combatRowHeight / 2,
+    );
+
     // Field (center)
-    ctx.fillText('Field', fieldX + fieldWidth/2, fieldY + fieldHeight/2);
-    
+    ctx.fillText('Field', fieldX + fieldWidth / 2, fieldY + fieldHeight / 2);
+
     // LIFE
-    ctx.fillText('LIFE', margin + sideZoneWidth/2, size - margin - bottomZoneHeight/2);
-    
+    ctx.fillText(
+      'LIFE',
+      margin + sideZoneWidth / 2,
+      size - margin - bottomZoneHeight / 2,
+    );
+
     // REMOVED FROM PLAY
     ctx.font = `${size * 0.02}px Arial`; // Smaller font for longer text
-    ctx.fillText('REMOVED', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2 - size * 0.02);
-    ctx.fillText('FROM', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2);
-    ctx.fillText('PLAY', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2 + size * 0.02);
-    
+    ctx.fillText(
+      'REMOVED',
+      size - margin - sideZoneWidth / 2,
+      size - margin - bottomZoneHeight / 2 - size * 0.02,
+    );
+    ctx.fillText(
+      'FROM',
+      size - margin - sideZoneWidth / 2,
+      size - margin - bottomZoneHeight / 2,
+    );
+    ctx.fillText(
+      'PLAY',
+      size - margin - sideZoneWidth / 2,
+      size - margin - bottomZoneHeight / 2 + size * 0.02,
+    );
+
     // Azoth Row
     ctx.font = `${size * 0.025}px Arial`;
-    ctx.fillText('Azoth Row', azothRowX + azothRowWidth/2, azothRowY + azothRowHeight/2);
-    
+    ctx.fillText(
+      'Azoth Row',
+      azothRowX + azothRowWidth / 2,
+      azothRowY + azothRowHeight / 2,
+    );
+
     texture.update();
     return texture;
   }
@@ -2882,12 +2930,19 @@ export class MysticalArena {
     mode7Plane.position.z = -50;
 
     // Create animated Mode7-style material with perspective scaling
-    const mode7Material = new BABYLON.StandardMaterial('mode7Material', this.scene);
+    const mode7Material = new BABYLON.StandardMaterial(
+      'mode7Material',
+      this.scene,
+    );
     mode7Material.diffuseColor = this.getThemeColors().primary;
     mode7Material.specularColor = new BABYLON.Color3(0, 0, 0);
 
     // Add animated texture scrolling for Mode7 effect
-    const noiseTexture = new BABYLON.NoiseProceduralTexture('mode7Noise', 512, this.scene);
+    const noiseTexture = new BABYLON.NoiseProceduralTexture(
+      'mode7Noise',
+      512,
+      this.scene,
+    );
     noiseTexture.octaves = 3;
     noiseTexture.persistence = 0.7;
     mode7Material.diffuseTexture = noiseTexture;
@@ -2898,7 +2953,9 @@ export class MysticalArena {
     // Animate the texture for scrolling effect
     this.scene.registerBeforeRender(() => {
       if (mode7Material.diffuseTexture) {
-        (mode7Material.diffuseTexture as BABYLON.NoiseProceduralTexture).animationSpeedFactor = 0.1;
+        (
+          mode7Material.diffuseTexture as BABYLON.NoiseProceduralTexture
+        ).animationSpeedFactor = 0.1;
       }
     });
   }
@@ -2912,7 +2969,7 @@ export class MysticalArena {
       { name: 'parallax_near', distance: -40, speed: 0.8, height: -2 },
     ];
 
-    layers.forEach(async (layer) => {
+    layers.forEach(async layer => {
       const parallaxPlane = BABYLON.MeshBuilder.CreateGround(
         layer.name,
         { width: 120, height: 80 },
@@ -2920,9 +2977,14 @@ export class MysticalArena {
       );
       parallaxPlane.position.set(0, layer.height, layer.distance);
 
-      const parallaxMaterial = new BABYLON.StandardMaterial(`${layer.name}Material`, this.scene);
+      const parallaxMaterial = new BABYLON.StandardMaterial(
+        `${layer.name}Material`,
+        this.scene,
+      );
       const colors = this.getThemeColors();
-      parallaxMaterial.diffuseColor = colors.primary.scale(0.3 + layer.speed * 0.4);
+      parallaxMaterial.diffuseColor = colors.primary.scale(
+        0.3 + layer.speed * 0.4,
+      );
       parallaxMaterial.alpha = 0.4 + layer.speed * 0.3;
       parallaxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
 
@@ -2948,7 +3010,8 @@ export class MysticalArena {
 
     for (let x = -gridSize / 2; x < gridSize / 2; x++) {
       for (let z = -gridSize / 2; z < gridSize / 2; z++) {
-        if (Math.abs(x) > 2 && Math.abs(z) > 2) { // Only create tiles around the arena
+        if (Math.abs(x) > 2 && Math.abs(z) > 2) {
+          // Only create tiles around the arena
           const tile = BABYLON.MeshBuilder.CreateBox(
             `isometric_tile_${x}_${z}`,
             { width: tileSize, height: 0.2, depth: tileSize },
@@ -2962,9 +3025,14 @@ export class MysticalArena {
             z * tileSize + (x % 2) * tileSize * 0.5, // Isometric Z offset
           );
 
-          const tileMaterial = new BABYLON.StandardMaterial(`tileMat_${x}_${z}`, this.scene);
+          const tileMaterial = new BABYLON.StandardMaterial(
+            `tileMat_${x}_${z}`,
+            this.scene,
+          );
           const colors = this.getThemeColors();
-          tileMaterial.diffuseColor = colors.secondary.scale(0.8 + (x + z) * 0.1);
+          tileMaterial.diffuseColor = colors.secondary.scale(
+            0.8 + (x + z) * 0.1,
+          );
           tileMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
 
           tile.material = tileMaterial;
@@ -2983,7 +3051,7 @@ export class MysticalArena {
       { x: 0, y: 3, z: -15, name: 'sprite_back' },
     ];
 
-    spritePositions.forEach(async (pos) => {
+    spritePositions.forEach(async pos => {
       // Create billboard plane that always faces the camera
       const sprite = BABYLON.MeshBuilder.CreatePlane(
         pos.name,
@@ -2993,7 +3061,10 @@ export class MysticalArena {
       sprite.position.set(pos.x, pos.y, pos.z);
       sprite.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
 
-      const spriteMaterial = new BABYLON.StandardMaterial(`${pos.name}Material`, this.scene);
+      const spriteMaterial = new BABYLON.StandardMaterial(
+        `${pos.name}Material`,
+        this.scene,
+      );
       const colors = this.getThemeColors();
       spriteMaterial.diffuseColor = colors.accent;
       spriteMaterial.emissiveColor = colors.accent.scale(0.2);

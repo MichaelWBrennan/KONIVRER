@@ -36,7 +36,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
 
   // Get dynamic sizing based on user agent and device capabilities
   const dynamicSizing = useDynamicSizing();
-  
+
   // Get SSO service functionality
   const { initiateLogin, getProviders } = useSSO();
   const ssoProviders = getProviders();
@@ -101,7 +101,7 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
 
     try {
       await initiateLogin(provider);
-      
+
       // Listen for SSO login success
       const handleLoginSuccess = (event: CustomEvent) => {
         const { profile } = event.detail;
@@ -117,11 +117,16 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
           },
         });
         setSsoLoading(null);
-        window.removeEventListener('sso-login-success', handleLoginSuccess as EventListener);
+        window.removeEventListener(
+          'sso-login-success',
+          handleLoginSuccess as EventListener,
+        );
       };
-      
-      window.addEventListener('sso-login-success', handleLoginSuccess as EventListener);
-      
+
+      window.addEventListener(
+        'sso-login-success',
+        handleLoginSuccess as EventListener,
+      );
     } catch (error) {
       console.error('SSO login failed:', error);
       setSsoLoading(null);
@@ -201,8 +206,6 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
             }}
             onClick={e => e.stopPropagation()}
           >
-
-
             {/* Main Content - Single Seamless Block */}
             <div
               style={{
@@ -310,7 +313,8 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                   display: 'flex',
                   flexDirection: 'column',
                   gap: '12px',
-                  marginBottom: (biometricAvailable || faceIdAvailable) ? '25px' : '0',
+                  marginBottom:
+                    biometricAvailable || faceIdAvailable ? '25px' : '0',
                 }}
               >
                 {/* Google SSO */}
@@ -323,22 +327,20 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     justifyContent: 'center',
                     gap: '10px',
                     padding: '12px',
-                    backgroundColor:
-                      ssoLoading === 'google' ? '#666' : '#fff',
+                    backgroundColor: ssoLoading === 'google' ? '#666' : '#fff',
                     color: ssoLoading === 'google' ? '#fff' : '#333',
                     border: '1px solid #ddd',
                     borderRadius: '6px',
                     fontSize: '14px',
                     fontWeight: 'bold',
-                    cursor:
-                      ssoLoading === 'google' ? 'not-allowed' : 'pointer',
+                    cursor: ssoLoading === 'google' ? 'not-allowed' : 'pointer',
                     transition: 'all 0.3s',
                   }}
                 >
-                  <img 
-                    src="/assets/logos/google.svg" 
-                    alt="Google" 
-                    width="18" 
+                  <img
+                    src="/assets/logos/google.svg"
+                    alt="Google"
+                    width="18"
                     height="18"
                     style={{ opacity: ssoLoading === 'google' ? 0.5 : 1 }}
                   />
@@ -357,26 +359,24 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     justifyContent: 'center',
                     gap: '10px',
                     padding: '12px',
-                    backgroundColor:
-                      ssoLoading === 'github' ? '#666' : '#333',
+                    backgroundColor: ssoLoading === 'github' ? '#666' : '#333',
                     color: 'white',
                     border: 'none',
                     borderRadius: '6px',
                     fontSize: '14px',
                     fontWeight: 'bold',
-                    cursor:
-                      ssoLoading === 'github' ? 'not-allowed' : 'pointer',
+                    cursor: ssoLoading === 'github' ? 'not-allowed' : 'pointer',
                     transition: 'all 0.3s',
                   }}
                 >
-                  <img 
-                    src="/assets/logos/github.svg" 
-                    alt="GitHub" 
-                    width="18" 
+                  <img
+                    src="/assets/logos/github.svg"
+                    alt="GitHub"
+                    width="18"
                     height="18"
-                    style={{ 
+                    style={{
                       opacity: ssoLoading === 'github' ? 0.5 : 1,
-                      filter: 'invert(1)'
+                      filter: 'invert(1)',
                     }}
                   />
                   {ssoLoading === 'github'
@@ -406,10 +406,10 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     transition: 'all 0.3s',
                   }}
                 >
-                  <img 
-                    src="/assets/logos/microsoft.svg" 
-                    alt="Microsoft" 
-                    width="18" 
+                  <img
+                    src="/assets/logos/microsoft.svg"
+                    alt="Microsoft"
+                    width="18"
                     height="18"
                     style={{ opacity: ssoLoading === 'microsoft' ? 0.5 : 1 }}
                   />
@@ -440,10 +440,10 @@ const SimpleEnhancedLoginModal: React.FC<LoginModalProps> = ({
                     transition: 'all 0.3s',
                   }}
                 >
-                  <img 
-                    src="/assets/logos/discord.svg" 
-                    alt="Discord" 
-                    width="18" 
+                  <img
+                    src="/assets/logos/discord.svg"
+                    alt="Discord"
+                    width="18"
                     height="18"
                     style={{ opacity: ssoLoading === 'discord' ? 0.5 : 1 }}
                   />

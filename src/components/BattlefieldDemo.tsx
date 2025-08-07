@@ -95,10 +95,14 @@ export const BattlefieldDemo: React.FC<BattlefieldDemoProps> = ({
 
   const getThemeDescription = (theme: string) => {
     const descriptions = {
-      hearthstone: 'Cozy tavern with pseudo-3D depth, Mode7 floors, and 2.5D character sprites',
-      forest: 'Mystical woodland with parallax waterfalls, isometric tiles, and layered depth',
-      desert: 'Ancient ruins with Mode7 sand dunes, billboard sprites, and multi-layer backgrounds',
-      volcano: 'Molten landscape with pseudo-3D lava flows, isometric rocks, and depth layering',
+      hearthstone:
+        'Cozy tavern with pseudo-3D depth, Mode7 floors, and 2.5D character sprites',
+      forest:
+        'Mystical woodland with parallax waterfalls, isometric tiles, and layered depth',
+      desert:
+        'Ancient ruins with Mode7 sand dunes, billboard sprites, and multi-layer backgrounds',
+      volcano:
+        'Molten landscape with pseudo-3D lava flows, isometric rocks, and depth layering',
     };
     return descriptions[theme as keyof typeof descriptions] || 'Unknown theme';
   };
