@@ -52,7 +52,9 @@
   border-radius: 8px;
   padding: 20px;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .rule-card:hover {
@@ -87,7 +89,9 @@
   cursor: pointer;
   font-weight: bold;
   font-size: 14px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .view-pdf-button:hover {
