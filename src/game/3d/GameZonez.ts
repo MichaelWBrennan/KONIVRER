@@ -268,45 +268,49 @@ export class GameZonez {
   private async setup2DOverlays(): Promise<void> {
     console.log('[GameZonez] Setting up 2D overlay system');
 
-    // Create 2D GUI
-    const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('UI');
+    try {
+      // Create 2D GUI
+      const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI('GameZonezUI');
 
-    // Create a semi-transparent background panel
-    const panel = new GUI.Rectangle('backgroundPanel');
-    panel.widthInPixels = 300;
-    panel.heightInPixels = 200;
-    panel.cornerRadius = 10;
-    panel.color = 'white';
-    panel.thickness = 2;
-    panel.background = 'rgba(0, 0, 0, 0.3)';
-    panel.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
-    panel.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
-    panel.top = '20px';
-    panel.left = '-20px';
+      // Create a semi-transparent background panel
+      const panel = new GUI.Rectangle('backgroundPanel');
+      panel.widthInPixels = 300;
+      panel.heightInPixels = 200;
+      panel.cornerRadius = 10;
+      panel.color = 'white';
+      panel.thickness = 2;
+      panel.background = 'rgba(0, 0, 0, 0.3)';
+      panel.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+      panel.verticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+      panel.top = '20px';
+      panel.left = '-20px';
 
-    // Add some 2D UI text
-    const header = new GUI.TextBlock('headerText', 'GameZonez Active');
-    header.color = 'white';
-    header.fontSize = 18;
-    header.top = '-60px';
-    panel.addControl(header);
+      // Add some 2D UI text
+      const header = new GUI.TextBlock('headerText', 'GameZonez Active');
+      header.color = 'white';
+      header.fontSize = 18;
+      header.top = '-60px';
+      panel.addControl(header);
 
-    const statusText = new GUI.TextBlock('statusText', 'Multi-layer rendering');
-    statusText.color = '#cccccc';
-    statusText.fontSize = 12;
-    statusText.top = '-30px';
-    panel.addControl(statusText);
+      const statusText = new GUI.TextBlock('statusText', 'Multi-layer rendering');
+      statusText.color = '#cccccc';
+      statusText.fontSize = 12;
+      statusText.top = '-30px';
+      panel.addControl(statusText);
 
-    const zoneInfo = new GUI.TextBlock('zoneInfo', 'Zones: 2.5D + Isometric + Mode7');
-    zoneInfo.color = '#aaaaaa';
-    zoneInfo.fontSize = 10;
-    zoneInfo.top = '10px';
-    panel.addControl(zoneInfo);
+      const zoneInfo = new GUI.TextBlock('zoneInfo', 'Zones: 2.5D + Isometric + Mode7');
+      zoneInfo.color = '#aaaaaa';
+      zoneInfo.fontSize = 10;
+      zoneInfo.top = '10px';
+      panel.addControl(zoneInfo);
 
-    advancedTexture.addControl(panel);
+      advancedTexture.addControl(panel);
 
-    // Store reference
-    (this.scene as any).gamezonezUI = advancedTexture;
+      // Store reference safely
+      this.textures.set('gamezonezUI', advancedTexture as any);
+    } catch (error) {
+      console.warn('[GameZonez] Failed to setup 2D overlay, continuing without UI overlay:', error);
+    }
   }
 
   /**
@@ -395,29 +399,67 @@ export class GameZonez {
   private initialize2DSprites(zone: GameZone): void {
     console.log(`[GameZonez] Initializing 2.5D sprites for zone: ${zone.name}`);
 
-    // Create sprite manager for this zone
-    const spriteManager = new BABYLON.SpriteManager(
-      `spriteManager_${zone.id}`,
-      'https://playground.babylonjs.com/textures/player.png', // Placeholder sprite
-      10, // capacity
-      { width: 64, height: 64 },
-      this.scene,
-    );
+    try {
+      // For now, create simple placeholder sprites using planes instead of the sprite system
+      // This avoids texture loading issues in the demo
+      for (let i = 0; i < 3; i++) {
+        const spritePlane = BABYLON.MeshBuilder.CreatePlane(
+          `sprite_${zone.id}_${i}`,
+          { width: 2, height: 2 },
+          this.scene,
+        );
 
-    this.spriteManagers.set(zone.id, spriteManager);
+        spritePlane.position = new BABYLON.Vector3(
+          zone.position.x + (i - 1) * 2,
+          zone.position.y + 1,
+          zone.position.z,
+        );
 
-    // Create some sample 2.5D sprite objects
-    for (let i = 0; i < 3; i++) {
-      const sprite = new BABYLON.Sprite(`sprite_${zone.id}_${i}`, spriteManager);
-      sprite.position = new BABYLON.Vector3(
-        zone.position.x + (i - 1) * 2,
-        zone.position.y + 1,
-        zone.position.z,
-      );
-      sprite.size = this.config.sprite2DScale;
-      
-      // Add floating animation
-      sprite.playAnimation(0, 4, true, 200);
+        // Create a simple colored material as placeholder
+        const spriteMaterial = new BABYLON.StandardMaterial(
+          `spriteMaterial_${zone.id}_${i}`,
+          this.scene,
+        );
+        
+        // Different colors for each sprite
+        const colors = [
+          new BABYLON.Color3(0.8, 0.2, 0.8), // Purple
+          new BABYLON.Color3(0.2, 0.8, 0.2), // Green  
+          new BABYLON.Color3(0.8, 0.8, 0.2), // Yellow
+        ];
+        
+        spriteMaterial.emissiveColor = colors[i % colors.length];
+        spriteMaterial.diffuseColor = colors[i % colors.length];
+        spritePlane.material = spriteMaterial;
+
+        // Make it always face the camera (billboard effect for 2.5D)
+        spritePlane.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+
+        // Add floating animation
+        const floatKeys = [
+          { frame: 0, value: spritePlane.position.y },
+          { frame: 60, value: spritePlane.position.y + 0.5 },
+          { frame: 120, value: spritePlane.position.y },
+        ];
+        const floatAnimation = new BABYLON.Animation(
+          `spriteFloat_${zone.id}_${i}`,
+          'position.y',
+          30,
+          BABYLON.Animation.ANIMATIONTYPE_FLOAT,
+          BABYLON.Animation.ANIMATIONLOOPMODE_CYCLE,
+        );
+        floatAnimation.setKeys(floatKeys);
+        spritePlane.animations.push(floatAnimation);
+        this.scene.beginAnimation(spritePlane, 0, 120, true);
+
+        // Add to zone render nodes
+        if (!this.renderNodes.has(zone.id)) {
+          this.renderNodes.set(zone.id, []);
+        }
+        this.renderNodes.get(zone.id)!.push(spritePlane);
+      }
+    } catch (error) {
+      console.warn(`[GameZonez] Failed to create sprites for zone ${zone.name}:`, error);
     }
   }
 
@@ -609,9 +651,9 @@ export class GameZonez {
     }
 
     // Dispose UI
-    const ui = (this.scene as any).gamezonezUI;
-    if (ui) {
-      ui.dispose();
+    const ui = this.textures.get('gamezonezUI');
+    if (ui && (ui as any).dispose) {
+      (ui as any).dispose();
     }
 
     // Clear collections
