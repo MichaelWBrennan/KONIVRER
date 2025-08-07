@@ -171,32 +171,32 @@ export class MysticalArena {
     const floorMaterial = new BABYLON.PBRMaterial('floorMaterial', this.scene);
     const colors = this.getThemeColors();
 
+    // Create the main game area texture based on the provided layout
+    const gameAreaTexture = this.createGameAreaTexture();
+    floorMaterial.baseTexture = gameAreaTexture;
+
     // Base material properties
-    floorMaterial.baseColor = colors.floor;
+    floorMaterial.baseColor = new BABYLON.Color3(1, 1, 1); // White to show texture properly
     floorMaterial.metallicFactor = 0.1;
     floorMaterial.roughnessFactor = 0.8;
 
-    // Add mystical glow effect
+    // Add subtle mystical glow effect
     floorMaterial.emissiveColor = colors.floorGlow;
-    floorMaterial.emissiveIntensity = 0.3;
+    floorMaterial.emissiveIntensity = 0.1; // Reduced to not overpower the texture
 
     // Enhanced materials for higher quality
     if (this.config.quality !== 'low') {
-      // Add geometric pattern
-      const patternTexture = this.createMysticalPattern();
-      floorMaterial.baseTexture = patternTexture;
-
       // Add normal mapping for depth
       if (this.config.quality === 'high' || this.config.quality === 'ultra') {
         const normalTexture = this.createNormalPattern();
         floorMaterial.bumpTexture = normalTexture;
-        floorMaterial.bumpTexture.level = 0.5;
+        floorMaterial.bumpTexture.level = 0.3; // Reduced to not interfere with game area
       }
 
-      // Add Fresnel effect for mystical glow
+      // Add subtle Fresnel effect
       floorMaterial.emissiveFresnelParameters = new BABYLON.FresnelParameters();
-      floorMaterial.emissiveFresnelParameters.bias = 0.1;
-      floorMaterial.emissiveFresnelParameters.power = 1.5;
+      floorMaterial.emissiveFresnelParameters.bias = 0.05;
+      floorMaterial.emissiveFresnelParameters.power = 2.0;
       floorMaterial.emissiveFresnelParameters.leftColor =
         BABYLON.Color3.Black();
       floorMaterial.emissiveFresnelParameters.rightColor = colors.floorGlow;
@@ -1785,6 +1785,102 @@ export class MysticalArena {
   }
 
   // Texture creation methods
+  private createGameAreaTexture(): BABYLON.DynamicTexture {
+    const size = this.config.quality === 'ultra' ? 1024 : 512;
+    const texture = new BABYLON.DynamicTexture(
+      'gameAreaTexture',
+      { width: size, height: size },
+      this.scene,
+      false,
+    );
+
+    const ctx = texture.getContext();
+    
+    // Black background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, size, size);
+    
+    // White color for text and borders
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.lineWidth = 3;
+    ctx.setLineDash([15, 15]); // Dashed lines
+    
+    // Calculate proportional sizes
+    const margin = size * 0.05;
+    const sideZoneWidth = size * 0.15;
+    const topZoneHeight = size * 0.2;
+    const bottomZoneHeight = size * 0.15;
+    
+    // Draw main field area (center)
+    const fieldX = margin + sideZoneWidth;
+    const fieldY = margin + topZoneHeight;
+    const fieldWidth = size - 2 * (margin + sideZoneWidth);
+    const fieldHeight = size - margin - topZoneHeight - bottomZoneHeight - margin;
+    
+    ctx.strokeRect(fieldX, fieldY, fieldWidth, fieldHeight);
+    
+    // Draw FLAG zone (top-left)
+    ctx.strokeRect(margin, margin, sideZoneWidth, topZoneHeight);
+    
+    // Draw DECK zone (top-right) 
+    ctx.strokeRect(size - margin - sideZoneWidth, margin, sideZoneWidth, topZoneHeight);
+    
+    // Draw LIFE zone (bottom-left)
+    ctx.strokeRect(margin, size - margin - bottomZoneHeight, sideZoneWidth, bottomZoneHeight);
+    
+    // Draw REMOVED FROM PLAY zone (bottom-right)
+    ctx.strokeRect(size - margin - sideZoneWidth, size - margin - bottomZoneHeight, sideZoneWidth, bottomZoneHeight);
+    
+    // Draw Combat Row (top-center)
+    const combatRowX = fieldX;
+    const combatRowY = margin;
+    const combatRowWidth = fieldWidth;
+    const combatRowHeight = topZoneHeight;
+    ctx.strokeRect(combatRowX, combatRowY, combatRowWidth, combatRowHeight);
+    
+    // Draw Azoth Row (bottom-center) 
+    const azothRowX = fieldX;
+    const azothRowY = size - margin - bottomZoneHeight;
+    const azothRowWidth = fieldWidth;
+    const azothRowHeight = bottomZoneHeight;
+    ctx.strokeRect(azothRowX, azothRowY, azothRowWidth, azothRowHeight);
+    
+    // Add text labels
+    ctx.setLineDash([]); // Solid lines for text
+    ctx.font = `${size * 0.025}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // FLAG
+    ctx.fillText('FLAG', margin + sideZoneWidth/2, margin + topZoneHeight/2);
+    
+    // DECK
+    ctx.fillText('DECK', size - margin - sideZoneWidth/2, margin + topZoneHeight/2);
+    
+    // Combat Row
+    ctx.fillText('Combat Row', combatRowX + combatRowWidth/2, combatRowY + combatRowHeight/2);
+    
+    // Field (center)
+    ctx.fillText('Field', fieldX + fieldWidth/2, fieldY + fieldHeight/2);
+    
+    // LIFE
+    ctx.fillText('LIFE', margin + sideZoneWidth/2, size - margin - bottomZoneHeight/2);
+    
+    // REMOVED FROM PLAY
+    ctx.font = `${size * 0.02}px Arial`; // Smaller font for longer text
+    ctx.fillText('REMOVED', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2 - size * 0.02);
+    ctx.fillText('FROM', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2);
+    ctx.fillText('PLAY', size - margin - sideZoneWidth/2, size - margin - bottomZoneHeight/2 + size * 0.02);
+    
+    // Azoth Row
+    ctx.font = `${size * 0.025}px Arial`;
+    ctx.fillText('Azoth Row', azothRowX + azothRowWidth/2, azothRowY + azothRowHeight/2);
+    
+    texture.update();
+    return texture;
+  }
+
   private createMysticalPattern(): BABYLON.DynamicTexture {
     const texture = new BABYLON.DynamicTexture(
       'mysticalPattern',
