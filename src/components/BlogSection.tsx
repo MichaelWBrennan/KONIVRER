@@ -133,6 +133,9 @@ const BlogSection: React.FC = () => {
               position: 'relative',
               overflow: 'hidden',
             }}
+            data-blog-post={post.title}
+            data-blog-author={post.author}
+            data-blog-tags={post.tags.join(' ')}
             onMouseEnter={e => {
               e.currentTarget.style.transform = 'translateY(-5px)';
               e.currentTarget.style.borderColor = '#d4af37';
