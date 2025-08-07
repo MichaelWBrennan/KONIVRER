@@ -24,7 +24,15 @@ interface GameZone {
   name: string;
   cards: Card[];
   maxCards: number;
-  type: 'flag' | 'life' | 'deck' | 'removed' | 'combat' | 'azoth' | 'field' | 'hand';
+  type:
+    | 'flag'
+    | 'life'
+    | 'deck'
+    | 'removed'
+    | 'combat'
+    | 'azoth'
+    | 'field'
+    | 'hand';
   isPlayerOwned: boolean;
   position: { x: number; y: number; width: number; height: number };
   isDropZone: boolean;
@@ -265,7 +273,9 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTheme, setCurrentTheme] = useState<string>('konivrer');
-  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>('high');
+  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>(
+    'high',
+  );
 
   // Initialize 3D Arena
   useEffect(() => {
@@ -300,7 +310,10 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
         setIsLoading(false);
         console.log('[KONIVRERBattlefield] Arena initialized successfully');
       } catch (error) {
-        console.error('[KONIVRERBattlefield] Failed to initialize arena:', error);
+        console.error(
+          '[KONIVRERBattlefield] Failed to initialize arena:',
+          error,
+        );
         setIsLoading(false);
       }
     };
@@ -361,9 +374,17 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
       }
 
       // Handle card play logic based on zone type
-      if (zone.type === 'combat' && zone.isPlayerOwned && draggedCard.cardType === 'familiar') {
+      if (
+        zone.type === 'combat' &&
+        zone.isPlayerOwned &&
+        draggedCard.cardType === 'familiar'
+      ) {
         playCardToZone(draggedCard, targetZone);
-      } else if (zone.type === 'azoth' && zone.isPlayerOwned && draggedCard.cardType === 'azoth') {
+      } else if (
+        zone.type === 'azoth' &&
+        zone.isPlayerOwned &&
+        draggedCard.cardType === 'azoth'
+      ) {
         playCardToZone(draggedCard, targetZone);
       } else if (zone.type === 'flag' && draggedCard.cardType === 'flag') {
         playCardToZone(draggedCard, targetZone);
@@ -374,50 +395,55 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
       setDraggedCard(null);
       setSelectedCard(null);
     },
-    [draggedCard, gameZones]
+    [draggedCard, gameZones],
   );
 
-  const playCardToZone = useCallback((card: Card, targetZoneId: string) => {
-    setGameZones(prev =>
-      prev.map(zone => {
-        if (zone.id === 'player-hand') {
-          return {
-            ...zone,
-            cards: zone.cards.filter(c => c.id !== card.id),
-          };
-        }
-        if (zone.id === targetZoneId) {
-          if (zone.cards.length < zone.maxCards) {
+  const playCardToZone = useCallback(
+    (card: Card, targetZoneId: string) => {
+      setGameZones(prev =>
+        prev.map(zone => {
+          if (zone.id === 'player-hand') {
             return {
               ...zone,
-              cards: [...zone.cards, card],
+              cards: zone.cards.filter(c => c.id !== card.id),
             };
           }
-        }
-        return zone;
-      })
-    );
+          if (zone.id === targetZoneId) {
+            if (zone.cards.length < zone.maxCards) {
+              return {
+                ...zone,
+                cards: [...zone.cards, card],
+              };
+            }
+          }
+          return zone;
+        }),
+      );
 
-    // Deduct azoth cost
-    setGameState(prev => ({
-      ...prev,
-      playerAzoth: {
-        ...prev.playerAzoth,
-        current: Math.max(0, prev.playerAzoth.current - card.cost),
-      },
-    }));
+      // Deduct azoth cost
+      setGameState(prev => ({
+        ...prev,
+        playerAzoth: {
+          ...prev.playerAzoth,
+          current: Math.max(0, prev.playerAzoth.current - card.cost),
+        },
+      }));
 
-    // Trigger game action
-    onGameAction?.({
-      type: 'play_card',
-      cardId: card.id,
-      sourceZone: 'player-hand',
-      targetZone: targetZoneId,
-      cost: card.cost,
-    });
+      // Trigger game action
+      onGameAction?.({
+        type: 'play_card',
+        cardId: card.id,
+        sourceZone: 'player-hand',
+        targetZone: targetZoneId,
+        cost: card.cost,
+      });
 
-    console.log(`[KONIVRERBattlefield] Played ${card.name} to ${targetZoneId}`);
-  }, [onGameAction]);
+      console.log(
+        `[KONIVRERBattlefield] Played ${card.name} to ${targetZoneId}`,
+      );
+    },
+    [onGameAction],
+  );
 
   const handleZoneHover = useCallback((zoneId: string | null) => {
     setHoveredZone(zoneId);
@@ -441,7 +467,7 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
       setQuality(newQuality);
       onQualityChange?.(newQuality);
     },
-    [onQualityChange]
+    [onQualityChange],
   );
 
   return (
@@ -467,7 +493,7 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
       {/* Game UI Overlay */}
       <div className="game-ui-overlay">
         {/* Zone Layout */}
-        {gameZones.map((zone) => (
+        {gameZones.map(zone => (
           <motion.div
             key={zone.id}
             className={`game-zone zone-${zone.type} ${zone.isPlayerOwned ? 'player-owned' : 'shared'} ${
@@ -486,7 +512,8 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
             {/* Zone Label */}
             <div className="zone-label">
               {zone.name}
-              {zone.cards.length > 0 && ` (${zone.cards.length}/${zone.maxCards})`}
+              {zone.cards.length > 0 &&
+                ` (${zone.cards.length}/${zone.maxCards})`}
             </div>
 
             {/* Zone Cards */}
@@ -508,8 +535,16 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
                     <CardComponent
                       card={card}
                       isInZone={zone.type !== 'hand'}
-                      onClick={() => setSelectedCard(selectedCard === card.id ? null : card.id)}
-                      onDragStart={zone.type === 'hand' ? () => handleCardDragStart(card) : undefined}
+                      onClick={() =>
+                        setSelectedCard(
+                          selectedCard === card.id ? null : card.id,
+                        )
+                      }
+                      onDragStart={
+                        zone.type === 'hand'
+                          ? () => handleCardDragStart(card)
+                          : undefined
+                      }
                     />
                   </motion.div>
                 ))}
@@ -524,28 +559,36 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
           <div className="player-stats">
             <div className="stat-group">
               <span className="stat-label">Health:</span>
-              <span className="stat-value health">{gameState.playerHealth}</span>
+              <span className="stat-value health">
+                {gameState.playerHealth}
+              </span>
             </div>
             <div className="stat-group">
               <span className="stat-label">Azoth:</span>
               <div className="azoth-crystals">
-                {Array.from({ length: gameState.playerAzoth.max }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`azoth-crystal ${i < gameState.playerAzoth.current ? 'full' : 'empty'}`}
-                  />
-                ))}
+                {Array.from({ length: gameState.playerAzoth.max }).map(
+                  (_, i) => (
+                    <div
+                      key={i}
+                      className={`azoth-crystal ${i < gameState.playerAzoth.current ? 'full' : 'empty'}`}
+                    />
+                  ),
+                )}
               </div>
             </div>
           </div>
 
           {/* Turn Indicator */}
           <div className="turn-indicator">
-            <div className={`turn-timer ${gameState.turnTimer < 15 ? 'urgent' : ''}`}>
+            <div
+              className={`turn-timer ${gameState.turnTimer < 15 ? 'urgent' : ''}`}
+            >
               {gameState.turnTimer}s
             </div>
             <div className="current-turn">
-              {gameState.currentTurn === 'player' ? 'Your Turn' : "Opponent's Turn"}
+              {gameState.currentTurn === 'player'
+                ? 'Your Turn'
+                : "Opponent's Turn"}
             </div>
             <motion.button
               className="end-turn-btn"
@@ -562,17 +605,21 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
           <div className="opponent-stats">
             <div className="stat-group">
               <span className="stat-label">Health:</span>
-              <span className="stat-value health">{gameState.opponentHealth}</span>
+              <span className="stat-value health">
+                {gameState.opponentHealth}
+              </span>
             </div>
             <div className="stat-group">
               <span className="stat-label">Azoth:</span>
               <div className="azoth-crystals">
-                {Array.from({ length: gameState.opponentAzoth.max }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`azoth-crystal ${i < gameState.opponentAzoth.current ? 'full' : 'empty'}`}
-                  />
-                ))}
+                {Array.from({ length: gameState.opponentAzoth.max }).map(
+                  (_, i) => (
+                    <div
+                      key={i}
+                      className={`azoth-crystal ${i < gameState.opponentAzoth.current ? 'full' : 'empty'}`}
+                    />
+                  ),
+                )}
               </div>
             </div>
           </div>
@@ -583,7 +630,10 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
       <div className="battlefield-controls">
         <div className="theme-selector">
           <label>Theme:</label>
-          <select value={currentTheme} onChange={(e) => handleThemeChange(e.target.value)}>
+          <select
+            value={currentTheme}
+            onChange={e => handleThemeChange(e.target.value)}
+          >
             <option value="konivrer">KONIVRER Mystical</option>
             <option value="forest">Forest Realm</option>
             <option value="desert">Desert Ruins</option>
@@ -594,7 +644,10 @@ const KONIVRERBattlefield: React.FC<KONIVRERBattlefieldProps> = ({
 
         <div className="quality-selector">
           <label>Quality:</label>
-          <select value={quality} onChange={(e) => handleQualityChange(e.target.value as any)}>
+          <select
+            value={quality}
+            onChange={e => handleQualityChange(e.target.value as any)}
+          >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
@@ -626,7 +679,10 @@ const CardComponent: React.FC<CardComponentProps> = ({
       onClick={onClick}
       drag={!!onDragStart}
       onDragStart={onDragStart}
-      whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(212, 175, 55, 0.3)' }}
+      whileHover={{
+        scale: 1.05,
+        boxShadow: '0 8px 25px rgba(212, 175, 55, 0.3)',
+      }}
       whileTap={{ scale: 0.95 }}
     >
       <div className="card-cost">{card.cost}</div>

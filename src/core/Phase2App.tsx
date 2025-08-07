@@ -590,7 +590,7 @@ const Phase2App: React.FC = () => {
     const targetDeckId = deckId || currentDeck?.id;
     if (!targetDeckId) return;
 
-    setDecks(prevDecks => 
+    setDecks(prevDecks =>
       prevDecks.map(deck => {
         if (deck.id === targetDeckId) {
           const existingCard = deck.cards.find(c => c.cardId === cardId);
@@ -598,24 +598,26 @@ const Phase2App: React.FC = () => {
             return {
               ...deck,
               cards: deck.cards.map(c =>
-                c.cardId === cardId
-                  ? { ...c, quantity: c.quantity + 1 }
-                  : c
-              )
+                c.cardId === cardId ? { ...c, quantity: c.quantity + 1 } : c,
+              ),
             };
           } else {
             return {
               ...deck,
-              cards: [...deck.cards, { cardId, quantity: 1 }]
+              cards: [...deck.cards, { cardId, quantity: 1 }],
             };
           }
         }
         return deck;
-      })
+      }),
     );
   };
 
-  const createDeck = (name: string, description: string, isPublic: boolean): Deck => {
+  const createDeck = (
+    name: string,
+    description: string,
+    isPublic: boolean,
+  ): Deck => {
     if (!user) throw new Error('User must be logged in to create deck');
 
     const newDeck: Deck = {
@@ -629,7 +631,7 @@ const Phase2App: React.FC = () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       tags: [],
-      format: 'standard'
+      format: 'standard',
     };
 
     setDecks(prevDecks => [...prevDecks, newDeck]);
@@ -639,13 +641,18 @@ const Phase2App: React.FC = () => {
   const publishDeck = (deckId: string, isPublic: boolean) => {
     setDecks(prevDecks =>
       prevDecks.map(deck =>
-        deck.id === deckId ? { ...deck, isPublic, updatedAt: new Date() } : deck
-      )
+        deck.id === deckId
+          ? { ...deck, isPublic, updatedAt: new Date() }
+          : deck,
+      ),
     );
     if (isPublic) {
       const deck = decks.find(d => d.id === deckId);
       if (deck) {
-        setPublicDecks(prevPublic => [...prevPublic, { ...deck, isPublic: true }]);
+        setPublicDecks(prevPublic => [
+          ...prevPublic,
+          { ...deck, isPublic: true },
+        ]);
       }
     }
   };
