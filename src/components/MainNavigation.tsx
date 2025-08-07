@@ -7,6 +7,7 @@ import DeckSearch from './DeckSearch';
 import GameIntegration from './GameIntegration';
 import RulesViewer from './RulesViewer';
 import SimpleEnhancedLoginModal from './SimpleEnhancedLoginModal';
+import EnhancedHearthstoneBattlefield from './EnhancedHearthstoneBattlefield';
 import '../styles/main-navigation.css';
 
 type ActiveView =
@@ -15,7 +16,8 @@ type ActiveView =
   | 'deckSearch'
   | 'myDecks'
   | 'rules'
-  | 'game';
+  | 'game'
+  | 'battlefield';
 
 const MainNavigation: React.FC = () => {
   const {
@@ -64,6 +66,12 @@ const MainNavigation: React.FC = () => {
       label: 'Rules',
       icon: '📖',
       description: 'Game rules and guidelines',
+    },
+    {
+      id: 'battlefield' as ActiveView,
+      label: 'Battlefield',
+      icon: '⚔️',
+      description: 'Enhanced 3D battlefield experience',
     },
     {
       id: 'game' as ActiveView,
@@ -168,6 +176,23 @@ const MainNavigation: React.FC = () => {
               console.log('Starting game with deck:', deck, 'Mode:', gameMode);
               // Here you would typically navigate to the actual game
             }}
+          />
+        );
+
+      case 'battlefield':
+        return (
+          <EnhancedHearthstoneBattlefield
+            onThemeChange={(theme) => {
+              console.log('Theme changed to:', theme);
+            }}
+            onQualityChange={(quality) => {
+              console.log('Quality changed to:', quality);
+            }}
+            onGameAction={(action) => {
+              console.log('Game action:', action);
+            }}
+            enablePerformanceMonitoring={true}
+            className="main-nav-battlefield"
           />
         );
 
