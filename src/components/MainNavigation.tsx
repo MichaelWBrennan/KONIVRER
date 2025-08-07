@@ -7,7 +7,7 @@ import DeckSearch from './DeckSearch';
 import GameIntegration from './GameIntegration';
 import RulesViewer from './RulesViewer';
 import SimpleEnhancedLoginModal from './SimpleEnhancedLoginModal';
-import EnhancedHearthstoneBattlefield from './EnhancedHearthstoneBattlefield';
+import KONIVRERBattlefield from './battlefield/KONIVRERBattlefield';
 import '../styles/main-navigation.css';
 
 type ActiveView =
@@ -69,9 +69,9 @@ const MainNavigation: React.FC = () => {
     },
     {
       id: 'battlefield' as ActiveView,
-      label: 'Battlefield',
+      label: 'KONIVRER Battlefield',
       icon: '⚔️',
-      description: 'Enhanced 3D battlefield experience',
+      description: 'KONIVRER battlefield with proper game zones',
     },
     {
       id: 'game' as ActiveView,
@@ -181,7 +181,7 @@ const MainNavigation: React.FC = () => {
 
       case 'battlefield':
         return (
-          <EnhancedHearthstoneBattlefield
+          <KONIVRERBattlefield
             onThemeChange={theme => {
               console.log('Theme changed to:', theme);
             }}
