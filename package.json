@@ -53,7 +53,6 @@
     "visual:test": "percy exec -- npm run test:e2e"
   },
   "dependencies": {
-    "@babylonjs/gui": "^8.22.0",
     "@eslint/js": "^9.32.0",
     "@mediapipe/tasks-vision": "^0.10.22-rc.20250304",
     "@rollup/rollup-linux-x64-gnu": "^4.46.2",

@@ -4,7 +4,6 @@ import {
   BattlefieldInteractionSystem,
   type BattlefieldState,
 } from './BattlefieldInteractionSystem';
-import { GameZonez, type GameZonezConfig } from './GameZonez';
 
 export interface ArenaConfig {
   theme:
@@ -23,8 +22,13 @@ export interface ArenaConfig {
   isMobile: boolean;
   enableInteractiveElements?: boolean;
   enableIdleAnimations?: boolean;
-  enableGameZonez?: boolean; // New option to enable pseudo-3D GameZonez
-  gameZonezConfig?: Partial<GameZonezConfig>; // Configuration for GameZonez
+  // Pseudo-3D rendering options integrated into existing config
+  renderingTechniques?: {
+    enableMode7Background?: boolean;
+    enableIsometricView?: boolean;
+    enable2_5DSprites?: boolean;
+    enableParallaxLayers?: boolean;
+  };
 }
 
 export class MysticalArena {
@@ -40,7 +44,6 @@ export class MysticalArena {
   private currentTheme: string;
   private idleAnimations: BABYLON.Animation[] = [];
   private responsiveElements: BABYLON.Node[] = [];
-  private gameZonez: GameZonez | null = null; // New GameZonez system
 
   constructor(scene: BABYLON.Scene, config: ArenaConfig) {
     this.scene = scene;
@@ -67,13 +70,6 @@ export class MysticalArena {
       this.config.quality,
     );
 
-    // Initialize GameZonez pseudo-3D system if enabled
-    if (this.config.enableGameZonez !== false) {
-      console.log('[MysticalArena] Initializing GameZonez pseudo-3D system');
-      this.gameZonez = new GameZonez(this.scene, this.config.gameZonezConfig);
-      await this.gameZonez.initialize();
-    }
-
     // Initialize components progressively based on performance
     await this.createSkybox();
     await this.createArenaFloor();
@@ -85,6 +81,11 @@ export class MysticalArena {
 
     // Create theme-specific environmental elements
     await this.createThemeSpecificElements();
+
+    // Add pseudo-3D rendering features if enabled
+    if (this.config.renderingTechniques) {
+      await this.setupPseudo3DRendering();
+    }
 
     if (this.config.enableParticles && this.config.quality !== 'low') {
       await this.createParticleEffects();
@@ -1710,41 +1711,6 @@ export class MysticalArena {
   }
 
   /**
-   * Get GameZonez system instance
-   */
-  public getGameZonez(): GameZonez | null {
-    return this.gameZonez;
-  }
-
-  /**
-   * Enable or disable GameZonez system
-   */
-  public setGameZonezEnabled(enabled: boolean): void {
-    if (enabled && !this.gameZonez) {
-      console.log('[MysticalArena] Enabling GameZonez system');
-      this.gameZonez = new GameZonez(this.scene, this.config.gameZonezConfig);
-      this.gameZonez.initialize();
-    } else if (!enabled && this.gameZonez) {
-      console.log('[MysticalArena] Disabling GameZonez system');
-      this.gameZonez.dispose();
-      this.gameZonez = null;
-    }
-  }
-
-  /**
-   * Update GameZonez configuration
-   */
-  public updateGameZonezConfig(config: Partial<GameZonezConfig>): void {
-    if (this.gameZonez) {
-      console.log('[MysticalArena] Updating GameZonez configuration');
-      // Recreate GameZonez with new configuration
-      this.gameZonez.dispose();
-      this.gameZonez = new GameZonez(this.scene, { ...this.config.gameZonezConfig, ...config });
-      this.gameZonez.initialize();
-    }
-  }
-
-  /**
    * Change arena theme dynamically
    */
   public async changeTheme(theme: ArenaConfig['theme']): Promise<void> {
@@ -1784,12 +1750,6 @@ export class MysticalArena {
 
   public dispose(): void {
     console.log('[MysticalArena] Disposing arena resources');
-
-    // Dispose GameZonez system
-    if (this.gameZonez) {
-      this.gameZonez.dispose();
-      this.gameZonez = null;
-    }
 
     // Dispose asset manager
     if (this.assetManager) {
@@ -2788,5 +2748,181 @@ export class MysticalArena {
         console.log(`Beer mug ${index} clinked!`);
       }),
     );
+  }
+
+  // Pseudo-3D rendering system integrated into existing MysticalArena
+  private async setupPseudo3DRendering(): Promise<void> {
+    console.log('[MysticalArena] Setting up pseudo-3D rendering techniques');
+
+    const techniques = this.config.renderingTechniques!;
+
+    if (techniques.enableMode7Background) {
+      await this.createMode7Background();
+    }
+
+    if (techniques.enableParallaxLayers) {
+      await this.createParallaxLayers();
+    }
+
+    if (techniques.enableIsometricView) {
+      await this.setupIsometricView();
+    }
+
+    if (techniques.enable2_5DSprites) {
+      await this.create2_5DSprites();
+    }
+  }
+
+  private async createMode7Background(): Promise<void> {
+    console.log('[MysticalArena] Creating Mode7-style background');
+
+    // Create a large plane for the Mode7 effect
+    const mode7Plane = BABYLON.MeshBuilder.CreateGround(
+      'mode7Background',
+      { width: 200, height: 200 },
+      this.scene,
+    );
+    mode7Plane.position.y = -10;
+    mode7Plane.position.z = -50;
+
+    // Create animated Mode7-style material with perspective scaling
+    const mode7Material = new BABYLON.StandardMaterial('mode7Material', this.scene);
+    mode7Material.diffuseColor = this.getThemeColors().primary;
+    mode7Material.specularColor = new BABYLON.Color3(0, 0, 0);
+
+    // Add animated texture scrolling for Mode7 effect
+    const noiseTexture = new BABYLON.NoiseProceduralTexture('mode7Noise', 512, this.scene);
+    noiseTexture.octaves = 3;
+    noiseTexture.persistence = 0.7;
+    mode7Material.diffuseTexture = noiseTexture;
+
+    mode7Plane.material = mode7Material;
+    this.meshes.set('mode7Background', mode7Plane);
+
+    // Animate the texture for scrolling effect
+    this.scene.registerBeforeRender(() => {
+      if (mode7Material.diffuseTexture) {
+        (mode7Material.diffuseTexture as BABYLON.NoiseProceduralTexture).animationSpeedFactor = 0.1;
+      }
+    });
+  }
+
+  private async createParallaxLayers(): Promise<void> {
+    console.log('[MysticalArena] Creating parallax background layers');
+
+    const layers = [
+      { name: 'parallax_far', distance: -80, speed: 0.2, height: -8 },
+      { name: 'parallax_mid', distance: -60, speed: 0.5, height: -5 },
+      { name: 'parallax_near', distance: -40, speed: 0.8, height: -2 },
+    ];
+
+    layers.forEach(async (layer) => {
+      const parallaxPlane = BABYLON.MeshBuilder.CreateGround(
+        layer.name,
+        { width: 120, height: 80 },
+        this.scene,
+      );
+      parallaxPlane.position.set(0, layer.height, layer.distance);
+
+      const parallaxMaterial = new BABYLON.StandardMaterial(`${layer.name}Material`, this.scene);
+      const colors = this.getThemeColors();
+      parallaxMaterial.diffuseColor = colors.primary.scale(0.3 + layer.speed * 0.4);
+      parallaxMaterial.alpha = 0.4 + layer.speed * 0.3;
+      parallaxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+
+      parallaxPlane.material = parallaxMaterial;
+      this.meshes.set(layer.name, parallaxPlane);
+
+      // Add parallax scrolling effect
+      this.scene.registerBeforeRender(() => {
+        if (this.scene.activeCamera) {
+          const cameraPosition = this.scene.activeCamera.position;
+          parallaxPlane.position.x = cameraPosition.x * layer.speed * 0.1;
+        }
+      });
+    });
+  }
+
+  private async setupIsometricView(): Promise<void> {
+    console.log('[MysticalArena] Setting up isometric perspective elements');
+
+    // Create an isometric grid of tile-based elements
+    const tileSize = 4;
+    const gridSize = 8;
+
+    for (let x = -gridSize / 2; x < gridSize / 2; x++) {
+      for (let z = -gridSize / 2; z < gridSize / 2; z++) {
+        if (Math.abs(x) > 2 && Math.abs(z) > 2) { // Only create tiles around the arena
+          const tile = BABYLON.MeshBuilder.CreateBox(
+            `isometric_tile_${x}_${z}`,
+            { width: tileSize, height: 0.2, depth: tileSize },
+            this.scene,
+          );
+
+          // Position in isometric style
+          tile.position.set(
+            x * tileSize * 0.866, // Isometric X offset
+            -0.1,
+            z * tileSize + (x % 2) * tileSize * 0.5, // Isometric Z offset
+          );
+
+          const tileMaterial = new BABYLON.StandardMaterial(`tileMat_${x}_${z}`, this.scene);
+          const colors = this.getThemeColors();
+          tileMaterial.diffuseColor = colors.secondary.scale(0.8 + (x + z) * 0.1);
+          tileMaterial.specularColor = new BABYLON.Color3(0.1, 0.1, 0.1);
+
+          tile.material = tileMaterial;
+          this.meshes.set(`isometric_tile_${x}_${z}`, tile);
+        }
+      }
+    }
+  }
+
+  private async create2_5DSprites(): Promise<void> {
+    console.log('[MysticalArena] Creating 2.5D billboard sprites');
+
+    const spritePositions = [
+      { x: -15, y: 2, z: 10, name: 'sprite_left' },
+      { x: 15, y: 2, z: 10, name: 'sprite_right' },
+      { x: 0, y: 3, z: -15, name: 'sprite_back' },
+    ];
+
+    spritePositions.forEach(async (pos) => {
+      // Create billboard plane that always faces the camera
+      const sprite = BABYLON.MeshBuilder.CreatePlane(
+        pos.name,
+        { width: 6, height: 8 },
+        this.scene,
+      );
+      sprite.position.set(pos.x, pos.y, pos.z);
+      sprite.billboardMode = BABYLON.Mesh.BILLBOARDMODE_ALL;
+
+      const spriteMaterial = new BABYLON.StandardMaterial(`${pos.name}Material`, this.scene);
+      const colors = this.getThemeColors();
+      spriteMaterial.diffuseColor = colors.accent;
+      spriteMaterial.emissiveColor = colors.accent.scale(0.2);
+      spriteMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+
+      // Add subtle transparency and glow effect
+      spriteMaterial.alpha = 0.8;
+      sprite.material = spriteMaterial;
+
+      this.meshes.set(pos.name, sprite);
+
+      // Add idle animation to the sprite
+      const idleAnimation = BABYLON.Animation.CreateAndStartAnimation(
+        `${pos.name}_idle`,
+        sprite,
+        'position.y',
+        30,
+        90,
+        pos.y,
+        pos.y + 0.5,
+        BABYLON.Animation.ANIMATIONLOOPMODE_YOYO,
+      );
+      if (idleAnimation) {
+        this.animationGroups.push(idleAnimation);
+      }
+    });
   }
 }

@@ -51,7 +51,6 @@ import CardsPage from '../pages/CardsPage';
 import DecksPage from '../pages/DecksPage';
 import RulesPage from '../pages/RulesPage';
 import SimulatorPage from '../pages/SimulatorPage';
-import GameZonezPage from '../pages/GameZonezPage';
 import '../styles/mtg-arena.css';
 import '../styles/advanced-mtg-arena.css';
 import '../styles/hearthstone-battlefield.css';
@@ -594,7 +593,6 @@ const Phase3App = () => {
                 <Route path="/decks" element={<DecksPage />} />
                 <Route path="/rules" element={<RulesPage />} />
                 <Route path="/simulator" element={<SimulatorPage />} />
-                <Route path="/gamezonez" element={<GameZonezPage />} />
                 <Route path="/oauth/callback" element={<OAuthCallback />} />
               </Routes>
               <BottomMenuBar />

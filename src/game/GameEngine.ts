@@ -584,7 +584,7 @@ export class GameEngine {
       window.innerWidth < 768 ||
       'ontouchstart' in window;
 
-    // Create arena configuration
+    // Create arena configuration with pseudo-3D rendering capabilities
     const arenaConfig: ArenaConfig = {
       theme: 'hearthstone', // Changed to showcase new Hearthstone theme
       quality: quality,
@@ -593,13 +593,12 @@ export class GameEngine {
       enableLighting: true,
       enablePostProcessing: quality === 'ultra' && !isMobile,
       isMobile: isMobile,
-      enableGameZonez: true, // Enable the new pseudo-3D GameZonez system
-      gameZonezConfig: {
-        enableParallax: !isMobile && quality !== 'low',
-        mode7Speed: isMobile ? 0.01 : 0.02,
-        isometricAngle: Math.PI / 6,
-        sprite2DScale: isMobile ? 0.8 : 1.0,
-        maxZones: isMobile ? 5 : 10,
+      // Enable pseudo-3D rendering techniques based on performance
+      renderingTechniques: {
+        enableMode7Background: !isLowPerformance && quality !== 'low',
+        enableIsometricView: true,
+        enable2_5DSprites: !isLowPerformance && quality !== 'low',
+        enableParallaxLayers: quality === 'high' || quality === 'ultra',
       },
     };
 
