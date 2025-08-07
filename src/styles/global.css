@@ -1,6 +1,7 @@
 /* Import component styles */
 @import '../components/AdvancedLoginModal.css';
 @import '../assets/fonts/fonts.css';
+@import './enhanced-hearthstone-battlefield.css';
 
 /* Global CSS */
 
