@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { EnhancedGameMenu } from './EnhancedGameMenu';
 import CardGameUI from './CardGameUI';
 import Card3DGameUI from './Card3DGameUI';
+import EnhancedHearthstoneBattlefield from '../../components/EnhancedHearthstoneBattlefield';
 import OrientationPrompt from '../../components/OrientationPrompt';
 import { useDynamicSizing } from '../../utils/userAgentSizing';
 import '../styles/mobile.css';
@@ -26,7 +27,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({
   setShowGame,
 }) => {
   const [gameState, setGameState] = useState<
-    'menu' | 'loading' | 'playing' | 'playing3d' | 'error'
+    'menu' | 'loading' | 'playing' | 'playing3d' | 'enhanced-battlefield' | 'error'
   >('menu');
   const [selectedMode, setSelectedMode] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +38,15 @@ export const GameContainer: React.FC<GameContainerProps> = ({
 
   // Enhanced game modes with 3D options
   const gameModes: GameMode[] = [
+    {
+      id: 'enhanced-battlefield',
+      title: '🔥 Enhanced Hearthstone Arena',
+      description:
+        'Experience the ultimate Hearthstone-style battlefield with interactive elements, animated props, and immersive 2.5D gameplay!',
+      icon: '🏰',
+      difficulty: 'Immersive',
+      requiresAccount: false,
+    },
     {
       id: 'practice3d',
       title: '3D Practice Arena',
@@ -98,6 +108,14 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     setSelectedMode(modeId);
 
     try {
+      // Handle enhanced battlefield mode
+      if (modeId === 'enhanced-battlefield') {
+        console.log('[GameContainer] Starting Enhanced Hearthstone Battlefield...');
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Loading time
+        setGameState('enhanced-battlefield');
+        return;
+      }
+
       // Determine if this is a 3D mode
       const is3D = modeId.includes('3d');
       setUse3D(is3D);
@@ -409,6 +427,15 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         {gameState === 'playing' && <CardGameUI onClose={handleClose} />}
 
         {gameState === 'playing3d' && <Card3DGameUI onClose={handleClose} />}
+
+        {gameState === 'enhanced-battlefield' && (
+          <EnhancedHearthstoneBattlefield 
+            onThemeChange={(theme) => console.log('Theme changed to:', theme)}
+            onQualityChange={(quality) => console.log('Quality changed to:', quality)}
+            enablePerformanceMonitoring={true}
+            className="full-screen-battlefield"
+          />
+        )}
       </AnimatePresence>
     </div>
   );
