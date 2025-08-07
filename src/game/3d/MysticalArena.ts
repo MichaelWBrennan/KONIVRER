@@ -2254,21 +2254,21 @@ export class MysticalArena {
   // Enhanced Interactive Elements for Hearthstone-style gameplay
   public async createEnhancedInteractiveElements(): Promise<void> {
     if (!this.config.enableInteractiveElements) return;
-    
+
     console.log('[MysticalArena] Creating enhanced interactive elements');
-    
+
     // Create clickable torches with flickering flames
     await this.createInteractiveTorches();
-    
+
     // Create water wheel (for forest/tavern themes)
     await this.createWaterWheel();
-    
+
     // Create mystical crystals
     await this.createInteractiveCrystals();
-    
+
     // Create ambient creatures (birds, fireflies, etc.)
     await this.createAmbientCreatures();
-    
+
     // Create interactive props specific to theme
     switch (this.config.theme) {
       case 'hearthstone':
@@ -2285,7 +2285,7 @@ export class MysticalArena {
         break;
     }
   }
-  
+
   private async createInteractiveTorches(): Promise<void> {
     const torchPositions = [
       new BABYLON.Vector3(-8, 2.5, 8),
@@ -2293,223 +2293,249 @@ export class MysticalArena {
       new BABYLON.Vector3(-8, 2.5, -8),
       new BABYLON.Vector3(8, 2.5, -8),
     ];
-    
+
     torchPositions.forEach(async (position, index) => {
       // Create torch post
       const post = BABYLON.MeshBuilder.CreateCylinder(
         `torchPost_${index}`,
         { height: 3, diameter: 0.3 },
-        this.scene
+        this.scene,
       );
       post.position = position.clone();
       post.position.y = 1.5;
-      
+
       // Create torch flame
       const flame = BABYLON.MeshBuilder.CreateSphere(
         `torchFlame_${index}`,
         { diameter: 0.8 },
-        this.scene
+        this.scene,
       );
       flame.position = position.clone();
       flame.position.y += 0.8;
-      
+
       // Flame material
-      const flameMaterial = new BABYLON.PBRMaterial(`flameMaterial_${index}`, this.scene);
+      const flameMaterial = new BABYLON.PBRMaterial(
+        `flameMaterial_${index}`,
+        this.scene,
+      );
       flameMaterial.emissiveColor = new BABYLON.Color3(1, 0.5, 0.1);
       flameMaterial.emissiveIntensity = 2;
       flameMaterial.alpha = 0.8;
-      flameMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+      flameMaterial.transparencyMode =
+        BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
       flame.material = flameMaterial;
-      
+
       // Add flickering animation
       this.animateFlickering(flame, index);
-      
+
       // Add particle system for flames
       if (this.config.enableParticles) {
-        const particles = new BABYLON.ParticleSystem(`torchParticles_${index}`, 100, this.scene);
-        particles.particleTexture = new BABYLON.Texture('/images/particles/fire.png', this.scene);
+        const particles = new BABYLON.ParticleSystem(
+          `torchParticles_${index}`,
+          100,
+          this.scene,
+        );
+        particles.particleTexture = new BABYLON.Texture(
+          '/images/particles/fire.png',
+          this.scene,
+        );
         particles.emitter = flame;
-        
+
         particles.color1 = new BABYLON.Color3(1, 0.5, 0.1);
         particles.color2 = new BABYLON.Color3(0.8, 0.2, 0.1);
         particles.colorDead = new BABYLON.Color3(0, 0, 0);
-        
+
         particles.minSize = 0.1;
         particles.maxSize = 0.3;
         particles.minLifeTime = 0.5;
         particles.maxLifeTime = 1.5;
         particles.emitRate = 50;
-        
+
         particles.direction1 = new BABYLON.Vector3(-0.2, 1, -0.2);
         particles.direction2 = new BABYLON.Vector3(0.2, 1.5, 0.2);
         particles.minEmitPower = 1;
         particles.maxEmitPower = 3;
-        
+
         particles.start();
         this.particleSystems.push(particles);
       }
-      
+
       // Add interaction handling
       this.addTorchInteraction(post, flame, index);
-      
+
       this.meshes.set(`torch_${index}`, post);
       this.meshes.set(`torchFlame_${index}`, flame);
     });
   }
-  
+
   private async createWaterWheel(): Promise<void> {
-    if (this.config.theme !== 'hearthstone' && this.config.theme !== 'forest') return;
-    
+    if (this.config.theme !== 'hearthstone' && this.config.theme !== 'forest')
+      return;
+
     // Create water wheel structure
     const wheel = BABYLON.MeshBuilder.CreateCylinder(
       'waterWheel',
       { height: 0.5, diameter: 4 },
-      this.scene
+      this.scene,
     );
     wheel.position = new BABYLON.Vector3(0, 2, -10);
     wheel.rotation.z = Math.PI / 2;
-    
+
     // Add wooden texture
     const wheelMaterial = new BABYLON.PBRMaterial('wheelMaterial', this.scene);
     wheelMaterial.baseColor = new BABYLON.Color3(0.4, 0.25, 0.15);
     wheelMaterial.metallicFactor = 0;
     wheelMaterial.roughnessFactor = 0.8;
     wheel.material = wheelMaterial;
-    
+
     // Add continuous rotation
     this.animateWaterWheel(wheel);
-    
+
     // Add water splash particles
     if (this.config.enableParticles) {
-      const splashParticles = new BABYLON.ParticleSystem('wheelSplash', 50, this.scene);
-      splashParticles.particleTexture = new BABYLON.Texture('/images/particles/water.png', this.scene);
+      const splashParticles = new BABYLON.ParticleSystem(
+        'wheelSplash',
+        50,
+        this.scene,
+      );
+      splashParticles.particleTexture = new BABYLON.Texture(
+        '/images/particles/water.png',
+        this.scene,
+      );
       splashParticles.emitter = wheel;
-      
+
       splashParticles.color1 = new BABYLON.Color3(0.2, 0.6, 0.9);
       splashParticles.color2 = new BABYLON.Color3(0.1, 0.8, 1);
       splashParticles.colorDead = new BABYLON.Color3(0, 0, 0);
-      
+
       splashParticles.minSize = 0.05;
       splashParticles.maxSize = 0.15;
       splashParticles.minLifeTime = 1;
       splashParticles.maxLifeTime = 2;
       splashParticles.emitRate = 20;
-      
+
       splashParticles.direction1 = new BABYLON.Vector3(-1, -1, -1);
       splashParticles.direction2 = new BABYLON.Vector3(1, 0.5, 1);
       splashParticles.minEmitPower = 0.5;
       splashParticles.maxEmitPower = 2;
-      
+
       splashParticles.start();
       this.particleSystems.push(splashParticles);
     }
-    
+
     // Add click interaction
     this.addWaterWheelInteraction(wheel);
-    
+
     this.meshes.set('waterWheel', wheel);
   }
-  
+
   private async createInteractiveCrystals(): Promise<void> {
     const crystalPositions = [
       new BABYLON.Vector3(-5, 1, 5),
       new BABYLON.Vector3(5, 1, -5),
       new BABYLON.Vector3(0, 1, 7),
     ];
-    
+
     crystalPositions.forEach((position, index) => {
       // Create crystal shape
       const crystal = BABYLON.MeshBuilder.CreateBox(
         `crystal_${index}`,
         { width: 0.8, height: 2, depth: 0.8 },
-        this.scene
+        this.scene,
       );
       crystal.position = position;
       crystal.position.y = 1;
       crystal.rotation.y = Math.random() * Math.PI;
       crystal.scaling.y = 1.5;
-      
+
       // Crystal material with glow
-      const crystalMaterial = new BABYLON.PBRMaterial(`crystalMaterial_${index}`, this.scene);
+      const crystalMaterial = new BABYLON.PBRMaterial(
+        `crystalMaterial_${index}`,
+        this.scene,
+      );
       crystalMaterial.baseColor = new BABYLON.Color3(0.8, 0.9, 1);
       crystalMaterial.metallicFactor = 0;
       crystalMaterial.roughnessFactor = 0.1;
       crystalMaterial.emissiveColor = new BABYLON.Color3(0.2, 0.4, 0.8);
       crystalMaterial.emissiveIntensity = 1;
       crystalMaterial.alpha = 0.7;
-      crystalMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+      crystalMaterial.transparencyMode =
+        BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
       crystal.material = crystalMaterial;
-      
+
       // Add pulsing animation
       this.animateCrystalPulse(crystal, index);
-      
+
       // Add interaction
       this.addCrystalInteraction(crystal, index);
-      
+
       this.meshes.set(`crystal_${index}`, crystal);
     });
   }
-  
+
   private async createAmbientCreatures(): Promise<void> {
     if (this.config.quality === 'low' || this.config.isMobile) return;
-    
+
     // Create fireflies for forest/tavern themes
     if (this.config.theme === 'forest' || this.config.theme === 'hearthstone') {
       await this.createFireflies();
     }
-    
+
     // Create floating dust particles for desert theme
     if (this.config.theme === 'desert') {
       await this.createFloatingDust();
     }
-    
+
     // Create ash particles for volcano theme
     if (this.config.theme === 'volcano') {
       await this.createVolcanicAsh();
     }
   }
-  
+
   private async createFireflies(): Promise<void> {
     const fireflyCount = this.config.isMobile ? 5 : 10;
-    
+
     for (let i = 0; i < fireflyCount; i++) {
       const firefly = BABYLON.MeshBuilder.CreateSphere(
         `firefly_${i}`,
         { diameter: 0.1 },
-        this.scene
+        this.scene,
       );
-      
+
       // Random starting position
       firefly.position = new BABYLON.Vector3(
         (Math.random() - 0.5) * 16,
         Math.random() * 4 + 1,
-        (Math.random() - 0.5) * 16
+        (Math.random() - 0.5) * 16,
       );
-      
+
       // Glowing material
-      const fireflyMaterial = new BABYLON.PBRMaterial(`fireflyMaterial_${i}`, this.scene);
+      const fireflyMaterial = new BABYLON.PBRMaterial(
+        `fireflyMaterial_${i}`,
+        this.scene,
+      );
       fireflyMaterial.emissiveColor = new BABYLON.Color3(1, 1, 0.3);
       fireflyMaterial.emissiveIntensity = 3;
       firefly.material = fireflyMaterial;
-      
+
       // Add floating animation
       this.animateFirefly(firefly, i);
-      
+
       this.meshes.set(`firefly_${i}`, firefly);
     }
   }
-  
+
   private async createTavernInteractives(): Promise<void> {
     // Beer mugs on tables that clink when clicked
     await this.createBeerMugs();
-    
+
     // Hanging tavern signs that sway
     await this.createTavernSigns();
-    
+
     // Interactive fireplace
     await this.createInteractiveFireplace();
   }
-  
+
   private async createBeerMugs(): Promise<void> {
     const tablePositions = [
       new BABYLON.Vector3(-4, 1.7, -2),
@@ -2517,47 +2543,50 @@ export class MysticalArena {
       new BABYLON.Vector3(-4, 1.7, 2),
       new BABYLON.Vector3(4, 1.7, 2),
     ];
-    
+
     tablePositions.forEach((position, index) => {
       const mug = BABYLON.MeshBuilder.CreateCylinder(
         `beerMug_${index}`,
         { height: 0.4, diameter: 0.3 },
-        this.scene
+        this.scene,
       );
       mug.position = position;
-      
-      const mugMaterial = new BABYLON.PBRMaterial(`mugMaterial_${index}`, this.scene);
+
+      const mugMaterial = new BABYLON.PBRMaterial(
+        `mugMaterial_${index}`,
+        this.scene,
+      );
       mugMaterial.baseColor = new BABYLON.Color3(0.8, 0.7, 0.3);
       mugMaterial.metallicFactor = 0.8;
       mugMaterial.roughnessFactor = 0.2;
       mug.material = mugMaterial;
-      
+
       // Add interaction
       this.addMugInteraction(mug, index);
-      
+
       this.meshes.set(`mug_${index}`, mug);
     });
   }
-  
+
   // Animation methods
   private animateFlickering(flame: BABYLON.Mesh, index: number): void {
     const material = flame.material as BABYLON.PBRMaterial;
     const baseIntensity = material.emissiveIntensity;
-    
+
     // Random flickering
     const flicker = () => {
       const intensity = baseIntensity + (Math.random() - 0.5) * 0.5;
       material.emissiveIntensity = Math.max(0.5, intensity);
-      
+
       // Random scale variation
       const scale = 1 + (Math.random() - 0.5) * 0.2;
       flame.scaling = new BABYLON.Vector3(scale, scale, scale);
-      
+
       setTimeout(flicker, 50 + Math.random() * 100);
     };
     flicker();
   }
-  
+
   private animateWaterWheel(wheel: BABYLON.Mesh): void {
     const rotate = () => {
       wheel.rotation.x += 0.01;
@@ -2565,10 +2594,10 @@ export class MysticalArena {
     };
     rotate();
   }
-  
+
   private animateCrystalPulse(crystal: BABYLON.Mesh, index: number): void {
     const material = crystal.material as BABYLON.PBRMaterial;
-    
+
     BABYLON.Animation.CreateAndStartAnimation(
       `crystalPulse_${index}`,
       material,
@@ -2577,17 +2606,17 @@ export class MysticalArena {
       120 + index * 20,
       1,
       2,
-      BABYLON.Animation.ANIMATIONLOOPMODE_YOYO
+      BABYLON.Animation.ANIMATIONLOOPMODE_YOYO,
     );
   }
-  
+
   private animateFirefly(firefly: BABYLON.Mesh, index: number): void {
     const moveFirefly = () => {
       // Random movement
       const targetX = (Math.random() - 0.5) * 16;
       const targetZ = (Math.random() - 0.5) * 16;
       const targetY = Math.random() * 4 + 1;
-      
+
       BABYLON.Animation.CreateAndStartAnimation(
         `fireflyMove_${index}_${Date.now()}`,
         firefly.position,
@@ -2596,9 +2625,9 @@ export class MysticalArena {
         90,
         firefly.position.x,
         targetX,
-        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
       );
-      
+
       BABYLON.Animation.CreateAndStartAnimation(
         `fireflyMoveY_${index}_${Date.now()}`,
         firefly.position,
@@ -2607,9 +2636,9 @@ export class MysticalArena {
         90,
         firefly.position.y,
         targetY,
-        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
       );
-      
+
       BABYLON.Animation.CreateAndStartAnimation(
         `fireflyMoveZ_${index}_${Date.now()}`,
         firefly.position,
@@ -2618,102 +2647,94 @@ export class MysticalArena {
         90,
         firefly.position.z,
         targetZ,
-        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT
+        BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT,
       );
-      
+
       setTimeout(moveFirefly, 3000 + Math.random() * 2000);
     };
-    
+
     setTimeout(moveFirefly, Math.random() * 2000);
   }
-  
+
   // Interaction handlers
-  private addTorchInteraction(post: BABYLON.Mesh, flame: BABYLON.Mesh, index: number): void {
+  private addTorchInteraction(
+    post: BABYLON.Mesh,
+    flame: BABYLON.Mesh,
+    index: number,
+  ): void {
     post.actionManager = new BABYLON.ActionManager(this.scene);
-    
+
     post.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        BABYLON.ActionManager.OnPickTrigger,
-        () => {
-          // Toggle torch on/off
-          const material = flame.material as BABYLON.PBRMaterial;
-          const isLit = material.emissiveIntensity > 0.5;
-          
-          if (isLit) {
-            // Extinguish
-            material.emissiveIntensity = 0.1;
-            flame.setEnabled(false);
-          } else {
-            // Light
-            material.emissiveIntensity = 2;
-            flame.setEnabled(true);
-          }
-          
-          console.log(`Torch ${index} ${isLit ? 'extinguished' : 'lit'}`);
+      new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => {
+        // Toggle torch on/off
+        const material = flame.material as BABYLON.PBRMaterial;
+        const isLit = material.emissiveIntensity > 0.5;
+
+        if (isLit) {
+          // Extinguish
+          material.emissiveIntensity = 0.1;
+          flame.setEnabled(false);
+        } else {
+          // Light
+          material.emissiveIntensity = 2;
+          flame.setEnabled(true);
         }
-      )
+
+        console.log(`Torch ${index} ${isLit ? 'extinguished' : 'lit'}`);
+      }),
     );
   }
-  
+
   private addWaterWheelInteraction(wheel: BABYLON.Mesh): void {
     wheel.actionManager = new BABYLON.ActionManager(this.scene);
-    
+
     wheel.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        BABYLON.ActionManager.OnPickTrigger,
-        () => {
-          // Speed up wheel temporarily
-          console.log('Water wheel activated!');
-          // Could add temporary speed boost animation here
-        }
-      )
+      new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => {
+        // Speed up wheel temporarily
+        console.log('Water wheel activated!');
+        // Could add temporary speed boost animation here
+      }),
     );
   }
-  
+
   private addCrystalInteraction(crystal: BABYLON.Mesh, index: number): void {
     crystal.actionManager = new BABYLON.ActionManager(this.scene);
-    
+
     crystal.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        BABYLON.ActionManager.OnPickTrigger,
-        () => {
-          // Crystal activation effect
-          const material = crystal.material as BABYLON.PBRMaterial;
-          material.emissiveIntensity = 3;
-          
-          // Reset after delay
-          setTimeout(() => {
-            material.emissiveIntensity = 1;
-          }, 2000);
-          
-          console.log(`Crystal ${index} activated!`);
-        }
-      )
+      new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => {
+        // Crystal activation effect
+        const material = crystal.material as BABYLON.PBRMaterial;
+        material.emissiveIntensity = 3;
+
+        // Reset after delay
+        setTimeout(() => {
+          material.emissiveIntensity = 1;
+        }, 2000);
+
+        console.log(`Crystal ${index} activated!`);
+      }),
     );
   }
-  
+
   private addMugInteraction(mug: BABYLON.Mesh, index: number): void {
     mug.actionManager = new BABYLON.ActionManager(this.scene);
-    
+
     mug.actionManager.registerAction(
-      new BABYLON.ExecuteCodeAction(
-        BABYLON.ActionManager.OnPickTrigger,
-        () => {
-          // Mug clink sound effect and animation
-          BABYLON.Animation.CreateAndStartAnimation(
-            `mugClink_${index}`,
-            mug.rotation,
-            'z',
-            30,
-            30,
-            0,
-            0.2,
-            BABYLON.Animation.ANIMATIONLOOPMODE_YOYO
-          );
-          
-          console.log(`Beer mug ${index} clinked!`);
-        }
-      )
+      new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPickTrigger, () => {
+        // Mug clink sound effect and animation
+        BABYLON.Animation.CreateAndStartAnimation(
+          `mugClink_${index}`,
+          mug.rotation,
+          'z',
+          30,
+          30,
+          0,
+          0.2,
+          BABYLON.Animation.ANIMATIONLOOPMODE_YOYO,
+        );
+
+        console.log(`Beer mug ${index} clinked!`);
+      }),
     );
   }
 }

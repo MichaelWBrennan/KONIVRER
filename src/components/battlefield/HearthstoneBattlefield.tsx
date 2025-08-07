@@ -163,54 +163,56 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTheme, setCurrentTheme] = useState<string>('hearthstone');
-  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>('high');
+  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>(
+    'high',
+  );
 
   // Interactive Elements
   const [interactiveProps, setInteractiveProps] = useState([
-    { 
-      id: 'torch-left', 
-      name: 'Flickering Torch', 
-      active: true, 
-      x: 15, 
+    {
+      id: 'torch-left',
+      name: 'Flickering Torch',
+      active: true,
+      x: 15,
       y: 25,
       animation: 'flicker',
-      onClick: () => console.log('Left torch clicked!')
+      onClick: () => console.log('Left torch clicked!'),
     },
-    { 
-      id: 'torch-right', 
-      name: 'Flickering Torch', 
-      active: true, 
-      x: 85, 
+    {
+      id: 'torch-right',
+      name: 'Flickering Torch',
+      active: true,
+      x: 85,
       y: 25,
       animation: 'flicker',
-      onClick: () => console.log('Right torch clicked!')
+      onClick: () => console.log('Right torch clicked!'),
     },
-    { 
-      id: 'water-wheel', 
-      name: 'Water Wheel', 
-      active: true, 
-      x: 50, 
+    {
+      id: 'water-wheel',
+      name: 'Water Wheel',
+      active: true,
+      x: 50,
       y: 75,
       animation: 'rotate',
-      onClick: () => console.log('Water wheel activated!')
+      onClick: () => console.log('Water wheel activated!'),
     },
-    { 
-      id: 'crystal-left', 
-      name: 'Mystical Crystal', 
-      active: false, 
-      x: 25, 
+    {
+      id: 'crystal-left',
+      name: 'Mystical Crystal',
+      active: false,
+      x: 25,
       y: 50,
       animation: 'pulse',
-      onClick: () => activateCrystal('crystal-left')
+      onClick: () => activateCrystal('crystal-left'),
     },
-    { 
-      id: 'crystal-right', 
-      name: 'Mystical Crystal', 
-      active: false, 
-      x: 75, 
+    {
+      id: 'crystal-right',
+      name: 'Mystical Crystal',
+      active: false,
+      x: 75,
       y: 50,
       animation: 'pulse',
-      onClick: () => activateCrystal('crystal-right')
+      onClick: () => activateCrystal('crystal-right'),
     },
   ]);
 
@@ -221,7 +223,7 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
 
       try {
         setIsLoading(true);
-        
+
         // Initialize GameEngine
         const engine = new GameEngine();
         await engine.init(canvasRef.current);
@@ -247,7 +249,10 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
         setIsLoading(false);
         console.log('[HearthstoneBattlefield] Arena initialized successfully');
       } catch (error) {
-        console.error('[HearthstoneBattlefield] Failed to initialize arena:', error);
+        console.error(
+          '[HearthstoneBattlefield] Failed to initialize arena:',
+          error,
+        );
         setIsLoading(false);
       }
     };
@@ -290,16 +295,19 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
   }, [gameState.turnTimer, gameState.currentTurn]);
 
   // Crystal activation handler
-  const activateCrystal = useCallback((crystalId: string) => {
-    setInteractiveProps(prev => 
-      prev.map(prop => 
-        prop.id === crystalId 
-          ? { ...prop, active: !prop.active }
-          : prop
-      )
-    );
-    console.log(`Crystal ${crystalId} ${interactiveProps.find(p => p.id === crystalId)?.active ? 'deactivated' : 'activated'}!`);
-  }, [interactiveProps]);
+  const activateCrystal = useCallback(
+    (crystalId: string) => {
+      setInteractiveProps(prev =>
+        prev.map(prop =>
+          prop.id === crystalId ? { ...prop, active: !prop.active } : prop,
+        ),
+      );
+      console.log(
+        `Crystal ${crystalId} ${interactiveProps.find(p => p.id === crystalId)?.active ? 'deactivated' : 'activated'}!`,
+      );
+    },
+    [interactiveProps],
+  );
 
   // Card drag handlers
   const handleCardDragStart = useCallback((card: Card) => {
@@ -307,43 +315,48 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
     setSelectedCard(card.id);
   }, []);
 
-  const handleCardDragEnd = useCallback((targetZone: string) => {
-    if (!draggedCard) return;
+  const handleCardDragEnd = useCallback(
+    (targetZone: string) => {
+      if (!draggedCard) return;
 
-    // Handle card play logic
-    if (targetZone === 'player-battlefield' && draggedCard.isPlayable) {
-      // Move card from hand to battlefield
-      setPlayerZones(prev => prev.map(zone => {
-        if (zone.id === 'player-hand') {
-          return {
-            ...zone,
-            cards: zone.cards.filter(c => c.id !== draggedCard.id),
-          };
-        }
-        if (zone.id === 'player-battlefield') {
-          return {
-            ...zone,
-            cards: [...zone.cards, draggedCard],
-          };
-        }
-        return zone;
-      }));
+      // Handle card play logic
+      if (targetZone === 'player-battlefield' && draggedCard.isPlayable) {
+        // Move card from hand to battlefield
+        setPlayerZones(prev =>
+          prev.map(zone => {
+            if (zone.id === 'player-hand') {
+              return {
+                ...zone,
+                cards: zone.cards.filter(c => c.id !== draggedCard.id),
+              };
+            }
+            if (zone.id === 'player-battlefield') {
+              return {
+                ...zone,
+                cards: [...zone.cards, draggedCard],
+              };
+            }
+            return zone;
+          }),
+        );
 
-      // Deduct mana cost
-      setGameState(prev => ({
-        ...prev,
-        playerMana: {
-          ...prev.playerMana,
-          current: Math.max(0, prev.playerMana.current - draggedCard.cost),
-        },
-      }));
+        // Deduct mana cost
+        setGameState(prev => ({
+          ...prev,
+          playerMana: {
+            ...prev.playerMana,
+            current: Math.max(0, prev.playerMana.current - draggedCard.cost),
+          },
+        }));
 
-      console.log(`Played ${draggedCard.name} for ${draggedCard.cost} mana`);
-    }
+        console.log(`Played ${draggedCard.name} for ${draggedCard.cost} mana`);
+      }
 
-    setDraggedCard(null);
-    setSelectedCard(null);
-  }, [draggedCard]);
+      setDraggedCard(null);
+      setSelectedCard(null);
+    },
+    [draggedCard],
+  );
 
   const handleZoneHover = useCallback((zoneId: string | null) => {
     setHoveredZone(zoneId);
@@ -362,16 +375,19 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
     setCurrentTheme(theme);
   }, []);
 
-  const handleQualityChange = useCallback((newQuality: 'low' | 'medium' | 'high' | 'ultra') => {
-    setQuality(newQuality);
-    onQualityChange?.(newQuality);
-  }, [onQualityChange]);
+  const handleQualityChange = useCallback(
+    (newQuality: 'low' | 'medium' | 'high' | 'ultra') => {
+      setQuality(newQuality);
+      onQualityChange?.(newQuality);
+    },
+    [onQualityChange],
+  );
 
   return (
     <div className={`hearthstone-battlefield ${className}`}>
       {/* 3D Arena Canvas */}
       <div ref={canvasRef} className="arena-canvas" />
-      
+
       {/* Loading Overlay */}
       <AnimatePresence>
         {isLoading && (
@@ -423,15 +439,17 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
               <div className="health-indicator">{gameState.opponentHealth}</div>
             </div>
             <div className="mana-crystals">
-              {Array.from({ length: gameState.opponentMana.max }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`mana-crystal ${i < gameState.opponentMana.current ? 'full' : 'empty'}`}
-                />
-              ))}
+              {Array.from({ length: gameState.opponentMana.max }).map(
+                (_, i) => (
+                  <div
+                    key={i}
+                    className={`mana-crystal ${i < gameState.opponentMana.current ? 'full' : 'empty'}`}
+                  />
+                ),
+              )}
             </div>
           </div>
-          
+
           {/* Opponent Battlefield */}
           <motion.div
             className="battlefield opponent-battlefield"
@@ -439,19 +457,21 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
             onHoverEnd={() => handleZoneHover(null)}
           >
             <AnimatePresence>
-              {playerZones.find(z => z.id === 'opponent-battlefield')?.cards.map((card, index) => (
-                <motion.div
-                  key={card.id}
-                  className="battlefield-card opponent-card"
-                  initial={{ y: -100, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -100, opacity: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  style={{ left: `${index * 120 + 20}px` }}
-                >
-                  <CardComponent card={card} isOpponent />
-                </motion.div>
-              ))}
+              {playerZones
+                .find(z => z.id === 'opponent-battlefield')
+                ?.cards.map((card, index) => (
+                  <motion.div
+                    key={card.id}
+                    className="battlefield-card opponent-card"
+                    initial={{ y: -100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -100, opacity: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    style={{ left: `${index * 120 + 20}px` }}
+                  >
+                    <CardComponent card={card} isOpponent />
+                  </motion.div>
+                ))}
             </AnimatePresence>
           </motion.div>
         </div>
@@ -459,14 +479,18 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
         {/* Central Playmat Area */}
         <div className="central-playmat">
           <div className="battlefield-divider" />
-          
+
           {/* Turn Indicator */}
           <div className="turn-indicator">
-            <div className={`turn-timer ${gameState.turnTimer < 15 ? 'urgent' : ''}`}>
+            <div
+              className={`turn-timer ${gameState.turnTimer < 15 ? 'urgent' : ''}`}
+            >
               {gameState.turnTimer}s
             </div>
             <div className="current-turn">
-              {gameState.currentTurn === 'player' ? 'Your Turn' : 'Opponent\'s Turn'}
+              {gameState.currentTurn === 'player'
+                ? 'Your Turn'
+                : "Opponent's Turn"}
             </div>
             <motion.button
               className="end-turn-btn"
@@ -490,60 +514,76 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
             onDrop={() => handleCardDragEnd('player-battlefield')}
           >
             <AnimatePresence>
-              {playerZones.find(z => z.id === 'player-battlefield')?.cards.map((card, index) => (
-                <motion.div
-                  key={card.id}
-                  className="battlefield-card player-card"
-                  initial={{ y: 100, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 100, opacity: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  style={{ left: `${index * 120 + 20}px` }}
-                >
-                  <CardComponent card={card} />
-                </motion.div>
-              ))}
+              {playerZones
+                .find(z => z.id === 'player-battlefield')
+                ?.cards.map((card, index) => (
+                  <motion.div
+                    key={card.id}
+                    className="battlefield-card player-card"
+                    initial={{ y: 100, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 100, opacity: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    style={{ left: `${index * 120 + 20}px` }}
+                  >
+                    <CardComponent card={card} />
+                  </motion.div>
+                ))}
             </AnimatePresence>
           </motion.div>
 
           {/* Player Hand */}
           <motion.div className="player-hand">
             <AnimatePresence>
-              {playerZones.find(z => z.id === 'player-hand')?.cards.map((card, index) => (
-                <motion.div
-                  key={card.id}
-                  className={`hand-card ${selectedCard === card.id ? 'selected' : ''} ${!card.isPlayable ? 'unplayable' : ''}`}
-                  initial={{ y: 100, opacity: 0, rotateZ: Math.random() * 10 - 5 }}
-                  animate={{ 
-                    y: selectedCard === card.id ? -20 : 0, 
-                    opacity: 1,
-                    rotateZ: index * 3 - 9,
-                    x: index * 15 - (playerZones.find(z => z.id === 'player-hand')?.cards.length || 1) * 7.5,
-                  }}
-                  exit={{ y: 100, opacity: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  drag={card.isPlayable}
-                  dragControls={dragControls}
-                  onDragStart={() => handleCardDragStart(card)}
-                  onDragEnd={(_, info) => {
-                    if (info.point.y < -50) {
-                      handleCardDragEnd('player-battlefield');
-                    }
-                  }}
-                  whileHover={{ 
-                    y: -10, 
-                    rotateZ: 0,
-                    scale: 1.05,
-                    zIndex: 10,
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <CardComponent 
-                    card={card} 
-                    onClick={() => setSelectedCard(selectedCard === card.id ? null : card.id)}
-                  />
-                </motion.div>
-              ))}
+              {playerZones
+                .find(z => z.id === 'player-hand')
+                ?.cards.map((card, index) => (
+                  <motion.div
+                    key={card.id}
+                    className={`hand-card ${selectedCard === card.id ? 'selected' : ''} ${!card.isPlayable ? 'unplayable' : ''}`}
+                    initial={{
+                      y: 100,
+                      opacity: 0,
+                      rotateZ: Math.random() * 10 - 5,
+                    }}
+                    animate={{
+                      y: selectedCard === card.id ? -20 : 0,
+                      opacity: 1,
+                      rotateZ: index * 3 - 9,
+                      x:
+                        index * 15 -
+                        (playerZones.find(z => z.id === 'player-hand')?.cards
+                          .length || 1) *
+                          7.5,
+                    }}
+                    exit={{ y: 100, opacity: 0 }}
+                    transition={{ delay: index * 0.05 }}
+                    drag={card.isPlayable}
+                    dragControls={dragControls}
+                    onDragStart={() => handleCardDragStart(card)}
+                    onDragEnd={(_, info) => {
+                      if (info.point.y < -50) {
+                        handleCardDragEnd('player-battlefield');
+                      }
+                    }}
+                    whileHover={{
+                      y: -10,
+                      rotateZ: 0,
+                      scale: 1.05,
+                      zIndex: 10,
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <CardComponent
+                      card={card}
+                      onClick={() =>
+                        setSelectedCard(
+                          selectedCard === card.id ? null : card.id,
+                        )
+                      }
+                    />
+                  </motion.div>
+                ))}
             </AnimatePresence>
           </motion.div>
 
@@ -568,7 +608,10 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
       <div className="battlefield-controls">
         <div className="theme-selector">
           <label>Theme:</label>
-          <select value={currentTheme} onChange={e => handleThemeChange(e.target.value)}>
+          <select
+            value={currentTheme}
+            onChange={e => handleThemeChange(e.target.value)}
+          >
             <option value="hearthstone">Hearthstone Tavern</option>
             <option value="forest">Jungle Map</option>
             <option value="desert">Desert Map</option>
@@ -577,10 +620,13 @@ const HearthstoneBattlefield: React.FC<HearthstoneBattlefieldProps> = ({
             <option value="cosmic">Cosmic Map</option>
           </select>
         </div>
-        
+
         <div className="quality-selector">
           <label>Quality:</label>
-          <select value={quality} onChange={e => handleQualityChange(e.target.value as any)}>
+          <select
+            value={quality}
+            onChange={e => handleQualityChange(e.target.value as any)}
+          >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
@@ -599,7 +645,11 @@ interface CardComponentProps {
   onClick?: () => void;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({ card, isOpponent = false, onClick }) => {
+const CardComponent: React.FC<CardComponentProps> = ({
+  card,
+  isOpponent = false,
+  onClick,
+}) => {
   return (
     <motion.div
       className={`game-card ${card.rarity} ${card.cardType} ${isOpponent ? 'opponent' : 'player'}`}

@@ -93,36 +93,38 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTheme, setCurrentTheme] = useState<string>('hearthstone');
-  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>('high');
+  const [quality, setQuality] = useState<'low' | 'medium' | 'high' | 'ultra'>(
+    'high',
+  );
 
   // Interactive Props
   const [interactiveProps] = useState([
-    { 
-      id: 'torch-left', 
-      name: 'Flickering Torch', 
-      active: true, 
-      x: 15, 
+    {
+      id: 'torch-left',
+      name: 'Flickering Torch',
+      active: true,
+      x: 15,
       y: 25,
       animation: 'flicker',
-      onClick: () => console.log('Left torch clicked!')
+      onClick: () => console.log('Left torch clicked!'),
     },
-    { 
-      id: 'torch-right', 
-      name: 'Flickering Torch', 
-      active: true, 
-      x: 85, 
+    {
+      id: 'torch-right',
+      name: 'Flickering Torch',
+      active: true,
+      x: 85,
       y: 25,
-      animation: 'flicker', 
-      onClick: () => console.log('Right torch clicked!')
+      animation: 'flicker',
+      onClick: () => console.log('Right torch clicked!'),
     },
-    { 
-      id: 'water-wheel', 
-      name: 'Water Wheel', 
-      active: true, 
-      x: 50, 
+    {
+      id: 'water-wheel',
+      name: 'Water Wheel',
+      active: true,
+      x: 50,
       y: 75,
       animation: 'rotate',
-      onClick: () => console.log('Water wheel activated!')
+      onClick: () => console.log('Water wheel activated!'),
     },
   ]);
 
@@ -133,32 +135,42 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
 
       try {
         setIsLoading(true);
-        
+
         // Initialize the game engine
         await gameEngine.init(canvasRef.current);
-        
+
         // Change arena theme to Hearthstone
         gameEngine.changeArenaTheme('hearthstone');
         gameEngine.updateArenaQuality(quality);
-        
+
         // Get the 3D scene for battlefield system
         if (gameEngine.scene) {
-          const battlefieldSystem = new EnhancedBattlefieldSystem(gameEngine.scene);
+          const battlefieldSystem = new EnhancedBattlefieldSystem(
+            gameEngine.scene,
+          );
           battlefieldSystemRef.current = battlefieldSystem;
-          
+
           // Add initial cards to zones
           SAMPLE_CARDS.forEach(card => {
             battlefieldSystem.addCard(card.id, 'player-hand');
           });
-          
+
           // Listen for battlefield actions
-          document.addEventListener('battlefieldAction', handleBattlefieldAction);
+          document.addEventListener(
+            'battlefieldAction',
+            handleBattlefieldAction,
+          );
         }
 
         setIsLoading(false);
-        console.log('[IntegratedBattlefield] Hearthstone battlefield initialized successfully');
+        console.log(
+          '[IntegratedBattlefield] Hearthstone battlefield initialized successfully',
+        );
       } catch (error) {
-        console.error('[IntegratedBattlefield] Failed to initialize battlefield:', error);
+        console.error(
+          '[IntegratedBattlefield] Failed to initialize battlefield:',
+          error,
+        );
         setIsLoading(false);
       }
     };
@@ -166,13 +178,16 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
     initializeBattlefield();
 
     return () => {
-      document.removeEventListener('battlefieldAction', handleBattlefieldAction);
-      
+      document.removeEventListener(
+        'battlefieldAction',
+        handleBattlefieldAction,
+      );
+
       if (battlefieldSystemRef.current) {
         battlefieldSystemRef.current.dispose();
         battlefieldSystemRef.current = null;
       }
-      
+
       gameEngine.destroy();
     };
   }, [quality]);
@@ -181,7 +196,7 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
   const handleBattlefieldAction = useCallback((event: CustomEvent) => {
     const action = event.detail;
     console.log('[IntegratedBattlefield] Battlefield action:', action);
-    
+
     switch (action.type) {
       case 'play_card':
         handleCardPlay(action.sourceId, action.data);
@@ -194,46 +209,59 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
     }
   }, []);
 
-  const handleCardPlay = useCallback((cardId: string, actionData: any) => {
-    const card = playerHand.find(c => c.id === cardId);
-    if (!card || !card.isPlayable || gameState.playerMana.current < card.cost) {
-      console.log('Cannot play card:', cardId);
-      return;
-    }
+  const handleCardPlay = useCallback(
+    (cardId: string, actionData: any) => {
+      const card = playerHand.find(c => c.id === cardId);
+      if (
+        !card ||
+        !card.isPlayable ||
+        gameState.playerMana.current < card.cost
+      ) {
+        console.log('Cannot play card:', cardId);
+        return;
+      }
 
-    // Move card from hand to battlefield
-    setPlayerHand(prev => prev.filter(c => c.id !== cardId));
-    setPlayerBattlefield(prev => [...prev, card]);
-    
-    // Deduct mana
-    setGameState(prev => ({
-      ...prev,
-      playerMana: {
-        ...prev.playerMana,
-        current: prev.playerMana.current - card.cost,
-      },
-    }));
+      // Move card from hand to battlefield
+      setPlayerHand(prev => prev.filter(c => c.id !== cardId));
+      setPlayerBattlefield(prev => [...prev, card]);
 
-    console.log(`Played ${card.name} for ${card.cost} mana`);
-  }, [playerHand, gameState.playerMana]);
+      // Deduct mana
+      setGameState(prev => ({
+        ...prev,
+        playerMana: {
+          ...prev.playerMana,
+          current: prev.playerMana.current - card.cost,
+        },
+      }));
 
-  const handleCardAttack = useCallback((attackerId: string, targetId?: string) => {
-    console.log(`Card ${attackerId} attacks ${targetId || 'opponent hero'}`);
-  }, []);
+      console.log(`Played ${card.name} for ${card.cost} mana`);
+    },
+    [playerHand, gameState.playerMana],
+  );
 
-  const handleCardClick = useCallback((cardId: string) => {
-    if (selectedCard === cardId) {
-      setSelectedCard(null);
-      return;
-    }
-    
-    setSelectedCard(cardId);
-    
-    // Notify 3D battlefield system
-    if (battlefieldSystemRef.current) {
-      battlefieldSystemRef.current.selectCard(cardId);
-    }
-  }, [selectedCard]);
+  const handleCardAttack = useCallback(
+    (attackerId: string, targetId?: string) => {
+      console.log(`Card ${attackerId} attacks ${targetId || 'opponent hero'}`);
+    },
+    [],
+  );
+
+  const handleCardClick = useCallback(
+    (cardId: string) => {
+      if (selectedCard === cardId) {
+        setSelectedCard(null);
+        return;
+      }
+
+      setSelectedCard(cardId);
+
+      // Notify 3D battlefield system
+      if (battlefieldSystemRef.current) {
+        battlefieldSystemRef.current.selectCard(cardId);
+      }
+    },
+    [selectedCard],
+  );
 
   const handleEndTurn = useCallback(() => {
     setGameState(prev => ({
@@ -243,17 +271,23 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
     }));
   }, []);
 
-  const handleThemeChange = useCallback((theme: string) => {
-    setCurrentTheme(theme);
-    gameEngine.changeArenaTheme(theme as any);
-    onThemeChange?.(theme);
-  }, [onThemeChange]);
+  const handleThemeChange = useCallback(
+    (theme: string) => {
+      setCurrentTheme(theme);
+      gameEngine.changeArenaTheme(theme as any);
+      onThemeChange?.(theme);
+    },
+    [onThemeChange],
+  );
 
-  const handleQualityChange = useCallback((newQuality: 'low' | 'medium' | 'high' | 'ultra') => {
-    setQuality(newQuality);
-    gameEngine.updateArenaQuality(newQuality);
-    onQualityChange?.(newQuality);
-  }, [onQualityChange]);
+  const handleQualityChange = useCallback(
+    (newQuality: 'low' | 'medium' | 'high' | 'ultra') => {
+      setQuality(newQuality);
+      gameEngine.updateArenaQuality(newQuality);
+      onQualityChange?.(newQuality);
+    },
+    [onQualityChange],
+  );
 
   // Turn timer effect
   useEffect(() => {
@@ -269,7 +303,7 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
     <div className={`hearthstone-battlefield ${className}`}>
       {/* 3D Arena Canvas */}
       <div ref={canvasRef} className="arena-canvas" />
-      
+
       {/* Loading Overlay */}
       <AnimatePresence>
         {isLoading && (
@@ -319,15 +353,17 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
               <div className="health-indicator">{gameState.opponentHealth}</div>
             </div>
             <div className="mana-crystals">
-              {Array.from({ length: gameState.opponentMana.max }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`mana-crystal ${i < gameState.opponentMana.current ? 'full' : 'empty'}`}
-                />
-              ))}
+              {Array.from({ length: gameState.opponentMana.max }).map(
+                (_, i) => (
+                  <div
+                    key={i}
+                    className={`mana-crystal ${i < gameState.opponentMana.current ? 'full' : 'empty'}`}
+                  />
+                ),
+              )}
             </div>
           </div>
-          
+
           {/* Opponent Battlefield */}
           <div className="battlefield opponent-battlefield">
             <AnimatePresence>
@@ -352,11 +388,15 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
         <div className="central-playmat">
           <div className="battlefield-divider" />
           <div className="turn-indicator">
-            <div className={`turn-timer ${gameState.turnTimer < 15 ? 'urgent' : ''}`}>
+            <div
+              className={`turn-timer ${gameState.turnTimer < 15 ? 'urgent' : ''}`}
+            >
               {gameState.turnTimer}s
             </div>
             <div className="current-turn">
-              {gameState.currentTurn === 'player' ? 'Your Turn' : 'Opponent\'s Turn'}
+              {gameState.currentTurn === 'player'
+                ? 'Your Turn'
+                : "Opponent's Turn"}
             </div>
             <motion.button
               className="end-turn-btn"
@@ -398,8 +438,12 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
                 <motion.div
                   key={card.id}
                   className={`hand-card ${selectedCard === card.id ? 'selected' : ''} ${!card.isPlayable ? 'unplayable' : ''}`}
-                  initial={{ y: 100, opacity: 0, rotateZ: Math.random() * 10 - 5 }}
-                  animate={{ 
+                  initial={{
+                    y: 100,
+                    opacity: 0,
+                    rotateZ: Math.random() * 10 - 5,
+                  }}
+                  animate={{
                     y: selectedCard === card.id ? -20 : 0,
                     opacity: 1,
                     rotateZ: index * 3 - 9,
@@ -407,8 +451,8 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
                   }}
                   exit={{ y: 100, opacity: 0 }}
                   transition={{ delay: index * 0.05 }}
-                  whileHover={{ 
-                    y: -10, 
+                  whileHover={{
+                    y: -10,
                     rotateZ: 0,
                     scale: 1.05,
                     zIndex: 10,
@@ -443,7 +487,10 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
       <div className="battlefield-controls">
         <div className="theme-selector">
           <label>Theme:</label>
-          <select value={currentTheme} onChange={e => handleThemeChange(e.target.value)}>
+          <select
+            value={currentTheme}
+            onChange={e => handleThemeChange(e.target.value)}
+          >
             <option value="hearthstone">Hearthstone Tavern</option>
             <option value="forest">Jungle Map</option>
             <option value="desert">Desert Map</option>
@@ -452,10 +499,13 @@ const IntegratedHearthstoneBattlefield: React.FC<Props> = ({
             <option value="cosmic">Cosmic Map</option>
           </select>
         </div>
-        
+
         <div className="quality-selector">
           <label>Quality:</label>
-          <select value={quality} onChange={e => handleQualityChange(e.target.value as any)}>
+          <select
+            value={quality}
+            onChange={e => handleQualityChange(e.target.value as any)}
+          >
             <option value="low">Low</option>
             <option value="medium">Medium</option>
             <option value="high">High</option>
@@ -473,7 +523,10 @@ interface CardComponentProps {
   isOpponent?: boolean;
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({ card, isOpponent = false }) => (
+const CardComponent: React.FC<CardComponentProps> = ({
+  card,
+  isOpponent = false,
+}) => (
   <motion.div
     className={`game-card ${card.rarity} ${card.cardType} ${isOpponent ? 'opponent' : 'player'}`}
     whileHover={{ scale: 1.05, boxShadow: '0 8px 25px rgba(0,0,0,0.3)' }}
