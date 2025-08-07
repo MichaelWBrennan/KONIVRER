@@ -129,8 +129,8 @@ const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
-          boxShadow: isActive 
-            ? '0 6px 20px rgba(212, 175, 55, 0.6)' 
+          boxShadow: isActive
+            ? '0 6px 20px rgba(212, 175, 55, 0.6)'
             : '0 4px 15px rgba(0, 0, 0, 0.3)',
           transition: 'all 0.3s ease',
           position: 'relative',
@@ -144,7 +144,9 @@ const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(
           e.currentTarget.style.boxShadow = isActive
             ? '0 6px 20px rgba(212, 175, 55, 0.6)'
             : '0 4px 15px rgba(0, 0, 0, 0.3)';
-          e.currentTarget.style.backgroundColor = isActive ? '#e6c149' : '#d4af37';
+          e.currentTarget.style.backgroundColor = isActive
+            ? '#e6c149'
+            : '#d4af37';
         }}
         aria-label={ariaLabel}
         role="button"
@@ -182,7 +184,8 @@ const CircularButton = React.forwardRef<HTMLButtonElement, CircularButtonProps>(
 
 const FourBubbleNavigation: React.FC = () => {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
-  const [isAccessibilityPanelOpen, setIsAccessibilityPanelOpen] = useState(false);
+  const [isAccessibilityPanelOpen, setIsAccessibilityPanelOpen] =
+    useState(false);
   const [activeView, setActiveView] = useState<ActiveView>('cardSearch');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const appContext = useContext(AppContext);
@@ -418,7 +421,9 @@ const FourBubbleNavigation: React.FC = () => {
           label={mainNavigationItems[3].label}
           onClick={handleMoreMenu}
           ariaLabel="Open more options menu"
-          isActive={['rules', 'battlefield', 'game', 'myDecks'].includes(activeView)}
+          isActive={['rules', 'battlefield', 'game', 'myDecks'].includes(
+            activeView,
+          )}
           ref={moreButtonRef}
         />
       </motion.nav>
@@ -461,18 +466,18 @@ const FourBubbleNavigation: React.FC = () => {
           flex-direction: column;
           height: 100vh;
         }
-        
+
         .nav-content {
           flex: 1;
           overflow-y: auto;
           padding-bottom: 100px; /* Space for bottom navigation */
         }
-        
+
         .view-container {
           width: 100%;
           height: 100%;
         }
-        
+
         button:hover .tooltip {
           opacity: 1 !important;
         }

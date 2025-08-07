@@ -46,8 +46,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Game UI Overlay */
@@ -88,43 +92,75 @@
 
 /* Zone-specific styling */
 .game-zone.zone-flag {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(212, 175, 55, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 215, 0, 0.2) 0%,
+    rgba(212, 175, 55, 0.2) 100%
+  );
   border: 3px solid rgba(255, 215, 0, 0.5);
   box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
 }
 
 .game-zone.zone-life {
-  background: linear-gradient(135deg, rgba(220, 20, 60, 0.2) 0%, rgba(178, 34, 34, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(220, 20, 60, 0.2) 0%,
+    rgba(178, 34, 34, 0.2) 100%
+  );
   border: 2px solid rgba(220, 20, 60, 0.5);
 }
 
 .game-zone.zone-deck {
-  background: linear-gradient(135deg, rgba(70, 130, 180, 0.2) 0%, rgba(30, 144, 255, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(70, 130, 180, 0.2) 0%,
+    rgba(30, 144, 255, 0.2) 100%
+  );
   border: 2px solid rgba(70, 130, 180, 0.5);
 }
 
 .game-zone.zone-removed {
-  background: linear-gradient(135deg, rgba(128, 128, 128, 0.2) 0%, rgba(105, 105, 105, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(128, 128, 128, 0.2) 0%,
+    rgba(105, 105, 105, 0.2) 100%
+  );
   border: 2px solid rgba(128, 128, 128, 0.5);
 }
 
 .game-zone.zone-combat {
-  background: linear-gradient(135deg, rgba(220, 20, 60, 0.15) 0%, rgba(139, 69, 19, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(220, 20, 60, 0.15) 0%,
+    rgba(139, 69, 19, 0.15) 100%
+  );
   border: 2px solid rgba(220, 20, 60, 0.4);
 }
 
 .game-zone.zone-azoth {
-  background: linear-gradient(135deg, rgba(138, 43, 226, 0.2) 0%, rgba(75, 0, 130, 0.2) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(138, 43, 226, 0.2) 0%,
+    rgba(75, 0, 130, 0.2) 100%
+  );
   border: 2px solid rgba(138, 43, 226, 0.5);
 }
 
 .game-zone.zone-field {
-  background: linear-gradient(135deg, rgba(34, 139, 34, 0.15) 0%, rgba(0, 100, 0, 0.15) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(34, 139, 34, 0.15) 0%,
+    rgba(0, 100, 0, 0.15) 100%
+  );
   border: 2px solid rgba(34, 139, 34, 0.4);
 }
 
 .game-zone.zone-hand {
-  background: linear-gradient(135deg, rgba(25, 25, 112, 0.3) 0%, rgba(72, 61, 139, 0.3) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(25, 25, 112, 0.3) 0%,
+    rgba(72, 61, 139, 0.3) 100%
+  );
   border: 2px solid rgba(72, 61, 139, 0.5);
 }
 
@@ -533,7 +569,8 @@
 }
 
 @keyframes urgent-pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
   }
   50% {

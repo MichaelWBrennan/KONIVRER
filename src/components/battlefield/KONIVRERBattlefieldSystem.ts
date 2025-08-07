@@ -7,7 +7,15 @@ export interface KONIVRERZone {
   size: { width: number; height: number };
   cards: string[];
   maxCards: number;
-  type: 'flag' | 'life' | 'deck' | 'removed' | 'combat' | 'azoth' | 'field' | 'hand';
+  type:
+    | 'flag'
+    | 'life'
+    | 'deck'
+    | 'removed'
+    | 'combat'
+    | 'azoth'
+    | 'field'
+    | 'hand';
   isPlayerOwned: boolean;
   isDropZone: boolean;
   mesh?: BABYLON.Mesh;
@@ -24,7 +32,13 @@ export interface KONIVRERCardPosition {
 }
 
 export interface KONIVRERGameAction {
-  type: 'play_card' | 'attack' | 'end_turn' | 'activate_ability' | 'draw_card' | 'remove_card';
+  type:
+    | 'play_card'
+    | 'attack'
+    | 'end_turn'
+    | 'activate_ability'
+    | 'draw_card'
+    | 'remove_card';
   sourceId: string;
   targetId?: string;
   sourceZone?: string;
@@ -203,7 +217,8 @@ export class KONIVRERBattlefieldSystem {
       const zoneColors = this.getZoneColor(zoneDef.type);
       zoneMaterial.baseColor = zoneColors.base;
       zoneMaterial.alpha = 0.3;
-      zoneMaterial.transparencyMode = BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
+      zoneMaterial.transparencyMode =
+        BABYLON.PBRMaterial.PBRMATERIAL_ALPHABLEND;
 
       // Add glow for interactive zones
       if (zoneDef.isDropZone) {
@@ -407,8 +422,13 @@ export class KONIVRERBattlefieldSystem {
     this.hideDropZones();
   }
 
-  private animateCardSelection(cardMesh: BABYLON.Mesh, selected: boolean): void {
-    const targetY = selected ? cardMesh.position.y + 0.5 : cardMesh.position.y - 0.5;
+  private animateCardSelection(
+    cardMesh: BABYLON.Mesh,
+    selected: boolean,
+  ): void {
+    const targetY = selected
+      ? cardMesh.position.y + 0.5
+      : cardMesh.position.y - 0.5;
     const targetScale = selected ? 1.1 : 1.0;
 
     // Create selection animation
@@ -460,7 +480,12 @@ export class KONIVRERBattlefieldSystem {
     // KONIVRER specific rules for valid drops
     if (cardPosition.zoneId === 'player-hand') {
       // Cards from hand can be played to specific zones based on card type
-      return ['player-combat-row', 'player-azoth-row', 'field-zone', 'flag-zone'];
+      return [
+        'player-combat-row',
+        'player-azoth-row',
+        'field-zone',
+        'flag-zone',
+      ];
     }
 
     return [];
@@ -537,11 +562,15 @@ export class KONIVRERBattlefieldSystem {
   }
 
   private attemptCardDrop(cardId: string, targetZoneId: string): void {
-    console.log(`[KONIVRERBattlefieldSystem] Attempting to drop card ${cardId} in zone ${targetZoneId}`);
+    console.log(
+      `[KONIVRERBattlefieldSystem] Attempting to drop card ${cardId} in zone ${targetZoneId}`,
+    );
 
     const validZones = this.getValidDropZones(cardId);
     if (!validZones.includes(targetZoneId)) {
-      console.log(`[KONIVRERBattlefieldSystem] Invalid drop zone: ${targetZoneId}`);
+      console.log(
+        `[KONIVRERBattlefieldSystem] Invalid drop zone: ${targetZoneId}`,
+      );
       this.state.selectedCard = undefined;
       this.hideDropZones();
       return;
@@ -569,7 +598,10 @@ export class KONIVRERBattlefieldSystem {
       targetZone.cards.push(cardId);
 
       // Update card position
-      const newPosition = this.calculateCardPositionInZone(cardId, targetZoneId);
+      const newPosition = this.calculateCardPositionInZone(
+        cardId,
+        targetZoneId,
+      );
       this.animateCardToPosition(cardId, newPosition, targetZoneId);
 
       // Create game action
@@ -583,11 +615,16 @@ export class KONIVRERBattlefieldSystem {
       this.state.gameActions.push(action);
       this.processGameAction(action);
 
-      console.log(`[KONIVRERBattlefieldSystem] Card ${cardId} played from ${cardPosition.zoneId} to ${targetZoneId}`);
+      console.log(
+        `[KONIVRERBattlefieldSystem] Card ${cardId} played from ${cardPosition.zoneId} to ${targetZoneId}`,
+      );
     }
   }
 
-  private calculateCardPositionInZone(cardId: string, zoneId: string): BABYLON.Vector3 {
+  private calculateCardPositionInZone(
+    cardId: string,
+    zoneId: string,
+  ): BABYLON.Vector3 {
     const zone = this.state.zones.find(z => z.id === zoneId);
     if (!zone) return new BABYLON.Vector3(0, 0, 0);
 
@@ -599,7 +636,10 @@ export class KONIVRERBattlefieldSystem {
     let z = zone.position.z;
 
     if (zone.type === 'hand') {
-      const cardSpacing = Math.min(2.0, zone.size.width / Math.max(cardCount, 1));
+      const cardSpacing = Math.min(
+        2.0,
+        zone.size.width / Math.max(cardCount, 1),
+      );
       const startX = zone.position.x - ((cardCount - 1) * cardSpacing) / 2;
       x = startX + cardIndex * cardSpacing;
     } else {
@@ -616,7 +656,11 @@ export class KONIVRERBattlefieldSystem {
     return new BABYLON.Vector3(x, 0.1, z);
   }
 
-  private animateCardToPosition(cardId: string, targetPosition: BABYLON.Vector3, targetZoneId: string): void {
+  private animateCardToPosition(
+    cardId: string,
+    targetPosition: BABYLON.Vector3,
+    targetZoneId: string,
+  ): void {
     const cardMesh = this.cardMeshes.get(cardId);
     if (!cardMesh) return;
 
@@ -661,14 +705,25 @@ export class KONIVRERBattlefieldSystem {
 
   private createKONIVRERCardPlayEffect(position: BABYLON.Vector3): void {
     // Create mystical energy effect when card is played
-    const particles = new BABYLON.ParticleSystem('konivrierCardEffect', 30, this.scene);
+    const particles = new BABYLON.ParticleSystem(
+      'konivrierCardEffect',
+      30,
+      this.scene,
+    );
 
-    const emitter = BABYLON.MeshBuilder.CreateSphere('emitter', { diameter: 0.1 }, this.scene);
+    const emitter = BABYLON.MeshBuilder.CreateSphere(
+      'emitter',
+      { diameter: 0.1 },
+      this.scene,
+    );
     emitter.position = position.clone();
     emitter.position.y += 0.5;
     emitter.setEnabled(false);
 
-    particles.particleTexture = new BABYLON.Texture('/images/particles/energy.png', this.scene);
+    particles.particleTexture = new BABYLON.Texture(
+      '/images/particles/energy.png',
+      this.scene,
+    );
     particles.emitter = emitter;
 
     particles.color1 = new BABYLON.Color4(0.54, 0.17, 0.89, 1); // Purple
@@ -705,7 +760,9 @@ export class KONIVRERBattlefieldSystem {
   }
 
   private processGameAction(action: KONIVRERGameAction): void {
-    console.log(`[KONIVRERBattlefieldSystem] Processing action: ${action.type}`);
+    console.log(
+      `[KONIVRERBattlefieldSystem] Processing action: ${action.type}`,
+    );
 
     this.actionQueue.push(action);
 
@@ -725,13 +782,19 @@ export class KONIVRERBattlefieldSystem {
 
   private dispatchAction(action: KONIVRERGameAction): void {
     // Dispatch action to external game logic
-    const event = new CustomEvent('konivrierBattlefieldAction', { detail: action });
+    const event = new CustomEvent('konivrierBattlefieldAction', {
+      detail: action,
+    });
     document.dispatchEvent(event);
   }
 
   // Public API Methods
 
-  public addCard(cardId: string, zoneId: string, position?: BABYLON.Vector3): void {
+  public addCard(
+    cardId: string,
+    zoneId: string,
+    position?: BABYLON.Vector3,
+  ): void {
     const zone = this.state.zones.find(z => z.id === zoneId);
     if (!zone) return;
 
@@ -742,7 +805,8 @@ export class KONIVRERBattlefieldSystem {
 
     zone.cards.push(cardId);
 
-    const cardPosition = position || this.calculateCardPositionInZone(cardId, zoneId);
+    const cardPosition =
+      position || this.calculateCardPositionInZone(cardId, zoneId);
 
     this.state.cardPositions.set(cardId, {
       cardId,
@@ -753,7 +817,9 @@ export class KONIVRERBattlefieldSystem {
       isAnimating: false,
     });
 
-    console.log(`[KONIVRERBattlefieldSystem] Added card ${cardId} to zone ${zoneId}`);
+    console.log(
+      `[KONIVRERBattlefieldSystem] Added card ${cardId} to zone ${zoneId}`,
+    );
   }
 
   public removeCard(cardId: string): void {
@@ -776,7 +842,9 @@ export class KONIVRERBattlefieldSystem {
     console.log(`[KONIVRERBattlefieldSystem] Removed card ${cardId}`);
   }
 
-  public updateBattlefieldState(updates: Partial<KONIVRERBattlefieldState>): void {
+  public updateBattlefieldState(
+    updates: Partial<KONIVRERBattlefieldState>,
+  ): void {
     Object.assign(this.state, updates);
   }
 
@@ -784,12 +852,19 @@ export class KONIVRERBattlefieldSystem {
     return { ...this.state };
   }
 
-  public getZoneByType(zoneType: string, isPlayerOwned: boolean): KONIVRERZone | undefined {
-    return this.state.zones.find(z => z.type === zoneType && z.isPlayerOwned === isPlayerOwned);
+  public getZoneByType(
+    zoneType: string,
+    isPlayerOwned: boolean,
+  ): KONIVRERZone | undefined {
+    return this.state.zones.find(
+      z => z.type === zoneType && z.isPlayerOwned === isPlayerOwned,
+    );
   }
 
   public dispose(): void {
-    console.log('[KONIVRERBattlefieldSystem] Disposing KONIVRER battlefield system');
+    console.log(
+      '[KONIVRERBattlefieldSystem] Disposing KONIVRER battlefield system',
+    );
 
     // Clean up meshes
     this.zoneIndicators.forEach(mesh => mesh.dispose());

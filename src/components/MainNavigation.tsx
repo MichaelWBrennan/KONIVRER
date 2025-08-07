@@ -97,40 +97,40 @@ const MainNavigation: React.FC = () => {
       setShowLoginModal(true);
       return;
     }
-    
+
     // Enable familiar access when navigating to game section
     if (view === 'game') {
       setAllowFamiliarAccess(true);
     } else if (view !== 'game' && view !== 'home') {
       setAllowFamiliarAccess(false);
     }
-    
+
     setActiveView(view);
     setShowMobileMenu(false);
   };
 
-  const handleHomeNavigation = (view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game') => {
+  const handleHomeNavigation = (
+    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'game',
+  ) => {
     if (view === 'game' && !user) {
       setShowLoginModal(true);
       return;
     }
-    
+
     // Enable familiar access when navigating to game from home
     if (view === 'game') {
       setAllowFamiliarAccess(true);
     } else {
       setAllowFamiliarAccess(false);
     }
-    
+
     setActiveView(view);
   };
 
   const renderActiveView = () => {
     switch (activeView) {
       case 'home':
-        return (
-          <HomePage onNavigate={handleHomeNavigation} />
-        );
+        return <HomePage onNavigate={handleHomeNavigation} />;
 
       case 'cardSearch':
         return (
