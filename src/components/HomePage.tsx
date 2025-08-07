@@ -4,7 +4,14 @@ import '../styles/home-page.css';
 
 interface HomePageProps {
   onNavigate: (
-    view: 'cardSearch' | 'deckBuilder' | 'deckSearch' | 'practice3d' | 'quick3d' | 'ranked' | 'tournament',
+    view:
+      | 'cardSearch'
+      | 'deckBuilder'
+      | 'deckSearch'
+      | 'practice3d'
+      | 'quick3d'
+      | 'ranked'
+      | 'tournament',
   ) => void;
 }
 
