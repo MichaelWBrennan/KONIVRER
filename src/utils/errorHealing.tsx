@@ -24,16 +24,17 @@ interface ErrorRecord {
 // Store error occurrences
 const errorRegistry: Record<string, ErrorRecord> = {};
 
-// Common error patterns and their fixes
+// Common error patterns and their fixes - disabled to prevent console spam
 const conflictMarkers: Record<string, string> = {
-  '<<<<<<< HEAD': 'Start of conflict - current branch',
-  '=======': 'Conflict separator',
-  '>>>>>>>': 'Start of conflict - incoming changes',
+  // '<<<<<<< HEAD': 'Start of conflict - current branch',
+  // '=======': 'Conflict separator',  
+  // '>>>>>>>': 'Start of conflict - incoming changes',
 };
 
-Object.keys(conflictMarkers).forEach(marker => {
-  console.info(`[Conflict Detection] Detected marker: ${marker}`);
-});
+// Disable conflict detection temporarily
+// Object.keys(conflictMarkers).forEach(marker => {
+//   console.info(`[Conflict Detection] Detected marker: ${marker}`);
+// });
 
 // Common error patterns and their healing functions
 const errorPatterns: Record<string, (_error: Error) => void> = {
