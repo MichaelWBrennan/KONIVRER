@@ -153,18 +153,11 @@ const BottomMenuBar: React.FC = () => {
     const currentPath = location.pathname;
 
     if (currentPath === '/') {
-      // Home page - search blog posts
-      const blogSections = document.querySelectorAll(
-        '[data-search-type="blog"]',
-      );
-      if (blogSections.length > 0) {
-        blogSections[0].scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-      }
-      // Show a subtle notification about blog search
-      console.log('Blog search: Scrolled to blog section');
+      // Home page - search blog posts specifically
+      handleBlogSearch();
+    } else if (currentPath === '/rules') {
+      // Rules page - search rules specifically
+      handleRulesSearch();
     } else if (currentPath === '/cards') {
       // Cards page - implement smart card search
       handleCardSearch();
@@ -219,6 +212,16 @@ const BottomMenuBar: React.FC = () => {
   // Improved event search functionality
   const handleEventSearch = () => {
     showSearchOverlay('events');
+  };
+
+  // Blog search functionality for main page
+  const handleBlogSearch = () => {
+    showSearchOverlay('blog-posts');
+  };
+
+  // Rules search functionality for rules page
+  const handleRulesSearch = () => {
+    showSearchOverlay('rules');
   };
 
   // Show search overlay (simplified implementation)
@@ -351,6 +354,10 @@ const BottomMenuBar: React.FC = () => {
         return 'Search Decks';
       case 'events':
         return 'Search Events';
+      case 'blog-posts':
+        return 'Search Blog Posts';
+      case 'rules':
+        return 'Search Rules';
       default:
         return 'Search';
     }
@@ -366,6 +373,10 @@ const BottomMenuBar: React.FC = () => {
         return 'Enter deck name...';
       case 'events':
         return 'Enter event or tournament name...';
+      case 'blog-posts':
+        return 'Enter blog post title, author, or tag...';
+      case 'rules':
+        return 'Enter rule topic or keyword...';
       default:
         return 'Enter search term...';
     }
@@ -395,6 +406,16 @@ const BottomMenuBar: React.FC = () => {
       case 'events':
         // Search through events
         highlightMatchingEvents(searchTerm);
+        break;
+
+      case 'blog-posts':
+        // Search through blog posts
+        highlightMatchingBlogPosts(searchTerm);
+        break;
+
+      case 'rules':
+        // Search through rules
+        highlightMatchingRules(searchTerm);
         break;
     }
   };
@@ -498,6 +519,102 @@ const BottomMenuBar: React.FC = () => {
     });
   };
 
+  const highlightMatchingBlogPosts = (searchTerm: string) => {
+    // Search in blog post titles, content, authors, and tags
+    const blogElements = document.querySelectorAll('article');
+    let matchCount = 0;
+
+    blogElements.forEach(element => {
+      const title = element.querySelector('h3')?.textContent?.toLowerCase() || '';
+      const content = element.querySelector('p')?.textContent?.toLowerCase() || '';
+      const author = element.textContent?.toLowerCase() || '';
+      
+      const matches = 
+        title.includes(searchTerm.toLowerCase()) ||
+        content.includes(searchTerm.toLowerCase()) ||
+        author.includes(searchTerm.toLowerCase());
+
+      if (matches) {
+        (element as HTMLElement).style.border = '3px solid #d4af37';
+        (element as HTMLElement).style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.5)';
+        (element as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        matchCount++;
+      } else {
+        (element as HTMLElement).style.opacity = '0.3';
+      }
+    });
+
+    // Show result notification
+    showSearchNotification(
+      `Found ${matchCount} matching blog posts for "${searchTerm}"`,
+    );
+
+    // Reset highlighting after 10 seconds
+    setTimeout(() => {
+      resetBlogHighlighting();
+    }, 10000);
+  };
+
+  const highlightMatchingRules = (searchTerm: string) => {
+    // Search in rule cards and content
+    const ruleElements = document.querySelectorAll('.rule-card, [data-rule-content]');
+    let matchCount = 0;
+
+    ruleElements.forEach(element => {
+      const title = element.querySelector('h3')?.textContent?.toLowerCase() || '';
+      const description = element.querySelector('p')?.textContent?.toLowerCase() || '';
+      const content = element.textContent?.toLowerCase() || '';
+      
+      const matches = 
+        title.includes(searchTerm.toLowerCase()) ||
+        description.includes(searchTerm.toLowerCase()) ||
+        content.includes(searchTerm.toLowerCase());
+
+      if (matches) {
+        (element as HTMLElement).style.border = '3px solid #d4af37';
+        (element as HTMLElement).style.boxShadow = '0 0 20px rgba(212, 175, 55, 0.5)';
+        (element as HTMLElement).scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+        matchCount++;
+      } else {
+        (element as HTMLElement).style.opacity = '0.3';
+      }
+    });
+
+    // Show result notification
+    showSearchNotification(
+      `Found ${matchCount} matching rules for "${searchTerm}"`,
+    );
+
+    // Reset highlighting after 10 seconds
+    setTimeout(() => {
+      resetRulesHighlighting();
+    }, 10000);
+  };
+
+  const resetBlogHighlighting = () => {
+    const blogElements = document.querySelectorAll('article');
+    blogElements.forEach(element => {
+      (element as HTMLElement).style.border = '';
+      (element as HTMLElement).style.boxShadow = '';
+      (element as HTMLElement).style.opacity = '';
+    });
+  };
+
+  const resetRulesHighlighting = () => {
+    const ruleElements = document.querySelectorAll('.rule-card, [data-rule-content]');
+    ruleElements.forEach(element => {
+      (element as HTMLElement).style.border = '';
+      (element as HTMLElement).style.boxShadow = '';
+      (element as HTMLElement).style.opacity = '';
+    });
+  };
+
   const showSearchNotification = (message: string) => {
     const notification = document.createElement('div');
     notification.style.cssText = `
@@ -588,6 +705,18 @@ const BottomMenuBar: React.FC = () => {
           ariaLabel="Search content on current page"
         />
 
+        {/* Login Button */}
+        <CircularButton
+          icon={
+            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+            </svg>
+          }
+          label={appContext.user ? 'Profile' : 'Login'}
+          onClick={handleLogin}
+          ariaLabel={appContext.user ? 'Open user profile' : 'Open login modal'}
+        />
+
         {/* Menu/Burger Button */}
         <CircularButton
           icon={
@@ -599,18 +728,6 @@ const BottomMenuBar: React.FC = () => {
           onClick={handleMenu}
           ariaLabel="Open navigation menu"
           ref={menuButtonRef}
-        />
-
-        {/* Login Button */}
-        <CircularButton
-          icon={
-            <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
-            </svg>
-          }
-          label={appContext.user ? 'Profile' : 'Login'}
-          onClick={handleLogin}
-          ariaLabel={appContext.user ? 'Open user profile' : 'Open login modal'}
         />
       </motion.nav>
 
