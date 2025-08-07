@@ -5,6 +5,7 @@ import UnifiedCardSearch from './UnifiedCardSearch';
 import DeckBuilder from './DeckBuilder';
 import DeckSearch from './DeckSearch';
 import GameIntegration from './GameIntegration';
+import RulesViewer from './RulesViewer';
 import SimpleEnhancedLoginModal from './SimpleEnhancedLoginModal';
 import '../styles/main-navigation.css';
 
@@ -13,6 +14,7 @@ type ActiveView =
   | 'deckBuilder'
   | 'deckSearch'
   | 'myDecks'
+  | 'rules'
   | 'game';
 
 const MainNavigation: React.FC = () => {
@@ -56,6 +58,12 @@ const MainNavigation: React.FC = () => {
       icon: '💼',
       description: 'Your deck collection',
       requiresAuth: true,
+    },
+    {
+      id: 'rules' as ActiveView,
+      label: 'Rules',
+      icon: '📖',
+      description: 'Game rules and guidelines',
     },
     {
       id: 'game' as ActiveView,
@@ -160,6 +168,13 @@ const MainNavigation: React.FC = () => {
               console.log('Starting game with deck:', deck, 'Mode:', gameMode);
               // Here you would typically navigate to the actual game
             }}
+          />
+        );
+
+      case 'rules':
+        return (
+          <RulesViewer
+            onBack={() => setActiveView('cardSearch')}
           />
         );
 
