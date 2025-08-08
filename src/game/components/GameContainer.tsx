@@ -165,19 +165,26 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     minHeight: `${dynamicSizing.minHeight}px`,
     margin: '0 auto',
     // For mobile, use minimal padding to maximize game area
-    padding: dynamicSizing.containerPadding <= 2 ? '0px' : `${dynamicSizing.containerPadding}px`,
-    paddingTop: dynamicSizing.containerPadding <= 2 
-      ? `${Math.max(dynamicSizing.safeAreaInsets.top, 5)}px`
-      : `${dynamicSizing.safeAreaInsets.top + dynamicSizing.containerPadding}px`,
-    paddingBottom: dynamicSizing.containerPadding <= 2 
-      ? `${Math.max(dynamicSizing.safeAreaInsets.bottom, 5)}px`
-      : `${dynamicSizing.safeAreaInsets.bottom + dynamicSizing.containerPadding}px`,
-    paddingLeft: dynamicSizing.containerPadding <= 2 
-      ? `${Math.max(dynamicSizing.safeAreaInsets.left, 2)}px`
-      : `${dynamicSizing.safeAreaInsets.left + dynamicSizing.containerPadding}px`,
-    paddingRight: dynamicSizing.containerPadding <= 2 
-      ? `${Math.max(dynamicSizing.safeAreaInsets.right, 2)}px`
-      : `${dynamicSizing.safeAreaInsets.right + dynamicSizing.containerPadding}px`,
+    padding:
+      dynamicSizing.containerPadding <= 2
+        ? '0px'
+        : `${dynamicSizing.containerPadding}px`,
+    paddingTop:
+      dynamicSizing.containerPadding <= 2
+        ? `${Math.max(dynamicSizing.safeAreaInsets.top, 5)}px`
+        : `${dynamicSizing.safeAreaInsets.top + dynamicSizing.containerPadding}px`,
+    paddingBottom:
+      dynamicSizing.containerPadding <= 2
+        ? `${Math.max(dynamicSizing.safeAreaInsets.bottom, 5)}px`
+        : `${dynamicSizing.safeAreaInsets.bottom + dynamicSizing.containerPadding}px`,
+    paddingLeft:
+      dynamicSizing.containerPadding <= 2
+        ? `${Math.max(dynamicSizing.safeAreaInsets.left, 2)}px`
+        : `${dynamicSizing.safeAreaInsets.left + dynamicSizing.containerPadding}px`,
+    paddingRight:
+      dynamicSizing.containerPadding <= 2
+        ? `${Math.max(dynamicSizing.safeAreaInsets.right, 2)}px`
+        : `${dynamicSizing.safeAreaInsets.right + dynamicSizing.containerPadding}px`,
     zIndex: 10,
     background: '#1a1a1a',
     overflow: 'hidden',

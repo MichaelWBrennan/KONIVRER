@@ -471,7 +471,7 @@ export class GameEngine {
   private handleResize(): void {
     if (this.engine) {
       this.engine.resize();
-      
+
       // Recalculate device capabilities and adjust settings
       this.updateUserAgentSettings();
     }
@@ -480,11 +480,14 @@ export class GameEngine {
   private updateUserAgentSettings(): void {
     // Detect device capabilities on resize/orientation change
     const userAgent = navigator.userAgent.toLowerCase();
-    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|windows phone|mobile/i.test(userAgent);
+    const isMobile =
+      /android|webos|iphone|ipad|ipod|blackberry|windows phone|mobile/i.test(
+        userAgent,
+      );
     const isTablet = /ipad|android(?!.*mobile)|tablet/i.test(userAgent);
     const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const pixelRatio = window.devicePixelRatio || 1;
-    
+
     // Update camera constraints based on device
     if (this.camera && this.camera instanceof BABYLON.ArcRotateCamera) {
       if (isMobile) {
@@ -512,14 +515,17 @@ export class GameEngine {
       isTablet,
       hasTouch,
       pixelRatio,
-      screenSize: `${window.innerWidth}x${window.innerHeight}`
+      screenSize: `${window.innerWidth}x${window.innerHeight}`,
     });
   }
 
   public destroy(): void {
     if (this.engine) {
       window.removeEventListener('resize', this.handleResize.bind(this));
-      window.removeEventListener('orientationchange', this.handleResize.bind(this));
+      window.removeEventListener(
+        'orientationchange',
+        this.handleResize.bind(this),
+      );
 
       // Clean up touch event listeners
       const canvas = this.engine.getRenderingCanvas();
