@@ -220,13 +220,13 @@
   );
 }
 
-.atmosphere-gradient.traders-den {
+.atmosphere-gradient.mtg-arena {
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 215, 0, 0.2) 0%,
-    rgba(184, 134, 11, 0.15) 30%,
-    rgba(218, 165, 32, 0.1) 50%,
-    rgba(35, 30, 15, 0.9) 80%,
+    rgba(255, 215, 0, 0.15) 0%,
+    rgba(184, 134, 11, 0.12) 30%,
+    rgba(139, 69, 19, 0.08) 50%,
+    rgba(25, 20, 15, 0.9) 80%,
     rgba(0, 0, 0, 1) 100%
   );
 }
@@ -532,29 +532,11 @@
   50% { opacity: 0.4; transform: translate(-50%, -50%) translateZ(10px) scale(1.1); }
 }
 
-/* Lighting Themes */
-.lighting-warm {
-  --primary-light: rgba(255, 140, 0, 0.8);
-  --secondary-light: rgba(255, 215, 0, 0.6);
+/* Lighting Themes - MTG Arena Style */
+.enhanced-2_5d-table-view.mtg-arena-theme {
+  --primary-light: rgba(255, 215, 0, 0.8);
+  --secondary-light: rgba(255, 165, 0, 0.6);
   --shadow-color: rgba(139, 69, 19, 0.5);
-}
-
-.lighting-cool {
-  --primary-light: rgba(138, 43, 226, 0.7);
-  --secondary-light: rgba(147, 112, 219, 0.5);
-  --shadow-color: rgba(75, 0, 130, 0.5);
-}
-
-.lighting-dramatic {
-  --primary-light: rgba(220, 20, 60, 0.8);
-  --secondary-light: rgba(255, 69, 0, 0.6);
-  --shadow-color: rgba(139, 0, 0, 0.6);
-}
-
-.lighting-mysterious {
-  --primary-light: rgba(255, 215, 0, 0.7);
-  --secondary-light: rgba(255, 165, 0, 0.5);
-  --shadow-color: rgba(184, 134, 11, 0.5);
 }
 
 /* Responsive Design for Table View */

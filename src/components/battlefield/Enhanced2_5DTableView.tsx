@@ -1,18 +1,51 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FirstPersonGameCard, EnvironmentalElement3D } from './FirstPersonBattlefield';
-import { HybridMapTheme } from './HybridBattlefieldMap';
 import './Enhanced2_5DTableView.css';
 
+// MTG Arena card interface
+interface MTGArenaCard {
+  gameId: string;
+  name: string;
+  cost: number;
+  type: string;
+  elementalAffinity?: string;
+  image?: string;
+  zone: 'hand' | 'battlefield' | 'graveyard' | 'library' | 'exile' | 'stack';
+  owner: 'player' | 'opponent';
+  power?: number;
+  toughness?: number;
+  isTapped?: boolean;
+  isSelected?: boolean;
+  canPlay?: boolean;
+  position3D?: {
+    x: number;
+    y: number;
+    z: number;
+    rotationX: number;
+    rotationY: number;
+    rotationZ: number;
+    scale: number;
+  };
+}
+
+// Environmental element for 3D table
+interface EnvironmentalElement3D {
+  id: string;
+  name: string;
+  type: string;
+  position3D: { x: number; y: number; z: number; scale: number };
+  sprite: string;
+  isInteractive: boolean;
+  isActivated?: boolean;
+}
+
 interface Enhanced2_5DTableViewProps {
-  playerCards: FirstPersonGameCard[];
-  opponentCards: FirstPersonGameCard[];
+  playerCards: MTGArenaCard[];
+  opponentCards: MTGArenaCard[];
   environmentalElements: EnvironmentalElement3D[];
-  theme: HybridMapTheme;
-  selectedCard: FirstPersonGameCard | null;
-  onCardSelect: (card: FirstPersonGameCard) => void;
+  selectedCard: MTGArenaCard | null;
+  onCardSelect: (card: MTGArenaCard) => void;
   onElementInteraction: (element: EnvironmentalElement3D) => void;
-  atmosphericLighting: 'warm' | 'cool' | 'dramatic' | 'mysterious';
 }
 
 // Enhanced camera system for ideal table perspective
@@ -27,56 +60,22 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
   playerCards,
   opponentCards,
   environmentalElements,
-  theme,
   selectedCard,
   onCardSelect,
-  onElementInteraction,
-  atmosphericLighting
+  onElementInteraction
 }) => {
   const tableViewRef = useRef<HTMLDivElement>(null);
   
-  // Enhanced camera position for sitting at table perspective
-  const [camera, setCamera] = useState<TableCamera>({
+  // MTG Arena optimized camera position
+  const [camera] = useState<TableCamera>({
     position: { x: 0, y: -100, z: 400 }, // Positioned as if sitting at table
     rotation: { x: -25, y: 0, z: 0 }, // Looking down at table at comfortable angle
     perspective: 1200,
     perspectiveOrigin: '50% 75%' // Perspective point closer to player
   });
 
-  // Adjust camera based on theme for optimal viewing
-  useEffect(() => {
-    const themeCamera: Record<HybridMapTheme, Partial<TableCamera>> = {
-      'mysterious-cabin': { 
-        position: { x: 0, y: -80, z: 380 },
-        rotation: { x: -22, y: 0, z: 0 },
-        perspective: 1100,
-        perspectiveOrigin: '50% 78%'
-      },
-      'ancient-study': { 
-        position: { x: 0, y: -120, z: 420 },
-        rotation: { x: -28, y: 0, z: 0 },
-        perspective: 1300,
-        perspectiveOrigin: '50% 72%'
-      },
-      'ritual-chamber': { 
-        position: { x: 0, y: -90, z: 400 },
-        rotation: { x: -24, y: 0, z: 0 },
-        perspective: 1000,
-        perspectiveOrigin: '50% 76%'
-      },
-      'traders-den': { 
-        position: { x: 0, y: -100, z: 400 },
-        rotation: { x: -25, y: 0, z: 0 },
-        perspective: 1200,
-        perspectiveOrigin: '50% 75%'
-      }
-    };
-
-    setCamera(prev => ({ ...prev, ...themeCamera[theme] }));
-  }, [theme]);
-
   // Calculate 3D transform for card positioning
-  const getCardTransform = (card: FirstPersonGameCard, index: number, isOpponent: boolean) => {
+  const getCardTransform = (card: MTGArenaCard, index: number, isOpponent: boolean) => {
     const basePos = card.position3D;
     if (!basePos) return '';
 
@@ -149,7 +148,7 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
   return (
     <div 
       ref={tableViewRef}
-      className={`enhanced-2_5d-table-view ${theme} lighting-${atmosphericLighting}`}
+      className={`enhanced-2_5d-table-view mtg-arena-theme`}
       style={{
         perspective: `${camera.perspective}px`,
         perspectiveOrigin: camera.perspectiveOrigin,
@@ -174,9 +173,9 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
         </div>
       </div>
 
-      {/* 3D Atmospheric Background */}
+      {/* 3D Atmospheric Background - MTG Arena Style */}
       <div className="atmospheric-background-3d">
-        <div className={`atmosphere-gradient ${theme}`} />
+        <div className="atmosphere-gradient mtg-arena" />
         <div className="depth-fog" />
       </div>
 

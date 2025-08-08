@@ -45,7 +45,7 @@ import AdvancedMTGArenaGame from '../components/AdvancedMTGArenaGame';
 import HearthstoneBattlefield from '../components/HearthstoneBattlefield';
 import EnhancedHearthstoneBattlefield from '../components/EnhancedHearthstoneBattlefield';
 import BattlefieldDemo from '../components/BattlefieldDemo';
-import HybridSimulatorDemo from '../components/HybridSimulatorDemo';
+import MTGArenaDemo from '../components/MTGArenaDemo';
 // Import page components
 import BlogPage from '../pages/BlogPage';
 import CardsPage from '../pages/CardsPage';
@@ -594,7 +594,7 @@ const Phase3App = () => {
                 <Route path="/decks" element={<DecksPage />} />
                 <Route path="/rules" element={<RulesPage />} />
                 <Route path="/simulator" element={<SimulatorPage />} />
-                <Route path="/hybrid-battlefield" element={<HybridSimulatorDemo />} />
+                <Route path="/hybrid-battlefield" element={<MTGArenaDemo />} />
                 <Route path="/oauth/callback" element={<OAuthCallback />} />
               </Routes>
               <BottomMenuBar />

@@ -1,12 +1,12 @@
 import React from 'react';
-import HybridSimulatorDemo from '../components/HybridSimulatorDemo';
-import '../components/battlefield/HybridBattlefield.css';
+import MTGArenaDemo from '../components/MTGArenaDemo';
+import '../components/battlefield/Enhanced2_5DTableView.css';
 
 const SimulatorPage: React.FC = () => {
-  // Auto-start the hybrid simulator directly
+  // Pure MTG Arena simulator - no Inscryption mechanics
   return (
     <div style={{ position: 'relative', minHeight: '100vh' }}>
-      <HybridSimulatorDemo />
+      <MTGArenaDemo />
     </div>
   );
 };
