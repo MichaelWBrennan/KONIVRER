@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { KONIVRER_CARDS, Card } from '../../data/cards';
 import { audioManager } from '../../game/GameEngine';
 import { HybridMapTheme } from './HybridBattlefieldMap';
+import Enhanced2_5DTableView from './Enhanced2_5DTableView';
 import './FirstPersonBattlefield.css';
 
 // Enhanced card interface for first-person 2.5D system
@@ -71,6 +72,10 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
   className = ''
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
+  
+  // Enhanced 2.5D table view toggle
+  const [enhanced2_5DMode, setEnhanced2_5DMode] = useState(true); // Default to enhanced view
+  
   const [camera, setCamera] = useState<Camera3D>({
     position: { x: 0, y: -200, z: 300 }, // First-person position
     rotation: { x: -10, y: 0, z: 0 }, // Looking down slightly at table
@@ -365,34 +370,51 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
   };
 
   return (
-    <div 
-      className={`first-person-battlefield ${className} ${theme} lighting-${atmosphericLighting}`}
-      ref={canvasRef}
-      style={{
-        perspective: `${camera.perspective}px`,
-        perspectiveOrigin: 'center center'
-      }}
-    >
-      {/* 3D Scene Container (Godot-inspired scene tree) */}
-      <motion.div 
-        className="scene-root"
-        style={{
-          transform: `
-            translate3d(${camera.position.x}px, ${camera.position.y}px, ${camera.position.z}px)
-            rotateX(${camera.rotation.x}deg)
-            rotateY(${camera.rotation.y}deg)
-            rotateZ(${camera.rotation.z}deg)
-          `,
-          transformStyle: 'preserve-3d'
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-      >
-        
-        {/* Background Layer - Parallax */}
-        <div className="background-layer" style={{ 
-          transform: 'translateZ(-500px) scale(2)',
+    <>
+      {/* Enhanced 2.5D Table View */}
+      {enhanced2_5DMode && (
+        <Enhanced2_5DTableView
+          playerCards={playerCards}
+          opponentCards={opponentCards}
+          environmentalElements={environmentalElements}
+          theme={theme}
+          selectedCard={selectedCard}
+          onCardSelect={setSelectedCard}
+          onElementInteraction={handleEnvironmentalClick}
+          atmosphericLighting={atmosphericLighting}
+        />
+      )}
+      
+      {/* Original First Person View */}
+      {!enhanced2_5DMode && (
+        <div 
+          className={`first-person-battlefield ${className} ${theme} lighting-${atmosphericLighting}`}
+          ref={canvasRef}
+          style={{
+            perspective: `${camera.perspective}px`,
+            perspectiveOrigin: 'center center'
+          }}
+        >
+          {/* 3D Scene Container (Godot-inspired scene tree) */}
+          <motion.div 
+            className="scene-root"
+            style={{
+              transform: `
+                translate3d(${camera.position.x}px, ${camera.position.y}px, ${camera.position.z}px)
+                rotateX(${camera.rotation.x}deg)
+                rotateY(${camera.rotation.y}deg)
+                rotateZ(${camera.rotation.z}deg)
+              `,
+              transformStyle: 'preserve-3d'
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5 }}
+          >
+            
+            {/* Background Layer - Parallax */}
+            <div className="background-layer" style={{ 
+              transform: 'translateZ(-500px) scale(2)',
           transformStyle: 'preserve-3d'
         }}>
           <div className={`atmosphere-gradient ${theme}`} />
@@ -545,6 +567,44 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
 
       </motion.div>
     </div>
+      )}
+      
+      {/* View Toggle Button */}
+      <motion.button
+        className="view-toggle-button"
+        style={{
+          position: 'fixed',
+          top: '20px',
+          left: '20px',
+          padding: '12px 20px',
+          background: 'rgba(0, 0, 0, 0.8)',
+          border: '2px solid rgba(255, 215, 0, 0.6)',
+          borderRadius: '25px',
+          color: '#ffd700',
+          fontSize: '14px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          backdropFilter: 'blur(10px)',
+          zIndex: 1000,
+          transition: 'all 0.3s ease'
+        }}
+        onClick={() => setEnhanced2_5DMode(!enhanced2_5DMode)}
+        whileHover={{ 
+          scale: 1.05,
+          boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)'
+        }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1 }}
+      >
+        {enhanced2_5DMode ? '🎮 2.5D Table View' : '👁️ First Person View'}
+        <br />
+        <span style={{ fontSize: '11px', opacity: 0.8 }}>
+          Click to switch perspective
+        </span>
+      </motion.button>
+    </>
   );
 };
 
