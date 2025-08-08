@@ -35,7 +35,10 @@
 /* Responsive container that adapts to dynamic sizing - Enhanced for Mobile */
 .mobile-game-container.dynamic-sizing {
   width: var(--dynamic-width, 100%);
-  height: var(--dynamic-height, 100vh); /* Use full viewport height as fallback */
+  height: var(
+    --dynamic-height,
+    100vh
+  ); /* Use full viewport height as fallback */
   min-width: inherit;
   min-height: inherit;
   max-width: inherit;
@@ -262,7 +265,7 @@
   .mobile-game-container {
     border-radius: 4px; /* Reduced border radius for more space */
   }
-  
+
   /* Ensure full mobile viewport usage */
   .play-page-container {
     padding: 0 !important; /* Remove padding on mobile */
@@ -290,12 +293,12 @@
   .mobile-game-container {
     border-radius: 0; /* No border radius for maximum space */
   }
-  
+
   /* Remove all padding for very small screens */
   .play-page-container {
     padding: 0 !important;
   }
-  
+
   /* Ensure game container uses full space */
   .mobile-game-container.dynamic-sizing {
     width: 100vw !important;

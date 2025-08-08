@@ -63,10 +63,11 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
   ];
 
   // Enhanced iPhone model detection - more flexible detection
-  const isIPhone16Pro = /iphone/i.test(userAgent) && 
-                       pixelRatio === 3 && 
-                       ((screen.width === 393 && screen.height === 852) || 
-                        (screen.width === 852 && screen.height === 393));
+  const isIPhone16Pro =
+    /iphone/i.test(userAgent) &&
+    pixelRatio === 3 &&
+    ((screen.width === 393 && screen.height === 852) ||
+      (screen.width === 852 && screen.height === 393));
 
   // Tablet detection patterns
   const tabletPatterns = [/ipad/i, /android(?!.*mobile)/i, /tablet/i];
@@ -198,7 +199,7 @@ export function calculateDynamicSizing(
       // Reduced safe area insets for mobile gaming experience (other mobile iOS devices)
       safeAreaInsets.top = orientation === 'portrait' ? 20 : 0; // Minimal status bar space
       safeAreaInsets.bottom = orientation === 'portrait' ? 10 : 5; // Minimal home indicator space
-      
+
       // Minimal landscape adjustments for mobile
       if (orientation === 'landscape') {
         safeAreaInsets.left = availableWidth > 800 ? 10 : 0;
@@ -263,7 +264,7 @@ export function calculateDynamicSizing(
       if (orientation === 'portrait') {
         width = availableWidth;
         // Ensure height is never too small - use at least 80% of available height
-        height = Math.max(availableHeight * 0.8, availableHeight - 100); 
+        height = Math.max(availableHeight * 0.8, availableHeight - 100);
         containerPadding = 6; // Minimal padding for better space utilization
       } else {
         width = availableWidth;
@@ -271,7 +272,7 @@ export function calculateDynamicSizing(
         height = Math.max(availableHeight * 0.85, availableHeight - 60);
         containerPadding = 4;
       }
-      
+
       // Use viewport units for iPhone 16 Pro for better flexibility
       unit = 'vh';
       scaleFactor = 0.95; // 95% to ensure content is visible
@@ -279,11 +280,15 @@ export function calculateDynamicSizing(
       // Mobile devices: use maximum screen space for optimal experience
       if (orientation === 'portrait') {
         width = availableWidth;
-        height = availableHeight - (browser === 'safari' && platform === 'ios' ? 30 : 20); // Reduced padding
+        height =
+          availableHeight -
+          (browser === 'safari' && platform === 'ios' ? 30 : 20); // Reduced padding
         containerPadding = 2; // Minimal padding
       } else {
         width = availableWidth;
-        height = availableHeight - (browser === 'safari' && platform === 'ios' ? 20 : 10); // Minimal padding
+        height =
+          availableHeight -
+          (browser === 'safari' && platform === 'ios' ? 20 : 10); // Minimal padding
         containerPadding = 1; // Minimal padding for landscape
       }
 

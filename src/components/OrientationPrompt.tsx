@@ -20,12 +20,13 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
       );
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
-    
+
     // Enhanced iPhone 16 Pro detection - more flexible detection
-    const isIPhone16ProDevice = /iphone/i.test(navigator.userAgent.toLowerCase()) && 
-                          window.devicePixelRatio === 3 && 
-                          ((window.screen.width === 393 && window.screen.height === 852) || 
-                           (window.screen.width === 852 && window.screen.height === 393));
+    const isIPhone16ProDevice =
+      /iphone/i.test(navigator.userAgent.toLowerCase()) &&
+      window.devicePixelRatio === 3 &&
+      ((window.screen.width === 393 && window.screen.height === 852) ||
+        (window.screen.width === 852 && window.screen.height === 393));
 
     // Update state for iPhone 16 Pro
     setIsIPhone16Pro(isIPhone16ProDevice);
@@ -44,7 +45,7 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
       shouldShowOnDevice &&
       !currentlyLandscape &&
       window.innerHeight > window.innerWidth;
-    
+
     setShowPrompt(shouldShow);
 
     if (onOrientationChange) {
@@ -142,10 +143,18 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
             color: 'white',
             textAlign: 'center',
             padding: isIPhone16Pro ? '40px 20px' : '20px',
-            paddingTop: isIPhone16Pro ? 'max(40px, env(safe-area-inset-top))' : '20px',
-            paddingBottom: isIPhone16Pro ? 'max(40px, env(safe-area-inset-bottom))' : '20px',
-            paddingLeft: isIPhone16Pro ? 'max(20px, env(safe-area-inset-left))' : '20px',
-            paddingRight: isIPhone16Pro ? 'max(20px, env(safe-area-inset-right))' : '20px',
+            paddingTop: isIPhone16Pro
+              ? 'max(40px, env(safe-area-inset-top))'
+              : '20px',
+            paddingBottom: isIPhone16Pro
+              ? 'max(40px, env(safe-area-inset-bottom))'
+              : '20px',
+            paddingLeft: isIPhone16Pro
+              ? 'max(20px, env(safe-area-inset-left))'
+              : '20px',
+            paddingRight: isIPhone16Pro
+              ? 'max(20px, env(safe-area-inset-right))'
+              : '20px',
             backdropFilter: 'blur(10px)',
             // Ensure content is centered within safe area
             boxSizing: 'border-box',
@@ -168,138 +177,144 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
               minHeight: isIPhone16Pro ? 'calc(100vh - 120px)' : 'auto',
             }}
           >
-          {/* Rotating phone icon */}
-          <motion.div
-            style={{
-              fontSize: '4rem',
-              marginBottom: '30px',
-              color: '#d4af37',
-              filter: 'drop-shadow(0 4px 8px rgba(212, 175, 55, 0.4))',
-            }}
-            variants={phoneVariants}
-            animate="rotate"
-          >
-            📱
-          </motion.div>
+            {/* Rotating phone icon */}
+            <motion.div
+              style={{
+                fontSize: '4rem',
+                marginBottom: '30px',
+                color: '#d4af37',
+                filter: 'drop-shadow(0 4px 8px rgba(212, 175, 55, 0.4))',
+              }}
+              variants={phoneVariants}
+              animate="rotate"
+            >
+              📱
+            </motion.div>
 
-          {/* Rotating arrow */}
-          <motion.div
-            style={{
-              fontSize: '2rem',
-              marginBottom: '20px',
-              color: '#d4af37',
-            }}
-            variants={arrowVariants}
-            animate="bounce"
-          >
-            ↻
-          </motion.div>
+            {/* Rotating arrow */}
+            <motion.div
+              style={{
+                fontSize: '2rem',
+                marginBottom: '20px',
+                color: '#d4af37',
+              }}
+              variants={arrowVariants}
+              animate="bounce"
+            >
+              ↻
+            </motion.div>
 
-          {/* Title */}
-          <motion.h2
-            style={{
-              fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
-              fontWeight: 'bold',
-              color: '#d4af37',
-              marginBottom: '16px',
-              textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            Rotate Your Device
-          </motion.h2>
+            {/* Title */}
+            <motion.h2
+              style={{
+                fontSize: 'clamp(1.5rem, 5vw, 2.5rem)',
+                fontWeight: 'bold',
+                color: '#d4af37',
+                marginBottom: '16px',
+                textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              Rotate Your Device
+            </motion.h2>
 
-          {/* Description */}
-          <motion.p
-            style={{
-              fontSize: 'clamp(1rem, 4vw, 1.2rem)',
-              lineHeight: '1.6',
-              maxWidth: '400px',
-              color: 'rgba(255, 255, 255, 0.8)',
-              marginBottom: '24px',
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-          >
-            For the best gaming experience, please rotate your device to
-            landscape mode.
-          </motion.p>
+            {/* Description */}
+            <motion.p
+              style={{
+                fontSize: 'clamp(1rem, 4vw, 1.2rem)',
+                lineHeight: '1.6',
+                maxWidth: '400px',
+                color: 'rgba(255, 255, 255, 0.8)',
+                marginBottom: '24px',
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              For the best gaming experience, please rotate your device to
+              landscape mode.
+            </motion.p>
 
-          {/* Features list */}
-          <motion.div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-              maxWidth: '350px',
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '1.2rem' }}>🎮</span>
-              <span
-                style={{
-                  fontSize: '0.9rem',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
+            {/* Features list */}
+            <motion.div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '12px',
+                maxWidth: '350px',
+              }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+            >
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
               >
-                Better touch controls
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '1.2rem' }}>👀</span>
-              <span
-                style={{
-                  fontSize: '0.9rem',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
+                <span style={{ fontSize: '1.2rem' }}>🎮</span>
+                <span
+                  style={{
+                    fontSize: '0.9rem',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                >
+                  Better touch controls
+                </span>
+              </div>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
               >
-                Larger game area
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <span style={{ fontSize: '1.2rem' }}>✨</span>
-              <span
-                style={{
-                  fontSize: '0.9rem',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                }}
+                <span style={{ fontSize: '1.2rem' }}>👀</span>
+                <span
+                  style={{
+                    fontSize: '0.9rem',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                >
+                  Larger game area
+                </span>
+              </div>
+              <div
+                style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
               >
-                Enhanced visuals
-              </span>
-            </div>
-          </motion.div>
+                <span style={{ fontSize: '1.2rem' }}>✨</span>
+                <span
+                  style={{
+                    fontSize: '0.9rem',
+                    color: 'rgba(255, 255, 255, 0.7)',
+                  }}
+                >
+                  Enhanced visuals
+                </span>
+              </div>
+            </motion.div>
 
-          {/* Skip button for users who want to continue in portrait */}
-          <motion.button
-            style={{
-              marginTop: '32px',
-              padding: '8px 16px',
-              background: 'transparent',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              borderRadius: '20px',
-              color: 'rgba(255, 255, 255, 0.6)',
-              fontSize: '0.8rem',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            whileHover={{
-              borderColor: 'rgba(212, 175, 55, 0.5)',
-              color: 'rgba(212, 175, 55, 0.8)',
-            }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowPrompt(false)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-          >
-            Continue anyway
-          </motion.button>
+            {/* Skip button for users who want to continue in portrait */}
+            <motion.button
+              style={{
+                marginTop: '32px',
+                padding: '8px 16px',
+                background: 'transparent',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                borderRadius: '20px',
+                color: 'rgba(255, 255, 255, 0.6)',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+              whileHover={{
+                borderColor: 'rgba(212, 175, 55, 0.5)',
+                color: 'rgba(212, 175, 55, 0.8)',
+              }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowPrompt(false)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1 }}
+            >
+              Continue anyway
+            </motion.button>
           </div>
         </motion.div>
       )}
