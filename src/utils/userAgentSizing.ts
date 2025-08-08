@@ -19,6 +19,7 @@ export interface DeviceCapabilities {
   supportsWebGL: boolean;
   maxTextureSize: number;
   memoryLevel: 'low' | 'medium' | 'high';
+  isIPhone16Pro?: boolean; // Optional flag for iPhone 16 Pro detection
 }
 
 export interface DynamicSizing {
@@ -49,7 +50,7 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
   const screen = window.screen;
   const pixelRatio = window.devicePixelRatio || 1;
 
-  // Mobile detection patterns
+  // Mobile detection patterns with enhanced iPhone detection
   const mobilePatterns = [
     /android/i,
     /webos/i,
@@ -60,6 +61,12 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     /windows phone/i,
     /mobile/i,
   ];
+
+  // Enhanced iPhone model detection - more flexible detection
+  const isIPhone16Pro = /iphone/i.test(userAgent) && 
+                       pixelRatio === 3 && 
+                       ((screen.width === 393 && screen.height === 852) || 
+                        (screen.width === 852 && screen.height === 393));
 
   // Tablet detection patterns
   const tabletPatterns = [/ipad/i, /android(?!.*mobile)/i, /tablet/i];
@@ -140,6 +147,7 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     supportsWebGL,
     maxTextureSize,
     memoryLevel,
+    isIPhone16Pro, // Add iPhone 16 Pro detection flag
   };
 }
 
@@ -160,6 +168,7 @@ export function calculateDynamicSizing(
     platform,
     browser,
     memoryLevel,
+    isIPhone16Pro,
   } = capabilities;
 
   let width = availableWidth;
@@ -178,8 +187,15 @@ export function calculateDynamicSizing(
 
   // Platform-specific adjustments with enhanced user agent detection
   if (platform === 'ios') {
-    if (isMobile) {
-      // Reduced safe area insets for mobile gaming experience
+    // Enhanced iPhone 16 Pro specific handling
+    if (isIPhone16Pro) {
+      // iPhone 16 Pro has a Dynamic Island and specific safe area requirements
+      safeAreaInsets.top = orientation === 'portrait' ? 54 : 0; // Account for Dynamic Island
+      safeAreaInsets.bottom = orientation === 'portrait' ? 40 : 30; // Home indicator
+      safeAreaInsets.left = orientation === 'landscape' ? 54 : 0; // Dynamic Island in landscape
+      safeAreaInsets.right = orientation === 'landscape' ? 54 : 0;
+    } else if (isMobile) {
+      // Reduced safe area insets for mobile gaming experience (other mobile iOS devices)
       safeAreaInsets.top = orientation === 'portrait' ? 20 : 0; // Minimal status bar space
       safeAreaInsets.bottom = orientation === 'portrait' ? 10 : 5; // Minimal home indicator space
       
@@ -241,20 +257,40 @@ export function calculateDynamicSizing(
 
   // Device type specific sizing with enhanced responsiveness
   if (isMobile) {
-    // Mobile devices: use maximum screen space for optimal experience
-    if (orientation === 'portrait') {
-      width = availableWidth;
-      height = availableHeight - (browser === 'safari' && platform === 'ios' ? 30 : 20); // Reduced padding
-      containerPadding = 2; // Minimal padding
+    // Special handling for iPhone 16 Pro
+    if (isIPhone16Pro) {
+      // iPhone 16 Pro optimized sizing with safety checks
+      if (orientation === 'portrait') {
+        width = availableWidth;
+        // Ensure height is never too small - use at least 80% of available height
+        height = Math.max(availableHeight * 0.8, availableHeight - 100); 
+        containerPadding = 6; // Minimal padding for better space utilization
+      } else {
+        width = availableWidth;
+        // Ensure height is never too small in landscape
+        height = Math.max(availableHeight * 0.85, availableHeight - 60);
+        containerPadding = 4;
+      }
+      
+      // Use viewport units for iPhone 16 Pro for better flexibility
+      unit = 'vh';
+      scaleFactor = 0.95; // 95% to ensure content is visible
     } else {
-      width = availableWidth;
-      height = availableHeight - (browser === 'safari' && platform === 'ios' ? 20 : 10); // Minimal padding
-      containerPadding = 1; // Minimal padding for landscape
-    }
+      // Mobile devices: use maximum screen space for optimal experience
+      if (orientation === 'portrait') {
+        width = availableWidth;
+        height = availableHeight - (browser === 'safari' && platform === 'ios' ? 30 : 20); // Reduced padding
+        containerPadding = 2; // Minimal padding
+      } else {
+        width = availableWidth;
+        height = availableHeight - (browser === 'safari' && platform === 'ios' ? 20 : 10); // Minimal padding
+        containerPadding = 1; // Minimal padding for landscape
+      }
 
-    // Use viewport units for mobile for better responsiveness
-    unit = 'px'; // Changed back to pixels for more predictable sizing
-    scaleFactor = 1.0; // Use full available space
+      // Use viewport units for mobile for better responsiveness
+      unit = 'px'; // Changed back to pixels for more predictable sizing
+      scaleFactor = 1.0; // Use full available space
+    }
 
     // For very small screens, still use full space but with minimal adjustments
     if (availableWidth < 375) {
@@ -328,6 +364,23 @@ export function calculateDynamicSizing(
   // Account for safe area insets
   width -= safeAreaInsets.left + safeAreaInsets.right;
   height -= safeAreaInsets.top + safeAreaInsets.bottom;
+
+  // Final safety check: ensure minimum dimensions after safe area adjustments
+  width = Math.max(minWidth, width);
+  height = Math.max(minHeight, height);
+
+  // Add debugging info for iPhone 16 Pro
+  if (isIPhone16Pro) {
+    console.log('[iPhone 16 Pro Debug] Calculated dimensions:', {
+      width,
+      height,
+      availableWidth,
+      availableHeight,
+      safeAreaInsets,
+      scaleFactor,
+      unit,
+    });
+  }
 
   // Generate CSS values
   const cssWidth =
