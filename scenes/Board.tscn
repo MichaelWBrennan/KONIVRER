@@ -14,46 +14,5 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.1, 0.15, 0.2, 1)
+color = Color(0.05, 0.1, 0.15, 1)
 mouse_filter = 2
-
-[node name="ZoneContainer" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="FlagZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 100.0
-
-[node name="LifeZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 100.0
-
-[node name="CombatRowZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 200.0
-offset_bottom = 180.0
-
-[node name="FieldZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 200.0
-offset_bottom = 200.0
-
-[node name="DeckZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 100.0
-
-[node name="RemovedZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 100.0
-
-[node name="AzothRowZone" type="Control" parent="ZoneContainer"]
-layout_mode = 0
-offset_right = 200.0
-offset_bottom = 180.0
