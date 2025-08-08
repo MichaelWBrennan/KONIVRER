@@ -8,9 +8,16 @@ interface HybridSimulatorDemoProps {
   className?: string;
 }
 
-const HybridSimulatorDemo: React.FC<HybridSimulatorDemoProps> = ({ className = '' }) => {
+const HybridSimulatorDemo: React.FC<HybridSimulatorDemoProps> = ({
+  className = '',
+}) => {
   // Auto-select predetermined theme - randomly choose one each game
-  const themes: HybridMapTheme[] = ['mysterious-cabin', 'ancient-study', 'ritual-chamber', 'traders-den'];
+  const themes: HybridMapTheme[] = [
+    'mysterious-cabin',
+    'ancient-study',
+    'ritual-chamber',
+    'traders-den',
+  ];
   const predeterminedTheme = themes[Math.floor(Math.random() * themes.length)];
 
   // Auto-start the simulator with predetermined theme - no intro screen

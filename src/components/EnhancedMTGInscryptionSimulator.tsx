@@ -70,26 +70,34 @@ interface EnhancedMTGInscryptionSimulatorProps {
   className?: string;
 }
 
-const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorProps> = ({
+const EnhancedMTGInscryptionSimulator: React.FC<
+  EnhancedMTGInscryptionSimulatorProps
+> = ({
   initialTheme = 'mysterious-cabin',
   enableAtmosphericEffects = true,
   enableMysteryMechanics = true,
-  className = ''
+  className = '',
 }) => {
-  const [gameState, setGameState] = useState<HybridGameState>(() => initializeHybridGame(initialTheme));
-  const [selectedCard, setSelectedCard] = useState<EnhancedGameCard | null>(null);
+  const [gameState, setGameState] = useState<HybridGameState>(() =>
+    initializeHybridGame(initialTheme),
+  );
+  const [selectedCard, setSelectedCard] = useState<EnhancedGameCard | null>(
+    null,
+  );
   const [draggedCard, setDraggedCard] = useState<EnhancedGameCard | null>(null);
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [showMysteryValues, setShowMysteryValues] = useState(false);
   const [narrativeText, setNarrativeText] = useState<string>('');
-  const [currentScale, setCurrentScale] = useState<'balanced' | 'player-advantage' | 'opponent-advantage'>('balanced');
+  const [currentScale, setCurrentScale] = useState<
+    'balanced' | 'player-advantage' | 'opponent-advantage'
+  >('balanced');
 
   function initializeHybridGame(theme: HybridMapTheme): HybridGameState {
     const convertCard = (
       card: Card,
       owner: 'player' | 'opponent',
       zone: EnhancedGameCard['zone'],
-      index: number
+      index: number,
     ): EnhancedGameCard => ({
       ...card,
       gameId: `${card.id}-${owner}-${Math.random()}`,
@@ -97,22 +105,41 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
       owner,
       manaCost: card.cost,
       cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
-      power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
-      toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
+      power:
+        card.type === 'Familiar'
+          ? Math.floor(Math.random() * 5) + 1
+          : undefined,
+      toughness:
+        card.type === 'Familiar'
+          ? Math.floor(Math.random() * 5) + 1
+          : undefined,
       isTapped: false,
       isSelected: false,
       canPlay: false,
-      gridPosition: { row: zone === 'hand' ? 0 : Math.floor(index / 4), col: index % 4 },
-      mysteryValue: enableMysteryMechanics ? Math.floor(Math.random() * 10) + 1 : undefined,
-      environmentalBonus: undefined
+      gridPosition: {
+        row: zone === 'hand' ? 0 : Math.floor(index / 4),
+        col: index % 4,
+      },
+      mysteryValue: enableMysteryMechanics
+        ? Math.floor(Math.random() * 10) + 1
+        : undefined,
+      environmentalBonus: undefined,
     });
 
     const allCards = [...KONIVRER_CARDS];
-    const playerLibrary = allCards.slice(0, 30).map((card, index) => convertCard(card, 'player', 'library', index));
-    const opponentLibrary = allCards.slice(0, 30).map((card, index) => convertCard(card, 'opponent', 'library', index));
+    const playerLibrary = allCards
+      .slice(0, 30)
+      .map((card, index) => convertCard(card, 'player', 'library', index));
+    const opponentLibrary = allCards
+      .slice(0, 30)
+      .map((card, index) => convertCard(card, 'opponent', 'library', index));
 
-    const playerHand = playerLibrary.splice(0, 7).map(card => ({ ...card, zone: 'hand' as const }));
-    const opponentHand = opponentLibrary.splice(0, 7).map(card => ({ ...card, zone: 'hand' as const }));
+    const playerHand = playerLibrary
+      .splice(0, 7)
+      .map(card => ({ ...card, zone: 'hand' as const }));
+    const opponentHand = opponentLibrary
+      .splice(0, 7)
+      .map(card => ({ ...card, zone: 'hand' as const }));
 
     return {
       player: {
@@ -122,7 +149,7 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
         battlefield: [],
         graveyard: [],
         library: playerLibrary,
-        mysteryScore: 0
+        mysteryScore: 0,
       },
       opponent: {
         life: 20,
@@ -131,13 +158,13 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
         battlefield: [],
         graveyard: [],
         library: opponentLibrary,
-        mysteryScore: 0
+        mysteryScore: 0,
       },
       turn: 'player',
       phase: 'main1',
       mapTheme: theme,
       environmentalEffects: [],
-      atmosphericState: 'calm'
+      atmosphericState: 'calm',
     };
   }
 
@@ -145,26 +172,33 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
   const handleEnvironmentalInteraction = useCallback((element: any) => {
     setGameState(prev => {
       const newState = { ...prev };
-      
+
       // Update environmental effects
       newState.environmentalEffects.push(element.name);
-      
+
       // Apply thematic narrative
       const narratives: Record<string, string> = {
-        'Ancient Tome': 'The ancient knowledge flows through you, revealing the secrets of card synergy...',
-        'Flickering Candle': 'The candle\'s light reveals what was hidden in shadow...',
-        'Merchant\'s Scale': 'The scales tip in your favor, bringing balance to the game...',
-        'Mystical Scroll': 'The scroll unfurls, showing you the path to victory...',
+        'Ancient Tome':
+          'The ancient knowledge flows through you, revealing the secrets of card synergy...',
+        'Flickering Candle':
+          "The candle's light reveals what was hidden in shadow...",
+        "Merchant's Scale":
+          'The scales tip in your favor, bringing balance to the game...',
+        'Mystical Scroll':
+          'The scroll unfurls, showing you the path to victory...',
         'Wisdom Totem': 'The totem whispers ancient strategies...',
         'Scrying Crystal': 'The crystal shows glimpses of cards yet to come...',
         'Ritual Brazier': 'The sacred flames empower your next play...',
         'Stone Guardian': 'The guardian nods approvingly at your tactics...',
-        'Golden Scale': 'The merchant\'s tools favor your transaction...',
-        'Ledger of Trades': 'Past exchanges guide your current choices...'
+        'Golden Scale': "The merchant's tools favor your transaction...",
+        'Ledger of Trades': 'Past exchanges guide your current choices...',
       };
-      
-      setNarrativeText(narratives[element.name] || 'The environment responds to your presence...');
-      
+
+      setNarrativeText(
+        narratives[element.name] ||
+          'The environment responds to your presence...',
+      );
+
       // Update atmospheric state based on theme and interaction
       if (element.type === 'candle' || element.type === 'brazier') {
         newState.atmosphericState = 'dramatic';
@@ -173,7 +207,7 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
       } else {
         newState.atmosphericState = 'tense';
       }
-      
+
       return newState;
     });
 
@@ -190,7 +224,7 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
       ...prev,
       mapTheme: newTheme,
       environmentalEffects: [], // Reset environmental effects when changing themes
-      atmosphericState: 'calm'
+      atmosphericState: 'calm',
     }));
 
     // Update background music/ambiance (simulated)
@@ -198,47 +232,66 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
   }, []);
 
   // Enhanced card play with Inscryption-style mechanics
-  const handleCardPlay = useCallback((card: EnhancedGameCard, targetZone: string) => {
-    if (!card.canPlay || card.owner !== gameState.turn) return;
+  const handleCardPlay = useCallback(
+    (card: EnhancedGameCard, targetZone: string) => {
+      if (!card.canPlay || card.owner !== gameState.turn) return;
 
-    setGameState(prev => {
-      const newState = { ...prev };
-      const currentPlayer = newState[gameState.turn];
-      
-      // Remove from hand
-      currentPlayer.hand = currentPlayer.hand.filter(c => c.gameId !== card.gameId);
-      
-      // Add to battlefield with potential environmental bonuses
-      const playedCard = { 
-        ...card, 
-        zone: 'battlefield' as const,
-        environmentalBonus: newState.environmentalEffects.length > 0 ? 
-          `+${newState.environmentalEffects.length} from environment` : undefined
-      };
-      
-      currentPlayer.battlefield.push(playedCard);
-      
-      // Update mystery score if enabled
-      if (enableMysteryMechanics && card.mysteryValue) {
-        currentPlayer.mysteryScore += card.mysteryValue;
-        
-        // Update scale based on mystery scores
-        const scoreDiff = newState.player.mysteryScore - newState.opponent.mysteryScore;
-        setCurrentScale(
-          scoreDiff > 5 ? 'player-advantage' :
-          scoreDiff < -5 ? 'opponent-advantage' : 'balanced'
+      setGameState(prev => {
+        const newState = { ...prev };
+        const currentPlayer = newState[gameState.turn];
+
+        // Remove from hand
+        currentPlayer.hand = currentPlayer.hand.filter(
+          c => c.gameId !== card.gameId,
         );
-      }
-      
-      return newState;
-    });
 
-    // Play enhanced audio with environmental reverb
-    audioManager.playCardPlay();
-  }, [gameState.turn, enableMysteryMechanics]);
+        // Add to battlefield with potential environmental bonuses
+        const playedCard = {
+          ...card,
+          zone: 'battlefield' as const,
+          environmentalBonus:
+            newState.environmentalEffects.length > 0
+              ? `+${newState.environmentalEffects.length} from environment`
+              : undefined,
+        };
+
+        currentPlayer.battlefield.push(playedCard);
+
+        // Update mystery score if enabled
+        if (enableMysteryMechanics && card.mysteryValue) {
+          currentPlayer.mysteryScore += card.mysteryValue;
+
+          // Update scale based on mystery scores
+          const scoreDiff =
+            newState.player.mysteryScore - newState.opponent.mysteryScore;
+          setCurrentScale(
+            scoreDiff > 5
+              ? 'player-advantage'
+              : scoreDiff < -5
+                ? 'opponent-advantage'
+                : 'balanced',
+          );
+        }
+
+        return newState;
+      });
+
+      // Play enhanced audio with environmental reverb
+      audioManager.playCardPlay();
+    },
+    [gameState.turn, enableMysteryMechanics],
+  );
 
   const nextPhase = useCallback(() => {
-    const phases: HybridGameState['phase'][] = ['untap', 'upkeep', 'draw', 'main1', 'combat', 'main2', 'end'];
+    const phases: HybridGameState['phase'][] = [
+      'untap',
+      'upkeep',
+      'draw',
+      'main1',
+      'combat',
+      'main2',
+      'end',
+    ];
     const currentIndex = phases.indexOf(gameState.phase);
     const nextPhaseIndex = (currentIndex + 1) % phases.length;
     const nextPhase = phases[nextPhaseIndex];
@@ -249,14 +302,14 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
       if (nextPhase === 'untap' && prev.phase === 'end') {
         // Switch turns
         newState.turn = prev.turn === 'player' ? 'opponent' : 'player';
-        
+
         // Untap all permanents
         const currentPlayer = newState[newState.turn];
         currentPlayer.battlefield = currentPlayer.battlefield.map(card => ({
           ...card,
-          isTapped: false
+          isTapped: false,
         }));
-        
+
         // Reset atmospheric state
         newState.atmosphericState = 'calm';
       }
@@ -280,9 +333,9 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
   const toggleMysteryValues = useCallback(() => {
     setShowMysteryValues(prev => !prev);
     setNarrativeText(
-      showMysteryValues ? 
-      'The veil of mystery returns...' : 
-      'The true nature of your cards is revealed...'
+      showMysteryValues
+        ? 'The veil of mystery returns...'
+        : 'The true nature of your cards is revealed...',
     );
     setTimeout(() => setNarrativeText(''), 3000);
   }, [showMysteryValues]);
@@ -321,10 +374,12 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
       </AnimatePresence>
 
       {/* Main game interface */}
-      <div className="game-interface" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        
+      <div
+        className="game-interface"
+        style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}
+      >
         {/* Top status bar with Inscryption-style elements */}
-        <motion.div 
+        <motion.div
           className="status-bar"
           style={{
             display: 'flex',
@@ -332,7 +387,7 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
             alignItems: 'center',
             padding: '10px 20px',
             background: 'rgba(0, 0, 0, 0.8)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
           }}
           initial={{ y: -50 }}
           animate={{ y: 0 }}
@@ -340,13 +395,21 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
         >
           <div className="player-status" style={{ color: '#4CAF50' }}>
             <span>❤️ {gameState.player.life}</span>
-            <span style={{ marginLeft: '20px' }}>⚡ {Object.values(gameState.player.mana).reduce((a, b) => a + b, 0)}</span>
+            <span style={{ marginLeft: '20px' }}>
+              ⚡{' '}
+              {Object.values(gameState.player.mana).reduce((a, b) => a + b, 0)}
+            </span>
             {enableMysteryMechanics && (
-              <span style={{ marginLeft: '20px', color: '#FFD700' }}>🔮 {gameState.player.mysteryScore}</span>
+              <span style={{ marginLeft: '20px', color: '#FFD700' }}>
+                🔮 {gameState.player.mysteryScore}
+              </span>
             )}
           </div>
 
-          <div className="game-controls" style={{ display: 'flex', gap: '10px' }}>
+          <div
+            className="game-controls"
+            style={{ display: 'flex', gap: '10px' }}
+          >
             <motion.button
               onClick={nextPhase}
               style={{
@@ -355,7 +418,7 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
                 border: 'none',
                 padding: '8px 16px',
                 borderRadius: '4px',
-                cursor: 'pointer'
+                cursor: 'pointer',
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -367,14 +430,14 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
               <motion.button
                 onClick={toggleMysteryValues}
                 style={{
-                  background: showMysteryValues ? 
-                    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' :
-                    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                  background: showMysteryValues
+                    ? 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+                    : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
                   color: '#fff',
                   border: 'none',
                   padding: '8px 16px',
                   borderRadius: '4px',
-                  cursor: 'pointer'
+                  cursor: 'pointer',
                 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -386,9 +449,17 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
 
           <div className="opponent-status" style={{ color: '#F44336' }}>
             <span>❤️ {gameState.opponent.life}</span>
-            <span style={{ marginLeft: '20px' }}>⚡ {Object.values(gameState.opponent.mana).reduce((a, b) => a + b, 0)}</span>
+            <span style={{ marginLeft: '20px' }}>
+              ⚡{' '}
+              {Object.values(gameState.opponent.mana).reduce(
+                (a, b) => a + b,
+                0,
+              )}
+            </span>
             {enableMysteryMechanics && (
-              <span style={{ marginLeft: '20px', color: '#FFD700' }}>🔮 {gameState.opponent.mysteryScore}</span>
+              <span style={{ marginLeft: '20px', color: '#FFD700' }}>
+                🔮 {gameState.opponent.mysteryScore}
+              </span>
             )}
           </div>
         </motion.div>
@@ -408,39 +479,52 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.8 }}
           >
-            <div style={{
-              width: '60px',
-              height: '200px',
-              background: 'rgba(0, 0, 0, 0.8)',
-              borderRadius: '30px',
-              border: '2px solid #FFD700',
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
+            <div
+              style={{
+                width: '60px',
+                height: '200px',
+                background: 'rgba(0, 0, 0, 0.8)',
+                borderRadius: '30px',
+                border: '2px solid #FFD700',
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <div style={{ fontSize: '20px', marginBottom: '10px' }}>⚖️</div>
               <motion.div
                 style={{
                   width: '40px',
                   height: '40px',
                   borderRadius: '50%',
-                  background: currentScale === 'balanced' ? '#FFD700' : 
-                              currentScale === 'player-advantage' ? '#4CAF50' : '#F44336',
+                  background:
+                    currentScale === 'balanced'
+                      ? '#FFD700'
+                      : currentScale === 'player-advantage'
+                        ? '#4CAF50'
+                        : '#F44336',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontSize: '16px'
+                  fontSize: '16px',
                 }}
                 animate={{
-                  y: currentScale === 'balanced' ? 0 : 
-                     currentScale === 'player-advantage' ? -20 : 20
+                  y:
+                    currentScale === 'balanced'
+                      ? 0
+                      : currentScale === 'player-advantage'
+                        ? -20
+                        : 20,
                 }}
                 transition={{ duration: 0.5 }}
               >
-                {currentScale === 'balanced' ? '⚖️' : 
-                 currentScale === 'player-advantage' ? '↑' : '↓'}
+                {currentScale === 'balanced'
+                  ? '⚖️'
+                  : currentScale === 'player-advantage'
+                    ? '↑'
+                    : '↓'}
               </motion.div>
             </div>
           </motion.div>
@@ -473,10 +557,14 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
               zIndex: 100,
             }}
             animate={{
-              boxShadow: gameState.atmosphericState === 'dramatic' ? '0 0 20px rgba(255, 69, 0, 0.5)' :
-                        gameState.atmosphericState === 'mysterious' ? '0 0 20px rgba(138, 43, 226, 0.5)' :
-                        gameState.atmosphericState === 'tense' ? '0 0 20px rgba(220, 20, 60, 0.5)' :
-                        '0 0 10px rgba(255, 255, 255, 0.2)'
+              boxShadow:
+                gameState.atmosphericState === 'dramatic'
+                  ? '0 0 20px rgba(255, 69, 0, 0.5)'
+                  : gameState.atmosphericState === 'mysterious'
+                    ? '0 0 20px rgba(138, 43, 226, 0.5)'
+                    : gameState.atmosphericState === 'tense'
+                      ? '0 0 20px rgba(220, 20, 60, 0.5)'
+                      : '0 0 10px rgba(255, 255, 255, 0.2)',
             }}
             transition={{ duration: 1 }}
           >
