@@ -48,8 +48,6 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
         )}
       </div>
 
-
-
       <div className="pdf-tabs">
         {pdfRules.map(rule => (
           <button

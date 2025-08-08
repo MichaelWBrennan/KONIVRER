@@ -4,9 +4,9 @@ import { KONIVRER_CARDS, Card } from '../../data/cards';
 import { audioManager } from '../../game/GameEngine';
 
 // Hybrid map themes combining MTG Arena functionality with Inscryption atmosphere
-export type HybridMapTheme = 
+export type HybridMapTheme =
   | 'mysterious-cabin'
-  | 'ancient-study' 
+  | 'ancient-study'
   | 'ritual-chamber'
   | 'traders-den';
 
@@ -45,15 +45,23 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
   theme = 'mysterious-cabin',
   onThemeChange,
   onEnvironmentalInteraction,
-  className = ''
+  className = '',
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [selectedCard, setSelectedCard] = useState<HybridGameCard | null>(null);
-  const [environmentalElements, setEnvironmentalElements] = useState<EnvironmentalElement[]>([]);
+  const [environmentalElements, setEnvironmentalElements] = useState<
+    EnvironmentalElement[]
+  >([]);
   const [playerHand, setPlayerHand] = useState<HybridGameCard[]>([]);
-  const [playerBattlefield, setPlayerBattlefield] = useState<HybridGameCard[]>([]);
-  const [opponentBattlefield, setOpponentBattlefield] = useState<HybridGameCard[]>([]);
-  const [atmosphericLighting, setAtmosphericLighting] = useState<'candlelit' | 'torchlit' | 'moonlit'>('candlelit');
+  const [playerBattlefield, setPlayerBattlefield] = useState<HybridGameCard[]>(
+    [],
+  );
+  const [opponentBattlefield, setOpponentBattlefield] = useState<
+    HybridGameCard[]
+  >([]);
+  const [atmosphericLighting, setAtmosphericLighting] = useState<
+    'candlelit' | 'torchlit' | 'moonlit'
+  >('candlelit');
 
   // Initialize environmental elements based on theme
   useEffect(() => {
@@ -72,12 +80,14 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
       y: 0,
       isSelected: false,
       canPlay: true,
-      gridPosition: { row: 0, col: index }
+      gridPosition: { row: 0, col: index },
     }));
     setPlayerHand(initialHand);
   }, []);
 
-  const getThemeEnvironmentalElements = (theme: HybridMapTheme): EnvironmentalElement[] => {
+  const getThemeEnvironmentalElements = (
+    theme: HybridMapTheme,
+  ): EnvironmentalElement[] => {
     const baseElements: Record<HybridMapTheme, EnvironmentalElement[]> = {
       'mysterious-cabin': [
         {
@@ -86,8 +96,9 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           type: 'book',
           position: { x: 20, y: 20 },
           isInteractive: true,
-          loreText: 'A leather-bound tome filled with card battle strategies...',
-          gameEffect: 'scry'
+          loreText:
+            'A leather-bound tome filled with card battle strategies...',
+          gameEffect: 'scry',
         },
         {
           id: 'cabin-candle-1',
@@ -96,17 +107,17 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 80, y: 25 },
           isInteractive: true,
           loreText: 'The flame dances, revealing hidden knowledge...',
-          gameEffect: 'reveal-card'
+          gameEffect: 'reveal-card',
         },
         {
           id: 'cabin-scale-1',
-          name: 'Merchant\'s Scale',
+          name: "Merchant's Scale",
           type: 'scale',
           position: { x: 15, y: 80 },
           isInteractive: true,
           loreText: 'Balance is everything in the art of card battle...',
-          gameEffect: 'add-mana'
-        }
+          gameEffect: 'add-mana',
+        },
       ],
       'ancient-study': [
         {
@@ -116,7 +127,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 25, y: 15 },
           isInteractive: true,
           loreText: 'Ancient knowledge of elemental combinations...',
-          gameEffect: 'draw-card'
+          gameEffect: 'draw-card',
         },
         {
           id: 'study-totem-1',
@@ -125,7 +136,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 75, y: 20 },
           isInteractive: true,
           loreText: 'A carved figure that seems to watch your every move...',
-          gameEffect: 'scry'
+          gameEffect: 'scry',
         },
         {
           id: 'study-artifact-1',
@@ -134,8 +145,8 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 50, y: 85 },
           isInteractive: true,
           loreText: 'Peer into the future of your deck...',
-          gameEffect: 'scry'
-        }
+          gameEffect: 'scry',
+        },
       ],
       'ritual-chamber': [
         {
@@ -145,7 +156,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 30, y: 30 },
           isInteractive: true,
           loreText: 'Sacred flames that empower your cards...',
-          gameEffect: 'add-mana'
+          gameEffect: 'add-mana',
         },
         {
           id: 'chamber-totem-1',
@@ -154,7 +165,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 70, y: 70 },
           isInteractive: true,
           loreText: 'An ancient protector of ritual knowledge...',
-          gameEffect: 'reveal-card'
+          gameEffect: 'reveal-card',
         },
         {
           id: 'chamber-artifact-1',
@@ -163,8 +174,8 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 50, y: 50 },
           isInteractive: true,
           loreText: 'A ceremonial blade used to cut through deception...',
-          gameEffect: 'reveal-card'
-        }
+          gameEffect: 'reveal-card',
+        },
       ],
       'traders-den': [
         {
@@ -174,7 +185,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 40, y: 30 },
           isInteractive: true,
           loreText: 'Every card has its price in the right market...',
-          gameEffect: 'draw-card'
+          gameEffect: 'draw-card',
         },
         {
           id: 'den-book-1',
@@ -183,46 +194,51 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: { x: 20, y: 70 },
           isInteractive: true,
           loreText: 'Records of legendary card exchanges...',
-          gameEffect: 'scry'
+          gameEffect: 'scry',
         },
         {
           id: 'den-artifact-1',
-          name: 'Trader\'s Compass',
+          name: "Trader's Compass",
           type: 'artifact',
           position: { x: 75, y: 60 },
           isInteractive: true,
           loreText: 'Points toward profitable card combinations...',
-          gameEffect: 'add-mana'
-        }
-      ]
+          gameEffect: 'add-mana',
+        },
+      ],
     };
     return baseElements[theme];
   };
 
-  const handleEnvironmentalClick = useCallback((element: EnvironmentalElement) => {
-    if (!element.isInteractive || element.isActivated) return;
+  const handleEnvironmentalClick = useCallback(
+    (element: EnvironmentalElement) => {
+      if (!element.isInteractive || element.isActivated) return;
 
-    // Play atmospheric interaction sound
-    audioManager.playCardHover();
+      // Play atmospheric interaction sound
+      audioManager.playCardHover();
 
-    // Activate the element
-    setEnvironmentalElements(prev => 
-      prev.map(el => el.id === element.id ? { ...el, isActivated: true } : el)
-    );
+      // Activate the element
+      setEnvironmentalElements(prev =>
+        prev.map(el =>
+          el.id === element.id ? { ...el, isActivated: true } : el,
+        ),
+      );
 
-    // Apply game effect
-    applyEnvironmentalEffect(element);
+      // Apply game effect
+      applyEnvironmentalEffect(element);
 
-    // Callback to parent
-    if (onEnvironmentalInteraction) {
-      onEnvironmentalInteraction(element);
-    }
+      // Callback to parent
+      if (onEnvironmentalInteraction) {
+        onEnvironmentalInteraction(element);
+      }
 
-    // Show lore text if available
-    if (element.loreText) {
-      console.log(`[${element.name}]: ${element.loreText}`);
-    }
-  }, [onEnvironmentalInteraction]);
+      // Show lore text if available
+      if (element.loreText) {
+        console.log(`[${element.name}]: ${element.loreText}`);
+      }
+    },
+    [onEnvironmentalInteraction],
+  );
 
   const applyEnvironmentalEffect = (element: EnvironmentalElement) => {
     switch (element.gameEffect) {
@@ -245,7 +261,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
             owner: 'player',
             x: playerHand.length * 60,
             y: 0,
-            gridPosition: { row: 0, col: playerHand.length }
+            gridPosition: { row: 0, col: playerHand.length },
           };
           setPlayerHand(prev => [...prev, newGameCard]);
         }
@@ -261,26 +277,32 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
   const getThemeStyles = (theme: HybridMapTheme) => {
     const styles: Record<HybridMapTheme, React.CSSProperties> = {
       'mysterious-cabin': {
-        background: 'linear-gradient(135deg, #2c1810 0%, #1a0f0a 50%, #0f0805 100%)',
+        background:
+          'linear-gradient(135deg, #2c1810 0%, #1a0f0a 50%, #0f0805 100%)',
         boxShadow: 'inset 0 0 100px rgba(255, 140, 0, 0.1)',
       },
       'ancient-study': {
-        background: 'linear-gradient(135deg, #1a1520 0%, #0f0a15 50%, #0a0510 100%)',
+        background:
+          'linear-gradient(135deg, #1a1520 0%, #0f0a15 50%, #0a0510 100%)',
         boxShadow: 'inset 0 0 100px rgba(138, 43, 226, 0.1)',
       },
       'ritual-chamber': {
-        background: 'linear-gradient(135deg, #2c1c1c 0%, #1a1010 50%, #0f0808 100%)',
+        background:
+          'linear-gradient(135deg, #2c1c1c 0%, #1a1010 50%, #0f0808 100%)',
         boxShadow: 'inset 0 0 100px rgba(220, 20, 60, 0.1)',
       },
       'traders-den': {
-        background: 'linear-gradient(135deg, #1c1c0f 0%, #15150a 50%, #0a0a05 100%)',
+        background:
+          'linear-gradient(135deg, #1c1c0f 0%, #15150a 50%, #0a0a05 100%)',
         boxShadow: 'inset 0 0 100px rgba(255, 215, 0, 0.1)',
-      }
+      },
     };
     return styles[theme];
   };
 
-  const EnvironmentalElement: React.FC<{ element: EnvironmentalElement }> = ({ element }) => {
+  const EnvironmentalElement: React.FC<{ element: EnvironmentalElement }> = ({
+    element,
+  }) => {
     const [isHovered, setIsHovered] = useState(false);
 
     const getElementIcon = (type: EnvironmentalElement['type']) => {
@@ -290,7 +312,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
         scale: '⚖️',
         totem: '🗿',
         artifact: '🔮',
-        scroll: '📜'
+        scroll: '📜',
       };
       return icons[type];
     };
@@ -313,7 +335,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
         whileTap={element.isInteractive ? { scale: 0.9 } : {}}
         animate={{
           opacity: element.isActivated ? 0.6 : 1,
-          filter: element.isActivated ? 'grayscale(0.5)' : 'none'
+          filter: element.isActivated ? 'grayscale(0.5)' : 'none',
         }}
       >
         {getElementIcon(element.type)}
@@ -335,7 +357,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
                 pointerEvents: 'none',
                 zIndex: 20,
                 left: '50%',
-                transform: 'translateX(-50%)'
+                transform: 'translateX(-50%)',
               }}
             >
               {element.name}
@@ -346,10 +368,12 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
     );
   };
 
-  const HybridCardComponent: React.FC<{ card: HybridGameCard }> = ({ card }) => {
+  const HybridCardComponent: React.FC<{ card: HybridGameCard }> = ({
+    card,
+  }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
-    
+
     // Get the card image path based on card name
     const getCardImagePath = (cardName: string) => {
       // Convert card name to match file naming convention (uppercase, handle special characters)
@@ -367,10 +391,10 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
           position: 'relative',
         }}
         onClick={() => setSelectedCard(card)}
-        whileHover={{ 
+        whileHover={{
           y: -8,
           scale: 1.05,
-          transition: { duration: 0.2 }
+          transition: { duration: 0.2 },
         }}
         whileTap={{ scale: 0.95 }}
         layout
@@ -384,12 +408,15 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
             transformStyle: 'preserve-3d',
             cursor: 'pointer',
             borderRadius: '8px',
-            boxShadow: card.isSelected 
-              ? '0 8px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4)' 
+            boxShadow: card.isSelected
+              ? '0 8px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4)'
               : '0 4px 15px rgba(0, 0, 0, 0.3)',
-            background: imageLoaded && !imageError ? 'transparent' : 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
-            border: card.isSelected 
-              ? '2px solid #FFD700' 
+            background:
+              imageLoaded && !imageError
+                ? 'transparent'
+                : 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+            border: card.isSelected
+              ? '2px solid #FFD700'
               : '1px solid rgba(255, 255, 255, 0.2)',
           }}
           animate={{
@@ -400,7 +427,8 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
             rotateY: 10,
             rotateX: 5,
             z: 30,
-            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 255, 255, 0.1)',
+            boxShadow:
+              '0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 255, 255, 0.1)',
           }}
           transition={{ duration: 0.3 }}
         >
@@ -436,44 +464,68 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
                 />
                 {/* Loading state */}
                 {!imageLoaded && (
-                  <div style={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
-                    color: '#fff',
-                    fontSize: '8px',
-                  }}>
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background:
+                        'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+                      color: '#fff',
+                      fontSize: '8px',
+                    }}
+                  >
                     <div>Loading...</div>
                   </div>
                 )}
               </>
             ) : (
               /* Fallback design when image fails to load */
-              <div style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
-                color: '#fff',
-                fontSize: '10px',
-                textAlign: 'center',
-                padding: '4px',
-              }}>
-                <div style={{ fontWeight: 'bold', marginBottom: '4px', fontSize: '9px' }}>
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  background:
+                    'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+                  color: '#fff',
+                  fontSize: '10px',
+                  textAlign: 'center',
+                  padding: '4px',
+                }}
+              >
+                <div
+                  style={{
+                    fontWeight: 'bold',
+                    marginBottom: '4px',
+                    fontSize: '9px',
+                  }}
+                >
                   {card.name}
                 </div>
-                <div style={{ color: '#ffd700', fontSize: '12px', fontWeight: 'bold' }}>
+                <div
+                  style={{
+                    color: '#ffd700',
+                    fontSize: '12px',
+                    fontWeight: 'bold',
+                  }}
+                >
                   {card.cost}
                 </div>
                 {card.type === 'Familiar' && (
-                  <div style={{ marginTop: '4px', fontSize: '8px', color: '#ff6b6b' }}>
+                  <div
+                    style={{
+                      marginTop: '4px',
+                      fontSize: '8px',
+                      color: '#ff6b6b',
+                    }}
+                  >
                     {card.strength || '?'}
                   </div>
                 )}
@@ -482,22 +534,29 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
 
             {/* Card info overlay for 3D effect */}
             {imageLoaded && !imageError && (
-              <div style={{
-                position: 'absolute',
-                bottom: '0',
-                left: '0',
-                right: '0',
-                background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.7))',
-                color: '#fff',
-                fontSize: '8px',
-                padding: '2px 4px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-                <span style={{ color: '#ffd700', fontWeight: 'bold' }}>{card.cost}</span>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '0',
+                  left: '0',
+                  right: '0',
+                  background:
+                    'linear-gradient(transparent, rgba(0, 0, 0, 0.7))',
+                  color: '#fff',
+                  fontSize: '8px',
+                  padding: '2px 4px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <span style={{ color: '#ffd700', fontWeight: 'bold' }}>
+                  {card.cost}
+                </span>
                 {card.type === 'Familiar' && (
-                  <span style={{ color: '#ff6b6b' }}>{card.strength || '?'}</span>
+                  <span style={{ color: '#ff6b6b' }}>
+                    {card.strength || '?'}
+                  </span>
                 )}
               </div>
             )}
@@ -509,7 +568,8 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
                   position: 'absolute',
                   inset: '-2px',
                   borderRadius: '8px',
-                  background: 'linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.3), transparent)',
+                  background:
+                    'linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.3), transparent)',
                   pointerEvents: 'none',
                 }}
                 animate={{
@@ -518,55 +578,56 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
                 transition={{
                   duration: 3,
                   repeat: Infinity,
-                  ease: "linear",
+                  ease: 'linear',
                 }}
               />
             )}
           </div>
 
           {/* Environmental bonus indicator */}
-          {card.zone === 'battlefield' && environmentalElements.some(el => el.isActivated) && (
-            <motion.div
-              style={{
-                position: 'absolute',
-                top: '-8px',
-                right: '-8px',
-                width: '16px',
-                height: '16px',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, #4CAF50, #2E7D32)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '8px',
-                zIndex: 10,
-                border: '1px solid #fff',
-                boxShadow: '0 2px 8px rgba(76, 175, 80, 0.4)',
-              }}
-              animate={{
-                scale: [1, 1.2, 1],
-                boxShadow: [
-                  '0 2px 8px rgba(76, 175, 80, 0.4)',
-                  '0 4px 16px rgba(76, 175, 80, 0.8)',
-                  '0 2px 8px rgba(76, 175, 80, 0.4)',
-                ],
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              ✨
-            </motion.div>
-          )}
+          {card.zone === 'battlefield' &&
+            environmentalElements.some(el => el.isActivated) && (
+              <motion.div
+                style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  width: '16px',
+                  height: '16px',
+                  borderRadius: '50%',
+                  background: 'radial-gradient(circle, #4CAF50, #2E7D32)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '8px',
+                  zIndex: 10,
+                  border: '1px solid #fff',
+                  boxShadow: '0 2px 8px rgba(76, 175, 80, 0.4)',
+                }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  boxShadow: [
+                    '0 2px 8px rgba(76, 175, 80, 0.4)',
+                    '0 4px 16px rgba(76, 175, 80, 0.8)',
+                    '0 2px 8px rgba(76, 175, 80, 0.4)',
+                  ],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+              >
+                ✨
+              </motion.div>
+            )}
         </motion.div>
       </motion.div>
     );
   };
 
   return (
-    <div 
+    <div
       ref={canvasRef}
       className={`hybrid-battlefield-map ${theme} ${className}`}
       style={{
@@ -576,22 +637,23 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
         overflow: 'hidden',
         borderRadius: '12px',
         border: '2px solid rgba(255, 255, 255, 0.1)',
-        ...getThemeStyles(theme)
+        ...getThemeStyles(theme),
       }}
     >
       {/* Atmospheric lighting overlay */}
-      <div 
+      <div
         className="atmospheric-lighting"
         style={{
           position: 'absolute',
           inset: 0,
-          background: atmosphericLighting === 'candlelit' 
-            ? 'radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 70%)'
-            : atmosphericLighting === 'torchlit'
-            ? 'radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.15) 0%, transparent 60%)'
-            : 'radial-gradient(circle at 70% 20%, rgba(200, 200, 255, 0.1) 0%, transparent 80%)',
+          background:
+            atmosphericLighting === 'candlelit'
+              ? 'radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 70%)'
+              : atmosphericLighting === 'torchlit'
+                ? 'radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.15) 0%, transparent 60%)'
+                : 'radial-gradient(circle at 70% 20%, rgba(200, 200, 255, 0.1) 0%, transparent 80%)',
           pointerEvents: 'none',
-          zIndex: 5
+          zIndex: 5,
         }}
       />
 
@@ -678,7 +740,7 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
       >
         <select
           value={theme}
-          onChange={(e) => onThemeChange?.(e.target.value as HybridMapTheme)}
+          onChange={e => onThemeChange?.(e.target.value as HybridMapTheme)}
           style={{
             background: 'rgba(0, 0, 0, 0.7)',
             color: '#fff',
@@ -714,11 +776,14 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.9 }}
       >
-        <div style={{ fontWeight: 'bold', marginBottom: '4px', color: '#ffd700' }}>
+        <div
+          style={{ fontWeight: 'bold', marginBottom: '4px', color: '#ffd700' }}
+        >
           {theme.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
         </div>
         <div>
-          Click on environmental elements to discover their secrets and gain strategic advantages.
+          Click on environmental elements to discover their secrets and gain
+          strategic advantages.
         </div>
       </motion.div>
     </div>

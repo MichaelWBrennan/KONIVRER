@@ -594,7 +594,10 @@ const Phase3App = () => {
                 <Route path="/decks" element={<DecksPage />} />
                 <Route path="/rules" element={<RulesPage />} />
                 <Route path="/simulator" element={<SimulatorPage />} />
-                <Route path="/hybrid-battlefield" element={<HybridSimulatorDemo />} />
+                <Route
+                  path="/hybrid-battlefield"
+                  element={<HybridSimulatorDemo />}
+                />
                 <Route path="/oauth/callback" element={<OAuthCallback />} />
               </Routes>
               <BottomMenuBar />
