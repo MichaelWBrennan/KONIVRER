@@ -20,11 +20,11 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
     
-    // Enhanced iPhone 16 Pro detection
-    const isIPhone16Pro = /iphone.*cpu iphone os 17_/i.test(navigator.userAgent.toLowerCase()) && 
+    // Enhanced iPhone 16 Pro detection - more flexible detection
+    const isIPhone16Pro = /iphone/i.test(navigator.userAgent.toLowerCase()) && 
                           window.devicePixelRatio === 3 && 
-                          (window.screen.width === 393 || window.screen.height === 393) && 
-                          (window.screen.width === 852 || window.screen.height === 852);
+                          ((window.screen.width === 393 && window.screen.height === 852) || 
+                           (window.screen.width === 852 && window.screen.height === 393));
 
     // Only show on mobile/touch devices with small screens, but be less aggressive on iPhone 16 Pro
     const shouldShowOnDevice = isMobile || (isTouch && isSmallScreen);

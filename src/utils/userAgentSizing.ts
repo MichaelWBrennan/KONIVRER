@@ -62,11 +62,11 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     /mobile/i,
   ];
 
-  // Enhanced iPhone model detection
-  const isIPhone16Pro = /iphone.*cpu iphone os 17_/i.test(userAgent) && 
-                       (screen.width === 393 || screen.height === 393) && 
-                       (screen.width === 852 || screen.height === 852) && 
-                       pixelRatio === 3;
+  // Enhanced iPhone model detection - more flexible detection
+  const isIPhone16Pro = /iphone/i.test(userAgent) && 
+                       pixelRatio === 3 && 
+                       ((screen.width === 393 && screen.height === 852) || 
+                        (screen.width === 852 && screen.height === 393));
 
   // Tablet detection patterns
   const tabletPatterns = [/ipad/i, /android(?!.*mobile)/i, /tablet/i];
@@ -237,20 +237,22 @@ export function calculateDynamicSizing(
   if (isMobile) {
     // Special handling for iPhone 16 Pro
     if (isIPhone16Pro) {
-      // iPhone 16 Pro optimized sizing
+      // iPhone 16 Pro optimized sizing with safety checks
       if (orientation === 'portrait') {
         width = availableWidth;
-        height = availableHeight - 80; // Reduced browser UI consideration
+        // Ensure height is never too small - use at least 80% of available height
+        height = Math.max(availableHeight * 0.8, availableHeight - 100); 
         containerPadding = 6; // Minimal padding for better space utilization
       } else {
         width = availableWidth;
-        height = availableHeight - 50; // Reduced browser UI for landscape
+        // Ensure height is never too small in landscape
+        height = Math.max(availableHeight * 0.85, availableHeight - 60);
         containerPadding = 4;
       }
       
-      // Use pixel units for precise control on iPhone 16 Pro
-      unit = 'px';
-      scaleFactor = 1.0; // Full scale to maximize visible area
+      // Use viewport units for iPhone 16 Pro for better flexibility
+      unit = 'vh';
+      scaleFactor = 0.95; // 95% to ensure content is visible
     } else {
       // Other mobile devices: use most of the screen but account for browser UI
       if (orientation === 'portrait') {
@@ -345,6 +347,23 @@ export function calculateDynamicSizing(
   // Account for safe area insets
   width -= safeAreaInsets.left + safeAreaInsets.right;
   height -= safeAreaInsets.top + safeAreaInsets.bottom;
+
+  // Final safety check: ensure minimum dimensions after safe area adjustments
+  width = Math.max(minWidth, width);
+  height = Math.max(minHeight, height);
+
+  // Add debugging info for iPhone 16 Pro
+  if (isIPhone16Pro) {
+    console.log('[iPhone 16 Pro Debug] Calculated dimensions:', {
+      width,
+      height,
+      availableWidth,
+      availableHeight,
+      safeAreaInsets,
+      scaleFactor,
+      unit,
+    });
+  }
 
   // Generate CSS values
   const cssWidth =
