@@ -131,6 +131,21 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
     `;
   };
 
+  // Get color for KONIVRER elemental types
+  const getElementalColor = (element: string) => {
+    const colors: Record<string, string> = {
+      'Fire': '#ff4444',
+      'Water': '#4488ff',
+      'Air': '#88aaff',
+      'Earth': '#888844',
+      'Nether': '#444444',
+      'Aether': '#ffaa88',
+      'Chaos': '#aa44aa',
+      'Neutral': '#666666'
+    };
+    return colors[element] || colors.Neutral;
+  };
+
   return (
     <div 
       ref={tableViewRef}
@@ -245,6 +260,18 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
                     <div className="card-name">{card.name}</div>
                     <div className="card-type">{card.type}</div>
                     <div className="card-cost">{card.cost}</div>
+                    {card.elementalAffinity && (
+                      <div className="card-element" style={{
+                        fontSize: '10px',
+                        padding: '2px 4px',
+                        borderRadius: '3px',
+                        background: getElementalColor(card.elementalAffinity),
+                        color: '#fff',
+                        marginTop: '2px'
+                      }}>
+                        {card.elementalAffinity}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
