@@ -13,10 +13,10 @@
 /* 3D Table Surface */
 .table-surface-3d {
   position: absolute;
-  width: 700px;
-  height: 500px;
-  left: -350px;
-  top: -250px;
+  width: 600px;
+  height: 800px;
+  left: -300px;
+  top: -400px;
   transform-style: preserve-3d;
   transform: rotateX(-2deg) translateZ(0);
 }
@@ -25,36 +25,49 @@
   position: absolute;
   width: 100%;
   height: 100%;
+  /* MTG Arena brown/tan table surface */
   background: linear-gradient(
     135deg,
-    rgba(101, 67, 33, 0.8) 0%,
-    rgba(139, 69, 19, 0.6) 25%,
-    rgba(160, 82, 45, 0.7) 50%,
-    rgba(139, 69, 19, 0.6) 75%,
-    rgba(101, 67, 33, 0.8) 100%
+    rgba(205, 164, 122, 0.95) 0%,
+    rgba(222, 184, 135, 0.9) 25%,
+    rgba(238, 203, 154, 0.95) 50%,
+    rgba(222, 184, 135, 0.9) 75%,
+    rgba(205, 164, 122, 0.95) 100%
   );
-  border: 3px solid rgba(139, 69, 19, 0.4);
-  border-radius: 50px;
+  /* MTG Arena golden/bronze border */
+  border: 8px solid rgba(255, 215, 0, 0.8);
+  /* Create the distinctive MTG Arena hourglass/curved shape */
+  clip-path: polygon(
+    20% 0%,     /* Top left curve start */
+    80% 0%,     /* Top right curve start */
+    95% 15%,    /* Top right outer curve */
+    95% 35%,    /* Right side upper */
+    70% 45%,    /* Right side curve inward */
+    70% 55%,    /* Right side center narrow */
+    95% 65%,    /* Right side curve outward */
+    95% 85%,    /* Right side lower */
+    80% 100%,   /* Bottom right curve start */
+    20% 100%,   /* Bottom left curve start */
+    5% 85%,     /* Bottom left outer curve */
+    5% 65%,     /* Left side lower */
+    30% 55%,    /* Left side curve inward */
+    30% 45%,    /* Left side center narrow */
+    5% 35%,     /* Left side curve outward */
+    5% 15%      /* Left side upper */
+  );
   box-shadow: 
-    inset 0 0 100px rgba(0, 0, 0, 0.3),
-    0 20px 60px rgba(0, 0, 0, 0.8),
-    0 0 50px rgba(139, 69, 19, 0.2);
+    inset 0 0 50px rgba(0, 0, 0, 0.2),
+    0 25px 80px rgba(0, 0, 0, 0.8),
+    0 0 60px rgba(255, 215, 0, 0.3);
   
-  /* Enhanced wood grain texture */
+  /* Subtle texture for MTG Arena style */
   background-image: 
     repeating-linear-gradient(
-      90deg,
+      45deg,
       transparent,
-      transparent 2px,
-      rgba(139, 69, 19, 0.1) 2px,
-      rgba(139, 69, 19, 0.1) 4px
-    ),
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 8px,
-      rgba(101, 67, 33, 0.1) 8px,
-      rgba(101, 67, 33, 0.1) 12px
+      transparent 3px,
+      rgba(255, 215, 0, 0.05) 3px,
+      rgba(255, 215, 0, 0.05) 6px
     );
 }
 
@@ -62,48 +75,97 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 47px;
+  /* Match the same clip-path as the table */
+  clip-path: polygon(
+    20% 0%,     /* Top left curve start */
+    80% 0%,     /* Top right curve start */
+    95% 15%,    /* Top right outer curve */
+    95% 35%,    /* Right side upper */
+    70% 45%,    /* Right side curve inward */
+    70% 55%,    /* Right side center narrow */
+    95% 65%,    /* Right side curve outward */
+    95% 85%,    /* Right side lower */
+    80% 100%,   /* Bottom right curve start */
+    20% 100%,   /* Bottom left curve start */
+    5% 85%,     /* Bottom left outer curve */
+    5% 65%,     /* Left side lower */
+    30% 55%,    /* Left side curve inward */
+    30% 45%,    /* Left side center narrow */
+    5% 35%,     /* Left side curve outward */
+    5% 15%      /* Left side upper */
+  );
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 255, 255, 0.05) 0%,
-    transparent 60%
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 215, 0, 0.02) 40%,
+    transparent 70%
   );
   mix-blend-mode: overlay;
 }
 
-/* Battlefield Zones on Table */
+/* Battlefield Zones on Table - MTG Arena Style */
 .battlefield-zones {
   position: absolute;
   width: 100%;
   height: 100%;
   transform: translateZ(2px);
+  /* Match the table clip-path */
+  clip-path: polygon(
+    20% 0%,     
+    80% 0%,     
+    95% 15%,    
+    95% 35%,    
+    70% 45%,    
+    70% 55%,    
+    95% 65%,    
+    95% 85%,    
+    80% 100%,   
+    20% 100%,   
+    5% 85%,     
+    5% 65%,     
+    30% 55%,    
+    30% 45%,    
+    5% 35%,     
+    5% 15%      
+  );
 }
 
 .opponent-zone,
 .center-zone,
 .player-zone {
   position: absolute;
-  left: 10%;
-  width: 80%;
+  left: 15%;
+  width: 70%;
   height: 25%;
-  border: 2px dashed rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  background: rgba(255, 255, 255, 0.02);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  background: rgba(255, 215, 0, 0.05);
 }
 
 .opponent-zone {
-  top: 10%;
+  top: 8%;
+  /* Wider at the top to match MTG Arena */
+  left: 10%;
+  width: 80%;
 }
 
 .center-zone {
   top: 37.5%;
   height: 25%;
+  /* Narrower in center like MTG Arena */
+  left: 25%;
+  width: 50%;
   border-style: solid;
-  background: rgba(255, 215, 0, 0.03);
+  border-color: rgba(255, 215, 0, 0.4);
+  background: rgba(255, 215, 0, 0.08);
+  border-width: 3px;
 }
 
 .player-zone {
-  bottom: 10%;
+  bottom: 8%;
+  /* Wider at the bottom to match MTG Arena */
+  left: 10%;
+  width: 80%;
 }
 
 /* 3D Atmospheric Background */
@@ -420,17 +482,35 @@
 /* Table Edge Highlight */
 .table-edge-highlight {
   position: absolute;
-  width: 720px;
-  height: 520px;
-  left: -360px;
-  top: -260px;
-  border: 1px solid rgba(255, 215, 0, 0.1);
-  border-radius: 53px;
+  width: 620px;
+  height: 820px;
+  left: -310px;
+  top: -410px;
+  border: 2px solid rgba(255, 215, 0, 0.4);
+  /* Same hourglass shape as the main table */
+  clip-path: polygon(
+    20% 0%,     
+    80% 0%,     
+    95% 15%,    
+    95% 35%,    
+    70% 45%,    
+    70% 55%,    
+    95% 65%,    
+    95% 85%,    
+    80% 100%,   
+    20% 100%,   
+    5% 85%,     
+    5% 65%,     
+    30% 55%,    
+    30% 45%,    
+    5% 35%,     
+    5% 15%      
+  );
   pointer-events: none;
   transform: translateZ(5px);
   box-shadow: 
-    inset 0 0 20px rgba(255, 215, 0, 0.05),
-    0 0 30px rgba(255, 215, 0, 0.1);
+    inset 0 0 30px rgba(255, 215, 0, 0.1),
+    0 0 40px rgba(255, 215, 0, 0.2);
 }
 
 /* Table Center Marker */
@@ -480,17 +560,17 @@
 /* Responsive Design for Table View */
 @media (max-width: 1200px) {
   .table-surface-3d {
-    width: 580px;
-    height: 420px;
-    left: -290px;
-    top: -210px;
+    width: 500px;
+    height: 670px;
+    left: -250px;
+    top: -335px;
   }
   
   .table-edge-highlight {
-    width: 600px;
-    height: 440px;
-    left: -300px;
-    top: -220px;
+    width: 520px;
+    height: 690px;
+    left: -260px;
+    top: -345px;
   }
   
   .card-3d {
@@ -510,17 +590,17 @@
   }
   
   .table-surface-3d {
-    width: 480px;
-    height: 340px;
-    left: -240px;
-    top: -170px;
+    width: 400px;
+    height: 540px;
+    left: -200px;
+    top: -270px;
   }
   
   .table-edge-highlight {
-    width: 500px;
-    height: 360px;
-    left: -250px;
-    top: -180px;
+    width: 420px;
+    height: 560px;
+    left: -210px;
+    top: -280px;
   }
   
   .card-3d {
