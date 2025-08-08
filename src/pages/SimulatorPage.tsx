@@ -20,7 +20,10 @@ const SimulatorPage: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: `${dynamicSizing.safeAreaInsets.top}px ${dynamicSizing.safeAreaInsets.right}px ${dynamicSizing.safeAreaInsets.bottom}px ${dynamicSizing.safeAreaInsets.left}px`,
+        // Mobile gets minimal or no padding, larger screens get dynamic padding
+        padding: dynamicSizing.containerPadding <= 2 
+          ? '0px' 
+          : `${dynamicSizing.safeAreaInsets.top}px ${dynamicSizing.safeAreaInsets.right}px ${dynamicSizing.safeAreaInsets.bottom}px ${dynamicSizing.safeAreaInsets.left}px`,
         boxSizing: 'border-box',
         // CSS custom properties for responsive behavior
         '--dynamic-width': dynamicSizing.cssWidth,
