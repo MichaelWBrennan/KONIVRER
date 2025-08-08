@@ -205,7 +205,11 @@
 .pdf-header {
   padding: 20px;
   border-bottom: 1px solid var(--border-color, #333);
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.1) 0%,
+    rgba(212, 175, 55, 0.05) 100%
+  );
 }
 
 .pdf-header h3 {

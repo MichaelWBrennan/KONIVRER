@@ -43,18 +43,23 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
 
   const handleSearch = () => {
     if (!searchTerm.trim()) return;
-    
+
     // Get the active iframe and send search command to PDF.js
-    const iframe = document.getElementById(`pdf-iframe-${activeTab}`) as HTMLIFrameElement;
+    const iframe = document.getElementById(
+      `pdf-iframe-${activeTab}`,
+    ) as HTMLIFrameElement;
     if (iframe) {
       try {
         // Send search command to PDF.js viewer
-        iframe.contentWindow?.postMessage({
-          type: 'search',
-          query: searchTerm,
-          highlightAll: true,
-          findPrevious: false
-        }, '*');
+        iframe.contentWindow?.postMessage(
+          {
+            type: 'search',
+            query: searchTerm,
+            highlightAll: true,
+            findPrevious: false,
+          },
+          '*',
+        );
       } catch (error) {
         console.log('Search functionality requires PDF.js integration');
       }
@@ -87,7 +92,7 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
         )}
         <h2>KONIVRER Rules & Guidelines</h2>
         <div className="header-controls">
-          <button 
+          <button
             className={`search-toggle ${isSearchVisible ? 'active' : ''}`}
             onClick={() => setIsSearchVisible(!isSearchVisible)}
             title="Search PDFs"
@@ -103,7 +108,7 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
             ref={searchInputRef}
             type="text"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={e => setSearchTerm(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Search within PDFs..."
             className="search-input"
@@ -111,7 +116,7 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
           <button onClick={handleSearch} className="search-button">
             Search
           </button>
-          <button 
+          <button
             onClick={() => {
               setIsSearchVisible(false);
               setSearchTerm('');
@@ -124,7 +129,7 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
       )}
 
       <div className="pdf-tabs">
-        {pdfRules.map((rule) => (
+        {pdfRules.map(rule => (
           <button
             key={rule.id}
             className={`pdf-tab ${activeTab === rule.id ? 'active' : ''}`}
