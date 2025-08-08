@@ -19,9 +19,9 @@ interface FirstPersonGameCard extends Card {
   isSelected?: boolean;
   canPlay?: boolean;
   // 2.5D positioning with depth layers (Godot-inspired)
-  position3D?: { 
-    x: number; 
-    y: number; 
+  position3D?: {
+    x: number;
+    y: number;
     z: number; // depth layer for sorting
     rotationX: number;
     rotationY: number;
@@ -40,8 +40,20 @@ interface EnvironmentalElement3D {
   sprite: string; // 2D sprite path
   isInteractive: boolean;
   loreText?: string;
-  gameEffect?: 'reveal-card' | 'add-elemental-energy' | 'draw-card' | 'scry' | 'none';
-  elementalType?: 'Fire' | 'Water' | 'Air' | 'Earth' | 'Nether' | 'Aether' | 'Chaos'; // KONIVRER elements
+  gameEffect?:
+    | 'reveal-card'
+    | 'add-elemental-energy'
+    | 'draw-card'
+    | 'scry'
+    | 'none';
+  elementalType?:
+    | 'Fire'
+    | 'Water'
+    | 'Air'
+    | 'Earth'
+    | 'Nether'
+    | 'Aether'
+    | 'Chaos'; // KONIVRER elements
   isActivated?: boolean;
   parallaxLayer: number; // Layer for parallax scrolling (0 = background, 10 = foreground)
 }
@@ -69,27 +81,33 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
   onThemeChange,
   onEnvironmentalInteraction,
   onCardAction,
-  className = ''
+  className = '',
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
-  
+
   // Enhanced 2.5D table view toggle
   const [enhanced2_5DMode, setEnhanced2_5DMode] = useState(true); // Default to enhanced view
-  
+
   const [camera, setCamera] = useState<Camera3D>({
     position: { x: 0, y: -200, z: 300 }, // First-person position
     rotation: { x: -10, y: 0, z: 0 }, // Looking down slightly at table
     fov: 75,
     nearPlane: 1,
     farPlane: 1000,
-    perspective: 1000
+    perspective: 1000,
   });
-  
+
   const [playerCards, setPlayerCards] = useState<FirstPersonGameCard[]>([]);
   const [opponentCards, setOpponentCards] = useState<FirstPersonGameCard[]>([]);
-  const [environmentalElements, setEnvironmentalElements] = useState<EnvironmentalElement3D[]>([]);
-  const [selectedCard, setSelectedCard] = useState<FirstPersonGameCard | null>(null);
-  const [atmosphericLighting, setAtmosphericLighting] = useState<'warm' | 'cool' | 'dramatic' | 'mysterious'>('warm');
+  const [environmentalElements, setEnvironmentalElements] = useState<
+    EnvironmentalElement3D[]
+  >([]);
+  const [selectedCard, setSelectedCard] = useState<FirstPersonGameCard | null>(
+    null,
+  );
+  const [atmosphericLighting, setAtmosphericLighting] = useState<
+    'warm' | 'cool' | 'dramatic' | 'mysterious'
+  >('warm');
 
   // Initialize environmental elements with 3D positioning (Godot node-tree inspired)
   useEffect(() => {
@@ -108,8 +126,14 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
         owner: 'player' as const,
         elementalCost: card.cost,
         cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
-        power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
-        toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
+        power:
+          card.type === 'Familiar'
+            ? Math.floor(Math.random() * 5) + 1
+            : undefined,
+        toughness:
+          card.type === 'Familiar'
+            ? Math.floor(Math.random() * 5) + 1
+            : undefined,
         isTapped: false,
         isSelected: false,
         canPlay: true,
@@ -121,35 +145,45 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           rotationX: 15, // Tilt towards player
           rotationY: (index - 3) * 3, // Slight fan effect
           rotationZ: 0,
-          scale: 1
+          scale: 1,
         },
-        elementalAffinity: card.elements.length > 0 ? card.elements[0] : 'Neutral'
+        elementalAffinity:
+          card.elements.length > 0 ? card.elements[0] : 'Neutral',
       }));
 
-      const opponentHandCards = KONIVRER_CARDS.slice(7, 14).map((card, index) => ({
-        ...card,
-        gameId: `opponent-${card.id}-${index}`,
-        zone: 'hand' as const,
-        owner: 'opponent' as const,
-        elementalCost: card.cost,
-        cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
-        power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
-        toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
-        isTapped: false,
-        isSelected: false,
-        canPlay: false,
-        // Position opponent cards on far side of table
-        position3D: {
-          x: (index - 3) * 60,
-          y: -300, // Far side of table
-          z: 50, // Elevated above table
-          rotationX: -15, // Facing towards player
-          rotationY: 180 + (index - 3) * -2, // Facing player with slight spread
-          rotationZ: 0,
-          scale: 0.8 // Smaller due to distance
-        },
-        elementalAffinity: card.elements.length > 0 ? card.elements[0] : 'Neutral'
-      }));
+      const opponentHandCards = KONIVRER_CARDS.slice(7, 14).map(
+        (card, index) => ({
+          ...card,
+          gameId: `opponent-${card.id}-${index}`,
+          zone: 'hand' as const,
+          owner: 'opponent' as const,
+          elementalCost: card.cost,
+          cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
+          power:
+            card.type === 'Familiar'
+              ? Math.floor(Math.random() * 5) + 1
+              : undefined,
+          toughness:
+            card.type === 'Familiar'
+              ? Math.floor(Math.random() * 5) + 1
+              : undefined,
+          isTapped: false,
+          isSelected: false,
+          canPlay: false,
+          // Position opponent cards on far side of table
+          position3D: {
+            x: (index - 3) * 60,
+            y: -300, // Far side of table
+            z: 50, // Elevated above table
+            rotationX: -15, // Facing towards player
+            rotationY: 180 + (index - 3) * -2, // Facing player with slight spread
+            rotationZ: 0,
+            scale: 0.8, // Smaller due to distance
+          },
+          elementalAffinity:
+            card.elements.length > 0 ? card.elements[0] : 'Neutral',
+        }),
+      );
 
       setPlayerCards(playerHand);
       setOpponentCards(opponentHandCards);
@@ -158,7 +192,9 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
     initializeCards();
   }, []);
 
-  const getTheme3DElements = (currentTheme: HybridMapTheme): EnvironmentalElement3D[] => {
+  const getTheme3DElements = (
+    currentTheme: HybridMapTheme,
+  ): EnvironmentalElement3D[] => {
     const themeElements: Record<HybridMapTheme, EnvironmentalElement3D[]> = {
       'mysterious-cabin': [
         {
@@ -171,7 +207,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Fire elemental energy radiates from this crystal...',
           gameEffect: 'add-elemental-energy',
           elementalType: 'Fire',
-          parallaxLayer: 3
+          parallaxLayer: 3,
         },
         {
           id: 'cabin-earth-rune',
@@ -183,7 +219,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'The strength of the earth flows through this stone...',
           gameEffect: 'draw-card',
           elementalType: 'Earth',
-          parallaxLayer: 4
+          parallaxLayer: 4,
         },
         {
           id: 'cabin-air-crystal',
@@ -195,8 +231,8 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Winds whisper secrets through this crystal...',
           gameEffect: 'scry',
           elementalType: 'Air',
-          parallaxLayer: 2
-        }
+          parallaxLayer: 2,
+        },
       ],
       'ancient-study': [
         {
@@ -209,7 +245,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Aether energy reveals hidden knowledge...',
           gameEffect: 'scry',
           elementalType: 'Aether',
-          parallaxLayer: 5
+          parallaxLayer: 5,
         },
         {
           id: 'study-water-rune',
@@ -221,8 +257,8 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Water flows with wisdom and knowledge...',
           gameEffect: 'draw-card',
           elementalType: 'Water',
-          parallaxLayer: 3
-        }
+          parallaxLayer: 3,
+        },
       ],
       'ritual-chamber': [
         {
@@ -235,7 +271,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Nether flames burn with dark energy...',
           gameEffect: 'add-elemental-energy',
           elementalType: 'Nether',
-          parallaxLayer: 6
+          parallaxLayer: 6,
         },
         {
           id: 'chamber-chaos-shard',
@@ -247,8 +283,8 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Chaotic energy shifts reality itself...',
           gameEffect: 'reveal-card',
           elementalType: 'Chaos',
-          parallaxLayer: 1
-        }
+          parallaxLayer: 1,
+        },
       ],
       'traders-den': [
         {
@@ -261,7 +297,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'This crystal pulses with all elemental energies...',
           gameEffect: 'add-elemental-energy',
           elementalType: 'Aether',
-          parallaxLayer: 4
+          parallaxLayer: 4,
         },
         {
           id: 'den-compass-rune',
@@ -273,91 +309,112 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           loreText: 'Find your path through elemental mastery...',
           gameEffect: 'scry',
           elementalType: 'Air',
-          parallaxLayer: 2
-        }
-      ]
+          parallaxLayer: 2,
+        },
+      ],
     };
-    
+
     return themeElements[currentTheme] || [];
   };
 
   const updateCameraForTheme = (currentTheme: HybridMapTheme) => {
     const themeCamera: Record<HybridMapTheme, Partial<Camera3D>> = {
-      'mysterious-cabin': { 
-        position: { x: 0, y: -180, z: 280 }, 
+      'mysterious-cabin': {
+        position: { x: 0, y: -180, z: 280 },
         rotation: { x: -8, y: 0, z: 0 },
-        perspective: 900
+        perspective: 900,
       },
-      'ancient-study': { 
-        position: { x: 20, y: -200, z: 320 }, 
+      'ancient-study': {
+        position: { x: 20, y: -200, z: 320 },
         rotation: { x: -12, y: 2, z: 0 },
-        perspective: 1200
+        perspective: 1200,
       },
-      'ritual-chamber': { 
-        position: { x: -10, y: -220, z: 300 }, 
+      'ritual-chamber': {
+        position: { x: -10, y: -220, z: 300 },
         rotation: { x: -15, y: -1, z: 0 },
-        perspective: 800
+        perspective: 800,
       },
-      'traders-den': { 
-        position: { x: 0, y: -190, z: 290 }, 
+      'traders-den': {
+        position: { x: 0, y: -190, z: 290 },
         rotation: { x: -10, y: 0, z: 0 },
-        perspective: 1000
-      }
+        perspective: 1000,
+      },
     };
 
     setCamera(prev => ({ ...prev, ...themeCamera[currentTheme] }));
     setAtmosphericLighting(
-      currentTheme === 'mysterious-cabin' ? 'warm' :
-      currentTheme === 'ancient-study' ? 'cool' :
-      currentTheme === 'ritual-chamber' ? 'dramatic' : 'mysterious'
+      currentTheme === 'mysterious-cabin'
+        ? 'warm'
+        : currentTheme === 'ancient-study'
+          ? 'cool'
+          : currentTheme === 'ritual-chamber'
+            ? 'dramatic'
+            : 'mysterious',
     );
   };
 
-  const handleCardClick = useCallback((card: FirstPersonGameCard) => {
-    if (card.owner !== 'player') return;
-    
-    setSelectedCard(prev => prev?.gameId === card.gameId ? null : card);
-    
-    // Call the parent's card action handler with the expected signature
-    if (onCardAction) {
-      // Convert FirstPersonGameCard to the expected format
-      const convertedCard = {
-        ...card,
-        zone: card.zone as 'hand' | 'battlefield' | 'graveyard' | 'library' | 'exile',
-        gridPosition: undefined // Remove if not compatible
+  const handleCardClick = useCallback(
+    (card: FirstPersonGameCard) => {
+      if (card.owner !== 'player') return;
+
+      setSelectedCard(prev => (prev?.gameId === card.gameId ? null : card));
+
+      // Call the parent's card action handler with the expected signature
+      if (onCardAction) {
+        // Convert FirstPersonGameCard to the expected format
+        const convertedCard = {
+          ...card,
+          zone: card.zone as
+            | 'hand'
+            | 'battlefield'
+            | 'graveyard'
+            | 'library'
+            | 'exile',
+          gridPosition: undefined, // Remove if not compatible
+        };
+        onCardAction(convertedCard, 'battlefield'); // default target zone
+      }
+
+      audioManager.playCardHover();
+    },
+    [onCardAction],
+  );
+
+  const handleEnvironmentalClick = useCallback(
+    (element: EnvironmentalElement3D) => {
+      if (!element.isInteractive || element.isActivated) return;
+
+      setEnvironmentalElements(prev =>
+        prev.map(el =>
+          el.id === element.id ? { ...el, isActivated: true } : el,
+        ),
+      );
+
+      // Convert to the expected format for the parent handler
+      const convertedElement = {
+        ...element,
+        position: { x: element.position3D.x, y: element.position3D.y }, // Convert to 2D position
+        type: element.type as
+          | 'book'
+          | 'candle'
+          | 'crystal'
+          | 'rune'
+          | 'artifact'
+          | 'scroll',
       };
-      onCardAction(convertedCard, 'battlefield'); // default target zone
-    }
-    
-    audioManager.playCardHover();
-  }, [onCardAction]);
 
-  const handleEnvironmentalClick = useCallback((element: EnvironmentalElement3D) => {
-    if (!element.isInteractive || element.isActivated) return;
-
-    setEnvironmentalElements(prev => 
-      prev.map(el => 
-        el.id === element.id ? { ...el, isActivated: true } : el
-      )
-    );
-
-    // Convert to the expected format for the parent handler
-    const convertedElement = {
-      ...element,
-      position: { x: element.position3D.x, y: element.position3D.y }, // Convert to 2D position
-      type: element.type as 'book' | 'candle' | 'crystal' | 'rune' | 'artifact' | 'scroll'
-    };
-
-    onEnvironmentalInteraction?.(convertedElement);
-    audioManager.playCardPlay();
-  }, [onEnvironmentalInteraction]);
+      onEnvironmentalInteraction?.(convertedElement);
+      audioManager.playCardPlay();
+    },
+    [onEnvironmentalInteraction],
+  );
 
   // Calculate CSS transform for 3D positioning (Godot-inspired transform matrices)
   const calculateCardTransform = (card: FirstPersonGameCard) => {
     if (!card.position3D) return '';
-    
+
     const { x, y, z, rotationX, rotationY, rotationZ, scale } = card.position3D;
-    
+
     return `
       translate3d(${x}px, ${y}px, ${z}px)
       rotateX(${rotationX}deg)
@@ -381,14 +438,14 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
   // Get color for KONIVRER elemental types
   const getElementalColor = (element: string) => {
     const colors: Record<string, string> = {
-      'Fire': '#ff4444',
-      'Water': '#4488ff',
-      'Air': '#88aaff',
-      'Earth': '#888844',
-      'Nether': '#444444',
-      'Aether': '#ffaa88',
-      'Chaos': '#aa44aa',
-      'Neutral': '#666666'
+      Fire: '#ff4444',
+      Water: '#4488ff',
+      Air: '#88aaff',
+      Earth: '#888844',
+      Nether: '#444444',
+      Aether: '#ffaa88',
+      Chaos: '#aa44aa',
+      Neutral: '#666666',
     };
     return colors[element] || colors.Neutral;
   };
@@ -408,19 +465,19 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           atmosphericLighting={atmosphericLighting}
         />
       )}
-      
+
       {/* Original First Person View */}
       {!enhanced2_5DMode && (
-        <div 
+        <div
           className={`first-person-battlefield ${className} ${theme} lighting-${atmosphericLighting}`}
           ref={canvasRef}
           style={{
             perspective: `${camera.perspective}px`,
-            perspectiveOrigin: 'center center'
+            perspectiveOrigin: 'center center',
           }}
         >
           {/* 3D Scene Container (Godot-inspired scene tree) */}
-          <motion.div 
+          <motion.div
             className="scene-root"
             style={{
               transform: `
@@ -429,182 +486,212 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
                 rotateY(${camera.rotation.y}deg)
                 rotateZ(${camera.rotation.z}deg)
               `,
-              transformStyle: 'preserve-3d'
+              transformStyle: 'preserve-3d',
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5 }}
           >
-            
             {/* Background Layer - Parallax */}
-            <div className="background-layer" style={{ 
-              transform: 'translateZ(-500px) scale(2)',
-          transformStyle: 'preserve-3d'
-        }}>
-          <div className={`atmosphere-gradient ${theme}`} />
-        </div>
-
-        {/* Environmental Elements Layer */}
-        <div className="environmental-layer" style={{ transformStyle: 'preserve-3d' }}>
-          {environmentalElements.map((element) => (
-            <motion.div
-              key={element.id}
-              className={`environmental-element-3d ${element.type} ${element.isActivated ? 'activated' : ''}`}
+            <div
+              className="background-layer"
               style={{
-                transform: calculateElementTransform(element),
+                transform: 'translateZ(-500px) scale(2)',
                 transformStyle: 'preserve-3d',
-                zIndex: element.parallaxLayer
-              }}
-              onClick={() => handleEnvironmentalClick(element)}
-              whileHover={{ 
-                scale: element.position3D.scale * 1.1,
-                rotateY: 5 
-              }}
-              whileTap={{ scale: element.position3D.scale * 0.95 }}
-              animate={{
-                rotateY: element.isActivated ? [0, 360] : [0, 2, 0],
-              }}
-              transition={{
-                rotateY: element.isActivated ? { duration: 0.8 } : { duration: 3, repeat: Infinity }
               }}
             >
-              <div className="element-sprite" style={{ fontSize: '3rem' }}>
-                {element.sprite}
-              </div>
-              {element.isInteractive && !element.isActivated && (
-                <div className="interaction-hint">Click</div>
-              )}
-            </motion.div>
-          ))}
-        </div>
+              <div className={`atmosphere-gradient ${theme}`} />
+            </div>
 
-        {/* Table Surface */}
-        <div 
-          className="battlefield-table" 
-          style={{
-            transform: 'rotateX(90deg) translateZ(-10px)',
-            transformStyle: 'preserve-3d'
-          }}
-        />
-
-        {/* Opponent Cards Layer */}
-        <div className="opponent-cards-layer" style={{ transformStyle: 'preserve-3d' }}>
-          {opponentCards.map((card) => (
-            <motion.div
-              key={card.gameId}
-              className="card-3d opponent-card"
-              style={{
-                transform: calculateCardTransform(card),
-                transformStyle: 'preserve-3d'
-              }}
-              animate={{
-                rotateY: [180, 182, 180], // Subtle back-and-forth
-              }}
-              transition={{ duration: 4, repeat: Infinity }}
+            {/* Environmental Elements Layer */}
+            <div
+              className="environmental-layer"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="card-back">?</div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Player Cards Layer */}
-        <div className="player-cards-layer" style={{ transformStyle: 'preserve-3d' }}>
-          {playerCards.map((card) => (
-            <motion.div
-              key={card.gameId}
-              className={`card-3d player-card ${selectedCard?.gameId === card.gameId ? 'selected' : ''}`}
-              style={{
-                transform: calculateCardTransform(card),
-                transformStyle: 'preserve-3d'
-              }}
-              onClick={() => handleCardClick(card)}
-              whileHover={{ 
-                y: -20,
-                rotateX: card.position3D!.rotationX + 10,
-                scale: card.position3D!.scale * 1.05
-              }}
-              whileTap={{ scale: card.position3D!.scale * 0.95 }}
-              animate={selectedCard?.gameId === card.gameId ? {
-                y: [-10, 0, -10],
-                rotateZ: [-2, 2, -2]
-              } : {}}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              <div className="card-front">
-                <img 
-                  src={getCardImagePath(card)}
-                  alt={card.name}
-                  onError={(e) => {
-                    // Fallback to styled card
-                    (e.target as HTMLImageElement).style.display = 'none';
+              {environmentalElements.map(element => (
+                <motion.div
+                  key={element.id}
+                  className={`environmental-element-3d ${element.type} ${element.isActivated ? 'activated' : ''}`}
+                  style={{
+                    transform: calculateElementTransform(element),
+                    transformStyle: 'preserve-3d',
+                    zIndex: element.parallaxLayer,
                   }}
-                />
-                <div className="card-fallback">
-                  <div className="card-name">{card.name}</div>
-                  <div className="card-cost">{card.cost}</div>
-                  <div className="card-type">{card.type}</div>
-                  {card.elementalAffinity && (
-                    <div className="card-element" style={{
-                      fontSize: '10px',
-                      padding: '2px 4px',
-                      borderRadius: '3px',
-                      background: getElementalColor(card.elementalAffinity),
-                      color: '#fff',
-                      marginTop: '2px'
-                    }}>
-                      {card.elementalAffinity}
-                    </div>
+                  onClick={() => handleEnvironmentalClick(element)}
+                  whileHover={{
+                    scale: element.position3D.scale * 1.1,
+                    rotateY: 5,
+                  }}
+                  whileTap={{ scale: element.position3D.scale * 0.95 }}
+                  animate={{
+                    rotateY: element.isActivated ? [0, 360] : [0, 2, 0],
+                  }}
+                  transition={{
+                    rotateY: element.isActivated
+                      ? { duration: 0.8 }
+                      : { duration: 3, repeat: Infinity },
+                  }}
+                >
+                  <div className="element-sprite" style={{ fontSize: '3rem' }}>
+                    {element.sprite}
+                  </div>
+                  {element.isInteractive && !element.isActivated && (
+                    <div className="interaction-hint">Click</div>
                   )}
-                </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Table Surface */}
+            <div
+              className="battlefield-table"
+              style={{
+                transform: 'rotateX(90deg) translateZ(-10px)',
+                transformStyle: 'preserve-3d',
+              }}
+            />
+
+            {/* Opponent Cards Layer */}
+            <div
+              className="opponent-cards-layer"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              {opponentCards.map(card => (
+                <motion.div
+                  key={card.gameId}
+                  className="card-3d opponent-card"
+                  style={{
+                    transform: calculateCardTransform(card),
+                    transformStyle: 'preserve-3d',
+                  }}
+                  animate={{
+                    rotateY: [180, 182, 180], // Subtle back-and-forth
+                  }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  <div className="card-back">?</div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Player Cards Layer */}
+            <div
+              className="player-cards-layer"
+              style={{ transformStyle: 'preserve-3d' }}
+            >
+              {playerCards.map(card => (
+                <motion.div
+                  key={card.gameId}
+                  className={`card-3d player-card ${selectedCard?.gameId === card.gameId ? 'selected' : ''}`}
+                  style={{
+                    transform: calculateCardTransform(card),
+                    transformStyle: 'preserve-3d',
+                  }}
+                  onClick={() => handleCardClick(card)}
+                  whileHover={{
+                    y: -20,
+                    rotateX: card.position3D!.rotationX + 10,
+                    scale: card.position3D!.scale * 1.05,
+                  }}
+                  whileTap={{ scale: card.position3D!.scale * 0.95 }}
+                  animate={
+                    selectedCard?.gameId === card.gameId
+                      ? {
+                          y: [-10, 0, -10],
+                          rotateZ: [-2, 2, -2],
+                        }
+                      : {}
+                  }
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <div className="card-front">
+                    <img
+                      src={getCardImagePath(card)}
+                      alt={card.name}
+                      onError={e => {
+                        // Fallback to styled card
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="card-fallback">
+                      <div className="card-name">{card.name}</div>
+                      <div className="card-cost">{card.cost}</div>
+                      <div className="card-type">{card.type}</div>
+                      {card.elementalAffinity && (
+                        <div
+                          className="card-element"
+                          style={{
+                            fontSize: '10px',
+                            padding: '2px 4px',
+                            borderRadius: '3px',
+                            background: getElementalColor(
+                              card.elementalAffinity,
+                            ),
+                            color: '#fff',
+                            marginTop: '2px',
+                          }}
+                        >
+                          {card.elementalAffinity}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* UI Layer */}
+            <div
+              className="ui-layer"
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                pointerEvents: 'none',
+                zIndex: 1000,
+              }}
+            >
+              {/* First-person perspective indicator */}
+              <div
+                className="crosshair"
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  fontSize: '20px',
+                  color: 'rgba(255, 255, 255, 0.3)',
+                  pointerEvents: 'none',
+                }}
+              >
+                ⊕
               </div>
-            </motion.div>
-          ))}
-        </div>
 
-        {/* UI Layer */}
-        <div className="ui-layer" style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          pointerEvents: 'none',
-          zIndex: 1000
-        }}>
-          {/* First-person perspective indicator */}
-          <div className="crosshair" style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            fontSize: '20px',
-            color: 'rgba(255, 255, 255, 0.3)',
-            pointerEvents: 'none'
-          }}>
-            ⊕
-          </div>
-          
-          {/* Theme indicator */}
-          <div className="theme-indicator" style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            background: 'rgba(0, 0, 0, 0.7)',
-            color: '#fff',
-            padding: '8px 12px',
-            borderRadius: '6px',
-            fontSize: '12px',
-            textTransform: 'capitalize',
-            pointerEvents: 'none'
-          }}>
-            {theme.replace('-', ' ')} • First Person View
-          </div>
+              {/* Theme indicator */}
+              <div
+                className="theme-indicator"
+                style={{
+                  position: 'absolute',
+                  top: '20px',
+                  right: '20px',
+                  background: 'rgba(0, 0, 0, 0.7)',
+                  color: '#fff',
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  textTransform: 'capitalize',
+                  pointerEvents: 'none',
+                }}
+              >
+                {theme.replace('-', ' ')} • First Person View
+              </div>
+            </div>
+          </motion.div>
         </div>
-
-      </motion.div>
-    </div>
       )}
-      
+
       {/* View Toggle Button */}
       <motion.button
         className="view-toggle-button"
@@ -622,12 +709,12 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           cursor: 'pointer',
           backdropFilter: 'blur(10px)',
           zIndex: 1000,
-          transition: 'all 0.3s ease'
+          transition: 'all 0.3s ease',
         }}
         onClick={() => setEnhanced2_5DMode(!enhanced2_5DMode)}
-        whileHover={{ 
+        whileHover={{
           scale: 1.05,
-          boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)'
+          boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)',
         }}
         whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, x: -50 }}

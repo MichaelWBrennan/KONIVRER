@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FirstPersonGameCard, EnvironmentalElement3D } from './FirstPersonBattlefield';
+import {
+  FirstPersonGameCard,
+  EnvironmentalElement3D,
+} from './FirstPersonBattlefield';
 import { HybridMapTheme } from './HybridBattlefieldMap';
 import './Enhanced2_5DTableView.css';
 
@@ -31,52 +34,56 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
   selectedCard,
   onCardSelect,
   onElementInteraction,
-  atmosphericLighting
+  atmosphericLighting,
 }) => {
   const tableViewRef = useRef<HTMLDivElement>(null);
-  
+
   // Enhanced camera position for sitting at table perspective
   const [camera, setCamera] = useState<TableCamera>({
     position: { x: 0, y: -100, z: 400 }, // Positioned as if sitting at table
     rotation: { x: -25, y: 0, z: 0 }, // Looking down at table at comfortable angle
     perspective: 1200,
-    perspectiveOrigin: '50% 75%' // Perspective point closer to player
+    perspectiveOrigin: '50% 75%', // Perspective point closer to player
   });
 
   // Adjust camera based on theme for optimal viewing
   useEffect(() => {
     const themeCamera: Record<HybridMapTheme, Partial<TableCamera>> = {
-      'mysterious-cabin': { 
+      'mysterious-cabin': {
         position: { x: 0, y: -80, z: 380 },
         rotation: { x: -22, y: 0, z: 0 },
         perspective: 1100,
-        perspectiveOrigin: '50% 78%'
+        perspectiveOrigin: '50% 78%',
       },
-      'ancient-study': { 
+      'ancient-study': {
         position: { x: 0, y: -120, z: 420 },
         rotation: { x: -28, y: 0, z: 0 },
         perspective: 1300,
-        perspectiveOrigin: '50% 72%'
+        perspectiveOrigin: '50% 72%',
       },
-      'ritual-chamber': { 
+      'ritual-chamber': {
         position: { x: 0, y: -90, z: 400 },
         rotation: { x: -24, y: 0, z: 0 },
         perspective: 1000,
-        perspectiveOrigin: '50% 76%'
+        perspectiveOrigin: '50% 76%',
       },
-      'traders-den': { 
+      'traders-den': {
         position: { x: 0, y: -100, z: 400 },
         rotation: { x: -25, y: 0, z: 0 },
         perspective: 1200,
-        perspectiveOrigin: '50% 75%'
-      }
+        perspectiveOrigin: '50% 75%',
+      },
     };
 
     setCamera(prev => ({ ...prev, ...themeCamera[theme] }));
   }, [theme]);
 
   // Calculate 3D transform for card positioning
-  const getCardTransform = (card: FirstPersonGameCard, index: number, isOpponent: boolean) => {
+  const getCardTransform = (
+    card: FirstPersonGameCard,
+    index: number,
+    isOpponent: boolean,
+  ) => {
     const basePos = card.position3D;
     if (!basePos) return '';
 
@@ -84,25 +91,25 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
     const tableOffset = isOpponent ? -250 : 180; // Opponent across table, player near
     const cardSpacing = 85;
     const handArc = Math.PI / 6; // Gentle arc for hand
-    
+
     let x = basePos.x;
     let y = basePos.y + tableOffset;
     let z = basePos.z;
-    
+
     if (card.zone === 'hand') {
       // Create natural hand arc
       const arcIndex = index - Math.floor(playerCards.length / 2);
       const arcAngle = (arcIndex / (playerCards.length - 1)) * handArc;
-      
+
       x = arcIndex * cardSpacing;
       y = isOpponent ? -250 : 180;
       z = isOpponent ? 20 : -30;
-      
+
       // Add natural tilt and rotation
       const rotationY = arcAngle * 15; // Fan effect
       const rotationX = isOpponent ? -15 : 12; // Tilt toward/away from player
       const rotationZ = arcIndex * 2; // Slight twist
-      
+
       return `
         translate3d(${x}px, ${y}px, ${z}px)
         rotateX(${rotationX}deg)
@@ -111,7 +118,7 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
         scale(${isOpponent ? 0.85 : 1})
       `;
     }
-    
+
     // Battlefield cards lay flat on table
     return `
       translate3d(${x}px, ${y}px, ${z}px)
@@ -134,20 +141,20 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
   // Get color for KONIVRER elemental types
   const getElementalColor = (element: string) => {
     const colors: Record<string, string> = {
-      'Fire': '#ff4444',
-      'Water': '#4488ff',
-      'Air': '#88aaff',
-      'Earth': '#888844',
-      'Nether': '#444444',
-      'Aether': '#ffaa88',
-      'Chaos': '#aa44aa',
-      'Neutral': '#666666'
+      Fire: '#ff4444',
+      Water: '#4488ff',
+      Air: '#88aaff',
+      Earth: '#888844',
+      Nether: '#444444',
+      Aether: '#ffaa88',
+      Chaos: '#aa44aa',
+      Neutral: '#666666',
     };
     return colors[element] || colors.Neutral;
   };
 
   return (
-    <div 
+    <div
       ref={tableViewRef}
       className={`enhanced-2_5d-table-view ${theme} lighting-${atmosphericLighting}`}
       style={{
@@ -158,14 +165,14 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
           rotateX(${camera.rotation.x}deg)
           rotateY(${camera.rotation.y}deg)
           rotateZ(${camera.rotation.z}deg)
-        `
+        `,
       }}
     >
       {/* 3D Table Surface */}
       <div className="table-surface-3d">
         <div className="table-wood-grain" />
         <div className="table-lighting-overlay" />
-        
+
         {/* Table zones with depth */}
         <div className="battlefield-zones">
           <div className="opponent-zone" />
@@ -182,13 +189,13 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
 
       {/* Environmental Elements in 3D Space */}
       <AnimatePresence>
-        {environmentalElements.map((element) => (
+        {environmentalElements.map(element => (
           <motion.div
             key={element.id}
             className={`environmental-3d ${element.type} ${element.isActivated ? 'activated' : ''}`}
-            style={{ 
+            style={{
               transform: getEnvironmentalTransform(element),
-              transformStyle: 'preserve-3d'
+              transformStyle: 'preserve-3d',
             }}
             onClick={() => onElementInteraction(element)}
             initial={{ opacity: 0, scale: 0.8 }}
@@ -196,13 +203,9 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
             exit={{ opacity: 0, scale: 0.8 }}
             whileHover={{ scale: element.position3D.scale * 1.1 }}
           >
-            <div className="element-3d-sprite">
-              {element.sprite}
-            </div>
+            <div className="element-3d-sprite">{element.sprite}</div>
             {element.isInteractive && (
-              <div className="interaction-tooltip">
-                {element.name}
-              </div>
+              <div className="interaction-tooltip">{element.name}</div>
             )}
           </motion.div>
         ))}
@@ -217,7 +220,7 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
               className={`card-3d opponent-card ${card.zone}`}
               style={{
                 transform: getCardTransform(card, index, true),
-                transformStyle: 'preserve-3d'
+                transformStyle: 'preserve-3d',
               }}
               initial={{ rotateY: 180, opacity: 0 }}
               animate={{ rotateY: 0, opacity: 1 }}
@@ -239,17 +242,17 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
               className={`card-3d player-card ${card.zone} ${selectedCard?.gameId === card.gameId ? 'selected' : ''}`}
               style={{
                 transform: getCardTransform(card, index, false),
-                transformStyle: 'preserve-3d'
+                transformStyle: 'preserve-3d',
               }}
               onClick={() => onCardSelect(card)}
               initial={{ y: 50, opacity: 0, rotateY: -90 }}
               animate={{ y: 0, opacity: 1, rotateY: 0 }}
               exit={{ y: 50, opacity: 0, rotateY: 90 }}
               transition={{ delay: index * 0.1 }}
-              whileHover={{ 
-                z: -40, 
+              whileHover={{
+                z: -40,
                 rotateX: 8,
-                transition: { duration: 0.2 }
+                transition: { duration: 0.2 },
               }}
             >
               <div className="card-face card-front">
@@ -261,14 +264,17 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
                     <div className="card-type">{card.type}</div>
                     <div className="card-cost">{card.cost}</div>
                     {card.elementalAffinity && (
-                      <div className="card-element" style={{
-                        fontSize: '10px',
-                        padding: '2px 4px',
-                        borderRadius: '3px',
-                        background: getElementalColor(card.elementalAffinity),
-                        color: '#fff',
-                        marginTop: '2px'
-                      }}>
+                      <div
+                        className="card-element"
+                        style={{
+                          fontSize: '10px',
+                          padding: '2px 4px',
+                          borderRadius: '3px',
+                          background: getElementalColor(card.elementalAffinity),
+                          color: '#fff',
+                          marginTop: '2px',
+                        }}
+                      >
                         {card.elementalAffinity}
                       </div>
                     )}
@@ -283,7 +289,7 @@ export const Enhanced2_5DTableView: React.FC<Enhanced2_5DTableViewProps> = ({
 
       {/* Table Edge Highlight (for depth perception) */}
       <div className="table-edge-highlight" />
-      
+
       {/* Subtle crosshair for center reference */}
       <div className="table-center-marker">⊕</div>
     </div>
