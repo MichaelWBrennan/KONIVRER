@@ -3,16 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { KONIVRER_CARDS, Card } from '../../data/cards';
 import { audioManager } from '../../game/GameEngine';
 import { HybridMapTheme } from './HybridBattlefieldMap';
+import Enhanced2_5DTableView from './Enhanced2_5DTableView';
 import './FirstPersonBattlefield.css';
 
-// Enhanced card interface for first-person 2.5D system
+// Enhanced card interface for first-person 2.5D system using KONIVRER mechanics
 interface FirstPersonGameCard extends Card {
   gameId: string;
   zone: 'hand' | 'battlefield' | 'graveyard' | 'library' | 'exile' | 'stack';
   owner: 'player' | 'opponent';
   power?: number;
   toughness?: number;
-  manaCost: number;
+  elementalCost: number; // KONIVRER uses elemental energy instead of mana
   cardTypes: string[];
   isTapped?: boolean;
   isSelected?: boolean;
@@ -27,20 +28,20 @@ interface FirstPersonGameCard extends Card {
     rotationZ: number;
     scale: number;
   };
-  mysteryValue?: number;
-  environmentalBonus?: string;
+  elementalAffinity?: string; // KONIVRER elemental bonus system
 }
 
-// Environmental elements positioned in 3D space
+// Environmental elements positioned in 3D space using KONIVRER's elemental themes
 interface EnvironmentalElement3D {
   id: string;
   name: string;
-  type: 'book' | 'candle' | 'scale' | 'totem' | 'artifact' | 'scroll';
+  type: 'book' | 'candle' | 'crystal' | 'rune' | 'artifact' | 'scroll';
   position3D: { x: number; y: number; z: number; scale: number };
   sprite: string; // 2D sprite path
   isInteractive: boolean;
   loreText?: string;
-  gameEffect?: 'reveal-card' | 'add-mana' | 'draw-card' | 'scry' | 'none';
+  gameEffect?: 'reveal-card' | 'add-elemental-energy' | 'draw-card' | 'scry' | 'none';
+  elementalType?: 'Fire' | 'Water' | 'Air' | 'Earth' | 'Nether' | 'Aether' | 'Chaos'; // KONIVRER elements
   isActivated?: boolean;
   parallaxLayer: number; // Layer for parallax scrolling (0 = background, 10 = foreground)
 }
@@ -71,6 +72,10 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
   className = ''
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
+  
+  // Enhanced 2.5D table view toggle
+  const [enhanced2_5DMode, setEnhanced2_5DMode] = useState(true); // Default to enhanced view
+  
   const [camera, setCamera] = useState<Camera3D>({
     position: { x: 0, y: -200, z: 300 }, // First-person position
     rotation: { x: -10, y: 0, z: 0 }, // Looking down slightly at table
@@ -93,7 +98,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
     updateCameraForTheme(theme);
   }, [theme]);
 
-  // Initialize cards in first-person view
+  // Initialize cards in first-person view using KONIVRER elemental system
   useEffect(() => {
     const initializeCards = () => {
       const playerHand = KONIVRER_CARDS.slice(0, 7).map((card, index) => ({
@@ -101,7 +106,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
         gameId: `player-${card.id}-${index}`,
         zone: 'hand' as const,
         owner: 'player' as const,
-        manaCost: card.cost,
+        elementalCost: card.cost,
         cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
         power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
         toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
@@ -118,7 +123,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           rotationZ: 0,
           scale: 1
         },
-        mysteryValue: Math.floor(Math.random() * 10) + 1
+        elementalAffinity: card.elements.length > 0 ? card.elements[0] : 'Neutral'
       }));
 
       const opponentHandCards = KONIVRER_CARDS.slice(7, 14).map((card, index) => ({
@@ -126,7 +131,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
         gameId: `opponent-${card.id}-${index}`,
         zone: 'hand' as const,
         owner: 'opponent' as const,
-        manaCost: card.cost,
+        elementalCost: card.cost,
         cardTypes: card.type === 'Familiar' ? ['Creature'] : ['Enchantment'],
         power: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
         toughness: card.type === 'Familiar' ? Math.floor(Math.random() * 5) + 1 : undefined,
@@ -143,7 +148,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
           rotationZ: 0,
           scale: 0.8 // Smaller due to distance
         },
-        mysteryValue: Math.floor(Math.random() * 10) + 1
+        elementalAffinity: card.elements.length > 0 ? card.elements[0] : 'Neutral'
       }));
 
       setPlayerCards(playerHand);
@@ -157,108 +162,117 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
     const themeElements: Record<HybridMapTheme, EnvironmentalElement3D[]> = {
       'mysterious-cabin': [
         {
-          id: 'cabin-tome',
-          name: 'Ancient Tome',
-          type: 'book',
+          id: 'cabin-fire-rune',
+          name: 'Fire Rune Crystal',
+          type: 'crystal',
           position3D: { x: -200, y: -100, z: 30, scale: 1.2 },
-          sprite: '📚',
+          sprite: '🔥💎',
           isInteractive: true,
-          loreText: 'Ancient knowledge flows through these pages...',
-          gameEffect: 'scry',
+          loreText: 'Fire elemental energy radiates from this crystal...',
+          gameEffect: 'add-elemental-energy',
+          elementalType: 'Fire',
           parallaxLayer: 3
         },
         {
-          id: 'cabin-candle',
-          name: 'Flickering Candle',
-          type: 'candle',
+          id: 'cabin-earth-rune',
+          name: 'Earth Rune Stone',
+          type: 'rune',
           position3D: { x: 180, y: -50, z: 25, scale: 1.0 },
-          sprite: '🕯️',
+          sprite: '🌍🗿',
           isInteractive: true,
-          loreText: 'The flame reveals hidden truths...',
-          gameEffect: 'reveal-card',
+          loreText: 'The strength of the earth flows through this stone...',
+          gameEffect: 'draw-card',
+          elementalType: 'Earth',
           parallaxLayer: 4
         },
         {
-          id: 'cabin-scale',
-          name: 'Merchant\'s Scale',
-          type: 'scale',
+          id: 'cabin-air-crystal',
+          name: 'Air Crystal Shard',
+          type: 'crystal',
           position3D: { x: -150, y: 80, z: 20, scale: 0.9 },
-          sprite: '⚖️',
+          sprite: '💨💎',
           isInteractive: true,
-          loreText: 'Balance guides all transactions...',
-          gameEffect: 'add-mana',
+          loreText: 'Winds whisper secrets through this crystal...',
+          gameEffect: 'scry',
+          elementalType: 'Air',
           parallaxLayer: 2
         }
       ],
       'ancient-study': [
         {
-          id: 'study-crystal',
-          name: 'Scrying Crystal',
-          type: 'artifact',
+          id: 'study-aether-crystal',
+          name: 'Aether Scrying Crystal',
+          type: 'crystal',
           position3D: { x: 0, y: -80, z: 40, scale: 1.5 },
-          sprite: '🔮',
+          sprite: '✨🔮',
           isInteractive: true,
-          loreText: 'Peer into the mysteries of fate...',
+          loreText: 'Aether energy reveals hidden knowledge...',
           gameEffect: 'scry',
+          elementalType: 'Aether',
           parallaxLayer: 5
         },
         {
-          id: 'study-totem',
-          name: 'Wisdom Totem',
-          type: 'totem',
+          id: 'study-water-rune',
+          name: 'Water Rune Tablet',
+          type: 'rune',
           position3D: { x: 120, y: -120, z: 35, scale: 1.1 },
-          sprite: '🗿',
+          sprite: '🌊📜',
           isInteractive: true,
-          loreText: 'Ancient wisdom guides your path...',
+          loreText: 'Water flows with wisdom and knowledge...',
           gameEffect: 'draw-card',
+          elementalType: 'Water',
           parallaxLayer: 3
         }
       ],
       'ritual-chamber': [
         {
-          id: 'chamber-brazier',
-          name: 'Sacred Brazier',
+          id: 'chamber-nether-brazier',
+          name: 'Nether Flame Brazier',
           type: 'candle',
           position3D: { x: -100, y: -200, z: 60, scale: 1.3 },
-          sprite: '🔥',
+          sprite: '🖤🔥',
           isInteractive: true,
-          loreText: 'Sacred flames empower your magic...',
-          gameEffect: 'add-mana',
+          loreText: 'Nether flames burn with dark energy...',
+          gameEffect: 'add-elemental-energy',
+          elementalType: 'Nether',
           parallaxLayer: 6
         },
         {
-          id: 'chamber-dagger',
-          name: 'Ritual Dagger',
-          type: 'artifact',
+          id: 'chamber-chaos-shard',
+          name: 'Chaos Crystal Shard',
+          type: 'crystal',
           position3D: { x: 50, y: -50, z: 15, scale: 0.8 },
-          sprite: '🗡️',
+          sprite: '🌀💎',
           isInteractive: true,
-          loreText: 'Cut through deception and illusion...',
+          loreText: 'Chaotic energy shifts reality itself...',
           gameEffect: 'reveal-card',
+          elementalType: 'Chaos',
           parallaxLayer: 1
         }
       ],
       'traders-den': [
         {
-          id: 'den-gold-scale',
-          name: 'Golden Scale',
-          type: 'scale',
+          id: 'den-mixed-crystal',
+          name: 'Multi-Elemental Crystal',
+          type: 'crystal',
           position3D: { x: -80, y: -60, z: 25, scale: 1.1 },
-          sprite: '⚖️',
+          sprite: '🌈💎',
           isInteractive: true,
-          loreText: 'Every deal has its price...',
-          gameEffect: 'draw-card',
+          loreText: 'This crystal pulses with all elemental energies...',
+          gameEffect: 'add-elemental-energy',
+          elementalType: 'Aether',
           parallaxLayer: 4
         },
         {
-          id: 'den-compass',
-          name: 'Trader\'s Compass',
-          type: 'artifact',
+          id: 'den-compass-rune',
+          name: 'Navigation Rune',
+          type: 'rune',
           position3D: { x: 100, y: -100, z: 20, scale: 0.9 },
-          sprite: '🧭',
+          sprite: '🧭🗿',
           isInteractive: true,
-          loreText: 'Navigate to profitable ventures...',
-          gameEffect: 'add-mana',
+          loreText: 'Find your path through elemental mastery...',
+          gameEffect: 'scry',
+          elementalType: 'Air',
           parallaxLayer: 2
         }
       ]
@@ -331,7 +345,7 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
     const convertedElement = {
       ...element,
       position: { x: element.position3D.x, y: element.position3D.y }, // Convert to 2D position
-      type: element.type as 'book' | 'candle' | 'scale' | 'totem' | 'artifact' | 'scroll'
+      type: element.type as 'book' | 'candle' | 'crystal' | 'rune' | 'artifact' | 'scroll'
     };
 
     onEnvironmentalInteraction?.(convertedElement);
@@ -364,35 +378,67 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
     return `/public/assets/cards/${imageName}.png`;
   };
 
+  // Get color for KONIVRER elemental types
+  const getElementalColor = (element: string) => {
+    const colors: Record<string, string> = {
+      'Fire': '#ff4444',
+      'Water': '#4488ff',
+      'Air': '#88aaff',
+      'Earth': '#888844',
+      'Nether': '#444444',
+      'Aether': '#ffaa88',
+      'Chaos': '#aa44aa',
+      'Neutral': '#666666'
+    };
+    return colors[element] || colors.Neutral;
+  };
+
   return (
-    <div 
-      className={`first-person-battlefield ${className} ${theme} lighting-${atmosphericLighting}`}
-      ref={canvasRef}
-      style={{
-        perspective: `${camera.perspective}px`,
-        perspectiveOrigin: 'center center'
-      }}
-    >
-      {/* 3D Scene Container (Godot-inspired scene tree) */}
-      <motion.div 
-        className="scene-root"
-        style={{
-          transform: `
-            translate3d(${camera.position.x}px, ${camera.position.y}px, ${camera.position.z}px)
-            rotateX(${camera.rotation.x}deg)
-            rotateY(${camera.rotation.y}deg)
-            rotateZ(${camera.rotation.z}deg)
-          `,
-          transformStyle: 'preserve-3d'
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-      >
-        
-        {/* Background Layer - Parallax */}
-        <div className="background-layer" style={{ 
-          transform: 'translateZ(-500px) scale(2)',
+    <>
+      {/* Enhanced 2.5D Table View */}
+      {enhanced2_5DMode && (
+        <Enhanced2_5DTableView
+          playerCards={playerCards}
+          opponentCards={opponentCards}
+          environmentalElements={environmentalElements}
+          theme={theme}
+          selectedCard={selectedCard}
+          onCardSelect={setSelectedCard}
+          onElementInteraction={handleEnvironmentalClick}
+          atmosphericLighting={atmosphericLighting}
+        />
+      )}
+      
+      {/* Original First Person View */}
+      {!enhanced2_5DMode && (
+        <div 
+          className={`first-person-battlefield ${className} ${theme} lighting-${atmosphericLighting}`}
+          ref={canvasRef}
+          style={{
+            perspective: `${camera.perspective}px`,
+            perspectiveOrigin: 'center center'
+          }}
+        >
+          {/* 3D Scene Container (Godot-inspired scene tree) */}
+          <motion.div 
+            className="scene-root"
+            style={{
+              transform: `
+                translate3d(${camera.position.x}px, ${camera.position.y}px, ${camera.position.z}px)
+                rotateX(${camera.rotation.x}deg)
+                rotateY(${camera.rotation.y}deg)
+                rotateZ(${camera.rotation.z}deg)
+              `,
+              transformStyle: 'preserve-3d'
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5 }}
+          >
+            
+            {/* Background Layer - Parallax */}
+            <div className="background-layer" style={{ 
+              transform: 'translateZ(-500px) scale(2)',
           transformStyle: 'preserve-3d'
         }}>
           <div className={`atmosphere-gradient ${theme}`} />
@@ -497,6 +543,18 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
                   <div className="card-name">{card.name}</div>
                   <div className="card-cost">{card.cost}</div>
                   <div className="card-type">{card.type}</div>
+                  {card.elementalAffinity && (
+                    <div className="card-element" style={{
+                      fontSize: '10px',
+                      padding: '2px 4px',
+                      borderRadius: '3px',
+                      background: getElementalColor(card.elementalAffinity),
+                      color: '#fff',
+                      marginTop: '2px'
+                    }}>
+                      {card.elementalAffinity}
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -545,6 +603,44 @@ const FirstPersonBattlefield: React.FC<FirstPersonBattlefieldProps> = ({
 
       </motion.div>
     </div>
+      )}
+      
+      {/* View Toggle Button */}
+      <motion.button
+        className="view-toggle-button"
+        style={{
+          position: 'fixed',
+          top: '20px',
+          left: '20px',
+          padding: '12px 20px',
+          background: 'rgba(0, 0, 0, 0.8)',
+          border: '2px solid rgba(255, 215, 0, 0.6)',
+          borderRadius: '25px',
+          color: '#ffd700',
+          fontSize: '14px',
+          fontWeight: 'bold',
+          cursor: 'pointer',
+          backdropFilter: 'blur(10px)',
+          zIndex: 1000,
+          transition: 'all 0.3s ease'
+        }}
+        onClick={() => setEnhanced2_5DMode(!enhanced2_5DMode)}
+        whileHover={{ 
+          scale: 1.05,
+          boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)'
+        }}
+        whileTap={{ scale: 0.95 }}
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 1 }}
+      >
+        {enhanced2_5DMode ? '🎮 2.5D Table View' : '👁️ First Person View'}
+        <br />
+        <span style={{ fontSize: '11px', opacity: 0.8 }}>
+          Click to switch perspective
+        </span>
+      </motion.button>
+    </>
   );
 };
 
