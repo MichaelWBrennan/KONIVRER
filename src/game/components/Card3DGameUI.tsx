@@ -4,9 +4,11 @@ import { Card3D } from '../3d/Card3D';
 import { CardPhysicsSystem } from '../3d/CardPhysics';
 import { MysticalArena } from '../3d/MysticalArena';
 import { KONIVRER_CARDS, Card } from '../../data/cards';
+import { DynamicSizing } from '../../utils/userAgentSizing';
 
 interface Card3DGameUIProps {
   onClose: () => void;
+  dynamicSizing: DynamicSizing;
 }
 
 interface GameState {
@@ -21,7 +23,7 @@ interface GameState {
   selectedCard: Card | null;
 }
 
-const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
+const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose, dynamicSizing }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<BABYLON.Engine | null>(null);
   const sceneRef = useRef<BABYLON.Scene | null>(null);
@@ -59,13 +61,27 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
     try {
       setLoadingProgress(10);
 
-      // Create Babylon.js engine
-      const engine = new BABYLON.Engine(canvasRef.current, true, {
-        antialias: true,
+      // Create Babylon.js engine with user agent aware settings
+      const engineOptions = {
+        antialias: dynamicSizing.scaleFactor >= 1.0, // Enable antialiasing for high-scale devices
         alpha: false,
         powerPreference: 'high-performance',
-      });
+        stencil: true,
+        preserveDrawingBuffer: true,
+      };
+      
+      const engine = new BABYLON.Engine(canvasRef.current, true, engineOptions);
       engineRef.current = engine;
+
+      // Add resize handling that responds to dynamic sizing changes
+      const handleResize = () => {
+        if (engineRef.current) {
+          engineRef.current.resize();
+        }
+      };
+      
+      window.addEventListener('resize', handleResize);
+      window.addEventListener('orientationchange', handleResize);
 
       setLoadingProgress(20);
 
@@ -101,27 +117,37 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
 
       setLoadingProgress(50);
 
-      // Initialize arena
+      // Initialize arena with user agent aware configuration
+      const isMobile = dynamicSizing.width < 768;
+      const isLowEnd = dynamicSizing.scaleFactor < 0.9;
+      
       const arena = new MysticalArena(scene, {
         theme: 'hearthstone',
-        quality: 'medium',
-        enableParticles: true,
+        quality: isLowEnd ? 'low' : isMobile ? 'medium' : 'high',
+        enableParticles: !isLowEnd,
         enableLighting: true,
-        enablePostProcessing: false,
-        isMobile: window.innerWidth < 768,
+        enablePostProcessing: !isMobile && !isLowEnd,
+        isMobile: isMobile,
         enableInteractiveElements: true,
-        enableIdleAnimations: true,
+        enableIdleAnimations: !isLowEnd,
+        // Pass scale factor for performance optimizations
+        renderingTechniques: {
+          enableMode7Background: dynamicSizing.scaleFactor >= 1.0,
+          enableIsometricView: true,
+          enable2_5DSprites: !isLowEnd,
+          enableParallaxLayers: dynamicSizing.scaleFactor >= 1.0,
+        },
       });
       arenaRef.current = arena;
 
       await arena.initialize();
       setLoadingProgress(70);
 
-      // Initialize physics system
+      // Initialize physics system with user agent aware settings
       const physics = new CardPhysicsSystem(scene, {
         tableHeight: 0,
-        enableCardCollisions: true,
-        dragSmoothing: 0.2,
+        enableCardCollisions: !isLowEnd, // Disable on low-end devices for performance
+        dragSmoothing: isMobile ? 0.1 : 0.2, // Faster response on mobile
       });
       physicsRef.current = physics;
 
@@ -133,11 +159,6 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
       // Start render loop
       engine.runRenderLoop(() => {
         scene.render();
-      });
-
-      // Handle window resize
-      window.addEventListener('resize', () => {
-        engine.resize();
       });
 
       setLoadingProgress(100);
@@ -504,14 +525,22 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose }) => {
         </div>
       </div>
 
-      {/* 3D Canvas */}
+      {/* 3D Canvas with user agent aware styling */}
       <canvas
         ref={canvasRef}
         style={{
-          width: '100%',
-          height: '100%',
+          width: dynamicSizing.cssWidth,
+          height: dynamicSizing.cssHeight,
           display: 'block',
           outline: 'none',
+          touchAction: 'manipulation',
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
+          // Apply safe area insets for devices with notches
+          marginTop: `${dynamicSizing.safeAreaInsets.top}px`,
+          marginBottom: `${dynamicSizing.safeAreaInsets.bottom}px`,
+          marginLeft: `${dynamicSizing.safeAreaInsets.left}px`,
+          marginRight: `${dynamicSizing.safeAreaInsets.right}px`,
         }}
       />
 
