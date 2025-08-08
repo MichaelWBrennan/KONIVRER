@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KONIVRER_CARDS, Card } from '../data/cards';
 import { audioManager } from '../game/GameEngine';
-import HybridBattlefieldMap, { HybridMapTheme } from './battlefield/HybridBattlefieldMap';
+import FirstPersonBattlefield from './battlefield/FirstPersonBattlefield';
+import { HybridMapTheme } from './battlefield/HybridBattlefieldMap';
 
 // Enhanced game card interface that bridges MTG Arena and Inscryption styles
 interface EnhancedGameCard extends Card {
@@ -445,13 +446,14 @@ const EnhancedMTGInscryptionSimulator: React.FC<EnhancedMTGInscryptionSimulatorP
           </motion.div>
         )}
 
-        {/* Hybrid battlefield map */}
+        {/* 2.5D First-Person Battlefield */}
         <div style={{ flex: 1, position: 'relative' }}>
-          <HybridBattlefieldMap
+          <FirstPersonBattlefield
             theme={gameState.mapTheme}
             onThemeChange={handleThemeChange}
             onEnvironmentalInteraction={handleEnvironmentalInteraction}
-            className="main-battlefield"
+            onCardAction={handleCardPlay}
+            className="main-battlefield-fp"
           />
         </div>
 
