@@ -12,8 +12,6 @@ const RulesPage: React.FC = () => {
           'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)',
       }}
     >
-
-
       {/* Rules Viewer Component */}
       <RulesViewer />
     </div>

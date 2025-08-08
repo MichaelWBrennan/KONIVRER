@@ -5,7 +5,11 @@
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background: radial-gradient(circle at center, rgba(15, 8, 5, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  background: radial-gradient(
+    circle at center,
+    rgba(15, 8, 5, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
   cursor: crosshair;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -80,8 +84,14 @@
 }
 
 @keyframes atmosphericShift {
-  0% { opacity: 0.4; filter: blur(0px); }
-  100% { opacity: 0.7; filter: blur(1px); }
+  0% {
+    opacity: 0.4;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0.7;
+    filter: blur(1px);
+  }
 }
 
 /* Battlefield Table Surface */
@@ -99,16 +109,18 @@
   );
   border: 2px solid rgba(139, 69, 19, 0.5);
   border-radius: 20px;
-  box-shadow: 
+  box-shadow:
     inset 0 0 50px rgba(0, 0, 0, 0.3),
     0 10px 30px rgba(0, 0, 0, 0.5);
   transform-style: preserve-3d;
-  
+
   /* Wood grain texture simulation */
-  background-image: 
+  background-image:
     linear-gradient(90deg, rgba(139, 69, 19, 0.1) 50%, transparent 50%),
     linear-gradient(rgba(101, 67, 33, 0.1) 50%, transparent 50%);
-  background-size: 4px 4px, 2px 2px;
+  background-size:
+    4px 4px,
+    2px 2px;
 }
 
 /* Lighting Effects */
@@ -162,12 +174,14 @@
   border-radius: 8px;
   backface-visibility: hidden;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 
+  box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  background: linear-gradient(135deg, 
-    rgba(25, 25, 25, 0.9) 0%, 
-    rgba(45, 45, 45, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(25, 25, 25, 0.9) 0%,
+    rgba(45, 45, 45, 0.9) 100%
+  );
 }
 
 .card-front {
@@ -182,9 +196,11 @@
   justify-content: center;
   font-size: 2rem;
   color: rgba(255, 255, 255, 0.5);
-  background: linear-gradient(135deg, 
-    rgba(15, 15, 35, 0.9) 0%, 
-    rgba(25, 25, 45, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 15, 35, 0.9) 0%,
+    rgba(25, 25, 45, 0.9) 100%
+  );
 }
 
 .card-front img {
@@ -206,9 +222,11 @@
   padding: 8px;
   color: #fff;
   font-size: 10px;
-  background: linear-gradient(135deg, 
-    rgba(25, 25, 25, 0.95) 0%, 
-    rgba(45, 45, 45, 0.95) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(25, 25, 25, 0.95) 0%,
+    rgba(45, 45, 45, 0.95) 100%
+  );
   border-radius: 6px;
 }
 
@@ -256,11 +274,12 @@
 }
 
 @keyframes selectedPulse {
-  0%, 100% { 
+  0%,
+  100% {
     filter: drop-shadow(0 0 30px var(--primary-light));
     transform: scale(1);
   }
-  50% { 
+  50% {
     filter: drop-shadow(0 0 40px var(--secondary-light));
     transform: scale(1.02);
   }
@@ -300,8 +319,12 @@
 }
 
 @keyframes elementFloat {
-  0% { transform: translateY(0px) rotateY(0deg); }
-  100% { transform: translateY(-8px) rotateY(5deg); }
+  0% {
+    transform: translateY(0px) rotateY(0deg);
+  }
+  100% {
+    transform: translateY(-8px) rotateY(5deg);
+  }
 }
 
 .interaction-hint {
@@ -330,16 +353,17 @@
 }
 
 @keyframes candleFlicker {
-  0%, 100% { 
+  0%,
+  100% {
     filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.6));
   }
-  25% { 
+  25% {
     filter: drop-shadow(0 4px 16px rgba(255, 165, 0, 0.8));
   }
-  50% { 
+  50% {
     filter: drop-shadow(0 4px 12px rgba(255, 140, 0, 0.6));
   }
-  75% { 
+  75% {
     filter: drop-shadow(0 4px 18px rgba(255, 100, 0, 0.7));
   }
 }
@@ -349,8 +373,13 @@
 }
 
 @keyframes bookWisdom {
-  0%, 100% { transform: rotateY(0deg) rotateX(0deg); }
-  50% { transform: rotateY(3deg) rotateX(1deg); }
+  0%,
+  100% {
+    transform: rotateY(0deg) rotateX(0deg);
+  }
+  50% {
+    transform: rotateY(3deg) rotateX(1deg);
+  }
 }
 
 .environmental-element-3d.scale {
@@ -358,9 +387,18 @@
 }
 
 @keyframes scaleBalance {
-  0%, 40%, 60%, 100% { transform: rotateZ(0deg); }
-  20% { transform: rotateZ(-2deg); }
-  80% { transform: rotateZ(2deg); }
+  0%,
+  40%,
+  60%,
+  100% {
+    transform: rotateZ(0deg);
+  }
+  20% {
+    transform: rotateZ(-2deg);
+  }
+  80% {
+    transform: rotateZ(2deg);
+  }
 }
 
 .environmental-element-3d.totem {
@@ -368,10 +406,11 @@
 }
 
 @keyframes totemPower {
-  0%, 100% { 
+  0%,
+  100% {
     filter: drop-shadow(0 4px 12px var(--shadow-color));
   }
-  50% { 
+  50% {
     filter: drop-shadow(0 8px 20px var(--primary-light));
   }
 }
@@ -381,11 +420,12 @@
 }
 
 @keyframes artifactEnergy {
-  0%, 100% { 
+  0%,
+  100% {
     text-shadow: 0 0 10px var(--primary-light);
     transform: scale(1);
   }
-  50% { 
+  50% {
     text-shadow: 0 0 20px var(--secondary-light);
     transform: scale(1.05);
   }
@@ -401,8 +441,13 @@
 }
 
 @keyframes crosshairPulse {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .theme-indicator {
@@ -418,16 +463,16 @@
     width: 60px;
     height: 90px;
   }
-  
+
   .environmental-element-3d {
     width: 45px;
     height: 45px;
   }
-  
+
   .element-sprite {
     font-size: 2rem;
   }
-  
+
   .battlefield-table {
     width: 600px;
     height: 400px;
@@ -444,7 +489,7 @@
   .crosshair {
     animation: none !important;
   }
-  
+
   .card-3d:hover,
   .environmental-element-3d:hover {
     transform: none !important;
@@ -458,7 +503,7 @@
     border: 3px solid #ffffff;
     box-shadow: 0 0 0 1px #000000;
   }
-  
+
   .environmental-element-3d .element-sprite {
     text-shadow: 2px 2px 0 #000000;
   }
