@@ -1,9 +1,0 @@
-{
-  "babylonjs": {
-    "current": "8.21.0",
-    "wanted": "8.21.1",
-    "latest": "8.21.1",
-    "dependent": "KONIVRER-deck-database",
-    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/babylonjs"
-  }
-}
