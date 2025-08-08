@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KONIVRER_CARDS, Card } from '../../data/cards';
+import { DynamicSizing } from '../../utils/userAgentSizing';
 
 interface CardGameUIProps {
   onClose: () => void;
+  dynamicSizing: DynamicSizing;
 }
 
 interface GameState {
@@ -18,7 +20,7 @@ interface GameState {
   selectedCard: Card | null;
 }
 
-const CardGameUI: React.FC<CardGameUIProps> = ({ onClose }) => {
+const CardGameUI: React.FC<CardGameUIProps> = ({ onClose, dynamicSizing }) => {
   const [gameState, setGameState] = useState<GameState>({
     playerHand: [],
     playerBoard: [],

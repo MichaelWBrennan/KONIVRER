@@ -353,8 +353,12 @@ export class GameEngine {
 
     this.scene = new BABYLON.Scene(this.engine);
 
-    // Add resize handling first
+    // Add resize and orientation change handling
     window.addEventListener('resize', this.handleResize.bind(this));
+    window.addEventListener('orientationchange', () => {
+      // Delay to ensure orientation change is complete
+      setTimeout(this.handleResize.bind(this), 100);
+    });
 
     // Initialize core systems progressively
     await this.initCoreSystemsAsync();
@@ -467,12 +471,55 @@ export class GameEngine {
   private handleResize(): void {
     if (this.engine) {
       this.engine.resize();
+      
+      // Recalculate device capabilities and adjust settings
+      this.updateUserAgentSettings();
     }
+  }
+
+  private updateUserAgentSettings(): void {
+    // Detect device capabilities on resize/orientation change
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|windows phone|mobile/i.test(userAgent);
+    const isTablet = /ipad|android(?!.*mobile)|tablet/i.test(userAgent);
+    const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    const pixelRatio = window.devicePixelRatio || 1;
+    
+    // Update camera constraints based on device
+    if (this.camera && this.camera instanceof BABYLON.ArcRotateCamera) {
+      if (isMobile) {
+        // Mobile devices: looser constraints for easier touch controls
+        this.camera.wheelDeltaPercentage = 0.02;
+        this.camera.pinchDeltaPercentage = 0.02;
+        this.camera.panningSensibility = 1000; // Less sensitive panning
+      } else {
+        // Desktop: tighter controls for precision
+        this.camera.wheelDeltaPercentage = 0.01;
+        this.camera.pinchDeltaPercentage = 0.01;
+        this.camera.panningSensibility = 500;
+      }
+    }
+
+    // Update mystical arena quality based on current screen size and performance
+    if (this.mysticalArena) {
+      const isLowPerformance = window.innerWidth < 768 || pixelRatio < 1.5;
+      const quality = isLowPerformance ? 'low' : isMobile ? 'medium' : 'high';
+      this.mysticalArena.updateQuality(quality);
+    }
+
+    console.log('[GameEngine] User agent settings updated:', {
+      isMobile,
+      isTablet,
+      hasTouch,
+      pixelRatio,
+      screenSize: `${window.innerWidth}x${window.innerHeight}`
+    });
   }
 
   public destroy(): void {
     if (this.engine) {
       window.removeEventListener('resize', this.handleResize.bind(this));
+      window.removeEventListener('orientationchange', this.handleResize.bind(this));
 
       // Clean up touch event listeners
       const canvas = this.engine.getRenderingCanvas();
