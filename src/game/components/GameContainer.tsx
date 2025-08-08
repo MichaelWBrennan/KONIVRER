@@ -154,17 +154,21 @@ export const GameContainer: React.FC<GameContainerProps> = ({
     );
   };
 
+  // Enhanced container style with full user agent aware sizing
   const containerStyle: React.CSSProperties = {
     position: 'relative',
-    width: '100%',
-    height: '100%',
-    maxWidth:
-      dynamicSizing.unit === 'px' ? `${dynamicSizing.maxWidth}px` : '100%',
-    maxHeight:
-      dynamicSizing.unit === 'px' ? `${dynamicSizing.maxHeight}px` : '100%',
+    width: dynamicSizing.cssWidth,
+    height: dynamicSizing.cssHeight,
+    maxWidth: `${dynamicSizing.maxWidth}px`,
+    maxHeight: `${dynamicSizing.maxHeight}px`,
     minWidth: `${dynamicSizing.minWidth}px`,
     minHeight: `${dynamicSizing.minHeight}px`,
     margin: '0 auto',
+    padding: `${dynamicSizing.containerPadding}px`,
+    paddingTop: `${dynamicSizing.safeAreaInsets.top + dynamicSizing.containerPadding}px`,
+    paddingBottom: `${dynamicSizing.safeAreaInsets.bottom + dynamicSizing.containerPadding}px`,
+    paddingLeft: `${dynamicSizing.safeAreaInsets.left + dynamicSizing.containerPadding}px`,
+    paddingRight: `${dynamicSizing.safeAreaInsets.right + dynamicSizing.containerPadding}px`,
     zIndex: 10,
     background: '#1a1a1a',
     overflow: 'hidden',
@@ -179,6 +183,14 @@ export const GameContainer: React.FC<GameContainerProps> = ({
         ? '0 4px 20px rgba(0, 0, 0, 0.3)'
         : 'none',
     boxSizing: 'border-box',
+    // CSS custom properties for child components to use
+    '--dynamic-width': dynamicSizing.cssWidth,
+    '--dynamic-height': dynamicSizing.cssHeight,
+    '--scale-factor': dynamicSizing.scaleFactor.toString(),
+    '--safe-area-top': `${dynamicSizing.safeAreaInsets.top}px`,
+    '--safe-area-bottom': `${dynamicSizing.safeAreaInsets.bottom}px`,
+    '--safe-area-left': `${dynamicSizing.safeAreaInsets.left}px`,
+    '--safe-area-right': `${dynamicSizing.safeAreaInsets.right}px`,
   } as React.CSSProperties;
 
   return (
@@ -391,9 +403,13 @@ export const GameContainer: React.FC<GameContainerProps> = ({
           </motion.div>
         )}
 
-        {gameState === 'playing' && <CardGameUI onClose={handleClose} />}
+        {gameState === 'playing' && (
+          <CardGameUI onClose={handleClose} dynamicSizing={dynamicSizing} />
+        )}
 
-        {gameState === 'playing3d' && <Card3DGameUI onClose={handleClose} />}
+        {gameState === 'playing3d' && (
+          <Card3DGameUI onClose={handleClose} dynamicSizing={dynamicSizing} />
+        )}
       </AnimatePresence>
     </div>
   );
