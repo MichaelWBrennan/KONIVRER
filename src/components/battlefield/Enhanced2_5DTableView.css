@@ -13,9 +13,9 @@
 /* 3D Table Surface */
 .table-surface-3d {
   position: absolute;
-  width: 900px;
+  width: 600px;
   height: 600px;
-  left: -450px;
+  left: -300px;
   top: -300px;
   transform-style: preserve-3d;
   transform: rotateX(-2deg) translateZ(0);
@@ -420,9 +420,9 @@
 /* Table Edge Highlight */
 .table-edge-highlight {
   position: absolute;
-  width: 920px;
+  width: 620px;
   height: 620px;
-  left: -460px;
+  left: -310px;
   top: -310px;
   border: 1px solid rgba(255, 215, 0, 0.1);
   border-radius: 28px;
@@ -480,10 +480,17 @@
 /* Responsive Design for Table View */
 @media (max-width: 1200px) {
   .table-surface-3d {
-    width: 750px;
+    width: 500px;
     height: 500px;
-    left: -375px;
+    left: -250px;
     top: -250px;
+  }
+  
+  .table-edge-highlight {
+    width: 520px;
+    height: 520px;
+    left: -260px;
+    top: -260px;
   }
   
   .card-3d {
@@ -503,10 +510,17 @@
   }
   
   .table-surface-3d {
-    width: 600px;
+    width: 400px;
     height: 400px;
-    left: -300px;
+    left: -200px;
     top: -200px;
+  }
+  
+  .table-edge-highlight {
+    width: 420px;
+    height: 420px;
+    left: -210px;
+    top: -210px;
   }
   
   .card-3d {
