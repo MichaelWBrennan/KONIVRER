@@ -10,6 +10,7 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
 }) => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isLandscape, setIsLandscape] = useState(false);
+  const [isIPhone16Pro, setIsIPhone16Pro] = useState(false);
 
   // Check if device is mobile/tablet and currently in portrait
   const checkOrientation = () => {
@@ -21,10 +22,13 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
     const isSmallScreen = window.innerWidth <= 768;
     
     // Enhanced iPhone 16 Pro detection - more flexible detection
-    const isIPhone16Pro = /iphone/i.test(navigator.userAgent.toLowerCase()) && 
+    const isIPhone16ProDevice = /iphone/i.test(navigator.userAgent.toLowerCase()) && 
                           window.devicePixelRatio === 3 && 
                           ((window.screen.width === 393 && window.screen.height === 852) || 
                            (window.screen.width === 852 && window.screen.height === 393));
+
+    // Update state for iPhone 16 Pro
+    setIsIPhone16Pro(isIPhone16ProDevice);
 
     // Only show on mobile/touch devices with small screens, but be less aggressive on iPhone 16 Pro
     const shouldShowOnDevice = isMobile || (isTouch && isSmallScreen);
@@ -36,12 +40,10 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
     // 1. Device should show prompt (mobile/touch + small screen)
     // 2. Currently in portrait mode
     // 3. Screen height is greater than width (portrait)
-    // 4. NOT iPhone 16 Pro (to improve user experience)
     const shouldShow =
       shouldShowOnDevice &&
       !currentlyLandscape &&
-      window.innerHeight > window.innerWidth &&
-      !isIPhone16Pro; // Disable for iPhone 16 Pro to improve visibility
+      window.innerHeight > window.innerWidth;
     
     setShowPrompt(shouldShow);
 
@@ -139,14 +141,33 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
             justifyContent: 'center',
             color: 'white',
             textAlign: 'center',
-            padding: '20px',
+            padding: isIPhone16Pro ? '40px 20px' : '20px',
+            paddingTop: isIPhone16Pro ? 'max(40px, env(safe-area-inset-top))' : '20px',
+            paddingBottom: isIPhone16Pro ? 'max(40px, env(safe-area-inset-bottom))' : '20px',
+            paddingLeft: isIPhone16Pro ? 'max(20px, env(safe-area-inset-left))' : '20px',
+            paddingRight: isIPhone16Pro ? 'max(20px, env(safe-area-inset-right))' : '20px',
             backdropFilter: 'blur(10px)',
+            // Ensure content is centered within safe area
+            boxSizing: 'border-box',
           }}
           variants={promptVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
+          {/* Content container for better centering on iPhone 16 Pro */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              maxWidth: isIPhone16Pro ? '350px' : '400px',
+              // Ensure content is properly centered within available space
+              minHeight: isIPhone16Pro ? 'calc(100vh - 120px)' : 'auto',
+            }}
+          >
           {/* Rotating phone icon */}
           <motion.div
             style={{
@@ -279,6 +300,7 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
           >
             Continue anyway
           </motion.button>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
