@@ -23,7 +23,10 @@ interface GameState {
   selectedCard: Card | null;
 }
 
-const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose, dynamicSizing }) => {
+const Card3DGameUI: React.FC<Card3DGameUIProps> = ({
+  onClose,
+  dynamicSizing,
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<BABYLON.Engine | null>(null);
   const sceneRef = useRef<BABYLON.Scene | null>(null);
@@ -69,7 +72,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose, dynamicSizing }) =
         stencil: true,
         preserveDrawingBuffer: true,
       };
-      
+
       const engine = new BABYLON.Engine(canvasRef.current, true, engineOptions);
       engineRef.current = engine;
 
@@ -79,7 +82,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose, dynamicSizing }) =
           engineRef.current.resize();
         }
       };
-      
+
       window.addEventListener('resize', handleResize);
       window.addEventListener('orientationchange', handleResize);
 
@@ -120,7 +123,7 @@ const Card3DGameUI: React.FC<Card3DGameUIProps> = ({ onClose, dynamicSizing }) =
       // Initialize arena with user agent aware configuration
       const isMobile = dynamicSizing.width < 768;
       const isLowEnd = dynamicSizing.scaleFactor < 0.9;
-      
+
       const arena = new MysticalArena(scene, {
         theme: 'hearthstone',
         quality: isLowEnd ? 'low' : isMobile ? 'medium' : 'high',
