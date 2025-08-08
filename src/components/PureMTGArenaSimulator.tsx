@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { KONIVRER_CARDS, Card } from '../data/cards';
 import { audioManager } from '../game/GameEngine';
 import Enhanced2_5DTableView from './battlefield/Enhanced2_5DTableView';
+import './PureMTGArenaSimulator.css';
 
 // Pure MTG Arena card interface - no Inscryption mechanics
 interface MTGArenaCard extends Card {
