@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import './TabbedPDFViewer.css';
 
 interface PDFRule {
@@ -14,9 +14,6 @@ interface TabbedPDFViewerProps {
 
 const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
   const [activeTab, setActiveTab] = useState('basic-rules');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const pdfRules: PDFRule[] = [
     {
@@ -41,47 +38,6 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
 
   const currentRule = pdfRules.find(rule => rule.id === activeTab);
 
-  const handleSearch = () => {
-    if (!searchTerm.trim()) return;
-
-    // Get the active iframe and send search command to PDF.js
-    const iframe = document.getElementById(
-      `pdf-iframe-${activeTab}`,
-    ) as HTMLIFrameElement;
-    if (iframe) {
-      try {
-        // Send search command to PDF.js viewer
-        iframe.contentWindow?.postMessage(
-          {
-            type: 'search',
-            query: searchTerm,
-            highlightAll: true,
-            findPrevious: false,
-          },
-          '*',
-        );
-      } catch (error) {
-        console.log('Search functionality requires PDF.js integration');
-      }
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-    if (e.key === 'Escape') {
-      setIsSearchVisible(false);
-      setSearchTerm('');
-    }
-  };
-
-  useEffect(() => {
-    if (isSearchVisible && searchInputRef.current) {
-      searchInputRef.current.focus();
-    }
-  }, [isSearchVisible]);
-
   return (
     <div className="tabbed-pdf-viewer">
       <div className="pdf-viewer-header">
@@ -90,43 +46,9 @@ const TabbedPDFViewer: React.FC<TabbedPDFViewerProps> = ({ onBack }) => {
             ← Back
           </button>
         )}
-        <h2>KONIVRER Rules & Guidelines</h2>
-        <div className="header-controls">
-          <button
-            className={`search-toggle ${isSearchVisible ? 'active' : ''}`}
-            onClick={() => setIsSearchVisible(!isSearchVisible)}
-            title="Search PDFs"
-          >
-            🔍
-          </button>
-        </div>
       </div>
 
-      {isSearchVisible && (
-        <div className="search-bar">
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Search within PDFs..."
-            className="search-input"
-          />
-          <button onClick={handleSearch} className="search-button">
-            Search
-          </button>
-          <button
-            onClick={() => {
-              setIsSearchVisible(false);
-              setSearchTerm('');
-            }}
-            className="search-close"
-          >
-            ✕
-          </button>
-        </div>
-      )}
+
 
       <div className="pdf-tabs">
         {pdfRules.map(rule => (
