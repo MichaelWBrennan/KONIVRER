@@ -194,8 +194,18 @@ export function calculateDynamicSizing(
       safeAreaInsets.bottom = orientation === 'portrait' ? 40 : 30; // Home indicator
       safeAreaInsets.left = orientation === 'landscape' ? 54 : 0; // Dynamic Island in landscape
       safeAreaInsets.right = orientation === 'landscape' ? 54 : 0;
+    } else if (isMobile) {
+      // Reduced safe area insets for mobile gaming experience (other mobile iOS devices)
+      safeAreaInsets.top = orientation === 'portrait' ? 20 : 0; // Minimal status bar space
+      safeAreaInsets.bottom = orientation === 'portrait' ? 10 : 5; // Minimal home indicator space
+      
+      // Minimal landscape adjustments for mobile
+      if (orientation === 'landscape') {
+        safeAreaInsets.left = availableWidth > 800 ? 10 : 0;
+        safeAreaInsets.right = availableWidth > 800 ? 10 : 0;
+      }
     } else {
-      // Other iOS devices
+      // Standard iOS safe areas for tablets/desktop
       safeAreaInsets.top = 44; // Status bar
       safeAreaInsets.bottom = 34; // Home indicator on newer devices
 
@@ -222,14 +232,26 @@ export function calculateDynamicSizing(
       }
     }
   } else if (platform === 'android') {
-    // Android devices may have navigation bars - enhanced detection
-    const hasNavBar = availableHeight < capabilities.screenHeight * 0.95;
-    safeAreaInsets.bottom = hasNavBar ? 48 : 0;
-    safeAreaInsets.top = 24; // Status bar
+    if (isMobile) {
+      // Minimal Android safe areas for mobile gaming
+      const hasNavBar = availableHeight < capabilities.screenHeight * 0.95;
+      safeAreaInsets.bottom = hasNavBar ? 15 : 0; // Reduced navigation bar space
+      safeAreaInsets.top = 10; // Minimal status bar
 
-    // Gesture navigation handling
-    if (availableHeight > capabilities.screenHeight * 0.97) {
-      safeAreaInsets.bottom = 10; // Gesture bar
+      // Minimal gesture navigation handling
+      if (availableHeight > capabilities.screenHeight * 0.97) {
+        safeAreaInsets.bottom = 5; // Minimal gesture bar
+      }
+    } else {
+      // Standard Android safe areas for tablets/desktop
+      const hasNavBar = availableHeight < capabilities.screenHeight * 0.95;
+      safeAreaInsets.bottom = hasNavBar ? 48 : 0;
+      safeAreaInsets.top = 24; // Status bar
+
+      // Gesture navigation handling
+      if (availableHeight > capabilities.screenHeight * 0.97) {
+        safeAreaInsets.bottom = 10; // Gesture bar
+      }
     }
   }
 
@@ -254,30 +276,25 @@ export function calculateDynamicSizing(
       unit = 'vh';
       scaleFactor = 0.95; // 95% to ensure content is visible
     } else {
-      // Other mobile devices: use most of the screen but account for browser UI
+      // Mobile devices: use maximum screen space for optimal experience
       if (orientation === 'portrait') {
         width = availableWidth;
-        height =
-          availableHeight -
-          (browser === 'safari' && platform === 'ios' ? 100 : 60);
-        containerPadding = 8;
+        height = availableHeight - (browser === 'safari' && platform === 'ios' ? 30 : 20); // Reduced padding
+        containerPadding = 2; // Minimal padding
       } else {
         width = availableWidth;
-        height =
-          availableHeight -
-          (browser === 'safari' && platform === 'ios' ? 70 : 40);
-        containerPadding = 4;
+        height = availableHeight - (browser === 'safari' && platform === 'ios' ? 20 : 10); // Minimal padding
+        containerPadding = 1; // Minimal padding for landscape
       }
 
       // Use viewport units for mobile for better responsiveness
-      unit = 'vw';
-      scaleFactor = 0.98; // 98% of viewport to leave some breathing room
+      unit = 'px'; // Changed back to pixels for more predictable sizing
+      scaleFactor = 1.0; // Use full available space
     }
 
-    // Adjust for very small screens (but not iPhone 16 Pro which is handled above)
-    if (availableWidth < 375 && !isIPhone16Pro) {
-      scaleFactor = 0.95;
-      containerPadding = 4;
+    // For very small screens, still use full space but with minimal adjustments
+    if (availableWidth < 375) {
+      containerPadding = 1;
     }
   } else if (isTablet) {
     // Tablets: use more space but leave room for UI
