@@ -19,8 +19,14 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
       );
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     const isSmallScreen = window.innerWidth <= 768;
+    
+    // Enhanced iPhone 16 Pro detection
+    const isIPhone16Pro = /iphone.*cpu iphone os 17_/i.test(navigator.userAgent.toLowerCase()) && 
+                          window.devicePixelRatio === 3 && 
+                          (window.screen.width === 393 || window.screen.height === 393) && 
+                          (window.screen.width === 852 || window.screen.height === 852);
 
-    // Only show on mobile/touch devices with small screens
+    // Only show on mobile/touch devices with small screens, but be less aggressive on iPhone 16 Pro
     const shouldShowOnDevice = isMobile || (isTouch && isSmallScreen);
 
     const currentlyLandscape = window.innerWidth > window.innerHeight;
@@ -30,10 +36,13 @@ export const OrientationPrompt: React.FC<OrientationPromptProps> = ({
     // 1. Device should show prompt (mobile/touch + small screen)
     // 2. Currently in portrait mode
     // 3. Screen height is greater than width (portrait)
+    // 4. NOT iPhone 16 Pro (to improve user experience)
     const shouldShow =
       shouldShowOnDevice &&
       !currentlyLandscape &&
-      window.innerHeight > window.innerWidth;
+      window.innerHeight > window.innerWidth &&
+      !isIPhone16Pro; // Disable for iPhone 16 Pro to improve visibility
+    
     setShowPrompt(shouldShow);
 
     if (onOrientationChange) {

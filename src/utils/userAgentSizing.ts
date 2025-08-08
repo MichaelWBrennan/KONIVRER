@@ -19,6 +19,7 @@ export interface DeviceCapabilities {
   supportsWebGL: boolean;
   maxTextureSize: number;
   memoryLevel: 'low' | 'medium' | 'high';
+  isIPhone16Pro?: boolean; // Optional flag for iPhone 16 Pro detection
 }
 
 export interface DynamicSizing {
@@ -49,7 +50,7 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
   const screen = window.screen;
   const pixelRatio = window.devicePixelRatio || 1;
 
-  // Mobile detection patterns
+  // Mobile detection patterns with enhanced iPhone detection
   const mobilePatterns = [
     /android/i,
     /webos/i,
@@ -60,6 +61,12 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     /windows phone/i,
     /mobile/i,
   ];
+
+  // Enhanced iPhone model detection
+  const isIPhone16Pro = /iphone.*cpu iphone os 17_/i.test(userAgent) && 
+                       (screen.width === 393 || screen.height === 393) && 
+                       (screen.width === 852 || screen.height === 852) && 
+                       pixelRatio === 3;
 
   // Tablet detection patterns
   const tabletPatterns = [/ipad/i, /android(?!.*mobile)/i, /tablet/i];
@@ -140,6 +147,7 @@ export function detectDeviceCapabilities(): DeviceCapabilities {
     supportsWebGL,
     maxTextureSize,
     memoryLevel,
+    isIPhone16Pro, // Add iPhone 16 Pro detection flag
   };
 }
 
@@ -160,6 +168,7 @@ export function calculateDynamicSizing(
     platform,
     browser,
     memoryLevel,
+    isIPhone16Pro,
   } = capabilities;
 
   let width = availableWidth;
@@ -178,30 +187,39 @@ export function calculateDynamicSizing(
 
   // Platform-specific adjustments with enhanced user agent detection
   if (platform === 'ios') {
-    // iOS devices often have safe area insets
-    safeAreaInsets.top = 44; // Status bar
-    safeAreaInsets.bottom = 34; // Home indicator on newer devices
+    // Enhanced iPhone 16 Pro specific handling
+    if (isIPhone16Pro) {
+      // iPhone 16 Pro has a Dynamic Island and specific safe area requirements
+      safeAreaInsets.top = orientation === 'portrait' ? 54 : 0; // Account for Dynamic Island
+      safeAreaInsets.bottom = orientation === 'portrait' ? 40 : 30; // Home indicator
+      safeAreaInsets.left = orientation === 'landscape' ? 54 : 0; // Dynamic Island in landscape
+      safeAreaInsets.right = orientation === 'landscape' ? 54 : 0;
+    } else {
+      // Other iOS devices
+      safeAreaInsets.top = 44; // Status bar
+      safeAreaInsets.bottom = 34; // Home indicator on newer devices
 
-    // Adjust for iPhone X and newer models with notches/Dynamic Island
-    if (availableHeight > 800 && orientation === 'portrait') {
-      safeAreaInsets.top = 47;
-      safeAreaInsets.bottom = 34;
-    }
+      // Adjust for iPhone X and newer models with notches/Dynamic Island
+      if (availableHeight > 800 && orientation === 'portrait') {
+        safeAreaInsets.top = 47;
+        safeAreaInsets.bottom = 34;
+      }
 
-    // Enhanced landscape handling for different iPhone models
-    if (orientation === 'landscape') {
-      safeAreaInsets.left = availableWidth > 800 ? 44 : 0;
-      safeAreaInsets.right = availableWidth > 800 ? 44 : 0;
-      safeAreaInsets.top = 0;
-      safeAreaInsets.bottom = 21;
-    }
+      // Enhanced landscape handling for different iPhone models
+      if (orientation === 'landscape') {
+        safeAreaInsets.left = availableWidth > 800 ? 44 : 0;
+        safeAreaInsets.right = availableWidth > 800 ? 44 : 0;
+        safeAreaInsets.top = 0;
+        safeAreaInsets.bottom = 21;
+      }
 
-    // Special handling for iPad
-    if (isTablet) {
-      safeAreaInsets.top = 24;
-      safeAreaInsets.bottom = 0;
-      safeAreaInsets.left = 0;
-      safeAreaInsets.right = 0;
+      // Special handling for iPad
+      if (isTablet) {
+        safeAreaInsets.top = 24;
+        safeAreaInsets.bottom = 0;
+        safeAreaInsets.left = 0;
+        safeAreaInsets.right = 0;
+      }
     }
   } else if (platform === 'android') {
     // Android devices may have navigation bars - enhanced detection
@@ -217,27 +235,45 @@ export function calculateDynamicSizing(
 
   // Device type specific sizing with enhanced responsiveness
   if (isMobile) {
-    // Mobile devices: use most of the screen but account for browser UI
-    if (orientation === 'portrait') {
-      width = availableWidth;
-      height =
-        availableHeight -
-        (browser === 'safari' && platform === 'ios' ? 100 : 60);
-      containerPadding = 8;
+    // Special handling for iPhone 16 Pro
+    if (isIPhone16Pro) {
+      // iPhone 16 Pro optimized sizing
+      if (orientation === 'portrait') {
+        width = availableWidth;
+        height = availableHeight - 80; // Reduced browser UI consideration
+        containerPadding = 6; // Minimal padding for better space utilization
+      } else {
+        width = availableWidth;
+        height = availableHeight - 50; // Reduced browser UI for landscape
+        containerPadding = 4;
+      }
+      
+      // Use pixel units for precise control on iPhone 16 Pro
+      unit = 'px';
+      scaleFactor = 1.0; // Full scale to maximize visible area
     } else {
-      width = availableWidth;
-      height =
-        availableHeight -
-        (browser === 'safari' && platform === 'ios' ? 70 : 40);
-      containerPadding = 4;
+      // Other mobile devices: use most of the screen but account for browser UI
+      if (orientation === 'portrait') {
+        width = availableWidth;
+        height =
+          availableHeight -
+          (browser === 'safari' && platform === 'ios' ? 100 : 60);
+        containerPadding = 8;
+      } else {
+        width = availableWidth;
+        height =
+          availableHeight -
+          (browser === 'safari' && platform === 'ios' ? 70 : 40);
+        containerPadding = 4;
+      }
+
+      // Use viewport units for mobile for better responsiveness
+      unit = 'vw';
+      scaleFactor = 0.98; // 98% of viewport to leave some breathing room
     }
 
-    // Use viewport units for mobile for better responsiveness
-    unit = 'vw';
-    scaleFactor = 0.98; // 98% of viewport to leave some breathing room
-
-    // Adjust for very small screens
-    if (availableWidth < 375) {
+    // Adjust for very small screens (but not iPhone 16 Pro which is handled above)
+    if (availableWidth < 375 && !isIPhone16Pro) {
       scaleFactor = 0.95;
       containerPadding = 4;
     }
