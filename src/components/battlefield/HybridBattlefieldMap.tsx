@@ -347,41 +347,220 @@ const HybridBattlefieldMap: React.FC<HybridBattlefieldMapProps> = ({
   };
 
   const HybridCardComponent: React.FC<{ card: HybridGameCard }> = ({ card }) => {
+    const [imageLoaded, setImageLoaded] = useState(false);
+    const [imageError, setImageError] = useState(false);
+    
+    // Get the card image path based on card name
+    const getCardImagePath = (cardName: string) => {
+      // Convert card name to match file naming convention (uppercase, handle special characters)
+      const normalizedName = cardName.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      return `/assets/cards/${normalizedName}.png`;
+    };
+
+    const cardImagePath = getCardImagePath(card.name);
+
     return (
       <motion.div
-        className={`hybrid-card ${card.zone} ${card.owner} ${card.isSelected ? 'selected' : ''}`}
+        className={`hybrid-card-3d ${card.zone} ${card.owner} ${card.isSelected ? 'selected' : ''}`}
         style={{
-          width: '60px',
-          height: '84px',
-          background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
-          border: '1px solid #718096',
-          borderRadius: '6px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: '#fff',
-          fontSize: '10px',
-          textAlign: 'center',
-          cursor: 'pointer',
+          perspective: '1000px',
           position: 'relative',
         }}
         onClick={() => setSelectedCard(card)}
-        whileHover={{ scale: 1.05, y: -5 }}
+        whileHover={{ 
+          y: -8,
+          scale: 1.05,
+          transition: { duration: 0.2 }
+        }}
         whileTap={{ scale: 0.95 }}
         layout
       >
-        <div style={{ fontWeight: 'bold', marginBottom: '2px' }}>
-          {card.name.substring(0, 8)}
-        </div>
-        <div style={{ color: '#ffd700' }}>
-          {card.cost}
-        </div>
-        {card.type === 'Familiar' && (
-          <div style={{ position: 'absolute', bottom: '2px', right: '2px', fontSize: '8px' }}>
-            {card.strength || '?'}
+        <motion.div
+          className="card-3d-inner"
+          style={{
+            width: '70px',
+            height: '98px',
+            position: 'relative',
+            transformStyle: 'preserve-3d',
+            cursor: 'pointer',
+            borderRadius: '8px',
+            boxShadow: card.isSelected 
+              ? '0 8px 25px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4)' 
+              : '0 4px 15px rgba(0, 0, 0, 0.3)',
+            background: imageLoaded && !imageError ? 'transparent' : 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+            border: card.isSelected 
+              ? '2px solid #FFD700' 
+              : '1px solid rgba(255, 255, 255, 0.2)',
+          }}
+          animate={{
+            rotateY: card.isSelected ? 5 : 0,
+            z: card.isSelected ? 20 : 0,
+          }}
+          whileHover={{
+            rotateY: 10,
+            rotateX: 5,
+            z: 30,
+            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.4), 0 0 25px rgba(255, 255, 255, 0.1)',
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          {/* Card Front */}
+          <div
+            className="card-front"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              borderRadius: '8px',
+              backfaceVisibility: 'hidden',
+              overflow: 'hidden',
+            }}
+          >
+            {!imageError ? (
+              <>
+                <img
+                  src={cardImagePath}
+                  alt={card.name}
+                  onLoad={() => setImageLoaded(true)}
+                  onError={() => {
+                    setImageError(true);
+                    setImageLoaded(false);
+                  }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: '8px',
+                    display: imageLoaded ? 'block' : 'none',
+                  }}
+                />
+                {/* Loading state */}
+                {!imageLoaded && (
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+                    color: '#fff',
+                    fontSize: '8px',
+                  }}>
+                    <div>Loading...</div>
+                  </div>
+                )}
+              </>
+            ) : (
+              /* Fallback design when image fails to load */
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+                color: '#fff',
+                fontSize: '10px',
+                textAlign: 'center',
+                padding: '4px',
+              }}>
+                <div style={{ fontWeight: 'bold', marginBottom: '4px', fontSize: '9px' }}>
+                  {card.name}
+                </div>
+                <div style={{ color: '#ffd700', fontSize: '12px', fontWeight: 'bold' }}>
+                  {card.cost}
+                </div>
+                {card.type === 'Familiar' && (
+                  <div style={{ marginTop: '4px', fontSize: '8px', color: '#ff6b6b' }}>
+                    {card.strength || '?'}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Card info overlay for 3D effect */}
+            {imageLoaded && !imageError && (
+              <div style={{
+                position: 'absolute',
+                bottom: '0',
+                left: '0',
+                right: '0',
+                background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.7))',
+                color: '#fff',
+                fontSize: '8px',
+                padding: '2px 4px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+                <span style={{ color: '#ffd700', fontWeight: 'bold' }}>{card.cost}</span>
+                {card.type === 'Familiar' && (
+                  <span style={{ color: '#ff6b6b' }}>{card.strength || '?'}</span>
+                )}
+              </div>
+            )}
+
+            {/* Selected indicator */}
+            {card.isSelected && (
+              <motion.div
+                style={{
+                  position: 'absolute',
+                  inset: '-2px',
+                  borderRadius: '8px',
+                  background: 'linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.3), transparent)',
+                  pointerEvents: 'none',
+                }}
+                animate={{
+                  rotate: 360,
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear",
+                }}
+              />
+            )}
           </div>
-        )}
+
+          {/* Environmental bonus indicator */}
+          {card.zone === 'battlefield' && environmentalElements.some(el => el.isActivated) && (
+            <motion.div
+              style={{
+                position: 'absolute',
+                top: '-8px',
+                right: '-8px',
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, #4CAF50, #2E7D32)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '8px',
+                zIndex: 10,
+                border: '1px solid #fff',
+                boxShadow: '0 2px 8px rgba(76, 175, 80, 0.4)',
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                boxShadow: [
+                  '0 2px 8px rgba(76, 175, 80, 0.4)',
+                  '0 4px 16px rgba(76, 175, 80, 0.8)',
+                  '0 2px 8px rgba(76, 175, 80, 0.4)',
+                ],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              ✨
+            </motion.div>
+          )}
+        </motion.div>
       </motion.div>
     );
   };
