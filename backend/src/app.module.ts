@@ -11,6 +11,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { SearchModule } from './search/search.module';
 import { TournamentsModule } from './tournaments/tournaments.module';
+import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { MigrationModule } from './migration/migration.module';
 
 @Module({
@@ -59,6 +60,7 @@ import { MigrationModule } from './migration/migration.module';
     AuthModule,
     SearchModule,
     TournamentsModule,
+    MatchmakingModule,
     MigrationModule,
   ],
   controllers: [],
