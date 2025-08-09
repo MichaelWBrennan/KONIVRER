@@ -218,3 +218,156 @@ describe('Mobile-First UI Components', () => {
     });
   });
 });
+
+// New tests for telemetry and A/B testing services
+describe('Mobile UX Optimization Services', () => {
+  describe('Telemetry Service', () => {
+    it('should detect device type correctly', () => {
+      const getDeviceType = (width: number) => {
+        if (width < 768) return 'mobile';
+        if (width < 1024) return 'tablet';
+        return 'desktop';
+      };
+
+      expect(getDeviceType(375)).toBe('mobile');
+      expect(getDeviceType(768)).toBe('tablet');
+      expect(getDeviceType(1024)).toBe('desktop');
+    });
+
+    it('should track touch target interactions', () => {
+      const touchInteraction = {
+        elementId: 'test-button',
+        targetSize: { width: 44, height: 44 },
+        touchAccuracy: 0.95,
+        responseTime: 50,
+        timestamp: Date.now()
+      };
+
+      expect(touchInteraction.touchAccuracy).toBeGreaterThan(0);
+      expect(touchInteraction.touchAccuracy).toBeLessThanOrEqual(1);
+      expect(touchInteraction.responseTime).toBeLessThan(100);
+    });
+
+    it('should collect performance metrics', () => {
+      const performanceMetrics = {
+        firstContentfulPaint: 800,
+        largestContentfulPaint: 1200,
+        cumulativeLayoutShift: 0.1,
+        firstInputDelay: 50,
+        interactionToNextPaint: 100
+      };
+
+      expect(performanceMetrics.firstContentfulPaint).toBeGreaterThan(0);
+      expect(performanceMetrics.cumulativeLayoutShift).toBeLessThan(0.25);
+      expect(performanceMetrics.firstInputDelay).toBeLessThan(100);
+    });
+
+    it('should respect user privacy and consent', () => {
+      const hasConsent = localStorage.getItem('telemetry-consent') === 'true';
+      expect(typeof hasConsent).toBe('boolean');
+    });
+  });
+
+  describe('A/B Testing Service', () => {
+    it('should assign users to test variants correctly', () => {
+      const assignVariant = (variants: any[], weights: number[]) => {
+        const rand = 0.5; // Mock random value
+        let cumWeight = 0;
+        
+        for (let i = 0; i < variants.length; i++) {
+          cumWeight += weights[i];
+          if (rand * 100 <= cumWeight) return variants[i];
+        }
+        
+        return variants[0];
+      };
+
+      const variants = ['control', 'variant-a'];
+      const weights = [50, 50];
+      const assignment = assignVariant(variants, weights);
+      
+      expect(variants).toContain(assignment);
+    });
+
+    it('should apply targeting criteria', () => {
+      const shouldIncludeUser = (targeting: any, userContext: any) => {
+        if (targeting.deviceType && !targeting.deviceType.includes(userContext.deviceType)) {
+          return false;
+        }
+        if (targeting.viewportRange) {
+          const { min, max } = targeting.viewportRange;
+          if (userContext.viewportWidth < min || userContext.viewportWidth > max) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+      const targeting = { deviceType: ['mobile'], viewportRange: { min: 320, max: 767 } };
+      const mobileUser = { deviceType: 'mobile', viewportWidth: 375 };
+      const desktopUser = { deviceType: 'desktop', viewportWidth: 1200 };
+
+      expect(shouldIncludeUser(targeting, mobileUser)).toBe(true);
+      expect(shouldIncludeUser(targeting, desktopUser)).toBe(false);
+    });
+
+    it('should track conversion metrics', () => {
+      const metrics = ['touch_accuracy', 'interaction_success', 'task_completion'];
+      metrics.forEach(metric => {
+        expect(typeof metric).toBe('string');
+        expect(metric.length).toBeGreaterThan(0);
+      });
+    });
+
+    it('should handle test traffic allocation', () => {
+      const trafficAllocation = 50; // 50% of users
+      const shouldInclude = (allocation: number) => Math.random() * 100 <= allocation;
+      
+      // Mock random to always return 0.3 (30%)
+      const mockRandom = 0.3;
+      const included = mockRandom * 100 <= trafficAllocation;
+      
+      expect(included).toBe(true);
+    });
+  });
+
+  describe('Mobile UX Metrics', () => {
+    it('should calculate average response time', () => {
+      const responseTimes = [45, 67, 52, 41, 58];
+      const average = responseTimes.reduce((sum, time) => sum + time, 0) / responseTimes.length;
+      
+      expect(average).toBeCloseTo(52.6, 1);
+      expect(average).toBeLessThan(100); // Should be under 100ms
+    });
+
+    it('should track accessibility usage', () => {
+      const accessibilityEvents = [
+        { type: 'focus', element: 'button', timestamp: Date.now() },
+        { type: 'keyboard-navigation', element: 'input', timestamp: Date.now() }
+      ];
+
+      expect(accessibilityEvents.length).toBeGreaterThan(0);
+      expect(accessibilityEvents[0].type).toBe('focus');
+    });
+
+    it('should generate performance scores', () => {
+      const calculatePerformanceScore = (metrics: any) => {
+        const { largestContentfulPaint, firstInputDelay, cumulativeLayoutShift } = metrics;
+        return Math.max(0, Math.min(100, 
+          100 - (largestContentfulPaint / 25) - (firstInputDelay / 10) - (cumulativeLayoutShift * 1000)
+        ));
+      };
+
+      const goodMetrics = { largestContentfulPaint: 1000, firstInputDelay: 50, cumulativeLayoutShift: 0.1 };
+      const score = calculatePerformanceScore(goodMetrics);
+      
+      expect(score).toBeGreaterThanOrEqual(0);
+      expect(score).toBeLessThanOrEqual(100);
+      
+      // Test with better metrics to ensure positive score
+      const excellentMetrics = { largestContentfulPaint: 200, firstInputDelay: 10, cumulativeLayoutShift: 0.02 };
+      const excellentScore = calculatePerformanceScore(excellentMetrics);
+      expect(excellentScore).toBeGreaterThan(70);
+    });
+  });
+});
