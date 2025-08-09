@@ -390,7 +390,7 @@ export class JudgeToolkitService {
 
     this.rulesDatabase.set('KR-700.5', {
       title: 'Steadfast Keyword',
-      text: 'Redirect damage ≤ 🜃 used to pay for this card\'s Strength, that would be done to you or cards you control, to this card\'s Strength. Does not affect 🜂 cards.',
+      text: 'Redirect damage ≤ 🜃 used to pay for this card\'s Strength, that would be done to you or cards you control, to this card. Does not affect 🜂 cards.',
       examples: ['Damage redirection', 'Protection effect', 'Fire cards immune'],
       tags: ['steadfast', 'protection', 'redirection', 'earth'],
       relatedRules: ['KR-700.6', 'KR-700.7'],

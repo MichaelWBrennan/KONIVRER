@@ -1,63 +1,82 @@
-# KONIVRER Rules Integration - Complete Implementation
+# KONIVRER Rules Integration - Official PDF Implementation
 
-This document summarizes the comprehensive integration of KONIVRER card game rules into the simulation, judge program, and rules search systems as requested.
+This document summarizes the comprehensive integration of KONIVRER card game rules from the official PDF into the simulation, judge program, and rules search systems.
 
 ## Overview
 
-KONIVRER (pronounced "Conjurer") is a strategic, expandable card game set in an alternate history where players take on the role of powerful magic users called "Conjurers." The implementation integrates all core KONIVRER mechanics into three main systems:
+KONIVRER (pronounced "Conjurer") is a strategic, expandable card game set in an alternate history where players take on the role of powerful magic users called "Conjurers." This implementation follows the official rules structure exactly as specified in the provided PDF document.
 
-1. **Simulation (Physical Game Simulation Service)** - Updated with KONIVRER game mechanics
-2. **Judge Program (Judge Toolkit Service)** - Enhanced with KONIVRER rules database
-3. **Rules Search (New KONIVRER Rules Search Service)** - Complete rules lookup system
+## Systems Updated
 
-## Key KONIVRER Game Mechanics Implemented
+1. **Physical Game Simulation Service** - Complete KONIVRER mechanics implementation
+2. **Judge Toolkit Service** - Enhanced with PDF-accurate KONIVRER rules database  
+3. **Rules Search Service** - Dedicated KONIVRER rules lookup system
+4. **Core Entities** - Updated to match PDF specifications exactly
 
-### 1. Game Setup & Structure
+## PDF Rules Implementation
+
+### 1. Game Structure (From PDF Section I & II)
 - **40-card decks** (not 60 like MTG)
-- **4 Life Cards** for damage tracking (not life points)
+- **4 Life Cards** for damage tracking (face down until revealed)
 - **1 Flag card** for deck identity (doesn't count toward deck total)
-- **Deck construction limits**: 25 Common (🜠), 13 Uncommon (☽), 2 Rare (☉), 1 copy max
+- **Deck limits**: 25 Common (🜠), 13 Uncommon (☽), 2 Rare (☉), 1 copy max per card
 
-### 2. Element System
-- **Fire (🜂)**: Associated with Inferno keyword, immune to Water effects
-- **Water (🜄)**: Associated with Submerged keyword, immune to Air effects  
-- **Earth (🜃)**: Associated with Steadfast keyword, immune to Fire effects
-- **Air (🜁)**: Associated with Gust keyword, immune to Earth effects
-- **Aether (⭘)**: Associated with Brilliance keyword, immune to Void effects
+### 2. Elements System (From PDF Section II.1)
+Seven elements with specific symbols:
+- **Fire (🜂)**: Associated with Inferno, immune to Water effects
+- **Water (🜄)**: Associated with Submerged, immune to Air effects  
+- **Earth (🜃)**: Associated with Steadfast, immune to Fire effects
+- **Air (🜁)**: Associated with Gust, immune to Earth effects
+- **Aether (⭘)**: Associated with Brilliance, immune to Void effects
 - **Nether (▢)**: Dark element, immune to Brilliance effects
 - **Generic (✡⃝)**: Universal element for flexible costs
 
-### 3. Game Zones
-- **Field**: Main battlefield for Familiars
-- **Combat Row**: Dedicated combat area for battles
-- **Azoth Row**: Resource area for Azoth generation
+### 3. Game Zones (From PDF Section III)
+Seven distinct zones:
+- **Field**: Where Familiars and Spells are played
+- **Combat Row**: Designated area for Familiar battles
+- **Azoth Row**: Where Azoth cards are placed as resources
 - **Life Cards**: 4 cards face-down for damage tracking
-- **Flag**: Single card showing deck's elemental identity
-- **Removed from Play**: Void zone for permanently removed cards
+- **Flag**: Single deck identity card (visible to all)
+- **Deck**: Your draw pile for the game duration
+- **Removed from Play**: Zone for cards affected by Void keyword
 
-### 4. Game Phases (5-phase system)
+### 4. Game Phases (From PDF Section IV)
+Five-phase turn system:
 1. **Start Phase**: Draw 2 cards (first turn only), optionally place 1 Azoth
-2. **Main Phase**: Play cards, resolve keywords, use abilities
-3. **Combat Phase**: Attack with Familiars from Field and Combat Row
-4. **Post-Combat Main Phase**: Additional card playing opportunity
-5. **Refresh Phase**: Refresh (untap) all Azoth sources, generate Azoth
+2. **Main Phase**: Play cards, resolve keywords, draw after each play
+3. **Combat Phase**: Attack with Familiars individually  
+4. **Post-Combat Main Phase**: Play additional cards if resources allow
+5. **Refresh Phase**: Refresh all rested Azoth sources
 
-### 5. Card Play Modes
+### 5. Card Play Modes (From PDF Section IV.2)
+Five inherent play modes for all cards:
 - **Summon**: Play as Familiar with +1 counters = Generic Azoth (✡⃝) paid
-- **Spell**: Resolve ability then put card on bottom of deck
-- **Azoth**: Place card in Azoth Row as resource
-- **Tribute**: Sacrifice your Familiars to reduce card costs
-- **Burst**: Play for free when drawn from Life Cards (✡⃝ = remaining Life Cards)
+- **Tribute**: Sacrifice Familiars to reduce costs by their element costs + counters
+- **Azoth**: Place face-up in Azoth Row, generates 1 element type when rested
+- **Spell**: Resolve ability then put on bottom of deck, use Azoth paid for element symbols
+- **Burst**: Play for free when drawn from Life Cards (✡⃝ = remaining Life Cards, keywords don't resolve)
 
-### 6. KONIVRER Keywords
-- **Amalgam**: Choose between two options (keyword+element or element type)
-- **Brilliance**: Target ≤ ⭘ strength goes to bottom of owner's Life Cards (immune: ▢)
-- **Gust**: Target ≤ 🜁 strength returns to owner's hand (immune: 🜃)
-- **Inferno**: Extra damage ≤ 🜂 strength after initial damage (immune: 🜄)
-- **Steadfast**: Redirect damage ≤ 🜃 strength to this card (immune: 🜂)
-- **Submerged**: Target ≤ 🜄 strength goes cards deep in owner's deck (immune: 🜁)
-- **Quintessence**: Can't be Familiar, produces any Azoth type when in Azoth Row
-- **Void**: Remove target from game permanently (immune: ⭘)
+### 6. Keywords (From PDF Section VI)
+Eight keywords with elemental interactions:
+
+**Amalgam**: Choose between two options when played
+- Summoned: Choose keyword and linked element 
+- Azoth: Choose element type to generate
+
+**Brilliance** (⭘): Place target with Strength ≤ ⭘ paid on bottom of owner's Life Cards (immune: ▢)
+
+**Gust** (🜁): Return target with Strength ≤ 🜁 paid to owner's hand (immune: 🜃)
+
+**Inferno** (🜂): After damage dealt, add damage ≤ 🜂 paid (immune: 🜄)
+
+**Steadfast** (🜃): Redirect damage ≤ 🜃 paid that would be done to you or your cards to this card (immune: 🜂)
+
+**Submerged** (🜄): Place target with Strength ≤ 🜄 paid that many cards below top of owner's deck (immune: 🜁)
+
+**Quintessence**: Can't be played as Familiar. In Azoth row, produces any Azoth type
+
+**Void**: Remove target card from game (immune: ⭘). Goes to Removed from Play zone
 
 ## Implementation Details
 

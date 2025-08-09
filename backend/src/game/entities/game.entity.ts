@@ -286,7 +286,7 @@ export class Game {
 
   @Field(() => String)
   get currentPhase(): string {
-    return this.gameState?.currentPhase || TurnPhase.UNTAP;
+    return this.gameState?.currentPhase || TurnPhase.START;
   }
 
   @Field(() => String)
