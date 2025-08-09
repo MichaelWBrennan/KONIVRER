@@ -572,4 +572,39 @@ export class DecksService {
     // TODO: Implement text format parser
     throw new BadRequestException('Text format parsing not implemented');
   }
+
+  async assignToUser(deckId: string, userId: string): Promise<Deck> {
+    const deck = await this.deckRepository.findOne({
+      where: { id: deckId },
+    });
+
+    if (!deck) {
+      throw new NotFoundException('Deck not found');
+    }
+
+    // Check if deck is public or user already owns it
+    if (deck.visibility === DeckVisibility.PRIVATE && deck.userId !== userId) {
+      throw new ForbiddenException('Cannot assign private deck');
+    }
+
+    // Create a copy of the deck for the user
+    const clonedDeck = this.deckRepository.create({
+      ...deck,
+      id: undefined, // Let TypeORM generate new ID
+      userId,
+      name: `${deck.name} (Copy)`,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      views: 0,
+      likes: 0,
+      copies: deck.copies + 1,
+    });
+
+    const savedDeck = await this.deckRepository.save(clonedDeck);
+
+    // Increment copy count on original
+    await this.deckRepository.update(deck.id, { copies: deck.copies + 1 });
+
+    return this.findOneWithRelations(savedDeck.id);
+  }
 }
