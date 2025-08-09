@@ -74,6 +74,60 @@ export class EventWebSocketGateway implements OnGatewayInit, OnGatewayConnection
     this.logger.log(`Client disconnected: ${client.id}`);
   }
 
+  @SubscribeMessage('subscribeToUser')
+  handleUserSubscription(
+    @MessageBody() data: { userId: string },
+    @ConnectedSocket() client: AuthenticatedSocket,
+  ) {
+    // Only allow users to subscribe to their own notifications
+    if (client.userId !== data.userId) {
+      client.emit('error', { message: 'Cannot subscribe to another user\'s notifications' });
+      return;
+    }
+
+    client.join(`user:${data.userId}:notifications`);
+    client.emit('subscribed', {
+      channel: `user:${data.userId}:notifications`,
+      timestamp: new Date().toISOString(),
+    });
+
+    this.logger.log(`Client ${client.id} subscribed to user notifications`);
+  }
+
+  @SubscribeMessage('subscribeToSim')
+  handleSimSubscription(
+    @MessageBody() data: { simId: string },
+    @ConnectedSocket() client: AuthenticatedSocket,
+  ) {
+    if (!data.simId) {
+      client.emit('error', { message: 'Simulation ID is required' });
+      return;
+    }
+
+    client.join(`sim:${data.simId}`);
+    client.emit('subscribed', {
+      channel: `sim:${data.simId}`,
+      timestamp: new Date().toISOString(),
+    });
+
+    this.logger.log(`Client ${client.id} subscribed to simulation ${data.simId}`);
+  }
+
+  @SubscribeMessage('subscribeToAuditLogs')
+  handleAuditSubscription(
+    @MessageBody() data: {},
+    @ConnectedSocket() client: AuthenticatedSocket,
+  ) {
+    // Would need to verify admin permissions here
+    client.join('agent:audits');
+    client.emit('subscribed', {
+      channel: 'agent:audits',
+      timestamp: new Date().toISOString(),
+    });
+
+    this.logger.log(`Client ${client.id} subscribed to audit logs`);
+  }
+
   @SubscribeMessage('subscribeToEvent')
   handleEventSubscription(
     @MessageBody() data: { eventId: string },
@@ -231,6 +285,40 @@ export class EventWebSocketGateway implements OnGatewayInit, OnGatewayConnection
   @OnEvent('event.round.completed')
   handleRoundCompleted(payload: any) {
     this.server.to(`event:${payload.eventId}`).emit('roundCompleted', {
+      ...payload,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  @OnEvent('simulation.progress')
+  handleSimulationProgress(payload: any) {
+    this.server.to(`sim:${payload.simId}`).emit('simulationProgress', {
+      ...payload,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  @OnEvent('simulation.completed')
+  handleSimulationCompleted(payload: any) {
+    this.server.to(`sim:${payload.simId}`).emit('simulationCompleted', {
+      ...payload,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  @OnEvent('audit.log')
+  handleAuditLog(payload: any) {
+    // Include provenance field for traceability
+    this.server.to('agent:audits').emit('auditLog', {
+      ...payload,
+      provenance: payload.provenance,
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  @OnEvent('rating.updated')
+  handleRatingUpdate(payload: any) {
+    this.notifyUser(payload.userId, 'ratingUpdated', {
       ...payload,
       timestamp: new Date().toISOString(),
     });

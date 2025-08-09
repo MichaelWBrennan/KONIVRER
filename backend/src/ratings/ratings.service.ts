@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PlayerRating } from './entities/rating.entity';
 import { RatingHistory } from './entities/rating-history.entity';
 import { UpdateRatingsDto, RatingResponseDto } from './dto/ratings.dto';
@@ -14,6 +15,7 @@ export class RatingsService {
     @InjectRepository(RatingHistory)
     private historyRepository: Repository<RatingHistory>,
     private bayesianService: BayesianMatchmakingService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async getPlayerRating(userId: string): Promise<RatingResponseDto> {
@@ -112,6 +114,15 @@ export class RatingsService {
         prior,
         posterior: { mu: newMu, sigma: newSigma },
         delta,
+      });
+
+      // Emit rating update event
+      this.eventEmitter.emit('rating.updated', {
+        userId: result.userId,
+        prior,
+        posterior: { mu: newMu, sigma: newSigma },
+        delta,
+        matchId: updateDto.matchId,
       });
     }
 

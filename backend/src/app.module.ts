@@ -3,7 +3,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { join } from 'path';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 import { CardsModule } from './cards/cards.module';
 import { DecksModule } from './decks/decks.module';
@@ -45,6 +49,20 @@ import { AuditModule } from './audit/audit.module';
       }),
     }),
 
+    // Rate limiting configuration
+    ThrottlerModule.forRoot([
+      {
+        name: 'read',
+        ttl: 60000, // 1 minute
+        limit: 1000, // 1000 req/min for read endpoints
+      },
+      {
+        name: 'write',
+        ttl: 60000, // 1 minute  
+        limit: 100, // 100 req/min for write endpoints
+      },
+    ]),
+
     // GraphQL configuration
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -76,6 +94,19 @@ import { AuditModule } from './audit/audit.module';
     PhysicalSimulationModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}
