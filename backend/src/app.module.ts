@@ -16,6 +16,9 @@ import { MigrationModule } from './migration/migration.module';
 import { AiDeckbuildingModule } from './ai-deckbuilding/ai-deckbuilding.module';
 import { PhysicalSimulationModule } from './physical-simulation/physical-simulation.module';
 import { EventsModule } from './events/events.module';
+import { SimulatorModule } from './simulator/simulator.module';
+import { RatingsModule } from './ratings/ratings.module';
+import { AuditModule } from './audit/audit.module';
 
 @Module({
   imports: [
@@ -65,6 +68,9 @@ import { EventsModule } from './events/events.module';
     TournamentsModule,
     MatchmakingModule,
     EventsModule,
+    SimulatorModule,
+    RatingsModule,
+    AuditModule,
     MigrationModule,
     AiDeckbuildingModule,
     PhysicalSimulationModule,

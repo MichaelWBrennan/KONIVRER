@@ -19,6 +19,7 @@ import { User, UserRole } from '../users/entities/user.entity';
 import { Deck } from '../decks/entities/deck.entity';
 import { MatchmakingService } from '../matchmaking/matchmaking.service';
 import { GameSimulatorService } from '../matchmaking/game-simulator.service';
+import { AuditService } from '../audit/audit.service';
 import {
   CreateEventDto,
   UpdateEventDto,
@@ -57,6 +58,7 @@ export class EventsService {
     private readonly matchmakingService: MatchmakingService,
     private readonly gameSimulatorService: GameSimulatorService,
     private readonly eventEmitter: EventEmitter2,
+    private readonly auditService: AuditService,
   ) {}
 
   // Event Management
@@ -429,7 +431,7 @@ export class EventsService {
   }
 
   // Pairing Management
-  async generatePairings(eventId: string, generateDto: GeneratePairingsDto, actorId: string): Promise<GeneratePairingsResponseDto> {
+  async generatePairings(eventId: string, generateDto: GeneratePairingsDto, actorId: string, provenance?: any): Promise<GeneratePairingsResponseDto> {
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
       relations: ['registrations'],

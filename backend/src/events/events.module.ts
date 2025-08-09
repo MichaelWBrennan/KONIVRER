@@ -15,6 +15,7 @@ import {
 import { User } from '../users/entities/user.entity';
 import { Deck } from '../decks/entities/deck.entity';
 import { MatchmakingModule } from '../matchmaking/matchmaking.module';
+import { AuditModule } from '../audit/audit.module';
 import { EventWebSocketGateway } from './event-websocket.gateway';
 
 @Module({
@@ -30,6 +31,7 @@ import { EventWebSocketGateway } from './event-websocket.gateway';
       Deck,
     ]),
     MatchmakingModule,
+    AuditModule,
     EventEmitterModule.forRoot(),
     ThrottlerModule.forRoot([{
       name: 'short',

@@ -21,6 +21,7 @@ import { EventsService } from './events.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
+import { Provenance, ProvenanceData } from '../common/decorators/provenance.decorator';
 import { UserRole } from '../users/entities/user.entity';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ThrottlerGuard } from '@nestjs/throttler';
@@ -178,11 +179,12 @@ export class EventsController {
     @Param('id', ParseUUIDPipe) eventId: string,
     @Body() generateDto: GeneratePairingsDto,
     @Request() req,
+    @Provenance() provenance: ProvenanceData,
   ): Promise<any> {
     // Set event context
     generateDto.eventId = eventId;
     
-    return this.eventsService.generatePairings(eventId, generateDto, req.user.userId);
+    return this.eventsService.generatePairings(eventId, generateDto, req.user.userId, provenance);
   }
 
   @Post(':id/pairings/publish')
