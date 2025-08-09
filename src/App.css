@@ -1,4 +1,4 @@
-/* KONIVRER Platform Styles */
+/* KONIVRER Platform Styles - Unified Interface */
 :root {
   --primary-color: #1a1a2e;
   --secondary-color: #16213e;
@@ -10,6 +10,7 @@
   --text-secondary: #9ca3af;
   --background-primary: #0f0f0f;
   --background-secondary: #1a1a1a;
+  --secondary-bg: #1a1a1a;
   --border-color: #374151;
 }
 
@@ -26,35 +27,28 @@ body {
   line-height: 1.6;
 }
 
-.App {
+.app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-
 /* Navigation */
-.main-navigation {
+.nav {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 1rem 2rem;
   background: var(--primary-color);
   border-bottom: 1px solid var(--border-color);
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.nav-brand h2 {
+.nav-title {
   color: var(--text-primary);
   font-weight: bold;
-  text-decoration: none;
-}
-
-.nav-brand a {
-  text-decoration: none;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1rem;
+  font-size: 1.2rem;
+  margin-right: 1rem;
 }
 
 .nav-link {
@@ -63,6 +57,7 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .nav-link:hover,
@@ -1421,6 +1416,7 @@ body {
 }
 
 .App:has(.card-simulator) body {
+>>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
   overflow: hidden;
   touch-action: none;
   user-select: none;
@@ -1429,6 +1425,17 @@ body {
   -ms-user-select: none;
 }
 
+<<<<<<< HEAD
+.App {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  body {
+=======
 .App:has(.card-simulator) .main-navigation {
   display: none;
 }
@@ -1442,6 +1449,7 @@ body {
 /* Mobile-specific styles for simulator */
 @media (max-width: 768px) {
   .App:has(.card-simulator) body {
+>>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
     font-family: 'Inter', sans-serif;
     font-size: 14px;
   }
@@ -1455,9 +1463,15 @@ body {
   }
 }
 
+<<<<<<< HEAD
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+  body {
+=======
 /* Desktop-specific styles for simulator */
 @media (min-width: 769px) {
   .App:has(.card-simulator) body {
+>>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
     font-family: 'Georgia', serif;
     font-size: 16px;
   }
@@ -1508,6 +1522,8 @@ body {
   .game-zone {
     border-width: 2px !important;
   }
+<<<<<<< HEAD
+=======
 }
 
 /* Responsive Design */
@@ -1567,4 +1583,5 @@ body {
   .communities-grid {
     grid-template-columns: 1fr;
   }
+>>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
 }
