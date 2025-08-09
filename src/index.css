@@ -58,6 +58,23 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* OpenDyslexic font variants */
+strong, b, .font-bold {
+  font-family: 'OpenDyslexic', 'OpenDyslexic-Bold', 'Inter', sans-serif;
+  font-weight: bold;
+}
+
+em, i, .font-italic {
+  font-family: 'OpenDyslexic', 'OpenDyslexic-Italic', 'Inter', sans-serif;
+  font-style: italic;
+}
+
+strong em, em strong, b i, i b, .font-bold.font-italic {
+  font-family: 'OpenDyslexic', 'OpenDyslexic-BoldItalic', 'Inter', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+}
+
 #root {
   min-height: 100vh;
   min-height: calc(var(--vh, 1vh) * 100);
