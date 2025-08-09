@@ -19,20 +19,30 @@ export const AccessibilityIcon: React.FC<IconProps> = ({
     className={className}
     xmlns="http://www.w3.org/2000/svg"
   >
-    {/* Mystical eye with sacred geometry */}
-    <circle cx="12" cy="12" r="10" stroke={color} strokeWidth="1.5" fill="none" />
-    <circle cx="12" cy="12" r="6" stroke={color} strokeWidth="1" fill="none" />
-    <circle cx="12" cy="12" r="2" fill={color} />
+    {/* Wheelchair accessibility icon */}
+    {/* Head */}
+    <circle cx="12" cy="4" r="2" fill={color} />
     
-    {/* Sacred geometry triangles */}
-    <path d="M12 2 L20 20 L4 20 Z" stroke={color} strokeWidth="0.5" fill="none" opacity="0.6" />
-    <path d="M12 22 L4 4 L20 4 Z" stroke={color} strokeWidth="0.5" fill="none" opacity="0.6" />
+    {/* Body/Torso */}
+    <path d="M12 8 L12 14" stroke={color} strokeWidth="2" strokeLinecap="round" />
     
-    {/* Four cardinal points */}
-    <circle cx="12" cy="2" r="1" fill={color} opacity="0.8" />
-    <circle cx="22" cy="12" r="1" fill={color} opacity="0.8" />
-    <circle cx="12" cy="22" r="1" fill={color} opacity="0.8" />
-    <circle cx="2" cy="12" r="1" fill={color} opacity="0.8" />
+    {/* Arms */}
+    <path d="M8 10 L16 10" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    
+    {/* Wheelchair seat */}
+    <path d="M8 14 L16 14" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    
+    {/* Large wheel (back) */}
+    <circle cx="8" cy="18" r="4" stroke={color} strokeWidth="2" fill="none" />
+    <circle cx="8" cy="18" r="1" fill={color} />
+    
+    {/* Small wheel (front) */}
+    <circle cx="16" cy="18" r="2" stroke={color} strokeWidth="2" fill="none" />
+    <circle cx="16" cy="18" r="0.5" fill={color} />
+    
+    {/* Wheelchair frame connections */}
+    <path d="M12 14 L8 18" stroke={color} strokeWidth="1.5" />
+    <path d="M14 14 L16 16" stroke={color} strokeWidth="1.5" />
   </svg>
 );
 
