@@ -1,7 +1,7 @@
 {
   "name": "konivrer-deck-database",
   "version": "1.0.0",
-  "description": "KONIVRER Azoth TCG - Web-based card simulator with user agent detection",
+  "description": "KONIVRER Azoth TCG - Card game simulator and deck database with unified interface",
   "type": "module",
   "scripts": {
     "dev": "vite",
