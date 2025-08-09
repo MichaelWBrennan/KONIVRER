@@ -76,3 +76,8 @@ config.json
 *.db
 *.sqlite
 *.sqlite3
+
+# Compiled automation files
+automation/dist/
+automation/*.js
+automation/*.js.map
