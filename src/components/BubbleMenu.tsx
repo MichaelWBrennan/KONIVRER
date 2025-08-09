@@ -1,6 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { detectDevice } from '../utils/deviceDetection';
 import { LoginModal } from './LoginModal';
+import { 
+  AccessibilityIcon, 
+  SearchIcon, 
+  ProfileIcon, 
+  MenuIcon,
+  HomeIcon,
+  CardSearchIcon,
+  DeckSearchIcon,
+  MyDecksIcon,
+  SimulatorIcon,
+  RulesIcon,
+  TournamentsIcon,
+  SocialIcon,
+  AnalyticsIcon
+} from './EsotericIcons';
 import './BubbleMenu.css';
 
 interface BubbleMenuProps {
@@ -88,15 +103,15 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   };
 
   const menuItems = [
-    { id: 'home' as const, label: 'Home', icon: '🏠' },
-    { id: 'cards' as const, label: 'Card Search', icon: '🃏' },
-    { id: 'decks' as const, label: 'Deck Search', icon: '📚' },
-    { id: 'my-decks' as const, label: 'My Decks', icon: '👤' },
-    { id: 'simulator' as const, label: 'Simulator', icon: '🎮' },
-    { id: 'deckbuilder' as const, label: 'Rules', icon: '📜' },
-    { id: 'tournaments' as const, label: 'Tournaments', icon: '🏆' },
-    { id: 'social' as const, label: 'Social', icon: '👥' },
-    { id: 'analytics' as const, label: 'Analytics', icon: '📊' }
+    { id: 'home' as const, label: 'Home', icon: <HomeIcon size={20} /> },
+    { id: 'cards' as const, label: 'Card Search', icon: <CardSearchIcon size={20} /> },
+    { id: 'decks' as const, label: 'Deck Search', icon: <DeckSearchIcon size={20} /> },
+    { id: 'my-decks' as const, label: 'My Decks', icon: <MyDecksIcon size={20} /> },
+    { id: 'simulator' as const, label: 'Simulator', icon: <SimulatorIcon size={20} /> },
+    { id: 'deckbuilder' as const, label: 'Rules', icon: <RulesIcon size={20} /> },
+    { id: 'tournaments' as const, label: 'Tournaments', icon: <TournamentsIcon size={20} /> },
+    { id: 'social' as const, label: 'Social', icon: <SocialIcon size={20} /> },
+    { id: 'analytics' as const, label: 'Analytics', icon: <AnalyticsIcon size={20} /> }
   ];
 
   return (
@@ -109,7 +124,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
           aria-label="Accessibility Settings"
           aria-expanded={isAccessibilityOpen}
         >
-          ♿
+          <AccessibilityIcon size={20} />
         </button>
         
         {isAccessibilityOpen && (
@@ -166,7 +181,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
           aria-label="Search"
           aria-expanded={isSearchOpen}
         >
-          🔍
+          <SearchIcon size={20} />
         </button>
         
         {isSearchOpen && (
@@ -194,13 +209,15 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
           aria-label="User Profile"
           aria-expanded={isLoginOpen}
         >
-          👤
+          <ProfileIcon size={20} />
         </button>
         
         {isLoginOpen && (
           <div className="bubble-panel login-panel">
             <div className="user-profile">
-              <div className="user-avatar-large">👤</div>
+              <div className="user-avatar-large">
+                <ProfileIcon size={32} />
+              </div>
               <h3>Player</h3>
               <p>Level 42</p>
               <div className="user-actions">
@@ -228,11 +245,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
           aria-label="Main Menu"
           aria-expanded={isMenuOpen}
         >
-          <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+          <MenuIcon size={20} />
         </button>
         
         {isMenuOpen && (
