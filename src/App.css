@@ -1569,3 +1569,137 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Events Page Styles */
+.events-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.events-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.events-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.event-card {
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.event-card.live-event {
+  border-color: var(--error-color);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.event-card.past-event {
+  opacity: 0.8;
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.event-header h3 {
+  margin: 0;
+}
+
+.status-badge.open {
+  background: var(--success-color);
+  color: white;
+}
+
+.status-badge.full {
+  background: var(--warning-color);
+  color: black;
+}
+
+.status-badge.live {
+  background: var(--error-color);
+  color: white;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.status-badge.completed {
+  background: var(--text-secondary);
+  color: white;
+}
+
+.event-details {
+  margin-bottom: 1rem;
+}
+
+.event-description {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.event-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.live-info {
+  margin-bottom: 1rem;
+}
+
+.top-players {
+  margin-bottom: 1.5rem;
+}
+
+.top-players h4 {
+  margin-bottom: 0.5rem;
+}
+
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.player-tag {
+  background: var(--background-primary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.winner-name {
+  color: var(--success-color);
+  font-weight: 600;
+}
