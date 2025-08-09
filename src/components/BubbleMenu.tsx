@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { detectDevice } from '../utils/deviceDetection';
+import { LoginModal } from './LoginModal';
 import './BubbleMenu.css';
 
 interface BubbleMenuProps {
@@ -17,6 +18,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [fontSize, setFontSize] = useState('medium');
   const [contrastMode, setContrastMode] = useState('normal');
@@ -199,7 +201,15 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
               <h3>Player</h3>
               <p>Level 42</p>
               <div className="user-actions">
-                <button className="btn btn-small">Login</button>
+                <button 
+                  className="btn btn-small"
+                  onClick={() => {
+                    setIsLoginModalOpen(true);
+                    setIsLoginOpen(false);
+                  }}
+                >
+                  Login
+                </button>
                 <button className="btn btn-small btn-secondary">Settings</button>
               </div>
             </div>
@@ -242,6 +252,12 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
           </div>
         )}
       </div>
+
+      {/* Login Modal */}
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
     </div>
   );
 };
