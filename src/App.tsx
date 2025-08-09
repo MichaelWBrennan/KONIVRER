@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
@@ -9,14 +11,30 @@ import { Social } from './pages/Social';
 import { Analytics } from './pages/Analytics';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
-import { Card, Deck } from './data/cards';
+import { useAppStore } from './stores/appStore';
+import type { Card } from './stores/appStore';
+import type { Deck } from './data/cards';
 import './App.css';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
+    },
+    mutations: {
+      retry: 1,
+    },
+  },
+});
 
 type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events';
 
-function App() {
+function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const { selectedCard, setSelectedCard } = useAppStore();
 
   const handleCardSelect = (card: Card) => {
     setSelectedCard(card);
@@ -115,7 +133,7 @@ function App() {
               alt={selectedCard.name}
               style={{ width: '100%', maxWidth: '300px', marginTop: '1rem' }}
               onError={(e) => {
-                (e.target as HTMLImageElement).src = selectedCard.imageUrl;
+                (e.target as HTMLImageElement).src = selectedCard.imageUrl || '/placeholder-card.png';
               }}
             />
             <div style={{ marginTop: '1rem' }}>
@@ -127,6 +145,9 @@ function App() {
                 <p><strong>Power/Toughness:</strong> {selectedCard.power}/{selectedCard.toughness}</p>
               )}
               <p style={{ marginTop: '1rem' }}>{selectedCard.description}</p>
+              {selectedCard.keywords && selectedCard.keywords.length > 0 && (
+                <p><strong>Keywords:</strong> {selectedCard.keywords.join(', ')}</p>
+              )}
             </div>
             <button 
               style={{
@@ -146,6 +167,15 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AppContent />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
