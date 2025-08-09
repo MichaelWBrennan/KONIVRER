@@ -20,7 +20,7 @@
 
 ## 📊 Technical Details:
 
-**Target Commit:** b3d4ce728d64f5b35d06d72e98c4be773599122d
+**Target Commit:** 37ad495fe71e31d5409b3a48dfddd5b1df095473
 **Current Branch:** copilot/fix-5cb4c645-68e9-4dfa-8f38-7b152041b536
 **Prepared Branch:** AUTO: Autonomous automation update - Fri Aug  8 23:24:23 UTC 2025
 **Operation Mode:** Safe preparation (no destructive actions)
@@ -31,7 +31,7 @@ To execute the prepared operations manually (if desired):
 
 ```bash
 # 1. Hard reset (DESTRUCTIVE - backup first!)
-git reset --hard b3d4ce728d64f5b35d06d72e98c4be773599122d
+git reset --hard 37ad495fe71e31d5409b3a48dfddd5b1df095473
 
 # 2. Create and push autonomous branch
 git checkout -b "AUTO: Autonomous automation update - Fri Aug  8 23:24:23 UTC 2025"
