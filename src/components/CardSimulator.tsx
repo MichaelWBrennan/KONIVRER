@@ -75,6 +75,65 @@ export const CardSimulator: React.FC = () => {
     );
   }
 
+  // Show rotation prompt for phones in portrait mode
+  if (device.requiresRotation) {
+    return (
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: 'linear-gradient(45deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        color: 'white',
+        fontFamily: 'Inter, sans-serif',
+        textAlign: 'center',
+        padding: '20px'
+      }}>
+        <div style={{
+          fontSize: '48px',
+          marginBottom: '20px',
+          animation: 'rotate 2s infinite ease-in-out'
+        }}>
+          📱→📱
+        </div>
+        <h2 style={{
+          fontSize: '24px',
+          marginBottom: '16px',
+          fontWeight: 'bold'
+        }}>
+          Rotate Your Device
+        </h2>
+        <p style={{
+          fontSize: '16px',
+          maxWidth: '300px',
+          lineHeight: '1.4',
+          opacity: 0.8
+        }}>
+          Please rotate your phone to landscape mode for the best MTG Arena experience.
+        </p>
+        <div style={{
+          marginTop: '20px',
+          padding: '8px 16px',
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          borderRadius: '8px',
+          fontSize: '14px'
+        }}>
+          {device.isPhone ? 'PHONE' : 'MOBILE'} - {device.os.toUpperCase()}
+        </div>
+        <style>
+          {`
+            @keyframes rotate {
+              0% { transform: rotate(0deg); }
+              50% { transform: rotate(90deg); }
+              100% { transform: rotate(0deg); }
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
+
   const currentPlayer = gameState.players[gameState.currentPlayer];
 
   // MTG Arena styling based on platform
@@ -238,7 +297,7 @@ export const CardSimulator: React.FC = () => {
       fontSize: device.isMobile ? '10px' : '12px',
       pointerEvents: 'none'
     }}>
-      {device.platform.toUpperCase()} - {device.os.toUpperCase()}
+      {device.platform.toUpperCase()} - {device.isTablet ? 'TABLET' : device.isPhone ? 'PHONE' : 'DESKTOP'} - {device.os.toUpperCase()}
     </div>
   );
 
