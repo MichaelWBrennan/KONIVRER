@@ -37,6 +37,16 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
       .filter(Boolean);
   };
 
+  const handleAddToMyAccount = (deck: Deck) => {
+    console.log('Adding deck to my account:', deck.name);
+    alert(`"${deck.name}" will be imported to your account... (Feature coming soon)`);
+  };
+
+  const handlePlayInSimulator = (deck: Deck) => {
+    console.log('Loading deck in simulator:', deck.name);
+    alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
+  };
+
   return (
     <div>
       <div className="search-container">
@@ -86,8 +96,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
             <div 
               key={deck.id} 
               className="card-item"
-              onClick={() => onDeckSelect?.(deck)}
-              style={{ cursor: onDeckSelect ? 'pointer' : 'default' }}
+              style={{ cursor: 'default' }}
             >
               <div style={{ display: 'flex', height: '200px', overflow: 'hidden' }}>
                 {previewCards.map((card, index) => (
@@ -114,12 +123,67 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                 <div className="card-name">{deck.name}</div>
                 <div className="card-details">
                   <div>{deck.mainElement} • {deck.format}</div>
-                  <div>{deck.cards.length} cards</div>
+                  <div>{deck.cards.length} cards • Win Rate: {(deck.winRate * 100).toFixed(0)}%</div>
                   <div style={{ marginTop: '0.5rem', fontSize: '0.8rem' }}>
                     {deck.description}
                   </div>
                   <div style={{ marginTop: '0.5rem', fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
                     Updated: {deck.updatedAt.toLocaleDateString()}
+                  </div>
+                  <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+                    <button
+                      style={{
+                        flex: 1,
+                        padding: '0.5rem',
+                        fontSize: '0.8rem',
+                        background: 'var(--accent-color)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAddToMyAccount(deck);
+                      }}
+                    >
+                      + My Account
+                    </button>
+                    <button
+                      style={{
+                        flex: 1,
+                        padding: '0.5rem',
+                        fontSize: '0.8rem',
+                        background: 'var(--secondary-bg)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePlayInSimulator(deck);
+                      }}
+                    >
+                      🎮 Play
+                    </button>
+                    <button
+                      style={{
+                        padding: '0.5rem 0.75rem',
+                        fontSize: '0.8rem',
+                        background: 'var(--secondary-bg)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onDeckSelect?.(deck);
+                      }}
+                    >
+                      View
+                    </button>
                   </div>
                 </div>
               </div>
