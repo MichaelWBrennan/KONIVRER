@@ -37,7 +37,7 @@ export const CardSimulator: React.FC = () => {
     window.addEventListener('resize', updateScreenSize);
     
     // Log device detection for debugging
-    console.log('MTG Arena Card Sim - Device detected:', deviceInfo);
+    console.log('KONIVRER Arena Card Sim - Device detected:', deviceInfo);
     
     return () => window.removeEventListener('resize', updateScreenSize);
   }, []);
@@ -70,7 +70,7 @@ export const CardSimulator: React.FC = () => {
         color: 'white',
         fontFamily: 'Inter, sans-serif'
       }}>
-        Loading MTG Arena Card Simulator...
+        Loading KONIVRER Arena Card Simulator...
       </div>
     );
   }
@@ -110,7 +110,7 @@ export const CardSimulator: React.FC = () => {
           lineHeight: '1.4',
           opacity: 0.8
         }}>
-          Please rotate your device to landscape mode for the best MTG Arena experience.
+          Please rotate your device to landscape mode for the best KONIVRER Arena experience.
         </p>
         <div style={{
           marginTop: '20px',
@@ -136,7 +136,7 @@ export const CardSimulator: React.FC = () => {
 
   const currentPlayer = gameState.players[gameState.currentPlayer];
 
-  // MTG Arena styling based on platform
+  // KONIVRER Arena styling based on platform
   const getContainerStyle = (): React.CSSProperties => ({
     width: '100vw',
     height: '100vh',
