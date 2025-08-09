@@ -8,6 +8,14 @@
   --accent-color: #4a90e2;
   --border-color: #333;
   
+  /* Accessibility variables - default values */
+  --base-font-size: 16px;
+  --contrast-primary-bg: #0f0f0f;
+  --contrast-secondary-bg: #1a1a2e;
+  --contrast-text-primary: #ffffff;
+  --contrast-text-secondary: #b0b0b0;
+  --contrast-border-color: #333;
+  
   /* Mobile-first font sizing */
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
@@ -37,13 +45,87 @@ html {
   height: -webkit-fill-available;
   height: 100%;
   overflow: hidden;
-  font-size: 16px; /* Prevents iOS zoom on form focus */
+  font-size: var(--base-font-size);
+}
+
+/* Accessibility Settings Applied to Document Root */
+html[data-font-size="small"] {
+  --base-font-size: 14px;
+}
+
+html[data-font-size="medium"] {
+  --base-font-size: 16px;
+}
+
+html[data-font-size="large"] {
+  --base-font-size: 18px;
+}
+
+html[data-font-size="extra-large"] {
+  --base-font-size: 22px;
+}
+
+html[data-contrast="high"] {
+  --contrast-primary-bg: #000000;
+  --contrast-secondary-bg: #1a1a1a;
+  --contrast-text-primary: #ffffff;
+  --contrast-text-secondary: #cccccc;
+  --contrast-border-color: #666666;
+}
+
+html[data-contrast="dark"] {
+  --contrast-primary-bg: #0a0a0a;
+  --contrast-secondary-bg: #151515;
+  --contrast-text-primary: #e5e5e5;
+  --contrast-text-secondary: #a0a0a0;
+  --contrast-border-color: #555555;
+}
+
+html[data-contrast="normal"] {
+  --contrast-primary-bg: #0f0f0f;
+  --contrast-secondary-bg: #1a1a2e;
+  --contrast-text-primary: #ffffff;
+  --contrast-text-secondary: #b0b0b0;
+  --contrast-border-color: #333;
+}
+
+html[data-dyslexic-font="true"] body {
+  font-family: 'OpenDyslexic', 'OpenDyslexic-Regular', 'Arial', sans-serif !important;
+}
+
+html[data-dyslexic-font="true"] strong,
+html[data-dyslexic-font="true"] b,
+html[data-dyslexic-font="true"] .font-bold {
+  font-family: 'OpenDyslexic', 'OpenDyslexic-Bold', 'Arial', sans-serif !important;
+}
+
+html[data-dyslexic-font="true"] em,
+html[data-dyslexic-font="true"] i,
+html[data-dyslexic-font="true"] .font-italic {
+  font-family: 'OpenDyslexic', 'OpenDyslexic-Italic', 'Arial', sans-serif !important;
+}
+
+/* Apply contrast settings to all elements */
+html[data-contrast="high"] *,
+html[data-contrast="dark"] * {
+  background-color: var(--contrast-primary-bg) !important;
+  color: var(--contrast-text-primary) !important;
+  border-color: var(--contrast-border-color) !important;
+}
+
+html[data-contrast="high"] .card-item,
+html[data-contrast="high"] .search-container,
+html[data-contrast="high"] .nav,
+html[data-contrast="dark"] .card-item,
+html[data-contrast="dark"] .search-container,
+html[data-contrast="dark"] .nav {
+  background-color: var(--contrast-secondary-bg) !important;
 }
 
 body {
   font-family: 'OpenDyslexic', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  background: var(--primary-bg);
-  color: var(--text-primary);
+  background: var(--contrast-primary-bg);
+  color: var(--contrast-text-primary);
   line-height: 1.6;
   height: 100%;
   height: -webkit-fill-available;
@@ -119,8 +201,8 @@ html, body, input, textarea, button {
 }
 
 .card-item {
-  background: var(--secondary-bg);
-  border: 1px solid var(--border-color);
+  background: var(--contrast-secondary-bg);
+  border: 1px solid var(--contrast-border-color);
   border-radius: 8px;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -145,19 +227,19 @@ html, body, input, textarea, button {
   font-size: 1.1rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
-  color: var(--text-primary);
+  color: var(--contrast-text-primary);
 }
 
 .card-details {
   font-size: 0.9rem;
-  color: var(--text-secondary);
+  color: var(--contrast-text-secondary);
 }
 
 /* Search bar styles */
 .search-container {
   padding: 2rem;
-  background: var(--secondary-bg);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--contrast-secondary-bg);
+  border-bottom: 1px solid var(--contrast-border-color);
 }
 
 .search-input {
@@ -165,10 +247,10 @@ html, body, input, textarea, button {
   max-width: 600px;
   padding: 0.75rem 1rem;
   font-size: 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--contrast-border-color);
   border-radius: 6px;
-  background: var(--primary-bg);
-  color: var(--text-primary);
+  background: var(--contrast-primary-bg);
+  color: var(--contrast-text-primary);
   margin: 0 auto;
   display: block;
 }
@@ -181,16 +263,16 @@ html, body, input, textarea, button {
 
 /* Navigation styles */
 .nav {
-  background: var(--secondary-bg);
+  background: var(--contrast-secondary-bg);
   padding: 1rem 2rem;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--contrast-border-color);
   display: flex;
   gap: 2rem;
   align-items: center;
 }
 
 .nav-link {
-  color: var(--text-secondary);
+  color: var(--contrast-text-secondary);
   text-decoration: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
@@ -199,14 +281,14 @@ html, body, input, textarea, button {
 
 .nav-link:hover,
 .nav-link.active {
-  color: var(--text-primary);
+  color: var(--contrast-text-primary);
   background: var(--accent-color);
 }
 
 .nav-title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--contrast-text-primary);
 }
 
 /* Filter styles */
@@ -219,15 +301,15 @@ html, body, input, textarea, button {
 
 .filter-select {
   padding: 0.5rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--contrast-border-color);
   border-radius: 4px;
-  background: var(--primary-bg);
-  color: var(--text-primary);
+  background: var(--contrast-primary-bg);
+  color: var(--contrast-text-primary);
   font-size: 0.9rem;
 }
 
 .results-count {
-  color: var(--text-secondary);
+  color: var(--contrast-text-secondary);
   font-size: 0.9rem;
   margin-top: 1rem;
 }
