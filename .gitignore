@@ -105,3 +105,13 @@ yarn-error.log*
 
 # Docker
 docker-compose.override.yml
+
+# Development and temporary files
+attached_assets/
+*.screenshot.png
+screenshot-*.png
+IMG_*.png
+Pasted-*.txt
+*.temp.html
+accessibility-test.html
+performance-test.html
