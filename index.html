@@ -1,280 +1,89 @@
 <!DOCTYPE html>
-<html lang="en" data-font-size="medium" data-contrast="normal">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KONIVRER - Deck Database Demo</title>
-  <link rel="stylesheet" href="/src/components/BubbleMenu.css">
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f0f0f">
+    <title>Card Game - Deck Database</title>
+    <meta name="description" content="Professional deck building and card database for trading card game">
+    <meta name="author" content="Card Game Team">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- OpenDyslexic Font -->
+    <link href="https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-regular.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/open-dyslexic@1.0.3/open-dyslexic-bold.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --vh: 1vh;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            height: -webkit-fill-available;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        body {
+            font-family: 'OpenDyslexic', 'Inter', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            line-height: 1.6;
+            height: 100%;
+            height: -webkit-fill-available;
+            overflow: auto;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            /* Prevent overscroll bounce effects */
+            overscroll-behavior: none;
+        }
+        
+        #root {
+            min-height: 100vh;
+            /* Use the custom vh variable as fallback */
+            min-height: calc(var(--vh, 1vh) * 100);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        
+        /* Hide scrollbar but allow scrolling */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        
+        /* For Firefox */
+        * {
+            scrollbar-width: none;
+        }
+        
+        /* Prevent text size adjustment on orientation change */
+        html, body, input, textarea, button {
+            -webkit-text-size-adjust: 100%;
+        }
+    </style>
 </head>
 <body>
-  <!-- Bubble Menu Navigation System -->
-  <div class="bubble-menu" id="bubble-menu">
-    <!-- Accessibility Bubble -->
-    <div class="bubble-container accessibility-bubble">
-      <button class="bubble-btn accessibility-btn" id="accessibility-btn" aria-label="Accessibility Settings">
-        🔧
-      </button>
-      <div class="bubble-panel accessibility-panel" id="accessibility-panel" style="display: none;">
-        <h3>Accessibility Settings</h3>
-        <div class="setting-group">
-          <label for="font-size">Font Size:</label>
-          <select id="font-size">
-            <option value="small">Small</option>
-            <option value="medium" selected>Medium</option>
-            <option value="large">Large</option>
-            <option value="extra-large">Extra Large</option>
-          </select>
-        </div>
-        <div class="setting-group">
-          <label for="contrast">Contrast:</label>
-          <select id="contrast">
-            <option value="normal" selected>Normal</option>
-            <option value="high">High Contrast</option>
-            <option value="dark">Dark Mode</option>
-          </select>
-        </div>
-        <div class="setting-group">
-          <label>
-            <input type="checkbox" id="dyslexic-font">
-            Dyslexic-friendly Font
-          </label>
-        </div>
-      </div>
-    </div>
 
-    <!-- Search Bubble -->
-    <div class="bubble-container search-bubble">
-      <button class="bubble-btn search-btn" id="search-btn" aria-label="Search">
-        🔍
-      </button>
-      <div class="bubble-panel search-panel" id="search-panel" style="display: none;">
-        <form>
-          <input type="text" class="search-input" placeholder="Search cards, decks, or players..." aria-label="Search">
-          <button type="submit" class="search-submit-btn">Search</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Login Bubble -->
-    <div class="bubble-container login-bubble">
-      <button class="bubble-btn login-btn" id="login-btn" aria-label="User Profile">
-        👤
-      </button>
-      <div class="bubble-panel login-panel" id="login-panel" style="display: none;">
-        <div class="user-profile">
-          <div class="user-avatar-large">MK</div>
-          <h3>Master Kardist</h3>
-          <p>Level 42 Strategist</p>
-          <div class="user-actions">
-            <button class="btn-small">Profile</button>
-            <button class="btn-small">Decks</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Menu Bubble -->
-    <div class="bubble-container menu-bubble">
-      <button class="bubble-btn menu-btn" id="menu-btn" aria-label="Main Menu">
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </button>
-      <div class="bubble-panel menu-panel" id="menu-panel" style="display: none;">
-        <nav class="menu-nav">
-          <button class="menu-item active">
-            <span class="menu-icon">🏠</span>
-            <span class="menu-label">Home</span>
-          </button>
-          <button class="menu-item">
-            <span class="menu-icon">🃏</span>
-            <span class="menu-label">Cards</span>
-          </button>
-          <button class="menu-item">
-            <span class="menu-icon">📚</span>
-            <span class="menu-label">Decks</span>
-          </button>
-          <button class="menu-item">
-            <span class="menu-icon">⚔️</span>
-            <span class="menu-label">Arena</span>
-          </button>
-          <button class="menu-item">
-            <span class="menu-icon">🏆</span>
-            <span class="menu-label">Tournaments</span>
-          </button>
-          <button class="menu-item">
-            <span class="menu-icon">👥</span>
-            <span class="menu-label">Community</span>
-          </button>
-        </nav>
-      </div>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-background">
-        <div class="hero-content">
-          <h1 class="hero-title">KONIVRER</h1>
-          <h2 class="hero-subtitle">Deck Database</h2>
-          <p class="hero-description">Master the mystical arts of KONIVRER with our comprehensive deck database, strategic tools, and vibrant community.</p>
-          <div class="hero-actions">
-            <button class="btn-primary">Explore Cards</button>
-            <button class="btn-secondary">Build Deck</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Posts Section -->
-    <section class="featured-posts">
-      <div class="section-header">
-        <h2 class="section-title">Featured Content</h2>
-        <div class="post-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="strategy">Strategy</button>
-          <button class="filter-btn" data-filter="news">News</button>
-          <button class="filter-btn" data-filter="decks">Decks</button>
-        </div>
-      </div>
-      <div class="posts-grid">
-        <article class="post-card" data-category="strategy">
-          <div class="post-image">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23374151'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='white' font-family='sans-serif' font-size='14'%3EStrategy Guide%3C/text%3E%3C/svg%3E" alt="Strategy Guide">
-          </div>
-          <div class="post-content">
-            <div class="post-category">Strategy</div>
-            <h3 class="post-title">Mastering Elemental Synergies</h3>
-            <p class="post-excerpt">Learn how to combine different elemental cards for maximum impact in competitive play.</p>
-            <div class="post-meta">
-              <span class="post-author">By CardMaster</span>
-              <span class="post-date">2 days ago</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="post-card" data-category="news">
-          <div class="post-image">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%23059669'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='white' font-family='sans-serif' font-size='14'%3ENews Update%3C/text%3E%3C/svg%3E" alt="News Update">
-          </div>
-          <div class="post-content">
-            <div class="post-category">News</div>
-            <h3 class="post-title">New Expansion: Shadows of Azoth</h3>
-            <p class="post-excerpt">Discover 150 new cards with unique mechanics and lore-rich storylines.</p>
-            <div class="post-meta">
-              <span class="post-author">By DevTeam</span>
-              <span class="post-date">1 week ago</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="post-card" data-category="decks">
-          <div class="post-image">
-            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='200' viewBox='0 0 300 200'%3E%3Crect width='300' height='200' fill='%236366f1'/%3E%3Ctext x='150' y='100' text-anchor='middle' dy='.3em' fill='white' font-family='sans-serif' font-size='14'%3EDeck Build%3C/text%3E%3C/svg%3E" alt="Deck Build">
-          </div>
-          <div class="post-content">
-            <div class="post-category">Deck</div>
-            <h3 class="post-title">Lightning Rush Meta Deck</h3>
-            <p class="post-excerpt">A fast-paced aggro deck that dominated the recent tournament scene.</p>
-            <div class="post-meta">
-              <span class="post-author">By ProPlayer</span>
-              <span class="post-date">3 days ago</span>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Rules & Guides Section with Tabs -->
-    <section class="rules-section">
-      <div class="section-header">
-        <h2 class="section-title">Rules & Guides</h2>
-      </div>
-      <div class="tabs-container">
-        <div class="tabs-nav">
-          <button class="tab-btn active" data-tab="basic">Basic Rules</button>
-          <button class="tab-btn" data-tab="advanced">Advanced</button>
-          <button class="tab-btn" data-tab="tournament">Tournament</button>
-          <button class="tab-btn" data-tab="deck-building">Deck Building</button>
-        </div>
-        <div class="tabs-content">
-          <div class="tab-panel active" id="basic-tab">
-            <h3>Getting Started with KONIVRER</h3>
-            <ul>
-              <li>Each player starts with 30 life points</li>
-              <li>Draw 5 cards to form your starting hand</li>
-              <li>Play one card per turn unless specified otherwise</li>
-              <li>Elemental combinations create powerful synergies</li>
-              <li>Victory conditions: Reduce opponent's life to 0 or deck them out</li>
-            </ul>
-          </div>
-          <div class="tab-panel" id="advanced-tab">
-            <h3>Advanced Mechanics</h3>
-            <ul>
-              <li>Chain Reactions: Cards that trigger off other cards</li>
-              <li>Transmutation: Converting one element to another</li>
-              <li>Resonance: Bonus effects when multiple cards share elements</li>
-              <li>Temporal Shifts: Manipulating turn order and timing</li>
-              <li>Void Manipulation: Banishing and retrieving cards</li>
-            </ul>
-          </div>
-          <div class="tab-panel" id="tournament-tab">
-            <h3>Tournament Format</h3>
-            <ul>
-              <li>Swiss rounds followed by top 8 elimination</li>
-              <li>Best of 3 matches with sideboard allowed</li>
-              <li>60-minute time limit per match</li>
-              <li>Banned and restricted card lists apply</li>
-              <li>Judge calls and appeal procedures</li>
-            </ul>
-          </div>
-          <div class="tab-panel" id="deck-building-tab">
-            <h3>Deck Construction</h3>
-            <ul>
-              <li>Minimum 40 cards, maximum 60 cards</li>
-              <li>Maximum 4 copies of any single card</li>
-              <li>At least one card from each of 3 different elements</li>
-              <li>Sideboard of exactly 15 cards for tournament play</li>
-              <li>Consider mana curve and win conditions</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Bottom Navigation Bar -->
-  <footer class="bottom-nav">
-    <div class="nav-container">
-      <button class="nav-item active" data-page="home">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">Home</span>
-      </button>
-      <button class="nav-item" data-page="cards">
-        <span class="nav-icon">🃏</span>
-        <span class="nav-label">Cards</span>
-      </button>
-      <button class="nav-item" data-page="decks">
-        <span class="nav-icon">📚</span>
-        <span class="nav-label">Decks</span>
-      </button>
-      <button class="nav-item" data-page="arena">
-        <span class="nav-icon">⚔️</span>
-        <span class="nav-label">Arena</span>
-      </button>
-      <button class="nav-item" data-page="profile">
-        <span class="nav-icon">👤</span>
-        <span class="nav-label">Profile</span>
-      </button>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
