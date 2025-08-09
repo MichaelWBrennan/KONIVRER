@@ -3,29 +3,25 @@ import { ObjectType, Field, ID, Int, Float } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
 
 export enum CardType {
-  CREATURE = 'Creature',
+  FAMILIAR = 'Familiar', // KONIVRER creatures
   SPELL = 'Spell',
-  ARTIFACT = 'Artifact',
-  INSTANT = 'Instant',
-  ENCHANTMENT = 'Enchantment',
+  FLAG = 'Flag', // KONIVRER deck anchor
 }
 
 export enum CardElement {
-  FIRE = 'Fire',
-  WATER = 'Water',
-  EARTH = 'Earth',
-  AIR = 'Air',
-  LIGHT = 'Light',
-  DARK = 'Dark',
-  CHAOS = 'Chaos',
-  NEUTRAL = 'Neutral',
+  FIRE = '🜂', // Fire
+  WATER = '🜄', // Water  
+  EARTH = '🜃', // Earth
+  AIR = '🜁', // Air
+  AETHER = '⭘', // Aether
+  NETHER = '▢', // Nether
+  GENERIC = '✡⃝', // Generic
 }
 
 export enum CardRarity {
-  COMMON = 'Common',
-  UNCOMMON = 'Uncommon',
-  RARE = 'Rare',
-  MYTHIC = 'Mythic',
+  COMMON = '🜠', // Common
+  UNCOMMON = '☽', // Uncommon
+  RARE = '☉', // Rare
 }
 
 @Entity('cards')
@@ -38,7 +34,7 @@ export class Card {
   @ApiProperty({ description: 'Canonical card ID (immutable UUID)' })
   id: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   @Field()
   @ApiProperty({ description: 'Card name (unique)' })
   name: string;
@@ -106,6 +102,27 @@ export class Card {
   @Field(() => [String], { nullable: true })
   @ApiProperty({ description: 'Keywords/abilities', type: [String], required: false })
   keywords?: string[];
+
+  // KONIVRER-specific fields
+  @Column({ type: 'int', default: 0 })
+  @Field(() => Int)
+  @ApiProperty({ description: 'Base strength for KONIVRER mechanics' })
+  baseStrength: number;
+
+  @Column({ type: 'simple-array', nullable: true })
+  @Field(() => [String], { nullable: true })
+  @ApiProperty({ description: 'Secondary elements for Amalgam cards', type: [String], required: false })
+  secondaryElements?: string[];
+
+  @Column({ type: 'boolean', default: false })
+  @Field()
+  @ApiProperty({ description: 'Whether this card has Quintessence keyword' })
+  hasQuintessence: boolean;
+
+  @Column({ type: 'simple-json', nullable: true })
+  @Field({ nullable: true })
+  @ApiProperty({ description: 'KONIVRER keyword effects and parameters', required: false })
+  konivrKeywords?: Record<string, any>;
 
   @Column({ type: 'simple-json', nullable: true })
   @Field({ nullable: true })
