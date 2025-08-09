@@ -1,0 +1,409 @@
+/* 4 Bubble Menu Styles */
+.bubble-menu {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none; /* Allow clicks to pass through except on bubbles */
+}
+
+.bubble-menu.mobile {
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+}
+
+.bubble-menu.desktop {
+  top: 20px;
+  right: 20px;
+}
+
+.bubble-container {
+  position: absolute;
+  pointer-events: auto;
+}
+
+/* Position bubbles in a 2x2 grid for mobile, line for desktop */
+.bubble-menu.mobile .accessibility-bubble {
+  bottom: 70px;
+  left: 0;
+}
+
+.bubble-menu.mobile .search-bubble {
+  bottom: 70px;
+  right: 0;
+}
+
+.bubble-menu.mobile .login-bubble {
+  bottom: 0;
+  left: 0;
+}
+
+.bubble-menu.mobile .menu-bubble {
+  bottom: 0;
+  right: 0;
+}
+
+/* Desktop layout - vertical line */
+.bubble-menu.desktop .accessibility-bubble {
+  top: 0;
+  right: 0;
+}
+
+.bubble-menu.desktop .search-bubble {
+  top: 70px;
+  right: 0;
+}
+
+.bubble-menu.desktop .login-bubble {
+  top: 140px;
+  right: 0;
+}
+
+.bubble-menu.desktop .menu-bubble {
+  top: 210px;
+  right: 0;
+}
+
+/* Bubble Button Styles */
+.bubble-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-color);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.bubble-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+}
+
+.bubble-btn:active {
+  transform: scale(0.95);
+}
+
+/* Different colors for each bubble type */
+.accessibility-btn {
+  background: #28a745;
+}
+
+.search-btn {
+  background: #007bff;
+}
+
+.login-btn {
+  background: #6f42c1;
+}
+
+.menu-btn {
+  background: #fd7e14;
+}
+
+/* Hamburger menu icon */
+.hamburger {
+  width: 24px;
+  height: 18px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hamburger span {
+  height: 2px;
+  background: white;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Bubble Panel Styles */
+.bubble-panel {
+  position: absolute;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  animation: bubblePanelOpen 0.3s ease;
+  z-index: 1;
+  min-width: 280px;
+}
+
+@keyframes bubblePanelOpen {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Mobile panel positioning */
+.bubble-menu.mobile .accessibility-panel {
+  bottom: 80px;
+  left: -10px;
+}
+
+.bubble-menu.mobile .search-panel {
+  bottom: 80px;
+  right: -10px;
+}
+
+.bubble-menu.mobile .login-panel {
+  bottom: 80px;
+  left: -10px;
+}
+
+.bubble-menu.mobile .menu-panel {
+  bottom: 80px;
+  right: -10px;
+}
+
+/* Desktop panel positioning */
+.bubble-menu.desktop .accessibility-panel,
+.bubble-menu.desktop .search-panel,
+.bubble-menu.desktop .login-panel,
+.bubble-menu.desktop .menu-panel {
+  right: 80px;
+  top: 0;
+}
+
+/* Accessibility Panel */
+.accessibility-panel h3 {
+  margin: 0 0 20px 0;
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.setting-group {
+  margin-bottom: 16px;
+}
+
+.setting-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.setting-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.setting-group input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+/* Search Panel */
+.search-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  font-size: 16px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.search-submit-btn {
+  padding: 10px 20px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.search-submit-btn:hover {
+  background: #1e40af;
+}
+
+/* Login Panel */
+.user-profile {
+  text-align: center;
+}
+
+.user-avatar-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 16px auto;
+}
+
+.user-profile h3 {
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+}
+
+.user-profile p {
+  margin: 0 0 20px 0;
+  color: var(--text-secondary);
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Menu Panel */
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+  width: 100%;
+}
+
+.menu-item:hover {
+  background: var(--background-primary);
+  color: var(--accent-color);
+}
+
+.menu-item.active {
+  background: var(--accent-color);
+  color: white;
+}
+
+.menu-icon {
+  font-size: 20px;
+  width: 24px;
+  text-align: center;
+}
+
+.menu-label {
+  font-weight: 500;
+}
+
+/* Accessibility Settings Applied to Document */
+html[data-font-size="small"] {
+  font-size: 14px;
+}
+
+html[data-font-size="medium"] {
+  font-size: 16px;
+}
+
+html[data-font-size="large"] {
+  font-size: 18px;
+}
+
+html[data-font-size="extra-large"] {
+  font-size: 20px;
+}
+
+html[data-contrast="high"] {
+  --background-primary: #000000;
+  --background-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --border-color: #666666;
+}
+
+html[data-contrast="dark"] {
+  --background-primary: #0a0a0a;
+  --background-secondary: #151515;
+  --text-primary: #e5e5e5;
+  --text-secondary: #a0a0a0;
+}
+
+html[data-dyslexic-font="true"] body {
+  font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .bubble-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+  
+  .bubble-panel {
+    min-width: 260px;
+    padding: 16px;
+  }
+  
+  .menu-item {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bubble-menu.mobile {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+  
+  .bubble-panel {
+    min-width: 240px;
+    padding: 12px;
+  }
+}

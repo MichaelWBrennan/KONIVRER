@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
+import { BubbleMenu } from './components/BubbleMenu';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 import { Tournaments } from './pages/Tournaments';
 import { Social } from './pages/Social';
 import { Analytics } from './pages/Analytics';
+import { Events } from './pages/Events';
 import { Card, Deck } from './data/cards';
 import './App.css';
 
-type Page = 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics';
+type Page = 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('simulator');
@@ -25,8 +27,21 @@ function App() {
     // TODO: Navigate to deck details or open in deck builder
   };
 
+  const handleSearch = (query: string) => {
+    // Context-sensitive search based on current page
+    console.log('Search query:', query, 'on page:', currentPage);
+    // TODO: Implement actual search functionality for each page
+  };
+
   return (
     <div className="app">
+      {/* Bubble Menu - always visible */}
+      <BubbleMenu 
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        onSearch={handleSearch}
+      />
+      
       <nav className="nav">
         <div className="nav-title">KONIVRER Azoth TCG</div>
         <a 
@@ -49,6 +64,13 @@ function App() {
           onClick={(e) => { e.preventDefault(); setCurrentPage('decks'); }}
         >
           Deck Search
+        </a>
+        <a 
+          href="#" 
+          className={`nav-link ${currentPage === 'events' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('events'); }}
+        >
+          Events
         </a>
         <a 
           href="#" 
@@ -91,6 +113,10 @@ function App() {
         
         {currentPage === 'decks' && (
           <DeckSearch onDeckSelect={handleDeckSelect} />
+        )}
+        
+        {currentPage === 'events' && (
+          <Events />
         )}
         
         {currentPage === 'deckbuilder' && (
