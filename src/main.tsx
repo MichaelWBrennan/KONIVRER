@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import './mobile-first.css';
 
 // Set CSS custom properties for mobile viewport handling
 const setViewportHeight = () => {
