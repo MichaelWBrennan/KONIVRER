@@ -369,10 +369,10 @@ html[data-font-size="extra-large"] {
 
 html[data-contrast="high"] {
   --background-primary: #000000;
-  --background-secondary: #1a1a1a;
+  --background-secondary: #ffffff;
   --text-primary: #ffffff;
-  --text-secondary: #cccccc;
-  --border-color: #666666;
+  --text-secondary: #000000;
+  --border-color: #ffffff;
 }
 
 html[data-contrast="dark"] {
@@ -382,7 +382,8 @@ html[data-contrast="dark"] {
   --text-secondary: #a0a0a0;
 }
 
-html[data-dyslexic-font="true"] body {
+html[data-dyslexic-font="true"],
+html[data-dyslexic-font="true"] * {
   font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
 }
 
