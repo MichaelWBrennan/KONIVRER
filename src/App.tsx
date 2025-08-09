@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
+import { CardSimulator } from './components/CardSimulator';
 import { Card, Deck } from './data/cards';
+import './App.css';
 
-type Page = 'cards' | 'decks' | 'deckbuilder';
+type Page = 'simulator' | 'cards' | 'decks' | 'deckbuilder';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('cards');
+  const [currentPage, setCurrentPage] = useState<Page>('simulator');
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
 
   const handleCardSelect = (card: Card) => {
@@ -22,7 +24,14 @@ function App() {
   return (
     <div className="app">
       <nav className="nav">
-        <div className="nav-title">KONIVRER Deck Database</div>
+        <div className="nav-title">KONIVRER Azoth TCG</div>
+        <a 
+          href="#" 
+          className={`nav-link ${currentPage === 'simulator' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('simulator'); }}
+        >
+          Game Simulator
+        </a>
         <a 
           href="#" 
           className={`nav-link ${currentPage === 'cards' ? 'active' : ''}`}
@@ -47,6 +56,10 @@ function App() {
       </nav>
 
       <main>
+        {currentPage === 'simulator' && (
+          <CardSimulator />
+        )}
+        
         {currentPage === 'cards' && (
           <CardSearch onCardSelect={handleCardSelect} />
         )}
