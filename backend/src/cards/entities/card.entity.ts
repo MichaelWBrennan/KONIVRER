@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export enum CardType {
   FAMILIAR = 'Familiar', // KONIVRER creatures
+  CREATURE = 'Familiar', // Alias for KONIVRER creatures
   SPELL = 'Spell',
   FLAG = 'Flag', // KONIVRER deck anchor
 }
@@ -16,12 +17,14 @@ export enum CardElement {
   AETHER = '⭘', // Aether
   NETHER = '▢', // Nether
   GENERIC = '✡⃝', // Generic
+  NEUTRAL = '✡⃝', // Alias for Generic
 }
 
 export enum CardRarity {
   COMMON = '🜠', // Common
   UNCOMMON = '☽', // Uncommon
   RARE = '☉', // Rare
+  MYTHIC = '✠', // Mythic
 }
 
 @Entity('cards')
@@ -129,7 +132,7 @@ export class Card {
   @ApiProperty({ description: 'Additional metadata as JSON', required: false })
   metadata?: Record<string, any>;
 
-  @Column({ default: true })
+  @Column({ type: 'boolean', default: true })
   @Field()
   @ApiProperty({ description: 'Whether the card is tournament legal' })
   isLegal: boolean;

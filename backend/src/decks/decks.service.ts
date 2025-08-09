@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, ForbiddenException, BadRequestException 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, FindManyOptions, ILike, In } from 'typeorm';
 import { Deck, DeckFormat, DeckVisibility, DeckArchetype } from './entities/deck.entity';
-import { Card, CardElement, CardType } from '../cards/entities/card.entity';
+import { Card, CardElement, CardType, CardRarity } from '../cards/entities/card.entity';
 import { User } from '../users/entities/user.entity';
 import { CreateDeckDto, UpdateDeckDto, DeckSearchFilters, DeckAnalyticsDto, ImportDeckDto } from './dto/deck.dto';
 
@@ -499,10 +499,10 @@ export class DecksService {
       
       // Bonus for rarity
       switch (card.rarity) {
-        case 'Mythic':
+        case CardRarity.MYTHIC:
           rating += 2;
           break;
-        case 'Rare':
+        case CardRarity.RARE:
           rating += 1;
           break;
       }
