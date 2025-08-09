@@ -1,12 +1,12 @@
-import { Controller, Post, Get, Body, Param, Query } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { PhysicalGameSimulationService } from './physical-simulation.service';
 import { JudgeToolkitService } from './judge-toolkit.service';
-// import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-// import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 
 @Controller('api/physical-simulation')
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class PhysicalSimulationController {
   constructor(
     private readonly simulationService: PhysicalGameSimulationService,
