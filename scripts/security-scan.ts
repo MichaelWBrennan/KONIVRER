@@ -5,10 +5,16 @@
  * It checks for common security vulnerabilities and reports findings.
  */
 
+interface SecurityCheck {
+  name: string;
+  status: 'passed' | 'failed' | 'warning';
+  details: string;
+}
+
 console.log('🔒 Starting security scan...');
 
 // Define security checks
-const securityChecks = [
+const securityChecks: SecurityCheck[] = [
   { name: 'Dependency vulnerabilities', status: 'passed', details: 'No critical vulnerabilities found' },
   { name: 'Insecure authentication', status: 'passed', details: 'Authentication mechanisms are secure' },
   { name: 'Cross-site scripting (XSS)', status: 'passed', details: 'No XSS vulnerabilities detected' },

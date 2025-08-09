@@ -1,18 +1,18 @@
-# KONIVRER MTG Arena Game Board - Godot 4 Implementation
+# KONIVRER Arena Game Board - Godot 4 Implementation
 
-A complete, pixel-perfect replica of Magic: The Gathering Arena's game board implemented in Godot 4. This implementation provides an indistinguishable MTG Arena experience with all standard zones, interactions, and visual polish.
+A complete, pixel-perfect arena-style game board for the KONIVRER Azoth TCG implemented in Godot 4. This implementation provides an immersive arena gaming experience with all standard zones, interactions, and visual polish.
 
 ## Features
 
-### Complete MTG Arena Replica
-- **Exact Visual Layout**: Hourglass-shaped table matching MTG Arena's distinctive design
-- **Standard MTG Zones**: All official zones including battlefields, hands, libraries, graveyards, mana zones, stack, and exile
-- **Arena-Style UI**: Life totals, mana displays, turn/phase indicators, priority system, settings & concede buttons
-- **Responsive Design**: Scales perfectly from 720p to 1440p maintaining MTG Arena proportions
+### Complete KONIVRER Arena Experience
+- **Exact Visual Layout**: Hourglass-shaped table matching KONIVRER Arena's distinctive design
+- **Standard TCG Zones**: All official zones including battlefields, hands, libraries, graveyards, resource zones, stack, and exile
+- **Arena-Style UI**: Life totals, resource displays, turn/phase indicators, priority system, settings & concede buttons
+- **Responsive Design**: Scales perfectly from 720p to 1440p maintaining KONIVRER Arena proportions
 
 ### Interactive Game Systems
 - **Full Drag & Drop**: Cards can be moved between any zones with smooth animations
-- **MTG Arena Mechanics**: Card tapping, mana management, turn phases, priority passing
+- **KONIVRER Arena Mechanics**: Card tapping, resource management, turn phases, priority passing
 - **Selection System**: Multi-select with Shift+Click, Arena-style selection highlighting
 - **Context Menus**: Right-click menus for card actions (tap/untap, move to zone, etc.)
 - **Hover Effects**: Arena-style hover scaling and glow effects
@@ -30,20 +30,20 @@ A complete, pixel-perfect replica of Magic: The Gathering Arena's game board imp
 ├── project.godot              # Godot 4 project configuration
 ├── export_presets.cfg         # HTML5 export settings  
 ├── scenes/
-│   ├── Board.tscn            # Main MTG Arena game board
-│   └── Card.tscn             # Reusable MTG card component
+│   ├── Board.tscn            # Main KONIVRER Arena game board
+│   └── Card.tscn             # Reusable KONIVRER card component
 ├── scripts/
-│   ├── game_state.gd         # Singleton for MTG game state management
-│   ├── board.gd              # Board layout and MTG Arena interactions
-│   └── card.gd               # Card visuals, MTG mechanics, and drag/drop
+│   ├── game_state.gd         # Singleton for KONIVRER game state management
+│   ├── board.gd              # Board layout and KONIVRER Arena interactions
+│   └── card.gd               # Card visuals, KONIVRER mechanics, and drag/drop
 └── assets/                   # Game graphics and card art
     ├── cards/                # Card artwork and textures
     └── zones/                # Zone backgrounds and UI elements
 ```
 
-## MTG Arena Zones Layout
+## KONIVRER Arena Zones Layout
 
-The board implements the exact MTG Arena zone structure:
+The board implements the standard KONIVRER Arena zone structure:
 
 ### Player Areas
 - **Player Battlefield** (bottom center): Your permanents and creatures
