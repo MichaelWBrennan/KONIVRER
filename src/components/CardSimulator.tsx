@@ -212,25 +212,6 @@ export const CardSimulator: React.FC = () => {
     }}>
       <button
         style={{
-<<<<<<< HEAD
-=======
-          backgroundColor: 'rgba(100, 100, 100, 0.8)',
-          color: 'white',
-          border: 'none',
-          padding: device.isMobile ? '8px 12px' : '10px 16px',
-          borderRadius: device.isMobile ? '6px' : '8px',
-          fontSize: device.isMobile ? '12px' : '14px',
-          cursor: 'pointer',
-          pointerEvents: 'auto'
-        }}
-        onClick={() => setShowMenu(!showMenu)}
-      >
-        {device.isMobile ? '☰' : 'Menu'}
-      </button>
-      
-      <button
-        style={{
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
           backgroundColor: 'rgba(0, 150, 0, 0.8)',
           color: 'white',
           border: 'none',
@@ -320,128 +301,6 @@ export const CardSimulator: React.FC = () => {
     </div>
   );
 
-<<<<<<< HEAD
-=======
-  const renderNavigationMenu = () => {
-    if (!showMenu) return null;
-
-    return (
-      <div style={{
-        position: 'absolute',
-        top: device.isMobile ? '60px' : '80px',
-        right: device.isMobile ? '10px' : '20px',
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        border: '2px solid #666',
-        borderRadius: device.isMobile ? '8px' : '12px',
-        padding: device.isMobile ? '12px' : '16px',
-        minWidth: device.isMobile ? '200px' : '250px',
-        pointerEvents: 'auto',
-        zIndex: 1000
-      }}>
-        <h3 style={{
-          color: 'white',
-          marginBottom: device.isMobile ? '8px' : '12px',
-          fontSize: device.isMobile ? '16px' : '18px',
-          textAlign: 'center'
-        }}>
-          KONIVRER Platform
-        </h3>
-        
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: device.isMobile ? '8px' : '10px'
-        }}>
-          <Link
-            to="/deckbuilder"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: device.isMobile ? '8px 12px' : '10px 16px',
-              backgroundColor: 'rgba(0, 100, 200, 0.8)',
-              borderRadius: device.isMobile ? '4px' : '6px',
-              fontSize: device.isMobile ? '14px' : '16px',
-              textAlign: 'center',
-              transition: 'all 0.2s'
-            }}
-            onClick={() => setShowMenu(false)}
-          >
-            🃏 Deck Builder & Search
-          </Link>
-          
-          <Link
-            to="/tournaments"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: device.isMobile ? '8px 12px' : '10px 16px',
-              backgroundColor: 'rgba(200, 100, 0, 0.8)',
-              borderRadius: device.isMobile ? '4px' : '6px',
-              fontSize: device.isMobile ? '14px' : '16px',
-              textAlign: 'center',
-              transition: 'all 0.2s'
-            }}
-            onClick={() => setShowMenu(false)}
-          >
-            🏆 Tournaments
-          </Link>
-          
-          <Link
-            to="/social"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: device.isMobile ? '8px 12px' : '10px 16px',
-              backgroundColor: 'rgba(100, 200, 0, 0.8)',
-              borderRadius: device.isMobile ? '4px' : '6px',
-              fontSize: device.isMobile ? '14px' : '16px',
-              textAlign: 'center',
-              transition: 'all 0.2s'
-            }}
-            onClick={() => setShowMenu(false)}
-          >
-            👥 Social Hub
-          </Link>
-          
-          <Link
-            to="/analytics"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: device.isMobile ? '8px 12px' : '10px 16px',
-              backgroundColor: 'rgba(200, 0, 100, 0.8)',
-              borderRadius: device.isMobile ? '4px' : '6px',
-              fontSize: device.isMobile ? '14px' : '16px',
-              textAlign: 'center',
-              transition: 'all 0.2s'
-            }}
-            onClick={() => setShowMenu(false)}
-          >
-            📊 Analytics
-          </Link>
-        </div>
-        
-        <button
-          style={{
-            marginTop: device.isMobile ? '12px' : '16px',
-            width: '100%',
-            backgroundColor: 'rgba(100, 100, 100, 0.8)',
-            color: 'white',
-            border: 'none',
-            padding: device.isMobile ? '8px' : '10px',
-            borderRadius: device.isMobile ? '4px' : '6px',
-            fontSize: device.isMobile ? '12px' : '14px',
-            cursor: 'pointer'
-          }}
-          onClick={() => setShowMenu(false)}
-        >
-          Close Menu
-        </button>
-      </div>
-    );
-  };
-
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
   return (
     <div style={getContainerStyle()}>
       {/* Game board background */}
@@ -480,10 +339,6 @@ export const CardSimulator: React.FC = () => {
         {renderControlButtons()}
         {renderManaPool()}
         {renderDeviceIndicator()}
-<<<<<<< HEAD
-=======
-        {renderNavigationMenu()}
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
       </div>
 
       {/* Instructions overlay */}
