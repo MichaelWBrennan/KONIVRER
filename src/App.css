@@ -1,0 +1,96 @@
+/* MTG Arena Card Simulator Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f0f0f;
+  color: #ffffff;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.App {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+  }
+  
+  .mtg-card.mobile {
+    transition: transform 0.15s ease;
+  }
+  
+  .game-zone.mobile {
+    touch-action: manipulation;
+  }
+}
+
+/* Desktop-specific styles */
+@media (min-width: 769px) {
+  body {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+  }
+  
+  .mtg-card.desktop {
+    transition: transform 0.3s ease;
+  }
+  
+  .mtg-card.desktop:hover {
+    filter: brightness(1.1);
+  }
+  
+  .game-zone.desktop {
+    cursor: crosshair;
+  }
+}
+
+/* Card animations */
+.mtg-card {
+  will-change: transform, opacity;
+}
+
+.mtg-card.dragging {
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Zone hover effects */
+.game-zone.drop-target {
+  border-color: #00BFFF !important;
+  background-color: rgba(0, 191, 255, 0.1) !important;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .mtg-card, .game-zone {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .mtg-card {
+    border-width: 3px !important;
+  }
+  
+  .game-zone {
+    border-width: 2px !important;
+  }
+}
