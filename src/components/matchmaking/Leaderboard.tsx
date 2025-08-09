@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PlayerRating, PlayerRatingCard } from './PlayerRatingCard';
+import { PlayerRating } from './PlayerRatingCard';
 
 export interface LeaderboardProps {
   format: string;
