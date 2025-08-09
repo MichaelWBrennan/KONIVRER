@@ -200,7 +200,8 @@ export const Card: React.FC<CardProps> = ({
         borderRadius: 'inherit',
         backgroundImage: card.imageUrl ? `url(${card.imageUrl})` : 'linear-gradient(135deg, #333, #555)',
         backgroundSize: 'cover',
-        backgroundPosition: 'center'
+        backgroundPosition: 'center',
+        pointerEvents: 'none'
       }} />
       
       {/* Card frame overlay */}
@@ -211,7 +212,8 @@ export const Card: React.FC<CardProps> = ({
         right: 0,
         bottom: 0,
         background: `linear-gradient(to bottom, transparent 30%, ${colorMap[card.color]}CC 100%)`,
-        borderRadius: 'inherit'
+        borderRadius: 'inherit',
+        pointerEvents: 'none'
       }} />
       
       {/* Card content */}
@@ -238,7 +240,8 @@ export const Card: React.FC<CardProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
           fontSize: device.isMobile ? '8px' : '10px',
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          pointerEvents: 'none'
         }}>
           {card.manaCost}
         </div>
@@ -253,7 +256,8 @@ export const Card: React.FC<CardProps> = ({
           borderRadius: '2px',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
-          textOverflow: 'ellipsis'
+          textOverflow: 'ellipsis',
+          pointerEvents: 'none'
         }}>
           {card.name}
         </div>
@@ -264,7 +268,8 @@ export const Card: React.FC<CardProps> = ({
           backgroundColor: 'rgba(0, 0, 0, 0.7)',
           padding: device.isMobile ? '1px 2px' : '1px 4px',
           borderRadius: '2px',
-          marginTop: '1px'
+          marginTop: '1px',
+          pointerEvents: 'none'
         }}>
           {card.type}
         </div>
@@ -279,7 +284,8 @@ export const Card: React.FC<CardProps> = ({
             padding: device.isMobile ? '1px 3px' : '2px 4px',
             borderRadius: '2px',
             fontSize: device.isMobile ? '8px' : '10px',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            pointerEvents: 'none'
           }}>
             {card.power}/{card.toughness}
           </div>
@@ -292,7 +298,8 @@ export const Card: React.FC<CardProps> = ({
             top: device.isMobile ? '2px' : '4px',
             left: device.isMobile ? '2px' : '4px',
             display: 'flex',
-            gap: '2px'
+            gap: '2px',
+            pointerEvents: 'none'
           }}>
             {Object.entries(card.counters).map(([type, count]) => (
               <div
@@ -307,7 +314,8 @@ export const Card: React.FC<CardProps> = ({
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: device.isMobile ? '6px' : '8px',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  pointerEvents: 'none'
                 }}
               >
                 {count}
