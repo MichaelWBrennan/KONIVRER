@@ -36,72 +36,12 @@ function App() {
 
   return (
     <div className="app">
-      {/* Bubble Menu - always visible */}
+      {/* Bubble Menu - only navigation system */}
       <BubbleMenu 
         currentPage={currentPage}
         onPageChange={setCurrentPage}
         onSearch={handleSearch}
       />
-      
-      <nav className="nav">
-        <div className="nav-title">KONIVRER Azoth TCG</div>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'simulator' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('simulator'); }}
-        >
-          Game Simulator
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'cards' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('cards'); }}
-        >
-          Card Search
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'decks' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('decks'); }}
-        >
-          Deck Search
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'events' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('events'); }}
-        >
-          Events
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'deckbuilder' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('deckbuilder'); }}
-        >
-          Deck Builder
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'tournaments' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('tournaments'); }}
-        >
-          Tournaments
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'social' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('social'); }}
-        >
-          Social
-        </a>
-        <a 
-          href="#" 
-          className={`nav-link ${currentPage === 'analytics' ? 'active' : ''}`}
-          onClick={(e) => { e.preventDefault(); setCurrentPage('analytics'); }}
-        >
-          Analytics
-        </a>
-      </nav>
 
       <main>
         {currentPage === 'home' && (
