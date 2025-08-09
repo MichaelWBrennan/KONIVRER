@@ -5,7 +5,7 @@ import { CreateCardDto, UpdateCardDto, CardFilterDto } from './dto/card.dto';
 import { Card } from './entities/card.entity';
 
 @ApiTags('cards')
-@Controller('cards')
+@Controller('api/cards')
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
@@ -20,19 +20,50 @@ export class CardsController {
   @Get()
   @ApiOperation({ summary: 'Get all cards with optional filters' })
   @ApiResponse({ status: 200, description: 'Cards retrieved successfully' })
-  @ApiQuery({ name: 'search', required: false, description: 'Search in name, description, keywords' })
+  @ApiQuery({ name: 'q', required: false, description: 'Search query' })
   @ApiQuery({ name: 'type', required: false, description: 'Filter by card type' })
-  @ApiQuery({ name: 'element', required: false, description: 'Filter by card element' })
-  @ApiQuery({ name: 'rarity', required: false, description: 'Filter by card rarity' })
-  @ApiQuery({ name: 'minCost', required: false, description: 'Minimum cost filter' })
-  @ApiQuery({ name: 'maxCost', required: false, description: 'Maximum cost filter' })
-  @ApiQuery({ name: 'legalOnly', required: false, description: 'Tournament legal cards only' })
+  @ApiQuery({ name: 'cost_min', required: false, description: 'Minimum cost filter' })
+  @ApiQuery({ name: 'cost_max', required: false, description: 'Maximum cost filter' })
+  @ApiQuery({ name: 'faction', required: false, description: 'Filter by faction' })
+  @ApiQuery({ name: 'set', required: false, description: 'Filter by set' })
   @ApiQuery({ name: 'page', required: false, description: 'Page number (1-based)' })
-  @ApiQuery({ name: 'limit', required: false, description: 'Items per page (1-100)' })
-  @ApiQuery({ name: 'sortBy', required: false, description: 'Sort field' })
-  @ApiQuery({ name: 'sortOrder', required: false, description: 'Sort order (ASC/DESC)' })
-  async findAll(@Query() filterDto: CardFilterDto) {
-    return this.cardsService.findAll(filterDto);
+  @ApiQuery({ name: 'pageSize', required: false, description: 'Items per page (1-100)' })
+  @ApiQuery({ name: 'sort', required: false, description: 'Sort field' })
+  async findAll(@Query() filters: any) {
+    // Convert API spec query params to internal format
+    const internalFilters = {
+      search: filters.q,
+      type: filters.type,
+      element: filters.faction, // Map faction to element
+      minCost: filters.cost_min,
+      maxCost: filters.cost_max,
+      page: filters.page || 1,
+      limit: filters.pageSize || 20,
+      sortBy: filters.sort,
+      sortOrder: 'ASC' as 'ASC' | 'DESC',
+    };
+
+    const result = await this.cardsService.findAll(internalFilters);
+    
+    // Return in API spec format
+    return {
+      total: result.total,
+      page: result.page,
+      pageSize: result.limit,
+      cards: (result.items || []).map(card => ({
+        id: card.id,
+        name: card.name,
+        type: card.type,
+        cost: card.cost,
+        faction: card.element, // Map element to faction
+        text: card.description,
+        imageUrl: card.imageUrl,
+        metadata: {
+          rarity: card.rarity,
+          set: filters.set || 'S1', // Default set
+        },
+      })),
+    };
   }
 
   @Get('statistics')
