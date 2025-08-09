@@ -15,6 +15,7 @@ import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { MigrationModule } from './migration/migration.module';
 import { AiDeckbuildingModule } from './ai-deckbuilding/ai-deckbuilding.module';
 import { PhysicalSimulationModule } from './physical-simulation/physical-simulation.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { PhysicalSimulationModule } from './physical-simulation/physical-simulat
     SearchModule,
     TournamentsModule,
     MatchmakingModule,
+    EventsModule,
     MigrationModule,
     AiDeckbuildingModule,
     PhysicalSimulationModule,

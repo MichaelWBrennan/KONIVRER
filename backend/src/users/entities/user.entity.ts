@@ -245,6 +245,9 @@ export class User {
   @ApiProperty({ description: 'Tournaments organized', type: () => [Tournament], required: false })
   organizedTournaments?: Tournament[];
 
+  // Event-related relations
+  organizedEvents?: any[];
+
   @CreateDateColumn()
   @Field()
   @ApiProperty({ description: 'Account creation timestamp' })
