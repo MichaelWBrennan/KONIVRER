@@ -75,4 +75,33 @@ config.json
 # Database files
 *.db
 *.sqlite
-*.sqlite3
+*.sqlite3# Add to .gitignore for backend and development files
+
+# Backend
+backend/node_modules/
+backend/dist/
+backend/coverage/
+backend/.env
+backend/.env.local
+backend/.env.production
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+docker-compose.override.yml
