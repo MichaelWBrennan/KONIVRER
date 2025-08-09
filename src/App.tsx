@@ -2,10 +2,14 @@ import { useState } from 'react';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
+import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
+import { Tournaments } from './pages/Tournaments';
+import { Social } from './pages/Social';
+import { Analytics } from './pages/Analytics';
 import { Card, Deck } from './data/cards';
 import './App.css';
 
-type Page = 'simulator' | 'cards' | 'decks' | 'deckbuilder';
+type Page = 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('simulator');
@@ -53,6 +57,27 @@ function App() {
         >
           Deck Builder
         </a>
+        <a 
+          href="#" 
+          className={`nav-link ${currentPage === 'tournaments' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('tournaments'); }}
+        >
+          Tournaments
+        </a>
+        <a 
+          href="#" 
+          className={`nav-link ${currentPage === 'social' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('social'); }}
+        >
+          Social
+        </a>
+        <a 
+          href="#" 
+          className={`nav-link ${currentPage === 'analytics' ? 'active' : ''}`}
+          onClick={(e) => { e.preventDefault(); setCurrentPage('analytics'); }}
+        >
+          Analytics
+        </a>
       </nav>
 
       <main>
@@ -69,19 +94,23 @@ function App() {
         )}
         
         {currentPage === 'deckbuilder' && (
-          <div className="search-container">
-            <h1 className="nav-title">Deck Builder</h1>
-            <p style={{ color: 'var(--text-secondary)' }}>
-              Advanced deck building interface - Coming Soon!
-            </p>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '1rem' }}>
-              This will integrate with the existing Godot game engine for interactive deck building.
-            </p>
-          </div>
+          <DeckBuilderAdvanced />
+        )}
+        
+        {currentPage === 'tournaments' && (
+          <Tournaments />
+        )}
+        
+        {currentPage === 'social' && (
+          <Social />
+        )}
+        
+        {currentPage === 'analytics' && (
+          <Analytics />
         )}
       </main>
 
-      {/* Selected card/deck details modal placeholder */}
+      {/* Selected card details modal */}
       {selectedCard && (
         <div 
           style={{
@@ -146,6 +175,8 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
   );
 }
 
