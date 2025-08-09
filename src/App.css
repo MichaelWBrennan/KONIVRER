@@ -1416,7 +1416,6 @@ body {
 }
 
 .App:has(.card-simulator) body {
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
   overflow: hidden;
   touch-action: none;
   user-select: none;
@@ -1425,17 +1424,12 @@ body {
   -ms-user-select: none;
 }
 
-<<<<<<< HEAD
 .App {
   width: 100vw;
   height: 100vh;
   position: relative;
 }
 
-/* Mobile-specific styles */
-@media (max-width: 768px) {
-  body {
-=======
 .App:has(.card-simulator) .main-navigation {
   display: none;
 }
@@ -1446,10 +1440,9 @@ body {
   margin: 0;
 }
 
-/* Mobile-specific styles for simulator */
+/* Mobile-specific styles */
 @media (max-width: 768px) {
-  .App:has(.card-simulator) body {
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
+  body {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
   }
@@ -1463,15 +1456,9 @@ body {
   }
 }
 
-<<<<<<< HEAD
 /* Desktop-specific styles */
 @media (min-width: 769px) {
   body {
-=======
-/* Desktop-specific styles for simulator */
-@media (min-width: 769px) {
-  .App:has(.card-simulator) body {
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
     font-family: 'Georgia', serif;
     font-size: 16px;
   }
@@ -1522,8 +1509,6 @@ body {
   .game-zone {
     border-width: 2px !important;
   }
-<<<<<<< HEAD
-=======
 }
 
 /* Responsive Design */
@@ -1583,5 +1568,4 @@ body {
   .communities-grid {
     grid-template-columns: 1fr;
   }
->>>>>>> fc14f1784a88247bf940603f28748c0331fca61a
 }
