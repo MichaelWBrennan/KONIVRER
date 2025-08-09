@@ -110,7 +110,7 @@ export const CardSimulator: React.FC = () => {
           lineHeight: '1.4',
           opacity: 0.8
         }}>
-          Please rotate your phone to landscape mode for the best MTG Arena experience.
+          Please rotate your device to landscape mode for the best MTG Arena experience.
         </p>
         <div style={{
           marginTop: '20px',
