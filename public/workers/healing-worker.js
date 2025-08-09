@@ -1,4 +1,3 @@
-"use strict";
 /**
  * Advanced Self-Healing Service Worker
  *

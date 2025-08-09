@@ -88,7 +88,7 @@ The board implements the standard KONIVRER Arena zone structure:
 ### Running the Project
 1. Open `project.godot` in Godot 4
 2. Press F5 to run the main scene
-3. The MTG Arena board will load with demo cards
+3. The KONIVRER Arena board will load with demo cards
 
 ### Building for Web
 1. In Godot, go to Project > Export
@@ -96,20 +96,20 @@ The board implements the standard KONIVRER Arena zone structure:
 3. Configure export settings in `export_presets.cfg`
 4. Export to build the web version
 
-## MTG Arena Features Implemented
+## KONIVRER Arena Features Implemented
 
 ### Visual Fidelity
 ✅ Hourglass table shape with golden borders  
-✅ MTG Arena color schemes and styling  
+✅ KONIVRER Arena color schemes and styling  
 ✅ Proper card proportions and layouts  
 ✅ Arena-style hover and selection effects  
 ✅ Smooth animations matching Arena timing  
 
 ### Game Mechanics
-✅ Full MTG turn structure with all phases  
+✅ Full TCG turn structure with all phases  
 ✅ Priority system with visual indicators  
 ✅ Card tapping/untapping mechanics  
-✅ Mana pool management  
+✅ Resource pool management  
 ✅ Zone change animations  
 ✅ Stack for spells and abilities  
 
@@ -129,7 +129,7 @@ The board implements the standard KONIVRER Arena zone structure:
 ## Technical Details
 
 ### Architecture
-- **GameState Singleton**: Centralized state management for all MTG game data
+- **GameState Singleton**: Centralized state management for all KONIVRER game data
 - **Signal-Based Communication**: Clean decoupling between UI and game logic  
 - **Control Node Hierarchy**: Lightweight UI using Godot Control nodes
 - **Tween Animations**: Smooth transitions and effects using Godot's Tween system
@@ -144,10 +144,10 @@ The board implements the standard KONIVRER Arena zone structure:
 
 - **Networking**: Multiplayer support for online matches
 - **Advanced Animations**: Particle effects for spell casting and combat
-- **Audio**: MTG Arena-style sound effects and music
+- **Audio**: KONIVRER Arena-style sound effects and music
 - **Accessibility**: Screen reader support and keyboard navigation
 - **Mobile**: Touch controls optimized for mobile devices
 
 ## License
 
-This project is designed as a learning/demonstration tool for MTG Arena's interface design. All Magic: The Gathering related trademarks and copyrights belong to Wizards of the Coast.
+This project is designed as a learning/demonstration tool for KONIVRER Arena's interface design. All KONIVRER related trademarks and copyrights belong to their respective owners.
