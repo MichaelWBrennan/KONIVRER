@@ -13,6 +13,8 @@ import { SearchModule } from './search/search.module';
 import { TournamentsModule } from './tournaments/tournaments.module';
 import { MatchmakingModule } from './matchmaking/matchmaking.module';
 import { MigrationModule } from './migration/migration.module';
+import { AiDeckbuildingModule } from './ai-deckbuilding/ai-deckbuilding.module';
+import { PhysicalSimulationModule } from './physical-simulation/physical-simulation.module';
 
 @Module({
   imports: [
@@ -62,6 +64,8 @@ import { MigrationModule } from './migration/migration.module';
     TournamentsModule,
     MatchmakingModule,
     MigrationModule,
+    AiDeckbuildingModule,
+    PhysicalSimulationModule,
   ],
   controllers: [],
   providers: [],
