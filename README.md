@@ -1,6 +1,6 @@
 # KONIVRER Azoth TCG - Godot 4 Implementation
 
-**KONIVRER Azoth TCG** is a fully interactive, HTML5-optimized game board for the Azoth-based TCG framework built with Godot 4. It matches MTG Arena's polish for animations and interactivity while implementing a custom zone layout designed for the Azoth card game system.
+**KONIVRER Azoth TCG** is a fully interactive, HTML5-optimized game board for the Azoth-based TCG framework built with Godot 4. It matches professional arena-style polish for animations and interactivity while implementing a custom zone layout designed for the Azoth card game system.
 
 ## 🎮 Game Features
 

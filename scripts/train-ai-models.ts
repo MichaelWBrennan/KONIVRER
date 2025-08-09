@@ -9,7 +9,7 @@
 console.log('🤖 Starting AI model training simulation...');
 
 // Simulate training steps
-const steps = [
+const steps: string[] = [
   'Loading training data',
   'Preprocessing data',
   'Initializing model architecture',
