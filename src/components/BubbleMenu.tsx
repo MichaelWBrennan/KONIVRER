@@ -4,7 +4,7 @@ import './BubbleMenu.css';
 
 interface BubbleMenuProps {
   currentPage: string;
-  onPageChange: (page: 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events') => void;
+  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events') => void;
   onSearch?: (query: string) => void;
 }
 
@@ -84,11 +84,11 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   };
 
   const menuItems = [
-    { id: 'simulator' as const, label: 'Game Simulator', icon: '🎮' },
-    { id: 'cards' as const, label: 'Card Search', icon: '🃏' },
-    { id: 'decks' as const, label: 'Deck Search', icon: '📚' },
-    { id: 'events' as const, label: 'Events', icon: '🎪' },
-    { id: 'deckbuilder' as const, label: 'Deck Builder', icon: '🏗️' },
+    { id: 'home' as const, label: 'Home', icon: '🏠' },
+    { id: 'cards' as const, label: 'Cards', icon: '🃏' },
+    { id: 'decks' as const, label: 'Decks', icon: '📚' },
+    { id: 'simulator' as const, label: 'Simulator', icon: '🎮' },
+    { id: 'deckbuilder' as const, label: 'Rules', icon: '📜' },
     { id: 'tournaments' as const, label: 'Tournaments', icon: '🏆' },
     { id: 'social' as const, label: 'Social', icon: '👥' },
     { id: 'analytics' as const, label: 'Analytics', icon: '📊' }
