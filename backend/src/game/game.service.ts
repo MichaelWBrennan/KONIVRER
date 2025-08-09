@@ -12,7 +12,7 @@ import {
   GameState,
   GameAction,
   GamePermanent,
-  ManaPool,
+  AzothPool,
   StackEntry 
 } from './entities/game.entity';
 import { User } from '../users/entities/user.entity';
@@ -72,43 +72,45 @@ export class GameService {
       currentTurn: 1,
       activePlayer: player1Id,
       priorityPlayer: player1Id,
-      currentPhase: TurnPhase.UNTAP,
+      currentPhase: TurnPhase.START,
       stack: [],
       permanents: [],
       zones: {
         [player1Id]: {
-          library: this.shuffleDeck(player1Deck.mainboard.map(c => c.cardId)),
+          deck: this.shuffleDeck(player1Deck.mainboard.map(c => c.cardId)).slice(4), // Remove 4 life cards
           hand: [],
-          battlefield: [],
-          graveyard: [],
-          exile: [],
+          field: [],
+          combatRow: [],
+          azothRow: [],
+          lifeCards: this.shuffleDeck(player1Deck.mainboard.map(c => c.cardId)).slice(0, 4), // First 4 as life cards
+          flag: player1Deck.commander || '', // Flag card (deck identity)
+          removedFromPlay: [],
         },
         ...(createGameDto.player2Id && player2Deck ? {
           [createGameDto.player2Id]: {
-            library: this.shuffleDeck(player2Deck.mainboard.map(c => c.cardId)),
+            deck: this.shuffleDeck(player2Deck.mainboard.map(c => c.cardId)).slice(4),
             hand: [],
-            battlefield: [],
-            graveyard: [],
-            exile: [],
+            field: [],
+            combatRow: [],
+            azothRow: [],
+            lifeCards: this.shuffleDeck(player2Deck.mainboard.map(c => c.cardId)).slice(0, 4),
+            flag: player2Deck.commander || '',
+            removedFromPlay: [],
           }
         } : {}),
       },
       players: {
         [player1Id]: {
-          life: 20, // Default starting life
-          mana: { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0, chaos: 0, neutral: 0 },
-          poison: 0,
-          energy: 0,
-          emblems: [],
+          lifeCardsRemaining: 4, // KONIVRER: Track remaining life cards
+          azothPool: { fire: 0, water: 0, earth: 0, air: 0, aether: 0, nether: 0, generic: 0 },
+          counters: {},
           temporaryEffects: [],
         },
         ...(createGameDto.player2Id ? {
           [createGameDto.player2Id]: {
-            life: 20,
-            mana: { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0, chaos: 0, neutral: 0 },
-            poison: 0,
-            energy: 0,
-            emblems: [],
+            lifeCardsRemaining: 4,
+            azothPool: { fire: 0, water: 0, earth: 0, air: 0, aether: 0, nether: 0, generic: 0 },
+            counters: {},
             temporaryEffects: [],
           }
         } : {}),
@@ -174,19 +176,20 @@ export class GameService {
 
     // Add player 2 to game state
     game.gameState.zones[userId] = {
-      library: this.shuffleDeck(deck.mainboard.map(c => c.cardId)),
+      deck: this.shuffleDeck(deck.mainboard.map(c => c.cardId)).slice(4),
       hand: [],
-      battlefield: [],
-      graveyard: [],
-      exile: [],
+      field: [],
+      combatRow: [],
+      azothRow: [],
+      lifeCards: this.shuffleDeck(deck.mainboard.map(c => c.cardId)).slice(0, 4),
+      flag: deck.commander || '',
+      removedFromPlay: [],
     };
 
     game.gameState.players[userId] = {
-      life: 20,
-      mana: { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0, chaos: 0, neutral: 0 },
-      poison: 0,
-      energy: 0,
-      emblems: [],
+      lifeCardsRemaining: 4,
+      azothPool: { fire: 0, water: 0, earth: 0, air: 0, aether: 0, nether: 0, generic: 0 },
+      counters: {},
       temporaryEffects: [],
     };
 
@@ -471,20 +474,20 @@ export class GameService {
     const game = await this.gameRepository.findOne({ where: { id: gameId } });
     if (!game) return;
 
-    const handSize = 7; // Standard opening hand size
+    const handSize = 2; // KONIVRER: Draw 2 cards on first turn only
 
-    // Draw for player 1
+    // Draw for player 1 (first turn only)
     for (let i = 0; i < handSize; i++) {
-      const card = game.gameState.zones[game.player1Id].library.shift();
+      const card = game.gameState.zones[game.player1Id].deck.shift();
       if (card) {
         game.gameState.zones[game.player1Id].hand.push(card);
       }
     }
 
-    // Draw for player 2 if exists
+    // Draw for player 2 if exists (first turn only)  
     if (game.player2Id) {
       for (let i = 0; i < handSize; i++) {
-        const card = game.gameState.zones[game.player2Id].library.shift();
+        const card = game.gameState.zones[game.player2Id].deck.shift();
         if (card) {
           game.gameState.zones[game.player2Id].hand.push(card);
         }
@@ -497,17 +500,17 @@ export class GameService {
   private async startTurn(game: Game, playerId: string): Promise<void> {
     game.gameState.activePlayer = playerId;
     game.gameState.priorityPlayer = playerId;
-    game.gameState.currentPhase = TurnPhase.UNTAP;
+    game.gameState.currentPhase = TurnPhase.START;
 
-    // Untap all permanents controlled by active player
+    // KONIVRER: Refresh Azoth sources (untap them)
     game.gameState.permanents
-      .filter(p => p.controllerId === playerId)
+      .filter(p => p.controllerId === playerId && p.zone === 'azothRow')
       .forEach(p => p.tapped = false);
 
-    // Clear mana pool
-    game.gameState.players[playerId].mana = {
+    // KONIVRER: Clear Azoth pool at start of turn 
+    game.gameState.players[playerId].azothPool = {
       fire: 0, water: 0, earth: 0, air: 0, 
-      light: 0, dark: 0, chaos: 0, neutral: 0
+      aether: 0, nether: 0, generic: 0
     };
 
     this.addGameAction(game, playerId, 'start_turn', {}, `${playerId} starts turn ${game.gameState.currentTurn}`);
@@ -581,21 +584,15 @@ export class GameService {
   private checkWinConditions(game: Game): { playerId: string; condition: string } | null {
     // Check various win conditions
     for (const [playerId, playerState] of Object.entries(game.gameState.players)) {
-      // Life total
-      if (playerState.life <= 0) {
+      // KONIVRER: Life Cards instead of life total
+      if (playerState.lifeCardsRemaining <= 0) {
         const winnerId = playerId === game.player1Id ? game.player2Id : game.player1Id;
-        return { playerId: winnerId, condition: 'Life total' };
+        return { playerId: winnerId, condition: 'Life Cards depleted' };
       }
 
-      // Poison
-      if (playerState.poison >= 10) {
-        const winnerId = playerId === game.player1Id ? game.player2Id : game.player1Id;
-        return { playerId: winnerId, condition: 'Poison' };
-      }
-
-      // Deck out
+      // Deck out - no cards left to draw
       const zone = game.gameState.zones[playerId];
-      if (zone.library.length === 0) {
+      if (zone.deck.length === 0) {
         const winnerId = playerId === game.player1Id ? game.player2Id : game.player1Id;
         return { playerId: winnerId, condition: 'Deck out' };
       }
