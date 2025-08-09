@@ -83,7 +83,7 @@ export class GameService {
           combatRow: [],
           azothRow: [],
           lifeCards: this.shuffleDeck(player1Deck.mainboard.map(c => c.cardId)).slice(0, 4), // First 4 as life cards
-          flag: player1Deck.commander || '', // Flag card (deck identity)
+          flag: player1Deck.commanderId || '', // Flag card (deck identity)
           removedFromPlay: [],
         },
         ...(createGameDto.player2Id && player2Deck ? {
@@ -94,7 +94,7 @@ export class GameService {
             combatRow: [],
             azothRow: [],
             lifeCards: this.shuffleDeck(player2Deck.mainboard.map(c => c.cardId)).slice(0, 4),
-            flag: player2Deck.commander || '',
+            flag: player2Deck.commanderId || '',
             removedFromPlay: [],
           }
         } : {}),
@@ -182,7 +182,7 @@ export class GameService {
       combatRow: [],
       azothRow: [],
       lifeCards: this.shuffleDeck(deck.mainboard.map(c => c.cardId)).slice(0, 4),
-      flag: deck.commander || '',
+      flag: deck.commanderId || '',
       removedFromPlay: [],
     };
 
@@ -335,14 +335,14 @@ export class GameService {
       const playerZone = game.gameState.zones[userId];
       const handSize = playerZone.hand.length;
       
-      // Add hand back to library and shuffle
-      playerZone.library = this.shuffleDeck([...playerZone.library, ...playerZone.hand]);
+      // Add hand back to deck and shuffle
+      playerZone.deck = this.shuffleDeck([...playerZone.deck, ...playerZone.hand]);
       playerZone.hand = [];
       
       // Draw new hand (one less card)
       const newHandSize = Math.max(0, handSize - 1);
       for (let i = 0; i < newHandSize; i++) {
-        const card = playerZone.library.shift();
+        const card = playerZone.deck.shift();
         if (card) {
           playerZone.hand.push(card);
         }

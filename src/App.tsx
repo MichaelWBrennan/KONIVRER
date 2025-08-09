@@ -11,6 +11,7 @@ import { Social } from './pages/Social';
 import { Analytics } from './pages/Analytics';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
+import { MyDecks } from './pages/MyDecks';
 import { useAppStore } from './stores/appStore';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
@@ -30,7 +31,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -76,6 +77,10 @@ function AppContent() {
         
         {currentPage === 'decks' && (
           <DeckSearch onDeckSelect={handleDeckSelect} />
+        )}
+        
+        {currentPage === 'my-decks' && (
+          <MyDecks />
         )}
         
         {currentPage === 'events' && (
