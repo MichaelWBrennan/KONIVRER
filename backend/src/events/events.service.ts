@@ -761,9 +761,25 @@ export class EventsService {
     }
 
     try {
-      const simulationResult = await this.gameSimulatorService.simulateMatch({
-        player1Id: match.pairing.playerAId,
-        player2Id: match.pairing.playerBId,
+      const simulationResult = await this.gameSimulatorService.simulateMatchSeries({
+        players: [
+          {
+            id: match.pairing.playerAId,
+            name: 'Player A',
+            deckId: '',
+            skill: 1200,
+            uncertainty: 100,
+            conservativeRating: 1100,
+          },
+          {
+            id: match.pairing.playerBId,
+            name: 'Player B', 
+            deckId: '',
+            skill: 1200,
+            uncertainty: 100,
+            conservativeRating: 1100,
+          }
+        ],
         format: match.event.format.toString(),
         numberOfGames: 1000,
         includeDetailedLogs: false,
