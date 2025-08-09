@@ -96,7 +96,7 @@ export class Deck {
   @ApiProperty({ description: 'Canonical deck ID (immutable UUID)' })
   id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   @Field()
   @ApiProperty({ description: 'Deck name' })
   name: string;

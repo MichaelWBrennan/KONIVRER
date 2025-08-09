@@ -45,6 +45,14 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
     }
   };
 
+  const handleAddToDeck = (card: Card) => {
+    // TODO: Implement add to deck functionality
+    // This could open a modal to select which deck to add to
+    // or add to a "working deck" in the deck builder
+    console.log('Adding card to deck:', card.name);
+    alert(`"${card.name}" will be added to your deck... (Feature coming soon)`);
+  };
+
   // Get unique values for filters from current results
   const filterOptions = useMemo(() => {
     const cards = cardsData?.items || [];
@@ -173,7 +181,6 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
           <div
             key={card.id}
             className="card-item"
-            onClick={() => onCardSelect?.(card)}
             style={{
               border: '1px solid var(--border-color)',
               borderRadius: '8px',
@@ -204,6 +211,43 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
                   {card.power}/{card.toughness}
                 </p>
               )}
+              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.25rem' }}>
+                <button
+                  style={{
+                    flex: 1,
+                    padding: '0.25rem 0.5rem',
+                    fontSize: '0.75rem',
+                    background: 'var(--accent-color)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToDeck(card);
+                  }}
+                >
+                  + Deck
+                </button>
+                <button
+                  style={{
+                    padding: '0.25rem 0.5rem',
+                    fontSize: '0.75rem',
+                    background: 'var(--secondary-bg)',
+                    color: 'var(--text-primary)',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCardSelect?.(card);
+                  }}
+                >
+                  View
+                </button>
+              </div>
             </div>
           </div>
         ))}

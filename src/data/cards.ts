@@ -84,6 +84,7 @@ export interface Deck {
   format: string;
   createdAt: Date;
   updatedAt: Date;
+  winRate: number; // Win rate as a decimal (0.0 to 1.0)
 }
 
 // Sample decks using existing cards
@@ -96,7 +97,8 @@ export const sampleDecks: Deck[] = [
     mainElement: 'Chaos',
     format: 'Standard',
     createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-15')
+    updatedAt: new Date('2024-01-15'),
+    winRate: 0.68
   },
   {
     id: 'deck_2', 
@@ -106,7 +108,8 @@ export const sampleDecks: Deck[] = [
     mainElement: 'Light',
     format: 'Standard',
     createdAt: new Date('2024-01-10'),
-    updatedAt: new Date('2024-01-20')
+    updatedAt: new Date('2024-01-20'),
+    winRate: 0.72
   },
   {
     id: 'deck_3',
@@ -116,6 +119,7 @@ export const sampleDecks: Deck[] = [
     mainElement: 'Dark', 
     format: 'Standard',
     createdAt: new Date('2024-01-05'),
-    updatedAt: new Date('2024-01-25')
+    updatedAt: new Date('2024-01-25'),
+    winRate: 0.59
   }
 ];
