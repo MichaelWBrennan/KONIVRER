@@ -1,7 +1,7 @@
 extends Node
 
-# MTG Arena GameState singleton - handles all game state management
-# Complete state tracking for Magic: The Gathering Arena replica
+# KONIVRER GameState singleton - handles all game state management
+# Complete state tracking for KONIVRER card game
 
 signal zone_changed(card_id: String, from_zone: String, to_zone: String)
 signal card_played(card_id: String, zone: String) 
@@ -10,47 +10,45 @@ signal turn_changed(player: int, turn_count: int)
 signal phase_changed(phase: String)
 signal priority_changed(player: int)
 signal game_state_updated()
+signal life_card_damage(player: int, damage: int)
+signal azoth_generated(player: int, element: String, amount: int)
 
-# MTG game state variables
+# KONIVRER game state variables
 var current_turn: int = 1
 var current_player: int = 1
 var turn_count: int = 1
-var current_phase: String = "Main Phase 1"
+var current_phase: String = "Start Phase"
 var has_priority: int = 1
 var game_active: bool = true
 
-# MTG phases in order
-var mtg_phases: Array[String] = [
-	"Untap Step",
-	"Upkeep Step", 
-	"Draw Step",
-	"Main Phase 1",
-	"Beginning of Combat",
-	"Declare Attackers",
-	"Declare Blockers", 
-	"Combat Damage",
-	"End of Combat",
-	"Main Phase 2",
-	"End Step",
-	"Cleanup Step"
+# KONIVRER phases in order
+var konivr_phases: Array[String] = [
+	"Start Phase",        # Draw 2 cards (first turn), place Azoth
+	"Main Phase",         # Play cards, resolve keywords
+	"Combat Phase",       # Attack with Familiars
+	"Post-Combat Main",   # Play additional cards
+	"Refresh Phase"       # Refresh Azoth sources
 ]
 
-var current_phase_index: int = 3  # Start at Main Phase 1
+var current_phase_index: int = 0  # Start at Start Phase
 
-# MTG Arena zone definitions 
+# KONIVRER zone definitions 
 enum ZoneType {
-	PLAYER_BATTLEFIELD,
-	OPPONENT_BATTLEFIELD,
+	PLAYER_FIELD,           # Main battlefield for Familiars
+	OPPONENT_FIELD,
+	PLAYER_COMBAT_ROW,      # Combat area for battles
+	OPPONENT_COMBAT_ROW,
+	PLAYER_AZOTH_ROW,       # Resource area for Azoth generation
+	OPPONENT_AZOTH_ROW,
 	PLAYER_HAND,
 	OPPONENT_HAND,
-	PLAYER_LIBRARY,
-	OPPONENT_LIBRARY,
-	PLAYER_GRAVEYARD,
-	OPPONENT_GRAVEYARD,
-	PLAYER_MANA,
-	OPPONENT_MANA,
-	STACK,
-	EXILE
+	PLAYER_DECK,            # 40-card deck
+	OPPONENT_DECK,
+	PLAYER_LIFE_CARDS,      # 4 life cards for damage tracking
+	OPPONENT_LIFE_CARDS,
+	PLAYER_FLAG,            # Single flag card (deck identity)
+	OPPONENT_FLAG,
+	REMOVED_FROM_PLAY       # Void zone for removed cards
 }
 
 # Zone containers - each zone holds array of card IDs
@@ -59,23 +57,21 @@ var zones: Dictionary = {}
 # Card registry - tracks all MTG cards and their properties
 var cards: Dictionary = {}
 
-# Player data in MTG Arena format
+# Player data in KONIVRER format
 var players: Dictionary = {
 	1: {
 		"name": "Player",
-		"life": 20,
-		"mana": {"white": 0, "blue": 0, "black": 0, "red": 0, "green": 0, "colorless": 0},
-		"max_mana": {"white": 0, "blue": 0, "black": 0, "red": 0, "green": 0, "colorless": 0},
-		"lands_played": 0,
-		"max_lands_per_turn": 1
+		"life_cards_remaining": 4,  # KONIVRER: Track life cards instead of life total
+		"azoth": {"fire": 0, "water": 0, "earth": 0, "air": 0, "aether": 0, "nether": 0, "generic": 0},
+		"counters": {},  # +1 counters on cards
+		"flag_element": "",  # Element from flag card
 	},
 	2: {
 		"name": "Opponent", 
-		"life": 20,
-		"mana": {"white": 0, "blue": 0, "black": 0, "red": 0, "green": 0, "colorless": 0},
-		"max_mana": {"white": 0, "blue": 0, "black": 0, "red": 0, "green": 0, "colorless": 0},
-		"lands_played": 0,
-		"max_lands_per_turn": 1
+		"life_cards_remaining": 4,
+		"azoth": {"fire": 0, "water": 0, "earth": 0, "air": 0, "aether": 0, "nether": 0, "generic": 0},
+		"counters": {},
+		"flag_element": "",
 	}
 }
 
@@ -83,73 +79,119 @@ var players: Dictionary = {
 var stack: Array = []
 
 func _ready():
-	print("MTG Arena GameState initialized")
+	print("KONIVRER GameState initialized")
 	_initialize_zones()
 	_initialize_demo_cards()
-	_setup_starting_hands()
+	_setup_starting_game()
 
 func _initialize_zones():
-	"""Initialize all MTG Arena zones"""
+	"""Initialize all KONIVRER zones"""
 	for zone_type in ZoneType.values():
 		zones[zone_type] = []
 
 func _initialize_demo_cards():
-	"""Initialize demo MTG-style cards"""
-	# Demo creatures
-	var creature_names = ["Lightning Bolt", "Counterspell", "Giant Growth", "Healing Salve", 
-						  "Dark Ritual", "Llanowar Elves", "Serra Angel", "Shivan Dragon"]
+	"""Initialize demo KONIVRER-style cards"""
+	# Demo Familiars and Spells with KONIVRER elements
+	var card_names = ["Fire Familiar", "Water Guardian", "Earth Sentinel", "Air Spirit", 
+					  "Aether Mage", "Nether Shade", "Brilliant Strike", "Gust Wind"]
+	var elements = ["🜂", "🜄", "🜃", "🜁", "⭘", "▢", "⭘", "🜁"]
+	var keywords = [[], [], ["Steadfast"], ["Gust"], ["Brilliance"], ["Void"], ["Brilliance"], ["Gust"]]
 	
-	for i in range(20):
+	for i in range(20):  # 20 cards per deck (instead of full 40 for demo)
 		var card_id = "card_" + str(i)
-		var name_index = i % creature_names.size()
+		var name_index = i % card_names.size()
 		
 		var card_data = {
 			"id": card_id,
-			"name": creature_names[name_index],
-			"mana_cost": randi_range(1, 6),
-			"type": "Creature" if i % 3 == 0 else "Instant",
-			"power": randi_range(1, 8) if i % 3 == 0 else 0,
-			"toughness": randi_range(1, 8) if i % 3 == 0 else 0,
+			"name": card_names[name_index],
+			"element": elements[name_index],
+			"cost": randi_range(1, 4),  # Lower costs for KONIVRER
+			"type": "Familiar" if i % 3 == 0 else "Spell",
+			"strength": randi_range(1, 6),  # KONIVRER uses strength instead of power/toughness
+			"base_strength": randi_range(1, 6),
+			"keywords": keywords[name_index],
 			"owner": 1 if i < 10 else 2,
-			"zone": ZoneType.PLAYER_LIBRARY if i < 10 else ZoneType.OPPONENT_LIBRARY,
+			"zone": ZoneType.PLAYER_DECK if i < 10 else ZoneType.OPPONENT_DECK,
 			"tapped": false,
-			"summoning_sick": false
+			"plus_one_counters": 0,
 		}
 		cards[card_id] = card_data
 		
 		if i < 10:
-			zones[ZoneType.PLAYER_LIBRARY].append(card_id)
+			zones[ZoneType.PLAYER_DECK].append(card_id)
 		else:
-			zones[ZoneType.OPPONENT_LIBRARY].append(card_id)
+			zones[ZoneType.OPPONENT_DECK].append(card_id)
 	
-	# Shuffle libraries
-	zones[ZoneType.PLAYER_LIBRARY].shuffle()
-	zones[ZoneType.OPPONENT_LIBRARY].shuffle()
+	# Shuffle decks
+	zones[ZoneType.PLAYER_DECK].shuffle()
+	zones[ZoneType.OPPONENT_DECK].shuffle()
 
-func _setup_starting_hands():
-	"""Draw starting hands like MTG Arena"""
-	# Draw 7 cards for each player
-	for i in range(7):
-		draw_card(1)
-		draw_card(2)
+func _setup_starting_game():
+	"""Setup KONIVRER starting game state"""
+	# KONIVRER: Create 4 life cards from top of deck
+	for i in range(4):
+		if not zones[ZoneType.PLAYER_DECK].is_empty():
+			var card_id = zones[ZoneType.PLAYER_DECK].pop_front()
+			zones[ZoneType.PLAYER_LIFE_CARDS].append(card_id)
+			cards[card_id]["zone"] = ZoneType.PLAYER_LIFE_CARDS
+		
+		if not zones[ZoneType.OPPONENT_DECK].is_empty():
+			var card_id = zones[ZoneType.OPPONENT_DECK].pop_front()
+			zones[ZoneType.OPPONENT_LIFE_CARDS].append(card_id)
+			cards[card_id]["zone"] = ZoneType.OPPONENT_LIFE_CARDS
+	
+	# KONIVRER: Start with empty hands (draw 2 on first turn)
+	print("Game setup complete - KONIVRER rules active")
 
-func draw_card(player: int) -> String:
-	"""Draw a card from library to hand"""
-	var library_zone = ZoneType.PLAYER_LIBRARY if player == 1 else ZoneType.OPPONENT_LIBRARY  
+func draw_card(player: int, count: int = 1) -> Array:
+	"""Draw cards from deck to hand - KONIVRER style"""
+	var deck_zone = ZoneType.PLAYER_DECK if player == 1 else ZoneType.OPPONENT_DECK  
 	var hand_zone = ZoneType.PLAYER_HAND if player == 1 else ZoneType.OPPONENT_HAND
+	var drawn_cards = []
 	
-	if zones[library_zone].is_empty():
-		print("Player " + str(player) + " tries to draw from empty library!")
-		return ""
+	for i in range(count):
+		if zones[deck_zone].is_empty():
+			print("Player " + str(player) + " tries to draw from empty deck!")
+			break
+		
+		var card_id = zones[deck_zone].pop_front()
+		zones[hand_zone].append(card_id)
+		cards[card_id]["zone"] = hand_zone
+		drawn_cards.append(card_id)
+		
+		zone_changed.emit(card_id, get_zone_name(deck_zone), get_zone_name(hand_zone))
 	
-	var card_id = zones[library_zone].pop_front()
-	zones[hand_zone].append(card_id)
-	cards[card_id]["zone"] = hand_zone
-	
-	zone_changed.emit(card_id, get_zone_name(library_zone), get_zone_name(hand_zone))
 	game_state_updated.emit()
+	return drawn_cards
+
+func deal_life_card_damage(player: int, damage: int):
+	"""KONIVRER: Deal damage by removing life cards"""
+	var life_cards_zone = ZoneType.PLAYER_LIFE_CARDS if player == 1 else ZoneType.OPPONENT_LIFE_CARDS
+	var cards_to_remove = min(damage, zones[life_cards_zone].size())
 	
-	return card_id
+	for i in range(cards_to_remove):
+		if not zones[life_cards_zone].is_empty():
+			var card_id = zones[life_cards_zone].pop_back()
+			
+			# KONIVRER: Check for Burst ability when card is drawn from life cards
+			if cards[card_id].has("keywords") and "Burst" in cards[card_id]["keywords"]:
+				# Burst can be played for free
+				life_card_damage.emit(player, 1)
+				print("Burst card revealed: " + cards[card_id]["name"])
+				# Add to hand for potential burst play
+				var hand_zone = ZoneType.PLAYER_HAND if player == 1 else ZoneType.OPPONENT_HAND
+				zones[hand_zone].append(card_id)
+				cards[card_id]["zone"] = hand_zone
+			else:
+				# Move to removed from play
+				zones[ZoneType.REMOVED_FROM_PLAY].append(card_id)
+				cards[card_id]["zone"] = ZoneType.REMOVED_FROM_PLAY
+	
+	# Update life card count
+	players[player]["life_cards_remaining"] = zones[life_cards_zone].size()
+	
+	life_card_damage.emit(player, cards_to_remove)
+	game_state_updated.emit()
 
 func add_card_to_zone(card_id: String, zone: ZoneType) -> bool:
 	"""Add a card to a specific zone"""
@@ -189,27 +231,24 @@ func move_card(card_id: String, from_zone: ZoneType, to_zone: ZoneType) -> bool:
 	return true
 
 func next_turn():
-	"""Advance to next turn with full MTG turn structure"""
+	"""Advance to next turn with KONIVRER turn structure"""
 	if current_player == 1:
 		current_player = 2
 	else:
 		current_player = 1
 		turn_count += 1
 	
-	# Reset to untap step
+	# Reset to start phase
 	current_phase_index = 0
-	current_phase = mtg_phases[0]
+	current_phase = konivr_phases[0]
 	has_priority = current_player
 	
-	# Reset lands played for active player
-	players[current_player]["lands_played"] = 0
+	# KONIVRER: Draw 2 cards on first turn only
+	if turn_count == 1:
+		draw_card(current_player, 2)
 	
-	# Untap all permanents for active player
-	_untap_permanents(current_player)
-	
-	# Draw a card for active player (except first turn)
-	if turn_count > 1 or current_player == 2:
-		draw_card(current_player)
+	# Refresh Azoth sources (untap them)
+	_refresh_azoth_sources(current_player)
 	
 	turn_changed.emit(current_player, turn_count)
 	phase_changed.emit(current_phase)
@@ -217,34 +256,138 @@ func next_turn():
 	game_state_updated.emit()
 
 func next_phase():
-	"""Advance to next phase in turn"""
+	"""Advance to next phase in KONIVRER turn"""
 	current_phase_index += 1
 	
-	if current_phase_index >= mtg_phases.size():
+	if current_phase_index >= konivr_phases.size():
 		# End of turn, go to next player
 		next_turn()
 		return
 	
-	current_phase = mtg_phases[current_phase_index]
+	current_phase = konivr_phases[current_phase_index]
 	has_priority = current_player
+	
+	# Execute phase-specific actions
+	match current_phase:
+		"Start Phase":
+			_execute_start_phase()
+		"Main Phase":
+			_execute_main_phase()
+		"Combat Phase":
+			_execute_combat_phase()
+		"Post-Combat Main":
+			_execute_post_combat_main()
+		"Refresh Phase":
+			_execute_refresh_phase()
 	
 	phase_changed.emit(current_phase)
 	priority_changed.emit(has_priority)
 	game_state_updated.emit()
 
-func pass_priority():
-	"""Pass priority to other player"""
-	has_priority = 2 if has_priority == 1 else 1
-	priority_changed.emit(has_priority)
-
-func _untap_permanents(player: int):
-	"""Untap all tapped permanents controlled by player"""
-	var battlefield_zone = ZoneType.PLAYER_BATTLEFIELD if player == 1 else ZoneType.OPPONENT_BATTLEFIELD
+func _refresh_azoth_sources(player: int):
+	"""KONIVRER: Refresh (untap) Azoth sources and generate Azoth"""
+	var azoth_zone = ZoneType.PLAYER_AZOTH_ROW if player == 1 else ZoneType.OPPONENT_AZOTH_ROW
 	
-	for card_id in zones[battlefield_zone]:
+	players[player]["azoth"] = {"fire": 0, "water": 0, "earth": 0, "air": 0, "aether": 0, "nether": 0, "generic": 0}
+	
+	for card_id in zones[azoth_zone]:
 		if cards.has(card_id):
 			cards[card_id]["tapped"] = false
-			cards[card_id]["summoning_sick"] = false
+			var element = cards[card_id].get("element", "generic")
+			var element_key = _get_element_key(element)
+			if players[player]["azoth"].has(element_key):
+				players[player]["azoth"][element_key] += 1
+				azoth_generated.emit(player, element_key, 1)
+
+func _get_element_key(element_symbol: String) -> String:
+	"""Convert KONIVRER element symbols to keys"""
+	match element_symbol:
+		"🜂": return "fire"
+		"🜄": return "water"
+		"🜃": return "earth"
+		"🜁": return "air"
+		"⭘": return "aether"
+		"▢": return "nether"
+		_: return "generic"
+
+func play_card_as_summon(card_id: String, azoth_paid: Dictionary) -> bool:
+	"""KONIVRER: Play card as Familiar with +1 counters"""
+	if not cards.has(card_id):
+		return false
+	
+	var player = cards[card_id]["owner"]
+	var field_zone = ZoneType.PLAYER_FIELD if player == 1 else ZoneType.OPPONENT_FIELD
+	var hand_zone = ZoneType.PLAYER_HAND if player == 1 else ZoneType.OPPONENT_HAND
+	
+	# Remove from hand
+	zones[hand_zone].erase(card_id)
+	
+	# Add to field with +1 counters = generic azoth paid
+	zones[field_zone].append(card_id)
+	cards[card_id]["zone"] = field_zone
+	cards[card_id]["plus_one_counters"] = azoth_paid.get("generic", 0)
+	
+	return true
+
+func play_card_as_spell(card_id: String) -> bool:
+	"""KONIVRER: Play card as Spell, then put on bottom of deck"""
+	if not cards.has(card_id):
+		return false
+	
+	var player = cards[card_id]["owner"]
+	var deck_zone = ZoneType.PLAYER_DECK if player == 1 else ZoneType.OPPONENT_DECK
+	var hand_zone = ZoneType.PLAYER_HAND if player == 1 else ZoneType.OPPONENT_HAND
+	
+	# Remove from hand
+	zones[hand_zone].erase(card_id)
+	
+	# Resolve spell effect (simplified)
+	print("Resolving spell: " + cards[card_id]["name"])
+	
+	# Put on bottom of deck
+	zones[deck_zone].append(card_id)
+	cards[card_id]["zone"] = deck_zone
+	
+	return true
+
+func play_card_as_azoth(card_id: String) -> bool:
+	"""KONIVRER: Place card in Azoth Row as resource"""
+	if not cards.has(card_id):
+		return false
+	
+	var player = cards[card_id]["owner"]
+	var azoth_zone = ZoneType.PLAYER_AZOTH_ROW if player == 1 else ZoneType.OPPONENT_AZOTH_ROW
+	var hand_zone = ZoneType.PLAYER_HAND if player == 1 else ZoneType.OPPONENT_HAND
+	
+	# Remove from hand
+	zones[hand_zone].erase(card_id)
+	
+	# Add to Azoth Row
+	zones[azoth_zone].append(card_id)
+	cards[card_id]["zone"] = azoth_zone
+	
+	return true
+
+func _execute_start_phase():
+	"""KONIVRER Start Phase: Draw 2 cards (first turn), place Azoth"""
+	print("Executing Start Phase for Player " + str(current_player))
+
+func _execute_main_phase():
+	"""KONIVRER Main Phase: Play cards, resolve keywords"""
+	print("Executing Main Phase for Player " + str(current_player))
+
+func _execute_combat_phase():
+	"""KONIVRER Combat Phase: Attack with Familiars"""
+	print("Executing Combat Phase for Player " + str(current_player))
+
+func _execute_post_combat_main():
+	"""KONIVRER Post-Combat Main: Play additional cards"""
+	print("Executing Post-Combat Main Phase for Player " + str(current_player))
+
+func _execute_refresh_phase():
+	"""KONIVRER Refresh Phase: Refresh Azoth sources"""
+	_refresh_azoth_sources(current_player)
+	print("Executing Refresh Phase for Player " + str(current_player))
 
 func get_cards_in_zone(zone: ZoneType) -> Array:
 	"""Get all card IDs in a specific zone"""
@@ -257,46 +400,57 @@ func get_card_data(card_id: String) -> Dictionary:
 func get_zone_name(zone: ZoneType) -> String:
 	"""Convert zone enum to readable name"""
 	match zone:
-		ZoneType.PLAYER_BATTLEFIELD:
-			return "Player Battlefield"
-		ZoneType.OPPONENT_BATTLEFIELD:
-			return "Opponent Battlefield"
+		ZoneType.PLAYER_FIELD:
+			return "Player Field"
+		ZoneType.OPPONENT_FIELD:
+			return "Opponent Field"
+		ZoneType.PLAYER_COMBAT_ROW:
+			return "Player Combat Row"
+		ZoneType.OPPONENT_COMBAT_ROW:
+			return "Opponent Combat Row"
+		ZoneType.PLAYER_AZOTH_ROW:
+			return "Player Azoth Row"
+		ZoneType.OPPONENT_AZOTH_ROW:
+			return "Opponent Azoth Row"
 		ZoneType.PLAYER_HAND:
 			return "Player Hand"
 		ZoneType.OPPONENT_HAND:
 			return "Opponent Hand"
-		ZoneType.PLAYER_LIBRARY:
-			return "Player Library"
-		ZoneType.OPPONENT_LIBRARY:
-			return "Opponent Library"
-		ZoneType.PLAYER_GRAVEYARD:
-			return "Player Graveyard"
-		ZoneType.OPPONENT_GRAVEYARD:
-			return "Opponent Graveyard"
-		ZoneType.PLAYER_MANA:
-			return "Player Mana"
-		ZoneType.OPPONENT_MANA:
-			return "Opponent Mana"
-		ZoneType.STACK:
-			return "Stack"
-		ZoneType.EXILE:
-			return "Exile"
+		ZoneType.PLAYER_DECK:
+			return "Player Deck"
+		ZoneType.OPPONENT_DECK:
+			return "Opponent Deck"
+		ZoneType.PLAYER_LIFE_CARDS:
+			return "Player Life Cards"
+		ZoneType.OPPONENT_LIFE_CARDS:
+			return "Opponent Life Cards"
+		ZoneType.PLAYER_FLAG:
+			return "Player Flag"
+		ZoneType.OPPONENT_FLAG:
+			return "Opponent Flag"
+		ZoneType.REMOVED_FROM_PLAY:
+			return "Removed from Play"
 		_:
 			return "Unknown"
 
-func update_player_life(player: int, new_life: int):
-	"""Update player life total"""
+func update_player_life_cards(player: int, new_count: int):
+	"""Update player life card count"""
 	if players.has(player):
-		players[player]["life"] = new_life
+		players[player]["life_cards_remaining"] = new_count
 		
 		# Check for game end
-		if new_life <= 0:
+		if new_count <= 0:
 			_end_game(player)
 		
 		game_state_updated.emit()
 
+func pass_priority():
+	"""Pass priority to other player"""
+	has_priority = 2 if has_priority == 1 else 1
+	priority_changed.emit(has_priority)
+
 func tap_card(card_id: String) -> bool:
-	"""Tap a card (MTG mechanic)"""
+	"""Tap a card (KONIVRER mechanic)"""
 	if cards.has(card_id):
 		cards[card_id]["tapped"] = true
 		game_state_updated.emit()
@@ -311,17 +465,20 @@ func untap_card(card_id: String) -> bool:
 		return true
 	return false
 
-func add_mana(player: int, mana_type: String, amount: int):
-	"""Add mana to player's mana pool"""
-	if players.has(player) and players[player]["mana"].has(mana_type):
-		players[player]["mana"][mana_type] += amount
+func add_azoth(player: int, element: String, amount: int):
+	"""Add Azoth to player's pool"""
+	var element_key = _get_element_key(element)
+	if players.has(player) and players[player]["azoth"].has(element_key):
+		players[player]["azoth"][element_key] += amount
+		azoth_generated.emit(player, element_key, amount)
 		game_state_updated.emit()
 
-func spend_mana(player: int, mana_type: String, amount: int) -> bool:
-	"""Spend mana from player's pool"""
-	if players.has(player) and players[player]["mana"].has(mana_type):
-		if players[player]["mana"][mana_type] >= amount:
-			players[player]["mana"][mana_type] -= amount
+func spend_azoth(player: int, element: String, amount: int) -> bool:
+	"""Spend Azoth from player's pool"""
+	var element_key = _get_element_key(element)
+	if players.has(player) and players[player]["azoth"].has(element_key):
+		if players[player]["azoth"][element_key] >= amount:
+			players[player]["azoth"][element_key] -= amount
 			game_state_updated.emit()
 			return true
 	return false
