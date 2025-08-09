@@ -416,23 +416,6 @@ export const CardSimulator: React.FC = () => {
           >
             📊 Analytics
           </Link>
-          
-          <Link
-            to="/blog"
-            style={{
-              color: 'white',
-              textDecoration: 'none',
-              padding: device.isMobile ? '8px 12px' : '10px 16px',
-              backgroundColor: 'rgba(150, 50, 200, 0.8)',
-              borderRadius: device.isMobile ? '4px' : '6px',
-              fontSize: device.isMobile ? '14px' : '16px',
-              textAlign: 'center',
-              transition: 'all 0.2s'
-            }}
-            onClick={() => setShowMenu(false)}
-          >
-            📝 Blog & News
-          </Link>
         </div>
         
         <button
