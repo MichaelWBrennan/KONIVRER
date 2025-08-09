@@ -1,4 +1,39 @@
 /* Enhanced Global styles with mobile-first approach */
+/* OpenDyslexic Font Definitions */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Regular.woff2') format('woff2'),
+       url('/fonts/opendyslexic/OpenDyslexic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/OpenDyslexic-Bold.woff2') format('woff2'),
+       url('/fonts/opendyslexic/OpenDyslexic-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/OpenDyslexic-Italic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('/fonts/opendyslexic/OpenDyslexic-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --vh: 1vh;
   --primary-bg: #0f0f0f;
@@ -67,10 +102,10 @@ html[data-font-size="extra-large"] {
 
 html[data-contrast="high"] {
   --contrast-primary-bg: #000000;
-  --contrast-secondary-bg: #1a1a1a;
+  --contrast-secondary-bg: #ffffff;
   --contrast-text-primary: #ffffff;
-  --contrast-text-secondary: #cccccc;
-  --contrast-border-color: #666666;
+  --contrast-text-secondary: #000000;
+  --contrast-border-color: #ffffff;
 }
 
 html[data-contrast="dark"] {
@@ -89,20 +124,23 @@ html[data-contrast="normal"] {
   --contrast-border-color: #333;
 }
 
-html[data-dyslexic-font="true"] body {
-  font-family: 'OpenDyslexic', 'OpenDyslexic-Regular', 'Arial', sans-serif !important;
+html[data-dyslexic-font="true"],
+html[data-dyslexic-font="true"] * {
+  font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
 }
 
 html[data-dyslexic-font="true"] strong,
 html[data-dyslexic-font="true"] b,
 html[data-dyslexic-font="true"] .font-bold {
-  font-family: 'OpenDyslexic', 'OpenDyslexic-Bold', 'Arial', sans-serif !important;
+  font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
+  font-weight: bold !important;
 }
 
 html[data-dyslexic-font="true"] em,
 html[data-dyslexic-font="true"] i,
 html[data-dyslexic-font="true"] .font-italic {
-  font-family: 'OpenDyslexic', 'OpenDyslexic-Italic', 'Arial', sans-serif !important;
+  font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
+  font-style: italic !important;
 }
 
 /* Apply contrast settings to all elements */
@@ -113,9 +151,23 @@ html[data-contrast="dark"] * {
   border-color: var(--contrast-border-color) !important;
 }
 
+/* High contrast specific overrides for better accessibility */
 html[data-contrast="high"] .card-item,
 html[data-contrast="high"] .search-container,
 html[data-contrast="high"] .nav,
+html[data-contrast="high"] .bubble-panel {
+  background-color: var(--contrast-secondary-bg) !important;
+  color: var(--contrast-text-secondary) !important;
+  border: 2px solid var(--contrast-border-color) !important;
+}
+
+html[data-contrast="high"] button,
+html[data-contrast="high"] .bubble-btn {
+  background-color: var(--contrast-text-secondary) !important;
+  color: var(--contrast-secondary-bg) !important;
+  border: 2px solid var(--contrast-border-color) !important;
+}
+
 html[data-contrast="dark"] .card-item,
 html[data-contrast="dark"] .search-container,
 html[data-contrast="dark"] .nav {
