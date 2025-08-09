@@ -1,4 +1,4 @@
-/* 4 Bubble Menu Styles */
+/* Enhanced Mobile-First Bubble Menu Styles */
 .bubble-menu {
   position: fixed;
   z-index: 1000;
@@ -6,9 +6,9 @@
 }
 
 .bubble-menu.mobile {
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom, 0px) + 10px);
+  left: max(20px, env(safe-area-inset-left, 0px) + 10px);
+  right: max(20px, env(safe-area-inset-right, 0px) + 10px);
 }
 
 .bubble-menu.desktop {
@@ -63,27 +63,32 @@
   right: 0;
 }
 
-/* Bubble Button Styles */
+/* Enhanced Bubble Button Styles - Touch Optimized */
 .bubble-btn {
-  width: 60px;
-  height: 60px;
+  width: 56px;  /* Increased from 60px for better mobile ergonomics */
+  height: 56px;
+  min-width: 44px; /* Apple's minimum touch target */
+  min-height: 44px;
   border-radius: 50%;
   border: none;
   background: var(--accent-color);
   color: white;
-  font-size: 24px;
+  font-size: 20px; /* Slightly smaller for mobile */
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease; /* Faster transition for mobile */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   z-index: 2;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .bubble-btn:hover {
-  transform: scale(1.1);
+  transform: scale(1.05); /* Reduced scale for mobile */
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
 }
 
@@ -91,27 +96,28 @@
   transform: scale(0.95);
 }
 
-/* Different colors for each bubble type */
+/* Different colors for each bubble type - Enhanced for accessibility */
 .accessibility-btn {
-  background: #28a745;
+  background: #059669; /* Better contrast green */
 }
 
 .search-btn {
-  background: #007bff;
+  background: #3b82f6; /* Better contrast blue */
+}
 }
 
 .login-btn {
-  background: #6f42c1;
+  background: #8b5cf6; /* Better contrast purple */
 }
 
 .menu-btn {
-  background: #fd7e14;
+  background: #f97316; /* Better contrast orange */
 }
 
-/* Hamburger menu icon */
+/* Enhanced Hamburger menu icon - Touch optimized */
 .hamburger {
-  width: 24px;
-  height: 18px;
+  width: 22px;
+  height: 16px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -122,12 +128,12 @@
   height: 2px;
   background: white;
   border-radius: 1px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease; /* Faster for mobile */
   transform-origin: center;
 }
 
 .hamburger.open span:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
+  transform: rotate(45deg) translate(5px, 5px);
 }
 
 .hamburger.open span:nth-child(2) {
@@ -135,27 +141,28 @@
 }
 
 .hamburger.open span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Bubble Panel Styles */
+/* Enhanced Bubble Panel Styles - Mobile First */
 .bubble-panel {
   position: absolute;
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 20px;
+  padding: 16px; /* Reduced padding for mobile */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  animation: bubblePanelOpen 0.3s ease;
+  animation: bubblePanelOpen 0.2s ease; /* Faster animation */
   z-index: 1;
   min-width: 280px;
+  max-width: calc(100vw - 40px); /* Prevent overflow on mobile */
 }
 
 @keyframes bubblePanelOpen {
   from {
     opacity: 0;
-    transform: scale(0.8) translateY(10px);
+    transform: scale(0.9) translateY(8px); /* Less dramatic animation */
   }
   to {
     opacity: 1;
@@ -163,25 +170,29 @@
   }
 }
 
-/* Mobile panel positioning */
+/* Enhanced Mobile panel positioning - Safe area aware */
 .bubble-menu.mobile .accessibility-panel {
-  bottom: 80px;
+  bottom: 70px;
   left: -10px;
+  max-width: calc(100vw - 60px);
 }
 
 .bubble-menu.mobile .search-panel {
-  bottom: 80px;
+  bottom: 70px;
   right: -10px;
+  max-width: calc(100vw - 60px);
 }
 
 .bubble-menu.mobile .login-panel {
-  bottom: 80px;
+  bottom: 70px;
   left: -10px;
+  max-width: calc(100vw - 60px);
 }
 
 .bubble-menu.mobile .menu-panel {
-  bottom: 80px;
+  bottom: 70px;
   right: -10px;
+  max-width: calc(100vw - 60px);
 }
 
 /* Desktop panel positioning */

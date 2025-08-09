@@ -20,6 +20,7 @@ import {
   SubmitMatchResultDto, 
   PairingRequestDto 
 } from './dto/tournament.dto';
+import { MatchmakingService } from '../matchmaking/matchmaking.service';
 
 @Injectable()
 export class TournamentsService {
@@ -34,6 +35,7 @@ export class TournamentsService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Deck)
     private readonly deckRepository: Repository<Deck>,
+    private readonly matchmakingService: MatchmakingService,
   ) {}
 
   async create(createTournamentDto: CreateTournamentDto, organizerId: string): Promise<Tournament> {
@@ -413,6 +415,32 @@ export class TournamentsService {
 
     const savedMatch = await this.matchRepository.save(match);
 
+    // Update Bayesian ratings based on match result
+    try {
+      if (match.player1Id && match.player2Id) {
+        const outcomes = [
+          {
+            playerId: match.player1Id,
+            rank: match.result === 'player1' ? 1 : (match.result === 'player2' ? 2 : 1), // Ties both get rank 1
+          },
+          {
+            playerId: match.player2Id,
+            rank: match.result === 'player2' ? 1 : (match.result === 'player1' ? 2 : 1), // Ties both get rank 1
+          },
+        ];
+
+        await this.matchmakingService.updateRatings({
+          format: match.tournament.format.toString(),
+          outcomes,
+          tournamentId: match.tournamentId,
+          matchId: match.id,
+        });
+      }
+    } catch (error) {
+      console.warn('Failed to update Bayesian ratings:', error);
+      // Continue with tournament flow even if rating update fails
+    }
+
     // Update standings
     await this.updateStandings(match.tournamentId);
 
@@ -525,6 +553,95 @@ export class TournamentsService {
   }
 
   private async generateSwissPairings(
+    tournamentId: string, 
+    round: number, 
+    participants: User[], 
+    standings: TournamentStanding[]
+  ): Promise<TournamentMatch[]> {
+    // Get tournament to determine format
+    const tournament = await this.tournamentRepository.findOne({ where: { id: tournamentId } });
+    if (!tournament) {
+      throw new NotFoundException('Tournament not found');
+    }
+
+    // Get previous pairings to avoid repeats
+    const previousMatches = await this.matchRepository.find({
+      where: { tournamentId },
+    });
+    
+    const previousPairings = previousMatches.map(match => {
+      const pairing: string[] = [];
+      if (match.player1Id) pairing.push(match.player1Id);
+      if (match.player2Id) pairing.push(match.player2Id);
+      return pairing;
+    }).filter(pairing => pairing.length === 2);
+
+    try {
+      // Use Bayesian matchmaking for optimal pairings
+      const pairingResponse = await this.matchmakingService.generatePairings({
+        playerIds: participants.map(p => p.id),
+        format: tournament.format.toString(),
+        previousPairings,
+        tournamentId,
+        round,
+      });
+
+      const pairings: TournamentMatch[] = [];
+      let matchNumber = 1;
+
+      // Convert Bayesian pairings to tournament matches
+      for (const pairing of pairingResponse.pairings) {
+        pairings.push(this.matchRepository.create({
+          tournamentId,
+          round,
+          matchNumber: matchNumber++,
+          player1Id: pairing.players[0],
+          player2Id: pairing.players[1],
+          // Store match quality data in notes for reference
+          notes: `Match Quality: ${pairing.quality.quality.toFixed(3)} (${pairing.quality.balanceCategory})`,
+        }));
+      }
+
+      // Handle byes if odd number of players
+      if (participants.length % 2 !== 0) {
+        // Find player with lowest Bayesian rating for bye
+        const playerRatings = await Promise.all(
+          participants.map(async p => ({
+            userId: p.id,
+            rating: await this.matchmakingService.getPlayerRating(p.id, tournament.format.toString()),
+          }))
+        );
+
+        const pairedPlayerIds = new Set(pairings.flatMap(p => [p.player1Id, p.player2Id]));
+        const unpairedPlayer = playerRatings
+          .filter(p => !pairedPlayerIds.has(p.userId))
+          .sort((a, b) => a.rating.conservativeRating - b.rating.conservativeRating)[0];
+
+        if (unpairedPlayer) {
+          pairings.push(this.matchRepository.create({
+            tournamentId,
+            round,
+            matchNumber: matchNumber++,
+            player1Id: unpairedPlayer.userId,
+            player2Id: null,
+            result: 'bye',
+            isComplete: true,
+            notes: 'Bye round',
+          }));
+        }
+      }
+
+      return pairings;
+
+    } catch (error) {
+      console.warn('Bayesian pairing failed, falling back to traditional Swiss:', error);
+      
+      // Fallback to traditional Swiss pairing
+      return this.generateTraditionalSwissPairings(tournamentId, round, participants, standings);
+    }
+  }
+
+  private async generateTraditionalSwissPairings(
     tournamentId: string, 
     round: number, 
     participants: User[], 
