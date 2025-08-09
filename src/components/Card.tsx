@@ -43,7 +43,7 @@ export const Card: React.FC<CardProps> = ({
     : (isInHand ? { width: 100, height: 140 } : { width: 120, height: 168 })
   );
 
-  // MTG Arena color schemes
+  // KONIVRER Arena color schemes
   const colorMap = {
     white: '#FFFBD5',
     blue: '#AAE0FA', 
@@ -146,7 +146,7 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  // Card styling based on MTG Arena design patterns
+  // Card styling based on KONIVRER Arena design patterns
   const getCardStyle = (): React.CSSProperties => {
     const baseStyle: React.CSSProperties = {
       width: `${cardSize.width}px`,

@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { GameState, Card, PlayerState, GameZone, DragState } from '../types/game';
 
-// Demo card data to simulate MTG Arena cards
+// Demo card data to simulate KONIVRER Arena cards
 const createDemoCard = (id: string, name: string, manaCost: number, type: string, color: Card['color']): Card => ({
   id,
   name,
