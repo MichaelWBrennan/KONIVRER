@@ -21,7 +21,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Public } from '../auth/decorators/public.decorator';
 
 @ApiTags('Decks')
-@Controller('api/v1/decks')
+@Controller('api/decks')
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class DecksController {
@@ -140,6 +140,20 @@ export class DecksController {
     @Request() req,
   ) {
     return this.decksService.clone(id, req.user.id, cloneDto.name);
+  }
+
+  @Post(':id/assign')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Assign deck to user account' })
+  @ApiResponse({ status: 200, description: 'Deck assigned successfully' })
+  @ApiResponse({ status: 404, description: 'Deck not found' })
+  async assignDeck(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() body: { userId?: string },
+    @Request() req,
+  ) {
+    const userId = body.userId || req.user.id;
+    return this.decksService.assignToUser(id, userId);
   }
 
   @Post(':id/like')
