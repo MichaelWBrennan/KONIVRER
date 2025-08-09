@@ -40,16 +40,11 @@ export enum GameType {
 }
 
 export enum TurnPhase {
-  UNTAP = 'Untap',
-  UPKEEP = 'Upkeep',
-  DRAW = 'Draw',
-  MAIN1 = 'Main 1',
-  COMBAT_DECLARE_ATTACKERS = 'Combat - Declare Attackers',
-  COMBAT_DECLARE_BLOCKERS = 'Combat - Declare Blockers',
-  COMBAT_DAMAGE = 'Combat - Damage',
-  MAIN2 = 'Main 2',
-  END = 'End',
-  CLEANUP = 'Cleanup',
+  START = 'Start', // KONIVRER: Draw 2 cards first turn, place 1 Azoth
+  MAIN = 'Main', // KONIVRER: Play cards, resolve keywords  
+  COMBAT = 'Combat', // KONIVRER: Attack with Familiars
+  POST_COMBAT_MAIN = 'Post-Combat Main', // KONIVRER: Play more cards
+  REFRESH = 'Refresh', // KONIVRER: Refresh Azoth sources
 }
 
 export enum Priority {
@@ -77,21 +72,21 @@ interface GameState {
   permanents: GamePermanent[];
   zones: {
     [playerId: string]: {
-      library: string[]; // card IDs
-      hand: string[];
-      battlefield: string[];
-      graveyard: string[];
-      exile: string[];
-      command?: string[]; // for commander
+      deck: string[]; // KONIVRER: 40-card deck
+      hand: string[]; // Cards in hand
+      field: string[]; // KONIVRER: Main battlefield
+      combatRow: string[]; // KONIVRER: Combat area
+      azothRow: string[]; // KONIVRER: Resource area
+      lifeCards: string[]; // KONIVRER: 4 life cards for damage
+      flag: string; // KONIVRER: Single flag card (deck identity)
+      removedFromPlay: string[]; // KONIVRER: Void zone
     };
   };
   players: {
     [playerId: string]: {
-      life: number;
-      mana: ManaPool;
-      poison: number;
-      energy: number;
-      emblems: string[];
+      lifeCardsRemaining: number; // KONIVRER: Damage tracking via life cards
+      azothPool: AzothPool; // KONIVRER: Azoth resources
+      counters: { [type: string]: number }; // +1 counters, etc.
       temporaryEffects: TemporaryEffect[];
     };
   };
@@ -119,25 +114,24 @@ interface GamePermanent {
   ownerId: string;
   tapped: boolean;
   summoned: boolean; // summoning sickness
+  strength: number; // KONIVRER: Current strength
+  baseStrength: number; // KONIVRER: Base strength
+  plusOneCounters: number; // KONIVRER: +1 counters from Summon
   damage: number;
-  counters: { [type: string]: number };
   attachedTo?: string; // for auras/equipment
   abilities: string[];
-  powerToughnessModifiers: { power: number; toughness: number }[];
-  typeModifiers: string[];
-  colorModifiers: string[];
-  keywordModifiers: string[];
+  konivrKeywords: string[]; // KONIVRER-specific keywords
+  zone: 'field' | 'combatRow' | 'azothRow'; // KONIVRER zones
 }
 
-interface ManaPool {
-  fire: number;
-  water: number;
-  earth: number;
-  air: number;
-  light: number;
-  dark: number;
-  chaos: number;
-  neutral: number;
+interface AzothPool {
+  fire: number; // 🜂
+  water: number; // 🜄
+  earth: number; // 🜃
+  air: number; // 🜁
+  aether: number; // ⭘
+  nether: number; // ▢
+  generic: number; // ✡⃝
 }
 
 interface TemporaryEffect {
@@ -384,7 +378,7 @@ export type {
   GameState,
   StackEntry,
   GamePermanent,
-  ManaPool,
+  AzothPool,
   TemporaryEffect,
   GameAction,
 };

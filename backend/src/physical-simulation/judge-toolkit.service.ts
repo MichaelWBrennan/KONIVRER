@@ -298,64 +298,238 @@ export class JudgeToolkitService {
   private initializeRulesDatabase(): void {
     this.rulesDatabase = new Map();
     
-    // Core game rules
-    this.rulesDatabase.set('100.1', {
-      title: 'Parts of the Game',
+    // KONIVRER Core Game Rules
+    this.rulesDatabase.set('KR-100.1', {
+      title: 'Game Overview',
+      text: 'KONIVRER is a strategic, expandable card game where players take on the role of powerful magic users called "Conjurers."',
+      examples: ['1v1 battles', '2v2 team battles', '3v3 group battles', 'free-for-all multiplayer'],
+      tags: ['fundamental', 'multiplayer'],
+      relatedRules: ['KR-100.2', 'KR-200.1'],
+    });
+
+    this.rulesDatabase.set('KR-101.1', {
+      title: 'Winning Condition',
+      text: 'Reduce your opponent\'s Life Cards to 0 by attacking with Familiars and Spells. Players can defend with their own Familiars.',
+      examples: ['Direct damage to Life Cards', 'Unblocked Familiar attacks', 'Spell damage'],
+      tags: ['winning', 'life_cards', 'combat'],
+      relatedRules: ['KR-300.1', 'KR-400.1'],
+    });
+
+    this.rulesDatabase.set('KR-200.1', {
+      title: 'Deck Construction',
+      text: 'Each deck contains exactly 40 cards plus 1 Flag. Deck limits: 25 Common (🜠), 13 Uncommon (☽), 2 Rare (☉), 1 copy maximum per card.',
+      examples: ['Standard 40-card deck', 'Flag anchors deck identity', 'Rarity distribution enforced'],
+      tags: ['deck_construction', 'flags', 'rarity'],
+      relatedRules: ['KR-200.2', 'KR-200.3'],
+    });
+
+    this.rulesDatabase.set('KR-300.1', {
+      title: 'Game Setup - Life Cards',
+      text: 'Before the game, place the top 4 cards of your deck face down as Life Cards. These remain hidden until revealed as damage.',
+      examples: ['4 Life Cards per player', 'Face down until damage taken', 'Burst abilities can trigger'],
+      tags: ['setup', 'life_cards', 'burst'],
+      relatedRules: ['KR-300.2', 'KR-600.1'],
+    });
+
+    this.rulesDatabase.set('KR-400.1', {
+      title: 'Game Phases',
+      text: 'Each turn has 5 phases: Start Phase, Main Phase, Combat Phase, Post-Combat Main Phase, Refresh Phase.',
+      examples: ['Start: Draw 2 (first turn), place Azoth', 'Main: Play cards, resolve keywords', 'Combat: Attack with Familiars'],
+      tags: ['phases', 'turn_structure'],
+      relatedRules: ['KR-400.2', 'KR-400.3', 'KR-400.4'],
+    });
+
+    this.rulesDatabase.set('KR-500.1', {
+      title: 'Elements System',
+      text: 'Six elements plus Generic: Fire (🜂), Water (🜄), Earth (🜃), Air (🜁), Aether (⭘), Nether (▢), Generic (✡⃝).',
+      examples: ['Elemental Azoth costs', 'Keyword interactions', 'Flag alignment bonuses'],
+      tags: ['elements', 'azoth', 'mana'],
+      relatedRules: ['KR-500.2', 'KR-700.1'],
+    });
+
+    this.rulesDatabase.set('KR-600.1', {
+      title: 'Card Play Modes',
+      text: 'Cards can be played in multiple ways: Summon (as Familiar), Spell (resolve then bottom deck), Azoth (as resource), Tribute (sacrifice for cost), Burst (free from Life Cards).',
+      examples: ['Summon with +1 counters', 'Spell to bottom of deck', 'Azoth generates elements'],
+      tags: ['play_modes', 'summon', 'spell', 'azoth', 'tribute', 'burst'],
+      relatedRules: ['KR-600.2', 'KR-600.3'],
+    });
+
+    // KONIVRER Keyword Rules
+    this.rulesDatabase.set('KR-700.1', {
+      title: 'Amalgam Keyword',
+      text: 'Choose one of two options when played. As Summon: choose keyword and element. As Azoth: choose element type to generate.',
+      examples: ['Gust or Brilliance choice', 'Elemental choice for Azoth'],
+      tags: ['amalgam', 'keywords', 'choice'],
+      relatedRules: ['KR-700.2', 'KR-700.3'],
+    });
+
+    this.rulesDatabase.set('KR-700.2', {
+      title: 'Brilliance Keyword',
+      text: 'Place target Familiar with +1 Counters or Spell with Strength ≤ ⭘ used to pay for this card\'s Strength on the bottom of its owner\'s life cards. Does not affect ▢ cards.',
+      examples: ['Target low-strength Familiars', 'Affects Spells with low Strength', 'Nether cards immune'],
+      tags: ['brilliance', 'targeting', 'life_cards', 'aether'],
+      relatedRules: ['KR-700.3', 'KR-700.4'],
+    });
+
+    this.rulesDatabase.set('KR-700.3', {
+      title: 'Gust Keyword', 
+      text: 'Return target Familiar with +1 Counters or Spell with Strength ≤ 🜁 used to pay for this card\'s Strength to its owner\'s hand. Does not affect 🜃 cards.',
+      examples: ['Bounce effect to hand', 'Air strength limitation', 'Earth cards immune'],
+      tags: ['gust', 'bounce', 'hand', 'air'],
+      relatedRules: ['KR-700.4', 'KR-700.5'],
+    });
+
+    this.rulesDatabase.set('KR-700.4', {
+      title: 'Inferno Keyword',
+      text: 'After damage is dealt to the target card, add damage ≤ 🜂 used to pay for this card\'s Strength. Does not affect 🜄 cards.',
+      examples: ['Extra damage after initial damage', 'Fire strength bonus', 'Water cards immune'],
+      tags: ['inferno', 'damage', 'fire'],
+      relatedRules: ['KR-700.5', 'KR-700.6'],
+    });
+
+    this.rulesDatabase.set('KR-700.5', {
+      title: 'Steadfast Keyword',
+      text: 'Redirect damage ≤ 🜃 used to pay for this card\'s Strength, that would be done to you or cards you control, to this card\'s Strength. Does not affect 🜂 cards.',
+      examples: ['Damage redirection', 'Protection effect', 'Fire cards immune'],
+      tags: ['steadfast', 'protection', 'redirection', 'earth'],
+      relatedRules: ['KR-700.6', 'KR-700.7'],
+    });
+
+    this.rulesDatabase.set('KR-700.6', {
+      title: 'Submerged Keyword',
+      text: 'Place target Familiar with +1 Counters or Spell with Strength ≤ 🜄 used to pay for this card\'s Strength, that many cards below the top of its owner\'s deck. Does not affect 🜁 cards.',
+      examples: ['Bury cards in deck', 'Water strength depth', 'Air cards immune'],
+      tags: ['submerged', 'deck', 'bury', 'water'],
+      relatedRules: ['KR-700.7', 'KR-700.8'],
+    });
+
+    this.rulesDatabase.set('KR-700.7', {
+      title: 'Quintessence Keyword', 
+      text: 'This card can\'t be played as a Familiar. While in the Azoth row, it produces any Azoth type.',
+      examples: ['Azoth-only cards', 'Universal Azoth generation', 'Flexible resource'],
+      tags: ['quintessence', 'azoth', 'universal'],
+      relatedRules: ['KR-700.8', 'KR-500.1'],
+    });
+
+    this.rulesDatabase.set('KR-700.8', {
+      title: 'Void Keyword',
+      text: 'Remove target card from the game. Does not affect ⭘ cards. Removed cards go to the Removed from Play zone.',
+      examples: ['Permanent removal', 'Aether cards immune', 'Removed from Play zone'],
+      tags: ['void', 'removal', 'exile', 'aether'],
+      relatedRules: ['KR-800.1'],
+    });
+
+    // KONIVRER Zone Rules  
+    this.rulesDatabase.set('KR-800.1', {
+      title: 'Game Zones',
+      text: 'Seven zones: Field (main battlefield), Combat Row (combat area), Azoth Row (resources), Life Cards, Flag, Deck, Removed from Play.',
+      examples: ['Field for Familiars', 'Combat Row for battles', 'Azoth Row for resources'],
+      tags: ['zones', 'field', 'combat_row', 'azoth_row'],
+      relatedRules: ['KR-800.2', 'KR-800.3'],
+    });
+
+    // Add MTG compatibility rules for reference
+    this.rulesDatabase.set('MTG-100.1', {
+      title: 'Parts of the Game (MTG Reference)',
       text: 'These Magic rules apply to any Magic game with two or more players, including two-player games and multiplayer games.',
       examples: ['Standard constructed games', 'Limited formats', 'Multiplayer formats'],
-      tags: ['fundamental', 'multiplayer'],
-      relatedRules: ['100.2', '100.3'],
-    });
-    
-    this.rulesDatabase.set('101.1', {
-      title: 'Winning and Losing',
-      text: 'A player wins the game if that player\'s opponent concedes or if a spell or ability says that player wins the game.',
-      examples: ['Opponent concedes', 'Test of Endurance', 'Coalition Victory'],
-      tags: ['winning', 'alternate_win_conditions'],
-      relatedRules: ['104.1', '104.2'],
-    });
-    
-    this.rulesDatabase.set('104.3a', {
-      title: 'State-Based Actions - Life Total',
-      text: 'A player with 0 or less life loses the game.',
-      examples: ['Player at -5 life loses', 'Player at 0 life loses'],
-      tags: ['state_based_actions', 'life', 'losing'],
-      relatedRules: ['104.3', '118.1'],
-    });
-    
-    // Priority and timing rules
-    this.rulesDatabase.set('116.1', {
-      title: 'Priority',
-      text: 'Priority determines when a player may cast spells, activate abilities, and take special actions.',
-      examples: ['Casting instants', 'Activating abilities', 'Playing lands'],
-      tags: ['priority', 'timing', 'stack'],
-      relatedRules: ['116.2', '116.3'],
-    });
-    
-    // Layer system
-    this.rulesDatabase.set('613.1', {
-      title: 'Layer System',
-      text: 'The values of an object\'s characteristics are determined by starting with the actual object and applying continuous effects in a series of layers.',
-      examples: ['Characteristic-defining abilities', 'Copy effects', 'Control-changing effects'],
-      tags: ['layer', 'continuous_effects', 'timestamps'],
-      relatedRules: ['613.2', '613.3'],
-    });
-    
-    // Replacement effects
-    this.rulesDatabase.set('614.1', {
-      title: 'Replacement Effects',
-      text: 'Some continuous effects are replacement effects. Like prevention effects, replacement effects apply continuously as events happen.',
-      examples: ['Doubling Season', 'Rest in Peace', 'Leyline of the Void'],
-      tags: ['replacement', 'continuous_effects'],
-      relatedRules: ['614.2', '614.3'],
+      tags: ['fundamental', 'multiplayer', 'mtg_reference'],
+      relatedRules: ['MTG-100.2', 'MTG-100.3'],
     });
   }
 
   private initializeScenarioLibrary(): void {
     this.scenarioLibrary = [
+      // KONIVRER-specific scenarios
+      {
+        id: 'konivr_amalgam_001',
+        title: 'Amalgam Choice Resolution',
+        description: 'Player A plays an Amalgam card with "Gust or Brilliance". Which keyword is chosen and how does it affect the game?',
+        gameState: {
+          activePlayer: 'A',
+          phase: 'main',
+          field: [{ name: 'Enemy Familiar', strength: 2, controller: 'B' }],
+          hand: [{ name: 'Amalgam Familiar', keywords: ['Gust or Brilliance'], controller: 'A' }],
+        },
+        question: 'Player A chooses Brilliance. What happens to the Enemy Familiar?',
+        correctAnswer: 'If Player A pays ⭘ for Brilliance strength ≥ 2, Enemy Familiar goes to bottom of Player B\'s Life Cards',
+        explanation: 'Amalgam allows choosing Brilliance, which can target Familiars with strength ≤ ⭘ paid and places them on bottom of owner\'s Life Cards.',
+        difficulty: 'intermediate',
+        tags: ['amalgam', 'brilliance', 'targeting', 'konivrer'],
+      },
+      {
+        id: 'konivr_burst_001',
+        title: 'Burst Ability Timing',
+        description: 'Player B takes damage and reveals a card with Burst from their Life Cards. When can they play it?',
+        gameState: {
+          activePlayer: 'A',
+          phase: 'combat',
+          lifeCards: [{ name: 'Burst Spell', keywords: ['Burst'], controller: 'B' }],
+          damage: 1,
+        },
+        question: 'When can Player B play the Burst Spell for free?',
+        correctAnswer: 'Immediately when drawn from Life Cards as damage, before further game actions',
+        explanation: 'Burst allows playing the card for free when drawn from Life Cards, with ✡⃝ = remaining Life Cards.',
+        difficulty: 'beginner',
+        tags: ['burst', 'timing', 'life_cards', 'konivrer'],
+      },
+      {
+        id: 'konivr_zones_001',
+        title: 'Combat Row vs Field Placement',
+        description: 'Player A has Familiars in both Field and Combat Row. Which can attack?',
+        gameState: {
+          activePlayer: 'A',
+          phase: 'combat',
+          field: [{ name: 'Field Familiar', controller: 'A' }],
+          combatRow: [{ name: 'Combat Familiar', controller: 'A' }],
+        },
+        question: 'Which Familiars can attack this turn?',
+        correctAnswer: 'Both Field and Combat Row Familiars can attack',
+        explanation: 'KONIVRER allows Familiars from both Field and Combat Row to participate in combat.',
+        difficulty: 'beginner',
+        tags: ['zones', 'combat', 'field', 'combat_row', 'konivrer'],
+      },
+      {
+        id: 'konivr_elements_001',
+        title: 'Element Immunity Interactions',
+        description: 'Player A uses Gust (🜁) targeting Player B\'s Earth (🜃) Familiar. What happens?',
+        gameState: {
+          activePlayer: 'A',
+          phase: 'main',
+          field: [{ name: 'Earth Guardian', element: '🜃', controller: 'B' }],
+          spells: [{ name: 'Gust Effect', element: '🜁', controller: 'A' }],
+        },
+        question: 'Does Gust affect the Earth Familiar?',
+        correctAnswer: 'No, Earth cards (🜃) are immune to Air effects like Gust',
+        explanation: 'Each KONIVRER keyword has elemental immunities: Gust does not affect Earth cards.',
+        difficulty: 'intermediate',
+        tags: ['elements', 'immunity', 'gust', 'earth', 'konivrer'],
+      },
+      {
+        id: 'konivr_azoth_001',
+        title: 'Azoth Generation and Usage',
+        description: 'Player has 3 cards in Azoth Row during Refresh Phase. How much Azoth is available?',
+        gameState: {
+          activePlayer: 'A',
+          phase: 'refresh',
+          azothRow: [
+            { name: 'Fire Azoth', element: '🜂' },
+            { name: 'Water Azoth', element: '🜄' },
+            { name: 'Generic Azoth', element: '✡⃝' }
+          ],
+        },
+        question: 'What Azoth is generated this turn?',
+        correctAnswer: '1 Fire, 1 Water, 1 Generic Azoth',
+        explanation: 'Each card in Azoth Row generates 1 Azoth of its element type during Refresh Phase.',
+        difficulty: 'beginner',
+        tags: ['azoth', 'resources', 'generation', 'konivrer'],
+      },
+
+      // Legacy MTG scenarios for compatibility
       {
         id: 'priority_basic_001',
-        title: 'Basic Priority Passing',
+        title: 'Basic Priority Passing (MTG)',
         description: 'Player A casts Lightning Bolt targeting Player B. When does Player B get priority to respond?',
         gameState: {
           activePlayer: 'A',
@@ -366,24 +540,7 @@ export class JudgeToolkitService {
         correctAnswer: 'Immediately after Lightning Bolt is placed on the stack',
         explanation: 'After a player casts a spell, priority passes to the next player in turn order, who can respond with instants or abilities.',
         difficulty: 'beginner',
-        tags: ['priority', 'stack', 'instants'],
-      },
-      {
-        id: 'layers_complex_001',
-        title: 'Complex Layer Interactions',
-        description: 'A creature affected by multiple continuous effects with different layer applications.',
-        gameState: {
-          battlefield: [
-            { name: 'Grizzly Bears', power: 2, toughness: 2, controller: 'A' },
-            { name: 'Glorious Anthem', controller: 'A' },
-            { name: 'Lignify', enchanting: 'Grizzly Bears', controller: 'B' },
-          ],
-        },
-        question: 'What are the final power and toughness of Grizzly Bears?',
-        correctAnswer: '1/4',
-        explanation: 'Lignify (layer 4) removes abilities and sets P/T to 0/4, then Glorious Anthem (layer 7c) adds +1/+1, resulting in 1/4.',
-        difficulty: 'advanced',
-        tags: ['layers', 'continuous_effects', 'power_toughness'],
+        tags: ['priority', 'stack', 'instants', 'mtg'],
       },
     ];
   }
