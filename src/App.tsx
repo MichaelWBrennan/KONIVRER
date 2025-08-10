@@ -12,6 +12,7 @@ import { Analytics } from './pages/Analytics';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
+import { Rules } from './pages/Rules';
 import { useAppStore } from './stores/appStore';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
@@ -31,7 +32,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -81,6 +82,10 @@ function AppContent() {
         
         {currentPage === 'my-decks' && (
           <MyDecks />
+        )}
+        
+        {currentPage === 'rules' && (
+          <Rules />
         )}
         
         {currentPage === 'events' && (
