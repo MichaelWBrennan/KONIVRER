@@ -1,14 +1,15 @@
 import { useState, useMemo, useCallback } from 'react';
-import { useCards, useSeedKonivrrerCards } from '../hooks/useCards';
+import { useLocalCards } from '../hooks/useLocalCards';
 import { useAppStore } from '../stores/appStore';
-import type { Card } from '../stores/appStore';
+import { debounce } from '../utils/timing';
+import { Card } from '../data/cards';  // Use our local Card type
 
 interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
 export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
-  const { searchFilters, setSearchFilters, setError } = useAppStore();
+  const { searchFilters, setSearchFilters } = useAppStore();
   const [localSearchTerm, setLocalSearchTerm] = useState(searchFilters.search || '');
   
   // Debounced search - update filters when user stops typing
@@ -19,8 +20,7 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
     [setSearchFilters]
   );
 
-  const { data: cardsData, isLoading, error } = useCards(searchFilters);
-  const seedMutation = useSeedKonivrrerCards();
+  const { data: cardsData, isLoading, error } = useLocalCards(searchFilters);
 
   // Update search term locally and trigger debounced update
   const handleSearchChange = (term: string) => {
@@ -36,15 +36,6 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
     setSearchFilters({ page });
   };
 
-  const handleSeedCards = async () => {
-    try {
-      await seedMutation.mutateAsync(undefined);
-      setError(null);
-    } catch (error) {
-      setError('Failed to seed cards: ' + (error as Error).message);
-    }
-  };
-
   const handleAddToDeck = (card: Card) => {
     // Implement add to deck functionality
     // This could open a modal to select which deck to add to
@@ -55,7 +46,7 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
 
   // Get unique values for filters from current results
   const filterOptions = useMemo(() => {
-    const cards = cardsData?.items || [];
+    const cards = cardsData?.data || [];
     return {
       elements: [...new Set(cards.map((card: Card) => card.element))].sort() as string[],
       types: [...new Set(cards.map((card: Card) => card.type))].sort() as string[],
@@ -68,43 +59,23 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
       <div className="error-container">
         <h1>Card Search</h1>
         <div className="error">
-          Error loading cards: {error.message}
-          <button onClick={handleSeedCards} disabled={seedMutation.isPending}>
-            {seedMutation.isPending ? 'Seeding...' : 'Seed Sample Cards'}
-          </button>
+          Error loading cards: {error}
         </div>
       </div>
     );
   }
 
-  const cards = cardsData?.items || [];
+  const cards = cardsData?.data || [];
   const pagination = cardsData ? {
-    currentPage: cardsData.page,
-    totalPages: cardsData.pages,
-    total: cardsData.total
+    currentPage: cardsData.pagination.currentPage,
+    totalPages: cardsData.pagination.totalPages,
+    total: cardsData.pagination.totalItems
   } : null;
 
   return (
     <div>
       <div className="search-container">
         <h1 className="nav-title">Card Search</h1>
-        
-        <div style={{ marginBottom: '1rem' }}>
-          <button 
-            onClick={handleSeedCards} 
-            disabled={seedMutation.isPending}
-            style={{
-              padding: '0.5rem 1rem',
-              background: 'var(--accent-color)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: seedMutation.isPending ? 'not-allowed' : 'pointer'
-            }}
-          >
-            {seedMutation.isPending ? 'Seeding...' : 'Seed KONIVRER Cards'}
-          </button>
-        </div>
 
         <input
           type="text"
@@ -290,22 +261,8 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
       {cards.length === 0 && !isLoading && (
         <div className="no-results" style={{ textAlign: 'center', padding: '2rem' }}>
           <p>No cards found matching your search criteria.</p>
-          {!cardsData?.total && (
-            <button onClick={handleSeedCards} disabled={seedMutation.isPending}>
-              {seedMutation.isPending ? 'Seeding...' : 'Seed Sample Cards'}
-            </button>
-          )}
         </div>
       )}
     </div>
   );
 };
-
-// Simple debounce utility
-function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
-  let timeout: ReturnType<typeof setTimeout>;
-  return ((...args: any[]) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  }) as T;
-}

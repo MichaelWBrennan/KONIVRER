@@ -5,6 +5,7 @@ import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
+import { OcrManager } from './components/OcrManager';
 import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 
@@ -15,7 +16,7 @@ import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
 import { useAppStore } from './stores/appStore';
 import { NotificationService } from './services/notifications';
-import type { Card } from './stores/appStore';
+import type { Card } from './data/cards';  // Use our local Card type
 import type { Deck } from './data/cards';
 import './App.css';
 
@@ -33,7 +34,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'ocr';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -60,6 +61,12 @@ function AppContent() {
   const handleDeckSelect = (deck: Deck) => {
     console.log('Selected deck:', deck);
     // Navigate to deck details or open in deck builder
+  };
+
+  const handleCardDataUpdated = (cards: any[]) => {
+    console.log(`Updated card database with ${cards.length} cards from OCR`);
+    // Refresh card data if needed
+    window.location.reload();
   };
 
   const handleSearch = (query: string) => {
@@ -122,6 +129,10 @@ function AppContent() {
         
         {currentPage === 'analytics' && (
           <Analytics />
+        )}
+        
+        {currentPage === 'ocr' && (
+          <OcrManager onDataUpdated={handleCardDataUpdated} />
         )}
       </main>
 
@@ -196,9 +207,6 @@ function AppContent() {
                 <p><strong>Power/Toughness:</strong> {selectedCard.power}/{selectedCard.toughness}</p>
               )}
               <p style={{ marginTop: '1rem' }}>{selectedCard.description}</p>
-              {selectedCard.keywords && selectedCard.keywords.length > 0 && (
-                <p><strong>Keywords:</strong> {selectedCard.keywords.join(', ')}</p>
-              )}
             </div>
             <button 
               style={{
