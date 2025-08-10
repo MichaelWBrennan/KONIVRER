@@ -13,6 +13,7 @@ import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
+import { MatchmakingPage } from './pages/MatchmakingPage';
 import { useAppStore } from './stores/appStore';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
@@ -32,7 +33,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'matchmaking';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -106,6 +107,10 @@ function AppContent() {
         
         {currentPage === 'analytics' && (
           <Analytics />
+        )}
+        
+        {currentPage === 'matchmaking' && (
+          <MatchmakingPage />
         )}
       </main>
 
