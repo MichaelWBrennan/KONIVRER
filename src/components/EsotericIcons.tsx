@@ -19,30 +19,28 @@ export const AccessibilityIcon: React.FC<IconProps> = ({
     className={className}
     xmlns="http://www.w3.org/2000/svg"
   >
-    {/* Wheelchair accessibility icon */}
+    {/* Wheelchair accessibility symbol */}
     {/* Head */}
-    <circle cx="12" cy="4" r="2" fill={color} />
+    <circle cx="7" cy="4" r="2" stroke={color} strokeWidth="1.5" fill="none" />
     
-    {/* Body/Torso */}
-    <path d="M12 8 L12 14" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    {/* Body and arms */}
+    <path d="M7 8 L7 12 L5 14" stroke={color} strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    <path d="M7 10 L10 10" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
     
-    {/* Arms */}
-    <path d="M8 10 L16 10" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    {/* Wheelchair wheel */}
+    <circle cx="7" cy="18" r="4" stroke={color} strokeWidth="1.5" fill="none" />
+    <circle cx="7" cy="18" r="1.5" fill={color} />
     
-    {/* Wheelchair seat */}
-    <path d="M8 14 L16 14" stroke={color} strokeWidth="2" strokeLinecap="round" />
+    {/* Wheelchair frame */}
+    <path d="M7 12 L7 14 L11 14 L11 16" stroke={color} strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    <path d="M9 14 L9 12 L11 12" stroke={color} strokeWidth="1.5" strokeLinecap="round" fill="none" />
     
-    {/* Large wheel (back) */}
-    <circle cx="8" cy="18" r="4" stroke={color} strokeWidth="2" fill="none" />
-    <circle cx="8" cy="18" r="1" fill={color} />
+    {/* Back wheel */}
+    <circle cx="16" cy="17" r="3" stroke={color} strokeWidth="1.5" fill="none" />
+    <circle cx="16" cy="17" r="1" fill={color} />
     
-    {/* Small wheel (front) */}
-    <circle cx="16" cy="18" r="2" stroke={color} strokeWidth="2" fill="none" />
-    <circle cx="16" cy="18" r="0.5" fill={color} />
-    
-    {/* Wheelchair frame connections */}
-    <path d="M12 14 L8 18" stroke={color} strokeWidth="1.5" />
-    <path d="M14 14 L16 16" stroke={color} strokeWidth="1.5" />
+    {/* Connecting frame */}
+    <path d="M11 14 L13 17" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 

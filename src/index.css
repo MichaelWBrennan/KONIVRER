@@ -106,6 +106,7 @@ html[data-contrast="high"] {
   --contrast-text-primary: #ffffff;
   --contrast-text-secondary: #000000;
   --contrast-border-color: #ffffff;
+  --accent-color: #ffff00;
 }
 
 html[data-contrast="dark"] {
@@ -114,6 +115,7 @@ html[data-contrast="dark"] {
   --contrast-text-primary: #e5e5e5;
   --contrast-text-secondary: #a0a0a0;
   --contrast-border-color: #555555;
+  --accent-color: #4a90e2;
 }
 
 html[data-contrast="normal"] {
@@ -144,6 +146,10 @@ html[data-dyslexic-font="true"] .font-italic {
 }
 
 /* Apply contrast settings to all elements */
+html[data-contrast="high"] {
+  filter: contrast(1.5) brightness(1.2);
+}
+
 html[data-contrast="high"] *,
 html[data-contrast="dark"] * {
   background-color: var(--contrast-primary-bg) !important;
@@ -155,23 +161,35 @@ html[data-contrast="dark"] * {
 html[data-contrast="high"] .card-item,
 html[data-contrast="high"] .search-container,
 html[data-contrast="high"] .nav,
-html[data-contrast="high"] .bubble-panel {
-  background-color: var(--contrast-secondary-bg) !important;
-  color: var(--contrast-text-secondary) !important;
-  border: 2px solid var(--contrast-border-color) !important;
-}
-
-html[data-contrast="high"] button,
-html[data-contrast="high"] .bubble-btn {
-  background-color: var(--contrast-text-secondary) !important;
-  color: var(--contrast-secondary-bg) !important;
-  border: 2px solid var(--contrast-border-color) !important;
-}
-
+html[data-contrast="high"] .bubble-panel,
+html[data-contrast="high"] .accessibility-panel,
 html[data-contrast="dark"] .card-item,
 html[data-contrast="dark"] .search-container,
-html[data-contrast="dark"] .nav {
+html[data-contrast="dark"] .nav,
+html[data-contrast="dark"] .bubble-panel,
+html[data-contrast="dark"] .accessibility-panel {
   background-color: var(--contrast-secondary-bg) !important;
+}
+
+/* High contrast specific overrides */
+html[data-contrast="high"] .bubble-btn {
+  background-color: var(--accent-color) !important;
+  color: #000000 !important;
+  border: 2px solid var(--contrast-text-primary) !important;
+}
+
+html[data-contrast="high"] .btn,
+html[data-contrast="high"] button {
+  background-color: var(--accent-color) !important;
+  color: #000000 !important;
+  border: 2px solid var(--contrast-text-primary) !important;
+}
+
+html[data-contrast="high"] input,
+html[data-contrast="high"] select {
+  background-color: var(--contrast-secondary-bg) !important;
+  color: var(--contrast-text-secondary) !important;
+  border: 2px solid var(--contrast-text-primary) !important;
 }
 
 body {
