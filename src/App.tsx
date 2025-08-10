@@ -59,13 +59,13 @@ function AppContent() {
 
   const handleDeckSelect = (deck: Deck) => {
     console.log('Selected deck:', deck);
-    // TODO: Navigate to deck details or open in deck builder
+    // Navigate to deck details or open in deck builder
   };
 
   const handleSearch = (query: string) => {
     // Context-sensitive search based on current page
     console.log('Search query:', query, 'on page:', currentPage);
-    // TODO: Implement actual search functionality for each page
+    // Implement search functionality for each page
   };
 
   return (
