@@ -234,6 +234,17 @@ export const Events: React.FC = () => {
   };
 
   const registerForEvent = async (eventId: string) => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      addNotification({
+        type: 'event_updated',
+        title: 'Authentication Required',
+        message: 'You must be logged in to register for events.',
+        severity: 'medium'
+      });
+      return;
+    }
+
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -300,6 +311,11 @@ export const Events: React.FC = () => {
       handleSuspiciousActivity(scanLog);
       
       if (type === 'event') {
+        // Check authentication for event registration via QR scan
+        if (!isAuthenticated) {
+          setScanResult('Authentication required: Please log in to register for events via QR code.');
+          return;
+        }
         // Register for event via QR scan
         await registerForEvent(id);
         setScanResult(`Successfully registered for event: ${events.find(e => e.id === id)?.name}`);
@@ -950,11 +966,13 @@ export const Events: React.FC = () => {
                     <p style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', fontWeight: '500' }}>
                       Scan to Register
                     </p>
-                    <QRCode 
-                      value={event.qrCode} 
-                      size={100}
-                      style={{ background: 'white', padding: '8px' }}
-                    />
+                    <div style={{ cursor: 'default', userSelect: 'none', pointerEvents: 'none' }}>
+                      <QRCode 
+                        value={event.qrCode} 
+                        size={100}
+                        style={{ background: 'white', padding: '8px' }}
+                      />
+                    </div>
                     <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.8rem', color: '#666' }}>
                       Quick registration via QR
                     </p>
@@ -963,12 +981,30 @@ export const Events: React.FC = () => {
 
                 <div className="event-actions">
                   {event.status === 'upcoming' && !registeredEvents.includes(event.id) && (
-                    <button 
-                      className="btn btn-primary"
-                      onClick={() => registerForEvent(event.id)}
-                    >
-                      Register
-                    </button>
+                    <>
+                      {isAuthenticated ? (
+                        <button 
+                          className="btn btn-primary"
+                          onClick={() => registerForEvent(event.id)}
+                        >
+                          Register
+                        </button>
+                      ) : (
+                        <button 
+                          className="btn btn-primary"
+                          onClick={() => {
+                            addNotification({
+                              type: 'event_updated',
+                              title: 'Login Required',
+                              message: 'Please log in to register for events.',
+                              severity: 'medium'
+                            });
+                          }}
+                        >
+                          Login to Register
+                        </button>
+                      )}
+                    </>
                   )}
                   {registeredEvents.includes(event.id) && (
                     <span className="btn btn-success">
@@ -983,7 +1019,10 @@ export const Events: React.FC = () => {
                       Watch Live
                     </button>
                   )}
-                  <button className="btn btn-secondary">
+                  <button 
+                    className="btn btn-secondary"
+                    onClick={() => setSelectedEvent(event)}
+                  >
                     Details
                   </button>
                 </div>
@@ -1001,11 +1040,13 @@ export const Events: React.FC = () => {
           {/* User QR Code */}
           <div className="qr-section" style={{ marginBottom: '2rem', maxWidth: '400px' }}>
             <h3 style={{ margin: '0 0 1rem 0' }}>My Player QR Code</h3>
-            <QRCode 
-              value={currentUser.qrCode} 
-              size={150}
-              style={{ background: 'white', padding: '12px' }}
-            />
+            <div style={{ cursor: 'default', userSelect: 'none', pointerEvents: 'none' }}>
+              <QRCode 
+                value={currentUser.qrCode} 
+                size={150}
+                style={{ background: 'white', padding: '12px' }}
+              />
+            </div>
             <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem', color: '#666' }}>
               TOs can scan this for on-site registration
             </p>
@@ -1080,7 +1121,10 @@ export const Events: React.FC = () => {
                         Manage Event
                       </button>
                     )}
-                    <button className="btn btn-secondary">
+                    <button 
+                      className="btn btn-secondary"
+                      onClick={() => setSelectedEvent(event)}
+                    >
                       View Full Bracket
                     </button>
                   </div>
