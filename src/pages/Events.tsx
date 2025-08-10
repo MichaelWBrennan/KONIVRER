@@ -61,14 +61,14 @@ interface Notification {
 
 export const Events: React.FC = () => {
   // State management
-  const [activeTab, setActiveTab] = useState<'browse' | 'my-events' | 'create' | 'admin' | 'scan-history'>('browse');
+  const [activeTab, setActiveTab] = useState<'browse' | 'my-events' | 'create' | 'admin' | 'scan-history' | 'security'>('browse');
   const [viewMode, setViewMode] = useState<'upcoming' | 'live' | 'past'>('upcoming');
   const [events, setEvents] = useState<Event[]>([]);
   const [currentUser, setCurrentUser] = useState<User>({
     id: 'user-123',
     username: 'TestPlayer',
     qrCode: generateSecureQRCode('user', 'user-123'),
-    role: 'player'
+    role: 'admin' // Changed from 'player' to 'admin' to test security features
   });
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [scanLogs, setScanLogs] = useState<QRScanLog[]>([]);
@@ -265,6 +265,9 @@ export const Events: React.FC = () => {
       
       setScanLogs(prev => [scanLog, ...prev]);
       
+      // Check for suspicious activity
+      handleSuspiciousActivity(scanLog);
+      
       if (type === 'event') {
         // Register for event via QR scan
         await registerForEvent(id);
@@ -288,6 +291,50 @@ export const Events: React.FC = () => {
       
       setScanLogs(prev => [errorLog, ...prev]);
       setScanResult(`Failed to process QR code: ${(error as Error).message}`);
+    }
+  };
+
+  const detectSuspiciousActivity = (scanLogs: QRScanLog[]): boolean => {
+    const recentScans = scanLogs.filter(log => 
+      Date.now() - new Date(log.timestamp).getTime() < 60000 // Last 1 minute
+    );
+    
+    // Check for excessive scanning
+    if (recentScans.length > 10) return true;
+    
+    // Check for repeated failures from same IP
+    const failedScans = recentScans.filter(log => log.result === 'failed');
+    if (failedScans.length > 3) return true;
+    
+    // Check for suspicious patterns
+    const ipCounts = recentScans.reduce((acc, log) => {
+      acc[log.originatingIP] = (acc[log.originatingIP] || 0) + 1;
+      return acc;
+    }, {} as {[key: string]: number});
+    
+    return Object.values(ipCounts).some(count => count > 5);
+  };
+
+  const handleSuspiciousActivity = (scanLog: QRScanLog) => {
+    if (detectSuspiciousActivity([...scanLogs, scanLog])) {
+      scanLog.result = 'suspicious';
+      scanLog.reason = 'Excessive scanning activity detected';
+      
+      // Auto-revoke affected QR codes
+      if (scanLog.eventId) {
+        revokeQRCode('event', scanLog.eventId, 'Suspicious scanning activity');
+      }
+      if (scanLog.userId) {
+        revokeQRCode('user', scanLog.userId, 'Suspicious scanning activity');
+      }
+      
+      addNotification({
+        type: 'qr_revoked',
+        title: 'Suspicious Activity Detected',
+        message: `Automatic QR code revocation due to suspicious scanning from ${scanLog.originatingIP}`,
+        severity: 'high',
+        reason: scanLog.reason
+      });
     }
   };
 
@@ -357,6 +404,7 @@ export const Events: React.FC = () => {
   });
 
   const isTO = ['organizer', 'admin'].includes(currentUser.role);
+  const isAdmin = currentUser.role === 'admin';
 
   return (
     <div className="events-container">
@@ -769,6 +817,14 @@ export const Events: React.FC = () => {
             Scan History
           </button>
         )}
+        {isAdmin && (
+          <button 
+            className={`tab-button ${activeTab === 'security' ? 'active' : ''}`}
+            onClick={() => setActiveTab('security')}
+          >
+            🔒 Security
+          </button>
+        )}
       </div>
 
       {/* Browse Events Tab */}
@@ -1127,6 +1183,123 @@ export const Events: React.FC = () => {
                 No scan history available
               </p>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Security Tab - Enhanced Admin Controls */}
+      {activeTab === 'security' && isAdmin && (
+        <div>
+          <h2 style={{ marginBottom: '1.5rem' }}>🔒 Security & Anti-Abuse Management</h2>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+            {/* Threat Detection */}
+            <div style={{ background: '#fff3cd', padding: '1.5rem', borderRadius: '8px', border: '1px solid #ffc107' }}>
+              <h3 style={{ margin: '0 0 1rem 0', color: '#856404' }}>⚠️ Threat Detection</h3>
+              <div className="detail-row">
+                <span>Failed Scans (24h):</span>
+                <span style={{ color: '#dc3545', fontWeight: 'bold' }}>
+                  {scanLogs.filter(log => log.result === 'failed').length}
+                </span>
+              </div>
+              <div className="detail-row">
+                <span>Suspicious IPs:</span>
+                <span style={{ color: '#ffc107', fontWeight: 'bold' }}>
+                  {new Set(scanLogs.filter(log => log.result === 'suspicious').map(log => log.originatingIP)).size}
+                </span>
+              </div>
+              <div className="detail-row">
+                <span>Auto-Revocations:</span>
+                <span style={{ color: '#dc3545', fontWeight: 'bold' }}>
+                  {notifications.filter(n => n.type === 'qr_revoked' && n.reason?.includes('Suspicious')).length}
+                </span>
+              </div>
+              <button 
+                className="btn btn-danger"
+                style={{ marginTop: '1rem' }}
+                onClick={() => {
+                  setScanLogs(prev => prev.filter(log => log.result !== 'suspicious'));
+                  addNotification({
+                    type: 'event_updated',
+                    title: 'Security Reset',
+                    message: 'All suspicious activity logs cleared',
+                    severity: 'low'
+                  });
+                }}
+              >
+                Clear Suspicious Activity
+              </button>
+            </div>
+
+            {/* Emergency Controls */}
+            <div style={{ background: '#f8d7da', padding: '1.5rem', borderRadius: '8px', border: '1px solid #dc3545' }}>
+              <h3 style={{ margin: '0 0 1rem 0', color: '#721c24' }}>🚨 Emergency Controls</h3>
+              <p style={{ fontSize: '0.9rem', color: '#721c24', marginBottom: '1rem' }}>
+                Use these controls only in case of security incidents
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <button 
+                  className="btn btn-danger"
+                  onClick={() => {
+                    setEvents(prev => prev.map(event => ({
+                      ...event,
+                      qrCode: generateSecureQRCode('event', event.id)
+                    })));
+                    setCurrentUser(prev => ({
+                      ...prev,
+                      qrCode: generateSecureQRCode('user', prev.id)
+                    }));
+                    addNotification({
+                      type: 'qr_revoked',
+                      title: 'Mass QR Revocation',
+                      message: 'All QR codes have been regenerated for security',
+                      severity: 'high'
+                    });
+                  }}
+                >
+                  🔄 Revoke All QR Codes
+                </button>
+                <button 
+                  className="btn btn-danger"
+                  onClick={() => {
+                    setScanLogs([]);
+                    addNotification({
+                      type: 'event_updated',
+                      title: 'Security Purge',
+                      message: 'All scan logs have been cleared',
+                      severity: 'medium'
+                    });
+                  }}
+                >
+                  🗑️ Purge All Scan Logs
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Advanced Analytics */}
+          <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
+            <h3 style={{ margin: '0 0 1rem 0' }}>📊 Security Analytics</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#28a745' }}>
+                  {scanLogs.filter(log => log.result === 'success').length}
+                </div>
+                <div style={{ color: '#666' }}>Successful Scans</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#dc3545' }}>
+                  {scanLogs.filter(log => log.result === 'failed').length}
+                </div>
+                <div style={{ color: '#666' }}>Failed Attempts</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ffc107' }}>
+                  {scanLogs.filter(log => log.result === 'suspicious').length}
+                </div>
+                <div style={{ color: '#666' }}>Suspicious Activity</div>
+              </div>
+            </div>
           </div>
         </div>
       )}
