@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { join } from 'path';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
@@ -23,6 +24,7 @@ import { EventsModule } from './events/events.module';
 import { SimulatorModule } from './simulator/simulator.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { AuditModule } from './audit/audit.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -63,6 +65,9 @@ import { AuditModule } from './audit/audit.module';
       },
     ]),
 
+    // Event system for notifications
+    EventEmitterModule.forRoot(),
+
     // GraphQL configuration
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -92,6 +97,7 @@ import { AuditModule } from './audit/audit.module';
     MigrationModule,
     AiDeckbuildingModule,
     PhysicalSimulationModule,
+    NotificationsModule,
   ],
   controllers: [],
   providers: [
