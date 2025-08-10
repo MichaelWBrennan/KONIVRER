@@ -8,10 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "start": "vite preview --port $PORT",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit",
-    "test": "vitest run",
-    "test:mobile": "vitest run src/mobile-ui.test.ts",
-    "test:watch": "vitest"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
@@ -39,9 +36,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "jsdom": "^26.1.0",
     "typescript": "^5.2.2",
-    "vite": "^7.1.1",
-    "vitest": "^3.2.4"
+    "vite": "^7.1.1"
   }
 }
