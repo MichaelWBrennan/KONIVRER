@@ -12,7 +12,7 @@ import './BubbleMenu.css';
 
 interface BubbleMenuProps {
   currentPage: string;
-  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules') => void;
+  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules') => void;
   onSearch?: (query: string) => void;
 }
 
@@ -88,8 +88,6 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         return 'Search my decks...';
       case 'tournaments':
         return 'Search tournaments...';
-      case 'social':
-        return 'Search posts...';
       case 'companion':
         return 'Search events...';
       default:
