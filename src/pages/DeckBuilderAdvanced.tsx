@@ -15,34 +15,8 @@ export const DeckBuilderAdvanced: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // Initialize with sample decks
-    const sampleDecks: Deck[] = [
-      {
-        id: '1',
-        name: 'Aggro Red',
-        format: 'Standard',
-        cardCount: 60,
-        lastModified: new Date(),
-        colors: ['red']
-      },
-      {
-        id: '2', 
-        name: 'Control Blue-White',
-        format: 'Standard',
-        cardCount: 60,
-        lastModified: new Date(),
-        colors: ['blue', 'white']
-      },
-      {
-        id: '3',
-        name: 'Midrange Green-Black',
-        format: 'Modern',
-        cardCount: 60,
-        lastModified: new Date(),
-        colors: ['green', 'black']
-      }
-    ];
-    setDecks(sampleDecks);
+    // Decks will be loaded from backend
+    setDecks([]);
   }, []);
 
   const createNewDeck = () => {
