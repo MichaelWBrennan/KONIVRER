@@ -373,6 +373,7 @@ html[data-contrast="high"] {
   --text-primary: #ffffff;
   --text-secondary: #000000;
   --border-color: #ffffff;
+  --accent-color: #ffff00;
 }
 
 html[data-contrast="dark"] {
@@ -380,6 +381,8 @@ html[data-contrast="dark"] {
   --background-secondary: #151515;
   --text-primary: #e5e5e5;
   --text-secondary: #a0a0a0;
+  --border-color: #555555;
+  --accent-color: #4a90e2;
 }
 
 html[data-dyslexic-font="true"],
