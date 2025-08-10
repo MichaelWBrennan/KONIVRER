@@ -1,4 +1,6 @@
-// Card database based on existing assets
+import { cardDataGenerator } from '../services/cardDataGenerator';
+
+// Card database based on OCR extraction from card images
 export interface Card {
   id: string;
   name: string;
@@ -11,9 +13,19 @@ export interface Card {
   description: string;
   imageUrl: string;
   webpUrl: string;
+  // OCR-extracted fields
+  ocrExtractedName?: string;
+  ocrCost?: string;
+  ocrTypeLine?: string;
+  ocrRulesText?: string;
+  ocrStats?: string;
+  ocrSetCode?: string;
+  ocrRawText?: string; // Full OCR output for debugging
+  imageHash?: string; // For caching
+  lastOcrUpdate?: number; // Timestamp of last OCR processing
 }
 
-// Generate card data from existing assets
+// Generate card data from existing assets (fallback method)
 const cardNames = [
   'ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH', 'BRIGHTDUST', 'BRIGHTFULGURITE',
   'BRIGHTLAHAR', 'BRIGHTLAVA', 'BRIGHTLIGHTNING', 'BRIGHTMUD', 'BRIGHTPERMAFROST',
@@ -54,7 +66,8 @@ function getCardRarity(name: string): string {
   return 'Common';
 }
 
-export const cardDatabase: Card[] = cardNames.map((name, index) => {
+// Fallback card database (generated from naming patterns)
+const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
   const element = getCardElement(name);
   const type = getCardType(name);
   const rarity = getCardRarity(name);
@@ -73,6 +86,24 @@ export const cardDatabase: Card[] = cardNames.map((name, index) => {
     webpUrl: `/assets/cards/${name}.webp`
   };
 });
+
+/**
+ * Get card database, preferring OCR-extracted data when available
+ */
+export function getCardDatabase(): Card[] {
+  // Try to load OCR-extracted data first
+  const ocrData = cardDataGenerator.loadCardData();
+  if (ocrData && ocrData.length > 0) {
+    console.log('Using OCR-extracted card data');
+    return ocrData;
+  }
+  
+  console.log('Using fallback pattern-based card data');
+  return fallbackCardDatabase;
+}
+
+// Export the card database
+export const cardDatabase = getCardDatabase();
 
 // Deck structure
 export interface Deck {
