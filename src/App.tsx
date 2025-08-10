@@ -5,6 +5,7 @@ import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
+import { OcrManager } from './components/OcrManager';
 import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 
@@ -33,7 +34,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'ocr';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -60,6 +61,12 @@ function AppContent() {
   const handleDeckSelect = (deck: Deck) => {
     console.log('Selected deck:', deck);
     // Navigate to deck details or open in deck builder
+  };
+
+  const handleCardDataUpdated = (cards: any[]) => {
+    console.log(`Updated card database with ${cards.length} cards from OCR`);
+    // Refresh card data if needed
+    window.location.reload();
   };
 
   const handleSearch = (query: string) => {
@@ -122,6 +129,10 @@ function AppContent() {
         
         {currentPage === 'analytics' && (
           <Analytics />
+        )}
+        
+        {currentPage === 'ocr' && (
+          <OcrManager onDataUpdated={handleCardDataUpdated} />
         )}
       </main>
 
