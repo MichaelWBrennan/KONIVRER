@@ -16,8 +16,6 @@ import {
   ProgressBar,
 } from 'react-bootstrap';
 import { 
-  Users,
-  Clock,
   Trophy,
   Eye,
   Play,
@@ -25,13 +23,13 @@ import {
   Settings,
   Download,
   Bell,
-  AlertTriangle,
 } from 'lucide-react';
-import { io, Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 interface Event {
   id: string;
   name: string;
+  format: string;
   status: string;
   currentRound: number;
   totalRounds: number;
@@ -96,12 +94,10 @@ const EventManager: React.FC<EventManagerProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('overview');
-  const [socket, setSocket] = useState<Socket | null>(null);
   
   // Modal states
   const [showGeneratePairings, setShowGeneratePairings] = useState(false);
   const [showMatchResult, setShowMatchResult] = useState(false);
-  const [selectedMatch, setSelectedMatch] = useState<string | null>(null);
   const [generatingPairings, setGeneratingPairings] = useState(false);
 
   useEffect(() => {
@@ -147,8 +143,6 @@ const EventManager: React.FC<EventManagerProps> = ({
         showNotification('Event completed!', 'success');
       }
     });
-
-    setSocket(wsSocket);
 
     return () => {
       wsSocket.disconnect();
@@ -456,8 +450,7 @@ const EventManager: React.FC<EventManagerProps> = ({
             currentUserId={currentUserId}
             isOrganizer={isOrganizer}
             isJudge={isJudge}
-            onReportResult={(matchId) => {
-              setSelectedMatch(matchId);
+            onReportResult={(_matchId: string) => {
               setShowMatchResult(true);
             }}
           />
@@ -476,11 +469,7 @@ const EventManager: React.FC<EventManagerProps> = ({
 
         {(isOrganizer || isJudge) && (
           <Tab eventKey="admin" title="Admin">
-            <AdminTab 
-              event={event}
-              eventId={eventId}
-              onGeneratePairings={() => setShowGeneratePairings(true)}
-            />
+            <AdminTab />
           </Tab>
         )}
       </Tabs>
@@ -525,7 +514,6 @@ const EventManager: React.FC<EventManagerProps> = ({
         </Modal.Header>
         <Modal.Body>
           <MatchResultForm 
-            matchId={selectedMatch}
             onSubmit={() => {
               setShowMatchResult(false);
               fetchMatches();
@@ -602,7 +590,7 @@ const MatchesTab: React.FC<any> = ({ matches }) => (
   </div>
 );
 
-const AdminTab: React.FC<any> = ({ event, eventId }) => (
+const AdminTab: React.FC<any> = () => (
   <div>
     <Card>
       <Card.Body>
@@ -613,7 +601,7 @@ const AdminTab: React.FC<any> = ({ event, eventId }) => (
   </div>
 );
 
-const MatchResultForm: React.FC<any> = ({ matchId, onSubmit }) => {
+const MatchResultForm: React.FC<any> = ({ onSubmit }) => {
   const [result, setResult] = useState('win');
   
   return (
