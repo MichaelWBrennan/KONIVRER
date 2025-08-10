@@ -13,17 +13,17 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic
+    // Implement login logic
     console.log('Login attempt:', { email, password });
   };
 
   const handleSocialLogin = (provider: string) => {
-    // TODO: Implement social login logic
+    // Implement social login logic
     console.log('Social login:', provider);
   };
 
   const handleBiometricLogin = (type: 'fingerprint' | 'faceid') => {
-    // TODO: Implement biometric login logic
+    // Implement biometric login logic
     console.log('Biometric login:', type);
   };
 

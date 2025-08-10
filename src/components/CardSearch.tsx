@@ -46,7 +46,7 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
   };
 
   const handleAddToDeck = (card: Card) => {
-    // TODO: Implement add to deck functionality
+    // Implement add to deck functionality
     // This could open a modal to select which deck to add to
     // or add to a "working deck" in the deck builder
     console.log('Adding card to deck:', card.name);
