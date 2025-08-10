@@ -1,25 +1,9 @@
 import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 
-export interface Card {
-  id: string;
-  name: string;
-  type: string;
-  element: string;
-  rarity: string;
-  cost: number;
-  power?: number;
-  toughness?: number;
-  description: string;
-  imageUrl?: string;
-  webpUrl?: string;
-  flavorText?: string;
-  keywords?: string[];
-  isLegal: boolean;
-  metaRating: number;
-  createdAt: string;
-  updatedAt: string;
-}
+// Import our local Card type and re-export it
+import type { Card as LocalCard } from '../data/cards';
+export type Card = LocalCard;
 
 export interface CardSearchFilters {
   search?: string;
