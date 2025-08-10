@@ -65,10 +65,10 @@ export const cardDatabase: Card[] = cardNames.map((name, index) => {
     type,
     element,
     rarity,
-    cost: Math.floor(Math.random() * 8) + 1,
-    power: type === 'Creature' ? Math.floor(Math.random() * 8) + 1 : undefined,
-    toughness: type === 'Creature' ? Math.floor(Math.random() * 8) + 1 : undefined,
-    description: `A powerful ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
+    cost: 1, // Default cost, to be configured per card
+    power: type === 'Creature' ? 1 : undefined, // Default power, to be configured per card
+    toughness: type === 'Creature' ? 1 : undefined, // Default toughness, to be configured per card
+    description: `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
     imageUrl: `/assets/cards/${name}.png`,
     webpUrl: `/assets/cards/${name}.webp`
   };
@@ -87,39 +87,4 @@ export interface Deck {
   winRate: number; // Win rate as a decimal (0.0 to 1.0)
 }
 
-// Sample decks using existing cards
-export const sampleDecks: Deck[] = [
-  {
-    id: 'deck_1',
-    name: 'Chaos Storm',
-    description: 'A powerful chaos-based deck focusing on unpredictable effects',
-    cards: cardDatabase.filter(card => card.element === 'Chaos').slice(0, 40).map(card => card.id),
-    mainElement: 'Chaos',
-    format: 'Standard',
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-15'),
-    winRate: 0.68
-  },
-  {
-    id: 'deck_2', 
-    name: 'Light Brigade',
-    description: 'Aggressive light-based creature deck with strong synergies',
-    cards: cardDatabase.filter(card => card.element === 'Light').slice(0, 40).map(card => card.id),
-    mainElement: 'Light',
-    format: 'Standard',
-    createdAt: new Date('2024-01-10'),
-    updatedAt: new Date('2024-01-20'),
-    winRate: 0.72
-  },
-  {
-    id: 'deck_3',
-    name: 'Dark Control',
-    description: 'Control deck with dark magic and powerful late-game threats',
-    cards: cardDatabase.filter(card => card.element === 'Dark').slice(0, 40).map(card => card.id),
-    mainElement: 'Dark', 
-    format: 'Standard',
-    createdAt: new Date('2024-01-05'),
-    updatedAt: new Date('2024-01-25'),
-    winRate: 0.59
-  }
-];
+// Deck database will be populated from user-created decks
