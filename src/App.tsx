@@ -7,7 +7,7 @@ import { CardSimulator } from './components/CardSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
 import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
-import { Social } from './pages/Social';
+
 import { Analytics } from './pages/Analytics';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -118,10 +118,6 @@ function AppContent() {
         
         {currentPage === 'deckbuilder' && (
           <DeckBuilderAdvanced />
-        )}
-        
-        {currentPage === 'social' && (
-          <Social />
         )}
         
         {currentPage === 'analytics' && (
