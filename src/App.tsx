@@ -12,6 +12,7 @@ import { Analytics } from './pages/Analytics';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
+import { Rules } from './pages/Rules';
 import { useAppStore } from './stores/appStore';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
@@ -31,7 +32,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -83,6 +84,10 @@ function AppContent() {
           <MyDecks />
         )}
         
+        {currentPage === 'rules' && (
+          <Rules />
+        )}
+        
         {currentPage === 'events' && (
           <Events />
         )}
@@ -128,10 +133,35 @@ function AppContent() {
               borderRadius: '8px',
               maxWidth: '500px',
               maxHeight: '80vh',
-              overflow: 'auto'
+              overflow: 'auto',
+              position: 'relative'
             }}
             onClick={(e) => e.stopPropagation()}
           >
+            <button
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '24px',
+                color: 'var(--text-color)',
+                cursor: 'pointer',
+                padding: '4px',
+                borderRadius: '4px',
+                lineHeight: '1',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onClick={() => setSelectedCard(null)}
+              aria-label="Close"
+            >
+              ✕
+            </button>
             <h2>{selectedCard.name}</h2>
             <img 
               src={selectedCard.webpUrl} 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { detectDevice } from '../utils/deviceDetection';
 import { LoginModal } from './LoginModal';
+import { useAppStore } from '../stores/appStore';
 import { 
   AccessibilityIcon, 
   SearchIcon, 
@@ -20,7 +21,7 @@ import './BubbleMenu.css';
 
 interface BubbleMenuProps {
   currentPage: string;
-  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks') => void;
+  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules') => void;
   onSearch?: (query: string) => void;
 }
 
@@ -39,6 +40,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   const [contrastMode, setContrastMode] = useState('normal');
   const [isDyslexicFont, setIsDyslexicFont] = useState(false);
   const device = detectDevice();
+  const { isLoggedIn } = useAppStore();
 
   // Load accessibility preferences from localStorage
   useEffect(() => {
@@ -103,15 +105,16 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   };
 
   const menuItems = [
-    { id: 'home' as const, label: 'Home', icon: <HomeIcon size={20} /> },
-    { id: 'cards' as const, label: 'Card Search', icon: <CardSearchIcon size={20} /> },
-    { id: 'decks' as const, label: 'Deck Search', icon: <DeckSearchIcon size={20} /> },
-    { id: 'my-decks' as const, label: 'My Decks', icon: <MyDecksIcon size={20} /> },
-    { id: 'simulator' as const, label: 'Simulator', icon: <SimulatorIcon size={20} /> },
-    { id: 'deckbuilder' as const, label: 'Rules', icon: <RulesIcon size={20} /> },
-    { id: 'tournaments' as const, label: 'Tournaments', icon: <TournamentsIcon size={20} /> },
-    { id: 'social' as const, label: 'Social', icon: <SocialIcon size={20} /> },
-    { id: 'analytics' as const, label: 'Analytics', icon: <AnalyticsIcon size={20} /> }
+    // Only show Home when not on home page
+    ...(currentPage !== 'home' ? [{ id: 'home' as const, label: 'Home' }] : []),
+    { id: 'cards' as const, label: 'Card Search' },
+    { id: 'decks' as const, label: 'Deck Search' },
+    // Only show My Decks when logged in
+    ...(isLoggedIn ? [{ id: 'my-decks' as const, label: 'My Decks' }] : []),
+    { id: 'simulator' as const, label: 'Simulator' },
+    { id: 'rules' as const, label: 'Rules' },
+    { id: 'tournaments' as const, label: 'Tournaments' }
+    // Removed Social and Analytics items
   ];
 
   return (
@@ -129,6 +132,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isAccessibilityOpen && (
           <div className="bubble-panel accessibility-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsAccessibilityOpen(false)}
+              aria-label="Close accessibility settings"
+            >
+              ✕
+            </button>
             <h3>Accessibility Settings</h3>
             
             <div className="setting-group">
@@ -186,6 +196,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isSearchOpen && (
           <div className="bubble-panel search-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsSearchOpen(false)}
+              aria-label="Close search"
+            >
+              ✕
+            </button>
             <form onSubmit={handleSearch}>
               <input
                 type="text"
@@ -214,6 +231,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isLoginOpen && (
           <div className="bubble-panel login-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsLoginOpen(false)}
+              aria-label="Close login panel"
+            >
+              ✕
+            </button>
             <div className="user-profile">
               <div className="user-avatar-large">
                 <ProfileIcon size={32} />
@@ -250,6 +274,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isMenuOpen && (
           <div className="bubble-panel menu-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
             <nav className="menu-nav">
               {menuItems.map((item) => (
                 <button
@@ -260,7 +291,6 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                     setIsMenuOpen(false);
                   }}
                 >
-                  <span className="menu-icon">{item.icon}</span>
                   <span className="menu-label">{item.label}</span>
                 </button>
               ))}
