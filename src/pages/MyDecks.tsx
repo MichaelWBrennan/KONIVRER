@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { sampleDecks } from '../data/cards';
 import type { Deck } from '../data/cards';
 import './MyDecks.css';
 
@@ -9,26 +8,8 @@ interface DeckWithActions extends Deck {
   created: Date;
 }
 
-// Mock user decks - in a real app this would come from backend
-const mockUserDecks: DeckWithActions[] = [
-  {
-    ...sampleDecks[0],
-    isPublic: false,
-    created: new Date('2024-01-15'),
-    lastPlayed: new Date('2024-01-20')
-  },
-  {
-    ...sampleDecks[1], 
-    isPublic: true,
-    created: new Date('2024-01-10'),
-    lastPlayed: new Date('2024-01-18')
-  },
-  {
-    ...sampleDecks[2],
-    isPublic: false,
-    created: new Date('2024-01-05'),
-  }
-];
+// User decks will be loaded from backend
+const mockUserDecks: DeckWithActions[] = [];
 
 export const MyDecks: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
