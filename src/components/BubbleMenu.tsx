@@ -6,16 +6,7 @@ import {
   AccessibilityIcon, 
   SearchIcon, 
   ProfileIcon, 
-  MenuIcon,
-  HomeIcon,
-  CardSearchIcon,
-  DeckSearchIcon,
-  MyDecksIcon,
-  SimulatorIcon,
-  RulesIcon,
-  TournamentsIcon,
-  SocialIcon,
-  AnalyticsIcon
+  MenuIcon
 } from './EsotericIcons';
 import './BubbleMenu.css';
 
