@@ -44,12 +44,18 @@ interface AppState {
   isLoading: boolean;
   error: string | null;
   
+  // Authentication state
+  isLoggedIn: boolean;
+  user: { username: string; level: number } | null;
+  
   // Actions
   setSelectedCard: (card: Card | null) => void;
   setSearchFilters: (filters: CardSearchFilters) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
+  setLoggedIn: (loggedIn: boolean) => void;
+  setUser: (user: { username: string; level: number } | null) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -66,6 +72,8 @@ export const useAppStore = create<AppState>()(
         },
         isLoading: false,
         error: null,
+        isLoggedIn: false,
+        user: null,
 
         // Actions
         setSelectedCard: (card) => 
@@ -84,6 +92,12 @@ export const useAppStore = create<AppState>()(
         
         clearError: () => 
           set({ error: null }, false, 'clearError'),
+        
+        setLoggedIn: (loggedIn) => 
+          set({ isLoggedIn: loggedIn }, false, 'setLoggedIn'),
+        
+        setUser: (user) => 
+          set({ user }, false, 'setUser'),
       }),
       {
         name: 'konivrer-app-store',
