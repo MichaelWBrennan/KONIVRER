@@ -21,14 +21,14 @@
     "@tanstack/react-query-devtools": "^5.8.4",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.6.2",
+    "lucide-react": "^0.263.1",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
     "react-qr-code": "^2.0.18",
     "react-router-dom": "^7.8.0",
-    "zustand": "^4.4.7",
-    "lucide-react": "^0.263.1",
-    "socket.io-client": "^4.7.2"
+    "socket.io-client": "^4.7.2",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.3.23",
