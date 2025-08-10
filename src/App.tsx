@@ -16,7 +16,7 @@ import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
 import { useAppStore } from './stores/appStore';
 import { NotificationService } from './services/notifications';
-import type { Card } from './stores/appStore';
+import type { Card } from './data/cards';  // Use our local Card type
 import type { Deck } from './data/cards';
 import './App.css';
 
@@ -207,9 +207,6 @@ function AppContent() {
                 <p><strong>Power/Toughness:</strong> {selectedCard.power}/{selectedCard.toughness}</p>
               )}
               <p style={{ marginTop: '1rem' }}>{selectedCard.description}</p>
-              {selectedCard.keywords && selectedCard.keywords.length > 0 && (
-                <p><strong>Keywords:</strong> {selectedCard.keywords.join(', ')}</p>
-              )}
             </div>
             <button 
               style={{
