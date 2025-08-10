@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Deck, sampleDecks, cardDatabase } from '../data/cards';
+import { Deck, cardDatabase } from '../data/cards';
 
 interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
@@ -10,15 +10,18 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [elementFilter, setElementFilter] = useState('');
   const [formatFilter, setFormatFilter] = useState('');
 
+  // Available decks will be loaded from backend
+  const availableDecks: Deck[] = [];
+
   // Get unique values for filters
   const elements = useMemo(() => 
-    [...new Set(sampleDecks.map(deck => deck.mainElement))].sort(), []);
+    [...new Set(availableDecks.map(deck => deck.mainElement))].sort(), [availableDecks]);
   const formats = useMemo(() => 
-    [...new Set(sampleDecks.map(deck => deck.format))].sort(), []);
+    [...new Set(availableDecks.map(deck => deck.format))].sort(), [availableDecks]);
 
   // Filter decks based on search criteria
   const filteredDecks = useMemo(() => {
-    return sampleDecks.filter(deck => {
+    return availableDecks.filter(deck => {
       const matchesSearch = searchTerm === '' || 
         deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -28,7 +31,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
 
       return matchesSearch && matchesElement && matchesFormat;
     });
-  }, [searchTerm, elementFilter, formatFilter]);
+  }, [searchTerm, elementFilter, formatFilter, availableDecks]);
 
   const getDeckPreviewCards = (deck: Deck) => {
     // Get first 3 cards from deck for preview
