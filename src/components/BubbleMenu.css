@@ -145,7 +145,7 @@
 
 /* Enhanced Bubble Panel Styles - Mobile First */
 .bubble-panel {
-  position: absolute;
+  position: relative;
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
@@ -167,6 +167,37 @@
     opacity: 1;
     transform: scale(1) translateY(0);
   }
+}
+
+/* Panel Close Button */
+.panel-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  line-height: 1;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.panel-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent-color);
+}
+
+.panel-close-btn:active {
+  transform: scale(0.95);
 }
 
 /* Enhanced Mobile panel positioning - Safe area aware */

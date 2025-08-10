@@ -132,6 +132,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isAccessibilityOpen && (
           <div className="bubble-panel accessibility-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsAccessibilityOpen(false)}
+              aria-label="Close accessibility settings"
+            >
+              ✕
+            </button>
             <h3>Accessibility Settings</h3>
             
             <div className="setting-group">
@@ -189,6 +196,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isSearchOpen && (
           <div className="bubble-panel search-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsSearchOpen(false)}
+              aria-label="Close search"
+            >
+              ✕
+            </button>
             <form onSubmit={handleSearch}>
               <input
                 type="text"
@@ -217,6 +231,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isLoginOpen && (
           <div className="bubble-panel login-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsLoginOpen(false)}
+              aria-label="Close login panel"
+            >
+              ✕
+            </button>
             <div className="user-profile">
               <div className="user-avatar-large">
                 <ProfileIcon size={32} />
@@ -253,6 +274,13 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         
         {isMenuOpen && (
           <div className="bubble-panel menu-panel">
+            <button
+              className="panel-close-btn"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
             <nav className="menu-nav">
               {menuItems.map((item) => (
                 <button

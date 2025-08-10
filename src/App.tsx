@@ -133,10 +133,35 @@ function AppContent() {
               borderRadius: '8px',
               maxWidth: '500px',
               maxHeight: '80vh',
-              overflow: 'auto'
+              overflow: 'auto',
+              position: 'relative'
             }}
             onClick={(e) => e.stopPropagation()}
           >
+            <button
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '10px',
+                background: 'transparent',
+                border: 'none',
+                fontSize: '24px',
+                color: 'var(--text-color)',
+                cursor: 'pointer',
+                padding: '4px',
+                borderRadius: '4px',
+                lineHeight: '1',
+                width: '32px',
+                height: '32px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onClick={() => setSelectedCard(null)}
+              aria-label="Close"
+            >
+              ✕
+            </button>
             <h2>{selectedCard.name}</h2>
             <img 
               src={selectedCard.webpUrl} 
