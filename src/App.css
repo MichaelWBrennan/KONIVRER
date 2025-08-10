@@ -817,32 +817,6 @@ strong em, em strong, b i, i b, .font-bold.font-italic {
   padding: 1.5rem;
 }
 
-.chart-placeholder {
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-}
-
-.mock-chart {
-  margin-top: 1rem;
-}
-
-.chart-bars {
-  display: flex;
-  gap: 0.5rem;
-  align-items: end;
-  height: 100px;
-}
-
-.bar {
-  width: 20px;
-  background: var(--accent-color);
-  border-radius: 0.25rem 0.25rem 0 0;
-}
-
 .deck-stats {
   display: flex;
   flex-direction: column;
@@ -1303,17 +1277,6 @@ strong em, em strong, b i, i b, .font-bold.font-italic {
 .messages-section {
   max-width: 600px;
   margin: 0 auto;
-}
-
-.messages-placeholder {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: var(--text-secondary);
-}
-
-.placeholder-icon {
-  font-size: 4rem;
-  margin-bottom: 1rem;
 }
 
 /* Real-time Analytics */
