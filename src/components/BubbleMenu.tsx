@@ -12,7 +12,7 @@ import './BubbleMenu.css';
 
 interface BubbleMenuProps {
   currentPage: string;
-  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'matchmaking') => void;
+  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'companion') => void;
   onSearch?: (query: string) => void;
 }
 
@@ -90,8 +90,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         return 'Search tournaments...';
       case 'social':
         return 'Search posts...';
-      case 'matchmaking':
-        return 'Search players...';
+      case 'companion':
+        return 'Search events...';
       default:
         return 'Search...';
     }
@@ -107,7 +107,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     { id: 'simulator' as const, label: 'Simulator' },
     { id: 'rules' as const, label: 'Rules' },
     { id: 'tournaments' as const, label: 'Tournaments' },
-    { id: 'matchmaking' as const, label: 'Matchmaking' }
+    { id: 'companion' as const, label: 'Companion' }
     // Removed Social and Analytics items
   ];
 

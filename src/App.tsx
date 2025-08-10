@@ -13,7 +13,7 @@ import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
-import { MatchmakingPage } from './pages/MatchmakingPage';
+import { CompanionPage } from './pages/CompanionPage';
 import { useAppStore } from './stores/appStore';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
@@ -33,7 +33,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'matchmaking';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'companion';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -109,8 +109,8 @@ function AppContent() {
           <Analytics />
         )}
         
-        {currentPage === 'matchmaking' && (
-          <MatchmakingPage />
+        {currentPage === 'companion' && (
+          <CompanionPage />
         )}
       </main>
 
