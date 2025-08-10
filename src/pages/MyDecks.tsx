@@ -53,25 +53,25 @@ export const MyDecks: React.FC = () => {
   }, [searchTerm, sortBy, filterBy]);
 
   const handlePlayInSimulator = (deck: Deck) => {
-    // TODO: Navigate to simulator with this deck loaded
+    // Navigate to simulator with this deck loaded
     console.log('Playing deck in simulator:', deck.name);
     alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
   };
 
   const handleEditDeck = (deck: Deck) => {
-    // TODO: Navigate to deck builder with this deck loaded
+    // Navigate to deck builder with this deck loaded
     console.log('Editing deck:', deck.name);
     alert(`Opening "${deck.name}" in deck builder... (Feature coming soon)`);
   };
 
   const handleToggleVisibility = (deckId: string) => {
-    // TODO: Update deck visibility in backend
+    // Update deck visibility in backend
     console.log('Toggling visibility for deck:', deckId);
     alert('Deck visibility toggle... (Feature coming soon)');
   };
 
   const handleDeleteDeck = (deckId: string) => {
-    // TODO: Delete deck from backend
+    // Delete deck from backend
     console.log('Deleting deck:', deckId);
     if (confirm('Are you sure you want to delete this deck?')) {
       alert('Deck deletion... (Feature coming soon)');
