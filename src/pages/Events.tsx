@@ -28,8 +28,9 @@ interface User {
   id: string;
   username: string;
   qrCode: string; // Unique QR code for user identification
-  role: 'player' | 'judge' | 'organizer' | 'admin';
+  role: 'player' | 'judge_l1' | 'judge_l2' | 'judge_l3' | 'tournament_organizer' | 'admin';
   isRegistered?: boolean;
+  isAuthenticated?: boolean;
 }
 
 interface QRScanLog {
@@ -68,7 +69,8 @@ export const Events: React.FC = () => {
     id: 'user-123',
     username: 'TestPlayer',
     qrCode: generateSecureQRCode('user', 'user-123'),
-    role: 'admin' // Changed from 'player' to 'admin' to test security features
+    role: 'player', // Default to player - should be loaded from auth
+    isAuthenticated: false, // Should be loaded from auth system
   });
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [scanLogs, setScanLogs] = useState<QRScanLog[]>([]);
@@ -80,9 +82,38 @@ export const Events: React.FC = () => {
 
   // Sample data initialization
   useEffect(() => {
+    // Check authentication status and load user data
+    checkAuthenticationStatus();
     initializeSampleData();
     setupWebSocketConnection();
   }, []);
+
+  const checkAuthenticationStatus = () => {
+    // This should integrate with your actual auth system
+    const token = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('userData');
+    
+    if (token && userData) {
+      try {
+        const user = JSON.parse(userData);
+        setCurrentUser({
+          ...user,
+          isAuthenticated: true,
+        });
+      } catch (error) {
+        console.error('Failed to parse user data:', error);
+        // Clear invalid auth data
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userData');
+      }
+    } else {
+      // User is not authenticated
+      setCurrentUser(prev => ({
+        ...prev,
+        isAuthenticated: false,
+      }));
+    }
+  };
 
   // WebSocket connection for real-time notifications
   const setupWebSocketConnection = () => {
@@ -403,8 +434,16 @@ export const Events: React.FC = () => {
     }
   });
 
-  const isTO = ['organizer', 'admin'].includes(currentUser.role);
-  const isAdmin = currentUser.role === 'admin';
+  // Enhanced role-based access control
+  const isAuthenticated = currentUser.isAuthenticated;
+  const isTO = isAuthenticated && ['tournament_organizer', 'admin'].includes(currentUser.role);
+  const isJudge = isAuthenticated && ['judge_l1', 'judge_l2', 'judge_l3', 'tournament_organizer', 'admin'].includes(currentUser.role);
+  const isAdmin = isAuthenticated && currentUser.role === 'admin';
+
+  // Function to check if user has permission for specific action (kept for future use)
+  // const hasPermission = (requiredRoles: string[]) => {
+  //   return isAuthenticated && requiredRoles.includes(currentUser.role);
+  // };
 
   return (
     <div className="events-container">
@@ -722,7 +761,7 @@ export const Events: React.FC = () => {
 
       {/* Header */}
       <div className="events-header">
-        <h1>🎪 Events</h1>
+        <h1>Events</h1>
         <p>Participate in tournaments, manage events, and compete with players worldwide</p>
       </div>
 
@@ -748,7 +787,7 @@ export const Events: React.FC = () => {
                   Reason: {notification.reason}
                 </p>
               )}
-              {(notification.type === 'user_banned' || notification.type === 'qr_revoked') && isTO && (
+                  {(notification.type === 'user_banned' || notification.type === 'qr_revoked') && isTO && (
                 <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.5rem' }}>
                   {notification.userId && (
                     <button 
@@ -822,7 +861,7 @@ export const Events: React.FC = () => {
             className={`tab-button ${activeTab === 'security' ? 'active' : ''}`}
             onClick={() => setActiveTab('security')}
           >
-            🔒 Security
+            Security
           </button>
         )}
       </div>
@@ -836,19 +875,19 @@ export const Events: React.FC = () => {
               className={`toggle-btn ${viewMode === 'upcoming' ? 'active' : ''}`}
               onClick={() => setViewMode('upcoming')}
             >
-              📅 Upcoming
+              Upcoming
             </button>
             <button 
               className={`toggle-btn ${viewMode === 'live' ? 'active' : ''}`}
               onClick={() => setViewMode('live')}
             >
-              🔴 Live
+              Live
             </button>
             <button 
               className={`toggle-btn ${viewMode === 'past' ? 'active' : ''}`}
               onClick={() => setViewMode('past')}
             >
-              📊 Past
+              Past
             </button>
           </div>
 
@@ -864,7 +903,7 @@ export const Events: React.FC = () => {
                     <h3 className="event-name">{event.name}</h3>
                   </div>
                   <span className={`status-badge ${event.status}`}>
-                    {event.status === 'live' ? '🔴 LIVE' : 
+                    {event.status === 'live' ? 'LIVE' : 
                      event.status === 'upcoming' ? 'Upcoming' : 
                      event.status === 'completed' ? 'Completed' : event.status}
                   </span>
@@ -872,30 +911,30 @@ export const Events: React.FC = () => {
 
                 <div className="event-details">
                   <div className="detail-row">
-                    <span className="detail-label">📅 Date & Time:</span>
+                    <span className="detail-label">Date & Time:</span>
                     <span className="detail-value">{event.date} at {event.time}</span>
                   </div>
                   <div className="detail-row">
-                    <span className="detail-label">🎯 Format:</span>
+                    <span className="detail-label">Format:</span>
                     <span className="detail-value">{event.format}</span>
                   </div>
                   <div className="detail-row">
-                    <span className="detail-label">💰 Prize Pool:</span>
+                    <span className="detail-label">Prize Pool:</span>
                     <span className="detail-value">{event.prizePool}</span>
                   </div>
                   <div className="detail-row">
-                    <span className="detail-label">👥 Players:</span>
+                    <span className="detail-label">Players:</span>
                     <span className="detail-value">{event.participants}</span>
                   </div>
                   {event.status === 'live' && event.currentRound && (
                     <div className="detail-row">
-                      <span className="detail-label">🎯 Round:</span>
+                      <span className="detail-label">Round:</span>
                       <span className="detail-value">{event.currentRound}/{event.totalRounds}</span>
                     </div>
                   )}
                   {event.winner && (
                     <div className="detail-row">
-                      <span className="detail-label">🏆 Winner:</span>
+                      <span className="detail-label">Winner:</span>
                       <span className="detail-value">{event.winner}</span>
                     </div>
                   )}
@@ -909,7 +948,7 @@ export const Events: React.FC = () => {
                 {event.status === 'upcoming' && (
                   <div className="qr-section">
                     <p style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', fontWeight: '500' }}>
-                      📱 Scan to Register
+                      Scan to Register
                     </p>
                     <QRCode 
                       value={event.qrCode} 
@@ -941,7 +980,7 @@ export const Events: React.FC = () => {
                       className="btn btn-primary"
                       onClick={() => setSelectedEvent(event)}
                     >
-                      📺 Watch Live
+                      Watch Live
                     </button>
                   )}
                   <button className="btn btn-secondary">
@@ -961,7 +1000,7 @@ export const Events: React.FC = () => {
           
           {/* User QR Code */}
           <div className="qr-section" style={{ marginBottom: '2rem', maxWidth: '400px' }}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>👤 My Player QR Code</h3>
+            <h3 style={{ margin: '0 0 1rem 0' }}>My Player QR Code</h3>
             <QRCode 
               value={currentUser.qrCode} 
               size={150}
@@ -975,7 +1014,7 @@ export const Events: React.FC = () => {
               style={{ marginTop: '1rem' }}
               onClick={() => revokeQRCode('user', currentUser.id, 'Manual regeneration')}
             >
-              🔄 Regenerate QR Code
+              Regenerate QR Code
             </button>
           </div>
 
@@ -994,7 +1033,7 @@ export const Events: React.FC = () => {
                   {/* Current Standings */}
                   {userStandings[event.id] && (
                     <div className="standings-section">
-                      <h4 style={{ margin: '0 0 0.5rem 0' }}>📊 My Current Standing</h4>
+                      <h4 style={{ margin: '0 0 0.5rem 0' }}>My Current Standing</h4>
                       <div className="detail-row">
                         <span>Position:</span>
                         <span>#{userStandings[event.id].position}</span>
@@ -1038,7 +1077,7 @@ export const Events: React.FC = () => {
                         className="btn btn-primary"
                         onClick={() => setSelectedEvent(event)}
                       >
-                        📱 Manage Event
+                        Manage Event
                       </button>
                     )}
                     <button className="btn btn-secondary">
@@ -1063,14 +1102,38 @@ export const Events: React.FC = () => {
       )}
 
       {/* TO Admin Panel */}
-      {activeTab === 'admin' && isTO && (
-        <div className="admin-section">
-          <h2>🔧 Tournament Organizer Admin Panel</h2>
+      {activeTab === 'admin' && (
+        !isAuthenticated ? (
+          <div className="admin-section" style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Authentication Required</h2>
+            <p style={{ color: '#666', margin: '1rem 0' }}>
+              You must be logged in as a Tournament Organizer to access this panel.
+            </p>
+            <button className="btn btn-primary" onClick={() => {
+              // This would trigger login modal/redirect in a real app
+              alert('Login functionality would be implemented here');
+            }}>
+              Login
+            </button>
+          </div>
+        ) : !isTO ? (
+          <div className="admin-section" style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Access Denied</h2>
+            <p style={{ color: '#666', margin: '1rem 0' }}>
+              You must have Tournament Organizer privileges to access this panel.
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#999' }}>
+              Current role: {currentUser.role}
+            </p>
+          </div>
+        ) : (
+          <div className="admin-section">
+            <h2>Tournament Organizer Admin Panel</h2>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
             {/* Quick Actions */}
             <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
-              <h3 style={{ margin: '0 0 1rem 0' }}>⚡ Quick Actions</h3>
+              <h3 style={{ margin: '0 0 1rem 0' }}>Quick Actions</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 <button className="btn btn-primary">Create New Event</button>
                 <button className="btn btn-secondary">Export Player Data</button>
@@ -1086,7 +1149,7 @@ export const Events: React.FC = () => {
 
             {/* Security Monitoring */}
             <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
-              <h3 style={{ margin: '0 0 1rem 0' }}>🔒 Security Monitoring</h3>
+              <h3 style={{ margin: '0 0 1rem 0' }}>Security Monitoring</h3>
               <div className="detail-row">
                 <span>Total QR Scans Today:</span>
                 <span>{scanLogs.length}</span>
@@ -1114,7 +1177,7 @@ export const Events: React.FC = () => {
 
             {/* Active Notifications */}
             <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
-              <h3 style={{ margin: '0 0 1rem 0' }}>🔔 Active Alerts</h3>
+              <h3 style={{ margin: '0 0 1rem 0' }}>Active Alerts</h3>
               {notifications.filter(n => !n.dismissed && n.severity !== 'low').length > 0 ? (
                 notifications.filter(n => !n.dismissed && n.severity !== 'low').slice(0, 3).map(notification => (
                   <div key={notification.id} style={{ marginBottom: '0.75rem', padding: '0.5rem', background: '#f8f9fa', borderRadius: '4px' }}>
@@ -1137,12 +1200,36 @@ export const Events: React.FC = () => {
             </div>
           </div>
         </div>
+        )
       )}
 
       {/* Scan History Tab */}
-      {activeTab === 'scan-history' && isTO && (
-        <div>
-          <h2 style={{ marginBottom: '1.5rem' }}>📊 QR Code Scan History</h2>
+      {activeTab === 'scan-history' && (
+        !isAuthenticated ? (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Authentication Required</h2>
+            <p style={{ color: '#666', margin: '1rem 0' }}>
+              You must be logged in as a Tournament Organizer to access scan history.
+            </p>
+            <button className="btn btn-primary" onClick={() => {
+              alert('Login functionality would be implemented here');
+            }}>
+              Login
+            </button>
+          </div>
+        ) : !isTO ? (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Access Denied</h2>
+            <p style={{ color: '#666', margin: '1rem 0' }}>
+              You must have Tournament Organizer privileges to access scan history.
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#999' }}>
+              Current role: {currentUser.role}
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h2 style={{ marginBottom: '1.5rem' }}>QR Code Scan History</h2>
           
           <div className="scan-logs">
             {scanLogs.length > 0 ? (
@@ -1185,17 +1272,41 @@ export const Events: React.FC = () => {
             )}
           </div>
         </div>
+        )
       )}
 
       {/* Security Tab - Enhanced Admin Controls */}
-      {activeTab === 'security' && isAdmin && (
-        <div>
-          <h2 style={{ marginBottom: '1.5rem' }}>🔒 Security & Anti-Abuse Management</h2>
+      {activeTab === 'security' && (
+        !isAuthenticated ? (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Authentication Required</h2>
+            <p style={{ color: '#666', margin: '1rem 0' }}>
+              You must be logged in as an Administrator to access security controls.
+            </p>
+            <button className="btn btn-primary" onClick={() => {
+              alert('Login functionality would be implemented here');
+            }}>
+              Login
+            </button>
+          </div>
+        ) : !isAdmin ? (
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <h2>Access Denied</h2>
+            <p style={{ color: '#666', margin: '1rem 0' }}>
+              You must have Administrator privileges to access security controls.
+            </p>
+            <p style={{ fontSize: '0.9rem', color: '#999' }}>
+              Current role: {currentUser.role}
+            </p>
+          </div>
+        ) : (
+          <div>
+            <h2 style={{ marginBottom: '1.5rem' }}>Security & Anti-Abuse Management</h2>
           
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
             {/* Threat Detection */}
             <div style={{ background: '#fff3cd', padding: '1.5rem', borderRadius: '8px', border: '1px solid #ffc107' }}>
-              <h3 style={{ margin: '0 0 1rem 0', color: '#856404' }}>⚠️ Threat Detection</h3>
+              <h3 style={{ margin: '0 0 1rem 0', color: '#856404' }}>Threat Detection</h3>
               <div className="detail-row">
                 <span>Failed Scans (24h):</span>
                 <span style={{ color: '#dc3545', fontWeight: 'bold' }}>
@@ -1233,7 +1344,7 @@ export const Events: React.FC = () => {
 
             {/* Emergency Controls */}
             <div style={{ background: '#f8d7da', padding: '1.5rem', borderRadius: '8px', border: '1px solid #dc3545' }}>
-              <h3 style={{ margin: '0 0 1rem 0', color: '#721c24' }}>🚨 Emergency Controls</h3>
+              <h3 style={{ margin: '0 0 1rem 0', color: '#721c24' }}>Emergency Controls</h3>
               <p style={{ fontSize: '0.9rem', color: '#721c24', marginBottom: '1rem' }}>
                 Use these controls only in case of security incidents
               </p>
@@ -1257,7 +1368,7 @@ export const Events: React.FC = () => {
                     });
                   }}
                 >
-                  🔄 Revoke All QR Codes
+                  Revoke All QR Codes
                 </button>
                 <button 
                   className="btn btn-danger"
@@ -1271,7 +1382,7 @@ export const Events: React.FC = () => {
                     });
                   }}
                 >
-                  🗑️ Purge All Scan Logs
+                  Purge All Scan Logs
                 </button>
               </div>
             </div>
@@ -1279,7 +1390,7 @@ export const Events: React.FC = () => {
 
           {/* Advanced Analytics */}
           <div style={{ background: 'white', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e0e0e0' }}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>📊 Security Analytics</h3>
+            <h3 style={{ margin: '0 0 1rem 0' }}>Security Analytics</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#28a745' }}>
@@ -1302,6 +1413,7 @@ export const Events: React.FC = () => {
             </div>
           </div>
         </div>
+        )
       )}
 
       {/* QR Scanner */}
@@ -1311,7 +1423,7 @@ export const Events: React.FC = () => {
           style={{ borderRadius: '50%', width: '60px', height: '60px', fontSize: '1.5rem' }}
           onClick={() => setIsScanning(!isScanning)}
         >
-          📱
+          QR
         </button>
       </div>
 
@@ -1336,7 +1448,7 @@ export const Events: React.FC = () => {
             maxWidth: '400px',
             width: '90%'
           }}>
-            <h3 style={{ margin: '0 0 1rem 0' }}>📱 QR Code Scanner</h3>
+            <h3 style={{ margin: '0 0 1rem 0' }}>QR Code Scanner</h3>
             <p style={{ marginBottom: '1rem', color: '#666' }}>
               Paste or enter a QR code to process:
             </p>
@@ -1417,8 +1529,8 @@ export const Events: React.FC = () => {
             <EventManager
               eventId={selectedEvent.id}
               currentUserId={currentUser.id}
-              isOrganizer={isTO}
-              isJudge={currentUser.role === 'judge' || isTO}
+              isOrganizer={isTO || false}
+              isJudge={isJudge || false}
             />
           </div>
         </div>

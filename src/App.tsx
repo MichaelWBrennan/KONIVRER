@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
+import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 import { Social } from './pages/Social';
 import { Analytics } from './pages/Analytics';
@@ -13,6 +14,7 @@ import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
 import { useAppStore } from './stores/appStore';
+import { NotificationService } from './services/notifications';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
 import './App.css';
@@ -37,6 +39,19 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const { selectedCard, setSelectedCard } = useAppStore();
 
+  // Initialize notifications on app start
+  useEffect(() => {
+    const notificationService = NotificationService.getInstance();
+    notificationService.initialize();
+    
+    // Set up WebSocket for real-time notifications if available
+    // This would connect to your backend WebSocket
+    // const socket = io('/events', {
+    //   auth: { token: localStorage.getItem('authToken') }
+    // });
+    // notificationService.setupWebSocketNotifications(socket);
+  }, []);
+
   const handleCardSelect = (card: Card) => {
     setSelectedCard(card);
     console.log('Selected card:', card);
@@ -55,6 +70,16 @@ function AppContent() {
 
   return (
     <div className="app">
+      {/* Notification Center - positioned in top right */}
+      <div style={{
+        position: 'fixed',
+        top: '1rem',
+        right: '1rem',
+        zIndex: 1000,
+      }}>
+        <NotificationCenter />
+      </div>
+
       {/* Bubble Menu - only navigation system */}
       <BubbleMenu 
         currentPage={currentPage}

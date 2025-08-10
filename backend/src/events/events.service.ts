@@ -344,6 +344,16 @@ export class EventsService {
       isWaitlisted 
     });
 
+    // Emit notification event for accepted registration
+    if (!isWaitlisted) {
+      this.eventEmitter.emit('event.registration.accepted', {
+        userId,
+        eventId,
+        eventName: event.name,
+        startTime: event.startAt,
+      });
+    }
+
     // Auto-activate from waitlist if someone drops
     if (isWaitlisted) {
       await this.processWaitlist(eventId);
@@ -558,6 +568,44 @@ export class EventsService {
         isBye: p.isBye,
       }))
     });
+
+    // Get event details and registered players for notifications
+    const event = await this.eventRepository.findOne({
+      where: { id: eventId },
+      relations: ['registrations', 'registrations.user'],
+    });
+
+    if (event) {
+      const registeredPlayerIds = event.registrations
+        ?.filter(r => r.isCheckedIn && !r.isWaitlisted)
+        .map(r => r.userId) || [];
+
+      // Emit round started notification
+      this.eventEmitter.emit('event.round.started', {
+        eventId,
+        eventName: event.name,
+        round,
+        registeredPlayers: registeredPlayerIds,
+      });
+
+      // Emit seating assignments notification
+      const assignments = pairings.map(p => ({
+        playerId: p.playerAId,
+        table: p.tableNumber,
+        opponent: event.registrations?.find(r => r.userId === p.playerBId)?.user || null,
+      })).concat(pairings.map(p => ({
+        playerId: p.playerBId,
+        table: p.tableNumber,
+        opponent: event.registrations?.find(r => r.userId === p.playerAId)?.user || null,
+      }))).filter(a => a.playerId); // Remove null players from byes
+
+      this.eventEmitter.emit('event.seating.assigned', {
+        eventId,
+        eventName: event.name,
+        round,
+        assignments,
+      });
+    }
   }
 
   async getPairings(eventId: string, round?: number): Promise<Pairing[]> {
