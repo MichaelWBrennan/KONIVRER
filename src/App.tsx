@@ -6,14 +6,12 @@ import { DeckSearch } from './components/DeckSearch';
 import { CardSimulator } from './components/CardSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
-import { Tournaments } from './pages/Tournaments';
 import { Social } from './pages/Social';
 import { Analytics } from './pages/Analytics';
 import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
-import { CompanionPage } from './pages/CompanionPage';
 import { useAppStore } from './stores/appStore';
 import type { Card } from './stores/appStore';
 import type { Deck } from './data/cards';
@@ -33,7 +31,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'tournaments' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'companion';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'social' | 'analytics' | 'events' | 'my-decks' | 'rules';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -97,20 +95,12 @@ function AppContent() {
           <DeckBuilderAdvanced />
         )}
         
-        {currentPage === 'tournaments' && (
-          <Tournaments />
-        )}
-        
         {currentPage === 'social' && (
           <Social />
         )}
         
         {currentPage === 'analytics' && (
           <Analytics />
-        )}
-        
-        {currentPage === 'companion' && (
-          <CompanionPage />
         )}
       </main>
 
