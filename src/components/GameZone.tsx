@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameZone as GameZoneType, Card as CardType, DragState } from '../types/game';
+import { GameZone as GameZoneType, Card as CardType, DragState, KonivrverZoneType } from '../types/game';
 import { DeviceInfo, getMTGArenaLayoutConfig } from '../utils/deviceDetection';
 import { Card } from './Card';
 
@@ -40,7 +40,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
     top: `${(zoneConfig.position.y / 100) * screenSize.height}px`,
     width: `${(zoneConfig.size.width / 100) * screenSize.width}px`,
     height: `${(zoneConfig.size.height / 100) * screenSize.height}px`,
-    border: dragState.validDropZones.includes(zone.id) 
+    border: dragState.validDropZones.includes(zone.id as KonivrverZoneType) 
       ? '3px dashed #00BFFF' 
       : '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: device.isMobile ? '8px' : '12px',
@@ -55,7 +55,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
   };
 
   const handleDragOver = (e: React.DragEvent) => {
-    if (dragState.validDropZones.includes(zone.id)) {
+    if (dragState.validDropZones.includes(zone.id as KonivrverZoneType)) {
       e.preventDefault();
     }
   };
