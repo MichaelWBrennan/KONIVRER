@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import EventManager from '../components/events/EventManager';
 
 export interface CompanionPageProps {
   userId?: string;
 }
 
-export const CompanionPage: React.FC<CompanionPageProps> = ({ userId }) => {
+export const CompanionPage: React.FC<CompanionPageProps> = () => {
   const [activeTab, setActiveTab] = useState<'events' | 'create' | 'history'>('events');
 
-  // Mock current user data - in real app this would come from auth context
-  const currentUserId = userId || 'user-123';
-  const isOrganizer = true; // Mock organizer status
-  const isJudge = true; // Mock judge status
+  // TODO: Implement actual user authentication and role management
 
   // Mock event data - in real app this would come from API
   const activeEvents = [
@@ -362,18 +358,7 @@ export const CompanionPage: React.FC<CompanionPageProps> = ({ userId }) => {
               ))}
             </div>
 
-            {/* Show EventManager for demo purposes */}
-            <div style={{ marginTop: '2rem', border: '2px solid #667eea', borderRadius: '8px', overflow: 'hidden' }}>
-              <div style={{ background: '#667eea', padding: '0.5rem 1rem', color: 'white', fontWeight: 'bold' }}>
-                📺 Event Manager Demo - Friday Night KONIVRER
-              </div>
-              <EventManager 
-                eventId="event-1"
-                currentUserId={currentUserId}
-                isOrganizer={isOrganizer}
-                isJudge={isJudge}
-              />
-            </div>
+            {/* TODO: Add actual event management integration */}
           </div>
         )}
 
