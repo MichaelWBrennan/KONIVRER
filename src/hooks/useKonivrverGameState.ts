@@ -14,21 +14,7 @@ import type {
  * Manages game state according to KONIVRER rules
  */
 
-// Create a KONIVRER demo card
-const createKonivrverCard = (id: string, name: string, lesserType: string, elements: string[], azothCost: number, rarity: 'common' | 'uncommon' | 'rare' = 'common'): Card => ({
-  id,
-  name,
-  elements,
-  lesserType,
-  azothCost,
-  rarity,
-  setCode: 'KNR',
-  setNumber: parseInt(id.replace('knr_', '')),
-  power: lesserType === 'Familiar' ? azothCost : undefined,
-  toughness: lesserType === 'Familiar' ? azothCost : undefined,
-  rulesText: `A ${elements.join('/')} ${lesserType}.`,
-  abilities: elements.includes('Fire') ? ['inferno'] : elements.includes('Water') ? ['submerged'] : undefined
-});
+// TODO: Create card factory function for actual KONIVRER cards from database
 
 // Create KONIVRER zones
 const createKonivrverZones = (): Record<KonivrverZoneType, GameZone> => ({
@@ -53,11 +39,7 @@ const createKonivrverZones = (): Record<KonivrverZoneType, GameZone> => ({
   azothRow: {
     id: 'azothRow',
     name: 'Azoth Row',
-    cards: [
-      createKonivrverCard('knr_1', 'Fire Azoth', 'Resource', ['Fire'], 0),
-      createKonivrverCard('knr_2', 'Water Azoth', 'Resource', ['Water'], 0),
-      createKonivrverCard('knr_3', 'Earth Azoth', 'Resource', ['Earth'], 0)
-    ],
+    cards: [], // TODO: Initialize with player's azoth/resource cards
     isVisible: true,
     allowDrop: true,
     layout: 'row',
@@ -66,12 +48,7 @@ const createKonivrverZones = (): Record<KonivrverZoneType, GameZone> => ({
   hand: {
     id: 'hand',
     name: 'Hand',
-    cards: [
-      createKonivrverCard('knr_4', 'Fire Salamander', 'Familiar', ['Fire'], 2, 'uncommon'),
-      createKonivrverCard('knr_5', 'Lightning Bolt', 'Instant Spell', ['Fire'], 1),
-      createKonivrverCard('knr_6', 'Water Undine', 'Familiar', ['Water'], 2, 'uncommon'),
-      createKonivrverCard('knr_7', 'Healing Mist', 'Spell', ['Water'], 1)
-    ],
+    cards: [], // TODO: Initialize with player's starting hand
     isVisible: true,
     allowDrop: false,
     layout: 'fan',
@@ -80,9 +57,7 @@ const createKonivrverZones = (): Record<KonivrverZoneType, GameZone> => ({
   deck: {
     id: 'deck',
     name: 'Deck',
-    cards: Array(36).fill(null).map((_, i) => 
-      createKonivrverCard(`knr_${i + 8}`, `Demo Card ${i + 1}`, 'Spell', ['Fire'], 1)
-    ),
+    cards: [], // TODO: Initialize with player's deck cards
     isVisible: false,
     allowDrop: false,
     layout: 'stack',
@@ -91,9 +66,7 @@ const createKonivrverZones = (): Record<KonivrverZoneType, GameZone> => ({
   lifeCards: {
     id: 'lifeCards',
     name: 'Life Cards',
-    cards: Array(20).fill(null).map((_, i) => 
-      createKonivrverCard(`knr_life_${i}`, 'Life Card', 'Life', ['Neutral'], 0)
-    ),
+    cards: [], // TODO: Initialize with player's life cards
     isVisible: true,
     allowDrop: false,
     layout: 'stack',
@@ -102,9 +75,7 @@ const createKonivrverZones = (): Record<KonivrverZoneType, GameZone> => ({
   flag: {
     id: 'flag',
     name: 'Flag',
-    cards: [
-      createKonivrverCard('knr_flag', 'Fire/Water Flag', 'Flag', ['Fire', 'Water'], 0, 'rare')
-    ],
+    cards: [], // TODO: Initialize with player's flag card
     isVisible: true,
     allowDrop: false,
     layout: 'stack',
@@ -136,7 +107,7 @@ const createKonivrverPlayer = (id: string, name: string): PlayerState => ({
   name,
   azothPool: { fire: 3, water: 2, earth: 1, air: 0, light: 0, dark: 0, neutral: 0 },
   zones: createKonivrverZones(),
-  flag: createKonivrverCard('knr_flag', 'Fire/Water Flag', 'Flag', ['Fire', 'Water'], 0, 'rare')
+  flag: undefined // TODO: Initialize with player's flag card
 });
 
 export const useKonivrverGameState = () => {
