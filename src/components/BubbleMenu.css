@@ -416,8 +416,9 @@ html[data-contrast="dark"] {
   --accent-color: #4a90e2;
 }
 
-html[data-dyslexic-font="true"],
-html[data-dyslexic-font="true"] * {
+/* Apply OpenDyslexic font globally */
+html,
+html * {
   font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
 }
 
