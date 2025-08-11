@@ -9,12 +9,16 @@ const NotificationCenter: React.FC = () => {
     isSupported,
     markAsRead,
     markAllAsRead,
+    markEventAsRead,
     removeNotification,
     requestPermission,
+    getNotificationsByEvent,
+    getUnreadCountByEvent,
   } = useNotificationStore();
 
   const [isOpen, setIsOpen] = useState(false);
   const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
+  const [selectedEventFilter, setSelectedEventFilter] = useState<string | null>(null);
 
   useEffect(() => {
     // Don't automatically show permission prompt - only show on event registration
@@ -65,6 +69,42 @@ const NotificationCenter: React.FC = () => {
         return '🔔';
     }
   };
+
+  const getEventBadge = (eventId?: string, eventData?: any) => {
+    if (!eventId) return null;
+    
+    const eventName = eventData?.eventName || 'Event';
+    const format = eventData?.eventFormat;
+    
+    return (
+      <div style={{
+        display: 'inline-block',
+        backgroundColor: '#667eea',
+        color: 'white',
+        fontSize: '0.7rem',
+        padding: '0.2rem 0.4rem',
+        borderRadius: '4px',
+        marginTop: '0.25rem',
+        fontWeight: 'bold',
+      }}>
+        {format ? `${eventName} (${format})` : eventName}
+      </div>
+    );
+  };
+
+  // Group notifications by event for filtering
+  const eventGroups = notifications.reduce((acc, notification) => {
+    const eventId = notification.eventId || 'general';
+    if (!acc[eventId]) {
+      acc[eventId] = [];
+    }
+    acc[eventId].push(notification);
+    return acc;
+  }, {} as Record<string, typeof notifications>);
+
+  const filteredNotifications = selectedEventFilter 
+    ? getNotificationsByEvent(selectedEventFilter)
+    : notifications;
 
   if (!isSupported) return null;
 
@@ -186,31 +226,86 @@ const NotificationCenter: React.FC = () => {
             <div style={{
               padding: '1rem',
               borderBottom: '1px solid #e0e0e0',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
               backgroundColor: '#f8f9fa',
             }}>
-              <h4 style={{ margin: 0, fontSize: '1rem' }}>
-                Notifications {unreadCount > 0 && `(${unreadCount})`}
-              </h4>
-              {notifications.length > 0 && (
-                <button
-                  onClick={() => {
-                    markAllAsRead();
-                    setIsOpen(false);
-                  }}
-                  style={{
-                    background: 'none',
-                    border: 'none',
-                    color: '#667eea',
-                    fontSize: '0.8rem',
-                    cursor: 'pointer',
-                    textDecoration: 'underline',
-                  }}
-                >
-                  Mark all read
-                </button>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: Object.keys(eventGroups).length > 1 ? '0.5rem' : 0,
+              }}>
+                <h4 style={{ margin: 0, fontSize: '1rem' }}>
+                  Notifications {unreadCount > 0 && `(${unreadCount})`}
+                </h4>
+                {notifications.length > 0 && (
+                  <button
+                    onClick={() => {
+                      if (selectedEventFilter) {
+                        markEventAsRead(selectedEventFilter);
+                      } else {
+                        markAllAsRead();
+                      }
+                      setIsOpen(false);
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#667eea',
+                      fontSize: '0.8rem',
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    Mark {selectedEventFilter ? 'event' : 'all'} read
+                  </button>
+                )}
+              </div>
+              
+              {/* Event Filter Tabs */}
+              {Object.keys(eventGroups).length > 1 && (
+                <div style={{
+                  display: 'flex',
+                  gap: '0.25rem',
+                  flexWrap: 'wrap',
+                }}>
+                  <button
+                    onClick={() => setSelectedEventFilter(null)}
+                    style={{
+                      padding: '0.25rem 0.5rem',
+                      border: '1px solid #ddd',
+                      backgroundColor: selectedEventFilter === null ? '#667eea' : '#fff',
+                      color: selectedEventFilter === null ? '#fff' : '#666',
+                      borderRadius: '4px',
+                      fontSize: '0.7rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    All ({unreadCount})
+                  </button>
+                  {Object.entries(eventGroups).map(([eventId, notifications]) => {
+                    const eventUnread = getUnreadCountByEvent(eventId === 'general' ? undefined : eventId);
+                    const eventName = eventId === 'general' ? 'General' : 
+                      notifications[0]?.data?.eventName || `Event ${eventId.slice(0, 8)}`;
+                    
+                    return (
+                      <button
+                        key={eventId}
+                        onClick={() => setSelectedEventFilter(eventId === 'general' ? undefined : eventId)}
+                        style={{
+                          padding: '0.25rem 0.5rem',
+                          border: '1px solid #ddd',
+                          backgroundColor: selectedEventFilter === (eventId === 'general' ? undefined : eventId) ? '#667eea' : '#fff',
+                          color: selectedEventFilter === (eventId === 'general' ? undefined : eventId) ? '#fff' : '#666',
+                          borderRadius: '4px',
+                          fontSize: '0.7rem',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {eventName} ({eventUnread})
+                      </button>
+                    );
+                  })}
+                </div>
               )}
             </div>
 
@@ -219,15 +314,15 @@ const NotificationCenter: React.FC = () => {
               maxHeight: '300px',
               overflowY: 'auto',
             }}>
-              {notifications.length === 0 ? (
+              {filteredNotifications.length === 0 ? (
                 <div style={{
                   padding: '2rem',
                   textAlign: 'center',
                   color: '#666',
                 }}>
                   <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🔕</div>
-                  <p>No notifications yet</p>
-                  {!isPermissionGranted && (
+                  <p>{selectedEventFilter ? 'No notifications for this event' : 'No notifications yet'}</p>
+                  {!isPermissionGranted && !selectedEventFilter && (
                     <button
                       onClick={handleRequestPermission}
                       style={{
@@ -246,7 +341,7 @@ const NotificationCenter: React.FC = () => {
                   )}
                 </div>
               ) : (
-                notifications.map((notification) => (
+                filteredNotifications.map((notification) => (
                   <div
                     key={notification.id}
                     style={{
@@ -259,6 +354,11 @@ const NotificationCenter: React.FC = () => {
                     onClick={() => {
                       if (!notification.read) {
                         markAsRead(notification.id);
+                      }
+                      // Navigate to event if available
+                      if (notification.eventId) {
+                        window.location.hash = `#/events/${notification.eventId}`;
+                        setIsOpen(false);
                       }
                     }}
                   >
@@ -305,9 +405,38 @@ const NotificationCenter: React.FC = () => {
                         }}>
                           {notification.message}
                         </p>
+                        
+                        {/* Event Badge */}
+                        {notification.eventId && !selectedEventFilter && 
+                          getEventBadge(notification.eventId, notification.data)
+                        }
+                        
+                        {/* Additional Event Details */}
+                        {notification.data && (
+                          <div style={{ marginTop: '0.5rem' }}>
+                            {notification.data.table && (
+                              <div style={{ fontSize: '0.7rem', color: '#888' }}>
+                                📍 Table {notification.data.table}
+                                {notification.data.opponentName && ` vs ${notification.data.opponentName}`}
+                              </div>
+                            )}
+                            {notification.data.round && (
+                              <div style={{ fontSize: '0.7rem', color: '#888' }}>
+                                🎯 Round {notification.data.round}
+                              </div>
+                            )}
+                            {notification.data.venue?.location && (
+                              <div style={{ fontSize: '0.7rem', color: '#888' }}>
+                                📍 {notification.data.venue.location}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
                         <div style={{
                           fontSize: '0.7rem',
                           color: '#999',
+                          marginTop: '0.5rem',
                         }}>
                           {formatTimestamp(notification.timestamp)}
                         </div>

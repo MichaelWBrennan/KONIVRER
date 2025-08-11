@@ -39,6 +39,8 @@ export enum NotificationStatus {
 @ObjectType()
 @Index(['userId', 'status'])
 @Index(['type', 'createdAt'])
+@Index(['eventId', 'userId'])
+@Index(['eventId', 'type', 'userId'])
 export class Notification {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
