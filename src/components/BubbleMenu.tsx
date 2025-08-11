@@ -12,7 +12,7 @@ import './BubbleMenu.css';
 
 interface BubbleMenuProps {
   currentPage: string;
-  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'ocr') => void;
+  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge') => void;
   onSearch?: (query: string) => void;
 }
 
@@ -108,8 +108,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     { id: 'rules' as const, label: 'Rules' },
     // Only show Judge Portal to authenticated judges and admins
     ...(canAccessJudgePortal() ? [{ id: 'judge' as const, label: 'Judge Portal' }] : []),
-    { id: 'events' as const, label: 'Events' },
-    { id: 'ocr' as const, label: 'OCR Manager' }
+    { id: 'events' as const, label: 'Events' }
     // Combined tournaments and companion functionality into unified Events
   ];
 
