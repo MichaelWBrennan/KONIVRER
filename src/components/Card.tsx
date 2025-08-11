@@ -151,7 +151,9 @@ export const Card: React.FC<CardProps> = ({
     const baseStyle: React.CSSProperties = {
       width: `${cardSize.width}px`,
       height: `${cardSize.height}px`,
-      backgroundColor: colorMap[card.color],
+      backgroundColor: colorMap[card.color as keyof typeof colorMap] || 
+                      colorMap[card.elements?.[0] as keyof typeof colorMap] || 
+                      colorMap.colorless,
       border: card.isSelected ? '3px solid #00BFFF' : '2px solid #666',
       borderRadius: device.isMobile ? '8px' : '12px',
       position: 'relative',
@@ -211,7 +213,11 @@ export const Card: React.FC<CardProps> = ({
         left: 0,
         right: 0,
         bottom: 0,
-        background: `linear-gradient(to bottom, transparent 30%, ${colorMap[card.color]}CC 100%)`,
+        background: `linear-gradient(to bottom, transparent 30%, ${
+          colorMap[card.color as keyof typeof colorMap] || 
+          colorMap[card.elements?.[0] as keyof typeof colorMap] || 
+          colorMap.colorless
+        }CC 100%)`,
         borderRadius: 'inherit',
         pointerEvents: 'none'
       }} />
@@ -275,7 +281,7 @@ export const Card: React.FC<CardProps> = ({
         </div>
         
         {/* Power/Toughness for creatures */}
-        {card.type.toLowerCase().includes('creature') && (
+        {(card.type?.toLowerCase().includes('creature') || card.lesserType?.toLowerCase().includes('familiar')) && (
           <div style={{
             position: 'absolute',
             bottom: device.isMobile ? '2px' : '4px',
