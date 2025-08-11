@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { detectDevice } from '../utils/deviceDetection';
 import { LoginModal } from './LoginModal';
-import { useAppStore } from '../stores/appStore';
+import { useAuth } from '../hooks/useAuth';
 import { 
   AccessibilityIcon, 
   SearchIcon, 
@@ -30,7 +30,14 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   const [fontSize, setFontSize] = useState('medium');
   const [contrastMode, setContrastMode] = useState('normal');
   const device = detectDevice();
-  const { isLoggedIn } = useAppStore();
+  const { 
+    isAuthenticated, 
+    user, 
+    canAccessJudgePortal, 
+    logout, 
+    isJudge,
+    getJudgeLevel 
+  } = useAuth();
 
   // Load accessibility preferences from localStorage
   useEffect(() => {
@@ -96,10 +103,11 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     { id: 'cards' as const, label: 'Card Search' },
     { id: 'decks' as const, label: 'Deck Search' },
     // Only show My Decks when logged in
-    ...(isLoggedIn ? [{ id: 'my-decks' as const, label: 'My Decks' }] : []),
+    ...(isAuthenticated ? [{ id: 'my-decks' as const, label: 'My Decks' }] : []),
     { id: 'simulator' as const, label: 'Simulator' },
     { id: 'rules' as const, label: 'Rules' },
-    { id: 'judge' as const, label: 'Judge Portal' },
+    // Only show Judge Portal to authenticated judges and admins
+    ...(canAccessJudgePortal() ? [{ id: 'judge' as const, label: 'Judge Portal' }] : []),
     { id: 'events' as const, label: 'Events' }
     // Combined tournaments and companion functionality into unified Events
   ];
@@ -217,20 +225,47 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
               <div className="user-avatar-large">
                 <ProfileIcon size={32} />
               </div>
-              <h3>Player</h3>
-              <p>Level 42</p>
-              <div className="user-actions">
-                <button 
-                  className="btn btn-small"
-                  onClick={() => {
-                    setIsLoginModalOpen(true);
-                    setIsLoginOpen(false);
-                  }}
-                >
-                  Login
-                </button>
-                <button className="btn btn-small btn-secondary">Settings</button>
-              </div>
+              {isAuthenticated ? (
+                <>
+                  <h3>{user?.displayName || user?.username || 'User'}</h3>
+                  <p>
+                    {isJudge() ? `Judge Level ${getJudgeLevel()}` : 'Player'} • 
+                    Level {user?.eloRating ? Math.floor(user.eloRating / 100) : 1}
+                  </p>
+                  <p style={{ fontSize: '0.8em', color: '#666' }}>
+                    {user?.rankTier || 'Bronze'} Tier
+                  </p>
+                  <div className="user-actions">
+                    <button 
+                      className="btn btn-small btn-secondary"
+                      onClick={async () => {
+                        await logout();
+                        setIsLoginOpen(false);
+                      }}
+                    >
+                      Logout
+                    </button>
+                    <button className="btn btn-small btn-secondary">Settings</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h3>Not Logged In</h3>
+                  <p>Sign in to access all features</p>
+                  <div className="user-actions">
+                    <button 
+                      className="btn btn-small"
+                      onClick={() => {
+                        setIsLoginModalOpen(true);
+                        setIsLoginOpen(false);
+                      }}
+                    >
+                      Login
+                    </button>
+                    <button className="btn btn-small btn-secondary">Settings</button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

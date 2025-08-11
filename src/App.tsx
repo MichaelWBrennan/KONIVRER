@@ -16,6 +16,7 @@ import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
 import { useAppStore } from './stores/appStore';
+import { useAuth } from './hooks/useAuth';
 import { NotificationService } from './services/notifications';
 import type { Card } from './data/cards';  // Use our local Card type
 import type { Deck } from './data/cards';
@@ -40,6 +41,7 @@ type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytic
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const { selectedCard, setSelectedCard } = useAppStore();
+  const { canAccessJudgePortal, isAuthenticated } = useAuth();
 
   // Initialize notifications on app start
   useEffect(() => {
@@ -70,6 +72,15 @@ function AppContent() {
     // Implement search functionality for each page
   };
 
+  const handlePageChange = (page: Page) => {
+    // Prevent navigation to judge portal if user doesn't have access
+    if (page === 'judge' && !canAccessJudgePortal()) {
+      console.warn('Access denied to judge portal');
+      return;
+    }
+    setCurrentPage(page);
+  };
+
   return (
     <div className="app">
       {/* Notification Center - positioned in top right */}
@@ -85,7 +96,7 @@ function AppContent() {
       {/* Bubble Menu - only navigation system */}
       <BubbleMenu 
         currentPage={currentPage}
-        onPageChange={setCurrentPage}
+        onPageChange={handlePageChange}
         onSearch={handleSearch}
       />
 
@@ -115,7 +126,36 @@ function AppContent() {
         )}
         
         {currentPage === 'judge' && (
-          <JudgePortal />
+          canAccessJudgePortal() ? (
+            <JudgePortal />
+          ) : (
+            <div style={{
+              padding: '2rem',
+              textAlign: 'center',
+              maxWidth: '600px',
+              margin: '2rem auto',
+              backgroundColor: 'var(--secondary-bg)',
+              borderRadius: '8px',
+              border: '2px solid #ff6b6b'
+            }}>
+              <h2 style={{ color: '#ff6b6b', marginBottom: '1rem' }}>
+                🔒 Access Restricted
+              </h2>
+              <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>
+                The Judge Portal is only accessible to certified KONIVRER judges and administrators.
+              </p>
+              {!isAuthenticated ? (
+                <p style={{ color: '#666' }}>
+                  Please log in with your judge credentials to access this portal.
+                </p>
+              ) : (
+                <p style={{ color: '#666' }}>
+                  Your account does not have judge certification. Contact an administrator 
+                  if you believe you should have access.
+                </p>
+              )}
+            </div>
+          )
         )}
         
         {currentPage === 'events' && (
