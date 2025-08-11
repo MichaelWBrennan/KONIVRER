@@ -1,8 +1,11 @@
-/* Enhanced Mobile-First Bubble Menu Styles */
+/* Enhanced Mobile-First Bubble Menu Styles - Fixed Position Layout */
 .bubble-menu {
   position: fixed;
   z-index: 1000;
   pointer-events: none; /* Allow clicks to pass through except on bubbles */
+  /* Prevent any flexbox or grid reordering */
+  display: block;
+  contain: layout style;
 }
 
 .bubble-menu.mobile {
@@ -19,51 +22,84 @@
 .bubble-container {
   position: absolute;
   pointer-events: auto;
+  /* Lock position - prevent any layout shifts */
+  contain: layout style;
+  /* Disable any flex or grid ordering */
+  order: initial;
+  /* Ensure stable positioning */
+  will-change: auto;
 }
 
 /* Position bubbles in a 2x2 grid for mobile, line for desktop */
+/* Mobile layout - explicit grid positions */
 .bubble-menu.mobile .accessibility-bubble {
   bottom: 70px;
   left: 0;
+  /* Lock position explicitly */
+  position: absolute !important;
+  /* Prevent any layout algorithm changes */
+  flex: none;
+  order: 1;
 }
 
 .bubble-menu.mobile .search-bubble {
   bottom: 70px;
   right: 0;
+  position: absolute !important;
+  flex: none;
+  order: 2;
 }
 
 .bubble-menu.mobile .login-bubble {
   bottom: 0;
   left: 0;
+  position: absolute !important;
+  flex: none;
+  order: 3;
 }
 
 .bubble-menu.mobile .menu-bubble {
   bottom: 0;
   right: 0;
+  position: absolute !important;
+  flex: none;
+  order: 4;
 }
 
-/* Desktop layout - vertical line */
+/* Desktop layout - vertical line with locked positions */
 .bubble-menu.desktop .accessibility-bubble {
   top: 0;
   right: 0;
+  position: absolute !important;
+  flex: none;
+  order: 1;
 }
 
 .bubble-menu.desktop .search-bubble {
   top: 70px;
   right: 0;
+  position: absolute !important;
+  flex: none;
+  order: 2;
 }
 
 .bubble-menu.desktop .login-bubble {
   top: 140px;
   right: 0;
+  position: absolute !important;
+  flex: none;
+  order: 3;
 }
 
 .bubble-menu.desktop .menu-bubble {
   top: 210px;
   right: 0;
+  position: absolute !important;
+  flex: none;
+  order: 4;
 }
 
-/* Enhanced Bubble Button Styles - Touch Optimized */
+/* Enhanced Bubble Button Styles - Touch Optimized, Fixed Position */
 .bubble-btn {
   width: 56px;  /* Increased from 60px for better mobile ergonomics */
   height: 56px;
@@ -75,7 +111,8 @@
   color: white;
   font-size: 20px; /* Slightly smaller for mobile */
   cursor: pointer;
-  transition: all 0.2s ease; /* Faster transition for mobile */
+  /* Reduced animations to prevent visual jumping */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
@@ -85,15 +122,30 @@
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
+  /* Prevent position shifts */
+  contain: layout style;
+  /* Lock position during interactions */
+  transform: none !important;
 }
 
+/* Hover and active states - no transform animations to prevent visual jumping */
 .bubble-btn:hover {
-  transform: scale(1.05); /* Reduced scale for mobile */
+  /* Only change visual properties, no transforms */
+  filter: brightness(1.1);
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
 }
 
 .bubble-btn:active {
-  transform: scale(0.95);
+  /* Minimal visual feedback without position changes */
+  filter: brightness(0.9);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Remove any transform-based hover/active effects to prevent jumping */
+.bubble-btn:hover,
+.bubble-btn:active,
+.bubble-btn:focus {
+  transform: none !important;
 }
 
 /* Different colors for each bubble type - Enhanced for accessibility */
