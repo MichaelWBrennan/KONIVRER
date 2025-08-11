@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NotificationService } from '../services/notifications';
 
 // Types
 interface Event {
@@ -73,9 +74,49 @@ export const Events: React.FC = () => {
     }
   };
 
-  const handleEventRegister = (eventId: string) => {
-    // Register for event
-    console.log('Register for event:', eventId);
+  const handleEventRegister = async (eventId: string) => {
+    try {
+      // Register for event first
+      console.log('Register for event:', eventId);
+      
+      // After successful registration, request notification permission if not already granted
+      const notificationService = NotificationService.getInstance();
+      if (Notification.permission === 'default') {
+        const granted = await notificationService.requestPermission();
+        if (granted) {
+          // Send a welcome notification to confirm notifications are working
+          notificationService.sendNotification(
+            'system',
+            'Notifications Enabled',
+            'You\'ll receive notifications about tournament updates and round starts.',
+            {},
+            eventId
+          );
+        } else {
+          console.log('User declined notification permission');
+        }
+      }
+      
+      // TODO: Implement actual event registration API call
+      // const response = await fetch(`/api/events/${eventId}/register`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+      
+      // if (!response.ok) {
+      //   throw new Error('Failed to register for event');
+      // }
+      
+      // Refresh events list to update registration status
+      loadEvents();
+    } catch (error) {
+      console.error('Failed to register for event:', error);
+      // Show error notification
+      alert('Failed to register for event. Please try again.');
+    }
   };
 
   const handleEventUnregister = (eventId: string) => {

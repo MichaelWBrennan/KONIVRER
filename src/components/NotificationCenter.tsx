@@ -17,13 +17,8 @@ const NotificationCenter: React.FC = () => {
   const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
 
   useEffect(() => {
-    // Show permission prompt if notifications are supported but not granted
-    if (isSupported && !isPermissionGranted && notifications.length === 0) {
-      const hasPromptedBefore = localStorage.getItem('notification-permission-prompted');
-      if (!hasPromptedBefore) {
-        setShowPermissionPrompt(true);
-      }
-    }
+    // Don't automatically show permission prompt - only show on event registration
+    // This ensures we only ask for notification permission when there's clear context
   }, [isSupported, isPermissionGranted, notifications.length]);
 
   const handleRequestPermission = async () => {
