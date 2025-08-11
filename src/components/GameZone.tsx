@@ -16,6 +16,14 @@ interface GameZoneProps {
   screenSize: { width: number; height: number };
 }
 
+// Type guard to check if a string is a valid KonivrverZoneType
+const isKonivrverZoneType = (zoneId: string): zoneId is KonivrverZoneType => {
+  const validZoneTypes: KonivrverZoneType[] = [
+    'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
+  ];
+  return validZoneTypes.includes(zoneId as KonivrverZoneType);
+};
+
 export const GameZone: React.FC<GameZoneProps> = ({
   zone,
   device,
@@ -40,7 +48,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
     top: `${(zoneConfig.position.y / 100) * screenSize.height}px`,
     width: `${(zoneConfig.size.width / 100) * screenSize.width}px`,
     height: `${(zoneConfig.size.height / 100) * screenSize.height}px`,
-    border: dragState.validDropZones.includes(zone.id as KonivrverZoneType) 
+    border: (isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id))
       ? '3px dashed #00BFFF' 
       : '1px solid rgba(255, 255, 255, 0.2)',
     borderRadius: device.isMobile ? '8px' : '12px',
@@ -55,7 +63,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
   };
 
   const handleDragOver = (e: React.DragEvent) => {
-    if (dragState.validDropZones.includes(zone.id as KonivrverZoneType)) {
+    if (isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id)) {
       e.preventDefault();
     }
   };
