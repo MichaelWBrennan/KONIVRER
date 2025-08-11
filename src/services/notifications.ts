@@ -23,11 +23,15 @@ interface NotificationState {
   addNotification: (notification: Omit<PushNotification, 'id' | 'timestamp' | 'read'>) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
+  markEventAsRead: (eventId: string) => void;
   removeNotification: (id: string) => void;
   clearAll: () => void;
+  clearEvent: (eventId: string) => void;
   requestPermission: () => Promise<boolean>;
   initializeNotifications: () => void;
   showBrowserNotification: (notification: PushNotification) => void;
+  getNotificationsByEvent: (eventId?: string) => PushNotification[];
+  getUnreadCountByEvent: (eventId?: string) => number;
 }
 
 export const useNotificationStore = create<NotificationState>()(
@@ -75,6 +79,20 @@ export const useNotificationStore = create<NotificationState>()(
         }));
       },
 
+      markEventAsRead: (eventId) => {
+        set((state) => {
+          const eventNotifications = state.notifications.filter(n => n.eventId === eventId && !n.read);
+          const unreadReduction = eventNotifications.length;
+          
+          return {
+            notifications: state.notifications.map((n) =>
+              n.eventId === eventId ? { ...n, read: true } : n
+            ),
+            unreadCount: Math.max(0, state.unreadCount - unreadReduction),
+          };
+        });
+      },
+
       removeNotification: (id) => {
         set((state) => ({
           notifications: state.notifications.filter((n) => n.id !== id),
@@ -84,6 +102,18 @@ export const useNotificationStore = create<NotificationState>()(
 
       clearAll: () => {
         set({ notifications: [], unreadCount: 0 });
+      },
+
+      clearEvent: (eventId) => {
+        set((state) => {
+          const eventNotifications = state.notifications.filter(n => n.eventId === eventId);
+          const unreadReduction = eventNotifications.filter(n => !n.read).length;
+          
+          return {
+            notifications: state.notifications.filter((n) => n.eventId !== eventId),
+            unreadCount: Math.max(0, state.unreadCount - unreadReduction),
+          };
+        });
       },
 
       requestPermission: async () => {
@@ -158,6 +188,23 @@ export const useNotificationStore = create<NotificationState>()(
             browserNotification.close();
           }, 10000);
         }
+      },
+
+      // Helper methods for event-specific notifications
+      getNotificationsByEvent: (eventId) => {
+        const state = get();
+        if (!eventId) {
+          return state.notifications.filter(n => !n.eventId);
+        }
+        return state.notifications.filter(n => n.eventId === eventId);
+      },
+
+      getUnreadCountByEvent: (eventId) => {
+        const state = get();
+        if (!eventId) {
+          return state.notifications.filter(n => !n.eventId && !n.read).length;
+        }
+        return state.notifications.filter(n => n.eventId === eventId && !n.read).length;
       },
     }),
     {
@@ -264,11 +311,34 @@ export class NotificationService {
     });
 
     socket.on('event.round.started', (data: any) => {
-      this.sendRoundStartNotification(data.eventName, data.round, data.eventId);
+      // Only show notification if this user is actually registered for this event
+      this.sendEventSpecificNotification(
+        'round_start',
+        'Round Started',
+        `Round ${data.round} has started for ${data.eventName}`,
+        {
+          round: data.round,
+          eventName: data.eventName,
+          eventFormat: data.format,
+          venue: data.venue,
+        },
+        data.eventId
+      );
     });
 
     socket.on('event.registration.accepted', (data: any) => {
-      this.sendRegistrationAcceptedNotification(data.eventName, data.eventId, data.startTime);
+      this.sendEventSpecificNotification(
+        'registration_accepted',
+        'Registration Accepted',
+        `Your registration for ${data.eventName} has been accepted!`,
+        {
+          eventName: data.eventName,
+          eventFormat: data.format,
+          startTime: data.startTime,
+          venue: data.venue,
+        },
+        data.eventId
+      );
     });
 
     socket.on('event.seating.assigned', (data: any) => {
@@ -278,13 +348,70 @@ export class NotificationService {
       
       if (assignment) {
         const opponentName = assignment.opponent?.username || 'TBD';
-        this.sendSeatingAssignmentNotification(
-          assignment.table,
-          opponentName,
-          data.eventId,
-          data.round
+        this.sendEventSpecificNotification(
+          'seating_assignment',
+          'Seating Assignment',
+          `Table ${assignment.table}: You're paired against ${opponentName} in ${data.eventName}`,
+          {
+            table: assignment.table,
+            opponentName,
+            round: data.round,
+            eventName: data.eventName,
+            eventFormat: data.format,
+            estimatedStartTime: assignment.estimatedStartTime,
+          },
+          data.eventId
         );
       }
     });
+  }
+
+  // Enhanced method to send event-specific notifications with additional validation
+  private sendEventSpecificNotification(
+    type: PushNotification['type'],
+    title: string,
+    message: string,
+    data?: any,
+    eventId?: string
+  ): void {
+    // Check if user is actually registered for this event
+    if (eventId && !this.isUserRegisteredForEvent(eventId)) {
+      return;
+    }
+
+    // Check for duplicate recent notifications for the same event/type
+    if (this.hasDuplicateNotification(type, eventId)) {
+      return;
+    }
+
+    this.sendNotification(type, title, message, data, eventId);
+  }
+
+  // Check if user is registered for a specific event
+  private isUserRegisteredForEvent(eventId: string): boolean {
+    try {
+      const userEvents = JSON.parse(localStorage.getItem('userEvents') || '[]');
+      return userEvents.includes(eventId);
+    } catch {
+      return true; // Default to showing notifications if we can't verify
+    }
+  }
+
+  // Check for duplicate notifications in the last few minutes
+  private hasDuplicateNotification(type: PushNotification['type'], eventId?: string): boolean {
+    const store = useNotificationStore.getState();
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+
+    return store.notifications.some(notification => 
+      notification.type === type &&
+      notification.eventId === eventId &&
+      notification.timestamp > fiveMinutesAgo &&
+      !notification.read
+    );
+  }
+
+  // Method to update user's registered events (should be called when user registers/unregisters)
+  public updateUserEvents(eventIds: string[]): void {
+    localStorage.setItem('userEvents', JSON.stringify(eventIds));
   }
 }

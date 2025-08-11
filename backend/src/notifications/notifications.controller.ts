@@ -56,6 +56,28 @@ export class NotificationsController {
     return this.notificationsService.findAll(filters);
   }
 
+  @Get('my/events')
+  @ApiOperation({ summary: 'Get current user notifications grouped by event' })
+  @ApiResponse({ status: 200, description: 'User notifications grouped by event retrieved successfully' })
+  async getMyNotificationsByEvent(@Request() req): Promise<Record<string, Notification[]>> {
+    return this.notificationsService.getUserNotificationsByEvent(req.user.userId);
+  }
+
+  @Get('my/events/:eventId')
+  @ApiOperation({ summary: 'Get current user notifications for a specific event' })
+  @ApiResponse({ status: 200, description: 'User event notifications retrieved successfully', type: [Notification] })
+  async getMyEventNotifications(
+    @Request() req,
+    @Param('eventId', ParseUUIDPipe) eventId: string,
+    @Query('unreadOnly') unreadOnly: string = 'false',
+  ): Promise<Notification[]> {
+    return this.notificationsService.getUserEventNotifications(
+      req.user.userId,
+      eventId,
+      unreadOnly === 'true'
+    );
+  }
+
   @Get('my')
   @ApiOperation({ summary: 'Get current user notifications' })
   @ApiResponse({ status: 200, description: 'User notifications retrieved successfully', type: [Notification] })
