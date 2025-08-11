@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
-import { CardSimulator } from './components/CardSimulator';
+import { KonivrverSimulator } from './components/KonivrverSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
 import { OcrManager } from './components/OcrManager';
 import JudgePortal from './components/JudgePortal';
@@ -101,7 +101,7 @@ function AppContent() {
         )}
 
         {currentPage === 'simulator' && (
-          <CardSimulator />
+          <KonivrverSimulator />
         )}
         
         {currentPage === 'cards' && (
