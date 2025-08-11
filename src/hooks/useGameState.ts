@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { GameState, Card, PlayerState, GameZone, DragState } from '../types/game';
+import { GameState, Card, PlayerState, GameZone, DragState, KonivrverZoneType } from '../types/game';
 
 // Demo card data to simulate KONIVRER Arena cards
 const createDemoCard = (id: string, name: string, manaCost: number, type: string, color?: string): Card => ({
@@ -149,10 +149,11 @@ export const useGameState = () => {
 
   const doubleClickCard = useCallback((card: Card) => {
     // Auto-play logic: move to appropriate zone
-    if (card.type.toLowerCase().includes('land')) {
-      moveCard(card.id, 'battlefield');
-    } else if (card.type.toLowerCase().includes('creature')) {
-      moveCard(card.id, 'battlefield');
+    const cardType = card.type || card.lesserType;
+    if (cardType?.toLowerCase().includes('land')) {
+      moveCard(card.id, 'field');
+    } else if (cardType?.toLowerCase().includes('creature') || cardType?.toLowerCase().includes('familiar')) {
+      moveCard(card.id, 'field');
     } else {
       moveCard(card.id, 'stack');
     }
@@ -180,8 +181,9 @@ export const useGameState = () => {
 
   const startDrag = useCallback((card: Card, position: { x: number; y: number }) => {
     // Determine valid drop zones based on card type and current zone
-    const validDropZones = ['battlefield', 'graveyard', 'exile', 'hand'];
-    if (card.type.toLowerCase().includes('instant') || card.type.toLowerCase().includes('sorcery')) {
+    const validDropZones: KonivrverZoneType[] = ['field', 'removedFromPlay', 'hand'];
+    const cardType = card.type || card.lesserType;
+    if (cardType?.toLowerCase().includes('instant') || cardType?.toLowerCase().includes('sorcery')) {
       validDropZones.push('stack');
     }
 
@@ -189,7 +191,7 @@ export const useGameState = () => {
       isDragging: true,
       draggedCard: card,
       dragOffset: position,
-      sourceZone: findCardZone(card.id),
+      sourceZone: findCardZone(card.id) as KonivrverZoneType,
       validDropZones
     });
   }, []);
@@ -228,14 +230,14 @@ export const useGameState = () => {
       }
 
       // Add card to target zone
-      if (sourceCard && newState.players[playerIndex].zones[targetZoneId]) {
+      if (sourceCard && newState.players[playerIndex].zones[targetZoneId as KonivrverZoneType]) {
         // Reset card state when moving
         const resetCard = { 
           ...sourceCard, 
           isSelected: false, 
-          isTapped: targetZoneId === 'battlefield' ? sourceCard.isTapped : false 
+          isTapped: targetZoneId === 'field' ? sourceCard.isTapped : false 
         };
-        newState.players[playerIndex].zones[targetZoneId].cards.push(resetCard);
+        newState.players[playerIndex].zones[targetZoneId as KonivrverZoneType].cards.push(resetCard);
       }
 
       return newState;
@@ -256,12 +258,12 @@ export const useGameState = () => {
       ...prev,
       currentPlayer: 1 - prev.currentPlayer,
       turn: prev.currentPlayer === 1 ? prev.turn + 1 : prev.turn,
-      phase: 'untap'
+      phase: 'start'
     }));
   }, []);
 
   const nextPhase = useCallback(() => {
-    const phases: GameState['phase'][] = ['untap', 'upkeep', 'draw', 'main1', 'combat', 'main2', 'end', 'cleanup'];
+    const phases: GameState['phase'][] = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
     const currentIndex = phases.indexOf(gameState.phase);
     const nextIndex = (currentIndex + 1) % phases.length;
     
