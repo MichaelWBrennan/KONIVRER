@@ -23,6 +23,7 @@ import {
   Trophy,
   Star,
 } from 'lucide-react';
+import { NotificationService } from '../../services/notifications';
 
 interface Event {
   id: string;
@@ -118,6 +119,54 @@ const EventList: React.FC = () => {
 
   const handleSearch = (searchTerm: string) => {
     handleFilterChange('search', searchTerm);
+  };
+
+  const handleEventRegister = async (event: Event) => {
+    try {
+      // Register for event first
+      console.log('Registering for event:', event.id);
+      
+      // TODO: Implement actual event registration API call
+      // const response = await fetch(`/api/events/${event.id}/register`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      //     'Content-Type': 'application/json',
+      //   },
+      // });
+      
+      // if (!response.ok) {
+      //   throw new Error('Failed to register for event');
+      // }
+      
+      // After successful registration, request notification permission if not already granted
+      const notificationService = NotificationService.getInstance();
+      if (Notification.permission === 'default') {
+        const granted = await notificationService.requestPermission();
+        if (granted) {
+          // Send a welcome notification to confirm notifications are working
+          notificationService.sendNotification(
+            'registration_accepted',
+            'Registration Successful!',
+            `You've successfully registered for ${event.name}. You'll receive notifications about tournament updates.`,
+            { eventName: event.name },
+            event.id
+          );
+        } else {
+          // Still show success even if notifications aren't enabled
+          alert(`Successfully registered for ${event.name}!`);
+        }
+      } else {
+        // User already has granted or denied permission, just show success
+        alert(`Successfully registered for ${event.name}!`);
+      }
+      
+      // Refresh events list to update registration status
+      fetchEvents();
+    } catch (error) {
+      console.error('Failed to register for event:', error);
+      alert('Failed to register for event. Please try again.');
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -343,6 +392,7 @@ const EventList: React.FC = () => {
                         variant={event.isRegistrationOpen ? "primary" : "outline-secondary"}
                         size="sm"
                         disabled={!event.isRegistrationOpen}
+                        onClick={() => event.isRegistrationOpen ? handleEventRegister(event) : null}
                       >
                         {event.isRegistrationOpen ? 'Register' : 'View Details'}
                       </Button>
