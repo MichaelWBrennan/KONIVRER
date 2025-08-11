@@ -350,7 +350,9 @@ export class EventsService {
         userId,
         eventId,
         eventName: event.name,
+        format: event.format,
         startTime: event.startAt,
+        venue: event.venue,
       });
     }
 
@@ -584,8 +586,10 @@ export class EventsService {
       this.eventEmitter.emit('event.round.started', {
         eventId,
         eventName: event.name,
+        format: event.format,
         round,
         registeredPlayers: registeredPlayerIds,
+        venue: event.venue,
       });
 
       // Emit seating assignments notification
@@ -602,8 +606,10 @@ export class EventsService {
       this.eventEmitter.emit('event.seating.assigned', {
         eventId,
         eventName: event.name,
+        format: event.format,
         round,
         assignments,
+        venue: event.venue,
       });
     }
   }

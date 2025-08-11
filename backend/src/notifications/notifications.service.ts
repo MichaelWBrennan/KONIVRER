@@ -5,6 +5,7 @@ import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
 import { Notification, NotificationType, NotificationChannel, NotificationStatus } from './entities/notification.entity';
 import { CreateNotificationDto, UpdateNotificationStatusDto, NotificationFiltersDto } from './dto/notification.dto';
 import { User, UserPreferences } from '../users/entities/user.entity';
+import { EventRegistration } from '../events/entities/event.entity';
 
 export interface NotificationPayload {
   userId: string;
@@ -27,6 +28,8 @@ export class NotificationsService {
     private notificationRepository: Repository<Notification>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    @InjectRepository(EventRegistration)
+    private eventRegistrationRepository: Repository<EventRegistration>,
     private eventEmitter: EventEmitter2,
   ) {}
 
@@ -125,10 +128,15 @@ export class NotificationsService {
   async handleRoundStarted(eventData: any) {
     this.logger.log(`Round started for event ${eventData.eventId}`);
     
-    // Get all registered players for this event
-    const registeredPlayers = eventData.registeredPlayers || [];
+    // Get verified registered and checked-in players for this specific event
+    const registeredPlayers = await this.getEventParticipants(eventData.eventId);
     
     for (const playerId of registeredPlayers) {
+      // Check for duplicate notification prevention
+      if (await this.hasPendingNotification(playerId, NotificationType.ROUND_START, eventData.eventId, eventData.round)) {
+        continue;
+      }
+      
       const user = await this.userRepository.findOne({ where: { id: playerId } });
       
       if (user && this.shouldSendNotification(user, NotificationType.ROUND_START)) {
@@ -141,6 +149,9 @@ export class NotificationsService {
           data: {
             round: eventData.round,
             eventName: eventData.eventName,
+            eventFormat: eventData.format,
+            startTime: new Date(),
+            eventLocation: eventData.venue?.location || 'Online',
           },
           eventId: eventData.eventId,
         });
@@ -151,6 +162,11 @@ export class NotificationsService {
   @OnEvent('event.registration.accepted')
   async handleRegistrationAccepted(eventData: any) {
     this.logger.log(`Registration accepted for user ${eventData.userId} in event ${eventData.eventId}`);
+    
+    // Prevent duplicate registration notifications
+    if (await this.hasPendingNotification(eventData.userId, NotificationType.REGISTRATION_ACCEPTED, eventData.eventId)) {
+      return;
+    }
     
     const user = await this.userRepository.findOne({ where: { id: eventData.userId } });
     
@@ -163,7 +179,10 @@ export class NotificationsService {
         message: `Your registration for ${eventData.eventName} has been accepted!`,
         data: {
           eventName: eventData.eventName,
+          eventFormat: eventData.format,
           startTime: eventData.startTime,
+          venue: eventData.venue,
+          registrationDate: new Date(),
         },
         eventId: eventData.eventId,
       });
@@ -174,8 +193,13 @@ export class NotificationsService {
   async handleSeatingAssigned(eventData: any) {
     this.logger.log(`Seating assigned for event ${eventData.eventId}`);
     
-    // Process each seating assignment
+    // Process each seating assignment - only send to participants of this specific event
     for (const assignment of eventData.assignments || []) {
+      // Prevent duplicate seating notifications for the same round
+      if (await this.hasPendingNotification(assignment.playerId, NotificationType.SEATING_ASSIGNMENT, eventData.eventId, eventData.round)) {
+        continue;
+      }
+      
       const user = await this.userRepository.findOne({ where: { id: assignment.playerId } });
       
       if (user && this.shouldSendNotification(user, NotificationType.SEATING_ASSIGNMENT)) {
@@ -186,12 +210,14 @@ export class NotificationsService {
           type: NotificationType.SEATING_ASSIGNMENT,
           channel: NotificationChannel.PUSH,
           title: 'Seating Assignment',
-          message: `Table ${assignment.table}: You're paired against ${opponentName}`,
+          message: `Table ${assignment.table}: You're paired against ${opponentName} in ${eventData.eventName}`,
           data: {
             table: assignment.table,
             opponent: assignment.opponent,
             round: eventData.round,
             eventName: eventData.eventName,
+            eventFormat: eventData.format,
+            estimatedStartTime: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes from now
           },
           eventId: eventData.eventId,
         });
@@ -289,5 +315,79 @@ export class NotificationsService {
         errorMessage: error.message 
       });
     }
+  }
+
+  // Helper method to get participants for a specific event (registered and checked-in)
+  private async getEventParticipants(eventId: string): Promise<string[]> {
+    const registrations = await this.eventRegistrationRepository
+      .createQueryBuilder('registration')
+      .where('registration.eventId = :eventId', { eventId })
+      .andWhere('registration.isWaitlisted = false')
+      .andWhere('registration.checkedInAt IS NOT NULL')
+      .select(['registration.userId'])
+      .getMany();
+    
+    return registrations.map(r => r.userId);
+  }
+
+  // Helper method to prevent duplicate notifications
+  private async hasPendingNotification(
+    userId: string, 
+    type: NotificationType, 
+    eventId: string, 
+    round?: number
+  ): Promise<boolean> {
+    const query = this.notificationRepository
+      .createQueryBuilder('notification')
+      .where('notification.userId = :userId', { userId })
+      .andWhere('notification.type = :type', { type })
+      .andWhere('notification.eventId = :eventId', { eventId })
+      .andWhere('notification.status IN (:...statuses)', { 
+        statuses: [NotificationStatus.PENDING, NotificationStatus.SENT] 
+      })
+      .andWhere('notification.createdAt > :since', { 
+        since: new Date(Date.now() - 5 * 60 * 1000) // Within last 5 minutes
+      });
+
+    // For round-specific notifications, also check round data
+    if (round !== undefined) {
+      query.andWhere("notification.data->>'round' = :round", { round: round.toString() });
+    }
+
+    const existing = await query.getOne();
+    return !!existing;
+  }
+
+  // Enhanced method to get user notifications with event filtering
+  async getUserEventNotifications(userId: string, eventId?: string, unreadOnly: boolean = false): Promise<Notification[]> {
+    const query = this.notificationRepository.createQueryBuilder('notification')
+      .where('notification.userId = :userId', { userId })
+      .orderBy('notification.createdAt', 'DESC');
+
+    if (eventId) {
+      query.andWhere('notification.eventId = :eventId', { eventId });
+    }
+
+    if (unreadOnly) {
+      query.andWhere('notification.status IN (:...statuses)', { 
+        statuses: [NotificationStatus.PENDING, NotificationStatus.SENT] 
+      });
+    }
+
+    return await query.getMany();
+  }
+
+  // Method to get notifications grouped by event
+  async getUserNotificationsByEvent(userId: string): Promise<Record<string, Notification[]>> {
+    const notifications = await this.getUserNotifications(userId);
+    
+    return notifications.reduce((acc, notification) => {
+      const eventId = notification.eventId || 'general';
+      if (!acc[eventId]) {
+        acc[eventId] = [];
+      }
+      acc[eventId].push(notification);
+      return acc;
+    }, {} as Record<string, Notification[]>);
   }
 }
