@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import './LoginModal.css';
 
 interface LoginModalProps {
@@ -10,11 +11,22 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { login, isLoading, error, clearError } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement login logic
-    console.log('Login attempt:', { email, password });
+    clearError();
+    
+    try {
+      await login({ emailOrUsername: email, password });
+      // Close modal on successful login
+      onClose();
+      setEmail('');
+      setPassword('');
+    } catch (err) {
+      // Error is already handled by useAuth hook
+      console.error('Login failed:', err);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
@@ -42,15 +54,29 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
+          {error && (
+            <div className="error-message" style={{ 
+              padding: '0.5rem', 
+              marginBottom: '1rem', 
+              backgroundColor: '#fee', 
+              border: '1px solid #fcc', 
+              borderRadius: '4px', 
+              color: '#c00' 
+            }}>
+              {error}
+            </div>
+          )}
+          
           <div className="input-group">
             <label htmlFor="email">Username or Email</label>
             <input
-              type="email"
+              type="text"
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your username or email"
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -64,19 +90,21 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 required
+                disabled={isLoading}
               />
               <button
                 type="button"
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={isLoading}
               >
                 {showPassword ? '👁️' : '👁️‍🗨️'}
               </button>
             </div>
           </div>
 
-          <button type="submit" className="login-btn primary">
-            Login
+          <button type="submit" className="login-btn primary" disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
