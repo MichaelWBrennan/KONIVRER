@@ -23,7 +23,7 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps> = (
 
   // Type-safe filter function 
   const filterCompatibleCards = (cards: Card[]) => {
-    return cards.filter((c: Card) => c.type && (c.manaCost || c.azothCost || 0) <= 10);
+    return cards.filter((c: Card) => c.type && ((c.manaCost ?? c.azothCost ?? 0) <= 10));
   };
 
   return (
