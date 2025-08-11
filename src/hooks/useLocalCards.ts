@@ -33,9 +33,9 @@ export function useLocalCards(filters: CardSearchFilters): {
       const searchTerm = filters.search.toLowerCase();
       filteredCards = cards.filter(card => 
         card.name.toLowerCase().includes(searchTerm) ||
-        card.type.toLowerCase().includes(searchTerm) ||
-        card.element.toLowerCase().includes(searchTerm) ||
-        card.description.toLowerCase().includes(searchTerm) ||
+        (card.type || card.lesserType)?.toLowerCase().includes(searchTerm) ||
+        (card.element || card.elements?.[0])?.toLowerCase().includes(searchTerm) ||
+        (card.description || card.rulesText)?.toLowerCase().includes(searchTerm) ||
         // Include OCR data in search
         (card.ocrExtractedName && card.ocrExtractedName.toLowerCase().includes(searchTerm)) ||
         (card.ocrTypeLine && card.ocrTypeLine.toLowerCase().includes(searchTerm)) ||
@@ -47,14 +47,14 @@ export function useLocalCards(filters: CardSearchFilters): {
     // Element filter
     if (filters.element) {
       filteredCards = filteredCards.filter(card => 
-        card.element.toLowerCase() === filters.element?.toLowerCase()
+        (card.element || card.elements?.[0])?.toLowerCase() === filters.element?.toLowerCase()
       );
     }
     
     // Type filter
     if (filters.type) {
       filteredCards = filteredCards.filter(card => 
-        card.type.toLowerCase() === filters.type?.toLowerCase()
+        (card.type || card.lesserType)?.toLowerCase() === filters.type?.toLowerCase()
       );
     }
     
@@ -67,10 +67,10 @@ export function useLocalCards(filters: CardSearchFilters): {
     
     // Cost filter
     if (filters.minCost !== undefined) {
-      filteredCards = filteredCards.filter(card => card.cost >= filters.minCost!);
+      filteredCards = filteredCards.filter(card => (card.cost || card.azothCost || 0) >= filters.minCost!);
     }
     if (filters.maxCost !== undefined) {
-      filteredCards = filteredCards.filter(card => card.cost <= filters.maxCost!);
+      filteredCards = filteredCards.filter(card => (card.cost || card.azothCost || 0) <= filters.maxCost!);
     }
     
     // Sorting
@@ -85,16 +85,16 @@ export function useLocalCards(filters: CardSearchFilters): {
             bValue = b.name.toLowerCase();
             break;
           case 'cost':
-            aValue = a.cost;
-            bValue = b.cost;
+            aValue = a.cost || a.azothCost || 0;
+            bValue = b.cost || b.azothCost || 0;
             break;
           case 'type':
-            aValue = a.type.toLowerCase();
-            bValue = b.type.toLowerCase();
+            aValue = (a.type || a.lesserType)?.toLowerCase() || '';
+            bValue = (b.type || b.lesserType)?.toLowerCase() || '';
             break;
           case 'element':
-            aValue = a.element.toLowerCase();
-            bValue = b.element.toLowerCase();
+            aValue = (a.element || a.elements?.[0])?.toLowerCase() || '';
+            bValue = (b.element || b.elements?.[0])?.toLowerCase() || '';
             break;
           case 'rarity':
             const rarityOrder = { 'common': 1, 'uncommon': 2, 'rare': 3, 'mythic': 4 };
@@ -195,11 +195,13 @@ export function useLocalCardStatistics(): {
     return {
       totalCards: cards.length,
       byElement: cards.reduce((acc, card) => {
-        acc[card.element] = (acc[card.element] || 0) + 1;
+        const element = card.element || card.elements?.[0] || 'unknown';
+        acc[element] = (acc[element] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
       byType: cards.reduce((acc, card) => {
-        acc[card.type] = (acc[card.type] || 0) + 1;
+        const type = card.type || card.lesserType || 'unknown';
+        acc[type] = (acc[type] || 0) + 1;
         return acc;
       }, {} as Record<string, number>),
       byRarity: cards.reduce((acc, card) => {
