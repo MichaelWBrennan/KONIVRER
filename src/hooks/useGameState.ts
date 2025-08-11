@@ -1,39 +1,13 @@
 import { useState, useCallback } from 'react';
 import { GameState, Card, PlayerState, GameZone, DragState, KonivrverZoneType, KonivrverPhase } from '../types/game';
 
-// Demo card data to simulate KONIVRER Arena cards
-const createDemoCard = (id: string, name: string, manaCost: number, type: string, color?: string): Card => ({
-  id,
-  name,
-  elements: [color || 'neutral'],
-  lesserType: type,
-  azothCost: manaCost,
-  setCode: 'DEMO',
-  setNumber: parseInt(id.replace('demo_', '')),
-  rarity: 'common',
-  power: type.toLowerCase().includes('creature') || type.toLowerCase().includes('familiar') ? Math.floor(Math.random() * 5) + 1 : undefined,
-  toughness: type.toLowerCase().includes('creature') || type.toLowerCase().includes('familiar') ? Math.floor(Math.random() * 5) + 1 : undefined,
-  // Legacy compatibility
-  manaCost,
-  type,
-  color,
-  text: `Demo ${type} for KONIVRER`,
-  description: `Demo ${type} for KONIVRER`,
-});
+// TODO: Load actual card data from the card database instead of demo cards
 
 const createInitialZones = (): Record<string, GameZone> => ({
   hand: {
     id: 'hand',
     name: 'Hand',
-    cards: [
-      createDemoCard('card1', 'Lightning Bolt', 1, 'Instant', 'red'),
-      createDemoCard('card2', 'Forest', 0, 'Basic Land', 'green'),
-      createDemoCard('card3', 'Serra Angel', 5, 'Creature - Angel', 'white'),
-      createDemoCard('card4', 'Counterspell', 2, 'Instant', 'blue'),
-      createDemoCard('card5', 'Dark Ritual', 1, 'Instant', 'black'),
-      createDemoCard('card6', 'Giant Growth', 1, 'Instant', 'green'),
-      createDemoCard('card7', 'Fireball', 1, 'Sorcery', 'red')
-    ],
+    cards: [], // TODO: Populate with actual player cards
     isVisible: true,
     allowDrop: true,
     layout: 'fan'
@@ -49,9 +23,7 @@ const createInitialZones = (): Record<string, GameZone> => ({
   library: {
     id: 'library',
     name: 'Library',
-    cards: Array.from({ length: 53 }, (_, i) => 
-      createDemoCard(`lib${i}`, `Library Card ${i + 1}`, 1, 'Creature', 'colorless')
-    ),
+    cards: [], // TODO: Initialize with player's deck cards
     isVisible: false,
     allowDrop: false,
     layout: 'stack'

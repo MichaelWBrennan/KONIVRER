@@ -202,28 +202,9 @@ export const DeckBuilderAdvanced: React.FC = () => {
           </div>
 
           <div className="card-results">
-            <div className="card-result">
-              <div className="card-preview">
-                <div className="card-image-placeholder">🃏</div>
-              </div>
-              <div className="card-details">
-                <h4>Lightning Bolt</h4>
-                <p>Instant - Deal 3 damage</p>
-                <div className="card-cost">1R</div>
-              </div>
-              <button className="add-to-deck-btn">+</button>
-            </div>
-            
-            <div className="card-result">
-              <div className="card-preview">
-                <div className="card-image-placeholder">🃏</div>
-              </div>
-              <div className="card-details">
-                <h4>Serra Angel</h4>
-                <p>Creature - Angel (4/4)</p>
-                <div className="card-cost">3WW</div>
-              </div>
-              <button className="add-to-deck-btn">+</button>
+            {/* TODO: Replace with actual card search results */}
+            <div className="no-results-message">
+              Search for cards to add to your deck
             </div>
           </div>
         </div>

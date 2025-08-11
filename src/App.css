@@ -492,9 +492,6 @@ strong em, em strong, b i, i b, .font-bold.font-italic {
   border: 1px solid var(--border-color);
 }
 
-.card-image-placeholder {
-  font-size: 1.5rem;
-}
 
 .card-details {
   flex: 1;
