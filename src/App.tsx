@@ -3,9 +3,10 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
-import { CardSimulator } from './components/CardSimulator';
+import { KonivrverSimulator } from './components/KonivrverSimulator';
 import { BubbleMenu } from './components/BubbleMenu';
 import { OcrManager } from './components/OcrManager';
+import JudgePortal from './components/JudgePortal';
 import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 
@@ -34,7 +35,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'ocr';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'ocr';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -100,7 +101,7 @@ function AppContent() {
         )}
 
         {currentPage === 'simulator' && (
-          <CardSimulator />
+          <KonivrverSimulator />
         )}
         
         {currentPage === 'cards' && (
@@ -117,6 +118,10 @@ function AppContent() {
         
         {currentPage === 'rules' && (
           <Rules />
+        )}
+        
+        {currentPage === 'judge' && (
+          <JudgePortal />
         )}
         
         {currentPage === 'events' && (
