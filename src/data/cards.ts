@@ -1,6 +1,6 @@
 import { cardDataGenerator } from '../services/cardDataGenerator';
 
-// KONIVRER Card database based on OCR extraction from card images
+// KONIVRER Card database with pattern-based data generation
 export interface Card {
   id: string;
   name: string;
@@ -17,16 +17,7 @@ export interface Card {
   setNumber: number;
   imageUrl: string;
   webpUrl: string;
-  // OCR-extracted fields
-  ocrExtractedName?: string;
-  ocrCost?: string;
-  ocrTypeLine?: string;
-  ocrRulesText?: string;
-  ocrStats?: string;
-  ocrSetCode?: string;
-  ocrRawText?: string; // Full OCR output for debugging
   imageHash?: string; // For caching
-  lastOcrUpdate?: number; // Timestamp of last OCR processing
   // Legacy compatibility fields
   type?: string;
   element?: string;
@@ -124,14 +115,14 @@ const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
 });
 
 /**
- * Get card database, preferring OCR-extracted data when available
+ * Get card database, preferring generated data when available
  */
 export function getCardDatabase(): Card[] {
-  // Try to load OCR-extracted data first
-  const ocrData = cardDataGenerator.loadCardData();
-  if (ocrData && ocrData.length > 0) {
-    console.log('Using OCR-extracted card data');
-    return ocrData;
+  // Try to load generated data first
+  const generatedData = cardDataGenerator.loadCardData();
+  if (generatedData && generatedData.length > 0) {
+    console.log('Using generated card data');
+    return generatedData;
   }
   
   console.log('Using fallback pattern-based card data');

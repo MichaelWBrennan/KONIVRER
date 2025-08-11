@@ -38,12 +38,7 @@ export function useLocalCards(filters: CardSearchFilters): {
         (card.element && card.element.toLowerCase().includes(searchTerm)) ||
         (card.elements?.[0] && card.elements[0].toLowerCase().includes(searchTerm)) ||
         (card.description && card.description.toLowerCase().includes(searchTerm)) ||
-        (card.rulesText && card.rulesText.toLowerCase().includes(searchTerm)) ||
-        // Include OCR data in search
-        (card.ocrExtractedName && card.ocrExtractedName.toLowerCase().includes(searchTerm)) ||
-        (card.ocrTypeLine && card.ocrTypeLine.toLowerCase().includes(searchTerm)) ||
-        (card.ocrRulesText && card.ocrRulesText.toLowerCase().includes(searchTerm)) ||
-        (card.ocrSetCode && card.ocrSetCode.toLowerCase().includes(searchTerm))
+        (card.rulesText && card.rulesText.toLowerCase().includes(searchTerm))
       );
     }
     
@@ -181,8 +176,7 @@ export function useLocalCardByName(name: string): {
   const card = useMemo(() => {
     const cards = getCardDatabase();
     return cards.find(c => 
-      c.name.toLowerCase() === name.toLowerCase() ||
-      (c.ocrExtractedName && c.ocrExtractedName.toLowerCase() === name.toLowerCase())
+      c.name.toLowerCase() === name.toLowerCase()
     );
   }, [name]);
   
@@ -223,8 +217,7 @@ export function useLocalCardStatistics(): {
       byRarity: cards.reduce((acc, card) => {
         acc[card.rarity] = (acc[card.rarity] || 0) + 1;
         return acc;
-      }, {} as Record<string, number>),
-      ocrProcessed: cards.filter(card => card.ocrRawText).length
+      }, {} as Record<string, number>)
     };
   }, []);
   
