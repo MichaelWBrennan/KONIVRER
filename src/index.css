@@ -126,21 +126,22 @@ html[data-contrast="normal"] {
   --contrast-border-color: #333;
 }
 
-html[data-dyslexic-font="true"],
-html[data-dyslexic-font="true"] * {
+/* Apply OpenDyslexic font globally */
+html,
+html * {
   font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
 }
 
-html[data-dyslexic-font="true"] strong,
-html[data-dyslexic-font="true"] b,
-html[data-dyslexic-font="true"] .font-bold {
+html strong,
+html b,
+html .font-bold {
   font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
   font-weight: bold !important;
 }
 
-html[data-dyslexic-font="true"] em,
-html[data-dyslexic-font="true"] i,
-html[data-dyslexic-font="true"] .font-italic {
+html em,
+html i,
+html .font-italic {
   font-family: 'OpenDyslexic', 'Arial', sans-serif !important;
   font-style: italic !important;
 }
