@@ -177,7 +177,7 @@ export const CardSimulator: React.FC = () => {
       pointerEvents: 'auto',
       cursor: 'pointer'
     }}>
-      ❤️ {currentPlayer.life}
+      ❤️ {currentPlayer.life || currentPlayer.zones?.lifeCards?.cards?.length || 20}
     </div>
   );
 
@@ -253,7 +253,7 @@ export const CardSimulator: React.FC = () => {
       gap: device.isMobile ? '4px' : '6px',
       pointerEvents: 'auto'
     }}>
-      {Object.entries(currentPlayer.manaPool).map(([color, amount]) => (
+      {Object.entries(currentPlayer.manaPool || currentPlayer.azothPool || {}).map(([color, amount]) => (
         <div
           key={color}
           style={{

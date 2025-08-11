@@ -2,15 +2,23 @@ import { useState, useCallback } from 'react';
 import { GameState, Card, PlayerState, GameZone, DragState } from '../types/game';
 
 // Demo card data to simulate KONIVRER Arena cards
-const createDemoCard = (id: string, name: string, manaCost: number, type: string, color: Card['color']): Card => ({
+const createDemoCard = (id: string, name: string, manaCost: number, type: string, color?: string): Card => ({
   id,
   name,
+  elements: [color || 'neutral'],
+  lesserType: type,
+  azothCost: manaCost,
+  setCode: 'DEMO',
+  setNumber: parseInt(id.replace('demo_', '')),
+  rarity: 'common',
+  power: type.toLowerCase().includes('creature') || type.toLowerCase().includes('familiar') ? Math.floor(Math.random() * 5) + 1 : undefined,
+  toughness: type.toLowerCase().includes('creature') || type.toLowerCase().includes('familiar') ? Math.floor(Math.random() * 5) + 1 : undefined,
+  // Legacy compatibility
   manaCost,
   type,
   color,
-  rarity: 'common',
-  power: type.toLowerCase().includes('creature') ? Math.floor(Math.random() * 5) + 1 : undefined,
-  toughness: type.toLowerCase().includes('creature') ? Math.floor(Math.random() * 5) + 1 : undefined
+  text: `Demo ${type} for KONIVRER`,
+  description: `Demo ${type} for KONIVRER`,
 });
 
 const createInitialZones = (): Record<string, GameZone> => ({
@@ -77,9 +85,11 @@ const createInitialZones = (): Record<string, GameZone> => ({
 const createInitialPlayer = (id: string, name: string): PlayerState => ({
   id,
   name,
+  azothPool: { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0, neutral: 0 },
+  zones: createInitialZones() as any, // Type cast to avoid zone type mismatch for now
+  // Legacy compatibility
   life: 20,
-  manaPool: { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 },
-  zones: createInitialZones()
+  manaPool: { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 }
 });
 
 export const useGameState = () => {
@@ -90,10 +100,18 @@ export const useGameState = () => {
     ],
     currentPlayer: 0,
     turn: 1,
-    phase: 'main1',
+    phase: 'main',
     stack: [],
     activePlayer: 0,
-    priorityPlayer: 0
+    priorityPlayer: 0,
+    deckConstructionRules: {
+      totalCards: 40,
+      commonCards: 25,
+      uncommonCards: 13,
+      rareCards: 2,
+      flagRequired: true,
+      maxCopiesPerCard: 1
+    }
   });
 
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
