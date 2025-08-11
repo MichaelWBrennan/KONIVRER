@@ -57,11 +57,11 @@ export class CardDataGenerator {
   /**
    * Fallback function to determine rarity from card name patterns
    */
-  private getCardRarity(name: string): string {
-    if (name === 'AZOTH' || name === 'RAINBOW' || name === 'XAOS') return 'Mythic';
-    if (name.includes('CHAOS') || name.includes('BRIGHT')) return 'Rare';
-    if (name.includes('DARK')) return 'Uncommon';
-    return 'Common';
+  private getCardRarity(name: string): 'common' | 'uncommon' | 'rare' {
+    if (name === 'AZOTH' || name === 'RAINBOW' || name === 'XAOS') return 'rare';
+    if (name.includes('CHAOS') || name.includes('BRIGHT')) return 'rare';
+    if (name.includes('DARK')) return 'uncommon';
+    return 'common';
   }
 
   /**
@@ -127,17 +127,26 @@ export class CardDataGenerator {
       const card: Card = {
         id: `card_${index + 1}`,
         name: displayName,
-        type,
-        element,
+        elements: [element],
+        lesserType: type,
+        azothCost: cost,
+        setCode: 'DEMO',
+        setNumber: index + 1,
         rarity,
-        cost,
         power: stats.power,
         toughness: stats.toughness,
-        description: (ocrResult?.rulesText && ocrResult.confidence > 30) 
+        rulesText: (ocrResult?.rulesText && ocrResult.confidence > 30) 
           ? ocrResult.rulesText 
           : `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
         imageUrl: `/assets/cards/${cardName}.png`,
         webpUrl: `/assets/cards/${cardName}.webp`,
+        // Legacy compatibility fields
+        type,
+        element,
+        cost,
+        description: (ocrResult?.rulesText && ocrResult.confidence > 30) 
+          ? ocrResult.rulesText 
+          : `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
         // OCR extracted fields
         ocrExtractedName: ocrResult?.extractedName,
         ocrCost: ocrResult?.cost,
