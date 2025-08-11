@@ -1,15 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import { 
-  searchRules, 
-  getRuleBySection, 
-  getKeywordDefinition, 
-  getPhaseDescription,
   getAllRulesAsJSON,
   searchWithSynonyms,
   keywordAbilities,
   phaseDescriptions 
 } from '../services/rulesParser';
-import type { KonivrverRule, KonivrverKeywordAbility } from '../types/game';
 
 interface JudgePortalProps {
   className?: string;

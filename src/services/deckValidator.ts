@@ -1,4 +1,4 @@
-import type { Card, Deck, DeckValidationResult } from '../types';
+import type { Card, DeckValidationResult } from '../types';
 
 /**
  * KONIVRER Deck Validation Service
