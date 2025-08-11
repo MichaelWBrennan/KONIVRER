@@ -1,7 +1,7 @@
 import { Card } from '../data/cards';
 
 /**
- * Script to process all card images using OCR and generate cards.json data file
+ * Script to generate card data using pattern-based fallback methods
  * This runs in the browser and can be triggered from the dev console or a UI button
  */
 export class CardDataGenerator {
