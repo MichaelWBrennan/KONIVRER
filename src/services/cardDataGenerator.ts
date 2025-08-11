@@ -1,4 +1,3 @@
-import { ocrService } from '../services/ocrService';
 import { Card } from '../data/cards';
 
 /**
@@ -65,31 +64,7 @@ export class CardDataGenerator {
   }
 
   /**
-   * Parse extracted cost to get numeric value
-   */
-  private parseCost(ocrCost?: string): number {
-    if (!ocrCost) return 1;
-    const match = ocrCost.match(/\d+/);
-    return match ? parseInt(match[0], 10) : 1;
-  }
-
-  /**
-   * Parse stats for power/toughness
-   */
-  private parseStats(ocrStats?: string): { power?: number; toughness?: number } {
-    if (!ocrStats) return {};
-    const match = ocrStats.match(/(\d+)\s*\/\s*(\d+)/);
-    if (match) {
-      return {
-        power: parseInt(match[1], 10),
-        toughness: parseInt(match[2], 10)
-      };
-    }
-    return {};
-  }
-
-  /**
-   * Generate card data from OCR results
+   * Generate card data using pattern-based fallbacks
    */
   async generateCardData(): Promise<Card[]> {
     console.log('Starting card data generation...');
@@ -97,32 +72,18 @@ export class CardDataGenerator {
     const imagePaths = this.getCardImagePaths();
     console.log(`Processing ${imagePaths.length} card images...`);
 
-    // Process all images with OCR
-    const ocrResults = await ocrService.processMultipleImages(imagePaths, 2); // Lower concurrency to be gentle
-
     const cards: Card[] = [];
 
-    // Generate card data for each image
+    // Generate card data for each image using pattern-based fallbacks
     imagePaths.forEach((imagePath, index) => {
       const cardName = imagePath.split('/').pop()?.replace('.png', '') || '';
-      const ocrResult = ocrResults.get(imagePath);
 
-      // Use OCR data if available and confident, fallback to patterns
-      const displayName = (ocrResult?.extractedName && ocrResult.confidence > 50) 
-        ? ocrResult.extractedName 
-        : cardName.charAt(0) + cardName.slice(1).toLowerCase().replace(/([A-Z])/g, ' $1');
-
+      // Use pattern-based data generation
+      const displayName = cardName.charAt(0) + cardName.slice(1).toLowerCase().replace(/([A-Z])/g, ' $1');
       const element = this.getCardElement(cardName);
-      const fallbackType = this.getCardType(cardName);
+      const type = this.getCardType(cardName);
       const rarity = this.getCardRarity(cardName);
-
-      // Extract type from OCR if available
-      const type = (ocrResult?.typeLine && ocrResult.confidence > 50) 
-        ? ocrResult.typeLine.split(' ')[0] // First word is usually the type
-        : fallbackType;
-
-      const cost = this.parseCost(ocrResult?.cost);
-      const stats = this.parseStats(ocrResult?.stats);
+      const cost = 1; // Default cost
 
       const card: Card = {
         id: `card_${index + 1}`,
@@ -133,29 +94,14 @@ export class CardDataGenerator {
         setCode: 'DEMO',
         setNumber: index + 1,
         rarity,
-        power: stats.power,
-        toughness: stats.toughness,
-        rulesText: (ocrResult?.rulesText && ocrResult.confidence > 30) 
-          ? ocrResult.rulesText 
-          : `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
+        rulesText: `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
         imageUrl: `/assets/cards/${cardName}.png`,
         webpUrl: `/assets/cards/${cardName}.webp`,
         // Legacy compatibility fields
         type,
         element,
         cost,
-        description: (ocrResult?.rulesText && ocrResult.confidence > 30) 
-          ? ocrResult.rulesText 
-          : `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
-        // OCR extracted fields
-        ocrExtractedName: ocrResult?.extractedName,
-        ocrCost: ocrResult?.cost,
-        ocrTypeLine: ocrResult?.typeLine,
-        ocrRulesText: ocrResult?.rulesText,
-        ocrStats: ocrResult?.stats,
-        ocrSetCode: ocrResult?.setCode,
-        ocrRawText: ocrResult?.rawText,
-        lastOcrUpdate: Date.now()
+        description: `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
       };
 
       cards.push(card);
