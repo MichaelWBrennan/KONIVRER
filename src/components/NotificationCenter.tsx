@@ -290,12 +290,12 @@ const NotificationCenter: React.FC = () => {
                     return (
                       <button
                         key={eventId}
-                        onClick={() => setSelectedEventFilter(eventId === 'general' ? undefined : eventId)}
+                        onClick={() => setSelectedEventFilter(eventId === 'general' ? null : eventId)}
                         style={{
                           padding: '0.25rem 0.5rem',
                           border: '1px solid #ddd',
-                          backgroundColor: selectedEventFilter === (eventId === 'general' ? undefined : eventId) ? '#667eea' : '#fff',
-                          color: selectedEventFilter === (eventId === 'general' ? undefined : eventId) ? '#fff' : '#666',
+                          backgroundColor: selectedEventFilter === (eventId === 'general' ? null : eventId) ? '#667eea' : '#fff',
+                          color: selectedEventFilter === (eventId === 'general' ? null : eventId) ? '#fff' : '#666',
                           borderRadius: '4px',
                           fontSize: '0.7rem',
                           cursor: 'pointer',
