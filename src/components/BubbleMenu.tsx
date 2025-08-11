@@ -29,7 +29,6 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [fontSize, setFontSize] = useState('medium');
   const [contrastMode, setContrastMode] = useState('normal');
-  const [isDyslexicFont, setIsDyslexicFont] = useState(false);
   const device = detectDevice();
   const { isLoggedIn } = useAppStore();
 
@@ -37,16 +36,17 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   useEffect(() => {
     const savedFontSize = localStorage.getItem('fontSize') || 'medium';
     const savedContrast = localStorage.getItem('contrastMode') || 'normal';
-    const savedDyslexicFont = localStorage.getItem('dyslexicFont') === 'true';
+    
+    // Clean up old dyslexicFont setting since it's no longer needed
+    localStorage.removeItem('dyslexicFont');
     
     setFontSize(savedFontSize);
     setContrastMode(savedContrast);
-    setIsDyslexicFont(savedDyslexicFont);
     
     // Apply settings to document
     document.documentElement.setAttribute('data-font-size', savedFontSize);
     document.documentElement.setAttribute('data-contrast', savedContrast);
-    document.documentElement.setAttribute('data-dyslexic-font', savedDyslexicFont.toString());
+    // OpenDyslexic font is now always applied via CSS
   }, []);
 
   const handleAccessibilityChange = (setting: string, value: string | boolean) => {
@@ -60,11 +60,6 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         setContrastMode(value as string);
         localStorage.setItem('contrastMode', value as string);
         document.documentElement.setAttribute('data-contrast', value as string);
-        break;
-      case 'dyslexicFont':
-        setIsDyslexicFont(value as boolean);
-        localStorage.setItem('dyslexicFont', (value as boolean).toString());
-        document.documentElement.setAttribute('data-dyslexic-font', (value as boolean).toString());
         break;
     }
   };
@@ -159,18 +154,6 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                 <option value="high">High Contrast</option>
                 <option value="dark">Dark Mode</option>
               </select>
-            </div>
-            
-            <div className="setting-group">
-              <label htmlFor="dyslexic-font">
-                <input
-                  type="checkbox"
-                  id="dyslexic-font"
-                  checked={isDyslexicFont}
-                  onChange={(e) => handleAccessibilityChange('dyslexicFont', e.target.checked)}
-                />
-                OpenDyslexic Font
-              </label>
             </div>
           </div>
         )}
