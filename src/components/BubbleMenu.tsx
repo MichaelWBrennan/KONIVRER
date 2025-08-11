@@ -115,7 +115,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   return (
     <div className={`bubble-menu ${device.isMobile ? 'mobile' : 'desktop'}`}>
       {/* Accessibility Settings Bubble */}
-      <div className="bubble-container accessibility-bubble">
+      <div key="accessibility-bubble" className="bubble-container accessibility-bubble">
         <button
           className="bubble-btn accessibility-btn"
           onClick={() => setIsAccessibilityOpen(!isAccessibilityOpen)}
@@ -167,7 +167,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Search Bubble */}
-      <div className="bubble-container search-bubble">
+      <div key="search-bubble" className="bubble-container search-bubble">
         <button
           className="bubble-btn search-btn"
           onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -202,7 +202,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Login/Profile Bubble */}
-      <div className="bubble-container login-bubble">
+      <div key="login-bubble" className="bubble-container login-bubble">
         <button
           className="bubble-btn login-btn"
           onClick={() => setIsLoginOpen(!isLoginOpen)}
@@ -272,7 +272,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Burger Menu Bubble */}
-      <div className="bubble-container menu-bubble">
+      <div key="menu-bubble" className="bubble-container menu-bubble">
         <button
           className="bubble-btn menu-btn"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
