@@ -2,6 +2,17 @@
 
 **KONIVRER Azoth TCG** is a fully interactive, HTML5-optimized game board for the Azoth-based TCG framework built with Godot 4. It matches professional arena-style polish for animations and interactivity while implementing a custom zone layout designed for the Azoth card game system.
 
+## 🆕 NEW: Automerge-Pro Enterprise GitHub App
+
+This repository now includes **Automerge-Pro**, a production-ready enterprise GitHub App for automated pull request management with marketplace billing and AWS infrastructure.
+
+### Quick Links
+- 📖 [Automerge-Pro Documentation](automerge-pro/README.md)
+- 🚀 [GitHub Marketplace](https://github.com/marketplace/automerge-pro)
+- 🛠️ [CLI Installation](#automerge-pro-cli)
+
+---
+
 ## 🎮 Game Features
 
 ### Core Zones
@@ -29,6 +40,7 @@
 
 ## 🚀 Quick Start
 
+### KONIVRER Game
 ```bash
 # Clone the repository
 git clone https://github.com/MichaelWBrennan/KONIVRER-deck-database.git
@@ -39,13 +51,35 @@ cd KONIVRER-deck-database
 # Press F5 to run the project
 ```
 
+### Automerge-Pro CLI
+```bash
+# Install globally
+npm install -g automerge-pro-cli
+
+# Initialize in your repository
+automerge-pro setup init --tier=free
+
+# Generate sample configuration
+automerge-pro config generate --tier=pro -o .automerge-pro.yml
+```
+
 ## 📱 Technology Stack
 
+### KONIVRER Game
 - **Game Engine**: Godot 4.2+ with GDScript
 - **Export Target**: HTML5/WebAssembly for browser deployment
 - **Graphics**: 2D Control nodes with hardware acceleration
 - **State Management**: Singleton pattern with signal-based architecture
 - **Asset Pipeline**: SVG graphics with texture atlases for optimization
+
+### Automerge-Pro GitHub App
+- **Runtime**: Node.js 18+ with TypeScript
+- **Framework**: Express.js with @vendia/serverless-express
+- **Infrastructure**: AWS Lambda, API Gateway, DynamoDB
+- **GitHub Integration**: @octokit/app, @octokit/webhooks
+- **Validation**: Joi schema validation with YAML parsing
+- **Testing**: Jest with comprehensive mocks
+- **CI/CD**: GitHub Actions with AWS SAM
 
 ## 🔧 Development
 
