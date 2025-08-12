@@ -1,0 +1,9 @@
+{
+  "name": "install-tracking",
+  "version": "1.0.0",
+  "description": "Lambda function to track installation events",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1490.0"
+  }
+}
