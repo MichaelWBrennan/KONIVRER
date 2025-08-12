@@ -1,0 +1,327 @@
+name: Automerge-Pro CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'automerge-pro/**'
+      - '.github/workflows/automerge-pro.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'automerge-pro/**'
+      - '.github/workflows/automerge-pro.yml'
+
+env:
+  AWS_REGION: us-east-1
+  SAM_CLI_TELEMETRY: 0
+
+jobs:
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./automerge-pro
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: './automerge-pro/package-lock.json'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linter
+      run: npm run lint
+
+    - name: Run type checking
+      run: npx tsc --noEmit
+
+    - name: Run tests
+      run: npm run test:coverage
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./automerge-pro/coverage/lcov.info
+        flags: automerge-pro
+        name: automerge-pro-coverage
+
+  build:
+    name: Build & Package
+    runs-on: ubuntu-latest
+    needs: test
+    defaults:
+      run:
+        working-directory: ./automerge-pro
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: './automerge-pro/package-lock.json'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build application
+      run: npm run build
+
+    - name: Setup AWS SAM
+      uses: aws-actions/setup-sam@v2
+      with:
+        use-installer: true
+
+    - name: SAM build
+      run: sam build --template-file infrastructure/template.yaml
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: sam-build-artifacts
+        path: ./automerge-pro/.aws-sam/build/
+        retention-days: 1
+
+  deploy-dev:
+    name: Deploy to Development
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: development
+    defaults:
+      run:
+        working-directory: ./automerge-pro
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: './automerge-pro/package-lock.json'
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        role-session-name: automerge-pro-deploy-dev
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Setup AWS SAM
+      uses: aws-actions/setup-sam@v2
+      with:
+        use-installer: true
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: sam-build-artifacts
+        path: ./automerge-pro/.aws-sam/build/
+
+    - name: SAM deploy to development
+      run: |
+        sam deploy \
+          --config-env dev \
+          --parameter-overrides \
+            Environment=dev \
+            GitHubAppId=${{ secrets.GITHUB_APP_ID_DEV }} \
+            GitHubWebhookSecret=${{ secrets.GITHUB_WEBHOOK_SECRET_DEV }} \
+            GitHubPrivateKey=${{ secrets.GITHUB_PRIVATE_KEY_DEV }} \
+          --no-fail-on-empty-changeset \
+          --no-confirm-changeset
+
+    - name: Integration tests
+      run: |
+        API_URL=$(aws cloudformation describe-stacks --stack-name automerge-pro-dev --query 'Stacks[0].Outputs[?OutputKey==`AutomergeProApiUrl`].OutputValue' --output text)
+        echo "API_URL=$API_URL" >> $GITHUB_ENV
+        
+        # Health check
+        curl -f "$API_URL/health" || exit 1
+        
+        # Sample config generation
+        curl -f "$API_URL/config/sample/pro" || exit 1
+
+  deploy-prod:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    defaults:
+      run:
+        working-directory: ./automerge-pro
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: './automerge-pro/package-lock.json'
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        role-session-name: automerge-pro-deploy-prod
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Setup AWS SAM
+      uses: aws-actions/setup-sam@v2
+      with:
+        use-installer: true
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: sam-build-artifacts
+        path: ./automerge-pro/.aws-sam/build/
+
+    - name: SAM deploy to production (canary)
+      id: deploy-canary
+      run: |
+        sam deploy \
+          --config-env prod \
+          --parameter-overrides \
+            Environment=prod \
+            GitHubAppId=${{ secrets.GITHUB_APP_ID_PROD }} \
+            GitHubWebhookSecret=${{ secrets.GITHUB_WEBHOOK_SECRET_PROD }} \
+            GitHubPrivateKey=${{ secrets.GITHUB_PRIVATE_KEY_PROD }} \
+          --no-fail-on-empty-changeset \
+          --no-confirm-changeset \
+          --capabilities CAPABILITY_IAM
+
+    - name: Production health check
+      run: |
+        API_URL=$(aws cloudformation describe-stacks --stack-name automerge-pro-prod --query 'Stacks[0].Outputs[?OutputKey==`AutomergeProApiUrl`].OutputValue' --output text)
+        echo "Production API URL: $API_URL"
+        
+        # Wait for deployment to be ready
+        sleep 30
+        
+        # Health check with retry
+        for i in {1..5}; do
+          if curl -f --max-time 30 "$API_URL/health"; then
+            echo "Health check passed on attempt $i"
+            break
+          else
+            echo "Health check failed on attempt $i, retrying..."
+            sleep 10
+          fi
+          
+          if [ $i -eq 5 ]; then
+            echo "Health check failed after 5 attempts"
+            exit 1
+          fi
+        done
+
+    - name: Run production smoke tests
+      run: |
+        API_URL=$(aws cloudformation describe-stacks --stack-name automerge-pro-prod --query 'Stacks[0].Outputs[?OutputKey==`AutomergeProApiUrl`].OutputValue' --output text)
+        
+        # Test sample config endpoint
+        curl -f --max-time 30 "$API_URL/config/sample/free" > /dev/null
+        curl -f --max-time 30 "$API_URL/config/sample/pro" > /dev/null
+        curl -f --max-time 30 "$API_URL/config/sample/enterprise" > /dev/null
+        
+        echo "All smoke tests passed!"
+
+    - name: Rollback on failure
+      if: failure()
+      run: |
+        echo "Deployment failed, initiating rollback..."
+        # Get the previous successful deployment
+        PREVIOUS_VERSION=$(aws lambda list-versions-by-function --function-name automerge-pro-prod --query 'Versions[-2].Version' --output text)
+        
+        if [ "$PREVIOUS_VERSION" != "None" ] && [ "$PREVIOUS_VERSION" != "" ]; then
+          aws lambda update-alias \
+            --function-name automerge-pro-prod \
+            --name LIVE \
+            --function-version $PREVIOUS_VERSION
+          echo "Rolled back to version $PREVIOUS_VERSION"
+        else
+          echo "No previous version found for rollback"
+        fi
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./automerge-pro
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: './automerge-pro/package-lock.json'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run npm audit
+      run: npm audit --audit-level=high
+
+    - name: Run Snyk Security Scan
+      uses: snyk/actions/node@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        args: --project-name=automerge-pro --file=./automerge-pro/package.json
+
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        languages: typescript
+
+  publish-docs:
+    name: Publish Documentation
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [deploy-prod]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Generate API documentation
+      working-directory: ./automerge-pro
+      run: |
+        npm ci
+        npx swagger-jsdoc -d docs/swagger-def.js -o docs/swagger.json src/**/*.ts
+        npx swagger2openapi docs/swagger.json -o docs/openapi.json
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./automerge-pro/docs
+        destination_dir: automerge-pro
