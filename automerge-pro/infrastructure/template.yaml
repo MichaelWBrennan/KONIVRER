@@ -43,6 +43,10 @@ Globals:
         GITHUB_WEBHOOK_SECRET: !Ref GitHubWebhookSecret
         GITHUB_PRIVATE_KEY: !Ref GitHubPrivateKey
         DYNAMODB_TABLE_NAME: !Ref LicenseTable
+        ANALYTICS_EVENTS_TABLE: !Ref AnalyticsEventsTable
+        SUPPORT_TICKETS_TABLE: !Ref SupportTicketsTable
+        FEEDBACK_TABLE: !Ref FeedbackTable
+        ERROR_SNS_TOPIC: !Ref ErrorTopic
     Tracing: Active
 
 Resources:
@@ -70,6 +74,15 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref LicenseTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AnalyticsEventsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SupportTicketsTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref FeedbackTable
+        - CloudWatchPutMetricPolicy: {}
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt ErrorTopic.TopicName
         - CloudWatchLogsFullAccess
         - XRayDaemonWriteAccess
       LogsConfig:
@@ -124,6 +137,104 @@ Resources:
         PointInTimeRecoveryEnabled: true
       SSESpecification:
         SSEEnabled: true
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Service
+          Value: automerge-pro
+
+  # DynamoDB Table for Analytics Events
+  AnalyticsEventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub automerge-pro-events-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: installationId
+          AttributeType: N
+        - AttributeName: timestamp
+          AttributeType: S
+        - AttributeName: eventType
+          AttributeType: S
+      KeySchema:
+        - AttributeName: installationId
+          KeyType: HASH
+        - AttributeName: timestamp
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: EventTypeIndex
+          KeySchema:
+            - AttributeName: eventType
+              KeyType: HASH
+            - AttributeName: timestamp
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Service
+          Value: automerge-pro
+
+  # DynamoDB Table for Support Tickets
+  SupportTicketsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub automerge-pro-tickets-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: ticketId
+          AttributeType: S
+        - AttributeName: installationId
+          AttributeType: N
+        - AttributeName: createdAt
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ticketId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: InstallationIdIndex
+          KeySchema:
+            - AttributeName: installationId
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      Tags:
+        - Key: Environment
+          Value: !Ref Environment
+        - Key: Service
+          Value: automerge-pro
+
+  # DynamoDB Table for Feedback
+  FeedbackTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub automerge-pro-feedback-${Environment}
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: feedbackId
+          AttributeType: S
+        - AttributeName: installationId
+          AttributeType: N
+        - AttributeName: createdAt
+          AttributeType: S
+      KeySchema:
+        - AttributeName: feedbackId
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: InstallationIdIndex
+          KeySchema:
+            - AttributeName: installationId
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
       Tags:
         - Key: Environment
           Value: !Ref Environment
