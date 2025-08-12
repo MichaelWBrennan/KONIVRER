@@ -1,52 +1,60 @@
-# Automerge-Pro GitHub App Backend
+# Automerge-Pro: Enterprise GitHub App
 
-A comprehensive, industry-leading GitHub App backend for automated pull request merging with enterprise-grade features.
+[![CI/CD Status](https://github.com/MichaelWBrennan/KONIVRER-deck-database/actions/workflows/automerge-pro.yml/badge.svg)](https://github.com/MichaelWBrennan/KONIVRER-deck-database/actions/workflows/automerge-pro.yml)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![GitHub Marketplace](https://img.shields.io/badge/GitHub%20Marketplace-Automerge--Pro-blue)](https://github.com/marketplace/automerge-pro)
 
-## Features
+**Automerge-Pro** is an enterprise-grade GitHub App that automates pull request management with intelligent rules, marketplace billing, and comprehensive monitoring. Built for teams that need reliable, scalable, and secure automated workflows.
 
-### Core Functionality
-- 🔄 Automated pull request merging with configurable conditions
-- ⚡ Real-time webhook processing
-- 🎯 Smart merge strategies (merge, squash, rebase)
-- 🔍 Status check validation
-- 👥 Review requirement enforcement
-- 🏷️ Label-based automation rules
+## 🚀 Features
+
+### Core Automation
+- **Smart Auto-Merge**: Configurable rules based on status checks, reviews, labels, and more
+- **Multiple Merge Strategies**: Support for merge commits, squash, and rebase
+- **Conditional Logic**: Advanced rule conditions with priority-based execution
+- **Branch Protection**: Integration with GitHub's branch protection rules
 
 ### Enterprise Features
-- 💳 GitHub Marketplace integration with tiered pricing
-- 🔐 Secure GitHub App authentication
-- ☁️ AWS Lambda serverless architecture
-- 📊 Comprehensive monitoring and logging
-- 🔒 Advanced security features
-- 📅 Scheduled merge windows
+- **GitHub Marketplace Integration**: Seamless billing with Free, Pro, and Enterprise tiers
+- **License Validation**: Real-time license checking with feature gating
+- **AWS Infrastructure**: Serverless deployment with Lambda, API Gateway, and DynamoDB
+- **Multi-tenant Architecture**: Secure data isolation with RBAC
 
-### Configuration
-Projects can be configured using a `.automerge-pro.yml` file in their repository:
+### Monitoring & Analytics
+- **Real-time Monitoring**: CloudWatch integration with custom metrics
+- **Error Tracking**: Comprehensive logging with Sentry integration
+- **Performance Optimization**: Redis caching and cold start reduction
+- **Audit Logging**: GDPR and SOC 2 compliant audit trails
 
-```yaml
-enabled: true
-strategy: merge
-conditions:
-  required_status_checks:
-    - "ci/tests"
-    - "ci/lint"
-  required_reviews: 1
-  required_labels:
-    - "automerge"
-  blocked_labels:
-    - "wip"
-    - "do-not-merge"
-schedule:
-  timezone: "America/New_York"
-  hours: [9, 10, 11, 12, 13, 14, 15, 16, 17]
+### Developer Experience
+- **CLI Tools**: Interactive setup, configuration validation, and development licensing
+- **Visual Dashboard**: Web-based configuration and monitoring interface
+- **Extensive Documentation**: OpenAPI specs with interactive examples
+- **24/7 Support**: GitHub issue templates and automated support workflows
+
+## 📦 Installation
+
+### GitHub App Installation
+1. Visit the [GitHub Marketplace](https://github.com/marketplace/automerge-pro)
+2. Choose your billing plan (Free, Pro, or Enterprise)
+3. Install on your repositories
+4. Configure your `.automerge-pro.yml` file
+
+### CLI Installation
+```bash
+# Install globally
+npm install -g automerge-pro-cli
+
+# Initialize in your repository
+automerge-pro setup init --tier=pro --interactive
+
+# Generate sample configuration
+automerge-pro config generate --tier=enterprise -o .automerge-pro.yml
 ```
 
-## Quick Start
+## ⚙️ Configuration
 
-### Prerequisites
-- Node.js 18+
-- AWS Account (for deployment)
-- GitHub App created and installed
+Create a `.automerge-pro.yml` file in your repository root:
 
 ### Development Setup
 
@@ -177,3 +185,4 @@ See `.env.example` for all required and optional environment variables.
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
+
