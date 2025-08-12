@@ -25,6 +25,7 @@ import { SimulatorModule } from './simulator/simulator.module';
 import { RatingsModule } from './ratings/ratings.module';
 import { AuditModule } from './audit/audit.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { AnalyticsModule } from './analytics/analytics.module';
 
 @Module({
   imports: [
@@ -98,6 +99,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     AiDeckbuildingModule,
     PhysicalSimulationModule,
     NotificationsModule,
+    AnalyticsModule,
   ],
   controllers: [],
   providers: [
