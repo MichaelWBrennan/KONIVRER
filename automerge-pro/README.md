@@ -56,239 +56,133 @@ automerge-pro config generate --tier=enterprise -o .automerge-pro.yml
 
 Create a `.automerge-pro.yml` file in your repository root:
 
-```yaml
-version: '2.0'
+### Development Setup
 
-# Define merge rules with priorities
-rules:
-  - name: 'security-approved-merge'
-    enabled: true
-    priority: 95
-    conditions:
-      - 'label:security-approved'
-      - 'status_checks_passed'
-      - 'required_reviews_approved'
-      - 'no_merge_conflicts'
-    actions:
-      - type: 'comment'
-        value: 'Security review complete. Auto-merging... 🔒'
-      - type: 'label'
-        value: 'merged-by-automerge-pro'
-      - type: 'merge'
-
-  - name: 'feature-auto-merge'
-    enabled: true
-    priority: 70
-    conditions:
-      - 'base_branch:main'
-      - 'status_checks_passed' 
-      - 'required_reviews_approved'
-      - '!draft'
-    actions:
-      - type: 'squash'
-
-# Global merge conditions
-conditions:
-  required_status_checks: ['ci/build', 'ci/test', 'ci/security']
-  required_reviews: 2
-  dismiss_stale_reviews: true
-  require_code_owner_reviews: true
-  required_approving_review_count: 2
-  allow_squash_merge: true
-  allow_merge_commit: true
-  allow_rebase_merge: false
-
-# Notification settings (Pro+)
-notifications:
-  channels:
-    - type: 'slack'
-      endpoint: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
-      events: ['merge_success', 'merge_failure', 'rule_triggered']
-    - type: 'webhook'
-      endpoint: 'https://your-api.com/automerge-notifications'
-      events: ['all']
-  
-  events: ['pull_request_merged', 'pull_request_closed', 'status_check_failed']
-  template: '🚀 PR #{number} "{title}" merged via rule "{rule_name}" by {author}'
-```
-
-## 🏗️ Architecture
-
-```mermaid
-graph TB
-    A[GitHub Webhook] --> B[API Gateway]
-    B --> C[Lambda Function]
-    C --> D[Webhook Handler]
-    D --> E[Config Service]
-    D --> F[License Service]
-    E --> G[GitHub Service]
-    F --> H[DynamoDB]
-    G --> I[GitHub API]
-    
-    J[CLI Tool] --> K[Dev Server]
-    K --> L[License Generator]
-    
-    M[Monitoring] --> N[CloudWatch]
-    M --> O[X-Ray Tracing]
-    M --> P[Sentry]
-    
-    Q[CI/CD] --> R[GitHub Actions]
-    R --> S[SAM Deploy]
-    S --> T[AWS Stack]
-```
-
-### Technology Stack
-- **Runtime**: Node.js 18+ with TypeScript
-- **Framework**: Express.js with @vendia/serverless-express
-- **Infrastructure**: AWS Lambda, API Gateway, DynamoDB
-- **GitHub Integration**: @octokit/app, @octokit/webhooks
-- **Validation**: Joi schema validation with YAML parsing
-- **Testing**: Jest with comprehensive mocks
-- **CI/CD**: GitHub Actions with AWS SAM
-
-## 🔒 Security & Compliance
-
-### Security Features
-- **End-to-End Encryption**: All webhook payloads verified with HMAC signatures
-- **OAuth 2.0/OpenID Connect**: Secure authentication flows
-- **IAM Least Privilege**: Minimal AWS permissions with role-based access
-- **Automated Security Scanning**: Snyk, CodeQL, and Dependabot integration
-
-### Compliance
-- **GDPR Ready**: Data processing transparency with audit logs
-- **SOC 2 Preparation**: Security controls and monitoring
-- **WCAG 2.1**: Accessibility compliance for web interfaces
-- **ISO 27001 Prep**: Information security management best practices
-
-## 📊 Billing Tiers
-
-| Feature | Free | Pro ($9/month) | Enterprise ($29/month) |
-|---------|------|----------------|------------------------|
-| Basic Auto-merge | ✅ | ✅ | ✅ |
-| Status Checks | ✅ | ✅ | ✅ |
-| Advanced Rules | ❌ | ✅ | ✅ |
-| Custom Notifications | ❌ | ✅ | ✅ |
-| Analytics Dashboard | ❌ | ✅ | ✅ |
-| Custom Actions | ❌ | ❌ | ✅ |
-| Audit Logging | ❌ | ❌ | ✅ |
-| SSO Integration | ❌ | ❌ | ✅ |
-| Priority Support | ❌ | ❌ | ✅ |
-
-## 🛠️ Development
-
-### Local Development
+1. Clone and navigate to the automerge-pro directory:
 ```bash
-# Clone the repository
-git clone https://github.com/MichaelWBrennan/KONIVRER-deck-database.git
-cd KONIVRER-deck-database/automerge-pro
+cd automerge-pro
+```
 
-# Install dependencies
+2. Install dependencies:
+```bash
 npm install
+```
 
-# Create environment file
+3. Copy environment variables:
+```bash
 cp .env.example .env
-# Edit .env with your GitHub App credentials
+```
 
-# Start development server
-npm run start:dev
+4. Configure your environment variables in `.env`
 
-# In another terminal, start CLI
-npx automerge-pro dev --port 3000
+5. Start development server:
+```bash
+npm run dev
 ```
 
 ### Testing
-```bash
-# Run all tests
-npm test
 
-# Run with coverage
-npm run test:coverage
+```bash
+# Run tests
+npm test
 
 # Run tests in watch mode
 npm run test:watch
 
-# Generate development license
-npx automerge-pro license generate -i 12345 -t enterprise
+# Run linting
+npm run lint
 ```
 
-### Deployment
+### Building
+
 ```bash
-# Build the application
 npm run build
-
-# Deploy to development
-npm run deploy:dev
-
-# Deploy to production
-npm run deploy:prod
-
-# Package for SAM
-npm run package
 ```
 
-## 📚 API Documentation
+## Architecture
 
-### Webhook Endpoints
-- `POST /webhook` - GitHub webhook handler
+```
+src/
+├── handlers/          # HTTP request handlers
+├── services/          # Business logic services
+├── middleware/        # Express middleware
+├── types/            # TypeScript type definitions
+├── config/           # Configuration management
+└── utils/            # Utility functions
+
+tests/
+├── unit/             # Unit tests
+└── integration/      # Integration tests
+
+infrastructure/
+├── aws/              # AWS SAM templates
+└── github/           # GitHub App configuration
+```
+
+## API Endpoints
+
 - `GET /health` - Health check endpoint
-- `GET /validate-license/:id` - License validation
+- `POST /webhook` - GitHub webhook handler
 
-### Configuration Endpoints  
-- `GET /config/sample/:tier` - Generate sample configurations
-- `POST /config/validate` - Validate repository configuration
+## Deployment
 
-### Development Endpoints
-- `POST /dev/generate-license` - Generate development licenses (dev only)
+### AWS Lambda Deployment
 
-For complete API documentation, see the [OpenAPI Specification](docs/openapi.json).
+1. Build the application:
+```bash
+npm run build
+```
 
-## 📈 Monitoring & Analytics
+2. Deploy using AWS SAM:
+```bash
+npm run deploy
+```
 
-### Real-time Metrics
-- Pull request processing times
-- Merge success/failure rates
-- License validation performance
-- API gateway response times
+### Local Testing
 
-### Alerting
-- Lambda function errors and throttles
-- DynamoDB capacity warnings
-- GitHub API rate limit notifications
-- Security incident alerts
+```bash
+# Start local Lambda environment
+npm run local
+```
 
-### Dashboards
-Access monitoring dashboards at:
-- **CloudWatch**: AWS Console → CloudWatch → Dashboards
-- **Application Insights**: GitHub repository → Actions → Monitoring
-- **Performance**: X-Ray service map and traces
+## Environment Variables
 
-## 🤝 Support & Contributing
+See `.env.example` for all required and optional environment variables.
 
-### Getting Help
-1. Check the [Documentation](docs/)
-2. Search [Issues](https://github.com/MichaelWBrennan/KONIVRER-deck-database/issues)
-3. Create a [New Issue](https://github.com/MichaelWBrennan/KONIVRER-deck-database/issues/new/choose)
-4. Contact [Enterprise Support](mailto:support@automerge-pro.com) (Enterprise tier)
+## License Tiers
 
-### Contributing
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+### Free Tier
+- Up to 5 repositories
+- Basic automerge functionality
+- Community support
 
-### Community
-- **Discord**: [Join our community](https://discord.gg/automerge-pro)
-- **Twitter**: [@AutomergePro](https://twitter.com/AutomergePro)
-- **LinkedIn**: [Company Page](https://linkedin.com/company/automerge-pro)
+### Pro Tier ($9/month)
+- Up to 50 repositories  
+- Advanced conditions and scheduling
+- Custom merge rules
+- Email support
 
-## 📄 License
+### Enterprise Tier ($29/month)
+- Unlimited repositories
+- Priority support
+- Advanced security features
+- Custom integrations
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Support
 
-## 🙏 Acknowledgments
+- 📖 [Documentation](https://automerge-pro.dev/docs)
+- 💬 [Community Support](https://github.com/automerge-pro/discussions)
+- 📧 [Enterprise Support](mailto:enterprise@automerge-pro.dev)
 
-- GitHub for the amazing Apps and Marketplace platform
-- AWS for reliable serverless infrastructure  
-- The open-source community for excellent tooling and libraries
-- KONIVRER project for providing the foundation and hosting
+## Contributing
 
----
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
 
-**Ready to automate your pull requests?** [Get started with Automerge-Pro today!](https://github.com/marketplace/automerge-pro)
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
