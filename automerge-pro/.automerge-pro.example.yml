@@ -1,0 +1,187 @@
+# Sample Automerge-Pro Configuration
+# This is a comprehensive example showing all available features
+
+version: '2.0'
+
+# Merge rules define when and how to automatically merge pull requests
+# Rules are evaluated in priority order (highest first)
+rules:
+  # Critical security patches - highest priority
+  - name: 'security-hotfix-merge'
+    enabled: true
+    priority: 100
+    conditions:
+      - 'label:security-hotfix'
+      - 'label:security-approved'  
+      - 'status_checks_passed'
+      - 'required_reviews_approved'
+      - 'no_merge_conflicts'
+      - 'branch_protection_satisfied'
+    actions:
+      - type: 'comment'
+        value: '🔒 Security hotfix approved and validated. Auto-merging immediately.'
+      - type: 'label'
+        value: 'auto-merged-security'
+      - type: 'merge'  # Use merge commit for security patches to preserve history
+
+  # Dependabot updates - high priority  
+  - name: 'dependabot-auto-merge'
+    enabled: true
+    priority: 90
+    conditions:
+      - 'author:dependabot[bot]'
+      - 'status_checks_passed'
+      - 'required_reviews_approved'
+      - 'title_contains:bump'
+      - 'files_changed_count:<5'
+    actions:
+      - type: 'comment'
+        value: '🤖 Dependabot update approved. Auto-merging...'
+      - type: 'squash'  # Squash dependency updates for clean history
+
+  # Feature branches - standard priority
+  - name: 'feature-branch-merge' 
+    enabled: true
+    priority: 70
+    conditions:
+      - 'base_branch:main'
+      - 'head_branch_starts_with:feature/'
+      - 'status_checks_passed'
+      - 'required_reviews_approved'
+      - '!draft'
+      - 'files_changed_count:<100'
+      - 'no_merge_conflicts'
+    actions:
+      - type: 'assign'
+        value: 'release-manager'
+      - type: 'comment'
+        value: '✅ Feature branch ready for merge. Auto-merging with squash.'
+      - type: 'squash'
+
+  # Documentation updates - lower priority, more permissive
+  - name: 'docs-only-merge'
+    enabled: true  
+    priority: 50
+    conditions:
+      - 'files_changed_only_in_paths:docs/,README.md,*.md'
+      - 'status_checks_passed'
+      - 'required_reviews_approved:1'  # Only need 1 review for docs
+    actions:
+      - type: 'label'
+        value: 'documentation'
+      - type: 'squash'
+
+# Global merge conditions that apply to all rules
+conditions:
+  # Required status checks that must pass
+  required_status_checks:
+    - 'ci/build'
+    - 'ci/test' 
+    - 'ci/lint'
+    - 'ci/security-scan'
+    - 'ci/coverage'
+
+  # Review requirements
+  required_reviews: 2
+  required_approving_review_count: 2
+  require_code_owner_reviews: true
+  dismiss_stale_reviews: true
+  
+  # Branch protection requirements
+  enforce_branch_protection: true
+  
+  # Merge method permissions
+  allow_squash_merge: true
+  allow_merge_commit: true
+  allow_rebase_merge: false
+
+# Notification settings (requires Pro or Enterprise tier)
+notifications:
+  # Notification channels
+  channels:
+    - type: 'slack'
+      endpoint: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+      events: 
+        - 'merge_success'
+        - 'merge_failure' 
+        - 'rule_triggered'
+        - 'security_check_failed'
+    
+    - type: 'webhook'
+      endpoint: 'https://api.yourcompany.com/automerge-notifications'
+      events: ['all']
+      
+    - type: 'email'
+      endpoint: 'team-notifications@yourcompany.com'
+      events: 
+        - 'merge_failure'
+        - 'security_check_failed'
+
+  # Events to track and notify on
+  events:
+    - 'pull_request_merged'
+    - 'pull_request_closed_unmerged'
+    - 'status_check_failed'
+    - 'review_changes_requested'
+    - 'merge_conflict_detected'
+    - 'license_validation_failed'
+
+  # Custom notification message template
+  template: |
+    🚀 **Automerge-Pro Action**: {action}
+    
+    **Repository**: {repository_name}
+    **Pull Request**: #{number} - {title}
+    **Author**: {author}
+    **Rule**: {rule_name}
+    **Files Changed**: {files_changed_count}
+    **Additions**: +{additions} **Deletions**: -{deletions}
+    
+    **Status**: {status}
+    **Time**: {timestamp}
+    
+    View PR: {pull_request_url}
+
+# Advanced settings (Enterprise tier features)
+advanced:
+  # Custom webhooks for external integrations
+  webhooks:
+    - url: 'https://api.jira.com/webhooks/automerge-pro'
+      secret: 'jira-webhook-secret'
+      events: ['merge_success', 'merge_failure']
+      
+  # Audit logging configuration
+  audit:
+    enabled: true
+    include_payload: false  # For GDPR compliance
+    retention_days: 90
+    
+  # Performance optimizations
+  performance:
+    cache_github_data: true
+    cache_ttl_seconds: 300
+    batch_status_checks: true
+    
+  # Security settings
+  security:
+    require_signed_commits: false  # Set to true for high-security repos
+    max_file_changes: 1000
+    forbidden_file_patterns:
+      - '*.key'
+      - '*.pem' 
+      - '.env'
+      - 'secrets.*'
+
+# Development and testing overrides
+development:
+  # Mock external services in development
+  mock_github_api: false
+  mock_slack_notifications: true
+  
+  # Additional logging in development
+  verbose_logging: true
+  include_webhook_payload_in_logs: true
+  
+  # Relaxed validation for testing
+  skip_license_validation: false
+  allow_test_installations: true

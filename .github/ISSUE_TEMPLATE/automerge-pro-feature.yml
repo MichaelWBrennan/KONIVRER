@@ -1,0 +1,171 @@
+name: ✨ Automerge-Pro Feature Request
+description: Suggest a new feature or improvement for Automerge-Pro
+title: "[Feature] "
+labels: ["enhancement", "automerge-pro", "feature-request"]
+assignees:
+  - MichaelWBrennan
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a feature for Automerge-Pro! 
+        
+        We value your feedback and ideas for improving the platform.
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: License Tier
+      description: What license tier are you using?
+      options:
+        - Free
+        - Pro
+        - Enterprise
+        - Evaluating/Interested
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature-category
+    attributes:
+      label: Feature Category
+      description: What area does this feature request relate to?
+      options:
+        - Merge Rules & Logic
+        - Configuration & Setup
+        - Notifications & Integrations
+        - Analytics & Reporting
+        - Security & Compliance
+        - Performance & Reliability
+        - User Interface & Experience
+        - API & Extensibility
+        - Documentation & Support
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-summary
+    attributes:
+      label: Feature Summary
+      description: Provide a brief, clear summary of the feature you'd like to see.
+      placeholder: "A one-sentence description of the feature..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem would this feature solve? What pain point are you experiencing?
+      placeholder: |
+        Describe the current limitation or problem:
+        - What are you trying to accomplish?
+        - What obstacles are you facing?
+        - How does this impact your workflow?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your ideal solution. How should this feature work?
+      placeholder: |
+        Detailed description of the proposed solution:
+        - How should users interact with this feature?
+        - What should the behavior be?
+        - Any specific implementation ideas?
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Have you considered any alternative solutions or workarounds?
+      placeholder: "Describe any alternative approaches you've considered..."
+    validations:
+      required: false
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Use Cases & Examples
+      description: Provide specific examples of how this feature would be used.
+      placeholder: |
+        Example scenarios:
+        1. As a team lead, I want to...
+        2. When working with external contributors...
+        3. For compliance requirements...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Nice to have - Would improve experience
+        - Important - Would significantly help my workflow
+        - Critical - Blocking adoption or key functionality
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier-suggestion
+    attributes:
+      label: Suggested Tier
+      description: Which tier do you think this feature should be available in?
+      options:
+        - Free - Should be available to all users
+        - Pro - Advanced feature for paid users
+        - Enterprise - Complex feature for enterprise users
+        - No preference
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: additional-info
+    attributes:
+      label: Additional Context
+      description: Select any that apply to provide more context
+      options:
+        - label: I would be willing to beta test this feature
+          required: false
+        - label: This is blocking our team's adoption of Automerge-Pro
+          required: false
+        - label: We have budget to sponsor development of this feature
+          required: false
+        - label: This feature exists in competing tools
+          required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, mockups, or screenshots about the feature request.
+      placeholder: "Any additional information that would be helpful..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this feature request, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **Want to discuss this feature?**
+        - Discord Community: https://discord.gg/automerge-pro
+        - Email: feature-requests@automerge-pro.com
+        
+        **Enterprise customers** can schedule a feature discussion call via support@automerge-pro.com
