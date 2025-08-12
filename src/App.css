@@ -1680,3 +1680,90 @@ strong em, em strong, b i, i b, .font-bold.font-italic {
   color: var(--success-color);
   font-weight: 600;
 }
+
+/* Enhanced Analytics Dashboard Styles */
+.realtime-analytics {
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px 0;
+  color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.view-tabs {
+  display: flex;
+  gap: 4px;
+  background: #2a2a3e;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.view-tabs button {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s ease;
+}
+
+.view-tabs button.btn-primary {
+  color: #ffffff;
+}
+
+.dashboard-view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #404050;
+  text-align: center;
+}
+
+.metric-change.positive {
+  color: #81c784;
+  background: rgba(129, 199, 132, 0.1);
+  padding: 4px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.anomalies-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.no-anomalies {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
+  border-radius: 12px;
+  border: 1px solid #404050;
+}
+
+.anomaly-item {
+  background: linear-gradient(135deg, #2a2a3e 0%, #3a3a4e 100%);
+  border-radius: 12px;
+  border: 1px solid #404050;
+  padding: 20px;
+  border-left: 4px solid transparent;
+}
+
+.anomaly-item.critical {
+  border-left-color: #e57373;
+}
+
