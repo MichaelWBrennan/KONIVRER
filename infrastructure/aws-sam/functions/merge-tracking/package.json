@@ -1,0 +1,9 @@
+{
+  "name": "merge-tracking",
+  "version": "1.0.0",
+  "description": "Lambda function to track merge and collaboration events",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1490.0"
+  }
+}
