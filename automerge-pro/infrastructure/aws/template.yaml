@@ -1,0 +1,177 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Automerge-Pro GitHub App Backend
+
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues: [dev, staging, prod]
+  GitHubAppId:
+    Type: String
+    Description: GitHub App ID
+  GitHubWebhookSecret:
+    Type: String
+    Description: GitHub Webhook Secret
+    NoEcho: true
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    Timeout: 30
+    MemorySize: 512
+    Environment:
+      Variables:
+        NODE_ENV: !Ref Environment
+        GITHUB_APP_ID: !Ref GitHubAppId
+        GITHUB_WEBHOOK_SECRET: !Ref GitHubWebhookSecret
+        DYNAMODB_LICENSES_TABLE: !Ref LicensesTable
+        AWS_REGION: !Ref AWS::Region
+
+Resources:
+  # API Gateway
+  Api:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: !Ref Environment
+      Cors:
+        AllowMethods: "'OPTIONS,POST,GET'"
+        AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+        AllowOrigin: "'*'"
+      MethodSettings:
+        - ResourcePath: "/*"
+          HttpMethod: "*"
+          LoggingLevel: INFO
+          DataTraceEnabled: true
+          MetricsEnabled: true
+
+  # Lambda Function
+  AutomergeProFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "automerge-pro-${Environment}"
+      CodeUri: dist/
+      Handler: index.handler
+      Events:
+        WebhookApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref Api
+            Path: /{proxy+}
+            Method: ANY
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LicensesTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConfigCacheTable
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:*"
+
+  # DynamoDB Tables
+  LicensesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "automerge-pro-licenses-${Environment}"
+      AttributeDefinitions:
+        - AttributeName: installation_id
+          AttributeType: N
+      KeySchema:
+        - AttributeName: installation_id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      Tags:
+        - Key: Application
+          Value: AutomergePro
+        - Key: Environment
+          Value: !Ref Environment
+
+  ConfigCacheTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Sub "automerge-pro-configs-${Environment}"
+      AttributeDefinitions:
+        - AttributeName: repo_key
+          AttributeType: S
+      KeySchema:
+        - AttributeName: repo_key
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      TimeToLiveSpecification:
+        AttributeName: ttl
+        Enabled: true
+      Tags:
+        - Key: Application
+          Value: AutomergePro
+        - Key: Environment
+          Value: !Ref Environment
+
+  # CloudWatch Log Group
+  FunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/automerge-pro-${Environment}"
+      RetentionInDays: 30
+
+  # IAM Role for Lambda
+  AutomergeProRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub "automerge-pro-role-${Environment}"
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - dynamodb:GetItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                  - dynamodb:DeleteItem
+                  - dynamodb:Query
+                  - dynamodb:Scan
+                Resource:
+                  - !GetAtt LicensesTable.Arn
+                  - !GetAtt ConfigCacheTable.Arn
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${Api}.execute-api.${AWS::Region}.amazonaws.com/${Environment}/"
+    Export:
+      Name: !Sub "${AWS::StackName}-api-url"
+
+  FunctionArn:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt AutomergeProFunction.Arn
+    Export:
+      Name: !Sub "${AWS::StackName}-function-arn"
+
+  LicensesTableName:
+    Description: "DynamoDB Licenses Table Name"
+    Value: !Ref LicensesTable
+    Export:
+      Name: !Sub "${AWS::StackName}-licenses-table"
+
+  ConfigCacheTableName:
+    Description: "DynamoDB Config Cache Table Name"
+    Value: !Ref ConfigCacheTable
+    Export:
+      Name: !Sub "${AWS::StackName}-config-cache-table"
