@@ -99,65 +99,99 @@
   order: 4;
 }
 
-/* Enhanced Bubble Button Styles - Touch Optimized, Fixed Position */
+/* Enhanced Bubble Button Styles - Touch Optimized, COMPLETELY FIXED POSITION */
 .bubble-btn {
-  width: 56px;  /* Increased from 60px for better mobile ergonomics */
-  height: 56px;
-  min-width: 44px; /* Apple's minimum touch target */
-  min-height: 44px;
-  border-radius: 50%;
-  border: none;
+  width: 56px !important;  /* Force exact size with !important */
+  height: 56px !important;
+  min-width: 44px !important; /* Apple's minimum touch target */
+  min-height: 44px !important;
+  border-radius: 50% !important;
+  border: none !important;
   background: var(--accent-color);
-  color: white;
-  font-size: 20px; /* Slightly smaller for mobile */
+  color: white !important;
+  font-size: 20px !important; /* Lock font size */
   cursor: pointer;
-  /* Reduced animations to prevent visual jumping */
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  /* Remove all transitions that could cause movement */
+  transition: box-shadow 0.2s ease !important;
+  /* Lock shadow to prevent layout shifts */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  touch-action: manipulation;
-  user-select: none;
-  -webkit-user-select: none;
-  /* Prevent position shifts */
-  contain: layout style paint;
-  /* Lock position during interactions - use hardware acceleration */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  z-index: 2 !important;
+  touch-action: manipulation !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  /* AGGRESSIVE position locking - prevent ANY layout-affecting changes */
+  contain: layout style paint size !important;
+  /* Lock position during ALL interactions - use hardware acceleration */
   transform: translate3d(0, 0, 0) !important;
   /* Prevent any layout-affecting changes during interactions */
-  backface-visibility: hidden;
+  backface-visibility: hidden !important;
+  /* Lock all possible changing properties */
+  outline: none !important;
+  /* Prevent browser default button behavior */
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  /* Lock margins and padding to prevent shifts */
+  margin: 0 !important;
+  padding: 0 !important;
+  /* Lock box model */
+  box-sizing: border-box !important;
 }
 
-/* Hover and active states - no transform animations to prevent visual jumping */
+/* Hover and active states - completely locked position, no visual changes during active state */
 .bubble-btn:hover {
   /* REMOVE filter property which causes GPU layer shifts and visual movement */
   /* filter: brightness(1.1); */
   /* REMOVE opacity changes which can cause visual reflow and movement */
   /* opacity: 0.9; */
-  /* Use only box-shadow for consistent visual feedback without movement */
+  /* Use only subtle box-shadow for hover feedback without movement */
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 .bubble-btn:active {
-  /* REMOVE filter property which causes GPU layer shifts and visual movement */
-  /* filter: brightness(0.9); */
-  /* REMOVE opacity changes which can cause visual reflow and movement */
-  /* opacity: 0.8; */
-  /* Use only box-shadow for consistent visual feedback without movement */
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+  /* COMPLETELY LOCK BUTTON IN PLACE - NO VISUAL CHANGES DURING CLICK */
+  /* Remove all visual feedback during active state to prevent any movement */
+  /* Keep the same shadow as default state to prevent any layout shifts */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+  /* Force exact same visual state as non-active to prevent any pixel shifting */
+  background: var(--accent-color) !important;
+  /* Lock all possible changing properties */
+  transform: translate3d(0, 0, 0) !important;
+  position: relative !important;
 }
 
-/* Remove any transform-based hover/active effects to prevent jumping */
+/* Remove any transform-based hover/active effects to prevent jumping - AGGRESSIVE POSITIONING LOCK */
 .bubble-btn:hover,
 .bubble-btn:active,
 .bubble-btn:focus {
   /* Lock position absolutely - no changes */
   transform: translate3d(0, 0, 0) !important;
   /* Maintain consistent layout containment */
-  contain: layout style paint;
-  backface-visibility: hidden;
+  contain: layout style paint !important;
+  backface-visibility: hidden !important;
+  /* Force position stability */
+  position: relative !important;
+  /* Lock all layout affecting properties */
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 50% !important;
+  /* Prevent any possible layout recalculation */
+  will-change: auto !important;
+}
+
+/* ADDITIONAL ACTIVE STATE LOCK - Prevent any possible visual shift */
+.bubble-btn:active {
+  /* Complete visual lock - override all possible changes */
+  outline: none !important;
+  border: none !important;
+  /* Lock cursor to prevent any visual feedback from browser */
+  cursor: pointer !important;
+  /* Lock scale to prevent browser default active scaling */
+  transform: translate3d(0, 0, 0) scale(1) !important;
 }
 
 /* Different colors for each bubble type - Enhanced for accessibility */
