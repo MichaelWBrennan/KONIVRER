@@ -134,19 +134,19 @@
 .bubble-btn:hover {
   /* REMOVE filter property which causes GPU layer shifts and visual movement */
   /* filter: brightness(1.1); */
-  /* Use consistent box-shadow to prevent layout changes */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  /* Slight opacity change for visual feedback without movement */
-  opacity: 0.9;
+  /* REMOVE opacity changes which can cause visual reflow and movement */
+  /* opacity: 0.9; */
+  /* Use only box-shadow for consistent visual feedback without movement */
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
 }
 
 .bubble-btn:active {
   /* REMOVE filter property which causes GPU layer shifts and visual movement */
   /* filter: brightness(0.9); */
-  /* Use consistent box-shadow to prevent layout changes */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  /* Slight opacity change for visual feedback without movement */
-  opacity: 0.8;
+  /* REMOVE opacity changes which can cause visual reflow and movement */
+  /* opacity: 0.8; */
+  /* Use only box-shadow for consistent visual feedback without movement */
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
 }
 
 /* Remove any transform-based hover/active effects to prevent jumping */
