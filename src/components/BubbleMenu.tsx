@@ -97,6 +97,14 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     }
   };
 
+  // Helper function to close all panels except the specified one
+  const closeOtherPanels = (keepOpen: string) => {
+    if (keepOpen !== 'accessibility') setIsAccessibilityOpen(false);
+    if (keepOpen !== 'search') setIsSearchOpen(false);
+    if (keepOpen !== 'login') setIsLoginOpen(false);
+    if (keepOpen !== 'menu') setIsMenuOpen(false);
+  };
+
   const menuItems = [
     // Only show Home when not on home page
     ...(currentPage !== 'home' ? [{ id: 'home' as const, label: 'Home' }] : []),
@@ -118,7 +126,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       <div key="accessibility-bubble" className="bubble-container accessibility-bubble">
         <button
           className="bubble-btn accessibility-btn"
-          onClick={() => setIsAccessibilityOpen(!isAccessibilityOpen)}
+          onClick={() => {
+            closeOtherPanels('accessibility');
+            setIsAccessibilityOpen(!isAccessibilityOpen);
+          }}
           aria-label="Accessibility Settings"
           aria-expanded={isAccessibilityOpen}
         >
@@ -170,7 +181,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       <div key="search-bubble" className="bubble-container search-bubble">
         <button
           className="bubble-btn search-btn"
-          onClick={() => setIsSearchOpen(!isSearchOpen)}
+          onClick={() => {
+            closeOtherPanels('search');
+            setIsSearchOpen(!isSearchOpen);
+          }}
           aria-label="Search"
           aria-expanded={isSearchOpen}
         >
@@ -205,7 +219,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       <div key="login-bubble" className="bubble-container login-bubble">
         <button
           className="bubble-btn login-btn"
-          onClick={() => setIsLoginOpen(!isLoginOpen)}
+          onClick={() => {
+            closeOtherPanels('login');
+            setIsLoginOpen(!isLoginOpen);
+          }}
           aria-label="User Profile"
           aria-expanded={isLoginOpen}
         >
@@ -275,7 +292,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       <div key="menu-bubble" className="bubble-container menu-bubble">
         <button
           className="bubble-btn menu-btn"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => {
+            closeOtherPanels('menu');
+            setIsMenuOpen(!isMenuOpen);
+          }}
           aria-label="Main Menu"
           aria-expanded={isMenuOpen}
         >
