@@ -22,12 +22,18 @@
 .bubble-container {
   position: absolute;
   pointer-events: auto;
-  /* Lock position - prevent any layout shifts */
-  contain: layout style;
-  /* Disable any flex or grid ordering */
+  /* Comprehensive layout locking to prevent any position shifts */
+  contain: layout paint style;
+  /* Hardware acceleration to ensure consistent rendering */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  /* Disable any flex or grid ordering that could cause shifts */
   order: initial;
-  /* Ensure stable positioning */
+  /* Ensure stable positioning and prevent subpixel shifts */
   will-change: auto;
+  /* Lock dimensions to prevent reflows */
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 /* Position bubbles in a 2x2 grid for mobile, line for desktop */
@@ -111,8 +117,8 @@
   color: white;
   font-size: 20px; /* Slightly smaller for mobile */
   cursor: pointer;
-  /* Reduced animations to prevent visual jumping */
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  /* Minimal transitions to prevent any visual jumping */
+  transition: opacity 0.1s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
@@ -122,30 +128,41 @@
   touch-action: manipulation;
   user-select: none;
   -webkit-user-select: none;
-  /* Prevent position shifts */
-  contain: layout style;
-  /* Lock position during interactions */
-  transform: none !important;
+  /* Comprehensive position and layout locking */
+  contain: layout paint style;
+  /* Force hardware acceleration layer and lock position */
+  transform: translate3d(0, 0, 0) !important;
+  will-change: auto;
+  /* Prevent any layout-affecting changes */
+  backface-visibility: hidden;
+  /* Lock dimensions and prevent reflows */
+  flex-shrink: 0;
+  flex-grow: 0;
 }
 
 /* Hover and active states - no transform animations to prevent visual jumping */
 .bubble-btn:hover {
-  /* Only change visual properties, no transforms */
-  filter: brightness(1.1);
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+  /* Use safe visual changes that don't affect layout or cause GPU layer shifts */
+  opacity: 0.9;
+  /* Keep shadow consistent to prevent layout changes */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .bubble-btn:active {
   /* Minimal visual feedback without position changes */
-  filter: brightness(0.9);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  opacity: 0.8;
+  /* Keep shadow consistent */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Remove any transform-based hover/active effects to prevent jumping */
+/* Completely prevent any transform-based effects that could cause movement */
 .bubble-btn:hover,
 .bubble-btn:active,
 .bubble-btn:focus {
-  transform: none !important;
+  transform: translate3d(0, 0, 0) !important;
+  /* Lock position even more strictly */
+  contain: layout paint style;
+  backface-visibility: hidden;
 }
 
 /* Different colors for each bubble type - Enhanced for accessibility */
@@ -197,27 +214,32 @@
 
 /* Enhanced Bubble Panel Styles - Mobile First */
 .bubble-panel {
-  position: relative;
+  position: absolute;
   background: var(--background-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 16px; /* Reduced padding for mobile */
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
-  animation: bubblePanelOpen 0.2s ease; /* Faster animation */
+  animation: bubblePanelOpen 0.15s ease-out; /* Faster, smoother animation */
   z-index: 1;
   min-width: 280px;
   max-width: calc(100vw - 40px); /* Prevent overflow on mobile */
+  /* Ensure panel doesn't affect button positioning */
+  contain: layout paint;
+  /* Use hardware acceleration for smooth animation */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 }
 
 @keyframes bubblePanelOpen {
   from {
     opacity: 0;
-    transform: scale(0.9) translateY(8px); /* Less dramatic animation */
+    transform: translate3d(0, 4px, 0) scale(0.95); /* Use transform3d for GPU acceleration */
   }
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
