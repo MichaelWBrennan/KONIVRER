@@ -123,29 +123,41 @@
   user-select: none;
   -webkit-user-select: none;
   /* Prevent position shifts */
-  contain: layout style;
-  /* Lock position during interactions */
-  transform: none !important;
+  contain: layout style paint;
+  /* Lock position during interactions - use hardware acceleration */
+  transform: translate3d(0, 0, 0) !important;
+  /* Prevent any layout-affecting changes during interactions */
+  backface-visibility: hidden;
 }
 
 /* Hover and active states - no transform animations to prevent visual jumping */
 .bubble-btn:hover {
-  /* Only change visual properties, no transforms */
-  filter: brightness(1.1);
-  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.4);
+  /* REMOVE filter property which causes GPU layer shifts and visual movement */
+  /* filter: brightness(1.1); */
+  /* Use consistent box-shadow to prevent layout changes */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* Slight opacity change for visual feedback without movement */
+  opacity: 0.9;
 }
 
 .bubble-btn:active {
-  /* Minimal visual feedback without position changes */
-  filter: brightness(0.9);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  /* REMOVE filter property which causes GPU layer shifts and visual movement */
+  /* filter: brightness(0.9); */
+  /* Use consistent box-shadow to prevent layout changes */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* Slight opacity change for visual feedback without movement */
+  opacity: 0.8;
 }
 
 /* Remove any transform-based hover/active effects to prevent jumping */
 .bubble-btn:hover,
 .bubble-btn:active,
 .bubble-btn:focus {
-  transform: none !important;
+  /* Lock position absolutely - no changes */
+  transform: translate3d(0, 0, 0) !important;
+  /* Maintain consistent layout containment */
+  contain: layout style paint;
+  backface-visibility: hidden;
 }
 
 /* Different colors for each bubble type - Enhanced for accessibility */
