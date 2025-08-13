@@ -180,7 +180,6 @@
 }
 
 .bubble-menu .bubble-btn:hover {
-  transform: translateY(-2px) !important;
   box-shadow: 0 8px 30px var(--konivrer-shadow-gold) !important;
   background: linear-gradient(135deg, var(--konivrer-dark-gold), var(--konivrer-gold)) !important;
 }
