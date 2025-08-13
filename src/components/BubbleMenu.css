@@ -285,25 +285,25 @@
 
 /* Enhanced Mobile panel positioning - Safe area aware */
 .bubble-menu.mobile .accessibility-panel {
-  bottom: 70px;
+  bottom: -10px;
   left: -10px;
   max-width: calc(100vw - 60px);
 }
 
 .bubble-menu.mobile .search-panel {
-  bottom: 70px;
+  bottom: -10px;
   right: -10px;
   max-width: calc(100vw - 60px);
 }
 
 .bubble-menu.mobile .login-panel {
-  bottom: 70px;
+  bottom: -10px;
   left: -10px;
   max-width: calc(100vw - 60px);
 }
 
 .bubble-menu.mobile .menu-panel {
-  bottom: 70px;
+  bottom: -10px;
   right: -10px;
   max-width: calc(100vw - 60px);
 }
