@@ -69,6 +69,10 @@ export class CreateCardDto {
   @IsOptional()
   @IsBoolean()
   isLegal?: boolean;
+
+  @ApiProperty({ description: 'Additional metadata as JSON', required: false })
+  @IsOptional()
+  metadata?: Record<string, any>;
 }
 
 export class UpdateCardDto {
