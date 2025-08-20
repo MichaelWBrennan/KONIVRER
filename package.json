@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "start": "vite preview --port $PORT",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "db:populate-from-images": "ts-node --project backend/tsconfig.json scripts/populate-db-from-images.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",

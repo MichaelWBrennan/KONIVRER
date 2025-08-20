@@ -53,7 +53,9 @@
     "rxjs": "^7.8.1",
     "socket.io": "^4.7.2",
     "typeorm": "^0.3.17",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "scribe.js-ocr": "^0.8.0",
+    "pixteroid": "^1.0.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.10",
@@ -92,6 +94,10 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/upscaling/"
+    ],
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
