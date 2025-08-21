@@ -132,6 +132,49 @@ globalStyle('.pagination-info', { color: 'var(--text-secondary)', textAlign: 'ce
 globalStyle('.pagination', { display: 'flex', justifyContent: 'center', gap: '0.5rem', margin: '2rem 0' });
 globalStyle('.no-results', { textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' });
 
+// Layout
+globalStyle('.container', { width: '100%', maxWidth: '1200px', margin: '0 auto', padding: '1.5rem' });
+globalStyle('.section', { marginTop: '1.5rem' });
+
+// Analytics/Dashboard structure
+globalStyle('.analytics-header', { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' });
+globalStyle('.view-tabs', { display: 'flex', gap: '0.5rem' });
+globalStyle('.dashboard-metrics', { display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '1rem', marginTop: '1rem' });
+globalStyle('.metric-card', { background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.015) 100%)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '1rem', boxShadow: '0 6px 20px rgba(0,0,0,0.3)' });
+globalStyle('.metric-card h4', { marginBottom: '0.5rem' });
+globalStyle('.metric-value', { fontSize: '1.25rem', fontWeight: 700 as any });
+globalStyle('.metric-change', { marginTop: '0.25rem', fontSize: '0.9rem' });
+globalStyle('.metric-change.positive', { color: '#10b981' });
+globalStyle('.metric-change.neutral', { color: 'var(--text-secondary)' });
+globalStyle('.metric-change.warning', { color: '#f59e0b' });
+
+globalStyle('.dashboard-charts', { display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '1rem', marginTop: '1rem' });
+globalStyle('.chart-section h4', { marginBottom: '0.5rem' });
+
+// Realtime section
+globalStyle('.realtime-stats', { display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: '0.75rem', marginBottom: '1rem' });
+globalStyle('.realtime-stat', { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, padding: '0.75rem' });
+globalStyle('.stat-label', { color: 'var(--text-secondary)', fontSize: '0.85rem' });
+globalStyle('.stat-value', { fontSize: '1.1rem', fontWeight: 700 as any });
+globalStyle('.stat-indicator', { marginLeft: '0.5rem' });
+globalStyle('.stat-indicator.positive', { color: '#10b981' });
+globalStyle('.stat-indicator.warning', { color: '#f59e0b' });
+
+globalStyle('.realtime-chart h4', { marginBottom: '0.5rem' });
+globalStyle('.system-alerts', { marginTop: '1rem' });
+
+// Anomalies center
+globalStyle('.anomalies-view .anomaly-header', { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' });
+globalStyle('.anomalies-list', { display: 'grid', gap: '0.75rem', marginTop: '0.5rem' });
+globalStyle('.anomaly-item', { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '1rem' });
+globalStyle('.anomaly-item .anomaly-header', { display: 'flex', gap: '0.5rem', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' });
+globalStyle('.severity', { padding: '2px 6px', borderRadius: 6, fontSize: '0.75rem', border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' });
+globalStyle('.severity.critical', { borderColor: 'rgba(239,68,68,0.35)', color: '#ef4444' });
+globalStyle('.severity.medium', { borderColor: 'rgba(245,158,11,0.35)', color: '#f59e0b' });
+globalStyle('.anomaly-description', { color: 'var(--text-secondary)', marginBottom: '0.5rem' });
+globalStyle('.anomaly-details', { display: 'flex', gap: '1rem', color: 'var(--text-secondary)' });
+globalStyle('.anomaly-actions', { display: 'flex', gap: '0.5rem', marginTop: '0.5rem' });
+
 // Buttons
 globalStyle('.btn', { border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '0.5rem 1rem', cursor: 'pointer', transition: 'all 0.2s ease', background: 'rgba(255,255,255,0.02)' });
 globalStyle('.btn-small', { padding: '0.4rem 0.6rem', fontSize: '0.85rem' });
