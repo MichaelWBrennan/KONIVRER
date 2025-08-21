@@ -20,7 +20,7 @@ import { useAuth } from './hooks/useAuth';
 import { NotificationService } from './services/notifications';
 import type { Card } from './data/cards';  // Use our local Card type
 import type { Deck } from './data/cards';
-import './App.css';
+import * as appStyles from './app.css.ts';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -82,7 +82,7 @@ function AppContent() {
   };
 
   return (
-    <div className="app">
+    <div className={appStyles.app}>
       {/* Notification Center - positioned in top right */}
       <div style={{
         position: 'fixed',
