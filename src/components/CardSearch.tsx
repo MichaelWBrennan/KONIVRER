@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { useCards } from '../hooks/useCards';
 import { useAppStore } from '../stores/appStore';
 import { debounce } from '../utils/timing';
