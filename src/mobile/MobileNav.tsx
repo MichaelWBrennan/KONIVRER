@@ -47,6 +47,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
               ['rules','Rules'],
               ['judge','Judge'],
               ['pdf','PDF Viewer'],
+              ['settings','Settings'],
             ].map(([page, label]) => (
               <div key={page} className={s.sheetItem} onClick={() => { onNavigate(page); setOpen(false); }}>
                 <span>{label}</span>

@@ -17,6 +17,7 @@ import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
 import { PdfViewer } from './pages/PdfViewer';
+import { Settings } from './pages/Settings';
 import { Offline } from './pages/Offline';
 import { useAppStore } from './stores/appStore';
 import { useAuth } from './hooks/useAuth';
@@ -40,7 +41,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'pdf';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'pdf' | 'settings';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -88,6 +89,7 @@ function AppContent() {
       case 'rules': return 'Rules';
       case 'judge': return 'Judge Portal';
       case 'pdf': return 'PDF Viewer';
+      case 'settings': return 'Settings';
       default: return 'KONIVRER';
     }
   }, [currentPage]);
@@ -126,6 +128,7 @@ function AppContent() {
         {currentPage === 'deckbuilder' && (<DeckBuilderAdvanced />)}
         {currentPage === 'analytics' && (<Analytics />)}
         {currentPage === 'pdf' && (<PdfViewer />)}
+        {currentPage === 'settings' && (<Settings />)}
       </MobileShell>
 
       {selectedCard && (
