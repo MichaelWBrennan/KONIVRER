@@ -102,12 +102,12 @@ export function useLocalCards(filters: CardSearchFilters): {
             aValue = (a.element ?? a.elements?.[0] ?? '').toLowerCase();
             bValue = (b.element ?? b.elements?.[0] ?? '').toLowerCase();
             break;
-            break;
-          case 'rarity':
+          case 'rarity': {
             const rarityOrder = { 'common': 1, 'uncommon': 2, 'rare': 3, 'mythic': 4 };
             aValue = rarityOrder[a.rarity.toLowerCase() as keyof typeof rarityOrder] || 0;
             bValue = rarityOrder[b.rarity.toLowerCase() as keyof typeof rarityOrder] || 0;
             break;
+          }
           default:
             aValue = a.name.toLowerCase();
             bValue = b.name.toLowerCase();
