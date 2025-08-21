@@ -1,17 +1,20 @@
 import { useState, useMemo, useCallback } from 'react';
-import { useLocalCards } from '../hooks/useLocalCards';
+import { useCards } from '../hooks/useCards';
 import { useAppStore } from '../stores/appStore';
 import { debounce } from '../utils/timing';
 import { Card } from '../data/cards';  // Use our local Card type
+import { CardViewerModal } from './CardViewerModal';
 
 interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
 export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { searchFilters, setSearchFilters } = useAppStore();
   const [localSearchTerm, setLocalSearchTerm] = useState(searchFilters.search || '');
   
+  // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
   // Debounced search - update filters when user stops typing
   const updateSearch = useCallback(
     debounce((term: string) => {
@@ -20,7 +23,7 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
     [setSearchFilters]
   );
 
-  const { data: cardsData, isLoading, error } = useLocalCards(searchFilters);
+  const { data: cardsData, isLoading, error } = useCards(searchFilters);
 
   // Update search term locally and trigger debounced update
   const handleSearchChange = (term: string) => {
@@ -46,7 +49,7 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
 
   // Get unique values for filters from current results
   const filterOptions = useMemo(() => {
-    const cards = cardsData?.data || [];
+    const cards = cardsData?.cards || [];
     return {
       elements: [...new Set(cards.map((card: Card) => card.element))].sort() as string[],
       types: [...new Set(cards.map((card: Card) => card.type))].sort() as string[],
@@ -59,17 +62,17 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
       <div className="error-container">
         <h1>Card Search</h1>
         <div className="error">
-          Error loading cards: {error}
+          Error loading cards: {error.message}
         </div>
       </div>
     );
   }
 
-  const cards = cardsData?.data || [];
+  const cards = cardsData?.cards || [];
   const pagination = cardsData ? {
-    currentPage: cardsData.pagination.currentPage,
-    totalPages: cardsData.pagination.totalPages,
-    total: cardsData.pagination.totalItems
+    currentPage: cardsData.page,
+    totalPages: Math.ceil(cardsData.total / (cardsData.pageSize || 20)),
+    total: cardsData.total
   } : null;
 
   return (
@@ -153,18 +156,17 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
             key={card.id}
             className="card-item"
             style={{
-              border: '1px solid var(--border-color)',
               borderRadius: '8px',
-              padding: '0.5rem',
               cursor: 'pointer',
-              background: 'var(--card-bg)',
+              overflow: 'hidden',
               transition: 'transform 0.2s, box-shadow 0.2s',
             }}
+            onClick={() => setSelectedCard(card)}
           >
             <img
               src={card.webpUrl || card.imageUrl || '/placeholder-card.png'}
               alt={card.name}
-              style={{ width: '100%', borderRadius: '4px' }}
+              style={{ width: '100%', display: 'block' }}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 if (target.src !== '/placeholder-card.png') {
@@ -172,54 +174,6 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
                 }
               }}
             />
-            <div style={{ marginTop: '0.5rem' }}>
-              <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '0.9rem' }}>{card.name}</h3>
-              <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                {card.element} {card.type} • Cost: {card.cost}
-              </p>
-              {card.power !== undefined && (
-                <p style={{ margin: '0.25rem 0', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                  {card.power}/{card.toughness}
-                </p>
-              )}
-              <div style={{ marginTop: '0.5rem', display: 'flex', gap: '0.25rem' }}>
-                <button
-                  style={{
-                    flex: 1,
-                    padding: '0.25rem 0.5rem',
-                    fontSize: '0.75rem',
-                    background: 'var(--accent-color)',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddToDeck(card);
-                  }}
-                >
-                  + Deck
-                </button>
-                <button
-                  style={{
-                    padding: '0.25rem 0.5rem',
-                    fontSize: '0.75rem',
-                    background: 'var(--secondary-bg)',
-                    color: 'var(--text-primary)',
-                    border: '1px solid var(--border-color)',
-                    borderRadius: '4px',
-                    cursor: 'pointer'
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onCardSelect?.(card);
-                  }}
-                >
-                  View
-                </button>
-              </div>
-            </div>
           </div>
         ))}
       </div>
@@ -263,6 +217,8 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
           <p>No cards found matching your search criteria.</p>
         </div>
       )}
+
+      <CardViewerModal card={selectedCard} onClose={() => setSelectedCard(null)} />
     </div>
   );
 };

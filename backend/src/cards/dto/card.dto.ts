@@ -73,6 +73,11 @@ export class CreateCardDto {
   @ApiProperty({ description: 'Additional metadata as JSON', required: false })
   @IsOptional()
   metadata?: Record<string, any>;
+
+  @ApiProperty({ description: 'Raw OCR text for full-text search', required: false })
+  @IsOptional()
+  @IsString()
+  rawOcrText?: string;
 }
 
 export class UpdateCardDto {
