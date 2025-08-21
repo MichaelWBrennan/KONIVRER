@@ -11,7 +11,8 @@ import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 
 import { Analytics } from './pages/Analytics';
-import { Events } from './pages/Events';
+// import { Events } from './pages/Events';
+import { TournamentHub } from './pages/TournamentHub';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
@@ -83,7 +84,7 @@ function AppContent() {
       case 'deckbuilder': return 'Deckbuilder';
       case 'simulator': return 'Play';
       case 'analytics': return 'Analytics';
-      case 'events': return 'Events';
+      case 'events': return 'Tournament Hub';
       case 'rules': return 'Rules';
       case 'judge': return 'Judge Portal';
       case 'pdf': return 'PDF Viewer';
@@ -121,7 +122,7 @@ function AppContent() {
             </div>
           )
         )}
-        {currentPage === 'events' && (<Events />)}
+        {currentPage === 'events' && (<TournamentHub />)}
         {currentPage === 'deckbuilder' && (<DeckBuilderAdvanced />)}
         {currentPage === 'analytics' && (<Analytics />)}
         {currentPage === 'pdf' && (<PdfViewer />)}
