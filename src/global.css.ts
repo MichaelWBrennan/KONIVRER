@@ -75,3 +75,71 @@ globalStyle('::-webkit-scrollbar', { display: 'none' });
 globalStyle('html', { scrollbarWidth: 'none' });
 globalStyle('*:focus-visible', { outline: '2px solid var(--accent-color)', outlineOffset: 2, borderRadius: 4 });
 
+// Common UI utilities migrated from legacy global CSS
+globalStyle('.search-container', {
+  padding: '2rem',
+  background: 'var(--secondary-bg)',
+  borderBottom: '1px solid var(--border-color)'
+});
+
+globalStyle('.search-input', {
+  width: '100%',
+  maxWidth: '600px',
+  padding: '0.75rem 1rem',
+  fontSize: '1rem',
+  border: '1px solid var(--border-color)',
+  borderRadius: 6,
+  background: 'var(--primary-bg)',
+  color: 'var(--text-primary)',
+  margin: '0 auto',
+  display: 'block'
+});
+
+globalStyle('.search-input:focus', {
+  outline: 'none',
+  borderColor: 'var(--accent-color)',
+  boxShadow: '0 0 0 2px rgba(74, 144, 226, 0.2)'
+});
+
+globalStyle('.filters', { display: 'flex', gap: '1rem', marginTop: '1rem', flexWrap: 'wrap' });
+globalStyle('.filter-select', {
+  padding: '0.5rem',
+  border: '1px solid var(--border-color)',
+  borderRadius: 4,
+  background: 'var(--primary-bg)',
+  color: 'var(--text-primary)',
+  fontSize: '0.9rem'
+});
+
+globalStyle('.results-count', { color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '1rem' });
+
+globalStyle('.card-grid', { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem', padding: '1rem' });
+globalStyle('.cards-grid', { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', padding: '1rem' });
+globalStyle('.card-item', {
+  background: 'var(--secondary-bg)',
+  border: '1px solid var(--border-color)',
+  borderRadius: 8,
+  overflow: 'hidden',
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+});
+globalStyle('.card-item:hover', { transform: 'translateY(-4px)', boxShadow: '0 8px 20px rgba(74, 144, 226, 0.3)' });
+globalStyle('.card-info', { padding: '1rem' });
+globalStyle('.card-name', { fontSize: '1.1rem', fontWeight: 600 as any, marginBottom: '0.5rem', color: 'var(--text-primary)' });
+globalStyle('.card-details', { fontSize: '0.9rem', color: 'var(--text-secondary)' });
+
+globalStyle('.pagination-info', { color: 'var(--text-secondary)', textAlign: 'center', margin: '0.5rem 0' });
+globalStyle('.pagination', { display: 'flex', justifyContent: 'center', gap: '0.5rem', margin: '2rem 0' });
+globalStyle('.no-results', { textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' });
+
+// Buttons
+globalStyle('.btn', { border: 'none', borderRadius: 8, padding: '0.5rem 1rem', cursor: 'pointer', transition: 'all 0.2s ease' });
+globalStyle('.btn-small', { padding: '0.4rem 0.6rem', fontSize: '0.85rem' });
+globalStyle('.btn-primary', { background: 'var(--accent-color)', color: 'var(--text-primary)', boxShadow: '0 2px 8px rgba(74,144,226,0.3)' });
+globalStyle('.btn-primary:hover', { background: '#3b7ddd', boxShadow: '0 4px 12px rgba(74,144,226,0.4)' });
+globalStyle('.btn-secondary', { background: 'var(--secondary-bg)', color: 'var(--text-primary)', border: '1px solid var(--border-color)' });
+globalStyle('.btn-danger', { background: '#ef4444', color: '#fff' });
+
+// Feedback
+globalStyle('.error-container .error', { color: '#c00' });
+globalStyle('.loading', { color: 'var(--text-secondary)', textAlign: 'center', padding: '1rem' });
+
