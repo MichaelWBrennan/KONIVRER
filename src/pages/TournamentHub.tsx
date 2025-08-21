@@ -96,6 +96,8 @@ export const TournamentHub: React.FC = () => {
             <button className="btn btn-primary" type="submit">Submit Result</button>
           </form>
 
+          <DeckRegistration eventId={currentEventId||'demo'} />
+
           {filtered.map((p) => (
             <div key={p.tableNumber} className={s.pairingItem}>
               <div>Table {p.tableNumber}</div>
@@ -140,6 +142,18 @@ const Standings: React.FC<{ query: string }> = ({ query }) => {
         </div>
       ))}
     </div>
+  );
+};
+
+const DeckRegistration: React.FC<{ eventId: string }> = ({ eventId }) => {
+  const [deckId, setDeckId] = useState('');
+  const { isAuthenticated } = require('../hooks/useAuth').useAuth();
+  if (!isAuthenticated) return null;
+  return (
+    <form className={s.form} onSubmit={async (e)=>{e.preventDefault(); if (!deckId) return; await EventService.registerDeck(eventId, deckId); alert('Deck registered to event'); }}>
+      <input className="search-input" placeholder="Deck ID to register" value={deckId} onChange={(e)=>setDeckId(e.target.value)} />
+      <button className="btn btn-secondary" type="submit">Register Deck</button>
+    </form>
   );
 };
 
