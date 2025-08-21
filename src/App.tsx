@@ -43,7 +43,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'settings';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'event-archive' | 'my-decks' | 'rules' | 'judge' | 'settings';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -88,7 +88,7 @@ function AppContent() {
   const handleGlobalSearch = (q: string) => {
     if (currentPage === 'cards') setSearchFilters({ search: q, page: 1 });
     else if (currentPage === 'decks') setSearchFilters({ search: q, page: 1 });
-    else if (currentPage === 'events') {
+    else if (currentPage === 'events' || currentPage === 'event-archive') {
       const ev = new CustomEvent('pairings-search', { detail: q });
       window.dispatchEvent(ev);
     } else if (currentPage === 'home') {
@@ -130,6 +130,7 @@ function AppContent() {
           )
         )}
         {currentPage === 'events' && (<TournamentHub />)}
+        {currentPage === 'event-archive' && (<TournamentHub />)}
         {currentPage === 'deckbuilder' && (<DeckBuilderAdvanced />)}
         {currentPage === 'analytics' && (<Analytics />)}
         {currentPage === 'settings' && (<Settings />)}
