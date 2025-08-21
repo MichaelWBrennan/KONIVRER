@@ -64,3 +64,6 @@ export const sheetItem = style({
   cursor: 'pointer',
 });
 
+export const sheetHeader = style({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 6px 10px 6px' });
+export const closeBtn = style({ border: '1px solid rgba(255,255,255,0.12)', borderRadius: 8, padding: '6px 10px', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer' });
+

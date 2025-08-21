@@ -5,9 +5,7 @@ export const Home: React.FC = () => {
   return (
     <div className={h.container}>
       <div className={h.homeRoot}>
-        <div className={h.linkBar}>
-          <a href="/automation-dashboard" className={h.link}>Automation Dashboard</a>
-        </div>
+        {/* Removed Analytics/Automation Dashboard link */}
         <header className={h.header}>
           <h1 className={h.title}>KONIVRER Chronicles</h1>
           <p className={h.subtitle}>Enter the realm of legendary cards and epic battles</p>
@@ -23,14 +21,8 @@ export const Home: React.FC = () => {
             </p>
             
             <div className={h.featuredButtons}>
-              <button className="btn-touch btn-primary flex items-center justify-center">
-                <span className="mr-2">⭐</span>
-                Featured Posts
-              </button>
-              <button className="btn-touch btn-secondary flex items-center justify-center">
-                <span className="mr-2">🕒</span>
-                Recent Updates
-              </button>
+              <button className="btn-touch btn-primary flex items-center justify-center">Featured Posts</button>
+              <button className="btn-touch btn-secondary flex items-center justify-center">Recent Updates</button>
             </div>
           </section>
 
