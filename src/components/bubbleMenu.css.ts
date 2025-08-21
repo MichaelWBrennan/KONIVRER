@@ -6,8 +6,8 @@ export const desktop = style({ top: 20, right: 20 });
 export const bubbleContainer = style({ position: 'absolute', pointerEvents: 'auto', contain: 'layout style', order: 'initial' as any, willChange: 'auto' });
 
 export const bubbleBtn = style({
-  width: 60,
-  height: 60,
+  width: 56,
+  height: 56,
   minWidth: 44,
   minHeight: 44,
   borderRadius: '50%',
@@ -74,13 +74,13 @@ export const userAvatarLarge = style({
 });
 export const userActions = style({ display: 'flex', gap: 10, justifyContent: 'center' });
 
-globalStyle(`${root}.mobile .accessibility-bubble`, { bottom: 70, left: 0, position: 'absolute', order: 1 as any });
-globalStyle(`${root}.mobile .search-bubble`, { bottom: 70, right: 0, position: 'absolute', order: 2 as any });
-globalStyle(`${root}.mobile .login-bubble`, { bottom: 0, left: 0, position: 'absolute', order: 3 as any });
-globalStyle(`${root}.mobile .menu-bubble`, { bottom: 0, right: 0, position: 'absolute', order: 4 as any });
+globalStyle(`${root}.mobile .accessibility-bubble`, { bottom: 70, left: 0, position: 'absolute', order: 1 as any, pointerEvents: 'auto' });
+globalStyle(`${root}.mobile .search-bubble`, { bottom: 70, right: 0, position: 'absolute', order: 2 as any, pointerEvents: 'auto' });
+globalStyle(`${root}.mobile .login-bubble`, { bottom: 0, left: 0, position: 'absolute', order: 3 as any, pointerEvents: 'auto' });
+globalStyle(`${root}.mobile .menu-bubble`, { bottom: 0, right: 0, position: 'absolute', order: 4 as any, pointerEvents: 'auto' });
 
-globalStyle(`${root}.desktop .accessibility-bubble`, { top: 0, right: 0, position: 'absolute', order: 1 as any });
-globalStyle(`${root}.desktop .search-bubble`, { top: 70, right: 0, position: 'absolute', order: 2 as any });
-globalStyle(`${root}.desktop .login-bubble`, { top: 140, right: 0, position: 'absolute', order: 3 as any });
-globalStyle(`${root}.desktop .menu-bubble`, { top: 210, right: 0, position: 'absolute', order: 4 as any });
+globalStyle(`${root}.desktop .accessibility-bubble`, { top: 0, right: 0, position: 'absolute', order: 1 as any, pointerEvents: 'auto' });
+globalStyle(`${root}.desktop .search-bubble`, { top: 70, right: 0, position: 'absolute', order: 2 as any, pointerEvents: 'auto' });
+globalStyle(`${root}.desktop .login-bubble`, { top: 140, right: 0, position: 'absolute', order: 3 as any, pointerEvents: 'auto' });
+globalStyle(`${root}.desktop .menu-bubble`, { top: 210, right: 0, position: 'absolute', order: 4 as any, pointerEvents: 'auto' });
 
