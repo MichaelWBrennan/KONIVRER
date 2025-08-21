@@ -8,11 +8,18 @@ interface Props {
 
 export const SearchBar: React.FC<Props> = ({ current, onSearch }) => {
   const [q, setQ] = useState('');
+  const [contextOverride, setContextOverride] = useState<string | null>(null);
+  useEffect(() => {
+    const handler = (e: any) => setContextOverride(e.detail);
+    window.addEventListener('search-context', handler);
+    return () => window.removeEventListener('search-context', handler);
+  }, []);
   const placeholder = (() => {
+    const ctx = contextOverride || current;
     switch (current) {
       case 'cards': return 'Search cards...';
       case 'decks': return 'Search decks...';
-      case 'events': return 'Search pairings (name or table)...';
+      case 'events': return ctx === 'event-archive' ? 'Search past events...' : 'Search pairings (name or table)...';
       case 'home': return 'Search posts...';
       default: return 'Search...';
     }
