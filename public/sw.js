@@ -6,7 +6,6 @@ const IMAGE_CACHE = 'konivrer-images-v1.1.0';
 // Critical assets to cache immediately for mobile-first experience
 const STATIC_ASSETS = [
   '/',
-  '/offline.html',
   '/manifest.json',
   '/icons/pwa-192x192.png',
   '/icons/pwa-512x512.png',
@@ -165,9 +164,21 @@ async function staleWhileRevalidateStrategy(request) {
       }
       return networkResponse;
     })
-    .catch(() => {
-      // If network fails and we have a cached version, use it
-      return cachedResponse;
+    .catch(async () => {
+      // If network fails, prefer cached version
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      // SPA fallback to cached index when available
+      const indexFallback = await cache.match('/');
+      if (indexFallback) {
+        return indexFallback;
+      }
+      return new Response('<h1>Offline</h1>', {
+        headers: { 'Content-Type': 'text/html' },
+        status: 503,
+        statusText: 'Offline',
+      });
     });
 
   // Return cached version immediately if available, otherwise wait for network
