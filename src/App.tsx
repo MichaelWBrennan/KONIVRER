@@ -22,6 +22,7 @@ import { Offline } from './pages/Offline';
 import { useAppStore } from './stores/appStore';
 import { useAuth } from './hooks/useAuth';
 import { NotificationService } from './services/notifications';
+import { EventService } from './services/eventService';
 import type { Card } from './data/cards';  // Use our local Card type
 import * as appStyles from './app.css.ts';
 import * as overlay from './appOverlay.css.ts';
@@ -54,7 +55,10 @@ function AppContent() {
     const notificationService = NotificationService.getInstance();
     notificationService.initialize();
     
-    const handleOnline = () => setIsOnline(true);
+    const handleOnline = async () => {
+      setIsOnline(true);
+      try { await EventService.syncQueuedReports(); } catch {}
+    };
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
