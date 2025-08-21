@@ -19,7 +19,10 @@ export const SearchBar: React.FC<Props> = ({ current, onSearch }) => {
     switch (current) {
       case 'cards': return 'Search cards...';
       case 'decks': return 'Search decks...';
-      case 'events': return ctx === 'event-archive' ? 'Search past events...' : 'Search pairings (name or table)...';
+      case 'events':
+        if (ctx === 'event-archive') return 'Search past events...';
+        if (ctx === 'event-standings') return 'Search standings...';
+        return 'Search pairings (name or table)...';
       case 'home': return 'Search posts...';
       default: return 'Search...';
     }
