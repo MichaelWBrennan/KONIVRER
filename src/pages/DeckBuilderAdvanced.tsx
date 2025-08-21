@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as s from './deckbuilder.css.ts';
 
 interface Deck {
   id: string;
@@ -33,10 +34,10 @@ export const DeckBuilderAdvanced: React.FC = () => {
   };
 
   return (
-    <div className="deckbuilder-container">
-      <div className="deckbuilder-header">
+    <div className={s.container}>
+      <div className={s.header}>
         <h1>Advanced Deck Builder</h1>
-        <div className="header-actions">
+        <div className={s.actions}>
           <button onClick={createNewDeck} className="btn btn-primary">
             + New Deck
           </button>
@@ -44,9 +45,9 @@ export const DeckBuilderAdvanced: React.FC = () => {
         </div>
       </div>
 
-      <div className="deckbuilder-content">
-        <div className="deck-list-panel">
-          <div className="panel-header">
+      <div className={s.content}>
+        <div className={s.listPanel}>
+          <div className={s.panelHeader}>
             <h2>Your Decks</h2>
             <input
               type="text"
@@ -57,28 +58,28 @@ export const DeckBuilderAdvanced: React.FC = () => {
             />
           </div>
           
-          <div className="deck-grid">
+          <div className={s.deckGrid}>
             {decks
               .filter(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase()))
               .map(deck => (
                 <div 
                   key={deck.id} 
-                  className={`deck-card ${selectedDeck?.id === deck.id ? 'selected' : ''}`}
+                  className={`${s.deckCard} ${selectedDeck?.id === deck.id ? s.deckCardSelected : ''}`}
                   onClick={() => setSelectedDeck(deck)}
                 >
-                  <div className="deck-header">
+                  <div className={s.deckHeader}>
                     <h3>{deck.name}</h3>
-                    <div className="deck-colors">
+                    <div className={s.deckColors}>
                       {deck.colors.map(color => (
-                        <div key={color} className={`color-indicator ${color}`}></div>
+                        <div key={color} className={s.colorIndicator}></div>
                       ))}
                     </div>
                   </div>
-                  <div className="deck-info">
-                    <span className="format">{deck.format}</span>
-                    <span className="card-count">{deck.cardCount} cards</span>
+                  <div className={s.deckInfo}>
+                    <span>{deck.format}</span>
+                    <span>{deck.cardCount} cards</span>
                   </div>
-                  <div className="deck-date">
+                  <div className={s.deckDate}>
                     Modified: {deck.lastModified.toLocaleDateString()}
                   </div>
                 </div>
@@ -86,10 +87,10 @@ export const DeckBuilderAdvanced: React.FC = () => {
           </div>
         </div>
 
-        <div className="deck-editor-panel">
+        <div className={s.editorPanel}>
           {selectedDeck ? (
-            <div className="deck-editor">
-              <div className="deck-editor-header">
+            <div className={s.editor}>
+              <div className={s.editorHeader}>
                 <input
                   type="text"
                   value={selectedDeck.name}
@@ -98,46 +99,46 @@ export const DeckBuilderAdvanced: React.FC = () => {
                     setSelectedDeck(updatedDeck);
                     setDecks(decks.map(d => d.id === selectedDeck.id ? updatedDeck : d));
                   }}
-                  className="deck-name-input"
+                  className={s.deckNameInput}
                 />
-                <div className="deck-stats">
+                <div className={s.deckStats}>
                   <span>{selectedDeck.cardCount}/60 cards</span>
                   <span>{selectedDeck.format}</span>
                 </div>
               </div>
 
-              <div className="card-categories">
-                <div className="category">
+              <div className={s.categories}>
+                <div className={s.category}>
                   <h3>Creatures (0)</h3>
-                  <div className="card-slots">
-                    <div className="add-card-prompt">
+                  <div className={s.cardSlots}>
+                    <div>
                       Click to add creatures to your deck
                     </div>
                   </div>
                 </div>
 
-                <div className="category">
+                <div className={s.category}>
                   <h3>Spells (0)</h3>
-                  <div className="card-slots">
-                    <div className="add-card-prompt">
+                  <div className={s.cardSlots}>
+                    <div>
                       Click to add spells to your deck
                     </div>
                   </div>
                 </div>
 
-                <div className="category">
+                <div className={s.category}>
                   <h3>Lands (0)</h3>
-                  <div className="card-slots">
-                    <div className="add-card-prompt">
+                  <div className={s.cardSlots}>
+                    <div>
                       Click to add lands to your deck
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="deck-analysis">
+              <div className={s.analysis}>
                 <h3>AI Deck Analysis</h3>
-                <div className="analysis-card">
+                <div className={s.analysisCard}>
                   <h4>🤖 Recommendations</h4>
                   <ul>
                     <li>Add more low-cost creatures for early game pressure</li>
@@ -146,17 +147,17 @@ export const DeckBuilderAdvanced: React.FC = () => {
                   </ul>
                 </div>
                 
-                <div className="analysis-card">
+                <div className={s.analysisCard}>
                   <h4>📊 Deck Statistics</h4>
-                  <div className="stat-item">
+                  <div className={s.statItem}>
                     <span>Average CMC:</span>
                     <span>0.0</span>
                   </div>
-                  <div className="stat-item">
+                  <div className={s.statItem}>
                     <span>Power Level:</span>
                     <span>Unranked</span>
                   </div>
-                  <div className="stat-item">
+                  <div className={s.statItem}>
                     <span>Synergy Score:</span>
                     <span>N/A</span>
                   </div>
@@ -164,15 +165,15 @@ export const DeckBuilderAdvanced: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="no-deck-selected">
+            <div className={s.noDeck}>
               <h2>Select a deck to edit</h2>
               <p>Choose a deck from the list or create a new one to start building</p>
             </div>
           )}
         </div>
 
-        <div className="card-search-panel">
-          <div className="panel-header">
+        <div className={s.searchPanel}>
+          <div className={s.panelHeader}>
             <h2>Card Database</h2>
             <input
               type="text"
@@ -201,7 +202,7 @@ export const DeckBuilderAdvanced: React.FC = () => {
             </select>
           </div>
 
-          <div className="card-results">
+          <div className={s.cardResults}>
             {/* TODO: Replace with actual card search results */}
             <div className="no-results-message">
               Search for cards to add to your deck
