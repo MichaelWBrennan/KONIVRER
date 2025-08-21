@@ -1,6 +1,7 @@
 import React from 'react';
-import JudgePortal from '../components/JudgePortal';
+import { PdfViewer } from './PdfViewer';
 
 export const Rules: React.FC = () => {
-  return <JudgePortal />;
+  // Render PDF viewer with default rules PDF path
+  return <PdfViewer url="/rules.pdf" />;
 };
