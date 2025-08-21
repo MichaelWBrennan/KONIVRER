@@ -26,14 +26,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSocialLogin = (provider: string) => {
-    console.log('Social login:', provider);
-  };
-
-  const handleBiometricLogin = (type: 'fingerprint' | 'faceid') => {
-    console.log('Biometric login:', type);
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -51,13 +43,11 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             </div>
           )}
           <div className={st.inputGroup}>
-            <label htmlFor="email">Username or Email</label>
-            <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your username or email" required disabled={isLoading} />
+            <input className={st.textInput} type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Username or Email" required disabled={isLoading} />
           </div>
           <div className={st.inputGroup}>
-            <label htmlFor="password">Password</label>
             <div className={st.passwordInput}>
-              <input type={showPassword ? 'text' : 'password'} id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" required disabled={isLoading} />
+              <input className={st.textInput} type={showPassword ? 'text' : 'password'} id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required disabled={isLoading} />
               <button type="button" className={st.passwordToggle} onClick={() => setShowPassword(!showPassword)} disabled={isLoading}>
                 {showPassword ? 'Hide' : 'Show'}
               </button>
@@ -71,20 +61,24 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
           <span className={st.dividerSpan}>or continue with</span>
         </div>
         <div className={st.socialSection}>
-          <button className={st.socialBtn} onClick={() => handleSocialLogin('google')}>Continue with Google</button>
-          <button className={st.socialBtn} onClick={() => handleSocialLogin('github')}>Continue with GitHub</button>
-          <button className={st.socialBtn} onClick={() => handleSocialLogin('microsoft')}>Continue with Microsoft</button>
-          <button className={st.socialBtn} onClick={() => handleSocialLogin('discord')}>Continue with Discord</button>
+          <button className={st.socialBtn} disabled aria-disabled>
+            Continue with Google
+          </button>
+          <button className={st.socialBtn} disabled aria-disabled>
+            Continue with GitHub
+          </button>
+          <button className={st.socialBtn} disabled aria-disabled>
+            Continue with Microsoft
+          </button>
+          <button className={st.socialBtn} disabled aria-disabled>
+            Continue with Discord
+          </button>
         </div>
         <div className={st.biometricSection}>
           <h3>Quick Login</h3>
           <div className={st.biometricButtons}>
-            <button className={st.biometricBtn} onClick={() => handleBiometricLogin('fingerprint')}>Fingerprint Login</button>
-            <button className={st.biometricBtn} onClick={() => handleBiometricLogin('faceid')}>Face ID Login</button>
-          </div>
-          <div className={st.biometricTip}>
-            <p><strong>Biometric Authentication Tip:</strong></p>
-            <p>Enable biometric login for faster and more secure access to your KONIVRER account. Your biometric data is stored locally on your device and never transmitted to our servers.</p>
+            <button className={st.biometricBtn} onClick={() => {}}>Fingerprint Login</button>
+            <button className={st.biometricBtn} onClick={() => {}}>Face ID Login</button>
           </div>
         </div>
         <div className={st.footer}>
