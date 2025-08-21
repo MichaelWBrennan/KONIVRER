@@ -22,3 +22,7 @@ export const title = style({ fontWeight: 700, fontSize: '1.05rem' });
 
 export const content = style({ flex: 1, display: 'flex', flexDirection: 'column' });
 
+export const headerRow = style({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 });
+export const headerActions = style({ display: 'flex', alignItems: 'center', gap: 8 });
+export const iconBtn = style({ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '6px 10px', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer' });
+
