@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import * as nav from '../nav.css.ts';
 import { Deck, cardDatabase } from '../data/cards';
 
 interface DeckSearchProps {
@@ -53,7 +54,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   return (
     <div>
       <div className="search-container">
-        <h1 className="nav-title">Deck Search</h1>
+        <h1 className={nav.navTitle}>Deck Search</h1>
         <input
           type="text"
           placeholder="Search decks by name or description..."
