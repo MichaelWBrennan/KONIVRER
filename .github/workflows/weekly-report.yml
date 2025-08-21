@@ -1,0 +1,104 @@
+name: 📊 Weekly Autonomous System Report
+
+on:
+  schedule:
+    - cron: "0 13 * * MON"  # Every Monday at 1 PM UTC
+  workflow_dispatch:
+    inputs:
+      force_generate:
+        description: 'Force generate report now'
+        required: false
+        default: false
+        type: boolean
+      custom_date_range:
+        description: 'Custom date range (e.g., 7d, 30d)'
+        required: false
+        default: '7d'
+        type: string
+
+env:
+  PYTHON_VERSION: '3.11'
+  GITHUB_API_VERSION: '2022-11-28'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+  actions: read
+
+jobs:
+  generate-weekly-report:
+    name: 📈 Generate Weekly Autonomous System Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub requests pyyaml python-dateutil pandas tabulate
+          
+      - name: 🔍 Load Merge Rules
+        id: merge-rules
+        run: |
+          echo "Loading merge rules configuration..."
+          python -c "
+          import yaml
+          with open('.github/merge-rules.yaml', 'r') as f:
+              rules = yaml.safe_load(f)
+          print(f'::set-output name=reporting-enabled::{rules[\"policy\"][\"reporting\"][\"weekly_reports\"]}')
+          print(f'::set-output name=issue-escalation::{rules[\"policy\"][\"reporting\"][\"issue_escalation\"]}')
+          "
+          
+      - name: 📊 Generate Weekly Report
+        if: steps.merge-rules.outputs.reporting-enabled == 'True'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          FORCE_GENERATE: ${{ github.event.inputs.force_generate || 'false' }}
+          CUSTOM_DATE_RANGE: ${{ github.event.inputs.custom_date_range || '7d' }}
+        run: |
+          echo "📊 Generating weekly autonomous system report..."
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Force generate: $FORCE_GENERATE"
+          echo "Date range: $CUSTOM_DATE_RANGE"
+          
+          # Run the weekly report generator
+          python scripts/report_weekly.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --date-range "$CUSTOM_DATE_RANGE" \
+            --force "$FORCE_GENERATE"
+            
+      - name: 📋 Report Summary
+        if: always()
+        run: |
+          echo "## 📊 Weekly Report Generation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Trigger:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Date Range:** ${{ github.event.inputs.custom_date_range || '7d' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ steps.merge-rules.outputs.reporting-enabled }}" == "True" ]]; then
+            echo "✅ **Status:** Weekly reporting enabled" >> $GITHUB_STEP_SUMMARY
+            echo "✅ **Issue Escalation:** ${{ steps.merge-rules.outputs.issue-escalation }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⚠️ **Status:** Weekly reporting disabled in configuration" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Next Scheduled Run:** Every Monday at 1 PM UTC" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*This workflow generates comprehensive KPI reports for the autonomous repository management system.*" >> $GITHUB_STEP_SUMMARY
