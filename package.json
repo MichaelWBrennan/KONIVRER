@@ -9,6 +9,8 @@
     "start": "vite preview --port $PORT",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "db:populate-from-images": "ts-node --project backend/tsconfig.json scripts/populate-db-from-images.ts"
   },
   "dependencies": {

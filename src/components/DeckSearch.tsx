@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Deck, cardDatabase } from '../data/cards';
 
 interface DeckSearchProps {

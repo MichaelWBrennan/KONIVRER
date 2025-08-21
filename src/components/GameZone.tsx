@@ -97,7 +97,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
           </div>
         ));
 
-      case 'fan':
+      case 'fan': {
         // Hand layout - cards fan out
         const cardSpacing = zoneConfig.cardSpacing || 8;
         const overlap = zoneConfig.overlap || 0.8;
@@ -131,8 +131,9 @@ export const GameZone: React.FC<GameZoneProps> = ({
             </div>
           );
         });
+      }
 
-      case 'grid':
+      case 'grid': {
         // Battlefield layout - cards in grid
         const maxRows = zoneConfig.maxRows || 3;
         const spacing = zoneConfig.cardSpacing || 12;
@@ -165,6 +166,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
             </div>
           );
         });
+      }
 
       default:
         return null;
