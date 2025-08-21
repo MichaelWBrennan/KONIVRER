@@ -16,6 +16,7 @@ import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
 import { PdfViewer } from './pages/PdfViewer';
+import { Offline } from './pages/Offline';
 import { useAppStore } from './stores/appStore';
 import { useAuth } from './hooks/useAuth';
 import { NotificationService } from './services/notifications';
@@ -44,18 +45,22 @@ function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const { selectedCard, setSelectedCard } = useAppStore();
   const { canAccessJudgePortal, isAuthenticated } = useAuth();
+  const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true);
 
   // Initialize notifications on app start
   useEffect(() => {
     const notificationService = NotificationService.getInstance();
     notificationService.initialize();
     
-    // Set up WebSocket for real-time notifications if available
-    // This would connect to your backend WebSocket
-    // const socket = io('/events', {
-    //   auth: { token: localStorage.getItem('authToken') }
-    // });
-    // notificationService.setupWebSocketNotifications(socket);
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
   }, []);
 
   const handleCardSelect = (card: Card) => {
@@ -82,6 +87,10 @@ function AppContent() {
     }
     setCurrentPage(page);
   };
+
+  if (!isOnline) {
+    return <Offline />;
+  }
 
   return (
     <div className={appStyles.app}>
