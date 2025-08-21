@@ -39,5 +39,14 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "typescript": "^5.9.2",
     "vite": "^7.1.2"
+  },
+  "optionalDependencies": {
+    "@cyclonedx/cyclonedx-npm": "^1.0.0",
+    "@cyclonedx/cyclonedx-node-npm": "^1.0.0",
+    "license-checker": "^25.0.1",
+    "audit-ci": "^6.6.1",
+    "chaos-monkey-cli": "^1.0.0",
+    "artillery": "^2.0.0",
+    "loadtest": "^6.3.0"
   }
 }
