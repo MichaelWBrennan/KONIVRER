@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import type { Deck } from '../data/cards';
-import './MyDecks.css';
+import * as s from './myDecks.css.ts';
 
 interface DeckWithActions extends Deck {
   isPublic: boolean;
@@ -79,28 +79,28 @@ export const MyDecks: React.FC = () => {
   };
 
   return (
-    <div className="my-decks">
-      <div className="my-decks-header">
+    <div className={s.root}>
+      <div className={s.header}>
         <h1>My Decks</h1>
         <p>Manage your personal deck collection</p>
       </div>
 
-      <div className="my-decks-controls">
-        <div className="search-section">
+      <div className={s.controls}>
+        <div className={s.searchSection}>
           <input
             type="text"
             placeholder="Search my decks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
+            className={s.searchInput}
           />
         </div>
 
-        <div className="filter-section">
+        <div className={s.filterSection}>
           <select 
             value={sortBy} 
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="sort-select"
+            className={s.select}
           >
             <option value="lastPlayed">Last Played</option>
             <option value="name">Name</option>
@@ -111,7 +111,7 @@ export const MyDecks: React.FC = () => {
           <select 
             value={filterBy} 
             onChange={(e) => setFilterBy(e.target.value as any)}
-            className="filter-select"
+            className={s.select}
           >
             <option value="all">All Decks</option>
             <option value="public">Public</option>
@@ -127,59 +127,59 @@ export const MyDecks: React.FC = () => {
         </button>
       </div>
 
-      <div className="decks-grid">
+      <div className={s.decksGrid}>
         {filteredDecks.map((deck) => (
-          <div key={deck.id} className="deck-card">
-            <div className="deck-header">
-              <h3 className="deck-name">{deck.name}</h3>
-              <div className="deck-visibility">
+          <div key={deck.id} className={s.deckCard}>
+            <div className={s.deckHeader}>
+              <h3 className={s.deckName}>{deck.name}</h3>
+              <div>
                 {deck.isPublic ? (
-                  <span className="visibility-badge public">🌐 Public</span>
+                  <span className={`${s.visibilityBadge} ${s.visibilityPublic}`}>🌐 Public</span>
                 ) : (
-                  <span className="visibility-badge private">🔒 Private</span>
+                  <span className={`${s.visibilityBadge} ${s.visibilityPrivate}`}>🔒 Private</span>
                 )}
               </div>
             </div>
 
-            <div className="deck-info">
-              <p className="deck-description">{deck.description}</p>
-              <div className="deck-stats">
-                <span className="stat">📊 Win Rate: {(deck.winRate * 100).toFixed(0)}%</span>
-                <span className="stat">🎯 Format: {deck.format}</span>
-                <span className="stat">⚡ Element: {deck.mainElement}</span>
+            <div className={s.deckInfo}>
+              <p className={s.deckDescription}>{deck.description}</p>
+              <div className={s.deckStats}>
+                <span className={s.stat}>📊 Win Rate: {(deck.winRate * 100).toFixed(0)}%</span>
+                <span className={s.stat}>🎯 Format: {deck.format}</span>
+                <span className={s.stat}>⚡ Element: {deck.mainElement}</span>
               </div>
-              <div className="deck-dates">
-                <span className="date">Created: {deck.created.toLocaleDateString()}</span>
+              <div className={s.deckDates}>
+                <span className={s.date}>Created: {deck.created.toLocaleDateString()}</span>
                 {deck.lastPlayed && (
-                  <span className="date">Last Played: {deck.lastPlayed.toLocaleDateString()}</span>
+                  <span className={s.date}>Last Played: {deck.lastPlayed.toLocaleDateString()}</span>
                 )}
               </div>
             </div>
 
-            <div className="deck-actions">
+            <div className={s.deckActions}>
               <button 
-                className="btn btn-primary action-btn"
+                className={`btn btn-primary ${s.actionBtn}`}
                 onClick={() => handlePlayInSimulator(deck)}
                 title="Play in Simulator"
               >
                 🎮 Play
               </button>
               <button 
-                className="btn btn-secondary action-btn"
+                className={`btn btn-secondary ${s.actionBtn}`}
                 onClick={() => handleEditDeck(deck)}
                 title="Edit Deck"
               >
                 ✏️ Edit
               </button>
               <button 
-                className="btn btn-secondary action-btn"
+                className={`btn btn-secondary ${s.actionBtn}`}
                 onClick={() => handleToggleVisibility(deck.id)}
                 title="Toggle Visibility"
               >
                 {deck.isPublic ? '🔒' : '🌐'}
               </button>
               <button 
-                className="btn btn-danger action-btn"
+                className={`btn btn-danger ${s.actionBtn}`}
                 onClick={() => handleDeleteDeck(deck.id)}
                 title="Delete Deck"
               >
@@ -191,7 +191,7 @@ export const MyDecks: React.FC = () => {
       </div>
 
       {filteredDecks.length === 0 && (
-        <div className="empty-state">
+        <div className={s.emptyState}>
           <h3>No decks found</h3>
           <p>
             {searchTerm ? 
