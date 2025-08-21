@@ -143,3 +143,35 @@ globalStyle('.btn-danger', { background: '#ef4444', color: '#fff' });
 globalStyle('.error-container .error', { color: '#c00' });
 globalStyle('.loading', { color: 'var(--text-secondary)', textAlign: 'center', padding: '1rem' });
 
+// Mobile-first utilities formerly from mobile-first.css (subset used)
+globalStyle('.btn-touch', {
+  minHeight: 44,
+  minWidth: 44,
+  padding: '0.75rem 1rem',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '0.5rem',
+  borderRadius: '0.5rem',
+  fontWeight: 500 as any,
+  transition: 'all 0.2s ease',
+  cursor: 'pointer',
+  border: 'none',
+  textDecoration: 'none',
+  userSelect: 'none',
+});
+globalStyle('.btn-touch:active', { transform: 'scale(0.95)' });
+
+// Simple utility classes
+globalStyle('.flex', { display: 'flex' });
+globalStyle('.items-center', { alignItems: 'center' });
+globalStyle('.justify-center', { justifyContent: 'center' });
+globalStyle('.mr-2', { marginRight: '0.5rem' });
+globalStyle('.mb-3', { marginBottom: '0.75rem' });
+globalStyle('.mb-4', { marginBottom: '1rem' });
+
+globalStyle('.text-lg', { fontSize: '1.125rem', lineHeight: '1.75rem' });
+globalStyle('.text-sm', { fontSize: '0.875rem', lineHeight: '1.25rem' });
+globalStyle('.font-semibold', { fontWeight: 600 as any });
+globalStyle('.text-secondary', { color: 'var(--text-secondary)' });
+
