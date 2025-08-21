@@ -4,7 +4,7 @@ import { useEventStore } from '../stores/eventStore';
 import { EventService } from '../services/eventService';
 import { NotificationService } from '../services/notifications';
 
-type EventsTab = 'live' | 'archive';
+type EventsTab = 'live' | 'standings' | 'archive';
 
 export const TournamentHub: React.FC = () => {
   const [tab, setTab] = useState<EventsTab>('live');
@@ -19,7 +19,7 @@ export const TournamentHub: React.FC = () => {
 
   useEffect(() => {
     // Update global search context so SearchBar adjusts placeholder when switching tabs
-    const ctx = tab === 'archive' ? 'event-archive' : 'events';
+    const ctx = tab === 'archive' ? 'event-archive' : tab === 'standings' ? 'event-standings' : 'events';
     window.dispatchEvent(new CustomEvent('search-context', { detail: ctx }));
   }, [tab]);
 
@@ -71,7 +71,7 @@ export const TournamentHub: React.FC = () => {
   return (
     <div className={s.root}>
       <div className={s.tabs}>
-        {(['live','archive'] as EventsTab[]).map(t => (
+        {(['live','standings','archive'] as EventsTab[]).map(t => (
           <button key={t} className={`${s.tab} ${tab===t?s.tabActive:''}`} onClick={() => setTab(t)}>{t[0].toUpperCase()+t.slice(1)}</button>
         ))}
       </div>
@@ -115,6 +115,30 @@ export const TournamentHub: React.FC = () => {
           ))}
         </div>
       )}
+
+      {tab === 'standings' && (
+        <Standings query={query} />
+      )}
+    </div>
+  );
+};
+
+const Standings: React.FC<{ query: string }> = ({ query }) => {
+  // demo standings; replace with API when available
+  const demo = [
+    { rank: 1, player: 'Alice', points: 9, omw: 0.67 },
+    { rank: 2, player: 'Bob', points: 9, omw: 0.61 },
+    { rank: 3, player: 'Carol', points: 6, omw: 0.58 },
+  ];
+  const list = demo.filter(r => r.player.toLowerCase().includes(query.toLowerCase()) || String(r.rank) === query.trim());
+  return (
+    <div>
+      {list.map(row => (
+        <div key={row.rank} className={s.pairingItem}>
+          <div>#{row.rank} {row.player}</div>
+          <div>{row.points} pts • OMW {Math.round(row.omw*100)}%</div>
+        </div>
+      ))}
     </div>
   );
 };
