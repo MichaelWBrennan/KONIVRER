@@ -8,7 +8,7 @@ import {
   ProfileIcon, 
   MenuIcon
 } from './EsotericIcons';
-import './BubbleMenu.css';
+import * as bm from './bubbleMenu.css.ts';
 
 interface BubbleMenuProps {
   currentPage: string;
@@ -121,11 +121,11 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   ];
 
   return (
-    <div className={`bubble-menu ${device.isMobile ? 'mobile' : 'desktop'}`}>
+    <div className={`${bm.root} ${device.isMobile ? bm.mobile : bm.desktop}`}>
       {/* Accessibility Settings Bubble */}
-      <div key="accessibility-bubble" className="bubble-container accessibility-bubble">
+      <div key="accessibility-bubble" className={`bubble-container accessibility-bubble`}>
         <button
-          className="bubble-btn accessibility-btn"
+          className={`${bm.bubbleBtn} ${bm.accessibilityBtn}`}
           onClick={() => {
             closeOtherPanels('accessibility');
             setIsAccessibilityOpen(!isAccessibilityOpen);
@@ -137,9 +137,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         </button>
         
         {isAccessibilityOpen && (
-          <div className="bubble-panel accessibility-panel">
+          <div className={`${bm.panel} accessibility-panel`}>
             <button
-              className="panel-close-btn"
+              className={bm.panelCloseBtn}
               onClick={() => setIsAccessibilityOpen(false)}
               aria-label="Close accessibility settings"
             >
@@ -178,9 +178,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Search Bubble */}
-      <div key="search-bubble" className="bubble-container search-bubble">
+      <div key="search-bubble" className={`bubble-container search-bubble`}>
         <button
-          className="bubble-btn search-btn"
+          className={`${bm.bubbleBtn} ${bm.searchBtn}`}
           onClick={() => {
             closeOtherPanels('search');
             setIsSearchOpen(!isSearchOpen);
@@ -192,9 +192,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         </button>
         
         {isSearchOpen && (
-          <div className="bubble-panel search-panel">
+          <div className={`${bm.panel} search-panel`}>
             <button
-              className="panel-close-btn"
+              className={bm.panelCloseBtn}
               onClick={() => setIsSearchOpen(false)}
               aria-label="Close search"
             >
@@ -216,9 +216,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Login/Profile Bubble */}
-      <div key="login-bubble" className="bubble-container login-bubble">
+      <div key="login-bubble" className={`bubble-container login-bubble`}>
         <button
-          className="bubble-btn login-btn"
+          className={`${bm.bubbleBtn} ${bm.loginBtn}`}
           onClick={() => {
             closeOtherPanels('login');
             setIsLoginOpen(!isLoginOpen);
@@ -230,9 +230,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         </button>
         
         {isLoginOpen && (
-          <div className="bubble-panel login-panel">
+          <div className={`${bm.panel} login-panel`}>
             <button
-              className="panel-close-btn"
+              className={bm.panelCloseBtn}
               onClick={() => setIsLoginOpen(false)}
               aria-label="Close login panel"
             >
@@ -289,9 +289,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Burger Menu Bubble */}
-      <div key="menu-bubble" className="bubble-container menu-bubble">
+      <div key="menu-bubble" className={`bubble-container menu-bubble`}>
         <button
-          className="bubble-btn menu-btn"
+          className={`${bm.bubbleBtn} ${bm.menuBtn}`}
           onClick={() => {
             closeOtherPanels('menu');
             setIsMenuOpen(!isMenuOpen);
@@ -303,25 +303,25 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         </button>
         
         {isMenuOpen && (
-          <div className="bubble-panel menu-panel">
+          <div className={`${bm.panel} menu-panel`}>
             <button
-              className="panel-close-btn"
+              className={bm.panelCloseBtn}
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
             >
               ✕
             </button>
-            <nav className="menu-nav">
+            <nav className={bm.menuNav}>
               {menuItems.map((item) => (
                 <button
                   key={item.id}
-                  className={`menu-item ${currentPage === item.id ? 'active' : ''}`}
+                  className={`${bm.menuItem} ${currentPage === item.id ? bm.menuItemActive : ''}`}
                   onClick={() => {
                     onPageChange(item.id);
                     setIsMenuOpen(false);
                   }}
                 >
-                  <span className="menu-label">{item.label}</span>
+                  <span className={bm.menuLabel}>{item.label}</span>
                 </button>
               ))}
             </nav>
