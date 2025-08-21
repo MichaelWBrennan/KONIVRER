@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import * as nav from '../nav.css.ts';
+import * as ds from './deckSearch.css.ts';
 import { Deck, cardDatabase } from '../data/cards';
 
 interface DeckSearchProps {
@@ -99,21 +100,16 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
           return (
             <div 
               key={deck.id} 
-              className="card-item"
-              style={{ cursor: 'default' }}
+              className={`card-item ${ds.cardItem}`}
             >
-              <div style={{ display: 'flex', height: '200px', overflow: 'hidden' }}>
+              <div className={ds.previewRow}>
                 {previewCards.map((card, index) => (
                   <img 
                     key={card?.id}
                     src={card?.webpUrl} 
                     alt={card?.name}
-                    style={{
-                      width: `${100 / previewCards.length}%`,
-                      height: '100%',
-                      objectFit: 'cover',
-                      opacity: 1 - (index * 0.1)
-                    }}
+                    style={{ width: `${100 / previewCards.length}%`, height: '100%', objectFit: 'cover', opacity: 1 - (index * 0.1) }}
+                    className={ds.previewImg}
                     onError={(e) => {
                       // Fallback to PNG if WebP fails
                       if (card) {
@@ -128,24 +124,15 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                 <div className="card-details">
                   <div>{deck.mainElement} • {deck.format}</div>
                   <div>{deck.cards.length} cards • Win Rate: {(deck.winRate * 100).toFixed(0)}%</div>
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.8rem' }}>
+                  <div className={ds.desc}>
                     {deck.description}
                   </div>
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+                  <div className={ds.meta}>
                     Updated: {deck.updatedAt.toLocaleDateString()}
                   </div>
-                  <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+                  <div className={ds.actions}>
                     <button
-                      style={{
-                        flex: 1,
-                        padding: '0.5rem',
-                        fontSize: '0.8rem',
-                        background: 'var(--accent-color)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '4px',
-                        cursor: 'pointer'
-                      }}
+                      className={`btn btn-primary ${ds.actionBtn}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleAddToMyAccount(deck);
@@ -154,16 +141,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                       + My Account
                     </button>
                     <button
-                      style={{
-                        flex: 1,
-                        padding: '0.5rem',
-                        fontSize: '0.8rem',
-                        background: 'var(--secondary-bg)',
-                        color: 'var(--text-primary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '4px',
-                        cursor: 'pointer'
-                      }}
+                      className={`btn btn-secondary ${ds.actionBtn}`}
                       onClick={(e) => {
                         e.stopPropagation();
                         handlePlayInSimulator(deck);
@@ -172,15 +150,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                       🎮 Play
                     </button>
                     <button
-                      style={{
-                        padding: '0.5rem 0.75rem',
-                        fontSize: '0.8rem',
-                        background: 'var(--secondary-bg)',
-                        color: 'var(--text-primary)',
-                        border: '1px solid var(--border-color)',
-                        borderRadius: '4px',
-                        cursor: 'pointer'
-                      }}
+                      className="btn"
                       onClick={(e) => {
                         e.stopPropagation();
                         onDeckSelect?.(deck);
