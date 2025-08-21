@@ -16,4 +16,4 @@ export const newsCard = style({});
 export const newsDate = style({ fontSize: '0.75rem' });
 export const linkBar = style({ padding: '1rem', textAlign: 'right' });
 export const link = style({ color: '#0ea5e9' });
-
+export const hero = style({ display: 'flex', alignItems: 'center', justifyContent: 'space-between', minHeight: 120 });
