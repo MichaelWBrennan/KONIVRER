@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import * as s from './offline.css.ts';
 
 export function Offline() {
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : false);
@@ -39,49 +40,19 @@ export function Offline() {
     };
   }, [checkConnection, updateConnectionStatus]);
 
-  const styles = useMemo(() => `
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif; }
-        .offline-page { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
-        .offline-container { max-width: 400px; width: 100%; animation: fadeIn 0.6s ease-out; }
-        .logo { width: 80px; height: 80px; background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; font-size: 32px; font-weight: bold; color: white; }
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 12px; color: #FFFFFF; }
-        .subtitle { font-size: 18px; color: #A0A0A0; margin-bottom: 32px; }
-        .offline-icon { width: 120px; height: 120px; margin: 0 auto 24px; opacity: 0.6; animation: pulse 2s ease-in-out infinite; }
-        .message { font-size: 16px; line-height: 1.6; color: #C0C0C0; margin-bottom: 32px; }
-        .features { background: rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 24px; margin-bottom: 32px; backdrop-filter: blur(10px); }
-        .features h3 { font-size: 18px; margin-bottom: 16px; color: #FFFFFF; }
-        .feature-list { list-style: none; text-align: left; }
-        .feature-list li { padding: 8px 0 8px 24px; color: #E0E0E0; position: relative; }
-        .feature-list li::before { content: '✓'; position: absolute; left: 0; color: #34C759; font-weight: bold; }
-        .retry-button { background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%); color: white; border: none; padding: 16px 32px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-bottom: 16px; width: 100%; }
-        .retry-button:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 122, 255, 0.3); }
-        .retry-button:active { transform: translateY(0); }
-        .home-link { color: #007AFF; text-decoration: none; font-weight: 500; padding: 12px; display: inline-block; border-radius: 8px; transition: all 0.2s ease; }
-        .home-link:hover { background: rgba(0, 0, 0, 0.1); }
-        .connection-status { position: fixed; top: 20px; right: 20px; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; background: rgba(255, 59, 48, 0.9); color: white; backdrop-filter: blur(10px); }
-        .connection-status.online { background: rgba(52, 199, 89, 0.9); }
-        @media (max-width: 480px) { .offline-container { padding: 0 16px; } h1 { font-size: 24px; } .subtitle { font-size: 16px; } .logo { width: 64px; height: 64px; font-size: 24px; } }
-        @media (prefers-color-scheme: light) { .offline-page { background: linear-gradient(135deg, #F2F2F7 0%, #E5E5EA 100%); color: #1C1C1E; } h1 { color: #1C1C1E; } .subtitle { color: #6D6D70; } .message { color: #48484A; } .features { background: rgba(0, 0, 0, 0.05); } .features h3 { color: #1C1C1E; } .feature-list li { color: #3A3A3C; } }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.3; } }
-    `, []);
-
   return (
-    <div className="offline-page">
-      <style>{styles}</style>
-
-      <div className={`connection-status${isOnline ? ' online' : ''}`}>
+    <div className={s.page}>
+      <div className={`${s.status} ${isOnline ? s.statusOnline : ''}`}>
         {isOnline ? 'Online' : 'Offline'}
       </div>
 
-      <div className="offline-container">
-        <div className="logo">K</div>
+      <div className={s.container}>
+        <div className={s.logo}>K</div>
 
         <h1>You're Offline</h1>
-        <p className="subtitle">No internet connection detected</p>
+        <p className={s.subtitle}>No internet connection detected</p>
 
-        <div className="offline-icon" aria-hidden>
+        <div className={s.icon} aria-hidden>
           <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.3" />
             <path d="M30 60h60M60 30v60" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
@@ -89,24 +60,24 @@ export function Offline() {
           </svg>
         </div>
 
-        <p className="message">
+        <p className={s.message}>
           Don't worry! KONIVRER works offline too. You can still access your saved decks,
           play against AI opponents, and use many features without an internet connection.
         </p>
 
-        <div className="features">
+        <div className={s.features}>
           <h3>Available Offline:</h3>
-          <ul className="feature-list">
-            <li>View and edit saved decks</li>
-            <li>Play against AI opponents</li>
-            <li>Browse your card collection</li>
-            <li>Practice deck strategies</li>
-            <li>Access game rules and tutorials</li>
+          <ul className={s.featureList}>
+            <li className={s.featureItem}>View and edit saved decks</li>
+            <li className={s.featureItem}>Play against AI opponents</li>
+            <li className={s.featureItem}>Browse your card collection</li>
+            <li className={s.featureItem}>Practice deck strategies</li>
+            <li className={s.featureItem}>Access game rules and tutorials</li>
           </ul>
         </div>
 
-        <button className="retry-button" onClick={checkConnection}>Check Connection</button>
-        <a href="/" className="home-link">Return to App</a>
+        <button className={s.retryButton} onClick={checkConnection}>Check Connection</button>
+        <a href="/" className={s.homeLink}>Return to App</a>
       </div>
     </div>
   );
