@@ -31,12 +31,12 @@ globalFontFace('OpenDyslexic', {
 globalStyle(':root', {
   vars: {
     '--vh': '1vh',
-    '--primary-bg': '#0f0f0f',
-    '--secondary-bg': '#1a1a2e',
+    '--primary-bg': '#0b0c10',
+    '--secondary-bg': '#12141d',
     '--text-primary': '#ffffff',
     '--text-secondary': '#b0b0b0',
     '--accent-color': '#4a90e2',
-    '--border-color': '#333',
+    '--border-color': '#2a2d34',
   } as any,
 });
 
