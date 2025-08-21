@@ -3,6 +3,7 @@ import { useCards } from '../hooks/useCards';
 import { useAppStore } from '../stores/appStore';
 import { debounce } from '../utils/timing';
 import { Card } from '../data/cards';  // Use our local Card type
+import * as cs from './cardSearch.css.ts';
 import { CardViewerModal } from './CardViewerModal';
 import * as nav from '../nav.css.ts';
 
@@ -117,7 +118,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             ))}
           </select>
 
-          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <label className={cs.filtersRow}>
             <input
               type="checkbox"
               checked={searchFilters.legalOnly || false}
@@ -138,30 +139,17 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
         </div>
       )}
 
-      <div className="cards-grid"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-          gap: '1rem',
-          padding: '1rem'
-        }}
-      >
+      <div className={cs.cardsGrid}>
         {cards.map((card: Card) => (
           <div
             key={card.id}
-            className="card-item"
-            style={{
-              borderRadius: '8px',
-              cursor: 'pointer',
-              overflow: 'hidden',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-            }}
+            className={`card-item ${cs.cardItem}`}
             onClick={() => setSelectedCard(card)}
           >
             <img
               src={card.webpUrl || card.imageUrl || '/placeholder-card.png'}
               alt={card.name}
-              style={{ width: '100%', display: 'block' }}
+              className={cs.cardImg}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 if (target.src !== '/placeholder-card.png') {
@@ -174,33 +162,23 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
       </div>
 
       {pagination && pagination.totalPages > 1 && (
-        <div className="pagination" style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', margin: '2rem 0' }}>
+        <div className={cs.pagination}>
           <button
             disabled={pagination.currentPage === 1}
             onClick={() => handlePageChange(pagination.currentPage - 1)}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid var(--border-color)',
-              background: 'var(--secondary-bg)',
-              cursor: pagination.currentPage === 1 ? 'not-allowed' : 'pointer'
-            }}
+            className={cs.pageButton}
           >
             Previous
           </button>
           
-          <span style={{ padding: '0.5rem 1rem' }}>
+          <span className={cs.paginationInfo}>
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
           
           <button
             disabled={pagination.currentPage === pagination.totalPages}
             onClick={() => handlePageChange(pagination.currentPage + 1)}
-            style={{
-              padding: '0.5rem 1rem',
-              border: '1px solid var(--border-color)',
-              background: 'var(--secondary-bg)',
-              cursor: pagination.currentPage === pagination.totalPages ? 'not-allowed' : 'pointer'
-            }}
+            className={cs.pageButton}
           >
             Next
           </button>
@@ -208,7 +186,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
       )}
 
       {cards.length === 0 && !isLoading && (
-        <div className="no-results" style={{ textAlign: 'center', padding: '2rem' }}>
+        <div className={`no-results ${cs.noResults}`}>
           <p>No cards found matching your search criteria.</p>
         </div>
       )}
