@@ -46,6 +46,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {([
               ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
               ['deckbuilder','Deckbuilder'] as const,
+              ['event-archive','Event Archive'] as const,
               ['events','Events'] as const,
               ['rules','Rules'] as const,
               ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
