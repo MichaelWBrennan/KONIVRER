@@ -1,0 +1,66 @@
+name: 🏷️ Smart PR Labeler
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  smart-labeling:
+    name: 🎯 Intelligent PR Categorization
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub requests pyyaml
+          
+      - name: 🏷️ Apply Smart Labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          echo "🏷️ Applying smart labels to PR #${{ github.event.pull_request.number }}"
+          
+          # Run the smart labeler
+          python scripts/smart_labeler.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --pr-number "${{ github.event.pull_request.number }}" \
+            --action "${{ github.event.action }}"
+            
+      - name: 📋 Labeling Summary
+        if: always()
+        run: |
+          echo "## 🏷️ Smart PR Labeling Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**PR:** #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Action:** ${{ github.event.action }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "**Current Labels:**" >> $GITHUB_STEP_SUMMARY
+          for label in ${{ join(github.event.pull_request.labels.*.name, ' ') }}; do
+            echo "- \`$label\`" >> $GITHUB_STEP_SUMMARY
+          done
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*This workflow automatically categorizes PRs for optimal autonomous processing.*" >> $GITHUB_STEP_SUMMARY
