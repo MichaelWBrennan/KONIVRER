@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import './LoginModal.css';
+import * as st from './loginModal.css.ts';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -42,18 +42,18 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="login-modal-overlay" onClick={onClose}>
-      <div className="login-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="login-modal-close" onClick={onClose}>
+    <div className={st.overlay} onClick={onClose}>
+      <div className={st.modal} onClick={(e) => e.stopPropagation()}>
+        <button className={st.close} onClick={onClose}>
           ✕
         </button>
         
-        <div className="login-modal-header">
+        <div className={st.header}>
           <h2>Welcome to KONIVRER</h2>
           <p>Sign in to your account</p>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className={st.form} onSubmit={handleSubmit}>
           {error && (
             <div className="error-message" style={{ 
               padding: '0.5rem', 
@@ -67,7 +67,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             </div>
           )}
           
-          <div className="input-group">
+          <div className={st.inputGroup}>
             <label htmlFor="email">Username or Email</label>
             <input
               type="text"
@@ -80,9 +80,9 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             />
           </div>
 
-          <div className="input-group">
+          <div className={st.inputGroup}>
             <label htmlFor="password">Password</label>
-            <div className="password-input">
+            <div className={st.passwordInput}>
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"
@@ -94,7 +94,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
               />
               <button
                 type="button"
-                className="password-toggle"
+                className={st.passwordToggle}
                 onClick={() => setShowPassword(!showPassword)}
                 disabled={isLoading}
               >
@@ -103,76 +103,76 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          <button type="submit" className="login-btn primary" disabled={isLoading}>
+          <button type="submit" className={st.loginBtn} disabled={isLoading}>
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <div className="login-divider">
-          <span>or continue with</span>
+        <div className={st.divider}>
+          <span className={st.dividerSpan}>or continue with</span>
         </div>
 
-        <div className="social-login-section">
+        <div className={st.socialSection}>
           <button 
-            className="social-login-btn google"
+            className={st.socialBtn}
             onClick={() => handleSocialLogin('google')}
           >
-            <span className="social-icon">🔍</span>
+            <span className={st.socialIcon}>🔍</span>
             Continue with Google
           </button>
           
           <button 
-            className="social-login-btn github"
+            className={st.socialBtn}
             onClick={() => handleSocialLogin('github')}
           >
-            <span className="social-icon">🐙</span>
+            <span className={st.socialIcon}>🐙</span>
             Continue with GitHub
           </button>
           
           <button 
-            className="social-login-btn microsoft"
+            className={st.socialBtn}
             onClick={() => handleSocialLogin('microsoft')}
           >
-            <span className="social-icon">🪟</span>
+            <span className={st.socialIcon}>🪟</span>
             Continue with Microsoft
           </button>
           
           <button 
-            className="social-login-btn discord"
+            className={st.socialBtn}
             onClick={() => handleSocialLogin('discord')}
           >
-            <span className="social-icon">🎮</span>
+            <span className={st.socialIcon}>🎮</span>
             Continue with Discord
           </button>
         </div>
 
-        <div className="biometric-login-section">
+        <div className={st.biometricSection}>
           <h3>Quick Login</h3>
-          <div className="biometric-buttons">
+          <div className={st.biometricButtons}>
             <button 
-              className="biometric-btn fingerprint"
+              className={st.biometricBtn}
               onClick={() => handleBiometricLogin('fingerprint')}
             >
-              <span className="biometric-icon">👆</span>
+              <span className={st.biometricIcon}>👆</span>
               Fingerprint Login
             </button>
             
             <button 
-              className="biometric-btn faceid"
+              className={st.biometricBtn}
               onClick={() => handleBiometricLogin('faceid')}
             >
-              <span className="biometric-icon">🧑‍💻</span>
+              <span className={st.biometricIcon}>🧑‍💻</span>
               Face ID Login
             </button>
           </div>
           
-          <div className="biometric-tip">
+          <div className={st.biometricTip}>
             <p>💡 <strong>Biometric Authentication Tip:</strong></p>
             <p>Enable biometric login for faster and more secure access to your KONIVRER account. Your biometric data is stored locally on your device and never transmitted to our servers.</p>
           </div>
         </div>
 
-        <div className="login-footer">
+        <div className={st.footer}>
           <p>Don't have an account? <a href="#" onClick={(e) => { e.preventDefault(); console.log('Register clicked'); }}>Sign up</a></p>
           <p><a href="#" onClick={(e) => { e.preventDefault(); console.log('Forgot password clicked'); }}>Forgot your password?</a></p>
         </div>
