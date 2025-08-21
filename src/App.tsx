@@ -21,6 +21,7 @@ import { NotificationService } from './services/notifications';
 import type { Card } from './data/cards';  // Use our local Card type
 import type { Deck } from './data/cards';
 import * as appStyles from './app.css.ts';
+import * as overlay from './appOverlay.css.ts';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -84,12 +85,7 @@ function AppContent() {
   return (
     <div className={appStyles.app}>
       {/* Notification Center - positioned in top right */}
-      <div style={{
-        position: 'fixed',
-        top: '1rem',
-        right: '1rem',
-        zIndex: 1000,
-      }}>
+      <div className={overlay.topRight}>
         <NotificationCenter />
       </div>
 
@@ -129,27 +125,19 @@ function AppContent() {
           canAccessJudgePortal() ? (
             <JudgePortal />
           ) : (
-            <div style={{
-              padding: '2rem',
-              textAlign: 'center',
-              maxWidth: '600px',
-              margin: '2rem auto',
-              backgroundColor: 'var(--secondary-bg)',
-              borderRadius: '8px',
-              border: '2px solid #ff6b6b'
-            }}>
-              <h2 style={{ color: '#ff6b6b', marginBottom: '1rem' }}>
+            <div className={overlay.restrictNotice}>
+              <h2 className={overlay.restrictTitle}>
                 🔒 Access Restricted
               </h2>
-              <p style={{ marginBottom: '1rem', lineHeight: '1.6' }}>
+              <p>
                 The Judge Portal is only accessible to certified KONIVRER judges and administrators.
               </p>
               {!isAuthenticated ? (
-                <p style={{ color: '#666' }}>
+                <p className={overlay.restrictMuted}>
                   Please log in with your judge credentials to access this portal.
                 </p>
               ) : (
-                <p style={{ color: '#666' }}>
+                <p className={overlay.restrictMuted}>
                   Your account does not have judge certification. Contact an administrator 
                   if you believe you should have access.
                 </p>
@@ -174,51 +162,15 @@ function AppContent() {
       {/* Selected card details modal */}
       {selectedCard && (
         <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0,0,0,0.8)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 1000
-          }}
+          className={overlay.modalMask}
           onClick={() => setSelectedCard(null)}
         >
           <div 
-            style={{
-              background: 'var(--secondary-bg)',
-              padding: '2rem',
-              borderRadius: '8px',
-              maxWidth: '500px',
-              maxHeight: '80vh',
-              overflow: 'auto',
-              position: 'relative'
-            }}
+            className={overlay.modal}
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              style={{
-                position: 'absolute',
-                top: '10px',
-                right: '10px',
-                background: 'transparent',
-                border: 'none',
-                fontSize: '24px',
-                color: 'var(--text-color)',
-                cursor: 'pointer',
-                padding: '4px',
-                borderRadius: '4px',
-                lineHeight: '1',
-                width: '32px',
-                height: '32px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
+              className={overlay.modalClose}
               onClick={() => setSelectedCard(null)}
               aria-label="Close"
             >
@@ -228,12 +180,12 @@ function AppContent() {
             <img 
               src={selectedCard.webpUrl} 
               alt={selectedCard.name}
-              style={{ width: '100%', maxWidth: '300px', marginTop: '1rem' }}
+              className={overlay.modalImg}
               onError={(e) => {
                 (e.target as HTMLImageElement).src = selectedCard.imageUrl || '/placeholder-card.png';
               }}
             />
-            <div style={{ marginTop: '1rem' }}>
+            <div className={overlay.modalBody}>
               <p><strong>Type:</strong> {selectedCard.type}</p>
               <p><strong>Element:</strong> {selectedCard.element}</p>
               <p><strong>Rarity:</strong> {selectedCard.rarity}</p>
@@ -241,18 +193,10 @@ function AppContent() {
               {selectedCard.power !== undefined && (
                 <p><strong>Power/Toughness:</strong> {selectedCard.power}/{selectedCard.toughness}</p>
               )}
-              <p style={{ marginTop: '1rem' }}>{selectedCard.description}</p>
+              <p>{selectedCard.description}</p>
             </div>
             <button 
-              style={{
-                marginTop: '1rem',
-                padding: '0.5rem 1rem',
-                background: 'var(--accent-color)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer'
-              }}
+              className={overlay.modalPrimary}
               onClick={() => setSelectedCard(null)}
             >
               Close

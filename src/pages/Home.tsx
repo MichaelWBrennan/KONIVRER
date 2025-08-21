@@ -5,8 +5,8 @@ export const Home: React.FC = () => {
   return (
     <div className={h.container}>
       <div className={h.homeRoot}>
-        <div style={{ padding: '1rem', textAlign: 'right' }}>
-          <a href="/automation-dashboard" style={{ color: '#0ea5e9' }}>Automation Dashboard</a>
+        <div className={h.linkBar}>
+          <a href="/automation-dashboard" className={h.link}>Automation Dashboard</a>
         </div>
         <header className={h.header}>
           <h1 className={h.title}>KONIVRER Chronicles</h1>
