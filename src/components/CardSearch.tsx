@@ -9,7 +9,7 @@ interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
-export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
+export const CardSearch: React.FC<CardSearchProps> = () => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { searchFilters, setSearchFilters } = useAppStore();
   const [localSearchTerm, setLocalSearchTerm] = useState(searchFilters.search || '');
@@ -39,13 +39,7 @@ export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
     setSearchFilters({ page });
   };
 
-  const handleAddToDeck = (card: Card) => {
-    // Implement add to deck functionality
-    // This could open a modal to select which deck to add to
-    // or add to a "working deck" in the deck builder
-    console.log('Adding card to deck:', card.name);
-    alert(`"${card.name}" will be added to your deck... (Feature coming soon)`);
-  };
+  
 
   // Get unique values for filters from current results
   const filterOptions = useMemo(() => {
