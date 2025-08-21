@@ -16,7 +16,6 @@ import { TournamentHub } from './pages/TournamentHub';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
-import { PdfViewer } from './pages/PdfViewer';
 import { Settings } from './pages/Settings';
 import { Offline } from './pages/Offline';
 import { useAppStore } from './stores/appStore';
@@ -130,7 +129,6 @@ function AppContent() {
         {currentPage === 'events' && (<TournamentHub />)}
         {currentPage === 'deckbuilder' && (<DeckBuilderAdvanced />)}
         {currentPage === 'analytics' && (<Analytics />)}
-        {currentPage === 'pdf' && (<PdfViewer />)}
         {currentPage === 'settings' && (<Settings />)}
       </MobileShell>
 
