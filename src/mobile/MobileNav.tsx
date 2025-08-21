@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as s from './mobileNav.css.ts';
 import { useAuth } from '../hooks/useAuth';
+import { UserRole } from '../services/authService';
 
 type Tab = 'home' | 'cards' | 'decks' | 'simulator' | 'more';
 
@@ -12,7 +13,7 @@ interface Props {
 export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
   const [open, setOpen] = useState(false);
   const active = (t: Tab) => (current === t ? s.tabActive : '');
-  const { isAuthenticated, canAccessJudgePortal } = useAuth();
+  const { isAuthenticated, canAccessJudgePortal, hasRole } = useAuth();
   return (
     <nav className={s.nav} aria-label="Primary">
       <div className={s.navInner}>
@@ -46,8 +47,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {([
               ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
               ['deckbuilder','Deckbuilder'] as const,
-              ['event-archive','Event Archive'] as const,
-              ['events','Events'] as const,
+              ...(hasRole(UserRole.TOURNAMENT_ORGANIZER) ? [['events','Events'] as const] : []),
               ['rules','Rules'] as const,
               ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
               ['settings','Settings'] as const,

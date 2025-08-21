@@ -52,5 +52,15 @@ export const EventService = {
     writeQueue(remaining);
     return { synced };
   }
+  ,
+  async registerDeck(eventId: string, deckId: string, userId?: string) {
+    const key = 'konivrer-event-deck-registrations';
+    const current = JSON.parse(localStorage.getItem(key) || '{}');
+    const uid = userId || (JSON.parse(localStorage.getItem('user') || '{}').id || 'me');
+    if (!current[eventId]) current[eventId] = {};
+    current[eventId][uid] = deckId;
+    localStorage.setItem(key, JSON.stringify(current));
+    return { ok: true } as const;
+  }
 };
 
