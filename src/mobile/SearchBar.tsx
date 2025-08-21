@@ -1,0 +1,27 @@
+import React, { useEffect, useState } from 'react';
+import * as s from './searchBar.css.ts';
+
+interface Props {
+  current: string;
+  onSearch: (query: string) => void;
+}
+
+export const SearchBar: React.FC<Props> = ({ current, onSearch }) => {
+  const [q, setQ] = useState('');
+  const placeholder = (() => {
+    switch (current) {
+      case 'cards': return 'Search cards...';
+      case 'decks': return 'Search decks...';
+      case 'events': return 'Search pairings (name or table)...';
+      case 'home': return 'Search posts...';
+      default: return 'Search...';
+    }
+  })();
+  useEffect(() => { const h = setTimeout(() => onSearch(q), 300); return () => clearTimeout(h); }, [q]);
+  return (
+    <div className={s.wrap}>
+      <input className={s.input} placeholder={placeholder} value={q} onChange={(e)=>setQ(e.target.value)} />
+    </div>
+  );
+};
+
