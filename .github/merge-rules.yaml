@@ -1,0 +1,148 @@
+# Autonomous Repository Merge Policy Configuration
+# This file controls the behavior of the fully automated PR lifecycle management system
+
+policy:
+  # Merge strategy configuration
+  merge_method: squash  # Default merge method (squash, merge, rebase)
+  fallback_merge_method: merge  # Fallback if squash fails
+  
+  # Retry and backoff settings
+  retries: 3
+  backoff_minutes: [5, 15, 45]
+  
+  # Labels that prevent automation
+  deny_labels: 
+    - "no-auto"
+    - "wip"
+    - "do-not-merge"
+    - "manual-review"
+  
+  # Paths that should never be auto-merged (empty for full autonomy)
+  deny_paths: []
+  
+  # Critical paths that require special handling
+  critical_paths:
+    - ".github/workflows/*"
+    - "infrastructure/terraform/*.tfvars"
+    - ".env*"
+    - "secrets.yaml"
+    - "config/production.*"
+  
+  # Lockfile regeneration settings
+  lockfile_regenerate: true
+  regenerate_commands:
+    - "npm ci && npm run build || true"
+    - "yarn install --frozen-lockfile && yarn build || true"
+    - "pnpm install --frozen-lockfile && pnpm run build || true"
+    - "pip install -U pip && pip install -r requirements.txt || true"
+    - "poetry install && poetry run build || true"
+    - "go mod tidy || true"
+    - "cargo build || true"
+  
+  # Auto-generated asset patterns
+  generated_assets:
+    - "**/dist/**"
+    - "**/build/**"
+    - "**/node_modules/**"
+    - "**/*.lock"
+    - "**/package-lock.json"
+    - "**/yarn.lock"
+    - "**/pnpm-lock.yaml"
+    - "**/poetry.lock"
+    - "**/Pipfile.lock"
+    - "**/Gemfile.lock"
+    - "**/Cargo.lock"
+    - "**/go.sum"
+    - "**/docs/_build/**"
+    - "**/*.snap"
+    - "**/openapi/**"
+    - "**/protobuf/**"
+  
+  # Formatting and linting commands
+  formatting_commands:
+    - "npm run format || true"
+    - "npm run lint:fix || true"
+    - "yarn format || true"
+    - "yarn lint:fix || true"
+    - "pnpm run format || true"
+    - "pnpm run lint:fix || true"
+    - "prettier --write . || true"
+    - "black . || true"
+    - "gofmt -w . || true"
+    - "cargo fmt || true"
+  
+  # Build and test commands
+  build_commands:
+    - "npm run build || true"
+    - "npm run test || true"
+    - "yarn build || true"
+    - "yarn test || true"
+    - "pnpm run build || true"
+    - "pnpm run test || true"
+    - "pip install -e . && pytest || true"
+    - "poetry run pytest || true"
+    - "go build ./... || true"
+    - "go test ./... || true"
+    - "cargo build || true"
+    - "cargo test || true"
+  
+  # Conflict resolution strategy
+  conflict_resolution:
+    # Priority order for conflict resolution
+    strategies:
+      - "clean_rebase"
+      - "heuristics"
+      - "merge_patience"
+      - "merge_theirs"
+      - "merge_ours"
+    
+    # Heuristic rules for specific file types
+    heuristics:
+      lockfiles:
+        action: "regenerate"
+        prefer: "base"
+      generated:
+        action: "ours"
+        prefer: "base"
+      formatting:
+        action: "patience"
+        prefer: "auto"
+      documentation:
+        action: "theirs"
+        prefer: "incoming"
+  
+  # Post-merge actions
+  post_merge:
+    delete_source_branch: true
+    auto_cherry_pick: false
+    backport_labels:
+      - "backport:release-*"
+      - "backport:hotfix"
+    
+  # Safety and monitoring
+  safety:
+    secret_scanning: true
+    dependency_scanning: true
+    infinite_loop_prevention: true
+    max_workflow_duration_minutes: 60
+    
+  # Reporting and audit
+  reporting:
+    comment_on_merge: true
+    weekly_reports: true
+    issue_escalation: true
+    log_all_decisions: true
+    
+  # CI/CD integration
+  ci_integration:
+    required_status_checks: true
+    auto_rerun_failed: true
+    max_rerun_attempts: 1
+    status_check_timeout_minutes: 30
+    
+  # Branch protection compatibility
+  branch_protection:
+    respect_existing_rules: true
+    bypass_protection: false
+    require_approvals: false
+    dismiss_stale_reviews: true
