@@ -14,4 +14,6 @@ export const featuredButtons = style({ display: 'flex', gap: '0.75rem' });
 export const newsGrid = style({ display: 'grid', gap: '1rem' });
 export const newsCard = style({});
 export const newsDate = style({ fontSize: '0.75rem' });
+export const linkBar = style({ padding: '1rem', textAlign: 'right' });
+export const link = style({ color: '#0ea5e9' });
 
