@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CardSearch } from './components/CardSearch';
 import { DeckSearch } from './components/DeckSearch';
 import { KonivrverSimulator } from './components/KonivrverSimulator';
-import { BubbleMenu } from './components/BubbleMenu';
+// import { BubbleMenu } from './components/BubbleMenu';
 
 import JudgePortal from './components/JudgePortal';
 import NotificationCenter from './components/NotificationCenter';
@@ -21,9 +21,9 @@ import { useAppStore } from './stores/appStore';
 import { useAuth } from './hooks/useAuth';
 import { NotificationService } from './services/notifications';
 import type { Card } from './data/cards';  // Use our local Card type
-import type { Deck } from './data/cards';
 import * as appStyles from './app.css.ts';
 import * as overlay from './appOverlay.css.ts';
+import { MobileShell } from './mobile/MobileShell';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -65,28 +65,31 @@ function AppContent() {
 
   const handleCardSelect = (card: Card) => {
     setSelectedCard(card);
-    console.log('Selected card:', card);
-  };
-
-  const handleDeckSelect = (deck: Deck) => {
-    console.log('Selected deck:', deck);
-    // Navigate to deck details or open in deck builder
-  };
-
-  const handleSearch = (query: string) => {
-    // Context-sensitive search based on current page
-    console.log('Search query:', query, 'on page:', currentPage);
-    // Implement search functionality for each page
   };
 
   const handlePageChange = (page: Page) => {
-    // Prevent navigation to judge portal if user doesn't have access
     if (page === 'judge' && !canAccessJudgePortal()) {
-      console.warn('Access denied to judge portal');
       return;
     }
     setCurrentPage(page);
   };
+
+  const title = useMemo(() => {
+    switch (currentPage) {
+      case 'home': return 'Home';
+      case 'cards': return 'Card Search';
+      case 'decks': return 'Deck Search';
+      case 'my-decks': return 'My Decks';
+      case 'deckbuilder': return 'Deckbuilder';
+      case 'simulator': return 'Play';
+      case 'analytics': return 'Analytics';
+      case 'events': return 'Events';
+      case 'rules': return 'Rules';
+      case 'judge': return 'Judge Portal';
+      case 'pdf': return 'PDF Viewer';
+      default: return 'KONIVRER';
+    }
+  }, [currentPage]);
 
   if (!isOnline) {
     return <Offline />;
@@ -94,127 +97,51 @@ function AppContent() {
 
   return (
     <div className={appStyles.app}>
-      {/* Notification Center - positioned in top right */}
       <div className={overlay.topRight}>
         <NotificationCenter />
       </div>
 
-      {/* Bubble Menu - only navigation system */}
-      <BubbleMenu 
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        onSearch={handleSearch}
-      />
-
-      <main>
-        {currentPage === 'home' && (
-          <Home />
-        )}
-
-        {currentPage === 'simulator' && (
-          <KonivrverSimulator />
-        )}
-        
-        {currentPage === 'cards' && (
-          <CardSearch onCardSelect={handleCardSelect} />
-        )}
-        
-        {currentPage === 'decks' && (
-          <DeckSearch onDeckSelect={handleDeckSelect} />
-        )}
-        
-        {currentPage === 'my-decks' && (
-          <MyDecks />
-        )}
-        
-        {currentPage === 'rules' && (
-          <Rules />
-        )}
-        
+      <MobileShell current={currentPage} title={title} onNavigate={(p) => handlePageChange(p as Page)}>
+        {currentPage === 'home' && (<Home />)}
+        {currentPage === 'simulator' && (<KonivrverSimulator />)}
+        {currentPage === 'cards' && (<CardSearch onCardSelect={handleCardSelect} />)}
+        {currentPage === 'decks' && (<DeckSearch onDeckSelect={() => {}} />)}
+        {currentPage === 'my-decks' && (<MyDecks />)}
+        {currentPage === 'rules' && (<Rules />)}
         {currentPage === 'judge' && (
-          canAccessJudgePortal() ? (
-            <JudgePortal />
-          ) : (
+          canAccessJudgePortal() ? (<JudgePortal />) : (
             <div className={overlay.restrictNotice}>
-              <h2 className={overlay.restrictTitle}>
-                🔒 Access Restricted
-              </h2>
-              <p>
-                The Judge Portal is only accessible to certified KONIVRER judges and administrators.
-              </p>
+              <h2 className={overlay.restrictTitle}>🔒 Access Restricted</h2>
+              <p>The Judge Portal is only accessible to certified KONIVRER judges and administrators.</p>
               {!isAuthenticated ? (
-                <p className={overlay.restrictMuted}>
-                  Please log in with your judge credentials to access this portal.
-                </p>
+                <p className={overlay.restrictMuted}>Please log in with your judge credentials to access this portal.</p>
               ) : (
-                <p className={overlay.restrictMuted}>
-                  Your account does not have judge certification. Contact an administrator 
-                  if you believe you should have access.
-                </p>
+                <p className={overlay.restrictMuted}>Your account does not have judge certification. Contact an administrator if you believe you should have access.</p>
               )}
             </div>
           )
         )}
-        
-        {currentPage === 'events' && (
-          <Events />
-        )}
-        
-        {currentPage === 'deckbuilder' && (
-          <DeckBuilderAdvanced />
-        )}
-        
-        {currentPage === 'analytics' && (
-          <Analytics />
-        )}
+        {currentPage === 'events' && (<Events />)}
+        {currentPage === 'deckbuilder' && (<DeckBuilderAdvanced />)}
+        {currentPage === 'analytics' && (<Analytics />)}
+        {currentPage === 'pdf' && (<PdfViewer />)}
+      </MobileShell>
 
-        {currentPage === 'pdf' && (
-          <PdfViewer />
-        )}
-      </main>
-
-      {/* Selected card details modal */}
       {selectedCard && (
-        <div 
-          className={overlay.modalMask}
-          onClick={() => setSelectedCard(null)}
-        >
-          <div 
-            className={overlay.modal}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className={overlay.modalClose}
-              onClick={() => setSelectedCard(null)}
-              aria-label="Close"
-            >
-              ✕
-            </button>
+        <div className={overlay.modalMask} onClick={() => setSelectedCard(null)}>
+          <div className={overlay.modal} onClick={(e) => e.stopPropagation()}>
+            <button className={overlay.modalClose} onClick={() => setSelectedCard(null)} aria-label="Close">✕</button>
             <h2>{selectedCard.name}</h2>
-            <img 
-              src={selectedCard.webpUrl} 
-              alt={selectedCard.name}
-              className={overlay.modalImg}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = selectedCard.imageUrl || '/placeholder-card.png';
-              }}
-            />
+            <img src={selectedCard.webpUrl} alt={selectedCard.name} className={overlay.modalImg} onError={(e) => { (e.target as HTMLImageElement).src = selectedCard.imageUrl || '/placeholder-card.png'; }} />
             <div className={overlay.modalBody}>
               <p><strong>Type:</strong> {selectedCard.type}</p>
               <p><strong>Element:</strong> {selectedCard.element}</p>
               <p><strong>Rarity:</strong> {selectedCard.rarity}</p>
               <p><strong>Cost:</strong> {selectedCard.cost}</p>
-              {selectedCard.power !== undefined && (
-                <p><strong>Power/Toughness:</strong> {selectedCard.power}/{selectedCard.toughness}</p>
-              )}
+              {selectedCard.power !== undefined && (<p><strong>Power/Toughness:</strong> {selectedCard.power}/{selectedCard.toughness}</p>)}
               <p>{selectedCard.description}</p>
             </div>
-            <button 
-              className={overlay.modalPrimary}
-              onClick={() => setSelectedCard(null)}
-            >
-              Close
-            </button>
+            <button className={overlay.modalPrimary} onClick={() => setSelectedCard(null)}>Close</button>
           </div>
         </div>
       )}
