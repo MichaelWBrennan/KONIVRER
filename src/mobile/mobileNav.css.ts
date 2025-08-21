@@ -15,7 +15,7 @@ export const nav = style({
 
 export const navInner = style({
   display: 'grid',
-  gridTemplateColumns: 'repeat(5, 1fr)',
+  gridTemplateColumns: 'repeat(6, 1fr)',
   alignItems: 'center',
 });
 

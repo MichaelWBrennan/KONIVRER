@@ -26,6 +26,7 @@ import type { Card } from './data/cards';  // Use our local Card type
 import * as appStyles from './app.css.ts';
 import * as overlay from './appOverlay.css.ts';
 import { MobileShell } from './mobile/MobileShell';
+import { LoginModal } from './components/LoginModal';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -48,6 +49,7 @@ function AppContent() {
   const { selectedCard, setSelectedCard } = useAppStore();
   const { canAccessJudgePortal, isAuthenticated } = useAuth();
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true);
+  const [loginOpen, setLoginOpen] = useState(false);
 
   // Initialize notifications on app start
   useEffect(() => {
@@ -61,10 +63,13 @@ function AppContent() {
     const handleOffline = () => setIsOnline(false);
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
+    const openLogin = () => setLoginOpen(true);
+    window.addEventListener('open-login', openLogin as any);
 
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
+      window.removeEventListener('open-login', openLogin as any);
     };
   }, []);
 
@@ -114,6 +119,8 @@ function AppContent() {
         {currentPage === 'analytics' && (<Analytics />)}
         {currentPage === 'settings' && (<Settings />)}
       </MobileShell>
+
+      <LoginModal isOpen={loginOpen} onClose={()=>setLoginOpen(false)} />
 
       {selectedCard && (
         <div className={overlay.modalMask} onClick={() => setSelectedCard(null)}>

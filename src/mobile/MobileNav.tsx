@@ -36,6 +36,10 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           <span>More</span>
           <span className={s.label}>More</span>
         </button>
+        <button className={`${s.tab}`} onClick={() => { const evt = new CustomEvent('open-login'); window.dispatchEvent(evt); }}>
+          <span>Login</span>
+          <span className={s.label}>Login</span>
+        </button>
       </div>
 
       {open && (
