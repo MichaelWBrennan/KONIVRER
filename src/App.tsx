@@ -42,7 +42,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'pdf' | 'settings';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'settings';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -92,7 +92,6 @@ function AppContent() {
       case 'events': return 'Tournament Hub';
       case 'rules': return 'Rules';
       case 'judge': return 'Judge Portal';
-      case 'pdf': return 'PDF Viewer';
       case 'settings': return 'Settings';
       default: return 'KONIVRER';
     }
