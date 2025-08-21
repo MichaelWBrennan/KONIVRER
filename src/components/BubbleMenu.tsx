@@ -238,8 +238,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
             >
               ✕
             </button>
-            <div className="user-profile">
-              <div className="user-avatar-large">
+            <div className={bm.userProfile}>
+              <div className={bm.userAvatarLarge}>
                 <ProfileIcon size={32} />
               </div>
               {isAuthenticated ? (
@@ -252,7 +252,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                   <p style={{ fontSize: '0.8em', color: '#666' }}>
                     {user?.rankTier || 'Bronze'} Tier
                   </p>
-                  <div className="user-actions">
+                  <div className={bm.userActions}>
                     <button 
                       className="btn btn-small btn-secondary"
                       onClick={async () => {
@@ -269,7 +269,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                 <>
                   <h3>Not Logged In</h3>
                   <p>Sign in to access all features</p>
-                  <div className="user-actions">
+                  <div className={bm.userActions}>
                     <button 
                       className="btn btn-small"
                       onClick={() => {
