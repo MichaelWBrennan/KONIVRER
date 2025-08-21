@@ -1,0 +1,171 @@
+name: 🤖 Autonomous Repository Management
+
+on:
+  # PR lifecycle events
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  
+  # CI completion events
+  check_suite:
+    types: [completed, requested, rerequested]
+  workflow_run:
+    workflows: ["CI", "Build", "Test", "Security", "Lint"]
+    types: [completed]
+  
+  # Scheduled maintenance
+  schedule:
+    - cron: "0 * * * *"  # Every hour
+  
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      force_scan:
+        description: 'Force scan all open PRs'
+        required: false
+        default: false
+        type: boolean
+      target_branch:
+        description: 'Target branch to scan'
+        required: false
+        default: 'main'
+        type: string
+
+env:
+  PYTHON_VERSION: '3.11'
+  GITHUB_API_VERSION: '2022-11-28'
+
+permissions:
+  contents: write
+  pull-requests: write
+  statuses: write
+  checks: read
+  issues: write
+  actions: read
+
+jobs:
+  autonomous-management:
+    name: 🚀 Autonomous PR Lifecycle Management
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          
+      - name: 📦 Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub requests pyyaml python-dateutil
+          
+      - name: 🔧 Setup Git Configuration
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global pull.rebase true
+          
+      - name: 🔍 Load Merge Rules
+        id: merge-rules
+        run: |
+          echo "Loading merge rules configuration..."
+          python -c "
+          import yaml
+          with open('.github/merge-rules.yaml', 'r') as f:
+              rules = yaml.safe_load(f)
+          print(f'::set-output name=merge-method::{rules[\"policy\"][\"merge_method\"]}')
+          print(f'::set-output name=fallback-method::{rules[\"policy\"][\"fallback_merge_method\"]}')
+          print(f'::set-output name=max-retries::{rules[\"policy\"][\"retries\"]}')
+          print(f'::set-output name=backoff-minutes::{rules[\"policy\"][\"backoff_minutes\"]}')
+          print(f'::set-output name=deny-labels::{",".join(rules[\"policy\"][\"deny_labels\"])}')
+          print(f'::set-output name=deny-paths::{",".join(rules[\"policy\"][\"deny_paths\"])}')
+          "
+          
+      - name: 🚫 Check Safety Guards
+        id: safety-check
+        run: |
+          echo "Checking safety guards..."
+          
+          # Check if this is an automation loop
+          if [[ "${{ github.event.sender.login }}" == "github-actions[bot]" ]] && \
+             [[ "${{ github.event.head_commit.message }}" == *"[auto-merge]"* ]]; then
+            echo "::warning::Detected automation loop, exiting safely"
+            echo "::set-output name=should-exit::true"
+            exit 0
+          fi
+          
+          # Check for skip flag
+          if [[ "${{ github.event.head_commit.message }}" == *"[skip-auto]"* ]]; then
+            echo "::info::Skipping automation due to [skip-auto] flag"
+            echo "::set-output name=should-exit::true"
+            exit 0
+          fi
+          
+          echo "::set-output name=should-exit::false"
+          
+      - name: 🔄 Autonomous Merge Orchestrator
+        if: steps.safety-check.outputs.should-exit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          MERGE_METHOD: ${{ steps.merge-rules.outputs.merge-method }}
+          FALLBACK_METHOD: ${{ steps.merge-rules.outputs.fallback-method }}
+          MAX_RETRIES: ${{ steps.merge-rules.outputs.max-retries }}
+          BACKOFF_MINUTES: ${{ steps.merge-rules.outputs.backoff-minutes }}
+          DENY_LABELS: ${{ steps.merge-rules.outputs.deny-labels }}
+          DENY_PATHS: ${{ steps.merge-rules.outputs.deny-paths }}
+        run: |
+          echo "🚀 Starting autonomous merge orchestration..."
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Event: ${{ github.event_name }}"
+          echo "Merge method: $MERGE_METHOD"
+          echo "Fallback method: $FALLBACK_METHOD"
+          
+          # Run the main orchestrator
+          python scripts/auto_merge.py \
+            --repository "$GITHUB_REPOSITORY" \
+            --merge-method "$MERGE_METHOD" \
+            --fallback-method "$FALLBACK_METHOD" \
+            --max-retries "$MAX_RETRIES" \
+            --backoff-minutes "$BACKOFF_MINUTES" \
+            --deny-labels "$DENY_LABELS" \
+            --deny-paths "$DENY_PATHS" \
+            --event "${{ github.event_name }}" \
+            --pr-number "${{ github.event.pull_request.number || '' }}"
+            
+      - name: 📊 Generate Summary
+        if: always()
+        run: |
+          echo "## 🤖 Autonomous Repository Management Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository:** ${{ github.repository }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Actor:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "${{ steps.safety-check.outputs.should-exit }}" == "true" ]]; then
+            echo "✅ **Status:** Safely exited (automation loop prevention)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ **Status:** Completed successfully" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Configuration:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Merge method: ${{ steps.merge-rules.outputs.merge-method }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Fallback method: ${{ steps.merge-rules.outputs.fallback-method }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Max retries: ${{ steps.merge-rules.outputs.max-retries }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Deny labels: ${{ steps.merge-rules.outputs.deny-labels }}" >> $GITHUB_STEP_SUMMARY
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "*This workflow runs autonomously to manage all PR lifecycles with zero human intervention.*" >> $GITHUB_STEP_SUMMARY
