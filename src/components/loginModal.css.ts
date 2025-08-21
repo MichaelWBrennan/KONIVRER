@@ -10,6 +10,16 @@ export const header = style({ textAlign: 'center', padding: '40px', paddingBotto
 export const form = style({ padding: '30px 40px' });
 export const inputGroup = style({ marginBottom: 24 });
 export const passwordInput = style({ position: 'relative' });
+export const textInput = style({
+  width: '100%',
+  height: 44,
+  padding: '0 14px',
+  borderRadius: 10,
+  border: '1px solid rgba(212,175,55,0.25)',
+  background: 'rgba(0,0,0,0.35)',
+  color: '#fff',
+  fontSize: 16,
+});
 export const passwordToggle = style({ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: '#d4af37', cursor: 'pointer', padding: 8, borderRadius: 6 });
 export const loginBtn = style({ width: '100%', background: 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)', color: '#000', border: 'none', borderRadius: 12, padding: 18, fontSize: 18, fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', letterSpacing: 1, marginTop: 10, boxShadow: '0 4px 15px rgba(212,175,55,0.3)' });
 export const divider = style({ textAlign: 'center', position: 'relative', margin: '30px 40px', color: '#888', fontSize: 14 });
