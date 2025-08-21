@@ -5,6 +5,9 @@ export const Home: React.FC = () => {
   return (
     <div className="container">
       <div className="konivrer-chronicles-home">
+        <div style={{ padding: '1rem', textAlign: 'right' }}>
+          <a href="/automation-dashboard" style={{ color: '#0ea5e9' }}>Automation Dashboard</a>
+        </div>
         <header className="chronicles-header p-4 md:p-6 lg:p-8 text-center">
           <h1 className="chronicles-title text-2xl md:text-4xl lg:text-5xl font-bold mb-4">KONIVRER Chronicles</h1>
           <p className="chronicles-subtitle text-base md:text-lg lg:text-xl mb-6">Enter the realm of legendary cards and epic battles</p>
