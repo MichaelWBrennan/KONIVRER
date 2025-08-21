@@ -17,27 +17,21 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
     <nav className={s.nav} aria-label="Primary">
       <div className={s.navInner}>
         <button className={`${s.tab} ${active('home')}`} aria-current={current==='home'} onClick={() => onNavigate('home')}>
-          <span>Home</span>
           <span className={s.label}>Home</span>
         </button>
         <button className={`${s.tab} ${active('cards')}`} aria-current={current==='cards'} onClick={() => onNavigate('cards')}>
-          <span>Cards</span>
           <span className={s.label}>Cards</span>
         </button>
         <button className={`${s.tab} ${active('decks')}`} aria-current={current==='decks'} onClick={() => onNavigate('decks')}>
-          <span>Decks</span>
           <span className={s.label}>Decks</span>
         </button>
         <button className={`${s.tab} ${active('simulator')}`} aria-current={current==='simulator'} onClick={() => onNavigate('simulator')}>
-          <span>Play</span>
           <span className={s.label}>Play</span>
         </button>
         <button className={`${s.tab} ${active('more')}`} aria-current={current==='more'} onClick={() => setOpen(true)}>
-          <span>More</span>
           <span className={s.label}>More</span>
         </button>
         <button className={`${s.tab}`} onClick={() => { const evt = new CustomEvent('open-login'); window.dispatchEvent(evt); }}>
-          <span>Login</span>
           <span className={s.label}>Login</span>
         </button>
       </div>
