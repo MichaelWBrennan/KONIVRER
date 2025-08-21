@@ -4,6 +4,7 @@ import { useAppStore } from '../stores/appStore';
 import { debounce } from '../utils/timing';
 import { Card } from '../data/cards';  // Use our local Card type
 import { CardViewerModal } from './CardViewerModal';
+import * as nav from '../nav.css.ts';
 
 interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
@@ -72,7 +73,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
   return (
     <div>
       <div className="search-container">
-        <h1 className="nav-title">Card Search</h1>
+        <h1 className={nav.navTitle}>Card Search</h1>
 
         <input
           type="text"
