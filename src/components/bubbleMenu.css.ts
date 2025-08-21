@@ -56,6 +56,22 @@ export const menuItem = style({ display: 'flex', alignItems: 'center', gap: 12, 
 export const menuItemActive = style({ background: 'var(--accent-color)', color: 'white' });
 export const menuLabel = style({ fontWeight: 500 });
 
+// User panel styles
+export const userProfile = style({ textAlign: 'center' });
+export const userAvatarLarge = style({
+  width: 80,
+  height: 80,
+  borderRadius: '50%',
+  background: 'var(--accent-color)',
+  color: 'white',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: 32,
+  margin: '0 auto 16px auto',
+});
+export const userActions = style({ display: 'flex', gap: 10, justifyContent: 'center' });
+
 globalStyle(`${root}.mobile .accessibility-bubble`, { bottom: 70, left: 0, position: 'absolute', order: 1 as any });
 globalStyle(`${root}.mobile .search-bubble`, { bottom: 70, right: 0, position: 'absolute', order: 2 as any });
 globalStyle(`${root}.mobile .login-bubble`, { bottom: 0, left: 0, position: 'absolute', order: 3 as any });
