@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as s from './mobileNav.css.ts';
+import { useAuth } from '../hooks/useAuth';
 
 type Tab = 'home' | 'cards' | 'decks' | 'simulator' | 'more';
 
@@ -11,6 +12,7 @@ interface Props {
 export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
   const [open, setOpen] = useState(false);
   const active = (t: Tab) => (current === t ? s.tabActive : '');
+  const { isAuthenticated, canAccessJudgePortal } = useAuth();
   return (
     <nav className={s.nav} aria-label="Primary">
       <div className={s.navInner}>
@@ -39,16 +41,16 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
       {open && (
         <div className={s.moreOverlay} onClick={() => setOpen(false)}>
           <div className={s.sheet} onClick={(e) => e.stopPropagation()}>
-            {[
-              ['my-decks','My Decks'],
-              ['deckbuilder','Deckbuilder'],
-              ['analytics','Analytics'],
-              ['events','Events'],
-              ['rules','Rules'],
-              ['judge','Judge'],
-              ['pdf','PDF Viewer'],
-              ['settings','Settings'],
-            ].map(([page, label]) => (
+            {([
+              ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
+              ['deckbuilder','Deckbuilder'] as const,
+              ['analytics','Analytics'] as const,
+              ['events','Events'] as const,
+              ['rules','Rules'] as const,
+              ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
+              // Removed PDF Viewer from navigation; accessed via Rules
+              ['settings','Settings'] as const,
+            ] as const).map(([page, label]) => (
               <div key={page} className={s.sheetItem} onClick={() => { onNavigate(page); setOpen(false); }}>
                 <span>{label}</span>
               </div>
