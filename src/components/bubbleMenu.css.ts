@@ -1,4 +1,4 @@
-import { style, globalKeyframes, globalStyle } from '@vanilla-extract/css';
+import { style, globalStyle } from '@vanilla-extract/css';
 
 export const root = style({ position: 'fixed', zIndex: 1000, pointerEvents: 'none', display: 'block', contain: 'layout style' });
 export const mobile = style({ bottom: 'max(20px, env(safe-area-inset-bottom, 0px) + 10px)', left: 'max(20px, env(safe-area-inset-left, 0px) + 10px)', right: 'max(20px, env(safe-area-inset-right, 0px) + 10px)' });
