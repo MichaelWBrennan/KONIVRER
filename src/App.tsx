@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { CardSearch } from './components/CardSearch';
@@ -79,23 +79,6 @@ function AppContent() {
     setCurrentPage(page);
   };
 
-  const title = useMemo(() => {
-    switch (currentPage) {
-      case 'home': return 'Home';
-      case 'cards': return 'Card Search';
-      case 'decks': return 'Deck Search';
-      case 'my-decks': return 'My Decks';
-      case 'deckbuilder': return 'Deckbuilder';
-      case 'simulator': return 'Play';
-      case 'analytics': return 'Analytics';
-      case 'events': return 'Tournament Hub';
-      case 'rules': return 'Rules';
-      case 'judge': return 'Judge Portal';
-      case 'settings': return 'Settings';
-      default: return 'KONIVRER';
-    }
-  }, [currentPage]);
-
   if (!isOnline) {
     return <Offline />;
   }
@@ -106,7 +89,7 @@ function AppContent() {
         <NotificationCenter />
       </div>
 
-      <MobileShell current={currentPage} title={title} onNavigate={(p) => handlePageChange(p as Page)}>
+      <MobileShell current={currentPage} onNavigate={(p) => handlePageChange(p as Page)}>
         {currentPage === 'home' && (<Home />)}
         {currentPage === 'simulator' && (<KonivrverSimulator />)}
         {currentPage === 'cards' && (<CardSearch onCardSelect={handleCardSelect} />)}
@@ -116,7 +99,7 @@ function AppContent() {
         {currentPage === 'judge' && (
           canAccessJudgePortal() ? (<JudgePortal />) : (
             <div className={overlay.restrictNotice}>
-              <h2 className={overlay.restrictTitle}>🔒 Access Restricted</h2>
+              <h2 className={overlay.restrictTitle}>Access Restricted</h2>
               <p>The Judge Portal is only accessible to certified KONIVRER judges and administrators.</p>
               {!isAuthenticated ? (
                 <p className={overlay.restrictMuted}>Please log in with your judge credentials to access this portal.</p>
