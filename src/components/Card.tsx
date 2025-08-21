@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import * as cs from './card.css.ts';
 import { Card as CardType, DragState, TouchState } from '../types/game';
 import { DeviceInfo } from '../utils/deviceDetection';
 
@@ -189,140 +190,53 @@ export const Card: React.FC<CardProps> = ({
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchCancel}
-      className={`mtg-card ${device.platform}`}
+      className={`mtg-card ${device.platform} ${cs.cardRoot}`}
       data-card-id={card.id}
     >
       {/* Card background/art */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        borderRadius: 'inherit',
-        backgroundImage: card.imageUrl ? `url(${card.imageUrl})` : 'linear-gradient(135deg, #333, #555)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        pointerEvents: 'none'
-      }} />
+      <div className={cs.artLayer} style={{ backgroundImage: card.imageUrl ? `url(${card.imageUrl})` : 'linear-gradient(135deg, #333, #555)' }} />
       
       {/* Card frame overlay */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+      <div className={cs.frameOverlay} style={{
         background: `linear-gradient(to bottom, transparent 30%, ${
           colorMap[card.color as keyof typeof colorMap] || 
           colorMap[card.elements?.[0] as keyof typeof colorMap] || 
           colorMap.colorless
-        }CC 100%)`,
-        borderRadius: 'inherit',
-        pointerEvents: 'none'
+        }CC 100%)`
       }} />
       
       {/* Card content */}
-      <div style={{
-        position: 'relative',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: device.isMobile ? '4px' : '6px',
-        fontSize: device.isMobile ? '10px' : '12px',
-        color: 'white',
-        textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)'
-      }}>
+      <div className={cs.content} style={{ padding: device.isMobile ? '4px' : '6px', fontSize: device.isMobile ? '10px' : '12px' }}>
         {/* Mana cost */}
-        <div style={{
-          position: 'absolute',
-          top: device.isMobile ? '2px' : '4px',
-          right: device.isMobile ? '2px' : '4px',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          borderRadius: '50%',
-          width: device.isMobile ? '16px' : '20px',
-          height: device.isMobile ? '16px' : '20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: device.isMobile ? '8px' : '10px',
-          fontWeight: 'bold',
-          pointerEvents: 'none'
-        }}>
+        <div className={cs.manaBadge} style={{ top: device.isMobile ? '2px' : '4px', right: device.isMobile ? '2px' : '4px', width: device.isMobile ? '16px' : '20px', height: device.isMobile ? '16px' : '20px', fontSize: device.isMobile ? '8px' : '10px' }}>
           {card.manaCost}
         </div>
         
         {/* Card name */}
-        <div style={{
-          fontSize: device.isMobile ? '8px' : '10px',
-          fontWeight: 'bold',
-          marginTop: 'auto',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          padding: device.isMobile ? '1px 2px' : '2px 4px',
-          borderRadius: '2px',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          pointerEvents: 'none'
-        }}>
+        <div className={cs.nameBadge} style={{ fontSize: device.isMobile ? '8px' : '10px', padding: device.isMobile ? '1px 2px' : '2px 4px' }}>
           {card.name}
         </div>
         
         {/* Card type */}
-        <div style={{
-          fontSize: device.isMobile ? '6px' : '8px',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          padding: device.isMobile ? '1px 2px' : '1px 4px',
-          borderRadius: '2px',
-          marginTop: '1px',
-          pointerEvents: 'none'
-        }}>
+        <div className={cs.typeBadge} style={{ fontSize: device.isMobile ? '6px' : '8px', padding: device.isMobile ? '1px 2px' : '1px 4px' }}>
           {card.type}
         </div>
         
         {/* Power/Toughness for creatures */}
         {(card.type?.toLowerCase().includes('creature') || card.lesserType?.toLowerCase().includes('familiar')) && (
-          <div style={{
-            position: 'absolute',
-            bottom: device.isMobile ? '2px' : '4px',
-            right: device.isMobile ? '2px' : '4px',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            padding: device.isMobile ? '1px 3px' : '2px 4px',
-            borderRadius: '2px',
-            fontSize: device.isMobile ? '8px' : '10px',
-            fontWeight: 'bold',
-            pointerEvents: 'none'
-          }}>
+          <div className={cs.ptBadge} style={{ bottom: device.isMobile ? '2px' : '4px', right: device.isMobile ? '2px' : '4px', padding: device.isMobile ? '1px 3px' : '2px 4px', fontSize: device.isMobile ? '8px' : '10px' }}>
             {card.power}/{card.toughness}
           </div>
         )}
         
         {/* Counters display */}
         {card.counters && Object.keys(card.counters).length > 0 && (
-          <div style={{
-            position: 'absolute',
-            top: device.isMobile ? '2px' : '4px',
-            left: device.isMobile ? '2px' : '4px',
-            display: 'flex',
-            gap: '2px',
-            pointerEvents: 'none'
-          }}>
+          <div className={cs.counters} style={{ top: device.isMobile ? '2px' : '4px', left: device.isMobile ? '2px' : '4px' }}>
             {Object.entries(card.counters).map(([type, count]) => (
               <div
                 key={type}
-                style={{
-                  backgroundColor: '#FFD700',
-                  color: 'black',
-                  borderRadius: '50%',
-                  width: device.isMobile ? '12px' : '16px',
-                  height: device.isMobile ? '12px' : '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: device.isMobile ? '6px' : '8px',
-                  fontWeight: 'bold',
-                  pointerEvents: 'none'
-                }}
+                className={cs.counterBubble}
+                style={{ width: device.isMobile ? '12px' : '16px', height: device.isMobile ? '12px' : '16px', fontSize: device.isMobile ? '6px' : '8px' }}
               >
                 {count}
               </div>
