@@ -152,6 +152,12 @@ export class Card {
   @ApiProperty({ description: 'Last updated timestamp' })
   updatedAt: Date;
 
+  @Column({ type: 'text', nullable: true })
+  @Index()
+  @Field({ nullable: true })
+  @ApiProperty({ description: 'Raw OCR text for full-text search', required: false })
+  rawOcrText?: string;
+
   // Computed field for search indexing
   @Field(() => String)
   get searchText(): string {

@@ -27,6 +27,7 @@ import { AuditModule } from './audit/audit.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { OcrModule } from './ocr/ocr.module';
+import { UpscalingModule } from './upscaling/upscaling.module';
 
 @Module({
   imports: [
@@ -102,6 +103,7 @@ import { OcrModule } from './ocr/ocr.module';
     NotificationsModule,
     AnalyticsModule,
     OcrModule,
+    UpscalingModule,
   ],
   controllers: [],
   providers: [
