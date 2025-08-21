@@ -1,4 +1,5 @@
 import React from 'react';
+import * as gz from './gameZone.css.ts';
 import { GameZone as GameZoneType, Card as CardType, DragState, KonivrverZoneType } from '../types/game';
 import { DeviceInfo, getMTGArenaLayoutConfig } from '../utils/deviceDetection';
 import { Card } from './Card';
@@ -181,15 +182,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
       className={`game-zone ${zone.id} ${device.platform}`}
     >
       {/* Zone label */}
-      <div style={{
-        position: 'absolute',
-        top: '-15px',
-        left: '5px',
-        fontSize: device.isMobile ? '10px' : '12px',
-        color: 'rgba(255, 255, 255, 0.7)',
-        fontWeight: 'bold',
-        pointerEvents: 'none'
-      }}>
+      <div className={gz.zoneLabel} style={{ fontSize: device.isMobile ? '10px' : '12px' }}>
         {zone.name}
       </div>
       
@@ -198,17 +191,7 @@ export const GameZone: React.FC<GameZoneProps> = ({
       
       {/* Card count indicator for non-visible zones */}
       {zone.cards.length > 0 && (zone.id === 'library' || zone.id === 'graveyard') && (
-        <div style={{
-          position: 'absolute',
-          bottom: '2px',
-          right: '2px',
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          color: 'white',
-          padding: '2px 4px',
-          borderRadius: '2px',
-          fontSize: device.isMobile ? '8px' : '10px',
-          fontWeight: 'bold'
-        }}>
+        <div className={gz.countBadge} style={{ fontSize: device.isMobile ? '8px' : '10px' }}>
           {zone.cards.length}
         </div>
       )}

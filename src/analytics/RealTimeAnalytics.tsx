@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as s from './realTimeAnalytics.css.ts';
 
 interface AnalyticsData {
   timestamp: Date;
@@ -189,16 +190,12 @@ export const RealTimeAnalytics: React.FC = () => {
           <div className="realtime-chart">
             <h4>Live Performance Chart</h4>
             <div className="chart-container">
-              <div className="chart-area">
+              <div className={s.chartArea}>
                 {data.slice(-10).map((point, index) => (
                   <div 
                     key={index}
-                    className="chart-bar"
-                    style={{ 
-                      height: `${(point.activeUsers / 3000) * 100}%`,
-                      left: `${(index / 9) * 100}%`,
-                      width: '8%'
-                    }}
+                    className={s.chartBar}
+                    style={{ height: `${(point.activeUsers / 3000) * 100}%`, left: `${(index / 9) * 100}%`, width: '8%' }}
                     title={`${point.activeUsers} users at ${point.timestamp.toLocaleTimeString()}`}
                   />
                 ))}
@@ -259,15 +256,12 @@ export const RealTimeAnalytics: React.FC = () => {
               <h4>Event Breakdown</h4>
               <div className="event-breakdown">
                 {dashboardData.eventBreakdown.map((event, index) => (
-                  <div key={event.eventType} className="event-item">
+                  <div key={event.eventType} className={s.eventItem}>
                     <span className="event-type">{event.eventType}</span>
                     <span className="event-count">{event.count.toLocaleString()}</span>
                     <div 
-                      className="event-bar" 
-                      style={{ 
-                        width: `${(event.count / Math.max(...dashboardData.eventBreakdown.map(e => e.count))) * 100}%`,
-                        backgroundColor: `hsl(${index * 60}, 70%, 60%)`
-                      }}
+                      className={s.eventBar} 
+                      style={{ width: `${(event.count / Math.max(...dashboardData.eventBreakdown.map(e => e.count))) * 100}%`, backgroundColor: `hsl(${index * 60}, 70%, 60%)` }}
                     />
                   </div>
                 ))}
@@ -278,15 +272,13 @@ export const RealTimeAnalytics: React.FC = () => {
               <h4>User Growth Trend (7 days)</h4>
               <div className="trend-chart">
                 {dashboardData.trends.userGrowth.map((day) => (
-                  <div key={day.date} className="trend-bar">
+                  <div key={day.date} className={s.trendBar}>
                     <div 
-                      className="bar" 
-                      style={{ 
-                        height: `${(day.uniqueUsers / Math.max(...dashboardData.trends.userGrowth.map(d => d.uniqueUsers))) * 100}%`
-                      }}
+                      className={s.trendBarInner} 
+                      style={{ height: `${(day.uniqueUsers / Math.max(...dashboardData.trends.userGrowth.map(d => d.uniqueUsers))) * 100}%` }}
                       title={`${day.date}: ${day.uniqueUsers} users`}
                     />
-                    <div className="bar-label">{day.date.split('-').slice(-1)[0]}</div>
+                    <div className={s.trendLabel}>{day.date.split('-').slice(-1)[0]}</div>
                   </div>
                 ))}
               </div>
