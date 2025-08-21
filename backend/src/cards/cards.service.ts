@@ -46,7 +46,8 @@ export class CardsService {
       query.andWhere(
         '(LOWER(card.name) LIKE LOWER(:search) OR ' +
         'LOWER(card.description) LIKE LOWER(:search) OR ' +
-        'LOWER(card.keywords) LIKE LOWER(:search))',
+        'LOWER(card.keywords) LIKE LOWER(:search) OR ' +
+        'LOWER(card.rawOcrText) LIKE LOWER(:search))',
         { search: `%${search}%` }
       );
     }
