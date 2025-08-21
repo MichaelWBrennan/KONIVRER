@@ -1,0 +1,322 @@
+groups:
+  - name: self-healing-alerts
+    rules:
+      # Self-healing system health alerts
+      - alert: SelfHealingSystemDown
+        expr: up{job="self-healing-system"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: self-healing
+        annotations:
+          summary: "Self-healing system is down"
+          description: "The self-healing system has been down for more than 1 minute. This may impact automatic recovery capabilities."
+
+      - alert: SelfHealingHighFailureRate
+        expr: rate(self_healing_failures_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: self-healing
+        annotations:
+          summary: "High self-healing failure rate"
+          description: "Self-healing system is experiencing a high failure rate ({{ $value }} failures/sec). Manual intervention may be required."
+
+      - alert: SelfHealingRecoveryTimeHigh
+        expr: histogram_quantile(0.95, rate(self_healing_recovery_duration_seconds_bucket[5m])) > 300
+        for: 10m
+        labels:
+          severity: warning
+          service: self-healing
+        annotations:
+          summary: "Self-healing recovery time is high"
+          description: "95th percentile of self-healing recovery time is {{ $value }} seconds, which is above the 5-minute threshold."
+
+      - alert: SelfHealingCircuitBreakerOpen
+        expr: circuit_breaker_status{service="self-healing"} == 1
+        for: 2m
+        labels:
+          severity: warning
+          service: self-healing
+        annotations:
+          summary: "Self-healing circuit breaker is open"
+          description: "Circuit breaker for self-healing system is open, indicating repeated failures."
+
+      # Chaos engineering alerts
+      - alert: ChaosTestFailure
+        expr: chaos_test_failures_total > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: chaos-engineering
+        annotations:
+          summary: "Chaos test failure detected"
+          description: "A chaos engineering test has failed. Review the test results and system recovery."
+
+      - alert: ChaosTestRecoveryFailure
+        expr: chaos_test_recovery_failures_total > 0
+        for: 1m
+        labels:
+          severity: critical
+          service: chaos-engineering
+        annotations:
+          summary: "Chaos test recovery failure"
+          description: "System failed to recover after a chaos test. This indicates a critical resilience issue."
+
+  - name: security-alerts
+    rules:
+      # Security system health alerts
+      - alert: SecuritySystemDown
+        expr: up{job="security-system"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: security
+        annotations:
+          summary: "Security system is down"
+          description: "The security monitoring system has been down for more than 1 minute. Security posture may be compromised."
+
+      - alert: HighVulnerabilityCount
+        expr: security_vulnerabilities_total{severity="critical"} > 5 or security_vulnerabilities_total{severity="high"} > 10
+        for: 5m
+        labels:
+          severity: warning
+          service: security
+        annotations:
+          summary: "High vulnerability count detected"
+          description: "Critical: {{ $value }} critical vulnerabilities, High: {{ $value }} high vulnerabilities detected."
+
+      - alert: SecurityScanFailure
+        expr: security_scan_failures_total > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: security
+        annotations:
+          summary: "Security scan failure"
+          description: "A security scan has failed. Review scan logs and configuration."
+
+      - alert: NewVulnerabilityDetected
+        expr: increase(security_vulnerabilities_total[1h]) > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: security
+        annotations:
+          summary: "New vulnerability detected"
+          description: "New security vulnerabilities have been detected in the last hour."
+
+      - alert: DependencyVulnerability
+        expr: dependency_vulnerabilities_total{severity="critical"} > 0
+        for: 1m
+        labels:
+          severity: critical
+          service: security
+        annotations:
+          summary: "Critical dependency vulnerability"
+          description: "Critical vulnerabilities detected in dependencies. Immediate action required."
+
+  - name: application-alerts
+    rules:
+      # Application health alerts
+      - alert: ApplicationDown
+        expr: up{job="konivrer-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: konivrer-app
+        annotations:
+          summary: "Application is down"
+          description: "The KONIVRER application has been down for more than 1 minute."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: konivrer-app
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} over the last 5 minutes."
+
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 2
+        for: 10m
+        labels:
+          severity: warning
+          service: konivrer-app
+        annotations:
+          summary: "High response time detected"
+          description: "95th percentile response time is {{ $value }} seconds, which is above the 2-second threshold."
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: konivrer-app
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }}. Consider scaling or optimization."
+
+      - alert: HighCPUUsage
+        expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: konivrer-app
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }}. Consider scaling or optimization."
+
+  - name: infrastructure-alerts
+    rules:
+      # Infrastructure health alerts
+      - alert: NodeDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: infrastructure
+        annotations:
+          summary: "Node is down"
+          description: "A node has been down for more than 1 minute."
+
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes > 0.9
+        for: 5m
+        labels:
+          severity: warning
+          service: infrastructure
+        annotations:
+          summary: "Disk space is low"
+          description: "Disk usage is {{ $value | humanizePercentage }}. Consider cleanup or expansion."
+
+      - alert: ContainerRestarting
+        expr: increase(container_restarts_total[5m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          service: infrastructure
+        annotations:
+          summary: "Container restarting frequently"
+          description: "Container has restarted {{ $value }} times in the last 5 minutes."
+
+      - alert: PodCrashLooping
+        expr: increase(kube_pod_container_status_restarts_total[15m]) > 5
+        for: 1m
+        labels:
+          severity: warning
+          service: infrastructure
+        annotations:
+          summary: "Pod in crash loop"
+          description: "Pod has restarted {{ $value }} times in the last 15 minutes."
+
+  - name: circuit-breaker-alerts
+    rules:
+      # Circuit breaker alerts
+      - alert: CircuitBreakerOpen
+        expr: circuit_breaker_status == 1
+        for: 2m
+        labels:
+          severity: warning
+          service: circuit-breaker
+        annotations:
+          summary: "Circuit breaker is open"
+          description: "Circuit breaker is open, indicating repeated failures in the service."
+
+      - alert: CircuitBreakerHighFailureRate
+        expr: rate(circuit_breaker_failures_total[5m]) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+          service: circuit-breaker
+        annotations:
+          summary: "High circuit breaker failure rate"
+          description: "Circuit breaker is experiencing a high failure rate ({{ $value }} failures/sec)."
+
+      - alert: CircuitBreakerLongOpen
+        expr: circuit_breaker_open_duration_seconds > 300
+        for: 1m
+        labels:
+          severity: critical
+          service: circuit-breaker
+        annotations:
+          summary: "Circuit breaker open for too long"
+          description: "Circuit breaker has been open for {{ $value }} seconds. Manual intervention required."
+
+  - name: monitoring-alerts
+    rules:
+      # Monitoring system alerts
+      - alert: PrometheusDown
+        expr: up{job="prometheus"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: monitoring
+        annotations:
+          summary: "Prometheus is down"
+          description: "Prometheus monitoring system is down. No metrics are being collected."
+
+      - alert: AlertManagerDown
+        expr: up{job="alertmanager"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: monitoring
+        annotations:
+          summary: "AlertManager is down"
+          description: "AlertManager is down. No alerts are being sent."
+
+      - alert: GrafanaDown
+        expr: up{job="grafana"} == 0
+        for: 1m
+        labels:
+          severity: warning
+          service: monitoring
+        annotations:
+          summary: "Grafana is down"
+          description: "Grafana dashboard is down. Monitoring visualization is unavailable."
+
+      - alert: HighScrapeErrorRate
+        expr: rate(scrape_failures_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: monitoring
+        annotations:
+          summary: "High scrape error rate"
+          description: "High rate of metric scraping failures ({{ $value }} errors/sec)."
+
+  - name: business-alerts
+    rules:
+      # Business metrics alerts
+      - alert: HighUserErrorRate
+        expr: rate(user_errors_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: business
+        annotations:
+          summary: "High user error rate"
+          description: "User error rate is {{ $value }} errors/sec. User experience may be degraded."
+
+      - alert: LowUserSatisfaction
+        expr: user_satisfaction_score < 0.7
+        for: 10m
+        labels:
+          severity: warning
+          service: business
+        annotations:
+          summary: "Low user satisfaction"
+          description: "User satisfaction score is {{ $value }}, below the 0.7 threshold."
+
+      - alert: HighTransactionFailureRate
+        expr: rate(transaction_failures_total[5m]) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+          service: business
+        annotations:
+          summary: "High transaction failure rate"
+          description: "Transaction failure rate is {{ $value }} failures/sec. Business operations may be impacted."
