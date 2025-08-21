@@ -123,7 +123,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   return (
     <div className={`${bm.root} ${device.isMobile ? bm.mobile : bm.desktop}`}>
       {/* Accessibility Settings Bubble */}
-      <div key="accessibility-bubble" className={`bubble-container accessibility-bubble`}>
+      <div key="accessibility-bubble" className={`accessibility-bubble`}>
         <button
           className={`${bm.bubbleBtn} ${bm.accessibilityBtn}`}
           onClick={() => {
@@ -178,7 +178,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Search Bubble */}
-      <div key="search-bubble" className={`bubble-container search-bubble`}>
+      <div key="search-bubble" className={`search-bubble`}>
         <button
           className={`${bm.bubbleBtn} ${bm.searchBtn}`}
           onClick={() => {
@@ -216,7 +216,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Login/Profile Bubble */}
-      <div key="login-bubble" className={`bubble-container login-bubble`}>
+      <div key="login-bubble" className={`login-bubble`}>
         <button
           className={`${bm.bubbleBtn} ${bm.loginBtn}`}
           onClick={() => {
@@ -289,7 +289,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       </div>
 
       {/* Burger Menu Bubble */}
-      <div key="menu-bubble" className={`bubble-container menu-bubble`}>
+      <div key="menu-bubble" className={`menu-bubble`}>
         <button
           className={`${bm.bubbleBtn} ${bm.menuBtn}`}
           onClick={() => {
