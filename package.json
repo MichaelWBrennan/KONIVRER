@@ -11,7 +11,12 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "db:populate-from-images": "ts-node --project backend/tsconfig.json scripts/populate-db-from-images.ts"
+    "db:populate-from-images": "ts-node --project backend/tsconfig.json scripts/populate-db-from-images.ts",
+    "build:ts": "ts-node scripts/ts/build.ts",
+    "docker:continuous": "ts-node scripts/ts/start-continuous-docker.ts",
+    "branches:cleanup": "ts-node scripts/ts/cleanup-closed-branches.ts",
+    "service:install": "ts-node scripts/ts/install-continuous-service.ts",
+    "deploy:infra": "ts-node scripts/ts/deploy.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
