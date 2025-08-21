@@ -28,11 +28,11 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         <button className={`${s.tab} ${active('simulator')}`} aria-current={current==='simulator'} onClick={() => onNavigate('simulator')}>
           <span className={s.label}>Play</span>
         </button>
-        <button className={`${s.tab} ${active('more')}`} aria-current={current==='more'} onClick={() => setOpen(true)}>
-          <span className={s.label}>More</span>
-        </button>
         <button className={`${s.tab}`} onClick={() => { const evt = new CustomEvent('open-login'); window.dispatchEvent(evt); }}>
           <span className={s.label}>Login</span>
+        </button>
+        <button className={`${s.tab} ${active('more')}`} aria-current={current==='more'} onClick={() => setOpen(true)}>
+          <span className={s.label}>More</span>
         </button>
       </div>
 
@@ -41,7 +41,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           <div className={s.sheet} onClick={(e) => e.stopPropagation()}>
             <div className={s.sheetHeader}>
               <div>Menu</div>
-              <button className={s.closeBtn} onClick={()=>setOpen(false)} aria-label="Close menu">Close</button>
+              <button className={s.closeBtn} onClick={()=>setOpen(false)} aria-label="Close menu">×</button>
             </div>
             {([
               ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
