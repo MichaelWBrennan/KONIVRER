@@ -1,5 +1,15 @@
 export type ReportPayload = { eventId: string; round: number; table: number; winnerId?: string; result: string; drop?: boolean };
 
+const REPORT_QUEUE_KEY = 'konivrer-report-queue';
+
+function readQueue(): ReportPayload[] {
+  try { return JSON.parse(localStorage.getItem(REPORT_QUEUE_KEY) || '[]'); } catch { return []; }
+}
+
+function writeQueue(items: ReportPayload[]) {
+  localStorage.setItem(REPORT_QUEUE_KEY, JSON.stringify(items));
+}
+
 export const EventService = {
   async fetchPairings(_eventId: string, _round: number) {
     // TODO: integrate real API; for now return mock data
@@ -10,12 +20,37 @@ export const EventService = {
     ];
   },
   async reportMatch(_payload: ReportPayload) {
+    // Simulate network; if offline, enqueue
+    const isOnline = typeof navigator === 'undefined' ? true : navigator.onLine;
+    if (!isOnline) {
+      const q = readQueue();
+      q.push(_payload);
+      writeQueue(q);
+      return { ok: false, queued: true } as const;
+    }
     await new Promise((r) => setTimeout(r, 300));
-    return { ok: true };
+    return { ok: true } as const;
   },
   async callJudge(_eventId: string, _table: number, _message?: string) {
     await new Promise((r) => setTimeout(r, 200));
     return { ok: true, ticketId: Math.random().toString(36).slice(2) };
   },
+  async syncQueuedReports() {
+    const q = readQueue();
+    if (q.length === 0) return { synced: 0 };
+    const remaining: ReportPayload[] = [];
+    let synced = 0;
+    for (const item of q) {
+      try {
+        if (typeof navigator !== 'undefined' && !navigator.onLine) { remaining.push(item); continue; }
+        await new Promise((r) => setTimeout(r, 200));
+        synced++;
+      } catch {
+        remaining.push(item);
+      }
+    }
+    writeQueue(remaining);
+    return { synced };
+  }
 };
 

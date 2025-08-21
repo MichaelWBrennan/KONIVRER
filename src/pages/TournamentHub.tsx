@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import * as s from './tournamentHub.css.ts';
 import { useEventStore } from '../stores/eventStore';
 import { EventService } from '../services/eventService';
+import { NotificationService } from '../services/notifications';
 
 type HubTab = 'pairings' | 'report' | 'timer' | 'judge';
 
@@ -17,6 +18,11 @@ export const TournamentHub: React.FC = () => {
         const data = await EventService.fetchPairings(currentEventId || 'demo', roundNumber || 1);
         setPairings(data);
         setMyTableFromPairings();
+        // Notify seating if my table known
+        const mine = data.find(d => d.tableNumber === (useEventStore.getState().myTable || 0));
+        if (mine) {
+          NotificationService.getInstance().sendSeatingAssignmentNotification(mine.tableNumber, mine.playerA.name, currentEventId || 'demo', roundNumber || 1);
+        }
       } catch (e) {
         setError('Failed to load pairings');
       } finally {
@@ -68,7 +74,10 @@ export const TournamentHub: React.FC = () => {
       )}
 
       {tab === 'timer' && (
-        <div className={s.timer}>{mins}:{secs}</div>
+        <div>
+          <div className={s.timer}>{mins}:{secs}</div>
+          <button className="btn btn-secondary" onClick={()=>NotificationService.getInstance().sendRoundStartNotification('Event', roundNumber||1, currentEventId||'demo')}>Notify Round Start</button>
+        </div>
       )}
 
       {tab === 'judge' && (
