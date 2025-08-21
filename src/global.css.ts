@@ -40,6 +40,18 @@ globalStyle(':root', {
   } as any,
 });
 
+// Light theme variables
+globalStyle('[data-theme="light"]', {
+  vars: {
+    '--primary-bg': '#f7f7fb',
+    '--secondary-bg': '#ffffff',
+    '--text-primary': '#111827',
+    '--text-secondary': '#4b5563',
+    '--accent-color': '#2563eb',
+    '--border-color': '#e5e7eb',
+  } as any,
+});
+
 globalStyle('*', { margin: 0, padding: 0, boxSizing: 'border-box', WebkitTapHighlightColor: 'transparent' });
 
 globalStyle('html', { height: '100%', overflow: 'hidden' });
