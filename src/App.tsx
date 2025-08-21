@@ -15,6 +15,7 @@ import { Events } from './pages/Events';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
 import { Rules } from './pages/Rules';
+import { PdfViewer } from './pages/PdfViewer';
 import { useAppStore } from './stores/appStore';
 import { useAuth } from './hooks/useAuth';
 import { NotificationService } from './services/notifications';
@@ -37,7 +38,7 @@ const queryClient = new QueryClient({
   },
 });
 
-type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge';
+type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge' | 'pdf';
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -156,6 +157,10 @@ function AppContent() {
         
         {currentPage === 'analytics' && (
           <Analytics />
+        )}
+
+        {currentPage === 'pdf' && (
+          <PdfViewer />
         )}
       </main>
 
