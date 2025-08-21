@@ -116,13 +116,14 @@ globalStyle('.results-count', { color: 'var(--text-secondary)', fontSize: '0.9re
 globalStyle('.card-grid', { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem', padding: '1rem' });
 globalStyle('.cards-grid', { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem', padding: '1rem' });
 globalStyle('.card-item', {
-  background: 'var(--secondary-bg)',
-  border: '1px solid var(--border-color)',
-  borderRadius: 8,
+  background: 'linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
+  border: '1px solid rgba(255,255,255,0.06)',
+  borderRadius: 12,
   overflow: 'hidden',
-  transition: 'transform 0.2s ease, box-shadow 0.2s ease'
+  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+  boxShadow: '0 6px 20px rgba(0,0,0,0.35)'
 });
-globalStyle('.card-item:hover', { transform: 'translateY(-4px)', boxShadow: '0 8px 20px rgba(74, 144, 226, 0.3)' });
+globalStyle('.card-item:hover', { transform: 'translateY(-4px)', boxShadow: '0 10px 26px rgba(0, 0, 0, 0.45)' });
 globalStyle('.card-info', { padding: '1rem' });
 globalStyle('.card-name', { fontSize: '1.1rem', fontWeight: 600 as any, marginBottom: '0.5rem', color: 'var(--text-primary)' });
 globalStyle('.card-details', { fontSize: '0.9rem', color: 'var(--text-secondary)' });
@@ -132,15 +133,19 @@ globalStyle('.pagination', { display: 'flex', justifyContent: 'center', gap: '0.
 globalStyle('.no-results', { textAlign: 'center', padding: '2rem', color: 'var(--text-secondary)' });
 
 // Buttons
-globalStyle('.btn', { border: 'none', borderRadius: 8, padding: '0.5rem 1rem', cursor: 'pointer', transition: 'all 0.2s ease' });
+globalStyle('.btn', { border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '0.5rem 1rem', cursor: 'pointer', transition: 'all 0.2s ease', background: 'rgba(255,255,255,0.02)' });
 globalStyle('.btn-small', { padding: '0.4rem 0.6rem', fontSize: '0.85rem' });
-globalStyle('.btn-primary', { background: 'var(--accent-color)', color: 'var(--text-primary)', boxShadow: '0 2px 8px rgba(74,144,226,0.3)' });
-globalStyle('.btn-primary:hover', { background: '#3b7ddd', boxShadow: '0 4px 12px rgba(74,144,226,0.4)' });
-globalStyle('.btn-secondary', { background: 'var(--secondary-bg)', color: 'var(--text-primary)', border: '1px solid var(--border-color)' });
+globalStyle('.btn-primary', { background: 'var(--accent-color)', color: 'var(--text-primary)', boxShadow: '0 8px 20px rgba(74,144,226,0.35)' });
+globalStyle('.btn-primary:hover', { background: '#3b7ddd', boxShadow: '0 10px 24px rgba(74,144,226,0.45)' });
+globalStyle('.btn-secondary', { background: 'rgba(255,255,255,0.02)', color: 'var(--text-primary)', border: '1px solid rgba(255,255,255,0.08)' });
 globalStyle('.btn-danger', { background: '#ef4444', color: '#fff' });
 
 // Feedback
 globalStyle('.error-container .error', { color: '#c00' });
+globalStyle('.alert-item', { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', borderRadius: 10, border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.02)', marginBottom: '0.5rem' });
+globalStyle('.alert-item.success', { borderColor: 'rgba(16,185,129,0.35)' });
+globalStyle('.alert-item.warning', { borderColor: 'rgba(234,179,8,0.35)' });
+globalStyle('.alert-time', { color: 'var(--text-secondary)', fontSize: '0.85rem' });
 globalStyle('.loading', { color: 'var(--text-secondary)', textAlign: 'center', padding: '1rem' });
 
 // Mobile-first utilities formerly from mobile-first.css (subset used)
