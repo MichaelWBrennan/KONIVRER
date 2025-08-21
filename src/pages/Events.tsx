@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as s from './events.css.ts';
 import { NotificationService } from '../services/notifications';
 
 // Types
@@ -125,19 +126,19 @@ export const Events: React.FC = () => {
   };
 
   const renderEventCard = (event: Event) => (
-    <div key={event.id} className="event-card">
-      <div className="event-header">
-        <h3 className="event-name">{event.name}</h3>
-        <div className="event-status">{event.status}</div>
+    <div key={event.id} className={s.eventCard}>
+      <div className={s.eventHeader}>
+        <h3 className={s.eventName}>{event.name}</h3>
+        <div className={s.eventStatus}>{event.status}</div>
       </div>
-      <div className="event-details">
+      <div className={s.eventDetails}>
         <p><strong>Date:</strong> {event.date} at {event.time}</p>
         <p><strong>Format:</strong> {event.format}</p>
         <p><strong>Prize Pool:</strong> {event.prizePool}</p>
         <p><strong>Participants:</strong> {event.participants}</p>
         <p>{event.description}</p>
       </div>
-      <div className="event-actions">
+      <div className={s.actions}>
         <button onClick={() => handleEventRegister(event.id)}>
           Register
         </button>
@@ -149,14 +150,14 @@ export const Events: React.FC = () => {
   );
 
   return (
-    <div className="events-container">
-      <div className="events-header">
+    <div className={s.container}>
+      <div className={s.header}>
         <h1>Tournament Events</h1>
         <p>Discover and participate in competitive KONIVRER tournaments</p>
       </div>
 
-      <div className="events-nav">
-        <div className="nav-tabs">
+      <div className={s.nav}>
+        <div className={s.navTabs}>
           <button 
             className={activeTab === 'browse' ? 'active' : ''}
             onClick={() => setActiveTab('browse')}
@@ -188,7 +189,7 @@ export const Events: React.FC = () => {
         </div>
 
         {activeTab === 'browse' && (
-          <div className="view-mode-selector">
+          <div className={s.viewSelector}>
             <button 
               className={viewMode === 'upcoming' ? 'active' : ''}
               onClick={() => setViewMode('upcoming')}
@@ -211,11 +212,11 @@ export const Events: React.FC = () => {
         )}
       </div>
 
-      <div className="events-content">
+      <div className={s.content}>
         {activeTab === 'browse' && (
-          <div className="events-list">
+          <div className={s.list}>
             {events.length === 0 ? (
-              <div className="no-events">
+              <div className={s.empty}>
                 <h3>No Events Available</h3>
                 <p>Check back later for upcoming tournaments and events.</p>
               </div>
