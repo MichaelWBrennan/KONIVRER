@@ -5,24 +5,25 @@ export const Home: React.FC = () => {
   return (
     <div className={h.container}>
       <div className={h.homeRoot}>
-        {/* Removed Analytics/Automation Dashboard link */}
         <header className={h.header}>
-          <h1 className={h.title}>KONIVRER Chronicles</h1>
-          <p className={h.subtitle}>Enter the realm of legendary cards and epic battles</p>
+          <div className={h.hero}>
+            <div>
+              <h1 className={h.title}>KONIVRER Chronicles</h1>
+              <p className={h.subtitle}>Latest card tech, meta analysis, and tournament updates</p>
+            </div>
+          </div>
           <div className={h.divider}></div>
         </header>
 
         <main className={h.content}>
           <section className={h.latestSection}>
-            <h2 className={h.latestTitle}>Latest</h2>
-            <p className={h.latestDescription}>
-              Stay updated with the newest cards, strategies, and tournaments in the KONIVRER universe.
-              Master the art of deck building and claim your place among the legends.
-            </p>
-            
-            <div className={h.featuredButtons}>
-              <button className="btn-touch btn-primary flex items-center justify-center">Featured Posts</button>
-              <button className="btn-touch btn-secondary flex items-center justify-center">Recent Updates</button>
+            <h2 className={h.latestTitle}>Featured</h2>
+            <div className={h.newsGrid}>
+              <article className={h.newsCard} style={{ gridColumn: 'span 2' }}>
+                <h3 className="text-lg font-semibold mb-3">Inside the Meta: Control vs. Aggro</h3>
+                <p className="text-sm text-secondary mb-4">We break down the latest results and what they mean for your next event. Sideboard strategies and mulligan heuristics included.</p>
+                <div className={h.newsDate}>Today</div>
+              </article>
             </div>
           </section>
 
