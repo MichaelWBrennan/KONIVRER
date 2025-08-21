@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as s from './cardViewerModal.css.ts';
 import { Card } from '../data/cards';
 
 interface CardViewerModalProps {
@@ -48,33 +49,16 @@ export const CardViewerModal: React.FC<CardViewerModalProps> = ({ card, onClose 
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose} style={{
-      position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.7)',
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      zIndex: 1000,
-    }}>
-      <div className="modal-content" onClick={e => e.stopPropagation()} style={{
-        position: 'relative',
-        maxWidth: '80vw',
-        maxHeight: '80vh',
-      }}>
-        <button onClick={onClose} style={{
-          position: 'absolute', top: '-1rem', right: '-1rem',
-          background: 'white', color: 'black',
-          border: '2px solid black', borderRadius: '50%',
-          width: '32px', height: '32px', cursor: 'pointer',
-          fontSize: '1.5rem', lineHeight: '1',
-        }}>
+    <div className={s.overlay} onClick={onClose}>
+      <div className={s.content} onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className={s.closeBtn}>
           &times;
         </button>
 
-        {isLoading && <div style={{ color: 'white', fontSize: '2rem' }}>Loading...</div>}
-        {error && <div style={{ color: 'red', fontSize: '1.5rem' }}>Error: {error}</div>}
+        {isLoading && <div className={s.loading}>Loading...</div>}
+        {error && <div className={s.error}>Error: {error}</div>}
         {upscaledImageUrl && (
-          <img src={upscaledImageUrl} alt={`Upscaled ${card.name}`} style={{
-            width: '100%', height: '100%', objectFit: 'contain'
-          }} />
+          <img src={upscaledImageUrl} alt={`Upscaled ${card.name}`} className={s.image} />
         )}
       </div>
     </div>
