@@ -27,6 +27,7 @@ import * as appStyles from './app.css.ts';
 import * as overlay from './appOverlay.css.ts';
 import { MobileShell } from './mobile/MobileShell';
 import { LoginModal } from './components/LoginModal';
+import { SearchBar } from './mobile/SearchBar';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -46,7 +47,7 @@ type Page = 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytic
 
 function AppContent() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const { selectedCard, setSelectedCard } = useAppStore();
+  const { selectedCard, setSelectedCard, setSearchFilters } = useAppStore();
   const { canAccessJudgePortal, isAuthenticated } = useAuth();
   const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : true);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -84,6 +85,18 @@ function AppContent() {
     setCurrentPage(page);
   };
 
+  const handleGlobalSearch = (q: string) => {
+    if (currentPage === 'cards') setSearchFilters({ search: q, page: 1 });
+    else if (currentPage === 'decks') setSearchFilters({ search: q, page: 1 });
+    else if (currentPage === 'events') {
+      const ev = new CustomEvent('pairings-search', { detail: q });
+      window.dispatchEvent(ev);
+    } else if (currentPage === 'home') {
+      const ev = new CustomEvent('home-search', { detail: q });
+      window.dispatchEvent(ev);
+    }
+  };
+
   if (!isOnline) {
     return <Offline />;
   }
@@ -93,6 +106,8 @@ function AppContent() {
       <div className={overlay.topRight}>
         <NotificationCenter />
       </div>
+
+      <SearchBar current={currentPage} onSearch={handleGlobalSearch} />
 
       <MobileShell current={currentPage} onNavigate={(p) => handlePageChange(p as Page)}>
         {currentPage === 'home' && (<Home />)}
