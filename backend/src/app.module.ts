@@ -43,14 +43,11 @@ import { UpscalingModule } from './upscaling/upscaling.module';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get('DB_HOST', 'localhost'),
-        port: configService.get('DB_PORT', 5432),
-        username: configService.get('DB_USERNAME', 'konivrer'),
-        password: configService.get('DB_PASSWORD', 'konivrer_dev'),
-        database: configService.get('DB_DATABASE', 'konivrer_db'),
+        url: `postgresql://gu2mbj:${configService.get('XATA_API_KEY')}@us-east-1.sql.xata.sh/KONIVRER:main?sslmode=require`,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: configService.get('NODE_ENV') !== 'production',
         logging: configService.get('NODE_ENV') === 'development',
+        ssl: true,
       }),
     }),
 
