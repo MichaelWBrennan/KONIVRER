@@ -29,6 +29,9 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         <button className={`${s.tab} ${active('simulator')}`} aria-current={current==='simulator'} onClick={() => onNavigate('simulator')}>
           <span className={s.label}>Play</span>
         </button>
+        <button className={`${s.tab} ${active('events')}`} aria-current={current==='events'} onClick={() => onNavigate('events')}>
+          <span className={s.label}>Events</span>
+        </button>
         <button className={`${s.tab}`} onClick={() => { const evt = new CustomEvent('open-login'); window.dispatchEvent(evt); }}>
           <span className={s.label}>Login</span>
         </button>
@@ -47,7 +50,6 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {([
               ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
               ['deckbuilder','Deckbuilder'] as const,
-              ...(hasRole(UserRole.TOURNAMENT_ORGANIZER) ? [['events','Events'] as const] : []),
               ['rules','Rules'] as const,
               ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
               ['settings','Settings'] as const,
