@@ -19,9 +19,8 @@ updates:
       - "automated"
     allow:
       - dependency-type: "all"
-    ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+    # Major updates will be auto-merged if tests pass
+    # Remove ignore block to enable major version auto-merge
 
   - package-ecosystem: "github-actions"
     directory: "/"
