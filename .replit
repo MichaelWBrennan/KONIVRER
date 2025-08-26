@@ -12,6 +12,10 @@ run = ["sh", "-c", "npm run dev"]
 runButton = "Run Development Server"
 
 [[ports]]
+localPort = 3000
+externalPort = 3002
+
+[[ports]]
 localPort = 12000
 externalPort = 80
 
