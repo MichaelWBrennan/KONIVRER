@@ -11,7 +11,7 @@ import NotificationCenter from './components/NotificationCenter';
 import { DeckBuilderAdvanced } from './pages/DeckBuilderAdvanced';
 
 import { Analytics } from './pages/Analytics';
-// import { Events } from './pages/Events';
+import { Events } from './pages/Events';
 import { TournamentHub } from './pages/TournamentHub';
 import { Home } from './pages/Home';
 import { MyDecks } from './pages/MyDecks';
@@ -129,7 +129,7 @@ function AppContent() {
             </div>
           )
         )}
-        {currentPage === 'events' && (<TournamentHub />)}
+        {currentPage === 'events' && (<Events />)}
         {currentPage === 'event-archive' && (<TournamentHub />)}
         {currentPage === 'deckbuilder' && (<DeckBuilderAdvanced />)}
         {currentPage === 'analytics' && (<Analytics />)}

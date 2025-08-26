@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as s from './mobileNav.css.ts';
 import { useAuth } from '../hooks/useAuth';
 import { UserRole } from '../services/authService';
+import { Home, Search, User, Settings, Plus, BarChart3, Calendar } from 'lucide-react';
 
 type Tab = 'home' | 'cards' | 'decks' | 'simulator' | 'more';
 
@@ -47,7 +48,8 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {([
               ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
               ['deckbuilder','Deckbuilder'] as const,
-              ...(hasRole(UserRole.TOURNAMENT_ORGANIZER) ? [['events','Events'] as const] : []),
+              ['events','Events'] as const,
+              ['analytics','Analytics'] as const,
               ['rules','Rules'] as const,
               ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
               ['settings','Settings'] as const,
@@ -62,4 +64,3 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
     </nav>
   );
 };
-
