@@ -26,7 +26,13 @@ export function PdfViewer({ url = '/sample.pdf' }: { url?: string }) {
       canvas.width = viewport.width;
       canvas.height = viewport.height;
 
-      await page.render({ canvasContext: context as any, viewport }).promise;
+      const renderContext = {
+          canvasContext: context,
+          canvas: canvas,
+          viewport: viewport,
+        };
+
+        await page.render(renderContext).promise;
     })();
 
     return () => {
@@ -46,4 +52,3 @@ export function PdfViewer({ url = '/sample.pdf' }: { url?: string }) {
     </div>
   );
 }
-
