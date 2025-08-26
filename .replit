@@ -11,6 +11,36 @@ run = ["sh", "-c", "npm run dev"]
 [workflows]
 runButton = "Run Development Server"
 
+[[workflows.workflow]]
+name = "Sync with Remote"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "git fetch --all --prune"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "git remote update"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "git status"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "git log --oneline origin/main -10"
+
+[[workflows.workflow]]
+name = "Remote-First Automation"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx ts-node scripts/remote-first-automation.ts"
+
 [[ports]]
 localPort = 3000
 externalPort = 3002
