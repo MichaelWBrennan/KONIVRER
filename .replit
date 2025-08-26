@@ -41,6 +41,15 @@ mode = "sequential"
 task = "shell.exec"
 args = "npx ts-node scripts/remote-first-automation.ts"
 
+[[workflows.workflow]]
+name = "Fix All Code & Merge"
+author = 259688
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx ts-node scripts/fix-all-branches.ts"
+
 [[ports]]
 localPort = 3000
 externalPort = 3002
