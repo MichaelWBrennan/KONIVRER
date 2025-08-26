@@ -48,10 +48,8 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {([
               ...(isAuthenticated ? [['my-decks','My Decks'] as const] : []),
               ['deckbuilder','Deckbuilder'] as const,
-              { id: 'deckbuilder', label: 'Deck Builder', icon: <Plus size={20} /> },
-    { id: 'events', label: 'Events', icon: <Calendar size={20} /> },
-    { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={20} /> },
-              ...(hasRole(UserRole.TOURNAMENT_ORGANIZER) ? [['events','Events'] as const] : []),
+              ['events','Events'] as const,
+              ['analytics','Analytics'] as const,
               ['rules','Rules'] as const,
               ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
               ['settings','Settings'] as const,
