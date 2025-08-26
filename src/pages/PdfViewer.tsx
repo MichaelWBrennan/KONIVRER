@@ -32,7 +32,11 @@ export function PdfViewer({ url = '/sample.pdf' }: { url?: string }) {
           viewport: viewport,
         };
 
-        await page.render(renderContext).promise;
+        await page.render({
+          canvasContext: context,
+          viewport: viewport,
+          canvas: canvasRef.current,
+        }).promise;
     })();
 
     return () => {
