@@ -1,11 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { OcrController } from './ocr.controller';
-import { OcrService } from './ocr.service';
-import { CardsService } from '../cards/cards.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
-import { Card } from '../cards/entities/card.entity';
+import { Test, TestingModule } from "@nestjs/testing";
+import { OcrController } from "./ocr.controller";
+import { OcrService } from "./ocr.service";
+import { CardsService } from "../cards/cards.service";
+import { getRepositoryToken } from "@nestjs/typeorm";
+import { Card } from "../cards/entities/card.entity";
 
-describe('OcrController', () => {
+describe("OcrController", () => {
   let controller: OcrController;
   let service: OcrService;
 
@@ -35,7 +35,7 @@ describe('OcrController', () => {
         {
           provide: getRepositoryToken(Card),
           useValue: {}, // empty mock for the repository
-        }
+        },
       ],
     }).compile();
 
@@ -43,26 +43,26 @@ describe('OcrController', () => {
     service = module.get<OcrService>(OcrService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 
-  describe('uploadFile', () => {
-    it('should call OcrService.extractCardData with the uploaded file', async () => {
+  describe("uploadFile", () => {
+    it("should call OcrService.extractCardData with the uploaded file", async () => {
       const file: Express.Multer.File = {
-        fieldname: 'file',
-        originalname: 'test.png',
-        encoding: '7bit',
-        mimetype: 'image/png',
+        fieldname: "file",
+        originalname: "test.png",
+        encoding: "7bit",
+        mimetype: "image/png",
         size: 12345,
-        buffer: Buffer.from('test'),
+        buffer: Buffer.from("test"),
         stream: null,
-        destination: '',
-        filename: '',
-        path: ''
+        destination: "",
+        filename: "",
+        path: "",
       };
 
-      const expectedResult = { message: 'success' };
+      const expectedResult = { message: "success" };
       mockOcrService.extractCardData.mockResolvedValue(expectedResult);
 
       const result = await controller.uploadFile(file);

@@ -1,13 +1,20 @@
-import { IsArray, IsString, IsNumber, IsUUID, ValidateNested, IsOptional } from 'class-validator';
-import { Type } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsArray,
+  IsString,
+  IsNumber,
+  IsUUID,
+  ValidateNested,
+  IsOptional,
+} from "class-validator";
+import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class MatchResultDto {
   @ApiProperty()
   @IsUUID()
   userId: string;
 
-  @ApiProperty({ description: 'Score: 1 for win, 0 for loss, 0.5 for draw' })
+  @ApiProperty({ description: "Score: 1 for win, 0 for loss, 0.5 for draw" })
   @IsNumber()
   score: number;
 }

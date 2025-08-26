@@ -1,8 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from "typeorm";
 
-@Entity('rating_history')
+@Entity("rating_history")
 export class RatingHistory {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -11,19 +16,19 @@ export class RatingHistory {
   @Column()
   matchId: string;
 
-  @Column('json')
+  @Column("json")
   prior: {
     mu: number;
     sigma: number;
   };
 
-  @Column('json')
+  @Column("json")
   posterior: {
     mu: number;
     sigma: number;
   };
 
-  @Column('decimal', { precision: 10, scale: 3 })
+  @Column("decimal", { precision: 10, scale: 3 })
   delta: number;
 
   @CreateDateColumn()
