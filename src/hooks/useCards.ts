@@ -1,22 +1,23 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { cardApi, migrationApi } from '../services/api';
-import { Card, CardSearchFilters } from '../stores/appStore';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { cardApi, migrationApi } from "../services/api";
+import { Card, CardSearchFilters } from "../stores/appStore";
 
-export const CARD_QUERY_KEYS = {
-  all: ['cards'] as const,
-  lists: () => [...CARD_QUERY_KEYS.all, 'list'] as const,
-  list: (filters: CardSearchFilters) => [...CARD_QUERY_KEYS.lists(), filters] as const,
-  details: () => [...CARD_QUERY_KEYS.all, 'detail'] as const,
+export const CARD_QUERY_KEYS: any = {
+  all: ["cards"] as const,
+  lists: () => [...CARD_QUERY_KEYS.all, "list"] as const,
+  list: (filters: CardSearchFilters) =>
+    [...CARD_QUERY_KEYS.lists(), filters] as const,
+  details: () => [...CARD_QUERY_KEYS.all, "detail"] as const,
   detail: (id: string) => [...CARD_QUERY_KEYS.details(), id] as const,
-  statistics: () => [...CARD_QUERY_KEYS.all, 'statistics'] as const,
+  statistics: () => [...CARD_QUERY_KEYS.all, "statistics"] as const,
 };
 
 // Get paginated cards with filters
-export function useCards(filters: CardSearchFilters) {
+export function useCards(filters: CardSearchFilters): any {
   return useQuery({
     queryKey: CARD_QUERY_KEYS.list(filters),
     queryFn: async () => {
-      const response = await cardApi.getAll(filters);
+      const response: any = await cardApi.getAll(filters);
       return response.data;
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -25,11 +26,11 @@ export function useCards(filters: CardSearchFilters) {
 }
 
 // Get single card by ID
-export function useCard(id: string) {
+export function useCard(id: string): any {
   return useQuery({
     queryKey: CARD_QUERY_KEYS.detail(id),
     queryFn: async () => {
-      const response = await cardApi.getById(id);
+      const response: any = await cardApi.getById(id);
       return response.data;
     },
     enabled: !!id,
@@ -38,11 +39,11 @@ export function useCard(id: string) {
 }
 
 // Get card by name
-export function useCardByName(name: string) {
+export function useCardByName(name: string): any {
   return useQuery({
-    queryKey: [...CARD_QUERY_KEYS.details(), 'name', name],
+    queryKey: [...CARD_QUERY_KEYS.details(), "name", name],
     queryFn: async () => {
-      const response = await cardApi.getByName(name);
+      const response: any = await cardApi.getByName(name);
       return response.data;
     },
     enabled: !!name,
@@ -51,11 +52,11 @@ export function useCardByName(name: string) {
 }
 
 // Get card statistics
-export function useCardStatistics() {
+export function useCardStatistics(): any {
   return useQuery({
     queryKey: CARD_QUERY_KEYS.statistics(),
     queryFn: async () => {
-      const response = await cardApi.getStatistics();
+      const response: any = await cardApi.getStatistics();
       return response.data;
     },
     staleTime: 30 * 60 * 1000, // 30 minutes
@@ -63,9 +64,9 @@ export function useCardStatistics() {
 }
 
 // Create card mutation
-export function useCreateCard() {
-  const queryClient = useQueryClient();
-  
+export function useCreateCard(): any {
+  const queryClient: any = useQueryClient();
+
   return useMutation({
     mutationFn: cardApi.create,
     onSuccess: () => {
@@ -81,11 +82,11 @@ export function useCreateCard() {
 }
 
 // Update card mutation
-export function useUpdateCard() {
-  const queryClient = useQueryClient();
-  
+export function useUpdateCard(): any {
+  const queryClient: any = useQueryClient();
+
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<Card> }) => 
+    mutationFn: ({ id, data }: { id: string; data: Partial<Card> }) =>
       cardApi.update(id, data),
     onSuccess: (_, { id }) => {
       queryClient.invalidateQueries({
@@ -99,9 +100,9 @@ export function useUpdateCard() {
 }
 
 // Delete card mutation
-export function useDeleteCard() {
-  const queryClient = useQueryClient();
-  
+export function useDeleteCard(): any {
+  const queryClient: any = useQueryClient();
+
   return useMutation({
     mutationFn: cardApi.delete,
     onSuccess: () => {
@@ -116,9 +117,9 @@ export function useDeleteCard() {
 }
 
 // Bulk create cards mutation
-export function useBulkCreateCards() {
-  const queryClient = useQueryClient();
-  
+export function useBulkCreateCards(): any {
+  const queryClient: any = useQueryClient();
+
   return useMutation({
     mutationFn: cardApi.bulkCreate,
     onSuccess: () => {
@@ -130,9 +131,9 @@ export function useBulkCreateCards() {
 }
 
 // Seed KONIVRER cards mutation
-export function useSeedKonivrrerCards() {
-  const queryClient = useQueryClient();
-  
+export function useSeedKonivrrerCards(): any {
+  const queryClient: any = useQueryClient();
+
   return useMutation({
     mutationFn: migrationApi.seedKonivrrerCards,
     onSuccess: () => {
