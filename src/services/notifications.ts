@@ -1,12 +1,26 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+export interface NotificationVenue {
+  location?: string;
+}
+
+export interface NotificationData {
+  eventName?: string;
+  eventFormat?: string;
+  table?: number | string;
+  opponentName?: string;
+  round?: number | string;
+  venue?: NotificationVenue;
+  [key: string]: unknown;
+}
+
 export interface PushNotification {
   id: string;
   type: 'round_start' | 'registration_accepted' | 'seating_assignment' | 'tournament_update' | 'system';
   title: string;
   message: string;
-  data?: any = {};
+  data?: NotificationData;
   timestamp: Date;
   read: boolean;
   eventId?: string;
@@ -34,7 +48,7 @@ interface NotificationState {
   getUnreadCountByEvent: (eventId?: string) => number;
 }
 
-export const useNotificationStore : any : any : any : any = create<NotificationState>()(
+export const useNotificationStore  = create<NotificationState>()(
   persist(
     (set, get) => ({
       // Initial state
@@ -45,7 +59,7 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
 
       // Actions
       addNotification: (notificationData) => {
-        const notification: PushNotification : any : any : any : any = {
+        const notification: PushNotification  = {
           ...notificationData,
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
           timestamp: new Date(),
@@ -81,8 +95,8 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
 
       markEventAsRead: (eventId) => {
         set((state) => {
-          const eventNotifications : any : any : any : any = state.notifications.filter(n => n.eventId === eventId && !n.read);
-          const unreadReduction : any : any : any : any = eventNotifications.length;
+          const eventNotifications  = state.notifications.filter(n => n.eventId === eventId && !n.read);
+          const unreadReduction  = eventNotifications.length;
           
           return {
             notifications: state.notifications.map((n) =>
@@ -106,8 +120,8 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
 
       clearEvent: (eventId) => {
         set((state) => {
-          const eventNotifications : any : any : any : any = state.notifications.filter(n => n.eventId === eventId);
-          const unreadReduction : any : any : any : any = eventNotifications.filter(n => !n.read).length;
+          const eventNotifications  = state.notifications.filter(n => n.eventId === eventId);
+          const unreadReduction  = eventNotifications.filter(n => !n.read).length;
           
           return {
             notifications: state.notifications.filter((n) => n.eventId !== eventId),
@@ -120,8 +134,8 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
         if (!get().isSupported) return false;
 
         try {
-          const permission : any : any : any : any = await Notification.requestPermission();
-          const granted : any : any : any : any = permission === 'granted';
+          const permission  = await Notification.requestPermission();
+          const granted  = permission === 'granted';
           
           set({ isPermissionGranted: granted });
           return granted;
@@ -135,7 +149,7 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
         if (!get().isSupported) return;
 
         // Check current permission status
-        const permission : any : any : any : any = Notification.permission;
+        const permission  = Notification.permission;
         set({ isPermissionGranted: permission === 'granted' });
 
         // Set up notification click handlers
@@ -153,7 +167,7 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
       showBrowserNotification: (notification: PushNotification) => {
         if (!get().isSupported || Notification.permission !== 'granted') return;
 
-        const browserNotification : any : any : any : any = new Notification(notification.title, {
+        const browserNotification  = new Notification(notification.title, {
           body: notification.message,
           icon: '/favicon.ico', // Your app icon
           badge: '/favicon.ico',
@@ -192,7 +206,7 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
 
       // Helper methods for event-specific notifications
       getNotificationsByEvent: (eventId) => {
-        const state : any : any : any : any = get();
+        const state  = get();
         if (!eventId) {
           return state.notifications.filter(n => !n.eventId);
         }
@@ -200,7 +214,7 @@ export const useNotificationStore : any : any : any : any = create<NotificationS
       },
 
       getUnreadCountByEvent: (eventId) => {
-        const state : any : any : any : any = get();
+        const state  = get();
         if (!eventId) {
           return state.notifications.filter(n => !n.eventId && !n.read).length;
         }
@@ -230,7 +244,7 @@ export class NotificationService {
   }
 
   public async initialize(): Promise<void> {
-    const store : any : any : any : any = useNotificationStore.getState();
+    const store  = useNotificationStore.getState();
     store.initializeNotifications();
 
     // Request permission on first visit
@@ -241,7 +255,7 @@ export class NotificationService {
   }
 
   public async requestPermission(): Promise<boolean> {
-    const store : any : any : any : any = useNotificationStore.getState();
+    const store  = useNotificationStore.getState();
     return await store.requestPermission();
   }
 
@@ -252,7 +266,7 @@ export class NotificationService {
     data?: any,
     eventId?: string
   ): void {
-    const store : any : any : any : any = useNotificationStore.getState();
+    const store  = useNotificationStore.getState();
     store.addNotification({
       type,
       title,
@@ -343,11 +357,11 @@ export class NotificationService {
 
     socket.on('event.seating.assigned', (data: any) => {
       // This will be called for each player, so check if it's for current user
-      const currentUser : any : any : any : any = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      const assignment : any : any : any : any = data.assignments?.find((a: any) => a.playerId === currentUser.id);
+      const currentUser  = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const assignment  = data.assignments?.find((a: any) => a.playerId === currentUser.id);
       
       if (assignment) {
-        const opponentName : any : any : any : any = assignment.opponent?.username || 'TBD';
+        const opponentName  = assignment.opponent?.username || 'TBD';
         this.sendEventSpecificNotification(
           'seating_assignment',
           'Seating Assignment',
@@ -390,7 +404,7 @@ export class NotificationService {
   // Check if user is registered for a specific event
   private isUserRegisteredForEvent(eventId: string): boolean {
     try {
-      const userEvents : any : any : any : any = JSON.parse(localStorage.getItem('userEvents') || '[]');
+      const userEvents  = JSON.parse(localStorage.getItem('userEvents') || '[]');
       return userEvents.includes(eventId);
     } catch {
       return true; // Default to showing notifications if we can't verify
@@ -399,8 +413,8 @@ export class NotificationService {
 
   // Check for duplicate notifications in the last few minutes
   private hasDuplicateNotification(type: PushNotification['type'], eventId?: string): boolean {
-    const store : any : any : any : any = useNotificationStore.getState();
-    const fiveMinutesAgo : any : any : any : any = new Date(Date.now() - 5 * 60 * 1000);
+    const store  = useNotificationStore.getState();
+    const fiveMinutesAgo  = new Date(Date.now() - 5 * 60 * 1000);
 
     return store.notifications.some(notification => 
       notification.type === type &&
