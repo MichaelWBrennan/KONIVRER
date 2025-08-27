@@ -1,11 +1,11 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export type PlayerRef = { id: string; name: string };
 export type Pairing = {
   tableNumber: number;
   playerA: PlayerRef;
   playerB: PlayerRef;
-  status: 'pending' | 'reported' | 'in_progress' | 'final';
+  status: "pending" | "reported" | "in_progress" | "final";
   result?: string; // e.g., "2-1", "ID", "Drop"
 };
 
@@ -29,7 +29,7 @@ export type EventState = {
   setError: (e?: string) => void;
 };
 
-export const useEventStore = create<EventState>()((set, get) => ({
+export const useEventStore: any = create<EventState>()((set, get) => ({
   currentEventId: undefined,
   currentEventName: undefined,
   roundNumber: 0,
@@ -39,14 +39,16 @@ export const useEventStore = create<EventState>()((set, get) => ({
   myTable: undefined,
   isLoading: false,
   error: undefined,
-  setEvent: (id: string, name: string) => set({ currentEventId: id, currentEventName: name }),
+  setEvent: (id: string, name: string) =>
+    set({ currentEventId: id, currentEventName: name }),
   setMyPlayerId: (id: string) => set({ myPlayerId: id }),
-  setRoundInfo: (round: number, endsAt?: number) => set({ roundNumber: round, roundEndsAt: endsAt }),
+  setRoundInfo: (round: number, endsAt?: number) =>
+    set({ roundNumber: round, roundEndsAt: endsAt }),
   setPairings: (p: Pairing[]) => set({ pairings: p }),
   setMyTableFromPairings: () => {
-    const { pairings, myPlayerId } = get();
+    const { pairings, myPlayerId }: any = get();
     if (!myPlayerId) return;
-    const mine = pairings.find(
+    const mine: any = pairings.find(
       (x) => x.playerA.id === myPlayerId || x.playerB.id === myPlayerId
     );
     if (mine) set({ myTable: mine.tableNumber });
@@ -54,4 +56,3 @@ export const useEventStore = create<EventState>()((set, get) => ({
   setLoading: (v: boolean) => set({ isLoading: v }),
   setError: (e?: string) => set({ error: e }),
 }));
-
