@@ -1,6 +1,6 @@
 /**
  * Bayesian Rating System (TrueSkill Implementation)
- * 
+ *
  * This implements a Bayesian skill rating system based on the TrueSkill algorithm
  * for dynamic player skill assessment and matchmaking quality optimization.
  */
@@ -59,7 +59,7 @@ export class BayesianMatchmakingService {
   createInitialRating(): BayesianRating {
     const uncertainty = this.defaultUncertainty;
     const skill = this.defaultSkill;
-    
+
     return {
       skill,
       uncertainty,
@@ -75,26 +75,32 @@ export class BayesianMatchmakingService {
    */
   calculateMatchQuality(ratings: BayesianRating[]): MatchQuality {
     if (ratings.length !== 2) {
-      throw new Error('Match quality calculation currently supports only 2 players');
+      throw new Error(
+        "Match quality calculation currently supports only 2 players"
+      );
     }
 
     const [rating1, rating2] = ratings;
-    
+
     // Calculate skill difference
     const skillDiff = Math.abs(rating1.skill - rating2.skill);
-    
+
     // Calculate total uncertainty
     const totalUncertainty = Math.sqrt(
-      rating1.uncertainty * rating1.uncertainty + 
-      rating2.uncertainty * rating2.uncertainty + 
-      2 * this.beta * this.beta
+      rating1.uncertainty * rating1.uncertainty +
+        rating2.uncertainty * rating2.uncertainty +
+        2 * this.beta * this.beta
     );
 
     // Match quality based on skill difference and uncertainty
-    const quality = Math.exp(-(skillDiff * skillDiff) / (2 * totalUncertainty * totalUncertainty));
-    
+    const quality = Math.exp(
+      -(skillDiff * skillDiff) / (2 * totalUncertainty * totalUncertainty)
+    );
+
     // Calculate win probabilities using normal CDF approximation
-    const winProb1 = this.normalCDF((rating1.skill - rating2.skill) / totalUncertainty);
+    const winProb1 = this.normalCDF(
+      (rating1.skill - rating2.skill) / totalUncertainty
+    );
     const winProb2 = 1 - winProb1;
 
     return {
@@ -109,11 +115,11 @@ export class BayesianMatchmakingService {
    * Update ratings based on match outcome
    */
   updateRatings(
-    ratings: BayesianRating[], 
+    ratings: BayesianRating[],
     outcomes: MatchOutcome[]
   ): BayesianRating[] {
     if (ratings.length !== outcomes.length) {
-      throw new Error('Ratings and outcomes arrays must have same length');
+      throw new Error("Ratings and outcomes arrays must have same length");
     }
 
     // For 2-player matches, use simplified TrueSkill update
@@ -122,7 +128,7 @@ export class BayesianMatchmakingService {
     }
 
     // For multiplayer, would need full TrueSkill factor graph
-    throw new Error('Multiplayer rating updates not yet implemented');
+    throw new Error("Multiplayer rating updates not yet implemented");
   }
 
   /**
@@ -134,9 +140,9 @@ export class BayesianMatchmakingService {
   ): { pairings: string[][]; qualities: MatchQuality[] } {
     const playerIds = Array.from(playerRatings.keys());
     const n = playerIds.length;
-    
+
     if (n % 2 !== 0) {
-      throw new Error('Odd number of players not supported yet');
+      throw new Error("Odd number of players not supported yet");
     }
 
     // Sort players by conservative rating for initial ordering
@@ -154,23 +160,24 @@ export class BayesianMatchmakingService {
     for (let i = 0; i < playerIds.length; i++) {
       if (used.has(playerIds[i])) continue;
 
-      let bestOpponent = '';
+      let bestOpponent = "";
       let bestQuality = -1;
 
       for (let j = i + 1; j < playerIds.length; j++) {
         if (used.has(playerIds[j])) continue;
 
         // Check if this pairing was used before
-        const hasPlayedBefore = previousPairings.some(pairing => 
-          (pairing[0] === playerIds[i] && pairing[1] === playerIds[j]) ||
-          (pairing[0] === playerIds[j] && pairing[1] === playerIds[i])
+        const hasPlayedBefore = previousPairings.some(
+          (pairing) =>
+            (pairing[0] === playerIds[i] && pairing[1] === playerIds[j]) ||
+            (pairing[0] === playerIds[j] && pairing[1] === playerIds[i])
         );
 
         if (hasPlayedBefore) continue;
 
         const quality = this.calculateMatchQuality([
           playerRatings.get(playerIds[i])!,
-          playerRatings.get(playerIds[j])!
+          playerRatings.get(playerIds[j])!,
         ]);
 
         if (quality.quality > bestQuality) {
@@ -182,14 +189,16 @@ export class BayesianMatchmakingService {
       if (bestOpponent) {
         used.add(playerIds[i]);
         used.add(bestOpponent);
-        
+
         const pairing = [playerIds[i], bestOpponent];
         pairings.push(pairing);
-        
-        qualities.push(this.calculateMatchQuality([
-          playerRatings.get(playerIds[i])!,
-          playerRatings.get(bestOpponent)!
-        ]));
+
+        qualities.push(
+          this.calculateMatchQuality([
+            playerRatings.get(playerIds[i])!,
+            playerRatings.get(bestOpponent)!,
+          ])
+        );
       }
     }
 
@@ -199,15 +208,20 @@ export class BayesianMatchmakingService {
   /**
    * Get player strength percentile
    */
-  getPlayerPercentile(rating: BayesianRating, allRatings: BayesianRating[]): number {
+  getPlayerPercentile(
+    rating: BayesianRating,
+    allRatings: BayesianRating[]
+  ): number {
     const playerRating = rating.conservativeRating;
-    const belowCount = allRatings.filter(r => r.conservativeRating < playerRating).length;
+    const belowCount = allRatings.filter(
+      (r) => r.conservativeRating < playerRating
+    ).length;
     return (belowCount / allRatings.length) * 100;
   }
 
   // Private helper methods
   private updateTwoPlayerRatings(
-    ratings: BayesianRating[], 
+    ratings: BayesianRating[],
     outcomes: MatchOutcome[]
   ): BayesianRating[] {
     const [rating1, rating2] = ratings;
@@ -220,9 +234,9 @@ export class BayesianMatchmakingService {
     // Calculate performance difference
     const skillDiff = rating1.skill - rating2.skill;
     const c = Math.sqrt(
-      rating1.uncertainty * rating1.uncertainty + 
-      rating2.uncertainty * rating2.uncertainty + 
-      2 * this.beta * this.beta
+      rating1.uncertainty * rating1.uncertainty +
+        rating2.uncertainty * rating2.uncertainty +
+        2 * this.beta * this.beta
     );
 
     let v: number, w: number;
@@ -240,24 +254,40 @@ export class BayesianMatchmakingService {
 
     // Update player 1
     const newUncertainty1 = Math.sqrt(
-      rating1.uncertainty * rating1.uncertainty * Math.max(1 - w * rating1.uncertainty * rating1.uncertainty / (c * c), 0.0001)
+      rating1.uncertainty *
+        rating1.uncertainty *
+        Math.max(
+          1 - (w * rating1.uncertainty * rating1.uncertainty) / (c * c),
+          0.0001
+        )
     );
-    
-    const skillUpdate1 = (rating1.uncertainty * rating1.uncertainty / c) * v;
-    const newSkill1 = rating1.skill + (player1Won || isDraw ? skillUpdate1 : -skillUpdate1);
+
+    const skillUpdate1 = ((rating1.uncertainty * rating1.uncertainty) / c) * v;
+    const newSkill1 =
+      rating1.skill + (player1Won || isDraw ? skillUpdate1 : -skillUpdate1);
 
     // Add dynamics uncertainty
-    const finalUncertainty1 = Math.sqrt(newUncertainty1 * newUncertainty1 + this.tau * this.tau);
-
-    // Update player 2  
-    const newUncertainty2 = Math.sqrt(
-      rating2.uncertainty * rating2.uncertainty * Math.max(1 - w * rating2.uncertainty * rating2.uncertainty / (c * c), 0.0001)
+    const finalUncertainty1 = Math.sqrt(
+      newUncertainty1 * newUncertainty1 + this.tau * this.tau
     );
 
-    const skillUpdate2 = (rating2.uncertainty * rating2.uncertainty / c) * v;
-    const newSkill2 = rating2.skill + (!player1Won || isDraw ? skillUpdate2 : -skillUpdate2);
+    // Update player 2
+    const newUncertainty2 = Math.sqrt(
+      rating2.uncertainty *
+        rating2.uncertainty *
+        Math.max(
+          1 - (w * rating2.uncertainty * rating2.uncertainty) / (c * c),
+          0.0001
+        )
+    );
 
-    const finalUncertainty2 = Math.sqrt(newUncertainty2 * newUncertainty2 + this.tau * this.tau);
+    const skillUpdate2 = ((rating2.uncertainty * rating2.uncertainty) / c) * v;
+    const newSkill2 =
+      rating2.skill + (!player1Won || isDraw ? skillUpdate2 : -skillUpdate2);
+
+    const finalUncertainty2 = Math.sqrt(
+      newUncertainty2 * newUncertainty2 + this.tau * this.tau
+    );
 
     return [
       {
@@ -275,7 +305,7 @@ export class BayesianMatchmakingService {
         conservativeRating: newSkill2 - 3.0 * finalUncertainty2,
         matchesPlayed: rating2.matchesPlayed + 1,
         lastUpdated: new Date(),
-      }
+      },
     ];
   }
 
@@ -285,7 +315,7 @@ export class BayesianMatchmakingService {
   }
 
   private normalPDF(x: number): number {
-    return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+    return Math.exp((-x * x) / 2) / Math.sqrt(2 * Math.PI);
   }
 
   private vWin(t: number): number {
@@ -315,26 +345,30 @@ export class BayesianMatchmakingService {
     const a = drawMargin - abs_t;
     const b = -drawMargin - abs_t;
     const denom = this.normalCDF(a) - this.normalCDF(b);
-    
-    return ((a * this.normalPDF(a) - b * this.normalPDF(b)) / denom) - 
-           Math.pow((this.normalPDF(a) - this.normalPDF(b)) / denom, 2);
+
+    return (
+      (a * this.normalPDF(a) - b * this.normalPDF(b)) / denom -
+      Math.pow((this.normalPDF(a) - this.normalPDF(b)) / denom, 2)
+    );
   }
 
   // Error function approximation
   private erf(x: number): number {
     // Abramowitz and Stegun approximation
-    const a1 =  0.254829592;
+    const a1 = 0.254829592;
     const a2 = -0.284496736;
-    const a3 =  1.421413741;
+    const a3 = 1.421413741;
     const a4 = -1.453152027;
-    const a5 =  1.061405429;
-    const p  =  0.3275911;
+    const a5 = 1.061405429;
+    const p = 0.3275911;
 
     const sign = x >= 0 ? 1 : -1;
     x = Math.abs(x);
 
     const t = 1.0 / (1.0 + p * x);
-    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+    const y =
+      1.0 -
+      ((((a5 * t + a4) * t + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
 
     return sign * y;
   }

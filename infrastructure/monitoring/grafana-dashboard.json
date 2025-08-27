@@ -23,13 +23,13 @@
             },
             "thresholds": {
               "steps": [
-                {"color": "red", "value": 0},
-                {"color": "green", "value": 1}
+                { "color": "red", "value": 0 },
+                { "color": "green", "value": 1 }
               ]
             }
           }
         },
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
       },
       {
         "id": 2,
@@ -49,7 +49,7 @@
             "legendFormat": "Failures/sec"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
       },
       {
         "id": 3,
@@ -69,7 +69,7 @@
             "legendFormat": "Medium"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
       },
       {
         "id": 4,
@@ -88,17 +88,17 @@
             },
             "thresholds": {
               "steps": [
-                {"color": "green", "value": 0},
-                {"color": "red", "value": 1}
+                { "color": "green", "value": 0 },
+                { "color": "red", "value": 1 }
               ]
             },
             "mappings": [
-              {"options": {"0": {"text": "CLOSED"}}, "type": "value"},
-              {"options": {"1": {"text": "OPEN"}}, "type": "value"}
+              { "options": { "0": { "text": "CLOSED" } }, "type": "value" },
+              { "options": { "1": { "text": "OPEN" } }, "type": "value" }
             ]
           }
         },
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
       },
       {
         "id": 5,
@@ -118,7 +118,7 @@
             "legendFormat": "Recovery Time"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
       },
       {
         "id": 6,
@@ -134,7 +134,7 @@
             "legendFormat": "95th Percentile Response Time"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
       },
       {
         "id": 7,
@@ -150,7 +150,7 @@
             "legendFormat": "Memory Usage %"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24}
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 24 }
       },
       {
         "id": 8,
@@ -169,14 +169,14 @@
             "unit": "percent",
             "thresholds": {
               "steps": [
-                {"color": "red", "value": 0},
-                {"color": "yellow", "value": 80},
-                {"color": "green", "value": 95}
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 80 },
+                { "color": "green", "value": 95 }
               ]
             }
           }
         },
-        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 24}
+        "gridPos": { "h": 8, "w": 6, "x": 12, "y": 24 }
       },
       {
         "id": 9,
@@ -188,7 +188,7 @@
             "legendFormat": "{{severity}}"
           }
         ],
-        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 24}
+        "gridPos": { "h": 8, "w": 6, "x": 18, "y": 24 }
       },
       {
         "id": 10,
@@ -207,15 +207,15 @@
             "unit": "percent",
             "thresholds": {
               "steps": [
-                {"color": "red", "value": 0},
-                {"color": "orange", "value": 60},
-                {"color": "yellow", "value": 80},
-                {"color": "green", "value": 90}
+                { "color": "red", "value": 0 },
+                { "color": "orange", "value": 60 },
+                { "color": "yellow", "value": 80 },
+                { "color": "green", "value": 90 }
               ]
             }
           }
         },
-        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 32}
+        "gridPos": { "h": 8, "w": 6, "x": 0, "y": 32 }
       },
       {
         "id": 11,
@@ -227,7 +227,7 @@
             "legendFormat": "Recovery Time Distribution"
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 6, "y": 32}
+        "gridPos": { "h": 8, "w": 12, "x": 6, "y": 32 }
       },
       {
         "id": 12,
@@ -256,7 +256,7 @@
             }
           }
         ],
-        "gridPos": {"h": 8, "w": 12, "x": 18, "y": 32}
+        "gridPos": { "h": 8, "w": 12, "x": 18, "y": 32 }
       }
     ],
     "time": {
@@ -300,10 +300,10 @@
           "type": "custom",
           "query": "critical,high,medium,low",
           "options": [
-            {"text": "Critical", "value": "critical"},
-            {"text": "High", "value": "high"},
-            {"text": "Medium", "value": "medium"},
-            {"text": "Low", "value": "low"}
+            { "text": "Critical", "value": "critical" },
+            { "text": "High", "value": "high" },
+            { "text": "Medium", "value": "medium" },
+            { "text": "Low", "value": "low" }
           ],
           "includeAll": true,
           "multi": true
