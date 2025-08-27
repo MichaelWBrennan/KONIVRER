@@ -5,14 +5,14 @@ export interface AiDeckbuildingAssistantProps {
   onDeckBuilt?: (cards: Card[]) => void;
 }
 
-export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps> : any : any = ({ 
+export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps> : any : any : any = ({ 
   onDeckBuilt 
 }) => {
-  const [suggestions, setSuggestions] : any : any = useState<Card[]>([]);
-  const [loading, setLoading] : any : any = useState(false);
+  const [suggestions, setSuggestions] : any : any : any = useState<Card[]>([]);
+  const [loading, setLoading] : any : any : any = useState(false);
 
   // Mock function to simulate AI deckbuilding
-  const generateSuggestions : any : any = async () => {
+  const generateSuggestions : any : any : any = async () => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
@@ -22,7 +22,7 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps> : a
   };
 
   // Type-safe filter function 
-  const filterCompatibleCards : any : any = (cards: Card[]) => {
+  const filterCompatibleCards : any : any : any = (cards: Card[]) => {
     return cards.filter((c: Card) => c.type && ((c.manaCost ?? c.azothCost ?? 0) <= 10));
   };
 
@@ -79,7 +79,7 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps> : a
         <div className="deck-actions">
           <button 
             onClick={() => {
-              const filteredCards : any : any = filterCompatibleCards(suggestions);
+              const filteredCards : any : any : any = filterCompatibleCards(suggestions);
               onDeckBuilt?.(filteredCards);
             }}
             className="btn-success"
