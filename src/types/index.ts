@@ -1,5 +1,6 @@
+export {};
 // Re-export all types from various type definition files
-export * from './game';
+export * from "./game";
 
 // Additional common types that might be referenced from components
 export interface User {
@@ -13,7 +14,7 @@ export interface User {
 }
 
 // Import DeckValidationResult from game.ts
-import type { DeckValidationResult } from './game';
+import type { DeckValidationResult } from "./game";
 
 export interface Deck {
   id: string;
@@ -35,7 +36,7 @@ export interface Deck {
 export interface Card {
   id: string;
   name: string;
-  elements: string[]; // KONIVRER supports multiple elements per card  
+  elements: string[]; // KONIVRER supports multiple elements per card
   lesserType: string; // KONIVRER-specific card type system
   abilities?: string[]; // Keyword and other abilities
   azothCost: number; // KONIVRER uses Azoth instead of mana
@@ -43,7 +44,7 @@ export interface Card {
   toughness?: number;
   rulesText?: string;
   flavorText?: string;
-  rarity: 'common' | 'uncommon' | 'rare'; // KONIVRER uses ☽, ☉, 🜠 symbols
+  rarity: "common" | "uncommon" | "rare"; // KONIVRER uses ☽, ☉, 🜠 symbols
   setCode: string;
   setNumber: number;
   imageUrl?: string;
@@ -60,3 +61,6 @@ export interface Card {
   color?: string;
   text?: string;
 }
+declare module '*.css';
+declare module '*.svg';
+declare module '*.png';

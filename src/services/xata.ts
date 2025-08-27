@@ -1,1 +1,1 @@
-export { getXataClient } from '../xata';
+export { getXataClient } from "../xata";

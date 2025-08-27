@@ -1,19 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, Like } from 'typeorm';
-import { AuditLog } from './entities/audit-log.entity';
-import { AuditQueryDto } from './dto/audit.dto';
+import { Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository, Between, Like } from "typeorm";
+import { AuditLog } from "./entities/audit-log.entity";
+import { AuditQueryDto } from "./dto/audit.dto";
 
 @Injectable()
 export class AuditService {
   constructor(
     @InjectRepository(AuditLog)
-    private auditRepository: Repository<AuditLog>,
+    private auditRepository: Repository<AuditLog>
   ) {}
 
   async log(
     actorId: string,
-    actorType: 'agent' | 'user',
+    actorType: "agent" | "user",
     action: string,
     entityType: string,
     entityId: string,
@@ -22,7 +22,7 @@ export class AuditService {
       agentId?: string;
       modelVersion?: string;
       promptHash?: string;
-    },
+    }
   ): Promise<AuditLog> {
     const auditLog = this.auditRepository.create({
       actorId,
@@ -57,34 +57,47 @@ export class AuditService {
       whereClause.action = Like(`%${query.action}%`);
     }
 
-    if (query['date-from'] || query['date-to']) {
-      const dateFrom = query['date-from'] ? new Date(query['date-from']) : new Date('1970-01-01');
-      const dateTo = query['date-to'] ? new Date(query['date-to']) : new Date();
+    if (query["date-from"] || query["date-to"]) {
+      const dateFrom = query["date-from"]
+        ? new Date(query["date-from"])
+        : new Date("1970-01-01");
+      const dateTo = query["date-to"] ? new Date(query["date-to"]) : new Date();
       whereClause.createdAt = Between(dateFrom, dateTo);
     }
 
     // Handle provenance filters
-    let queryBuilder = this.auditRepository.createQueryBuilder('audit');
-    
-    if (query['agent-id']) {
-      queryBuilder = queryBuilder.andWhere("audit.provenance->>'agentId' = :agentId", { agentId: query['agent-id'] });
+    let queryBuilder = this.auditRepository.createQueryBuilder("audit");
+
+    if (query["agent-id"]) {
+      queryBuilder = queryBuilder.andWhere(
+        "audit.provenance->>'agentId' = :agentId",
+        { agentId: query["agent-id"] }
+      );
     }
 
-    if (query['model-version']) {
-      queryBuilder = queryBuilder.andWhere("audit.provenance->>'modelVersion' = :modelVersion", { modelVersion: query['model-version'] });
+    if (query["model-version"]) {
+      queryBuilder = queryBuilder.andWhere(
+        "audit.provenance->>'modelVersion' = :modelVersion",
+        { modelVersion: query["model-version"] }
+      );
     }
 
-    if (query['prompt-hash']) {
-      queryBuilder = queryBuilder.andWhere("audit.provenance->>'promptHash' = :promptHash", { promptHash: query['prompt-hash'] });
+    if (query["prompt-hash"]) {
+      queryBuilder = queryBuilder.andWhere(
+        "audit.provenance->>'promptHash' = :promptHash",
+        { promptHash: query["prompt-hash"] }
+      );
     }
 
     // Apply other where conditions
-    Object.keys(whereClause).forEach(key => {
-      queryBuilder = queryBuilder.andWhere(`audit.${key} = :${key}`, { [key]: whereClause[key] });
+    Object.keys(whereClause).forEach((key) => {
+      queryBuilder = queryBuilder.andWhere(`audit.${key} = :${key}`, {
+        [key]: whereClause[key],
+      });
     });
 
     const [logs, total] = await queryBuilder
-      .orderBy('audit.createdAt', 'DESC')
+      .orderBy("audit.createdAt", "DESC")
       .skip(skip)
       .take(limit)
       .getManyAndCount();
