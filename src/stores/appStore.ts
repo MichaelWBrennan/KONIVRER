@@ -42,7 +42,7 @@ interface AppState {
   setUser: (user: { username: string; level: number } | null) => void;
 }
 
-export const useAppStore: any : any : any = create<AppState>()(
+export const useAppStore: any : any : any : any = create<AppState>()(
   devtools(
     persist(
       (set) => ({
