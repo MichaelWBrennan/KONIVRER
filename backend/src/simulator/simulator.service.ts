@@ -1,11 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { Simulation } from './entities/simulation.entity';
-import { SimulationConfigDto, SimulationResponseDto } from './dto/simulation.dto';
-import { DecksService } from '../decks/decks.service';
-import { GameSimulatorService } from '../matchmaking/game-simulator.service';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { EventEmitter2 } from "@nestjs/event-emitter";
+import { Simulation } from "./entities/simulation.entity";
+import {
+  SimulationConfigDto,
+  SimulationResponseDto,
+} from "./dto/simulation.dto";
+import { DecksService } from "../decks/decks.service";
+import { GameSimulatorService } from "../matchmaking/game-simulator.service";
 
 @Injectable()
 export class SimulatorService {
@@ -14,10 +17,13 @@ export class SimulatorService {
     private simulationRepository: Repository<Simulation>,
     private decksService: DecksService,
     private gameSimulator: GameSimulatorService,
-    private eventEmitter: EventEmitter2,
+    private eventEmitter: EventEmitter2
   ) {}
 
-  async runSimulation(config: SimulationConfigDto, userId: string): Promise<SimulationResponseDto> {
+  async runSimulation(
+    config: SimulationConfigDto,
+    userId: string
+  ): Promise<SimulationResponseDto> {
     // Validate decks exist
     await this.decksService.findOne(config.deckA.deckId, userId);
     await this.decksService.findOne(config.deckB.deckId, userId);
@@ -25,7 +31,7 @@ export class SimulatorService {
     // Create simulation record
     const simulation = this.simulationRepository.create({
       config,
-      status: 'queued',
+      status: "queued",
       userId,
     });
 
@@ -40,13 +46,16 @@ export class SimulatorService {
     };
   }
 
-  async getSimulation(simId: string, userId: string): Promise<SimulationResponseDto> {
+  async getSimulation(
+    simId: string,
+    userId: string
+  ): Promise<SimulationResponseDto> {
     const simulation = await this.simulationRepository.findOne({
       where: { id: simId, userId },
     });
 
     if (!simulation) {
-      throw new NotFoundException('Simulation not found');
+      throw new NotFoundException("Simulation not found");
     }
 
     const response: SimulationResponseDto = {
@@ -72,21 +81,21 @@ export class SimulatorService {
       }
 
       // Update status to running
-      await this.simulationRepository.update(simId, { status: 'running' });
+      await this.simulationRepository.update(simId, { status: "running" });
 
       // Emit progress event
-      this.eventEmitter.emit('simulation.progress', {
+      this.eventEmitter.emit("simulation.progress", {
         simId,
-        status: 'running',
+        status: "running",
         progress: 0,
       });
 
       // Simulate progress updates
       for (let progress = 25; progress <= 75; progress += 25) {
-        await new Promise(resolve => setTimeout(resolve, 500)); // Simulate work
-        this.eventEmitter.emit('simulation.progress', {
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate work
+        this.eventEmitter.emit("simulation.progress", {
           simId,
-          status: 'running',
+          status: "running",
           progress,
         });
       }
@@ -105,20 +114,20 @@ export class SimulatorService {
 
       // Update simulation with results
       await this.simulationRepository.update(simId, {
-        status: 'completed' as any,
+        status: "completed" as any,
         result: result as any,
         completedAt: new Date(),
       });
 
       // Emit completion event
-      this.eventEmitter.emit('simulation.completed', {
+      this.eventEmitter.emit("simulation.completed", {
         simId,
-        status: 'completed',
+        status: "completed",
         result,
       });
     } catch (error) {
       await this.simulationRepository.update(simId, {
-        status: 'failed',
+        status: "failed",
         logs: error.message,
       });
     }

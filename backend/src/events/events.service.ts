@@ -1,25 +1,37 @@
-import { Injectable, NotFoundException, ForbiddenException, BadRequestException, ConflictException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, FindManyOptions, MoreThan, LessThan, Between } from 'typeorm';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { 
-  Event, 
-  EventRegistration, 
-  Pairing, 
-  Match, 
-  Judging, 
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+  BadRequestException,
+  ConflictException,
+} from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import {
+  Repository,
+  FindManyOptions,
+  MoreThan,
+  LessThan,
+  Between,
+} from "typeorm";
+import { EventEmitter2 } from "@nestjs/event-emitter";
+import {
+  Event,
+  EventRegistration,
+  Pairing,
+  Match,
+  Judging,
   AuditLog,
   EventStatus,
   MatchStatus,
   MatchResult,
   AuditAction,
-  PairingType
-} from './entities/event.entity';
-import { User, UserRole } from '../users/entities/user.entity';
-import { Deck } from '../decks/entities/deck.entity';
-import { MatchmakingService } from '../matchmaking/matchmaking.service';
-import { GameSimulatorService } from '../matchmaking/game-simulator.service';
-import { AuditService } from '../audit/audit.service';
+  PairingType,
+} from "./entities/event.entity";
+import { User, UserRole } from "../users/entities/user.entity";
+import { Deck } from "../decks/entities/deck.entity";
+import { MatchmakingService } from "../matchmaking/matchmaking.service";
+import { GameSimulatorService } from "../matchmaking/game-simulator.service";
+import { AuditService } from "../audit/audit.service";
 import {
   CreateEventDto,
   UpdateEventDto,
@@ -33,8 +45,8 @@ import {
   GeneratePairingsResponseDto,
   EventStandingDto,
   EventExportDto,
-} from './dto/event.dto';
-import * as crypto from 'crypto';
+} from "./dto/event.dto";
+import * as crypto from "crypto";
 
 @Injectable()
 export class EventsService {
@@ -58,19 +70,28 @@ export class EventsService {
     private readonly matchmakingService: MatchmakingService,
     private readonly gameSimulatorService: GameSimulatorService,
     private readonly eventEmitter: EventEmitter2,
-    private readonly auditService: AuditService,
+    private readonly auditService: AuditService
   ) {}
 
   // Event Management
-  async create(createEventDto: CreateEventDto, organizerId: string): Promise<Event> {
+  async create(
+    createEventDto: CreateEventDto,
+    organizerId: string
+  ): Promise<Event> {
     // Validate organizer permissions
-    const organizer = await this.userRepository.findOne({ where: { id: organizerId } });
+    const organizer = await this.userRepository.findOne({
+      where: { id: organizerId },
+    });
     if (!organizer) {
-      throw new NotFoundException('Organizer not found');
+      throw new NotFoundException("Organizer not found");
     }
 
-    if (![UserRole.TOURNAMENT_ORGANIZER, UserRole.ADMIN].includes(organizer.role)) {
-      throw new ForbiddenException('User does not have permission to organize events');
+    if (
+      ![UserRole.TOURNAMENT_ORGANIZER, UserRole.ADMIN].includes(organizer.role)
+    ) {
+      throw new ForbiddenException(
+        "User does not have permission to organize events"
+      );
     }
 
     // Calculate total rounds based on pairing type and max players
@@ -98,7 +119,7 @@ export class EventsService {
 
     // Log audit event
     await this.logAuditEvent({
-      entityType: 'Event',
+      entityType: "Event",
       entityId: savedEvent.id,
       eventId: savedEvent.id,
       action: AuditAction.CREATE,
@@ -107,12 +128,15 @@ export class EventsService {
     });
 
     // Emit event created
-    this.eventEmitter.emit('event.created', { event: savedEvent, organizerId });
+    this.eventEmitter.emit("event.created", { event: savedEvent, organizerId });
 
     return this.findOneWithRelations(savedEvent.id);
   }
 
-  async findAll(filters: EventSearchFiltersDto, userId?: string): Promise<{ events: Event[]; total: number; page: number; limit: number }> {
+  async findAll(
+    filters: EventSearchFiltersDto,
+    userId?: string
+  ): Promise<{ events: Event[]; total: number; page: number; limit: number }> {
     const {
       page = 1,
       limit = 20,
@@ -124,61 +148,66 @@ export class EventsService {
       startDateTo,
       location,
       search,
-      sortBy = 'startAt',
-      sortOrder = 'ASC',
+      sortBy = "startAt",
+      sortOrder = "ASC",
     } = filters;
 
-    const queryBuilder = this.eventRepository.createQueryBuilder('event')
-      .leftJoinAndSelect('event.organizer', 'organizer')
-      .leftJoinAndSelect('event.registrations', 'registrations')
-      .where('1 = 1');
+    const queryBuilder = this.eventRepository
+      .createQueryBuilder("event")
+      .leftJoinAndSelect("event.organizer", "organizer")
+      .leftJoinAndSelect("event.registrations", "registrations")
+      .where("1 = 1");
 
     // Apply filters
     if (format) {
-      queryBuilder.andWhere('event.format = :format', { format });
+      queryBuilder.andWhere("event.format = :format", { format });
     }
 
     if (pairingType) {
-      queryBuilder.andWhere('event.pairingType = :pairingType', { pairingType });
+      queryBuilder.andWhere("event.pairingType = :pairingType", {
+        pairingType,
+      });
     }
 
     if (status) {
-      queryBuilder.andWhere('event.status = :status', { status });
+      queryBuilder.andWhere("event.status = :status", { status });
     }
 
     if (venueType) {
-      queryBuilder.andWhere('event.venue->>\'type\' = :venueType', { venueType });
+      queryBuilder.andWhere("event.venue->>'type' = :venueType", { venueType });
     }
 
     if (startDateFrom) {
-      queryBuilder.andWhere('event.startAt >= :startDateFrom', { startDateFrom });
+      queryBuilder.andWhere("event.startAt >= :startDateFrom", {
+        startDateFrom,
+      });
     }
 
     if (startDateTo) {
-      queryBuilder.andWhere('event.startAt <= :startDateTo', { startDateTo });
+      queryBuilder.andWhere("event.startAt <= :startDateTo", { startDateTo });
     }
 
     if (location) {
       queryBuilder.andWhere(
-        '(event.venue->>\'location\' ILIKE :location OR event.venue->>\'address\' ILIKE :location)',
+        "(event.venue->>'location' ILIKE :location OR event.venue->>'address' ILIKE :location)",
         { location: `%${location}%` }
       );
     }
 
     if (search) {
       queryBuilder.andWhere(
-        '(event.name ILIKE :search OR event.description ILIKE :search)',
+        "(event.name ILIKE :search OR event.description ILIKE :search)",
         { search: `%${search}%` }
       );
     }
 
     // Apply sorting
-    if (sortBy === 'registeredPlayers') {
+    if (sortBy === "registeredPlayers") {
       queryBuilder
-        .addSelect('COUNT(registrations.id)', 'registrationCount')
-        .groupBy('event.id, organizer.id')
-        .orderBy('registrationCount', sortOrder);
-    } else if (['startAt', 'createdAt', 'name'].includes(sortBy)) {
+        .addSelect("COUNT(registrations.id)", "registrationCount")
+        .groupBy("event.id, organizer.id")
+        .orderBy("registrationCount", sortOrder);
+    } else if (["startAt", "createdAt", "name"].includes(sortBy)) {
       queryBuilder.orderBy(`event.${sortBy}`, sortOrder);
     }
 
@@ -199,33 +228,41 @@ export class EventsService {
     const event = await this.findOneWithRelations(id);
 
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException("Event not found");
     }
 
     return event;
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto, userId: string): Promise<Event> {
+  async update(
+    id: string,
+    updateEventDto: UpdateEventDto,
+    userId: string
+  ): Promise<Event> {
     const event = await this.eventRepository.findOne({ where: { id } });
 
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException("Event not found");
     }
 
     if (event.organizerId !== userId) {
-      throw new ForbiddenException('Only the event organizer can update this event');
+      throw new ForbiddenException(
+        "Only the event organizer can update this event"
+      );
     }
 
     // Prevent certain updates once event has started
     if (event.status === EventStatus.IN_PROGRESS && updateEventDto.settings) {
-      throw new BadRequestException('Cannot modify settings while event is in progress');
+      throw new BadRequestException(
+        "Cannot modify settings while event is in progress"
+      );
     }
 
     await this.eventRepository.update(id, updateEventDto);
 
     // Log audit event
     await this.logAuditEvent({
-      entityType: 'Event',
+      entityType: "Event",
       entityId: id,
       eventId: id,
       action: AuditAction.UPDATE,
@@ -234,7 +271,7 @@ export class EventsService {
     });
 
     const updatedEvent = await this.findOneWithRelations(id);
-    this.eventEmitter.emit('event.updated', { event: updatedEvent, userId });
+    this.eventEmitter.emit("event.updated", { event: updatedEvent, userId });
 
     return updatedEvent;
   }
@@ -243,19 +280,21 @@ export class EventsService {
     const event = await this.eventRepository.findOne({ where: { id } });
 
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException("Event not found");
     }
 
     if (event.organizerId !== userId) {
-      throw new ForbiddenException('Only the event organizer can delete this event');
+      throw new ForbiddenException(
+        "Only the event organizer can delete this event"
+      );
     }
 
     if (event.status === EventStatus.IN_PROGRESS) {
-      throw new BadRequestException('Cannot delete event while in progress');
+      throw new BadRequestException("Cannot delete event while in progress");
     }
 
     await this.logAuditEvent({
-      entityType: 'Event',
+      entityType: "Event",
       entityId: id,
       eventId: id,
       action: AuditAction.DELETE,
@@ -264,22 +303,26 @@ export class EventsService {
     });
 
     await this.eventRepository.remove(event);
-    this.eventEmitter.emit('event.deleted', { eventId: id, userId });
+    this.eventEmitter.emit("event.deleted", { eventId: id, userId });
   }
 
   // Registration Management
-  async register(eventId: string, userId: string, registerDto: RegisterForEventDto): Promise<EventRegistration> {
+  async register(
+    eventId: string,
+    userId: string,
+    registerDto: RegisterForEventDto
+  ): Promise<EventRegistration> {
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
-      relations: ['registrations'],
+      relations: ["registrations"],
     });
 
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException("Event not found");
     }
 
     if (!event.isRegistrationOpen) {
-      throw new BadRequestException('Registration is not open for this event');
+      throw new BadRequestException("Registration is not open for this event");
     }
 
     // Check if already registered
@@ -288,7 +331,7 @@ export class EventsService {
     });
 
     if (existingRegistration) {
-      throw new ConflictException('Already registered for this event');
+      throw new ConflictException("Already registered for this event");
     }
 
     // Validate deck if required
@@ -298,7 +341,7 @@ export class EventsService {
       });
 
       if (!deck) {
-        throw new NotFoundException('Deck not found');
+        throw new NotFoundException("Deck not found");
       }
 
       if (deck.format.toString() !== event.format.toString()) {
@@ -306,12 +349,13 @@ export class EventsService {
       }
 
       if (!deck.isLegal) {
-        throw new BadRequestException('Deck is not legal for event play');
+        throw new BadRequestException("Deck is not legal for event play");
       }
     }
 
     // Check if event is full (waitlist if needed)
-    const registeredCount = event.registrations?.filter(r => !r.isWaitlisted).length || 0;
+    const registeredCount =
+      event.registrations?.filter((r) => !r.isWaitlisted).length || 0;
     const isWaitlisted = registeredCount >= event.settings.maxPlayers;
 
     const registration = this.registrationRepository.create({
@@ -324,11 +368,13 @@ export class EventsService {
       seedValue: await this.calculateSeedValue(userId, event.format.toString()),
     });
 
-    const savedRegistration = await this.registrationRepository.save(registration);
+    const savedRegistration = await this.registrationRepository.save(
+      registration
+    );
 
     // Log audit event
     await this.logAuditEvent({
-      entityType: 'EventRegistration',
+      entityType: "EventRegistration",
       entityId: savedRegistration.id,
       eventId,
       action: AuditAction.REGISTER,
@@ -337,16 +383,16 @@ export class EventsService {
     });
 
     // Emit registration event
-    this.eventEmitter.emit('event.registration', { 
-      eventId, 
-      userId, 
+    this.eventEmitter.emit("event.registration", {
+      eventId,
+      userId,
       registration: savedRegistration,
-      isWaitlisted 
+      isWaitlisted,
     });
 
     // Emit notification event for accepted registration
     if (!isWaitlisted) {
-      this.eventEmitter.emit('event.registration.accepted', {
+      this.eventEmitter.emit("event.registration.accepted", {
         userId,
         eventId,
         eventName: event.name,
@@ -363,7 +409,7 @@ export class EventsService {
 
     return this.registrationRepository.findOne({
       where: { id: savedRegistration.id },
-      relations: ['user', 'event'],
+      relations: ["user", "event"],
     });
   }
 
@@ -373,16 +419,20 @@ export class EventsService {
     });
 
     if (!registration) {
-      throw new NotFoundException('Registration not found');
+      throw new NotFoundException("Registration not found");
     }
 
-    const event = await this.eventRepository.findOne({ where: { id: eventId } });
+    const event = await this.eventRepository.findOne({
+      where: { id: eventId },
+    });
     if (event.status === EventStatus.IN_PROGRESS) {
-      throw new BadRequestException('Cannot unregister while event is in progress. Use drop instead.');
+      throw new BadRequestException(
+        "Cannot unregister while event is in progress. Use drop instead."
+      );
     }
 
     await this.logAuditEvent({
-      entityType: 'EventRegistration',
+      entityType: "EventRegistration",
       entityId: registration.id,
       eventId,
       action: AuditAction.UNREGISTER,
@@ -395,30 +445,38 @@ export class EventsService {
     // Process waitlist to fill the slot
     await this.processWaitlist(eventId);
 
-    this.eventEmitter.emit('event.unregistration', { eventId, userId });
+    this.eventEmitter.emit("event.unregistration", { eventId, userId });
   }
 
-  async checkIn(eventId: string, checkInDto: CheckInPlayerDto, actorId: string): Promise<EventRegistration> {
+  async checkIn(
+    eventId: string,
+    checkInDto: CheckInPlayerDto,
+    actorId: string
+  ): Promise<EventRegistration> {
     const registration = await this.registrationRepository.findOne({
       where: { eventId, userId: checkInDto.userId },
-      relations: ['event'],
+      relations: ["event"],
     });
 
     if (!registration) {
-      throw new NotFoundException('Registration not found');
+      throw new NotFoundException("Registration not found");
     }
 
-    if (registration.event.status !== EventStatus.REGISTRATION_CLOSED && 
-        registration.event.status !== EventStatus.IN_PROGRESS) {
-      throw new BadRequestException('Check-in not available for this event status');
+    if (
+      registration.event.status !== EventStatus.REGISTRATION_CLOSED &&
+      registration.event.status !== EventStatus.IN_PROGRESS
+    ) {
+      throw new BadRequestException(
+        "Check-in not available for this event status"
+      );
     }
 
     if (registration.checkedInAt) {
-      throw new BadRequestException('Player already checked in');
+      throw new BadRequestException("Player already checked in");
     }
 
     if (registration.isWaitlisted) {
-      throw new BadRequestException('Cannot check in waitlisted player');
+      throw new BadRequestException("Cannot check in waitlisted player");
     }
 
     registration.checkedInAt = new Date();
@@ -426,10 +484,12 @@ export class EventsService {
       registration.seedValue = checkInDto.seedValue;
     }
 
-    const savedRegistration = await this.registrationRepository.save(registration);
+    const savedRegistration = await this.registrationRepository.save(
+      registration
+    );
 
     await this.logAuditEvent({
-      entityType: 'EventRegistration',
+      entityType: "EventRegistration",
       entityId: registration.id,
       eventId,
       action: AuditAction.CHECKIN,
@@ -437,33 +497,47 @@ export class EventsService {
       metadata: { seedValue: checkInDto.seedValue },
     });
 
-    this.eventEmitter.emit('event.checkin', { eventId, userId: checkInDto.userId, actorId });
+    this.eventEmitter.emit("event.checkin", {
+      eventId,
+      userId: checkInDto.userId,
+      actorId,
+    });
 
     return savedRegistration;
   }
 
   // Pairing Management
-  async generatePairings(eventId: string, generateDto: GeneratePairingsDto, actorId: string, provenance?: any): Promise<GeneratePairingsResponseDto> {
+  async generatePairings(
+    eventId: string,
+    generateDto: GeneratePairingsDto,
+    actorId: string,
+    provenance?: any
+  ): Promise<GeneratePairingsResponseDto> {
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
-      relations: ['registrations'],
+      relations: ["registrations"],
     });
 
     if (!event) {
-      throw new NotFoundException('Event not found');
+      throw new NotFoundException("Event not found");
     }
 
     if (event.organizerId !== actorId && !event.judges?.includes(actorId)) {
-      throw new ForbiddenException('Only event organizers and judges can generate pairings');
+      throw new ForbiddenException(
+        "Only event organizers and judges can generate pairings"
+      );
     }
 
     // Get checked-in players
-    const checkedInPlayers = event.registrations?.filter(r => 
-      !r.isWaitlisted && r.checkedInAt
-    ).map(r => r.userId) || [];
+    const checkedInPlayers =
+      event.registrations
+        ?.filter((r) => !r.isWaitlisted && r.checkedInAt)
+        .map((r) => r.userId) || [];
 
     if (checkedInPlayers.length < 2) {
-      throw new BadRequestException('Need at least 2 checked-in players to generate pairings');
+      throw new BadRequestException(
+        "Need at least 2 checked-in players to generate pairings"
+      );
     }
 
     const startTime = Date.now();
@@ -498,24 +572,30 @@ export class EventsService {
         byes: checkedInPlayers.length % 2,
         computationTimeMs: Date.now() - startTime,
       };
-
     } catch (error) {
-      console.warn('Bayesian pairing failed, using fallback:', error);
-      pairingsResponse = await this.generateFallbackPairings(checkedInPlayers, generateDto.previousPairings || []);
+      console.warn("Bayesian pairing failed, using fallback:", error);
+      pairingsResponse = await this.generateFallbackPairings(
+        checkedInPlayers,
+        generateDto.previousPairings || []
+      );
       pairingsResponse.computationTimeMs = Date.now() - startTime;
     }
 
     // Save pairings to database
-    await this.savePairings(eventId, event.currentRound + 1, pairingsResponse.pairings);
+    await this.savePairings(
+      eventId,
+      event.currentRound + 1,
+      pairingsResponse.pairings
+    );
 
     // Log audit event
     await this.logAuditEvent({
-      entityType: 'Pairing',
+      entityType: "Pairing",
       entityId: eventId,
       eventId,
       action: AuditAction.GENERATE_PAIRINGS,
       actorId,
-      metadata: { 
+      metadata: {
         round: event.currentRound + 1,
         pairingCount: pairingsResponse.pairings.length,
         quality: pairingsResponse.overallQuality,
@@ -525,13 +605,17 @@ export class EventsService {
     return pairingsResponse;
   }
 
-  async publishPairings(eventId: string, round: number, actorId: string): Promise<void> {
+  async publishPairings(
+    eventId: string,
+    round: number,
+    actorId: string
+  ): Promise<void> {
     const pairings = await this.pairingRepository.find({
       where: { eventId, roundNumber: round },
     });
 
     if (!pairings.length) {
-      throw new NotFoundException('No pairings found for this round');
+      throw new NotFoundException("No pairings found for this round");
     }
 
     const publishedAt = new Date();
@@ -550,7 +634,7 @@ export class EventsService {
     }
 
     await this.logAuditEvent({
-      entityType: 'Pairing',
+      entityType: "Pairing",
       entityId: eventId,
       eventId,
       action: AuditAction.PUBLISH_PAIRINGS,
@@ -559,31 +643,32 @@ export class EventsService {
     });
 
     // Emit real-time update
-    this.eventEmitter.emit('event.pairings.published', { 
-      eventId, 
-      round, 
-      pairings: pairings.map(p => ({
+    this.eventEmitter.emit("event.pairings.published", {
+      eventId,
+      round,
+      pairings: pairings.map((p) => ({
         id: p.id,
         tableNumber: p.tableNumber,
         playerAId: p.playerAId,
         playerBId: p.playerBId,
         isBye: p.isBye,
-      }))
+      })),
     });
 
     // Get event details and registered players for notifications
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
-      relations: ['registrations', 'registrations.user'],
+      relations: ["registrations", "registrations.user"],
     });
 
     if (event) {
-      const registeredPlayerIds = event.registrations
-        ?.filter(r => r.isCheckedIn && !r.isWaitlisted)
-        .map(r => r.userId) || [];
+      const registeredPlayerIds =
+        event.registrations
+          ?.filter((r) => r.isCheckedIn && !r.isWaitlisted)
+          .map((r) => r.userId) || [];
 
       // Emit round started notification
-      this.eventEmitter.emit('event.round.started', {
+      this.eventEmitter.emit("event.round.started", {
         eventId,
         eventName: event.name,
         format: event.format,
@@ -593,17 +678,26 @@ export class EventsService {
       });
 
       // Emit seating assignments notification
-      const assignments = pairings.map(p => ({
-        playerId: p.playerAId,
-        table: p.tableNumber,
-        opponent: event.registrations?.find(r => r.userId === p.playerBId)?.user || null,
-      })).concat(pairings.map(p => ({
-        playerId: p.playerBId,
-        table: p.tableNumber,
-        opponent: event.registrations?.find(r => r.userId === p.playerAId)?.user || null,
-      }))).filter(a => a.playerId); // Remove null players from byes
+      const assignments = pairings
+        .map((p) => ({
+          playerId: p.playerAId,
+          table: p.tableNumber,
+          opponent:
+            event.registrations?.find((r) => r.userId === p.playerBId)?.user ||
+            null,
+        }))
+        .concat(
+          pairings.map((p) => ({
+            playerId: p.playerBId,
+            table: p.tableNumber,
+            opponent:
+              event.registrations?.find((r) => r.userId === p.playerAId)
+                ?.user || null,
+          }))
+        )
+        .filter((a) => a.playerId); // Remove null players from byes
 
-      this.eventEmitter.emit('event.seating.assigned', {
+      this.eventEmitter.emit("event.seating.assigned", {
         eventId,
         eventName: event.name,
         format: event.format,
@@ -622,39 +716,48 @@ export class EventsService {
 
     return this.pairingRepository.find({
       where,
-      relations: ['playerA', 'playerB', 'matches'],
-      order: { roundNumber: 'ASC', tableNumber: 'ASC' },
+      relations: ["playerA", "playerB", "matches"],
+      order: { roundNumber: "ASC", tableNumber: "ASC" },
     });
   }
 
   // Match Management
-  async reportResult(matchId: string, resultDto: ReportMatchResultDto, reporterId: string): Promise<Match> {
+  async reportResult(
+    matchId: string,
+    resultDto: ReportMatchResultDto,
+    reporterId: string
+  ): Promise<Match> {
     const match = await this.matchRepository.findOne({
       where: { id: matchId },
-      relations: ['pairing', 'pairing.playerA', 'pairing.playerB', 'event'],
+      relations: ["pairing", "pairing.playerA", "pairing.playerB", "event"],
     });
 
     if (!match) {
-      throw new NotFoundException('Match not found');
+      throw new NotFoundException("Match not found");
     }
 
     // Check if reporter is authorized
-    const canReport = match.pairing.playerAId === reporterId || 
-                     match.pairing.playerBId === reporterId ||
-                     match.event.judges?.includes(reporterId) ||
-                     match.event.organizerId === reporterId;
+    const canReport =
+      match.pairing.playerAId === reporterId ||
+      match.pairing.playerBId === reporterId ||
+      match.event.judges?.includes(reporterId) ||
+      match.event.organizerId === reporterId;
 
     if (!canReport) {
-      throw new ForbiddenException('Not authorized to report result for this match');
+      throw new ForbiddenException(
+        "Not authorized to report result for this match"
+      );
     }
 
     if (match.status === MatchStatus.COMPLETED) {
-      throw new BadRequestException('Match result already submitted');
+      throw new BadRequestException("Match result already submitted");
     }
 
     // Update match with result
     match.playerAResult = resultDto.playerAResult;
-    match.playerBResult = resultDto.playerBResult || this.getOppositeResult(resultDto.playerAResult);
+    match.playerBResult =
+      resultDto.playerBResult ||
+      this.getOppositeResult(resultDto.playerAResult);
     match.notes = resultDto.notes;
     match.metadata = resultDto.metadata;
     match.status = MatchStatus.COMPLETED;
@@ -668,13 +771,21 @@ export class EventsService {
         const outcomes = [
           {
             playerId: match.pairing.playerAId,
-            rank: resultDto.playerAResult === MatchResult.WIN ? 1 : 
-                  (resultDto.playerAResult === MatchResult.DRAW ? 1 : 2),
+            rank:
+              resultDto.playerAResult === MatchResult.WIN
+                ? 1
+                : resultDto.playerAResult === MatchResult.DRAW
+                ? 1
+                : 2,
           },
           {
             playerId: match.pairing.playerBId,
-            rank: match.playerBResult === MatchResult.WIN ? 1 : 
-                  (match.playerBResult === MatchResult.DRAW ? 1 : 2),
+            rank:
+              match.playerBResult === MatchResult.WIN
+                ? 1
+                : match.playerBResult === MatchResult.DRAW
+                ? 1
+                : 2,
           },
         ];
 
@@ -686,12 +797,12 @@ export class EventsService {
         });
       }
     } catch (error) {
-      console.warn('Failed to update Bayesian ratings:', error);
+      console.warn("Failed to update Bayesian ratings:", error);
     }
 
     // Log audit event
     await this.logAuditEvent({
-      entityType: 'Match',
+      entityType: "Match",
       entityId: matchId,
       eventId: match.eventId,
       action: AuditAction.REPORT_RESULT,
@@ -703,64 +814,79 @@ export class EventsService {
     await this.checkRoundComplete(match.eventId, match.round);
 
     // Emit real-time update
-    this.eventEmitter.emit('event.match.result', { 
+    this.eventEmitter.emit("event.match.result", {
       eventId: match.eventId,
       matchId,
       result: resultDto,
-      reporterId 
+      reporterId,
     });
 
     return savedMatch;
   }
 
-  async confirmResult(confirmDto: ConfirmMatchResultDto, judgeId: string): Promise<Match> {
+  async confirmResult(
+    confirmDto: ConfirmMatchResultDto,
+    judgeId: string
+  ): Promise<Match> {
     const match = await this.matchRepository.findOne({
       where: { id: confirmDto.matchId },
-      relations: ['event'],
+      relations: ["event"],
     });
 
     if (!match) {
-      throw new NotFoundException('Match not found');
+      throw new NotFoundException("Match not found");
     }
 
     // Check if user is authorized judge
-    if (!match.event.judges?.includes(judgeId) && match.event.organizerId !== judgeId) {
-      throw new ForbiddenException('Only judges and organizers can confirm results');
+    if (
+      !match.event.judges?.includes(judgeId) &&
+      match.event.organizerId !== judgeId
+    ) {
+      throw new ForbiddenException(
+        "Only judges and organizers can confirm results"
+      );
     }
 
     match.confirmedByJudge = judgeId;
     if (confirmDto.judgeNotes) {
-      match.notes = (match.notes || '') + `\n[Judge Notes: ${confirmDto.judgeNotes}]`;
+      match.notes =
+        (match.notes || "") + `\n[Judge Notes: ${confirmDto.judgeNotes}]`;
     }
 
     const savedMatch = await this.matchRepository.save(match);
 
     await this.logAuditEvent({
-      entityType: 'Match',
+      entityType: "Match",
       entityId: confirmDto.matchId,
       eventId: match.eventId,
       action: AuditAction.CONFIRM_RESULT,
       actorId: judgeId,
-      metadata: { judgeNotes: confirmDto.judgeNotes, penalty: confirmDto.penalty },
+      metadata: {
+        judgeNotes: confirmDto.judgeNotes,
+        penalty: confirmDto.penalty,
+      },
     });
 
     return savedMatch;
   }
 
-  async applyRuling(rulingDto: ApplyRulingDto, judgeId: string): Promise<Judging> {
+  async applyRuling(
+    rulingDto: ApplyRulingDto,
+    judgeId: string
+  ): Promise<Judging> {
     const match = await this.matchRepository.findOne({
       where: { id: rulingDto.matchId },
-      relations: ['event'],
+      relations: ["event"],
     });
 
     if (!match) {
-      throw new NotFoundException('Match not found');
+      throw new NotFoundException("Match not found");
     }
 
     // Verify judge permissions
     const judge = await this.userRepository.findOne({ where: { id: judgeId } });
     if (!judge?.isJudge && match.event.organizerId !== judgeId) {
-      throw new ForbiddenException('Only judges can apply rulings');
+      throw new ForbiddenException("Only judges can apply rulings");
     }
 
     const judging = this.judgingRepository.create({
@@ -781,7 +907,7 @@ export class EventsService {
     }
 
     await this.logAuditEvent({
-      entityType: 'Judging',
+      entityType: "Judging",
       entityId: savedJudging.id,
       eventId: match.eventId,
       action: AuditAction.APPLY_RULING,
@@ -789,7 +915,7 @@ export class EventsService {
       metadata: { ruling: rulingDto },
     });
 
-    this.eventEmitter.emit('event.judge.ruling', {
+    this.eventEmitter.emit("event.judge.ruling", {
       eventId: match.eventId,
       matchId: rulingDto.matchId,
       judging: savedJudging,
@@ -797,7 +923,7 @@ export class EventsService {
 
     return this.judgingRepository.findOne({
       where: { id: savedJudging.id },
-      relations: ['judge', 'match'],
+      relations: ["judge", "match"],
     });
   }
 
@@ -805,49 +931,53 @@ export class EventsService {
   async simulateMatch(matchId: string, userId: string): Promise<any> {
     const match = await this.matchRepository.findOne({
       where: { id: matchId },
-      relations: ['pairing', 'pairing.playerA', 'pairing.playerB', 'event'],
+      relations: ["pairing", "pairing.playerA", "pairing.playerB", "event"],
     });
 
     if (!match) {
-      throw new NotFoundException('Match not found');
+      throw new NotFoundException("Match not found");
     }
 
     if (!match.pairing.playerAId || !match.pairing.playerBId) {
-      throw new BadRequestException('Cannot simulate match with bye');
+      throw new BadRequestException("Cannot simulate match with bye");
     }
 
     try {
-      const simulationResult = await this.gameSimulatorService.simulateMatchSeries({
-        players: [
-          {
-            id: match.pairing.playerAId,
-            name: 'Player A',
-            deckId: '',
-            skill: 1200,
-            uncertainty: 100,
-            conservativeRating: 1100,
-          },
-          {
-            id: match.pairing.playerBId,
-            name: 'Player B', 
-            deckId: '',
-            skill: 1200,
-            uncertainty: 100,
-            conservativeRating: 1100,
-          }
-        ],
-        format: match.event.format.toString(),
-        numberOfGames: 1000,
-        includeDetailedLogs: false,
-      });
+      const simulationResult =
+        await this.gameSimulatorService.simulateMatchSeries({
+          players: [
+            {
+              id: match.pairing.playerAId,
+              name: "Player A",
+              deckId: "",
+              skill: 1200,
+              uncertainty: 100,
+              conservativeRating: 1100,
+            },
+            {
+              id: match.pairing.playerBId,
+              name: "Player B",
+              deckId: "",
+              skill: 1200,
+              uncertainty: 100,
+              conservativeRating: 1100,
+            },
+          ],
+          format: match.event.format.toString(),
+          numberOfGames: 1000,
+          includeDetailedLogs: false,
+        });
 
       return {
         matchId,
         simulationResult,
-        disclaimer: 'This is a sandbox simulation and does not affect actual ratings',
+        disclaimer:
+          "This is a sandbox simulation and does not affect actual ratings",
       };
     } catch (error) {
-      throw new BadRequestException('Simulation failed: ' + ((error as Error).message || 'Unknown error'));
+      throw new BadRequestException(
+        "Simulation failed: " + ((error as Error).message || "Unknown error")
+      );
     }
   }
 
@@ -855,12 +985,12 @@ export class EventsService {
   async getStandings(eventId: string): Promise<EventStandingDto[]> {
     const matches = await this.matchRepository.find({
       where: { eventId, status: MatchStatus.COMPLETED },
-      relations: ['pairing', 'pairing.playerA', 'pairing.playerB'],
+      relations: ["pairing", "pairing.playerA", "pairing.playerB"],
     });
 
     const registrations = await this.registrationRepository.find({
       where: { eventId, isWaitlisted: false },
-      relations: ['user'],
+      relations: ["user"],
     });
 
     const standings = new Map<string, EventStandingDto>();
@@ -873,7 +1003,7 @@ export class EventsService {
         playerName: registration.user.displayName,
         matchPoints: 0,
         gamePoints: 0,
-        record: '0-0-0',
+        record: "0-0-0",
         opponentMatchWinPercentage: 0,
         gameWinPercentage: 0,
         hasDropped: false,
@@ -901,14 +1031,16 @@ export class EventsService {
         }
 
         // Update game points (simplified - would need actual game counts)
-        playerAStanding.gamePoints += match.playerAResult === MatchResult.WIN ? 3 : 0;
-        playerBStanding.gamePoints += match.playerBResult === MatchResult.WIN ? 3 : 0;
+        playerAStanding.gamePoints +=
+          match.playerAResult === MatchResult.WIN ? 3 : 0;
+        playerBStanding.gamePoints +=
+          match.playerBResult === MatchResult.WIN ? 3 : 0;
       }
     }
 
     // Sort by match points
-    const sortedStandings = Array.from(standings.values()).sort((a, b) => 
-      b.matchPoints - a.matchPoints
+    const sortedStandings = Array.from(standings.values()).sort(
+      (a, b) => b.matchPoints - a.matchPoints
     );
 
     // Update positions
@@ -919,25 +1051,29 @@ export class EventsService {
     return sortedStandings;
   }
 
-  async exportEventData(eventId: string, exportDto: EventExportDto): Promise<any> {
+  async exportEventData(
+    eventId: string,
+    exportDto: EventExportDto
+  ): Promise<any> {
     const event = await this.findOneWithRelations(eventId);
-    
+
     let data: any = {};
 
     switch (exportDto.data) {
-      case 'participants':
-        data.participants = event.registrations?.map(r => ({
-          userId: r.userId,
-          username: r.user?.username,
-          checkedIn: !!r.checkedInAt,
-          isWaitlisted: r.isWaitlisted,
-          registeredAt: r.createdAt,
-        })) || [];
+      case "participants":
+        data.participants =
+          event.registrations?.map((r) => ({
+            userId: r.userId,
+            username: r.user?.username,
+            checkedIn: !!r.checkedInAt,
+            isWaitlisted: r.isWaitlisted,
+            registeredAt: r.createdAt,
+          })) || [];
         break;
-      
-      case 'pairings':
+
+      case "pairings":
         const pairings = await this.getPairings(eventId, exportDto.round);
-        data.pairings = pairings.map(p => ({
+        data.pairings = pairings.map((p) => ({
           round: p.roundNumber,
           table: p.tableNumber,
           playerA: p.playerA?.username,
@@ -946,13 +1082,13 @@ export class EventsService {
           publishedAt: p.publishedAt,
         }));
         break;
-      
-      case 'results':
+
+      case "results":
         const matches = await this.matchRepository.find({
           where: { eventId, status: MatchStatus.COMPLETED },
-          relations: ['pairing', 'pairing.playerA', 'pairing.playerB'],
+          relations: ["pairing", "pairing.playerA", "pairing.playerB"],
         });
-        data.results = matches.map(m => ({
+        data.results = matches.map((m) => ({
           round: m.round,
           playerA: m.pairing.playerA?.username,
           playerAResult: m.playerAResult,
@@ -962,12 +1098,12 @@ export class EventsService {
           confirmedBy: m.confirmedByJudge,
         }));
         break;
-      
-      case 'standings':
+
+      case "standings":
         data.standings = await this.getStandings(eventId);
         break;
-      
-      case 'all':
+
+      case "all":
         data = {
           event: {
             id: event.id,
@@ -977,18 +1113,19 @@ export class EventsService {
             startAt: event.startAt,
             organizer: event.organizer?.username,
           },
-          participants: event.registrations?.map(r => ({
-            userId: r.userId,
-            username: r.user?.username,
-            checkedIn: !!r.checkedInAt,
-            isWaitlisted: r.isWaitlisted,
-          })) || [],
+          participants:
+            event.registrations?.map((r) => ({
+              userId: r.userId,
+              username: r.user?.username,
+              checkedIn: !!r.checkedInAt,
+              isWaitlisted: r.isWaitlisted,
+            })) || [],
           standings: await this.getStandings(eventId),
         };
         break;
     }
 
-    if (exportDto.format === 'csv') {
+    if (exportDto.format === "csv") {
       // Convert to CSV format (simplified)
       return this.convertToCSV(data);
     }
@@ -1001,19 +1138,22 @@ export class EventsService {
     return this.eventRepository.findOne({
       where: { id },
       relations: [
-        'organizer',
-        'registrations',
-        'registrations.user',
-        'pairings',
-        'pairings.playerA',
-        'pairings.playerB',
-        'matches',
-        'auditLogs',
+        "organizer",
+        "registrations",
+        "registrations.user",
+        "pairings",
+        "pairings.playerA",
+        "pairings.playerB",
+        "matches",
+        "auditLogs",
       ],
     });
   }
 
-  private calculateTotalRounds(pairingType: PairingType, maxPlayers: number): number {
+  private calculateTotalRounds(
+    pairingType: PairingType,
+    maxPlayers: number
+  ): number {
     switch (pairingType) {
       case PairingType.SWISS:
         return Math.ceil(Math.log2(maxPlayers));
@@ -1022,15 +1162,21 @@ export class EventsService {
       case PairingType.ROUND_ROBIN:
         return maxPlayers - 1;
       case PairingType.ROUND_ROBIN_TOP_X:
-        return (maxPlayers - 1) + Math.ceil(Math.log2(8)); // RR + Top 8 bracket
+        return maxPlayers - 1 + Math.ceil(Math.log2(8)); // RR + Top 8 bracket
       default:
         return 0;
     }
   }
 
-  private async calculateSeedValue(userId: string, format: string): Promise<number> {
+  private async calculateSeedValue(
+    userId: string,
+    format: string
+  ): Promise<number> {
     try {
-      const rating = await this.matchmakingService.getPlayerRating(userId, format);
+      const rating = await this.matchmakingService.getPlayerRating(
+        userId,
+        format
+      );
       return rating.conservativeRating;
     } catch (error) {
       return 0; // Default seed for new players
@@ -1040,24 +1186,27 @@ export class EventsService {
   private async processWaitlist(eventId: string): Promise<void> {
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
-      relations: ['registrations'],
+      relations: ["registrations"],
     });
 
     if (!event) return;
 
-    const registeredCount = event.registrations?.filter(r => !r.isWaitlisted).length || 0;
+    const registeredCount =
+      event.registrations?.filter((r) => !r.isWaitlisted).length || 0;
     const availableSlots = event.settings.maxPlayers - registeredCount;
 
     if (availableSlots > 0) {
-      const waitlistedPlayers = event.registrations?.filter(r => r.isWaitlisted)
-        .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-        .slice(0, availableSlots) || [];
+      const waitlistedPlayers =
+        event.registrations
+          ?.filter((r) => r.isWaitlisted)
+          .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+          .slice(0, availableSlots) || [];
 
       for (const registration of waitlistedPlayers) {
         registration.isWaitlisted = false;
         await this.registrationRepository.save(registration);
 
-        this.eventEmitter.emit('event.waitlist.activated', {
+        this.eventEmitter.emit("event.waitlist.activated", {
           eventId,
           userId: registration.userId,
         });
@@ -1065,7 +1214,10 @@ export class EventsService {
     }
   }
 
-  private async generateFallbackPairings(playerIds: string[], previousPairings: string[][]): Promise<GeneratePairingsResponseDto> {
+  private async generateFallbackPairings(
+    playerIds: string[],
+    previousPairings: string[][]
+  ): Promise<GeneratePairingsResponseDto> {
     const shuffledPlayers = [...playerIds].sort(() => Math.random() - 0.5);
     const pairings: any[] = [];
     let tableNumber = 1;
@@ -1074,7 +1226,13 @@ export class EventsService {
       if (i + 1 < shuffledPlayers.length) {
         pairings.push({
           players: [shuffledPlayers[i], shuffledPlayers[i + 1]],
-          quality: { quality: 0.5, winProbabilities: [0.5, 0.5], skillDifference: 0, uncertaintyFactor: 1, balanceCategory: 'unknown' },
+          quality: {
+            quality: 0.5,
+            winProbabilities: [0.5, 0.5],
+            skillDifference: 0,
+            uncertaintyFactor: 1,
+            balanceCategory: "unknown",
+          },
           tableNumber: tableNumber++,
         });
       }
@@ -1089,7 +1247,11 @@ export class EventsService {
     };
   }
 
-  private async savePairings(eventId: string, round: number, pairings: any[]): Promise<void> {
+  private async savePairings(
+    eventId: string,
+    round: number,
+    pairings: any[]
+  ): Promise<void> {
     for (const pairingData of pairings) {
       const pairing = this.pairingRepository.create({
         eventId,
@@ -1121,29 +1283,36 @@ export class EventsService {
     }
   }
 
-  private async checkRoundComplete(eventId: string, round: number): Promise<void> {
+  private async checkRoundComplete(
+    eventId: string,
+    round: number
+  ): Promise<void> {
     const roundMatches = await this.matchRepository.find({
       where: { eventId, round },
     });
 
-    const allComplete = roundMatches.every(m => m.status === MatchStatus.COMPLETED);
+    const allComplete = roundMatches.every(
+      (m) => m.status === MatchStatus.COMPLETED
+    );
 
     if (allComplete) {
-      const event = await this.eventRepository.findOne({ where: { id: eventId } });
-      
+      const event = await this.eventRepository.findOne({
+        where: { id: eventId },
+      });
+
       if (event && round >= event.totalRounds) {
         // Event complete
         event.status = EventStatus.COMPLETED;
         event.endAt = new Date();
         await this.eventRepository.save(event);
 
-        this.eventEmitter.emit('event.completed', { eventId });
+        this.eventEmitter.emit("event.completed", { eventId });
       } else if (event) {
         // Ready for next round
         event.currentRound = round;
         await this.eventRepository.save(event);
 
-        this.eventEmitter.emit('event.round.completed', { eventId, round });
+        this.eventEmitter.emit("event.round.completed", { eventId, round });
       }
     }
   }
@@ -1157,12 +1326,14 @@ export class EventsService {
     metadata: any;
   }): Promise<void> {
     const provenanceHash = crypto
-      .createHash('sha256')
-      .update(JSON.stringify({
-        ...auditData,
-        timestamp: new Date().toISOString(),
-      }))
-      .digest('hex');
+      .createHash("sha256")
+      .update(
+        JSON.stringify({
+          ...auditData,
+          timestamp: new Date().toISOString(),
+        })
+      )
+      .digest("hex");
 
     const auditLog = this.auditLogRepository.create({
       ...auditData,
@@ -1177,10 +1348,12 @@ export class EventsService {
     // Simplified CSV conversion - would need proper implementation
     if (Array.isArray(data.participants)) {
       const headers = Object.keys(data.participants[0] || {});
-      const rows = data.participants.map((p: any) => headers.map(h => p[h]).join(','));
-      return [headers.join(','), ...rows].join('\n');
+      const rows = data.participants.map((p: any) =>
+        headers.map((h) => p[h]).join(",")
+      );
+      return [headers.join(","), ...rows].join("\n");
     }
-    
+
     return JSON.stringify(data);
   }
 }

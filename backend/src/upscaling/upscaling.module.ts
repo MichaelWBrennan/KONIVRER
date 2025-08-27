@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { UpscalingController } from './upscaling.controller';
-import { UpscalingService } from './upscaling.service';
+import { Module } from "@nestjs/common";
+import { UpscalingController } from "./upscaling.controller";
+import { UpscalingService } from "./upscaling.service";
 
 @Module({
   controllers: [UpscalingController],
