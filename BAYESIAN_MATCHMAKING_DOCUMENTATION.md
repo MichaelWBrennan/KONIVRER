@@ -9,12 +9,14 @@ KONIVRER implements a sophisticated Bayesian skill rating system based on the Tr
 ### 1. Bayesian Rating System (TrueSkill Implementation)
 
 **Mathematical Foundation:**
+
 - **Skill (μ)**: Player's estimated true skill level
-- **Uncertainty (σ)**: Confidence interval around skill estimate  
+- **Uncertainty (σ)**: Confidence interval around skill estimate
 - **Conservative Rating**: μ - 3σ (used for matchmaking to avoid overconfident matches)
 - **Dynamic Updates**: Ratings update after each match using Bayesian inference
 
 **Key Features:**
+
 - Initial rating: 25.0 skill, 8.33 uncertainty
 - Uncertainty decreases with more matches (rating stabilizes)
 - Skill updates based on expected vs actual performance
@@ -23,20 +25,23 @@ KONIVRER implements a sophisticated Bayesian skill rating system based on the Tr
 ### 2. Match Quality Assessment
 
 **Quality Score (0-1):**
+
 - 0.8+: Excellent match (very close skill levels)
 - 0.6-0.8: Good match (competitive but not perfect)
 - 0.4-0.6: Fair match (noticeable skill difference)
 - 0.0-0.4: Poor match (significant skill mismatch)
 
 **Win Probability Calculation:**
+
 ```typescript
 // Normal CDF based on skill difference and total uncertainty
-winProbability = 0.5 * (1 + erf(skillDiff / (totalUncertainty * sqrt(2))))
+winProbability = 0.5 * (1 + erf(skillDiff / (totalUncertainty * sqrt(2))));
 ```
 
 ### 3. Swiss Tournament Integration
 
 **Enhanced Pairing Algorithm:**
+
 1. Sort players by current tournament standing
 2. Generate potential pairings within standing groups
 3. Calculate match quality for each potential pairing
@@ -44,6 +49,7 @@ winProbability = 0.5 * (1 + erf(skillDiff / (totalUncertainty * sqrt(2))))
 5. Fall back to traditional Swiss if Bayesian pairing fails
 
 **Benefits:**
+
 - More competitive matches throughout tournament
 - Better player experience with balanced opponents
 - Automatic skill assessment and improvement over time
@@ -53,9 +59,11 @@ winProbability = 0.5 * (1 + erf(skillDiff / (totalUncertainty * sqrt(2))))
 ### Core Endpoints
 
 #### `POST /api/matchmaking/ratings/update`
+
 Update player ratings after match completion.
 
 **Request Body:**
+
 ```json
 {
   "format": "Standard",
@@ -70,14 +78,16 @@ Update player ratings after match completion.
 
 **Response:** Array of updated `PlayerRatingResponseDto`
 
-#### `POST /api/matchmaking/pairings/generate`  
+#### `POST /api/matchmaking/pairings/generate`
+
 Generate optimal pairings for tournament or casual play.
 
 **Request Body:**
+
 ```json
 {
   "playerIds": ["player1", "player2", "player3", "player4"],
-  "format": "Standard", 
+  "format": "Standard",
   "previousPairings": [["player1", "player2"]],
   "tournamentId": "optional-tournament-id",
   "round": 2
@@ -87,13 +97,15 @@ Generate optimal pairings for tournament or casual play.
 **Response:** `GeneratePairingsResponseDto` with match quality metrics
 
 #### `GET /api/matchmaking/ratings/{userId}/{format}`
+
 Get player rating for specific format.
 
 **Response:**
+
 ```json
 {
   "id": "rating-id",
-  "userId": "user-id", 
+  "userId": "user-id",
   "format": "Standard",
   "skill": 28.5,
   "uncertainty": 4.2,
@@ -110,9 +122,11 @@ Get player rating for specific format.
 ```
 
 #### `GET /api/matchmaking/match-quality/{player1Id}/{player2Id}/{format}`
+
 Calculate match quality between two players.
 
 **Response:**
+
 ```json
 {
   "quality": 0.82,
@@ -124,13 +138,15 @@ Calculate match quality between two players.
 ```
 
 #### `POST /api/matchmaking/simulate`
+
 Simulate match outcomes for analysis and testing.
 
 **Request Body:**
+
 ```json
 {
   "player1Id": "player1",
-  "player2Id": "player2", 
+  "player2Id": "player2",
   "format": "Standard",
   "numberOfGames": 1000,
   "includeDetailedLogs": false
@@ -140,6 +156,7 @@ Simulate match outcomes for analysis and testing.
 **Response:** `SimulationResultDto` with win rates and statistics
 
 #### `GET /api/matchmaking/leaderboard/{format}?limit=50`
+
 Get format-specific leaderboard.
 
 **Response:** Array of top-rated players with full rating information
@@ -151,9 +168,11 @@ Get format-specific leaderboard.
 All components are designed with mobile-first responsive principles and touch-optimized interfaces.
 
 #### `PlayerRatingCard`
+
 Displays comprehensive player rating information with visual indicators.
 
 **Features:**
+
 - Skill rating with confidence visualization
 - Win rate and match history
 - Rating trend indicators (rising/falling/stable)
@@ -161,6 +180,7 @@ Displays comprehensive player rating information with visual indicators.
 - Detailed stats in expandable view
 
 **Props:**
+
 ```typescript
 interface PlayerRatingCardProps {
   rating: PlayerRating;
@@ -171,9 +191,11 @@ interface PlayerRatingCardProps {
 ```
 
 #### `MatchQualityIndicator`
+
 Shows match balance and expected outcomes between players.
 
-**Features:**  
+**Features:**
+
 - Quality score visualization with color coding
 - Win probability bars for each player
 - Balance category (excellent/good/fair/poor)
@@ -181,9 +203,11 @@ Shows match balance and expected outcomes between players.
 - Compact mode for space-constrained layouts
 
 #### `Leaderboard`
+
 Format-specific player rankings with real-time updates.
 
 **Features:**
+
 - Top player rankings with medal indicators
 - Mobile-optimized layout with key stats
 - Real-time refresh capability
@@ -191,9 +215,11 @@ Format-specific player rankings with real-time updates.
 - Loading states and error handling
 
 #### `MatchmakingPage`
+
 Complete matchmaking interface with tabbed navigation.
 
 **Features:**
+
 - Personal rating view with insights
 - Leaderboard integration
 - Match finding with quality preview
@@ -208,6 +234,7 @@ Complete matchmaking interface with tabbed navigation.
 The game simulator now incorporates Bayesian skill modeling for realistic match prediction and outcome generation.
 
 **Simulation Features:**
+
 - Skill-based outcome prediction using Bayesian ratings
 - Randomness factors (mana screw, card draw luck, critical topdecks)
 - Tournament simulation with rating progression
@@ -215,6 +242,7 @@ The game simulator now incorporates Bayesian skill modeling for realistic match 
 - Detailed telemetry and accuracy tracking
 
 **Simulation Parameters:**
+
 ```typescript
 interface SimulationParameters {
   players: SimulationPlayer[];
@@ -228,6 +256,7 @@ interface SimulationParameters {
 ```
 
 **Tournament Simulation:**
+
 - Multi-round Swiss tournaments with dynamic pairings
 - Real-time rating updates between rounds
 - Final standings with rating changes
@@ -250,7 +279,7 @@ When tournament matches are completed, the system automatically:
 Tournament organizers benefit from:
 
 - **Higher quality matches** throughout the tournament
-- **Reduced blowouts** with better skill matching  
+- **Reduced blowouts** with better skill matching
 - **Improved player satisfaction** through competitive games
 - **Automatic skill discovery** for new players
 - **Historical pairing data** to avoid repeats optimally
@@ -281,7 +310,7 @@ CREATE TABLE player_ratings (
   longest_win_streak INT DEFAULT 0,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW(),
-  
+
   UNIQUE(user_id, format),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -295,7 +324,7 @@ CREATE INDEX idx_player_ratings_conservative ON player_ratings(conservative_rati
 ### Optimization Strategies
 
 1. **Database Indexing**: Indexes on format and conservative_rating for fast queries
-2. **Caching**: Player ratings cached in memory for active tournaments  
+2. **Caching**: Player ratings cached in memory for active tournaments
 3. **Batch Updates**: Multiple rating updates processed together
 4. **Fallback Systems**: Traditional pairing algorithms as backup
 5. **Telemetry Buffering**: Non-blocking telemetry collection
@@ -313,7 +342,7 @@ CREATE INDEX idx_player_ratings_conservative ON player_ratings(conservative_rati
 
 1. **Unit Tests**: Mathematical accuracy of TrueSkill implementation
 2. **Integration Tests**: Complete workflow from match to rating update
-3. **Mobile UI Tests**: Responsive design and touch optimization  
+3. **Mobile UI Tests**: Responsive design and touch optimization
 4. **Performance Tests**: Load testing with high concurrent usage
 5. **Accuracy Tests**: Long-term simulation accuracy validation
 
@@ -330,7 +359,7 @@ CREATE INDEX idx_player_ratings_conservative ON player_ratings(conservative_rati
 
 ```typescript
 // Get player's current rating
-const rating = await matchmakingService.getPlayerRating('user123', 'Standard');
+const rating = await matchmakingService.getPlayerRating("user123", "Standard");
 
 console.log(`Player skill: ${rating.skill.toFixed(1)}`);
 console.log(`Rating confidence: ${100 - rating.uncertainty * 10}%`);
@@ -342,7 +371,7 @@ console.log(`Win rate: ${rating.winRate}%`);
 ```typescript
 // Generate optimal pairings for tournament round
 const pairingResult = await matchmakingService.generatePairings({
-  playerIds: tournamentPlayers.map(p => p.id),
+  playerIds: tournamentPlayers.map((p) => p.id),
   format: tournament.format,
   previousPairings: getPreviousPairings(tournament.id),
   tournamentId: tournament.id,
@@ -350,23 +379,27 @@ const pairingResult = await matchmakingService.generatePairings({
 });
 
 console.log(`Generated ${pairingResult.pairings.length} pairings`);
-console.log(`Average match quality: ${pairingResult.overallQuality.toFixed(2)}`);
+console.log(
+  `Average match quality: ${pairingResult.overallQuality.toFixed(2)}`
+);
 ```
 
 ### Match Result Processing
 
 ```typescript
-// Update ratings after match completion  
+// Update ratings after match completion
 const updatedRatings = await matchmakingService.updateRatings({
-  format: 'Standard',
+  format: "Standard",
   outcomes: [
     { playerId: winnerId, rank: 1 },
-    { playerId: loserId, rank: 2 }
+    { playerId: loserId, rank: 2 },
   ],
   matchId: match.id,
 });
 
-console.log(`Winner rating change: ${updatedRatings[0].conservativeRating - oldRating}`);
+console.log(
+  `Winner rating change: ${updatedRatings[0].conservativeRating - oldRating}`
+);
 ```
 
 ## Advanced Features
@@ -386,7 +419,7 @@ The system provides powerful simulation capabilities for:
 Comprehensive telemetry collection enables:
 
 - **Match quality optimization** through data analysis
-- **Player engagement metrics** and retention analysis  
+- **Player engagement metrics** and retention analysis
 - **System performance monitoring** and optimization
 - **Prediction accuracy tracking** for continuous improvement
 - **Automated anomaly detection** for potential issues

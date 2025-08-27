@@ -13,7 +13,7 @@ export interface Card {
   toughness?: number;
   rulesText?: string;
   flavorText?: string;
-  rarity: 'common' | 'uncommon' | 'rare'; // KONIVRER uses ☽, ☉, 🜠 symbols
+  rarity: "common" | "uncommon" | "rare"; // KONIVRER uses ☽, ☉, 🜠 symbols
   setCode: string;
   setNumber: number;
   imageUrl?: string;
@@ -38,21 +38,21 @@ export interface GameZone {
   isVisible: boolean;
   allowDrop: boolean;
   maxCards?: number;
-  layout: 'stack' | 'grid' | 'fan' | 'row';
+  layout: "stack" | "grid" | "fan" | "row";
   position?: { x: number; y: number; width: number; height: number };
 }
 
 // KONIVRER-specific zones
-export type KonivrverZoneType = 
-  | 'field'           // Main battlefield for creatures and permanents
-  | 'combatRow'       // Active combat and temporary effects (horizontal above Field)
-  | 'azothRow'        // Resource management and energy system (full-width bottom)
-  | 'hand'            // Player's hand
-  | 'deck'            // Player library and draw pile
-  | 'lifeCards'       // Life Cards instead of life points
-  | 'flag'            // Special objective markers and game state indicators
-  | 'removedFromPlay' // Exiled and removed cards (also called "Void")
-  | 'stack';          // The stack for resolving spells and abilities
+export type KonivrverZoneType =
+  | "field" // Main battlefield for creatures and permanents
+  | "combatRow" // Active combat and temporary effects (horizontal above Field)
+  | "azothRow" // Resource management and energy system (full-width bottom)
+  | "hand" // Player's hand
+  | "deck" // Player library and draw pile
+  | "lifeCards" // Life Cards instead of life points
+  | "flag" // Special objective markers and game state indicators
+  | "removedFromPlay" // Exiled and removed cards (also called "Void")
+  | "stack"; // The stack for resolving spells and abilities
 
 export interface PlayerState {
   id: string;
@@ -66,13 +66,13 @@ export interface PlayerState {
 }
 
 // KONIVRER game phases
-export type KonivrverPhase = 
-  | 'preGame'     // Pre-Game setup
-  | 'start'       // Start phase
-  | 'main'        // Main phase
-  | 'combat'      // Combat phase  
-  | 'postCombat'  // Post-Combat phase
-  | 'refresh';    // Refresh phase
+export type KonivrverPhase =
+  | "preGame" // Pre-Game setup
+  | "start" // Start phase
+  | "main" // Main phase
+  | "combat" // Combat phase
+  | "postCombat" // Post-Combat phase
+  | "refresh"; // Refresh phase
 
 export interface GameState {
   players: [PlayerState, PlayerState];
@@ -82,14 +82,14 @@ export interface GameState {
   stack: Card[]; // Dynamic Resolution Chain (DRC)
   activePlayer: number;
   priorityPlayer: number;
-  
+
   // KONIVRER-specific state
   deckConstructionRules: {
-    totalCards: number;      // 40 cards total
-    commonCards: number;     // 25 Common (🜠) cards
-    uncommonCards: number;   // 13 Uncommon (☽) cards  
-    rareCards: number;       // 2 Rare (☉) cards
-    flagRequired: boolean;   // 1 Flag required (does not count toward total)
+    totalCards: number; // 40 cards total
+    commonCards: number; // 25 Common (🜠) cards
+    uncommonCards: number; // 13 Uncommon (☽) cards
+    rareCards: number; // 2 Rare (☉) cards
+    flagRequired: boolean; // 1 Flag required (does not count toward total)
     maxCopiesPerCard: number; // 1 copy per card maximum
   };
 }
@@ -109,15 +109,15 @@ export interface TouchState {
 }
 
 // KONIVRER Keyword Abilities
-export type KonivrverKeywordAbility = 
-  | 'amalgam'      // Combines with other cards
-  | 'brilliance'   // Light-based ability
-  | 'gust'         // Air-based ability  
-  | 'inferno'      // Fire-based ability
-  | 'steadfast'    // Earth-based ability
-  | 'submerged'    // Water-based ability
-  | 'quintessence' // Multi-element ability
-  | 'void';        // Dark-based ability
+export type KonivrverKeywordAbility =
+  | "amalgam" // Combines with other cards
+  | "brilliance" // Light-based ability
+  | "gust" // Air-based ability
+  | "inferno" // Fire-based ability
+  | "steadfast" // Earth-based ability
+  | "submerged" // Water-based ability
+  | "quintessence" // Multi-element ability
+  | "void"; // Dark-based ability
 
 // KONIVRER Rule System Structure for JSON parsing
 export interface KonivrverRule {
@@ -136,7 +136,7 @@ export interface DeckValidationResult {
   cardCounts: {
     total: number;
     common: number;
-    uncommon: number; 
+    uncommon: number;
     rare: number;
   };
   hasFlag: boolean;

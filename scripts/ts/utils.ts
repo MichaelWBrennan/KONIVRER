@@ -1,5 +1,4 @@
-
-import { execSync } from 'child_process';
+import { execSync } from "child_process";
 
 export function log(message: string): void {
   const timestamp = new Date().toISOString();
@@ -10,10 +9,10 @@ export async function runShell(command: string): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
       const output = execSync(command, {
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'pipe'],
+        encoding: "utf8",
+        stdio: ["pipe", "pipe", "pipe"],
         maxBuffer: 1024 * 1024 * 10, // 10MB buffer
-        timeout: 300000 // 5 minute timeout
+        timeout: 300000, // 5 minute timeout
       });
       resolve(output.trim());
     } catch (error: any) {
@@ -28,7 +27,7 @@ export async function runShell(command: string): Promise<string> {
 }
 
 export function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function retry<T>(
@@ -37,7 +36,7 @@ export async function retry<T>(
   delayMs: number = 1000
 ): Promise<T> {
   let lastError: Error;
-  
+
   for (let i = 0; i < maxRetries; i++) {
     try {
       return await operation();
@@ -49,6 +48,6 @@ export async function retry<T>(
       }
     }
   }
-  
+
   throw lastError!;
 }
