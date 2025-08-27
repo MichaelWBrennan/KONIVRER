@@ -1,8 +1,8 @@
-import { create } from 'zustand';
-import { persist, devtools } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist, devtools } from "zustand/middleware";
 
 // Import our local Card type and re-export it
-import type { Card as LocalCard } from '../data/cards';
+import type { Card as LocalCard } from "../data/cards";
 export type Card = LocalCard;
 
 export interface CardSearchFilters {
@@ -16,22 +16,22 @@ export interface CardSearchFilters {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: 'ASC' | 'DESC';
+  sortOrder?: "ASC" | "DESC";
 }
 
 interface AppState {
   // Card management
   selectedCard: Card | null;
   searchFilters: CardSearchFilters;
-  
+
   // UI state
   isLoading: boolean;
   error: string | null;
-  
+
   // Authentication state
   isLoggedIn: boolean;
   user: { username: string; level: number } | null;
-  
+
   // Actions
   setSelectedCard: (card: Card | null) => void;
   setSearchFilters: (filters: CardSearchFilters) => void;
@@ -42,7 +42,7 @@ interface AppState {
   setUser: (user: { username: string; level: number } | null) => void;
 }
 
-export const useAppStore = create<AppState>()(
+export const useAppStore: any = create<AppState>()(
   devtools(
     persist(
       (set) => ({
@@ -51,8 +51,8 @@ export const useAppStore = create<AppState>()(
         searchFilters: {
           page: 1,
           limit: 20,
-          sortBy: 'name',
-          sortOrder: 'ASC',
+          sortBy: "name",
+          sortOrder: "ASC",
         },
         isLoading: false,
         error: null,
@@ -60,38 +60,39 @@ export const useAppStore = create<AppState>()(
         user: null,
 
         // Actions
-        setSelectedCard: (card) => 
-          set({ selectedCard: card }, false, 'setSelectedCard'),
-        
+        setSelectedCard: (card) =>
+          set({ selectedCard: card }, false, "setSelectedCard"),
+
         setSearchFilters: (filters) =>
-          set((state) => ({
-            searchFilters: { ...state.searchFilters, ...filters }
-          }), false, 'setSearchFilters'),
-        
-        setLoading: (loading) => 
-          set({ isLoading: loading }, false, 'setLoading'),
-        
-        setError: (error) => 
-          set({ error }, false, 'setError'),
-        
-        clearError: () => 
-          set({ error: null }, false, 'clearError'),
-        
-        setLoggedIn: (loggedIn) => 
-          set({ isLoggedIn: loggedIn }, false, 'setLoggedIn'),
-        
-        setUser: (user) => 
-          set({ user }, false, 'setUser'),
+          set(
+            (state) => ({
+              searchFilters: { ...state.searchFilters, ...filters },
+            }),
+            false,
+            "setSearchFilters"
+          ),
+
+        setLoading: (loading) =>
+          set({ isLoading: loading }, false, "setLoading"),
+
+        setError: (error) => set({ error }, false, "setError"),
+
+        clearError: () => set({ error: null }, false, "clearError"),
+
+        setLoggedIn: (loggedIn) =>
+          set({ isLoggedIn: loggedIn }, false, "setLoggedIn"),
+
+        setUser: (user) => set({ user }, false, "setUser"),
       }),
       {
-        name: 'konivrer-app-store',
+        name: "konivrer-app-store",
         partialize: (state) => ({
           searchFilters: state.searchFilters,
         }),
       }
     ),
     {
-      name: 'konivrer-store',
+      name: "konivrer-store",
     }
   )
 );
