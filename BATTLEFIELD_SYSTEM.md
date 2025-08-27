@@ -5,6 +5,7 @@ A comprehensive, production-ready battlefield/arena system for KONIVRER, inspire
 ## 🌟 Features
 
 ### Core Capabilities
+
 - **Interactive 2.5D battlefield UI** with layered, animated assets
 - **Thematic variations** per faction/region/season (Forest, Desert, Volcano, Hearthstone Tavern)
 - **Responsive layout** with support for mobile, tablet, and desktop
@@ -16,6 +17,7 @@ A comprehensive, production-ready battlefield/arena system for KONIVRER, inspire
 - **Battlefield state syncing** with game logic
 
 ### Performance Optimizations
+
 - **GPU batching** for repeated objects
 - **Texture atlases** for efficient memory usage
 - **Progressive asset loading** with priority system
@@ -26,12 +28,14 @@ A comprehensive, production-ready battlefield/arena system for KONIVRER, inspire
 ## 🎨 Available Themes
 
 ### 🍺 Hearthstone Tavern
+
 - Cozy tavern interior with warm lighting
 - Interactive torches and fireplace
 - Wooden furniture and stone walls
 - Perfect for casual card battles
 
 ### 🌲 Mystical Forest
+
 - Ancient woodland with flowing waterfalls
 - Dappled sunlight through canopy
 - Interactive nature crystals
@@ -39,6 +43,7 @@ A comprehensive, production-ready battlefield/arena system for KONIVRER, inspire
 - Background forest creatures (ambient)
 
 ### 🏜️ Ancient Desert
+
 - Sand dunes and ancient ruins
 - Heat shimmer effects
 - Oasis features with palm trees
@@ -46,6 +51,7 @@ A comprehensive, production-ready battlefield/arena system for KONIVRER, inspire
 - Interactive ancient artifacts
 
 ### 🌋 Volcanic Crater
+
 - Molten lava flows and pools
 - Glowing magma crystals
 - Volcanic rock formations
@@ -57,21 +63,27 @@ A comprehensive, production-ready battlefield/arena system for KONIVRER, inspire
 ### Core Classes
 
 #### `MysticalArena`
+
 Main arena management class that handles:
+
 - Theme initialization and switching
 - Quality level management
 - Asset coordination
 - Environment setup
 
 #### `ArenaAssetManager`
+
 Efficient asset loading and streaming:
+
 - Progressive loading with priority system
 - Memory usage monitoring (<100MB limit)
 - Texture compression and optimization
 - Asset caching and cleanup
 
 #### `BattlefieldInteractionSystem`
+
 Interactive elements and state management:
+
 - Click/hover event handling
 - Dynamic lighting effects
 - Weather and atmospheric changes
@@ -89,9 +101,9 @@ interface AssetManifest {
 interface AssetInfo {
   name: string;
   url: string;
-  type: 'texture' | 'mesh' | 'sound' | 'animation';
+  type: "texture" | "mesh" | "sound" | "animation";
   size: number; // in KB
-  priority: 'high' | 'medium' | 'low';
+  priority: "high" | "medium" | "low";
   compressed?: boolean;
 }
 ```
@@ -102,7 +114,7 @@ interface AssetInfo {
 interface InteractiveElement {
   id: string;
   mesh: BABYLON.AbstractMesh;
-  type: 'torch' | 'waterfall' | 'crystal' | 'rune' | 'campfire' | 'geyser';
+  type: "torch" | "waterfall" | "crystal" | "rune" | "campfire" | "geyser";
   isActive: boolean;
   audioSource?: BABYLON.Sound;
   particleSystem?: BABYLON.ParticleSystem;
@@ -115,11 +127,11 @@ interface InteractiveElement {
 
 ```typescript
 interface BattlefieldState {
-  timeOfDay: 'dawn' | 'day' | 'dusk' | 'night';
-  weather: 'clear' | 'rain' | 'storm' | 'fog' | 'snow';
-  season: 'spring' | 'summer' | 'autumn' | 'winter';
+  timeOfDay: "dawn" | "day" | "dusk" | "night";
+  weather: "clear" | "rain" | "storm" | "fog" | "snow";
+  season: "spring" | "summer" | "autumn" | "winter";
   activeEffects: string[];
-  playerMood: 'calm' | 'excited' | 'tense' | 'victorious';
+  playerMood: "calm" | "excited" | "tense" | "victorious";
 }
 ```
 
@@ -128,17 +140,17 @@ interface BattlefieldState {
 ### Basic Arena Initialization
 
 ```typescript
-import { MysticalArena, type ArenaConfig } from './game/3d/MysticalArena';
+import { MysticalArena, type ArenaConfig } from "./game/3d/MysticalArena";
 
 const config: ArenaConfig = {
-  theme: 'forest',
-  quality: 'high',
+  theme: "forest",
+  quality: "high",
   enableParticles: true,
   enableLighting: true,
   enablePostProcessing: false,
   isMobile: false,
   enableInteractiveElements: true,
-  enableIdleAnimations: true
+  enableIdleAnimations: true,
 };
 
 const arena = new MysticalArena(scene, config);
@@ -149,10 +161,10 @@ await arena.initialize();
 
 ```typescript
 // Switch to volcano theme
-await arena.changeTheme('volcano');
+await arena.changeTheme("volcano");
 
 // Update quality for mobile
-await arena.updateQuality('medium');
+await arena.updateQuality("medium");
 ```
 
 ### Interactive Elements
@@ -160,13 +172,13 @@ await arena.updateQuality('medium');
 ```typescript
 // Add custom interactive torch
 arena.addInteractiveElement({
-  id: 'custom_torch',
+  id: "custom_torch",
   mesh: torchMesh,
-  type: 'torch',
+  type: "torch",
   onClick: () => {
-    console.log('🔥 Torch lit! Revealing hidden secrets...');
+    console.log("🔥 Torch lit! Revealing hidden secrets...");
     // Custom game logic here
-  }
+  },
 });
 ```
 
@@ -175,14 +187,14 @@ arena.addInteractiveElement({
 ```typescript
 // Update environment based on game state
 arena.updateBattlefieldState({
-  timeOfDay: 'night',
-  weather: 'storm',
-  playerMood: 'tense'
+  timeOfDay: "night",
+  weather: "storm",
+  playerMood: "tense",
 });
 
 // Listen for state changes
 arena.onStateChange((state) => {
-  console.log('Battlefield state updated:', state);
+  console.log("Battlefield state updated:", state);
   // Sync with game UI
 });
 ```
@@ -192,17 +204,20 @@ arena.onStateChange((state) => {
 The system automatically adapts to different screen sizes and device capabilities:
 
 ### Mobile (< 768px)
+
 - Reduced asset quality
 - Simplified particle effects
 - Touch-optimized controls
 - Smaller texture sizes
 
 ### Tablet (768px - 1200px)
+
 - Medium quality assets
 - Balanced performance/visuals
 - Hybrid touch/mouse controls
 
 ### Desktop (> 1200px)
+
 - High quality assets
 - Full particle effects
 - Mouse and keyboard controls
@@ -211,16 +226,19 @@ The system automatically adapts to different screen sizes and device capabilitie
 ## 🎯 Performance Targets
 
 ### Memory Usage
+
 - **Target:** <100MB total assets per battlefield
 - **Mobile:** <50MB for low-end devices
 - **Desktop:** <150MB for high-end systems
 
 ### Frame Rate
+
 - **Mobile:** 30+ FPS on mid-tier devices
 - **Desktop:** 60+ FPS consistently
 - **No runtime drops** during theme switching
 
 ### Loading Times
+
 - **Initial load:** <3 seconds
 - **Theme switch:** <2 seconds
 - **Progressive loading** for non-critical assets
@@ -228,24 +246,28 @@ The system automatically adapts to different screen sizes and device capabilitie
 ## 🔮 Interactive Elements Guide
 
 ### 🔥 Torches
+
 - **Visual:** Flickering flame particles
 - **Audio:** Crackling fire sound
 - **Interaction:** Click to toggle on/off
 - **Effect:** Illuminates nearby area
 
 ### 💎 Crystals
+
 - **Visual:** Pulsing glow animation
 - **Audio:** Magical resonance
 - **Interaction:** Hover for energy effect
 - **Effect:** Particle burst on activation
 
 ### 🌊 Waterfalls
+
 - **Visual:** Flowing water particles
 - **Audio:** Flowing water ambience
 - **Interaction:** Calming aura effect
 - **Effect:** Mist and splash particles
 
 ### 🏛️ Ancient Runes
+
 - **Visual:** Floating and rotating
 - **Audio:** Mystical humming
 - **Interaction:** Click to activate
@@ -256,23 +278,27 @@ The system automatically adapts to different screen sizes and device capabilitie
 The battlefield responds to weather conditions:
 
 ### ☀️ Clear Weather
+
 - Bright, natural lighting
 - Minimal atmospheric effects
 - Full visibility
 
 ### 🌧️ Rain
+
 - Darkened sky
 - Rain particle systems
 - Puddle reflections
 - Reduced visibility
 
 ### ⛈️ Storm
+
 - Lightning flashes
 - Heavy rain effects
 - Dynamic wind particles
 - Dramatic lighting changes
 
 ### 🌫️ Fog
+
 - Reduced draw distance
 - Volumetric fog effects
 - Mysterious atmosphere
@@ -281,6 +307,7 @@ The battlefield responds to weather conditions:
 ## 🎨 Customization Options
 
 ### Theme Colors
+
 Each theme uses a carefully crafted color palette:
 
 ```typescript
@@ -294,12 +321,14 @@ Each theme uses a carefully crafted color palette:
 ```
 
 ### Quality Settings
+
 - **Low:** Basic lighting, no particles, simple textures
 - **Medium:** Standard lighting, basic particles, compressed textures
 - **High:** Advanced lighting, full particles, high-res textures
 - **Ultra:** All effects, post-processing, maximum quality
 
 ### Seasonal Variations
+
 - **Spring:** Fresh greens, blooming flowers
 - **Summer:** Bright lighting, lush vegetation
 - **Autumn:** Warm colors, falling leaves
@@ -308,6 +337,7 @@ Each theme uses a carefully crafted color palette:
 ## 🔧 Development Guidelines
 
 ### Adding New Themes
+
 1. Define color palette in `getThemeColors()`
 2. Create theme-specific assets
 3. Implement `create{Theme}Elements()` method
@@ -315,6 +345,7 @@ Each theme uses a carefully crafted color palette:
 5. Test across all quality levels
 
 ### Memory Optimization
+
 - Use texture atlases for small textures
 - Implement LOD for complex meshes
 - Enable GPU instancing for repeated objects
@@ -322,6 +353,7 @@ Each theme uses a carefully crafted color palette:
 - Monitor memory usage with `getMemoryStats()`
 
 ### Performance Testing
+
 - Test on target devices (mobile, tablet, desktop)
 - Monitor frame rate during intensive scenes
 - Check memory usage during theme switching
@@ -334,11 +366,13 @@ The system provides built-in analytics:
 ```typescript
 // Memory usage monitoring
 const stats = arena.getMemoryStats();
-console.log(`Memory: ${stats.used}MB / ${stats.limit}MB (${stats.percentage}%)`);
+console.log(
+  `Memory: ${stats.used}MB / ${stats.limit}MB (${stats.percentage}%)`
+);
 
 // Performance tracking
 const config = arena.getArenaConfig();
-console.log('Current configuration:', config);
+console.log("Current configuration:", config);
 
 // Interaction tracking
 arena.onElementInteraction((element, action) => {
@@ -349,6 +383,7 @@ arena.onElementInteraction((element, action) => {
 ## 🚀 Future Enhancements
 
 ### Planned Features
+
 - **Seasonal arena rotation** with automatic switching
 - **Procedural generation** for infinite variety
 - **Multiplayer synchronization** for shared battlefields
@@ -357,6 +392,7 @@ arena.onElementInteraction((element, action) => {
 - **Advanced AI** for dynamic environment responses
 
 ### Community Features
+
 - **Arena sharing** between players
 - **User ratings** for custom arenas
 - **Arena marketplace** for trading designs
@@ -367,6 +403,7 @@ arena.onElementInteraction((element, action) => {
 ### MysticalArena Class
 
 #### Methods
+
 - `initialize(): Promise<void>` - Initialize the arena
 - `changeTheme(theme): Promise<void>` - Switch to new theme
 - `updateQuality(quality): Promise<void>` - Change quality level
@@ -375,6 +412,7 @@ arena.onElementInteraction((element, action) => {
 - `dispose(): void` - Clean up resources
 
 #### Events
+
 - `onStateChange(callback)` - Listen for state changes
 - `onElementInteraction(callback)` - Track interactions
 - `onThemeChanged(callback)` - Theme switch notifications
@@ -382,6 +420,7 @@ arena.onElementInteraction((element, action) => {
 ### ArenaAssetManager Class
 
 #### Methods
+
 - `loadThemeAssets(theme, quality): Promise<void>` - Load assets
 - `getMemoryStats(): MemoryStats` - Memory usage info
 - `cleanup(): void` - Free unused assets
@@ -390,6 +429,7 @@ arena.onElementInteraction((element, action) => {
 ### BattlefieldInteractionSystem Class
 
 #### Methods
+
 - `addInteractiveElement(config): void` - Add interactive object
 - `removeInteractiveElement(id): void` - Remove object
 - `toggleElement(id): void` - Toggle element state
@@ -404,4 +444,4 @@ This Hearthstone-style battlefield system provides a robust foundation for immer
 
 The modular architecture allows for easy expansion and customization, making it perfect for evolving game requirements and community contributions.
 
-*Ready to battle in style! ⚔️✨*
+_Ready to battle in style! ⚔️✨_
