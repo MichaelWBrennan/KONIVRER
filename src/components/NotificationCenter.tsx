@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNotificationStore } from '../services/notifications';
 
-const NotificationCenter: React.FC = () => {
+const NotificationCenter: React.FC : any = () => {
   const {
     notifications,
     unreadCount,
@@ -16,17 +16,17 @@ const NotificationCenter: React.FC = () => {
     getUnreadCountByEvent,
   } = useNotificationStore();
 
-  const [isOpen, setIsOpen]  = useState(false);
-  const [showPermissionPrompt, setShowPermissionPrompt]  = useState(false);
-  const [selectedEventFilter, setSelectedEventFilter]  = useState<string | null>(null);
+  const [isOpen, setIsOpen]  : any = useState(false);
+  const [showPermissionPrompt, setShowPermissionPrompt]  : any = useState(false);
+  const [selectedEventFilter, setSelectedEventFilter]  : any = useState<string | null>(null);
 
   useEffect(() => {
     // Don't automatically show permission prompt - only show on event registration
     // This ensures we only ask for notification permission when there's clear context
   }, [isSupported, isPermissionGranted, notifications.length]);
 
-  const handleRequestPermission  = async () => {
-    const granted  = await requestPermission();
+  const handleRequestPermission  : any = async () => {
+    const granted  : any = await requestPermission();
     localStorage.setItem('notification-permission-prompted', 'true');
     setShowPermissionPrompt(false);
     
@@ -36,17 +36,17 @@ const NotificationCenter: React.FC = () => {
     }
   };
 
-  const dismissPermissionPrompt  = () => {
+  const dismissPermissionPrompt  : any = () => {
     localStorage.setItem('notification-permission-prompted', 'true');
     setShowPermissionPrompt(false);
   };
 
-  const formatTimestamp  = (timestamp: Date) => {
-    const now  = new Date();
-    const diff  = now.getTime() - new Date(timestamp).getTime();
-    const minutes  = Math.floor(diff / 60000);
-    const hours  = Math.floor(diff / 3600000);
-    const days  = Math.floor(diff / 86400000);
+  const formatTimestamp  : any = (timestamp: Date) => {
+    const now  : any = new Date();
+    const diff  : any = now.getTime() - new Date(timestamp).getTime();
+    const minutes  : any = Math.floor(diff / 60000);
+    const hours  : any = Math.floor(diff / 3600000);
+    const days  : any = Math.floor(diff / 86400000);
 
     if (minutes < 1) return 'Just now';
     if (minutes < 60) return `${minutes}m ago`;
@@ -55,7 +55,7 @@ const NotificationCenter: React.FC = () => {
     return new Date(timestamp).toLocaleDateString();
   };
 
-  const getNotificationIcon  = (type: string) => {
+  const getNotificationIcon  : any = (type: string) => {
     switch (type) {
       case 'round_start':
         return '🔥';
@@ -70,11 +70,11 @@ const NotificationCenter: React.FC = () => {
     }
   };
 
-  const getEventBadge  = (eventId?: string, eventData?: any) => {
+  const getEventBadge  : any = (eventId?: string, eventData?: any) => {
     if (!eventId) return null;
     
-    const eventName  = eventData?.eventName || 'Event';
-    const format  = eventData?.eventFormat;
+    const eventName  : any = eventData?.eventName || 'Event';
+    const format  : any = eventData?.eventFormat;
     
     return (
       <div style={{
@@ -93,8 +93,8 @@ const NotificationCenter: React.FC = () => {
   };
 
   // Group notifications by event for filtering
-  const eventGroups  = notifications.reduce((acc, notification) => {
-    const eventId  = notification.eventId || 'general';
+  const eventGroups  : any = notifications.reduce((acc, notification) => {
+    const eventId  : any = notification.eventId || 'general';
     if (!acc[eventId]) {
       acc[eventId] = [];
     }
@@ -102,7 +102,7 @@ const NotificationCenter: React.FC = () => {
     return acc;
   }, {} as Record<string, typeof notifications>);
 
-  const filteredNotifications  = selectedEventFilter 
+  const filteredNotifications  : any = selectedEventFilter 
     ? getNotificationsByEvent(selectedEventFilter)
     : notifications;
 
@@ -283,8 +283,8 @@ const NotificationCenter: React.FC = () => {
                     All ({unreadCount})
                   </button>
                   {Object.entries(eventGroups).map(([eventId, notifications]) => {
-                    const eventUnread  = getUnreadCountByEvent(eventId === 'general' ? undefined : eventId);
-                    const eventName  = eventId === 'general' ? 'General' : 
+                    const eventUnread  : any = getUnreadCountByEvent(eventId === 'general' ? undefined : eventId);
+                    const eventName  : any = eventId === 'general' ? 'General' : 
                       notifications[0]?.data?.eventName || `Event ${eventId.slice(0, 8)}`;
                     
                     return (
