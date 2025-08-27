@@ -29,7 +29,7 @@ export interface AuthActions {
 }
 
 export function useAuth(): AuthState & AuthActions {
-  const [state, setState]: any : any : any : any = useState<AuthState>({
+  const [state, setState] = useState<AuthState>({
     isAuthenticated: authService.isAuthenticated,
     user: authService.currentUser,
     isLoading: false,
@@ -38,11 +38,11 @@ export function useAuth(): AuthState & AuthActions {
 
   // Check for authentication changes on mount
   useEffect(() => {
-    const checkAuth: any : any : any : any = async () => {
+    const checkAuth = async () => {
       if (authService.isAuthenticated && !authService.currentUser) {
         setState((prev) => ({ ...prev, isLoading: true }));
         try {
-          const user: any : any : any : any = await authService.getProfile();
+          const user = await authService.getProfile();
           setState((prev) => ({
             ...prev,
             isAuthenticated: !!user,
@@ -63,10 +63,10 @@ export function useAuth(): AuthState & AuthActions {
     checkAuth();
   }, []);
 
-  const login: any : any : any : any = useCallback(async (credentials: LoginCredentials) => {
+  const login = useCallback(async (credentials: LoginCredentials) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
-      const authData: any : any : any : any = await authService.login(credentials);
+      const authData = await authService.login(credentials);
       setState((prev) => ({
         ...prev,
         isAuthenticated: true,
@@ -86,10 +86,10 @@ export function useAuth(): AuthState & AuthActions {
     }
   }, []);
 
-  const register: any : any : any : any = useCallback(async (data: RegisterData) => {
+  const register = useCallback(async (data: RegisterData) => {
     setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
-      const authData: any : any : any : any = await authService.register(data);
+      const authData = await authService.register(data);
       setState((prev) => ({
         ...prev,
         isAuthenticated: true,
@@ -109,7 +109,7 @@ export function useAuth(): AuthState & AuthActions {
     }
   }, []);
 
-  const logout: any : any : any : any = useCallback(async () => {
+  const logout = useCallback(async () => {
     setState((prev) => ({ ...prev, isLoading: true }));
     try {
       await authService.logout();
@@ -132,12 +132,12 @@ export function useAuth(): AuthState & AuthActions {
     }
   }, []);
 
-  const refreshProfile: any : any : any : any = useCallback(async () => {
+  const refreshProfile = useCallback(async () => {
     if (!authService.isAuthenticated) return;
 
     setState((prev) => ({ ...prev, isLoading: true }));
     try {
-      const user: any : any : any : any = await authService.getProfile();
+      const user = await authService.getProfile();
       setState((prev) => ({
         ...prev,
         user,
@@ -152,38 +152,38 @@ export function useAuth(): AuthState & AuthActions {
     }
   }, []);
 
-  const clearError: any : any : any : any = useCallback(() => {
+  const clearError = useCallback(() => {
     setState((prev) => ({ ...prev, error: null }));
   }, []);
 
   // Role-based access control functions
-  const canAccessJudgePortal: any : any : any : any = useCallback(() => {
+  const canAccessJudgePortal = useCallback(() => {
     return authService.canAccessJudgePortal();
   }, [state.user]);
 
-  const hasRole: any : any : any : any = useCallback(
+  const hasRole = useCallback(
     (role: UserRole) => {
       return authService.hasRole(role);
     },
     [state.user]
   );
 
-  const hasAnyRole: any : any : any : any = useCallback(
+  const hasAnyRole = useCallback(
     (roles: UserRole[]) => {
       return authService.hasAnyRole(roles);
     },
     [state.user]
   );
 
-  const isJudge: any : any : any : any = useCallback(() => {
+  const isJudge = useCallback(() => {
     return authService.isJudge();
   }, [state.user]);
 
-  const isAdmin: any : any : any : any = useCallback(() => {
+  const isAdmin = useCallback(() => {
     return authService.isAdmin();
   }, [state.user]);
 
-  const getJudgeLevel: any : any : any : any = useCallback(() => {
+  const getJudgeLevel = useCallback(() => {
     return authService.getJudgeLevel();
   }, [state.user]);
 
