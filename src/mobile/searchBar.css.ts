@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const wrap: any : any : any = style({
+export const wrap: any : any : any : any = style({
   position: "sticky",
   top: 0,
   zIndex: 998,
@@ -11,7 +11,7 @@ export const wrap: any : any : any = style({
   padding: "8px 12px",
 });
 
-export const input: any : any : any = style({
+export const input: any : any : any : any = style({
   width: "100%",
   height: 40,
   padding: "0 12px",
