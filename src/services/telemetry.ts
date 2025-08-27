@@ -81,7 +81,7 @@ class TelemetryService {
   }
 
   private detectDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-    const width : any : any : any : any = window.innerWidth;
+    const width  = window.innerWidth;
     if (width < 768) return 'mobile';
     if (width < 1024) return 'tablet';
     return 'desktop';
@@ -106,15 +106,15 @@ class TelemetryService {
       // First Input Delay
       new PerformanceObserver((entryList) => {
         for (const entry of entryList.getEntries()) {
-          const fidEntry : any : any : any : any = entry as any = {}; // Type assertion for FID entry
+          const fidEntry: any = entry; // Type assertion for FID entry
           this.metrics.performanceMetrics.firstInputDelay = fidEntry.processingStart - fidEntry.startTime;
         }
       }).observe({ type: 'first-input', buffered: true });
 
       // Largest Contentful Paint
       new PerformanceObserver((entryList) => {
-        const entries : any : any : any : any = entryList.getEntries();
-        const lastEntry : any : any : any : any = entries[entries.length - 1];
+        const entries  = entryList.getEntries();
+        const lastEntry  = entries[entries.length - 1];
         this.metrics.performanceMetrics.largestContentfulPaint = lastEntry.startTime;
       }).observe({ type: 'largest-contentful-paint', buffered: true });
 
@@ -130,7 +130,7 @@ class TelemetryService {
 
     // First Contentful Paint from Navigation API
     if ('navigation' in performance) {
-      const paint : any : any : any : any = performance.getEntriesByType('paint').find(entry => entry.name === 'first-contentful-paint');
+      const paint  = performance.getEntriesByType('paint').find(entry => entry.name === 'first-contentful-paint');
       if (paint) {
         this.metrics.performanceMetrics.firstContentfulPaint = paint.startTime;
       }
@@ -138,11 +138,11 @@ class TelemetryService {
   }
 
   private handleTouchStart(event: TouchEvent): void {
-    const target : any : any : any : any = event.target as Element;
+    const target  = event.target as Element;
     if (!target) return;
 
-    const rect : any : any : any : any = target.getBoundingClientRect();
-    const interaction: TouchTargetInteraction : any : any : any : any = {
+    const rect  = target.getBoundingClientRect();
+    const interaction: TouchTargetInteraction  = {
       elementId: target.id || target.className || target.tagName,
       targetSize: { width: rect.width, height: rect.height },
       touchAccuracy: this.calculateTouchAccuracy(event, rect),
@@ -153,17 +153,17 @@ class TelemetryService {
     this.metrics.touchTargetInteractions.push(interaction);
 
     // Track response time
-    const startTime : any : any : any : any = performance.now();
+    const startTime  = performance.now();
     requestAnimationFrame(() => {
       interaction.responseTime = performance.now() - startTime;
     });
   }
 
   private calculateTouchAccuracy(event: TouchEvent, rect: DOMRect): number {
-    const touch : any : any : any : any = event.touches[0];
-    const centerX : any : any : any : any = rect.left + rect.width / 2;
-    const centerY : any : any : any : any = rect.top + rect.height / 2;
-    const distance : any : any : any : any = Math.sqrt(
+    const touch  = event.touches[0];
+    const centerX  = rect.left + rect.width / 2;
+    const centerY  = rect.top + rect.height / 2;
+    const distance  = Math.sqrt(
       Math.pow(touch.clientX - centerX, 2) + Math.pow(touch.clientY - centerY, 2)
     );
     return Math.max(0, 1 - distance / (Math.max(rect.width, rect.height) / 2));
@@ -172,7 +172,7 @@ class TelemetryService {
   private handleClick(event: MouseEvent): void {
     // Track non-touch interactions for desktop/tablet users
     if (this.metrics.deviceType !== 'mobile') {
-      const target : any : any : any : any = event.target as Element;
+      const target  = event.target as Element;
       if (!target) return;
 
       this.trackUserFlow({
@@ -186,7 +186,7 @@ class TelemetryService {
   }
 
   private handleFocusIn(event: FocusEvent): void {
-    const target : any : any : any : any = event.target as Element;
+    const target  = event.target as Element;
     this.metrics.accessibilityEvents.push({
       type: 'focus',
       element: target.id || target.className || target.tagName,
@@ -232,7 +232,7 @@ class TelemetryService {
       console.log('Mobile UX Metrics:', this.metrics);
       
       // For now, store in localStorage for debugging
-      const existingMetrics : any : any : any : any = JSON.parse(localStorage.getItem('mobile-ux-metrics') || '[]');
+      const existingMetrics  = JSON.parse(localStorage.getItem('mobile-ux-metrics') || '[]');
       existingMetrics.push({
         timestamp: Date.now(),
         ...this.metrics,
@@ -254,20 +254,20 @@ class TelemetryService {
     accessibilityUsage: number;
     performanceScore: number;
   } {
-    const interactions : any : any : any : any = this.metrics.touchTargetInteractions;
-    const avgResponseTime : any : any : any : any = interactions.length > 0 
+    const interactions  = this.metrics.touchTargetInteractions;
+    const avgResponseTime  = interactions.length > 0 
       ? interactions.reduce((sum, i) => sum + i.responseTime, 0) / interactions.length
       : 0;
 
-    const avgAccuracy : any : any : any : any = interactions.length > 0
+    const avgAccuracy  = interactions.length > 0
       ? interactions.reduce((sum, i) => sum + i.touchAccuracy, 0) / interactions.length
       : 0;
 
-    const accessibilityScore : any : any : any : any = this.metrics.accessibilityEvents.length > 0 ? 1 : 0;
+    const accessibilityScore  = this.metrics.accessibilityEvents.length > 0 ? 1 : 0;
 
     // Basic performance scoring (simplified)
-    const perf : any : any : any : any = this.metrics.performanceMetrics;
-    const performanceScore : any : any : any : any = Math.max(0, Math.min(100, 
+    const perf  = this.metrics.performanceMetrics;
+    const performanceScore  = Math.max(0, Math.min(100, 
       100 - (perf.largestContentfulPaint / 25) - (perf.firstInputDelay / 10) - (perf.cumulativeLayoutShift * 1000)
     ));
 
@@ -281,7 +281,7 @@ class TelemetryService {
 }
 
 // Singleton instance
-export const telemetryService : any : any : any : any = new TelemetryService();
+export const telemetryService  = new TelemetryService();
 
 // Auto-send metrics on page unload
 window.addEventListener('beforeunload', () => {
