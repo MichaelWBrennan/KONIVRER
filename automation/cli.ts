@@ -1,24 +1,24 @@
 #!/usr/bin/env tsx
 /**
  * KONIVRER Automation CLI
- * 
+ *
  * Command-line interface for the automation system.
  * This file provides a simple CLI for generating reports and running specific automation tasks.
  */
 
-import { writeFileSync } from 'fs';
-import { AutomationOrchestrator, CONFIG } from './all-in-one.ts';
+import { writeFileSync } from "fs";
+import { AutomationOrchestrator, CONFIG } from "./all-in-one.ts";
 
 // Parse command-line arguments
 const args = process.argv.slice(2);
 const command = args[0];
 
 // Generate a simple HTML report
-function generateReport(outputPath: string = 'automation-report.html'): void {
+function generateReport(outputPath: string = "automation-report.html"): void {
   console.log(`📊 Generating automation report: ${outputPath}`);
-  
+
   const timestamp = new Date().toLocaleString();
-  
+
   const html = `
 <!DOCTYPE html>
 <html>
@@ -47,24 +47,25 @@ function generateReport(outputPath: string = 'automation-report.html'): void {
 
 // Process commands
 switch (command) {
-  case 'report':
-    const outputPath = args.find(arg => arg.startsWith('--output='))?.split('=')[1] || 
-                      args[args.indexOf('--output') + 1] || 
-                      'automation-report.html';
+  case "report":
+    const outputPath =
+      args.find((arg) => arg.startsWith("--output="))?.split("=")[1] ||
+      args[args.indexOf("--output") + 1] ||
+      "automation-report.html";
     generateReport(outputPath);
     break;
-    
-  case 'run':
-    console.log('🚀 Running automation tasks...');
+
+  case "run":
+    console.log("🚀 Running automation tasks...");
     AutomationOrchestrator.runAll();
     break;
-    
-  case 'monitor':
-    console.log('👀 Starting continuous monitoring...');
+
+  case "monitor":
+    console.log("👀 Starting continuous monitoring...");
     AutomationOrchestrator.startContinuousMonitoring();
     break;
-    
-  case 'help':
+
+  case "help":
   default:
     console.log(`
 KONIVRER Automation CLI

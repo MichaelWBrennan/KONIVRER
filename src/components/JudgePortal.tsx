@@ -10,22 +10,22 @@ interface JudgePortalProps {
   className?: string;
 }
 
-export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedSection, setSelectedSection] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'search' | 'sections' | 'keywords' | 'phases'>('search');
+export const JudgePortal: React.FC<JudgePortalProps> : any = ({ className }) => {
+  const [searchQuery, setSearchQuery] : any = useState('');
+  const [selectedSection, setSelectedSection] : any = useState<string>('');
+  const [activeTab, setActiveTab] : any = useState<'search' | 'sections' | 'keywords' | 'phases'>('search');
   
   // Search results
-  const searchResults = useMemo(() => {
+  const searchResults : any = useMemo(() => {
     if (!searchQuery.trim()) return [];
     return searchWithSynonyms(searchQuery.trim());
   }, [searchQuery]);
   
   // Get all rules for section browsing
-  const allRules = useMemo(() => getAllRulesAsJSON(), []);
+  const allRules : any = useMemo(() => getAllRulesAsJSON(), []);
   
   // Render search results
-  const renderSearchResults = () => {
+  const renderSearchResults : any = () => {
     if (!searchQuery.trim()) {
       return (
         <div style={{ textAlign: 'center', color: '#666', padding: '2rem' }}>
@@ -74,7 +74,7 @@ export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
   };
   
   // Render rule sections
-  const renderSections = () => (
+  const renderSections : any = () => (
     <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
       {allRules.rules.map(rule => (
         <div
@@ -106,7 +106,7 @@ export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
   );
   
   // Render keywords
-  const renderKeywords = () => (
+  const renderKeywords : any = () => (
     <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
       {Object.entries(keywordAbilities).map(([keyword, definition]) => (
         <div
@@ -130,7 +130,7 @@ export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
   );
   
   // Render phases
-  const renderPhases = () => (
+  const renderPhases : any = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
       {Object.entries(phaseDescriptions).map(([phase, description]) => (
         <div
@@ -267,10 +267,10 @@ export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
               marginLeft: '0.5rem'
             }}
             onClick={() => {
-              const json = JSON.stringify(getAllRulesAsJSON(), null, 2);
-              const blob = new Blob([json], { type: 'application/json' });
-              const url = URL.createObjectURL(blob);
-              const a = document.createElement('a');
+              const json : any = JSON.stringify(getAllRulesAsJSON(), null, 2);
+              const blob : any = new Blob([json], { type: 'application/json' });
+              const url : any = URL.createObjectURL(blob);
+              const a : any = document.createElement('a');
               a.href = url;
               a.download = 'konivrer-rules.json';
               a.click();

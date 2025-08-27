@@ -1,15 +1,17 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from '../backend/src/app.module';
-import { OcrService } from '../backend/src/ocr/ocr.service';
-import * as fs from 'fs';
-import * as path from 'path';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "../backend/src/app.module";
+import { OcrService } from "../backend/src/ocr/ocr.service";
+import * as fs from "fs";
+import * as path from "path";
 
 async function bootstrap() {
   const appContext = await NestFactory.createApplicationContext(AppModule);
   const ocrService = appContext.get(OcrService);
 
-  const cardsDir = path.join(__dirname, '..', 'public', 'assets', 'cards');
-  const cardImageFiles = fs.readdirSync(cardsDir).filter(f => f.endsWith('.png') || f.endsWith('.webp'));
+  const cardsDir = path.join(__dirname, "..", "public", "assets", "cards");
+  const cardImageFiles = fs
+    .readdirSync(cardsDir)
+    .filter((f) => f.endsWith(".png") || f.endsWith(".webp"));
 
   console.log(`Found ${cardImageFiles.length} card images to process.`);
 
@@ -18,16 +20,16 @@ async function bootstrap() {
     const imageBuffer = fs.readFileSync(imagePath);
 
     const mockFile: Express.Multer.File = {
-      fieldname: 'file',
+      fieldname: "file",
       originalname: fileName,
-      encoding: '7bit',
+      encoding: "7bit",
       mimetype: `image/${path.extname(fileName).substring(1)}`,
       size: imageBuffer.length,
       buffer: imageBuffer,
       stream: null,
-      destination: '',
-      filename: '',
-      path: '',
+      destination: "",
+      filename: "",
+      path: "",
     };
 
     try {
@@ -40,10 +42,10 @@ async function bootstrap() {
   }
 
   await appContext.close();
-  console.log('Database population script finished.');
+  console.log("Database population script finished.");
 }
 
-bootstrap().catch(error => {
-  console.error('An unexpected error occurred:', error);
+bootstrap().catch((error) => {
+  console.error("An unexpected error occurred:", error);
   process.exit(1);
 });
