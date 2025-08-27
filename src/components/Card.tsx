@@ -16,7 +16,7 @@ interface CardProps {
   isInHand?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({
+export const Card: React.FC<CardProps> : any = ({
   card,
   device,
   dragState,
@@ -28,24 +28,24 @@ export const Card: React.FC<CardProps> = ({
   size,
   isInHand = false
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [touchState, setTouchState] = useState<TouchState>({
+  const [isHovered, setIsHovered] : any = useState(false);
+  const [touchState, setTouchState] : any = useState<TouchState>({
     isLongPress: false,
     touchStartTime: 0,
     touchPosition: { x: 0, y: 0 }
   });
   
-  const cardRef = useRef<HTMLDivElement>(null);
-  const longPressTimer = useRef<number | null>(null);
+  const cardRef : any = useRef<HTMLDivElement>(null);
+  const longPressTimer : any = useRef<number | null>(null);
 
   // Card dimensions based on device and context
-  const cardSize = size || (device.isMobile 
+  const cardSize : any = size || (device.isMobile 
     ? (isInHand ? { width: 65, height: 91 } : { width: 85, height: 119 })
     : (isInHand ? { width: 100, height: 140 } : { width: 120, height: 168 })
   );
 
   // KONIVRER Arena color schemes
-  const colorMap = {
+  const colorMap : any = {
     white: '#FFFBD5',
     blue: '#AAE0FA', 
     black: '#D3D3D3',
@@ -55,11 +55,11 @@ export const Card: React.FC<CardProps> = ({
     multicolor: '#F5DEB3'
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleMouseDown : any = (e: React.MouseEvent) => {
     if (device.isMobile) return; // Handle touch events separately on mobile
     
     e.preventDefault();
-    const rect = cardRef.current?.getBoundingClientRect();
+    const rect : any = cardRef.current?.getBoundingClientRect();
     if (rect) {
       onDragStart(card, { 
         x: e.clientX - rect.left, 
@@ -68,7 +68,7 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  const handleMouseUp = (e: React.MouseEvent) => {
+  const handleMouseUp : any = (e: React.MouseEvent) => {
     if (device.isMobile) return;
     
     if (dragState.isDragging && dragState.draggedCard?.id === card.id) {
@@ -76,7 +76,7 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  const handleClick = (e: React.MouseEvent) => {
+  const handleClick : any = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (e.detail === 2) {
       onCardDoubleClick(card);
@@ -85,17 +85,17 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  const handleContextMenu = (e: React.MouseEvent) => {
+  const handleContextMenu : any = (e: React.MouseEvent) => {
     e.preventDefault();
     onCardRightClick(card);
   };
 
   // Mobile touch handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const handleTouchStart : any = (e: React.TouchEvent) => {
     if (!device.isMobile) return;
     
-    const touch = e.touches[0];
-    const now = Date.now();
+    const touch : any = e.touches[0];
+    const now : any = Date.now();
     
     setTouchState({
       isLongPress: false,
@@ -111,7 +111,7 @@ export const Card: React.FC<CardProps> = ({
     }, 500);
 
     // Start drag for mobile
-    const rect = cardRef.current?.getBoundingClientRect();
+    const rect : any = cardRef.current?.getBoundingClientRect();
     if (rect) {
       onDragStart(card, {
         x: touch.clientX - rect.left,
@@ -120,15 +120,15 @@ export const Card: React.FC<CardProps> = ({
     }
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd : any = (e: React.TouchEvent) => {
     if (!device.isMobile) return;
     
     if (longPressTimer.current) {
       window.clearTimeout(longPressTimer.current);
     }
 
-    const now = Date.now();
-    const touchDuration = now - touchState.touchStartTime;
+    const now : any = Date.now();
+    const touchDuration : any = now - touchState.touchStartTime;
 
     if (!touchState.isLongPress && touchDuration < 500) {
       // Short tap - select card
@@ -136,20 +136,20 @@ export const Card: React.FC<CardProps> = ({
     }
 
     if (dragState.isDragging && dragState.draggedCard?.id === card.id) {
-      const touch = e.changedTouches[0];
+      const touch : any = e.changedTouches[0];
       onDragEnd(card, { x: touch.clientX, y: touch.clientY });
     }
   };
 
-  const handleTouchCancel = () => {
+  const handleTouchCancel : any = () => {
     if (longPressTimer.current) {
       window.clearTimeout(longPressTimer.current);
     }
   };
 
   // Card styling based on KONIVRER Arena design patterns
-  const getCardStyle = (): React.CSSProperties => {
-    const baseStyle: React.CSSProperties = {
+  const getCardStyle : any = (): React.CSSProperties => {
+    const baseStyle: React.CSSProperties : any = {
       width: `${cardSize.width}px`,
       height: `${cardSize.height}px`,
       backgroundColor: colorMap[card.color as keyof typeof colorMap] || 

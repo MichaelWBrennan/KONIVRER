@@ -1,19 +1,24 @@
-import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcryptjs';
-import * as crypto from 'crypto';
-import { User } from '../users/entities/user.entity';
-import { LoginDto, RegisterDto } from './dto/auth.dto';
-import { UserRole } from '../users/entities/user.entity';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+  BadRequestException,
+} from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import * as bcrypt from "bcryptjs";
+import * as crypto from "crypto";
+import { User } from "../users/entities/user.entity";
+import { LoginDto, RegisterDto } from "./dto/auth.dto";
+import { UserRole } from "../users/entities/user.entity";
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: Repository<User>
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -25,7 +30,9 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new ConflictException('User with this email or username already exists');
+      throw new ConflictException(
+        "User with this email or username already exists"
+      );
     }
 
     // Hash password
@@ -33,7 +40,7 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Generate email verification token
-    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+    const emailVerificationToken = crypto.randomBytes(32).toString("hex");
 
     // Create user
     const user = this.userRepository.create({
@@ -46,7 +53,7 @@ export class AuthService {
       isEmailVerified: false,
       emailVerificationToken,
       preferences: {
-        theme: 'dark',
+        theme: "dark",
         notifications: {
           email: true,
           push: true,
@@ -70,7 +77,8 @@ export class AuthService {
     // await this.emailService.sendVerificationEmail(email, emailVerificationToken);
 
     return {
-      message: 'Registration successful. Please check your email to verify your account.',
+      message:
+        "Registration successful. Please check your email to verify your account.",
       user: this.sanitizeUser(savedUser),
       ...tokens,
     };
@@ -81,25 +89,22 @@ export class AuthService {
 
     // Find user by email or username
     const user = await this.userRepository.findOne({
-      where: [
-        { email: emailOrUsername },
-        { username: emailOrUsername },
-      ],
+      where: [{ email: emailOrUsername }, { username: emailOrUsername }],
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     // Check if account is active
     if (!user.isActive) {
-      throw new UnauthorizedException('Account is deactivated');
+      throw new UnauthorizedException("Account is deactivated");
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException("Invalid credentials");
     }
 
     // Update last login
@@ -110,7 +115,7 @@ export class AuthService {
     const tokens = await this.generateTokens(user);
 
     return {
-      message: 'Login successful',
+      message: "Login successful",
       user: this.sanitizeUser(user),
       ...tokens,
     };
@@ -118,9 +123,9 @@ export class AuthService {
 
   async logout(userId: string) {
     // Increment token version to invalidate all existing tokens
-    await this.userRepository.increment({ id: userId }, 'tokenVersion', 1);
-    
-    return { message: 'Logout successful' };
+    await this.userRepository.increment({ id: userId }, "tokenVersion", 1);
+
+    return { message: "Logout successful" };
   }
 
   async refreshToken(refreshToken: string) {
@@ -134,28 +139,28 @@ export class AuthService {
       });
 
       if (!user || user.tokenVersion !== payload.tokenVersion) {
-        throw new UnauthorizedException('Invalid refresh token');
+        throw new UnauthorizedException("Invalid refresh token");
       }
 
       const tokens = await this.generateTokens(user);
 
       return {
-        message: 'Token refreshed successfully',
+        message: "Token refreshed successfully",
         ...tokens,
       };
     } catch (error) {
-      throw new UnauthorizedException('Invalid refresh token');
+      throw new UnauthorizedException("Invalid refresh token");
     }
   }
 
   async getProfile(userId: string) {
     const user = await this.userRepository.findOne({
       where: { id: userId },
-      relations: ['decks', 'tournaments'],
+      relations: ["decks", "tournaments"],
     });
 
     if (!user) {
-      throw new UnauthorizedException('User not found');
+      throw new UnauthorizedException("User not found");
     }
 
     return {
@@ -170,24 +175,27 @@ export class AuthService {
 
   async googleLogin(token: string) {
     // TODO: Implement Google OAuth verification
-    throw new BadRequestException('Google OAuth not implemented yet');
+    throw new BadRequestException("Google OAuth not implemented yet");
   }
 
   async discordLogin(token: string) {
     // TODO: Implement Discord OAuth verification
-    throw new BadRequestException('Discord OAuth not implemented yet');
+    throw new BadRequestException("Discord OAuth not implemented yet");
   }
 
   async forgotPassword(email: string) {
     const user = await this.userRepository.findOne({ where: { email } });
-    
+
     if (!user) {
       // Don't reveal if user exists
-      return { message: 'If an account exists with that email, a reset link has been sent.' };
+      return {
+        message:
+          "If an account exists with that email, a reset link has been sent.",
+      };
     }
 
     // Generate password reset token
-    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour
 
     user.passwordResetToken = resetToken;
@@ -197,7 +205,10 @@ export class AuthService {
     // TODO: Send password reset email
     // await this.emailService.sendPasswordResetEmail(email, resetToken);
 
-    return { message: 'If an account exists with that email, a reset link has been sent.' };
+    return {
+      message:
+        "If an account exists with that email, a reset link has been sent.",
+    };
   }
 
   async resetPassword(token: string, newPassword: string) {
@@ -207,8 +218,12 @@ export class AuthService {
       },
     });
 
-    if (!user || !user.passwordResetExpiry || user.passwordResetExpiry < new Date()) {
-      throw new BadRequestException('Invalid or expired reset token');
+    if (
+      !user ||
+      !user.passwordResetExpiry ||
+      user.passwordResetExpiry < new Date()
+    ) {
+      throw new BadRequestException("Invalid or expired reset token");
     }
 
     // Hash new password
@@ -223,7 +238,7 @@ export class AuthService {
 
     await this.userRepository.save(user);
 
-    return { message: 'Password reset successful' };
+    return { message: "Password reset successful" };
   }
 
   async verifyEmail(token: string) {
@@ -232,36 +247,42 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new BadRequestException('Invalid verification token');
+      throw new BadRequestException("Invalid verification token");
     }
 
     user.isEmailVerified = true;
     user.emailVerificationToken = null;
     await this.userRepository.save(user);
 
-    return { message: 'Email verified successfully' };
+    return { message: "Email verified successfully" };
   }
 
   async resendVerification(email: string) {
     const user = await this.userRepository.findOne({ where: { email } });
 
     if (!user) {
-      return { message: 'If an account exists with that email, a verification email has been sent.' };
+      return {
+        message:
+          "If an account exists with that email, a verification email has been sent.",
+      };
     }
 
     if (user.isEmailVerified) {
-      return { message: 'Email is already verified.' };
+      return { message: "Email is already verified." };
     }
 
     // Generate new verification token
-    const emailVerificationToken = crypto.randomBytes(32).toString('hex');
+    const emailVerificationToken = crypto.randomBytes(32).toString("hex");
     user.emailVerificationToken = emailVerificationToken;
     await this.userRepository.save(user);
 
     // TODO: Send verification email
     // await this.emailService.sendVerificationEmail(email, emailVerificationToken);
 
-    return { message: 'If an account exists with that email, a verification email has been sent.' };
+    return {
+      message:
+        "If an account exists with that email, a verification email has been sent.",
+    };
   }
 
   private async generateTokens(user: User) {
@@ -274,12 +295,12 @@ export class AuthService {
     };
 
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '15m',
+      expiresIn: "15m",
     });
 
     const refreshToken = this.jwtService.sign(payload, {
       secret: process.env.JWT_REFRESH_SECRET,
-      expiresIn: '7d',
+      expiresIn: "7d",
     });
 
     return {
@@ -290,7 +311,13 @@ export class AuthService {
   }
 
   private sanitizeUser(user: User) {
-    const { passwordHash, emailVerificationToken, passwordResetToken, passwordResetExpiry, ...sanitized } = user;
+    const {
+      passwordHash,
+      emailVerificationToken,
+      passwordResetToken,
+      passwordResetExpiry,
+      ...sanitized
+    } = user;
     return sanitized;
   }
 

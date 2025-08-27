@@ -1,9 +1,16 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Unique } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  Unique,
+} from "typeorm";
 
-@Entity('player_ratings')
-@Unique(['userId', 'format'])
+@Entity("player_ratings")
+@Unique(["userId", "format"])
 export class PlayerRating {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @Column()
@@ -12,13 +19,13 @@ export class PlayerRating {
   @Column()
   format: string;
 
-  @Column('decimal', { precision: 10, scale: 3, default: 25.0 })
+  @Column("decimal", { precision: 10, scale: 3, default: 25.0 })
   mu: number; // skill estimate
 
-  @Column('decimal', { precision: 10, scale: 3, default: 8.333 })
+  @Column("decimal", { precision: 10, scale: 3, default: 8.333 })
   sigma: number; // uncertainty
 
-  @Column('decimal', { precision: 10, scale: 3 })
+  @Column("decimal", { precision: 10, scale: 3 })
   conservativeRating: number;
 
   @Column({ default: 0 })

@@ -7,47 +7,47 @@ interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
 }
 
-export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [elementFilter, setElementFilter] = useState('');
-  const [formatFilter, setFormatFilter] = useState('');
+export const DeckSearch: React.FC<DeckSearchProps> : any = ({ onDeckSelect }) => {
+  const [searchTerm, setSearchTerm] : any = useState('');
+  const [elementFilter, setElementFilter] : any = useState('');
+  const [formatFilter, setFormatFilter] : any = useState('');
 
   // Available decks will be loaded from backend
-  const availableDecks: Deck[] = [];
+  const availableDecks: Deck[] : any = [];
 
   // Get unique values for filters
-  const elements = useMemo(() => 
+  const elements : any = useMemo(() => 
     [...new Set(availableDecks.map(deck => deck.mainElement))].sort(), [availableDecks]);
-  const formats = useMemo(() => 
+  const formats : any = useMemo(() => 
     [...new Set(availableDecks.map(deck => deck.format))].sort(), [availableDecks]);
 
   // Filter decks based on search criteria
-  const filteredDecks = useMemo(() => {
+  const filteredDecks : any = useMemo(() => {
     return availableDecks.filter(deck => {
-      const matchesSearch = searchTerm === '' || 
+      const matchesSearch : any = searchTerm === '' || 
         deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const matchesElement = elementFilter === '' || deck.mainElement === elementFilter;
-      const matchesFormat = formatFilter === '' || deck.format === formatFilter;
+      const matchesElement : any = elementFilter === '' || deck.mainElement === elementFilter;
+      const matchesFormat : any = formatFilter === '' || deck.format === formatFilter;
 
       return matchesSearch && matchesElement && matchesFormat;
     });
   }, [searchTerm, elementFilter, formatFilter, availableDecks]);
 
-  const getDeckPreviewCards = (deck: Deck) => {
+  const getDeckPreviewCards : any = (deck: Deck) => {
     // Get first 3 cards from deck for preview
     return deck.cards.slice(0, 3)
       .map(cardId => cardDatabase.find(card => card.id === cardId))
       .filter(Boolean);
   };
 
-  const handleAddToMyAccount = (deck: Deck) => {
+  const handleAddToMyAccount : any = (deck: Deck) => {
     console.log('Adding deck to my account:', deck.name);
     alert(`"${deck.name}" will be imported to your account... (Feature coming soon)`);
   };
 
-  const handlePlayInSimulator = (deck: Deck) => {
+  const handlePlayInSimulator : any = (deck: Deck) => {
     console.log('Loading deck in simulator:', deck.name);
     alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
   };
@@ -95,7 +95,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
 
       <div className="card-grid">
         {filteredDecks.map(deck => {
-          const previewCards = getDeckPreviewCards(deck);
+          const previewCards : any = getDeckPreviewCards(deck);
           
           return (
             <div 
