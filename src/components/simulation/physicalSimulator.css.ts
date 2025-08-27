@@ -1,21 +1,21 @@
 import { style } from "@vanilla-extract/css";
 
-export const root: any : any : any : any = style({
+export const root = style({
   padding: "1rem",
   background: "#f0f0f0",
   borderRadius: 8,
   margin: "1rem 0",
 });
-export const gameState: any : any : any : any = style({
+export const gameState = style({
   background: "#fff",
   padding: "1rem",
   margin: "1rem 0",
   borderRadius: 4,
   border: "1px solid #ccc",
 });
-export const controls: any : any : any : any = style({ margin: "1rem 0" });
-export const results: any : any : any : any = style({ marginTop: "1rem" });
-export const resultItem: any : any : any : any = style({
+export const controls = style({ margin: "1rem 0" });
+export const results = style({ marginTop: "1rem" });
+export const resultItem = style({
   background: "#fff",
   padding: "0.5rem",
   margin: "0.25rem 0",
