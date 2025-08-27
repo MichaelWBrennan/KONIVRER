@@ -5,6 +5,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
 ## Data Sources
 
 ### Primary Data Source: PostgreSQL
+
 - **Host**: Your PostgreSQL instance endpoint
 - **Database**: `konivrer_db`
 - **Tables**:
@@ -13,6 +14,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
   - `analytics_reports`
 
 ### Secondary Data Source: S3
+
 - **Bucket**: Created by Terraform (`automerge-analytics-data-{env}`)
 - **Path**: `/processed-data/`
 - **Format**: Parquet files
@@ -20,6 +22,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
 ## Dashboard Templates
 
 ### Executive Dashboard
+
 - **File**: `executive-dashboard.json`
 - **Metrics**:
   - Daily/Monthly Active Users
@@ -28,6 +31,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
   - Top-line Growth Metrics
 
 ### Operations Dashboard
+
 - **File**: `operations-dashboard.json`
 - **Metrics**:
   - System Performance
@@ -36,6 +40,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
   - Anomaly Alerts
 
 ### User Analytics Dashboard
+
 - **File**: `user-analytics-dashboard.json`
 - **Metrics**:
   - User Journey Analysis
@@ -46,6 +51,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
 ## Setup Instructions
 
 1. **Create QuickSight Account**
+
    ```bash
    aws quicksight create-account-subscription \
      --edition ENTERPRISE \
@@ -53,6 +59,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
    ```
 
 2. **Configure Data Sources**
+
    ```bash
    aws quicksight create-data-source \
      --aws-account-id YOUR_ACCOUNT_ID \
@@ -80,6 +87,7 @@ This directory contains Amazon QuickSight dashboard templates and data source co
 ## Permissions
 
 QuickSight users will need:
+
 - Read access to PostgreSQL analytics tables
 - Read access to S3 processed data bucket
 - QuickSight dashboard viewer or author permissions
@@ -87,6 +95,7 @@ QuickSight users will need:
 ## Alternative: Metabase Setup
 
 If you prefer Metabase over QuickSight, see `metabase-config/` directory for:
+
 - Docker compose configuration
 - Dashboard JSON exports
 - Database connection setup

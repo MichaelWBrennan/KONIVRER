@@ -1,24 +1,27 @@
-import { useCallback, useEffect, useState } from 'react';
-import * as s from './offline.css.ts';
+import { useCallback, useEffect, useState } from "react";
+import * as s from "./offline.css.ts";
 
-export function Offline() {
-  const [isOnline, setIsOnline] = useState<boolean>(typeof navigator !== 'undefined' ? navigator.onLine : false);
+export function Offline(): any {
+  const [isOnline, setIsOnline]: any = useState<boolean>(
+    typeof navigator !== "undefined" ? navigator.onLine : false
+  );
 
-  const updateConnectionStatus = useCallback(() => {
-    const online = typeof navigator !== 'undefined' ? navigator.onLine : false;
+  const updateConnectionStatus: any = useCallback(() => {
+    const online: any =
+      typeof navigator !== "undefined" ? navigator.onLine : false;
     setIsOnline(online);
     if (online) {
       setTimeout(() => {
-        window.location.href = '/';
+        window.location.href = "/";
       }, 1000);
     }
   }, []);
 
-  const checkConnection = useCallback(async () => {
+  const checkConnection: any = useCallback(async () => {
     updateConnectionStatus();
     try {
-      await fetch('/manifest.json', { method: 'HEAD', cache: 'no-cache' });
-      window.location.href = '/';
+      await fetch("/manifest.json", { method: "HEAD", cache: "no-cache" });
+      window.location.href = "/";
     } catch {
       // still offline, do nothing
     }
@@ -26,24 +29,24 @@ export function Offline() {
 
   useEffect(() => {
     updateConnectionStatus();
-    const onlineListener = () => updateConnectionStatus();
-    const offlineListener = () => updateConnectionStatus();
-    window.addEventListener('online', onlineListener);
-    window.addEventListener('offline', offlineListener);
+    const onlineListener: any = () => updateConnectionStatus();
+    const offlineListener: any = () => updateConnectionStatus();
+    window.addEventListener("online", onlineListener);
+    window.addEventListener("offline", offlineListener);
 
-    const intervalId = window.setInterval(checkConnection, 30000);
+    const intervalId: any = window.setInterval(checkConnection, 30000);
 
     return () => {
-      window.removeEventListener('online', onlineListener);
-      window.removeEventListener('offline', offlineListener);
+      window.removeEventListener("online", onlineListener);
+      window.removeEventListener("offline", offlineListener);
       window.clearInterval(intervalId);
     };
   }, [checkConnection, updateConnectionStatus]);
 
   return (
     <div className={s.page}>
-      <div className={`${s.status} ${isOnline ? s.statusOnline : ''}`}>
-        {isOnline ? 'Online' : 'Offline'}
+      <div className={`${s.status} ${isOnline ? s.statusOnline : ""}`}>
+        {isOnline ? "Online" : "Offline"}
       </div>
 
       <div className={s.container}>
@@ -53,16 +56,35 @@ export function Offline() {
         <p className={s.subtitle}>No internet connection detected</p>
 
         <div className={s.icon} aria-hidden>
-          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.3" />
-            <path d="M30 60h60M60 30v60" stroke="currentColor" strokeWidth="3" strokeLinecap="round" opacity="0.6" />
+          <svg
+            viewBox="0 0 120 120"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              stroke="currentColor"
+              strokeWidth="2"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M30 60h60M60 30v60"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              opacity="0.6"
+            />
             <circle cx="60" cy="60" r="8" fill="currentColor" opacity="0.8" />
           </svg>
         </div>
 
         <p className={s.message}>
-          Don't worry! KONIVRER works offline too. You can still access your saved decks,
-          play against AI opponents, and use many features without an internet connection.
+          Don't worry! KONIVRER works offline too. You can still access your
+          saved decks, play against AI opponents, and use many features without
+          an internet connection.
         </p>
 
         <div className={s.features}>
@@ -76,10 +98,13 @@ export function Offline() {
           </ul>
         </div>
 
-        <button className={s.retryButton} onClick={checkConnection}>Check Connection</button>
-        <a href="/" className={s.homeLink}>Return to App</a>
+        <button className={s.retryButton} onClick={checkConnection}>
+          Check Connection
+        </button>
+        <a href="/" className={s.homeLink}>
+          Return to App
+        </a>
       </div>
     </div>
   );
 }
-

@@ -1,40 +1,40 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
-import { EventEmitterModule } from '@nestjs/event-emitter';
-import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { join } from 'path';
-import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
+import { ThrottlerModule, ThrottlerGuard } from "@nestjs/throttler";
+import { EventEmitterModule } from "@nestjs/event-emitter";
+import { APP_GUARD, APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
+import { join } from "path";
+import { GlobalExceptionFilter } from "./common/filters/global-exception.filter";
+import { LoggingInterceptor } from "./common/interceptors/logging.interceptor";
 
-import { CardsModule } from './cards/cards.module';
-import { DecksModule } from './decks/decks.module';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { SearchModule } from './search/search.module';
-import { TournamentsModule } from './tournaments/tournaments.module';
-import { MatchmakingModule } from './matchmaking/matchmaking.module';
-import { MigrationModule } from './migration/migration.module';
-import { AiDeckbuildingModule } from './ai-deckbuilding/ai-deckbuilding.module';
-import { PhysicalSimulationModule } from './physical-simulation/physical-simulation.module';
-import { EventsModule } from './events/events.module';
-import { SimulatorModule } from './simulator/simulator.module';
-import { RatingsModule } from './ratings/ratings.module';
-import { AuditModule } from './audit/audit.module';
-import { NotificationsModule } from './notifications/notifications.module';
-import { AnalyticsModule } from './analytics/analytics.module';
-import { OcrModule } from './ocr/ocr.module';
-import { UpscalingModule } from './upscaling/upscaling.module';
+import { CardsModule } from "./cards/cards.module";
+import { DecksModule } from "./decks/decks.module";
+import { UsersModule } from "./users/users.module";
+import { AuthModule } from "./auth/auth.module";
+import { SearchModule } from "./search/search.module";
+import { TournamentsModule } from "./tournaments/tournaments.module";
+import { MatchmakingModule } from "./matchmaking/matchmaking.module";
+import { MigrationModule } from "./migration/migration.module";
+import { AiDeckbuildingModule } from "./ai-deckbuilding/ai-deckbuilding.module";
+import { PhysicalSimulationModule } from "./physical-simulation/physical-simulation.module";
+import { EventsModule } from "./events/events.module";
+import { SimulatorModule } from "./simulator/simulator.module";
+import { RatingsModule } from "./ratings/ratings.module";
+import { AuditModule } from "./audit/audit.module";
+import { NotificationsModule } from "./notifications/notifications.module";
+import { AnalyticsModule } from "./analytics/analytics.module";
+import { OcrModule } from "./ocr/ocr.module";
+import { UpscalingModule } from "./upscaling/upscaling.module";
 
 @Module({
   imports: [
     // Configuration management
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: [".env.local", ".env"],
     }),
 
     // Database configuration
@@ -42,11 +42,13 @@ import { UpscalingModule } from './upscaling/upscaling.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        url: `postgresql://gu2mbj:${configService.get('XATA_API_KEY')}@us-east-1.sql.xata.sh/KONIVRER:main?sslmode=require`,
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get('NODE_ENV') !== 'production',
-        logging: configService.get('NODE_ENV') === 'development',
+        type: "postgres",
+        url: `postgresql://gu2mbj:${configService.get(
+          "XATA_API_KEY"
+        )}@us-east-1.sql.xata.sh/KONIVRER:main?sslmode=require`,
+        entities: [__dirname + "/**/*.entity{.ts,.js}"],
+        synchronize: configService.get("NODE_ENV") !== "production",
+        logging: configService.get("NODE_ENV") === "development",
         ssl: true,
       }),
     }),
@@ -54,13 +56,13 @@ import { UpscalingModule } from './upscaling/upscaling.module';
     // Rate limiting configuration
     ThrottlerModule.forRoot([
       {
-        name: 'read',
+        name: "read",
         ttl: 60000, // 1 minute
         limit: 1000, // 1000 req/min for read endpoints
       },
       {
-        name: 'write',
-        ttl: 60000, // 1 minute  
+        name: "write",
+        ttl: 60000, // 1 minute
         limit: 100, // 100 req/min for write endpoints
       },
     ]),
@@ -74,9 +76,9 @@ import { UpscalingModule } from './upscaling/upscaling.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+        autoSchemaFile: join(process.cwd(), "src/schema.gql"),
         sortSchema: true,
-        playground: configService.get('NODE_ENV') !== 'production',
+        playground: configService.get("NODE_ENV") !== "production",
         introspection: true,
         context: ({ req }) => ({ req }),
       }),

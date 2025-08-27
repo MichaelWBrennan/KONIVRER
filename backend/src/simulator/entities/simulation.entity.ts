@@ -1,11 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
-@Entity('simulations')
+@Entity("simulations")
 export class Simulation {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column('json')
+  @Column("json")
   config: {
     deckA: { deckId: string };
     deckB: { deckId: string };
@@ -17,10 +23,14 @@ export class Simulation {
     };
   };
 
-  @Column({ type: 'enum', enum: ['queued', 'running', 'completed', 'failed'], default: 'queued' })
-  status: 'queued' | 'running' | 'completed' | 'failed';
+  @Column({
+    type: "enum",
+    enum: ["queued", "running", "completed", "failed"],
+    default: "queued",
+  })
+  status: "queued" | "running" | "completed" | "failed";
 
-  @Column('json', { nullable: true })
+  @Column("json", { nullable: true })
   result: {
     iterations: number;
     winRateA: number;
@@ -29,7 +39,7 @@ export class Simulation {
     skillUpdates?: any[];
   } | null;
 
-  @Column('text', { nullable: true })
+  @Column("text", { nullable: true })
   logs: string;
 
   @Column({ nullable: true })
@@ -41,6 +51,6 @@ export class Simulation {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column('timestamp', { nullable: true })
+  @Column("timestamp", { nullable: true })
   completedAt: Date;
 }
