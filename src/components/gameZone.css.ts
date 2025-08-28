@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const zoneLabel: any = style({
+export const zoneLabel = style({
   position: "absolute",
   top: -15,
   left: 5,
@@ -8,7 +8,7 @@ export const zoneLabel: any = style({
   fontWeight: "bold",
   pointerEvents: "none",
 });
-export const countBadge: any = style({
+export const countBadge = style({
   position: "absolute",
   bottom: 2,
   right: 2,
