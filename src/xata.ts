@@ -7,6 +7,8 @@
 //
 // After running the command, this file will be populated with a typed Xata client.
 
-export const getXataClient = () => {
-  throw new Error("Xata client has not been generated. Please run `npx xata pull main` to generate it.");
+export const getXataClient: any = () => {
+  throw new Error(
+    "Xata client has not been generated. Please run `npx xata pull main` to generate it."
+  );
 };

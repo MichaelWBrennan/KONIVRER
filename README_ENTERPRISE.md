@@ -5,6 +5,7 @@ This repository contains the initial implementation of the enterprise-grade KONI
 ## 🏗️ Architecture Overview
 
 ### Backend (NestJS)
+
 - **Framework**: NestJS with TypeScript
 - **Database**: PostgreSQL with TypeORM
 - **Caching**: Redis
@@ -12,6 +13,7 @@ This repository contains the initial implementation of the enterprise-grade KONI
 - **Documentation**: Swagger/OpenAPI
 
 ### Frontend (React)
+
 - **Framework**: React 18 with TypeScript
 - **Build**: Vite
 - **State Management**: Zustand + React Query
@@ -20,11 +22,13 @@ This repository contains the initial implementation of the enterprise-grade KONI
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+
 - Docker and Docker Compose
 - Git
 
 ### 1. Clone and Install
+
 ```bash
 git clone <repository-url>
 cd KONIVRER-deck-database
@@ -39,6 +43,7 @@ cd ..
 ```
 
 ### 2. Start Development Services
+
 ```bash
 # Start PostgreSQL and Redis
 docker-compose -f docker-compose.dev.yml up -d
@@ -52,6 +57,7 @@ npm run dev
 ```
 
 ### 3. Access the Application
+
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3001/api/v1
 - **API Documentation**: http://localhost:3001/api/docs
@@ -59,6 +65,7 @@ npm run dev
 ## 📊 Current Features (MVP)
 
 ### ✅ Implemented
+
 - Canonical card database with UUID-based IDs
 - Advanced card search with filters (type, element, rarity, cost)
 - Pagination and sorting
@@ -70,12 +77,14 @@ npm run dev
 - TypeScript throughout the stack
 
 ### 🚧 In Progress
+
 - Authentication system (OAuth2/JWT)
 - Deck CRUD operations and analytics
 - Tournament system
 - WebSocket real-time updates
 
 ### 📋 Planned (Future Milestones)
+
 - Judge portal and certification
 - Browser-based game client
 - Tournament marketplace
@@ -85,6 +94,7 @@ npm run dev
 ## 🎯 API Endpoints
 
 ### Cards API
+
 - `GET /api/v1/cards` - Get paginated cards with filters
 - `POST /api/v1/cards` - Create new card
 - `GET /api/v1/cards/:id` - Get card by ID
@@ -93,6 +103,7 @@ npm run dev
 - `GET /api/v1/cards/statistics` - Get card statistics
 
 ### Migration API
+
 - `POST /api/v1/migration/seed-konivrer-cards` - Seed database with sample cards
 
 ## 🧪 Testing
@@ -109,6 +120,7 @@ npm test
 ## 🗄️ Database Schema
 
 ### Cards Table
+
 - `id` (UUID, Primary Key) - Canonical card identifier
 - `name` (String, Unique) - Card name
 - `type` (Enum) - Card type (Creature, Spell, Artifact, etc.)
@@ -125,6 +137,7 @@ npm test
 ## 🛠️ Development
 
 ### Backend Development
+
 ```bash
 cd backend
 
@@ -139,6 +152,7 @@ npm test
 ```
 
 ### Frontend Development
+
 ```bash
 # Development mode with hot reload
 npm run dev
@@ -153,13 +167,16 @@ npm run preview
 ## 📦 Deployment
 
 ### Docker
+
 ```bash
 # Build and run with Docker Compose
 docker-compose up --build
 ```
 
 ### Environment Configuration
+
 Copy `.env.example` to `.env` and configure:
+
 - Database connection settings
 - Redis configuration
 - JWT secrets
@@ -168,6 +185,7 @@ Copy `.env.example` to `.env` and configure:
 ## 🔧 Configuration
 
 ### Backend Environment Variables
+
 ```env
 DB_HOST=localhost
 DB_PORT=5432
@@ -180,6 +198,7 @@ JWT_SECRET=your_jwt_secret
 ```
 
 ### Frontend Environment Variables
+
 ```env
 VITE_API_URL=http://localhost:3001/api/v1
 ```
@@ -187,17 +206,20 @@ VITE_API_URL=http://localhost:3001/api/v1
 ## 🎮 KONIVRER Game Features
 
 ### Card Types
+
 - **Creatures**: Combat units with power/toughness
 - **Spells**: One-time effects
 - **Artifacts**: Persistent effects
 - **Instants**: Quick-response cards
 
 ### Elements System
+
 - **Primary Elements**: Fire, Water, Earth, Air
 - **Advanced Elements**: Light, Dark, Chaos, Neutral
 - **Elemental Interactions**: Strategic combinations
 
 ### Tournament Formats
+
 - **Standard**: Current card pool
 - **Classic**: Historical cards included
 - **Draft**: Limited format
@@ -206,18 +228,21 @@ VITE_API_URL=http://localhost:3001/api/v1
 ## 📚 Technical Decisions
 
 ### Why NestJS?
+
 - Enterprise-grade architecture with dependency injection
 - Built-in support for GraphQL, REST, and microservices
 - Excellent TypeScript integration
 - Comprehensive testing utilities
 
 ### Why React Query?
+
 - Intelligent caching and background refetching
 - Optimistic updates and error handling
 - Reduced boilerplate for API calls
 - DevTools for debugging
 
 ### Why PostgreSQL?
+
 - ACID compliance for tournament data integrity
 - Advanced querying capabilities
 - JSON support for flexible metadata

@@ -1,11 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { PlayerRating } from './entities/rating.entity';
-import { RatingHistory } from './entities/rating-history.entity';
-import { UpdateRatingsDto, RatingResponseDto } from './dto/ratings.dto';
-import { BayesianMatchmakingService } from '../matchmaking/bayesian-matchmaking.service';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { EventEmitter2 } from "@nestjs/event-emitter";
+import { PlayerRating } from "./entities/rating.entity";
+import { RatingHistory } from "./entities/rating-history.entity";
+import { UpdateRatingsDto, RatingResponseDto } from "./dto/ratings.dto";
+import { BayesianMatchmakingService } from "../matchmaking/bayesian-matchmaking.service";
 
 @Injectable()
 export class RatingsService {
@@ -15,20 +15,20 @@ export class RatingsService {
     @InjectRepository(RatingHistory)
     private historyRepository: Repository<RatingHistory>,
     private bayesianService: BayesianMatchmakingService,
-    private eventEmitter: EventEmitter2,
+    private eventEmitter: EventEmitter2
   ) {}
 
   async getPlayerRating(userId: string): Promise<RatingResponseDto> {
     // Get current rating (assuming 'Standard' format for now)
     let rating = await this.ratingsRepository.findOne({
-      where: { userId, format: 'Standard' },
+      where: { userId, format: "Standard" },
     });
 
     if (!rating) {
       // Create default rating if none exists
       rating = this.ratingsRepository.create({
         userId,
-        format: 'Standard',
+        format: "Standard",
         mu: 25.0,
         sigma: 8.333,
         conservativeRating: 25.0 - 3 * 8.333,
@@ -40,7 +40,7 @@ export class RatingsService {
     // Get rating history
     const history = await this.historyRepository.find({
       where: { userId },
-      order: { createdAt: 'DESC' },
+      order: { createdAt: "DESC" },
       take: 20,
     });
 
@@ -50,7 +50,7 @@ export class RatingsService {
         mu: rating.mu,
         sigma: rating.sigma,
       },
-      history: history.map(h => ({
+      history: history.map((h) => ({
         matchId: h.matchId,
         prior: h.prior,
         posterior: h.posterior,
@@ -66,13 +66,13 @@ export class RatingsService {
     for (const result of updateDto.results) {
       // Get current rating
       let rating = await this.ratingsRepository.findOne({
-        where: { userId: result.userId, format: 'Standard' },
+        where: { userId: result.userId, format: "Standard" },
       });
 
       if (!rating) {
         rating = this.ratingsRepository.create({
           userId: result.userId,
-          format: 'Standard',
+          format: "Standard",
           mu: 25.0,
           sigma: 8.333,
           conservativeRating: 25.0 - 3 * 8.333,
@@ -117,7 +117,7 @@ export class RatingsService {
       });
 
       // Emit rating update event
-      this.eventEmitter.emit('rating.updated', {
+      this.eventEmitter.emit("rating.updated", {
         userId: result.userId,
         prior,
         posterior: { mu: newMu, sigma: newSigma },
