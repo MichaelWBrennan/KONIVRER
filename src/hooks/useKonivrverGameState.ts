@@ -17,7 +17,7 @@ import type {
 // TODO: Create card factory function for actual KONIVRER cards from database
 
 // Create KONIVRER zones
-const createKonivrverZones  : any : any = (): Record<KonivrverZoneType, GameZone> => ({
+const createKonivrverZones   : any = (): Record<KonivrverZoneType, GameZone> => ({
   field: {
     id: 'field',
     name: 'Field',
@@ -102,7 +102,7 @@ const createKonivrverZones  : any : any = (): Record<KonivrverZoneType, GameZone
 });
 
 // Create KONIVRER player
-const createKonivrverPlayer  : any : any = (id: string, name: string): PlayerState => ({
+const createKonivrverPlayer   : any = (id: string, name: string): PlayerState => ({
   id,
   name,
   azothPool: { fire: 3, water: 2, earth: 1, air: 0, light: 0, dark: 0, neutral: 0 },
@@ -110,9 +110,9 @@ const createKonivrverPlayer  : any : any = (id: string, name: string): PlayerSta
   flag: undefined // TODO: Initialize with player's flag card
 });
 
-export const useKonivrverGameState  : any : any = () => {
+export const useKonivrverGameState   : any = () => {
   // Initialize KONIVRER game state
-  const [gameState, setGameState]  : any : any = useState<GameState>(() => ({
+  const [gameState, setGameState]   : any = useState<GameState>(() => ({
     players: [
       createKonivrverPlayer('player1', 'Player 1'),
       createKonivrverPlayer('player2', 'Player 2')
@@ -133,20 +133,20 @@ export const useKonivrverGameState  : any : any = () => {
     }
   }));
 
-  const [dragState, setDragState]  : any : any = useState<DragState>({
+  const [dragState, setDragState]   : any = useState<DragState>({
     isDragging: false,
     dragOffset: { x: 0, y: 0 },
     validDropZones: []
   });
 
   // Get current player's life total from life cards
-  const getCurrentPlayerLife  : any : any = useCallback(() => {
-    const currentPlayer  : any : any = gameState.players[gameState.currentPlayer];
+  const getCurrentPlayerLife   : any = useCallback(() => {
+    const currentPlayer   : any = gameState.players[gameState.currentPlayer];
     return currentPlayer.zones.lifeCards?.cards.length || 0;
   }, [gameState.currentPlayer, gameState.players]);
 
   // Start drag operation
-  const startDrag  : any : any = useCallback((card: Card, sourceZone: KonivrverZoneType) => {
+  const startDrag   : any = useCallback((card: Card, sourceZone: KonivrverZoneType) => {
     // Determine valid drop zones for this card
     let validZones: KonivrverZoneType[] = [];
     
@@ -175,7 +175,7 @@ export const useKonivrverGameState  : any : any = () => {
   }, []);
 
   // End drag operation
-  const endDrag  : any : any = useCallback(() => {
+  const endDrag   : any = useCallback(() => {
     setDragState({
       isDragging: false,
       dragOffset: { x: 0, y: 0 },
@@ -184,19 +184,19 @@ export const useKonivrverGameState  : any : any = () => {
   }, []);
 
   // Handle zone drop
-  const handleZoneDrop  : any : any = useCallback((targetZone: KonivrverZoneType) => {
+  const handleZoneDrop   : any = useCallback((targetZone: KonivrverZoneType) => {
     if (!dragState.draggedCard || !dragState.sourceZone) return;
 
-    const { draggedCard, sourceZone }  : any : any = dragState;
+    const { draggedCard, sourceZone }   : any = dragState;
 
     setGameState(prev => {
-      const newState  : any : any = { ...prev };
-      const currentPlayerIndex  : any : any = newState.currentPlayer;
-      const player  : any : any = newState.players[currentPlayerIndex];
+      const newState   : any = { ...prev };
+      const currentPlayerIndex   : any = newState.currentPlayer;
+      const player   : any = newState.players[currentPlayerIndex];
 
       // Remove card from source zone
-      const sourceZoneCards  : any : any = player.zones[sourceZone].cards;
-      const cardIndex  : any : any = sourceZoneCards.findIndex(c => c.id === draggedCard.id);
+      const sourceZoneCards   : any = player.zones[sourceZone].cards;
+      const cardIndex   : any = sourceZoneCards.findIndex(c => c.id === draggedCard.id);
       if (cardIndex >= 0) {
         sourceZoneCards.splice(cardIndex, 1);
       }
@@ -211,11 +211,11 @@ export const useKonivrverGameState  : any : any = () => {
   }, [dragState, endDrag]);
 
   // Advance to next phase
-  const nextPhase  : any : any = useCallback(() => {
+  const nextPhase   : any = useCallback(() => {
     setGameState(prev => {
-      const phases: KonivrverPhase[]  : any : any = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
-      const currentPhaseIndex  : any : any = phases.indexOf(prev.phase);
-      const nextPhaseIndex  : any : any = (currentPhaseIndex + 1) % phases.length;
+      const phases: KonivrverPhase[]   : any = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
+      const currentPhaseIndex   : any = phases.indexOf(prev.phase);
+      const nextPhaseIndex   : any = (currentPhaseIndex + 1) % phases.length;
       
       let newState = { ...prev, phase: phases[nextPhaseIndex] };
       
@@ -232,15 +232,15 @@ export const useKonivrverGameState  : any : any = () => {
   }, []);
 
   // Draw a card
-  const drawCard  : any : any = useCallback(() => {
+  const drawCard   : any = useCallback(() => {
     setGameState(prev => {
-      const newState  : any : any = { ...prev };
-      const player  : any : any = newState.players[newState.currentPlayer];
-      const deck  : any : any = player.zones.deck;
-      const hand  : any : any = player.zones.hand;
+      const newState   : any = { ...prev };
+      const player   : any = newState.players[newState.currentPlayer];
+      const deck   : any = player.zones.deck;
+      const hand   : any = player.zones.hand;
       
       if (deck.cards.length > 0) {
-        const drawnCard  : any : any = deck.cards.pop()!;
+        const drawnCard   : any = deck.cards.pop()!;
         hand.cards.push(drawnCard);
       }
       
@@ -249,11 +249,11 @@ export const useKonivrverGameState  : any : any = () => {
   }, []);
 
   // Play a card from hand
-  const playCard  : any : any = useCallback((card: Card) => {
+  const playCard   : any = useCallback((card: Card) => {
     // Check if player has enough Azoth
-    const currentPlayer  : any : any = gameState.players[gameState.currentPlayer];
-    const hasEnoughAzoth  : any : any = card.elements.every(element => {
-      const azothKey  : any : any = element.toLowerCase() as keyof typeof currentPlayer.azothPool;
+    const currentPlayer   : any = gameState.players[gameState.currentPlayer];
+    const hasEnoughAzoth   : any = card.elements.every(element => {
+      const azothKey   : any = element.toLowerCase() as keyof typeof currentPlayer.azothPool;
       return currentPlayer.azothPool[azothKey] >= (card.azothCost || 0);
     });
 
@@ -273,11 +273,11 @@ export const useKonivrverGameState  : any : any = () => {
     }
 
     setGameState(prev => {
-      const newState  : any : any = { ...prev };
-      const player  : any : any = newState.players[newState.currentPlayer];
+      const newState   : any = { ...prev };
+      const player   : any = newState.players[newState.currentPlayer];
       
       // Remove card from hand
-      const handIndex  : any : any = player.zones.hand.cards.findIndex(c => c.id === card.id);
+      const handIndex   : any = player.zones.hand.cards.findIndex(c => c.id === card.id);
       if (handIndex >= 0) {
         player.zones.hand.cards.splice(handIndex, 1);
         
@@ -286,7 +286,7 @@ export const useKonivrverGameState  : any : any = () => {
         
         // Deduct Azoth cost
         card.elements.forEach(element => {
-          const azothKey  : any : any = element.toLowerCase() as keyof typeof player.azothPool;
+          const azothKey   : any = element.toLowerCase() as keyof typeof player.azothPool;
           if (player.azothPool[azothKey] >= (card.azothCost || 0)) {
             player.azothPool[azothKey] -= (card.azothCost || 0);
           }
