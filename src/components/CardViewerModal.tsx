@@ -7,17 +7,17 @@ interface CardViewerModalProps {
   onClose: () => void;
 }
 
-export const CardViewerModal: React.FC<CardViewerModalProps> : any = ({ card, onClose }) => {
-  const [upscaledImageUrl, setUpscaledImageUrl]  : any = useState<string | null>(null);
-  const [isLoading, setIsLoading]  : any = useState(false);
-  const [error, setError]  : any = useState<string | null>(null);
+export const CardViewerModal: React.FC<CardViewerModalProps> : any : any = ({ card, onClose }) => {
+  const [upscaledImageUrl, setUpscaledImageUrl]  : any : any = useState<string | null>(null);
+  const [isLoading, setIsLoading]  : any : any = useState(false);
+  const [error, setError]  : any : any = useState<string | null>(null);
 
   useEffect(() => {
     if (card) {
       setIsLoading(true);
       setError(null);
 
-      const imageUrlToUpscale  : any = card.webpUrl || card.imageUrl;
+      const imageUrlToUpscale  : any : any = card.webpUrl || card.imageUrl;
       if (!imageUrlToUpscale) {
         setError('No image available for this card.');
         setIsLoading(false);
