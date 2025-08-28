@@ -9,23 +9,23 @@ import * as s from "./pdfViewer.css.ts";
 GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
 
 export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): any {
-  const canvasRef: any = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
     let pdfDoc: PDFDocumentProxy | null = null;
 
     (async () => {
-      const loadingTask: any = getDocument(url);
+      const loadingTask = getDocument(url);
       pdfDoc = await loadingTask.promise;
       if (isCancelled) return;
 
       // Render first page for simple viewer parity
-      const page: any = await pdfDoc.getPage(1);
-      const viewport: any = page.getViewport({ scale: 1.5 });
-      const canvas: any = canvasRef.current;
+      const page = await pdfDoc.getPage(1);
+      const viewport = page.getViewport({ scale: 1.5 });
+      const canvas = canvasRef.current;
       if (!canvas) return;
-      const context: any = canvas.getContext("2d");
+      const context = canvas.getContext("2d");
       if (!context) return;
       canvas.width = viewport.width;
       canvas.height = viewport.height;
