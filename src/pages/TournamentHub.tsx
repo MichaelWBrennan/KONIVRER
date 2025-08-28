@@ -6,20 +6,20 @@ import { NotificationService } from '../services/notifications';
 
 type EventsTab = 'live' | 'standings' | 'archive';
 
-export const TournamentHub: React.FC : any = () => {
-  const [tab, setTab] : any = useState<EventsTab>('live');
-  const [query, setQuery] : any = useState('');
-  const { currentEventId, roundNumber, roundEndsAt, pairings, myTable, setPairings, setMyTableFromPairings, setLoading, setError } : any = useEventStore();
+export const TournamentHub: React.FC = () => {
+  const [tab, setTab]  = useState<EventsTab>('live');
+  const [query, setQuery]  = useState('');
+  const { currentEventId, roundNumber, roundEndsAt, pairings, myTable, setPairings, setMyTableFromPairings, setLoading, setError }  = useEventStore();
 
   useEffect(() => {
-    const handler : any = (e: any) => setQuery(e.detail || '');
+    const handler  = (e: any) => setQuery(e.detail || '');
     window.addEventListener('pairings-search', handler as any);
     return () => window.removeEventListener('pairings-search', handler as any);
   }, []);
 
   useEffect(() => {
     // Update global search context so SearchBar adjusts placeholder when switching tabs
-    const ctx : any = tab === 'archive' ? 'event-archive' : tab === 'standings' ? 'event-standings' : 'events';
+    const ctx  = tab === 'archive' ? 'event-archive' : tab === 'standings' ? 'event-standings' : 'events';
     window.dispatchEvent(new CustomEvent('search-context', { detail: ctx }));
   }, [tab]);
 
@@ -27,10 +27,10 @@ export const TournamentHub: React.FC : any = () => {
     (async () => {
       try {
         setLoading(true);
-        const data : any = await EventService.fetchPairings(currentEventId || 'demo', roundNumber || 1);
+        const data  = await EventService.fetchPairings(currentEventId || 'demo', roundNumber || 1);
         setPairings(data);
         setMyTableFromPairings();
-        const mine : any = data.find(d => d.tableNumber === (useEventStore.getState().myTable || 0));
+        const mine  = data.find(d => d.tableNumber === (useEventStore.getState().myTable || 0));
         if (mine) {
           NotificationService.getInstance().sendSeatingAssignmentNotification(mine.tableNumber, mine.playerA.name, currentEventId || 'demo', roundNumber || 1);
         }
@@ -42,31 +42,31 @@ export const TournamentHub: React.FC : any = () => {
     })();
   }, [currentEventId, roundNumber, setLoading, setPairings, setMyTableFromPairings, setError]);
 
-  const filtered : any = useMemo(() => {
-    const q : any = query.toLowerCase().trim();
+  const filtered  = useMemo(() => {
+    const q  = query.toLowerCase().trim();
     if (!q) return pairings;
     return pairings.filter((p) => `${p.tableNumber}`.includes(q) || p.playerA.name.toLowerCase().includes(q) || p.playerB.name.toLowerCase().includes(q));
   }, [pairings, query]);
 
-  const current : any = useMemo(() => {
+  const current  = useMemo(() => {
     if (!myTable) return undefined;
     return pairings.find(p => p.tableNumber === myTable);
   }, [pairings, myTable]);
 
-  const [report, setReport] : any = useState({ table: myTable || 0, result: '2-1', winnerId: '' });
+  const [report, setReport]  = useState({ table: myTable || 0, result: '2-1', winnerId: '' });
 
   // Show timer only when roundEndsAt is provided (round started)
-  const showTimer : any = !!roundEndsAt && roundEndsAt > Date.now();
-  const remainingMs : any = Math.max(0, (roundEndsAt || 0) - Date.now());
-  const mins : any = Math.floor(remainingMs / 60000);
-  const secs : any = Math.floor((remainingMs % 60000)/1000).toString().padStart(2,'0');
+  const showTimer  = !!roundEndsAt && roundEndsAt > Date.now();
+  const remainingMs  = Math.max(0, (roundEndsAt || 0) - Date.now());
+  const mins  = Math.floor(remainingMs / 60000);
+  const secs  = Math.floor((remainingMs % 60000)/1000).toString().padStart(2,'0');
 
   // Archive stub data
-  const archived : any = useMemo(() => ([
+  const archived  = useMemo(() => ([
     { name: 'City Championship - June', date: '2025-06-12', players: 128 },
     { name: 'Regional Open - May', date: '2025-05-03', players: 256 },
   ]), []);
-  const archivedFiltered : any = useMemo(() => archived.filter(a => (a.name.toLowerCase().includes(query.toLowerCase()) || a.date.includes(query))), [archived, query]);
+  const archivedFiltered  = useMemo(() => archived.filter(a => (a.name.toLowerCase().includes(query.toLowerCase()) || a.date.includes(query))), [archived, query]);
 
   return (
     <div className={s.root}>
@@ -125,14 +125,14 @@ export const TournamentHub: React.FC : any = () => {
   );
 };
 
-const Standings: React.FC<{ query: string }> : any = ({ query }) => {
+const Standings: React.FC<{ query: string }>  = ({ query }) => {
   // demo standings; replace with API when available
-  const demo : any = [
+  const demo  = [
     { rank: 1, player: 'Alice', points: 9, omw: 0.67 },
     { rank: 2, player: 'Bob', points: 9, omw: 0.61 },
     { rank: 3, player: 'Carol', points: 6, omw: 0.58 },
   ];
-  const list : any = demo.filter(r => r.player.toLowerCase().includes(query.toLowerCase()) || String(r.rank) === query.trim());
+  const list  = demo.filter(r => r.player.toLowerCase().includes(query.toLowerCase()) || String(r.rank) === query.trim());
   return (
     <div>
       {list.map(row => (
@@ -145,9 +145,9 @@ const Standings: React.FC<{ query: string }> : any = ({ query }) => {
   );
 };
 
-const DeckRegistration: React.FC<{ eventId: string }> : any = ({ eventId }) => {
-  const [deckId, setDeckId] : any = useState('');
-  const { isAuthenticated } : any = require('../hooks/useAuth').useAuth();
+const DeckRegistration: React.FC<{ eventId: string }>  = ({ eventId }) => {
+  const [deckId, setDeckId]  = useState('');
+  const { isAuthenticated }  = require('../hooks/useAuth').useAuth();
   if (!isAuthenticated) return null;
   return (
     <form className={s.form} onSubmit={async (e)=>{e.preventDefault(); if (!deckId) return; await EventService.registerDeck(eventId, deckId); alert('Deck registered to event'); }}>

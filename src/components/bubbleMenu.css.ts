@@ -1,19 +1,19 @@
 import { style, globalStyle } from "@vanilla-extract/css";
 
-export const root: any = style({
+export const root = style({
   position: "fixed",
   zIndex: 1000,
   pointerEvents: "none",
   display: "block",
   contain: "layout style",
 });
-export const mobile: any = style({
+export const mobile = style({
   bottom: "max(20px, env(safe-area-inset-bottom, 0px) + 10px)",
   left: "max(20px, env(safe-area-inset-left, 0px) + 10px)",
   right: "max(20px, env(safe-area-inset-right, 0px) + 10px)",
 });
-export const desktop: any = style({ top: 20, right: 20 });
-export const bubbleContainer: any = style({
+export const desktop = style({ top: 20, right: 20 });
+export const bubbleContainer = style({
   position: "absolute",
   pointerEvents: "auto",
   contain: "layout style",
@@ -21,7 +21,7 @@ export const bubbleContainer: any = style({
   willChange: "auto",
 });
 
-export const bubbleBtn: any = style({
+export const bubbleBtn = style({
   width: 56,
   height: 56,
   minWidth: 44,
@@ -54,12 +54,12 @@ export const bubbleBtn: any = style({
   },
 });
 
-export const accessibilityBtn: any = style({ background: "#059669" });
-export const searchBtn: any = style({ background: "#3b82f6" });
-export const loginBtn: any = style({ background: "#8b5cf6" });
-export const menuBtn: any = style({ background: "#f97316" });
+export const accessibilityBtn = style({ background: "#059669" });
+export const searchBtn = style({ background: "#3b82f6" });
+export const loginBtn = style({ background: "#8b5cf6" });
+export const menuBtn = style({ background: "#f97316" });
 
-export const panel: any = style({
+export const panel = style({
   position: "relative",
   background:
     "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.03) 100%)",
@@ -74,7 +74,7 @@ export const panel: any = style({
   maxWidth: "calc(100vw - 40px)",
 });
 
-export const panelCloseBtn: any = style({
+export const panelCloseBtn = style({
   position: "absolute",
   top: 8,
   right: 8,
@@ -94,13 +94,13 @@ export const panelCloseBtn: any = style({
   selectors: { "&:hover": { background: "rgba(255,255,255,0.06)" } },
 });
 
-export const settingGroup: any = style({ marginBottom: 16 });
-export const menuNav: any = style({
+export const settingGroup = style({ marginBottom: 16 });
+export const menuNav = style({
   display: "flex",
   flexDirection: "column",
   gap: 4,
 });
-export const menuItem: any = style({
+export const menuItem = style({
   display: "flex",
   alignItems: "center",
   gap: 12,
@@ -116,17 +116,17 @@ export const menuItem: any = style({
   width: "100%",
   selectors: { "&:hover": { background: "rgba(255,255,255,0.05)" } },
 });
-export const menuItemActive: any = style({
+export const menuItemActive = style({
   background: "var(--accent-color)",
   color: "white",
   borderColor: "transparent",
   boxShadow: "0 6px 20px rgba(74,144,226,0.35)",
 });
-export const menuLabel: any = style({ fontWeight: 500 });
+export const menuLabel = style({ fontWeight: 500 });
 
 // User panel styles
-export const userProfile: any = style({ textAlign: "center" });
-export const userAvatarLarge: any = style({
+export const userProfile = style({ textAlign: "center" });
+export const userAvatarLarge = style({
   width: 80,
   height: 80,
   borderRadius: "50%",
@@ -138,7 +138,7 @@ export const userAvatarLarge: any = style({
   fontSize: 32,
   margin: "0 auto 16px auto",
 });
-export const userActions: any = style({
+export const userActions = style({
   display: "flex",
   gap: 10,
   justifyContent: "center",
