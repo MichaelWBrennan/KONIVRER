@@ -7,13 +7,13 @@ interface LoginModalProps {
   onClose: () => void;
 }
 
-export const LoginModal: React.FC<LoginModalProps> : any : any = ({ isOpen, onClose }) => {
-  const [email, setEmail]  : any : any = useState('');
-  const [password, setPassword]  : any : any = useState('');
-  const [showPassword, setShowPassword]  : any : any = useState(false);
-  const { login, isLoading, error, clearError }  : any : any = useAuth();
+export const LoginModal: React.FC<LoginModalProps> : any : any : any = ({ isOpen, onClose }) => {
+  const [email, setEmail]  : any : any : any = useState('');
+  const [password, setPassword]  : any : any : any = useState('');
+  const [showPassword, setShowPassword]  : any : any : any = useState(false);
+  const { login, isLoading, error, clearError }  : any : any : any = useAuth();
 
-  const handleSubmit  : any : any = async (e: React.FormEvent) => {
+  const handleSubmit  : any : any : any = async (e: React.FormEvent) => {
     e.preventDefault();
     clearError();
     try {
