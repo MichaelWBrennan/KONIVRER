@@ -42,7 +42,7 @@ export const cardApi = {
   create: (data: any) => api.post("/cards", data),
   update: (id: string, data: any) => api.put(`/cards/${id}`, data),
   delete: (id: string) => api.delete(`/cards/${id}`),
-  bulkCreate: (data: any[] = [] = [] = ([] = [] = [] = [] = [] = [] = [] = [])) =>
+  bulkCreate: (data: any[] = ([] = [] = [] = [] = [] = [] = [] = [])) =>
     api.post("/cards/bulk", data),
   getStatistics: () => api.get("/cards/statistics"),
 };
