@@ -23,43 +23,43 @@ interface LiveMatch {
   viewers: number;
 }
 
-export const Tournaments: React.FC    : any = () => {
-  const [tournaments]     : any = useState<Tournament[]>([]);
-  const [liveMatches]     : any = useState<LiveMatch[]>([]);
-  const [selectedTab, setSelectedTab]     : any = useState<'upcoming' | 'active' | 'live'>('upcoming');
+export const Tournaments: React.FC    : any : any = () => {
+  const [tournaments]     : any : any = useState<Tournament[]>([]);
+  const [liveMatches]     : any : any = useState<LiveMatch[]>([]);
+  const [selectedTab, setSelectedTab]     : any : any = useState<'upcoming' | 'active' | 'live'>('upcoming');
 
   useEffect(() => {
     loadTournaments();
     loadLiveMatches();
   }, []);
 
-  const loadTournaments     : any = async () => {
+  const loadTournaments     : any : any = async () => {
     // Load tournaments from API
     try {
-      // const response     : any = await fetch('/api/tournaments');
-      // const tournamentsData     : any = await response.json();
+      // const response     : any : any = await fetch('/api/tournaments');
+      // const tournamentsData     : any : any = await response.json();
       // setTournaments(tournamentsData);
     } catch (error) {
       console.error('Failed to load tournaments:', error);
     }
   };
 
-  const loadLiveMatches     : any = async () => {
+  const loadLiveMatches     : any : any = async () => {
     // Load live matches from API
     try {
-      // const response     : any = await fetch('/api/live-matches');
-      // const matchesData     : any = await response.json();
+      // const response     : any : any = await fetch('/api/live-matches');
+      // const matchesData     : any : any = await response.json();
       // setLiveMatches(matchesData);
     } catch (error) {
       console.error('Failed to load live matches:', error);
     }
   };
 
-  const handleJoinTournament     : any = (tournamentId: string) => {
+  const handleJoinTournament     : any : any = (tournamentId: string) => {
     console.log('Join tournament:', tournamentId);
   };
 
-  const handleWatchMatch     : any = (matchId: string) => {
+  const handleWatchMatch     : any : any = (matchId: string) => {
     console.log('Watch match:', matchId);
   };
 
