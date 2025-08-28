@@ -5,14 +5,14 @@ export interface AiDeckbuildingAssistantProps {
   onDeckBuilt?: (cards: Card[]) => void;
 }
 
-export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>   = ({ 
+export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>   : any = ({ 
   onDeckBuilt 
 }) => {
-  const [suggestions, setSuggestions]    = useState<Card[]>([]);
-  const [loading, setLoading]    = useState(false);
+  const [suggestions, setSuggestions]    : any = useState<Card[]>([]);
+  const [loading, setLoading]    : any = useState(false);
 
   // Mock function to simulate AI deckbuilding
-  const generateSuggestions    = async () => {
+  const generateSuggestions    : any = async () => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
@@ -22,7 +22,7 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>   =
   };
 
   // Type-safe filter function 
-  const filterCompatibleCards    = (cards: Card[]) => {
+  const filterCompatibleCards    : any = (cards: Card[]) => {
     return cards.filter((c: Card) => c.type && ((c.manaCost ?? c.azothCost ?? 0) <= 10));
   };
 
@@ -79,7 +79,7 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>   =
         <div className="deck-actions">
           <button 
             onClick={() => {
-              const filteredCards    = filterCompatibleCards(suggestions);
+              const filteredCards    : any = filterCompatibleCards(suggestions);
               onDeckBuilt?.(filteredCards);
             }}
             className="btn-success"
