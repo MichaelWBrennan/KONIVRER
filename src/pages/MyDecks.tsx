@@ -9,21 +9,21 @@ interface DeckWithActions extends Deck {
 }
 
 // User decks will be loaded from backend
-const mockUserDecks: DeckWithActions[]    : any = [];
+const mockUserDecks: DeckWithActions[]     = [];
 
-export const MyDecks: React.FC   : any = () => {
-  const [searchTerm, setSearchTerm]    : any = useState('');
-  const [sortBy, setSortBy]    : any = useState<'name' | 'created' | 'lastPlayed' | 'winRate'>('lastPlayed');
-  const [filterBy, setFilterBy]    : any = useState<'all' | 'public' | 'private'>('all');
+export const MyDecks: React.FC    = () => {
+  const [searchTerm, setSearchTerm]     = useState('');
+  const [sortBy, setSortBy]     = useState<'name' | 'created' | 'lastPlayed' | 'winRate'>('lastPlayed');
+  const [filterBy, setFilterBy]     = useState<'all' | 'public' | 'private'>('all');
 
   // Filter and sort user decks
-  const filteredDecks    : any = useMemo(() => {
+  const filteredDecks     = useMemo(() => {
     let decks = mockUserDecks.filter(deck => {
-      const matchesSearch    : any = searchTerm === '' || 
+      const matchesSearch     = searchTerm === '' || 
         deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchTerm.toLowerCase());
       
-      const matchesVisibility    : any = filterBy === 'all' || 
+      const matchesVisibility     = filterBy === 'all' || 
         (filterBy === 'public' && deck.isPublic) ||
         (filterBy === 'private' && !deck.isPublic);
 
@@ -52,25 +52,25 @@ export const MyDecks: React.FC   : any = () => {
     return decks;
   }, [searchTerm, sortBy, filterBy]);
 
-  const handlePlayInSimulator    : any = (deck: Deck) => {
+  const handlePlayInSimulator     = (deck: Deck) => {
     // Navigate to simulator with this deck loaded
     console.log('Playing deck in simulator:', deck.name);
     alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
   };
 
-  const handleEditDeck    : any = (deck: Deck) => {
+  const handleEditDeck     = (deck: Deck) => {
     // Navigate to deck builder with this deck loaded
     console.log('Editing deck:', deck.name);
     alert(`Opening "${deck.name}" in deck builder... (Feature coming soon)`);
   };
 
-  const handleToggleVisibility    : any = (deckId: string) => {
+  const handleToggleVisibility     = (deckId: string) => {
     // Update deck visibility in backend
     console.log('Toggling visibility for deck:', deckId);
     alert('Deck visibility toggle... (Feature coming soon)');
   };
 
-  const handleDeleteDeck    : any = (deckId: string) => {
+  const handleDeleteDeck     = (deckId: string) => {
     // Delete deck from backend
     console.log('Deleting deck:', deckId);
     if (confirm('Are you sure you want to delete this deck?')) {
