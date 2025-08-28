@@ -81,30 +81,30 @@ interface EventManagerProps {
   isJudge: boolean;
 }
 
-const EventManager: React.FC<EventManagerProps> : any = ({ 
+const EventManager: React.FC<EventManagerProps>  = ({ 
   eventId, 
   currentUserId, 
   isOrganizer, 
   isJudge 
 }) => {
-  const [event, setEvent] : any = useState<Event | null>(null);
-  const [pairings, setPairings] : any = useState<Pairing[]>([]);
-  const [matches, setMatches] : any = useState<Match[]>([]);
-  const [standings, setStandings] : any = useState<Standing[]>([]);
-  const [loading, setLoading] : any = useState(true);
-  const [error, setError] : any = useState<string | null>(null);
-  const [activeTab, setActiveTab] : any = useState('overview');
+  const [event, setEvent]  = useState<Event | null>(null);
+  const [pairings, setPairings]  = useState<Pairing[]>([]);
+  const [matches, setMatches]  = useState<Match[]>([]);
+  const [standings, setStandings]  = useState<Standing[]>([]);
+  const [loading, setLoading]  = useState(true);
+  const [error, setError]  = useState<string | null>(null);
+  const [activeTab, setActiveTab]  = useState('overview');
   
   // Modal states
-  const [showGeneratePairings, setShowGeneratePairings] : any = useState(false);
-  const [showMatchResult, setShowMatchResult] : any = useState(false);
-  const [generatingPairings, setGeneratingPairings] : any = useState(false);
+  const [showGeneratePairings, setShowGeneratePairings]  = useState(false);
+  const [showMatchResult, setShowMatchResult]  = useState(false);
+  const [generatingPairings, setGeneratingPairings]  = useState(false);
 
   useEffect(() => {
     fetchEventData();
     
     // Initialize WebSocket connection
-    const wsSocket : any = io('/events', {
+    const wsSocket  = io('/events', {
       auth: {
         token: localStorage.getItem('authToken'),
       },
@@ -149,9 +149,9 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     };
   }, [eventId]);
 
-  const fetchEventData : any = async () => {
+  const fetchEventData  = async () => {
     try {
-      const response : any = await fetch(`/api/events/${eventId}`, {
+      const response  = await fetch(`/api/events/${eventId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
         },
@@ -159,7 +159,7 @@ const EventManager: React.FC<EventManagerProps> : any = ({
       
       if (!response.ok) throw new Error('Failed to fetch event');
       
-      const eventData : any = await response.json();
+      const eventData  = await response.json();
       setEvent(eventData);
       
       // Fetch related data
@@ -175,13 +175,13 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     }
   };
 
-  const fetchPairings : any = async () => {
+  const fetchPairings  = async () => {
     try {
-      const response : any = await fetch(`/api/events/${eventId}/pairings`, {
+      const response  = await fetch(`/api/events/${eventId}/pairings`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
       });
       if (response.ok) {
-        const data : any = await response.json();
+        const data  = await response.json();
         setPairings(data);
       }
     } catch (err) {
@@ -189,13 +189,13 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     }
   };
 
-  const fetchMatches : any = async () => {
+  const fetchMatches  = async () => {
     try {
-      const response : any = await fetch(`/api/events/${eventId}/matches`, {
+      const response  = await fetch(`/api/events/${eventId}/matches`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
       });
       if (response.ok) {
-        const data : any = await response.json();
+        const data  = await response.json();
         setMatches(data);
       }
     } catch (err) {
@@ -203,13 +203,13 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     }
   };
 
-  const fetchStandings : any = async () => {
+  const fetchStandings  = async () => {
     try {
-      const response : any = await fetch(`/api/events/${eventId}/standings`, {
+      const response  = await fetch(`/api/events/${eventId}/standings`, {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
       });
       if (response.ok) {
-        const data : any = await response.json();
+        const data  = await response.json();
         setStandings(data);
       }
     } catch (err) {
@@ -217,11 +217,11 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     }
   };
 
-  const generatePairings : any = async () => {
+  const generatePairings  = async () => {
     try {
       setGeneratingPairings(true);
       
-      const response : any = await fetch(`/api/events/${eventId}/pairings/generate`, {
+      const response  = await fetch(`/api/events/${eventId}/pairings/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ const EventManager: React.FC<EventManagerProps> : any = ({
 
       if (!response.ok) throw new Error('Failed to generate pairings');
 
-      const result : any = await response.json();
+      const result  = await response.json();
       showNotification(
         `Generated ${result.pairings.length} pairings with ${result.overallQuality.toFixed(2)} average quality`,
         'success'
@@ -250,9 +250,9 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     }
   };
 
-  const publishPairings : any = async (round: number) => {
+  const publishPairings  = async (round: number) => {
     try {
-      const response : any = await fetch(`/api/events/${eventId}/pairings/publish?round=${round}`, {
+      const response  = await fetch(`/api/events/${eventId}/pairings/publish?round=${round}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -268,24 +268,24 @@ const EventManager: React.FC<EventManagerProps> : any = ({
     }
   };
 
-  const showNotification : any = (message: string, type: 'success' | 'error' | 'info') => {
+  const showNotification  = (message: string, type: 'success' | 'error' | 'info') => {
     // Implementation would depend on your notification system
     console.log(`${type.toUpperCase()}: ${message}`);
   };
 
-  const getCurrentRoundPairings : any = () => {
+  const getCurrentRoundPairings  = () => {
     return pairings.filter(p => p.roundNumber === event?.currentRound);
   };
 
-  const getCurrentRoundMatches : any = () => {
+  const getCurrentRoundMatches  = () => {
     return matches.filter(m => m.round === event?.currentRound);
   };
 
-  const getMatchProgress : any = () => {
-    const currentMatches : any = getCurrentRoundMatches();
+  const getMatchProgress  = () => {
+    const currentMatches  = getCurrentRoundMatches();
     if (currentMatches.length === 0) return 0;
     
-    const completed : any = currentMatches.filter(m => m.status === 'completed').length;
+    const completed  = currentMatches.filter(m => m.status === 'completed').length;
     return (completed / currentMatches.length) * 100;
   };
 
@@ -527,7 +527,7 @@ const EventManager: React.FC<EventManagerProps> : any = ({
 };
 
 // Placeholder components - would need full implementations
-const PairingsTab: React.FC<any> : any = ({ pairings, onReportResult }) => (
+const PairingsTab: React.FC<any>  = ({ pairings, onReportResult }) => (
   <div>
     <ListGroup>
       {pairings.map((pairing: Pairing) => (
@@ -554,7 +554,7 @@ const PairingsTab: React.FC<any> : any = ({ pairings, onReportResult }) => (
   </div>
 );
 
-const StandingsTab: React.FC<any> : any = ({ standings }) => (
+const StandingsTab: React.FC<any>  = ({ standings }) => (
   <div>
     <ListGroup>
       {standings.map((standing: Standing) => (
@@ -573,7 +573,7 @@ const StandingsTab: React.FC<any> : any = ({ standings }) => (
   </div>
 );
 
-const MatchesTab: React.FC<any> : any = ({ matches }) => (
+const MatchesTab: React.FC<any>  = ({ matches }) => (
   <div>
     <ListGroup>
       {matches.map((match: Match) => (
@@ -590,7 +590,7 @@ const MatchesTab: React.FC<any> : any = ({ matches }) => (
   </div>
 );
 
-const AdminTab: React.FC<any> : any = () => (
+const AdminTab: React.FC<any>  = () => (
   <div>
     <Card>
       <Card.Body>
@@ -601,8 +601,8 @@ const AdminTab: React.FC<any> : any = () => (
   </div>
 );
 
-const MatchResultForm: React.FC<any> : any = ({ onSubmit }) => {
-  const [result, setResult] : any = useState('win');
+const MatchResultForm: React.FC<any>  = ({ onSubmit }) => {
+  const [result, setResult]  = useState('win');
   
   return (
     <Form>
