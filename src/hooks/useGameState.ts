@@ -3,7 +3,7 @@ import { GameState, Card, PlayerState, GameZone, DragState, KonivrverZoneType, K
 
 // TODO: Load actual card data from the card database instead of demo cards
 
-const createInitialZones     = (): Record<string, GameZone> => ({
+const createInitialZones     : any = (): Record<string, GameZone> => ({
   hand: {
     id: 'hand',
     name: 'Hand',
@@ -54,7 +54,7 @@ const createInitialZones     = (): Record<string, GameZone> => ({
   }
 });
 
-const createInitialPlayer     = (id: string, name: string): PlayerState => ({
+const createInitialPlayer     : any = (id: string, name: string): PlayerState => ({
   id,
   name,
   azothPool: { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0, neutral: 0 },
@@ -64,8 +64,8 @@ const createInitialPlayer     = (id: string, name: string): PlayerState => ({
   manaPool: { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 }
 });
 
-export const useGameState     = () => {
-  const [gameState, setGameState]     = useState<GameState>({
+export const useGameState     : any = () => {
+  const [gameState, setGameState]     : any = useState<GameState>({
     players: [
       createInitialPlayer('player1', 'You'),
       createInitialPlayer('player2', 'Opponent')
@@ -86,20 +86,20 @@ export const useGameState     = () => {
     }
   });
 
-  const [selectedCards, setSelectedCards]     = useState<Card[]>([]);
-  const [dragState, setDragState]     = useState<DragState>({
+  const [selectedCards, setSelectedCards]     : any = useState<Card[]>([]);
+  const [dragState, setDragState]     : any = useState<DragState>({
     isDragging: false,
     dragOffset: { x: 0, y: 0 },
     validDropZones: []
   });
 
-  const selectCard     = useCallback((card: Card) => {
+  const selectCard     : any = useCallback((card: Card) => {
     setGameState(prev => {
-      const newState     = { ...prev };
+      const newState     : any = { ...prev };
       // Find and update the card's selection state
       for (const player of newState.players) {
         for (const zone of Object.values(player.zones)) {
-          const cardIndex     = zone.cards.findIndex(c => c.id === card.id);
+          const cardIndex     : any = zone.cards.findIndex(c => c.id === card.id);
           if (cardIndex !== -1) {
             zone.cards[cardIndex] = { 
               ...zone.cards[cardIndex], 
@@ -119,9 +119,9 @@ export const useGameState     = () => {
     });
   }, []);
 
-  const doubleClickCard     = useCallback((card: Card) => {
+  const doubleClickCard     : any = useCallback((card: Card) => {
     // Auto-play logic: move to appropriate zone
-    const cardType     = card.type || card.lesserType;
+    const cardType     : any = card.type || card.lesserType;
     if (cardType && cardType.toLowerCase().includes('land')) {
       moveCard(card.id, 'field');
     } else if (cardType && (cardType.toLowerCase().includes('creature') || cardType.toLowerCase().includes('familiar'))) {
@@ -131,13 +131,13 @@ export const useGameState     = () => {
     }
   }, []);
 
-  const rightClickCard     = useCallback((card: Card) => {
+  const rightClickCard     : any = useCallback((card: Card) => {
     // Toggle tap state for mobile long-press or desktop right-click
     setGameState(prev => {
-      const newState     = { ...prev };
+      const newState     : any = { ...prev };
       for (const player of newState.players) {
         for (const zone of Object.values(player.zones)) {
-          const cardIndex     = zone.cards.findIndex(c => c.id === card.id);
+          const cardIndex     : any = zone.cards.findIndex(c => c.id === card.id);
           if (cardIndex !== -1) {
             zone.cards[cardIndex] = { 
               ...zone.cards[cardIndex], 
@@ -151,15 +151,15 @@ export const useGameState     = () => {
     });
   }, []);
 
-  const startDrag     = useCallback((card: Card, position: { x: number; y: number }) => {
+  const startDrag     : any = useCallback((card: Card, position: { x: number; y: number }) => {
     // Determine valid drop zones based on card type and current zone
-    const validDropZones: KonivrverZoneType[]     = ['field', 'removedFromPlay', 'hand'];
-    const cardType     = card.type || card.lesserType;
+    const validDropZones: KonivrverZoneType[]     : any = ['field', 'removedFromPlay', 'hand'];
+    const cardType     : any = card.type || card.lesserType;
     if (cardType && (cardType.toLowerCase().includes('instant') || cardType.toLowerCase().includes('sorcery'))) {
       validDropZones.push('stack');
     }
 
-    const sourceZone     = findCardZone(card.id);
+    const sourceZone     : any = findCardZone(card.id);
     setDragState({
       isDragging: true,
       draggedCard: card,
@@ -169,11 +169,11 @@ export const useGameState     = () => {
     });
   }, []);
 
-  const endDrag     = useCallback(() => {
+  const endDrag     : any = useCallback(() => {
     setDragState(prev => ({ ...prev, isDragging: false, draggedCard: undefined }));
   }, []);
 
-  const findCardZone     = useCallback((cardId: string): string | undefined => {
+  const findCardZone     : any = useCallback((cardId: string): string | undefined => {
     for (const player of gameState.players) {
       for (const [zoneId, zone] of Object.entries(player.zones)) {
         if (zone.cards.some(c => c.id === cardId)) {
@@ -184,23 +184,23 @@ export const useGameState     = () => {
     return undefined;
   }, [gameState]);
 
-  const moveCard     = useCallback((cardId: string, targetZoneId: string, playerIndex: number = 0) => {
+  const moveCard     : any = useCallback((cardId: string, targetZoneId: string, playerIndex: number = 0) => {
     // Type guard to check if targetZoneId is a valid KonivrverZoneType
-    const isValidZoneType     = (zoneId: string): zoneId is KonivrverZoneType => {
-      const validZones: KonivrverZoneType[]     = [
+    const isValidZoneType     : any = (zoneId: string): zoneId is KonivrverZoneType => {
+      const validZones: KonivrverZoneType[]     : any = [
         'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
       ];
       return validZones.includes(zoneId as KonivrverZoneType);
     };
 
     setGameState(prev => {
-      const newState     = { ...prev };
+      const newState     : any = { ...prev };
       let sourceCard: Card | undefined;
 
       // Find and remove card from source zone
       for (const player of newState.players) {
         for (const [, zone] of Object.entries(player.zones)) {
-          const cardIndex     = zone.cards.findIndex(c => c.id === cardId);
+          const cardIndex     : any = zone.cards.findIndex(c => c.id === cardId);
           if (cardIndex !== -1) {
             sourceCard = zone.cards[cardIndex];
             zone.cards.splice(cardIndex, 1);
@@ -213,7 +213,7 @@ export const useGameState     = () => {
       // Add card to target zone
       if (sourceCard && isValidZoneType(targetZoneId) && newState.players[playerIndex].zones[targetZoneId]) {
         // Reset card state when moving
-        const resetCard     = { 
+        const resetCard     : any = { 
           ...sourceCard, 
           isSelected: false, 
           isTapped: targetZoneId === 'field' ? sourceCard.isTapped : false 
@@ -228,13 +228,13 @@ export const useGameState     = () => {
     setDragState(prev => ({ ...prev, isDragging: false, draggedCard: undefined }));
   }, []);
 
-  const handleZoneDrop     = useCallback((zoneId: string) => {
+  const handleZoneDrop     : any = useCallback((zoneId: string) => {
     if (dragState.draggedCard) {
       moveCard(dragState.draggedCard.id, zoneId);
     }
   }, [dragState.draggedCard, moveCard]);
 
-  const nextTurn     = useCallback(() => {
+  const nextTurn     : any = useCallback(() => {
     setGameState(prev => ({
       ...prev,
       currentPlayer: 1 - prev.currentPlayer,
@@ -243,10 +243,10 @@ export const useGameState     = () => {
     }));
   }, []);
 
-  const nextPhase     = useCallback(() => {
-    const phases: KonivrverPhase[]     = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
-    const currentIndex     = phases.indexOf(gameState.phase);
-    const nextIndex     = (currentIndex + 1) % phases.length;
+  const nextPhase     : any = useCallback(() => {
+    const phases: KonivrverPhase[]     : any = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
+    const currentIndex     : any = phases.indexOf(gameState.phase);
+    const nextIndex     : any = (currentIndex + 1) % phases.length;
     
     setGameState(prev => ({
       ...prev,
