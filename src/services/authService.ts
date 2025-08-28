@@ -69,8 +69,8 @@ class AuthService {
   }
 
   private initializeAuth() {
-    const storedToken  : any = localStorage.getItem('authToken');
-    const storedUser  : any = localStorage.getItem('user');
+    const storedToken  : any : any = localStorage.getItem('authToken');
+    const storedUser  : any : any = localStorage.getItem('user');
 
     if (storedToken && storedUser) {
       this.token = storedToken;
@@ -81,8 +81,8 @@ class AuthService {
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      const response  : any = await api.post('/auth/login', credentials);
-      const authData: AuthResponse  : any = response.data;
+      const response  : any : any = await api.post('/auth/login', credentials);
+      const authData: AuthResponse  : any : any = response.data;
 
       this.setAuthData(authData);
       return authData;
@@ -93,8 +93,8 @@ class AuthService {
 
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response  : any = await api.post('/auth/register', data);
-      const authData: AuthResponse  : any = response.data;
+      const response  : any : any = await api.post('/auth/register', data);
+      const authData: AuthResponse  : any : any = response.data;
 
       this.setAuthData(authData);
       return authData;
@@ -117,14 +117,14 @@ class AuthService {
 
   async refreshToken(): Promise<boolean> {
     try {
-      const refreshToken  : any = localStorage.getItem('refreshToken');
+      const refreshToken  : any : any = localStorage.getItem('refreshToken');
       if (!refreshToken) {
         this.clearAuth();
         return false;
       }
 
-      const response  : any = await api.post('/auth/refresh', { refreshToken });
-      const authData: Partial<AuthResponse>  : any = response.data;
+      const response  : any : any = await api.post('/auth/refresh', { refreshToken });
+      const authData: Partial<AuthResponse>  : any : any = response.data;
 
       if (authData.accessToken) {
         this.token = authData.accessToken;
@@ -150,7 +150,7 @@ class AuthService {
     try {
       if (!this.token) return null;
       
-      const response  : any = await api.get('/auth/profile');
+      const response  : any : any = await api.get('/auth/profile');
       this.user = response.data.user;
       localStorage.setItem('user', JSON.stringify(this.user));
       
@@ -192,7 +192,7 @@ class AuthService {
     }
 
     // Refresh token 1 minute before expiry (default 15 minutes)
-    const refreshTime  : any = 14 * 60 * 1000; // 14 minutes
+    const refreshTime  : any : any = 14 * 60 * 1000; // 14 minutes
     this.refreshTimeout = window.setTimeout(() => {
       this.refreshToken();
     }, refreshTime);
@@ -244,5 +244,5 @@ class AuthService {
   }
 }
 
-export const authService  : any = AuthService.getInstance();
+export const authService  : any : any = AuthService.getInstance();
 export default authService;
