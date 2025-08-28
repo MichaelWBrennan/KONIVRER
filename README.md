@@ -7,6 +7,7 @@
 This repository now includes **Full Repository Automation**, a production-ready autonomous system for branch/PR lifecycle management with zero human intervention. The system automatically validates, resolves conflicts, merges, releases, and reports across ALL branches.
 
 ### Quick Links
+
 - 🤖 [Autonomous Repository Management](#full-repo-automation)
 - 📊 [Weekly Reporting System](#weekly-reporting)
 - 🔧 [Smart Conflict Resolution](#smart-conflict-resolution)
@@ -17,6 +18,7 @@ This repository now includes **Full Repository Automation**, a production-ready 
 ## 🎮 Game Features
 
 ### Core Zones
+
 - **FLAG zone** (top-left): Special objective markers and game state indicators
 - **LIFE zone** (mid-left): Player life totals and health tracking
 - **Combat Row** (horizontal above Field): Active combat and temporary effects
@@ -26,6 +28,7 @@ This repository now includes **Full Repository Automation**, a production-ready 
 - **Azoth Row** (full-width bottom): Resource management and energy system
 
 ### Interactive Features
+
 - **Drag & Drop System**: Seamless card movement between all zones
 - **Snapping Grid**: Automatic positioning in Combat Row, Field, and Azoth Row
 - **Multi-Selection**: Shift-click to select multiple cards simultaneously
@@ -34,6 +37,7 @@ This repository now includes **Full Repository Automation**, a production-ready 
 - **Auto-Play**: Double-click cards to move them to default zones
 
 ### Technical Excellence
+
 - **60 FPS Performance**: Optimized for HTML5 with 50+ cards on screen
 - **Responsive Design**: Scales seamlessly from 720p to 1440p resolution
 - **Memory Efficient**: Under 100MB usage for web deployment
@@ -42,6 +46,7 @@ This repository now includes **Full Repository Automation**, a production-ready 
 ## 🚀 Quick Start
 
 ### KONIVRER Game
+
 ```bash
 # Clone the repository
 git clone https://github.com/MichaelWBrennan/KONIVRER-deck-database.git
@@ -53,6 +58,7 @@ cd KONIVRER-deck-database
 ```
 
 ### Full Repository Automation
+
 ```bash
 # The automation system runs automatically on all PRs
 # No manual setup required - just create PRs and they'll be processed
@@ -66,6 +72,7 @@ cd KONIVRER-deck-database
 ## 📱 Technology Stack
 
 ### KONIVRER Game
+
 - **Game Engine**: Godot 4.2+ with GDScript
 - **Export Target**: HTML5/WebAssembly for browser deployment
 - **Graphics**: 2D Control nodes with hardware acceleration
@@ -73,6 +80,7 @@ cd KONIVRER-deck-database
 - **Asset Pipeline**: SVG graphics with texture atlases for optimization
 
 ### Full Repository Automation
+
 - **Runtime**: Python 3.11+ with GitHub API integration
 - **Workflows**: GitHub Actions with comprehensive triggers
 - **Conflict Resolution**: Smart merge strategies with fallback mechanisms
@@ -82,6 +90,7 @@ cd KONIVRER-deck-database
 ## 🔧 Development
 
 ### Build for HTML5
+
 ```bash
 # In Godot Editor:
 # Project → Export
@@ -91,8 +100,9 @@ cd KONIVRER-deck-database
 ```
 
 ### Controls
+
 - **Left Click**: Select card
-- **Shift + Click**: Multi-select cards  
+- **Shift + Click**: Multi-select cards
 - **Double Click**: Auto-play card to default zone
 - **Right Click**: Context menu (planned)
 - **Drag**: Move cards between zones
@@ -103,6 +113,7 @@ cd KONIVRER-deck-database
 ## 🎯 Architecture Overview
 
 ### Scene Structure
+
 ```
 Board (Control)
 ├── ZoneContainer/
@@ -120,7 +131,9 @@ Board (Control)
 ```
 
 ### GameState Singleton
+
 Centralized state management handles:
+
 - **Zone Contents**: Tracking which cards are in each zone
 - **Player Data**: Life totals, Azoth resources, turn information
 - **Card Registry**: Complete database of all card properties
@@ -129,26 +142,30 @@ Centralized state management handles:
 ## 🔮 Game Mechanics
 
 ### Zone Interactions
+
 - **Grid Snapping**: Combat Row, Field, and Azoth Row automatically arrange cards in organized grids
 - **Stack Behavior**: FLAG, LIFE, Deck, and Removed zones stack cards with slight offsets
 - **Visual Feedback**: All zones provide hover highlights and drop indicators
 - **Flexible Positioning**: Manual positioning supported alongside automated systems
 
 ### Performance Optimizations
+
 - **Texture Atlases**: Combined card graphics minimize draw calls
-- **Control Nodes**: Lightweight UI system avoids physics overhead  
+- **Control Nodes**: Lightweight UI system avoids physics overhead
 - **Object Pooling**: Card instances reused to reduce memory allocation
 - **Selective Updates**: Only visible elements process animation and input
 
 ## 🎨 Visual Design
 
 ### Zone Aesthetics
+
 - **Color-Coded Zones**: Each zone has distinct background colors and borders
 - **Transparency Effects**: Semi-transparent backgrounds maintain visibility
 - **Clear Labels**: Zone names prominently displayed for easy identification
 - **Consistent Styling**: Unified design language across all interface elements
 
 ### Card Presentation
+
 - **High-Quality Scaling**: Vector graphics maintain clarity at all resolutions
 - **Smooth Animations**: 60 FPS tweening for all movement and effects
 - **Depth Layering**: Proper z-ordering ensures cards display correctly during interactions
@@ -186,20 +203,23 @@ The Full Repository Automation system provides complete autonomous management of
 ### 🔄 Core Workflows
 
 #### 1. Autonomous Repository Management (`.github/workflows/automerge-all.yml`)
+
 - **Triggers**: PR lifecycle events, CI completion, hourly sweeps
 - **Permissions**: Full repository access for autonomous operations
-- **Features**: 
+- **Features**:
   - Universal PR intake (all branches, all creators)
   - Automatic branch updates and rebasing
   - Smart conflict resolution orchestration
   - Zero-touch merging with fallback strategies
 
 #### 2. Weekly Reporting System (`.github/workflows/weekly-report.yml`)
+
 - **Schedule**: Every Monday at 1 PM UTC
 - **Output**: Comprehensive KPI reports as GitHub issues
 - **Metrics**: PR merge rates, conflict resolution success, CI performance, system health
 
 #### 3. Smart PR Labeling (`.github/workflows/labeler.yml`)
+
 - **Triggers**: PR creation and updates
 - **Intelligence**: Content-aware labeling based on files, commits, and metadata
 - **Categories**: Priority, type, scope, complexity, and automation readiness
@@ -207,23 +227,32 @@ The Full Repository Automation system provides complete autonomous management of
 ### ⚙️ Configuration
 
 #### Central Policy File (`.github/merge-rules.yaml`)
+
 ```yaml
 policy:
-  merge_method: squash          # Primary merge strategy
-  fallback_merge_method: merge  # Fallback if primary fails
-  retries: 3                    # Maximum retry attempts
+  merge_method: squash # Primary merge strategy
+  fallback_merge_method: merge # Fallback if primary fails
+  retries: 3 # Maximum retry attempts
   backoff_minutes: [5, 15, 45] # Exponential backoff delays
-  
+
   # Safety controls
   deny_labels: ["no-auto", "wip", "manual-review"]
-  deny_paths: []                # Empty for full autonomy
-  
+  deny_paths: [] # Empty for full autonomy
+
   # Smart conflict resolution
   conflict_resolution:
-    strategies: ["clean_rebase", "heuristics", "merge_patience", "merge_theirs", "merge_ours"]
+    strategies:
+      [
+        "clean_rebase",
+        "heuristics",
+        "merge_patience",
+        "merge_theirs",
+        "merge_ours",
+      ]
 ```
 
 #### Key Configuration Options
+
 - **`deny_paths`**: Set to `[]` for full autonomy, or specify critical paths
 - **`merge_method`**: Choose between `squash`, `merge`, or `rebase`
 - **`retries`**: Configure retry attempts for transient failures
@@ -232,8 +261,9 @@ policy:
 ### 🚀 Smart Conflict Resolution
 
 #### Tiered Resolution Strategy
+
 1. **Clean Rebase**: Attempt standard rebase first
-2. **Intelligent Heuristics**: 
+2. **Intelligent Heuristics**:
    - Lockfiles: Regenerate from base branch
    - Generated assets: Prefer base version
    - Formatting conflicts: Use patience merge
@@ -241,6 +271,7 @@ policy:
 3. **Fallback Strategies**: `-X theirs`, `-X ours` as last resorts
 
 #### Conflict Resolver Script (`scripts/conflict_resolver.sh`)
+
 ```bash
 # Automatic conflict resolution with intelligent heuristics
 ./scripts/conflict_resolver.sh \
@@ -252,12 +283,14 @@ policy:
 ### 📊 Weekly Reporting
 
 #### Automated KPI Generation
+
 - **PR Processing Metrics**: Merge rates, time-to-merge, success rates
 - **Conflict Resolution Analysis**: Strategy usage and success rates
 - **CI/CD Performance**: Workflow success rates, duration analysis
 - **System Health**: Overall automation health score (0-100)
 
 #### Report Generation (`scripts/report_weekly.py`)
+
 ```bash
 # Generate weekly report
 python scripts/report_weekly.py \
@@ -269,6 +302,7 @@ python scripts/report_weekly.py \
 ### 🏷️ Smart PR Labeling
 
 #### Automatic Categorization
+
 - **Priority**: urgent, high, medium, low
 - **Type**: feature, bugfix, documentation, refactor, test, chore
 - **Scope**: frontend, backend, infrastructure, mobile, desktop
@@ -276,6 +310,7 @@ python scripts/report_weekly.py \
 - **Automation**: auto-merge, needs-review, no-auto, wip
 
 #### Labeler Script (`scripts/smart_labeler.py`)
+
 ```bash
 # Label PR with intelligent categorization
 python scripts/smart_labeler.py \
@@ -289,11 +324,13 @@ python scripts/smart_labeler.py \
 ### 🛡️ Safety Features
 
 #### Infinite Loop Prevention
+
 - **Commit Flagging**: Use `[skip-auto]` to disable automation
 - **Actor Checks**: Workflows exit if triggered by automation bot
 - **Commit Message Tags**: `[auto-merge]` prevents re-triggering
 
 #### Critical Path Protection
+
 - **Configurable Deny Paths**: Protect sensitive areas
 - **Branch Protection Respect**: Works with existing rules
 - **Secret Scanning**: Automatic security validation
@@ -301,6 +338,7 @@ python scripts/smart_labeler.py \
 ### 🔧 Manual Overrides
 
 #### Pause Automation
+
 ```bash
 # Add to commit message
 git commit -m "Update config [skip-auto]"
@@ -310,6 +348,7 @@ git commit -m "Update config [skip-auto]"
 ```
 
 #### Force Manual Processing
+
 ```bash
 # Add label to PR
 # needs-review, manual-merge, human-required
@@ -318,6 +357,7 @@ git commit -m "Update config [skip-auto]"
 ### 🚑 Disaster Recovery
 
 #### Revert Automation Changes
+
 ```bash
 # Revert the automation commit
 git revert <automation-commit-hash>
@@ -327,6 +367,7 @@ git revert <automation-commit-hash>
 ```
 
 #### Manual Merge Overrides
+
 ```bash
 # Force merge via GitHub UI
 # 1. Go to PR
@@ -336,6 +377,7 @@ git revert <automation-commit-hash>
 ```
 
 #### System Health Monitoring
+
 ```bash
 # Check automation status
 # 1. Review Actions tab for failed workflows
@@ -347,24 +389,28 @@ git revert <automation-commit-hash>
 ### 📋 Recovery Runbook
 
 #### Scenario 1: Automation Loop Detected
+
 1. **Immediate Action**: Add `[skip-auto]` to next commit
 2. **Investigation**: Check workflow logs for loop indicators
 3. **Resolution**: Review and fix automation logic
 4. **Verification**: Test with small PR before re-enabling
 
 #### Scenario 2: High Escalation Rate
+
 1. **Assessment**: Review weekly report for escalation patterns
 2. **Root Cause**: Identify common failure modes
 3. **Adjustment**: Update merge rules and conflict resolution
 4. **Monitoring**: Track escalation rate improvement
 
 #### Scenario 3: CI Integration Failures
+
 1. **Diagnosis**: Check CI workflow status and logs
 2. **Configuration**: Verify CI workflow names in automerge config
 3. **Testing**: Validate CI integration with test PR
 4. **Rollback**: Revert to previous working configuration if needed
 
 #### Scenario 4: Conflict Resolution Failures
+
 1. **Analysis**: Review conflict resolver logs and strategies used
 2. **Strategy Adjustment**: Update merge rules for conflict resolution
 3. **Testing**: Test with known conflict scenarios
@@ -375,6 +421,7 @@ git revert <automation-commit-hash>
 ### Acceptance Test Scenarios
 
 #### 1. Autonomous Merge Validation
+
 ```bash
 # Create test PRs with different scenarios:
 # - Simple text changes
@@ -386,6 +433,7 @@ git revert <automation-commit-hash>
 ```
 
 #### 2. Conflict Resolution Testing
+
 ```bash
 # Test conflict resolver with various file types:
 # - package-lock.json conflicts
@@ -395,6 +443,7 @@ git revert <automation-commit-hash>
 ```
 
 #### 3. Weekly Report Validation
+
 ```bash
 # Trigger weekly report generation
 # Verify issue creation with accurate metrics
@@ -402,6 +451,7 @@ git revert <automation-commit-hash>
 ```
 
 #### 4. Safety Feature Testing
+
 ```bash
 # Test infinite loop prevention:
 # - Add [auto-merge] to commit
@@ -412,12 +462,14 @@ git revert <automation-commit-hash>
 ### Performance Benchmarks
 
 #### Expected Metrics
+
 - **PR Merge Rate**: >90% for eligible PRs
 - **Conflict Resolution Success**: >95% with smart strategies
 - **CI Integration Success**: >98% workflow completion
 - **System Health Score**: >80/100 overall
 
 #### Monitoring Points
+
 - **Workflow Duration**: Target <60 minutes per PR
 - **Conflict Resolution Time**: Target <30 minutes per conflict
 - **Report Generation**: Target <5 minutes for weekly reports
@@ -426,6 +478,7 @@ git revert <automation-commit-hash>
 ## 🔮 Future Enhancements
 
 ### Planned Features
+
 - **AI-Powered Conflict Resolution**: Machine learning for better conflict handling
 - **Predictive Analytics**: Forecast merge success probability
 - **Advanced Branch Management**: Automatic backporting and cherry-picking
@@ -433,6 +486,7 @@ git revert <automation-commit-hash>
 - **Custom Workflow Support**: User-defined automation rules
 
 ### Scalability Improvements
+
 - **Parallel Processing**: Handle multiple PRs simultaneously
 - **Caching Layer**: Reduce API calls and improve performance
 - **Distributed Processing**: Support for large repositories
@@ -443,12 +497,13 @@ git revert <automation-commit-hash>
 This Godot 4 implementation provides native game development features for improved performance and functionality. Contributions welcome for:
 
 - Additional card types and mechanics
-- Enhanced visual effects and animations  
+- Enhanced visual effects and animations
 - Multiplayer networking implementation
 - Advanced AI opponent systems
 - Accessibility features and improvements
 
 ### Automation Contributions
+
 - **Conflict Resolution Strategies**: New heuristic algorithms
 - **Labeling Rules**: Enhanced categorization logic
 - **Reporting Metrics**: Additional KPI calculations
@@ -464,4 +519,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-*KONIVRER Azoth TCG: Professional-grade card game development with Godot 4 + Full Repository Automation*
+_KONIVRER Azoth TCG: Professional-grade card game development with Godot 4 + Full Repository Automation_

@@ -174,7 +174,14 @@
       "id": "administrators",
       "name": "administrators",
       "path": "/administrators",
-      "realmRoles": ["user", "admin", "moderator", "tournament-organizer", "deck-builder", "premium"]
+      "realmRoles": [
+        "user",
+        "admin",
+        "moderator",
+        "tournament-organizer",
+        "deck-builder",
+        "premium"
+      ]
     }
   ],
   "clients": [
@@ -357,7 +364,14 @@
           "temporary": false
         }
       ],
-      "realmRoles": ["user", "admin", "moderator", "tournament-organizer", "deck-builder", "premium"],
+      "realmRoles": [
+        "user",
+        "admin",
+        "moderator",
+        "tournament-organizer",
+        "deck-builder",
+        "premium"
+      ],
       "groups": ["/administrators"]
     },
     {
