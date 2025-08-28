@@ -69,8 +69,8 @@ class AuthService {
   }
 
   private initializeAuth() {
-    const storedToken      = localStorage.getItem('authToken');
-    const storedUser      = localStorage.getItem('user');
+    const storedToken      : any = localStorage.getItem('authToken');
+    const storedUser      : any = localStorage.getItem('user');
 
     if (storedToken && storedUser) {
       this.token = storedToken;
@@ -81,8 +81,8 @@ class AuthService {
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      const response      = await api.post('/auth/login', credentials);
-      const authData: AuthResponse      = response.data;
+      const response      : any = await api.post('/auth/login', credentials);
+      const authData: AuthResponse      : any = response.data;
 
       this.setAuthData(authData);
       return authData;
@@ -93,8 +93,8 @@ class AuthService {
 
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response      = await api.post('/auth/register', data);
-      const authData: AuthResponse      = response.data;
+      const response      : any = await api.post('/auth/register', data);
+      const authData: AuthResponse      : any = response.data;
 
       this.setAuthData(authData);
       return authData;
@@ -117,14 +117,14 @@ class AuthService {
 
   async refreshToken(): Promise<boolean> {
     try {
-      const refreshToken      = localStorage.getItem('refreshToken');
+      const refreshToken      : any = localStorage.getItem('refreshToken');
       if (!refreshToken) {
         this.clearAuth();
         return false;
       }
 
-      const response      = await api.post('/auth/refresh', { refreshToken });
-      const authData: Partial<AuthResponse>      = response.data;
+      const response      : any = await api.post('/auth/refresh', { refreshToken });
+      const authData: Partial<AuthResponse>      : any = response.data;
 
       if (authData.accessToken) {
         this.token = authData.accessToken;
@@ -150,7 +150,7 @@ class AuthService {
     try {
       if (!this.token) return null;
       
-      const response      = await api.get('/auth/profile');
+      const response      : any = await api.get('/auth/profile');
       this.user = response.data.user;
       localStorage.setItem('user', JSON.stringify(this.user));
       
@@ -192,7 +192,7 @@ class AuthService {
     }
 
     // Refresh token 1 minute before expiry (default 15 minutes)
-    const refreshTime      = 14 * 60 * 1000; // 14 minutes
+    const refreshTime      : any = 14 * 60 * 1000; // 14 minutes
     this.refreshTimeout = window.setTimeout(() => {
       this.refreshToken();
     }, refreshTime);
@@ -244,5 +244,5 @@ class AuthService {
   }
 }
 
-export const authService      = AuthService.getInstance();
+export const authService      : any = AuthService.getInstance();
 export default authService;
