@@ -10,17 +10,17 @@ export class KonivrverDeckValidator {
    * Validate a deck according to KONIVRER rules
    */
   static validateDeck(cards: Card[], flag?: Card): DeckValidationResult {
-    const errors: string[]     : any : any = [];
-    const warnings: string[]     : any : any = [];
+    const errors: string[]     : any : any : any = [];
+    const warnings: string[]     : any : any : any = [];
     
     // Check for flag requirement
-    const hasFlag     : any : any = !!flag;
+    const hasFlag     : any : any : any = !!flag;
     if (!hasFlag) {
       errors.push("Deck must include exactly 1 Flag card");
     }
     
     // Count cards by rarity
-    const cardCounts     : any : any = {
+    const cardCounts     : any : any : any = {
       total: cards.length,
       common: cards.filter(c => c.rarity === 'common').length,
       uncommon: cards.filter(c => c.rarity === 'uncommon').length, 
@@ -46,9 +46,9 @@ export class KonivrverDeckValidator {
     }
     
     // Check for duplicate cards (max 1 copy per card)
-    const cardNames     : any : any = cards.map(c => c.name);
-    const duplicates     : any : any = cardNames.filter((name, index) => cardNames.indexOf(name) !== index);
-    const uniqueDuplicates     : any : any = [...new Set(duplicates)];
+    const cardNames     : any : any : any = cards.map(c => c.name);
+    const duplicates     : any : any : any = cardNames.filter((name, index) => cardNames.indexOf(name) !== index);
+    const uniqueDuplicates     : any : any : any = [...new Set(duplicates)];
     
     if (uniqueDuplicates.length > 0) {
       errors.push(`Deck contains duplicate cards (max 1 copy per card): ${uniqueDuplicates.join(', ')}`);
@@ -56,23 +56,23 @@ export class KonivrverDeckValidator {
     
     // Check element consistency with flag
     if (hasFlag && flag) {
-      const flagElements     : any : any = flag.elements || [];
-      const deckElements     : any : any = new Set(cards.flatMap(c => c.elements || []));
+      const flagElements     : any : any : any = flag.elements || [];
+      const deckElements     : any : any : any = new Set(cards.flatMap(c => c.elements || []));
       
       // Warn if deck contains elements not supported by flag
-      const unsupportedElements     : any : any = [...deckElements].filter(e => !flagElements.includes(e));
+      const unsupportedElements     : any : any : any = [...deckElements].filter(e => !flagElements.includes(e));
       if (unsupportedElements.length > 0) {
         warnings.push(`Deck contains elements not supported by flag: ${unsupportedElements.join(', ')}`);
       }
     }
     
     // Check for minimum element diversity
-    const uniqueElements     : any : any = new Set(cards.flatMap(c => c.elements || []));
+    const uniqueElements     : any : any : any = new Set(cards.flatMap(c => c.elements || []));
     if (uniqueElements.size < 1) {
       errors.push("Deck must contain at least one element");
     }
     
-    const isValid     : any : any = errors.length === 0;
+    const isValid     : any : any : any = errors.length === 0;
     
     return {
       isValid,
@@ -102,35 +102,35 @@ export class KonivrverDeckValidator {
    * Suggest fixes for invalid deck
    */
   static suggestFixes(validation: DeckValidationResult): string[] {
-    const suggestions: string[]     : any : any = [];
+    const suggestions: string[]     : any : any : any = [];
     
     if (!validation.hasFlag) {
       suggestions.push("Add a Flag card to anchor your deck's Azoth identity");
     }
     
     if (validation.cardCounts.total !== 40) {
-      const diff     : any : any = 40 - validation.cardCounts.total;
+      const diff     : any : any : any = 40 - validation.cardCounts.total;
       suggestions.push(diff > 0 ? 
         `Add ${diff} more cards to reach 40` : 
         `Remove ${-diff} cards to reach 40`);
     }
     
     if (validation.cardCounts.common !== 25) {
-      const diff     : any : any = 25 - validation.cardCounts.common;
+      const diff     : any : any : any = 25 - validation.cardCounts.common;
       suggestions.push(diff > 0 ? 
         `Add ${diff} more Common cards` : 
         `Replace ${-diff} Common cards with other rarities`);
     }
     
     if (validation.cardCounts.uncommon !== 13) {
-      const diff     : any : any = 13 - validation.cardCounts.uncommon;
+      const diff     : any : any : any = 13 - validation.cardCounts.uncommon;
       suggestions.push(diff > 0 ? 
         `Add ${diff} more Uncommon cards` : 
         `Replace ${-diff} Uncommon cards with other rarities`);
     }
     
     if (validation.cardCounts.rare !== 2) {
-      const diff     : any : any = 2 - validation.cardCounts.rare;
+      const diff     : any : any : any = 2 - validation.cardCounts.rare;
       suggestions.push(diff > 0 ? 
         `Add ${diff} more Rare cards` : 
         `Replace ${-diff} Rare cards with other rarities`);

@@ -8,7 +8,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const MobileShell: React.FC<Props>    : any : any = ({ current, onNavigate, children }) => {
+export const MobileShell: React.FC<Props>    : any : any : any = ({ current, onNavigate, children }) => {
   return (
     <div className={s.shell}>
       <div className={s.content}>{children}</div>
