@@ -1,7 +1,7 @@
 import React from 'react';
 import * as h from './home.css.ts';
 
-export const Home: React.FC    = () => {
+export const Home: React.FC    : any = () => {
   return (
     <div className={h.container}>
       <div className={h.homeRoot}>
