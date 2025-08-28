@@ -18,14 +18,14 @@ interface GameZoneProps {
 }
 
 // Type guard to check if a string is a valid KonivrverZoneType
-const isKonivrverZoneType     : any = (zoneId: string): zoneId is KonivrverZoneType => {
-  const validZoneTypes: KonivrverZoneType[]     : any = [
+const isKonivrverZoneType     : any : any = (zoneId: string): zoneId is KonivrverZoneType => {
+  const validZoneTypes: KonivrverZoneType[]     : any : any = [
     'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
   ];
   return validZoneTypes.includes(zoneId as KonivrverZoneType);
 };
 
-export const GameZone: React.FC<GameZoneProps>    : any = ({
+export const GameZone: React.FC<GameZoneProps>    : any : any = ({
   zone,
   device,
   dragState,
@@ -37,13 +37,13 @@ export const GameZone: React.FC<GameZoneProps>    : any = ({
   onZoneDrop,
   screenSize
 }) => {
-  const config     : any = getMTGArenaLayoutConfig(device);
-  const zoneConfig     : any = config.zones[zone.id as keyof typeof config.zones];
+  const config     : any : any = getMTGArenaLayoutConfig(device);
+  const zoneConfig     : any : any = config.zones[zone.id as keyof typeof config.zones];
 
   if (!zoneConfig) return null;
 
   // Calculate absolute position and size
-  const zoneStyle: React.CSSProperties     : any = {
+  const zoneStyle: React.CSSProperties     : any : any = {
     position: 'absolute',
     left: `${(zoneConfig.position.x / 100) * screenSize.width}px`,
     top: `${(zoneConfig.position.y / 100) * screenSize.height}px`,
@@ -58,18 +58,18 @@ export const GameZone: React.FC<GameZoneProps>    : any = ({
     zIndex: 1
   };
 
-  const handleDrop     : any = (e: React.DragEvent) => {
+  const handleDrop     : any : any = (e: React.DragEvent) => {
     e.preventDefault();
     onZoneDrop(zone.id);
   };
 
-  const handleDragOver     : any = (e: React.DragEvent) => {
+  const handleDragOver     : any : any = (e: React.DragEvent) => {
     if (isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id)) {
       e.preventDefault();
     }
   };
 
-  const renderCards     : any = () => {
+  const renderCards     : any : any = () => {
     if (zone.cards.length === 0) return null;
 
     switch (zone.layout) {
@@ -100,12 +100,12 @@ export const GameZone: React.FC<GameZoneProps>    : any = ({
 
       case 'fan': {
         // Hand layout - cards fan out
-        const cardSpacing     : any = zoneConfig.cardSpacing || 8;
-        const overlap     : any = zoneConfig.overlap || 0.8;
+        const cardSpacing     : any : any = zoneConfig.cardSpacing || 8;
+        const overlap     : any : any = zoneConfig.overlap || 0.8;
         
         return zone.cards.map((card, index) => {
-          const totalWidth     : any = zone.cards.length * cardSpacing * overlap;
-          const startX     : any = (parseFloat(zoneStyle.width as string) - totalWidth) / 2;
+          const totalWidth     : any : any = zone.cards.length * cardSpacing * overlap;
+          const startX     : any : any = (parseFloat(zoneStyle.width as string) - totalWidth) / 2;
           
           return (
             <div
@@ -136,13 +136,13 @@ export const GameZone: React.FC<GameZoneProps>    : any = ({
 
       case 'grid': {
         // Battlefield layout - cards in grid
-        const maxRows     : any = zoneConfig.maxRows || 3;
-        const spacing     : any = zoneConfig.cardSpacing || 12;
+        const maxRows     : any : any = zoneConfig.maxRows || 3;
+        const spacing     : any : any = zoneConfig.cardSpacing || 12;
         
         return zone.cards.map((card, index) => {
-          const cardsPerRow     : any = Math.ceil(zone.cards.length / maxRows);
-          const row     : any = Math.floor(index / cardsPerRow);
-          const col     : any = index % cardsPerRow;
+          const cardsPerRow     : any : any = Math.ceil(zone.cards.length / maxRows);
+          const row     : any : any = Math.floor(index / cardsPerRow);
+          const col     : any : any = index % cardsPerRow;
           
           return (
             <div
