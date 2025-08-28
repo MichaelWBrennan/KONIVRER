@@ -10,18 +10,18 @@ interface Deck {
   colors: string[];
 }
 
-export const DeckBuilderAdvanced: React.FC    : any : any = () => {
-  const [decks, setDecks]     : any : any = useState<Deck[]>([]);
-  const [selectedDeck, setSelectedDeck]     : any : any = useState<Deck | null>(null);
-  const [searchTerm, setSearchTerm]     : any : any = useState('');
+export const DeckBuilderAdvanced: React.FC     = () => {
+  const [decks, setDecks]      = useState<Deck[]>([]);
+  const [selectedDeck, setSelectedDeck]      = useState<Deck | null>(null);
+  const [searchTerm, setSearchTerm]      = useState('');
 
   useEffect(() => {
     // Decks will be loaded from backend
     setDecks([]);
   }, []);
 
-  const createNewDeck     : any : any = () => {
-    const newDeck: Deck     : any : any = {
+  const createNewDeck      = () => {
+    const newDeck: Deck      = {
       id: Date.now().toString(),
       name: `New Deck ${decks.length + 1}`,
       format: 'Standard',
@@ -95,7 +95,7 @@ export const DeckBuilderAdvanced: React.FC    : any : any = () => {
                   type="text"
                   value={selectedDeck.name}
                   onChange={(e) => {
-                    const updatedDeck     : any : any = { ...selectedDeck, name: e.target.value };
+                    const updatedDeck      = { ...selectedDeck, name: e.target.value };
                     setSelectedDeck(updatedDeck);
                     setDecks(decks.map(d => d.id === selectedDeck.id ? updatedDeck : d));
                   }}
