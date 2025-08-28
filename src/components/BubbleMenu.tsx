@@ -16,20 +16,20 @@ interface BubbleMenuProps {
   onSearch?: (query: string) => void;
 }
 
-export const BubbleMenu: React.FC<BubbleMenuProps>    : any = ({ 
+export const BubbleMenu: React.FC<BubbleMenuProps>    : any : any = ({ 
   currentPage, 
   onPageChange, 
   onSearch 
 }) => {
-  const [isMenuOpen, setIsMenuOpen]     : any = useState(false);
-  const [isAccessibilityOpen, setIsAccessibilityOpen]     : any = useState(false);
-  const [isSearchOpen, setIsSearchOpen]     : any = useState(false);
-  const [isLoginOpen, setIsLoginOpen]     : any = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen]     : any = useState(false);
-  const [searchQuery, setSearchQuery]     : any = useState('');
-  const [fontSize, setFontSize]     : any = useState('medium');
-  const [contrastMode, setContrastMode]     : any = useState('normal');
-  const device     : any = detectDevice();
+  const [isMenuOpen, setIsMenuOpen]     : any : any = useState(false);
+  const [isAccessibilityOpen, setIsAccessibilityOpen]     : any : any = useState(false);
+  const [isSearchOpen, setIsSearchOpen]     : any : any = useState(false);
+  const [isLoginOpen, setIsLoginOpen]     : any : any = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen]     : any : any = useState(false);
+  const [searchQuery, setSearchQuery]     : any : any = useState('');
+  const [fontSize, setFontSize]     : any : any = useState('medium');
+  const [contrastMode, setContrastMode]     : any : any = useState('normal');
+  const device     : any : any = detectDevice();
   const { 
     isAuthenticated, 
     user, 
@@ -41,8 +41,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps>    : any = ({
 
   // Load accessibility preferences from localStorage
   useEffect(() => {
-    const savedFontSize     : any = localStorage.getItem('fontSize') || 'medium';
-    const savedContrast     : any = localStorage.getItem('contrastMode') || 'normal';
+    const savedFontSize     : any : any = localStorage.getItem('fontSize') || 'medium';
+    const savedContrast     : any : any = localStorage.getItem('contrastMode') || 'normal';
     
     // Clean up old dyslexicFont setting since it's no longer needed
     localStorage.removeItem('dyslexicFont');
@@ -56,7 +56,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>    : any = ({
     // OpenDyslexic font is now always applied via CSS
   }, []);
 
-  const handleAccessibilityChange     : any = (setting: string, value: string | boolean) => {
+  const handleAccessibilityChange     : any : any = (setting: string, value: string | boolean) => {
     switch (setting) {
       case 'fontSize':
         setFontSize(value as string);
@@ -71,7 +71,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>    : any = ({
     }
   };
 
-  const handleSearch     : any = (e: React.FormEvent) => {
+  const handleSearch     : any : any = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSearch && searchQuery.trim()) {
       onSearch(searchQuery.trim());
@@ -80,7 +80,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>    : any = ({
     }
   };
 
-  const getSearchPlaceholder     : any = () => {
+  const getSearchPlaceholder     : any : any = () => {
     switch (currentPage) {
       case 'cards':
         return 'Search cards...';
@@ -98,14 +98,14 @@ export const BubbleMenu: React.FC<BubbleMenuProps>    : any = ({
   };
 
   // Helper function to close all panels except the specified one
-  const closeOtherPanels     : any = (keepOpen: string) => {
+  const closeOtherPanels     : any : any = (keepOpen: string) => {
     if (keepOpen !== 'accessibility') setIsAccessibilityOpen(false);
     if (keepOpen !== 'search') setIsSearchOpen(false);
     if (keepOpen !== 'login') setIsLoginOpen(false);
     if (keepOpen !== 'menu') setIsMenuOpen(false);
   };
 
-  const menuItems     : any = [
+  const menuItems     : any : any = [
     // Only show Home when not on home page
     ...(currentPage !== 'home' ? [{ id: 'home' as const, label: 'Home' }] : []),
     { id: 'cards' as const, label: 'Card Search' },
