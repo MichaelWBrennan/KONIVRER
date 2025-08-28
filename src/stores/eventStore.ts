@@ -29,7 +29,7 @@ export type EventState = {
   setError: (e?: string) => void;
 };
 
-export const useEventStore = create<EventState>()((set, get) => ({
+export const useEventStore : any = create<EventState>()((set, get) => ({
   currentEventId: undefined,
   currentEventName: undefined,
   roundNumber: 0,
@@ -46,9 +46,9 @@ export const useEventStore = create<EventState>()((set, get) => ({
     set({ roundNumber: round, roundEndsAt: endsAt }),
   setPairings: (p: Pairing[]) => set({ pairings: p }),
   setMyTableFromPairings: () => {
-    const { pairings, myPlayerId }: any = get();
+    const { pairings, myPlayerId }: any : any = get();
     if (!myPlayerId) return;
-    const mine = pairings.find(
+    const mine : any = pairings.find(
       (x: any) => x.playerA.id === myPlayerId || x.playerB.id === myPlayerId
     );
     if (mine) set({ myTable: mine.tableNumber });
