@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const app: any = style({
+export const app: any : any = style({
   minHeight: "100vh",
   display: "flex",
   flexDirection: "column",
