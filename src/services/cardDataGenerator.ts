@@ -11,7 +11,7 @@ export class CardDataGenerator {
    * Get list of all card image paths
    */
   private getCardImagePaths(): string[] {
-    const cardNames    : any = [
+    const cardNames     = [
       'ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH', 'BRIGHTDUST', 'BRIGHTFULGURITE',
       'BRIGHTLAHAR', 'BRIGHTLAVA', 'BRIGHTLIGHTNING', 'BRIGHTMUD', 'BRIGHTPERMAFROST',
       'BRIGHTSTEAM', 'BRIGHTTHUNDERSNOW', 'CHAOS', 'CHAOSDUST', 'CHAOSFULGURITE',
@@ -69,23 +69,23 @@ export class CardDataGenerator {
   async generateCardData(): Promise<Card[]> {
     console.log('Starting card data generation...');
     
-    const imagePaths    : any = this.getCardImagePaths();
+    const imagePaths     = this.getCardImagePaths();
     console.log(`Processing ${imagePaths.length} card images...`);
 
-    const cards: Card[]    : any = [];
+    const cards: Card[]     = [];
 
     // Generate card data for each image using pattern-based fallbacks
     imagePaths.forEach((imagePath, index) => {
-      const cardName    : any = imagePath.split('/').pop()?.replace('.png', '') || '';
+      const cardName     = imagePath.split('/').pop()?.replace('.png', '') || '';
 
       // Use pattern-based data generation
-      const displayName    : any = cardName.charAt(0) + cardName.slice(1).toLowerCase().replace(/([A-Z])/g, ' $1');
-      const element    : any = this.getCardElement(cardName);
-      const type    : any = this.getCardType(cardName);
-      const rarity    : any = this.getCardRarity(cardName);
-      const cost    : any = 1; // Default cost
+      const displayName     = cardName.charAt(0) + cardName.slice(1).toLowerCase().replace(/([A-Z])/g, ' $1');
+      const element     = this.getCardElement(cardName);
+      const type     = this.getCardType(cardName);
+      const rarity     = this.getCardRarity(cardName);
+      const cost     = 1; // Default cost
 
-      const card: Card    : any = {
+      const card: Card     = {
         id: `card_${index + 1}`,
         name: displayName,
         elements: [element],
@@ -119,7 +119,7 @@ export class CardDataGenerator {
    */
   loadCardData(): Card[] | null {
     try {
-      const data    : any = localStorage.getItem(this.CARDS_DATA_KEY);
+      const data     = localStorage.getItem(this.CARDS_DATA_KEY);
       return data ? JSON.parse(data) : null;
     } catch (error) {
       console.error('Failed to load card data:', error);
@@ -131,11 +131,11 @@ export class CardDataGenerator {
    * Save card data to downloadable JSON file
    */
   downloadCardData(cards: Card[]): void {
-    const dataStr    : any = JSON.stringify(cards, null, 2);
-    const dataBlob    : any = new Blob([dataStr], { type: 'application/json' });
-    const url    : any = URL.createObjectURL(dataBlob);
+    const dataStr     = JSON.stringify(cards, null, 2);
+    const dataBlob     = new Blob([dataStr], { type: 'application/json' });
+    const url     = URL.createObjectURL(dataBlob);
     
-    const link    : any = document.createElement('a');
+    const link     = document.createElement('a');
     link.href = url;
     link.download = 'cards.json';
     document.body.appendChild(link);
@@ -146,4 +146,4 @@ export class CardDataGenerator {
   }
 }
 
-export const cardDataGenerator    : any = new CardDataGenerator();
+export const cardDataGenerator     = new CardDataGenerator();

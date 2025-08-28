@@ -21,16 +21,16 @@ export function useLocalCards(filters: CardSearchFilters): {
   isLoading: boolean;
   error: null;
 } {
-  const paginatedData: any = useMemo(() => {
-    const cards: any = getCardDatabase();
-    const itemsPerPage: any = 20;
+  const paginatedData = useMemo(() => {
+    const cards = getCardDatabase();
+    const itemsPerPage = 20;
 
     // Apply filters
     let filteredCards = cards;
 
     // Search filter
     if (filters.search) {
-      const searchTerm: any = filters.search.toLowerCase();
+      const searchTerm = filters.search.toLowerCase();
       filteredCards = cards.filter(
         (card) =>
           card.name.toLowerCase().includes(searchTerm) ||
@@ -49,7 +49,7 @@ export function useLocalCards(filters: CardSearchFilters): {
     // Element filter
     if (filters.element) {
       filteredCards = filteredCards.filter((card) => {
-        const cardElement: any = card.element || card.elements?.[0];
+        const cardElement = card.element || card.elements?.[0];
         return (
           cardElement &&
           cardElement.toLowerCase() === filters.element?.toLowerCase()
@@ -60,7 +60,7 @@ export function useLocalCards(filters: CardSearchFilters): {
     // Type filter
     if (filters.type) {
       filteredCards = filteredCards.filter((card) => {
-        const cardType: any = card.type || card.lesserType;
+        const cardType = card.type || card.lesserType;
         return (
           cardType && cardType.toLowerCase() === filters.type?.toLowerCase()
         );
@@ -77,13 +77,13 @@ export function useLocalCards(filters: CardSearchFilters): {
     // Cost filter
     if (filters.minCost !== undefined) {
       filteredCards = filteredCards.filter((card) => {
-        const cost: any = card.cost ?? card.azothCost ?? 0;
+        const cost = card.cost ?? card.azothCost ?? 0;
         return cost >= filters.minCost!;
       });
     }
     if (filters.maxCost !== undefined) {
       filteredCards = filteredCards.filter((card) => {
-        const cost: any = card.cost ?? card.azothCost ?? 0;
+        const cost = card.cost ?? card.azothCost ?? 0;
         return cost <= filters.maxCost!;
       });
     }
@@ -112,7 +112,7 @@ export function useLocalCards(filters: CardSearchFilters): {
             bValue = (b.element ?? b.elements?.[0] ?? "").toLowerCase();
             break;
           case "rarity": {
-            const rarityOrder: any = {
+            const rarityOrder = {
               common: 1,
               uncommon: 2,
               rare: 3,
@@ -138,12 +138,12 @@ export function useLocalCards(filters: CardSearchFilters): {
     }
 
     // Pagination
-    const currentPage: any = filters.page || 1;
-    const totalItems: any = filteredCards.length;
-    const totalPages: any = Math.ceil(totalItems / itemsPerPage);
-    const startIndex: any = (currentPage - 1) * itemsPerPage;
-    const endIndex: any = startIndex + itemsPerPage;
-    const paginatedCards: any = filteredCards.slice(startIndex, endIndex);
+    const currentPage = filters.page || 1;
+    const totalItems = filteredCards.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedCards = filteredCards.slice(startIndex, endIndex);
 
     return {
       data: paginatedCards,
@@ -171,8 +171,8 @@ export function useLocalCard(id: string): {
   isLoading: boolean;
   error: null;
 } {
-  const card: any = useMemo(() => {
-    const cards: any = getCardDatabase();
+  const card = useMemo(() => {
+    const cards = getCardDatabase();
     return cards.find((c) => c.id === id);
   }, [id]);
 
@@ -191,8 +191,8 @@ export function useLocalCardByName(name: string): {
   isLoading: boolean;
   error: null;
 } {
-  const card: any = useMemo(() => {
-    const cards: any = getCardDatabase();
+  const card = useMemo(() => {
+    const cards = getCardDatabase();
     return cards.find((c) => c.name.toLowerCase() === name.toLowerCase());
   }, [name]);
 
@@ -216,20 +216,20 @@ export function useLocalCardStatistics(): {
   isLoading: boolean;
   error: null;
 } {
-  const stats: any = useMemo(() => {
-    const cards: any = getCardDatabase();
+  const stats = useMemo(() => {
+    const cards = getCardDatabase();
 
     return {
       totalCards: cards.length,
       byElement: cards.reduce((acc, card) => {
-        const element: any = card.element || card.elements?.[0];
+        const element = card.element || card.elements?.[0];
         if (element) {
           acc[element] = (acc[element] || 0) + 1;
         }
         return acc;
       }, {} as Record<string, number>),
       byType: cards.reduce((acc, card) => {
-        const type: any = card.type || card.lesserType;
+        const type = card.type || card.lesserType;
         if (type) {
           acc[type] = (acc[type] || 0) + 1;
         }
