@@ -4,13 +4,13 @@ export interface CompanionPageProps {
   userId?: string;
 }
 
-export const CompanionPage: React.FC<CompanionPageProps>   : any : any = () => {
-  const [activeTab, setActiveTab]    : any : any = useState<'events' | 'create' | 'history'>('events');
+export const CompanionPage: React.FC<CompanionPageProps>    = () => {
+  const [activeTab, setActiveTab]     = useState<'events' | 'create' | 'history'>('events');
 
   // TODO: Implement actual user authentication and role management
 
   // Mock event data - in real app this would come from API
-  const activeEvents    : any : any = [
+  const activeEvents     = [
     {
       id: 'event-1',
       name: 'Friday Night KONIVRER',
