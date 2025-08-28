@@ -6,8 +6,8 @@ export function Offline(): any {
     typeof navigator !== "undefined" ? navigator.onLine : false
   );
 
-  const updateConnectionStatus: any = useCallback(() => {
-    const online: any =
+  const updateConnectionStatus = useCallback(() => {
+    const online =
       typeof navigator !== "undefined" ? navigator.onLine : false;
     setIsOnline(online);
     if (online) {
@@ -17,7 +17,7 @@ export function Offline(): any {
     }
   }, []);
 
-  const checkConnection: any = useCallback(async () => {
+  const checkConnection = useCallback(async () => {
     updateConnectionStatus();
     try {
       await fetch("/manifest.json", { method: "HEAD", cache: "no-cache" });
@@ -29,12 +29,12 @@ export function Offline(): any {
 
   useEffect(() => {
     updateConnectionStatus();
-    const onlineListener: any = () => updateConnectionStatus();
-    const offlineListener: any = () => updateConnectionStatus();
+    const onlineListener = () => updateConnectionStatus();
+    const offlineListener = () => updateConnectionStatus();
     window.addEventListener("online", onlineListener);
     window.addEventListener("offline", offlineListener);
 
-    const intervalId: any = window.setInterval(checkConnection, 30000);
+    const intervalId = window.setInterval(checkConnection, 30000);
 
     return () => {
       window.removeEventListener("online", onlineListener);
