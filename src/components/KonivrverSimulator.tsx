@@ -12,7 +12,7 @@ interface KonivrverZoneProps {
   isDragTarget: boolean;
 }
 
-const KonivrverZone: React.FC<KonivrverZoneProps>    = ({
+const KonivrverZone: React.FC<KonivrverZoneProps>    : any = ({
   zone,
   zoneType,
   onCardClick,
@@ -20,20 +20,20 @@ const KonivrverZone: React.FC<KonivrverZoneProps>    = ({
   onZoneDrop,
   isDragTarget
 }) => {
-  const handleDragOver     = (e: React.DragEvent) => {
+  const handleDragOver     : any = (e: React.DragEvent) => {
     if (isDragTarget) {
       e.preventDefault();
     }
   };
 
-  const handleDrop     = (e: React.DragEvent) => {
+  const handleDrop     : any = (e: React.DragEvent) => {
     if (isDragTarget) {
       e.preventDefault();
       onZoneDrop(zoneType);
     }
   };
 
-  const zoneStyle: React.CSSProperties     = {
+  const zoneStyle: React.CSSProperties     : any = {
     position: 'absolute',
     left: zone.position?.x || 0,
     top: zone.position?.y || 0,
@@ -50,7 +50,7 @@ const KonivrverZone: React.FC<KonivrverZoneProps>    = ({
     alignContent: 'flex-start'
   };
 
-  const cardStyle: React.CSSProperties     = {
+  const cardStyle: React.CSSProperties     : any = {
     width: '60px',
     height: '84px',
     backgroundColor: '#f4f4f4',
@@ -118,9 +118,9 @@ const KonivrverZone: React.FC<KonivrverZoneProps>    = ({
   );
 };
 
-export const KonivrverSimulator: React.FC    = () => {
-  const [device, setDevice]     = useState<DeviceInfo | null>(null);
-  const [selectedCard, setSelectedCard]     = useState<Card | null>(null);
+export const KonivrverSimulator: React.FC    : any = () => {
+  const [device, setDevice]     : any = useState<DeviceInfo | null>(null);
+  const [selectedCard, setSelectedCard]     : any = useState<Card | null>(null);
   
   const {
     gameState,
@@ -134,7 +134,7 @@ export const KonivrverSimulator: React.FC    = () => {
   } = useKonivrverGameState();
 
   useEffect(() => {
-    const deviceInfo     = detectDevice();
+    const deviceInfo     : any = detectDevice();
     setDevice(deviceInfo);
   }, []);
 
@@ -154,14 +154,14 @@ export const KonivrverSimulator: React.FC    = () => {
     );
   }
 
-  const currentPlayer     = gameState.players[gameState.currentPlayer];
+  const currentPlayer     : any = gameState.players[gameState.currentPlayer];
 
-  const handleCardClick     = (card: Card) => {
+  const handleCardClick     : any = (card: Card) => {
     setSelectedCard(card);
     
     // If card is in hand and it's main phase, try to play it
     if (gameState.phase === 'main') {
-      const isInHand     = currentPlayer.zones.hand.cards.some(c => c.id === card.id);
+      const isInHand     : any = currentPlayer.zones.hand.cards.some(c => c.id === card.id);
       if (isInHand) {
         playCard(card);
         setSelectedCard(null);
@@ -169,16 +169,16 @@ export const KonivrverSimulator: React.FC    = () => {
     }
   };
 
-  const handleCardDrag     = (card: Card, zoneType: KonivrverZoneType) => {
+  const handleCardDrag     : any = (card: Card, zoneType: KonivrverZoneType) => {
     startDrag(card, zoneType);
   };
 
-  const handleZoneDropProxy     = (zoneType: KonivrverZoneType) => {
+  const handleZoneDropProxy     : any = (zoneType: KonivrverZoneType) => {
     handleZoneDrop(zoneType);
   };
 
   // Render phase indicator
-  const renderPhaseIndicator     = () => (
+  const renderPhaseIndicator     : any = () => (
     <div style={{
       position: 'absolute',
       top: '10px',
@@ -199,7 +199,7 @@ export const KonivrverSimulator: React.FC    = () => {
   );
 
   // Render player info
-  const renderPlayerInfo     = () => (
+  const renderPlayerInfo     : any = () => (
     <div style={{
       position: 'absolute',
       top: '60px',
@@ -227,7 +227,7 @@ export const KonivrverSimulator: React.FC    = () => {
   );
 
   // Render control buttons
-  const renderControls     = () => (
+  const renderControls     : any = () => (
     <div style={{
       position: 'absolute',
       top: '10px',

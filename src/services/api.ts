@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const API_BASE_URL =
+const API_BASE_URL: any =
   (import.meta as any).env.VITE_API_BASE_URL ||
   (import.meta as any).env.VITE_API_URL ||
   "/api";
 
-export const api = axios.create({
+export const api: any = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export const api = axios.create({
 
 // Request interceptor for auth
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authToken");
+  const token: any = localStorage.getItem("authToken");
   if (token) {
     config.headers = config.headers || {};
     (config.headers as any).Authorization = `Bearer ${token}`;
@@ -35,20 +35,21 @@ api.interceptors.response.use(
 );
 
 // Card API endpoints
-export const cardApi = {
+export const cardApi: any = {
   getAll: (params?: any) => api.get("/cards", { params }),
   getById: (id: string) => api.get(`/cards/${id}`),
   getByName: (name: string) => api.get(`/cards/name/${name}`),
   create: (data: any) => api.post("/cards", data),
   update: (id: string, data: any) => api.put(`/cards/${id}`, data),
   delete: (id: string) => api.delete(`/cards/${id}`),
-  bulkCreate: (data: any[] = [] = [] = ([] = [] = [] = [] = [] = [] = [] = [])) =>
-    api.post("/cards/bulk", data),
+  bulkCreate: (
+    data: any[] = [] = ([] = [] = [] = [] = [] = [] = [] = [] = [] = [])
+  ) => api.post("/cards/bulk", data),
   getStatistics: () => api.get("/cards/statistics"),
 };
 
 // Migration API endpoints
-export const migrationApi = {
+export const migrationApi: any = {
   seedKonivrrerCards: () => api.post("/migration/seed-konivrer-cards"),
 };
 
