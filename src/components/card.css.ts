@@ -1,13 +1,13 @@
 import { style } from "@vanilla-extract/css";
 
-export const cardRoot = style({
+export const cardRoot: any = style({
   position: "relative",
   transition: "all 0.2s ease",
   userSelect: "none",
   touchAction: "none",
 });
 
-export const artLayer = style({
+export const artLayer: any = style({
   position: "absolute",
   top: 0,
   left: 0,
@@ -19,7 +19,7 @@ export const artLayer = style({
   pointerEvents: "none",
 });
 
-export const frameOverlay = style({
+export const frameOverlay: any = style({
   position: "absolute",
   top: 0,
   left: 0,
@@ -29,7 +29,7 @@ export const frameOverlay = style({
   pointerEvents: "none",
 });
 
-export const content = style({
+export const content: any = style({
   position: "relative",
   height: "100%",
   display: "flex",
@@ -38,7 +38,7 @@ export const content = style({
   textShadow: "1px 1px 2px rgba(0, 0, 0, 0.8)",
 });
 
-export const manaBadge = style({
+export const manaBadge: any = style({
   position: "absolute",
   backgroundColor: "rgba(0, 0, 0, 0.7)",
   borderRadius: "50%",
@@ -49,7 +49,7 @@ export const manaBadge = style({
   pointerEvents: "none",
 });
 
-export const nameBadge = style({
+export const nameBadge: any = style({
   fontWeight: "bold",
   marginTop: "auto",
   backgroundColor: "rgba(0, 0, 0, 0.7)",
@@ -60,14 +60,14 @@ export const nameBadge = style({
   pointerEvents: "none",
 });
 
-export const typeBadge = style({
+export const typeBadge: any = style({
   backgroundColor: "rgba(0, 0, 0, 0.7)",
   borderRadius: 2,
   marginTop: "1px",
   pointerEvents: "none",
 });
 
-export const ptBadge = style({
+export const ptBadge: any = style({
   position: "absolute",
   backgroundColor: "rgba(0, 0, 0, 0.8)",
   borderRadius: 2,
@@ -75,14 +75,14 @@ export const ptBadge = style({
   pointerEvents: "none",
 });
 
-export const counters = style({
+export const counters: any = style({
   position: "absolute",
   display: "flex",
   gap: "2px",
   pointerEvents: "none",
 });
 
-export const counterBubble = style({
+export const counterBubble: any = style({
   backgroundColor: "#FFD700",
   color: "black",
   borderRadius: "50%",
