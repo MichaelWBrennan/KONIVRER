@@ -1,7 +1,7 @@
 import React from 'react';
 import { RealTimeAnalytics } from '../analytics/RealTimeAnalytics';
 
-export const Analytics: React.FC    = () => {
+export const Analytics: React.FC    : any = () => {
   return (
     <div className="analytics-container">
       <div className="analytics-header">
