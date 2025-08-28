@@ -6,7 +6,7 @@ interface IconProps {
   className?: string;
 }
 
-export const AccessibilityIcon: React.FC<IconProps>    = ({ 
+export const AccessibilityIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -44,7 +44,7 @@ export const AccessibilityIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const SearchIcon: React.FC<IconProps>    = ({ 
+export const SearchIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -74,7 +74,7 @@ export const SearchIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const ProfileIcon: React.FC<IconProps>    = ({ 
+export const ProfileIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -105,7 +105,7 @@ export const ProfileIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const MenuIcon: React.FC<IconProps>    = ({ 
+export const MenuIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -138,7 +138,7 @@ export const MenuIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const HomeIcon: React.FC<IconProps>    = ({ 
+export const HomeIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -170,7 +170,7 @@ export const HomeIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const CardSearchIcon: React.FC<IconProps>    = ({ 
+export const CardSearchIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -207,7 +207,7 @@ export const CardSearchIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const DeckSearchIcon: React.FC<IconProps>    = ({ 
+export const DeckSearchIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -243,7 +243,7 @@ export const DeckSearchIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const MyDecksIcon: React.FC<IconProps>    = ({ 
+export const MyDecksIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -276,7 +276,7 @@ export const MyDecksIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const SimulatorIcon: React.FC<IconProps>    = ({ 
+export const SimulatorIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -314,7 +314,7 @@ export const SimulatorIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const RulesIcon: React.FC<IconProps>    = ({ 
+export const RulesIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -350,7 +350,7 @@ export const RulesIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const TournamentsIcon: React.FC<IconProps>    = ({ 
+export const TournamentsIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -386,7 +386,7 @@ export const TournamentsIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const SocialIcon: React.FC<IconProps>    = ({ 
+export const SocialIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
@@ -422,7 +422,7 @@ export const SocialIcon: React.FC<IconProps>    = ({
   </svg>
 );
 
-export const AnalyticsIcon: React.FC<IconProps>    = ({ 
+export const AnalyticsIcon: React.FC<IconProps>    : any = ({ 
   size = 24, 
   color = 'currentColor', 
   className = '' 
