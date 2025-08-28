@@ -1,7 +1,7 @@
 /**
  * Debounce function to limit how often a function can be called
  */
-export function debounce<T extends (...args: any[] = [] = []) => any>(
+export function debounce<T extends (...args: any[]) => any>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
@@ -16,14 +16,14 @@ export function debounce<T extends (...args: any[] = [] = []) => any>(
 /**
  * Throttle function to limit how often a function can be called
  */
-export function throttle<T extends (...args: any[] = [] = []) => any>(
+export function throttle<T extends (...args: any[]) => any>(
   func: T,
   delay: number
 ): (...args: Parameters<T>) => void {
   let lastCall = 0;
 
   return (...args: Parameters<T>) => {
-    const now: any : any = Date.now();
+    const now = Date.now();
     if (now - lastCall >= delay) {
       lastCall = now;
       func(...args);
