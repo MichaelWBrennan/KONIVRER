@@ -16,33 +16,33 @@ export interface DeviceInfo {
 }
 
 export function detectDevice(): DeviceInfo {
-  const userAgent   : any : any = navigator.userAgent.toLowerCase();
+  const userAgent    = navigator.userAgent.toLowerCase();
   
   // Detect mobile devices
-  const mobileRegex   : any : any = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
-  const isMobileUA   : any : any = mobileRegex.test(userAgent);
-  const isMobileScreen   : any : any = window.innerWidth <= 768;
-  const isMobile   : any : any = isMobileUA || isMobileScreen;
+  const mobileRegex    = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i;
+  const isMobileUA    = mobileRegex.test(userAgent);
+  const isMobileScreen    = window.innerWidth <= 768;
+  const isMobile    = isMobileUA || isMobileScreen;
   
   // Detect tablets vs phones
-  const tabletRegex   : any : any = /ipad|android(?!.*mobile)|kindle|silk/i;
-  const isTabletUA   : any : any = tabletRegex.test(userAgent);
+  const tabletRegex    = /ipad|android(?!.*mobile)|kindle|silk/i;
+  const isTabletUA    = tabletRegex.test(userAgent);
   
   // Consider it a tablet if:
   // 1. User agent suggests tablet, OR
   // 2. Screen is large enough (>= 768px in any dimension) and is mobile
-  const minDimension   : any : any = Math.min(window.innerWidth, window.innerHeight);
-  const maxDimension   : any : any = Math.max(window.innerWidth, window.innerHeight);
-  const isTabletScreen   : any : any = (minDimension >= 600 && maxDimension >= 768) || minDimension >= 768;
+  const minDimension    = Math.min(window.innerWidth, window.innerHeight);
+  const maxDimension    = Math.max(window.innerWidth, window.innerHeight);
+  const isTabletScreen    = (minDimension >= 600 && maxDimension >= 768) || minDimension >= 768;
   
-  const isTablet   : any : any = isMobile && (isTabletUA || isTabletScreen);
-  const isPhone   : any : any = isMobile && !isTablet;
+  const isTablet    = isMobile && (isTabletUA || isTabletScreen);
+  const isPhone    = isMobile && !isTablet;
   
   // Detect orientation
-  const orientation: 'portrait' | 'landscape'   : any : any = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
+  const orientation: 'portrait' | 'landscape'    = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
   
   // All mobile devices (phones and tablets) should be in landscape mode for MTG Arena experience
-  const requiresRotation   : any : any = isMobile && orientation === 'portrait';
+  const requiresRotation    = isMobile && orientation === 'portrait';
   
   // Detect OS
   let os = 'unknown';
