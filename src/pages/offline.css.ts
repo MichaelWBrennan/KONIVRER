@@ -11,7 +11,7 @@ globalKeyframes("pulse", {
   "100%": { opacity: 0.6 },
 });
 
-export const page: any = style({
+export const page = style({
   background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
   color: "white",
   minHeight: "100vh",
@@ -23,7 +23,7 @@ export const page: any = style({
   textAlign: "center",
 });
 
-export const container: any = style({
+export const container = style({
   maxWidth: 400,
   width: "100%",
   animationName: "fadeIn",
@@ -31,7 +31,7 @@ export const container: any = style({
   animationTimingFunction: "ease-out",
 });
 
-export const logo: any = style({
+export const logo = style({
   width: 80,
   height: 80,
   background: "linear-gradient(135deg, #007AFF 0%, #5856D6 100%)",
@@ -45,13 +45,13 @@ export const logo: any = style({
   color: "white",
 });
 
-export const subtitle: any = style({
+export const subtitle = style({
   fontSize: 18,
   color: "#A0A0A0",
   marginBottom: 32,
 });
 
-export const icon: any = style({
+export const icon = style({
   width: 120,
   height: 120,
   margin: "0 auto 24px",
@@ -62,14 +62,14 @@ export const icon: any = style({
   animationIterationCount: "infinite",
 });
 
-export const message: any = style({
+export const message = style({
   fontSize: 16,
   lineHeight: 1.6,
   color: "#C0C0C0",
   marginBottom: 32,
 });
 
-export const features: any = style({
+export const features = style({
   background: "rgba(255, 255, 255, 0.1)",
   borderRadius: 16,
   padding: 24,
@@ -77,9 +77,9 @@ export const features: any = style({
   backdropFilter: "blur(10px)",
 });
 
-export const featureList: any = style({ listStyle: "none", textAlign: "left" });
+export const featureList = style({ listStyle: "none", textAlign: "left" });
 
-export const featureItem: any = style({
+export const featureItem = style({
   padding: "8px 0 8px 24px",
   color: "#E0E0E0",
   position: "relative",
@@ -94,7 +94,7 @@ export const featureItem: any = style({
   },
 });
 
-export const retryButton: any = style({
+export const retryButton = style({
   background: "linear-gradient(135deg, #007AFF 0%, #5856D6 100%)",
   color: "white",
   border: 0,
@@ -108,7 +108,7 @@ export const retryButton: any = style({
   width: "100%",
 });
 
-export const homeLink: any = style({
+export const homeLink = style({
   color: "#007AFF",
   textDecoration: "none",
   fontWeight: 500,
@@ -118,7 +118,7 @@ export const homeLink: any = style({
   transition: "all 0.2s ease",
 });
 
-export const status: any = style({
+export const status = style({
   position: "fixed",
   top: 20,
   right: 20,
@@ -131,6 +131,6 @@ export const status: any = style({
   backdropFilter: "blur(10px)",
 });
 
-export const statusOnline: any = style({
+export const statusOnline = style({
   background: "rgba(52, 199, 89, 0.9)",
 });
