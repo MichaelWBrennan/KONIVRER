@@ -186,27 +186,45 @@ export const Lore: React.FC  : any : any : any = () => {
           <div className={s.virtuesGrid}>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Aether — Principle</h3>
-              <p className={s.virtueText}>Act how is right; improvise and expedite to cut through ambiguity.</p>
+              <p className={s.virtueText}>
+                Act how is right; improvise and expedite to cut through ambiguity. You prefer
+                clear principle over convenience. You cut knots and act.
+              </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Air — Adaptation</h3>
-              <p className={s.virtueText}>Do whatever works; educate and guide while shaping change in the moment.</p>
+              <p className={s.virtueText}>
+                Do whatever works; educate and guide while shaping change in the moment. You value
+                results and teaching; you iterate fast and guide others.
+              </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
-              <p className={s.virtueText}>What the world should be; provide and protect to build toward ideals.</p>
+              <p className={s.virtueText}>
+                What the world should be; provide and protect to build toward ideals. You chase
+                ideals and protect the vulnerable while pushing forward.
+              </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Earth — Integrity</h3>
-              <p className={s.virtueText}>Do whatever is right; supervise and inspect, imposing necessary boundaries.</p>
+              <p className={s.virtueText}>
+                Do whatever is right; supervise and inspect, imposing necessary boundaries. You uphold
+                duty, standards, and structure; you inspect and enforce.
+              </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Water — Potential</h3>
-              <p className={s.virtueText}>What the world could be; assemble and expedite to unlock possibilities.</p>
+              <p className={s.virtueText}>
+                What the world could be; assemble and expedite to unlock possibilities. You gather,
+                connect, and explore what could be through assembly.
+              </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Nether — Capability</h3>
-              <p className={s.virtueText}>Act how you could; plan and design to make the possible practical.</p>
+              <p className={s.virtueText}>
+                Act how you could; plan and design to make the possible practical. You architect
+                capability; you plan and design for future leverage.
+              </p>
             </div>
           </div>
 
@@ -216,32 +234,7 @@ export const Lore: React.FC  : any : any : any = () => {
               <p className={s.virtueText}>
                 Like a sixfold color pie, each person, faction, and card aligns to one or more
                 elements. Adjacent elements are natural allies; across the wheel lie tensions.
-                Use the stances below to find your resonance.
               </p>
-            </div>
-            <div className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>Aether</h3>
-              <p className={s.virtueText}>You prefer clear principle over convenience. You cut knots and act.</p>
-            </div>
-            <div className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>Air</h3>
-              <p className={s.virtueText}>You value results and teaching; you iterate fast and guide others.</p>
-            </div>
-            <div className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>Fire</h3>
-              <p className={s.virtueText}>You chase ideals and protect the vulnerable while pushing forward.</p>
-            </div>
-            <div className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>Earth</h3>
-              <p className={s.virtueText}>You uphold duty, standards, and structure; you inspect and enforce.</p>
-            </div>
-            <div className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>Water</h3>
-              <p className={s.virtueText}>You gather, connect, and explore what could be through assembly.</p>
-            </div>
-            <div className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>Nether</h3>
-              <p className={s.virtueText}>You architect capability; you plan and design for future leverage.</p>
             </div>
           </div>
 
