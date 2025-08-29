@@ -48,7 +48,7 @@ interface NotificationState {
   getUnreadCountByEvent: (eventId?: string) => number;
 }
 
-export const useNotificationStore: any = create<NotificationState>()(
+export const useNotificationStore: any : any = create<NotificationState>()(
   persist(
     (set, get) => ({
       // Initial state
@@ -59,7 +59,7 @@ export const useNotificationStore: any = create<NotificationState>()(
 
       // Actions
       addNotification: (notificationData) => {
-        const notification: PushNotification = {
+        const notification: PushNotification : any = {
           ...notificationData,
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
           timestamp: new Date(),
@@ -95,8 +95,8 @@ export const useNotificationStore: any = create<NotificationState>()(
 
       markEventAsRead: (eventId) => {
         set((state) => {
-          const eventNotifications: any = state.notifications.filter(n => n.eventId === eventId && !n.read);
-          const unreadReduction: any = eventNotifications.length;
+          const eventNotifications: any : any = state.notifications.filter(n => n.eventId === eventId && !n.read);
+          const unreadReduction: any : any = eventNotifications.length;
           
           return {
             notifications: state.notifications.map((n) =>
@@ -120,8 +120,8 @@ export const useNotificationStore: any = create<NotificationState>()(
 
       clearEvent: (eventId) => {
         set((state) => {
-          const eventNotifications: any = state.notifications.filter(n => n.eventId === eventId);
-          const unreadReduction: any = eventNotifications.filter(n => !n.read).length;
+          const eventNotifications: any : any = state.notifications.filter(n => n.eventId === eventId);
+          const unreadReduction: any : any = eventNotifications.filter(n => !n.read).length;
           
           return {
             notifications: state.notifications.filter((n) => n.eventId !== eventId),
@@ -134,8 +134,8 @@ export const useNotificationStore: any = create<NotificationState>()(
         if (!get().isSupported) return false;
 
         try {
-          const permission: any = await Notification.requestPermission();
-          const granted: any = permission === 'granted';
+          const permission: any : any = await Notification.requestPermission();
+          const granted: any : any = permission === 'granted';
           
           set({ isPermissionGranted: granted });
           return granted;
@@ -149,7 +149,7 @@ export const useNotificationStore: any = create<NotificationState>()(
         if (!get().isSupported) return;
 
         // Check current permission status
-        const permission: any = Notification.permission;
+        const permission: any : any = Notification.permission;
         set({ isPermissionGranted: permission === 'granted' });
 
         // Set up notification click handlers
@@ -167,7 +167,7 @@ export const useNotificationStore: any = create<NotificationState>()(
       showBrowserNotification: (notification: PushNotification) => {
         if (!get().isSupported || Notification.permission !== 'granted') return;
 
-        const browserNotification: any = new Notification(notification.title, {
+        const browserNotification: any : any = new Notification(notification.title, {
           body: notification.message,
           icon: '/favicon.ico', // Your app icon
           badge: '/favicon.ico',
@@ -206,7 +206,7 @@ export const useNotificationStore: any = create<NotificationState>()(
 
       // Helper methods for event-specific notifications
       getNotificationsByEvent: (eventId) => {
-        const state: any = get();
+        const state: any : any = get();
         if (!eventId) {
           return state.notifications.filter(n => !n.eventId);
         }
@@ -214,7 +214,7 @@ export const useNotificationStore: any = create<NotificationState>()(
       },
 
       getUnreadCountByEvent: (eventId) => {
-        const state: any = get();
+        const state: any : any = get();
         if (!eventId) {
           return state.notifications.filter(n => !n.eventId && !n.read).length;
         }
@@ -244,7 +244,7 @@ export class NotificationService {
   }
 
   public async initialize(): Promise<void> {
-    const store: any = useNotificationStore.getState();
+    const store: any : any = useNotificationStore.getState();
     store.initializeNotifications();
 
     // Request permission on first visit
@@ -255,7 +255,7 @@ export class NotificationService {
   }
 
   public async requestPermission(): Promise<boolean> {
-    const store: any = useNotificationStore.getState();
+    const store: any : any = useNotificationStore.getState();
     return await store.requestPermission();
   }
 
@@ -266,7 +266,7 @@ export class NotificationService {
     data?: any,
     eventId?: string
   ): void {
-    const store: any = useNotificationStore.getState();
+    const store: any : any = useNotificationStore.getState();
     store.addNotification({
       type,
       title,
@@ -357,11 +357,11 @@ export class NotificationService {
 
     socket.on('event.seating.assigned', (data: any) => {
       // This will be called for each player, so check if it's for current user
-      const currentUser: any = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      const assignment: any = data.assignments?.find((a: any) => a.playerId === currentUser.id);
+      const currentUser: any : any = JSON.parse(localStorage.getItem('currentUser') || '{}');
+      const assignment: any : any = data.assignments?.find((a: any) => a.playerId === currentUser.id);
       
       if (assignment) {
-        const opponentName: any = assignment.opponent?.username || 'TBD';
+        const opponentName: any : any = assignment.opponent?.username || 'TBD';
         this.sendEventSpecificNotification(
           'seating_assignment',
           'Seating Assignment',
@@ -404,7 +404,7 @@ export class NotificationService {
   // Check if user is registered for a specific event
   private isUserRegisteredForEvent(eventId: string): boolean {
     try {
-      const userEvents: any = JSON.parse(localStorage.getItem('userEvents') || '[]');
+      const userEvents: any : any = JSON.parse(localStorage.getItem('userEvents') || '[]');
       return userEvents.includes(eventId);
     } catch {
       return true; // Default to showing notifications if we can't verify
@@ -413,8 +413,8 @@ export class NotificationService {
 
   // Check for duplicate notifications in the last few minutes
   private hasDuplicateNotification(type: PushNotification['type'], eventId?: string): boolean {
-    const store: any = useNotificationStore.getState();
-    const fiveMinutesAgo: any = new Date(Date.now() - 5 * 60 * 1000);
+    const store: any : any = useNotificationStore.getState();
+    const fiveMinutesAgo: any : any = new Date(Date.now() - 5 * 60 * 1000);
 
     return store.notifications.some(notification => 
       notification.type === type &&
