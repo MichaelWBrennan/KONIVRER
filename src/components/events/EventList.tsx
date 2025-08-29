@@ -67,25 +67,25 @@ interface EventSearchFilters {
   limit?: number;
 }
 
-const EventList: React.FC  : any = () => {
-  const [events, setEvents] : any = useState<Event[]>([]);
-  const [loading, setLoading] : any = useState(true);
-  const [error, setError] : any = useState<string | null>(null);
-  const [filters, setFilters] : any = useState<EventSearchFilters>({
+const EventList: React.FC  : any : any = () => {
+  const [events, setEvents] : any : any = useState<Event[]>([]);
+  const [loading, setLoading] : any : any = useState(true);
+  const [error, setError] : any : any = useState<string | null>(null);
+  const [filters, setFilters] : any : any = useState<EventSearchFilters>({
     page: 1,
     limit: 10,
   });
-  const [showFilters, setShowFilters] : any = useState(false);
-  const [total, setTotal] : any = useState(0);
+  const [showFilters, setShowFilters] : any : any = useState(false);
+  const [total, setTotal] : any : any = useState(0);
 
   useEffect(() => {
     fetchEvents();
   }, [filters]);
 
-  const fetchEvents : any = async () => {
+  const fetchEvents : any : any = async () => {
     try {
       setLoading(true);
-      const queryParams : any = new URLSearchParams();
+      const queryParams : any : any = new URLSearchParams();
       
       Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined && value !== '') {
@@ -93,13 +93,13 @@ const EventList: React.FC  : any = () => {
         }
       });
 
-      const response : any = await fetch(`/api/events?${queryParams}`);
+      const response : any : any = await fetch(`/api/events?${queryParams}`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch events');
       }
 
-      const data : any = await response.json();
+      const data : any : any = await response.json();
       setEvents(data.events);
       setTotal(data.total);
     } catch (err) {
@@ -109,7 +109,7 @@ const EventList: React.FC  : any = () => {
     }
   };
 
-  const handleFilterChange : any = (key: keyof EventSearchFilters, value: any) => {
+  const handleFilterChange : any : any = (key: keyof EventSearchFilters, value: any) => {
     setFilters(prev => ({
       ...prev,
       [key]: value,
@@ -117,17 +117,17 @@ const EventList: React.FC  : any = () => {
     }));
   };
 
-  const handleSearch : any = (searchTerm: string) => {
+  const handleSearch : any : any = (searchTerm: string) => {
     handleFilterChange('search', searchTerm);
   };
 
-  const handleEventRegister : any = async (event: Event) => {
+  const handleEventRegister : any : any = async (event: Event) => {
     try {
       // Register for event first
       console.log('Registering for event:', event.id);
       
       // TODO: Implement actual event registration API call
-      // const response : any = await fetch(`/api/events/${event.id}/register`, {
+      // const response : any : any = await fetch(`/api/events/${event.id}/register`, {
       //   method: 'POST',
       //   headers: {
       //     'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -140,9 +140,9 @@ const EventList: React.FC  : any = () => {
       // }
       
       // After successful registration, request notification permission if not already granted
-      const notificationService : any = NotificationService.getInstance();
+      const notificationService : any : any = NotificationService.getInstance();
       if (Notification.permission === 'default') {
-        const granted : any = await notificationService.requestPermission();
+        const granted : any : any = await notificationService.requestPermission();
         if (granted) {
           // Send a welcome notification to confirm notifications are working
           notificationService.sendNotification(
@@ -169,12 +169,12 @@ const EventList: React.FC  : any = () => {
     }
   };
 
-  const formatDate : any = (dateString: string) => {
-    const date : any = new Date(dateString);
+  const formatDate : any : any = (dateString: string) => {
+    const date : any : any = new Date(dateString);
     return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const getStatusBadgeVariant : any = (status: string) => {
+  const getStatusBadgeVariant : any : any = (status: string) => {
     switch (status) {
       case 'Registration Open': return 'success';
       case 'In Progress': return 'primary';
@@ -184,7 +184,7 @@ const EventList: React.FC  : any = () => {
     }
   };
 
-  const getVenueIcon : any = (venueType: string) => {
+  const getVenueIcon : any : any = (venueType: string) => {
     switch (venueType) {
       case 'online': return <Wifi className="me-1" size={16} />;
       case 'offline': return <MapPin className="me-1" size={16} />;
