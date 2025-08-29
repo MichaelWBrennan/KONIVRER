@@ -14,7 +14,7 @@ import { Tournament } from "../../tournaments/entities/tournament.entity";
 
 @Entity("point_history")
 @ObjectType()
-@Index(["userId", "eventDate"]) 
+@Index(["userId", "eventDate"])
 export class PointHistory {
   @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
@@ -76,4 +76,3 @@ export class PointHistory {
   @ApiProperty({ description: "Creation timestamp" })
   createdAt: Date;
 }
-

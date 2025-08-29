@@ -50,4 +50,3 @@ CREATE INDEX IF NOT EXISTS idx_point_history_user_event_date ON point_history(us
 
 - Tournament discovery added: `GET /api/v1/tournaments/discover`.
 - Matchmaking additions: `POST /matchmaking/tournament-prep`, `POST /matchmaking/qualification-prep`.
-

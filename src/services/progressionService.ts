@@ -31,4 +31,3 @@ export const ProgressionService = {
     return res.json();
   },
 };
-

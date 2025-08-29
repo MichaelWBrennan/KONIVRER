@@ -17,4 +17,3 @@
 
 - Use an in-memory Postgres or a test DB schema
 - Seed a user record and exercise the endpoints
-

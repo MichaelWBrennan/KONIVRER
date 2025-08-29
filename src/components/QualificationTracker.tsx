@@ -6,8 +6,14 @@ interface Props {
   targetPoints?: number;
 }
 
-export const QualificationTracker: React.FC<Props> = ({ currentPoints = 0, targetPoints = 1000 }) => {
-  const percent = Math.min(100, Math.round((currentPoints / targetPoints) * 100));
+export const QualificationTracker: React.FC<Props> = ({
+  currentPoints = 0,
+  targetPoints = 1000,
+}) => {
+  const percent = Math.min(
+    100,
+    Math.round((currentPoints / targetPoints) * 100)
+  );
   return (
     <Card className="border-0 bg-light mb-3">
       <Card.Body>
@@ -23,4 +29,3 @@ export const QualificationTracker: React.FC<Props> = ({ currentPoints = 0, targe
     </Card>
   );
 };
-

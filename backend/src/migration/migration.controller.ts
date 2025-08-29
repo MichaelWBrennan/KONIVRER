@@ -21,8 +21,13 @@ export class MigrationController {
   }
 
   @Post("schema/progression")
-  @ApiOperation({ summary: "Create progression tables (TournamentProfile, PointHistory)" })
-  @ApiResponse({ status: 200, description: "Progression tables created if missing" })
+  @ApiOperation({
+    summary: "Create progression tables (TournamentProfile, PointHistory)",
+  })
+  @ApiResponse({
+    status: 200,
+    description: "Progression tables created if missing",
+  })
   async createProgressionSchema(): Promise<{ created: string[] }> {
     // With TypeORM synchronize in development, entities are created automatically.
     // For production, apply SQL migrations using your preferred tool.

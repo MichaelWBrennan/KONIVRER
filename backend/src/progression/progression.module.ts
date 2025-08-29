@@ -12,4 +12,3 @@ import { PointHistory } from "./entities/point-history.entity";
   exports: [ProgressionService],
 })
 export class ProgressionModule {}
-

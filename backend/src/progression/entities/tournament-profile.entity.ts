@@ -64,7 +64,10 @@ export class TournamentProfile {
 
   @Column({ type: "jsonb", default: () => "'{}'::jsonb" })
   @Field(() => String, { nullable: true })
-  @ApiProperty({ description: "Player tournament preferences", required: false })
+  @ApiProperty({
+    description: "Player tournament preferences",
+    required: false,
+  })
   preferences?: Record<string, any>;
 
   @CreateDateColumn()
@@ -77,4 +80,3 @@ export class TournamentProfile {
   @ApiProperty({ description: "Update timestamp" })
   updatedAt: Date;
 }
-

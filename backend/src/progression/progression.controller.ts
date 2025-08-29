@@ -8,7 +8,12 @@ import {
   UseGuards,
   ValidationPipe,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { ProgressionService } from "./progression.service";
 import {
   PointUpdateDto,
@@ -27,7 +32,9 @@ export class ProgressionController {
   @Get(":userId/profile")
   @ApiOperation({ summary: "Get tournament profile for user" })
   @ApiResponse({ status: 200, type: TournamentProfileResponseDto })
-  async getProfile(@Param("userId") userId: string): Promise<TournamentProfileResponseDto> {
+  async getProfile(
+    @Param("userId") userId: string
+  ): Promise<TournamentProfileResponseDto> {
     return this.progressionService.getProfile(userId);
   }
 
@@ -38,7 +45,10 @@ export class ProgressionController {
     @Param("userId") userId: string,
     @Body(ValidationPipe) body: { preferences: Record<string, any> }
   ): Promise<TournamentProfileResponseDto> {
-    return this.progressionService.updatePreferences({ userId, preferences: body.preferences });
+    return this.progressionService.updatePreferences({
+      userId,
+      preferences: body.preferences,
+    });
   }
 
   @Post("points/update")
@@ -50,4 +60,3 @@ export class ProgressionController {
     return this.progressionService.applyPointUpdate(dto);
   }
 }
-

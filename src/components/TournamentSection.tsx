@@ -1,13 +1,18 @@
 import React from "react";
 import { Card, Button, Badge } from "react-bootstrap";
-import { ProgressionService, TournamentProfileDto } from "../services/progressionService";
+import {
+  ProgressionService,
+  TournamentProfileDto,
+} from "../services/progressionService";
 
 interface Props {
   userId: string;
 }
 
 export const TournamentSection: React.FC<Props> = ({ userId }) => {
-  const [profile, setProfile] = React.useState<TournamentProfileDto | null>(null);
+  const [profile, setProfile] = React.useState<TournamentProfileDto | null>(
+    null
+  );
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -31,11 +36,14 @@ export const TournamentSection: React.FC<Props> = ({ userId }) => {
           <div>Global: {profile.globalPoints}</div>
         </div>
         <div className="d-flex gap-2">
-          <Button variant="outline-primary" size="sm">Preferences</Button>
-          <Button variant="outline-secondary" size="sm">Discover Events</Button>
+          <Button variant="outline-primary" size="sm">
+            Preferences
+          </Button>
+          <Button variant="outline-secondary" size="sm">
+            Discover Events
+          </Button>
         </div>
       </Card.Body>
     </Card>
   );
 };
-

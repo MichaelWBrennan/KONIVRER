@@ -7,7 +7,10 @@ import { TournamentProfile } from "../progression/entities/tournament-profile.en
 import { PointHistory } from "../progression/entities/point-history.entity";
 
 @Module({
-  imports: [CardsModule, TypeOrmModule.forFeature([TournamentProfile, PointHistory])],
+  imports: [
+    CardsModule,
+    TypeOrmModule.forFeature([TournamentProfile, PointHistory]),
+  ],
   providers: [MigrationService],
   controllers: [MigrationController],
   exports: [MigrationService],

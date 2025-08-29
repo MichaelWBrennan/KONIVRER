@@ -36,13 +36,18 @@ export class ProgressionService {
     dto: UpdateTournamentPreferencesDto
   ): Promise<TournamentProfileResponseDto> {
     const profile = await this.getOrCreateProfile(dto.userId);
-    profile.preferences = { ...(profile.preferences || {}), ...dto.preferences };
+    profile.preferences = {
+      ...(profile.preferences || {}),
+      ...dto.preferences,
+    };
     profile.lastPointUpdate = new Date();
     const saved = await this.profileRepo.save(profile);
     return this.toDto(saved);
   }
 
-  async applyPointUpdate(dto: PointUpdateDto): Promise<TournamentProfileResponseDto> {
+  async applyPointUpdate(
+    dto: PointUpdateDto
+  ): Promise<TournamentProfileResponseDto> {
     const profile = await this.getOrCreateProfile(dto.userId);
 
     if (dto.pointType === "regional") {
@@ -73,7 +78,10 @@ export class ProgressionService {
   }
 
   async getHistory(userId: string): Promise<PointHistory[]> {
-    return this.historyRepo.find({ where: { userId }, order: { eventDate: "DESC" } });
+    return this.historyRepo.find({
+      where: { userId },
+      order: { eventDate: "DESC" },
+    });
   }
 
   private toDto(profile: TournamentProfile): TournamentProfileResponseDto {
@@ -97,4 +105,3 @@ export class ProgressionService {
     return histories.length;
   }
 }
-

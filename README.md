@@ -80,6 +80,7 @@ cd KONIVRER-deck-database
 - **Asset Pipeline**: SVG graphics with texture atlases for optimization
 
 ### Full Repository Automation
+
 ### Backend Services (NestJS)
 
 - PostgreSQL via TypeORM (entities auto-synced in development)
@@ -95,9 +96,9 @@ New APIs (selected):
 - Tournaments
   - GET `/api/v1/tournaments/discover`
 - Matchmaking
+
   - POST `/matchmaking/tournament-prep`
   - POST `/matchmaking/qualification-prep`
-
 
 - **Runtime**: Python 3.11+ with GitHub API integration
 - **Workflows**: GitHub Actions with comprehensive triggers

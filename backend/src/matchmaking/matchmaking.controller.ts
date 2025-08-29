@@ -49,8 +49,14 @@ export class MatchmakingController {
   }
 
   @Post("tournament-prep")
-  @ApiOperation({ summary: "Find tournament practice match with tournament context" })
-  @ApiBody({ schema: { properties: { userId: { type: "string" }, format: { type: "string" } } } })
+  @ApiOperation({
+    summary: "Find tournament practice match with tournament context",
+  })
+  @ApiBody({
+    schema: {
+      properties: { userId: { type: "string" }, format: { type: "string" } },
+    },
+  })
   async tournamentPrep(
     @Body(ValidationPipe) body: { userId: string; format: string }
   ): Promise<any> {
@@ -61,7 +67,15 @@ export class MatchmakingController {
 
   @Post("qualification-prep")
   @ApiOperation({ summary: "Find qualification partners based on goals" })
-  @ApiBody({ schema: { properties: { userId: { type: "string" }, goal: { type: "string" }, format: { type: "string" } } } })
+  @ApiBody({
+    schema: {
+      properties: {
+        userId: { type: "string" },
+        goal: { type: "string" },
+        format: { type: "string" },
+      },
+    },
+  })
   async qualificationPrep(
     @Body(ValidationPipe) body: { userId: string; goal: string; format: string }
   ): Promise<any> {
