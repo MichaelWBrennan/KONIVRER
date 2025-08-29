@@ -6,7 +6,7 @@ import type { KonivrverRule, KonivrverKeywordAbility } from '../types/game';
  */
 
 // KONIVRER Rules Structure (from requirements analysis)
-export const konivrverRules: KonivrverRule[]   = [
+export const konivrverRules: KonivrverRule[]   : any = [
   {
     section: "I",
     title: "Introduction",
@@ -119,7 +119,7 @@ Deck Construction:
 ];
 
 // Keyword ability definitions
-export const keywordAbilities: Record<KonivrverKeywordAbility, string>   = {
+export const keywordAbilities: Record<KonivrverKeywordAbility, string>   : any = {
   amalgam: "Combines with other cards to create more powerful effects",
   brilliance: "Light-based ability providing protection, healing, and purification effects",
   gust: "Air-based ability granting increased speed, evasion, and temporary effects", 
@@ -131,7 +131,7 @@ export const keywordAbilities: Record<KonivrverKeywordAbility, string>   = {
 };
 
 // Phase descriptions with exact text
-export const phaseDescriptions: Record<string, string>   = {
+export const phaseDescriptions: Record<string, string>   : any = {
   "preGame": "Pre-Game: Setup phase where players prepare their decks, choose starting hands, and establish initial game state.",
   "start": "Start Phase: Beginning of turn effects trigger, draw a card (after first turn), and any start-of-turn abilities activate.",
   "main": "Main Phase: The primary phase where players can play cards, activate abilities, and make strategic decisions.",
@@ -148,13 +148,13 @@ export function searchRules(query: string, options?: {
   caseSensitive?: boolean;
   searchKeywords?: boolean;
 }): KonivrverRule[] {
-  const { exactMatch   = false, caseSensitive = false, searchKeywords = true } = options || {};
-  const searchTerm  = caseSensitive ? query : query.toLowerCase();
+  const { exactMatch   : any = false, caseSensitive = false, searchKeywords = true } = options || {};
+  const searchTerm  : any = caseSensitive ? query : query.toLowerCase();
   
   return konivrverRules.filter(rule => {
-    const content  = caseSensitive ? rule.content : rule.content.toLowerCase();
-    const title  = caseSensitive ? rule.title : rule.title.toLowerCase();
-    const keywords  = rule.keywords.map(k => caseSensitive ? k : k.toLowerCase());
+    const content  : any = caseSensitive ? rule.content : rule.content.toLowerCase();
+    const title  : any = caseSensitive ? rule.title : rule.title.toLowerCase();
+    const keywords  : any = rule.keywords.map(k => caseSensitive ? k : k.toLowerCase());
     
     if (exactMatch) {
       return content.includes(searchTerm) || title.includes(searchTerm) || 
@@ -206,7 +206,7 @@ export function getAllRulesAsJSON(): {
  * Search with synonyms support
  */
 export function searchWithSynonyms(query: string): KonivrverRule[] {
-  const synonyms: Record<string, string[]>   = {
+  const synonyms: Record<string, string[]>   : any = {
     "removed from play": ["void", "exile", "exiled"],
     "void": ["removed from play", "exile", "exiled"],
     "familiar": ["creature", "monster", "being"],
@@ -217,18 +217,18 @@ export function searchWithSynonyms(query: string): KonivrverRule[] {
   let results = searchRules(query);
   
   // Also search synonyms
-  const queryLower  = query.toLowerCase();
+  const queryLower  : any = query.toLowerCase();
   Object.entries(synonyms).forEach(([key, values]) => {
     if (key.includes(queryLower) || values.some(v => v.includes(queryLower))) {
-      const synonymResults  = [key, ...values].flatMap(term => searchRules(term));
+      const synonymResults  : any = [key, ...values].flatMap(term => searchRules(term));
       results = [...results, ...synonymResults];
     }
   });
   
   // Remove duplicates
-  const seen  = new Set();
+  const seen  : any = new Set();
   return results.filter(rule => {
-    const key  = rule.section;
+    const key  : any = rule.section;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
