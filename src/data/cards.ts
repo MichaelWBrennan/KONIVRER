@@ -26,7 +26,7 @@ export interface Card {
 }
 
 // Generate card data from existing assets (fallback method)
-const cardNames: any : any = [
+const cardNames = [
   'ABISS', 'ANGEL', 'ASH', 'AURORA', 'AZOTH', 'BRIGHTDUST', 'BRIGHTFULGURITE',
   'BRIGHTLAHAR', 'BRIGHTLAVA', 'BRIGHTLIGHTNING', 'BRIGHTMUD', 'BRIGHTPERMAFROST',
   'BRIGHTSTEAM', 'BRIGHTTHUNDERSNOW', 'CHAOS', 'CHAOSDUST', 'CHAOSFULGURITE',
@@ -41,7 +41,7 @@ const cardNames: any : any = [
 ];
 
 function getCardElements(name: string): string[] {
-  const elements: string[] : any = [];
+  const elements: string[]  = [];
   if (name.startsWith('BRIGHT')) elements.push('Light');
   if (name.startsWith('CHAOS')) elements.push('Chaos');
   if (name.startsWith('DARK')) elements.push('Dark');
@@ -69,7 +69,7 @@ function getCardRarity(name: string): 'common' | 'uncommon' | 'rare' {
 }
 
 function getCardAbilities(name: string): string[] {
-  const abilities: string[] : any = [];
+  const abilities: string[]  = [];
   if (name.includes('BRIGHT')) abilities.push('brilliance');
   if (name.includes('CHAOS')) abilities.push('quintessence');
   if (name.includes('DARK')) abilities.push('void');
@@ -81,11 +81,11 @@ function getCardAbilities(name: string): string[] {
 }
 
 // Fallback card database (generated from naming patterns)
-const fallbackCardDatabase: Card[] : any = cardNames.map((name, index) => {
-  const elements: any : any = getCardElements(name);
-  const lesserType: any : any = getCardLesserType(name);
-  const rarity: any : any = getCardRarity(name);
-  const abilities: any : any = getCardAbilities(name);
+const fallbackCardDatabase: Card[]  = cardNames.map((name, index) => {
+  const elements = getCardElements(name);
+  const lesserType = getCardLesserType(name);
+  const rarity = getCardRarity(name);
+  const abilities = getCardAbilities(name);
   
   return {
     id: `konivrer_${index + 1}`,
@@ -119,7 +119,7 @@ const fallbackCardDatabase: Card[] : any = cardNames.map((name, index) => {
  */
 export function getCardDatabase(): Card[] {
   // Try to load generated data first
-  const generatedData: any : any = cardDataGenerator.loadCardData();
+  const generatedData = cardDataGenerator.loadCardData();
   if (generatedData && generatedData.length > 0) {
     console.log('Using generated card data');
     return generatedData;
@@ -130,7 +130,7 @@ export function getCardDatabase(): Card[] {
 }
 
 // Export the card database
-export const cardDatabase: any : any = getCardDatabase();
+export const cardDatabase = getCardDatabase();
 
 // KONIVRER Deck structure
 export interface Deck {
