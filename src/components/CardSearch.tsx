@@ -11,41 +11,41 @@ interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
-export const CardSearch: React.FC<CardSearchProps>  : any = () => {
-  const [selectedCard, setSelectedCard]  : any = useState<Card | null>(null);
-  const { searchFilters, setSearchFilters }  : any = useAppStore();
-  const [localSearchTerm, setLocalSearchTerm]  : any = useState(searchFilters.search || '');
+export const CardSearch: React.FC<CardSearchProps>  : any : any = () => {
+  const [selectedCard, setSelectedCard]  : any : any = useState<Card | null>(null);
+  const { searchFilters, setSearchFilters }  : any : any = useAppStore();
+  const [localSearchTerm, setLocalSearchTerm]  : any : any = useState(searchFilters.search || '');
   
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
   // Debounced search - update filters when user stops typing
-  const updateSearch  : any = useCallback(
+  const updateSearch  : any : any = useCallback(
     debounce((term: string) => {
       setSearchFilters({ search: term, page: 1 });
     }, 500),
     [setSearchFilters]
   );
 
-  const { data: cardsData, isLoading, error }  : any = useCards(searchFilters);
+  const { data: cardsData, isLoading, error }  : any : any = useCards(searchFilters);
 
   // Update search term locally and trigger debounced update
-  const handleSearchChange  : any = (term: string) => {
+  const handleSearchChange  : any : any = (term: string) => {
     setLocalSearchTerm(term);
     updateSearch(term);
   };
 
-  const handleFilterChange  : any = (key: string, value: any) => {
+  const handleFilterChange  : any : any = (key: string, value: any) => {
     setSearchFilters({ [key]: value, page: 1 });
   };
 
-  const handlePageChange  : any = (page: number) => {
+  const handlePageChange  : any : any = (page: number) => {
     setSearchFilters({ page });
   };
 
   
 
   // Get unique values for filters from current results
-  const filterOptions  : any = useMemo(() => {
-    const cards  : any = cardsData?.cards || [];
+  const filterOptions  : any : any = useMemo(() => {
+    const cards  : any : any = cardsData?.cards || [];
     return {
       elements: [...new Set(cards.map((card: Card) => card.element))].sort() as string[],
       types: [...new Set(cards.map((card: Card) => card.type))].sort() as string[],
@@ -64,8 +64,8 @@ export const CardSearch: React.FC<CardSearchProps>  : any = () => {
     );
   }
 
-  const cards  : any = cardsData?.cards || [];
-  const pagination  : any = cardsData ? {
+  const cards  : any : any = cardsData?.cards || [];
+  const pagination  : any : any = cardsData ? {
     currentPage: cardsData.page,
     totalPages: Math.ceil(cardsData.total / (cardsData.pageSize || 20)),
     total: cardsData.total
@@ -151,7 +151,7 @@ export const CardSearch: React.FC<CardSearchProps>  : any = () => {
               alt={card.name}
               className={cs.cardImg}
               onError={(e) => {
-                const target  : any = e.target as HTMLImageElement;
+                const target  : any : any = e.target as HTMLImageElement;
                 if (target.src !== '/placeholder-card.png') {
                   target.src = card.imageUrl || '/placeholder-card.png';
                 }
