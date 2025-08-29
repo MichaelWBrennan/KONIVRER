@@ -19,26 +19,26 @@ export interface PhysicalGameSimulatorProps {
   onSimulationComplete?: (result: SimulationResult) => void;
 }
 
-export const PhysicalGameSimulator: React.FC<PhysicalGameSimulatorProps>= ({
+export const PhysicalGameSimulator: React.FC<PhysicalGameSimulatorProps>: any = ({
   onSimulationComplete
 }) => {
-  const [gameState]= useState<GameState>({
+  const [gameState]: any = useState<GameState>({
     players: ['Player 1', 'Player 2'],
     currentPlayer: 0,
     phase: 'Setup',
     turn: 1
   });
 
-  const [simulationResults, setSimulationResults]= useState<SimulationResult[]>([]);
-  const [isRunning, setIsRunning]= useState(false);
+  const [simulationResults, setSimulationResults]: any = useState<SimulationResult[]>([]);
+  const [isRunning, setIsRunning]: any = useState(false);
 
   // Mock simulation function
-  const runSimulation= async () => {
+  const runSimulation: any = async () => {
     setIsRunning(true);
     
     // Simulate game logic
     setTimeout(() => {
-      const result: SimulationResult= {
+      const result: SimulationResult: any = {
         winner: gameState.players[Math.floor(Math.random() * 2)],
         turns: Math.floor(Math.random() * 20) + 5,
         winProbability: Math.random()

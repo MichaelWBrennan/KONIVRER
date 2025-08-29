@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const overlay= style({
+export const overlay: any = style({
   position: "fixed",
   inset: 0,
   backgroundColor: "rgba(0,0,0,0.7)",
@@ -9,12 +9,12 @@ export const overlay= style({
   justifyContent: "center",
   zIndex: 1000,
 });
-export const content= style({
+export const content: any = style({
   position: "relative",
   maxWidth: "80vw",
   maxHeight: "80vh",
 });
-export const closeBtn= style({
+export const closeBtn: any = style({
   position: "absolute",
   top: "-1rem",
   right: "-1rem",
@@ -28,9 +28,9 @@ export const closeBtn= style({
   fontSize: "1.5rem",
   lineHeight: "1",
 });
-export const loading= style({ color: "white", fontSize: "2rem" });
-export const error= style({ color: "red", fontSize: "1.5rem" });
-export const image= style({
+export const loading: any = style({ color: "white", fontSize: "2rem" });
+export const error: any = style({ color: "red", fontSize: "1.5rem" });
+export const image: any = style({
   width: "100%",
   height: "100%",
   objectFit: "contain",

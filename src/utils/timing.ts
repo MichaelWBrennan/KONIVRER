@@ -23,7 +23,7 @@ export function throttle<T extends (...args: any[]) => any>(
   let lastCall = 0;
 
   return (...args: Parameters<T>) => {
-    const now= Date.now();
+    const now: any = Date.now();
     if (now - lastCall >= delay) {
       lastCall = now;
       func(...args);

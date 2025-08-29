@@ -1,17 +1,17 @@
 import { style } from "@vanilla-extract/css";
 
-export const viewerWrap= style({
+export const viewerWrap: any = style({
   display: "flex",
   flexDirection: "column",
   gap: 12,
 });
-export const toolbar= style({
+export const toolbar: any = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
 });
-export const title= style({ fontWeight: 600, fontSize: "1.1rem" });
-export const canvasWrap= style({
+export const title: any = style({ fontWeight: 600, fontSize: "1.1rem" });
+export const canvasWrap: any = style({
   display: "flex",
   justifyContent: "center",
   padding: 12,
@@ -19,7 +19,7 @@ export const canvasWrap= style({
   border: "1px solid rgba(255,255,255,0.06)",
   borderRadius: 8,
 });
-export const canvas= style({
+export const canvas: any = style({
   maxWidth: "100%",
   height: "auto",
   display: "block",

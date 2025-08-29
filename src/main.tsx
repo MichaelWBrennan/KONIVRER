@@ -7,8 +7,8 @@ import "./global.css.ts";
 import "./services/telemetry";
 
 // Set CSS custom properties for mobile viewport handling
-const setViewportHeight= () => {
-  const vh= window.innerHeight * 0.01;
+const setViewportHeight: any = () => {
+  const vh: any = window.innerHeight * 0.01;
   document.documentElement.style.setProperty("--vh", `${vh}px`);
 };
 
