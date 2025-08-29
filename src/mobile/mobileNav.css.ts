@@ -1,6 +1,6 @@
 import { style } from "@vanilla-extract/css";
 
-export const nav: any : any : any = style({
+export const nav: any = style({
   position: "fixed",
   left: 0,
   right: 0,
@@ -13,13 +13,13 @@ export const nav: any : any : any = style({
   paddingBottom: "env(safe-area-inset-bottom, 0px)",
 });
 
-export const navInner: any : any : any = style({
+export const navInner: any = style({
   display: "grid",
   gridTemplateColumns: "repeat(6, 1fr)",
   alignItems: "center",
 });
 
-export const tab: any : any : any = style({
+export const tab: any = style({
   padding: "10px 0 8px",
   display: "flex",
   flexDirection: "column",
@@ -30,11 +30,11 @@ export const tab: any : any : any = style({
   selectors: { "&:active": { opacity: 0.8 } },
 });
 
-export const tabActive: any : any : any = style({ color: "var(--text-primary)" });
+export const tabActive: any = style({ color: "var(--text-primary)" });
 
-export const label: any : any : any = style({ fontSize: 11, marginTop: 4 });
+export const label: any = style({ fontSize: 11, marginTop: 4 });
 
-export const moreOverlay: any : any : any = style({
+export const moreOverlay: any = style({
   position: "fixed",
   inset: 0,
   background: "rgba(0,0,0,0.6)",
@@ -43,7 +43,7 @@ export const moreOverlay: any : any : any = style({
   alignItems: "flex-end",
 });
 
-export const sheet: any : any : any = style({
+export const sheet: any = style({
   width: "100%",
   background: "rgba(24,24,30,0.98)",
   borderTopLeftRadius: 16,
@@ -54,7 +54,7 @@ export const sheet: any : any : any = style({
   padding: 12,
 });
 
-export const sheetItem: any : any : any = style({
+export const sheetItem: any = style({
   display: "flex",
   alignItems: "center",
   gap: 10,
@@ -64,13 +64,13 @@ export const sheetItem: any : any : any = style({
   cursor: "pointer",
 });
 
-export const sheetHeader: any : any : any = style({
+export const sheetHeader: any = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
   padding: "4px 6px 10px 6px",
 });
-export const closeBtn: any : any : any = style({
+export const closeBtn: any = style({
   border: "1px solid rgba(255,255,255,0.12)",
   borderRadius: 8,
   padding: "6px 10px",
