@@ -69,7 +69,7 @@ export const Lore: React.FC : any = () => {
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Air — Adaptation</h3>
-              <p className={s.virtueText}>Do whatever works; educate and improvise while guiding change.</p>
+              <p className={s.virtueText}>Do whatever works; educate and guide while shaping change in the moment.</p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
@@ -86,6 +86,53 @@ export const Lore: React.FC : any = () => {
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Nether — Capability</h3>
               <p className={s.virtueText}>Act how you could; plan and design to make the possible practical.</p>
+            </div>
+          </div>
+
+          <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Color Alignment</h3>
+              <p className={s.virtueText}>
+                Like a sixfold color pie, each person, faction, and card aligns to one or more
+                elements. Adjacent elements are natural allies; across the wheel lie tensions.
+                Use the stances below to find your resonance.
+              </p>
+            </div>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Aether</h3>
+              <p className={s.virtueText}>You prefer clear principle over convenience. You cut knots and act.</p>
+            </div>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Air</h3>
+              <p className={s.virtueText}>You value results and teaching; you iterate fast and guide others.</p>
+            </div>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Fire</h3>
+              <p className={s.virtueText}>You chase ideals and protect the vulnerable while pushing forward.</p>
+            </div>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Earth</h3>
+              <p className={s.virtueText}>You uphold duty, standards, and structure; you inspect and enforce.</p>
+            </div>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Water</h3>
+              <p className={s.virtueText}>You gather, connect, and explore what could be through assembly.</p>
+            </div>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Nether</h3>
+              <p className={s.virtueText}>You architect capability; you plan and design for future leverage.</p>
+            </div>
+          </div>
+
+          <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Adjacent Pairs</h3>
+              <p className={s.virtueText}>Water + Aether: Rainbow — Expedite assembly toward emergent insight.</p>
+              <p className={s.virtueText}>Aether + Air: Aurora — Educated improvisation that illuminates the path.</p>
+              <p className={s.virtueText}>Air + Fire: Flare — Guided action that rallies and protects.</p>
+              <p className={s.virtueText}>Fire + Nether: Char — Design channeled into decisive provision.</p>
+              <p className={s.virtueText}>Nether + Earth: Putrefaction — Plans refined by inspection into resilience.</p>
+              <p className={s.virtueText}>Earth + Water: Mud — Boundaries that shape and stabilize new growth.</p>
             </div>
           </div>
         </section>
