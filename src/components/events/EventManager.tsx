@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { 
+import React, { useState, useEffect } from "react";
+import {
   Container,
   Row,
   Col,
@@ -14,8 +14,8 @@ import {
   Tab,
   Tabs,
   ProgressBar,
-} from 'react-bootstrap';
-import { 
+} from "react-bootstrap";
+import {
   Trophy,
   Eye,
   Play,
@@ -23,8 +23,8 @@ import {
   Settings,
   Download,
   Bell,
-} from 'lucide-react';
-import { io } from 'socket.io-client';
+} from "lucide-react";
+import { io } from "socket.io-client";
 
 interface Event {
   id: string;
@@ -81,66 +81,66 @@ interface EventManagerProps {
   isJudge: boolean;
 }
 
-const EventManager: React.FC<EventManagerProps>   = ({ 
-  eventId, 
-  currentUserId, 
-  isOrganizer, 
-  isJudge 
+const EventManager: React.FC<EventManagerProps> = ({
+  eventId,
+  currentUserId,
+  isOrganizer,
+  isJudge,
 }) => {
-  const [event, setEvent]  = useState<Event | null>(null);
-  const [pairings, setPairings]  = useState<Pairing[]>([]);
-  const [matches, setMatches]  = useState<Match[]>([]);
-  const [standings, setStandings]  = useState<Standing[]>([]);
-  const [loading, setLoading]  = useState(true);
-  const [error, setError]  = useState<string | null>(null);
-  const [activeTab, setActiveTab]  = useState('overview');
-  
+  const [event, setEvent] = useState<Event | null>(null);
+  const [pairings, setPairings] = useState<Pairing[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
+  const [standings, setStandings] = useState<Standing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("overview");
+
   // Modal states
-  const [showGeneratePairings, setShowGeneratePairings]  = useState(false);
-  const [showMatchResult, setShowMatchResult]  = useState(false);
-  const [generatingPairings, setGeneratingPairings]  = useState(false);
+  const [showGeneratePairings, setShowGeneratePairings] = useState(false);
+  const [showMatchResult, setShowMatchResult] = useState(false);
+  const [generatingPairings, setGeneratingPairings] = useState(false);
 
   useEffect(() => {
     fetchEventData();
-    
+
     // Initialize WebSocket connection
-    const wsSocket  = io('/events', {
+    const wsSocket = io("/events", {
       auth: {
-        token: localStorage.getItem('authToken'),
+        token: localStorage.getItem("authToken"),
       },
     });
 
-    wsSocket.on('connect', () => {
-      console.log('Connected to event updates');
-      wsSocket.emit('subscribeToEvent', { eventId });
+    wsSocket.on("connect", () => {
+      console.log("Connected to event updates");
+      wsSocket.emit("subscribeToEvent", { eventId });
     });
 
-    wsSocket.on('pairingsPublished', (data) => {
+    wsSocket.on("pairingsPublished", (data) => {
       if (data.eventId === eventId) {
         fetchPairings();
-        showNotification('New pairings published!', 'success');
+        showNotification("New pairings published!", "success");
       }
     });
 
-    wsSocket.on('matchResult', (data) => {
+    wsSocket.on("matchResult", (data) => {
       if (data.eventId === eventId) {
         fetchMatches();
         fetchStandings();
-        showNotification('Match result reported', 'info');
+        showNotification("Match result reported", "info");
       }
     });
 
-    wsSocket.on('roundCompleted', (data) => {
+    wsSocket.on("roundCompleted", (data) => {
       if (data.eventId === eventId) {
         fetchEventData();
-        showNotification(`Round ${data.round} completed!`, 'success');
+        showNotification(`Round ${data.round} completed!`, "success");
       }
     });
 
-    wsSocket.on('eventCompleted', (data) => {
+    wsSocket.on("eventCompleted", (data) => {
       if (data.eventId === eventId) {
         fetchEventData();
-        showNotification('Event completed!', 'success');
+        showNotification("Event completed!", "success");
       }
     });
 
@@ -149,143 +149,161 @@ const EventManager: React.FC<EventManagerProps>   = ({
     };
   }, [eventId]);
 
-  const fetchEventData  = async () => {
+  const fetchEventData = async () => {
     try {
-      const response  = await fetch(`/api/events/${eventId}`, {
+      const response = await fetch(`/api/events/${eventId}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
-      
-      if (!response.ok) throw new Error('Failed to fetch event');
-      
-      const eventData  = await response.json();
+
+      if (!response.ok) throw new Error("Failed to fetch event");
+
+      const eventData = await response.json();
       setEvent(eventData);
-      
+
       // Fetch related data
-      await Promise.all([
-        fetchPairings(),
-        fetchMatches(),
-        fetchStandings(),
-      ]);
+      await Promise.all([fetchPairings(), fetchMatches(), fetchStandings()]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchPairings  = async () => {
+  const fetchPairings = async () => {
     try {
-      const response  = await fetch(`/api/events/${eventId}/pairings`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+      const response = await fetch(`/api/events/${eventId}/pairings`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
       });
       if (response.ok) {
-        const data  = await response.json();
+        const data = await response.json();
         setPairings(data);
       }
     } catch (err) {
-      console.error('Failed to fetch pairings:', err);
+      console.error("Failed to fetch pairings:", err);
     }
   };
 
-  const fetchMatches  = async () => {
+  const fetchMatches = async () => {
     try {
-      const response  = await fetch(`/api/events/${eventId}/matches`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+      const response = await fetch(`/api/events/${eventId}/matches`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
       });
       if (response.ok) {
-        const data  = await response.json();
+        const data = await response.json();
         setMatches(data);
       }
     } catch (err) {
-      console.error('Failed to fetch matches:', err);
+      console.error("Failed to fetch matches:", err);
     }
   };
 
-  const fetchStandings  = async () => {
+  const fetchStandings = async () => {
     try {
-      const response  = await fetch(`/api/events/${eventId}/standings`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('authToken')}` },
+      const response = await fetch(`/api/events/${eventId}/standings`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
       });
       if (response.ok) {
-        const data  = await response.json();
+        const data = await response.json();
         setStandings(data);
       }
     } catch (err) {
-      console.error('Failed to fetch standings:', err);
+      console.error("Failed to fetch standings:", err);
     }
   };
 
-  const generatePairings  = async () => {
+  const generatePairings = async () => {
     try {
       setGeneratingPairings(true);
-      
-      const response  = await fetch(`/api/events/${eventId}/pairings/generate`, {
-        method: 'POST',
+
+      const response = await fetch(`/api/events/${eventId}/pairings/generate`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
         body: JSON.stringify({
           playerIds: [], // Will be populated by the service
-          format: event?.format || 'Standard',
+          format: event?.format || "Standard",
         }),
       });
 
-      if (!response.ok) throw new Error('Failed to generate pairings');
+      if (!response.ok) throw new Error("Failed to generate pairings");
 
-      const result  = await response.json();
+      const result = await response.json();
       showNotification(
-        `Generated ${result.pairings.length} pairings with ${result.overallQuality.toFixed(2)} average quality`,
-        'success'
+        `Generated ${
+          result.pairings.length
+        } pairings with ${result.overallQuality.toFixed(2)} average quality`,
+        "success"
       );
-      
+
       setShowGeneratePairings(false);
       fetchPairings();
     } catch (err) {
-      showNotification('Failed to generate pairings: ' + (err as Error).message, 'error');
+      showNotification(
+        "Failed to generate pairings: " + (err as Error).message,
+        "error"
+      );
     } finally {
       setGeneratingPairings(false);
     }
   };
 
-  const publishPairings  = async (round: number) => {
+  const publishPairings = async (round: number) => {
     try {
-      const response  = await fetch(`/api/events/${eventId}/pairings/publish?round=${round}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-        },
-      });
+      const response = await fetch(
+        `/api/events/${eventId}/pairings/publish?round=${round}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
 
-      if (!response.ok) throw new Error('Failed to publish pairings');
-      
-      showNotification('Pairings published successfully!', 'success');
+      if (!response.ok) throw new Error("Failed to publish pairings");
+
+      showNotification("Pairings published successfully!", "success");
       fetchPairings();
     } catch (err) {
-      showNotification('Failed to publish pairings: ' + (err as Error).message, 'error');
+      showNotification(
+        "Failed to publish pairings: " + (err as Error).message,
+        "error"
+      );
     }
   };
 
-  const showNotification  = (message: string, type: 'success' | 'error' | 'info') => {
+  const showNotification = (
+    message: string,
+    type: "success" | "error" | "info"
+  ) => {
     // Implementation would depend on your notification system
     console.log(`${type.toUpperCase()}: ${message}`);
   };
 
-  const getCurrentRoundPairings  = () => {
-    return pairings.filter(p => p.roundNumber === event?.currentRound);
+  const getCurrentRoundPairings = () => {
+    return pairings.filter((p) => p.roundNumber === event?.currentRound);
   };
 
-  const getCurrentRoundMatches  = () => {
-    return matches.filter(m => m.round === event?.currentRound);
+  const getCurrentRoundMatches = () => {
+    return matches.filter((m) => m.round === event?.currentRound);
   };
 
-  const getMatchProgress  = () => {
-    const currentMatches  = getCurrentRoundMatches();
+  const getMatchProgress = () => {
+    const currentMatches = getCurrentRoundMatches();
     if (currentMatches.length === 0) return 0;
-    
-    const completed  = currentMatches.filter(m => m.status === 'completed').length;
+
+    const completed = currentMatches.filter(
+      (m) => m.status === "completed"
+    ).length;
     return (completed / currentMatches.length) * 100;
   };
 
@@ -321,7 +339,7 @@ const EventManager: React.FC<EventManagerProps>   = ({
                 </small>
               </div>
             </div>
-            
+
             {(isOrganizer || isJudge) && (
               <div className="d-flex gap-2">
                 <Button variant="outline-secondary" size="sm">
@@ -347,7 +365,9 @@ const EventManager: React.FC<EventManagerProps>   = ({
             <Col xs={6} sm={3}>
               <Card className="text-center border-0 bg-light">
                 <Card.Body className="py-2">
-                  <div className="h6 mb-0">{getCurrentRoundPairings().length}</div>
+                  <div className="h6 mb-0">
+                    {getCurrentRoundPairings().length}
+                  </div>
                   <small className="text-muted">Pairings</small>
                 </Card.Body>
               </Card>
@@ -355,7 +375,13 @@ const EventManager: React.FC<EventManagerProps>   = ({
             <Col xs={6} sm={3}>
               <Card className="text-center border-0 bg-light">
                 <Card.Body className="py-2">
-                  <div className="h6 mb-0">{getCurrentRoundMatches().filter(m => m.status === 'completed').length}</div>
+                  <div className="h6 mb-0">
+                    {
+                      getCurrentRoundMatches().filter(
+                        (m) => m.status === "completed"
+                      ).length
+                    }
+                  </div>
                   <small className="text-muted">Completed</small>
                 </Card.Body>
               </Card>
@@ -363,7 +389,9 @@ const EventManager: React.FC<EventManagerProps>   = ({
             <Col xs={6} sm={3}>
               <Card className="text-center border-0 bg-light">
                 <Card.Body className="py-2">
-                  <div className="h6 mb-0">{Math.round(getMatchProgress())}%</div>
+                  <div className="h6 mb-0">
+                    {Math.round(getMatchProgress())}%
+                  </div>
                   <small className="text-muted">Progress</small>
                 </Card.Body>
               </Card>
@@ -371,11 +399,15 @@ const EventManager: React.FC<EventManagerProps>   = ({
           </Row>
 
           {/* Round Progress */}
-          {event?.status === 'In Progress' && (
+          {event?.status === "In Progress" && (
             <div className="mb-3">
               <div className="d-flex justify-content-between align-items-center mb-1">
-                <small className="text-muted">Round {event.currentRound} Progress</small>
-                <small className="text-muted">{Math.round(getMatchProgress())}%</small>
+                <small className="text-muted">
+                  Round {event.currentRound} Progress
+                </small>
+                <small className="text-muted">
+                  {Math.round(getMatchProgress())}%
+                </small>
               </div>
               <ProgressBar now={getMatchProgress()} />
             </div>
@@ -388,9 +420,9 @@ const EventManager: React.FC<EventManagerProps>   = ({
         <Row className="mb-3">
           <Col>
             <div className="d-flex gap-2 flex-wrap">
-              {event?.status === 'Registration Closed' && (
-                <Button 
-                  variant="success" 
+              {event?.status === "Registration Closed" && (
+                <Button
+                  variant="success"
                   size="sm"
                   onClick={() => setShowGeneratePairings(true)}
                 >
@@ -398,10 +430,10 @@ const EventManager: React.FC<EventManagerProps>   = ({
                   Start Event
                 </Button>
               )}
-              
-              {event?.status === 'In Progress' && getMatchProgress() < 100 && (
-                <Button 
-                  variant="primary" 
+
+              {event?.status === "In Progress" && getMatchProgress() < 100 && (
+                <Button
+                  variant="primary"
                   size="sm"
                   onClick={() => setShowGeneratePairings(true)}
                 >
@@ -410,18 +442,19 @@ const EventManager: React.FC<EventManagerProps>   = ({
                 </Button>
               )}
 
-              {getCurrentRoundPairings().length > 0 && !getCurrentRoundPairings()[0]?.isPublished && (
-                <Button 
-                  variant="warning" 
-                  size="sm"
-                  onClick={() => publishPairings(event?.currentRound || 1)}
-                >
-                  <Eye size={16} className="me-1" />
-                  Publish Pairings
-                </Button>
-              )}
+              {getCurrentRoundPairings().length > 0 &&
+                !getCurrentRoundPairings()[0]?.isPublished && (
+                  <Button
+                    variant="warning"
+                    size="sm"
+                    onClick={() => publishPairings(event?.currentRound || 1)}
+                  >
+                    <Eye size={16} className="me-1" />
+                    Publish Pairings
+                  </Button>
+                )}
 
-              {event?.status === 'In Progress' && (
+              {event?.status === "In Progress" && (
                 <Button variant="outline-secondary" size="sm">
                   <Pause size={16} className="me-1" />
                   Pause
@@ -440,12 +473,12 @@ const EventManager: React.FC<EventManagerProps>   = ({
       {/* Tabbed Content */}
       <Tabs
         activeKey={activeTab}
-        onSelect={(k) => setActiveTab(k || 'overview')}
+        onSelect={(k) => setActiveTab(k || "overview")}
         className="mb-3"
         fill
       >
         <Tab eventKey="pairings" title="Pairings">
-          <PairingsTab 
+          <PairingsTab
             pairings={getCurrentRoundPairings()}
             currentUserId={currentUserId}
             isOrganizer={isOrganizer}
@@ -461,10 +494,7 @@ const EventManager: React.FC<EventManagerProps>   = ({
         </Tab>
 
         <Tab eventKey="matches" title="Matches">
-          <MatchesTab 
-            matches={getCurrentRoundMatches()}
-            isJudge={isJudge}
-          />
+          <MatchesTab matches={getCurrentRoundMatches()} isJudge={isJudge} />
         </Tab>
 
         {(isOrganizer || isJudge) && (
@@ -475,23 +505,29 @@ const EventManager: React.FC<EventManagerProps>   = ({
       </Tabs>
 
       {/* Generate Pairings Modal */}
-      <Modal show={showGeneratePairings} onHide={() => setShowGeneratePairings(false)}>
+      <Modal
+        show={showGeneratePairings}
+        onHide={() => setShowGeneratePairings(false)}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Generate Pairings</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>Generate pairings for round {(event?.currentRound || 0) + 1}?</p>
           <p className="text-muted small">
-            The system will use Bayesian matchmaking to create optimal pairings based on 
-            player skill ratings and previous matchups.
+            The system will use Bayesian matchmaking to create optimal pairings
+            based on player skill ratings and previous matchups.
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowGeneratePairings(false)}>
+          <Button
+            variant="secondary"
+            onClick={() => setShowGeneratePairings(false)}
+          >
             Cancel
           </Button>
-          <Button 
-            variant="primary" 
+          <Button
+            variant="primary"
             onClick={generatePairings}
             disabled={generatingPairings}
           >
@@ -501,7 +537,7 @@ const EventManager: React.FC<EventManagerProps>   = ({
                 Generating...
               </>
             ) : (
-              'Generate Pairings'
+              "Generate Pairings"
             )}
           </Button>
         </Modal.Footer>
@@ -513,7 +549,7 @@ const EventManager: React.FC<EventManagerProps>   = ({
           <Modal.Title>Report Match Result</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <MatchResultForm 
+          <MatchResultForm
             onSubmit={() => {
               setShowMatchResult(false);
               fetchMatches();
@@ -527,21 +563,24 @@ const EventManager: React.FC<EventManagerProps>   = ({
 };
 
 // Placeholder components - would need full implementations
-const PairingsTab: React.FC<any>   = ({ pairings, onReportResult }) => (
+const PairingsTab: React.FC<any> = ({ pairings, onReportResult }) => (
   <div>
     <ListGroup>
       {pairings.map((pairing: Pairing) => (
-        <ListGroup.Item key={pairing.id} className="d-flex justify-content-between align-items-center">
+        <ListGroup.Item
+          key={pairing.id}
+          className="d-flex justify-content-between align-items-center"
+        >
           <div>
             <strong>Table {pairing.tableNumber}</strong>
             <div>
-              {pairing.playerA.username} 
-              {pairing.playerB ? ` vs ${pairing.playerB.username}` : ' (Bye)'}
+              {pairing.playerA.username}
+              {pairing.playerB ? ` vs ${pairing.playerB.username}` : " (Bye)"}
             </div>
             {pairing.quality && (
               <small className="text-muted">
-                Quality: {(pairing.quality.quality * 100).toFixed(1)}% 
-                ({pairing.quality.balanceCategory})
+                Quality: {(pairing.quality.quality * 100).toFixed(1)}% (
+                {pairing.quality.balanceCategory})
               </small>
             )}
           </div>
@@ -554,14 +593,21 @@ const PairingsTab: React.FC<any>   = ({ pairings, onReportResult }) => (
   </div>
 );
 
-const StandingsTab: React.FC<any>   = ({ standings }) => (
+const StandingsTab: React.FC<any> = ({ standings }) => (
   <div>
     <ListGroup>
       {standings.map((standing: Standing) => (
-        <ListGroup.Item key={standing.playerId} className="d-flex justify-content-between">
+        <ListGroup.Item
+          key={standing.playerId}
+          className="d-flex justify-content-between"
+        >
           <div>
             <strong>#{standing.position}</strong> {standing.playerName}
-            {standing.hasDropped && <Badge bg="secondary" className="ms-2">Dropped</Badge>}
+            {standing.hasDropped && (
+              <Badge bg="secondary" className="ms-2">
+                Dropped
+              </Badge>
+            )}
           </div>
           <div className="text-end">
             <div>{standing.matchPoints} pts</div>
@@ -573,14 +619,14 @@ const StandingsTab: React.FC<any>   = ({ standings }) => (
   </div>
 );
 
-const MatchesTab: React.FC<any>   = ({ matches }) => (
+const MatchesTab: React.FC<any> = ({ matches }) => (
   <div>
     <ListGroup>
       {matches.map((match: Match) => (
         <ListGroup.Item key={match.id}>
           <div className="d-flex justify-content-between align-items-center">
             <div>Match {match.id.slice(0, 8)}</div>
-            <Badge bg={match.status === 'completed' ? 'success' : 'primary'}>
+            <Badge bg={match.status === "completed" ? "success" : "primary"}>
               {match.status}
             </Badge>
           </div>
@@ -590,7 +636,7 @@ const MatchesTab: React.FC<any>   = ({ matches }) => (
   </div>
 );
 
-const AdminTab: React.FC<any>   = () => (
+const AdminTab: React.FC<any> = () => (
   <div>
     <Card>
       <Card.Body>
@@ -601,9 +647,9 @@ const AdminTab: React.FC<any>   = () => (
   </div>
 );
 
-const MatchResultForm: React.FC<any>   = ({ onSubmit }) => {
-  const [result, setResult]  = useState('win');
-  
+const MatchResultForm: React.FC<any> = ({ onSubmit }) => {
+  const [result, setResult] = useState("win");
+
   return (
     <Form>
       <Form.Group className="mb-3">

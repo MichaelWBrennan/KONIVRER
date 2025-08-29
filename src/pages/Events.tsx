@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import * as s from './events.css.ts';
-import { NotificationService } from '../services/notifications';
+import React, { useState, useEffect } from "react";
+import * as s from "./events.css.ts";
+import { NotificationService } from "../services/notifications";
 
 // Types
 interface Event {
@@ -9,7 +9,12 @@ interface Event {
   date: string;
   time: string;
   format: string;
-  status: 'upcoming' | 'live' | 'completed' | 'registration-open' | 'registration-closed';
+  status:
+    | "upcoming"
+    | "live"
+    | "completed"
+    | "registration-open"
+    | "registration-closed";
   prizePool: string;
   participants: string;
   maxParticipants?: number;
@@ -25,18 +30,28 @@ interface Event {
 interface User {
   id: string;
   username: string;
-  role: 'player' | 'judge_l1' | 'judge_l2' | 'judge_l3' | 'tournament_organizer' | 'admin';
+  role:
+    | "player"
+    | "judge_l1"
+    | "judge_l2"
+    | "judge_l3"
+    | "tournament_organizer"
+    | "admin";
   isAuthenticated?: boolean;
 }
 
-export const Events: React.FC   = () => {
-  const [activeTab, setActiveTab]  = useState<'browse' | 'my-events' | 'create' | 'admin'>('browse');
-  const [viewMode, setViewMode]  = useState<'upcoming' | 'live' | 'past'>('upcoming');
-  const [events]  = useState<Event[]>([]);
-  const [currentUser, setCurrentUser]  = useState<User>({
-    id: '',
-    username: '',
-    role: 'player',
+export const Events: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<
+    "browse" | "my-events" | "create" | "admin"
+  >("browse");
+  const [viewMode, setViewMode] = useState<"upcoming" | "live" | "past">(
+    "upcoming"
+  );
+  const [events] = useState<Event[]>([]);
+  const [currentUser, setCurrentUser] = useState<User>({
+    id: "",
+    username: "",
+    role: "player",
     isAuthenticated: false,
   });
 
@@ -45,59 +60,59 @@ export const Events: React.FC   = () => {
     loadEvents();
   }, []);
 
-  const checkAuthenticationStatus  = () => {
-    const token  = localStorage.getItem('authToken');
-    const userData  = localStorage.getItem('userData');
-    
+  const checkAuthenticationStatus = () => {
+    const token = localStorage.getItem("authToken");
+    const userData = localStorage.getItem("userData");
+
     if (token && userData) {
       try {
-        const user  = JSON.parse(userData);
+        const user = JSON.parse(userData);
         setCurrentUser({
           ...user,
           isAuthenticated: true,
         });
       } catch (error) {
-        console.error('Failed to parse user data:', error);
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userData');
+        console.error("Failed to parse user data:", error);
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userData");
       }
     }
   };
 
-  const loadEvents  = async () => {
+  const loadEvents = async () => {
     // Load events from API
     try {
       // const response  = await fetch('/api/events');
       // const eventsData  = await response.json();
       // setEvents(eventsData);
     } catch (error) {
-      console.error('Failed to load events:', error);
+      console.error("Failed to load events:", error);
     }
   };
 
-  const handleEventRegister  = async (eventId: string) => {
+  const handleEventRegister = async (eventId: string) => {
     try {
       // Register for event first
-      console.log('Register for event:', eventId);
-      
+      console.log("Register for event:", eventId);
+
       // After successful registration, request notification permission if not already granted
-      const notificationService  = NotificationService.getInstance();
-      if (Notification.permission === 'default') {
-        const granted  = await notificationService.requestPermission();
+      const notificationService = NotificationService.getInstance();
+      if (Notification.permission === "default") {
+        const granted = await notificationService.requestPermission();
         if (granted) {
           // Send a welcome notification to confirm notifications are working
           notificationService.sendNotification(
-            'system',
-            'Notifications Enabled',
-            'You\'ll receive notifications about tournament updates and round starts.',
+            "system",
+            "Notifications Enabled",
+            "You'll receive notifications about tournament updates and round starts.",
             {},
             eventId
           );
         } else {
-          console.log('User declined notification permission');
+          console.log("User declined notification permission");
         }
       }
-      
+
       // TODO: Implement actual event registration API call
       // const response  = await fetch(`/api/events/${eventId}/register`, {
       //   method: 'POST',
@@ -106,42 +121,48 @@ export const Events: React.FC   = () => {
       //     'Content-Type': 'application/json',
       //   },
       // });
-      
+
       // if (!response.ok) {
       //   throw new Error('Failed to register for event');
       // }
-      
+
       // Refresh events list to update registration status
       loadEvents();
     } catch (error) {
-      console.error('Failed to register for event:', error);
+      console.error("Failed to register for event:", error);
       // Show error notification
-      alert('Failed to register for event. Please try again.');
+      alert("Failed to register for event. Please try again.");
     }
   };
 
-  const handleEventUnregister  = (eventId: string) => {
-    // Unregister from event  
-    console.log('Unregister from event:', eventId);
+  const handleEventUnregister = (eventId: string) => {
+    // Unregister from event
+    console.log("Unregister from event:", eventId);
   };
 
-  const renderEventCard  = (event: Event) => (
+  const renderEventCard = (event: Event) => (
     <div key={event.id} className={s.eventCard}>
       <div className={s.eventHeader}>
         <h3 className={s.eventName}>{event.name}</h3>
         <div className={s.eventStatus}>{event.status}</div>
       </div>
       <div className={s.eventDetails}>
-        <p><strong>Date:</strong> {event.date} at {event.time}</p>
-        <p><strong>Format:</strong> {event.format}</p>
-        <p><strong>Prize Pool:</strong> {event.prizePool}</p>
-        <p><strong>Participants:</strong> {event.participants}</p>
+        <p>
+          <strong>Date:</strong> {event.date} at {event.time}
+        </p>
+        <p>
+          <strong>Format:</strong> {event.format}
+        </p>
+        <p>
+          <strong>Prize Pool:</strong> {event.prizePool}
+        </p>
+        <p>
+          <strong>Participants:</strong> {event.participants}
+        </p>
         <p>{event.description}</p>
       </div>
       <div className={s.actions}>
-        <button onClick={() => handleEventRegister(event.id)}>
-          Register
-        </button>
+        <button onClick={() => handleEventRegister(event.id)}>Register</button>
         <button onClick={() => handleEventUnregister(event.id)}>
           View Details
         </button>
@@ -158,53 +179,54 @@ export const Events: React.FC   = () => {
 
       <div className={s.nav}>
         <div className={s.navTabs}>
-          <button 
-            className={activeTab === 'browse' ? 'active' : ''}
-            onClick={() => setActiveTab('browse')}
+          <button
+            className={activeTab === "browse" ? "active" : ""}
+            onClick={() => setActiveTab("browse")}
           >
             Browse Events
           </button>
-          <button 
-            className={activeTab === 'my-events' ? 'active' : ''}
-            onClick={() => setActiveTab('my-events')}
+          <button
+            className={activeTab === "my-events" ? "active" : ""}
+            onClick={() => setActiveTab("my-events")}
           >
             My Events
           </button>
-          {currentUser.role === 'tournament_organizer' || currentUser.role === 'admin' ? (
-            <button 
-              className={activeTab === 'create' ? 'active' : ''}
-              onClick={() => setActiveTab('create')}
+          {currentUser.role === "tournament_organizer" ||
+          currentUser.role === "admin" ? (
+            <button
+              className={activeTab === "create" ? "active" : ""}
+              onClick={() => setActiveTab("create")}
             >
               Create Event
             </button>
           ) : null}
-          {currentUser.role === 'admin' ? (
-            <button 
-              className={activeTab === 'admin' ? 'active' : ''}
-              onClick={() => setActiveTab('admin')}
+          {currentUser.role === "admin" ? (
+            <button
+              className={activeTab === "admin" ? "active" : ""}
+              onClick={() => setActiveTab("admin")}
             >
               Admin
             </button>
           ) : null}
         </div>
 
-        {activeTab === 'browse' && (
+        {activeTab === "browse" && (
           <div className={s.viewSelector}>
-            <button 
-              className={viewMode === 'upcoming' ? 'active' : ''}
-              onClick={() => setViewMode('upcoming')}
+            <button
+              className={viewMode === "upcoming" ? "active" : ""}
+              onClick={() => setViewMode("upcoming")}
             >
               Upcoming
             </button>
-            <button 
-              className={viewMode === 'live' ? 'active' : ''}
-              onClick={() => setViewMode('live')}
+            <button
+              className={viewMode === "live" ? "active" : ""}
+              onClick={() => setViewMode("live")}
             >
               Live
             </button>
-            <button 
-              className={viewMode === 'past' ? 'active' : ''}
-              onClick={() => setViewMode('past')}
+            <button
+              className={viewMode === "past" ? "active" : ""}
+              onClick={() => setViewMode("past")}
             >
               Past Events
             </button>
@@ -213,7 +235,7 @@ export const Events: React.FC   = () => {
       </div>
 
       <div className={s.content}>
-        {activeTab === 'browse' && (
+        {activeTab === "browse" && (
           <div className={s.list}>
             {events.length === 0 ? (
               <div className={s.empty}>
@@ -226,7 +248,7 @@ export const Events: React.FC   = () => {
           </div>
         )}
 
-        {activeTab === 'my-events' && (
+        {activeTab === "my-events" && (
           <div className="my-events">
             <h2>My Registered Events</h2>
             {currentUser.isAuthenticated ? (
@@ -237,14 +259,14 @@ export const Events: React.FC   = () => {
           </div>
         )}
 
-        {activeTab === 'create' && (
+        {activeTab === "create" && (
           <div className="create-event">
             <h2>Create New Event</h2>
             <p>Event creation functionality coming soon.</p>
           </div>
         )}
 
-        {activeTab === 'admin' && (
+        {activeTab === "admin" && (
           <div className="admin-panel">
             <h2>Event Administration</h2>
             <p>Admin features coming soon.</p>

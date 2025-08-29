@@ -1,6 +1,6 @@
-import React from 'react';
-import * as s from './mobileShell.css.ts';
-import { MobileNav } from './MobileNav';
+import React from "react";
+import * as s from "./mobileShell.css.ts";
+import { MobileNav } from "./MobileNav";
 
 interface Props {
   current: string;
@@ -8,7 +8,11 @@ interface Props {
   children: React.ReactNode;
 }
 
-export const MobileShell: React.FC<Props>   = ({ current, onNavigate, children }) => {
+export const MobileShell: React.FC<Props> = ({
+  current,
+  onNavigate,
+  children,
+}) => {
   return (
     <div className={s.shell}>
       <div className={s.content}>{children}</div>
@@ -16,4 +20,3 @@ export const MobileShell: React.FC<Props>   = ({ current, onNavigate, children }
     </div>
   );
 };
-

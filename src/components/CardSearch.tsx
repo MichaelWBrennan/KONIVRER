@@ -1,55 +1,61 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { useCards } from '../hooks/useCards';
-import { useAppStore } from '../stores/appStore';
-import { debounce } from '../utils/timing';
-import { Card } from '../data/cards';  // Use our local Card type
-import * as cs from './cardSearch.css.ts';
-import { CardViewerModal } from './CardViewerModal';
-import * as nav from '../nav.css.ts';
+import React, { useState, useMemo, useCallback } from "react";
+import { useCards } from "../hooks/useCards";
+import { useAppStore } from "../stores/appStore";
+import { debounce } from "../utils/timing";
+import { Card } from "../data/cards"; // Use our local Card type
+import * as cs from "./cardSearch.css.ts";
+import { CardViewerModal } from "./CardViewerModal";
+import * as nav from "../nav.css.ts";
 
 interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
-export const CardSearch: React.FC<CardSearchProps>   = () => {
-  const [selectedCard, setSelectedCard]  = useState<Card | null>(null);
-  const { searchFilters, setSearchFilters }  = useAppStore();
-  const [localSearchTerm, setLocalSearchTerm]  = useState(searchFilters.search || '');
-  
+export const CardSearch: React.FC<CardSearchProps> = () => {
+  const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+  const { searchFilters, setSearchFilters } = useAppStore();
+  const [localSearchTerm, setLocalSearchTerm] = useState(
+    searchFilters.search || ""
+  );
+
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
   // Debounced search - update filters when user stops typing
-  const updateSearch  = useCallback(
+  const updateSearch = useCallback(
     debounce((term: string) => {
       setSearchFilters({ search: term, page: 1 });
     }, 500),
     [setSearchFilters]
   );
 
-  const { data: cardsData, isLoading, error }  = useCards(searchFilters);
+  const { data: cardsData, isLoading, error } = useCards(searchFilters);
 
   // Update search term locally and trigger debounced update
-  const handleSearchChange  = (term: string) => {
+  const handleSearchChange = (term: string) => {
     setLocalSearchTerm(term);
     updateSearch(term);
   };
 
-  const handleFilterChange  = (key: string, value: any) => {
+  const handleFilterChange = (key: string, value: any) => {
     setSearchFilters({ [key]: value, page: 1 });
   };
 
-  const handlePageChange  = (page: number) => {
+  const handlePageChange = (page: number) => {
     setSearchFilters({ page });
   };
 
-  
-
   // Get unique values for filters from current results
-  const filterOptions  = useMemo(() => {
-    const cards  = cardsData?.cards || [];
+  const filterOptions = useMemo(() => {
+    const cards = cardsData?.cards || [];
     return {
-      elements: [...new Set(cards.map((card: Card) => card.element))].sort() as string[],
-      types: [...new Set(cards.map((card: Card) => card.type))].sort() as string[],
-      rarities: [...new Set(cards.map((card: Card) => card.rarity))].sort() as string[],
+      elements: [
+        ...new Set(cards.map((card: Card) => card.element)),
+      ].sort() as string[],
+      types: [
+        ...new Set(cards.map((card: Card) => card.type)),
+      ].sort() as string[],
+      rarities: [
+        ...new Set(cards.map((card: Card) => card.rarity)),
+      ].sort() as string[],
     };
   }, [cardsData]);
 
@@ -57,19 +63,19 @@ export const CardSearch: React.FC<CardSearchProps>   = () => {
     return (
       <div className="error-container">
         <h1>Card Search</h1>
-        <div className="error">
-          Error loading cards: {error.message}
-        </div>
+        <div className="error">Error loading cards: {error.message}</div>
       </div>
     );
   }
 
-  const cards  = cardsData?.cards || [];
-  const pagination  = cardsData ? {
-    currentPage: cardsData.page,
-    totalPages: Math.ceil(cardsData.total / (cardsData.pageSize || 20)),
-    total: cardsData.total
-  } : null;
+  const cards = cardsData?.cards || [];
+  const pagination = cardsData
+    ? {
+        currentPage: cardsData.page,
+        totalPages: Math.ceil(cardsData.total / (cardsData.pageSize || 20)),
+        total: cardsData.total,
+      }
+    : null;
 
   return (
     <div>
@@ -83,38 +89,50 @@ export const CardSearch: React.FC<CardSearchProps>   = () => {
           onChange={(e) => handleSearchChange(e.target.value)}
           className="search-input"
         />
-        
+
         <div className="filters">
           <select
-            value={searchFilters.element || ''}
-            onChange={(e) => handleFilterChange('element', e.target.value || undefined)}
+            value={searchFilters.element || ""}
+            onChange={(e) =>
+              handleFilterChange("element", e.target.value || undefined)
+            }
             className="filter-select"
           >
             <option value="">All Elements</option>
-            {filterOptions.elements.map(element => (
-              <option key={element} value={element}>{element}</option>
+            {filterOptions.elements.map((element) => (
+              <option key={element} value={element}>
+                {element}
+              </option>
             ))}
           </select>
-          
+
           <select
-            value={searchFilters.type || ''}
-            onChange={(e) => handleFilterChange('type', e.target.value || undefined)}
+            value={searchFilters.type || ""}
+            onChange={(e) =>
+              handleFilterChange("type", e.target.value || undefined)
+            }
             className="filter-select"
           >
             <option value="">All Types</option>
-            {filterOptions.types.map(type => (
-              <option key={type} value={type}>{type}</option>
+            {filterOptions.types.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
             ))}
           </select>
-          
+
           <select
-            value={searchFilters.rarity || ''}
-            onChange={(e) => handleFilterChange('rarity', e.target.value || undefined)}
+            value={searchFilters.rarity || ""}
+            onChange={(e) =>
+              handleFilterChange("rarity", e.target.value || undefined)
+            }
             className="filter-select"
           >
             <option value="">All Rarities</option>
-            {filterOptions.rarities.map(rarity => (
-              <option key={rarity} value={rarity}>{rarity}</option>
+            {filterOptions.rarities.map((rarity) => (
+              <option key={rarity} value={rarity}>
+                {rarity}
+              </option>
             ))}
           </select>
 
@@ -122,20 +140,25 @@ export const CardSearch: React.FC<CardSearchProps>   = () => {
             <input
               type="checkbox"
               checked={searchFilters.legalOnly || false}
-              onChange={(e) => handleFilterChange('legalOnly', e.target.checked || undefined)}
+              onChange={(e) =>
+                handleFilterChange("legalOnly", e.target.checked || undefined)
+              }
             />
             Tournament Legal Only
           </label>
         </div>
       </div>
 
-      {isLoading && (
-        <div className="loading">Loading cards...</div>
-      )}
+      {isLoading && <div className="loading">Loading cards...</div>}
 
       {pagination && (
         <div className="pagination-info">
-          Showing {((pagination.currentPage - 1) * searchFilters.limit!) + 1}-{Math.min(pagination.currentPage * searchFilters.limit!, pagination.total)} of {pagination.total} cards
+          Showing {(pagination.currentPage - 1) * searchFilters.limit! + 1}-
+          {Math.min(
+            pagination.currentPage * searchFilters.limit!,
+            pagination.total
+          )}{" "}
+          of {pagination.total} cards
         </div>
       )}
 
@@ -147,13 +170,13 @@ export const CardSearch: React.FC<CardSearchProps>   = () => {
             onClick={() => setSelectedCard(card)}
           >
             <img
-              src={card.webpUrl || card.imageUrl || '/placeholder-card.png'}
+              src={card.webpUrl || card.imageUrl || "/placeholder-card.png"}
               alt={card.name}
               className={cs.cardImg}
               onError={(e) => {
-                const target  = e.target as HTMLImageElement;
-                if (target.src !== '/placeholder-card.png') {
-                  target.src = card.imageUrl || '/placeholder-card.png';
+                const target = e.target as HTMLImageElement;
+                if (target.src !== "/placeholder-card.png") {
+                  target.src = card.imageUrl || "/placeholder-card.png";
                 }
               }}
             />
@@ -170,11 +193,11 @@ export const CardSearch: React.FC<CardSearchProps>   = () => {
           >
             Previous
           </button>
-          
+
           <span className={cs.paginationInfo}>
             Page {pagination.currentPage} of {pagination.totalPages}
           </span>
-          
+
           <button
             disabled={pagination.currentPage === pagination.totalPages}
             onClick={() => handlePageChange(pagination.currentPage + 1)}
@@ -191,7 +214,10 @@ export const CardSearch: React.FC<CardSearchProps>   = () => {
         </div>
       )}
 
-      <CardViewerModal card={selectedCard} onClose={() => setSelectedCard(null)} />
+      <CardViewerModal
+        card={selectedCard}
+        onClose={() => setSelectedCard(null)}
+      />
     </div>
   );
 };

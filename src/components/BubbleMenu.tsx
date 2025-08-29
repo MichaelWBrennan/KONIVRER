@@ -1,122 +1,144 @@
-import React, { useState, useEffect } from 'react';
-import { detectDevice } from '../utils/deviceDetection';
-import { LoginModal } from './LoginModal';
-import { useAuth } from '../hooks/useAuth';
-import { 
-  AccessibilityIcon, 
-  SearchIcon, 
-  ProfileIcon, 
-  MenuIcon
-} from './EsotericIcons';
-import * as bm from './bubbleMenu.css.ts';
+import React, { useState, useEffect } from "react";
+import { detectDevice } from "../utils/deviceDetection";
+import { LoginModal } from "./LoginModal";
+import { useAuth } from "../hooks/useAuth";
+import {
+  AccessibilityIcon,
+  SearchIcon,
+  ProfileIcon,
+  MenuIcon,
+} from "./EsotericIcons";
+import * as bm from "./bubbleMenu.css.ts";
 
 interface BubbleMenuProps {
   currentPage: string;
-  onPageChange: (page: 'home' | 'simulator' | 'cards' | 'decks' | 'deckbuilder' | 'analytics' | 'events' | 'my-decks' | 'rules' | 'judge') => void;
+  onPageChange: (
+    page:
+      | "home"
+      | "simulator"
+      | "cards"
+      | "decks"
+      | "deckbuilder"
+      | "analytics"
+      | "events"
+      | "my-decks"
+      | "rules"
+      | "judge"
+  ) => void;
   onSearch?: (query: string) => void;
 }
 
-export const BubbleMenu: React.FC<BubbleMenuProps>   = ({ 
-  currentPage, 
-  onPageChange, 
-  onSearch 
+export const BubbleMenu: React.FC<BubbleMenuProps> = ({
+  currentPage,
+  onPageChange,
+  onSearch,
 }) => {
-  const [isMenuOpen, setIsMenuOpen]  = useState(false);
-  const [isAccessibilityOpen, setIsAccessibilityOpen]  = useState(false);
-  const [isSearchOpen, setIsSearchOpen]  = useState(false);
-  const [isLoginOpen, setIsLoginOpen]  = useState(false);
-  const [isLoginModalOpen, setIsLoginModalOpen]  = useState(false);
-  const [searchQuery, setSearchQuery]  = useState('');
-  const [fontSize, setFontSize]  = useState('medium');
-  const [contrastMode, setContrastMode]  = useState('normal');
-  const device  = detectDevice();
-  const { 
-    isAuthenticated, 
-    user, 
-    canAccessJudgePortal, 
-    logout, 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAccessibilityOpen, setIsAccessibilityOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [fontSize, setFontSize] = useState("medium");
+  const [contrastMode, setContrastMode] = useState("normal");
+  const device = detectDevice();
+  const {
+    isAuthenticated,
+    user,
+    canAccessJudgePortal,
+    logout,
     isJudge,
-    getJudgeLevel 
+    getJudgeLevel,
   } = useAuth();
 
   // Load accessibility preferences from localStorage
   useEffect(() => {
-    const savedFontSize  = localStorage.getItem('fontSize') || 'medium';
-    const savedContrast  = localStorage.getItem('contrastMode') || 'normal';
-    
+    const savedFontSize = localStorage.getItem("fontSize") || "medium";
+    const savedContrast = localStorage.getItem("contrastMode") || "normal";
+
     // Clean up old dyslexicFont setting since it's no longer needed
-    localStorage.removeItem('dyslexicFont');
-    
+    localStorage.removeItem("dyslexicFont");
+
     setFontSize(savedFontSize);
     setContrastMode(savedContrast);
-    
+
     // Apply settings to document
-    document.documentElement.setAttribute('data-font-size', savedFontSize);
-    document.documentElement.setAttribute('data-contrast', savedContrast);
+    document.documentElement.setAttribute("data-font-size", savedFontSize);
+    document.documentElement.setAttribute("data-contrast", savedContrast);
     // OpenDyslexic font is now always applied via CSS
   }, []);
 
-  const handleAccessibilityChange  = (setting: string, value: string | boolean) => {
+  const handleAccessibilityChange = (
+    setting: string,
+    value: string | boolean
+  ) => {
     switch (setting) {
-      case 'fontSize':
+      case "fontSize":
         setFontSize(value as string);
-        localStorage.setItem('fontSize', value as string);
-        document.documentElement.setAttribute('data-font-size', value as string);
+        localStorage.setItem("fontSize", value as string);
+        document.documentElement.setAttribute(
+          "data-font-size",
+          value as string
+        );
         break;
-      case 'contrast':
+      case "contrast":
         setContrastMode(value as string);
-        localStorage.setItem('contrastMode', value as string);
-        document.documentElement.setAttribute('data-contrast', value as string);
+        localStorage.setItem("contrastMode", value as string);
+        document.documentElement.setAttribute("data-contrast", value as string);
         break;
     }
   };
 
-  const handleSearch  = (e: React.FormEvent) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSearch && searchQuery.trim()) {
       onSearch(searchQuery.trim());
-      setSearchQuery('');
+      setSearchQuery("");
       setIsSearchOpen(false);
     }
   };
 
-  const getSearchPlaceholder  = () => {
+  const getSearchPlaceholder = () => {
     switch (currentPage) {
-      case 'cards':
-        return 'Search cards...';
-      case 'decks':
-        return 'Search decks...';
-      case 'my-decks':
-        return 'Search my decks...';
-      case 'tournaments':
-        return 'Search tournaments...';
-      case 'companion':
-        return 'Search events...';
+      case "cards":
+        return "Search cards...";
+      case "decks":
+        return "Search decks...";
+      case "my-decks":
+        return "Search my decks...";
+      case "tournaments":
+        return "Search tournaments...";
+      case "companion":
+        return "Search events...";
       default:
-        return 'Search...';
+        return "Search...";
     }
   };
 
   // Helper function to close all panels except the specified one
-  const closeOtherPanels  = (keepOpen: string) => {
-    if (keepOpen !== 'accessibility') setIsAccessibilityOpen(false);
-    if (keepOpen !== 'search') setIsSearchOpen(false);
-    if (keepOpen !== 'login') setIsLoginOpen(false);
-    if (keepOpen !== 'menu') setIsMenuOpen(false);
+  const closeOtherPanels = (keepOpen: string) => {
+    if (keepOpen !== "accessibility") setIsAccessibilityOpen(false);
+    if (keepOpen !== "search") setIsSearchOpen(false);
+    if (keepOpen !== "login") setIsLoginOpen(false);
+    if (keepOpen !== "menu") setIsMenuOpen(false);
   };
 
-  const menuItems  = [
+  const menuItems = [
     // Only show Home when not on home page
-    ...(currentPage !== 'home' ? [{ id: 'home' as const, label: 'Home' }] : []),
-    { id: 'cards' as const, label: 'Card Search' },
-    { id: 'decks' as const, label: 'Deck Search' },
+    ...(currentPage !== "home" ? [{ id: "home" as const, label: "Home" }] : []),
+    { id: "cards" as const, label: "Card Search" },
+    { id: "decks" as const, label: "Deck Search" },
     // Only show My Decks when logged in
-    ...(isAuthenticated ? [{ id: 'my-decks' as const, label: 'My Decks' }] : []),
-    { id: 'simulator' as const, label: 'Simulator' },
-    { id: 'rules' as const, label: 'Rules' },
+    ...(isAuthenticated
+      ? [{ id: "my-decks" as const, label: "My Decks" }]
+      : []),
+    { id: "simulator" as const, label: "Simulator" },
+    { id: "rules" as const, label: "Rules" },
     // Only show Judge Portal to authenticated judges and admins
-    ...(canAccessJudgePortal() ? [{ id: 'judge' as const, label: 'Judge Portal' }] : []),
-    { id: 'events' as const, label: 'Events' }
+    ...(canAccessJudgePortal()
+      ? [{ id: "judge" as const, label: "Judge Portal" }]
+      : []),
+    { id: "events" as const, label: "Events" },
     // Combined tournaments and companion functionality into unified Events
   ];
 
@@ -127,7 +149,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         <button
           className={`${bm.bubbleBtn} ${bm.accessibilityBtn}`}
           onClick={() => {
-            closeOtherPanels('accessibility');
+            closeOtherPanels("accessibility");
             setIsAccessibilityOpen(!isAccessibilityOpen);
           }}
           aria-label="Accessibility Settings"
@@ -135,7 +157,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         >
           <AccessibilityIcon size={20} />
         </button>
-        
+
         {isAccessibilityOpen && (
           <div className={`${bm.panel} accessibility-panel`}>
             <button
@@ -146,13 +168,15 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
               ✕
             </button>
             <h3>Accessibility Settings</h3>
-            
+
             <div className="setting-group">
               <label htmlFor="font-size">Font Size:</label>
               <select
                 id="font-size"
                 value={fontSize}
-                onChange={(e) => handleAccessibilityChange('fontSize', e.target.value)}
+                onChange={(e) =>
+                  handleAccessibilityChange("fontSize", e.target.value)
+                }
               >
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
@@ -160,13 +184,15 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
                 <option value="extra-large">Extra Large</option>
               </select>
             </div>
-            
+
             <div className="setting-group">
               <label htmlFor="contrast">Contrast:</label>
               <select
                 id="contrast"
                 value={contrastMode}
-                onChange={(e) => handleAccessibilityChange('contrast', e.target.value)}
+                onChange={(e) =>
+                  handleAccessibilityChange("contrast", e.target.value)
+                }
               >
                 <option value="normal">Normal</option>
                 <option value="high">High Contrast</option>
@@ -182,7 +208,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         <button
           className={`${bm.bubbleBtn} ${bm.searchBtn}`}
           onClick={() => {
-            closeOtherPanels('search');
+            closeOtherPanels("search");
             setIsSearchOpen(!isSearchOpen);
           }}
           aria-label="Search"
@@ -190,7 +216,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         >
           <SearchIcon size={20} />
         </button>
-        
+
         {isSearchOpen && (
           <div className={`${bm.panel} search-panel`}>
             <button
@@ -209,7 +235,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
                 className="search-input"
                 autoFocus
               />
-              <button type="submit" className="search-submit-btn">Search</button>
+              <button type="submit" className="search-submit-btn">
+                Search
+              </button>
             </form>
           </div>
         )}
@@ -220,7 +248,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         <button
           className={`${bm.bubbleBtn} ${bm.loginBtn}`}
           onClick={() => {
-            closeOtherPanels('login');
+            closeOtherPanels("login");
             setIsLoginOpen(!isLoginOpen);
           }}
           aria-label="User Profile"
@@ -228,7 +256,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         >
           <ProfileIcon size={20} />
         </button>
-        
+
         {isLoginOpen && (
           <div className={`${bm.panel} login-panel`}>
             <button
@@ -244,16 +272,17 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
               </div>
               {isAuthenticated ? (
                 <>
-                  <h3>{user?.displayName || user?.username || 'User'}</h3>
+                  <h3>{user?.displayName || user?.username || "User"}</h3>
                   <p>
-                    {isJudge() ? `Judge Level ${getJudgeLevel()}` : 'Player'} • 
-                    Level {user?.eloRating ? Math.floor(user.eloRating / 100) : 1}
+                    {isJudge() ? `Judge Level ${getJudgeLevel()}` : "Player"} •
+                    Level{" "}
+                    {user?.eloRating ? Math.floor(user.eloRating / 100) : 1}
                   </p>
-                  <p style={{ fontSize: '0.8em', color: '#666' }}>
-                    {user?.rankTier || 'Bronze'} Tier
+                  <p style={{ fontSize: "0.8em", color: "#666" }}>
+                    {user?.rankTier || "Bronze"} Tier
                   </p>
                   <div className={bm.userActions}>
-                    <button 
+                    <button
                       className="btn btn-small btn-secondary"
                       onClick={async () => {
                         await logout();
@@ -262,7 +291,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
                     >
                       Logout
                     </button>
-                    <button className="btn btn-small btn-secondary">Settings</button>
+                    <button className="btn btn-small btn-secondary">
+                      Settings
+                    </button>
                   </div>
                 </>
               ) : (
@@ -270,7 +301,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
                   <h3>Not Logged In</h3>
                   <p>Sign in to access all features</p>
                   <div className={bm.userActions}>
-                    <button 
+                    <button
                       className="btn btn-small"
                       onClick={() => {
                         setIsLoginModalOpen(true);
@@ -279,7 +310,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
                     >
                       Login
                     </button>
-                    <button className="btn btn-small btn-secondary">Settings</button>
+                    <button className="btn btn-small btn-secondary">
+                      Settings
+                    </button>
                   </div>
                 </>
               )}
@@ -293,7 +326,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         <button
           className={`${bm.bubbleBtn} ${bm.menuBtn}`}
           onClick={() => {
-            closeOtherPanels('menu');
+            closeOtherPanels("menu");
             setIsMenuOpen(!isMenuOpen);
           }}
           aria-label="Main Menu"
@@ -301,7 +334,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
         >
           <MenuIcon size={20} />
         </button>
-        
+
         {isMenuOpen && (
           <div className={`${bm.panel} menu-panel`}>
             <button
@@ -315,7 +348,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
               {menuItems.map((item) => (
                 <button
                   key={item.id}
-                  className={`${bm.menuItem} ${currentPage === item.id ? bm.menuItemActive : ''}`}
+                  className={`${bm.menuItem} ${
+                    currentPage === item.id ? bm.menuItemActive : ""
+                  }`}
                   onClick={() => {
                     onPageChange(item.id);
                     setIsMenuOpen(false);
@@ -330,9 +365,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps>   = ({
       </div>
 
       {/* Login Modal */}
-      <LoginModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
       />
     </div>
   );

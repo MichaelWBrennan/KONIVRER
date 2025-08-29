@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
-import type { Deck } from '../data/cards';
-import * as s from './myDecks.css.ts';
+import React, { useState, useMemo } from "react";
+import type { Deck } from "../data/cards";
+import * as s from "./myDecks.css.ts";
 
 interface DeckWithActions extends Deck {
   isPublic: boolean;
@@ -9,23 +9,27 @@ interface DeckWithActions extends Deck {
 }
 
 // User decks will be loaded from backend
-const mockUserDecks: DeckWithActions[]   = [];
+const mockUserDecks: DeckWithActions[] = [];
 
-export const MyDecks: React.FC   = () => {
-  const [searchTerm, setSearchTerm]  = useState('');
-  const [sortBy, setSortBy]  = useState<'name' | 'created' | 'lastPlayed' | 'winRate'>('lastPlayed');
-  const [filterBy, setFilterBy]  = useState<'all' | 'public' | 'private'>('all');
+export const MyDecks: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState<
+    "name" | "created" | "lastPlayed" | "winRate"
+  >("lastPlayed");
+  const [filterBy, setFilterBy] = useState<"all" | "public" | "private">("all");
 
   // Filter and sort user decks
-  const filteredDecks  = useMemo(() => {
-    let decks = mockUserDecks.filter(deck => {
-      const matchesSearch  = searchTerm === '' || 
+  const filteredDecks = useMemo(() => {
+    let decks = mockUserDecks.filter((deck) => {
+      const matchesSearch =
+        searchTerm === "" ||
         deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesVisibility  = filterBy === 'all' || 
-        (filterBy === 'public' && deck.isPublic) ||
-        (filterBy === 'private' && !deck.isPublic);
+
+      const matchesVisibility =
+        filterBy === "all" ||
+        (filterBy === "public" && deck.isPublic) ||
+        (filterBy === "private" && !deck.isPublic);
 
       return matchesSearch && matchesVisibility;
     });
@@ -33,16 +37,16 @@ export const MyDecks: React.FC   = () => {
     // Sort decks
     decks.sort((a, b) => {
       switch (sortBy) {
-        case 'name':
+        case "name":
           return a.name.localeCompare(b.name);
-        case 'created':
+        case "created":
           return b.created.getTime() - a.created.getTime();
-        case 'lastPlayed':
+        case "lastPlayed":
           if (!a.lastPlayed && !b.lastPlayed) return 0;
           if (!a.lastPlayed) return 1;
           if (!b.lastPlayed) return -1;
           return b.lastPlayed.getTime() - a.lastPlayed.getTime();
-        case 'winRate':
+        case "winRate":
           return b.winRate - a.winRate;
         default:
           return 0;
@@ -52,29 +56,29 @@ export const MyDecks: React.FC   = () => {
     return decks;
   }, [searchTerm, sortBy, filterBy]);
 
-  const handlePlayInSimulator  = (deck: Deck) => {
+  const handlePlayInSimulator = (deck: Deck) => {
     // Navigate to simulator with this deck loaded
-    console.log('Playing deck in simulator:', deck.name);
+    console.log("Playing deck in simulator:", deck.name);
     alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
   };
 
-  const handleEditDeck  = (deck: Deck) => {
+  const handleEditDeck = (deck: Deck) => {
     // Navigate to deck builder with this deck loaded
-    console.log('Editing deck:', deck.name);
+    console.log("Editing deck:", deck.name);
     alert(`Opening "${deck.name}" in deck builder... (Feature coming soon)`);
   };
 
-  const handleToggleVisibility  = (deckId: string) => {
+  const handleToggleVisibility = (deckId: string) => {
     // Update deck visibility in backend
-    console.log('Toggling visibility for deck:', deckId);
-    alert('Deck visibility toggle... (Feature coming soon)');
+    console.log("Toggling visibility for deck:", deckId);
+    alert("Deck visibility toggle... (Feature coming soon)");
   };
 
-  const handleDeleteDeck  = (deckId: string) => {
+  const handleDeleteDeck = (deckId: string) => {
     // Delete deck from backend
-    console.log('Deleting deck:', deckId);
-    if (confirm('Are you sure you want to delete this deck?')) {
-      alert('Deck deletion... (Feature coming soon)');
+    console.log("Deleting deck:", deckId);
+    if (confirm("Are you sure you want to delete this deck?")) {
+      alert("Deck deletion... (Feature coming soon)");
     }
   };
 
@@ -97,8 +101,8 @@ export const MyDecks: React.FC   = () => {
         </div>
 
         <div className={s.filterSection}>
-          <select 
-            value={sortBy} 
+          <select
+            value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
             className={s.select}
           >
@@ -108,8 +112,8 @@ export const MyDecks: React.FC   = () => {
             <option value="winRate">Win Rate</option>
           </select>
 
-          <select 
-            value={filterBy} 
+          <select
+            value={filterBy}
             onChange={(e) => setFilterBy(e.target.value as any)}
             className={s.select}
           >
@@ -119,9 +123,9 @@ export const MyDecks: React.FC   = () => {
           </select>
         </div>
 
-        <button 
+        <button
           className="btn btn-primary new-deck-btn"
-          onClick={() => alert('Create new deck... (Feature coming soon)')}
+          onClick={() => alert("Create new deck... (Feature coming soon)")}
         >
           + New Deck
         </button>
@@ -134,9 +138,17 @@ export const MyDecks: React.FC   = () => {
               <h3 className={s.deckName}>{deck.name}</h3>
               <div>
                 {deck.isPublic ? (
-                  <span className={`${s.visibilityBadge} ${s.visibilityPublic}`}>🌐 Public</span>
+                  <span
+                    className={`${s.visibilityBadge} ${s.visibilityPublic}`}
+                  >
+                    🌐 Public
+                  </span>
                 ) : (
-                  <span className={`${s.visibilityBadge} ${s.visibilityPrivate}`}>🔒 Private</span>
+                  <span
+                    className={`${s.visibilityBadge} ${s.visibilityPrivate}`}
+                  >
+                    🔒 Private
+                  </span>
                 )}
               </div>
             </div>
@@ -144,41 +156,47 @@ export const MyDecks: React.FC   = () => {
             <div className={s.deckInfo}>
               <p className={s.deckDescription}>{deck.description}</p>
               <div className={s.deckStats}>
-                <span className={s.stat}>📊 Win Rate: {(deck.winRate * 100).toFixed(0)}%</span>
+                <span className={s.stat}>
+                  📊 Win Rate: {(deck.winRate * 100).toFixed(0)}%
+                </span>
                 <span className={s.stat}>🎯 Format: {deck.format}</span>
                 <span className={s.stat}>⚡ Element: {deck.mainElement}</span>
               </div>
               <div className={s.deckDates}>
-                <span className={s.date}>Created: {deck.created.toLocaleDateString()}</span>
+                <span className={s.date}>
+                  Created: {deck.created.toLocaleDateString()}
+                </span>
                 {deck.lastPlayed && (
-                  <span className={s.date}>Last Played: {deck.lastPlayed.toLocaleDateString()}</span>
+                  <span className={s.date}>
+                    Last Played: {deck.lastPlayed.toLocaleDateString()}
+                  </span>
                 )}
               </div>
             </div>
 
             <div className={s.deckActions}>
-              <button 
+              <button
                 className={`btn btn-primary ${s.actionBtn}`}
                 onClick={() => handlePlayInSimulator(deck)}
                 title="Play in Simulator"
               >
                 🎮 Play
               </button>
-              <button 
+              <button
                 className={`btn btn-secondary ${s.actionBtn}`}
                 onClick={() => handleEditDeck(deck)}
                 title="Edit Deck"
               >
                 ✏️ Edit
               </button>
-              <button 
+              <button
                 className={`btn btn-secondary ${s.actionBtn}`}
                 onClick={() => handleToggleVisibility(deck.id)}
                 title="Toggle Visibility"
               >
-                {deck.isPublic ? '🔒' : '🌐'}
+                {deck.isPublic ? "🔒" : "🌐"}
               </button>
-              <button 
+              <button
                 className={`btn btn-danger ${s.actionBtn}`}
                 onClick={() => handleDeleteDeck(deck.id)}
                 title="Delete Deck"
@@ -194,10 +212,9 @@ export const MyDecks: React.FC   = () => {
         <div className={s.emptyState}>
           <h3>No decks found</h3>
           <p>
-            {searchTerm ? 
-              'Try adjusting your search or filters' : 
-              'Create your first deck to get started!'
-            }
+            {searchTerm
+              ? "Try adjusting your search or filters"
+              : "Create your first deck to get started!"}
           </p>
         </div>
       )}

@@ -1,4 +1,4 @@
-import type { KonivrverRule, KonivrverKeywordAbility } from '../types/game';
+import type { KonivrverRule, KonivrverKeywordAbility } from "../types/game";
 
 /**
  * KONIVRER Rules Parser Service
@@ -6,7 +6,7 @@ import type { KonivrverRule, KonivrverKeywordAbility } from '../types/game';
  */
 
 // KONIVRER Rules Structure (from requirements analysis)
-export const konivrverRules: KonivrverRule[]   = [
+export const konivrverRules: KonivrverRule[] = [
   {
     section: "I",
     title: "Introduction",
@@ -39,11 +39,24 @@ Deck Construction:
 • 25 Common (🜠) cards.
 • 13 Uncommon (☽) cards.
 • 2 Rare (☉) cards.`,
-    keywords: ["KONIVRER", "Conjurer", "winning", "life cards", "familiars", "spells", "deck construction", "flag", "azoth", "common", "uncommon", "rare"]
+    keywords: [
+      "KONIVRER",
+      "Conjurer",
+      "winning",
+      "life cards",
+      "familiars",
+      "spells",
+      "deck construction",
+      "flag",
+      "azoth",
+      "common",
+      "uncommon",
+      "rare",
+    ],
   },
   {
     section: "II",
-    title: "Card Parts", 
+    title: "Card Parts",
     content: `All cards contain the following parts:
 • Elements: The magical energies the card draws from
 • Name: The card's unique identifier
@@ -52,10 +65,19 @@ Deck Construction:
 • Flavor: Story text that adds atmosphere
 • Set/Rarity: Set symbol and rarity indicator (🜠, ☽, ☉)
 • Set Number: Numerical identifier within the set`,
-    keywords: ["card parts", "elements", "name", "lesser type", "abilities", "flavor", "rarity", "set number"]
+    keywords: [
+      "card parts",
+      "elements",
+      "name",
+      "lesser type",
+      "abilities",
+      "flavor",
+      "rarity",
+      "set number",
+    ],
   },
   {
-    section: "III", 
+    section: "III",
     title: "Zones",
     content: `Game zones define where cards can be placed:
 • Field: Main battlefield for creatures and permanents
@@ -66,7 +88,18 @@ Deck Construction:
 • Flag: Special objective markers and game state indicators
 • Removed from Play (Void): Exiled and removed cards
 • Hand: Cards currently available to play`,
-    keywords: ["zones", "field", "combat row", "azoth row", "deck", "life", "flag", "removed from play", "void", "hand"]
+    keywords: [
+      "zones",
+      "field",
+      "combat row",
+      "azoth row",
+      "deck",
+      "life",
+      "flag",
+      "removed from play",
+      "void",
+      "hand",
+    ],
   },
   {
     section: "IV",
@@ -78,7 +111,16 @@ Deck Construction:
 • Combat: Attack and defend with creatures
 • Post-Combat: Effects that trigger after combat
 • Refresh: End of turn cleanup and preparation for next turn`,
-    keywords: ["phases", "pre-game", "start", "main", "combat", "post-combat", "refresh", "turn"]
+    keywords: [
+      "phases",
+      "pre-game",
+      "start",
+      "main",
+      "combat",
+      "post-combat",
+      "refresh",
+      "turn",
+    ],
   },
   {
     section: "V",
@@ -89,7 +131,15 @@ Deck Construction:
 • Players can respond to effects on the chain
 • Each player must pass priority for the chain to resolve
 • Some effects can change the order of resolution`,
-    keywords: ["dynamic resolution chain", "DRC", "spells", "abilities", "priority", "resolution", "stack"]
+    keywords: [
+      "dynamic resolution chain",
+      "DRC",
+      "spells",
+      "abilities",
+      "priority",
+      "resolution",
+      "stack",
+    ],
   },
   {
     section: "VI",
@@ -103,7 +153,17 @@ Deck Construction:
 • Submerged: Water-based ability offering control and card draw
 • Quintessence: Multi-element ability with versatile effects
 • Void: Dark-based ability involving sacrifice and destruction`,
-    keywords: ["keyword abilities", "amalgam", "brilliance", "gust", "inferno", "steadfast", "submerged", "quintessence", "void"]
+    keywords: [
+      "keyword abilities",
+      "amalgam",
+      "brilliance",
+      "gust",
+      "inferno",
+      "steadfast",
+      "submerged",
+      "quintessence",
+      "void",
+    ],
   },
   {
     section: "VII",
@@ -114,54 +174,86 @@ Deck Construction:
 • Card Type Symbols: Special symbols for different card types
 • The alphabet maintains readability while providing authentic flavor
 • All symbols are designed to be easily recognizable and searchable`,
-    keywords: ["alphabet", "symbols", "elements", "rarity", "card types", "roman square", "greek"]
-  }
+    keywords: [
+      "alphabet",
+      "symbols",
+      "elements",
+      "rarity",
+      "card types",
+      "roman square",
+      "greek",
+    ],
+  },
 ];
 
 // Keyword ability definitions
-export const keywordAbilities: Record<KonivrverKeywordAbility, string>   = {
+export const keywordAbilities: Record<KonivrverKeywordAbility, string> = {
   amalgam: "Combines with other cards to create more powerful effects",
-  brilliance: "Light-based ability providing protection, healing, and purification effects",
-  gust: "Air-based ability granting increased speed, evasion, and temporary effects", 
+  brilliance:
+    "Light-based ability providing protection, healing, and purification effects",
+  gust: "Air-based ability granting increased speed, evasion, and temporary effects",
   inferno: "Fire-based ability dealing direct damage and aggressive effects",
-  steadfast: "Earth-based ability providing increased durability, strength, and permanence",
-  submerged: "Water-based ability offering control, card draw, and manipulation effects",
-  quintessence: "Multi-element ability with versatile effects that can adapt to different situations",
-  void: "Dark-based ability involving sacrifice, destruction, and powerful but costly effects"
+  steadfast:
+    "Earth-based ability providing increased durability, strength, and permanence",
+  submerged:
+    "Water-based ability offering control, card draw, and manipulation effects",
+  quintessence:
+    "Multi-element ability with versatile effects that can adapt to different situations",
+  void: "Dark-based ability involving sacrifice, destruction, and powerful but costly effects",
 };
 
 // Phase descriptions with exact text
-export const phaseDescriptions: Record<string, string>   = {
-  "preGame": "Pre-Game: Setup phase where players prepare their decks, choose starting hands, and establish initial game state.",
-  "start": "Start Phase: Beginning of turn effects trigger, draw a card (after first turn), and any start-of-turn abilities activate.",
-  "main": "Main Phase: The primary phase where players can play cards, activate abilities, and make strategic decisions.",
-  "combat": "Combat Phase: Players attack with their Familiars and defenders can block. Combat damage is assigned and resolved.",
-  "postCombat": "Post-Combat Phase: Effects that trigger after combat resolve, and any end-of-combat abilities activate.",
-  "refresh": "Refresh Phase: End of turn cleanup, discard to hand size limit, and prepare for the next player's turn."
+export const phaseDescriptions: Record<string, string> = {
+  preGame:
+    "Pre-Game: Setup phase where players prepare their decks, choose starting hands, and establish initial game state.",
+  start:
+    "Start Phase: Beginning of turn effects trigger, draw a card (after first turn), and any start-of-turn abilities activate.",
+  main: "Main Phase: The primary phase where players can play cards, activate abilities, and make strategic decisions.",
+  combat:
+    "Combat Phase: Players attack with their Familiars and defenders can block. Combat damage is assigned and resolved.",
+  postCombat:
+    "Post-Combat Phase: Effects that trigger after combat resolve, and any end-of-combat abilities activate.",
+  refresh:
+    "Refresh Phase: End of turn cleanup, discard to hand size limit, and prepare for the next player's turn.",
 };
 
 /**
  * Search rules by text content
  */
-export function searchRules(query: string, options?: {
-  exactMatch?: boolean;
-  caseSensitive?: boolean;
-  searchKeywords?: boolean;
-}): KonivrverRule[] {
-  const { exactMatch   = false, caseSensitive = false, searchKeywords = true } = options || {};
-  const searchTerm  = caseSensitive ? query : query.toLowerCase();
-  
-  return konivrverRules.filter(rule => {
-    const content  = caseSensitive ? rule.content : rule.content.toLowerCase();
-    const title  = caseSensitive ? rule.title : rule.title.toLowerCase();
-    const keywords  = rule.keywords.map(k => caseSensitive ? k : k.toLowerCase());
-    
+export function searchRules(
+  query: string,
+  options?: {
+    exactMatch?: boolean;
+    caseSensitive?: boolean;
+    searchKeywords?: boolean;
+  }
+): KonivrverRule[] {
+  const {
+    exactMatch = false,
+    caseSensitive = false,
+    searchKeywords = true,
+  } = options || {};
+  const searchTerm = caseSensitive ? query : query.toLowerCase();
+
+  return konivrverRules.filter((rule) => {
+    const content = caseSensitive ? rule.content : rule.content.toLowerCase();
+    const title = caseSensitive ? rule.title : rule.title.toLowerCase();
+    const keywords = rule.keywords.map((k) =>
+      caseSensitive ? k : k.toLowerCase()
+    );
+
     if (exactMatch) {
-      return content.includes(searchTerm) || title.includes(searchTerm) || 
-             (searchKeywords && keywords.some(k => k === searchTerm));
+      return (
+        content.includes(searchTerm) ||
+        title.includes(searchTerm) ||
+        (searchKeywords && keywords.some((k) => k === searchTerm))
+      );
     } else {
-      return content.includes(searchTerm) || title.includes(searchTerm) || 
-             (searchKeywords && keywords.some(k => k.includes(searchTerm)));
+      return (
+        content.includes(searchTerm) ||
+        title.includes(searchTerm) ||
+        (searchKeywords && keywords.some((k) => k.includes(searchTerm)))
+      );
     }
   });
 }
@@ -170,7 +262,7 @@ export function searchRules(query: string, options?: {
  * Get rule by section
  */
 export function getRuleBySection(section: string): KonivrverRule | undefined {
-  return konivrverRules.find(rule => rule.section === section);
+  return konivrverRules.find((rule) => rule.section === section);
 }
 
 /**
@@ -198,7 +290,7 @@ export function getAllRulesAsJSON(): {
   return {
     rules: konivrverRules,
     keywords: keywordAbilities,
-    phases: phaseDescriptions
+    phases: phaseDescriptions,
   };
 }
 
@@ -206,29 +298,34 @@ export function getAllRulesAsJSON(): {
  * Search with synonyms support
  */
 export function searchWithSynonyms(query: string): KonivrverRule[] {
-  const synonyms: Record<string, string[]>   = {
+  const synonyms: Record<string, string[]> = {
     "removed from play": ["void", "exile", "exiled"],
-    "void": ["removed from play", "exile", "exiled"],
-    "familiar": ["creature", "monster", "being"],
-    "azoth": ["mana", "energy", "resource"],
-    "life cards": ["life", "health", "vitality"]
+    void: ["removed from play", "exile", "exiled"],
+    familiar: ["creature", "monster", "being"],
+    azoth: ["mana", "energy", "resource"],
+    "life cards": ["life", "health", "vitality"],
   };
-  
+
   let results = searchRules(query);
-  
+
   // Also search synonyms
-  const queryLower  = query.toLowerCase();
+  const queryLower = query.toLowerCase();
   Object.entries(synonyms).forEach(([key, values]) => {
-    if (key.includes(queryLower) || values.some(v => v.includes(queryLower))) {
-      const synonymResults  = [key, ...values].flatMap(term => searchRules(term));
+    if (
+      key.includes(queryLower) ||
+      values.some((v) => v.includes(queryLower))
+    ) {
+      const synonymResults = [key, ...values].flatMap((term) =>
+        searchRules(term)
+      );
       results = [...results, ...synonymResults];
     }
   });
-  
+
   // Remove duplicates
-  const seen  = new Set();
-  return results.filter(rule => {
-    const key  = rule.section;
+  const seen = new Set();
+  return results.filter((rule) => {
+    const key = rule.section;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;

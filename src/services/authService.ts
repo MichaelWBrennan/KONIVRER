@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api } from "./api";
 
 export interface User {
   id: string;
@@ -22,12 +22,12 @@ export interface User {
 }
 
 export enum UserRole {
-  PLAYER = 'player',
-  JUDGE_L1 = 'judge_l1',
-  JUDGE_L2 = 'judge_l2',
-  JUDGE_L3 = 'judge_l3',
-  ADMIN = 'admin',
-  TOURNAMENT_ORGANIZER = 'tournament_organizer',
+  PLAYER = "player",
+  JUDGE_L1 = "judge_l1",
+  JUDGE_L2 = "judge_l2",
+  JUDGE_L3 = "judge_l3",
+  ADMIN = "admin",
+  TOURNAMENT_ORGANIZER = "tournament_organizer",
 }
 
 export interface LoginCredentials {
@@ -69,8 +69,8 @@ class AuthService {
   }
 
   private initializeAuth() {
-    const storedToken  = localStorage.getItem('authToken');
-    const storedUser  = localStorage.getItem('user');
+    const storedToken = localStorage.getItem("authToken");
+    const storedUser = localStorage.getItem("user");
 
     if (storedToken && storedUser) {
       this.token = storedToken;
@@ -81,35 +81,35 @@ class AuthService {
 
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
-      const response  = await api.post('/auth/login', credentials);
-      const authData: AuthResponse   = response.data;
+      const response = await api.post("/auth/login", credentials);
+      const authData: AuthResponse = response.data;
 
       this.setAuthData(authData);
       return authData;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Login failed');
+      throw new Error(error.response?.data?.message || "Login failed");
     }
   }
 
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
-      const response  = await api.post('/auth/register', data);
-      const authData: AuthResponse   = response.data;
+      const response = await api.post("/auth/register", data);
+      const authData: AuthResponse = response.data;
 
       this.setAuthData(authData);
       return authData;
     } catch (error: any) {
-      throw new Error(error.response?.data?.message || 'Registration failed');
+      throw new Error(error.response?.data?.message || "Registration failed");
     }
   }
 
   async logout(): Promise<void> {
     try {
       if (this.user) {
-        await api.post('/auth/logout');
+        await api.post("/auth/logout");
       }
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
     } finally {
       this.clearAuth();
     }
@@ -117,30 +117,30 @@ class AuthService {
 
   async refreshToken(): Promise<boolean> {
     try {
-      const refreshToken  = localStorage.getItem('refreshToken');
+      const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) {
         this.clearAuth();
         return false;
       }
 
-      const response  = await api.post('/auth/refresh', { refreshToken });
-      const authData: Partial<AuthResponse>   = response.data;
+      const response = await api.post("/auth/refresh", { refreshToken });
+      const authData: Partial<AuthResponse> = response.data;
 
       if (authData.accessToken) {
         this.token = authData.accessToken;
-        localStorage.setItem('authToken', authData.accessToken);
-        
+        localStorage.setItem("authToken", authData.accessToken);
+
         if (authData.refreshToken) {
-          localStorage.setItem('refreshToken', authData.refreshToken);
+          localStorage.setItem("refreshToken", authData.refreshToken);
         }
-        
+
         this.scheduleTokenRefresh();
         return true;
       }
-      
+
       return false;
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      console.error("Token refresh failed:", error);
       this.clearAuth();
       return false;
     }
@@ -149,14 +149,14 @@ class AuthService {
   async getProfile(): Promise<User | null> {
     try {
       if (!this.token) return null;
-      
-      const response  = await api.get('/auth/profile');
+
+      const response = await api.get("/auth/profile");
       this.user = response.data.user;
-      localStorage.setItem('user', JSON.stringify(this.user));
-      
+      localStorage.setItem("user", JSON.stringify(this.user));
+
       return this.user;
     } catch (error) {
-      console.error('Get profile failed:', error);
+      console.error("Get profile failed:", error);
       return null;
     }
   }
@@ -165,9 +165,9 @@ class AuthService {
     this.token = authData.accessToken;
     this.user = authData.user;
 
-    localStorage.setItem('authToken', authData.accessToken);
-    localStorage.setItem('refreshToken', authData.refreshToken);
-    localStorage.setItem('user', JSON.stringify(authData.user));
+    localStorage.setItem("authToken", authData.accessToken);
+    localStorage.setItem("refreshToken", authData.refreshToken);
+    localStorage.setItem("user", JSON.stringify(authData.user));
 
     this.scheduleTokenRefresh();
   }
@@ -175,10 +175,10 @@ class AuthService {
   private clearAuth() {
     this.token = null;
     this.user = null;
-    
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
+
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
 
     if (this.refreshTimeout) {
       clearTimeout(this.refreshTimeout);
@@ -192,7 +192,7 @@ class AuthService {
     }
 
     // Refresh token 1 minute before expiry (default 15 minutes)
-    const refreshTime  = 14 * 60 * 1000; // 14 minutes
+    const refreshTime = 14 * 60 * 1000; // 14 minutes
     this.refreshTimeout = window.setTimeout(() => {
       this.refreshToken();
     }, refreshTime);
@@ -230,7 +230,7 @@ class AuthService {
 
   canAccessJudgePortal(): boolean {
     if (!this.isAuthenticated) return false;
-    
+
     return this.hasAnyRole([
       UserRole.JUDGE_L1,
       UserRole.JUDGE_L2,
@@ -244,5 +244,5 @@ class AuthService {
   }
 }
 
-export const authService  = AuthService.getInstance();
+export const authService = AuthService.getInstance();
 export default authService;
