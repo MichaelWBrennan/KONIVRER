@@ -7,7 +7,7 @@ interface CardDetailProps {
   onClose: () => void;
 }
 
-export const CardDetail: React.FC<CardDetailProps> : any = ({ card, onClose }) => {
+export const CardDetail: React.FC<CardDetailProps>  : any = ({ card, onClose }) => {
   return (
     <div className={st.overlay} onClick={onClose}>
       <div className={st.modal} onClick={(e) => e.stopPropagation()}>
@@ -23,7 +23,7 @@ export const CardDetail: React.FC<CardDetailProps> : any = ({ card, onClose }) =
               alt={card.name}
               className={st.cardImage}
               onError={(e) => {
-                const target: any : any = e.target as HTMLImageElement;
+                const target : any = e.target as HTMLImageElement;
                 target.src = card.imageUrl;
               }}
             />

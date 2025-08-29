@@ -1,7 +1,7 @@
 import React from 'react';
 import * as s from './lore.css.ts';
 
-export const Lore: React.FC : any = () => {
+export const Lore: React.FC  : any = () => {
   return (
     <div className={s.container}>
       <div className={s.header}>
