@@ -480,6 +480,20 @@ export class TournamentsController {
     };
   }
 
+  @Get("discover")
+  @Public()
+  @ApiOperation({ summary: "Discover tournaments for the user" })
+  @ApiResponse({ status: 200, description: "Discovery results" })
+  async discover(@Query("limit") limit: number = 10) {
+    const filters: TournamentSearchFilters = {
+      limit,
+      status: TournamentStatus.REGISTRATION_OPEN,
+      sortBy: "startDate",
+      sortOrder: "ASC",
+    };
+    return this.tournamentsService.findAll(filters);
+  }
+
   @Post(":id/stream")
   @UseGuards(RolesGuard)
   @Roles(UserRole.TOURNAMENT_ORGANIZER, UserRole.ADMIN)
