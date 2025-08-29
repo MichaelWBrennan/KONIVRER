@@ -10,6 +10,7 @@ import {
 import { User } from "../users/entities/user.entity";
 import { Deck } from "../decks/entities/deck.entity";
 import { MatchmakingModule } from "../matchmaking/matchmaking.module";
+import { ProgressionModule } from "../progression/progression.module";
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MatchmakingModule } from "../matchmaking/matchmaking.module";
       Deck,
     ]),
     MatchmakingModule,
+    ProgressionModule,
   ],
   controllers: [TournamentsController],
   providers: [TournamentsService],

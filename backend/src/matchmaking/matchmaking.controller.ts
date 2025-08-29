@@ -27,6 +27,7 @@ import {
   SimulateMatchDto,
   SimulationResultDto,
 } from "./dto/matchmaking.dto";
+import { ApiBody } from "@nestjs/swagger";
 
 @ApiTags("matchmaking")
 @Controller("matchmaking")
@@ -45,6 +46,27 @@ export class MatchmakingController {
     @Body(ValidationPipe) updateDto: UpdateRatingsDto
   ): Promise<PlayerRatingResponseDto[]> {
     return this.matchmakingService.updateRatings(updateDto);
+  }
+
+  @Post("tournament-prep")
+  @ApiOperation({ summary: "Find tournament practice match with tournament context" })
+  @ApiBody({ schema: { properties: { userId: { type: "string" }, format: { type: "string" } } } })
+  async tournamentPrep(
+    @Body(ValidationPipe) body: { userId: string; format: string }
+  ): Promise<any> {
+    // For now, reuse generatePairings with a single user to get suggested opponents in pool
+    // A real implementation would query active players and filter by tournament goals
+    return this.matchmakingService.getLeaderboard(body.format, 10);
+  }
+
+  @Post("qualification-prep")
+  @ApiOperation({ summary: "Find qualification partners based on goals" })
+  @ApiBody({ schema: { properties: { userId: { type: "string" }, goal: { type: "string" }, format: { type: "string" } } } })
+  async qualificationPrep(
+    @Body(ValidationPipe) body: { userId: string; goal: string; format: string }
+  ): Promise<any> {
+    // Placeholder returning top players in format; can refine by goal alignment
+    return this.matchmakingService.getLeaderboard(body.format, 20);
   }
 
   @Post("pairings/generate")
