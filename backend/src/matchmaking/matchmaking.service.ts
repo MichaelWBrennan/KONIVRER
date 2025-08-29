@@ -489,6 +489,8 @@ export class MatchmakingService {
     return Math.round(baseMinutes + skillFactor * 15); // 45-60 minutes
   }
 
+  // Tournament practice/qualification helpers could be implemented here in the future.
+
   private toResponseDto(rating: PlayerRating): PlayerRatingResponseDto {
     return {
       id: rating.id,

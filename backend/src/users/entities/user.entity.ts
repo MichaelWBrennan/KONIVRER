@@ -13,6 +13,7 @@ import { ObjectType, Field, ID, Int } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
 import { Deck } from "../../decks/entities/deck.entity";
 import { Tournament } from "../../tournaments/entities/tournament.entity";
+import { TournamentProfile } from "../../progression/entities/tournament-profile.entity";
 
 export enum UserRole {
   PLAYER = "player",
@@ -262,6 +263,10 @@ export class User {
     required: false,
   })
   organizedTournaments?: Tournament[];
+
+  // Tournament progression profile
+  @Field(() => TournamentProfile, { nullable: true })
+  tournamentProfile?: TournamentProfile;
 
   // Event-related relations
   organizedEvents?: any[];
