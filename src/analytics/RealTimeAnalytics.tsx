@@ -35,12 +35,12 @@ interface DashboardMetrics {
   };
 }
 
-export const RealTimeAnalytics: React.FC  : any : any : any = () => {
-  const [data, setData] : any : any : any = useState<AnalyticsData[]>([]);
-  const [isCollecting, setIsCollecting] : any : any : any = useState(true);
-  const [dashboardData, setDashboardData] : any : any : any = useState<DashboardMetrics | null>(null);
-  const [loading, setLoading] : any : any : any = useState(true);
-  const [view, setView] : any : any : any = useState<'realtime' | 'dashboard' | 'anomalies'>('realtime');
+export const RealTimeAnalytics: React.FC   = () => {
+  const [data, setData]  = useState<AnalyticsData[]>([]);
+  const [isCollecting, setIsCollecting]  = useState(true);
+  const [dashboardData, setDashboardData]  = useState<DashboardMetrics | null>(null);
+  const [loading, setLoading]  = useState(true);
+  const [view, setView]  = useState<'realtime' | 'dashboard' | 'anomalies'>('realtime');
 
   useEffect(() => {
     // Fetch dashboard data from backend
@@ -50,8 +50,8 @@ export const RealTimeAnalytics: React.FC  : any : any : any = () => {
   useEffect(() => {
     if (!isCollecting) return;
 
-    const interval : any : any : any = setInterval(() => {
-      const newDataPoint: AnalyticsData  : any : any : any = {
+    const interval  = setInterval(() => {
+      const newDataPoint: AnalyticsData   = {
         timestamp: new Date(),
         activeUsers: Math.floor(Math.random() * 1000) + 2000,
         gamesInProgress: Math.floor(Math.random() * 200) + 300,
@@ -65,15 +65,15 @@ export const RealTimeAnalytics: React.FC  : any : any : any = () => {
     return () => clearInterval(interval);
   }, [isCollecting]);
 
-  const fetchDashboardData : any : any : any = async () => {
+  const fetchDashboardData  = async () => {
     try {
       setLoading(true);
       // In a real implementation, this would call your backend API
-      // const response : any : any : any = await fetch('/api/analytics/dashboard');
-      // const data : any : any : any = await response.json();
+      // const response  = await fetch('/api/analytics/dashboard');
+      // const data  = await response.json();
       
       // Simulated dashboard data
-      const mockData: DashboardMetrics  : any : any : any = {
+      const mockData: DashboardMetrics   = {
         realTimeMetrics: {
           activeUsers24h: 2847,
           totalEvents24h: 15632,
@@ -109,7 +109,7 @@ export const RealTimeAnalytics: React.FC  : any : any : any = () => {
     }
   };
 
-  const currentData : any : any : any = data[data.length - 1];
+  const currentData  = data[data.length - 1];
 
   if (loading && !dashboardData) {
     return (

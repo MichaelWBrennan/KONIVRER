@@ -1,22 +1,22 @@
 import { style } from "@vanilla-extract/css";
 
-export const container: any : any : any = style({});
-export const homeRoot: any : any : any = style({});
-export const header: any : any : any = style({ textAlign: "center" });
-export const title: any : any : any = style({ fontWeight: 700 });
-export const subtitle: any : any : any = style({});
-export const divider: any : any : any = style({});
-export const content: any : any : any = style({});
-export const latestSection: any : any : any = style({});
-export const latestTitle: any : any : any = style({ fontWeight: 600 });
-export const latestDescription: any : any : any = style({});
-export const featuredButtons: any : any : any = style({ display: "flex", gap: "0.75rem" });
-export const newsGrid: any : any : any = style({ display: "grid", gap: "1rem" });
-export const newsCard: any : any : any = style({});
-export const newsDate: any : any : any = style({ fontSize: "0.75rem" });
-export const linkBar: any : any : any = style({ padding: "1rem", textAlign: "right" });
-export const link: any : any : any = style({ color: "#0ea5e9" });
-export const hero: any : any : any = style({
+export const container = style({});
+export const homeRoot = style({});
+export const header = style({ textAlign: "center" });
+export const title = style({ fontWeight: 700 });
+export const subtitle = style({});
+export const divider = style({});
+export const content = style({});
+export const latestSection = style({});
+export const latestTitle = style({ fontWeight: 600 });
+export const latestDescription = style({});
+export const featuredButtons = style({ display: "flex", gap: "0.75rem" });
+export const newsGrid = style({ display: "grid", gap: "1rem" });
+export const newsCard = style({});
+export const newsDate = style({ fontSize: "0.75rem" });
+export const linkBar = style({ padding: "1rem", textAlign: "right" });
+export const link = style({ color: "#0ea5e9" });
+export const hero = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
