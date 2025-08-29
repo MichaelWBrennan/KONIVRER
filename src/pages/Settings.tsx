@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as s from './settings.css.ts';
 
-export const Settings: React.FC : any = () => {
-  const [theme, setTheme]: any = useState<'dark'|'light'>(() => (document.documentElement.getAttribute('data-theme') as any) || 'dark');
-  const [contrast, setContrast]: any = useState<string>(() => document.documentElement.getAttribute('data-contrast') || 'normal');
-  const [fontSize, setFontSize]: any = useState<string>(() => document.documentElement.getAttribute('data-font-size') || 'medium');
+export const Settings: React.FC : any : any = () => {
+  const [theme, setTheme]: any : any = useState<'dark'|'light'>(() => (document.documentElement.getAttribute('data-theme') as any) || 'dark');
+  const [contrast, setContrast]: any : any = useState<string>(() => document.documentElement.getAttribute('data-contrast') || 'normal');
+  const [fontSize, setFontSize]: any : any = useState<string>(() => document.documentElement.getAttribute('data-font-size') || 'medium');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -21,9 +21,9 @@ export const Settings: React.FC : any = () => {
     localStorage.setItem('fontSize', fontSize);
   }, [fontSize]);
 
-  const clearCaches: any = async () => {
+  const clearCaches: any : any = async () => {
     if ('caches' in window) {
-      const names: any = await caches.keys();
+      const names: any : any = await caches.keys();
       await Promise.all(names.map((n) => caches.delete(n)));
       alert('Offline caches cleared');
     }

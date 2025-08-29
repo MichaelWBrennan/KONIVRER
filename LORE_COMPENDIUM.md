@@ -5,6 +5,7 @@ This compendium weaves your cosmology, pantheons, angelology and demonology, ele
 ---
 
 ## Canon Tenets
+
 - Aether is Hunger: Not a force but a predatory consciousness that feeds where realities thin. Observation invites transformation.
 - Masks and Vessels: Gods are archetypal functions wearing cultural masks; each culture names the same engines of reality.
 - Conservation of Magic: Aether is neither created nor destroyed; it transfigures. Magic obeys understood limits more than powers.
@@ -14,6 +15,7 @@ This compendium weaves your cosmology, pantheons, angelology and demonology, ele
 ---
 
 ## Chronicle of Ages
+
 - The First Flame (13.8 BYA): The initial breach where consciousness ignited matter—named YHWH’s Breath, the Dharmic Pulse, the Celtic Weave, the Ancestor Drum, the Tao’s Stirring, the Hellenic Emergence.
 - The Age of Stars (10 BYA): Stellar eyes of creation open; networks of conscious light seed pattern.
 - The Crucible (5 BYA): Planetary vessels condense; Earth chosen/chanced as forge.
@@ -30,6 +32,7 @@ This compendium weaves your cosmology, pantheons, angelology and demonology, ele
 ---
 
 ## Cosmography & Realms
+
 Reality arranges as nested wheels—Ninefold Ways and Sevenfold Heavens interleaving with Dharmic Lokas and Norse Worlds. Each “world” is a phase-space domain, locally stable, globally permeable where Aether pressure is high.
 
 - Manushya‑Loka / Midgard / Earth: Primary mortal basin. Status: Fractured by Veilstone shattering; adaptive narrative topology.
@@ -43,6 +46,7 @@ All are “planets” in your schema—planiforms—because travelers experience
 ---
 
 ## Pantheons as Masks and Vessels
+
 The same cosmic functions wear different names. Principal Vessels and cultural masks are lenses on one engine.
 
 - The Primordial One (Tiamat): Chaos‑matrix and womb of being; also YHVH Nameless, the Unformed, the Void‑Mother. Mask: Abyssal Potential.
@@ -67,6 +71,7 @@ These are interoperable with Hellenic schemas that recast deities as “archetyp
 ---
 
 ## Angelology and Demonology
+
 Two 72‑node orders structure and stress-test creation. They are not “good vs. evil” so much as stabilization vs. perturbation.
 
 - The 72 Angels of the Shem HaMephorash: Seraphic to angelic orders keyed to zodiacal bands and elements. Each has meaning, seal, hour, element, invocation mode, attributes. Use them as harmonics to stabilize, reveal, heal, and align. Their entries (1–72) remain canonical in the Angelic Bestiary.
@@ -79,6 +84,7 @@ Note: Full seals, materials, hours, and liturgies are preserved as appendices (A
 ---
 
 ## Aether & Magic: Laws, Limits, and Practice
+
 - Aetheric Resonance: The Aether is a predatory, quasi‑sentient substrate. Measures: Void Quotient (VQ), Resonance Hz. Observe at peril; observation is incision.
 - Mathematical Frame: Æ = ∫(ψ × ∇R) dt where ψ = stability coefficient, ∇R = dimensional bleed rate. Solutions “prefer” observers who stop looking.
 - Conservation of Magic: Aether is constant; users must work with present elements; transformation over creation.
@@ -89,18 +95,22 @@ Note: Full seals, materials, hours, and liturgies are preserved as appendices (A
   - Law 0: Err on the side of awesome.
 
 ### The Six Divine Elements
+
 - Earth, Air, Fire, Water, Aether, Nether form the universal stack. Eastern and Western flavor-texts articulate attitudes toward each.
 - Combinations: 2-, 3-, 4-, and 5‑element matrices describe alchemical synergies (e.g., Fire+Water = Tempered Flame; Earth+Water+Aether = Crystal Spring; Air+Fire+Aether+Nether = Celestial Firestorm). Use the matrices as ritual recipes and encounter tags rather than exhaustive lists at runtime.
 
 ### Meridian & Chakra Interface
+
 - Twelve living “wounds” where Aether bleeds through flesh. Energy practice risks transmutation of body, mind, and fate. The body is a laboratory; the cost is identity.
 
 ### Modal Practices (Cross‑Cultural)
+
 - Daoist inner alchemy, Hermetic opus, Dharmic sādhanā, Abrahamic prayer‑craft, African ancestral rite, Hellenic mystery—different grammars for the same machine.
 
 ---
 
 ## Ethics as Vectors: The A‑F‑I‑N‑E‑W Constellation
+
 Each axis is a virtue/function; societies are resultant vectors. Composites name stable cultural attractors.
 
 - A (Moral Clarity): Right action despite cost.
@@ -111,6 +121,7 @@ Each axis is a virtue/function; societies are resultant vectors. Composites name
 - W (Possibility): Careful exploration of the could‑be.
 
 Composite exemplars (selection):
+
 - AFN – Righteous Boldness: Justice through transformative action.
 - ANW – Righteous Pragmatism: Ethics guided by feasible paths.
 - ANE – Principled Pragmatism: Balance right action with limits.
@@ -122,6 +133,7 @@ Composite exemplars (selection):
 ---
 
 ## Peoples and Clades
+
 Treat species both biologically and narratively: living archetypes shaped by Aether exposure and cultural expectation.
 
 - Humans: Dimensional transients; highest adaptability; primary aetheric conductors. “Unfinished symphonies.”
@@ -130,6 +142,7 @@ Treat species both biologically and narratively: living archetypes shaped by Aet
 - Ogre (Homo Brutalis), Dvergr (Underanthropos solidus), Álfar (Alfmannus sylvani), Ljósálfar (Homo Aetherius), Dökkálfar (Alfmannus scura), Vampyr (Homo Sanguis), Jötunn: Treat as culture‑bound phenotypes; stats and senses vary with realm/elemental bias. Population/morph metrics are mutable across shards.
 
 ### Mythological Clades (Origin of Species)
+
 - Divine Serpents (Nāga → Jörmungandr/Leviathan/Long): Scale: size, heads, mind; habitats sea/sky.
 - Divine Birds (Bennu → Phoenix/Fenghuang/Thunderbird/Garuda/Simurgh): Heat, light, storm, healing.
 - Divine Canines (Cerberus/Garmr/Fenrir/Shabala): Guardianship, multi‑headed mutations.
@@ -143,7 +156,9 @@ Use clades as evolutionary myths: archaeological echoes as in‑world evidence f
 ---
 
 ## Summoning & Ritual Taxonomy
+
 Summon not to “control,” but to negotiate. Six macro‑paths:
+
 - Cosmic/Divine Forces: Alignment and guidance; temples, groves, peaks; candles, incense, text.
 - Elemental/Nature Spirits: Balance, protection; rivers, forests, mountains; stones, water, flame.
 - Ancestors/Spirits: Counsel and ward; altars, graves; food, lineage tokens.
@@ -156,6 +171,7 @@ All paths risk Aether exposure. Costs are paid in memory, identity, or fate. Opp
 ---
 
 ## Artifacts & Implements (Cross‑Cultural)
+
 - Weapons of Office: Swords of Spirit/Justice, Gungnir, Mjölnir, Dory/Xiphos, Daojian—tools that cut illusion or fate; each exacts a price.
 - Staves & Scepters: Ruyi, Kerykeion, Yuji—rewrite reality, mediate realms, channel mandate.
 - Vessels & Altars: Bōmos, Spondeia, Kalash, Brigid’s Cauldron—transaction points with the unseen.
@@ -169,17 +185,21 @@ Treat artifacts as NPCs with appetites; attune them with ethics vectors and elem
 ---
 
 ## Language of Record: Basik AnglΣ
+
 A ritual‑ready, streamlined Anglish for liturgy and scholarship.
+
 - Alphabet: Latin core with Greek sigils (Κ, Φ, Γ, Ξ, Θ, Δ, Σ, VV, KW) for phonemic clarity.
 - Grammar: SVO baseline; V2 permissible; cases (nom/acc/gen/dat) for nouns; strong/weak verbs; articles; simple negation.
 - Pronouns: Ic/Þū/Hē/Hēo/Hit; Wē/Gē/Hīe; possessives Mīn/Þīn/His/Hēo/Ōur/Ōwer/Þāre.
 - Compounding: Productive (e.g., Lufhām “beloved home”).
-Use Basik AnglΣ for in‑universe inscriptions, spells, and UI of magical systems.
+  Use Basik AnglΣ for in‑universe inscriptions, spells, and UI of magical systems.
 
 ---
 
 ## Factions as Cultural Archetypes
+
 Use your historical labels as living banners expressed through the ethics grid and elements.
+
 - Roman Republic (AFE): Principled Ambition—law, order, expansion under constraint.
 - NASA (AFW): Idealistic Ethics—exploration with ethical scaffolding.
 - French Revolution (AIF): Righteous Idealism—transformative justice under strain.
@@ -195,6 +215,7 @@ Map each to elemental biases, angel/demon affinities, and realm proximities for 
 ---
 
 ## Campaign Frame: The Shattered Veil (Romania)
+
 - Premise: The Veilstone shatters; life and death interpenetrate. The land hosts gods, spirits, and demons; player choices reweave fate.
 - Themes: Obscured truth; death/rebirth cycles; isolation and fragile hope.
 - Act I – Twilight of Valea Căpcănești: Desolate village under Castle Bran; accusations over a Veilstone shard; Freya warns in the forest; ravens test the gate. Choice: seek truth (forest) or confront power (castle).
@@ -207,6 +228,7 @@ Use angel/demon pairings for set‑pieces; artifact appetites for temptations; e
 ---
 
 ## GM/Author Tools
+
 - Opposition Lattice: Pair Shem/Goetia by index for ritual tension and narrative balance.
 - Element Tags: Stat blocks flagged by 2–3 element combos to telegraph counters and costs.
 - Ethics Clock: Track A‑F‑I‑N‑E‑W across sessions; unlock boons/complications.
@@ -215,6 +237,7 @@ Use angel/demon pairings for set‑pieces; artifact appetites for temptations; e
 ---
 
 ## Appendices (External Codices)
+
 - Angelic Bestiary (72): Names, meanings, seals, ranks, degrees, elements, invocations, attributes.
 - Goetic Codex (72): Names, forms, seals, powers, hours, materials, incense, legions, oppositions.
 - Elemental Matrices: Full 1–5 element flavor texts (Eastern/Western) for ritual narration.
@@ -226,4 +249,5 @@ These remain canonical and are referenced from the core for brevity.
 ---
 
 ## Closing Maxim
+
 Between perception and the absolute, Aether hungers. To name is to cut; to cut is to feed; to feed is to change. Walk the wound with wisdom.
