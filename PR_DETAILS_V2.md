@@ -1,33 +1,38 @@
 # Pull Request: Fix TypeScript Compilation Errors (v2)
 
 ## 🔗 GitHub PR URL
+
 **Create PR at**: https://github.com/MichaelWBrennan/KONIVRER-deck-database/pull/new/fix/typescript-compilation-errors-v2
 
 ## 📋 PR Details
 
 ### Title
+
 ```
 🔧 Fix TypeScript compilation errors blocking Vercel deployments (v2)
 ```
 
 ### Base Branch
+
 ```
 main
 ```
 
 ### Compare Branch
+
 ```
 fix/typescript-compilation-errors-v2
 ```
 
 ### Description
+
 ```markdown
 ## 🐛 Problem
 
 Vercel deployments are failing again due to TypeScript compilation errors reintroduced by automated updates:
 
 - **TS1005 errors**: `',' expected` across 42+ files
-- **Malformed syntax**: `: any` patterns in variable declarations  
+- **Malformed syntax**: `: any` patterns in variable declarations
 - **Implicit any errors**: Missing type annotations in hooks and services
 - **Build failures**: Preventing successful deployments
 
@@ -36,6 +41,7 @@ Vercel deployments are failing again due to TypeScript compilation errors reintr
 Fixed all TypeScript compilation errors across the entire codebase:
 
 ### Changes Made:
+
 - **42+ files fixed**: Removed malformed `: any` patterns from React components
 - **Variable declarations**: Fixed syntax like `const queryClient: any = new QueryClient()`
 - **Hook parameters**: Added explicit typing for state setter callbacks
@@ -43,6 +49,7 @@ Fixed all TypeScript compilation errors across the entire codebase:
 - **Build verification**: Ensured `npm run build` passes successfully
 
 ### Files Affected:
+
 - React components (BubbleMenu, Card, CardSearch, etc.)
 - Hooks (useAuth, useGameState, useKonivrverGameState)
 - Services (authService, telemetry, eventService, etc.)
@@ -73,6 +80,7 @@ Fixed all TypeScript compilation errors across the entire codebase:
 ## 📋 Verification
 
 Before merging, please verify:
+
 - [ ] Build passes: `npm run build`
 - [ ] TypeScript check: `npx tsc --noEmit`
 - [ ] Vercel deployment succeeds
@@ -86,6 +94,7 @@ Before merging, please verify:
 ```
 
 ## 🏷️ Labels to Add
+
 - `bug` - Fixes compilation errors
 - `typescript` - TypeScript related changes
 - `deployment` - Fixes deployment issues
@@ -93,8 +102,9 @@ Before merging, please verify:
 - `automation` - Handles automated update conflicts
 
 ## 📊 Stats
+
 - **Files changed**: 80
-- **Lines modified**: 933 insertions, 933 deletions  
+- **Lines modified**: 933 insertions, 933 deletions
 - **Commit**: 45e1a580
 - **Branch**: fix/typescript-compilation-errors-v2
 - **Status**: Ready for review
