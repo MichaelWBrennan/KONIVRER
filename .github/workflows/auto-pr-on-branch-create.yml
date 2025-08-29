@@ -1,0 +1,137 @@
+name: 🚀 Auto PR, Auto-Merge, and Cleanup on Branch Creation
+
+on:
+  create:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: read
+
+env:
+  DEFAULT_BASE: main
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  auto-pr-and-merge:
+    name: Create PR, enable auto-merge, resolve conflicts, and cleanup
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🧮 Determine created ref
+        id: info
+        run: |
+          echo "ref_type=${{ github.event.ref_type }}" >> $GITHUB_OUTPUT
+          echo "ref=${{ github.event.ref }}" >> $GITHUB_OUTPUT
+          echo "base=${{ github.event.repository.default_branch }}" >> $GITHUB_OUTPUT
+          echo "repo=${{ github.repository }}" >> $GITHUB_OUTPUT
+          echo "actor=${{ github.actor }}" >> $GITHUB_OUTPUT
+
+      - name: 🚫 Skip non-branch creations
+        if: steps.info.outputs.ref_type != 'branch'
+        run: echo "Not a branch creation event. Skipping."
+
+      - name: 🔧 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: 📦 Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub requests pyyaml python-dateutil
+
+      - name: 📝 Create PR for new branch
+        id: create_pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python - <<'PY'
+import os, sys
+from github import Github
+
+token = os.environ['GITHUB_TOKEN']
+repo_name = os.environ['GITHUB_REPOSITORY']
+branch = os.environ['BRANCH'] if 'BRANCH' in os.environ else '${{ steps.info.outputs.ref }}'
+base = os.environ['BASE'] if 'BASE' in os.environ else '${{ steps.info.outputs.base }}'
+g = Github(token)
+r = g.get_repo(repo_name)
+
+title = f"Auto PR: {branch} -> {base}"
+body = "This PR was automatically created on branch creation. It will be auto-merged after passing checks."
+
+# Check if PR already exists
+existing = list(r.get_pulls(state='open', head=f"{r.owner.login}:{branch}", base=base))
+if existing:
+    pr = existing[0]
+else:
+    pr = r.create_pull(title=title, body=body, head=branch, base=base, draft=False)
+
+print(f"PR_NUMBER={pr.number}")
+print(f"PR_URL={pr.html_url}")
+PY
+          | tee pr_info.txt
+          PR_NUMBER=$(grep -oE 'PR_NUMBER=[0-9]+' pr_info.txt | cut -d= -f2)
+          echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+      - name: 🔄 Enable auto-merge (squash)
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
+          merge-method: squash
+
+      - name: 🔄 Run autonomous merge orchestrator
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python scripts/auto_merge.py \
+            --repository "${{ github.repository }}" \
+            --merge-method squash \
+            --fallback-method merge \
+            --max-retries 3 \
+            --backoff-minutes "5,15,45" \
+            --deny-labels "no-auto,wip,do-not-merge,manual-review" \
+            --deny-paths "" \
+            --event "create" \
+            --pr-number "${{ steps.create_pr.outputs.pr_number }}" || true
+
+      - name: 🧹 Delete branch if merged
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR=${{ steps.create_pr.outputs.pr_number }}
+          python - <<'PY'
+import os
+from github import Github
+
+token = os.environ['GITHUB_TOKEN']
+repo = os.environ['GITHUB_REPOSITORY']
+pr_number = int('${{ steps.create_pr.outputs.pr_number }}') if '${{ steps.create_pr.outputs.pr_number }}' else 0
+g = Github(token)
+r = g.get_repo(repo)
+
+if pr_number:
+    pr = r.get_pull(pr_number)
+    if pr.merged:
+        try:
+            pr.delete_branch()
+            print('Deleted source branch')
+        except Exception as e:
+            print(f'Could not delete branch: {e}')
+    else:
+        print('PR not merged yet; leaving branch intact')
+PY
+

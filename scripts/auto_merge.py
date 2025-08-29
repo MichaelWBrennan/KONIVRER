@@ -44,6 +44,30 @@ class AutonomousMergeOrchestrator:
         
         eligible_prs = []
         try:
+            # If a specific PR is requested, only process that one
+            pr_number = self.config.get('pr_number')
+            if pr_number:
+                try:
+                    pr = self.repo.get_pull(int(pr_number))
+                    if self._is_pr_eligible(pr):
+                        eligible_prs.append({
+                            'number': pr.number,
+                            'title': pr.title,
+                            'head_ref': pr.head.ref,
+                            'base_ref': pr.base.ref,
+                            'user': pr.user.login,
+                            'labels': [label.name for label in pr.labels],
+                            'mergeable_state': pr.mergeable_state,
+                            'updated_at': pr.updated_at,
+                            'created_at': pr.created_at
+                        })
+                    else:
+                        logger.info(f"🚫 PR #{pr.number} not eligible by policy")
+                    return eligible_prs
+                except Exception as e:
+                    logger.error(f"❌ Could not load PR #{pr_number}: {e}")
+                    return []
+
             # Get all open PRs
             prs = self.repo.get_pulls(state='open', sort='updated', direction='desc')
             
@@ -426,6 +450,7 @@ def load_config() -> Dict:
         'delete_source_branch': True,
         'comment_on_merge': True,
         'issue_escalation': True,
+        'pr_number': os.environ.get('PR_NUMBER', ''),
         'critical_paths': [
             '.github/workflows/*',
             'infrastructure/terraform/*.tfvars',
@@ -477,6 +502,9 @@ def main():
     os.environ['DENY_LABELS'] = args.deny_labels
     os.environ['DENY_PATHS'] = args.deny_paths
     
+    # Propagate PR number to environment for config load
+    os.environ['PR_NUMBER'] = args.pr_number
+
     # Load configuration
     config = load_config()
     
