@@ -6,7 +6,7 @@ interface Props {
   onSearch: (query: string) => void;
 }
 
-export const SearchBar: React.FC<Props>: any = ({ current, onSearch }) => {
+export const SearchBar: React.FC<Props> = ({ current, onSearch }) => {
   const [q, setQ]: any = useState('');
   const [contextOverride, setContextOverride]: any = useState<string | null>(null);
   useEffect(() => {

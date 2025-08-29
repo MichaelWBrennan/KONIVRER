@@ -3,7 +3,7 @@ import { detectDevice, DeviceInfo } from '../utils/deviceDetection';
 import { useGameState } from '../hooks/useGameState';
 import { GameZone } from './GameZone';
 
-export const CardSimulator: React.FC : any = () => {
+export const CardSimulator: React.FC = () => {
   const [device, setDevice]: any = useState<DeviceInfo | null>(null);
   const [screenSize, setScreenSize]: any = useState({ width: 0, height: 0 });
   

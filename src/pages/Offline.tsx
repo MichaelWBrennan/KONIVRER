@@ -7,7 +7,7 @@ export function Offline(): any {
   );
 
   const updateConnectionStatus: any = useCallback(() => {
-    const online: any : any =
+    const online: any =
       typeof navigator !== "undefined" ? navigator.onLine : false;
     setIsOnline(online);
     if (online) {

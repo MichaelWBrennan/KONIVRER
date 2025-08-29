@@ -7,7 +7,7 @@ interface CardDetailProps {
   onClose: () => void;
 }
 
-export const CardDetail: React.FC<CardDetailProps>: any = ({ card, onClose }) => {
+export const CardDetail: React.FC<CardDetailProps> = ({ card, onClose }) => {
   return (
     <div className={st.overlay} onClick={onClose}>
       <div className={st.modal} onClick={(e) => e.stopPropagation()}>

@@ -213,7 +213,7 @@ export const useKonivrverGameState: any = () => {
   // Advance to next phase
   const nextPhase: any = useCallback(() => {
     setGameState(prev => {
-      const phases: KonivrverPhase[]: any = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
+      const phases: KonivrverPhase[] = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
       const currentPhaseIndex: any = phases.indexOf(prev.phase);
       const nextPhaseIndex: any = (currentPhaseIndex + 1) % phases.length;
       

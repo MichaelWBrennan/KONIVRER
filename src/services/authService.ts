@@ -82,7 +82,7 @@ class AuthService {
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
     try {
       const response: any = await api.post('/auth/login', credentials);
-      const authData: AuthResponse: any = response.data;
+      const authData: AuthResponse = response.data;
 
       this.setAuthData(authData);
       return authData;
@@ -94,7 +94,7 @@ class AuthService {
   async register(data: RegisterData): Promise<AuthResponse> {
     try {
       const response: any = await api.post('/auth/register', data);
-      const authData: AuthResponse: any = response.data;
+      const authData: AuthResponse = response.data;
 
       this.setAuthData(authData);
       return authData;
@@ -124,7 +124,7 @@ class AuthService {
       }
 
       const response: any = await api.post('/auth/refresh', { refreshToken });
-      const authData: Partial<AuthResponse>: any = response.data;
+      const authData: Partial<AuthResponse> = response.data;
 
       if (authData.accessToken) {
         this.token = authData.accessToken;

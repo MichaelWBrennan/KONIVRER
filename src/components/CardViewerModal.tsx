@@ -7,7 +7,7 @@ interface CardViewerModalProps {
   onClose: () => void;
 }
 
-export const CardViewerModal: React.FC<CardViewerModalProps>: any = ({ card, onClose }) => {
+export const CardViewerModal: React.FC<CardViewerModalProps> = ({ card, onClose }) => {
   const [upscaledImageUrl, setUpscaledImageUrl]: any = useState<string | null>(null);
   const [isLoading, setIsLoading]: any = useState(false);
   const [error, setError]: any = useState<string | null>(null);

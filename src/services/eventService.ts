@@ -38,7 +38,7 @@ export const EventService: any = {
   async syncQueuedReports() {
     const q: any = readQueue();
     if (q.length === 0) return { synced: 0 };
-    const remaining: ReportPayload[]: any = [];
+    const remaining: ReportPayload[] = [];
     let synced = 0;
     for (const item of q) {
       try {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNotificationStore } from '../services/notifications';
 
-const NotificationCenter: React.FC : any = () => {
+const NotificationCenter: React.FC = () => {
   const {
     notifications,
     unreadCount,

@@ -16,7 +16,7 @@ interface BubbleMenuProps {
   onSearch?: (query: string) => void;
 }
 
-export const BubbleMenu: React.FC<BubbleMenuProps>: any = ({ 
+export const BubbleMenu: React.FC<BubbleMenuProps> = ({ 
   currentPage, 
   onPageChange, 
   onSearch 

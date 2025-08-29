@@ -16,7 +16,7 @@ interface CardProps {
   isInHand?: boolean;
 }
 
-export const Card: React.FC<CardProps>: any = ({
+export const Card: React.FC<CardProps> = ({
   card,
   device,
   dragState,
@@ -149,7 +149,7 @@ export const Card: React.FC<CardProps>: any = ({
 
   // Card styling based on KONIVRER Arena design patterns
   const getCardStyle: any = (): React.CSSProperties => {
-    const baseStyle: React.CSSProperties: any = {
+    const baseStyle: React.CSSProperties = {
       width: `${cardSize.width}px`,
       height: `${cardSize.height}px`,
       backgroundColor: colorMap[card.color as keyof typeof colorMap] || 

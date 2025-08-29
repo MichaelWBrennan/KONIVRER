@@ -9,7 +9,7 @@ interface Props {
   onNavigate: (page: string) => void;
 }
 
-export const MobileNav: React.FC<Props>: any = ({ current, onNavigate }) => {
+export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
   const [open, setOpen]: any = useState(false);
   const active: any = (t: Tab) => (current === t ? s.tabActive : '');
   const { isAuthenticated, canAccessJudgePortal }: any = useAuth();

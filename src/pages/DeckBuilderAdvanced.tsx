@@ -10,7 +10,7 @@ interface Deck {
   colors: string[];
 }
 
-export const DeckBuilderAdvanced: React.FC : any = () => {
+export const DeckBuilderAdvanced: React.FC = () => {
   const [decks, setDecks]: any = useState<Deck[]>([]);
   const [selectedDeck, setSelectedDeck]: any = useState<Deck | null>(null);
   const [searchTerm, setSearchTerm]: any = useState('');
@@ -21,7 +21,7 @@ export const DeckBuilderAdvanced: React.FC : any = () => {
   }, []);
 
   const createNewDeck: any = () => {
-    const newDeck: Deck: any = {
+    const newDeck: Deck = {
       id: Date.now().toString(),
       name: `New Deck ${decks.length + 1}`,
       format: 'Standard',

@@ -23,7 +23,7 @@ interface LiveMatch {
   viewers: number;
 }
 
-export const Tournaments: React.FC : any = () => {
+export const Tournaments: React.FC = () => {
   const [tournaments]: any = useState<Tournament[]>([]);
   const [liveMatches]: any = useState<LiveMatch[]>([]);
   const [selectedTab, setSelectedTab]: any = useState<'upcoming' | 'active' | 'live'>('upcoming');

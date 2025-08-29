@@ -39,7 +39,7 @@ export function detectDevice(): DeviceInfo {
   const isPhone: any = isMobile && !isTablet;
   
   // Detect orientation
-  const orientation: 'portrait' | 'landscape': any = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
+  const orientation: 'portrait' | 'landscape' = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
   
   // All mobile devices (phones and tablets) should be in landscape mode for MTG Arena experience
   const requiresRotation: any = isMobile && orientation === 'portrait';

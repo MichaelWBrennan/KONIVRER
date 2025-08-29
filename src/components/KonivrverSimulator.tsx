@@ -12,7 +12,7 @@ interface KonivrverZoneProps {
   isDragTarget: boolean;
 }
 
-const KonivrverZone: React.FC<KonivrverZoneProps>: any = ({
+const KonivrverZone: React.FC<KonivrverZoneProps> = ({
   zone,
   zoneType,
   onCardClick,
@@ -33,7 +33,7 @@ const KonivrverZone: React.FC<KonivrverZoneProps>: any = ({
     }
   };
 
-  const zoneStyle: React.CSSProperties: any = {
+  const zoneStyle: React.CSSProperties = {
     position: 'absolute',
     left: zone.position?.x || 0,
     top: zone.position?.y || 0,
@@ -50,7 +50,7 @@ const KonivrverZone: React.FC<KonivrverZoneProps>: any = ({
     alignContent: 'flex-start'
   };
 
-  const cardStyle: React.CSSProperties: any = {
+  const cardStyle: React.CSSProperties = {
     width: '60px',
     height: '84px',
     backgroundColor: '#f4f4f4',
@@ -118,7 +118,7 @@ const KonivrverZone: React.FC<KonivrverZoneProps>: any = ({
   );
 };
 
-export const KonivrverSimulator: React.FC : any = () => {
+export const KonivrverSimulator: React.FC = () => {
   const [device, setDevice]: any = useState<DeviceInfo | null>(null);
   const [selectedCard, setSelectedCard]: any = useState<Card | null>(null);
   

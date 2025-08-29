@@ -61,7 +61,7 @@ type Page =
 
 function AppContent(): any {
   const [currentPage, setCurrentPage]: any = useState<Page>("home");
-  const { selectedCard, setSelectedCard, setSearchFilters }: any : any =
+  const { selectedCard, setSelectedCard, setSearchFilters }: any =
     useAppStore();
   const { canAccessJudgePortal, isAuthenticated }: any = useAuth();
   const [isOnline, setIsOnline]: any = useState<boolean>(

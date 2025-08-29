@@ -9,9 +9,9 @@ interface DeckWithActions extends Deck {
 }
 
 // User decks will be loaded from backend
-const mockUserDecks: DeckWithActions[]: any = [];
+const mockUserDecks: DeckWithActions[] = [];
 
-export const MyDecks: React.FC : any = () => {
+export const MyDecks: React.FC = () => {
   const [searchTerm, setSearchTerm]: any = useState('');
   const [sortBy, setSortBy]: any = useState<'name' | 'created' | 'lastPlayed' | 'winRate'>('lastPlayed');
   const [filterBy, setFilterBy]: any = useState<'all' | 'public' | 'private'>('all');

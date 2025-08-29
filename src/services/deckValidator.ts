@@ -10,8 +10,8 @@ export class KonivrverDeckValidator {
    * Validate a deck according to KONIVRER rules
    */
   static validateDeck(cards: Card[], flag?: Card): DeckValidationResult {
-    const errors: string[]: any = [];
-    const warnings: string[]: any = [];
+    const errors: string[] = [];
+    const warnings: string[] = [];
     
     // Check for flag requirement
     const hasFlag: any = !!flag;
@@ -102,7 +102,7 @@ export class KonivrverDeckValidator {
    * Suggest fixes for invalid deck
    */
   static suggestFixes(validation: DeckValidationResult): string[] {
-    const suggestions: string[]: any = [];
+    const suggestions: string[] = [];
     
     if (!validation.hasFlag) {
       suggestions.push("Add a Flag card to anchor your deck's Azoth identity");

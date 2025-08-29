@@ -7,13 +7,13 @@ interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
 }
 
-export const DeckSearch: React.FC<DeckSearchProps>: any = ({ onDeckSelect }) => {
+export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [searchTerm, setSearchTerm]: any = useState('');
   const [elementFilter, setElementFilter]: any = useState('');
   const [formatFilter, setFormatFilter]: any = useState('');
 
   // Available decks will be loaded from backend
-  const availableDecks: Deck[]: any = [];
+  const availableDecks: Deck[] = [];
 
   // Get unique values for filters
   const elements: any = useMemo(() => 

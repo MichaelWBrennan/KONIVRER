@@ -6,7 +6,7 @@ import type { KonivrverRule, KonivrverKeywordAbility } from '../types/game';
  */
 
 // KONIVRER Rules Structure (from requirements analysis)
-export const konivrverRules: KonivrverRule[]: any = [
+export const konivrverRules: KonivrverRule[] = [
   {
     section: "I",
     title: "Introduction",
@@ -119,7 +119,7 @@ Deck Construction:
 ];
 
 // Keyword ability definitions
-export const keywordAbilities: Record<KonivrverKeywordAbility, string>: any = {
+export const keywordAbilities: Record<KonivrverKeywordAbility, string> = {
   amalgam: "Combines with other cards to create more powerful effects",
   brilliance: "Light-based ability providing protection, healing, and purification effects",
   gust: "Air-based ability granting increased speed, evasion, and temporary effects", 
@@ -131,7 +131,7 @@ export const keywordAbilities: Record<KonivrverKeywordAbility, string>: any = {
 };
 
 // Phase descriptions with exact text
-export const phaseDescriptions: Record<string, string>: any = {
+export const phaseDescriptions: Record<string, string> = {
   "preGame": "Pre-Game: Setup phase where players prepare their decks, choose starting hands, and establish initial game state.",
   "start": "Start Phase: Beginning of turn effects trigger, draw a card (after first turn), and any start-of-turn abilities activate.",
   "main": "Main Phase: The primary phase where players can play cards, activate abilities, and make strategic decisions.",
@@ -148,7 +148,7 @@ export function searchRules(query: string, options?: {
   caseSensitive?: boolean;
   searchKeywords?: boolean;
 }): KonivrverRule[] {
-  const { exactMatch: any = false, caseSensitive = false, searchKeywords = true } = options || {};
+  const { exactMatch = false, caseSensitive = false, searchKeywords = true } = options || {};
   const searchTerm: any = caseSensitive ? query : query.toLowerCase();
   
   return konivrverRules.filter(rule => {
@@ -206,7 +206,7 @@ export function getAllRulesAsJSON(): {
  * Search with synonyms support
  */
 export function searchWithSynonyms(query: string): KonivrverRule[] {
-  const synonyms: Record<string, string[]>: any = {
+  const synonyms: Record<string, string[]> = {
     "removed from play": ["void", "exile", "exiled"],
     "void": ["removed from play", "exile", "exiled"],
     "familiar": ["creature", "monster", "being"],

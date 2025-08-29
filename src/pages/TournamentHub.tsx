@@ -7,7 +7,7 @@ import { useAuth } from '../hooks/useAuth';
 
 type EventsTab = 'live' | 'standings' | 'archive';
 
-export const TournamentHub: React.FC : any = () => {
+export const TournamentHub: React.FC = () => {
   const [tab, setTab]: any = useState<EventsTab>('live');
   const [query, setQuery]: any = useState('');
   const { currentEventId, roundNumber, roundEndsAt, pairings, myTable, setPairings, setMyTableFromPairings, setLoading, setError }: any = useEventStore();
@@ -126,7 +126,7 @@ export const TournamentHub: React.FC : any = () => {
   );
 };
 
-const Standings: React.FC<{ query: string }>: any = ({ query }) => {
+const Standings: React.FC<{ query: string }> = ({ query }) => {
   // demo standings; replace with API when available
   const demo: any = [
     { rank: 1, player: 'Alice', points: 9, omw: 0.67 },
@@ -146,7 +146,7 @@ const Standings: React.FC<{ query: string }>: any = ({ query }) => {
   );
 };
 
-const DeckRegistration: React.FC<{ eventId: string }>: any = ({ eventId }) => {
+const DeckRegistration: React.FC<{ eventId: string }> = ({ eventId }) => {
   const [deckId, setDeckId]: any = useState('');
   const { isAuthenticated }: any = useAuth();
   if (!isAuthenticated) return null;

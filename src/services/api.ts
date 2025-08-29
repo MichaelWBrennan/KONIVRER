@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL: any : any =
+const API_BASE_URL: any =
   (import.meta as any).env.VITE_API_BASE_URL ||
   (import.meta as any).env.VITE_API_URL ||
   "/api";

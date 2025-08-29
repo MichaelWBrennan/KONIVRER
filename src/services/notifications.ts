@@ -59,7 +59,7 @@ export const useNotificationStore: any = create<NotificationState>()(
 
       // Actions
       addNotification: (notificationData) => {
-        const notification: PushNotification: any = {
+        const notification: PushNotification = {
           ...notificationData,
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
           timestamp: new Date(),

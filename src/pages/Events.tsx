@@ -29,7 +29,7 @@ interface User {
   isAuthenticated?: boolean;
 }
 
-export const Events: React.FC : any = () => {
+export const Events: React.FC = () => {
   const [activeTab, setActiveTab]: any = useState<'browse' | 'my-events' | 'create' | 'admin'>('browse');
   const [viewMode, setViewMode]: any = useState<'upcoming' | 'live' | 'past'>('upcoming');
   const [events]: any = useState<Event[]>([]);

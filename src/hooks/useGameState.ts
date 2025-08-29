@@ -153,7 +153,7 @@ export const useGameState: any = () => {
 
   const startDrag: any = useCallback((card: Card, position: { x: number; y: number }) => {
     // Determine valid drop zones based on card type and current zone
-    const validDropZones: KonivrverZoneType[]: any = ['field', 'removedFromPlay', 'hand'];
+    const validDropZones: KonivrverZoneType[] = ['field', 'removedFromPlay', 'hand'];
     const cardType: any = card.type || card.lesserType;
     if (cardType && (cardType.toLowerCase().includes('instant') || cardType.toLowerCase().includes('sorcery'))) {
       validDropZones.push('stack');
@@ -187,7 +187,7 @@ export const useGameState: any = () => {
   const moveCard: any = useCallback((cardId: string, targetZoneId: string, playerIndex: number = 0) => {
     // Type guard to check if targetZoneId is a valid KonivrverZoneType
     const isValidZoneType: any = (zoneId: string): zoneId is KonivrverZoneType => {
-      const validZones: KonivrverZoneType[]: any = [
+      const validZones: KonivrverZoneType[] = [
         'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
       ];
       return validZones.includes(zoneId as KonivrverZoneType);
@@ -244,7 +244,7 @@ export const useGameState: any = () => {
   }, []);
 
   const nextPhase: any = useCallback(() => {
-    const phases: KonivrverPhase[]: any = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
+    const phases: KonivrverPhase[] = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
     const currentIndex: any = phases.indexOf(gameState.phase);
     const nextIndex: any = (currentIndex + 1) % phases.length;
     

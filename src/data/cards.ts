@@ -41,7 +41,7 @@ const cardNames: any = [
 ];
 
 function getCardElements(name: string): string[] {
-  const elements: string[]: any = [];
+  const elements: string[] = [];
   if (name.startsWith('BRIGHT')) elements.push('Light');
   if (name.startsWith('CHAOS')) elements.push('Chaos');
   if (name.startsWith('DARK')) elements.push('Dark');
@@ -69,7 +69,7 @@ function getCardRarity(name: string): 'common' | 'uncommon' | 'rare' {
 }
 
 function getCardAbilities(name: string): string[] {
-  const abilities: string[]: any = [];
+  const abilities: string[] = [];
   if (name.includes('BRIGHT')) abilities.push('brilliance');
   if (name.includes('CHAOS')) abilities.push('quintessence');
   if (name.includes('DARK')) abilities.push('void');
@@ -81,7 +81,7 @@ function getCardAbilities(name: string): string[] {
 }
 
 // Fallback card database (generated from naming patterns)
-const fallbackCardDatabase: Card[]: any = cardNames.map((name, index) => {
+const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
   const elements: any = getCardElements(name);
   const lesserType: any = getCardLesserType(name);
   const rarity: any = getCardRarity(name);

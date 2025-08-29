@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as s from './settings.css.ts';
 
-export const Settings: React.FC : any = () => {
+export const Settings: React.FC = () => {
   const [theme, setTheme]: any = useState<'dark'|'light'>(() => (document.documentElement.getAttribute('data-theme') as any) || 'dark');
   const [contrast, setContrast]: any = useState<string>(() => document.documentElement.getAttribute('data-contrast') || 'normal');
   const [fontSize, setFontSize]: any = useState<string>(() => document.documentElement.getAttribute('data-font-size') || 'medium');

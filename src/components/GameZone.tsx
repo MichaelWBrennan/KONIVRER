@@ -19,13 +19,13 @@ interface GameZoneProps {
 
 // Type guard to check if a string is a valid KonivrverZoneType
 const isKonivrverZoneType: any = (zoneId: string): zoneId is KonivrverZoneType => {
-  const validZoneTypes: KonivrverZoneType[]: any = [
+  const validZoneTypes: KonivrverZoneType[] = [
     'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
   ];
   return validZoneTypes.includes(zoneId as KonivrverZoneType);
 };
 
-export const GameZone: React.FC<GameZoneProps>: any = ({
+export const GameZone: React.FC<GameZoneProps> = ({
   zone,
   device,
   dragState,
@@ -43,7 +43,7 @@ export const GameZone: React.FC<GameZoneProps>: any = ({
   if (!zoneConfig) return null;
 
   // Calculate absolute position and size
-  const zoneStyle: React.CSSProperties: any = {
+  const zoneStyle: React.CSSProperties = {
     position: 'absolute',
     left: `${(zoneConfig.position.x / 100) * screenSize.width}px`,
     top: `${(zoneConfig.position.y / 100) * screenSize.height}px`,

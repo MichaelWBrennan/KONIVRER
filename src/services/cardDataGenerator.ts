@@ -72,7 +72,7 @@ export class CardDataGenerator {
     const imagePaths: any = this.getCardImagePaths();
     console.log(`Processing ${imagePaths.length} card images...`);
 
-    const cards: Card[]: any = [];
+    const cards: Card[] = [];
 
     // Generate card data for each image using pattern-based fallbacks
     imagePaths.forEach((imagePath, index) => {
@@ -85,7 +85,7 @@ export class CardDataGenerator {
       const rarity: any = this.getCardRarity(cardName);
       const cost: any = 1; // Default cost
 
-      const card: Card: any = {
+      const card: Card = {
         id: `card_${index + 1}`,
         name: displayName,
         elements: [element],

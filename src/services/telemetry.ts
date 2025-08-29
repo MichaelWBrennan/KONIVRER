@@ -142,7 +142,7 @@ class TelemetryService {
     if (!target) return;
 
     const rect: any = target.getBoundingClientRect();
-    const interaction: TouchTargetInteraction: any = {
+    const interaction: TouchTargetInteraction = {
       elementId: target.id || target.className || target.tagName,
       targetSize: { width: rect.width, height: rect.height },
       touchAccuracy: this.calculateTouchAccuracy(event, rect),

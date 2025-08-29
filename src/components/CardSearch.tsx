@@ -11,7 +11,7 @@ interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
-export const CardSearch: React.FC<CardSearchProps>: any = () => {
+export const CardSearch: React.FC<CardSearchProps> = () => {
   const [selectedCard, setSelectedCard]: any = useState<Card | null>(null);
   const { searchFilters, setSearchFilters }: any = useAppStore();
   const [localSearchTerm, setLocalSearchTerm]: any = useState(searchFilters.search || '');

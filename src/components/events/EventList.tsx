@@ -67,7 +67,7 @@ interface EventSearchFilters {
   limit?: number;
 }
 
-const EventList: React.FC : any = () => {
+const EventList: React.FC = () => {
   const [events, setEvents]: any = useState<Event[]>([]);
   const [loading, setLoading]: any = useState(true);
   const [error, setError]: any = useState<string | null>(null);

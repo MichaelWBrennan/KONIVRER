@@ -81,7 +81,7 @@ interface EventManagerProps {
   isJudge: boolean;
 }
 
-const EventManager: React.FC<EventManagerProps>: any = ({ 
+const EventManager: React.FC<EventManagerProps> = ({ 
   eventId, 
   currentUserId, 
   isOrganizer, 
@@ -527,7 +527,7 @@ const EventManager: React.FC<EventManagerProps>: any = ({
 };
 
 // Placeholder components - would need full implementations
-const PairingsTab: React.FC<any>: any = ({ pairings, onReportResult }) => (
+const PairingsTab: React.FC<any> = ({ pairings, onReportResult }) => (
   <div>
     <ListGroup>
       {pairings.map((pairing: Pairing) => (
@@ -554,7 +554,7 @@ const PairingsTab: React.FC<any>: any = ({ pairings, onReportResult }) => (
   </div>
 );
 
-const StandingsTab: React.FC<any>: any = ({ standings }) => (
+const StandingsTab: React.FC<any> = ({ standings }) => (
   <div>
     <ListGroup>
       {standings.map((standing: Standing) => (
@@ -573,7 +573,7 @@ const StandingsTab: React.FC<any>: any = ({ standings }) => (
   </div>
 );
 
-const MatchesTab: React.FC<any>: any = ({ matches }) => (
+const MatchesTab: React.FC<any> = ({ matches }) => (
   <div>
     <ListGroup>
       {matches.map((match: Match) => (
@@ -590,7 +590,7 @@ const MatchesTab: React.FC<any>: any = ({ matches }) => (
   </div>
 );
 
-const AdminTab: React.FC<any>: any = () => (
+const AdminTab: React.FC<any> = () => (
   <div>
     <Card>
       <Card.Body>
@@ -601,7 +601,7 @@ const AdminTab: React.FC<any>: any = () => (
   </div>
 );
 
-const MatchResultForm: React.FC<any>: any = ({ onSubmit }) => {
+const MatchResultForm: React.FC<any> = ({ onSubmit }) => {
   const [result, setResult]: any = useState('win');
   
   return (

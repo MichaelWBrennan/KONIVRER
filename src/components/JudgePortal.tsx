@@ -10,7 +10,7 @@ interface JudgePortalProps {
   className?: string;
 }
 
-export const JudgePortal: React.FC<JudgePortalProps>: any = ({ className }) => {
+export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
   const [searchQuery, setSearchQuery]: any = useState('');
   const [selectedSection, setSelectedSection]: any = useState<string>('');
   const [activeTab, setActiveTab]: any = useState<'search' | 'sections' | 'keywords' | 'phases'>('search');

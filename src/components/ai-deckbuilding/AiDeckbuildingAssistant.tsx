@@ -5,7 +5,7 @@ export interface AiDeckbuildingAssistantProps {
   onDeckBuilt?: (cards: Card[]) => void;
 }
 
-export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>: any = ({ 
+export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps> = ({ 
   onDeckBuilt 
 }) => {
   const [suggestions, setSuggestions]: any = useState<Card[]>([]);
