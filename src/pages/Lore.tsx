@@ -15,43 +15,43 @@ export const Lore: React.FC  : any : any : any = () => {
       name: "Aether",
       epithet: "Principle",
       definition:
-        "Act how is right; improvise and expedite to cut through ambiguity.",
-      stance: "You prefer clear principle over convenience. You cut knots and act.",
+        "Do what is right; act clearly and quickly when things are confusing.",
+      stance: "You care about what is right and take clear action.",
     },
     {
       name: "Air",
       epithet: "Adaptation",
       definition:
-        "Do whatever works; educate and guide while shaping change in the moment.",
-      stance: "You value results and teaching; you iterate fast and guide others.",
+        "Do what works; help and teach while things change.",
+      stance: "You like trying, learning, and guiding others.",
     },
     {
       name: "Fire",
       epithet: "Aspiration",
       definition:
-        "What the world should be; provide and protect to build toward ideals.",
-      stance: "You chase ideals and protect the vulnerable while pushing forward.",
+        "Work toward a better world; care for and defend others as you build.",
+      stance: "You dream big and protect people while moving forward.",
     },
     {
       name: "Earth",
       epithet: "Integrity",
       definition:
-        "Do whatever is right; supervise and inspect, imposing necessary boundaries.",
-      stance: "You uphold duty, standards, and structure; you inspect and enforce.",
+        "Do what is fair; set clear rules and check that things are done well.",
+      stance: "You keep order and make sure standards are met.",
     },
     {
       name: "Water",
       epithet: "Potential",
       definition:
-        "What the world could be; assemble and expedite to unlock possibilities.",
-      stance: "You gather, connect, and explore what could be through assembly.",
+        "See what could be; bring pieces together to open new paths.",
+      stance: "You connect ideas and people to discover new possibilities.",
     },
     {
       name: "Nether",
       epithet: "Capability",
       definition:
-        "Act how you could; plan and design to make the possible practical.",
-      stance: "You architect capability; you plan and design for future leverage.",
+        "Plan how things can work; design steps that make ideas real.",
+      stance: "You build skills and plans that help everyone do more.",
     },
   ];
 
@@ -82,27 +82,27 @@ export const Lore: React.FC  : any : any : any = () => {
   const specialPairs: Record<string, { title: string; description: string }> : any : any = {
     [pairKey("Water", "Aether")]: {
       title: "Rainbow",
-      description: "Expedite assembly toward emergent insight.",
+      description: "Quickly put things together to spark new ideas.",
     },
     [pairKey("Aether", "Air")]: {
       title: "Aurora",
-      description: "Educated improvisation that illuminates the path.",
+      description: "Smart, flexible action that shows the way.",
     },
     [pairKey("Air", "Fire")]: {
       title: "Flare",
-      description: "Guided action that rallies and protects.",
+      description: "Action that inspires and keeps people safe.",
     },
     [pairKey("Fire", "Nether")]: {
       title: "Char",
-      description: "Design channeled into decisive provision.",
+      description: "Careful planning that turns into bold, helpful action.",
     },
     [pairKey("Nether", "Earth")]: {
-      title: "Putrefaction",
-      description: "Plans refined by inspection into resilience.",
+      title: "Compost",
+      description: "Careful plans improved by review become strong and steady.",
     },
     [pairKey("Earth", "Water")]: {
       title: "Mud",
-      description: "Boundaries that shape and stabilize new growth.",
+      description: "Helpful limits that help new things grow safely.",
     },
   };
 
@@ -187,43 +187,43 @@ export const Lore: React.FC  : any : any : any = () => {
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Aether — Principle</h3>
               <p className={s.virtueText}>
-                Act how is right; improvise and expedite to cut through ambiguity. You prefer
-                clear principle over convenience. You cut knots and act.
+                Do what is right; act clearly and quickly when things are confusing. You care
+                about what is right and take clear action.
               </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Air — Adaptation</h3>
               <p className={s.virtueText}>
-                Do whatever works; educate and guide while shaping change in the moment. You value
-                results and teaching; you iterate fast and guide others.
+                Do what works; help and teach while things change. You like trying,
+                learning, and guiding others.
               </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
               <p className={s.virtueText}>
-                What the world should be; provide and protect to build toward ideals. You chase
-                ideals and protect the vulnerable while pushing forward.
+                Work toward a better world; care for and defend others as you build. You
+                dream big and protect people while moving forward.
               </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Earth — Integrity</h3>
               <p className={s.virtueText}>
-                Do whatever is right; supervise and inspect, imposing necessary boundaries. You uphold
-                duty, standards, and structure; you inspect and enforce.
+                Do what is fair; set clear rules and check that things are done well. You
+                keep order and make sure standards are met.
               </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Water — Potential</h3>
               <p className={s.virtueText}>
-                What the world could be; assemble and expedite to unlock possibilities. You gather,
-                connect, and explore what could be through assembly.
+                See what could be; bring pieces together to open new paths. You connect
+                ideas and people to discover new possibilities.
               </p>
             </div>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Nether — Capability</h3>
               <p className={s.virtueText}>
-                Act how you could; plan and design to make the possible practical. You architect
-                capability; you plan and design for future leverage.
+                Plan how things can work; design steps that make ideas real. You build
+                skills and plans that help everyone do more.
               </p>
             </div>
           </div>
@@ -241,12 +241,12 @@ export const Lore: React.FC  : any : any : any = () => {
           <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Adjacent Pairs</h3>
-              <p className={s.virtueText}>Water + Aether: Rainbow — Expedite assembly toward emergent insight.</p>
-              <p className={s.virtueText}>Aether + Air: Aurora — Educated improvisation that illuminates the path.</p>
-              <p className={s.virtueText}>Air + Fire: Flare — Guided action that rallies and protects.</p>
-              <p className={s.virtueText}>Fire + Nether: Char — Design channeled into decisive provision.</p>
-              <p className={s.virtueText}>Nether + Earth: Putrefaction — Plans refined by inspection into resilience.</p>
-              <p className={s.virtueText}>Earth + Water: Mud — Boundaries that shape and stabilize new growth.</p>
+              <p className={s.virtueText}>Water + Aether: Rainbow — Quickly put things together to spark new ideas.</p>
+              <p className={s.virtueText}>Aether + Air: Aurora — Smart, flexible action that shows the way.</p>
+              <p className={s.virtueText}>Air + Fire: Flare — Action that inspires and keeps people safe.</p>
+              <p className={s.virtueText}>Fire + Nether: Char — Careful planning that turns into bold, helpful action.</p>
+              <p className={s.virtueText}>Nether + Earth: Compost — Careful plans improved by review become strong and steady.</p>
+              <p className={s.virtueText}>Earth + Water: Mud — Helpful limits that help new things grow safely.</p>
             </div>
           </div>
 
