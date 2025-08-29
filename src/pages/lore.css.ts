@@ -73,3 +73,52 @@ export const realmDescription: any = style({
   margin: 0,
   color: "#2c3e50",
 });
+
+// Diagram section styles
+export const diagramContainer: any = style({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "16px",
+});
+
+export const diagramImage: any = style({
+  width: "100%",
+  maxWidth: "720px",
+  height: "auto",
+  borderRadius: "8px",
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+});
+
+export const caption: any = style({
+  fontSize: "0.95rem",
+  color: "#6c757d",
+  textAlign: "center",
+});
+
+// Virtues grid
+export const virtuesGrid: any = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+  gap: "12px",
+});
+
+export const virtueCard: any = style({
+  backgroundColor: "white",
+  border: "1px solid #e9ecef",
+  borderRadius: "8px",
+  padding: "12px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+});
+
+export const virtueTitle: any = style({
+  margin: "0 0 6px 0",
+  fontSize: "1.05rem",
+  color: "#2c3e50",
+});
+
+export const virtueText: any = style({
+  margin: 0,
+  fontSize: "0.95rem",
+  color: "#2c3e50",
+});
