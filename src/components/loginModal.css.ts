@@ -9,7 +9,7 @@ globalKeyframes("loginModalSlideIn", {
   to: { opacity: 1, transform: "scale(1) translateY(0)" },
 });
 
-export const overlay: any : any = style({
+export const overlay: any : any : any = style({
   position: "fixed",
   inset: 0,
   background: "rgba(0,0,0,0.85)",
@@ -20,7 +20,7 @@ export const overlay: any : any = style({
   backdropFilter: "blur(10px)",
   animation: "loginOverlayFadeIn 0.3s ease-out",
 });
-export const modal: any : any = style({
+export const modal: any : any : any = style({
   background: "linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)",
   border: "2px solid #d4af37",
   borderRadius: 20,
@@ -33,7 +33,7 @@ export const modal: any : any = style({
     "0 20px 60px rgba(0,0,0,0.8), 0 0 30px rgba(212,175,55,0.3), inset 0 1px 0 rgba(212,175,55,0.1)",
   animation: "loginModalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
 });
-export const close: any : any = style({
+export const close: any : any : any = style({
   position: "absolute",
   top: 20,
   right: 20,
@@ -46,16 +46,16 @@ export const close: any : any = style({
   borderRadius: "50%",
   zIndex: 1,
 });
-export const header: any : any = style({
+export const header: any : any : any = style({
   textAlign: "center",
   padding: "40px",
   paddingBottom: 30,
   borderBottom: "1px solid rgba(212,175,55,0.2)",
 });
-export const form: any : any = style({ padding: "30px 40px" });
-export const inputGroup: any : any = style({ marginBottom: 24 });
-export const passwordInput: any : any = style({ position: "relative" });
-export const textInput: any : any = style({
+export const form: any : any : any = style({ padding: "30px 40px" });
+export const inputGroup: any : any : any = style({ marginBottom: 24 });
+export const passwordInput: any : any : any = style({ position: "relative" });
+export const textInput: any : any : any = style({
   width: "100%",
   height: 44,
   padding: "0 14px",
@@ -65,7 +65,7 @@ export const textInput: any : any = style({
   color: "#fff",
   fontSize: 16,
 });
-export const passwordToggle: any : any = style({
+export const passwordToggle: any : any : any = style({
   position: "absolute",
   right: 16,
   top: "50%",
@@ -77,7 +77,7 @@ export const passwordToggle: any : any = style({
   padding: 8,
   borderRadius: 6,
 });
-export const loginBtn: any : any = style({
+export const loginBtn: any : any : any = style({
   width: "100%",
   background: "linear-gradient(135deg, #d4af37 0%, #b8941f 100%)",
   color: "#000",
@@ -92,26 +92,26 @@ export const loginBtn: any : any = style({
   marginTop: 10,
   boxShadow: "0 4px 15px rgba(212,175,55,0.3)",
 });
-export const divider: any : any = style({
+export const divider: any : any : any = style({
   textAlign: "center",
   position: "relative",
   margin: "30px 40px",
   color: "#888",
   fontSize: 14,
 });
-export const dividerSpan: any : any = style({
+export const dividerSpan: any : any : any = style({
   background: "linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)",
   padding: "0 20px",
   position: "relative",
   zIndex: 1,
 });
-export const socialSection: any : any = style({
+export const socialSection: any : any : any = style({
   padding: "0 40px 20px 40px",
   display: "flex",
   flexDirection: "column",
   gap: 12,
 });
-export const socialBtn: any : any = style({
+export const socialBtn: any : any : any = style({
   display: "flex",
   alignItems: "center",
   gap: 12,
@@ -125,22 +125,22 @@ export const socialBtn: any : any = style({
   cursor: "pointer",
   textAlign: "left",
 });
-export const socialIcon: any : any = style({
+export const socialIcon: any : any : any = style({
   fontSize: 20,
   width: 24,
   textAlign: "center",
 });
-export const biometricSection: any : any = style({
+export const biometricSection: any : any : any = style({
   padding: "20px 40px 30px 40px",
   borderTop: "1px solid rgba(212,175,55,0.2)",
 });
-export const biometricButtons: any : any = style({
+export const biometricButtons: any : any : any = style({
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
   gap: 12,
   marginBottom: 25,
 });
-export const biometricBtn: any : any = style({
+export const biometricBtn: any : any : any = style({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -157,8 +157,8 @@ export const biometricBtn: any : any = style({
   textTransform: "uppercase",
   letterSpacing: 0.5,
 });
-export const biometricIcon: any : any = style({ fontSize: 24 });
-export const biometricTip: any : any = style({
+export const biometricIcon: any : any : any = style({ fontSize: 24 });
+export const biometricTip: any : any : any = style({
   background: "rgba(212,175,55,0.05)",
   border: "1px solid rgba(212,175,55,0.2)",
   borderRadius: 12,
@@ -166,7 +166,7 @@ export const biometricTip: any : any = style({
   marginTop: 20,
   color: "#cccccc",
 });
-export const footer: any : any = style({
+export const footer: any : any : any = style({
   textAlign: "center",
   padding: "20px 40px 40px 40px",
   borderTop: "1px solid rgba(212,175,55,0.2)",
