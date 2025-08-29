@@ -2,6 +2,127 @@ import React from 'react';
 import * as s from './lore.css.ts';
 
 export const Lore: React.FC  : any = () => {
+  // Element definitions derived from the lore content above
+  type ElementDefinition = {
+    name: "Aether" | "Air" | "Fire" | "Earth" | "Water" | "Nether";
+    epithet: string; // e.g., Principle, Adaptation
+    definition: string; // e.g., "Act how is right; ..."
+    stance: string; // e.g., "You prefer clear principle ..."
+  };
+
+  const elementDefinitions: ElementDefinition[] = [
+    {
+      name: "Aether",
+      epithet: "Principle",
+      definition:
+        "Act how is right; improvise and expedite to cut through ambiguity.",
+      stance: "You prefer clear principle over convenience. You cut knots and act.",
+    },
+    {
+      name: "Air",
+      epithet: "Adaptation",
+      definition:
+        "Do whatever works; educate and guide while shaping change in the moment.",
+      stance: "You value results and teaching; you iterate fast and guide others.",
+    },
+    {
+      name: "Fire",
+      epithet: "Aspiration",
+      definition:
+        "What the world should be; provide and protect to build toward ideals.",
+      stance: "You chase ideals and protect the vulnerable while pushing forward.",
+    },
+    {
+      name: "Earth",
+      epithet: "Integrity",
+      definition:
+        "Do whatever is right; supervise and inspect, imposing necessary boundaries.",
+      stance: "You uphold duty, standards, and structure; you inspect and enforce.",
+    },
+    {
+      name: "Water",
+      epithet: "Potential",
+      definition:
+        "What the world could be; assemble and expedite to unlock possibilities.",
+      stance: "You gather, connect, and explore what could be through assembly.",
+    },
+    {
+      name: "Nether",
+      epithet: "Capability",
+      definition:
+        "Act how you could; plan and design to make the possible practical.",
+      stance: "You architect capability; you plan and design for future leverage.",
+    },
+  ];
+
+  // Utility: generate k-combinations of the elements
+  function generateCombinations<T>(items: T[], size: number): T[][] {
+    const results: T[][] = [];
+    function helper(startIndex: number, combo: T[]) {
+      if (combo.length === size) {
+        results.push([...combo]);
+        return;
+      }
+      for (let i = startIndex; i < items.length; i++) {
+        combo.push(items[i]);
+        helper(i + 1, combo);
+        combo.pop();
+      }
+    }
+    helper(0, []);
+    return results;
+  }
+
+  // Normalize a pair key for lookups regardless of order
+  function pairKey(a: string, b: string): string {
+    return [a, b].sort().join("|");
+  }
+
+  // Special adjacent pair names/descriptions already present in the lore
+  const specialPairs: Record<string, { title: string; description: string }> = {
+    [pairKey("Water", "Aether")]: {
+      title: "Rainbow",
+      description: "Expedite assembly toward emergent insight.",
+    },
+    [pairKey("Aether", "Air")]: {
+      title: "Aurora",
+      description: "Educated improvisation that illuminates the path.",
+    },
+    [pairKey("Air", "Fire")]: {
+      title: "Flare",
+      description: "Guided action that rallies and protects.",
+    },
+    [pairKey("Fire", "Nether")]: {
+      title: "Char",
+      description: "Design channeled into decisive provision.",
+    },
+    [pairKey("Nether", "Earth")]: {
+      title: "Putrefaction",
+      description: "Plans refined by inspection into resilience.",
+    },
+    [pairKey("Earth", "Water")]: {
+      title: "Mud",
+      description: "Boundaries that shape and stabilize new growth.",
+    },
+  };
+
+  function summarize(definition: string): string {
+    const firstClause = definition.split(";")[0].trim();
+    return firstClause.endsWith(".")
+      ? firstClause.slice(0, -1)
+      : firstClause;
+  }
+
+  function buildDefaultDescription(combo: ElementDefinition[]): string {
+    const clauses = combo.map((e) => summarize(e.definition));
+    return `Combined stance: ${clauses.join(" — ")}.`;
+  }
+
+  const combinations2 = generateCombinations(elementDefinitions, 2);
+  const combinations3 = generateCombinations(elementDefinitions, 3);
+  const combinations4 = generateCombinations(elementDefinitions, 4);
+  const combinations5 = generateCombinations(elementDefinitions, 5);
+
   return (
     <div className={s.container}>
       <div className={s.header}>
@@ -133,6 +254,62 @@ export const Lore: React.FC  : any = () => {
               <p className={s.virtueText}>Fire + Nether: Char — Design channeled into decisive provision.</p>
               <p className={s.virtueText}>Nether + Earth: Putrefaction — Plans refined by inspection into resilience.</p>
               <p className={s.virtueText}>Earth + Water: Mud — Boundaries that shape and stabilize new growth.</p>
+            </div>
+          </div>
+
+          {/* Programmatic combinations for 2, 3, 4, 5 elements */}
+          <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Two-Element Combinations</h3>
+              {combinations2.map((combo, idx) => {
+                const names = combo.map((e) => e.name);
+                const key = pairKey(names[0], names[1]);
+                const special = specialPairs[key];
+                const title = special
+                  ? `${names[0]} + ${names[1]} — ${special.title}`
+                  : `${names[0]} + ${names[1]}`;
+                const description = special
+                  ? special.description
+                  : buildDefaultDescription(combo);
+                return (
+                  <p key={idx} className={s.virtueText}>
+                    <strong>{title}:</strong> {description}
+                  </p>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Three-Element Combinations</h3>
+              {combinations3.map((combo, idx) => (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{combo.map((e) => e.name).join(" + ")}</strong>: {buildDefaultDescription(combo)}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Four-Element Combinations</h3>
+              {combinations4.map((combo, idx) => (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{combo.map((e) => e.name).join(" + ")}</strong>: {buildDefaultDescription(combo)}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+            <div className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>Five-Element Combinations</h3>
+              {combinations5.map((combo, idx) => (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{combo.map((e) => e.name).join(" + ")}</strong>: {buildDefaultDescription(combo)}
+                </p>
+              ))}
             </div>
           </div>
         </section>
