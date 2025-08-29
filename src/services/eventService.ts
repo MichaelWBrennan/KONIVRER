@@ -1,6 +1,6 @@
 export type ReportPayload = { eventId: string; round: number; table: number; winnerId?: string; result: string; drop?: boolean };
 
-const REPORT_QUEUE_KEY  : any : any = 'konivrer-report-queue';
+const REPORT_QUEUE_KEY  : any : any : any = 'konivrer-report-queue';
 
 function readQueue(): ReportPayload[] {
   try { return JSON.parse(localStorage.getItem(REPORT_QUEUE_KEY) || '[]'); } catch { return []; }
@@ -10,7 +10,7 @@ function writeQueue(items: ReportPayload[]): any {
   localStorage.setItem(REPORT_QUEUE_KEY, JSON.stringify(items));
 }
 
-export const EventService  : any : any = {
+export const EventService  : any : any : any = {
   async fetchPairings(_eventId: string, _round: number) {
     // TODO: integrate real API; for now return mock data
     await new Promise((r) => setTimeout(r, 300));
@@ -21,9 +21,9 @@ export const EventService  : any : any = {
   },
   async reportMatch(_payload: ReportPayload) {
     // Simulate network; if offline, enqueue
-    const isOnline  : any : any = typeof navigator === 'undefined' ? true : navigator.onLine;
+    const isOnline  : any : any : any = typeof navigator === 'undefined' ? true : navigator.onLine;
     if (!isOnline) {
-      const q  : any : any = readQueue();
+      const q  : any : any : any = readQueue();
       q.push(_payload);
       writeQueue(q);
       return { ok: false, queued: true } as const;
@@ -36,9 +36,9 @@ export const EventService  : any : any = {
     return { ok: true, ticketId: Math.random().toString(36).slice(2) };
   },
   async syncQueuedReports() {
-    const q  : any : any = readQueue();
+    const q  : any : any : any = readQueue();
     if (q.length === 0) return { synced: 0 };
-    const remaining: ReportPayload[]  : any : any = [];
+    const remaining: ReportPayload[]  : any : any : any = [];
     let synced = 0;
     for (const item of q) {
       try {
@@ -54,9 +54,9 @@ export const EventService  : any : any = {
   }
   ,
   async registerDeck(eventId: string, deckId: string, userId?: string) {
-    const key  : any : any = 'konivrer-event-deck-registrations';
-    const current  : any : any = JSON.parse(localStorage.getItem(key) || '{}');
-    const uid  : any : any = userId || (JSON.parse(localStorage.getItem('user') || '{}').id || 'me');
+    const key  : any : any : any = 'konivrer-event-deck-registrations';
+    const current  : any : any : any = JSON.parse(localStorage.getItem(key) || '{}');
+    const uid  : any : any : any = userId || (JSON.parse(localStorage.getItem('user') || '{}').id || 'me');
     if (!current[eventId]) current[eventId] = {};
     current[eventId][uid] = deckId;
     localStorage.setItem(key, JSON.stringify(current));
