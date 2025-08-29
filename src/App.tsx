@@ -31,7 +31,7 @@ import { LoginModal } from "./components/LoginModal";
 import { SearchBar } from "./mobile/SearchBar";
 
 // Create a client
-const queryClient: any = new QueryClient({
+const queryClient: any : any = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
@@ -60,21 +60,21 @@ type Page =
   | "lore";
 
 function AppContent(): any {
-  const [currentPage, setCurrentPage]: any = useState<Page>("home");
+  const [currentPage, setCurrentPage]: any : any = useState<Page>("home");
   const { selectedCard, setSelectedCard, setSearchFilters }: any : any =
     useAppStore();
-  const { canAccessJudgePortal, isAuthenticated }: any = useAuth();
-  const [isOnline, setIsOnline]: any = useState<boolean>(
+  const { canAccessJudgePortal, isAuthenticated }: any : any = useAuth();
+  const [isOnline, setIsOnline]: any : any = useState<boolean>(
     typeof navigator !== "undefined" ? navigator.onLine : true
   );
-  const [loginOpen, setLoginOpen]: any = useState(false);
+  const [loginOpen, setLoginOpen]: any : any = useState(false);
 
   // Initialize notifications on app start
   useEffect(() => {
-    const notificationService: any = NotificationService.getInstance();
+    const notificationService: any : any = NotificationService.getInstance();
     notificationService.initialize();
 
-    const handleOnline: any = async () => {
+    const handleOnline: any : any = async () => {
       setIsOnline(true);
       try {
         await EventService.syncQueuedReports();
@@ -82,10 +82,10 @@ function AppContent(): any {
         console.warn('Failed to sync queued reports:', error);
       }
     };
-    const handleOffline: any = () => setIsOnline(false);
+    const handleOffline: any : any = () => setIsOnline(false);
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
-    const openLogin: any = () => setLoginOpen(true);
+    const openLogin: any : any = () => setLoginOpen(true);
     window.addEventListener("open-login", openLogin as any);
 
     return () => {
@@ -95,25 +95,25 @@ function AppContent(): any {
     };
   }, []);
 
-  const handleCardSelect: any = (card: Card) => {
+  const handleCardSelect: any : any = (card: Card) => {
     setSelectedCard(card);
   };
 
-  const handlePageChange: any = (page: Page) => {
+  const handlePageChange: any : any = (page: Page) => {
     if (page === "judge" && !canAccessJudgePortal()) {
       return;
     }
     setCurrentPage(page);
   };
 
-  const handleGlobalSearch: any = (q: string) => {
+  const handleGlobalSearch: any : any = (q: string) => {
     if (currentPage === "cards") setSearchFilters({ search: q, page: 1 });
     else if (currentPage === "decks") setSearchFilters({ search: q, page: 1 });
     else if (currentPage === "events" || currentPage === "event-archive") {
-      const ev: any = new CustomEvent("pairings-search", { detail: q });
+      const ev: any : any = new CustomEvent("pairings-search", { detail: q });
       window.dispatchEvent(ev);
     } else if (currentPage === "home") {
-      const ev: any = new CustomEvent("home-search", { detail: q });
+      const ev: any : any = new CustomEvent("home-search", { detail: q });
       window.dispatchEvent(ev);
     }
   };
