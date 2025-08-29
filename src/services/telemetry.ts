@@ -4,7 +4,7 @@
  */
 
 export interface MobileUXMetrics {
-  deviceType: 'mobile' | 'tablet' | 'desktop';
+  deviceType: "mobile" | "tablet" | "desktop";
   viewportWidth: number;
   viewportHeight: number;
   touchTargetInteractions: TouchTargetInteraction[];
@@ -30,7 +30,7 @@ export interface PerformanceMetrics {
 }
 
 export interface AccessibilityEvent {
-  type: 'focus' | 'keyboard-navigation' | 'screen-reader' | 'high-contrast';
+  type: "focus" | "keyboard-navigation" | "screen-reader" | "high-contrast";
   element: string;
   timestamp: number;
 }
@@ -50,7 +50,7 @@ class TelemetryService {
   constructor() {
     this.isEnabled = this.checkUserConsent();
     this.metrics = this.initializeMetrics();
-    
+
     if (this.isEnabled) {
       this.setupEventListeners();
       this.setupPerformanceObservers();
@@ -59,7 +59,7 @@ class TelemetryService {
 
   private checkUserConsent(): boolean {
     // Check for user consent (GDPR compliance)
-    return localStorage.getItem('telemetry-consent') === 'true';
+    return localStorage.getItem("telemetry-consent") === "true";
   }
 
   private initializeMetrics(): MobileUXMetrics {
@@ -80,57 +80,63 @@ class TelemetryService {
     };
   }
 
-  private detectDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-    const width : any : any : any = window.innerWidth;
-    if (width < 768) return 'mobile';
-    if (width < 1024) return 'tablet';
-    return 'desktop';
+  private detectDeviceType(): "mobile" | "tablet" | "desktop" {
+    const width = window.innerWidth;
+    if (width < 768) return "mobile";
+    if (width < 1024) return "tablet";
+    return "desktop";
   }
 
   private setupEventListeners(): void {
     // Touch target interaction tracking
-    document.addEventListener('touchstart', this.handleTouchStart.bind(this));
-    document.addEventListener('click', this.handleClick.bind(this));
-    
+    document.addEventListener("touchstart", this.handleTouchStart.bind(this));
+    document.addEventListener("click", this.handleClick.bind(this));
+
     // Accessibility event tracking
-    document.addEventListener('focusin', this.handleFocusIn.bind(this));
-    document.addEventListener('keydown', this.handleKeyDown.bind(this));
+    document.addEventListener("focusin", this.handleFocusIn.bind(this));
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
 
     // Viewport changes
-    window.addEventListener('resize', this.handleResize.bind(this));
+    window.addEventListener("resize", this.handleResize.bind(this));
   }
 
   private setupPerformanceObservers(): void {
     // Core Web Vitals observation
-    if ('PerformanceObserver' in window) {
+    if ("PerformanceObserver" in window) {
       // First Input Delay
       new PerformanceObserver((entryList) => {
         for (const entry of entryList.getEntries()) {
-          const fidEntry : any : any : any = entry; // Type assertion for FID entry
-          this.metrics.performanceMetrics.firstInputDelay = (fidEntry as any).processingStart - fidEntry.startTime;
+          const fidEntry = entry; // Type assertion for FID entry
+          this.metrics.performanceMetrics.firstInputDelay =
+            (fidEntry as any).processingStart - fidEntry.startTime;
         }
-      }).observe({ type: 'first-input', buffered: true });
+      }).observe({ type: "first-input", buffered: true });
 
       // Largest Contentful Paint
       new PerformanceObserver((entryList) => {
-        const entries : any : any : any = entryList.getEntries();
-        const lastEntry : any : any : any = entries[entries.length - 1];
-        this.metrics.performanceMetrics.largestContentfulPaint = lastEntry.startTime;
-      }).observe({ type: 'largest-contentful-paint', buffered: true });
+        const entries = entryList.getEntries();
+        const lastEntry = entries[entries.length - 1];
+        this.metrics.performanceMetrics.largestContentfulPaint =
+          lastEntry.startTime;
+      }).observe({ type: "largest-contentful-paint", buffered: true });
 
       // Cumulative Layout Shift
       new PerformanceObserver((entryList) => {
         for (const entry of entryList.getEntries()) {
           if (!(entry as any).hadRecentInput) {
-            this.metrics.performanceMetrics.cumulativeLayoutShift += (entry as any).value;
+            this.metrics.performanceMetrics.cumulativeLayoutShift += (
+              entry as any
+            ).value;
           }
         }
-      }).observe({ type: 'layout-shift', buffered: true });
+      }).observe({ type: "layout-shift", buffered: true });
     }
 
     // First Contentful Paint from Navigation API
-    if ('navigation' in performance) {
-      const paint : any : any : any = performance.getEntriesByType('paint').find(entry => entry.name === 'first-contentful-paint');
+    if ("navigation" in performance) {
+      const paint = performance
+        .getEntriesByType("paint")
+        .find((entry) => entry.name === "first-contentful-paint");
       if (paint) {
         this.metrics.performanceMetrics.firstContentfulPaint = paint.startTime;
       }
@@ -138,11 +144,11 @@ class TelemetryService {
   }
 
   private handleTouchStart(event: TouchEvent): void {
-    const target : any : any : any = event.target as Element;
+    const target = event.target as Element;
     if (!target) return;
 
-    const rect : any : any : any = target.getBoundingClientRect();
-    const interaction: TouchTargetInteraction  : any : any : any = {
+    const rect = target.getBoundingClientRect();
+    const interaction: TouchTargetInteraction = {
       elementId: target.id || target.className || target.tagName,
       targetSize: { width: rect.width, height: rect.height },
       touchAccuracy: this.calculateTouchAccuracy(event, rect),
@@ -153,30 +159,31 @@ class TelemetryService {
     this.metrics.touchTargetInteractions.push(interaction);
 
     // Track response time
-    const startTime : any : any : any = performance.now();
+    const startTime = performance.now();
     requestAnimationFrame(() => {
       interaction.responseTime = performance.now() - startTime;
     });
   }
 
   private calculateTouchAccuracy(event: TouchEvent, rect: DOMRect): number {
-    const touch : any : any : any = event.touches[0];
-    const centerX : any : any : any = rect.left + rect.width / 2;
-    const centerY : any : any : any = rect.top + rect.height / 2;
-    const distance : any : any : any = Math.sqrt(
-      Math.pow(touch.clientX - centerX, 2) + Math.pow(touch.clientY - centerY, 2)
+    const touch = event.touches[0];
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const distance = Math.sqrt(
+      Math.pow(touch.clientX - centerX, 2) +
+        Math.pow(touch.clientY - centerY, 2)
     );
     return Math.max(0, 1 - distance / (Math.max(rect.width, rect.height) / 2));
   }
 
   private handleClick(event: MouseEvent): void {
     // Track non-touch interactions for desktop/tablet users
-    if (this.metrics.deviceType !== 'mobile') {
-      const target : any : any : any = event.target as Element;
+    if (this.metrics.deviceType !== "mobile") {
+      const target = event.target as Element;
       if (!target) return;
 
       this.trackUserFlow({
-        action: 'click',
+        action: "click",
         screen: window.location.pathname,
         duration: 0,
         successful: true,
@@ -186,19 +193,19 @@ class TelemetryService {
   }
 
   private handleFocusIn(event: FocusEvent): void {
-    const target : any : any : any = event.target as Element;
+    const target = event.target as Element;
     this.metrics.accessibilityEvents.push({
-      type: 'focus',
+      type: "focus",
       element: target.id || target.className || target.tagName,
       timestamp: Date.now(),
     });
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       this.metrics.accessibilityEvents.push({
-        type: 'keyboard-navigation',
-        element: document.activeElement?.tagName || 'unknown',
+        type: "keyboard-navigation",
+        element: document.activeElement?.tagName || "unknown",
         timestamp: Date.now(),
       });
     }
@@ -215,36 +222,42 @@ class TelemetryService {
     this.metrics.userFlow.push(event);
   }
 
-  public trackAccessibilityUsage(type: AccessibilityEvent['type']): void {
+  public trackAccessibilityUsage(type: AccessibilityEvent["type"]): void {
     if (!this.isEnabled) return;
     this.metrics.accessibilityEvents.push({
       type,
-      element: document.activeElement?.tagName || 'unknown',
+      element: document.activeElement?.tagName || "unknown",
       timestamp: Date.now(),
     });
   }
 
   public async sendMetrics(): Promise<void> {
-    if (!this.isEnabled || this.metrics.touchTargetInteractions.length === 0) return;
+    if (!this.isEnabled || this.metrics.touchTargetInteractions.length === 0)
+      return;
 
     try {
       // In a real implementation, this would send to your analytics endpoint
-      console.log('Mobile UX Metrics:', this.metrics);
-      
+      console.log("Mobile UX Metrics:", this.metrics);
+
       // For now, store in localStorage for debugging
-      const existingMetrics : any : any : any = JSON.parse(localStorage.getItem('mobile-ux-metrics') || '[]');
+      const existingMetrics = JSON.parse(
+        localStorage.getItem("mobile-ux-metrics") || "[]"
+      );
       existingMetrics.push({
         timestamp: Date.now(),
         ...this.metrics,
       });
-      localStorage.setItem('mobile-ux-metrics', JSON.stringify(existingMetrics.slice(-10))); // Keep last 10 sessions
+      localStorage.setItem(
+        "mobile-ux-metrics",
+        JSON.stringify(existingMetrics.slice(-10))
+      ); // Keep last 10 sessions
 
       // Reset metrics for next collection
       this.metrics.touchTargetInteractions = [];
       this.metrics.accessibilityEvents = [];
       this.metrics.userFlow = [];
     } catch (error) {
-      console.error('Failed to send mobile UX metrics:', error);
+      console.error("Failed to send mobile UX metrics:", error);
     }
   }
 
@@ -254,22 +267,34 @@ class TelemetryService {
     accessibilityUsage: number;
     performanceScore: number;
   } {
-    const interactions : any : any : any = this.metrics.touchTargetInteractions;
-    const avgResponseTime : any : any : any = interactions.length > 0 
-      ? interactions.reduce((sum, i) => sum + i.responseTime, 0) / interactions.length
-      : 0;
+    const interactions = this.metrics.touchTargetInteractions;
+    const avgResponseTime =
+      interactions.length > 0
+        ? interactions.reduce((sum, i) => sum + i.responseTime, 0) /
+          interactions.length
+        : 0;
 
-    const avgAccuracy : any : any : any = interactions.length > 0
-      ? interactions.reduce((sum, i) => sum + i.touchAccuracy, 0) / interactions.length
-      : 0;
+    const avgAccuracy =
+      interactions.length > 0
+        ? interactions.reduce((sum, i) => sum + i.touchAccuracy, 0) /
+          interactions.length
+        : 0;
 
-    const accessibilityScore : any : any : any = this.metrics.accessibilityEvents.length > 0 ? 1 : 0;
+    const accessibilityScore =
+      this.metrics.accessibilityEvents.length > 0 ? 1 : 0;
 
     // Basic performance scoring (simplified)
-    const perf : any : any : any = this.metrics.performanceMetrics;
-    const performanceScore : any : any : any = Math.max(0, Math.min(100, 
-      100 - (perf.largestContentfulPaint / 25) - (perf.firstInputDelay / 10) - (perf.cumulativeLayoutShift * 1000)
-    ));
+    const perf = this.metrics.performanceMetrics;
+    const performanceScore = Math.max(
+      0,
+      Math.min(
+        100,
+        100 -
+          perf.largestContentfulPaint / 25 -
+          perf.firstInputDelay / 10 -
+          perf.cumulativeLayoutShift * 1000
+      )
+    );
 
     return {
       averageResponseTime: avgResponseTime,
@@ -281,10 +306,10 @@ class TelemetryService {
 }
 
 // Singleton instance
-export const telemetryService : any : any : any = new TelemetryService();
+export const telemetryService = new TelemetryService();
 
 // Auto-send metrics on page unload
-window.addEventListener('beforeunload', () => {
+window.addEventListener("beforeunload", () => {
   telemetryService.sendMetrics();
 });
 

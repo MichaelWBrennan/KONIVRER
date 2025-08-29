@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import * as s from './deckbuilder.css.ts';
+import React, { useState, useEffect } from "react";
+import * as s from "./deckbuilder.css.ts";
 
 interface Deck {
   id: string;
@@ -10,24 +10,24 @@ interface Deck {
   colors: string[];
 }
 
-export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
-  const [decks, setDecks] : any : any : any = useState<Deck[]>([]);
-  const [selectedDeck, setSelectedDeck] : any : any : any = useState<Deck | null>(null);
-  const [searchTerm, setSearchTerm] : any : any : any = useState('');
+export const DeckBuilderAdvanced: React.FC = () => {
+  const [decks, setDecks] = useState<Deck[]>([]);
+  const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // Decks will be loaded from backend
     setDecks([]);
   }, []);
 
-  const createNewDeck : any : any : any = () => {
-    const newDeck: Deck  : any : any : any = {
+  const createNewDeck = () => {
+    const newDeck: Deck = {
       id: Date.now().toString(),
       name: `New Deck ${decks.length + 1}`,
-      format: 'Standard',
+      format: "Standard",
       cardCount: 0,
       lastModified: new Date(),
-      colors: []
+      colors: [],
     };
     setDecks([...decks, newDeck]);
     setSelectedDeck(newDeck);
@@ -57,20 +57,24 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
               className="search-input"
             />
           </div>
-          
+
           <div className={s.deckGrid}>
             {decks
-              .filter(deck => deck.name.toLowerCase().includes(searchTerm.toLowerCase()))
-              .map(deck => (
-                <div 
-                  key={deck.id} 
-                  className={`${s.deckCard} ${selectedDeck?.id === deck.id ? s.deckCardSelected : ''}`}
+              .filter((deck) =>
+                deck.name.toLowerCase().includes(searchTerm.toLowerCase())
+              )
+              .map((deck) => (
+                <div
+                  key={deck.id}
+                  className={`${s.deckCard} ${
+                    selectedDeck?.id === deck.id ? s.deckCardSelected : ""
+                  }`}
                   onClick={() => setSelectedDeck(deck)}
                 >
                   <div className={s.deckHeader}>
                     <h3>{deck.name}</h3>
                     <div className={s.deckColors}>
-                      {deck.colors.map(color => (
+                      {deck.colors.map((color) => (
                         <div key={color} className={s.colorIndicator}></div>
                       ))}
                     </div>
@@ -95,9 +99,16 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
                   type="text"
                   value={selectedDeck.name}
                   onChange={(e) => {
-                    const updatedDeck : any : any : any = { ...selectedDeck, name: e.target.value };
+                    const updatedDeck = {
+                      ...selectedDeck,
+                      name: e.target.value,
+                    };
                     setSelectedDeck(updatedDeck);
-                    setDecks(decks.map(d => d.id === selectedDeck.id ? updatedDeck : d));
+                    setDecks(
+                      decks.map((d) =>
+                        d.id === selectedDeck.id ? updatedDeck : d
+                      )
+                    );
                   }}
                   className={s.deckNameInput}
                 />
@@ -111,27 +122,21 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
                 <div className={s.category}>
                   <h3>Creatures (0)</h3>
                   <div className={s.cardSlots}>
-                    <div>
-                      Click to add creatures to your deck
-                    </div>
+                    <div>Click to add creatures to your deck</div>
                   </div>
                 </div>
 
                 <div className={s.category}>
                   <h3>Spells (0)</h3>
                   <div className={s.cardSlots}>
-                    <div>
-                      Click to add spells to your deck
-                    </div>
+                    <div>Click to add spells to your deck</div>
                   </div>
                 </div>
 
                 <div className={s.category}>
                   <h3>Lands (0)</h3>
                   <div className={s.cardSlots}>
-                    <div>
-                      Click to add lands to your deck
-                    </div>
+                    <div>Click to add lands to your deck</div>
                   </div>
                 </div>
               </div>
@@ -146,7 +151,7 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
                     <li>Mana curve needs adjustment for optimal performance</li>
                   </ul>
                 </div>
-                
+
                 <div className={s.analysisCard}>
                   <h4>📊 Deck Statistics</h4>
                   <div className={s.statItem}>
@@ -167,7 +172,10 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
           ) : (
             <div className={s.noDeck}>
               <h2>Select a deck to edit</h2>
-              <p>Choose a deck from the list or create a new one to start building</p>
+              <p>
+                Choose a deck from the list or create a new one to start
+                building
+              </p>
             </div>
           )}
         </div>
@@ -181,7 +189,7 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
               className="search-input"
             />
           </div>
-          
+
           <div className="filters">
             <select className="filter-select">
               <option>All Colors</option>
@@ -191,7 +199,7 @@ export const DeckBuilderAdvanced: React.FC  : any : any : any = () => {
               <option>Red</option>
               <option>Green</option>
             </select>
-            
+
             <select className="filter-select">
               <option>All Types</option>
               <option>Creature</option>

@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface NotificationVenue {
   location?: string;
@@ -17,7 +17,12 @@ export interface NotificationData {
 
 export interface PushNotification {
   id: string;
-  type: 'round_start' | 'registration_accepted' | 'seating_assignment' | 'tournament_update' | 'system';
+  type:
+    | "round_start"
+    | "registration_accepted"
+    | "seating_assignment"
+    | "tournament_update"
+    | "system";
   title: string;
   message: string;
   data?: NotificationData;
@@ -32,9 +37,11 @@ interface NotificationState {
   unreadCount: number;
   isPermissionGranted: boolean;
   isSupported: boolean;
-  
+
   // Actions
-  addNotification: (notification: Omit<PushNotification, 'id' | 'timestamp' | 'read'>) => void;
+  addNotification: (
+    notification: Omit<PushNotification, "id" | "timestamp" | "read">
+  ) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
   markEventAsRead: (eventId: string) => void;
@@ -48,18 +55,21 @@ interface NotificationState {
   getUnreadCountByEvent: (eventId?: string) => number;
 }
 
-export const useNotificationStore : any : any : any = create<NotificationState>()(
+export const useNotificationStore = create<NotificationState>()(
   persist(
     (set, get) => ({
       // Initial state
       notifications: [],
       unreadCount: 0,
       isPermissionGranted: false,
-      isSupported: typeof window !== 'undefined' && 'Notification' in window && 'serviceWorker' in navigator,
+      isSupported:
+        typeof window !== "undefined" &&
+        "Notification" in window &&
+        "serviceWorker" in navigator,
 
       // Actions
       addNotification: (notificationData) => {
-        const notification: PushNotification  : any : any : any = {
+        const notification: PushNotification = {
           ...notificationData,
           id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
           timestamp: new Date(),
@@ -82,7 +92,11 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
           notifications: state.notifications.map((n) =>
             n.id === id ? { ...n, read: true } : n
           ),
-          unreadCount: Math.max(0, state.unreadCount - (state.notifications.find(n => n.id === id && !n.read) ? 1 : 0)),
+          unreadCount: Math.max(
+            0,
+            state.unreadCount -
+              (state.notifications.find((n) => n.id === id && !n.read) ? 1 : 0)
+          ),
         }));
       },
 
@@ -95,9 +109,11 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
 
       markEventAsRead: (eventId) => {
         set((state) => {
-          const eventNotifications : any : any : any = state.notifications.filter(n => n.eventId === eventId && !n.read);
-          const unreadReduction : any : any : any = eventNotifications.length;
-          
+          const eventNotifications = state.notifications.filter(
+            (n) => n.eventId === eventId && !n.read
+          );
+          const unreadReduction = eventNotifications.length;
+
           return {
             notifications: state.notifications.map((n) =>
               n.eventId === eventId ? { ...n, read: true } : n
@@ -110,7 +126,9 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
       removeNotification: (id) => {
         set((state) => ({
           notifications: state.notifications.filter((n) => n.id !== id),
-          unreadCount: state.unreadCount - (state.notifications.find(n => n.id === id && !n.read) ? 1 : 0),
+          unreadCount:
+            state.unreadCount -
+            (state.notifications.find((n) => n.id === id && !n.read) ? 1 : 0),
         }));
       },
 
@@ -120,11 +138,17 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
 
       clearEvent: (eventId) => {
         set((state) => {
-          const eventNotifications : any : any : any = state.notifications.filter(n => n.eventId === eventId);
-          const unreadReduction : any : any : any = eventNotifications.filter(n => !n.read).length;
-          
+          const eventNotifications = state.notifications.filter(
+            (n) => n.eventId === eventId
+          );
+          const unreadReduction = eventNotifications.filter(
+            (n) => !n.read
+          ).length;
+
           return {
-            notifications: state.notifications.filter((n) => n.eventId !== eventId),
+            notifications: state.notifications.filter(
+              (n) => n.eventId !== eventId
+            ),
             unreadCount: Math.max(0, state.unreadCount - unreadReduction),
           };
         });
@@ -134,13 +158,13 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
         if (!get().isSupported) return false;
 
         try {
-          const permission : any : any : any = await Notification.requestPermission();
-          const granted : any : any : any = permission === 'granted';
-          
+          const permission = await Notification.requestPermission();
+          const granted = permission === "granted";
+
           set({ isPermissionGranted: granted });
           return granted;
         } catch (error) {
-          console.error('Failed to request notification permission:', error);
+          console.error("Failed to request notification permission:", error);
           return false;
         }
       },
@@ -149,15 +173,15 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
         if (!get().isSupported) return;
 
         // Check current permission status
-        const permission : any : any : any = Notification.permission;
-        set({ isPermissionGranted: permission === 'granted' });
+        const permission = Notification.permission;
+        set({ isPermissionGranted: permission === "granted" });
 
         // Set up notification click handlers
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.addEventListener('message', (event) => {
-            if (event.data.type === 'notification-click') {
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker.addEventListener("message", (event) => {
+            if (event.data.type === "notification-click") {
               // Handle notification click - could navigate to relevant page
-              console.log('Notification clicked:', event.data);
+              console.log("Notification clicked:", event.data);
             }
           });
         }
@@ -165,34 +189,38 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
 
       // Helper method to show browser notification (not persisted)
       showBrowserNotification: (notification: PushNotification) => {
-        if (!get().isSupported || Notification.permission !== 'granted') return;
+        if (!get().isSupported || Notification.permission !== "granted") return;
 
-        const browserNotification : any : any : any = new Notification(notification.title, {
+        const browserNotification = new Notification(notification.title, {
           body: notification.message,
-          icon: '/favicon.ico', // Your app icon
-          badge: '/favicon.ico',
-          tag: `konivrer-${notification.type}-${notification.eventId || 'general'}`,
+          icon: "/favicon.ico", // Your app icon
+          badge: "/favicon.ico",
+          tag: `konivrer-${notification.type}-${
+            notification.eventId || "general"
+          }`,
           data: {
             notificationId: notification.id,
             type: notification.type,
             eventId: notification.eventId,
             ...notification.data,
           },
-          requireInteraction: notification.type === 'round_start' || notification.type === 'seating_assignment',
+          requireInteraction:
+            notification.type === "round_start" ||
+            notification.type === "seating_assignment",
         });
 
         browserNotification.onclick = () => {
           window.focus();
           // Mark as read when clicked
           get().markAsRead(notification.id);
-          
+
           // Navigate to relevant page based on notification type
           if (notification.eventId) {
             window.location.hash = `#/events/${notification.eventId}`;
           } else {
-            window.location.hash = '#/events';
+            window.location.hash = "#/events";
           }
-          
+
           browserNotification.close();
         };
 
@@ -206,23 +234,26 @@ export const useNotificationStore : any : any : any = create<NotificationState>(
 
       // Helper methods for event-specific notifications
       getNotificationsByEvent: (eventId) => {
-        const state : any : any : any = get();
+        const state = get();
         if (!eventId) {
-          return state.notifications.filter(n => !n.eventId);
+          return state.notifications.filter((n) => !n.eventId);
         }
-        return state.notifications.filter(n => n.eventId === eventId);
+        return state.notifications.filter((n) => n.eventId === eventId);
       },
 
       getUnreadCountByEvent: (eventId) => {
-        const state : any : any : any = get();
+        const state = get();
         if (!eventId) {
-          return state.notifications.filter(n => !n.eventId && !n.read).length;
+          return state.notifications.filter((n) => !n.eventId && !n.read)
+            .length;
         }
-        return state.notifications.filter(n => n.eventId === eventId && !n.read).length;
+        return state.notifications.filter(
+          (n) => n.eventId === eventId && !n.read
+        ).length;
       },
     }),
     {
-      name: 'konivrer-notifications',
+      name: "konivrer-notifications",
       partialize: (state) => ({
         notifications: state.notifications,
         unreadCount: state.unreadCount,
@@ -244,29 +275,31 @@ export class NotificationService {
   }
 
   public async initialize(): Promise<void> {
-    const store : any : any : any = useNotificationStore.getState();
+    const store = useNotificationStore.getState();
     store.initializeNotifications();
 
     // Request permission on first visit
-    if (store.isSupported && Notification.permission === 'default') {
+    if (store.isSupported && Notification.permission === "default") {
       // Don't automatically request permission, let user trigger it
-      console.log('Notification permission not granted. User can enable in settings.');
+      console.log(
+        "Notification permission not granted. User can enable in settings."
+      );
     }
   }
 
   public async requestPermission(): Promise<boolean> {
-    const store : any : any : any = useNotificationStore.getState();
+    const store = useNotificationStore.getState();
     return await store.requestPermission();
   }
 
   public sendNotification(
-    type: PushNotification['type'],
+    type: PushNotification["type"],
     title: string,
     message: string,
     data?: any,
     eventId?: string
   ): void {
-    const store : any : any : any = useNotificationStore.getState();
+    const store = useNotificationStore.getState();
     store.addNotification({
       type,
       title,
@@ -277,20 +310,28 @@ export class NotificationService {
   }
 
   // Convenience methods for specific notification types
-  public sendRoundStartNotification(eventName: string, round: number, eventId: string): void {
+  public sendRoundStartNotification(
+    eventName: string,
+    round: number,
+    eventId: string
+  ): void {
     this.sendNotification(
-      'round_start',
-      'Round Started',
+      "round_start",
+      "Round Started",
       `Round ${round} has started for ${eventName}`,
       { round },
       eventId
     );
   }
 
-  public sendRegistrationAcceptedNotification(eventName: string, eventId: string, startTime?: Date): void {
+  public sendRegistrationAcceptedNotification(
+    eventName: string,
+    eventId: string,
+    startTime?: Date
+  ): void {
     this.sendNotification(
-      'registration_accepted',
-      'Registration Accepted',
+      "registration_accepted",
+      "Registration Accepted",
       `Your registration for ${eventName} has been accepted!`,
       { startTime },
       eventId
@@ -303,18 +344,18 @@ export class NotificationService {
     eventId: string,
     round: number
   ): void {
-      this.sendNotification(
-        'seating_assignment',
-        'Seating Assignment',
-        `Table ${table}: You're paired against ${opponentName}`,
-        { table, opponentName, round },
-        eventId
-      );
+    this.sendNotification(
+      "seating_assignment",
+      "Seating Assignment",
+      `Table ${table}: You're paired against ${opponentName}`,
+      { table, opponentName, round },
+      eventId
+    );
   }
 
   // Listen to WebSocket events for real-time notifications
   public setupWebSocketNotifications(socket: any): void {
-    socket.on('notification.push', (data: any) => {
+    socket.on("notification.push", (data: any) => {
       this.sendNotification(
         data.type,
         data.title,
@@ -324,11 +365,11 @@ export class NotificationService {
       );
     });
 
-    socket.on('event.round.started', (data: any) => {
+    socket.on("event.round.started", (data: any) => {
       // Only show notification if this user is actually registered for this event
       this.sendEventSpecificNotification(
-        'round_start',
-        'Round Started',
+        "round_start",
+        "Round Started",
         `Round ${data.round} has started for ${data.eventName}`,
         {
           round: data.round,
@@ -340,10 +381,10 @@ export class NotificationService {
       );
     });
 
-    socket.on('event.registration.accepted', (data: any) => {
+    socket.on("event.registration.accepted", (data: any) => {
       this.sendEventSpecificNotification(
-        'registration_accepted',
-        'Registration Accepted',
+        "registration_accepted",
+        "Registration Accepted",
         `Your registration for ${data.eventName} has been accepted!`,
         {
           eventName: data.eventName,
@@ -355,16 +396,20 @@ export class NotificationService {
       );
     });
 
-    socket.on('event.seating.assigned', (data: any) => {
+    socket.on("event.seating.assigned", (data: any) => {
       // This will be called for each player, so check if it's for current user
-      const currentUser : any : any : any = JSON.parse(localStorage.getItem('currentUser') || '{}');
-      const assignment : any : any : any = data.assignments?.find((a: any) => a.playerId === currentUser.id);
-      
+      const currentUser = JSON.parse(
+        localStorage.getItem("currentUser") || "{}"
+      );
+      const assignment = data.assignments?.find(
+        (a: any) => a.playerId === currentUser.id
+      );
+
       if (assignment) {
-        const opponentName : any : any : any = assignment.opponent?.username || 'TBD';
+        const opponentName = assignment.opponent?.username || "TBD";
         this.sendEventSpecificNotification(
-          'seating_assignment',
-          'Seating Assignment',
+          "seating_assignment",
+          "Seating Assignment",
           `Table ${assignment.table}: You're paired against ${opponentName} in ${data.eventName}`,
           {
             table: assignment.table,
@@ -382,7 +427,7 @@ export class NotificationService {
 
   // Enhanced method to send event-specific notifications with additional validation
   private sendEventSpecificNotification(
-    type: PushNotification['type'],
+    type: PushNotification["type"],
     title: string,
     message: string,
     data?: any,
@@ -404,7 +449,7 @@ export class NotificationService {
   // Check if user is registered for a specific event
   private isUserRegisteredForEvent(eventId: string): boolean {
     try {
-      const userEvents : any : any : any = JSON.parse(localStorage.getItem('userEvents') || '[]');
+      const userEvents = JSON.parse(localStorage.getItem("userEvents") || "[]");
       return userEvents.includes(eventId);
     } catch {
       return true; // Default to showing notifications if we can't verify
@@ -412,20 +457,24 @@ export class NotificationService {
   }
 
   // Check for duplicate notifications in the last few minutes
-  private hasDuplicateNotification(type: PushNotification['type'], eventId?: string): boolean {
-    const store : any : any : any = useNotificationStore.getState();
-    const fiveMinutesAgo : any : any : any = new Date(Date.now() - 5 * 60 * 1000);
+  private hasDuplicateNotification(
+    type: PushNotification["type"],
+    eventId?: string
+  ): boolean {
+    const store = useNotificationStore.getState();
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
 
-    return store.notifications.some(notification => 
-      notification.type === type &&
-      notification.eventId === eventId &&
-      notification.timestamp > fiveMinutesAgo &&
-      !notification.read
+    return store.notifications.some(
+      (notification) =>
+        notification.type === type &&
+        notification.eventId === eventId &&
+        notification.timestamp > fiveMinutesAgo &&
+        !notification.read
     );
   }
 
   // Method to update user's registered events (should be called when user registers/unregisters)
   public updateUserEvents(eventIds: string[]): void {
-    localStorage.setItem('userEvents', JSON.stringify(eventIds));
+    localStorage.setItem("userEvents", JSON.stringify(eventIds));
   }
 }
