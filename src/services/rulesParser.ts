@@ -6,7 +6,7 @@ import type { KonivrverRule, KonivrverKeywordAbility } from '../types/game';
  */
 
 // KONIVRER Rules Structure (from requirements analysis)
-export const konivrverRules: KonivrverRule[]  : any : any : any = [
+export const konivrverRules: KonivrverRule[]  : any : any : any : any = [
   {
     section: "I",
     title: "Introduction",
@@ -119,7 +119,7 @@ Deck Construction:
 ];
 
 // Keyword ability definitions
-export const keywordAbilities: Record<KonivrverKeywordAbility, string>  : any : any : any = {
+export const keywordAbilities: Record<KonivrverKeywordAbility, string>  : any : any : any : any = {
   amalgam: "Combines with other cards to create more powerful effects",
   brilliance: "Light-based ability providing protection, healing, and purification effects",
   gust: "Air-based ability granting increased speed, evasion, and temporary effects", 
@@ -131,7 +131,7 @@ export const keywordAbilities: Record<KonivrverKeywordAbility, string>  : any : 
 };
 
 // Phase descriptions with exact text
-export const phaseDescriptions: Record<string, string>  : any : any : any = {
+export const phaseDescriptions: Record<string, string>  : any : any : any : any = {
   "preGame": "Pre-Game: Setup phase where players prepare their decks, choose starting hands, and establish initial game state.",
   "start": "Start Phase: Beginning of turn effects trigger, draw a card (after first turn), and any start-of-turn abilities activate.",
   "main": "Main Phase: The primary phase where players can play cards, activate abilities, and make strategic decisions.",
@@ -148,13 +148,13 @@ export function searchRules(query: string, options?: {
   caseSensitive?: boolean;
   searchKeywords?: boolean;
 }): KonivrverRule[] {
-  const { exactMatch  : any : any : any = false, caseSensitive = false, searchKeywords = true } = options || {};
-  const searchTerm  : any : any : any = caseSensitive ? query : query.toLowerCase();
+  const { exactMatch  : any : any : any : any = false, caseSensitive = false, searchKeywords = true } = options || {};
+  const searchTerm  : any : any : any : any = caseSensitive ? query : query.toLowerCase();
   
   return konivrverRules.filter(rule => {
-    const content  : any : any : any = caseSensitive ? rule.content : rule.content.toLowerCase();
-    const title  : any : any : any = caseSensitive ? rule.title : rule.title.toLowerCase();
-    const keywords  : any : any : any = rule.keywords.map(k => caseSensitive ? k : k.toLowerCase());
+    const content  : any : any : any : any = caseSensitive ? rule.content : rule.content.toLowerCase();
+    const title  : any : any : any : any = caseSensitive ? rule.title : rule.title.toLowerCase();
+    const keywords  : any : any : any : any = rule.keywords.map(k => caseSensitive ? k : k.toLowerCase());
     
     if (exactMatch) {
       return content.includes(searchTerm) || title.includes(searchTerm) || 
@@ -206,7 +206,7 @@ export function getAllRulesAsJSON(): {
  * Search with synonyms support
  */
 export function searchWithSynonyms(query: string): KonivrverRule[] {
-  const synonyms: Record<string, string[]>  : any : any : any = {
+  const synonyms: Record<string, string[]>  : any : any : any : any = {
     "removed from play": ["void", "exile", "exiled"],
     "void": ["removed from play", "exile", "exiled"],
     "familiar": ["creature", "monster", "being"],
@@ -217,18 +217,18 @@ export function searchWithSynonyms(query: string): KonivrverRule[] {
   let results = searchRules(query);
   
   // Also search synonyms
-  const queryLower  : any : any : any = query.toLowerCase();
+  const queryLower  : any : any : any : any = query.toLowerCase();
   Object.entries(synonyms).forEach(([key, values]) => {
     if (key.includes(queryLower) || values.some(v => v.includes(queryLower))) {
-      const synonymResults  : any : any : any = [key, ...values].flatMap(term => searchRules(term));
+      const synonymResults  : any : any : any : any = [key, ...values].flatMap(term => searchRules(term));
       results = [...results, ...synonymResults];
     }
   });
   
   // Remove duplicates
-  const seen  : any : any : any = new Set();
+  const seen  : any : any : any : any = new Set();
   return results.filter(rule => {
-    const key  : any : any : any = rule.section;
+    const key  : any : any : any : any = rule.section;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
