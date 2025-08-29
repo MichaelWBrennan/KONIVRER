@@ -1,8 +1,13 @@
-import React from 'react';
-import * as gz from './gameZone.css.ts';
-import { GameZone as GameZoneType, Card as CardType, DragState, KonivrverZoneType } from '../types/game';
-import { DeviceInfo, getMTGArenaLayoutConfig } from '../utils/deviceDetection';
-import { Card } from './Card';
+import React from "react";
+import * as gz from "./gameZone.css.ts";
+import {
+  GameZone as GameZoneType,
+  Card as CardType,
+  DragState,
+  KonivrverZoneType,
+} from "../types/game";
+import { DeviceInfo, getMTGArenaLayoutConfig } from "../utils/deviceDetection";
+import { Card } from "./Card";
 
 interface GameZoneProps {
   zone: GameZoneType;
@@ -18,14 +23,22 @@ interface GameZoneProps {
 }
 
 // Type guard to check if a string is a valid KonivrverZoneType
-const isKonivrverZoneType : any : any : any = (zoneId: string): zoneId is KonivrverZoneType => {
-  const validZoneTypes: KonivrverZoneType[]  : any : any : any = [
-    'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
+const isKonivrverZoneType = (zoneId: string): zoneId is KonivrverZoneType => {
+  const validZoneTypes: KonivrverZoneType[] = [
+    "field",
+    "combatRow",
+    "azothRow",
+    "hand",
+    "deck",
+    "lifeCards",
+    "flag",
+    "removedFromPlay",
+    "stack",
   ];
   return validZoneTypes.includes(zoneId as KonivrverZoneType);
 };
 
-export const GameZone: React.FC<GameZoneProps>  : any : any : any = ({
+export const GameZone: React.FC<GameZoneProps> = ({
   zone,
   device,
   dragState,
@@ -35,53 +48,57 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any = ({
   onDragStart,
   onDragEnd,
   onZoneDrop,
-  screenSize
+  screenSize,
 }) => {
-  const config : any : any : any = getMTGArenaLayoutConfig(device);
-  const zoneConfig : any : any : any = config.zones[zone.id as keyof typeof config.zones];
+  const config = getMTGArenaLayoutConfig(device);
+  const zoneConfig = config.zones[zone.id as keyof typeof config.zones];
 
   if (!zoneConfig) return null;
 
   // Calculate absolute position and size
-  const zoneStyle: React.CSSProperties  : any : any : any = {
-    position: 'absolute',
+  const zoneStyle: React.CSSProperties = {
+    position: "absolute",
     left: `${(zoneConfig.position.x / 100) * screenSize.width}px`,
     top: `${(zoneConfig.position.y / 100) * screenSize.height}px`,
     width: `${(zoneConfig.size.width / 100) * screenSize.width}px`,
     height: `${(zoneConfig.size.height / 100) * screenSize.height}px`,
-    border: (isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id))
-      ? '3px dashed #00BFFF' 
-      : '1px solid rgba(255, 255, 255, 0.2)',
-    borderRadius: device.isMobile ? '8px' : '12px',
-    backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    overflow: 'visible',
-    zIndex: 1
+    border:
+      isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id)
+        ? "3px dashed #00BFFF"
+        : "1px solid rgba(255, 255, 255, 0.2)",
+    borderRadius: device.isMobile ? "8px" : "12px",
+    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    overflow: "visible",
+    zIndex: 1,
   };
 
-  const handleDrop : any : any : any = (e: React.DragEvent) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     onZoneDrop(zone.id);
   };
 
-  const handleDragOver : any : any : any = (e: React.DragEvent) => {
-    if (isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id)) {
+  const handleDragOver = (e: React.DragEvent) => {
+    if (
+      isKonivrverZoneType(zone.id) &&
+      dragState.validDropZones.includes(zone.id)
+    ) {
       e.preventDefault();
     }
   };
 
-  const renderCards : any : any : any = () => {
+  const renderCards = () => {
     if (zone.cards.length === 0) return null;
 
     switch (zone.layout) {
-      case 'stack':
+      case "stack":
         return zone.cards.map((card, index) => (
           <div
             key={card.id}
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: `${index * 2}px`,
               top: `${index * 2}px`,
-              zIndex: index
+              zIndex: index,
             }}
           >
             <Card
@@ -93,29 +110,32 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any = ({
               onCardRightClick={onCardRightClick}
               onDragStart={onDragStart}
               onDragEnd={onDragEnd}
-              isInHand={zone.id.includes('hand')}
+              isInHand={zone.id.includes("hand")}
             />
           </div>
         ));
 
-      case 'fan': {
+      case "fan": {
         // Hand layout - cards fan out
-        const cardSpacing : any : any : any = zoneConfig.cardSpacing || 8;
-        const overlap : any : any : any = zoneConfig.overlap || 0.8;
-        
+        const cardSpacing = zoneConfig.cardSpacing || 8;
+        const overlap = zoneConfig.overlap || 0.8;
+
         return zone.cards.map((card, index) => {
-          const totalWidth : any : any : any = zone.cards.length * cardSpacing * overlap;
-          const startX : any : any : any = (parseFloat(zoneStyle.width as string) - totalWidth) / 2;
-          
+          const totalWidth = zone.cards.length * cardSpacing * overlap;
+          const startX =
+            (parseFloat(zoneStyle.width as string) - totalWidth) / 2;
+
           return (
             <div
               key={card.id}
               style={{
-                position: 'absolute',
-                left: `${startX + (index * cardSpacing * overlap)}px`,
-                top: device.isMobile ? '5px' : '10px',
+                position: "absolute",
+                left: `${startX + index * cardSpacing * overlap}px`,
+                top: device.isMobile ? "5px" : "10px",
                 zIndex: index,
-                transform: device.isMobile ? `rotate(${(index - zone.cards.length/2) * 3}deg)` : 'none'
+                transform: device.isMobile
+                  ? `rotate(${(index - zone.cards.length / 2) * 3}deg)`
+                  : "none",
               }}
             >
               <Card
@@ -134,24 +154,24 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any = ({
         });
       }
 
-      case 'grid': {
+      case "grid": {
         // Battlefield layout - cards in grid
-        const maxRows : any : any : any = zoneConfig.maxRows || 3;
-        const spacing : any : any : any = zoneConfig.cardSpacing || 12;
-        
+        const maxRows = zoneConfig.maxRows || 3;
+        const spacing = zoneConfig.cardSpacing || 12;
+
         return zone.cards.map((card, index) => {
-          const cardsPerRow : any : any : any = Math.ceil(zone.cards.length / maxRows);
-          const row : any : any : any = Math.floor(index / cardsPerRow);
-          const col : any : any : any = index % cardsPerRow;
-          
+          const cardsPerRow = Math.ceil(zone.cards.length / maxRows);
+          const row = Math.floor(index / cardsPerRow);
+          const col = index % cardsPerRow;
+
           return (
             <div
               key={card.id}
               style={{
-                position: 'absolute',
+                position: "absolute",
                 left: `${col * spacing}px`,
                 top: `${row * spacing}px`,
-                zIndex: index
+                zIndex: index,
               }}
             >
               <Card
@@ -182,19 +202,26 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any = ({
       className={`game-zone ${zone.id} ${device.platform}`}
     >
       {/* Zone label */}
-      <div className={gz.zoneLabel} style={{ fontSize: device.isMobile ? '10px' : '12px' }}>
+      <div
+        className={gz.zoneLabel}
+        style={{ fontSize: device.isMobile ? "10px" : "12px" }}
+      >
         {zone.name}
       </div>
-      
+
       {/* Cards in zone */}
       {renderCards()}
-      
+
       {/* Card count indicator for non-visible zones */}
-      {zone.cards.length > 0 && (zone.id === 'library' || zone.id === 'graveyard') && (
-        <div className={gz.countBadge} style={{ fontSize: device.isMobile ? '8px' : '10px' }}>
-          {zone.cards.length}
-        </div>
-      )}
+      {zone.cards.length > 0 &&
+        (zone.id === "library" || zone.id === "graveyard") && (
+          <div
+            className={gz.countBadge}
+            style={{ fontSize: device.isMobile ? "8px" : "10px" }}
+          >
+            {zone.cards.length}
+          </div>
+        )}
     </div>
   );
 };

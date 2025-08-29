@@ -1,7 +1,7 @@
-import React from 'react';
-import { RealTimeAnalytics } from '../analytics/RealTimeAnalytics';
+import React from "react";
+import { RealTimeAnalytics } from "../analytics/RealTimeAnalytics";
 
-export const Analytics: React.FC  : any : any : any = () => {
+export const Analytics: React.FC = () => {
   return (
     <div className="analytics-container">
       <div className="analytics-header">
@@ -13,7 +13,10 @@ export const Analytics: React.FC  : any : any : any = () => {
         <div className="analytics-content">
           <div className="coming-soon">
             <h2>Analytics Dashboard Coming Soon</h2>
-            <p>Advanced performance tracking and AI-powered insights will be available here.</p>
+            <p>
+              Advanced performance tracking and AI-powered insights will be
+              available here.
+            </p>
             <div className="feature-list">
               <ul>
                 <li>Real-time performance metrics</li>

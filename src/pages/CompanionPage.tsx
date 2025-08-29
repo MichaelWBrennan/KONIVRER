@@ -1,32 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export interface CompanionPageProps {
   userId?: string;
 }
 
-export const CompanionPage: React.FC<CompanionPageProps>  : any : any : any = () => {
-  const [activeTab, setActiveTab] : any : any : any = useState<'events' | 'create' | 'history'>('events');
+export const CompanionPage: React.FC<CompanionPageProps> = () => {
+  const [activeTab, setActiveTab] = useState<"events" | "create" | "history">(
+    "events"
+  );
 
   // TODO: Implement actual user authentication and role management
 
   // Mock event data - in real app this would come from API
-  const activeEvents : any : any : any = [
+  const activeEvents = [
     {
-      id: 'event-1',
-      name: 'Friday Night KONIVRER',
-      status: 'In Progress',
+      id: "event-1",
+      name: "Friday Night KONIVRER",
+      status: "In Progress",
       participants: 24,
       currentRound: 3,
-      totalRounds: 5
+      totalRounds: 5,
     },
     {
-      id: 'event-2', 
-      name: 'Standard Weekly',
-      status: 'Registration Closed',
+      id: "event-2",
+      name: "Standard Weekly",
+      status: "Registration Closed",
       participants: 16,
       currentRound: 1,
-      totalRounds: 4
-    }
+      totalRounds: 4,
+    },
   ];
 
   return (
@@ -293,42 +295,53 @@ export const CompanionPage: React.FC<CompanionPageProps>  : any : any : any = ()
         <h1>⚔️ MTG Companion</h1>
         <p>Tournament management, player pairing, and live event tracking</p>
       </div>
-      
+
       <div className="tab-navigation">
-        <button 
-          className={`tab-button ${activeTab === 'events' ? 'active' : ''}`}
-          onClick={() => setActiveTab('events')}
+        <button
+          className={`tab-button ${activeTab === "events" ? "active" : ""}`}
+          onClick={() => setActiveTab("events")}
         >
           📅 Active Events
         </button>
-        <button 
-          className={`tab-button ${activeTab === 'create' ? 'active' : ''}`}
-          onClick={() => setActiveTab('create')}
+        <button
+          className={`tab-button ${activeTab === "create" ? "active" : ""}`}
+          onClick={() => setActiveTab("create")}
         >
           ➕ Create Event
         </button>
-        <button 
-          className={`tab-button ${activeTab === 'history' ? 'active' : ''}`}
-          onClick={() => setActiveTab('history')}
+        <button
+          className={`tab-button ${activeTab === "history" ? "active" : ""}`}
+          onClick={() => setActiveTab("history")}
         >
           📊 Event History
         </button>
       </div>
 
       <div className="tab-content">
-        {activeTab === 'events' && (
+        {activeTab === "events" && (
           <div>
             <h2>Active Events</h2>
             <div className="events-grid">
-              {activeEvents.map(event => (
-                <div key={event.id} className={`event-card ${event.status === 'In Progress' ? 'active' : ''}`}>
+              {activeEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className={`event-card ${
+                    event.status === "In Progress" ? "active" : ""
+                  }`}
+                >
                   <div className="event-header">
                     <h3>{event.name}</h3>
-                    <span className={`status-badge ${event.status === 'In Progress' ? 'in-progress' : 'registration'}`}>
+                    <span
+                      className={`status-badge ${
+                        event.status === "In Progress"
+                          ? "in-progress"
+                          : "registration"
+                      }`}
+                    >
                       {event.status}
                     </span>
                   </div>
-                  
+
                   <div className="event-details">
                     <div className="detail-item">
                       <span className="detail-icon">👥</span>
@@ -336,23 +349,23 @@ export const CompanionPage: React.FC<CompanionPageProps>  : any : any : any = ()
                     </div>
                     <div className="detail-item">
                       <span className="detail-icon">🎯</span>
-                      <span>Round {event.currentRound}/{event.totalRounds}</span>
+                      <span>
+                        Round {event.currentRound}/{event.totalRounds}
+                      </span>
                     </div>
                   </div>
-                  
+
                   <div className="event-actions">
-                    <button 
+                    <button
                       className="btn btn-primary"
                       onClick={() => {
                         // This would show the EventManager for the selected event
-                        console.log('Managing event:', event.id);
+                        console.log("Managing event:", event.id);
                       }}
                     >
                       Manage Event
                     </button>
-                    <button className="btn btn-secondary">
-                      View Details
-                    </button>
+                    <button className="btn btn-secondary">View Details</button>
                   </div>
                 </div>
               ))}
@@ -362,10 +375,12 @@ export const CompanionPage: React.FC<CompanionPageProps>  : any : any : any = ()
           </div>
         )}
 
-        {activeTab === 'create' && (
+        {activeTab === "create" && (
           <div>
             <h2>Create New Event</h2>
-            <p>Event creation interface would go here. Features would include:</p>
+            <p>
+              Event creation interface would go here. Features would include:
+            </p>
             <div className="companion-features">
               <div className="feature-card">
                 <span className="feature-icon">🏆</span>
@@ -390,10 +405,13 @@ export const CompanionPage: React.FC<CompanionPageProps>  : any : any : any = ()
           </div>
         )}
 
-        {activeTab === 'history' && (
+        {activeTab === "history" && (
           <div>
             <h2>Event History</h2>
-            <p>Past tournament results, statistics, and archived events would be displayed here.</p>
+            <p>
+              Past tournament results, statistics, and archived events would be
+              displayed here.
+            </p>
             <div className="companion-features">
               <div className="feature-card">
                 <span className="feature-icon">📈</span>

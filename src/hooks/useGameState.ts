@@ -1,78 +1,94 @@
-import { useState, useCallback } from 'react';
-import { GameState, Card, PlayerState, GameZone, DragState, KonivrverZoneType, KonivrverPhase } from '../types/game';
+import { useState, useCallback } from "react";
+import {
+  GameState,
+  Card,
+  PlayerState,
+  GameZone,
+  DragState,
+  KonivrverZoneType,
+  KonivrverPhase,
+} from "../types/game";
 
 // TODO: Load actual card data from the card database instead of demo cards
 
-const createInitialZones : any : any : any = (): Record<string, GameZone> => ({
+const createInitialZones = (): Record<string, GameZone> => ({
   hand: {
-    id: 'hand',
-    name: 'Hand',
+    id: "hand",
+    name: "Hand",
     cards: [], // TODO: Populate with actual player cards
     isVisible: true,
     allowDrop: true,
-    layout: 'fan'
+    layout: "fan",
   },
   battlefield: {
-    id: 'battlefield',
-    name: 'Battlefield',
+    id: "battlefield",
+    name: "Battlefield",
     cards: [],
     isVisible: true,
     allowDrop: true,
-    layout: 'grid'
+    layout: "grid",
   },
   library: {
-    id: 'library',
-    name: 'Library',
+    id: "library",
+    name: "Library",
     cards: [], // TODO: Initialize with player's deck cards
     isVisible: false,
     allowDrop: false,
-    layout: 'stack'
+    layout: "stack",
   },
   graveyard: {
-    id: 'graveyard',
-    name: 'Graveyard',
+    id: "graveyard",
+    name: "Graveyard",
     cards: [],
     isVisible: true,
     allowDrop: true,
-    layout: 'stack'
+    layout: "stack",
   },
   exile: {
-    id: 'exile',
-    name: 'Exile',
+    id: "exile",
+    name: "Exile",
     cards: [],
     isVisible: true,
     allowDrop: true,
-    layout: 'stack'
+    layout: "stack",
   },
   stack: {
-    id: 'stack',
-    name: 'Stack',
+    id: "stack",
+    name: "Stack",
     cards: [],
     isVisible: true,
     allowDrop: true,
-    layout: 'stack'
-  }
+    layout: "stack",
+  },
 });
 
-const createInitialPlayer : any : any : any = (id: string, name: string): PlayerState => ({
+const createInitialPlayer = (id: string, name: string): PlayerState => ({
   id,
   name,
-  azothPool: { fire: 0, water: 0, earth: 0, air: 0, light: 0, dark: 0, neutral: 0 },
+  azothPool: {
+    fire: 0,
+    water: 0,
+    earth: 0,
+    air: 0,
+    light: 0,
+    dark: 0,
+    neutral: 0,
+  },
   zones: createInitialZones() as any, // Type cast to avoid zone type mismatch for now
   // Legacy compatibility
   life: 20,
-  manaPool: { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 }
+  manaPool: { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 },
 });
 
-export const useGameState : any : any : any = () => {
-  const [gameState, setGameState] : any : any : any = useState<GameState>({
+export const useGameState = () => {
+  const [gameState, setGameState] = useState<GameState>({
     players: [
-      createInitialPlayer('player1', 'You'),
-      createInitialPlayer('player2', 'Opponent')
+      createInitialPlayer("player1", "You"),
+      createInitialPlayer("player2", "Opponent"),
     ],
     currentPlayer: 0,
     turn: 1,
-    phase: 'main',
+    phase: "main",
     stack: [],
     activePlayer: 0,
     priorityPlayer: 0,
@@ -82,34 +98,34 @@ export const useGameState : any : any : any = () => {
       uncommonCards: 13,
       rareCards: 2,
       flagRequired: true,
-      maxCopiesPerCard: 1
-    }
+      maxCopiesPerCard: 1,
+    },
   });
 
-  const [selectedCards, setSelectedCards] : any : any : any = useState<Card[]>([]);
-  const [dragState, setDragState] : any : any : any = useState<DragState>({
+  const [selectedCards, setSelectedCards] = useState<Card[]>([]);
+  const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
     dragOffset: { x: 0, y: 0 },
-    validDropZones: []
+    validDropZones: [],
   });
 
-  const selectCard : any : any : any = useCallback((card: Card) => {
-    setGameState(prev => {
-      const newState : any : any : any = { ...prev };
+  const selectCard = useCallback((card: Card) => {
+    setGameState((prev) => {
+      const newState = { ...prev };
       // Find and update the card's selection state
       for (const player of newState.players) {
         for (const zone of Object.values(player.zones)) {
-          const cardIndex : any : any : any = zone.cards.findIndex(c => c.id === card.id);
+          const cardIndex = zone.cards.findIndex((c) => c.id === card.id);
           if (cardIndex !== -1) {
-            zone.cards[cardIndex] = { 
-              ...zone.cards[cardIndex], 
-              isSelected: !zone.cards[cardIndex].isSelected 
+            zone.cards[cardIndex] = {
+              ...zone.cards[cardIndex],
+              isSelected: !zone.cards[cardIndex].isSelected,
             };
-            
+
             if (zone.cards[cardIndex].isSelected) {
-              setSelectedCards(prev => [...prev, zone.cards[cardIndex]]);
+              setSelectedCards((prev) => [...prev, zone.cards[cardIndex]]);
             } else {
-              setSelectedCards(prev => prev.filter(c => c.id !== card.id));
+              setSelectedCards((prev) => prev.filter((c) => c.id !== card.id));
             }
             break;
           }
@@ -119,29 +135,33 @@ export const useGameState : any : any : any = () => {
     });
   }, []);
 
-  const doubleClickCard : any : any : any = useCallback((card: Card) => {
+  const doubleClickCard = useCallback((card: Card) => {
     // Auto-play logic: move to appropriate zone
-    const cardType : any : any : any = card.type || card.lesserType;
-    if (cardType && cardType.toLowerCase().includes('land')) {
-      moveCard(card.id, 'field');
-    } else if (cardType && (cardType.toLowerCase().includes('creature') || cardType.toLowerCase().includes('familiar'))) {
-      moveCard(card.id, 'field');
+    const cardType = card.type || card.lesserType;
+    if (cardType && cardType.toLowerCase().includes("land")) {
+      moveCard(card.id, "field");
+    } else if (
+      cardType &&
+      (cardType.toLowerCase().includes("creature") ||
+        cardType.toLowerCase().includes("familiar"))
+    ) {
+      moveCard(card.id, "field");
     } else {
-      moveCard(card.id, 'stack');
+      moveCard(card.id, "stack");
     }
   }, []);
 
-  const rightClickCard : any : any : any = useCallback((card: Card) => {
+  const rightClickCard = useCallback((card: Card) => {
     // Toggle tap state for mobile long-press or desktop right-click
-    setGameState(prev => {
-      const newState : any : any : any = { ...prev };
+    setGameState((prev) => {
+      const newState = { ...prev };
       for (const player of newState.players) {
         for (const zone of Object.values(player.zones)) {
-          const cardIndex : any : any : any = zone.cards.findIndex(c => c.id === card.id);
+          const cardIndex = zone.cards.findIndex((c) => c.id === card.id);
           if (cardIndex !== -1) {
-            zone.cards[cardIndex] = { 
-              ...zone.cards[cardIndex], 
-              isTapped: !zone.cards[cardIndex].isTapped 
+            zone.cards[cardIndex] = {
+              ...zone.cards[cardIndex],
+              isTapped: !zone.cards[cardIndex].isTapped,
             };
             break;
           }
@@ -151,106 +171,155 @@ export const useGameState : any : any : any = () => {
     });
   }, []);
 
-  const startDrag : any : any : any = useCallback((card: Card, position: { x: number; y: number }) => {
-    // Determine valid drop zones based on card type and current zone
-    const validDropZones: KonivrverZoneType[]  : any : any : any = ['field', 'removedFromPlay', 'hand'];
-    const cardType : any : any : any = card.type || card.lesserType;
-    if (cardType && (cardType.toLowerCase().includes('instant') || cardType.toLowerCase().includes('sorcery'))) {
-      validDropZones.push('stack');
-    }
-
-    const sourceZone : any : any : any = findCardZone(card.id);
-    setDragState({
-      isDragging: true,
-      draggedCard: card,
-      dragOffset: position,
-      sourceZone: sourceZone as KonivrverZoneType,
-      validDropZones
-    });
-  }, []);
-
-  const endDrag : any : any : any = useCallback(() => {
-    setDragState(prev => ({ ...prev, isDragging: false, draggedCard: undefined }));
-  }, []);
-
-  const findCardZone : any : any : any = useCallback((cardId: string): string | undefined => {
-    for (const player of gameState.players) {
-      for (const [zoneId, zone] of Object.entries(player.zones)) {
-        if (zone.cards.some(c => c.id === cardId)) {
-          return zoneId;
-        }
-      }
-    }
-    return undefined;
-  }, [gameState]);
-
-  const moveCard : any : any : any = useCallback((cardId: string, targetZoneId: string, playerIndex: number = 0) => {
-    // Type guard to check if targetZoneId is a valid KonivrverZoneType
-    const isValidZoneType : any : any : any = (zoneId: string): zoneId is KonivrverZoneType => {
-      const validZones: KonivrverZoneType[]  : any : any : any = [
-        'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
+  const startDrag = useCallback(
+    (card: Card, position: { x: number; y: number }) => {
+      // Determine valid drop zones based on card type and current zone
+      const validDropZones: KonivrverZoneType[] = [
+        "field",
+        "removedFromPlay",
+        "hand",
       ];
-      return validZones.includes(zoneId as KonivrverZoneType);
-    };
-
-    setGameState(prev => {
-      const newState : any : any : any = { ...prev };
-      let sourceCard: Card | undefined;
-
-      // Find and remove card from source zone
-      for (const player of newState.players) {
-        for (const [, zone] of Object.entries(player.zones)) {
-          const cardIndex : any : any : any = zone.cards.findIndex(c => c.id === cardId);
-          if (cardIndex !== -1) {
-            sourceCard = zone.cards[cardIndex];
-            zone.cards.splice(cardIndex, 1);
-            break;
-          }
-        }
-        if (sourceCard) break;
+      const cardType = card.type || card.lesserType;
+      if (
+        cardType &&
+        (cardType.toLowerCase().includes("instant") ||
+          cardType.toLowerCase().includes("sorcery"))
+      ) {
+        validDropZones.push("stack");
       }
 
-      // Add card to target zone
-      if (sourceCard && isValidZoneType(targetZoneId) && newState.players[playerIndex].zones[targetZoneId]) {
-        // Reset card state when moving
-        const resetCard : any : any : any = { 
-          ...sourceCard, 
-          isSelected: false, 
-          isTapped: targetZoneId === 'field' ? sourceCard.isTapped : false 
-        };
-        newState.players[playerIndex].zones[targetZoneId].cards.push(resetCard);
-      }
+      const sourceZone = findCardZone(card.id);
+      setDragState({
+        isDragging: true,
+        draggedCard: card,
+        dragOffset: position,
+        sourceZone: sourceZone as KonivrverZoneType,
+        validDropZones,
+      });
+    },
+    []
+  );
 
-      return newState;
-    });
-
-    // Clear drag state
-    setDragState(prev => ({ ...prev, isDragging: false, draggedCard: undefined }));
-  }, []);
-
-  const handleZoneDrop : any : any : any = useCallback((zoneId: string) => {
-    if (dragState.draggedCard) {
-      moveCard(dragState.draggedCard.id, zoneId);
-    }
-  }, [dragState.draggedCard, moveCard]);
-
-  const nextTurn : any : any : any = useCallback(() => {
-    setGameState(prev => ({
+  const endDrag = useCallback(() => {
+    setDragState((prev) => ({
       ...prev,
-      currentPlayer: 1 - prev.currentPlayer,
-      turn: prev.currentPlayer === 1 ? prev.turn + 1 : prev.turn,
-      phase: 'start' as KonivrverPhase
+      isDragging: false,
+      draggedCard: undefined,
     }));
   }, []);
 
-  const nextPhase : any : any : any = useCallback(() => {
-    const phases: KonivrverPhase[]  : any : any : any = ['preGame', 'start', 'main', 'combat', 'postCombat', 'refresh'];
-    const currentIndex : any : any : any = phases.indexOf(gameState.phase);
-    const nextIndex : any : any : any = (currentIndex + 1) % phases.length;
-    
-    setGameState(prev => ({
+  const findCardZone = useCallback(
+    (cardId: string): string | undefined => {
+      for (const player of gameState.players) {
+        for (const [zoneId, zone] of Object.entries(player.zones)) {
+          if (zone.cards.some((c) => c.id === cardId)) {
+            return zoneId;
+          }
+        }
+      }
+      return undefined;
+    },
+    [gameState]
+  );
+
+  const moveCard = useCallback(
+    (cardId: string, targetZoneId: string, playerIndex: number = 0) => {
+      // Type guard to check if targetZoneId is a valid KonivrverZoneType
+      const isValidZoneType = (zoneId: string): zoneId is KonivrverZoneType => {
+        const validZones: KonivrverZoneType[] = [
+          "field",
+          "combatRow",
+          "azothRow",
+          "hand",
+          "deck",
+          "lifeCards",
+          "flag",
+          "removedFromPlay",
+          "stack",
+        ];
+        return validZones.includes(zoneId as KonivrverZoneType);
+      };
+
+      setGameState((prev) => {
+        const newState = { ...prev };
+        let sourceCard: Card | undefined;
+
+        // Find and remove card from source zone
+        for (const player of newState.players) {
+          for (const [, zone] of Object.entries(player.zones)) {
+            const cardIndex = zone.cards.findIndex((c) => c.id === cardId);
+            if (cardIndex !== -1) {
+              sourceCard = zone.cards[cardIndex];
+              zone.cards.splice(cardIndex, 1);
+              break;
+            }
+          }
+          if (sourceCard) break;
+        }
+
+        // Add card to target zone
+        if (
+          sourceCard &&
+          isValidZoneType(targetZoneId) &&
+          newState.players[playerIndex].zones[targetZoneId]
+        ) {
+          // Reset card state when moving
+          const resetCard = {
+            ...sourceCard,
+            isSelected: false,
+            isTapped: targetZoneId === "field" ? sourceCard.isTapped : false,
+          };
+          newState.players[playerIndex].zones[targetZoneId].cards.push(
+            resetCard
+          );
+        }
+
+        return newState;
+      });
+
+      // Clear drag state
+      setDragState((prev) => ({
+        ...prev,
+        isDragging: false,
+        draggedCard: undefined,
+      }));
+    },
+    []
+  );
+
+  const handleZoneDrop = useCallback(
+    (zoneId: string) => {
+      if (dragState.draggedCard) {
+        moveCard(dragState.draggedCard.id, zoneId);
+      }
+    },
+    [dragState.draggedCard, moveCard]
+  );
+
+  const nextTurn = useCallback(() => {
+    setGameState((prev) => ({
       ...prev,
-      phase: phases[nextIndex]
+      currentPlayer: 1 - prev.currentPlayer,
+      turn: prev.currentPlayer === 1 ? prev.turn + 1 : prev.turn,
+      phase: "start" as KonivrverPhase,
+    }));
+  }, []);
+
+  const nextPhase = useCallback(() => {
+    const phases: KonivrverPhase[] = [
+      "preGame",
+      "start",
+      "main",
+      "combat",
+      "postCombat",
+      "refresh",
+    ];
+    const currentIndex = phases.indexOf(gameState.phase);
+    const nextIndex = (currentIndex + 1) % phases.length;
+
+    setGameState((prev) => ({
+      ...prev,
+      phase: phases[nextIndex],
     }));
   }, [gameState.phase]);
 
@@ -266,6 +335,6 @@ export const useGameState : any : any : any = () => {
     handleZoneDrop,
     moveCard,
     nextTurn,
-    nextPhase
+    nextPhase,
   };
 };
