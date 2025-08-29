@@ -65,24 +65,13 @@ jobs:
         npm run test || npm run test:run || echo "TESTS_FAILING=true" >> $GITHUB_ENV
         npm run build || echo "BUILD_FAILING=true" >> $GITHUB_ENV
     
-    - name: 🛠️ Apply TypeScript Auto-Fixes
+    - name: 🛠️ TypeScript lint/format only (no code rewriting)
       run: |
-        echo "🔧 Fixing TypeScript errors..."
-        
-        # Fix missing type annotations
-        find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/\(function [^(]*([^)]*)\)\s*{/\1: any {/g' || true
-        find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/\(const [^=]*\)\s*=/\1: any =/g' || true
-        
-        # Fix implicit any errors
-        npx tsc --noEmit 2>&1 | grep -o "Parameter '[^']*' implicitly has an 'any' type" | sed "s/Parameter '\\([^']*\\)' implicitly has an 'any' type/\\1: any/g" > /tmp/fixes.txt || true
-        
-        # Apply ESLint fixes
+        echo "🔧 Running non-destructive checks..."
+        # Do not mutate source with sed-based edits. Only run safe fixers.
         npx eslint . --fix --ext .ts,.tsx,.js,.jsx || true
-        
-        # Apply Prettier formatting
         npx prettier --write "**/*.{ts,tsx,js,jsx,json,md}" || true
-        
-        echo "✅ TypeScript fixes applied"
+        echo "✅ Lint/format complete"
     
     - name: 🔒 Apply Security Fixes
       run: |
