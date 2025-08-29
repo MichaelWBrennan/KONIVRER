@@ -29,11 +29,11 @@ interface User {
   isAuthenticated?: boolean;
 }
 
-export const Events: React.FC  : any : any = () => {
-  const [activeTab, setActiveTab] : any : any = useState<'browse' | 'my-events' | 'create' | 'admin'>('browse');
-  const [viewMode, setViewMode] : any : any = useState<'upcoming' | 'live' | 'past'>('upcoming');
-  const [events] : any : any = useState<Event[]>([]);
-  const [currentUser, setCurrentUser] : any : any = useState<User>({
+export const Events: React.FC   = () => {
+  const [activeTab, setActiveTab]  = useState<'browse' | 'my-events' | 'create' | 'admin'>('browse');
+  const [viewMode, setViewMode]  = useState<'upcoming' | 'live' | 'past'>('upcoming');
+  const [events]  = useState<Event[]>([]);
+  const [currentUser, setCurrentUser]  = useState<User>({
     id: '',
     username: '',
     role: 'player',
@@ -45,13 +45,13 @@ export const Events: React.FC  : any : any = () => {
     loadEvents();
   }, []);
 
-  const checkAuthenticationStatus : any : any = () => {
-    const token : any : any = localStorage.getItem('authToken');
-    const userData : any : any = localStorage.getItem('userData');
+  const checkAuthenticationStatus  = () => {
+    const token  = localStorage.getItem('authToken');
+    const userData  = localStorage.getItem('userData');
     
     if (token && userData) {
       try {
-        const user : any : any = JSON.parse(userData);
+        const user  = JSON.parse(userData);
         setCurrentUser({
           ...user,
           isAuthenticated: true,
@@ -64,26 +64,26 @@ export const Events: React.FC  : any : any = () => {
     }
   };
 
-  const loadEvents : any : any = async () => {
+  const loadEvents  = async () => {
     // Load events from API
     try {
-      // const response : any : any = await fetch('/api/events');
-      // const eventsData : any : any = await response.json();
+      // const response  = await fetch('/api/events');
+      // const eventsData  = await response.json();
       // setEvents(eventsData);
     } catch (error) {
       console.error('Failed to load events:', error);
     }
   };
 
-  const handleEventRegister : any : any = async (eventId: string) => {
+  const handleEventRegister  = async (eventId: string) => {
     try {
       // Register for event first
       console.log('Register for event:', eventId);
       
       // After successful registration, request notification permission if not already granted
-      const notificationService : any : any = NotificationService.getInstance();
+      const notificationService  = NotificationService.getInstance();
       if (Notification.permission === 'default') {
-        const granted : any : any = await notificationService.requestPermission();
+        const granted  = await notificationService.requestPermission();
         if (granted) {
           // Send a welcome notification to confirm notifications are working
           notificationService.sendNotification(
@@ -99,7 +99,7 @@ export const Events: React.FC  : any : any = () => {
       }
       
       // TODO: Implement actual event registration API call
-      // const response : any : any = await fetch(`/api/events/${eventId}/register`, {
+      // const response  = await fetch(`/api/events/${eventId}/register`, {
       //   method: 'POST',
       //   headers: {
       //     'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -120,12 +120,12 @@ export const Events: React.FC  : any : any = () => {
     }
   };
 
-  const handleEventUnregister : any : any = (eventId: string) => {
+  const handleEventUnregister  = (eventId: string) => {
     // Unregister from event  
     console.log('Unregister from event:', eventId);
   };
 
-  const renderEventCard : any : any = (event: Event) => (
+  const renderEventCard  = (event: Event) => (
     <div key={event.id} className={s.eventCard}>
       <div className={s.eventHeader}>
         <h3 className={s.eventName}>{event.name}</h3>

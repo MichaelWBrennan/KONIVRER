@@ -6,16 +6,16 @@ interface Props {
   onSearch: (query: string) => void;
 }
 
-export const SearchBar: React.FC<Props>  : any : any = ({ current, onSearch }) => {
-  const [q, setQ] : any : any = useState('');
-  const [contextOverride, setContextOverride] : any : any = useState<string | null>(null);
+export const SearchBar: React.FC<Props>   = ({ current, onSearch }) => {
+  const [q, setQ]  = useState('');
+  const [contextOverride, setContextOverride]  = useState<string | null>(null);
   useEffect(() => {
-    const handler : any : any = (e: any) => setContextOverride(e.detail);
+    const handler  = (e: any) => setContextOverride(e.detail);
     window.addEventListener('search-context', handler);
     return () => window.removeEventListener('search-context', handler);
   }, []);
-  const placeholder : any : any = (() => {
-    const ctx : any : any = contextOverride || current;
+  const placeholder  = (() => {
+    const ctx  = contextOverride || current;
     switch (current) {
       case 'cards': return 'Search cards...';
       case 'decks': return 'Search decks...';
@@ -27,7 +27,7 @@ export const SearchBar: React.FC<Props>  : any : any = ({ current, onSearch }) =
       default: return 'Search...';
     }
   })();
-  useEffect(() => { const h : any : any = setTimeout(() => onSearch(q), 300); return () => clearTimeout(h); }, [q]);
+  useEffect(() => { const h  = setTimeout(() => onSearch(q), 300); return () => clearTimeout(h); }, [q]);
   return (
     <div className={s.wrap}>
       <input className={s.input} placeholder={placeholder} value={q} onChange={(e)=>setQ(e.target.value)} />

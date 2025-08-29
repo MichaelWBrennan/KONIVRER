@@ -1,7 +1,7 @@
 import React from 'react';
 import * as s from './lore.css.ts';
 
-export const Lore: React.FC  : any : any = () => {
+export const Lore: React.FC = () => {
   // Element definitions derived from the lore content above
   type ElementDefinition = {
     name: "Aether" | "Air" | "Fire" | "Earth" | "Water" | "Nether";
@@ -10,7 +10,7 @@ export const Lore: React.FC  : any : any = () => {
     stance: string; // e.g., "You prefer clear principle ..."
   };
 
-  const elementDefinitions: ElementDefinition[] : any = [
+  const elementDefinitions: ElementDefinition[] = [
     {
       name: "Aether",
       epithet: "Principle",
@@ -57,8 +57,8 @@ export const Lore: React.FC  : any : any = () => {
 
   // Utility: generate k-combinations of the elements
   function generateCombinations<T>(items: T[], size: number): T[][] {
-    const results: T[][] : any = [];
-    function helper(startIndex: number, combo: T[]): any {
+    const results: T[][] = [];
+    function helper(startIndex: number, combo: T[]): void {
       if (combo.length === size) {
         results.push([...combo]);
         return;
@@ -79,7 +79,7 @@ export const Lore: React.FC  : any : any = () => {
   }
 
   // Special adjacent pair names/descriptions already present in the lore
-  const specialPairs: Record<string, { title: string; description: string }> : any = {
+  const specialPairs: Record<string, { title: string; description: string }> = {
     [pairKey("Water", "Aether")]: {
       title: "Rainbow",
       description: "Expedite assembly toward emergent insight.",
@@ -107,21 +107,21 @@ export const Lore: React.FC  : any : any = () => {
   };
 
   function summarize(definition: string): string {
-    const firstClause : any = definition.split(";")[0].trim();
+    const firstClause = definition.split(";")[0].trim();
     return firstClause.endsWith(".")
       ? firstClause.slice(0, -1)
       : firstClause;
   }
 
   function buildDefaultDescription(combo: ElementDefinition[]): string {
-    const clauses : any = combo.map((e) => summarize(e.definition));
+    const clauses = combo.map((e) => summarize(e.definition));
     return `Combined stance: ${clauses.join(" — ")}.`;
   }
 
-  const combinations2 : any = generateCombinations(elementDefinitions, 2);
-  const combinations3 : any = generateCombinations(elementDefinitions, 3);
-  const combinations4 : any = generateCombinations(elementDefinitions, 4);
-  const combinations5 : any = generateCombinations(elementDefinitions, 5);
+  const combinations2 = generateCombinations(elementDefinitions, 2);
+  const combinations3 = generateCombinations(elementDefinitions, 3);
+  const combinations4 = generateCombinations(elementDefinitions, 4);
+  const combinations5 = generateCombinations(elementDefinitions, 5);
 
   return (
     <div className={s.container}>
@@ -262,13 +262,13 @@ export const Lore: React.FC  : any : any = () => {
             <div className={s.virtueCard}>
               <h3 className={s.virtueTitle}>Two-Element Combinations</h3>
               {combinations2.map((combo, idx) => {
-                const names : any = combo.map((e) => e.name);
-                const key : any = pairKey(names[0], names[1]);
-                const special : any = specialPairs[key];
-                const title : any = special
+                const names = combo.map((e) => e.name);
+                const key = pairKey(names[0], names[1]);
+                const special = specialPairs[key];
+                const title = special
                   ? `${names[0]} + ${names[1]} — ${special.title}`
                   : `${names[0]} + ${names[1]}`;
-                const description : any = special
+                const description = special
                   ? special.description
                   : buildDefaultDescription(combo);
                 return (
