@@ -2,13 +2,12 @@ import { useCallback, useEffect, useState } from "react";
 import * as s from "./offline.css.ts";
 
 export function Offline(): any {
-  const [isOnline, setIsOnline]: any : any : any = useState<boolean>(
+  const [isOnline, setIsOnline] = useState<boolean>(
     typeof navigator !== "undefined" ? navigator.onLine : false
   );
 
-  const updateConnectionStatus: any : any : any = useCallback(() => {
-    const online: any : any : any =
-      typeof navigator !== "undefined" ? navigator.onLine : false;
+  const updateConnectionStatus = useCallback(() => {
+    const online = typeof navigator !== "undefined" ? navigator.onLine : false;
     setIsOnline(online);
     if (online) {
       setTimeout(() => {
@@ -17,7 +16,7 @@ export function Offline(): any {
     }
   }, []);
 
-  const checkConnection: any : any : any = useCallback(async () => {
+  const checkConnection = useCallback(async () => {
     updateConnectionStatus();
     try {
       await fetch("/manifest.json", { method: "HEAD", cache: "no-cache" });
@@ -29,12 +28,12 @@ export function Offline(): any {
 
   useEffect(() => {
     updateConnectionStatus();
-    const onlineListener: any : any : any = () => updateConnectionStatus();
-    const offlineListener: any : any : any = () => updateConnectionStatus();
+    const onlineListener = () => updateConnectionStatus();
+    const offlineListener = () => updateConnectionStatus();
     window.addEventListener("online", onlineListener);
     window.addEventListener("offline", offlineListener);
 
-    const intervalId: any : any : any = window.setInterval(checkConnection, 30000);
+    const intervalId = window.setInterval(checkConnection, 30000);
 
     return () => {
       window.removeEventListener("online", onlineListener);

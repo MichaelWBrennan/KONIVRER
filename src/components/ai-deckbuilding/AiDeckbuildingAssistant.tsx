@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import type { Card } from '../../types';
+import React, { useState } from "react";
+import type { Card } from "../../types";
 
 export interface AiDeckbuildingAssistantProps {
   onDeckBuilt?: (cards: Card[]) => void;
 }
 
-export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>  : any : any : any = ({ 
-  onDeckBuilt 
-}) => {
-  const [suggestions, setSuggestions] : any : any : any = useState<Card[]>([]);
-  const [loading, setLoading] : any : any : any = useState(false);
+export const AiDeckbuildingAssistant: React.FC<
+  AiDeckbuildingAssistantProps
+> = ({ onDeckBuilt }) => {
+  const [suggestions, setSuggestions] = useState<Card[]>([]);
+  const [loading, setLoading] = useState(false);
 
   // Mock function to simulate AI deckbuilding
-  const generateSuggestions : any : any : any = async () => {
+  const generateSuggestions = async () => {
     setLoading(true);
     // Simulate API call
     setTimeout(() => {
@@ -21,9 +21,11 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>  : 
     }, 1000);
   };
 
-  // Type-safe filter function 
-  const filterCompatibleCards : any : any : any = (cards: Card[]) => {
-    return cards.filter((c: Card) => c.type && ((c.manaCost ?? c.azothCost ?? 0) <= 10));
+  // Type-safe filter function
+  const filterCompatibleCards = (cards: Card[]) => {
+    return cards.filter(
+      (c: Card) => c.type && (c.manaCost ?? c.azothCost ?? 0) <= 10
+    );
   };
 
   return (
@@ -50,17 +52,20 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>  : 
           }
         `}
       </style>
-      
+
       <h3>AI Deckbuilding Assistant</h3>
-      <p>Get intelligent deck suggestions based on your playstyle and current meta.</p>
-      
+      <p>
+        Get intelligent deck suggestions based on your playstyle and current
+        meta.
+      </p>
+
       <div className="controls">
-        <button 
+        <button
           onClick={generateSuggestions}
           disabled={loading}
           className="btn-primary"
         >
-          {loading ? 'Generating...' : 'Generate Deck Suggestions'}
+          {loading ? "Generating..." : "Generate Deck Suggestions"}
         </button>
       </div>
 
@@ -77,16 +82,20 @@ export const AiDeckbuildingAssistant: React.FC<AiDeckbuildingAssistantProps>  : 
 
       {suggestions.length > 0 && (
         <div className="deck-actions">
-          <button 
+          <button
             onClick={() => {
-              const filteredCards : any : any : any = filterCompatibleCards(suggestions);
+              const filteredCards = filterCompatibleCards(suggestions);
               onDeckBuilt?.(filteredCards);
             }}
             className="btn-success"
           >
-            Build Deck ({suggestions.filter((card: Card, index: number) => 
-              card.name && index < 30
-            ).length} cards)
+            Build Deck (
+            {
+              suggestions.filter(
+                (card: Card, index: number) => card.name && index < 30
+              ).length
+            }{" "}
+            cards)
           </button>
         </div>
       )}
