@@ -28,6 +28,7 @@ import { NotificationsModule } from "./notifications/notifications.module";
 import { AnalyticsModule } from "./analytics/analytics.module";
 import { OcrModule } from "./ocr/ocr.module";
 import { UpscalingModule } from "./upscaling/upscaling.module";
+import { ProgressionModule } from "./progression/progression.module";
 
 @Module({
   imports: [
@@ -103,6 +104,7 @@ import { UpscalingModule } from "./upscaling/upscaling.module";
     AnalyticsModule,
     OcrModule,
     UpscalingModule,
+    ProgressionModule,
   ],
   controllers: [],
   providers: [
