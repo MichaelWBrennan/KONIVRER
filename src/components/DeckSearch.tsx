@@ -1,54 +1,63 @@
-import React, { useState, useMemo } from 'react';
-import * as nav from '../nav.css.ts';
-import * as ds from './deckSearch.css.ts';
-import { Deck, cardDatabase } from '../data/cards';
+import React, { useState, useMemo } from "react";
+import * as nav from "../nav.css.ts";
+import * as ds from "./deckSearch.css.ts";
+import { Deck, cardDatabase } from "../data/cards";
 
 interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
 }
 
-export const DeckSearch: React.FC<DeckSearchProps>  : any : any : any = ({ onDeckSelect }) => {
-  const [searchTerm, setSearchTerm] : any : any : any = useState('');
-  const [elementFilter, setElementFilter] : any : any : any = useState('');
-  const [formatFilter, setFormatFilter] : any : any : any = useState('');
+export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [elementFilter, setElementFilter] = useState("");
+  const [formatFilter, setFormatFilter] = useState("");
 
   // Available decks will be loaded from backend
-  const availableDecks: Deck[]  : any : any : any = [];
+  const availableDecks: Deck[] = [];
 
   // Get unique values for filters
-  const elements : any : any : any = useMemo(() => 
-    [...new Set(availableDecks.map(deck => deck.mainElement))].sort(), [availableDecks]);
-  const formats : any : any : any = useMemo(() => 
-    [...new Set(availableDecks.map(deck => deck.format))].sort(), [availableDecks]);
+  const elements = useMemo(
+    () => [...new Set(availableDecks.map((deck) => deck.mainElement))].sort(),
+    [availableDecks]
+  );
+  const formats = useMemo(
+    () => [...new Set(availableDecks.map((deck) => deck.format))].sort(),
+    [availableDecks]
+  );
 
   // Filter decks based on search criteria
-  const filteredDecks : any : any : any = useMemo(() => {
-    return availableDecks.filter(deck => {
-      const matchesSearch : any : any : any = searchTerm === '' || 
+  const filteredDecks = useMemo(() => {
+    return availableDecks.filter((deck) => {
+      const matchesSearch =
+        searchTerm === "" ||
         deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         deck.description.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesElement : any : any : any = elementFilter === '' || deck.mainElement === elementFilter;
-      const matchesFormat : any : any : any = formatFilter === '' || deck.format === formatFilter;
+
+      const matchesElement =
+        elementFilter === "" || deck.mainElement === elementFilter;
+      const matchesFormat = formatFilter === "" || deck.format === formatFilter;
 
       return matchesSearch && matchesElement && matchesFormat;
     });
   }, [searchTerm, elementFilter, formatFilter, availableDecks]);
 
-  const getDeckPreviewCards : any : any : any = (deck: Deck) => {
+  const getDeckPreviewCards = (deck: Deck) => {
     // Get first 3 cards from deck for preview
-    return deck.cards.slice(0, 3)
-      .map(cardId => cardDatabase.find(card => card.id === cardId))
+    return deck.cards
+      .slice(0, 3)
+      .map((cardId) => cardDatabase.find((card) => card.id === cardId))
       .filter(Boolean);
   };
 
-  const handleAddToMyAccount : any : any : any = (deck: Deck) => {
-    console.log('Adding deck to my account:', deck.name);
-    alert(`"${deck.name}" will be imported to your account... (Feature coming soon)`);
+  const handleAddToMyAccount = (deck: Deck) => {
+    console.log("Adding deck to my account:", deck.name);
+    alert(
+      `"${deck.name}" will be imported to your account... (Feature coming soon)`
+    );
   };
 
-  const handlePlayInSimulator : any : any : any = (deck: Deck) => {
-    console.log('Loading deck in simulator:', deck.name);
+  const handlePlayInSimulator = (deck: Deck) => {
+    console.log("Loading deck in simulator:", deck.name);
     alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
   };
 
@@ -63,52 +72,56 @@ export const DeckSearch: React.FC<DeckSearchProps>  : any : any : any = ({ onDec
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
-        
+
         <div className="filters">
-          <select 
-            value={elementFilter} 
+          <select
+            value={elementFilter}
             onChange={(e) => setElementFilter(e.target.value)}
             className="filter-select"
           >
             <option value="">All Elements</option>
-            {elements.map(element => (
-              <option key={element} value={element}>{element}</option>
+            {elements.map((element) => (
+              <option key={element} value={element}>
+                {element}
+              </option>
             ))}
           </select>
 
-          <select 
-            value={formatFilter} 
+          <select
+            value={formatFilter}
             onChange={(e) => setFormatFilter(e.target.value)}
             className="filter-select"
           >
             <option value="">All Formats</option>
-            {formats.map(format => (
-              <option key={format} value={format}>{format}</option>
+            {formats.map((format) => (
+              <option key={format} value={format}>
+                {format}
+              </option>
             ))}
           </select>
         </div>
 
-        <div className="results-count">
-          {filteredDecks.length} decks found
-        </div>
+        <div className="results-count">{filteredDecks.length} decks found</div>
       </div>
 
       <div className="card-grid">
-        {filteredDecks.map(deck => {
-          const previewCards : any : any : any = getDeckPreviewCards(deck);
-          
+        {filteredDecks.map((deck) => {
+          const previewCards = getDeckPreviewCards(deck);
+
           return (
-            <div 
-              key={deck.id} 
-              className={`card-item ${ds.cardItem}`}
-            >
+            <div key={deck.id} className={`card-item ${ds.cardItem}`}>
               <div className={ds.previewRow}>
                 {previewCards.map((card, index) => (
-                  <img 
+                  <img
                     key={card?.id}
-                    src={card?.webpUrl} 
+                    src={card?.webpUrl}
                     alt={card?.name}
-                    style={{ width: `${100 / previewCards.length}%`, height: '100%', objectFit: 'cover', opacity: 1 - (index * 0.1) }}
+                    style={{
+                      width: `${100 / previewCards.length}%`,
+                      height: "100%",
+                      objectFit: "cover",
+                      opacity: 1 - index * 0.1,
+                    }}
                     className={ds.previewImg}
                     onError={(e) => {
                       // Fallback to PNG if WebP fails
@@ -122,11 +135,14 @@ export const DeckSearch: React.FC<DeckSearchProps>  : any : any : any = ({ onDec
               <div className="card-info">
                 <div className="card-name">{deck.name}</div>
                 <div className="card-details">
-                  <div>{deck.mainElement} • {deck.format}</div>
-                  <div>{deck.cards.length} cards • Win Rate: {(deck.winRate * 100).toFixed(0)}%</div>
-                  <div className={ds.desc}>
-                    {deck.description}
+                  <div>
+                    {deck.mainElement} • {deck.format}
                   </div>
+                  <div>
+                    {deck.cards.length} cards • Win Rate:{" "}
+                    {(deck.winRate * 100).toFixed(0)}%
+                  </div>
+                  <div className={ds.desc}>{deck.description}</div>
                   <div className={ds.meta}>
                     Updated: {deck.updatedAt.toLocaleDateString()}
                   </div>

@@ -1,20 +1,20 @@
-import React from 'react';
-import { Card } from '../data/cards';
-import * as st from './cardDetail.css.ts';
+import React from "react";
+import { Card } from "../data/cards";
+import * as st from "./cardDetail.css.ts";
 
 interface CardDetailProps {
   card: Card;
   onClose: () => void;
 }
 
-export const CardDetail: React.FC<CardDetailProps>  : any : any : any = ({ card, onClose }) => {
+export const CardDetail: React.FC<CardDetailProps> = ({ card, onClose }) => {
   return (
     <div className={st.overlay} onClick={onClose}>
       <div className={st.modal} onClick={(e) => e.stopPropagation()}>
         <button className={st.close} onClick={onClose} aria-label="Close">
           ✕
         </button>
-        
+
         <div className={st.content}>
           <div className={st.imageSection}>
             <h2>{card.name}</h2>
@@ -23,12 +23,12 @@ export const CardDetail: React.FC<CardDetailProps>  : any : any : any = ({ card,
               alt={card.name}
               className={st.cardImage}
               onError={(e) => {
-                const target : any : any : any = e.target as HTMLImageElement;
+                const target = e.target as HTMLImageElement;
                 target.src = card.imageUrl;
               }}
             />
           </div>
-          
+
           <div className={st.infoSection}>
             <div className={st.basicInfo}>
               <div className={st.infoRow}>
