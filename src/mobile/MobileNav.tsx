@@ -49,6 +49,7 @@ export const MobileNav: React.FC<Props>  : any = ({ current, onNavigate }) => {
               ['events','Events'] as const,
               ['analytics','Analytics'] as const,
               ['rules','Rules'] as const,
+              ['lore','Lore'] as const,
               ...(canAccessJudgePortal() ? [['judge','Judge'] as const] : []),
               ['settings','Settings'] as const,
             ] as const).map(([page, label]) => (

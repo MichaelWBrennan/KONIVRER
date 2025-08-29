@@ -18,6 +18,7 @@ import { MyDecks } from "./pages/MyDecks";
 import { Rules } from "./pages/Rules";
 import { Settings } from "./pages/Settings";
 import { Offline } from "./pages/Offline";
+import { Lore } from "./pages/Lore";
 import { useAppStore } from "./stores/appStore";
 import { useAuth } from "./hooks/useAuth";
 import { NotificationService } from "./services/notifications";
@@ -55,7 +56,8 @@ type Page =
   | "my-decks"
   | "rules"
   | "judge"
-  | "settings";
+  | "settings"
+  | "lore";
 
 function AppContent(): any {
   const [currentPage, setCurrentPage]: any = useState<Page>("home");
@@ -138,6 +140,7 @@ function AppContent(): any {
         {currentPage === "decks" && <DeckSearch onDeckSelect={() => {}} />}
         {currentPage === "my-decks" && <MyDecks />}
         {currentPage === "rules" && <Rules />}
+        {currentPage === "lore" && <Lore />}
         {currentPage === "judge" &&
           (canAccessJudgePortal() ? (
             <JudgePortal />
