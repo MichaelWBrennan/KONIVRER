@@ -1,12 +1,12 @@
 import { style } from "@vanilla-extract/css";
 
-export const topRight: any : any : any : any = style({
+export const topRight= style({
   position: "fixed",
   top: "1rem",
   right: "1rem",
   zIndex: 1000,
 });
-export const restrictNotice: any : any : any : any = style({
+export const restrictNotice= style({
   padding: "2rem",
   textAlign: "center",
   maxWidth: 600,
@@ -15,13 +15,13 @@ export const restrictNotice: any : any : any : any = style({
   borderRadius: 8,
   border: "2px solid #ff6b6b",
 });
-export const restrictTitle: any : any : any : any = style({
+export const restrictTitle= style({
   color: "#ff6b6b",
   marginBottom: "1rem",
 });
-export const restrictMuted: any : any : any : any = style({ color: "#666" });
+export const restrictMuted= style({ color: "#666" });
 
-export const modalMask: any : any : any : any = style({
+export const modalMask= style({
   position: "fixed",
   inset: 0,
   background: "rgba(0,0,0,0.8)",
@@ -30,7 +30,7 @@ export const modalMask: any : any : any : any = style({
   justifyContent: "center",
   zIndex: 1000,
 });
-export const modal: any : any : any : any = style({
+export const modal= style({
   background: "var(--secondary-bg)",
   padding: "2rem",
   borderRadius: 8,
@@ -39,7 +39,7 @@ export const modal: any : any : any : any = style({
   overflow: "auto",
   position: "relative",
 });
-export const modalClose: any : any : any : any = style({
+export const modalClose= style({
   position: "absolute",
   top: 10,
   right: 10,
@@ -57,13 +57,13 @@ export const modalClose: any : any : any : any = style({
   alignItems: "center",
   justifyContent: "center",
 });
-export const modalImg: any : any : any : any = style({
+export const modalImg= style({
   width: "100%",
   maxWidth: 300,
   marginTop: "1rem",
 });
-export const modalBody: any : any : any : any = style({ marginTop: "1rem" });
-export const modalPrimary: any : any : any : any = style({
+export const modalBody= style({ marginTop: "1rem" });
+export const modalPrimary= style({
   marginTop: "1rem",
   padding: "0.5rem 1rem",
   background: "var(--accent-color)",

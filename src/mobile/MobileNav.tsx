@@ -9,10 +9,10 @@ interface Props {
   onNavigate: (page: string) => void;
 }
 
-export const MobileNav: React.FC<Props>  : any : any : any : any = ({ current, onNavigate }) => {
-  const [open, setOpen]  : any : any : any : any = useState(false);
-  const active  : any : any : any : any = (t: Tab) => (current === t ? s.tabActive : '');
-  const { isAuthenticated, canAccessJudgePortal }  : any : any : any : any = useAuth();
+export const MobileNav: React.FC<Props>= ({ current, onNavigate }) => {
+  const [open, setOpen]= useState(false);
+  const active= (t: Tab) => (current === t ? s.tabActive : '');
+  const { isAuthenticated, canAccessJudgePortal }= useAuth();
   return (
     <nav className={s.nav} aria-label="Primary">
       <div className={s.navInner}>
@@ -28,7 +28,7 @@ export const MobileNav: React.FC<Props>  : any : any : any : any = ({ current, o
         <button className={`${s.tab} ${active('simulator')}`} aria-current={current==='simulator'} onClick={() => onNavigate('simulator')}>
           <span className={s.label}>Play</span>
         </button>
-        <button className={`${s.tab}`} onClick={() => { const evt  : any : any : any : any = new CustomEvent('open-login'); window.dispatchEvent(evt); }}>
+        <button className={`${s.tab}`} onClick={() => { const evt= new CustomEvent('open-login'); window.dispatchEvent(evt); }}>
           <span className={s.label}>Login</span>
         </button>
         <button className={`${s.tab} ${active('more')}`} aria-current={current==='more'} onClick={() => setOpen(true)}>

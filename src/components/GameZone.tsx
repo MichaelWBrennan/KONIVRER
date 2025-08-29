@@ -18,14 +18,14 @@ interface GameZoneProps {
 }
 
 // Type guard to check if a string is a valid KonivrverZoneType
-const isKonivrverZoneType  : any : any : any : any = (zoneId: string): zoneId is KonivrverZoneType => {
-  const validZoneTypes: KonivrverZoneType[]  : any : any : any : any = [
+const isKonivrverZoneType= (zoneId: string): zoneId is KonivrverZoneType => {
+  const validZoneTypes: KonivrverZoneType[]= [
     'field', 'combatRow', 'azothRow', 'hand', 'deck', 'lifeCards', 'flag', 'removedFromPlay', 'stack'
   ];
   return validZoneTypes.includes(zoneId as KonivrverZoneType);
 };
 
-export const GameZone: React.FC<GameZoneProps>  : any : any : any : any = ({
+export const GameZone: React.FC<GameZoneProps>= ({
   zone,
   device,
   dragState,
@@ -37,13 +37,13 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any : any = ({
   onZoneDrop,
   screenSize
 }) => {
-  const config  : any : any : any : any = getMTGArenaLayoutConfig(device);
-  const zoneConfig  : any : any : any : any = config.zones[zone.id as keyof typeof config.zones];
+  const config= getMTGArenaLayoutConfig(device);
+  const zoneConfig= config.zones[zone.id as keyof typeof config.zones];
 
   if (!zoneConfig) return null;
 
   // Calculate absolute position and size
-  const zoneStyle: React.CSSProperties  : any : any : any : any = {
+  const zoneStyle: React.CSSProperties= {
     position: 'absolute',
     left: `${(zoneConfig.position.x / 100) * screenSize.width}px`,
     top: `${(zoneConfig.position.y / 100) * screenSize.height}px`,
@@ -58,18 +58,18 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any : any = ({
     zIndex: 1
   };
 
-  const handleDrop  : any : any : any : any = (e: React.DragEvent) => {
+  const handleDrop= (e: React.DragEvent) => {
     e.preventDefault();
     onZoneDrop(zone.id);
   };
 
-  const handleDragOver  : any : any : any : any = (e: React.DragEvent) => {
+  const handleDragOver= (e: React.DragEvent) => {
     if (isKonivrverZoneType(zone.id) && dragState.validDropZones.includes(zone.id)) {
       e.preventDefault();
     }
   };
 
-  const renderCards  : any : any : any : any = () => {
+  const renderCards= () => {
     if (zone.cards.length === 0) return null;
 
     switch (zone.layout) {
@@ -100,12 +100,12 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any : any = ({
 
       case 'fan': {
         // Hand layout - cards fan out
-        const cardSpacing  : any : any : any : any = zoneConfig.cardSpacing || 8;
-        const overlap  : any : any : any : any = zoneConfig.overlap || 0.8;
+        const cardSpacing= zoneConfig.cardSpacing || 8;
+        const overlap= zoneConfig.overlap || 0.8;
         
         return zone.cards.map((card, index) => {
-          const totalWidth  : any : any : any : any = zone.cards.length * cardSpacing * overlap;
-          const startX  : any : any : any : any = (parseFloat(zoneStyle.width as string) - totalWidth) / 2;
+          const totalWidth= zone.cards.length * cardSpacing * overlap;
+          const startX= (parseFloat(zoneStyle.width as string) - totalWidth) / 2;
           
           return (
             <div
@@ -136,13 +136,13 @@ export const GameZone: React.FC<GameZoneProps>  : any : any : any : any = ({
 
       case 'grid': {
         // Battlefield layout - cards in grid
-        const maxRows  : any : any : any : any = zoneConfig.maxRows || 3;
-        const spacing  : any : any : any : any = zoneConfig.cardSpacing || 12;
+        const maxRows= zoneConfig.maxRows || 3;
+        const spacing= zoneConfig.cardSpacing || 12;
         
         return zone.cards.map((card, index) => {
-          const cardsPerRow  : any : any : any : any = Math.ceil(zone.cards.length / maxRows);
-          const row  : any : any : any : any = Math.floor(index / cardsPerRow);
-          const col  : any : any : any : any = index % cardsPerRow;
+          const cardsPerRow= Math.ceil(zone.cards.length / maxRows);
+          const row= Math.floor(index / cardsPerRow);
+          const col= index % cardsPerRow;
           
           return (
             <div

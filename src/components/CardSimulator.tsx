@@ -3,9 +3,9 @@ import { detectDevice, DeviceInfo } from '../utils/deviceDetection';
 import { useGameState } from '../hooks/useGameState';
 import { GameZone } from './GameZone';
 
-export const CardSimulator: React.FC : any : any : any : any = () => {
-  const [device, setDevice]  : any : any : any : any = useState<DeviceInfo | null>(null);
-  const [screenSize, setScreenSize]  : any : any : any : any = useState({ width: 0, height: 0 });
+export const CardSimulator: React.FC = () => {
+  const [device, setDevice]= useState<DeviceInfo | null>(null);
+  const [screenSize, setScreenSize]= useState({ width: 0, height: 0 });
   
   const {
     gameState,
@@ -22,11 +22,11 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
 
   useEffect(() => {
     // Detect device on component mount
-    const deviceInfo  : any : any : any : any = detectDevice();
+    const deviceInfo= detectDevice();
     setDevice(deviceInfo);
     
     // Set initial screen size
-    const updateScreenSize  : any : any : any : any = () => {
+    const updateScreenSize= () => {
       setScreenSize({
         width: window.innerWidth,
         height: window.innerHeight
@@ -44,9 +44,9 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
 
   // Re-detect device on orientation change (mobile)
   useEffect(() => {
-    const handleOrientationChange  : any : any : any : any = () => {
+    const handleOrientationChange= () => {
       setTimeout(() => {
-        const newDevice  : any : any : any : any = detectDevice();
+        const newDevice= detectDevice();
         setDevice(newDevice);
         setScreenSize({
           width: window.innerWidth,
@@ -134,10 +134,10 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     );
   }
 
-  const currentPlayer  : any : any : any : any = gameState.players[gameState.currentPlayer];
+  const currentPlayer= gameState.players[gameState.currentPlayer];
 
   // KONIVRER Arena styling based on platform
-  const getContainerStyle  : any : any : any : any = (): React.CSSProperties => ({
+  const getContainerStyle= (): React.CSSProperties => ({
     width: '100vw',
     height: '100vh',
     background: device.isMobile 
@@ -150,7 +150,7 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     touchAction: 'none'
   });
 
-  const getUIStyle  : any : any : any : any = (): React.CSSProperties => ({
+  const getUIStyle= (): React.CSSProperties => ({
     position: 'absolute',
     top: 0,
     left: 0,
@@ -160,7 +160,7 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     zIndex: 100
   });
 
-  const renderLifeCounter  : any : any : any : any = () => (
+  const renderLifeCounter= () => (
     <div style={{
       position: 'absolute',
       bottom: device.isMobile ? '20px' : '30px',
@@ -181,7 +181,7 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     </div>
   );
 
-  const renderPhaseIndicator  : any : any : any : any = () => (
+  const renderPhaseIndicator= () => (
     <div style={{
       position: 'absolute',
       top: device.isMobile ? '10px' : '20px',
@@ -201,7 +201,7 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     </div>
   );
 
-  const renderControlButtons  : any : any : any : any = () => (
+  const renderControlButtons= () => (
     <div style={{
       position: 'absolute',
       top: device.isMobile ? '10px' : '20px',
@@ -244,7 +244,7 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     </div>
   );
 
-  const renderManaPool  : any : any : any : any = () => (
+  const renderManaPool= () => (
     <div style={{
       position: 'absolute',
       bottom: device.isMobile ? '20px' : '30px',
@@ -285,7 +285,7 @@ export const CardSimulator: React.FC : any : any : any : any = () => {
     </div>
   );
 
-  const renderDeviceIndicator  : any : any : any : any = () => (
+  const renderDeviceIndicator= () => (
     <div style={{
       position: 'absolute',
       bottom: device.isMobile ? '80px' : '100px',

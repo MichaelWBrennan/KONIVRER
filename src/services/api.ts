@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const API_BASE_URL: any : any : any : any =
+const API_BASE_URL: any =
   (import.meta as any).env.VITE_API_BASE_URL ||
   (import.meta as any).env.VITE_API_URL ||
   "/api";
 
-export const api: any : any : any : any = axios.create({
+export const api= axios.create({
   baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ export const api: any : any : any : any = axios.create({
 
 // Request interceptor for auth
 api.interceptors.request.use((config) => {
-  const token: any : any : any : any = localStorage.getItem("authToken");
+  const token= localStorage.getItem("authToken");
   if (token) {
     config.headers = config.headers || {};
     (config.headers as any).Authorization = `Bearer ${token}`;
@@ -35,7 +35,7 @@ api.interceptors.response.use(
 );
 
 // Card API endpoints
-export const cardApi: any : any : any : any = {
+export const cardApi= {
   getAll: (params?: any) => api.get("/cards", { params }),
   getById: (id: string) => api.get(`/cards/${id}`),
   getByName: (name: string) => api.get(`/cards/name/${name}`),
@@ -48,7 +48,7 @@ export const cardApi: any : any : any : any = {
 };
 
 // Migration API endpoints
-export const migrationApi: any : any : any : any = {
+export const migrationApi= {
   seedKonivrrerCards: () => api.post("/migration/seed-konivrer-cards"),
 };
 
