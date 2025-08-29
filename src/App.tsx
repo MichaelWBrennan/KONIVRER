@@ -78,7 +78,9 @@ function AppContent(): any {
       setIsOnline(true);
       try {
         await EventService.syncQueuedReports();
-      } catch {}
+      } catch (error) {
+        console.warn('Failed to sync queued reports:', error);
+      }
     };
     const handleOffline= () => setIsOnline(false);
     window.addEventListener("online", handleOnline);

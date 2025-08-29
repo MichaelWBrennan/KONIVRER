@@ -3,6 +3,7 @@ import * as s from './tournamentHub.css.ts';
 import { useEventStore } from '../stores/eventStore';
 import { EventService } from '../services/eventService';
 import { NotificationService } from '../services/notifications';
+import { useAuth } from '../hooks/useAuth';
 
 type EventsTab = 'live' | 'standings' | 'archive';
 
@@ -147,7 +148,7 @@ const Standings: React.FC<{ query: string }>= ({ query }) => {
 
 const DeckRegistration: React.FC<{ eventId: string }>= ({ eventId }) => {
   const [deckId, setDeckId]= useState('');
-  const { isAuthenticated }= require('../hooks/useAuth').useAuth();
+  const { isAuthenticated }= useAuth();
   if (!isAuthenticated) return null;
   return (
     <form className={s.form} onSubmit={async (e)=>{e.preventDefault(); if (!deckId) return; await EventService.registerDeck(eventId, deckId); alert('Deck registered to event'); }}>
