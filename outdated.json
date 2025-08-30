@@ -1,8 +1,8 @@
 {
   "@types/react-dom": {
     "current": "19.1.7",
-    "wanted": "19.1.8",
-    "latest": "19.1.8",
+    "wanted": "19.1.9",
+    "latest": "19.1.9",
     "dependent": "KONIVRER-deck-database",
     "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@types/react-dom"
   },
@@ -19,13 +19,6 @@
     "latest": "5.0.2",
     "dependent": "KONIVRER-deck-database",
     "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@vitejs/plugin-react"
-  },
-  "@xata.io/cli": {
-    "current": "0.12.7",
-    "wanted": "0.12.7",
-    "latest": "0.16.12",
-    "dependent": "KONIVRER-deck-database",
-    "location": "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/node_modules/@xata.io/cli"
   },
   "artillery": {
     "current": "1.7.9",
