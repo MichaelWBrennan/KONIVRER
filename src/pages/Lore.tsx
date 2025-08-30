@@ -168,9 +168,6 @@ export const Lore: React.FC = () => {
         </section>
 
         <section className={s.section}>
-          <h2 className={s.sectionTitle}>
-            The Six Divine Elements and Their Virtues
-          </h2>
           <div className={s.diagramContainer}>
             <img
               className={s.diagramImage}
@@ -181,11 +178,6 @@ export const Lore: React.FC = () => {
                   "/assets/card-back-new.png";
               }}
             />
-            <p className={s.caption}>
-              A cosmology of six elements governing practice and purpose. Each
-              wedge expresses a guiding stance and the paired virtues that
-              animate it.
-            </p>
           </div>
           <div className={s.virtuesGrid}>
             <div className={s.virtueCard}>
