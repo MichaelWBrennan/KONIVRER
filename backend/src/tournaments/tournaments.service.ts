@@ -1026,14 +1026,10 @@ export class TournamentsService {
     // Simple, configurable awarding scheme by placement brackets
     // 1st, 2nd, Top 4, Top 8 receive tiered awards; others get participation
     const awardForPlacement = (position: number) => {
-      if (position === 1)
-        return { regional: 20, global: 8, format: 5 };
-      if (position === 2)
-        return { regional: 12, global: 5, format: 4 };
-      if (position <= 4)
-        return { regional: 8, global: 3, format: 3 };
-      if (position <= 8)
-        return { regional: 4, global: 1, format: 2 };
+      if (position === 1) return { regional: 20, global: 8, format: 5 };
+      if (position === 2) return { regional: 12, global: 5, format: 4 };
+      if (position <= 4) return { regional: 8, global: 3, format: 3 };
+      if (position <= 8) return { regional: 4, global: 1, format: 2 };
       return { regional: 1, global: 0, format: 0 };
     };
 

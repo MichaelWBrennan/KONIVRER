@@ -69,7 +69,10 @@ export class ProgressionController {
 
   @Post(":userId/decay/run")
   @ApiOperation({ summary: "Run point decay for user (manual trigger)" })
-  @ApiResponse({ status: 200, description: "Decay executed; returns affected count" })
+  @ApiResponse({
+    status: 200,
+    description: "Decay executed; returns affected count",
+  })
   async runDecay() {
     const affected = await this.progressionService.decayExpiredPoints();
     return { affected };
