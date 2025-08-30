@@ -33,6 +33,7 @@ import {
   PairingRequestDto,
 } from "./dto/tournament.dto";
 import { MatchmakingService } from "../matchmaking/matchmaking.service";
+import { ProgressionService } from "../progression/progression.service";
 
 @Injectable()
 export class TournamentsService {
@@ -47,7 +48,8 @@ export class TournamentsService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Deck)
     private readonly deckRepository: Repository<Deck>,
-    private readonly matchmakingService: MatchmakingService
+    private readonly matchmakingService: MatchmakingService,
+    private readonly progressionService: ProgressionService
   ) {}
 
   async create(
@@ -982,6 +984,7 @@ export class TournamentsService {
     if (allComplete) {
       const tournament = await this.tournamentRepository.findOne({
         where: { id: tournamentId },
+        relations: ["participants"],
       });
 
       if (tournament && round >= tournament.totalRounds) {
@@ -989,10 +992,81 @@ export class TournamentsService {
         tournament.status = TournamentStatus.COMPLETED;
         tournament.endDate = new Date();
         await this.tournamentRepository.save(tournament);
+
+        // Auto-award progression points (best-effort, non-blocking)
+        try {
+          await this.awardCompletionPoints(tournament);
+        } catch (err) {
+          console.warn("Failed to auto-award progression points:", err);
+        }
       } else if (tournament) {
         // Ready for next round
         tournament.currentRound = round + 1;
         await this.tournamentRepository.save(tournament);
+      }
+    }
+  }
+
+  // Awards regional/global/format points to players based on final placement
+  private async awardCompletionPoints(tournament: Tournament): Promise<void> {
+    if (!tournament?.id) return;
+
+    // Avoid duplicate awards if already processed for this event
+    const alreadyAwarded = await this.progressionService.hasEventAwards(
+      tournament.id
+    );
+    if (alreadyAwarded) return;
+
+    const standings = await this.getStandings(tournament.id);
+    if (!standings || standings.length === 0) return;
+
+    const totalPlayers =
+      tournament.participants?.length || standings.length || 0;
+
+    // Simple, configurable awarding scheme by placement brackets
+    // 1st, 2nd, Top 4, Top 8 receive tiered awards; others get participation
+    const awardForPlacement = (position: number) => {
+      if (position === 1)
+        return { regional: 20, global: 8, format: 5 };
+      if (position === 2)
+        return { regional: 12, global: 5, format: 4 };
+      if (position <= 4)
+        return { regional: 8, global: 3, format: 3 };
+      if (position <= 8)
+        return { regional: 4, global: 1, format: 2 };
+      return { regional: 1, global: 0, format: 0 };
+    };
+
+    // Apply awards
+    for (const s of standings) {
+      const { regional, global, format } = awardForPlacement(s.position);
+
+      if (regional > 0) {
+        await this.progressionService.applyPointUpdate({
+          userId: s.playerId,
+          eventId: tournament.id,
+          points: regional,
+          pointType: "regional",
+        });
+      }
+
+      if (global > 0) {
+        await this.progressionService.applyPointUpdate({
+          userId: s.playerId,
+          eventId: tournament.id,
+          points: global,
+          pointType: "global",
+        });
+      }
+
+      if (format > 0) {
+        await this.progressionService.applyPointUpdate({
+          userId: s.playerId,
+          eventId: tournament.id,
+          points: format,
+          pointType: "format",
+          formatKey: tournament.format.toString(),
+        });
       }
     }
   }

@@ -59,4 +59,19 @@ export class ProgressionController {
   ): Promise<TournamentProfileResponseDto> {
     return this.progressionService.applyPointUpdate(dto);
   }
+
+  @Get(":userId/history")
+  @ApiOperation({ summary: "Get point history for a user" })
+  @ApiResponse({ status: 200, description: "History returned" })
+  async getHistory(@Param("userId") userId: string) {
+    return this.progressionService.getHistory(userId);
+  }
+
+  @Post(":userId/decay/run")
+  @ApiOperation({ summary: "Run point decay for user (manual trigger)" })
+  @ApiResponse({ status: 200, description: "Decay executed; returns affected count" })
+  async runDecay() {
+    const affected = await this.progressionService.decayExpiredPoints();
+    return { affected };
+  }
 }

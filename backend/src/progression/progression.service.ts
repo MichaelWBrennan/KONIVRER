@@ -84,6 +84,11 @@ export class ProgressionService {
     });
   }
 
+  async hasEventAwards(eventId: string): Promise<boolean> {
+    const count = await this.historyRepo.count({ where: { eventId } });
+    return count > 0;
+  }
+
   private toDto(profile: TournamentProfile): TournamentProfileResponseDto {
     return {
       id: profile.id,
