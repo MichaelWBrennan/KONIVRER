@@ -115,18 +115,21 @@ export const Lore: React.FC = () => {
     "Earth",
   ];
 
-  type Relations = { allies: ElementDefinition["name"][]; enemy: ElementDefinition["name"]; };
+  type Relations = {
+    allies: ElementDefinition["name"][];
+    enemy: ElementDefinition["name"];
+  };
 
-  const relationsByElement: Record<ElementDefinition["name"], Relations> = wheelOrder.reduce(
-    (acc, elementName, index) => {
-      const left = wheelOrder[(index - 1 + wheelOrder.length) % wheelOrder.length];
+  const relationsByElement: Record<ElementDefinition["name"], Relations> =
+    wheelOrder.reduce((acc, elementName, index) => {
+      const left =
+        wheelOrder[(index - 1 + wheelOrder.length) % wheelOrder.length];
       const right = wheelOrder[(index + 1) % wheelOrder.length];
-      const opposite = wheelOrder[(index + wheelOrder.length / 2) % wheelOrder.length];
+      const opposite =
+        wheelOrder[(index + wheelOrder.length / 2) % wheelOrder.length];
       acc[elementName] = { allies: [left, right], enemy: opposite };
       return acc;
-    },
-    {} as Record<ElementDefinition["name"], Relations>
-  );
+    }, {} as Record<ElementDefinition["name"], Relations>);
 
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
