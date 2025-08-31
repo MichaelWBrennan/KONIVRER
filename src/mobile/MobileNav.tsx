@@ -66,7 +66,6 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         <div className={s.moreOverlay} onClick={() => setOpen(false)}>
           <div className={s.sheet} onClick={(e) => e.stopPropagation()}>
             <div className={s.sheetHeader}>
-              <div>Menu</div>
               <button
                 className={s.closeBtn}
                 onClick={() => setOpen(false)}
@@ -80,7 +79,6 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
                 ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
                 ["deckbuilder", "Deckbuilder"] as const,
                 ["events", "Events"] as const,
-                ["analytics", "Analytics"] as const,
                 ["rules", "Rules"] as const,
                 ["lore", "Lore"] as const,
                 ...(canAccessJudgePortal()
