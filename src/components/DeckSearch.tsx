@@ -2,12 +2,14 @@ import React, { useState, useMemo } from "react";
 import * as nav from "../nav.css.ts";
 import * as ds from "./deckSearch.css.ts";
 import { Deck, cardDatabase } from "../data/cards";
+import { DeckBuilderAdvanced } from "../pages/DeckBuilderAdvanced";
 
 interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
 }
 
 export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
+  const [activeTab, setActiveTab] = useState<"search" | "builder">("search");
   const [searchTerm, setSearchTerm] = useState("");
   const [elementFilter, setElementFilter] = useState("");
   // Removed format filter dropdown and logic
@@ -60,112 +62,136 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   return (
     <div>
       <div className="search-container">
-        <h1 className={nav.navTitle}>Deck Search</h1>
-        <input
-          type="text"
-          placeholder="Search decks by name or description..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-
-        <div className="filters">
-          <select
-            value={elementFilter}
-            onChange={(e) => setElementFilter(e.target.value)}
-            className="filter-select"
+        <div className="view-tabs">
+          <button
+            className={`btn ${activeTab === "search" ? "btn-primary" : "btn-secondary"}`}
+            onClick={() => setActiveTab("search")}
           >
-            <option value="">All Elements</option>
-            {elements.map((element) => (
-              <option key={element} value={element}>
-                {element}
-              </option>
-            ))}
-          </select>
-
-          {/* Removed format filter dropdown */}
+            Search
+          </button>
+          <button
+            className={`btn ${activeTab === "builder" ? "btn-primary" : "btn-secondary"}`}
+            onClick={() => setActiveTab("builder")}
+          >
+            Deck Builder
+          </button>
         </div>
+        <h1 className={nav.navTitle}>Decks</h1>
+        {activeTab === "search" && (
+          <input
+            type="text"
+            placeholder="Search decks by name or description..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        )}
 
-        <div className="results-count">{filteredDecks.length} decks found</div>
+        {activeTab === "search" && (
+          <div className="filters">
+            <select
+              value={elementFilter}
+              onChange={(e) => setElementFilter(e.target.value)}
+              className="filter-select"
+            >
+              <option value="">All Elements</option>
+              {elements.map((element) => (
+                <option key={element} value={element}>
+                  {element}
+                </option>
+              ))}
+            </select>
+
+            {/* Removed format filter dropdown */}
+          </div>
+        )}
+
+        {activeTab === "search" && (
+          <div className="results-count">{filteredDecks.length} decks found</div>
+        )}
       </div>
 
-      <div className="card-grid">
-        {filteredDecks.map((deck) => {
-          const previewCards = getDeckPreviewCards(deck);
+      {activeTab === "search" ? (
+        <div className="card-grid">
+          {filteredDecks.map((deck) => {
+            const previewCards = getDeckPreviewCards(deck);
 
-          return (
-            <div key={deck.id} className={`card-item ${ds.cardItem}`}>
-              <div className={ds.previewRow}>
-                {previewCards.map((card, index) => (
-                  <img
-                    key={card?.id}
-                    src={card?.webpUrl}
-                    alt={card?.name}
-                    style={{
-                      width: `${100 / previewCards.length}%`,
-                      height: "100%",
-                      objectFit: "cover",
-                      opacity: 1 - index * 0.1,
-                    }}
-                    className={ds.previewImg}
-                    onError={(e) => {
-                      // Fallback to PNG if WebP fails
-                      if (card) {
-                        (e.target as HTMLImageElement).src = card.imageUrl;
-                      }
-                    }}
-                  />
-                ))}
-              </div>
-              <div className="card-info">
-                <div className="card-name">{deck.name}</div>
-                <div className="card-details">
-                  <div>
-                    {deck.mainElement} • {deck.format}
-                  </div>
-                  <div>
-                    {deck.cards.length} cards • Win Rate:{" "}
-                    {(deck.winRate * 100).toFixed(0)}%
-                  </div>
-                  <div className={ds.desc}>{deck.description}</div>
-                  <div className={ds.meta}>
-                    Updated: {deck.updatedAt.toLocaleDateString()}
-                  </div>
-                  <div className={ds.actions}>
-                    <button
-                      className={`btn btn-primary ${ds.actionBtn}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleAddToMyAccount(deck);
+            return (
+              <div key={deck.id} className={`card-item ${ds.cardItem}`}>
+                <div className={ds.previewRow}>
+                  {previewCards.map((card, index) => (
+                    <img
+                      key={card?.id}
+                      src={card?.webpUrl}
+                      alt={card?.name}
+                      style={{
+                        width: `${100 / previewCards.length}%`,
+                        height: "100%",
+                        objectFit: "cover",
+                        opacity: 1 - index * 0.1,
                       }}
-                    >
-                      + My Account
-                    </button>
-                    <button
-                      className={`btn btn-secondary ${ds.actionBtn}`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handlePlayInSimulator(deck);
+                      className={ds.previewImg}
+                      onError={(e) => {
+                        // Fallback to PNG if WebP fails
+                        if (card) {
+                          (e.target as HTMLImageElement).src = card.imageUrl;
+                        }
                       }}
-                    >
-                      🎮 Play
-                    </button>
-                    <button
-                      className="btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDeckSelect?.(deck);
-                      }}
-                    >
-                      View
-                    </button>
+                    />
+                  ))}
+                </div>
+                <div className="card-info">
+                  <div className="card-name">{deck.name}</div>
+                  <div className="card-details">
+                    <div>
+                      {deck.mainElement} • {deck.format}
+                    </div>
+                    <div>
+                      {deck.cards.length} cards • Win Rate: {""}
+                      {(deck.winRate * 100).toFixed(0)}%
+                    </div>
+                    <div className={ds.desc}>{deck.description}</div>
+                    <div className={ds.meta}>
+                      Updated: {deck.updatedAt.toLocaleDateString()}
+                    </div>
+                    <div className={ds.actions}>
+                      <button
+                        className={`btn btn-primary ${ds.actionBtn}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToMyAccount(deck);
+                        }}
+                      >
+                        + My Account
+                      </button>
+                      <button
+                        className={`btn btn-secondary ${ds.actionBtn}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePlayInSimulator(deck);
+                        }}
+                      >
+                        🎮 Play
+                      </button>
+                      <button
+                        className="btn"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeckSelect?.(deck);
+                        }}
+                      >
+                        View
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      ) : (
+        <DeckBuilderAdvanced />
+      )}
     </div>
   );
 };

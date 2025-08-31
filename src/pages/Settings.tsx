@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as s from "./settings.css.ts";
-import { TournamentSection } from "../components/TournamentSection";
-import { QualificationTracker } from "../components/QualificationTracker";
+// Tournament points moved to Profile page
 
 export const Settings: React.FC = () => {
   const [theme, setTheme] = useState<"dark" | "light">(
@@ -39,11 +38,6 @@ export const Settings: React.FC = () => {
 
   return (
     <div className={s.root}>
-      <section className={s.section}>
-        <div className={s.sectionTitle}>Tournaments</div>
-        <TournamentSection userId={localStorage.getItem("userId") || ""} />
-        <QualificationTracker currentPoints={0} />
-      </section>
       <section className={s.section}>
         <div className={s.sectionTitle}>Appearance</div>
         <div className={s.row}>
