@@ -131,9 +131,7 @@ function AppContent(): any {
         currentPage === "settings" ||
         currentPage === "deckbuilder" ||
         currentPage === "simulator"
-      ) && (
-        <SearchBar current={currentPage} onSearch={handleGlobalSearch} />
-      )}
+      ) && <SearchBar current={currentPage} onSearch={handleGlobalSearch} />}
 
       <MobileShell
         current={currentPage}

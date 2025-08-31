@@ -52,30 +52,30 @@ export const DeckBuilderAdvanced: React.FC = () => {
 
           <div className={s.deckGrid}>
             {decks.map((deck) => (
-                <div
-                  key={deck.id}
-                  className={`${s.deckCard} ${
-                    selectedDeck?.id === deck.id ? s.deckCardSelected : ""
-                  }`}
-                  onClick={() => setSelectedDeck(deck)}
-                >
-                  <div className={s.deckHeader}>
-                    <h3>{deck.name}</h3>
-                    <div className={s.deckColors}>
-                      {deck.colors.map((color) => (
-                        <div key={color} className={s.colorIndicator}></div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className={s.deckInfo}>
-                    <span>{deck.format}</span>
-                    <span>{deck.cardCount} cards</span>
-                  </div>
-                  <div className={s.deckDate}>
-                    Modified: {deck.lastModified.toLocaleDateString()}
+              <div
+                key={deck.id}
+                className={`${s.deckCard} ${
+                  selectedDeck?.id === deck.id ? s.deckCardSelected : ""
+                }`}
+                onClick={() => setSelectedDeck(deck)}
+              >
+                <div className={s.deckHeader}>
+                  <h3>{deck.name}</h3>
+                  <div className={s.deckColors}>
+                    {deck.colors.map((color) => (
+                      <div key={color} className={s.colorIndicator}></div>
+                    ))}
                   </div>
                 </div>
-              ))}
+                <div className={s.deckInfo}>
+                  <span>{deck.format}</span>
+                  <span>{deck.cardCount} cards</span>
+                </div>
+                <div className={s.deckDate}>
+                  Modified: {deck.lastModified.toLocaleDateString()}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
