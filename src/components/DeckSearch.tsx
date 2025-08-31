@@ -32,7 +32,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
 
       const matchesElement =
         elementFilter === "" || deck.mainElement === elementFilter;
-      
+
       return matchesSearch && matchesElement;
     });
   }, [searchTerm, elementFilter, availableDecks]);
