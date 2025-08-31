@@ -127,7 +127,13 @@ function AppContent(): any {
         <NotificationCenter />
       </div>
 
-      <SearchBar current={currentPage} onSearch={handleGlobalSearch} />
+      {!(
+        currentPage === "settings" ||
+        currentPage === "deckbuilder" ||
+        currentPage === "simulator"
+      ) && (
+        <SearchBar current={currentPage} onSearch={handleGlobalSearch} />
+      )}
 
       <MobileShell
         current={currentPage}

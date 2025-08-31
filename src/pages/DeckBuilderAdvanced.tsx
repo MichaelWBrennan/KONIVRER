@@ -13,7 +13,6 @@ interface Deck {
 export const DeckBuilderAdvanced: React.FC = () => {
   const [decks, setDecks] = useState<Deck[]>([]);
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     // Decks will be loaded from backend
@@ -49,21 +48,10 @@ export const DeckBuilderAdvanced: React.FC = () => {
         <div className={s.listPanel}>
           <div className={s.panelHeader}>
             <h2>Your Decks</h2>
-            <input
-              type="text"
-              placeholder="Search decks..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
-            />
           </div>
 
           <div className={s.deckGrid}>
-            {decks
-              .filter((deck) =>
-                deck.name.toLowerCase().includes(searchTerm.toLowerCase())
-              )
-              .map((deck) => (
+            {decks.map((deck) => (
                 <div
                   key={deck.id}
                   className={`${s.deckCard} ${
@@ -180,43 +168,7 @@ export const DeckBuilderAdvanced: React.FC = () => {
           )}
         </div>
 
-        <div className={s.searchPanel}>
-          <div className={s.panelHeader}>
-            <h2>Card Database</h2>
-            <input
-              type="text"
-              placeholder="Search for cards..."
-              className="search-input"
-            />
-          </div>
-
-          <div className="filters">
-            <select className="filter-select">
-              <option>All Colors</option>
-              <option>White</option>
-              <option>Blue</option>
-              <option>Black</option>
-              <option>Red</option>
-              <option>Green</option>
-            </select>
-
-            <select className="filter-select">
-              <option>All Types</option>
-              <option>Creature</option>
-              <option>Instant</option>
-              <option>Sorcery</option>
-              <option>Artifact</option>
-              <option>Land</option>
-            </select>
-          </div>
-
-          <div className={s.cardResults}>
-            {/* TODO: Replace with actual card search results */}
-            <div className="no-results-message">
-              Search for cards to add to your deck
-            </div>
-          </div>
-        </div>
+        {/* Right-side search panel removed per requirements */}
       </div>
     </div>
   );
