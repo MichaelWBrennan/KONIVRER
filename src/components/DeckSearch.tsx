@@ -10,7 +10,7 @@ interface DeckSearchProps {
 export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [elementFilter, setElementFilter] = useState("");
-  const [formatFilter, setFormatFilter] = useState("");
+  // Removed format filter dropdown and logic
 
   // Available decks will be loaded from backend
   const availableDecks: Deck[] = [];
@@ -20,10 +20,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
     () => [...new Set(availableDecks.map((deck) => deck.mainElement))].sort(),
     [availableDecks]
   );
-  const formats = useMemo(
-    () => [...new Set(availableDecks.map((deck) => deck.format))].sort(),
-    [availableDecks]
-  );
+  // Removed formats list as format filter is no longer used
 
   // Filter decks based on search criteria
   const filteredDecks = useMemo(() => {
@@ -35,11 +32,10 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
 
       const matchesElement =
         elementFilter === "" || deck.mainElement === elementFilter;
-      const matchesFormat = formatFilter === "" || deck.format === formatFilter;
-
-      return matchesSearch && matchesElement && matchesFormat;
+      
+      return matchesSearch && matchesElement;
     });
-  }, [searchTerm, elementFilter, formatFilter, availableDecks]);
+  }, [searchTerm, elementFilter, availableDecks]);
 
   const getDeckPreviewCards = (deck: Deck) => {
     // Get first 3 cards from deck for preview
@@ -87,18 +83,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
             ))}
           </select>
 
-          <select
-            value={formatFilter}
-            onChange={(e) => setFormatFilter(e.target.value)}
-            className="filter-select"
-          >
-            <option value="">All Formats</option>
-            {formats.map((format) => (
-              <option key={format} value={format}>
-                {format}
-              </option>
-            ))}
-          </select>
+          {/* Removed format filter dropdown */}
         </div>
 
         <div className="results-count">{filteredDecks.length} decks found</div>
