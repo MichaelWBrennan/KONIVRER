@@ -4,6 +4,7 @@ export const container = style({
   padding: "2rem",
   maxWidth: 1400,
   margin: "0 auto",
+  overflowX: "hidden",
 });
 export const header = style({
   display: "flex",
@@ -14,9 +15,14 @@ export const header = style({
 export const actions = style({ display: "flex", gap: "0.5rem" });
 export const content = style({
   display: "grid",
-  gridTemplateColumns: "360px 1fr 360px",
+  gridTemplateColumns: "360px 1fr",
   gap: "1rem",
   alignItems: "start",
+  "@media": {
+    "(max-width: 900px)": {
+      gridTemplateColumns: "1fr",
+    },
+  },
 });
 
 export const listPanel = style({
@@ -24,6 +30,7 @@ export const listPanel = style({
   border: "1px solid var(--border-color)",
   borderRadius: 8,
   padding: "1rem",
+  overflow: "hidden",
 });
 export const panelHeader = style({
   display: "flex",
@@ -36,6 +43,7 @@ export const deckGrid = style({
   display: "grid",
   gridTemplateColumns: "1fr",
   gap: "0.5rem",
+  overflow: "hidden",
 });
 export const deckCard = style({
   background: "var(--secondary-bg)",
@@ -76,6 +84,7 @@ export const editorPanel = style({
   border: "1px solid var(--border-color)",
   borderRadius: 8,
   padding: "1rem",
+  overflow: "hidden",
 });
 export const editor = style({
   display: "flex",
@@ -123,6 +132,11 @@ export const analysis = style({
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
   gap: "1rem",
+  "@media": {
+    "(max-width: 900px)": {
+      gridTemplateColumns: "1fr",
+    },
+  },
 });
 export const analysisCard = style({
   background: "var(--primary-bg)",
