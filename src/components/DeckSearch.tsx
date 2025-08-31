@@ -64,13 +64,17 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
       <div className="search-container">
         <div className="view-tabs">
           <button
-            className={`btn ${activeTab === "search" ? "btn-primary" : "btn-secondary"}`}
+            className={`btn ${
+              activeTab === "search" ? "btn-primary" : "btn-secondary"
+            }`}
             onClick={() => setActiveTab("search")}
           >
             Search
           </button>
           <button
-            className={`btn ${activeTab === "builder" ? "btn-primary" : "btn-secondary"}`}
+            className={`btn ${
+              activeTab === "builder" ? "btn-primary" : "btn-secondary"
+            }`}
             onClick={() => setActiveTab("builder")}
           >
             Deck Builder
@@ -107,7 +111,9 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
         )}
 
         {activeTab === "search" && (
-          <div className="results-count">{filteredDecks.length} decks found</div>
+          <div className="results-count">
+            {filteredDecks.length} decks found
+          </div>
         )}
       </div>
 

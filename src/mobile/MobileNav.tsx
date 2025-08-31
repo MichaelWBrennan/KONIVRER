@@ -55,7 +55,9 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             }
           }}
         >
-          <span className={s.label}>{isAuthenticated ? "Profile" : "Login"}</span>
+          <span className={s.label}>
+            {isAuthenticated ? "Profile" : "Login"}
+          </span>
         </button>
         <button
           className={`${s.tab} ${active("more")}`}

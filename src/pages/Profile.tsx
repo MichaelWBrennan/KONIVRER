@@ -3,7 +3,10 @@ import * as s from "./settings.css.ts";
 import { useAuth } from "../hooks/useAuth";
 import { TournamentSection } from "../components/TournamentSection";
 import { QualificationTracker } from "../components/QualificationTracker";
-import { ProgressionService, TournamentProfileDto } from "../services/progressionService";
+import {
+  ProgressionService,
+  TournamentProfileDto,
+} from "../services/progressionService";
 
 export const Profile: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -11,7 +14,9 @@ export const Profile: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated && user?.id) {
-      ProgressionService.getProfile(user.id).then(setProfile).catch(() => setProfile(null));
+      ProgressionService.getProfile(user.id)
+        .then(setProfile)
+        .catch(() => setProfile(null));
     }
   }, [isAuthenticated, user?.id]);
 
@@ -30,7 +35,9 @@ export const Profile: React.FC = () => {
     <div className={s.root}>
       <section className={s.section}>
         <div className={s.sectionTitle}>Profile</div>
-        <div className="small text-muted">{user?.displayName || user?.username}</div>
+        <div className="small text-muted">
+          {user?.displayName || user?.username}
+        </div>
       </section>
 
       <section className={s.section}>
@@ -41,4 +48,3 @@ export const Profile: React.FC = () => {
     </div>
   );
 };
-
