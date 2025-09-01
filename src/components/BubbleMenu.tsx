@@ -123,6 +123,9 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     if (keepOpen !== "menu") setIsMenuOpen(false);
   };
 
+  const isOnEventsPage =
+    currentPage === "events" || currentPage === "event-archive";
+
   const menuItems = [
     // Only show Blog when not on home page
     ...(currentPage !== "home" ? [{ id: "home" as const, label: "Blog" }] : []),
@@ -138,7 +141,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     ...(canAccessJudgePortal()
       ? [{ id: "judge" as const, label: "Judge Portal" }]
       : []),
-    { id: "events" as const, label: "Events" },
+    // Replace Events with Blog on Events pages
+    ...(!isOnEventsPage ? [{ id: "events" as const, label: "Events" }] : []),
     // Combined tournaments and companion functionality into unified Events
   ];
 
