@@ -101,6 +101,17 @@ globalStyle("*:focus-visible", {
   borderRadius: 4,
 });
 
+// Links
+globalStyle("a", {
+  color: "var(--accent-color)",
+  textDecoration: "underline",
+  fontWeight: 600 as any,
+});
+
+globalStyle("a:hover", {
+  textDecoration: "underline",
+});
+
 // Common UI utilities migrated from legacy global CSS
 globalStyle(".search-container", {
   padding: "2rem",
