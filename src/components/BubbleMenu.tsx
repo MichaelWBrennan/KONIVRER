@@ -124,8 +124,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
   };
 
   const menuItems = [
-    // Only show Home when not on home page
-    ...(currentPage !== "home" ? [{ id: "home" as const, label: "Home" }] : []),
+    // Only show Blog when not on home page
+    ...(currentPage !== "home" ? [{ id: "home" as const, label: "Blog" }] : []),
     { id: "cards" as const, label: "Card Search" },
     { id: "decks" as const, label: "Deck Search" },
     // Only show My Decks when logged in
