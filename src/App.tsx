@@ -27,6 +27,7 @@ import type { Card } from "./data/cards"; // Use our local Card type
 import * as appStyles from "./app.css.ts";
 import * as overlay from "./appOverlay.css.ts";
 import { MobileShell } from "./mobile/MobileShell";
+// import { BubbleMenu } from './components/BubbleMenu';
 import { LoginModal } from "./components/LoginModal";
 import { SearchBar } from "./mobile/SearchBar";
 

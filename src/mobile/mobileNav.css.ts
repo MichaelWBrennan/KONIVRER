@@ -16,7 +16,13 @@ export const nav = style({
 export const navInner = style({
   display: "grid",
   gridTemplateColumns: "repeat(6, 1fr)",
-  alignItems: "center",
+  alignItems: "stretch",
+  gap: 0,
+  margin: "6px 8px",
+  border: "1px solid rgba(255,255,255,0.08)",
+  borderRadius: 12,
+  overflow: "hidden",
+  background: "rgba(255,255,255,0.02)",
 });
 
 export const tab = style({
@@ -27,10 +33,21 @@ export const tab = style({
   justifyContent: "center",
   color: "var(--text-secondary)",
   cursor: "pointer",
-  selectors: { "&:active": { opacity: 0.8 } },
+  selectors: {
+    "&:active": { opacity: 0.8 },
+    "&:not(:last-child)": {
+      borderRight: "1px solid rgba(255,255,255,0.08)",
+    },
+    "&:hover": {
+      background: "rgba(255,255,255,0.04)",
+    },
+  },
 });
 
-export const tabActive = style({ color: "var(--text-primary)" });
+export const tabActive = style({
+  color: "var(--text-primary)",
+  background: "rgba(255,255,255,0.06)",
+});
 
 export const label = style({
   fontSize: 11,
