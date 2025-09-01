@@ -132,7 +132,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     ...(isAuthenticated
       ? [{ id: "my-decks" as const, label: "My Decks" }]
       : []),
-    { id: "simulator" as const, label: "Simulator" },
+    { id: "simulator" as const, label: "Play" },
     { id: "rules" as const, label: "Rules" },
     // Only show Judge Portal to authenticated judges and admins
     ...(canAccessJudgePortal()
