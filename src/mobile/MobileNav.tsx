@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import * as s from "./mobileNav.css.ts";
 import { useAuth } from "../hooks/useAuth";
 
-type Tab = "home" | "cards" | "decks" | "events" | "simulator" | "more";
+type Tab =
+  | "home"
+  | "cards"
+  | "decks"
+  | "events"
+  | "simulator"
+  | "rules"
+  | "more";
 
 interface Props {
   current: string;
@@ -43,6 +50,13 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           ));
         })()}
         <button
+          className={`${s.tab} ${active("rules")}`}
+          aria-current={current === "rules"}
+          onClick={() => onNavigate("rules")}
+        >
+          <span className={s.label}>Rules</span>
+        </button>
+        <button
           className={`${s.tab}`}
           onClick={() => {
             const evt = new CustomEvent("open-login");
@@ -75,9 +89,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {(
               [
                 ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
-                ["deckbuilder", "Deckbuilder"] as const,
                 ["simulator", "Play"] as const,
-                ["rules", "Rules"] as const,
                 ["lore", "Lore"] as const,
                 ...(canAccessJudgePortal()
                   ? [["judge", "Judge"] as const]

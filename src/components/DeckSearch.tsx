@@ -9,7 +9,7 @@ interface DeckSearchProps {
 }
 
 export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
-  const [activeTab, setActiveTab] = useState<"search" | "builder">("search");
+  const [showBuilder, setShowBuilder] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [elementFilter, setElementFilter] = useState("");
   // Removed format filter dropdown and logic
@@ -62,26 +62,17 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   return (
     <div>
       <div className="search-container">
-        <div className="view-tabs">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+          <h1 className={nav.navTitle} style={{ margin: 0 }}>Decks</h1>
           <button
-            className={`btn ${
-              activeTab === "search" ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setActiveTab("search")}
+            className={`btn ${showBuilder ? "btn-secondary" : "btn-primary"}`}
+            onClick={() => setShowBuilder((v) => !v)}
+            aria-pressed={showBuilder}
           >
-            Search
-          </button>
-          <button
-            className={`btn ${
-              activeTab === "builder" ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setActiveTab("builder")}
-          >
-            Deck Builder
+            {showBuilder ? "Back to Decks" : "Build Deck"}
           </button>
         </div>
-        <h1 className={nav.navTitle}>Decks</h1>
-        {activeTab === "search" && (
+        {!showBuilder && (
           <input
             type="text"
             placeholder="Search decks by name or description..."
@@ -91,7 +82,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
           />
         )}
 
-        {activeTab === "search" && (
+        {!showBuilder && (
           <div className="filters">
             <select
               value={elementFilter}
@@ -110,14 +101,14 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
           </div>
         )}
 
-        {activeTab === "search" && (
+        {!showBuilder && (
           <div className="results-count">
             {filteredDecks.length} decks found
           </div>
         )}
       </div>
 
-      {activeTab === "search" ? (
+      {!showBuilder ? (
         <div className="card-grid">
           {filteredDecks.map((deck) => {
             const previewCards = getDeckPreviewCards(deck);

@@ -8,7 +8,7 @@ import { KonivrverSimulator } from "./components/KonivrverSimulator";
 
 import JudgePortal from "./components/JudgePortal";
 import NotificationCenter from "./components/NotificationCenter";
-import { DeckBuilderAdvanced } from "./pages/DeckBuilderAdvanced";
+// Deckbuilder is accessed from Decks page; keep import only where used directly
 
 import { Analytics } from "./pages/Analytics";
 import { Events } from "./pages/Events";
@@ -49,7 +49,6 @@ type Page =
   | "simulator"
   | "cards"
   | "decks"
-  | "deckbuilder"
   | "analytics"
   | "events"
   | "event-archive"
@@ -127,11 +126,9 @@ function AppContent(): any {
         <NotificationCenter />
       </div>
 
-      {!(
-        currentPage === "settings" ||
-        currentPage === "deckbuilder" ||
-        currentPage === "simulator"
-      ) && <SearchBar current={currentPage} onSearch={handleGlobalSearch} />}
+      {!(currentPage === "settings" || currentPage === "simulator") && (
+        <SearchBar current={currentPage} onSearch={handleGlobalSearch} />
+      )}
 
       <MobileShell
         current={currentPage}
@@ -171,7 +168,7 @@ function AppContent(): any {
           ))}
         {currentPage === "events" && <Events />}
         {currentPage === "event-archive" && <TournamentHub />}
-        {currentPage === "deckbuilder" && <DeckBuilderAdvanced />}
+        {/* Deckbuilder merged into Decks page via button */}
         {currentPage === "analytics" && <Analytics />}
         {currentPage === "settings" && <Settings />}
       </MobileShell>
