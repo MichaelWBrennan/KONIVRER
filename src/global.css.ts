@@ -488,8 +488,8 @@ globalStyle("*", {
     },
   } as any,
 } as any);
-// Larger tap area for buttons
-globalStyle(".btn", { minHeight: 44, lineHeight: "1.2" });
+// Larger tap area is opt-in via .btn-touch; .btn should size to its text
+globalStyle(".btn", { lineHeight: "normal" });
 // High contrast mode tweaks
 globalStyle('[data-contrast="high"]', {
   vars: { "--border-color": "#888" } as any,
