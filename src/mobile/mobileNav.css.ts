@@ -62,7 +62,12 @@ export const tabActive = style({
   },
 });
 
-export const label = style({ fontSize: 12, fontWeight: 600, letterSpacing: 0.2, marginTop: 2 });
+export const label = style({
+  fontSize: 12,
+  fontWeight: 600,
+  letterSpacing: 0.2,
+  marginTop: 2,
+});
 
 export const moreOverlay = style({
   position: "fixed",
@@ -71,7 +76,10 @@ export const moreOverlay = style({
   zIndex: 1001,
   display: "flex",
   alignItems: "flex-end",
-  animation: `${keyframes({ from: { opacity: 0 }, to: { opacity: 1 } })} 120ms ease-out`,
+  animation: `${keyframes({
+    from: { opacity: 0 },
+    to: { opacity: 1 },
+  })} 120ms ease-out`,
 });
 
 export const sheet = style({
@@ -124,5 +132,10 @@ export const closeBtn = style({
   color: "var(--text-primary)",
   cursor: "pointer",
   transition: "background 0.15s ease, border-color 0.15s ease",
-  selectors: { "&:hover": { background: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.2)" } },
+  selectors: {
+    "&:hover": {
+      background: "rgba(255,255,255,0.06)",
+      borderColor: "rgba(255,255,255,0.2)",
+    },
+  },
 });
