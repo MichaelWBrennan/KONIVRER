@@ -31,13 +31,11 @@ export const tab = style({
   flexDirection: "column",
   alignItems: "center",
   justifyContent: "center",
-  color: "var(--text-secondary)",
+  color: "#000",
   cursor: "pointer",
+  borderRight: "1px solid var(--border-color)",
   selectors: {
     "&:active": { opacity: 0.8 },
-    "&:not(:last-child)": {
-      borderRight: "1px solid var(--border-color)",
-    },
     "&:hover": {
       background: "rgba(0,0,0,0.08)",
     },
@@ -45,7 +43,7 @@ export const tab = style({
 });
 
 export const tabActive = style({
-  color: "var(--text-primary)",
+  color: "#000",
   background: "rgba(0,0,0,0.12)",
 });
 
