@@ -51,13 +51,20 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             </button>
           ));
         })()}
-        <button
-          className={`${s.tab} ${active("rules")}`}
-          aria-current={current === "rules"}
-          onClick={() => onNavigate("rules")}
-        >
-          <span className={s.label}>Rules</span>
-        </button>
+        {(() => {
+          const isRules = current === "rules";
+          const label = isRules ? "Blog" : "Rules";
+          const target = isRules ? "home" : "rules";
+          return (
+            <button
+              className={`${s.tab} ${!isRules ? active("rules") : ""}`}
+              aria-current={!isRules && current === "rules"}
+              onClick={() => onNavigate(target)}
+            >
+              <span className={s.label}>{label}</span>
+            </button>
+          );
+        })()}
         <button
           className={`${s.tab}`}
           onClick={() => {
