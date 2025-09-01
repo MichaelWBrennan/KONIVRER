@@ -104,7 +104,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
                 ...(canAccessJudgePortal()
                   ? [["judge", "Judge"] as const]
                   : []),
-                ["settings", "Settings"] as const,
+                ["settings", "Accessibility"] as const,
               ] as const
             ).map(([page, label]) => (
               <div
