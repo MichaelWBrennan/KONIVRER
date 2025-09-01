@@ -32,7 +32,13 @@ export const tab = style({
 
 export const tabActive = style({ color: "var(--text-primary)" });
 
-export const label = style({ fontSize: 11, marginTop: 4 });
+export const label = style({
+  fontSize: 11,
+  marginTop: 4,
+  fontFamily:
+    "OpenDyslexic, Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+  fontWeight: 500 as any,
+});
 
 export const moreOverlay = style({
   position: "fixed",
