@@ -16,34 +16,32 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
   return (
     <nav className={s.nav} aria-label="Primary">
       <div className={s.navInner}>
-        <button
-          className={`${s.tab} ${active("home")}`}
-          aria-current={current === "home"}
-          onClick={() => onNavigate("home")}
-        >
-          <span className={s.label}>Home</span>
-        </button>
-        <button
-          className={`${s.tab} ${active("cards")}`}
-          aria-current={current === "cards"}
-          onClick={() => onNavigate("cards")}
-        >
-          <span className={s.label}>Cards</span>
-        </button>
-        <button
-          className={`${s.tab} ${active("decks")}`}
-          aria-current={current === "decks"}
-          onClick={() => onNavigate("decks")}
-        >
-          <span className={s.label}>Decks</span>
-        </button>
-        <button
-          className={`${s.tab} ${active("events")}`}
-          aria-current={current === "events"}
-          onClick={() => onNavigate("events")}
-        >
-          <span className={s.label}>Events</span>
-        </button>
+        {(() => {
+          const mainTabs: Array<{ id: string; label: string }> = [
+            { id: "cards", label: "Cards" },
+            { id: "decks", label: "Decks" },
+            { id: "events", label: "Events" },
+          ];
+
+          let tabsToRender: Array<{ id: string; label: string }> = mainTabs;
+
+          if (current !== "home") {
+            tabsToRender = mainTabs.map((t) =>
+              t.id === current ? { id: "home", label: "Blog" } : t
+            );
+          }
+
+          return tabsToRender.map(({ id, label }) => (
+            <button
+              key={id}
+              className={`${s.tab} ${active(id as Tab)}`}
+              aria-current={current === id}
+              onClick={() => onNavigate(id)}
+            >
+              <span className={s.label}>{label}</span>
+            </button>
+          ));
+        })()}
         <button
           className={`${s.tab}`}
           onClick={() => {
