@@ -9,7 +9,6 @@ import { KonivrverSimulator } from "./components/KonivrverSimulator";
 import JudgePortal from "./components/JudgePortal";
 import NotificationCenter from "./components/NotificationCenter";
 import { DeckBuilderAdvanced } from "./pages/DeckBuilderAdvanced";
-import { Profile } from "./pages/Profile";
 
 import { Analytics } from "./pages/Analytics";
 import { Events } from "./pages/Events";
@@ -58,7 +57,6 @@ type Page =
   | "rules"
   | "judge"
   | "settings"
-  | "profile"
   | "lore";
 
 function AppContent(): any {
@@ -132,8 +130,7 @@ function AppContent(): any {
       {!(
         currentPage === "settings" ||
         currentPage === "deckbuilder" ||
-        currentPage === "simulator" ||
-        currentPage === "profile"
+        currentPage === "simulator"
       ) && <SearchBar current={currentPage} onSearch={handleGlobalSearch} />}
 
       <MobileShell
@@ -175,7 +172,6 @@ function AppContent(): any {
         {currentPage === "events" && <Events />}
         {currentPage === "event-archive" && <TournamentHub />}
         {currentPage === "deckbuilder" && <DeckBuilderAdvanced />}
-        {currentPage === "profile" && <Profile />}
         {currentPage === "analytics" && <Analytics />}
         {currentPage === "settings" && <Settings />}
       </MobileShell>
