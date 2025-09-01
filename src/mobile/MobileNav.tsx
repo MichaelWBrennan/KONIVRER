@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as s from "./mobileNav.css.ts";
 import { useAuth } from "../hooks/useAuth";
 
-type Tab = "home" | "cards" | "decks" | "events" | "more";
+type Tab = "home" | "cards" | "decks" | "simulator" | "more";
 
 interface Props {
   current: string;
@@ -38,26 +38,20 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           <span className={s.label}>Decks</span>
         </button>
         <button
-          className={`${s.tab} ${active("events")}`}
-          aria-current={current === "events"}
-          onClick={() => onNavigate("events")}
+          className={`${s.tab} ${active("simulator")}`}
+          aria-current={current === "simulator"}
+          onClick={() => onNavigate("simulator")}
         >
-          <span className={s.label}>Events</span>
+          <span className={s.label}>Play</span>
         </button>
         <button
           className={`${s.tab}`}
           onClick={() => {
-            if (isAuthenticated) {
-              onNavigate("profile");
-            } else {
-              const evt = new CustomEvent("open-login");
-              window.dispatchEvent(evt);
-            }
+            const evt = new CustomEvent("open-login");
+            window.dispatchEvent(evt);
           }}
         >
-          <span className={s.label}>
-            {isAuthenticated ? "Profile" : "Login"}
-          </span>
+          <span className={s.label}>Login</span>
         </button>
         <button
           className={`${s.tab} ${active("more")}`}
@@ -83,7 +77,8 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             {(
               [
                 ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
-                ["simulator", "Play"] as const,
+                ["deckbuilder", "Deckbuilder"] as const,
+                ["events", "Events"] as const,
                 ["rules", "Rules"] as const,
                 ["lore", "Lore"] as const,
                 ...(canAccessJudgePortal()
