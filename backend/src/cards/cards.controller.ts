@@ -43,7 +43,16 @@ export class CardsController {
   @Get()
   @ApiOperation({ summary: "Get all cards with optional filters" })
   @ApiResponse({ status: 200, description: "Cards retrieved successfully" })
-  @ApiQuery({ name: "q", required: false, description: "Search query" })
+  @ApiQuery({
+    name: "q",
+    required: false,
+    description: "Search query (alias: search)",
+  })
+  @ApiQuery({
+    name: "search",
+    required: false,
+    description: "Search query (alias of q)",
+  })
   @ApiQuery({
     name: "type",
     required: false,
@@ -64,6 +73,16 @@ export class CardsController {
     required: false,
     description: "Filter by faction",
   })
+  @ApiQuery({
+    name: "element",
+    required: false,
+    description: "Filter by element (alias of faction)",
+  })
+  @ApiQuery({
+    name: "rarity",
+    required: false,
+    description: "Filter by rarity",
+  })
   @ApiQuery({ name: "set", required: false, description: "Filter by set" })
   @ApiQuery({
     name: "page",
@@ -75,19 +94,50 @@ export class CardsController {
     required: false,
     description: "Items per page (1-100)",
   })
-  @ApiQuery({ name: "sort", required: false, description: "Sort field" })
+  @ApiQuery({
+    name: "limit",
+    required: false,
+    description: "Items per page (alias of pageSize)",
+  })
+  @ApiQuery({
+    name: "sort",
+    required: false,
+    description: "Sort field (alias: sortBy)",
+  })
+  @ApiQuery({
+    name: "sortBy",
+    required: false,
+    description: "Sort field (alias of sort)",
+  })
+  @ApiQuery({
+    name: "sortOrder",
+    required: false,
+    description: "Sort order ASC|DESC",
+  })
+  @ApiQuery({
+    name: "legalOnly",
+    required: false,
+    description: "Only tournament legal cards",
+  })
   async findAll(@Query() filters: any) {
     // Convert API spec query params to internal format
     const internalFilters = {
-      search: filters.q,
+      search: filters.search ?? filters.q,
       type: filters.type,
-      element: filters.faction, // Map faction to element
-      minCost: filters.cost_min,
-      maxCost: filters.cost_max,
-      page: filters.page || 1,
-      limit: filters.pageSize || 20,
-      sortBy: filters.sort,
-      sortOrder: "ASC" as "ASC" | "DESC",
+      element: filters.element ?? filters.faction, // Support both element and faction
+      rarity: filters.rarity,
+      minCost: filters.minCost ?? filters.cost_min,
+      maxCost: filters.maxCost ?? filters.cost_max,
+      legalOnly:
+        filters.legalOnly === undefined
+          ? undefined
+          : [true, "true", 1, "1"].includes(filters.legalOnly),
+      page: Number(filters.page) || 1,
+      limit: Number(filters.limit ?? filters.pageSize) || 20,
+      sortBy: filters.sort ?? filters.sortBy,
+      sortOrder: (filters.sortOrder?.toUpperCase?.() === "DESC"
+        ? "DESC"
+        : "ASC") as "ASC" | "DESC",
     };
 
     const result = await this.cardsService.findAll(internalFilters);
@@ -102,9 +152,12 @@ export class CardsController {
         name: card.name,
         type: card.type,
         cost: card.cost,
-        faction: card.element, // Map element to faction
+        faction: card.element, // Map element to faction (legacy)
+        element: card.element, // Include element for modern clients
+        rarity: card.rarity,
         text: card.description,
         imageUrl: card.imageUrl,
+        webpUrl: card.webpUrl,
         metadata: {
           rarity: card.rarity,
           set: filters.set || "S1", // Default set
