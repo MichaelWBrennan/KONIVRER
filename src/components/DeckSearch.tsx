@@ -62,8 +62,17 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   return (
     <div>
       <div className="search-container">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-          <h1 className={nav.navTitle} style={{ margin: 0 }}>Decks</h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <h1 className={nav.navTitle} style={{ margin: 0 }}>
+            Decks
+          </h1>
           <button
             className={`btn ${showBuilder ? "btn-secondary" : "btn-primary"}`}
             onClick={() => setShowBuilder((v) => !v)}
