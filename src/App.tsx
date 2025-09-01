@@ -19,6 +19,7 @@ import { Rules } from "./pages/Rules";
 import { Settings } from "./pages/Settings";
 import { Offline } from "./pages/Offline";
 import { Lore } from "./pages/Lore";
+import { Profile } from "./pages/Profile";
 import { useAppStore } from "./stores/appStore";
 import { useAuth } from "./hooks/useAuth";
 import { NotificationService } from "./services/notifications";
@@ -56,7 +57,8 @@ type Page =
   | "rules"
   | "judge"
   | "settings"
-  | "lore";
+  | "lore"
+  | "profile";
 
 function AppContent(): any {
   const [currentPage, setCurrentPage] = useState<Page>("home");
@@ -171,6 +173,7 @@ function AppContent(): any {
         {/* Deckbuilder merged into Decks page via button */}
         {currentPage === "analytics" && <Analytics />}
         {currentPage === "settings" && <Settings />}
+        {currentPage === "profile" && <Profile />}
       </MobileShell>
 
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />

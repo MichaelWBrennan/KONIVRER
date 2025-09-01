@@ -19,10 +19,20 @@ interface Props {
 export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
   const [open, setOpen] = useState(false);
   const active = (t: Tab) => (current === t ? s.tabActive : "");
-  const { isAuthenticated, canAccessJudgePortal } = useAuth();
+  const { isAuthenticated, canAccessJudgePortal, logout } = useAuth();
   return (
-    <nav className={s.nav} aria-label="Primary">
-      <div className={s.navInner}>
+    <>
+      {current !== "settings" && (
+        <button
+          className={s.accessibilityFab}
+          onClick={() => onNavigate("settings")}
+          aria-label="Accessibility settings"
+        >
+          Accessibility
+        </button>
+      )}
+      <nav className={s.nav} aria-label="Primary">
+        <div className={isAuthenticated ? s.navInnerSeven : s.navInnerSix}>
         {(() => {
           const mainTabs: Array<{ id: string; label: string }> = [
             { id: "cards", label: "Cards" },
@@ -58,15 +68,35 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         >
           <span className={s.label}>Rules</span>
         </button>
-        <button
-          className={`${s.tab}`}
-          onClick={() => {
-            const evt = new CustomEvent("open-login");
-            window.dispatchEvent(evt);
-          }}
-        >
-          <span className={s.label}>Login</span>
-        </button>
+        {isAuthenticated && (
+          <button
+            className={`${s.tab} ${current === "profile" ? s.tabActive : ""}`}
+            aria-current={current === "profile"}
+            onClick={() => onNavigate("profile")}
+          >
+            <span className={s.label}>Account</span>
+          </button>
+        )}
+        {!isAuthenticated ? (
+          <button
+            className={`${s.tab}`}
+            onClick={() => {
+              const evt = new CustomEvent("open-login");
+              window.dispatchEvent(evt);
+            }}
+          >
+            <span className={s.label}>Login</span>
+          </button>
+        ) : (
+          <button
+            className={`${s.tab}`}
+            onClick={() => {
+              logout();
+            }}
+          >
+            <span className={s.label}>Logout</span>
+          </button>
+        )}
         <button
           className={`${s.tab} ${active("more")}`}
           aria-current={current === "more"}
@@ -74,7 +104,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         >
           <span className={s.label}>More</span>
         </button>
-      </div>
+        </div>
 
       {open && (
         <div className={s.moreOverlay} onClick={() => setOpen(false)}>
@@ -96,7 +126,6 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
                 ...(canAccessJudgePortal()
                   ? [["judge", "Judge"] as const]
                   : []),
-                ["settings", "Settings"] as const,
               ] as const
             ).map(([page, label]) => (
               <div
@@ -113,6 +142,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           </div>
         </div>
       )}
-    </nav>
+      </nav>
+    </>
   );
 };

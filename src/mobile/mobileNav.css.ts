@@ -19,6 +19,18 @@ export const navInner = style({
   alignItems: "center",
 });
 
+export const navInnerSix = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(6, 1fr)",
+  alignItems: "center",
+});
+
+export const navInnerSeven = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(7, 1fr)",
+  alignItems: "center",
+});
+
 export const tab = style({
   padding: "10px 0 8px",
   display: "flex",
@@ -83,4 +95,19 @@ export const closeBtn = style({
   background: "transparent",
   color: "var(--text-primary)",
   cursor: "pointer",
+});
+
+export const accessibilityFab = style({
+  position: "fixed",
+  right: 12,
+  bottom: 64,
+  zIndex: 1002,
+  borderRadius: 9999,
+  padding: "10px 12px",
+  background: "rgba(36,36,44,0.95)",
+  color: "var(--text-primary)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
+  cursor: "pointer",
+  fontSize: 13,
 });
