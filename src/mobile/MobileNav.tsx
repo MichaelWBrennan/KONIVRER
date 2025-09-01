@@ -33,8 +33,10 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           let tabsToRender: Array<{ id: string; label: string }> = mainTabs;
 
           if (current !== "home") {
+            const isOnEvents = current === "events" || current === "event-archive";
+            const idToReplace = isOnEvents ? "events" : current;
             tabsToRender = mainTabs.map((t) =>
-              t.id === current ? { id: "home", label: "Blog" } : t
+              t.id === idToReplace ? { id: "home", label: "Blog" } : t
             );
           }
 

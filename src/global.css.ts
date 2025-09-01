@@ -367,7 +367,7 @@ globalStyle(".anomaly-actions", {
 // Buttons
 globalStyle(".btn", {
   border: "1px solid rgba(255,255,255,0.08)",
-  borderRadius: 10,
+  borderRadius: 8,
   padding: "0.5rem 1rem",
   cursor: "pointer",
   transition: "all 0.2s ease",
