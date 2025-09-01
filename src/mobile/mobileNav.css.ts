@@ -6,10 +6,10 @@ export const nav = style({
   right: 0,
   bottom: 0,
   zIndex: 1000,
-  background: "rgba(20,20,26,0.9)",
-  borderTop: "1px solid rgba(255,255,255,0.08)",
-  backdropFilter: "blur(10px)",
-  WebkitBackdropFilter: "blur(10px)",
+  background: "transparent",
+  borderTop: "none",
+  backdropFilter: "none",
+  WebkitBackdropFilter: "none",
   paddingBottom: "env(safe-area-inset-bottom, 0px)",
 });
 
@@ -18,11 +18,11 @@ export const navInner = style({
   gridTemplateColumns: "repeat(6, 1fr)",
   alignItems: "stretch",
   gap: 0,
-  margin: "6px 8px",
-  border: "1px solid rgba(255,255,255,0.08)",
-  borderRadius: 12,
-  overflow: "hidden",
-  background: "rgba(255,255,255,0.02)",
+  margin: "0",
+  border: "none",
+  borderRadius: 0,
+  overflow: "visible",
+  background: "transparent",
 });
 
 export const tab = style({
@@ -36,17 +36,17 @@ export const tab = style({
   selectors: {
     "&:active": { opacity: 0.8 },
     "&:not(:last-child)": {
-      borderRight: "1px solid rgba(255,255,255,0.08)",
+      borderRight: "1px solid var(--border-color)",
     },
     "&:hover": {
-      background: "rgba(255,255,255,0.04)",
+      background: "rgba(0,0,0,0.08)",
     },
   },
 });
 
 export const tabActive = style({
   color: "var(--text-primary)",
-  background: "rgba(255,255,255,0.06)",
+  background: "rgba(0,0,0,0.12)",
 });
 
 export const label = style({
