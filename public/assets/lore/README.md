@@ -1,5 +1,6 @@
 Place the Six Divine Elements diagram here as six-divine-elements.png
 Add plaintext lore content files referenced by the Lore page tabs, for example:
+
 - societies.txt
 - ars_goetia.txt
 - mesopotamian.txt
