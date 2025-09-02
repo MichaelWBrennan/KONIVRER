@@ -32,6 +32,7 @@ export const tab = style({
   alignItems: "center",
   justifyContent: "center",
   color: "#000",
+  background: "#fff",
   cursor: "pointer",
   borderRight: "1px solid var(--border-color)",
   selectors: {
@@ -43,8 +44,8 @@ export const tab = style({
 });
 
 export const tabActive = style({
-  color: "#000",
-  background: "rgba(0,0,0,0.12)",
+  color: "#fff",
+  background: "#000",
 });
 
 export const label = style({
