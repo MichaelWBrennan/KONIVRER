@@ -1,0 +1,37 @@
+The shattered veil
+Summary
+Use this summary box to add quick facts about your article.
+These
+Can be
+Bullet points
+It's a great wiki-style sidebar!
+You can also click the dropdown at the top right of this sidebar and choose "Add Images" - give it a try!
+
+The Veilstone, an ancient artifact that separated the realms of the living and the dead, has shattered. In its wake, Romania has become a cursed land haunted by gods, spirits, and demons. Players take the role of broken individuals drawn into this fragmented world. Their choices will reshape the land, influence the balance between life and death, and determine whether the Veilstone is restored—or used to transcend mortality.
+
+Themes
+• Obscured Truth
+• Cycles of Death and Rebirth
+• Isolation and Despair
+
+Module Structure
+Act I: The Twilight of Valea Căpcănești
+Act II: The Descent into Madness
+Act III: The Shattered Veil
+
+Key Locations and Encounters
+- Valea Căpcănești: The Accused Villager; The Elder’s Hut
+- Castle Bran (Outer/Inner): The Gatekeeper; Ravens of Bran; Mircea’s Invitation
+- The Carpathian Forest: Spectral Wolves; Freya’s Warning; Freya’s Trial
+- Saint Ilie’s Monastery: The Manuscript; Monks’ Trials
+- The Abyss of the Veilstone: Guardians of the Veil; The Truth Revealed
+
+Endgame Scenarios
+• Restoration
+• Transcendence
+• Annihilation
+
+Gameplay Mechanics
+• Adaptive Environments
+• Symbolic Boss Fights
+• Fragmented Lore
