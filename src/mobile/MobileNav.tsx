@@ -82,9 +82,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
             ["simulator", "Play"] as const,
             ["lore", "Lore"] as const,
-            ...(canAccessJudgePortal()
-              ? [["judge", "Judge"] as const]
-              : []),
+            ...(canAccessJudgePortal() ? [["judge", "Judge"] as const] : []),
             ["settings", "Accessibility"] as const,
           ] as const
         ).map(([page, label]) => (
