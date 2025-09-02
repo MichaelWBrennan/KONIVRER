@@ -58,35 +58,35 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: 📊 Generate Automation Report
+    - name: 📊 Generate Automation Report (Step Summary)
       run: |
-        echo "📊 AUTONOMOUS AUTOMATION REPORT" > automation-report.md
-        echo "=================================" >> automation-report.md
-        echo "" >> automation-report.md
-        echo "🕐 **Timestamp:** $(date)" >> automation-report.md
-        echo "🤖 **Mode:** Autonomous (Zero Human Interaction)" >> automation-report.md
-        echo "🔄 **Trigger:** ${{ github.event_name }}" >> automation-report.md
-        echo "" >> automation-report.md
-        echo "## 📋 Activities Performed:" >> automation-report.md
-        echo "- ✅ TypeScript validation and auto-fix" >> automation-report.md
-        echo "- ✅ Security vulnerability scanning and auto-update" >> automation-report.md
-        echo "- ✅ Code quality checks and auto-fix" >> automation-report.md
-        echo "- ✅ Performance optimization" >> automation-report.md
-        echo "- ✅ Auto-healing and self-repair" >> automation-report.md
-        echo "- ✅ Autonomous git operations" >> automation-report.md
-        echo "" >> automation-report.md
-        echo "## 🎯 Results:" >> automation-report.md
+        echo "📊 AUTONOMOUS AUTOMATION REPORT" >> "$GITHUB_STEP_SUMMARY"
+        echo "=================================" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo "🕐 **Timestamp:** $(date)" >> "$GITHUB_STEP_SUMMARY"
+        echo "🤖 **Mode:** Autonomous (Zero Human Interaction)" >> "$GITHUB_STEP_SUMMARY"
+        echo "🔄 **Trigger:** ${{ github.event_name }}" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo "## 📋 Activities Performed:" >> "$GITHUB_STEP_SUMMARY"
+        echo "- ✅ TypeScript validation and auto-fix" >> "$GITHUB_STEP_SUMMARY"
+        echo "- ✅ Security vulnerability scanning and auto-update" >> "$GITHUB_STEP_SUMMARY"
+        echo "- ✅ Code quality checks and auto-fix" >> "$GITHUB_STEP_SUMMARY"
+        echo "- ✅ Performance optimization" >> "$GITHUB_STEP_SUMMARY"
+        echo "- ✅ Auto-healing and self-repair" >> "$GITHUB_STEP_SUMMARY"
+        echo "- ✅ Autonomous git operations" >> "$GITHUB_STEP_SUMMARY"
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo "## 🎯 Results:" >> "$GITHUB_STEP_SUMMARY"
         if [ -f "automation.log" ]; then
-          echo "📝 **Log entries:** $(wc -l < automation.log)" >> automation-report.md
-          echo "" >> automation-report.md
-          echo "### Recent Activity:" >> automation-report.md
-          echo '```' >> automation-report.md
-          tail -10 automation.log >> automation-report.md
-          echo '```' >> automation-report.md
+          echo "📝 **Log entries:** $(wc -l < automation.log)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "### Recent Activity:" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          tail -10 automation.log >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
         fi
-        echo "" >> automation-report.md
-        echo "🤖 **Status:** All operations completed autonomously" >> automation-report.md
-        echo "🎉 **Human Interaction Required:** ZERO" >> automation-report.md
+        echo "" >> "$GITHUB_STEP_SUMMARY"
+        echo "🤖 **Status:** All operations completed autonomously" >> "$GITHUB_STEP_SUMMARY"
+        echo "🎉 **Human Interaction Required:** ZERO" >> "$GITHUB_STEP_SUMMARY"
     
     - name: 🚀 Auto-commit and Push Changes
       run: |
