@@ -377,32 +377,47 @@ globalStyle(".anomaly-actions", {
 
 // Buttons
 globalStyle(".btn", {
-  border: "1px solid rgba(255,255,255,0.08)",
+  border: "1px solid #000",
   borderRadius: 8,
   padding: "0.5rem 1rem",
   cursor: "pointer",
   transition: "all 0.2s ease",
-  background: "rgba(255,255,255,0.02)",
+  background: "#fff",
+  color: "#000",
 });
 
 globalStyle(".btn-small", { padding: "0.4rem 0.6rem", fontSize: "0.85rem" });
 
 globalStyle(".btn-primary", {
-  background: "var(--accent-color)",
-  color: "var(--text-primary)",
-  boxShadow: "0 8px 20px rgba(74,144,226,0.35)",
+  background: "#000",
+  color: "#fff",
+  boxShadow: "none",
 });
 
 globalStyle(".btn-primary:hover", {
-  background: "#3b7ddd",
-  boxShadow: "0 10px 24px rgba(74,144,226,0.45)",
+  background: "#111",
 });
 
 globalStyle(".btn-secondary", {
-  background: "rgba(255,255,255,0.02)",
-  color: "var(--text-primary)",
-  border: "1px solid rgba(255,255,255,0.08)",
+  background: "#fff",
+  color: "#000",
+  border: "1px solid #000",
 });
+
+// Pressed/clicked state
+globalStyle(".btn:active", { background: "#000", color: "#fff" });
+
+// Generic tab buttons used in some pages
+globalStyle(".tab", {
+  background: "#fff",
+  color: "#000",
+  border: "1px solid #000",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+});
+globalStyle(".tab.active", { background: "#000", color: "#fff" });
 
 globalStyle(".btn-danger", { background: "#ef4444", color: "#fff" });
 
