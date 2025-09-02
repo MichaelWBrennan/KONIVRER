@@ -288,30 +288,7 @@ export const Lore: React.FC = () => {
     },
   };
 
-  const wheelOrder: ElementDefinition["name"][] = [
-    "Water",
-    "Aether",
-    "Air",
-    "Fire",
-    "Nether",
-    "Earth",
-  ];
-
-  type Relations = {
-    allies: ElementDefinition["name"][];
-    enemy: ElementDefinition["name"];
-  };
-
-  const relationsByElement: Record<ElementDefinition["name"], Relations> =
-    wheelOrder.reduce((acc, elementName, index) => {
-      const left =
-        wheelOrder[(index - 1 + wheelOrder.length) % wheelOrder.length];
-      const right = wheelOrder[(index + 1) % wheelOrder.length];
-      const opposite =
-        wheelOrder[(index + wheelOrder.length / 2) % wheelOrder.length];
-      acc[elementName] = { allies: [left, right], enemy: opposite };
-      return acc;
-    }, {} as Record<ElementDefinition["name"], Relations>);
+  
 
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
@@ -386,61 +363,7 @@ export const Lore: React.FC = () => {
           </div>
         </div>
 
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Color Alignment</h3>
-            <p className={s.virtueText}>
-              Like a sixfold color pie, each person, faction, and card aligns to
-              one or more elements. Adjacent elements are allies; the element
-              directly across the wheel is its enemy.
-            </p>
-          </div>
-        </div>
-
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          {wheelOrder.map((name) => {
-            const rel = relationsByElement[name];
-            return (
-              <div key={name} className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>{name} — Allies & Enemy</h3>
-                <p className={s.virtueText}>
-                  <strong>Allies:</strong> {rel.allies[0]} and {rel.allies[1]}
-                </p>
-                <p className={s.virtueText}>
-                  <strong>Enemy:</strong> {rel.enemy}
-                </p>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Adjacent Pairs</h3>
-            <p className={s.virtueText}>
-              Water + Aether: Rainbow — Quickly put things together to spark new
-              ideas.
-            </p>
-            <p className={s.virtueText}>
-              Aether + Air: Aurora — Smart, flexible action that shows the way.
-            </p>
-            <p className={s.virtueText}>
-              Air + Fire: Flare — Action that inspires and keeps people safe.
-            </p>
-            <p className={s.virtueText}>
-              Fire + Nether: Char — Careful planning that turns into bold,
-              helpful action.
-            </p>
-            <p className={s.virtueText}>
-              Nether + Earth: Compost — Careful plans improved by review become
-              strong and steady.
-            </p>
-            <p className={s.virtueText}>
-              Earth + Water: Mud — Helpful limits that help new things grow
-              safely.
-            </p>
-          </div>
-        </div>
+        
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
@@ -509,15 +432,7 @@ export const Lore: React.FC = () => {
     if (!tab) return null;
     if (tab.isStatic) {
       return (
-        <>
-          <section className={s.section}>
-            <h2 className={s.sectionTitle}>The World of KONIVRER</h2>
-            <p className={s.text}>
-              Discover the rich history and mythology behind the cards
-            </p>
-          </section>
-          {StaticElements}
-        </>
+        <>{StaticElements}</>
       );
     }
     const display = loadedText || "";
