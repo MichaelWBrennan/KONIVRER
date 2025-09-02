@@ -114,6 +114,9 @@ function AppContent(): any {
     } else if (currentPage === "home") {
       const ev = new CustomEvent("home-search", { detail: q });
       window.dispatchEvent(ev);
+    } else if (currentPage === "lore") {
+      const ev = new CustomEvent("lore-search", { detail: q });
+      window.dispatchEvent(ev);
     }
   };
 

@@ -1,1 +1,31 @@
 Place the Six Divine Elements diagram here as six-divine-elements.png
+Add plaintext lore content files referenced by the Lore page tabs, for example:
+- societies.txt
+- ars_goetia.txt
+- mesopotamian.txt
+- shem.txt
+- remaining.txt
+- origin.txt
+- summoning.txt
+- elements_east.txt
+- veil.txt
+- elements_west.txt
+- worlds.txt
+- aether.txt
+- laws_history.txt
+- ethics.txt
+- taoism.txt
+- items_east.txt
+- abrahamism.txt
+- dharmism.txt
+- african.txt
+- wildfolkism.txt
+- hellenism.txt
+- human.txt
+- infernal.txt
+- species.txt
+- language.txt
+- alchemy.txt
+- prehistory.txt
+- three_ages.txt
+- classical.txt
