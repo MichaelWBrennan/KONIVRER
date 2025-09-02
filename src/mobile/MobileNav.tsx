@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import * as s from "./mobileNav.css.ts";
 import { useAuth } from "../hooks/useAuth";
 
@@ -9,7 +9,10 @@ type Tab =
   | "events"
   | "simulator"
   | "rules"
-  | "more";
+  | "my-decks"
+  | "settings"
+  | "lore"
+  | "judge";
 
 interface Props {
   current: string;
@@ -17,7 +20,6 @@ interface Props {
 }
 
 export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
-  const [open, setOpen] = useState(false);
   const active = (t: Tab) => (current === t ? s.tabActive : "");
   const { isAuthenticated, canAccessJudgePortal } = useAuth();
   return (
@@ -75,52 +77,27 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         >
           <span className={s.label}>Login</span>
         </button>
-        <button
-          className={`${s.tab} ${active("more")}`}
-          aria-current={current === "more"}
-          onClick={() => setOpen(true)}
-        >
-          <span className={s.label}>More</span>
-        </button>
+        {(
+          [
+            ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
+            ["simulator", "Play"] as const,
+            ["lore", "Lore"] as const,
+            ...(canAccessJudgePortal()
+              ? [["judge", "Judge"] as const]
+              : []),
+            ["settings", "Accessibility"] as const,
+          ] as const
+        ).map(([page, label]) => (
+          <button
+            key={page}
+            className={`${s.tab} ${active(page as Tab)}`}
+            aria-current={current === page}
+            onClick={() => onNavigate(page)}
+          >
+            <span className={s.label}>{label}</span>
+          </button>
+        ))}
       </div>
-
-      {open && (
-        <div className={s.moreOverlay} onClick={() => setOpen(false)}>
-          <div className={s.sheet} onClick={(e) => e.stopPropagation()}>
-            <div className={s.sheetHeader}>
-              <button
-                className={s.closeBtn}
-                onClick={() => setOpen(false)}
-                aria-label="Close menu"
-              >
-                ×
-              </button>
-            </div>
-            {(
-              [
-                ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
-                ["simulator", "Play"] as const,
-                ["lore", "Lore"] as const,
-                ...(canAccessJudgePortal()
-                  ? [["judge", "Judge"] as const]
-                  : []),
-                ["settings", "Accessibility"] as const,
-              ] as const
-            ).map(([page, label]) => (
-              <div
-                key={page}
-                className={s.sheetItem}
-                onClick={() => {
-                  onNavigate(page);
-                  setOpen(false);
-                }}
-              >
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </nav>
   );
 };
