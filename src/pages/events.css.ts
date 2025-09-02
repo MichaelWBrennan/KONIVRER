@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, globalStyle } from "@vanilla-extract/css";
 
 export const container = style({
   padding: "2rem",
@@ -19,21 +19,19 @@ export const navTabs = style({
   display: "flex",
   gap: "0.5rem",
   flexWrap: "wrap",
-  selectors: {
-    "& > button": {
-      background: "#fff",
-      color: "#000",
-      border: "1px solid #000",
-      borderRadius: 8,
-      padding: "0.5rem 1rem",
-      cursor: "pointer",
-      transition: "all 0.2s ease",
-    },
-    "& > button.active": {
-      background: "#000",
-      color: "#fff",
-    },
-  },
+});
+globalStyle(`${navTabs} > button`, {
+  background: "#fff",
+  color: "#000",
+  border: "1px solid #000",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+});
+globalStyle(`${navTabs} > button.active`, {
+  background: "#000",
+  color: "#fff",
 });
 export const content = style({});
 export const list = style({ display: "grid", gap: "1rem" });
@@ -71,19 +69,17 @@ export const actions = style({
 export const viewSelector = style({
   display: "flex",
   gap: "0.5rem",
-  selectors: {
-    "& > button": {
-      background: "#fff",
-      color: "#000",
-      border: "1px solid #000",
-      borderRadius: 8,
-      padding: "0.5rem 1rem",
-      cursor: "pointer",
-      transition: "all 0.2s ease",
-    },
-    "& > button.active": {
-      background: "#000",
-      color: "#fff",
-    },
-  },
+});
+globalStyle(`${viewSelector} > button`, {
+  background: "#fff",
+  color: "#000",
+  border: "1px solid #000",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+});
+globalStyle(`${viewSelector} > button.active`, {
+  background: "#000",
+  color: "#fff",
 });
