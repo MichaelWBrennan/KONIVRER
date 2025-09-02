@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, globalStyle } from "@vanilla-extract/css";
 
 export const container = style({
   padding: "2rem",
@@ -11,21 +11,19 @@ export const tabs = style({
   gap: "0.5rem",
   marginBottom: "1rem",
   flexWrap: "wrap",
-  selectors: {
-    "& > .tab": {
-      background: "#fff",
-      color: "#000",
-      border: "1px solid #000",
-      borderRadius: 8,
-      padding: "0.5rem 1rem",
-      cursor: "pointer",
-      transition: "all 0.2s ease",
-    },
-    "& > .tab.active": {
-      background: "#000",
-      color: "#fff",
-    },
-  },
+});
+globalStyle(`${tabs} > .tab`, {
+  background: "#fff",
+  color: "#000",
+  border: "1px solid #000",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+});
+globalStyle(`${tabs} > .tab.active`, {
+  background: "#000",
+  color: "#fff",
 });
 export const content = style({});
 export const section = style({ display: "grid", gap: "1rem" });
