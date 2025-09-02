@@ -19,6 +19,21 @@ export const navTabs = style({
   display: "flex",
   gap: "0.5rem",
   flexWrap: "wrap",
+  selectors: {
+    "& > button": {
+      background: "#fff",
+      color: "#000",
+      border: "1px solid #000",
+      borderRadius: 8,
+      padding: "0.5rem 1rem",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+    },
+    "& > button.active": {
+      background: "#000",
+      color: "#fff",
+    },
+  },
 });
 export const content = style({});
 export const list = style({ display: "grid", gap: "1rem" });
@@ -53,4 +68,22 @@ export const actions = style({
   gap: "0.5rem",
   marginTop: "0.75rem",
 });
-export const viewSelector = style({ display: "flex", gap: "0.5rem" });
+export const viewSelector = style({
+  display: "flex",
+  gap: "0.5rem",
+  selectors: {
+    "& > button": {
+      background: "#fff",
+      color: "#000",
+      border: "1px solid #000",
+      borderRadius: 8,
+      padding: "0.5rem 1rem",
+      cursor: "pointer",
+      transition: "all 0.2s ease",
+    },
+    "& > button.active": {
+      background: "#000",
+      color: "#fff",
+    },
+  },
+});
