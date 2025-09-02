@@ -27,6 +27,8 @@ export const SearchBar: React.FC<Props> = ({ current, onSearch }) => {
         return "Search pairings (name or table)...";
       case "home":
         return "Search posts...";
+      case "lore":
+        return "Search lore...";
       default:
         return "Search...";
     }
