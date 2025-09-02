@@ -32,6 +32,45 @@ export const content = style({
   gap: "30px",
 });
 
+export const tabsBar = style({
+  display: "flex",
+  gap: "8px",
+  overflowX: "auto",
+  padding: "8px 0",
+  borderBottom: "1px solid #e0e0e0",
+});
+
+export const tabButton = style({
+  padding: "8px 12px",
+  backgroundColor: "#f2f4f6",
+  border: "1px solid #d9dde1",
+  borderRadius: "6px",
+  whiteSpace: "nowrap",
+  cursor: "pointer",
+  selectors: {
+    '&:hover': { backgroundColor: '#e8ecef' },
+  },
+});
+
+export const tabActive = style({
+  backgroundColor: "#e8f4ff",
+  borderColor: "#a8d0ff",
+  color: "#1b5fa8",
+});
+
+export const pre = style({
+  whiteSpace: "pre-wrap",
+  wordBreak: "break-word",
+  fontSize: "0.95rem",
+  color: "#2c3e50",
+  margin: 0,
+});
+
+export const highlight = style({
+  backgroundColor: "#fff59d",
+  borderRadius: "2px",
+});
+
 export const section = style({
   padding: "20px",
   backgroundColor: "#f8f9fa",
