@@ -379,14 +379,14 @@ globalStyle(".anomaly-actions", {
 globalStyle(".btn", {
   border: "1px solid #000",
   borderRadius: 8,
-  padding: "0.5rem 1rem",
+  padding: "0 1rem",
   cursor: "pointer",
   transition: "all 0.2s ease",
   background: "#fff",
   color: "#000",
 });
 
-globalStyle(".btn-small", { padding: "0.4rem 0.6rem", fontSize: "0.85rem" });
+globalStyle(".btn-small", { padding: "0 0.6rem", fontSize: "0.85rem" });
 
 globalStyle(".btn-primary", {
   background: "#000",
@@ -419,9 +419,10 @@ globalStyle(".tab", {
   color: "#000",
   border: "1px solid #000",
   borderRadius: 8,
-  padding: "0.5rem 1rem",
+  padding: "0 1rem",
   cursor: "pointer",
   transition: "all 0.2s ease",
+  lineHeight: 1,
 });
 globalStyle(".tab.active", { background: "#000", color: "#fff" });
 globalStyle(".tab:not(.active)", { background: "#fff", color: "#000" });
@@ -511,7 +512,7 @@ globalStyle("*", {
   } as any,
 } as any);
 // Larger tap area is opt-in via .btn-touch; .btn should size to its text
-globalStyle(".btn", { lineHeight: "normal" });
+globalStyle(".btn", { lineHeight: 1 });
 // High contrast mode tweaks
 globalStyle('[data-contrast="high"]', {
   vars: { "--border-color": "#888" } as any,
