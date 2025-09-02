@@ -148,12 +148,14 @@ export const Lore: React.FC = () => {
       setLoadedText("");
       return;
     }
+
     (async () => {
       try {
         const res = await fetch(tab.src);
         if (!res.ok) {
           setLoadedText(
             `Content not found for ${tab.label}. Ensure file exists at ${tab.src}.`
+ main
           );
           return;
         }
