@@ -1,35 +1,65 @@
 import { style } from "@vanilla-extract/css";
 
 export const container = style({
-  padding: "20px",
-  maxWidth: "800px",
+  padding: "12px",
+  maxWidth: "100%",
   margin: "0 auto",
   lineHeight: "1.6",
+  "@media": {
+    "screen and (min-width: 640px)": {
+      padding: "16px",
+    },
+    "screen and (min-width: 768px)": {
+      padding: "20px",
+      maxWidth: "800px",
+    },
+  },
 });
 
 export const header = style({
   textAlign: "center",
-  marginBottom: "40px",
-  padding: "20px 0",
+  marginBottom: "24px",
+  padding: "12px 0",
   borderBottom: "2px solid #e0e0e0",
+  "@media": {
+    "screen and (min-width: 768px)": {
+      marginBottom: "40px",
+      padding: "20px 0",
+    },
+  },
 });
 
 export const title = style({
-  fontSize: "2.5rem",
+  fontSize: "1.75rem",
   margin: "0 0 10px 0",
   color: "#2c3e50",
+  "@media": {
+    "screen and (min-width: 640px)": {
+      fontSize: "2rem",
+    },
+    "screen and (min-width: 1024px)": {
+      fontSize: "2.5rem",
+    },
+  },
 });
 
 export const subtitle = style({
-  fontSize: "1.2rem",
+  fontSize: "1rem",
   color: "#7f8c8d",
   margin: 0,
+  "@media": {
+    "screen and (min-width: 640px)": { fontSize: "1.1rem" },
+    "screen and (min-width: 1024px)": { fontSize: "1.2rem" },
+  },
 });
 
 export const content = style({
   display: "flex",
   flexDirection: "column",
-  gap: "30px",
+  gap: "20px",
+  "@media": {
+    "screen and (min-width: 768px)": { gap: "30px" },
+  },
 });
 
 export const tabsBar = style({
@@ -38,15 +68,25 @@ export const tabsBar = style({
   overflowX: "auto",
   padding: "8px 0",
   borderBottom: "1px solid #e0e0e0",
+  position: "sticky",
+  top: "env(safe-area-inset-top, 0px)",
+  backgroundColor: "#fff",
+  zIndex: 10,
+  scrollSnapType: "x mandatory",
+  WebkitOverflowScrolling: "touch",
 });
 
 export const tabButton = style({
-  padding: "8px 12px",
+  padding: "10px 12px",
+  minHeight: "44px",
+  fontSize: "0.95rem",
   backgroundColor: "#f2f4f6",
   border: "1px solid #d9dde1",
   borderRadius: "6px",
   whiteSpace: "nowrap",
   cursor: "pointer",
+  flex: "0 0 auto",
+  scrollSnapAlign: "start",
   selectors: {
     "&:hover": { backgroundColor: "#e8ecef" },
   },
@@ -61,9 +101,12 @@ export const tabActive = style({
 export const pre = style({
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
-  fontSize: "0.95rem",
+  fontSize: "1rem",
   color: "#2c3e50",
   margin: 0,
+  "@media": {
+    "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
+  },
 });
 
 export const highlight = style({
@@ -72,18 +115,25 @@ export const highlight = style({
 });
 
 export const section = style({
-  padding: "20px",
+  padding: "16px",
   backgroundColor: "#f8f9fa",
   borderRadius: "8px",
   border: "1px solid #e9ecef",
+  "@media": {
+    "screen and (min-width: 768px)": { padding: "20px" },
+  },
 });
 
 export const sectionTitle = style({
-  fontSize: "1.8rem",
+  fontSize: "1.25rem",
   margin: "0 0 15px 0",
   color: "#34495e",
   borderBottom: "2px solid #3498db",
   paddingBottom: "10px",
+  "@media": {
+    "screen and (min-width: 640px)": { fontSize: "1.5rem" },
+    "screen and (min-width: 768px)": { fontSize: "1.8rem" },
+  },
 });
 
 export const text = style({
@@ -152,12 +202,18 @@ export const virtueCard = style({
 
 export const virtueTitle = style({
   margin: "0 0 6px 0",
-  fontSize: "1.05rem",
+  fontSize: "1rem",
   color: "#2c3e50",
+  "@media": {
+    "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
+  },
 });
 
 export const virtueText = style({
   margin: 0,
-  fontSize: "0.95rem",
+  fontSize: "1rem",
   color: "#2c3e50",
+  "@media": {
+    "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
+  },
 });
