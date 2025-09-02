@@ -210,8 +210,9 @@ async function applyEmergencyFixes(branchName: string): Promise<void> {
 
   const emergencyFixes = [
     // Fix common TypeScript issues
-    `find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/any;/any = {};/g'`,
-    `find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/: any\\[\\]/: any[] = []/g'`,
+    // Disabled: unsafe sed replacing types with defaults causing syntax errors
+    // `find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/any;/any = {};/g'`,
+    // `find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/: any\\[\\]/: any[] = []/g'`,
     
     // Fix import issues
     `find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/import \\* as/import/g'`,
