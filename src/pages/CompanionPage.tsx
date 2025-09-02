@@ -212,6 +212,11 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
             transform: translateY(-2px);
             background: #111;
           }
+          .btn-primary:active {
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
+          }
           
           .btn-secondary {
             background: #fff;
@@ -222,6 +227,10 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
           .btn-secondary:hover {
             background: #f3f3f3;
             transform: translateY(-1px);
+          }
+          .btn-secondary:active {
+            background: #000;
+            color: #fff;
           }
           
           .companion-features {
