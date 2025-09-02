@@ -69,12 +69,12 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             </button>
           );
         })()}
-        {/* Swapped: show Lore before Login */}
+        {/* Swapped: show Lore before Sim */}
         {(
           [
             ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
-            ["simulator", "Sim"] as const,
             ["lore", "Lore"] as const,
+            ["simulator", "Sim"] as const,
             ...(canAccessJudgePortal() ? [["judge", "Judge"] as const] : []),
           ] as const
         ).map(([page, label]) => (
@@ -97,16 +97,13 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         >
           <span className={s.label}>Login</span>
         </button>
-        {/* Replace Accessibility text with industry standard icon */}
+        {/* Accessibility icon only (remove visible text) */}
         <button
           className={`${s.tab} ${active("settings")}`}
           aria-current={current === "settings"}
           onClick={() => onNavigate("settings")}
         >
           <AccessibilityIcon size={18} />
-          <span className={s.label} aria-hidden="true">
-            Accessibility
-          </span>
         </button>
       </div>
     </nav>
