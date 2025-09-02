@@ -288,8 +288,6 @@ export const Lore: React.FC = () => {
     },
   };
 
-  
-
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
@@ -363,8 +361,6 @@ export const Lore: React.FC = () => {
           </div>
         </div>
 
-        
-
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Two-Element Combinations</h3>
@@ -431,9 +427,7 @@ export const Lore: React.FC = () => {
     const tab = tabs.find((t) => t.id === activeTab);
     if (!tab) return null;
     if (tab.isStatic) {
-      return (
-        <>{StaticElements}</>
-      );
+      return <>{StaticElements}</>;
     }
     const display = loadedText || "";
     const content = query ? highlight(display, query) : display;
