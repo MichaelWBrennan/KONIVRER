@@ -15,13 +15,14 @@ export const nav = style({
 
 export const navInner = style({
   display: "grid",
-  gridTemplateColumns: "repeat(6, 1fr)",
+  gridTemplateColumns: "repeat(8, 1fr)",
   alignItems: "stretch",
   gap: 0,
   margin: "0",
   border: "none",
   borderRadius: 0,
-  overflow: "visible",
+  overflowX: "auto",
+  overflowY: "hidden",
   background: "transparent",
 });
 
