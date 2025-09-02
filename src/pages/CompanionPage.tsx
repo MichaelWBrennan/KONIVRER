@@ -78,9 +78,9 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
           .tab-button {
             flex: 1;
             padding: 1rem;
-            background: transparent;
+            background: #fff;
             border: none;
-            color: var(--text-color, #ffffff);
+            color: #000;
             cursor: pointer;
             font-size: 1rem;
             font-weight: 500;
@@ -94,9 +94,9 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
           }
           
           .tab-button.active {
-            background: rgba(102, 126, 234, 0.2);
-            border-bottom-color: #667eea;
-            color: #667eea;
+            background: #000;
+            border-bottom-color: #000;
+            color: #fff;
           }
           
           .tab-content {
@@ -204,23 +204,23 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
           }
           
           .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #000;
+            color: #fff;
           }
           
           .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            background: #111;
           }
           
           .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: var(--text-color, #ffffff);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
           }
           
           .btn-secondary:hover {
-            background: rgba(255,255,255,0.2);
+            background: #f3f3f3;
             transform: translateY(-1px);
           }
           
