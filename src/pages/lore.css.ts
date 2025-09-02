@@ -48,7 +48,7 @@ export const tabButton = style({
   whiteSpace: "nowrap",
   cursor: "pointer",
   selectors: {
-    '&:hover': { backgroundColor: '#e8ecef' },
+    "&:hover": { backgroundColor: "#e8ecef" },
   },
 });
 
