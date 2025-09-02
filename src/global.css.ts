@@ -406,7 +406,11 @@ globalStyle(".btn-secondary", {
 
 // Pressed/clicked state
 globalStyle(".btn:active", { background: "#000", color: "#fff" });
-globalStyle(".btn-primary:active", { background: "#fff", color: "#000", border: "1px solid #000" });
+globalStyle(".btn-primary:active", {
+  background: "#fff",
+  color: "#000",
+  border: "1px solid #000",
+});
 globalStyle(".btn-secondary:active", { background: "#000", color: "#fff" });
 
 // Generic tab buttons used in some pages
