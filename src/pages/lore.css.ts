@@ -217,3 +217,20 @@ export const virtueText = style({
     "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
   },
 });
+
+// Traits display
+export const traitRow = style({
+  display: "flex",
+  gap: "8px",
+  flexWrap: "wrap",
+  marginTop: "6px",
+});
+
+export const traitChip = style({
+  padding: "2px 10px",
+  borderRadius: "9999px",
+  backgroundColor: "#e8f4ff",
+  color: "#1b5fa8",
+  border: "1px solid #a8d0ff",
+  fontSize: "0.9rem",
+});
