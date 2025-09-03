@@ -9,7 +9,7 @@ export const Lore: React.FC = () => {
     src?: string;
     isStatic?: boolean;
   }[] = [
-    { id: "elements", label: "Six Elements (Core)", isStatic: true },
+    { id: "elements", label: "Six Elements", isStatic: true },
     {
       id: "societies",
       label: "Societies & Eras",
