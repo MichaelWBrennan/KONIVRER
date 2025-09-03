@@ -438,7 +438,9 @@ export const Lore: React.FC = () => {
     const parts = combo.map((e) => {
       const short = lowerFirst(summarize(e.definition));
       const via = `${e.traitX.toLowerCase()} and ${e.traitY.toLowerCase()}`;
-      return `${e.name} provides ${e.epithet.toLowerCase()} (${short}) via ${via}`;
+      return `${
+        e.name
+      } provides ${e.epithet.toLowerCase()} (${short}) via ${via}`;
     });
     return parts.join("; ") + ".";
   }
@@ -483,7 +485,9 @@ export const Lore: React.FC = () => {
                   confusing. You care about what is right and take clear action.
                 </p>
                 <p className={s.virtueText}>
-                  <em>Traits: {aether.traitX} + {aether.traitY}</em>
+                  <em>
+                    Traits: {aether.traitX} + {aether.traitY}
+                  </em>
                 </p>
               </div>
               <div className={s.virtueCard}>
@@ -493,7 +497,9 @@ export const Lore: React.FC = () => {
                   trying, learning, and guiding others.
                 </p>
                 <p className={s.virtueText}>
-                  <em>Traits: {air.traitX} + {air.traitY}</em>
+                  <em>
+                    Traits: {air.traitX} + {air.traitY}
+                  </em>
                 </p>
               </div>
               <div className={s.virtueCard}>
@@ -503,44 +509,51 @@ export const Lore: React.FC = () => {
                   build. You dream big and protect people while moving forward.
                 </p>
                 <p className={s.virtueText}>
-                  <em>Traits: {fire.traitX} + {fire.traitY}</em>
+                  <em>
+                    Traits: {fire.traitX} + {fire.traitY}
+                  </em>
                 </p>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Earth — Integrity</h3>
                 <p className={s.virtueText}>
-                  Do what is fair; set clear rules and check that things are done
-                  well. You keep order and make sure standards are met.
+                  Do what is fair; set clear rules and check that things are
+                  done well. You keep order and make sure standards are met.
                 </p>
                 <p className={s.virtueText}>
-                  <em>Traits: {earth.traitX} + {earth.traitY}</em>
+                  <em>
+                    Traits: {earth.traitX} + {earth.traitY}
+                  </em>
                 </p>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Water — Potential</h3>
                 <p className={s.virtueText}>
-                  See what could be; bring pieces together to open new paths. You
-                  connect ideas and people to discover new possibilities.
+                  See what could be; bring pieces together to open new paths.
+                  You connect ideas and people to discover new possibilities.
                 </p>
                 <p className={s.virtueText}>
-                  <em>Traits: {water.traitX} + {water.traitY}</em>
+                  <em>
+                    Traits: {water.traitX} + {water.traitY}
+                  </em>
                 </p>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Nether — Capability</h3>
                 <p className={s.virtueText}>
-                  Plan how things can work; design steps that make ideas real. You
-                  build skills and plans that help everyone do more.
+                  Plan how things can work; design steps that make ideas real.
+                  You build skills and plans that help everyone do more.
                 </p>
                 <p className={s.virtueText}>
-                  <em>Traits: {nether.traitX} + {nether.traitY}</em>
+                  <em>
+                    Traits: {nether.traitX} + {nether.traitY}
+                  </em>
                 </p>
               </div>
             </div>
           );
         })()}
         {/* end single-element cards */}
-        
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
