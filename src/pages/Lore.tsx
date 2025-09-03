@@ -481,74 +481,80 @@ export const Lore: React.FC = () => {
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Aether — Principle</h3>
                 <p className={s.virtueText}>
-                  Do what is right; act clearly and quickly when things are
-                  confusing. You care about what is right and take clear action.
-                </p>
-                <p className={s.virtueText}>
                   <em>
-                    Traits: {aether.traitX} + {aether.traitY}
+                    Do what is right; act clearly and quickly when things are
+                    confusing. You care about what is right and take clear action.
                   </em>
                 </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{aether.traitX}</span>
+                  <span className={s.traitChip}>{aether.traitY}</span>
+                </div>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Air — Adaptation</h3>
                 <p className={s.virtueText}>
-                  Do what works; help and teach while things change. You like
-                  trying, learning, and guiding others.
-                </p>
-                <p className={s.virtueText}>
                   <em>
-                    Traits: {air.traitX} + {air.traitY}
+                    Do what works; help and teach while things change. You like
+                    trying, learning, and guiding others.
                   </em>
                 </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{air.traitX}</span>
+                  <span className={s.traitChip}>{air.traitY}</span>
+                </div>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
                 <p className={s.virtueText}>
-                  Work toward a better world; care for and defend others as you
-                  build. You dream big and protect people while moving forward.
-                </p>
-                <p className={s.virtueText}>
                   <em>
-                    Traits: {fire.traitX} + {fire.traitY}
+                    Work toward a better world; care for and defend others as you
+                    build. You dream big and protect people while moving forward.
                   </em>
                 </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{fire.traitX}</span>
+                  <span className={s.traitChip}>{fire.traitY}</span>
+                </div>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Earth — Integrity</h3>
                 <p className={s.virtueText}>
-                  Do what is fair; set clear rules and check that things are
-                  done well. You keep order and make sure standards are met.
-                </p>
-                <p className={s.virtueText}>
                   <em>
-                    Traits: {earth.traitX} + {earth.traitY}
+                    Do what is fair; set clear rules and check that things are done
+                    well. You keep order and make sure standards are met.
                   </em>
                 </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{earth.traitX}</span>
+                  <span className={s.traitChip}>{earth.traitY}</span>
+                </div>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Water — Potential</h3>
                 <p className={s.virtueText}>
-                  See what could be; bring pieces together to open new paths.
-                  You connect ideas and people to discover new possibilities.
-                </p>
-                <p className={s.virtueText}>
                   <em>
-                    Traits: {water.traitX} + {water.traitY}
+                    See what could be; bring pieces together to open new paths. You
+                    connect ideas and people to discover new possibilities.
                   </em>
                 </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{water.traitX}</span>
+                  <span className={s.traitChip}>{water.traitY}</span>
+                </div>
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Nether — Capability</h3>
                 <p className={s.virtueText}>
-                  Plan how things can work; design steps that make ideas real.
-                  You build skills and plans that help everyone do more.
-                </p>
-                <p className={s.virtueText}>
                   <em>
-                    Traits: {nether.traitX} + {nether.traitY}
+                    Plan how things can work; design steps that make ideas real. You
+                    build skills and plans that help everyone do more.
                   </em>
                 </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{nether.traitX}</span>
+                  <span className={s.traitChip}>{nether.traitY}</span>
+                </div>
               </div>
             </div>
           );
