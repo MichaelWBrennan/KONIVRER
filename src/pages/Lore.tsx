@@ -453,48 +453,14 @@ export const Lore: React.FC = () => {
           />
         </div>
         <div className={s.virtuesGrid}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Aether — Principle</h3>
-            <p className={s.virtueText}>
-              Do what is right; act clearly and quickly when things are
-              confusing. You care about what is right and take clear action.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Air — Adaptation</h3>
-            <p className={s.virtueText}>
-              Do what works; help and teach while things change. You like
-              trying, learning, and guiding others.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
-            <p className={s.virtueText}>
-              Work toward a better world; care for and defend others as you
-              build. You dream big and protect people while moving forward.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Earth — Integrity</h3>
-            <p className={s.virtueText}>
-              Do what is fair; set clear rules and check that things are done
-              well. You keep order and make sure standards are met.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Water — Potential</h3>
-            <p className={s.virtueText}>
-              See what could be; bring pieces together to open new paths. You
-              connect ideas and people to discover new possibilities.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Nether — Capability</h3>
-            <p className={s.virtueText}>
-              Plan how things can work; design steps that make ideas real. You
-              build skills and plans that help everyone do more.
-            </p>
-          </div>
+          {elementDefinitions.map((def) => (
+            <div key={def.name} className={s.virtueCard}>
+              <h3 className={s.virtueTitle}>{`${def.name} — ${def.epithet}`}</h3>
+              <p className={s.virtueText}>
+                {def.definition} {def.stance}
+              </p>
+            </div>
+          ))}
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
