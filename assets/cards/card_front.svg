@@ -1,10 +1,1 @@
-<svg width="120" height="168" xmlns="http://www.w3.org/2000/svg">
-  <rect width="120" height="168" fill="#F5F5DC" stroke="#8B4513" stroke-width="2" rx="8"/>
-  <rect x="8" y="8" width="104" height="110" fill="#E6E6FA" rx="4"/>
-  <text x="60" y="25" font-family="Arial" font-size="10" fill="black" text-anchor="middle">Demo Card</text>
-  <text x="60" y="45" font-family="Arial" font-size="8" fill="gray" text-anchor="middle">Creature</text>
-  <circle cx="60" cy="75" r="20" fill="#32CD32"/>
-  <text x="15" y="135" font-family="Arial" font-size="10" fill="blue">Cost: 3</text>
-  <text x="95" y="135" font-family="Arial" font-size="10" fill="red">2/3</text>
-  <text x="60" y="155" font-family="Arial" font-size="8" fill="black" text-anchor="middle">Demo creature for testing</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="168"><rect width="120" height="168" fill="beige" stroke="#8B4513" stroke-width="2" rx="8"/><rect width="104" height="110" x="8" y="8" fill="#E6E6FA" rx="4"/><text x="60" y="25" fill="#000" font-family="Arial" font-size="10" text-anchor="middle">Demo Card</text><text x="60" y="45" fill="gray" font-family="Arial" font-size="8" text-anchor="middle">Creature</text><circle cx="60" cy="75" r="20" fill="#32CD32"/><text x="15" y="135" fill="#00f" font-family="Arial" font-size="10">Cost: 3</text><text x="95" y="135" fill="red" font-family="Arial" font-size="10">2/3</text><text x="60" y="155" fill="#000" font-family="Arial" font-size="8" text-anchor="middle">Demo creature for testing</text></svg>
