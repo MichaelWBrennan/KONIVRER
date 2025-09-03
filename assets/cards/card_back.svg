@@ -1,7 +1,1 @@
-<svg width="120" height="168" xmlns="http://www.w3.org/2000/svg">
-  <rect width="120" height="168" fill="#8B4513" stroke="#D2B48C" stroke-width="2" rx="8"/>
-  <rect x="8" y="8" width="104" height="152" fill="#2F4F4F" rx="4"/>
-  <text x="60" y="30" font-family="Arial" font-size="12" fill="white" text-anchor="middle">Card Back</text>
-  <circle cx="60" cy="84" r="25" fill="#4A90E2"/>
-  <text x="60" y="90" font-family="Arial" font-size="16" fill="white" text-anchor="middle">K</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="168"><rect width="120" height="168" fill="#8B4513" stroke="tan" stroke-width="2" rx="8"/><rect width="104" height="152" x="8" y="8" fill="#2F4F4F" rx="4"/><text x="60" y="30" fill="#fff" font-family="Arial" font-size="12" text-anchor="middle">Card Back</text><circle cx="60" cy="84" r="25" fill="#4A90E2"/><text x="60" y="90" fill="#fff" font-family="Arial" font-size="16" text-anchor="middle">K</text></svg>
