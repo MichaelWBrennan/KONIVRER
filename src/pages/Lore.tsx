@@ -499,7 +499,7 @@ export const Lore: React.FC = () => {
               const key = pairKey(names[0], names[1]);
               const special = specialPairs[key];
               const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" plus ")}: ${ideology};`;
+              const header = `${names.join(" + ")}: ${ideology};`;
               const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
@@ -518,7 +518,7 @@ export const Lore: React.FC = () => {
               const key = comboKey(names);
               const special = specialTriples[key];
               const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" plus ")}: ${ideology};`;
+              const header = `${names.join(" + ")}: ${ideology};`;
               const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
@@ -537,7 +537,7 @@ export const Lore: React.FC = () => {
               const key = comboKey(names);
               const special = specialQuads[key];
               const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" plus ")}: ${ideology};`;
+              const header = `${names.join(" + ")}: ${ideology};`;
               const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
@@ -556,7 +556,7 @@ export const Lore: React.FC = () => {
               const key = comboKey(names);
               const special = specialQuints[key];
               const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" plus ")}: ${ideology};`;
+              const header = `${names.join(" + ")}: ${ideology};`;
               const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
