@@ -268,85 +268,85 @@ export const Lore: React.FC = () => {
   const specialPairs: Record<string, { title: string; description: string }> = {
     // Aether pairs
     [pairKey("Aether", "Air")]: {
-      title: "Principled Pragmatism",
+      title: "Pragmatism",
       description:
         "Aether supplies ethical clarity and decisive right action; Air brings flexible, teach-and-adapt methods. Together they drive pragmatic change anchored in principle.",
     },
     [pairKey("Aether", "Fire")]: {
-      title: "Guardian Idealism",
+      title: "Idealism",
       description:
         "Aether's moral compass sets just ends; Fire adds aspirational drive and protective courage. Together they become a value-led mission to uplift and defend.",
     },
     [pairKey("Aether", "Earth")]: {
-      title: "Covenantal Order",
+      title: "Legalism",
       description:
         "Aether defines what is right; Earth codifies fairness with rules and standards. Together they form a covenantal order that enforces justice.",
     },
     [pairKey("Aether", "Water")]: {
-      title: "Harmonious Universalism",
+      title: "Universalism",
       description:
         "Aether sets the moral horizon; Water connects people and ideas to include what could be. Together they seek inclusive, harmonious universals that unify.",
     },
     [pairKey("Aether", "Nether")]: {
-      title: "Teleocratic Duty",
+      title: "Teleocracy",
       description:
         "Aether determines righteous goals; Nether designs the steps and capabilities to realize them. Together they practice duty-bound, purpose-first planning.",
     },
 
     // Air pairs
     [pairKey("Air", "Fire")]: {
-      title: "Catalytic Leadership",
+      title: "Vanguardism",
       description:
         "Air teaches and adapts to changing contexts; Fire inspires and rallies to protect. Together they catalyze movements that learn fast and lead boldly.",
     },
     [pairKey("Air", "Earth")]: {
-      title: "Agile Order",
+      title: "Gradualism",
       description:
         "Air allows methods to evolve; Earth preserves procedures and accountability. Together they build responsive yet disciplined institutions.",
     },
     [pairKey("Air", "Water")]: {
-      title: "Pluralist Syncretism",
+      title: "Pluralism",
       description:
         "Air iterates and shares understanding; Water synthesizes and bridges perspectives. Together they learn across differences to weave coherent pluralism.",
     },
     [pairKey("Air", "Nether")]: {
-      title: "Iterative Engineering",
+      title: "Technocracy",
       description:
         "Air experiments and improves; Nether engineers and executes. Together they turn lessons into working systems through rapid iteration.",
     },
 
     // Fire pairs
     [pairKey("Fire", "Earth")]: {
-      title: "Ordered Progress",
+      title: "Progressivism",
       description:
         "Fire aims for a better world; Earth enforces standards and guardrails. Together they channel ambition into disciplined, verifiable progress.",
     },
     [pairKey("Fire", "Water")]: {
-      title: "Human-Centered Innovation",
+      title: "Humanism",
       description:
         "Fire seeks uplift and protection; Water connects humans and possibilities. Together they innovate to serve people and expand opportunity.",
     },
     [pairKey("Fire", "Nether")]: {
-      title: "Strategic Activism",
+      title: "Activism",
       description:
         "Fire mobilizes for change and defense; Nether crafts plans and logistics. Together they run directed campaigns with actionable roadmaps.",
     },
 
     // Earth pairs
     [pairKey("Earth", "Water")]: {
-      title: "Regenerative Stewardship",
+      title: "Conservationism",
       description:
         "Earth sets limits, fairness, and verification; Water nurtures growth and renewal. Together they steward resources to regenerate and endure.",
     },
     [pairKey("Earth", "Nether")]: {
-      title: "Programmatic Governance",
+      title: "Institutionalism",
       description:
         "Earth demands standards and oversight; Nether operationalizes plans and capabilities. Together they deliver accountable programs with measurable outcomes.",
     },
 
     // Water pairs
     [pairKey("Water", "Nether")]: {
-      title: "Systems Entrepreneurship",
+      title: "Developmentalism",
       description:
         "Water spots latent opportunities and connects actors; Nether builds the capabilities to realize them. Together they design systems that unlock potential.",
     },
@@ -414,6 +414,18 @@ export const Lore: React.FC = () => {
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
+  }
+
+  function lowerFirst(text: string): string {
+    return text.length === 0 ? text : text[0].toLowerCase() + text.slice(1);
+  }
+
+  function buildContributionExplanation(combo: ElementDefinition[]): string {
+    const parts = combo.map((e) => {
+      const short = lowerFirst(summarize(e.definition));
+      return `${e.name} provides ${e.epithet.toLowerCase()} (${short})`;
+    });
+    return parts.join("; ") + ".";
   }
 
   function buildDefaultDescription(combo: ElementDefinition[]): string {
@@ -491,16 +503,12 @@ export const Lore: React.FC = () => {
               const names = combo.map((e) => e.name);
               const key = pairKey(names[0], names[1]);
               const special = specialPairs[key];
-              const title = special
-                ? `${names[0]} + ${names[1]} — ${special.title}`
-                : `${names[0]} + ${names[1]}`;
-              const description =
-                special && special.description
-                  ? special.description
-                  : buildDefaultDescription(combo);
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" plus ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
-                  <strong>{title}:</strong> {description}
+                  <strong>{header}</strong> {description}
                 </p>
               );
             })}
@@ -514,16 +522,12 @@ export const Lore: React.FC = () => {
               const names = combo.map((e) => e.name);
               const key = comboKey(names);
               const special = specialTriples[key];
-              const title = special
-                ? `${names.join(" + ")} — ${special.title}`
-                : names.join(" + ");
-              const description =
-                special && special.description
-                  ? special.description
-                  : buildDefaultDescription(combo);
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" plus ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
-                  <strong>{title}:</strong> {description}
+                  <strong>{header}</strong> {description}
                 </p>
               );
             })}
@@ -537,16 +541,12 @@ export const Lore: React.FC = () => {
               const names = combo.map((e) => e.name);
               const key = comboKey(names);
               const special = specialQuads[key];
-              const title = special
-                ? `${names.join(" + ")} — ${special.title}`
-                : names.join(" + ");
-              const description =
-                special && special.description
-                  ? special.description
-                  : buildDefaultDescription(combo);
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" plus ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
-                  <strong>{title}:</strong> {description}
+                  <strong>{header}</strong> {description}
                 </p>
               );
             })}
@@ -560,15 +560,12 @@ export const Lore: React.FC = () => {
               const names = combo.map((e) => e.name);
               const key = comboKey(names);
               const special = specialQuints[key];
-              const title = special
-                ? `${names.join(" + ")} — ${special.title}`
-                : names.join(" + ");
-              const description = special
-                ? special.description
-                : buildDefaultDescription(combo);
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" plus ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
-                  <strong>{title}:</strong> {description}
+                  <strong>{header}</strong> {description}
                 </p>
               );
             })}
