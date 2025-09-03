@@ -352,29 +352,30 @@ export const Lore: React.FC = () => {
     },
   };
 
-  const specialTriples: Record<string, { title: string; description: string }> = {
-    // 3-element combinations (6 choose 3 = 20)
-    "Aether|Air|Earth": { title: "Centrism", description: "" },
-    "Aether|Air|Fire": { title: "Progressivism", description: "" },
-    "Aether|Air|Nether": { title: "Technocracy", description: "" },
-    "Aether|Air|Water": { title: "Universalism", description: "" },
-    "Aether|Earth|Fire": { title: "Legalism", description: "" },
-    "Aether|Earth|Nether": { title: "Statism", description: "" },
-    "Aether|Earth|Water": { title: "Civism", description: "" },
-    "Aether|Fire|Nether": { title: "Activism", description: "" },
-    "Aether|Fire|Water": { title: "Altruism", description: "" },
-    "Aether|Nether|Water": { title: "Developmentalism", description: "" },
-    "Air|Earth|Fire": { title: "Conservatism", description: "" },
-    "Air|Earth|Nether": { title: "Managerialism", description: "" },
-    "Air|Earth|Water": { title: "Liberalism", description: "" },
-    "Air|Fire|Nether": { title: "Dynamism", description: "" },
-    "Air|Fire|Water": { title: "Anarchism", description: "" },
-    "Air|Nether|Water": { title: "Pluralism", description: "" },
-    "Earth|Fire|Nether": { title: "Industrialism", description: "" },
-    "Earth|Fire|Water": { title: "Socialism", description: "" },
-    "Earth|Nether|Water": { title: "Environmentalism", description: "" },
-    "Fire|Nether|Water": { title: "Transhumanism", description: "" },
-  };
+  const specialTriples: Record<string, { title: string; description: string }> =
+    {
+      // 3-element combinations (6 choose 3 = 20)
+      "Aether|Air|Earth": { title: "Centrism", description: "" },
+      "Aether|Air|Fire": { title: "Progressivism", description: "" },
+      "Aether|Air|Nether": { title: "Technocracy", description: "" },
+      "Aether|Air|Water": { title: "Universalism", description: "" },
+      "Aether|Earth|Fire": { title: "Legalism", description: "" },
+      "Aether|Earth|Nether": { title: "Statism", description: "" },
+      "Aether|Earth|Water": { title: "Civism", description: "" },
+      "Aether|Fire|Nether": { title: "Activism", description: "" },
+      "Aether|Fire|Water": { title: "Altruism", description: "" },
+      "Aether|Nether|Water": { title: "Developmentalism", description: "" },
+      "Air|Earth|Fire": { title: "Conservatism", description: "" },
+      "Air|Earth|Nether": { title: "Managerialism", description: "" },
+      "Air|Earth|Water": { title: "Liberalism", description: "" },
+      "Air|Fire|Nether": { title: "Dynamism", description: "" },
+      "Air|Fire|Water": { title: "Anarchism", description: "" },
+      "Air|Nether|Water": { title: "Pluralism", description: "" },
+      "Earth|Fire|Nether": { title: "Industrialism", description: "" },
+      "Earth|Fire|Water": { title: "Socialism", description: "" },
+      "Earth|Nether|Water": { title: "Environmentalism", description: "" },
+      "Fire|Nether|Water": { title: "Transhumanism", description: "" },
+    };
   const specialQuads: Record<string, { title: string; description: string }> = {
     // 4-element combinations (6 choose 4 = 15)
     "Aether|Air|Earth|Fire": { title: "Reformism", description: "" },
@@ -393,15 +394,22 @@ export const Lore: React.FC = () => {
     "Air|Fire|Nether|Water": { title: "Accelerationism", description: "" },
     "Earth|Fire|Nether|Water": { title: "Expansionism", description: "" },
   };
-  const specialQuints: Record<string, { title: string; description: string }> = {
-    // 5-element combinations (6 choose 5 = 6)
-    "Air|Earth|Fire|Nether|Water": { title: "Utilitarianism", description: "" },
-    "Aether|Earth|Fire|Nether|Water": { title: "Traditionalism", description: "" },
-    "Aether|Air|Fire|Nether|Water": { title: "Idealism", description: "" },
-    "Aether|Air|Earth|Nether|Water": { title: "Pacifism", description: "" },
-    "Aether|Air|Earth|Fire|Water": { title: "Communism", description: "" },
-    "Aether|Air|Earth|Fire|Nether": { title: "Imperialism", description: "" },
-  };
+  const specialQuints: Record<string, { title: string; description: string }> =
+    {
+      // 5-element combinations (6 choose 5 = 6)
+      "Air|Earth|Fire|Nether|Water": {
+        title: "Utilitarianism",
+        description: "",
+      },
+      "Aether|Earth|Fire|Nether|Water": {
+        title: "Traditionalism",
+        description: "",
+      },
+      "Aether|Air|Fire|Nether|Water": { title: "Idealism", description: "" },
+      "Aether|Air|Earth|Nether|Water": { title: "Pacifism", description: "" },
+      "Aether|Air|Earth|Fire|Water": { title: "Communism", description: "" },
+      "Aether|Air|Earth|Fire|Nether": { title: "Imperialism", description: "" },
+    };
 
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
