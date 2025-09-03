@@ -430,14 +430,23 @@ export const Lore: React.FC = () => {
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
   }
 
-  function buildContributionExplanation(combo: ElementDefinition[]): string {
-    const parts = combo.map((e) => {
-      const intent = summarize(e.definition);
-      const t1 = e.traitX.toLowerCase();
-      const t2 = e.traitY.toLowerCase();
-      return `${e.name}: ${intent}; applied by ${t1} and ${t2}`;
-    });
-    return parts.join("; ") + ".";
+  function buildContributionExplanation(
+    combo: ElementDefinition[]
+  ): React.ReactNode {
+    return (
+      <>
+        {combo.map((e, i) => (
+          <React.Fragment key={e.name}>
+            {e.name}: <em>{summarize(e.definition)}</em>; applied by
+            {" "}
+            <span className={s.traitChip}>{e.traitX}</span>
+            {" and "}
+            <span className={s.traitChip}>{e.traitY}</span>
+            {i < combo.length - 1 ? "; " : "."}
+          </React.Fragment>
+        ))}
+      </>
+    );
   }
 
   const combinations2 = generateCombinations(elementDefinitions, 2);
