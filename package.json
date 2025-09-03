@@ -35,7 +35,9 @@
     "react-dom": "^19.1.1",
     "react-qr-code": "^2.0.18",
     "react-router-dom": "^7.8.2",
+    "sharp": "^0.34.3",
     "socket.io-client": "^4.8.1",
+    "tesseract.js": "^6.0.1",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
@@ -46,7 +48,7 @@
     "@vanilla-extract/css": "^1.17.4",
     "@vanilla-extract/vite-plugin": "^5.1.1",
     "@vitejs/plugin-react": "^5.0.2",
-    "@xata.io/cli": "^0.12.7",
+    "@xata.io/cli": "^0.16.12",
     "eslint": "^9.34.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
