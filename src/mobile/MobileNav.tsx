@@ -1,7 +1,7 @@
 import React from "react";
 import * as s from "./mobileNav.css.ts";
 import { useAuth } from "../hooks/useAuth";
-import { AccessibilityIcon } from "../components/EsotericIcons";
+import { AccessibilityIcon, LoginIcon } from "../components/EsotericIcons";
 
 type Tab =
   | "home"
@@ -94,8 +94,9 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             const evt = new CustomEvent("open-login");
             window.dispatchEvent(evt);
           }}
+          aria-label="Login"
         >
-          <span className={s.label}>Login</span>
+          <LoginIcon size={18} />
         </button>
         {/* Accessibility icon only (remove visible text) */}
         <button
