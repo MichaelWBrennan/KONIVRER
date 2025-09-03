@@ -441,6 +441,7 @@ export const Lore: React.FC = () => {
             className={s.diagramImage}
             src="https://drive.google.com/uc?export=view&id=1Xt7ECRN6yNh2yefyRDAnzS6DPwbaFgNj"
             alt="Six Divine Elements wheel showing Aether, Air, Fire, Earth, Water, and Nether"
+            loading="lazy"
             onError={(e) => {
               (e.target as HTMLImageElement).src =
                 "/assets/lore/six-divine-elements.png";
