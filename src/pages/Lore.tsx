@@ -195,6 +195,8 @@ export const Lore: React.FC = () => {
     epithet: string;
     definition: string;
     stance: string;
+    traitX: string; // first operative trait from the diagram
+    traitY: string; // second operative trait from the diagram
   };
 
   const elementDefinitions: ElementDefinition[] = [
@@ -204,12 +206,16 @@ export const Lore: React.FC = () => {
       definition:
         "Do what is right; act clearly and quickly when things are confusing.",
       stance: "You care about what is right and take clear action.",
+      traitX: "Improvise",
+      traitY: "Expedite",
     },
     {
       name: "Air",
       epithet: "Adaptation",
       definition: "Do what works; help and teach while things change.",
       stance: "You like trying, learning, and guiding others.",
+      traitX: "Educate",
+      traitY: "Guide",
     },
     {
       name: "Fire",
@@ -217,6 +223,8 @@ export const Lore: React.FC = () => {
       definition:
         "Work toward a better world; care for and defend others as you build.",
       stance: "You dream big and protect people while moving forward.",
+      traitX: "Provide",
+      traitY: "Protect",
     },
     {
       name: "Earth",
@@ -224,12 +232,16 @@ export const Lore: React.FC = () => {
       definition:
         "Do what is fair; set clear rules and check that things are done well.",
       stance: "You keep order and make sure standards are met.",
+      traitX: "Supervise",
+      traitY: "Inspect",
     },
     {
       name: "Water",
       epithet: "Potential",
       definition: "See what could be; bring pieces together to open new paths.",
       stance: "You connect ideas and people to discover new possibilities.",
+      traitX: "Assemble",
+      traitY: "Impose",
     },
     {
       name: "Nether",
@@ -237,6 +249,8 @@ export const Lore: React.FC = () => {
       definition:
         "Plan how things can work; design steps that make ideas real.",
       stance: "You build skills and plans that help everyone do more.",
+      traitX: "Plan",
+      traitY: "Design",
     },
   ];
 
@@ -416,16 +430,22 @@ export const Lore: React.FC = () => {
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
   }
 
-  function lowerFirst(text: string): string {
-    return text.length === 0 ? text : text[0].toLowerCase() + text.slice(1);
-  }
-
-  function buildContributionExplanation(combo: ElementDefinition[]): string {
-    const parts = combo.map((e) => {
-      const short = lowerFirst(summarize(e.definition));
-      return `${e.name} provides ${e.epithet.toLowerCase()} (${short})`;
-    });
-    return parts.join("; ") + ".";
+  function buildContributionExplanation(
+    combo: ElementDefinition[]
+  ): React.ReactNode {
+    return (
+      <>
+        {combo.map((e, i) => (
+          <React.Fragment key={e.name}>
+            {e.name}: <em>{summarize(e.definition)}</em>; applied by{" "}
+            <span className={s.traitChip}>{e.traitX}</span>
+            {" and "}
+            <span className={s.traitChip}>{e.traitY}</span>
+            {i < combo.length - 1 ? "; " : "."}
+          </React.Fragment>
+        ))}
+      </>
+    );
   }
 
   const combinations2 = generateCombinations(elementDefinitions, 2);
@@ -452,50 +472,99 @@ export const Lore: React.FC = () => {
             }}
           />
         </div>
-        <div className={s.virtuesGrid}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Aether — Principle</h3>
-            <p className={s.virtueText}>
-              Do what is right; act clearly and quickly when things are
-              confusing. You care about what is right and take clear action.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Air — Adaptation</h3>
-            <p className={s.virtueText}>
-              Do what works; help and teach while things change. You like
-              trying, learning, and guiding others.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
-            <p className={s.virtueText}>
-              Work toward a better world; care for and defend others as you
-              build. You dream big and protect people while moving forward.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Earth — Integrity</h3>
-            <p className={s.virtueText}>
-              Do what is fair; set clear rules and check that things are done
-              well. You keep order and make sure standards are met.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Water — Potential</h3>
-            <p className={s.virtueText}>
-              See what could be; bring pieces together to open new paths. You
-              connect ideas and people to discover new possibilities.
-            </p>
-          </div>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Nether — Capability</h3>
-            <p className={s.virtueText}>
-              Plan how things can work; design steps that make ideas real. You
-              build skills and plans that help everyone do more.
-            </p>
-          </div>
-        </div>
+        {(() => {
+          const aether = elementDefinitions.find((e) => e.name === "Aether")!;
+          const air = elementDefinitions.find((e) => e.name === "Air")!;
+          const fire = elementDefinitions.find((e) => e.name === "Fire")!;
+          const earth = elementDefinitions.find((e) => e.name === "Earth")!;
+          const water = elementDefinitions.find((e) => e.name === "Water")!;
+          const nether = elementDefinitions.find((e) => e.name === "Nether")!;
+          return (
+            <div className={s.virtuesGrid}>
+              <div className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>Aether — Principle</h3>
+                <p className={s.virtueText}>
+                  <em>
+                    Do what is right; act clearly and quickly when things are
+                    confusing. You care about what is right and take clear
+                    action.
+                  </em>
+                </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{aether.traitX}</span>
+                  <span className={s.traitChip}>{aether.traitY}</span>
+                </div>
+              </div>
+              <div className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>Air — Adaptation</h3>
+                <p className={s.virtueText}>
+                  <em>
+                    Do what works; help and teach while things change. You like
+                    trying, learning, and guiding others.
+                  </em>
+                </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{air.traitX}</span>
+                  <span className={s.traitChip}>{air.traitY}</span>
+                </div>
+              </div>
+              <div className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
+                <p className={s.virtueText}>
+                  <em>
+                    Work toward a better world; care for and defend others as
+                    you build. You dream big and protect people while moving
+                    forward.
+                  </em>
+                </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{fire.traitX}</span>
+                  <span className={s.traitChip}>{fire.traitY}</span>
+                </div>
+              </div>
+              <div className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>Earth — Integrity</h3>
+                <p className={s.virtueText}>
+                  <em>
+                    Do what is fair; set clear rules and check that things are
+                    done well. You keep order and make sure standards are met.
+                  </em>
+                </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{earth.traitX}</span>
+                  <span className={s.traitChip}>{earth.traitY}</span>
+                </div>
+              </div>
+              <div className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>Water — Potential</h3>
+                <p className={s.virtueText}>
+                  <em>
+                    See what could be; bring pieces together to open new paths.
+                    You connect ideas and people to discover new possibilities.
+                  </em>
+                </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{water.traitX}</span>
+                  <span className={s.traitChip}>{water.traitY}</span>
+                </div>
+              </div>
+              <div className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>Nether — Capability</h3>
+                <p className={s.virtueText}>
+                  <em>
+                    Plan how things can work; design steps that make ideas real.
+                    You build skills and plans that help everyone do more.
+                  </em>
+                </p>
+                <div className={s.traitRow}>
+                  <span className={s.traitChip}>{nether.traitX}</span>
+                  <span className={s.traitChip}>{nether.traitY}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })()}
+        {/* end single-element cards */}
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
