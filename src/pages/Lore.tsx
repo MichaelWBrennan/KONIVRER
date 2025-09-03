@@ -437,8 +437,7 @@ export const Lore: React.FC = () => {
       <>
         {combo.map((e, i) => (
           <React.Fragment key={e.name}>
-            {e.name}: <em>{summarize(e.definition)}</em>; applied by
-            {" "}
+            {e.name}: <em>{summarize(e.definition)}</em>; applied by{" "}
             <span className={s.traitChip}>{e.traitX}</span>
             {" and "}
             <span className={s.traitChip}>{e.traitY}</span>
