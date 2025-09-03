@@ -261,6 +261,10 @@ export const Lore: React.FC = () => {
     return [a, b].sort().join("|");
   }
 
+  function comboKey(names: string[]): string {
+    return [...names].sort().join("|");
+  }
+
   const specialPairs: Record<string, { title: string; description: string }> = {
     // Aether pairs
     [pairKey("Aether", "Air")]: {
@@ -347,6 +351,10 @@ export const Lore: React.FC = () => {
         "Water spots latent opportunities and connects actors; Nether builds the capabilities to realize them. Together they design systems that unlock potential.",
     },
   };
+
+  const specialTriples: Record<string, { title: string; description: string }> = {};
+  const specialQuads: Record<string, { title: string; description: string }> = {};
+  const specialQuints: Record<string, { title: string; description: string }> = {};
 
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
@@ -446,36 +454,66 @@ export const Lore: React.FC = () => {
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Three-Element Combinations</h3>
-            {combinations3.map((combo, idx) => (
-              <p key={idx} className={s.virtueText}>
-                <strong>{combo.map((e) => e.name).join(" + ")}</strong>:{" "}
-                {buildDefaultDescription(combo)}
-              </p>
-            ))}
+            {combinations3.map((combo, idx) => {
+              const names = combo.map((e) => e.name);
+              const key = comboKey(names);
+              const special = specialTriples[key];
+              const title = special
+                ? `${names.join(" + ")} — ${special.title}`
+                : names.join(" + ");
+              const description = special
+                ? special.description
+                : buildDefaultDescription(combo);
+              return (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{title}:</strong> {description}
+                </p>
+              );
+            })}
           </div>
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Four-Element Combinations</h3>
-            {combinations4.map((combo, idx) => (
-              <p key={idx} className={s.virtueText}>
-                <strong>{combo.map((e) => e.name).join(" + ")}</strong>:{" "}
-                {buildDefaultDescription(combo)}
-              </p>
-            ))}
+            {combinations4.map((combo, idx) => {
+              const names = combo.map((e) => e.name);
+              const key = comboKey(names);
+              const special = specialQuads[key];
+              const title = special
+                ? `${names.join(" + ")} — ${special.title}`
+                : names.join(" + ");
+              const description = special
+                ? special.description
+                : buildDefaultDescription(combo);
+              return (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{title}:</strong> {description}
+                </p>
+              );
+            })}
           </div>
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Five-Element Combinations</h3>
-            {combinations5.map((combo, idx) => (
-              <p key={idx} className={s.virtueText}>
-                <strong>{combo.map((e) => e.name).join(" + ")}</strong>:{" "}
-                {buildDefaultDescription(combo)}
-              </p>
-            ))}
+            {combinations5.map((combo, idx) => {
+              const names = combo.map((e) => e.name);
+              const key = comboKey(names);
+              const special = specialQuints[key];
+              const title = special
+                ? `${names.join(" + ")} — ${special.title}`
+                : names.join(" + ");
+              const description = special
+                ? special.description
+                : buildDefaultDescription(combo);
+              return (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{title}:</strong> {description}
+                </p>
+              );
+            })}
           </div>
         </div>
       </section>
