@@ -1,4 +1,1 @@
-<svg width="150" height="100" xmlns="http://www.w3.org/2000/svg">
-  <rect width="150" height="100" fill="#2F4F4F" stroke="#4A90E2" stroke-width="2" rx="8" opacity="0.7"/>
-  <text x="75" y="55" font-family="Arial" font-size="14" fill="white" text-anchor="middle">FLAG</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="100"><rect width="150" height="100" fill="#2F4F4F" stroke="#4A90E2" stroke-width="2" opacity=".7" rx="8"/><text x="75" y="55" fill="#fff" font-family="Arial" font-size="14" text-anchor="middle">FLAG</text></svg>
