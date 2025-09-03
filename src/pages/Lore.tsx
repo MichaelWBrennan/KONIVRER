@@ -482,7 +482,8 @@ export const Lore: React.FC = () => {
                 <p className={s.virtueText}>
                   <em>
                     Do what is right; act clearly and quickly when things are
-                    confusing. You care about what is right and take clear action.
+                    confusing. You care about what is right and take clear
+                    action.
                   </em>
                 </p>
                 <div className={s.traitRow}>
@@ -507,8 +508,9 @@ export const Lore: React.FC = () => {
                 <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
                 <p className={s.virtueText}>
                   <em>
-                    Work toward a better world; care for and defend others as you
-                    build. You dream big and protect people while moving forward.
+                    Work toward a better world; care for and defend others as
+                    you build. You dream big and protect people while moving
+                    forward.
                   </em>
                 </p>
                 <div className={s.traitRow}>
@@ -520,8 +522,8 @@ export const Lore: React.FC = () => {
                 <h3 className={s.virtueTitle}>Earth — Integrity</h3>
                 <p className={s.virtueText}>
                   <em>
-                    Do what is fair; set clear rules and check that things are done
-                    well. You keep order and make sure standards are met.
+                    Do what is fair; set clear rules and check that things are
+                    done well. You keep order and make sure standards are met.
                   </em>
                 </p>
                 <div className={s.traitRow}>
@@ -533,8 +535,8 @@ export const Lore: React.FC = () => {
                 <h3 className={s.virtueTitle}>Water — Potential</h3>
                 <p className={s.virtueText}>
                   <em>
-                    See what could be; bring pieces together to open new paths. You
-                    connect ideas and people to discover new possibilities.
+                    See what could be; bring pieces together to open new paths.
+                    You connect ideas and people to discover new possibilities.
                   </em>
                 </p>
                 <div className={s.traitRow}>
@@ -546,8 +548,8 @@ export const Lore: React.FC = () => {
                 <h3 className={s.virtueTitle}>Nether — Capability</h3>
                 <p className={s.virtueText}>
                   <em>
-                    Plan how things can work; design steps that make ideas real. You
-                    build skills and plans that help everyone do more.
+                    Plan how things can work; design steps that make ideas real.
+                    You build skills and plans that help everyone do more.
                   </em>
                 </p>
                 <div className={s.traitRow}>
