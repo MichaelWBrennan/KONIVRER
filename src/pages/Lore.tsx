@@ -430,10 +430,6 @@ export const Lore: React.FC = () => {
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
   }
 
-  function lowerFirst(text: string): string {
-    return text.length === 0 ? text : text[0].toLowerCase() + text.slice(1);
-  }
-
   function buildContributionExplanation(combo: ElementDefinition[]): string {
     const parts = combo.map((e) => {
       const intent = summarize(e.definition);
