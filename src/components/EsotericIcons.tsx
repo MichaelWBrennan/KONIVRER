@@ -877,12 +877,32 @@ export const LoginIcon: React.FC<IconProps> = ({
     xmlns="http://www.w3.org/2000/svg"
   >
     {/* Door frame */}
-    <rect x="3" y="4" width="8" height="16" rx="1.5" stroke={color} strokeWidth="1.5" fill="none" />
+    <rect
+      x="3"
+      y="4"
+      width="8"
+      height="16"
+      rx="1.5"
+      stroke={color}
+      strokeWidth="1.5"
+      fill="none"
+    />
     {/* Door knob */}
     <circle cx="9.5" cy="12" r="0.8" fill={color} />
     {/* Arrow entering (pointing right into door) */}
-    <path d="M13 12 L21 12" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M18 9 L21 12 L18 15" stroke={color} strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    <path
+      d="M13 12 L21 12"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M18 9 L21 12 L18 15"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      fill="none"
+    />
   </svg>
 );
 
@@ -900,11 +920,31 @@ export const LogoutIcon: React.FC<IconProps> = ({
     xmlns="http://www.w3.org/2000/svg"
   >
     {/* Door frame */}
-    <rect x="13" y="4" width="8" height="16" rx="1.5" stroke={color} strokeWidth="1.5" fill="none" />
+    <rect
+      x="13"
+      y="4"
+      width="8"
+      height="16"
+      rx="1.5"
+      stroke={color}
+      strokeWidth="1.5"
+      fill="none"
+    />
     {/* Door knob */}
     <circle cx="14.5" cy="12" r="0.8" fill={color} />
     {/* Arrow exiting (pointing right away from door) */}
-    <path d="M3 12 L11 12" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M8 9 L11 12 L8 15" stroke={color} strokeWidth="1.5" strokeLinecap="round" fill="none" />
+    <path
+      d="M3 12 L11 12"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M8 9 L11 12 L8 15"
+      stroke={color}
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      fill="none"
+    />
   </svg>
 );
