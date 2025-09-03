@@ -436,11 +436,10 @@ export const Lore: React.FC = () => {
 
   function buildContributionExplanation(combo: ElementDefinition[]): string {
     const parts = combo.map((e) => {
-      const short = lowerFirst(summarize(e.definition));
-      const via = `${e.traitX.toLowerCase()} and ${e.traitY.toLowerCase()}`;
-      return `${
-        e.name
-      } provides ${e.epithet.toLowerCase()} (${short}) via ${via}`;
+      const intent = summarize(e.definition);
+      const t1 = e.traitX.toLowerCase();
+      const t2 = e.traitY.toLowerCase();
+      return `${e.name}: ${intent}; applied by ${t1} and ${t2}`;
     });
     return parts.join("; ") + ".";
   }
