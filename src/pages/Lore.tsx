@@ -352,9 +352,12 @@ export const Lore: React.FC = () => {
     },
   };
 
-  const specialTriples: Record<string, { title: string; description: string }> = {};
-  const specialQuads: Record<string, { title: string; description: string }> = {};
-  const specialQuints: Record<string, { title: string; description: string }> = {};
+  const specialTriples: Record<string, { title: string; description: string }> =
+    {};
+  const specialQuads: Record<string, { title: string; description: string }> =
+    {};
+  const specialQuints: Record<string, { title: string; description: string }> =
+    {};
 
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
