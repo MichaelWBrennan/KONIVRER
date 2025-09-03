@@ -6,6 +6,8 @@ import {
   AccessibilityIcon,
   SearchIcon,
   ProfileIcon,
+  LoginIcon,
+  LogoutIcon,
   MenuIcon,
 } from "./EsotericIcons";
 import * as bm from "./bubbleMenu.css.ts";
@@ -292,8 +294,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                         await logout();
                         setIsLoginOpen(false);
                       }}
+                      aria-label="Logout"
+                      title="Logout"
                     >
-                      Logout
+                      <LogoutIcon size={18} />
                     </button>
                     <button className="btn btn-small btn-secondary">
                       Settings
@@ -311,8 +315,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                         setIsLoginModalOpen(true);
                         setIsLoginOpen(false);
                       }}
+                      aria-label="Login"
+                      title="Login"
                     >
-                      Login
+                      <LoginIcon size={18} />
                     </button>
                     <button className="btn btn-small btn-secondary">
                       Settings

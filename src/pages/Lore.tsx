@@ -9,7 +9,7 @@ export const Lore: React.FC = () => {
     src?: string;
     isStatic?: boolean;
   }[] = [
-    { id: "elements", label: "Six Elements (Core)", isStatic: true },
+    { id: "elements", label: "Six Elements", isStatic: true },
     {
       id: "societies",
       label: "Societies & Eras",
@@ -261,41 +261,171 @@ export const Lore: React.FC = () => {
     return [a, b].sort().join("|");
   }
 
+  function comboKey(names: string[]): string {
+    return [...names].sort().join("|");
+  }
+
   const specialPairs: Record<string, { title: string; description: string }> = {
-    [pairKey("Water", "Aether")]: {
-      title: "Rainbow",
-      description: "Quickly put things together to spark new ideas.",
-    },
+    // Aether pairs
     [pairKey("Aether", "Air")]: {
-      title: "Aurora",
-      description: "Smart, flexible action that shows the way.",
+      title: "Pragmatism",
+      description:
+        "Aether supplies ethical clarity and decisive right action; Air brings flexible, teach-and-adapt methods. Together they drive pragmatic change anchored in principle.",
     },
+    [pairKey("Aether", "Fire")]: {
+      title: "Idealism",
+      description:
+        "Aether's moral compass sets just ends; Fire adds aspirational drive and protective courage. Together they become a value-led mission to uplift and defend.",
+    },
+    [pairKey("Aether", "Earth")]: {
+      title: "Legalism",
+      description:
+        "Aether defines what is right; Earth codifies fairness with rules and standards. Together they form a covenantal order that enforces justice.",
+    },
+    [pairKey("Aether", "Water")]: {
+      title: "Universalism",
+      description:
+        "Aether sets the moral horizon; Water connects people and ideas to include what could be. Together they seek inclusive, harmonious universals that unify.",
+    },
+    [pairKey("Aether", "Nether")]: {
+      title: "Teleocracy",
+      description:
+        "Aether determines righteous goals; Nether designs the steps and capabilities to realize them. Together they practice duty-bound, purpose-first planning.",
+    },
+
+    // Air pairs
     [pairKey("Air", "Fire")]: {
-      title: "Flare",
-      description: "Action that inspires and keeps people safe.",
+      title: "Vanguardism",
+      description:
+        "Air teaches and adapts to changing contexts; Fire inspires and rallies to protect. Together they catalyze movements that learn fast and lead boldly.",
+    },
+    [pairKey("Air", "Earth")]: {
+      title: "Gradualism",
+      description:
+        "Air allows methods to evolve; Earth preserves procedures and accountability. Together they build responsive yet disciplined institutions.",
+    },
+    [pairKey("Air", "Water")]: {
+      title: "Pluralism",
+      description:
+        "Air iterates and shares understanding; Water synthesizes and bridges perspectives. Together they learn across differences to weave coherent pluralism.",
+    },
+    [pairKey("Air", "Nether")]: {
+      title: "Technocracy",
+      description:
+        "Air experiments and improves; Nether engineers and executes. Together they turn lessons into working systems through rapid iteration.",
+    },
+
+    // Fire pairs
+    [pairKey("Fire", "Earth")]: {
+      title: "Progressivism",
+      description:
+        "Fire aims for a better world; Earth enforces standards and guardrails. Together they channel ambition into disciplined, verifiable progress.",
+    },
+    [pairKey("Fire", "Water")]: {
+      title: "Humanism",
+      description:
+        "Fire seeks uplift and protection; Water connects humans and possibilities. Together they innovate to serve people and expand opportunity.",
     },
     [pairKey("Fire", "Nether")]: {
-      title: "Char",
-      description: "Careful planning that turns into bold, helpful action.",
+      title: "Activism",
+      description:
+        "Fire mobilizes for change and defense; Nether crafts plans and logistics. Together they run directed campaigns with actionable roadmaps.",
     },
-    [pairKey("Nether", "Earth")]: {
-      title: "Compost",
-      description: "Careful plans improved by review become strong and steady.",
-    },
+
+    // Earth pairs
     [pairKey("Earth", "Water")]: {
-      title: "Mud",
-      description: "Helpful limits that help new things grow safely.",
+      title: "Conservationism",
+      description:
+        "Earth sets limits, fairness, and verification; Water nurtures growth and renewal. Together they steward resources to regenerate and endure.",
+    },
+    [pairKey("Earth", "Nether")]: {
+      title: "Institutionalism",
+      description:
+        "Earth demands standards and oversight; Nether operationalizes plans and capabilities. Together they deliver accountable programs with measurable outcomes.",
+    },
+
+    // Water pairs
+    [pairKey("Water", "Nether")]: {
+      title: "Developmentalism",
+      description:
+        "Water spots latent opportunities and connects actors; Nether builds the capabilities to realize them. Together they design systems that unlock potential.",
     },
   };
+
+  const specialTriples: Record<string, { title: string; description: string }> =
+    {
+      // 3-element combinations (6 choose 3 = 20)
+      "Aether|Air|Earth": { title: "Centrism", description: "" },
+      "Aether|Air|Fire": { title: "Progressivism", description: "" },
+      "Aether|Air|Nether": { title: "Technocracy", description: "" },
+      "Aether|Air|Water": { title: "Universalism", description: "" },
+      "Aether|Earth|Fire": { title: "Legalism", description: "" },
+      "Aether|Earth|Nether": { title: "Statism", description: "" },
+      "Aether|Earth|Water": { title: "Civism", description: "" },
+      "Aether|Fire|Nether": { title: "Activism", description: "" },
+      "Aether|Fire|Water": { title: "Altruism", description: "" },
+      "Aether|Nether|Water": { title: "Developmentalism", description: "" },
+      "Air|Earth|Fire": { title: "Conservatism", description: "" },
+      "Air|Earth|Nether": { title: "Managerialism", description: "" },
+      "Air|Earth|Water": { title: "Liberalism", description: "" },
+      "Air|Fire|Nether": { title: "Dynamism", description: "" },
+      "Air|Fire|Water": { title: "Anarchism", description: "" },
+      "Air|Nether|Water": { title: "Pluralism", description: "" },
+      "Earth|Fire|Nether": { title: "Industrialism", description: "" },
+      "Earth|Fire|Water": { title: "Socialism", description: "" },
+      "Earth|Nether|Water": { title: "Environmentalism", description: "" },
+      "Fire|Nether|Water": { title: "Transhumanism", description: "" },
+    };
+  const specialQuads: Record<string, { title: string; description: string }> = {
+    // 4-element combinations (6 choose 4 = 15)
+    "Aether|Air|Earth|Fire": { title: "Reformism", description: "" },
+    "Aether|Air|Earth|Nether": { title: "Institutionalism", description: "" },
+    "Aether|Air|Earth|Water": { title: "Cosmopolitanism", description: "" },
+    "Aether|Air|Fire|Nether": { title: "Modernism", description: "" },
+    "Aether|Air|Fire|Water": { title: "Libertarianism", description: "" },
+    "Aether|Air|Nether|Water": { title: "Constructivism", description: "" },
+    "Aether|Earth|Fire|Nether": { title: "Militarism", description: "" },
+    "Aether|Earth|Fire|Water": { title: "Pragmatism", description: "" },
+    "Aether|Earth|Nether|Water": { title: "Stewardship", description: "" },
+    "Aether|Fire|Nether|Water": { title: "Humanitarianism", description: "" },
+    "Air|Earth|Fire|Nether": { title: "Productivism", description: "" },
+    "Air|Earth|Fire|Water": { title: "Nationalism", description: "" },
+    "Air|Earth|Nether|Water": { title: "Federalism", description: "" },
+    "Air|Fire|Nether|Water": { title: "Accelerationism", description: "" },
+    "Earth|Fire|Nether|Water": { title: "Expansionism", description: "" },
+  };
+  const specialQuints: Record<string, { title: string; description: string }> =
+    {
+      // 5-element combinations (6 choose 5 = 6)
+      "Air|Earth|Fire|Nether|Water": {
+        title: "Utilitarianism",
+        description: "",
+      },
+      "Aether|Earth|Fire|Nether|Water": {
+        title: "Traditionalism",
+        description: "",
+      },
+      "Aether|Air|Fire|Nether|Water": { title: "Idealism", description: "" },
+      "Aether|Air|Earth|Nether|Water": { title: "Pacifism", description: "" },
+      "Aether|Air|Earth|Fire|Water": { title: "Communism", description: "" },
+      "Aether|Air|Earth|Fire|Nether": { title: "Imperialism", description: "" },
+    };
 
   function summarize(definition: string): string {
     const firstClause = definition.split(";")[0].trim();
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
   }
 
-  function buildDefaultDescription(combo: ElementDefinition[]): string {
-    const clauses = combo.map((e) => summarize(e.definition));
-    return `Combined stance: ${clauses.join(" — ")}.`;
+  function lowerFirst(text: string): string {
+    return text.length === 0 ? text : text[0].toLowerCase() + text.slice(1);
+  }
+
+  function buildContributionExplanation(combo: ElementDefinition[]): string {
+    const parts = combo.map((e) => {
+      const short = lowerFirst(summarize(e.definition));
+      return `${e.name} provides ${e.epithet.toLowerCase()} (${short})`;
+    });
+    return parts.join("; ") + ".";
   }
 
   const combinations2 = generateCombinations(elementDefinitions, 2);
@@ -309,10 +439,15 @@ export const Lore: React.FC = () => {
         <div className={s.diagramContainer}>
           <img
             className={s.diagramImage}
-            src="/assets/lore/six-divine-elements.png"
+            src="https://drive.google.com/uc?export=view&id=1Xt7ECRN6yNh2yefyRDAnzS6DPwbaFgNj"
             alt="Six Divine Elements wheel showing Aether, Air, Fire, Earth, Water, and Nether"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "/assets/card-back-new.png";
+              (e.target as HTMLImageElement).src =
+                "/assets/lore/six-divine-elements.png";
+              (e.target as HTMLImageElement).onerror = () => {
+                (e.target as HTMLImageElement).src =
+                  "/assets/card-back-new.png";
+              };
             }}
           />
         </div>
@@ -368,15 +503,12 @@ export const Lore: React.FC = () => {
               const names = combo.map((e) => e.name);
               const key = pairKey(names[0], names[1]);
               const special = specialPairs[key];
-              const title = special
-                ? `${names[0]} + ${names[1]} — ${special.title}`
-                : `${names[0]} + ${names[1]}`;
-              const description = special
-                ? special.description
-                : buildDefaultDescription(combo);
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" + ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
               return (
                 <p key={idx} className={s.virtueText}>
-                  <strong>{title}:</strong> {description}
+                  <strong>{header}</strong> {description}
                 </p>
               );
             })}
@@ -386,36 +518,57 @@ export const Lore: React.FC = () => {
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Three-Element Combinations</h3>
-            {combinations3.map((combo, idx) => (
-              <p key={idx} className={s.virtueText}>
-                <strong>{combo.map((e) => e.name).join(" + ")}</strong>:{" "}
-                {buildDefaultDescription(combo)}
-              </p>
-            ))}
+            {combinations3.map((combo, idx) => {
+              const names = combo.map((e) => e.name);
+              const key = comboKey(names);
+              const special = specialTriples[key];
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" + ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
+              return (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{header}</strong> {description}
+                </p>
+              );
+            })}
           </div>
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Four-Element Combinations</h3>
-            {combinations4.map((combo, idx) => (
-              <p key={idx} className={s.virtueText}>
-                <strong>{combo.map((e) => e.name).join(" + ")}</strong>:{" "}
-                {buildDefaultDescription(combo)}
-              </p>
-            ))}
+            {combinations4.map((combo, idx) => {
+              const names = combo.map((e) => e.name);
+              const key = comboKey(names);
+              const special = specialQuads[key];
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" + ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
+              return (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{header}</strong> {description}
+                </p>
+              );
+            })}
           </div>
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Five-Element Combinations</h3>
-            {combinations5.map((combo, idx) => (
-              <p key={idx} className={s.virtueText}>
-                <strong>{combo.map((e) => e.name).join(" + ")}</strong>:{" "}
-                {buildDefaultDescription(combo)}
-              </p>
-            ))}
+            {combinations5.map((combo, idx) => {
+              const names = combo.map((e) => e.name);
+              const key = comboKey(names);
+              const special = specialQuints[key];
+              const ideology = special ? special.title : "Synthesis";
+              const header = `${names.join(" + ")}: ${ideology};`;
+              const description = buildContributionExplanation(combo);
+              return (
+                <p key={idx} className={s.virtueText}>
+                  <strong>{header}</strong> {description}
+                </p>
+              );
+            })}
           </div>
         </div>
       </section>
