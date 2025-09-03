@@ -455,7 +455,9 @@ export const Lore: React.FC = () => {
         <div className={s.virtuesGrid}>
           {elementDefinitions.map((def) => (
             <div key={def.name} className={s.virtueCard}>
-              <h3 className={s.virtueTitle}>{`${def.name} — ${def.epithet}`}</h3>
+              <h3
+                className={s.virtueTitle}
+              >{`${def.name} — ${def.epithet}`}</h3>
               <p className={s.virtueText}>
                 {def.definition} {def.stance}
               </p>
