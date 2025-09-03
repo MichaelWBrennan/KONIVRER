@@ -428,11 +428,6 @@ export const Lore: React.FC = () => {
     return parts.join("; ") + ".";
   }
 
-  function buildDefaultDescription(combo: ElementDefinition[]): string {
-    const clauses = combo.map((e) => summarize(e.definition));
-    return `Combined stance: ${clauses.join(" — ")}.`;
-  }
-
   const combinations2 = generateCombinations(elementDefinitions, 2);
   const combinations3 = generateCombinations(elementDefinitions, 3);
   const combinations4 = generateCombinations(elementDefinitions, 4);
