@@ -197,6 +197,7 @@ export const virtueCard = style({
   border: "1px solid #e9ecef",
   borderRadius: "8px",
   padding: "12px",
+  paddingBottom: "44px",
   boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
   position: "relative",
   overflow: "hidden",
@@ -237,14 +238,32 @@ export const traitChip = style({
   fontSize: "0.9rem",
 });
 
+// Single-line trait footer pinned to card bottom for 2+ combinations
+export const traitFooter = style({
+  position: "absolute",
+  left: 0,
+  right: 0,
+  bottom: 0,
+  display: "flex",
+  gap: "8px",
+  alignItems: "center",
+  padding: "6px 10px",
+  background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 35%, rgba(255,255,255,0.95) 100%)",
+  borderTop: "1px solid #eef2f6",
+  overflowX: "auto",
+  whiteSpace: "nowrap",
+  zIndex: 1,
+});
+
 // Watermark emblem overlay for faction symbols
 export const watermark = style({
   position: "absolute",
   inset: 0,
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center",
-  backgroundSize: "70% 70%",
-  opacity: 0.06,
+  backgroundSize: "80% auto",
+  opacity: 0.12,
   pointerEvents: "none",
   filter: "grayscale(100%) contrast(120%)",
+  mixBlendMode: "multiply",
 });
