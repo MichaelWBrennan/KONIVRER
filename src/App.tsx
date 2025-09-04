@@ -1,24 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { CardSearch } from "./components/CardSearch";
-import { DeckSearch } from "./components/DeckSearch";
-import { KonivrverSimulator } from "./components/KonivrverSimulator";
 // import { BubbleMenu } from './components/BubbleMenu';
 
-import JudgePortal from "./components/JudgePortal";
-import NotificationCenter from "./components/NotificationCenter";
+const LazyCardSearch = lazy(() =>
+  import("./components/CardSearch").then((m) => ({ default: m.CardSearch }))
+);
+const LazyDeckSearch = lazy(() =>
+  import("./components/DeckSearch").then((m) => ({ default: m.DeckSearch }))
+);
+const LazyKonivrverSimulator = lazy(() =>
+  import("./components/KonivrverSimulator").then((m) => ({ default: m.KonivrverSimulator }))
+);
+const LazyJudgePortal = lazy(() =>
+  import("./components/JudgePortal").then((m) => ({ default: m.JudgePortal }))
+);
+const LazyNotificationCenter = lazy(() => import("./components/NotificationCenter"));
 // Deckbuilder is accessed from Decks page; keep import only where used directly
 
-import { Analytics } from "./pages/Analytics";
-import { Events } from "./pages/Events";
-import { TournamentHub } from "./pages/TournamentHub";
+const LazyAnalytics = lazy(() =>
+  import("./pages/Analytics").then((m) => ({ default: m.Analytics }))
+);
+const LazyEvents = lazy(() =>
+  import("./pages/Events").then((m) => ({ default: m.Events }))
+);
+const LazyTournamentHub = lazy(() =>
+  import("./pages/TournamentHub").then((m) => ({ default: m.TournamentHub }))
+);
 import { Home } from "./pages/Home";
-import { MyDecks } from "./pages/MyDecks";
-import { Rules } from "./pages/Rules";
-import { Settings } from "./pages/Settings";
+const LazyMyDecks = lazy(() =>
+  import("./pages/MyDecks").then((m) => ({ default: m.MyDecks }))
+);
+const LazyRules = lazy(() =>
+  import("./pages/Rules").then((m) => ({ default: m.Rules }))
+);
+const LazySettings = lazy(() =>
+  import("./pages/Settings").then((m) => ({ default: m.Settings }))
+);
 import { Offline } from "./pages/Offline";
-import { Lore } from "./pages/Lore";
+const LazyLore = lazy(() =>
+  import("./pages/Lore").then((m) => ({ default: m.Lore }))
+);
 import { useAppStore } from "./stores/appStore";
 import { useAuth } from "./hooks/useAuth";
 import { NotificationService } from "./services/notifications";
@@ -30,6 +51,14 @@ import { MobileShell } from "./mobile/MobileShell";
 // import { BubbleMenu } from './components/BubbleMenu';
 import { LoginModal } from "./components/LoginModal";
 import { SearchBar } from "./mobile/SearchBar";
+
+const Devtools = import.meta.env.DEV
+  ? lazy(() =>
+      import("@tanstack/react-query-devtools").then((m) => ({
+        default: m.ReactQueryDevtools,
+      }))
+    )
+  : null;
 
 // Create a client
 const queryClient = new QueryClient({
@@ -127,7 +156,9 @@ function AppContent(): any {
   return (
     <div className={appStyles.app}>
       <div className={overlay.topRight}>
-        <NotificationCenter />
+        <Suspense fallback={null}>
+          <LazyNotificationCenter />
+        </Suspense>
       </div>
 
       {!(currentPage === "settings" || currentPage === "simulator") && (
@@ -139,17 +170,41 @@ function AppContent(): any {
         onNavigate={(p) => handlePageChange(p as Page)}
       >
         {currentPage === "home" && <Home />}
-        {currentPage === "simulator" && <KonivrverSimulator />}
-        {currentPage === "cards" && (
-          <CardSearch onCardSelect={handleCardSelect} />
+        {currentPage === "simulator" && (
+          <Suspense fallback={null}>
+            <LazyKonivrverSimulator />
+          </Suspense>
         )}
-        {currentPage === "decks" && <DeckSearch onDeckSelect={() => {}} />}
-        {currentPage === "my-decks" && <MyDecks />}
-        {currentPage === "rules" && <Rules />}
-        {currentPage === "lore" && <Lore />}
+        {currentPage === "cards" && (
+          <Suspense fallback={null}>
+            <LazyCardSearch onCardSelect={handleCardSelect} />
+          </Suspense>
+        )}
+        {currentPage === "decks" && (
+          <Suspense fallback={null}>
+            <LazyDeckSearch onDeckSelect={() => {}} />
+          </Suspense>
+        )}
+        {currentPage === "my-decks" && (
+          <Suspense fallback={null}>
+            <LazyMyDecks />
+          </Suspense>
+        )}
+        {currentPage === "rules" && (
+          <Suspense fallback={null}>
+            <LazyRules />
+          </Suspense>
+        )}
+        {currentPage === "lore" && (
+          <Suspense fallback={null}>
+            <LazyLore />
+          </Suspense>
+        )}
         {currentPage === "judge" &&
           (canAccessJudgePortal() ? (
-            <JudgePortal />
+            <Suspense fallback={null}>
+              <LazyJudgePortal />
+            </Suspense>
           ) : (
             <div className={overlay.restrictNotice}>
               <h2 className={overlay.restrictTitle}>Access Restricted</h2>
@@ -170,11 +225,27 @@ function AppContent(): any {
               )}
             </div>
           ))}
-        {currentPage === "events" && <Events />}
-        {currentPage === "event-archive" && <TournamentHub />}
+        {currentPage === "events" && (
+          <Suspense fallback={null}>
+            <LazyEvents />
+          </Suspense>
+        )}
+        {currentPage === "event-archive" && (
+          <Suspense fallback={null}>
+            <LazyTournamentHub />
+          </Suspense>
+        )}
         {/* Deckbuilder merged into Decks page via button */}
-        {currentPage === "analytics" && <Analytics />}
-        {currentPage === "settings" && <Settings />}
+        {currentPage === "analytics" && (
+          <Suspense fallback={null}>
+            <LazyAnalytics />
+          </Suspense>
+        )}
+        {currentPage === "settings" && (
+          <Suspense fallback={null}>
+            <LazySettings />
+          </Suspense>
+        )}
       </MobileShell>
 
       <LoginModal isOpen={loginOpen} onClose={() => setLoginOpen(false)} />
@@ -240,7 +311,11 @@ function App(): any {
   return (
     <QueryClientProvider client={queryClient}>
       <AppContent />
-      <ReactQueryDevtools initialIsOpen={false} />
+      {Devtools && (
+        <Suspense fallback={null}>
+          <Devtools initialIsOpen={false} />
+        </Suspense>
+      )}
     </QueryClientProvider>
   );
 }

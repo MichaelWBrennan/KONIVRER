@@ -3,8 +3,15 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./global.css.ts";
 
-// Initialize mobile UX optimization services
-import "./services/telemetry";
+// Defer telemetry initialization to idle time
+if (typeof window !== "undefined") {
+  const idleInit = () => import("./services/telemetry").catch(() => {});
+  if ("requestIdleCallback" in window) {
+    (window as any).requestIdleCallback(idleInit);
+  } else {
+    setTimeout(idleInit, 2000);
+  }
+}
 
 // Set CSS custom properties for mobile viewport handling
 const setViewportHeight = () => {
