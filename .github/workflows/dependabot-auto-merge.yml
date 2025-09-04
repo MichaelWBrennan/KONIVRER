@@ -30,10 +30,13 @@ jobs:
           wait-interval: 20
           running-timeout-minutes: 30
           allowed-conclusions: success,skipped
-          check-regexp: '(build|test|lint|ci|security).*'
+          check-regexp: '(Dependency PR Gates|dependency-pr-gates|build|test|lint|ci|security).*'
 
-      - name: Auto-approve and merge all Dependabot updates
-        if: steps.wait-for-checks.outputs.conclusion == 'success'
+      - name: Auto-approve and merge eligible Dependabot updates
+        if: steps.wait-for-checks.outputs.conclusion == 'success' && (
+              steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
+              (steps.metadata.outputs.update-type == 'version-update:semver-minor' && contains(github.event.pull_request.labels.*.name, 'worthwhile-change'))
+            )
         run: |
           echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
           echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
@@ -63,23 +66,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Log major updates
-        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+      - name: Block and log ineligible updates (minor without label or majors)
+        if: steps.wait-for-checks.outputs.conclusion == 'success' && (
+              steps.metadata.outputs.update-type == 'version-update:semver-major' ||
+              (steps.metadata.outputs.update-type == 'version-update:semver-minor' && !contains(github.event.pull_request.labels.*.name, 'worthwhile-change'))
+            )
         run: |
-          echo "🔄 Major version update detected - auto-merging since tests passed"
-          gh pr comment "${{ github.event.pull_request.number }}" --body "## 🔄 **Major version update detected and auto-merged**
+          echo "⛔ Update not eligible for automerge (requires manual approval): ${{ steps.metadata.outputs.update-type }}"
+          gh pr comment "${{ github.event.pull_request.number }}" --body "## ⛔ **Automerge blocked by policy**
 
-          This PR contains a major version update that may include breaking changes. It was automatically merged because all tests passed.
+          This update type requires manual review and approval.
 
           ### Update Details:
           - **Package:** ${{ steps.metadata.outputs.dependency-names }}
           - **Update type:** ${{ steps.metadata.outputs.update-type }}
           - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
 
-          ### Important Notes:
-          - If you encounter any issues after this merge, please review the changelog/release notes for breaking changes
-          - You can view the package's release notes at: https://github.com/${{ steps.metadata.outputs.package-ecosystem }}/${{ steps.metadata.outputs.dependency-names }}/releases
-          - To prevent auto-merging in the future, add the 'no-auto-merge' label to Dependabot PRs"
+          ### Policy:
+          - Patch: auto-merge when checks pass
+          - Minor: auto-merge only with 'worthwhile-change' label
+          - Major: manual review required"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,0 +1,238 @@
+name: Dependency PR Gates
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+concurrency:
+  group: dep-pr-gates-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+
+jobs:
+  detect:
+    name: Detect dependency changes
+    runs-on: ubuntu-latest
+    outputs:
+      frontend_changed: ${{ steps.filter.outputs.frontend }}
+      backend_changed: ${{ steps.filter.outputs.backend }}
+      other_changed: ${{ steps.filter.outputs.other }}
+      only_dependency_files: ${{ steps.outputs_only.outputs.only_dep_files }}
+      dependency_pr: ${{ steps.depflag.outputs.dependency_pr }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Paths filter
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            frontend:
+              - 'package.json'
+              - 'package-lock.json'
+            backend:
+              - 'backend/package.json'
+              - 'backend/package-lock.json'
+            other:
+              - '**'
+              - '!package.json'
+              - '!package-lock.json'
+              - '!backend/package.json'
+              - '!backend/package-lock.json'
+
+      - name: Compute only_dependency_files
+        id: outputs_only
+        run: |
+          if [[ "${{ steps.filter.outputs.other }}" == "false" ]]; then
+            echo "only_dep_files=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "only_dep_files=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Flag dependency PRs
+        id: depflag
+        run: |
+          node -e "
+            const fs = require('fs');
+            const evt = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+            const labels = (evt.pull_request && evt.pull_request.labels || []).map(l => l.name.toLowerCase());
+            const isDepLabel = labels.includes('dependencies');
+            const isDepBot = (evt.sender && evt.sender.login) === 'dependabot[bot]';
+            const depPr = isDepLabel || isDepBot;
+            process.stdout.write(`dependency_pr=${depPr ? 'true' : 'false'}\n`);
+          " >> "$GITHUB_OUTPUT"
+
+  frontend:
+    name: Frontend checks
+    runs-on: ubuntu-latest
+    needs: detect
+    if: needs.detect.outputs.dependency_pr == 'true' && needs.detect.outputs.frontend_changed == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies (root)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run type-check
+
+      - name: Build
+        run: npm run build
+
+  backend:
+    name: Backend checks
+    runs-on: ubuntu-latest
+    needs: detect
+    if: needs.detect.outputs.dependency_pr == 'true' && needs.detect.outputs.backend_changed == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies (backend)
+        run: npm ci
+        working-directory: backend
+
+      - name: Lint (backend)
+        run: npm run lint
+        working-directory: backend
+
+      - name: Test with coverage (backend)
+        run: npm run test:cov
+        working-directory: backend
+  coverage-policy:
+    name: Coverage regression gate (backend)
+    runs-on: ubuntu-latest
+    needs: [detect, backend]
+    if: needs.detect.outputs.dependency_pr == 'true' && needs.detect.outputs.backend_changed == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies (backend)
+        run: npm ci
+        working-directory: backend
+
+      - name: Test with coverage (current)
+        run: npm run test:cov
+        working-directory: backend
+
+      - name: Extract current coverage percent
+        id: curr
+        run: |
+          PCT=$(node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync('backend/coverage/coverage-summary.json','utf8'));const s=p.total.statements.pct;process.stdout.write(String(s))")
+          echo "pct=$PCT" >> "$GITHUB_OUTPUT"
+
+      - name: Compute base coverage percent
+        id: base
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1 || true
+          git checkout -q --no-progress ${{ github.base_ref }} || true
+          npm ci --prefix backend || true
+          npm run -w backend test:cov || true
+          BASE=$(node -e "const fs=require('fs');try{const p=JSON.parse(fs.readFileSync('backend/coverage/coverage-summary.json','utf8'));process.stdout.write(String(p.total.statements.pct));}catch(e){process.stdout.write('0')} ")
+          echo "pct=$BASE" >> "$GITHUB_OUTPUT"
+          git checkout -q --no-progress ${{ github.head_ref }} || true
+
+      - name: Enforce no regression
+        env:
+          CURR: ${{ steps.curr.outputs.pct }}
+          BASE: ${{ steps.base.outputs.pct }}
+        run: |
+          echo "Base coverage: $BASE%"
+          echo "Current coverage: $CURR%"
+          awk -v b="$BASE" -v c="$CURR" 'BEGIN{ if (c+0 < b+0) exit 1; else exit 0 }'
+
+
+      - name: Build (backend)
+        run: npm run build
+        working-directory: backend
+
+  policy:
+    name: Worthwhile change policy
+    runs-on: ubuntu-latest
+    needs: [detect, frontend, backend]
+    if: needs.detect.outputs.dependency_pr == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Dependabot metadata
+        id: metadata
+        if: github.actor == 'dependabot[bot]'
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Enforce policy
+        env:
+          UPDATE_TYPE: ${{ steps.metadata.outputs.update-type || 'unknown' }}
+          ONLY_DEP_FILES: ${{ needs.detect.outputs.only_dependency_files }}
+        run: |
+          echo "Update type: $UPDATE_TYPE"
+          if [[ "$ONLY_DEP_FILES" != "true" ]]; then
+            echo "This PR changes files beyond dependency manifests. Manual review required."
+            exit 1
+          fi
+
+          node -e "
+            const fs = require('fs');
+            const evt = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'));
+            const labels = (evt.pull_request && evt.pull_request.labels || []).map(l => l.name.toLowerCase());
+            const hasWorthwhile = labels.includes('worthwhile-change');
+            const actor = (evt.sender && evt.sender.login) || '';
+            const updateType = process.env.UPDATE_TYPE;
+            let allow = false;
+            if (actor === 'dependabot[bot]') {
+              if (updateType === 'version-update:semver-patch') allow = true;
+              else if (updateType === 'version-update:semver-minor' && hasWorthwhile) allow = true;
+            } else {
+              // For dependency-labeled PRs from humans/bots, require worthwhile label
+              allow = hasWorthwhile;
+            }
+            if (!allow) {
+              console.log('Blocking auto-merge: Not a patch update or missing worthwhile-change label.');
+              process.exit(1);
+            }
+            console.log('Worthwhile policy satisfied.');
+          "
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "## Dependency PR Gates Passed" >> $GITHUB_STEP_SUMMARY
+          echo "- All dependency checks succeeded" >> $GITHUB_STEP_SUMMARY
+          echo "- Worthwhile policy satisfied" >> $GITHUB_STEP_SUMMARY
+

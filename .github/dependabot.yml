@@ -4,9 +4,12 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
       time: "03:00"
     open-pull-requests-limit: 10
+    versioning-strategy: increase-if-necessary
+    rebase-strategy: auto
     reviewers:
       - "MichaelWBrennan"
     assignees:
@@ -17,10 +20,98 @@ updates:
     labels:
       - "dependencies"
       - "automated"
+      - "needs-worthwhile-review"
     allow:
-      - dependency-type: "all"
-    # Major updates will be auto-merged if tests pass
-    # Remove ignore block to enable major version auto-merge
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+    groups:
+      tooling-eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@typescript-eslint/*"
+          - "prettier"
+        update-types:
+          - "minor"
+          - "patch"
+      types-packages:
+        patterns:
+          - "@types/*"
+        update-types:
+          - "minor"
+          - "patch"
+      react-and-router:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
+        update-types:
+          - "minor"
+          - "patch"
+      build-tools:
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+          - "@vanilla-extract/*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    versioning-strategy: increase-if-necessary
+    rebase-strategy: auto
+    reviewers:
+      - "MichaelWBrennan"
+    assignees:
+      - "MichaelWBrennan"
+    commit-message:
+      prefix: "🔄"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+      - "needs-worthwhile-review"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+    groups:
+      nestjs-core:
+        patterns:
+          - "@nestjs/*"
+          - "rxjs"
+          - "reflect-metadata"
+        update-types:
+          - "minor"
+          - "patch"
+      orm-and-db:
+        patterns:
+          - "typeorm"
+          - "pg"
+        update-types:
+          - "minor"
+          - "patch"
+      graphql-and-swagger:
+        patterns:
+          - "graphql"
+          - "@nestjs/graphql"
+          - "@nestjs/swagger"
+        update-types:
+          - "minor"
+          - "patch"
 
   - package-ecosystem: "github-actions"
     directory: "/"
