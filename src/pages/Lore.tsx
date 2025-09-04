@@ -1,7 +1,88 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as s from "./lore.css.ts";
 
 export const Lore: React.FC = () => {
+  function TraitFooterAutoFit({ traits }: { traits: string[] }) {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const innerRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const container = containerRef.current;
+      const inner = innerRef.current;
+      if (!container || !inner) return;
+
+      let rafId = 0;
+
+      const fit = () => {
+        const containerEl = containerRef.current;
+        const innerEl = innerRef.current;
+        if (!containerEl || !innerEl) return;
+
+        // Clear any previous explicit size to measure baseline
+        containerEl.style.removeProperty("--trait-font-size");
+
+        // Determine baseline font size from first chip
+        const firstChip = innerEl.querySelector("span");
+        const baselinePx = firstChip
+          ? parseFloat(window.getComputedStyle(firstChip).fontSize || "14")
+          : parseFloat(
+              window.getComputedStyle(document.documentElement).fontSize || "16"
+            ) * 0.9;
+
+        const available = containerEl.clientWidth;
+        const needed = innerEl.scrollWidth;
+        if (needed <= available || !isFinite(needed) || needed === 0) {
+          containerEl.style.removeProperty("--trait-font-size");
+          return;
+        }
+
+        const minPx = 8; // readability floor
+        let nextPx = Math.max(
+          minPx,
+          Math.floor(baselinePx * (available / needed) * 100) / 100
+        );
+        containerEl.style.setProperty("--trait-font-size", `${nextPx}px`);
+
+        // Verify and refine a few times if still overflowing
+        let attempts = 0;
+        while (attempts < 4 && innerEl.scrollWidth > available && nextPx > minPx) {
+          nextPx = Math.max(minPx, Math.floor(nextPx * 0.96 * 100) / 100);
+          containerEl.style.setProperty("--trait-font-size", `${nextPx}px`);
+          attempts++;
+        }
+      };
+
+      const ro = new ResizeObserver(() => {
+        cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(fit);
+      });
+
+      ro.observe(container);
+      ro.observe(inner);
+
+      // Initial fit after mount
+      rafId = requestAnimationFrame(fit);
+
+      return () => {
+        cancelAnimationFrame(rafId);
+        try {
+          ro.disconnect();
+        } catch {}
+      };
+    }, [traits.join("|")]);
+
+    return (
+      <div ref={containerRef} className={s.traitFooter}>
+        <div ref={innerRef} style={{ display: "inline-flex", gap: 8 }}>
+          {traits.map((t, i) => (
+            <span key={`${t}-${i}`} className={s.traitChip}>
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
+  }
   // Tabs configuration: first tab is existing static content
   const tabs: {
     id: string;
@@ -523,16 +604,7 @@ export const Lore: React.FC = () => {
   }
 
   function renderTraitRows(combo: ElementDefinition[]): React.ReactNode {
-    // Single-line footer of primary traits for 2+ combinations
-    return (
-      <div className={s.traitFooter}>
-        {combo.map((e) => (
-          <span key={e.name} className={s.traitChip}>
-            {e.traitX}
-          </span>
-        ))}
-      </div>
-    );
+    return <TraitFooterAutoFit traits={combo.map((e) => e.traitX)} />;
   }
 
   // Deprecated helper retained for reference; not used after cohesive rewrite
@@ -740,10 +812,7 @@ export const Lore: React.FC = () => {
                     action.
                   </em>
                 </p>
-                <div className={s.traitRow}>
-                  <span className={s.traitChip}>{aether.traitX}</span>
-                  <span className={s.traitChip}>{aether.traitY}</span>
-                </div>
+                <TraitFooterAutoFit traits={[aether.traitX, aether.traitY]} />
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Air — Adaptation</h3>
@@ -753,10 +822,7 @@ export const Lore: React.FC = () => {
                     trying, learning, and guiding others.
                   </em>
                 </p>
-                <div className={s.traitRow}>
-                  <span className={s.traitChip}>{air.traitX}</span>
-                  <span className={s.traitChip}>{air.traitY}</span>
-                </div>
+                <TraitFooterAutoFit traits={[air.traitX, air.traitY]} />
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
@@ -767,10 +833,7 @@ export const Lore: React.FC = () => {
                     forward.
                   </em>
                 </p>
-                <div className={s.traitRow}>
-                  <span className={s.traitChip}>{fire.traitX}</span>
-                  <span className={s.traitChip}>{fire.traitY}</span>
-                </div>
+                <TraitFooterAutoFit traits={[fire.traitX, fire.traitY]} />
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Earth — Integrity</h3>
@@ -780,10 +843,7 @@ export const Lore: React.FC = () => {
                     done well. You keep order and make sure standards are met.
                   </em>
                 </p>
-                <div className={s.traitRow}>
-                  <span className={s.traitChip}>{earth.traitX}</span>
-                  <span className={s.traitChip}>{earth.traitY}</span>
-                </div>
+                <TraitFooterAutoFit traits={[earth.traitX, earth.traitY]} />
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Water — Potential</h3>
@@ -793,10 +853,7 @@ export const Lore: React.FC = () => {
                     You connect ideas and people to discover new possibilities.
                   </em>
                 </p>
-                <div className={s.traitRow}>
-                  <span className={s.traitChip}>{water.traitX}</span>
-                  <span className={s.traitChip}>{water.traitY}</span>
-                </div>
+                <TraitFooterAutoFit traits={[water.traitX, water.traitY]} />
               </div>
               <div className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>Nether — Capability</h3>
@@ -806,10 +863,7 @@ export const Lore: React.FC = () => {
                     You build skills and plans that help everyone do more.
                   </em>
                 </p>
-                <div className={s.traitRow}>
-                  <span className={s.traitChip}>{nether.traitX}</span>
-                  <span className={s.traitChip}>{nether.traitY}</span>
-                </div>
+                <TraitFooterAutoFit traits={[nether.traitX, nether.traitY]} />
               </div>
             </div>
           );
