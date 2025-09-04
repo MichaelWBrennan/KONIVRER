@@ -383,9 +383,7 @@ export const Lore: React.FC = () => {
     return h % modulo;
   }
 
-  function getFactionForCombo(
-    names: ElementDefinition["name"]
-  ): FactionEntry {
+  function getFactionForCombo(names: ElementDefinition["name"]): FactionEntry {
     const key = comboKey(names as string[]);
     const size = names.length;
     if (size === 2)
@@ -399,9 +397,7 @@ export const Lore: React.FC = () => {
 
   // --------------- Faction watermark helpers and ideology line ---------------
   function slugifyFactionName(name: string): string {
-    const normalized = name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+    const normalized = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     return normalized.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   }
 
@@ -502,7 +498,7 @@ export const Lore: React.FC = () => {
         `<defs><radialGradient id='g' cx='50%' cy='50%'><stop offset='0%' stop-color='#ffffff'/><stop offset='100%' stop-color='#e6eef7'/></radialGradient></defs>` +
         `<rect width='100%' height='100%' fill='url(#g)'/>` +
         `<text x='50%' y='54%' text-anchor='middle' font-size='72' font-family='serif' fill='#2c3e50' opacity='0.35'>${initials}</text>` +
-      `</svg>`
+        `</svg>`
     );
     return `url("data:image/svg+xml;utf8,${svg}")`;
   }
@@ -525,7 +521,9 @@ export const Lore: React.FC = () => {
     names: string[]
   ): string {
     const lowered = names.map((n) => n.toLowerCase()).join(", ");
-    return `${faction.name} represents ${ideology.toLowerCase()} through ${lowered}.`;
+    return `${
+      faction.name
+    } represents ${ideology.toLowerCase()} through ${lowered}.`;
   }
 
   // ------------------ Cohesive descriptions and trait rendering ------------------
@@ -846,7 +844,9 @@ export const Lore: React.FC = () => {
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(names);
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = special?.description
               ? special.description
               : buildCohesiveParagraph(combo, ideology);
@@ -885,7 +885,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             const ideologyLine = buildFactionIdeologyLine(
               faction,
@@ -922,7 +924,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             const ideologyLine = buildFactionIdeologyLine(
               faction,
@@ -959,7 +963,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             const ideologyLine = buildFactionIdeologyLine(
               faction,

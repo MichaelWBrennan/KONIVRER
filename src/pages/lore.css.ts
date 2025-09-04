@@ -248,7 +248,8 @@ export const traitFooter = style({
   gap: "8px",
   alignItems: "center",
   padding: "6px 10px",
-  background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 35%, rgba(255,255,255,0.95) 100%)",
+  background:
+    "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 35%, rgba(255,255,255,0.95) 100%)",
   borderTop: "1px solid #eef2f6",
   overflowX: "auto",
   whiteSpace: "nowrap",
