@@ -241,12 +241,18 @@ export const Lore: React.FC = () => {
           .join("\n\n");
 
         // Only update if this is the latest request and not aborted
-        if (!controller.signal.aborted && currentRequestId === requestIdRef.current) {
+        if (
+          !controller.signal.aborted &&
+          currentRequestId === requestIdRef.current
+        ) {
           setLoadedText(combined);
           setContentByTab((prev) => ({ ...prev, [tab.id]: combined }));
         }
       } catch (err) {
-        if (!controller.signal.aborted && currentRequestId === requestIdRef.current) {
+        if (
+          !controller.signal.aborted &&
+          currentRequestId === requestIdRef.current
+        ) {
           setLoadedText(`Failed to load content: ${String(err)}`);
         }
       }
