@@ -611,15 +611,194 @@ export const Lore: React.FC = () => {
     return urls.join(", ");
   }
 
+  function toGerund(verb: string): string {
+    const v = verb.toLowerCase();
+    if (v === "plan") return "planning";
+    if (v.endsWith("e") && !v.endsWith("ee")) return `${v.slice(0, -1)}ing`;
+    if (v.endsWith("ic")) return `${v}king`;
+    return `${v}ing`;
+  }
+
+  function joinOxford(items: string[]): string {
+    const list = items.filter(Boolean);
+    if (list.length === 0) return "";
+    if (list.length === 1) return list[0];
+    if (list.length === 2) return `${list[0]} and ${list[1]}`;
+    return `${list.slice(0, -1).join(", ")}, and ${list[list.length - 1]}`;
+  }
+
+  function uniqueCaseInsensitive(values: string[]): string[] {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const v of values) {
+      const key = v.toLowerCase();
+      if (!seen.has(key)) {
+        seen.add(key);
+        out.push(v);
+      }
+    }
+    return out;
+  }
+
+  function collectTraits(combo: ElementDefinition[]): string[] {
+    return uniqueCaseInsensitive(
+      combo.flatMap((e) => [e.traitX, e.traitY]).filter(Boolean)
+    );
+  }
+
+  const factionBlurbs: Record<string, string> = {
+    // Alliances and leagues (two-color)
+    "Hanseatic League":
+      "was a federation of northern towns that organized Baltic–North Sea trade through kontors in Bruges, London, Bergen, and Novgorod; convoy protection, staple rights, and collective embargoes secured privileges and stabilized commerce.",
+    "Auld Alliance":
+      "was a Franco–Scottish compact coordinating diplomacy and mutual military support against England; joint campaigns and reciprocal privileges sustained resilience across the late Middle Ages.",
+    "Lombard League":
+      "was a coalition of northern Italian communes defending communal liberties; after victory at Legnano, the Peace of Constance secured self‑government under a negotiated imperial framework.",
+    "Delian League":
+      "was an Aegean maritime coalition whose tribute and fleet coordination under Athenian leadership turned cooperative defense into durable systems of revenue, garrisons, and sea control.",
+    "Swiss Confederacy":
+      "bound alpine cantons by oath for mutual defense; militia levies, pacts, and negotiated autonomy resisted Habsburg and Burgundian pressure.",
+    "Kalmar Union":
+      "linked Denmark, Norway, and Sweden under one monarch; common fleets and councils were balanced by local estates bargaining over taxation, law, and succession.",
+    "Arte della Lana (Florence)":
+      "supervised quality, labor, and exports in Florence’s textile economy; ordinances, seals of approval, and contracted workshops scaled production while policing standards.",
+    "Arte della Calimala (Florence)":
+      "imported and finished luxury textiles; account books, quality marks, and patronage networks underwrote long‑distance trade and civic projects.",
+    "Worshipful Company of Mercers":
+      "was a London livery company dealing in fine textiles; charters, ward governance, and wardens’ courts regulated members while financing civic works.",
+    "Worshipful Company of Goldsmiths":
+      "set assay and hallmarking standards for precious metals; testing and hallmarks at Goldsmiths’ Hall safeguarded trust in coin and plate.",
+    "Brotherhood of Blackheads":
+      "united unmarried merchants in Livonian cities such as Riga and Tallinn; arsenals, credit, and processions entwined commerce with urban defense and ceremony.",
+    "Company of Merchant Adventurers":
+      "organized the English cloth export trade to the Low Countries; staples, membership rules, and consular courts lowered transaction costs abroad.",
+    "League of the Public Weal":
+      "was a coalition of great nobles in France that forced concessions from Louis XI; compacts, fortified holdings, and shifting alliances bargained with the crown.",
+    "Rhenish League of Towns":
+      "mounted joint measures along the Rhine against robber barons and disorder; toll agreements and armed escorts made riverine commerce safer.",
+    "Amalfi–Pisa Maritime Pact":
+      "evokes the standardized sea laws, convoying, and notarial practice developed among Italian maritime republics; merchants moved under recognizable contracts across the central Mediterranean.",
+
+    // Clans and families (three-color)
+    "Clan MacDonald (Clan Donald)":
+      "built sea power in the Hebrides through galleys, tribute, and arbitration; island councils and fosterage bound a far‑flung lordship of the Isles.",
+    "Clan Campbell":
+      "expanded in Argyll via charters, sheriffships, and strategic marriages; office‑holding and legal instruments translated into territorial consolidation.",
+    "House of Habsburg":
+      "used dynastic marriages, fiefs, and imperial elections to assemble a mosaic of jurisdictions; chancelleries, diets, and tax grants stitched them into workable rule.",
+    "House of Plantagenet":
+      "professionalized government through royal inquests, itinerant justice, and the Exchequer; levies and revenues sustained wars across the Channel.",
+    "House of Capet":
+      "grew royal authority from an Île‑de‑France base via church alliances, consistent justice, and the steady enlargement of the demesne.",
+    "House of Valois":
+      "reformed fiscal and military institutions during the Hundred Years’ War—standing companies and the taille—helping the crown recover and centralize.",
+    "House of Trastámara":
+      "leveraged frontier war and union of crowns; councils, military orders, and new fiscal tools advanced Iberian consolidation.",
+    "House of Lancaster":
+      "governed through broad coalitions, commissions of array, and council rule to steady a throne founded on usurpation.",
+    "House of York":
+      "pursued administrative streamlining, urban alliances, and household affinity networks to strengthen royal authority during civil strife.",
+    "House of Bourbon":
+      "built regional power through marriage, patronage, and service to the crown; landed jurisdiction and kinship ties created a durable bloc.",
+    "Minamoto Clan":
+      "established the Kamakura bakufu; shugo and jitō posts embedded military governance and estate control in the provinces.",
+    "Taira Clan":
+      "combined court patronage, maritime trade, and provincial governorships to finance a brief hegemony before defeat in the Genpei War.",
+    "Fujiwara Clan":
+      "dominated Heian politics through regency and marriage; mansion estates and letters culture anchored elite authority.",
+    "Yamato Clan":
+      "spearheaded early state formation with kofun‑era authority, ritual, and district administration in the Japanese heartland.",
+    "Borjigin Clan":
+      "organized steppe confederation under Chinggisid law; relay stations, decimal organization, and legal codes governed Eurasian expanse.",
+    "Banu Hashim":
+      "held custodianship in Mecca and kin leadership that later dynasties traced; sacral prestige and mediation shaped authority.",
+    "Banu Umayya (Umayyad)":
+      "built early imperial administration with Arabic chancelleries, coinage reform, and provincial governors integrating a vast realm.",
+    "Tuareg Confederations":
+      "protected caravans and controlled oases; clan assemblies and customary law ordered mobile life along Saharan routes.",
+    "Ainu":
+      "balanced hunting, river‑sea trade, and ritual exchange with neighbors; councils and alliances governed relations across the north.",
+    "Cherokee":
+      "organized town councils and mound‑centered civic life; matrilineal clans and diplomacy linked river valleys before European contact.",
+
+    // Dominions, coalitions, syndicates (four-color)
+    "Crown of Aragon":
+      "was a Mediterranean composite monarchy whose merchants, consulates, and naval escorts structured trade from Barcelona to Sicily; the Consolat de Mar codified maritime practice.",
+    "Crown of Castile":
+      "mobilized the Mesta’s sheep‑walks, municipal fueros, and cortes taxation; frontier settlement and law shaped a continental domain.",
+    "Polish–Lithuanian Union":
+      "bound nobles in personal unions; regional diets and negotiated privileges created a shared political nation across vast territories.",
+    "Grand Duchy of Lithuania":
+      "administered Europe’s largest state with Ruthenian chancery practice, layered vassalage, and later comprehensive Lithuanian Statutes.",
+    "Novgorod Republic":
+      "relied on veche assemblies, elected posadniks, and treaty‑backed trade with the north until annexation by Muscovy.",
+    "Monastic State of the Teutonic Order":
+      "built castles, planted towns with German law, and taxed Baltic trade; defeat at Grunwald curbed expansion but institutions endured.",
+    "Mamluk Sultanate":
+      "governed through an elite military caste, iqta revenues, and caravan protection; victory at Ayn Jalut and merchant diplomacy kept Cairo central.",
+    "Delhi Sultanate":
+      "held the Indo‑Gangetic plain with land‑revenue reform, fortified capitals, and active market and coinage management.",
+    "Sultanate of Malacca":
+      "ran a bustling entrepôt with harbor masters, tariffs, and legal codes ordering multiethnic trade; diplomacy linked the straits to Asia’s monsoon routes.",
+    "Golden Horde":
+      "leveraged yarlik charters, tribute from Rus principalities, and river routes; coinage tied the khanate into Eurasian commerce.",
+    "Timurid State":
+      "fostered a Persianate renaissance in Samarkand and Herat; conquest financed monumental architecture and arts patronage.",
+    "Italian League (1454)":
+      "stabilized Italy after Lodi through balance‑of‑power pacts; resident ambassadors and condottieri enforced negotiated peace.",
+    "Medici Bank":
+      "used branch networks, bills of exchange, and meticulous risk books to fund princes and wool; cultural patronage advertised solvency.",
+    "House of Fugger":
+      "controlled Central European copper and extended credit to emperors; ledgers and partnerships scaled mining and finance.",
+    "Kingdom of Hungary":
+      "developed royal mining towns and a professional Black Army under Matthias Corvinus; border forts and revenue reforms strengthened the realm.",
+
+    // Empires (five-color)
+    "Holy Roman Empire":
+      "coordinated a patchwork of princes and cities through electors, imperial courts, and circles; diets mediated law, tolls, and defense with limited central force.",
+    "Ottoman Empire":
+      "organized a multilingual empire by timar land grants, devşirme recruiting, and a palace bureaucracy; the capture of Constantinople crowned maritime and land strategy.",
+    "Ming Dynasty":
+      "restored agrarian registers and the examination system; state granaries, salt monopolies, and oceanic expeditions displayed administrative reach.",
+    "Aztec Empire":
+      "structured the Triple Alliance around tribute, markets, and ritual warfare; imperial oversight of pochteca and provinces sustained expansion.",
+    "Inca Empire":
+      "integrated highland and coast via the Qhapaq Ñan road, mit’a labor drafts, and quipu accounting under a centrally directed commonwealth.",
+    "Songhai Empire":
+      "projected power from Gao and Timbuktu with river fleets and customs houses; Islamic scholarship and trans‑Saharan trade funded authority.",
+  };
+
+  function getFactionBlurb(name: string): string {
+    return factionBlurbs[name] ||
+      `${name} leveraged institutions, law, and networks to pursue durable aims across its domain.`;
+  }
+
+  function buildNarrativeParagraph(
+    combo: ElementDefinition[],
+    ideologyTitle: string,
+    faction: FactionEntry
+  ): string {
+    const traits = collectTraits(combo);
+    const gerunds = traits.map(toGerund);
+    const themes = combo.map((e) => summarize(e.definition).toLowerCase());
+    const mechanism = joinOxford(gerunds.slice(0, 5));
+    const joinedThemes = joinOxford(themes);
+    const first = `${ideologyTitle} emerges from ${mechanism}, turning ${joinedThemes} into coordinated practice.`;
+    const second = `Historically, ${faction.name} ${getFactionBlurb(faction.name)}`;
+    const bridge = gerunds.length >= 2
+      ? `Together these patterns embody ${ideologyTitle.toLowerCase()} by aligning ${gerunds[0]} with ${gerunds[1]} to deliver accountable results.`
+      : `Together these patterns embody ${ideologyTitle.toLowerCase()} in concrete, accountable work.`;
+    return `${first} ${second} ${bridge}`;
+  }
+
   function buildFactionIdeologyLine(
     faction: FactionEntry,
     ideology: string,
-    names: string[]
+    combo: ElementDefinition[]
   ): string {
-    const lowered = names.map((n) => n.toLowerCase()).join(", ");
-    return `${
-      faction.name
-    } represents ${ideology.toLowerCase()} through ${lowered}.`;
+    const traits = collectTraits(combo).map((t) => t.toLowerCase());
+    const listed = joinOxford(traits.slice(0, 4));
+    return `${faction.name} embodies ${ideology.toLowerCase()} by coordinating ${listed}.`;
   }
 
   // ------------------ Cohesive descriptions and trait rendering ------------------
@@ -916,13 +1095,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = special?.description
-              ? special.description
-              : buildCohesiveParagraph(combo, ideology);
+            const description = buildNarrativeParagraph(combo, ideology, faction);
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              names as string[]
+              combo
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -957,11 +1134,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildCohesiveParagraph(combo, ideology);
+            const description = buildNarrativeParagraph(combo, ideology, faction);
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              names as string[]
+              combo
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -996,11 +1173,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildCohesiveParagraph(combo, ideology);
+            const description = buildNarrativeParagraph(combo, ideology, faction);
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              names as string[]
+              combo
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -1035,11 +1212,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildCohesiveParagraph(combo, ideology);
+            const description = buildNarrativeParagraph(combo, ideology, faction);
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              names as string[]
+              combo
             );
             return (
               <div key={key} className={s.virtueCard}>
