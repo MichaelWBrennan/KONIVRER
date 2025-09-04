@@ -1,22 +1,19 @@
 import { useEffect, useRef } from "react";
-import {
-  GlobalWorkerOptions,
-  getDocument,
-  type PDFDocumentProxy,
-} from "pdfjs-dist";
 import * as s from "./pdfViewer.css.ts";
 
-GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+// Worker source will be configured after dynamic import
 
 export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): any {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
-    let pdfDoc: PDFDocumentProxy | null = null;
+    let pdfDoc: any = null;
 
     (async () => {
-      const loadingTask = getDocument(url);
+      const pdfjs = await import("pdfjs-dist");
+      pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js`;
+      const loadingTask = pdfjs.getDocument(url);
       pdfDoc = await loadingTask.promise;
       if (isCancelled) return;
 
