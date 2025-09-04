@@ -9,12 +9,16 @@ const LazyDeckSearch = lazy(() =>
   import("./components/DeckSearch").then((m) => ({ default: m.DeckSearch }))
 );
 const LazyKonivrverSimulator = lazy(() =>
-  import("./components/KonivrverSimulator").then((m) => ({ default: m.KonivrverSimulator }))
+  import("./components/KonivrverSimulator").then((m) => ({
+    default: m.KonivrverSimulator,
+  }))
 );
 const LazyJudgePortal = lazy(() =>
   import("./components/JudgePortal").then((m) => ({ default: m.JudgePortal }))
 );
-const LazyNotificationCenter = lazy(() => import("./components/NotificationCenter"));
+const LazyNotificationCenter = lazy(
+  () => import("./components/NotificationCenter")
+);
 // Deckbuilder is accessed from Decks page; keep import only where used directly
 
 const LazyAnalytics = lazy(() =>
