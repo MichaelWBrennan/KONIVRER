@@ -630,80 +630,72 @@ export const Lore: React.FC = () => {
         {/* end single-element cards */}
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Two-Element Combinations</h3>
-            {combinations2.map((combo, idx) => {
-              const [e1, e2] = combo;
-              const names = [e1.name, e2.name];
-              const key = pairKey(names[0], names[1]);
-              const special = specialPairs[key];
-              const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" + ")}: ${ideology};`;
-              const description = buildPairContributionExplanation(e1, e2);
-              return (
-                <p key={idx} className={s.virtueText}>
-                  <strong>{header}</strong> {description}
-                </p>
-              );
-            })}
-          </div>
+          {combinations2.map((combo) => {
+            const [e1, e2] = combo;
+            const names = [e1.name, e2.name];
+            const key = pairKey(names[0], names[1]);
+            const special = specialPairs[key];
+            const ideology = special ? special.title : "Synthesis";
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const description = buildPairContributionExplanation(e1, e2);
+            return (
+              <div key={key} className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>{header}</h3>
+                <p className={s.virtueText}>{description}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Three-Element Combinations</h3>
-            {combinations3.map((combo, idx) => {
-              const names = combo.map((e) => e.name);
-              const key = comboKey(names);
-              const special = specialTriples[key];
-              const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" + ")}: ${ideology};`;
-              const description = buildContributionExplanation(combo);
-              return (
-                <p key={idx} className={s.virtueText}>
-                  <strong>{header}</strong> {description}
-                </p>
-              );
-            })}
-          </div>
+          {combinations3.map((combo) => {
+            const names = combo.map((e) => e.name);
+            const key = comboKey(names);
+            const special = specialTriples[key];
+            const ideology = special ? special.title : "Synthesis";
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const description = buildContributionExplanation(combo);
+            return (
+              <div key={key} className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>{header}</h3>
+                <p className={s.virtueText}>{description}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Four-Element Combinations</h3>
-            {combinations4.map((combo, idx) => {
-              const names = combo.map((e) => e.name);
-              const key = comboKey(names);
-              const special = specialQuads[key];
-              const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" + ")}: ${ideology};`;
-              const description = buildContributionExplanation(combo);
-              return (
-                <p key={idx} className={s.virtueText}>
-                  <strong>{header}</strong> {description}
-                </p>
-              );
-            })}
-          </div>
+          {combinations4.map((combo) => {
+            const names = combo.map((e) => e.name);
+            const key = comboKey(names);
+            const special = specialQuads[key];
+            const ideology = special ? special.title : "Synthesis";
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const description = buildContributionExplanation(combo);
+            return (
+              <div key={key} className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>{header}</h3>
+                <p className={s.virtueText}>{description}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          <div className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>Five-Element Combinations</h3>
-            {combinations5.map((combo, idx) => {
-              const names = combo.map((e) => e.name);
-              const key = comboKey(names);
-              const special = specialQuints[key];
-              const ideology = special ? special.title : "Synthesis";
-              const header = `${names.join(" + ")}: ${ideology};`;
-              const description = buildContributionExplanation(combo);
-              return (
-                <p key={idx} className={s.virtueText}>
-                  <strong>{header}</strong> {description}
-                </p>
-              );
-            })}
-          </div>
+          {combinations5.map((combo) => {
+            const names = combo.map((e) => e.name);
+            const key = comboKey(names);
+            const special = specialQuints[key];
+            const ideology = special ? special.title : "Synthesis";
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const description = buildContributionExplanation(combo);
+            return (
+              <div key={key} className={s.virtueCard}>
+                <h3 className={s.virtueTitle}>{header}</h3>
+                <p className={s.virtueText}>{description}</p>
+              </div>
+            );
+          })}
         </div>
       </section>
     ),
