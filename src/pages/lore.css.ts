@@ -235,7 +235,7 @@ export const traitChip = style({
   backgroundColor: "#e8f4ff",
   color: "#1b5fa8",
   border: "1px solid #a8d0ff",
-  fontSize: "0.9rem",
+  fontSize: "var(--trait-font-size, 0.9rem)",
 });
 
 // Single-line trait footer pinned to card bottom for 2+ combinations
@@ -251,7 +251,7 @@ export const traitFooter = style({
   background:
     "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 35%, rgba(255,255,255,0.95) 100%)",
   borderTop: "1px solid #eef2f6",
-  overflowX: "auto",
+  overflow: "hidden",
   whiteSpace: "nowrap",
   zIndex: 1,
 });
