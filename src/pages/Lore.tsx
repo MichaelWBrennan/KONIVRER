@@ -716,9 +716,8 @@ export const Lore: React.FC = () => {
       "built early imperial administration with Arabic chancelleries, coinage reform, and provincial governors integrating a vast realm.",
     "Tuareg Confederations":
       "protected caravans and controlled oases; clan assemblies and customary law ordered mobile life along Saharan routes.",
-    "Ainu":
-      "balanced hunting, river‑sea trade, and ritual exchange with neighbors; councils and alliances governed relations across the north.",
-    "Cherokee":
+    Ainu: "balanced hunting, river‑sea trade, and ritual exchange with neighbors; councils and alliances governed relations across the north.",
+    Cherokee:
       "organized town councils and mound‑centered civic life; matrilineal clans and diplomacy linked river valleys before European contact.",
 
     // Dominions, coalitions, syndicates (four-color)
@@ -769,8 +768,10 @@ export const Lore: React.FC = () => {
   };
 
   function getFactionBlurb(name: string): string {
-    return factionBlurbs[name] ||
-      `${name} leveraged institutions, law, and networks to pursue durable aims across its domain.`;
+    return (
+      factionBlurbs[name] ||
+      `${name} leveraged institutions, law, and networks to pursue durable aims across its domain.`
+    );
   }
 
   function buildNarrativeParagraph(
@@ -784,10 +785,15 @@ export const Lore: React.FC = () => {
     const mechanism = joinOxford(gerunds.slice(0, 5));
     const joinedThemes = joinOxford(themes);
     const first = `${ideologyTitle} emerges from ${mechanism}, turning ${joinedThemes} into coordinated practice.`;
-    const second = `Historically, ${faction.name} ${getFactionBlurb(faction.name)}`;
-    const bridge = gerunds.length >= 2
-      ? `Together these patterns embody ${ideologyTitle.toLowerCase()} by aligning ${gerunds[0]} with ${gerunds[1]} to deliver accountable results.`
-      : `Together these patterns embody ${ideologyTitle.toLowerCase()} in concrete, accountable work.`;
+    const second = `Historically, ${faction.name} ${getFactionBlurb(
+      faction.name
+    )}`;
+    const bridge =
+      gerunds.length >= 2
+        ? `Together these patterns embody ${ideologyTitle.toLowerCase()} by aligning ${
+            gerunds[0]
+          } with ${gerunds[1]} to deliver accountable results.`
+        : `Together these patterns embody ${ideologyTitle.toLowerCase()} in concrete, accountable work.`;
     return `${first} ${second} ${bridge}`;
   }
 
@@ -798,7 +804,9 @@ export const Lore: React.FC = () => {
   ): string {
     const traits = collectTraits(combo).map((t) => t.toLowerCase());
     const listed = joinOxford(traits.slice(0, 4));
-    return `${faction.name} embodies ${ideology.toLowerCase()} by coordinating ${listed}.`;
+    return `${
+      faction.name
+    } embodies ${ideology.toLowerCase()} by coordinating ${listed}.`;
   }
 
   // ------------------ Cohesive descriptions and trait rendering ------------------
@@ -1095,7 +1103,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildNarrativeParagraph(combo, ideology, faction);
+            const description = buildNarrativeParagraph(
+              combo,
+              ideology,
+              faction
+            );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
@@ -1134,7 +1146,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildNarrativeParagraph(combo, ideology, faction);
+            const description = buildNarrativeParagraph(
+              combo,
+              ideology,
+              faction
+            );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
@@ -1173,7 +1189,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildNarrativeParagraph(combo, ideology, faction);
+            const description = buildNarrativeParagraph(
+              combo,
+              ideology,
+              faction
+            );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
@@ -1212,7 +1232,11 @@ export const Lore: React.FC = () => {
             const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
-            const description = buildNarrativeParagraph(combo, ideology, faction);
+            const description = buildNarrativeParagraph(
+              combo,
+              ideology,
+              faction
+            );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
