@@ -7,134 +7,93 @@ export const Lore: React.FC = () => {
     id: string;
     label: string;
     src?: string;
+    sources?: string[];
     isStatic?: boolean;
   }[] = [
     { id: "elements", label: "Six Elements", isStatic: true },
     {
-      id: "societies",
+      id: "cosmology_magic",
+      label: "Cosmology & Magic",
+      sources: [
+        "/assets/lore/aether.txt",
+        "/assets/lore/elements_east.txt",
+        "/assets/lore/elements_west.txt",
+        "/assets/lore/worlds.txt",
+        "/assets/lore/summoning.txt",
+        "/assets/lore/veil.txt",
+        "/assets/lore/alchemy.txt",
+        "/assets/lore/language.txt",
+        "/assets/lore/ethics.txt",
+        "/assets/lore/laws_history.txt"
+      ],
+    },
+    {
+      id: "pantheons_species",
+      label: "Pantheons & Species",
+      sources: [
+        "/assets/lore/ars_goetia.txt",
+        "/assets/lore/mesopotamian.txt",
+        "/assets/lore/shem.txt",
+        "/assets/lore/remaining.txt",
+        "/assets/lore/infernal.txt",
+        "/assets/lore/human.txt",
+        "/assets/lore/species.txt",
+        "/assets/lore/origin.txt"
+      ],
+    },
+    {
+      id: "societies_eras",
       label: "Societies & Eras",
-      src: "/assets/lore/societies.txt",
-    },
-    {
-      id: "ars_goetia",
-      label: "Ars Goetia",
-      src: "/assets/lore/ars_goetia.txt",
-    },
-    {
-      id: "mesopotamian",
-      label: "Hidden Mesopotamian Pantheon",
-      src: "/assets/lore/mesopotamian.txt",
-    },
-    {
-      id: "shem",
-      label: "Shem HaMephoras (72 Angels)",
-      src: "/assets/lore/shem.txt",
-    },
-    {
-      id: "remaining",
-      label: "Remaining (Archangels, etc.)",
-      src: "/assets/lore/remaining.txt",
-    },
-    {
-      id: "origin",
-      label: "Origin of Species: Mythological Clades",
-      src: "/assets/lore/origin.txt",
-    },
-    { id: "summoning", label: "Summoning", src: "/assets/lore/summoning.txt" },
-    {
-      id: "elements_east",
-      label: "Elements (Eastern Flavor)",
-      src: "/assets/lore/elements_east.txt",
-    },
-    { id: "veil", label: "The Shattered Veil", src: "/assets/lore/veil.txt" },
-    {
-      id: "elements_west",
-      label: "Elements (Western Flavor)",
-      src: "/assets/lore/elements_west.txt",
-    },
-    { id: "worlds", label: "Worlds & Lokas", src: "/assets/lore/worlds.txt" },
-    {
-      id: "aether",
-      label: "Aether Magic System",
-      src: "/assets/lore/aether.txt",
-    },
-    {
-      id: "laws_history",
-      label: "Laws & Pre-History",
-      src: "/assets/lore/laws_history.txt",
-    },
-    { id: "ethics", label: "Ethics Systems", src: "/assets/lore/ethics.txt" },
-    { id: "taoism", label: "Taoism (AIFNW)", src: "/assets/lore/taoism.txt" },
-    {
-      id: "items_east",
-      label: "Items (Eastern)",
-      src: "/assets/lore/items_east.txt",
-    },
-    {
-      id: "abrahamism",
-      label: "Abrahamism (IFNEW)",
-      src: "/assets/lore/abrahamism.txt",
-    },
-    {
-      id: "dharmism",
-      label: "Dharmism (AINEW)",
-      src: "/assets/lore/dharmism.txt",
-    },
-    {
-      id: "african",
-      label: "African (IFNEW)",
-      src: "/assets/lore/african.txt",
-    },
-    {
-      id: "wildfolkism",
-      label: "Wildfolkism (AIFNE)",
-      src: "/assets/lore/wildfolkism.txt",
-    },
-    {
-      id: "hellenism",
-      label: "Hellenism (AIFEW)",
-      src: "/assets/lore/hellenism.txt",
-    },
-    { id: "human", label: "Human & Celestials", src: "/assets/lore/human.txt" },
-    {
-      id: "infernal",
-      label: "Infernal & Mythological",
-      src: "/assets/lore/infernal.txt",
-    },
-    {
-      id: "species",
-      label: "Species (Ogre, Dvergr, etc.)",
-      src: "/assets/lore/species.txt",
-    },
-    {
-      id: "language",
-      label: "Basik AnglΣ (Language)",
-      src: "/assets/lore/language.txt",
-    },
-    {
-      id: "alchemy",
-      label: "Alxemi (Alchemy)",
-      src: "/assets/lore/alchemy.txt",
-    },
-    {
-      id: "prehistory",
-      label: "Pre-History",
-      src: "/assets/lore/prehistory.txt",
-    },
-    {
-      id: "three_ages",
-      label: "Three Ages",
-      src: "/assets/lore/three_ages.txt",
-    },
-    {
-      id: "classical",
-      label: "Classical Era",
-      src: "/assets/lore/classical.txt",
+      sources: [
+        "/assets/lore/societies.txt",
+        "/assets/lore/prehistory.txt",
+        "/assets/lore/three_ages.txt",
+        "/assets/lore/classical.txt",
+        "/assets/lore/abrahamism.txt",
+        "/assets/lore/dharmism.txt",
+        "/assets/lore/african.txt",
+        "/assets/lore/wildfolkism.txt",
+        "/assets/lore/hellenism.txt",
+        "/assets/lore/taoism.txt",
+        "/assets/lore/items_east.txt"
+      ],
     },
   ];
   const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
   const [query, setQuery] = useState<string>("");
   const [loadedText, setLoadedText] = useState<string>("");
+
+  const labelForSrc: Record<string, string> = {
+    "/assets/lore/societies.txt": "Societies & Eras",
+    "/assets/lore/ars_goetia.txt": "Ars Goetia",
+    "/assets/lore/mesopotamian.txt": "Hidden Mesopotamian Pantheon",
+    "/assets/lore/shem.txt": "Shem HaMephoras (72 Angels)",
+    "/assets/lore/remaining.txt": "Remaining (Archangels, etc.)",
+    "/assets/lore/origin.txt": "Origin of Species: Mythological Clades",
+    "/assets/lore/summoning.txt": "Summoning",
+    "/assets/lore/elements_east.txt": "Elements (Eastern Flavor)",
+    "/assets/lore/veil.txt": "The Shattered Veil",
+    "/assets/lore/elements_west.txt": "Elements (Western Flavor)",
+    "/assets/lore/worlds.txt": "Worlds & Lokas",
+    "/assets/lore/aether.txt": "Aether Magic System",
+    "/assets/lore/laws_history.txt": "Laws & Pre-History",
+    "/assets/lore/ethics.txt": "Ethics Systems",
+    "/assets/lore/taoism.txt": "Taoism (AIFNW)",
+    "/assets/lore/items_east.txt": "Items (Eastern)",
+    "/assets/lore/abrahamism.txt": "Abrahamism (IFNEW)",
+    "/assets/lore/dharmism.txt": "Dharmism (AINEW)",
+    "/assets/lore/african.txt": "African (IFNEW)",
+    "/assets/lore/wildfolkism.txt": "Wildfolkism (AIFNE)",
+    "/assets/lore/hellenism.txt": "Hellenism (AIFEW)",
+    "/assets/lore/human.txt": "Human & Celestials",
+    "/assets/lore/infernal.txt": "Infernal & Mythological",
+    "/assets/lore/species.txt": "Species (Ogre, Dvergr, etc.)",
+    "/assets/lore/language.txt": "Basik AnglΣ (Language)",
+    "/assets/lore/alchemy.txt": "Alxemi (Alchemy)",
+    "/assets/lore/prehistory.txt": "Pre-History",
+    "/assets/lore/three_ages.txt": "Three Ages",
+    "/assets/lore/classical.txt": "Classical Era",
+  };
 
   useEffect(() => {
     const handler = (e: any) => setQuery(e.detail || "");
@@ -144,25 +103,42 @@ export const Lore: React.FC = () => {
 
   useEffect(() => {
     const tab = tabs.find((t) => t.id === activeTab);
-    if (!tab || tab.isStatic || !tab.src) {
+    if (!tab || tab.isStatic) {
       setLoadedText("");
       return;
     }
 
-    const src = tab.src!;
-    const label = tab.label;
+    const sources = tab.sources ?? (tab.src ? [tab.src] : []);
+    if (!sources || sources.length === 0) {
+      setLoadedText("");
+      return;
+    }
 
     (async () => {
       try {
-        const res = await fetch(src);
-        if (!res.ok) {
-          setLoadedText(
-            `Content not found for ${label}. Ensure file exists at ${src}.`
-          );
-          return;
-        }
-        const txt = await res.text();
-        setLoadedText(txt);
+        const texts = await Promise.all(
+          sources.map(async (src) => {
+            try {
+              const res = await fetch(src);
+              if (!res.ok) {
+                return `Content not found for ${labelForSrc[src] ?? src}. Ensure file exists at ${src}.`;
+              }
+              return await res.text();
+            } catch (e) {
+              return `Failed to load content from ${src}: ${String(e)}`;
+            }
+          })
+        );
+
+        const combined = sources
+          .map((src, idx) => {
+            const sectionLabel = labelForSrc[src] ?? src;
+            const body = texts[idx] || "";
+            return `=== ${sectionLabel} ===\n\n${body.trim()}`;
+          })
+          .join("\n\n");
+
+        setLoadedText(combined);
       } catch (err) {
         setLoadedText(`Failed to load content: ${String(err)}`);
       }
