@@ -1,41 +1,33 @@
-Elements w/ Western flavor text
+Elements (Western Flavor)
 Summary
-Use this summary box to add quick facts about your article.
-These
-Can be
-Bullet points
-It's a great wiki-style sidebar!
+• Old alchemists wrote in circles to keep their truths from running away.
+• In the valley, each element is a habit the world would rather not break.
+• These notes are marginalia found in a water-damaged Rosarium.
 
-Single Elements (1)
-1. Earth: The Root of Being — “The earth is the prima materia...” — Hermes Trismegistus
-2. Air: The Breath of Heaven — “Air, the mercurial spirit...” — Paracelsus
-3. Fire: The Inner Spark — “Fire is the divine spark...” — Emerald Tablet
-4. Water: The Flow Eternal — “Water is the universal solvent...” — Flamel
-5. Aether: The Heavenly Thread — “Aether, the quintessence...” — Aristotle
-6. Nether: The Shadowed Void — Flavor Text:
+Earth — The Patient Measure
+Stone does not forgive; it remembers. The pilgrim who sets a weight upon the scale of Earth will find the other pan already heavy with uncounted favors.
 
-Two-Element Combinations (15)
-1. Earth + Air: The Breath of Stone — Albertus Magnus
-2. Earth + Fire: The Smoldering Forge — Rosarium Philosophorum
-3. Earth + Water: The Blooming Oasis — Pseudo-Geber
-4. Earth + Aether: The Pillar of Heaven — Trithemius
-5. Earth + Nether: The Womb of Shadows — Ripley Scroll
-6. Air + Fire: The Solar Wind — Thomas Vaughan
-7. Air + Water: The Whispering Storm — George Ripley
-8. Air + Aether: The Sky’s Embrace — Ficino
-9. Air + Nether: The Shadowed Gale — Paracelsus
-10. Fire + Water: The Tempered Flame — Emerald Tablet
-11. Fire + Aether: The Celestial Ember — Fludd
-12. Fire + Nether: The Abyssal Blaze — Khunrath
-13. Water + Aether: The Sky Mirror — Aristotle
-14. Water + Nether: The Abyssal Flow — Maier
-15. Aether + Nether: The Veil of Eternity — Kepler
+Air — The Unowned Breath
+Air is a promise to return. Doors opened to Air never truly close; they only pretend until death passes by.
 
-Three-Element Combinations (excerpt)
-1. Earth + Air + Fire: The Flame of the Mountain Wind — Basil Valentine
-2. Earth + Air + Water: The Tempest’s Breath — Pseudo-Geber
-3. Earth + Air + Aether: The Winds of the Eternal Mountain — Paracelsus
-...
+Fire — The Desiring Ash
+What burns wishes it could stay. The ash wishes it could leave. Between them the pilgrim warms his hands and learns neither is satisfied.
 
-Four-Element & Five-Element Combinations
-See full text for details and citations.
+Water — The Second Thought
+Water believes the mountain was always a river. It persuades rock with patience and bodies with mercy.
+
+Aether — The Gentle Tyrant
+Aether binds by convincing you that you were already bound. It is the order of prayers and the silence between.
+
+Nether — The Useful Absence
+What is missing shapes what remains. The Nether is the draft left by a word unsaid. It is not evil. It is a tool; it resents being named.
+
+On Mixtures (Notes for the Careful)
+- Earth with Air tastes of bread—sturdy, risen, shared. Good for promises in daylight.
+- Earth with Water grows graves into gardens. Do not plant what you are not ready to harvest.
+- Fire with Water makes steam that blinds and heals. A surgeon’s breath.
+- Fire with Aether becomes doctrine; keep a basin nearby for when it cools.
+- Water with Aether is a mirror that shows you as someone else would forgive you.
+- Aether with Nether is the Veil’s favorite deceit: a door that is also an oath.
+
+The alchemists did not agree about any of this. Agreement is for those whose world is not cracked.

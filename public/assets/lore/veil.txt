@@ -1,37 +1,56 @@
-The shattered veil
+The Shattered Veil
 Summary
-Use this summary box to add quick facts about your article.
-These
-Can be
-Bullet points
-It's a great wiki-style sidebar!
-You can also click the dropdown at the top right of this sidebar and choose "Add Images" - give it a try!
+• The Veilstone cracked on the Night of Saints, and the dead remembered their names.
+• Valea Căpcănești and Castle Bran sit upon a wound where worlds rub raw.
+• The Six Elements whisper in ruined chapels and river-mist; none agree, all are true.
+• Three destinies coil: Restoration, Transcendence, Annihilation.
 
-The Veilstone, an ancient artifact that separated the realms of the living and the dead, has shattered. In its wake, Romania has become a cursed land haunted by gods, spirits, and demons. Players take the role of broken individuals drawn into this fragmented world. Their choices will reshape the land, influence the balance between life and death, and determine whether the Veilstone is restored—or used to transcend mortality.
+The Veilstone once divided breath from breathless. It did not shatter loudly. Bells rang in empty steeples; fish rose belly-up in the Prut and turned their eyes to the moon. On that night the living learned to walk like mourners, and the dead learned to speak like kings.
+
+Pilgrims come to Romania with pocket relics and moth-bitten prayers. They find the valley different each time. Paths fold back. Wolves wear rosaries. The old fortress of Bran keeps watch but cannot remember who it is keeping watch for.
 
 Themes
-• Obscured Truth
-• Cycles of Death and Rebirth
-• Isolation and Despair
+• Obscured Truth that refuses to be solved, only inhabited
+• Death as a season; rebirth as a debt
+• Solitude in a crowd of phantoms; companionship with the unforsaken
 
-Module Structure
-Act I: The Twilight of Valea Căpcănești
-Act II: The Descent into Madness
-Act III: The Shattered Veil
+Structure of the Fall
+Act I — The Twilight of Valea Căpcănești
+The village dreams of the river before it is born. A bellwether child points at nothing and cries, “Do not open.” You will open it.
 
-Key Locations and Encounters
-- Valea Căpcănești: The Accused Villager; The Elder’s Hut
-- Castle Bran (Outer/Inner): The Gatekeeper; Ravens of Bran; Mircea’s Invitation
-- The Carpathian Forest: Spectral Wolves; Freya’s Warning; Freya’s Trial
-- Saint Ilie’s Monastery: The Manuscript; Monks’ Trials
-- The Abyss of the Veilstone: Guardians of the Veil; The Truth Revealed
+Act II — The Descent and the Bargain
+Mircea of Bran writes invitations in red ink no hand can forge. You descend through vineyards where the grapes taste of candle smoke. You will bargain with something that has forgotten hunger.
 
-Endgame Scenarios
-• Restoration
-• Transcendence
-• Annihilation
+Act III — The Shattered Veil
+Beneath the monastery, beneath the ossuary of saints, beneath the bedrock that remembers lightning, the Veilstone beats. It is a heart that is also a gate. It does not ask to be mended. It asks to be understood.
 
-Gameplay Mechanics
-• Adaptive Environments
-• Symbolic Boss Fights
-• Fragmented Lore
+Key Places and Their Silences
+- Valea Căpcănești — A village of thresholds. Doors open inward, windows refuse to face the east. The Elder keeps a ledger of rains and names; one list is longer.
+- Castle Bran, Outer Keep — Ravens tally the living by stealing buttons. The Gatekeeper opens for those who do not knock.
+- Castle Bran, Inner Keep — Paper walls, iron prayers. Mircea’s study smells of myrrh and wet ash. He speaks as if the room is listening.
+- The Carpathian Forest — Stags that cast no shadow; wolves that do. Freya tests all pilgrims with questions about kindness they have not yet offered.
+- Saint Ilie’s Monastery — The manuscript bleeds when read aloud. The monks take vows against mirrors.
+- The Abyss of the Veilstone — No abyss is large; this one is deep. Your name echoes here and comes back wearing another’s face.
+
+Relics and Their Burdens
+- Veilstone Shard
+  A shard cold as remorse. When held, nearby candles bow as if to a wind that is not there. It hums in the presence of unanswered questions.
+- Raven Button
+  Stolen from the living to negotiate with the dead. Warm to the touch when someone speaks of you in hatred or love.
+- Ossuary Ring
+  Forged from reliquary lead. Wearing it makes sleep gentle and waking unkind. You will dream of a door you do not own.
+
+Figures Who Do Not Depart
+- Mircea of Bran — The courteous gaoler. His invitations arrive before one chooses to travel. He claims to keep the peace between breath and breathless. The peace keeps him instead.
+- Freya of the Forest — A kindness armed to the teeth. She offers trials to prove you are still a person when no one is watching.
+- The Gatekeeper — Blind by choice. He opens for a price he never speaks but everyone pays.
+
+Endings, Named as if they were beginnings
+• Restoration — The Veil mended, the world narrower. The dead grow distant, and the living forget the taste of iron. Your pockets feel lighter.
+• Transcendence — The Veil thinned to a hymn. The river runs both ways; names become bridges. You are not more than human, only more honest.
+• Annihilation — The Veil unstitched. A kindness to none, a truth for all. Stars reflect in the Prut as if the sky has fallen in to see itself.
+
+Play and Penitence
+• Adaptive Environments — Roads remember the last sin confessed upon them and choose their stones accordingly.
+• Symbolic Bosses — Each fight is about something you promised and did not keep.
+• Fragmented Lore — Truth scattered like bones in sand. You will kneel often, and not always to pray.
