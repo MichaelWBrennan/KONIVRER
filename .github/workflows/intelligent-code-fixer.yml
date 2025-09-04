@@ -88,30 +88,29 @@ jobs:
         npm audit fix || true
         echo "✅ Dependencies resolved"
     
-    - name: 🚨 Emergency CI Fixes
+    - name: 🚨 Emergency CI Fixes (safe mode)
       if: env.LINT_FAILING == 'true' || env.TYPECHECK_FAILING == 'true' || env.BUILD_FAILING == 'true' || github.event.inputs.force_emergency_fixes == 'true'
       run: |
-        echo "🚨 Applying emergency CI compliance fixes..."
+        echo "🚨 Applying emergency CI compliance fixes (safe mode)..."
         
         # Add missing type declarations
+        mkdir -p src/types
         echo "declare module '*.css';" >> src/types/index.ts || true
         echo "declare module '*.svg';" >> src/types/index.ts || true
         echo "declare module '*.png';" >> src/types/index.ts || true
         
-        # Fix common TypeScript errors
-        find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/any;/any = {};/g' || true
-        find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/: any\[\]/: any[] = []/g' || true
+        # Avoid destructive sed replacements that corrupt TS syntax
+        # Run eslint/prettier again to catch easy fixes
+        npx eslint . --fix --ext .ts,.tsx || true
+        npx prettier --write "**/*.{ts,tsx}" || true
         
-        # Add missing exports
-        find src -name "index.ts" | xargs sed -i '1i export {};' || true
+        # Validate type-check; do not rewrite code automatically
+        npx tsc --noEmit || true
         
-        # Fix import issues
-        find src -name "*.ts" -o -name "*.tsx" | xargs sed -i 's/import \* as React/import React/g' || true
+        # Force rebuild to surface remaining issues without mutating source
+        npm run build || echo "Build still failing; skipped unsafe code rewrites"
         
-        # Force rebuild
-        npm run build || echo "Build still failing, but fixes applied"
-        
-        echo "✅ Emergency fixes applied"
+        echo "✅ Emergency safe-mode actions completed"
     
     - name: ✅ Validate CI Compliance
       id: validate
