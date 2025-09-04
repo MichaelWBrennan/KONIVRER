@@ -383,8 +383,8 @@ export const Lore: React.FC = () => {
     return h % modulo;
   }
 
-  function getFactionForCombo(names: ElementDefinition["name"]): FactionEntry {
-    const key = comboKey(names as string[]);
+  function getFactionForCombo(names: ElementDefinition["name"][]): FactionEntry {
+    const key = comboKey(names);
     const size = names.length;
     if (size === 2)
       return twoColorFactions[hashKeyToIndex(key, twoColorFactions.length)];
