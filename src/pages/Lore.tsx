@@ -715,7 +715,9 @@ export const Lore: React.FC = () => {
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(names);
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = special?.description
               ? special.description
               : buildCohesiveParagraph(combo, ideology);
@@ -746,7 +748,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
@@ -775,7 +779,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
@@ -804,7 +810,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
