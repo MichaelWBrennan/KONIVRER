@@ -45,7 +45,11 @@ export const Lore: React.FC = () => {
 
         // Verify and refine a few times if still overflowing
         let attempts = 0;
-        while (attempts < 4 && innerEl.scrollWidth > available && nextPx > minPx) {
+        while (
+          attempts < 4 &&
+          innerEl.scrollWidth > available &&
+          nextPx > minPx
+        ) {
           nextPx = Math.max(minPx, Math.floor(nextPx * 0.96 * 100) / 100);
           containerEl.style.setProperty("--trait-font-size", `${nextPx}px`);
           attempts++;
