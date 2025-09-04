@@ -414,12 +414,12 @@ export const Lore: React.FC = () => {
   }
 
   function renderTraitRows(combo: ElementDefinition[]): React.ReactNode {
+    // Show one trait per element for 2+ combinations (use the first/primary trait)
     return (
       <>
         {combo.map((e) => (
           <div key={e.name} className={s.traitRow}>
             <span className={s.traitChip}>{e.traitX}</span>
-            <span className={s.traitChip}>{e.traitY}</span>
           </div>
         ))}
       </>
@@ -715,7 +715,7 @@ export const Lore: React.FC = () => {
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(names);
-            const header = `${names.join(" + ")} — ${faction.type}: ${
+            const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
             const description = special?.description
@@ -723,6 +723,14 @@ export const Lore: React.FC = () => {
               : buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
+                <div
+                  className={s.watermark}
+                  style={{
+                    backgroundImage: `url(/assets/factions/${faction.name
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")}.svg)`,
+                  }}
+                />
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
                 {renderTraitRows(combo)}
@@ -740,12 +748,20 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.type}: ${
+            const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
+                <div
+                  className={s.watermark}
+                  style={{
+                    backgroundImage: `url(/assets/factions/${faction.name
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")}.svg)`,
+                  }}
+                />
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
                 {renderTraitRows(combo)}
@@ -763,12 +779,20 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.type}: ${
+            const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
+                <div
+                  className={s.watermark}
+                  style={{
+                    backgroundImage: `url(/assets/factions/${faction.name
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")}.svg)`,
+                  }}
+                />
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
                 {renderTraitRows(combo)}
@@ -786,12 +810,20 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][]
             );
-            const header = `${names.join(" + ")} — ${faction.type}: ${
+            const header = `${names.join(" + ")} — ${
               faction.name
             } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
+                <div
+                  className={s.watermark}
+                  style={{
+                    backgroundImage: `url(/assets/factions/${faction.name
+                      .toLowerCase()
+                      .replace(/[^a-z0-9]+/g, "-")}.svg)`,
+                  }}
+                />
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
                 {renderTraitRows(combo)}
