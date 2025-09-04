@@ -1,312 +1,42 @@
-Roman Republic (AFE)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
-Economic System:
-Economic Priority:
-First Appearance:
-Ideal Number of Partners: 0
-Marriage Practices:
-Distribution Of Authority: 5 / 10
-Secondary Language(s):
-Forbidden Language(s):
-Liturgical/Sacred Language(s):
-Literacy: 5 / 10
-Age of Majority: 0
-Ethnic Population: 0
-Majority Group:
-Majority Population: 0
-Members: 0
-Architecture:
-Art Forms:
-Art Styles:
-Forbidden Arts:
-Adopted Dishes:
-Forbidden Food & Drink:
-Luxury Food & Drink:
-Poverty Food & Drink:
-Deity:
-Attitude Toward Technology: 5 / 10
-Attitude Toward Magic: 5 / 10
-Innovation: 5 / 10
-Agility: 5 / 10
-Environment: 5 / 10
-Wellness: 5 / 10
-Collaboration: 5 / 10
-Performance Focus: 5 / 10
-Responsibility: 5 / 10
-Power Distance: 5 / 10
-Masculinity: 5 / 10
-Femininity: 5 / 10
+Societies & Eras
+Summary
+• Civilizations persist as echoes around the Veilstone; they remember differently.
+• Each society keeps a covenant it cannot keep; each breaks a law it cannot break.
+• The valley wears their eras like rings in a felled tree.
 
-NASA (AFW)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
+Roman Republic (AFE) — The Republic Without a Senate
+They keep the forms and have lost the forum. A Curia of ash sits in a barn and votes by the turning of oats in a pail. Their law is a prayer to Earth: measure, weigh, bind. Their coin bears a face no one names; to speak it is treason and mourning both.
 
-French Revolution (AIF)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
-First Appearance:
-Economic Priority:
-Economic System:
-Ideal Number of Partners: 0
-Marriage Practices:
-Distribution Of Authority: 5 / 10
-Secondary Language(s):
-Forbidden Language(s):
-Liturgical/Sacred Language(s):
-Literacy: 5 / 10
-Age of Majority: 0
-Ethnic Population: 0
-Majority Group:
-Majority Population: 0
-Members: 0
-Architecture:
-Art Forms:
-Art Styles:
-Forbidden Arts:
-Adopted Dishes:
-Forbidden Food & Drink:
-Luxury Food & Drink:
-Poverty Food & Drink:
-Deity:
-Minor Deity:
-Prophets & Speakers:
-Religious Leader:
-Religion Name:
-Rituals:
-Attitude Toward Technology: 5 / 10
-Attitude Toward Magic: 5 / 10
-Innovation: 5 / 10
-Agility: 5 / 10
-Wellness: 5 / 10
-Environment: 5 / 10
-Collaboration: 5 / 10
-Performance Focus: 5 / 10
-Responsibility: 5 / 10
+Item: Denarius of Ash
+A coin struck after the Shattering. It stains the fingers grey. Merchants accept it only at night, when their scales are merciful.
 
-The Jesuits (AFN)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
+NASA (AFW) — The Astral Hospice
+They chart orbits of the unquiet dead. Their telescopes face the ground. Engineers in white smocks salt the floors and speak of trajectories of souls. When a star falls in the Carpathians, they call it a patient who refused to rest.
 
-The Amish (AEW)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
+French Revolution (AIF) — The Red Thermidor
+They carry guillotines small enough to wear around the neck. Their liberty is the right to forget the face of a king. They bake bread with blood-warm water and swear never to kneel, then kneel to sharpen the blade.
 
-Victorian Era Britain (AIE)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
+The Jesuits (AFN) — The Librarians of Names
+Their vows forbid mirrors, not books. They catalog angels, demons, and debts—especially the ones that overlap. In twilight they teach the proper way to close a door so a promise cannot follow.
 
-Humanitarian Organizations (AIW)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
+The Amish (AEW) — The Ordinaries
+They reject the new not from fear but from memory. Machines invite voices. Voices invite bargains. They plow the fields with iron that has forgotten its former shape: a nail, a coin, a hairpin from a saint.
 
-Utopian Movements (ANW)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
-First Appearance:
-Economic Priority:
-Economic System:
-Ideal Number of Partners: 0
-Marriage Practices:
-Distribution Of Authority: 5 / 10
-Age of Majority: 0
-Literacy: 5 / 10
-Liturgical/Sacred Language(s):
-Forbidden Language(s):
-Secondary Language(s):
-Ethnic Population: 0
-Majority Group:
-Majority Population: 0
-Members: 0
-Art Forms:
-Art Styles:
-Architecture:
-Forbidden Arts:
-Adopted Dishes:
-Forbidden Food & Drink:
-Luxury Food & Drink:
-Poverty Food & Drink:
-Deity:
-Minor Deity:
-Prophets & Speakers:
-Religious Leader:
-Religion Name:
-Rituals:
-Attitude Toward Technology: 5 / 10
-Innovation: 5 / 10
-Wellness: 5 / 10
-Agility: 5 / 10
-Environment: 5 / 10
-Collaboration: 5 / 10
-Performance Focus: 5 / 10
-Attitude Toward Magic: 5 / 10
+Victorian Era Britain (AIE) — The Brass Empathy
+Steam and sorrow. A parliament of widows writes laws for ghosts: taxes on hauntings, guilds for mediums, a workhouse for time. They export mourning clothes that never fade.
 
-Venetian Republic (AIN)
-Overview
-Basic Information
-Ethnic Groups:
-Languages: Anglish
-Governmental System:
-Political Parties:
-Representation of Individuals: 5 / 10
-Distribution Of Authority:
-Values:
-Openness to Foreigners: 5 / 10
-Communication: 5 / 10
-Famous Literary Works:
-Literarature Style:
-Poetry Style:
-Music Style:
-Access to Art:
-Cultural Dishes:
-First Appearance:
-Economic Priority:
-Economic System:
-Ideal Number of Partners: 0
-Marriage Practices:
-Distribution Of Authority: 5 / 10
-Secondary Language(s):
-Forbidden Language(s):
-Liturgical/Sacred Language(s):
-Architecture:
-Art Forms:
-Art Styles:
-Forbidden Arts:
-Adopted Dishes:
-Forbidden Food & Drink:
-Luxury Food & Drink:
-Poverty Food & Drink:
-Deity:
-Minor Deity:
-Prophets & Speakers:
-Religious Leader:
-Religion Name:
-Rituals:
-Attitude Toward Technology: 5 / 10
-Innovation: 5 / 10
-Wellness: 5 / 10
-Agility: 5 / 10
-Environment: 5 / 10
-Collaboration: 5 / 10
-Performance Focus: 5 / 10
-Attitude Toward Magic: 5 / 10
+Humanitarian Orders (AIW) — The Quiet Hands
+They go where the river runs backward, where the bread rises without yeast. They learn to bandage the world and refuse payment. In their tents the candles do not flicker; even the wind is respectful.
+
+Utopian Movements (ANW) — The Perfect Circle
+They draw diagrams in salt and live inside them. Their towns have no corners; sin collects in corners. They call all children Pilgrims and all elders Witnesses. The door to each house is also an apology.
+
+Venetian Republic (AIN) — The Drowned Ledger
+They trade in debts that cannot be paid. Gondolas drift through mountain fog as if the valley had grown canals in its sleep. A Doge elected by ravens decrees: every promise must be weighed against a button.
+
+Era-Rings of the Valley
+- Pre-History of Mists — People were told not to be born yet and many obeyed.
+- Classical of Brass — Law learned to count; mercy learned to lie.
+- Age of Ash — The Veilstone remembered its first crack and asked for another.
+
+All of these are true. None explain anything. The Pilgrim walks through them like a knife through bread, taking only what hunger allows.
