@@ -279,6 +279,69 @@ export const Lore: React.FC = () => {
     return [...names].sort().join("|");
   }
 
+  // Color pie ordering for directional trait selection
+  const colorPieOrder: ElementDefinition["name"][] = [
+    "Air",
+    "Aether",
+    "Water",
+    "Earth",
+    "Nether",
+    "Fire",
+  ];
+
+  // For each element, specify which trait (X or Y) points clockwise vs counterclockwise
+  const traitOrientation: Record<
+    ElementDefinition["name"],
+    { cw: "X" | "Y"; ccw: "X" | "Y" }
+  > = {
+    Aether: { cw: "Y", ccw: "X" }, // cw -> Water (Expedite), ccw -> Air (Improvise)
+    Air: { cw: "X", ccw: "Y" }, // cw -> Aether (Educate)
+    Water: { cw: "Y", ccw: "X" }, // ccw -> Aether (Assemble)
+    Earth: { cw: "X", ccw: "Y" },
+    Nether: { cw: "X", ccw: "Y" },
+    Fire: { cw: "X", ccw: "Y" },
+  };
+
+  function getDirection(
+    from: ElementDefinition["name"],
+    to: ElementDefinition["name"]
+  ): "cw" | "ccw" {
+    const n = colorPieOrder.length;
+    const fromIdx = colorPieOrder.indexOf(from);
+    const toIdx = colorPieOrder.indexOf(to);
+    if (fromIdx < 0 || toIdx < 0) return "cw";
+    const cwDist = (toIdx - fromIdx + n) % n;
+    const ccwDist = (fromIdx - toIdx + n) % n;
+    if (cwDist === ccwDist) return "cw"; // tie-breaker
+    return cwDist < ccwDist ? "cw" : "ccw";
+  }
+
+  function pickTraitForPair(
+    element: ElementDefinition,
+    partnerName: ElementDefinition["name"]
+  ): string {
+    const dir = getDirection(element.name, partnerName);
+    const orientation = traitOrientation[element.name] || { cw: "X", ccw: "Y" };
+    const which = orientation[dir];
+    return which === "X" ? element.traitX : element.traitY;
+  }
+
+  function buildPairContributionExplanation(
+    a: ElementDefinition,
+    b: ElementDefinition
+  ): React.ReactNode {
+    const aTrait = pickTraitForPair(a, b.name);
+    const bTrait = pickTraitForPair(b, a.name);
+    return (
+      <>
+        {a.name}: <em>{summarize(a.definition)}</em>; applied by {""}
+        <span className={s.traitChip}>{aTrait}</span>; {b.name}: {""}
+        <em>{summarize(b.definition)}</em>; applied by {""}
+        <span className={s.traitChip}>{bTrait}</span>.
+      </>
+    );
+  }
+
   const specialPairs: Record<string, { title: string; description: string }> = {
     // Aether pairs
     [pairKey("Aether", "Air")]: {
@@ -570,12 +633,13 @@ export const Lore: React.FC = () => {
           <div className={s.virtueCard}>
             <h3 className={s.virtueTitle}>Two-Element Combinations</h3>
             {combinations2.map((combo, idx) => {
-              const names = combo.map((e) => e.name);
+              const [e1, e2] = combo;
+              const names = [e1.name, e2.name];
               const key = pairKey(names[0], names[1]);
               const special = specialPairs[key];
               const ideology = special ? special.title : "Synthesis";
               const header = `${names.join(" + ")}: ${ideology};`;
-              const description = buildContributionExplanation(combo);
+              const description = buildPairContributionExplanation(e1, e2);
               return (
                 <p key={idx} className={s.virtueText}>
                   <strong>{header}</strong> {description}
