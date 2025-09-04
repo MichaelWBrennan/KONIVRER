@@ -147,6 +147,8 @@ export const Lore: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
   const [query, setQuery] = useState<string>("");
   const [loadedText, setLoadedText] = useState<string>("");
+  const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
+  const requestIdRef = useRef(0);
 
   const labelForSrc: Record<string, string> = {
     "/assets/lore/societies.txt": "Societies & Eras",
@@ -199,12 +201,24 @@ export const Lore: React.FC = () => {
       return;
     }
 
+    // Serve from cache if available
+    const cached = contentByTab[tab.id];
+    if (cached) {
+      setLoadedText(cached);
+      return;
+    }
+
+    // Prepare for a new request and clear current content to avoid stale display
+    setLoadedText("");
+    const controller = new AbortController();
+    const currentRequestId = ++requestIdRef.current;
+
     (async () => {
       try {
         const texts = await Promise.all(
           sources.map(async (src) => {
             try {
-              const res = await fetch(src);
+              const res = await fetch(src, { signal: controller.signal });
               if (!res.ok) {
                 return `Content not found for ${
                   labelForSrc[src] ?? src
@@ -212,6 +226,7 @@ export const Lore: React.FC = () => {
               }
               return await res.text();
             } catch (e) {
+              if ((e as any)?.name === "AbortError") return "";
               return `Failed to load content from ${src}: ${String(e)}`;
             }
           })
@@ -225,12 +240,22 @@ export const Lore: React.FC = () => {
           })
           .join("\n\n");
 
-        setLoadedText(combined);
+        // Only update if this is the latest request and not aborted
+        if (!controller.signal.aborted && currentRequestId === requestIdRef.current) {
+          setLoadedText(combined);
+          setContentByTab((prev) => ({ ...prev, [tab.id]: combined }));
+        }
       } catch (err) {
-        setLoadedText(`Failed to load content: ${String(err)}`);
+        if (!controller.signal.aborted && currentRequestId === requestIdRef.current) {
+          setLoadedText(`Failed to load content: ${String(err)}`);
+        }
       }
     })();
-  }, [activeTab]);
+
+    return () => {
+      controller.abort();
+    };
+  }, [activeTab, contentByTab]);
 
   const highlight = (text: string, q: string): React.ReactNode => {
     if (!q) return text;
