@@ -279,68 +279,161 @@ export const Lore: React.FC = () => {
     return [...names].sort().join("|");
   }
 
-  // Color pie ordering for directional trait selection
-  const colorPieOrder: ElementDefinition["name"][] = [
-    "Air",
-    "Aether",
-    "Water",
-    "Earth",
-    "Nether",
-    "Fire",
+  // Color pie ordering for directional trait selection (deprecated after cohesive rewrite)
+  // const colorPieOrder: ElementDefinition["name"][] = [
+  //   "Air",
+  //   "Aether",
+  //   "Water",
+  //   "Earth",
+  //   "Nether",
+  //   "Fire",
+  // ];
+
+  // const traitOrientation: Record<
+  //   ElementDefinition["name"],
+  //   { cw: "X" | "Y"; ccw: "X" | "Y" }
+  // > = {
+  //   Aether: { cw: "Y", ccw: "X" },
+  //   Air: { cw: "X", ccw: "Y" },
+  //   Water: { cw: "Y", ccw: "X" },
+  //   Earth: { cw: "X", ccw: "Y" },
+  //   Nether: { cw: "X", ccw: "Y" },
+  //   Fire: { cw: "X", ccw: "Y" },
+  // };
+
+  // function getDirection(
+  //   from: ElementDefinition["name"],
+  //   to: ElementDefinition["name"]
+  // ): "cw" | "ccw" { /* deprecated */ }
+
+  // ------------------ Faction assignment (pre-1500 CE) ------------------
+  type FactionEntry = { type: string; name: string };
+
+  const twoColorFactions: FactionEntry[] = [
+    { type: "Alliance", name: "Hanseatic League" },
+    { type: "Alliance", name: "Auld Alliance" },
+    { type: "Alliance", name: "Lombard League" },
+    { type: "Alliance", name: "Delian League" },
+    { type: "Alliance", name: "Swiss Confederacy" },
+    { type: "Alliance", name: "Kalmar Union" },
+    { type: "Guild", name: "Arte della Lana (Florence)" },
+    { type: "Guild", name: "Arte della Calimala (Florence)" },
+    { type: "Guild", name: "Worshipful Company of Mercers" },
+    { type: "Guild", name: "Worshipful Company of Goldsmiths" },
+    { type: "Guild", name: "Brotherhood of Blackheads" },
+    { type: "Guild", name: "Company of Merchant Adventurers" },
+    { type: "Alliance", name: "League of the Public Weal" },
+    { type: "Alliance", name: "Rhenish League of Towns" },
+    { type: "Alliance", name: "Amalfi–Pisa Maritime Pact" },
   ];
 
-  // For each element, specify which trait (X or Y) points clockwise vs counterclockwise
-  const traitOrientation: Record<
-    ElementDefinition["name"],
-    { cw: "X" | "Y"; ccw: "X" | "Y" }
-  > = {
-    Aether: { cw: "Y", ccw: "X" }, // cw -> Water (Expedite), ccw -> Air (Improvise)
-    Air: { cw: "X", ccw: "Y" }, // cw -> Aether (Educate)
-    Water: { cw: "Y", ccw: "X" }, // ccw -> Aether (Assemble)
-    Earth: { cw: "X", ccw: "Y" },
-    Nether: { cw: "X", ccw: "Y" },
-    Fire: { cw: "X", ccw: "Y" },
-  };
+  const threeColorFactions: FactionEntry[] = [
+    { type: "Clan", name: "Clan MacDonald (Clan Donald)" },
+    { type: "Clan", name: "Clan Campbell" },
+    { type: "Family", name: "House of Habsburg" },
+    { type: "Family", name: "House of Plantagenet" },
+    { type: "Family", name: "House of Capet" },
+    { type: "Family", name: "House of Valois" },
+    { type: "Family", name: "House of Trastámara" },
+    { type: "Family", name: "House of Lancaster" },
+    { type: "Family", name: "House of York" },
+    { type: "Family", name: "House of Bourbon" },
+    { type: "Clan", name: "Minamoto Clan" },
+    { type: "Clan", name: "Taira Clan" },
+    { type: "Clan", name: "Fujiwara Clan" },
+    { type: "Clan", name: "Yamato Clan" },
+    { type: "Clan", name: "Borjigin Clan" },
+    { type: "Clan", name: "Banu Hashim" },
+    { type: "Clan", name: "Banu Umayya (Umayyad)" },
+    { type: "Tribe", name: "Tuareg Confederations" },
+    { type: "Tribe", name: "Ainu" },
+    { type: "Tribe", name: "Cherokee" },
+  ];
 
-  function getDirection(
-    from: ElementDefinition["name"],
-    to: ElementDefinition["name"]
-  ): "cw" | "ccw" {
-    const n = colorPieOrder.length;
-    const fromIdx = colorPieOrder.indexOf(from);
-    const toIdx = colorPieOrder.indexOf(to);
-    if (fromIdx < 0 || toIdx < 0) return "cw";
-    const cwDist = (toIdx - fromIdx + n) % n;
-    const ccwDist = (fromIdx - toIdx + n) % n;
-    if (cwDist === ccwDist) return "cw"; // tie-breaker
-    return cwDist < ccwDist ? "cw" : "ccw";
+  const fourColorFactions: FactionEntry[] = [
+    { type: "Dominion", name: "Crown of Aragon" },
+    { type: "Dominion", name: "Crown of Castile" },
+    { type: "Coalition", name: "Polish–Lithuanian Union" },
+    { type: "Dominion", name: "Grand Duchy of Lithuania" },
+    { type: "Dominion", name: "Novgorod Republic" },
+    { type: "Dominion", name: "Monastic State of the Teutonic Order" },
+    { type: "Dominion", name: "Mamluk Sultanate" },
+    { type: "Dominion", name: "Delhi Sultanate" },
+    { type: "Dominion", name: "Sultanate of Malacca" },
+    { type: "Dominion", name: "Golden Horde" },
+    { type: "Dominion", name: "Timurid State" },
+    { type: "Coalition", name: "Italian League (1454)" },
+    { type: "Syndicate", name: "Medici Bank" },
+    { type: "Syndicate", name: "House of Fugger" },
+    { type: "Dominion", name: "Kingdom of Hungary" },
+  ];
+
+  const fiveColorFactions: FactionEntry[] = [
+    { type: "Empire", name: "Holy Roman Empire" },
+    { type: "Empire", name: "Ottoman Empire" },
+    { type: "Empire", name: "Ming Dynasty" },
+    { type: "Empire", name: "Aztec Empire" },
+    { type: "Empire", name: "Inca Empire" },
+    { type: "Empire", name: "Songhai Empire" },
+  ];
+
+  function hashKeyToIndex(key: string, modulo: number): number {
+    let h = 0;
+    for (let i = 0; i < key.length; i++) h = (h * 31 + key.charCodeAt(i)) >>> 0;
+    return h % modulo;
   }
 
-  function pickTraitForPair(
-    element: ElementDefinition,
-    partnerName: ElementDefinition["name"]
+  function getFactionForCombo(
+    names: ElementDefinition["name"][]
+  ): FactionEntry {
+    const key = comboKey(names as string[]);
+    const size = names.length;
+    if (size === 2)
+      return twoColorFactions[hashKeyToIndex(key, twoColorFactions.length)];
+    if (size === 3)
+      return threeColorFactions[hashKeyToIndex(key, threeColorFactions.length)];
+    if (size === 4)
+      return fourColorFactions[hashKeyToIndex(key, fourColorFactions.length)];
+    return fiveColorFactions[hashKeyToIndex(key, fiveColorFactions.length)];
+  }
+
+  // ------------------ Cohesive descriptions and trait rendering ------------------
+  function buildCohesiveParagraph(
+    combo: ElementDefinition[],
+    ideologyTitle: string
   ): string {
-    const dir = getDirection(element.name, partnerName);
-    const orientation = traitOrientation[element.name] || { cw: "X", ccw: "Y" };
-    const which = orientation[dir];
-    return which === "X" ? element.traitX : element.traitY;
+    const names = combo.map((e) => e.name);
+    const epithets = combo.map((e) => e.epithet.toLowerCase());
+    const stances = combo.map((e) => summarize(e.definition).toLowerCase());
+    const joinedNames = names.join(", ").replace(/, ([^,]*)$/, ", and $1");
+    const joinedEpithets = epithets
+      .join(", ")
+      .replace(/, ([^,]*)$/, ", and $1");
+    const joinedStances = stances.join(", ").replace(/, ([^,]*)$/, ", and $1");
+    return `${ideologyTitle} weaves ${joinedEpithets} through ${joinedNames}, turning ${joinedStances} into one coordinated practice.`;
   }
 
-  function buildPairContributionExplanation(
-    a: ElementDefinition,
-    b: ElementDefinition
-  ): React.ReactNode {
-    const aTrait = pickTraitForPair(a, b.name);
-    const bTrait = pickTraitForPair(b, a.name);
+  function renderTraitRows(combo: ElementDefinition[]): React.ReactNode {
     return (
       <>
-        {a.name}: <em>{summarize(a.definition)}</em>; applied by {""}
-        <span className={s.traitChip}>{aTrait}</span>; {b.name}: {""}
-        <em>{summarize(b.definition)}</em>; applied by {""}
-        <span className={s.traitChip}>{bTrait}</span>.
+        {combo.map((e) => (
+          <div key={e.name} className={s.traitRow}>
+            <span className={s.traitChip}>{e.traitX}</span>
+            <span className={s.traitChip}>{e.traitY}</span>
+          </div>
+        ))}
       </>
     );
   }
+
+  // Deprecated helper retained for reference; not used after cohesive rewrite
+  // function pickTraitForPair(element: ElementDefinition, partnerName: ElementDefinition["name"]): string { /* replaced by renderTraitRows */ }
+
+  // Deprecated helper retained for reference; not used after cohesive rewrite
+  // function buildPairContributionExplanation(
+  //   a: ElementDefinition,
+  //   b: ElementDefinition
+  // ): React.ReactNode { /* replaced by buildCohesiveParagraph */ }
 
   const specialPairs: Record<string, { title: string; description: string }> = {
     // Aether pairs
@@ -493,23 +586,8 @@ export const Lore: React.FC = () => {
     return firstClause.endsWith(".") ? firstClause.slice(0, -1) : firstClause;
   }
 
-  function buildContributionExplanation(
-    combo: ElementDefinition[]
-  ): React.ReactNode {
-    return (
-      <>
-        {combo.map((e, i) => (
-          <React.Fragment key={e.name}>
-            {e.name}: <em>{summarize(e.definition)}</em>; applied by{" "}
-            <span className={s.traitChip}>{e.traitX}</span>
-            {" and "}
-            <span className={s.traitChip}>{e.traitY}</span>
-            {i < combo.length - 1 ? "; " : "."}
-          </React.Fragment>
-        ))}
-      </>
-    );
-  }
+  // Deprecated helper retained for reference; not used after cohesive rewrite
+  // function buildContributionExplanation(combo: ElementDefinition[]): React.ReactNode { /* replaced by buildCohesiveParagraph */ }
 
   const combinations2 = generateCombinations(elementDefinitions, 2);
   const combinations3 = generateCombinations(elementDefinitions, 3);
@@ -632,16 +710,22 @@ export const Lore: React.FC = () => {
         <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
           {combinations2.map((combo) => {
             const [e1, e2] = combo;
-            const names = [e1.name, e2.name];
+            const names = [e1.name, e2.name] as ElementDefinition["name"][];
             const key = pairKey(names[0], names[1]);
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
-            const header = `${names.join(" + ")}: ${ideology}`;
-            const description = buildPairContributionExplanation(e1, e2);
+            const faction = getFactionForCombo(names);
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
+            const description = special?.description
+              ? special.description
+              : buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
+                {renderTraitRows(combo)}
               </div>
             );
           })}
@@ -653,12 +737,18 @@ export const Lore: React.FC = () => {
             const key = comboKey(names);
             const special = specialTriples[key];
             const ideology = special ? special.title : "Synthesis";
-            const header = `${names.join(" + ")}: ${ideology}`;
-            const description = buildContributionExplanation(combo);
+            const faction = getFactionForCombo(
+              names as ElementDefinition["name"][]
+            );
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
+            const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
+                {renderTraitRows(combo)}
               </div>
             );
           })}
@@ -670,12 +760,18 @@ export const Lore: React.FC = () => {
             const key = comboKey(names);
             const special = specialQuads[key];
             const ideology = special ? special.title : "Synthesis";
-            const header = `${names.join(" + ")}: ${ideology}`;
-            const description = buildContributionExplanation(combo);
+            const faction = getFactionForCombo(
+              names as ElementDefinition["name"][]
+            );
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
+            const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
+                {renderTraitRows(combo)}
               </div>
             );
           })}
@@ -687,12 +783,18 @@ export const Lore: React.FC = () => {
             const key = comboKey(names);
             const special = specialQuints[key];
             const ideology = special ? special.title : "Synthesis";
-            const header = `${names.join(" + ")}: ${ideology}`;
-            const description = buildContributionExplanation(combo);
+            const faction = getFactionForCombo(
+              names as ElementDefinition["name"][]
+            );
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
+            const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
                 <h3 className={s.virtueTitle}>{header}</h3>
                 <p className={s.virtueText}>{description}</p>
+                {renderTraitRows(combo)}
               </div>
             );
           })}
