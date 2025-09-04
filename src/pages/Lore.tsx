@@ -383,7 +383,9 @@ export const Lore: React.FC = () => {
     return h % modulo;
   }
 
-  function getFactionForCombo(names: ElementDefinition["name"][]): FactionEntry {
+  function getFactionForCombo(
+    names: ElementDefinition["name"][]
+  ): FactionEntry {
     const key = comboKey(names as string[]);
     const size = names.length;
     if (size === 2)
@@ -407,9 +409,7 @@ export const Lore: React.FC = () => {
     const joinedEpithets = epithets
       .join(", ")
       .replace(/, ([^,]*)$/, ", and $1");
-    const joinedStances = stances
-      .join(", ")
-      .replace(/, ([^,]*)$/, ", and $1");
+    const joinedStances = stances.join(", ").replace(/, ([^,]*)$/, ", and $1");
     return `${ideologyTitle} weaves ${joinedEpithets} through ${joinedNames}, turning ${joinedStances} into one coordinated practice.`;
   }
 
@@ -715,7 +715,9 @@ export const Lore: React.FC = () => {
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(names);
-            const header = `${names.join(" + ")} — ${faction.type}: ${faction.name} (${ideology})`;
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
             const description = special?.description
               ? special.description
               : buildCohesiveParagraph(combo, ideology);
@@ -735,8 +737,12 @@ export const Lore: React.FC = () => {
             const key = comboKey(names);
             const special = specialTriples[key];
             const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(names as ElementDefinition["name"][]);
-            const header = `${names.join(" + ")} — ${faction.type}: ${faction.name} (${ideology})`;
+            const faction = getFactionForCombo(
+              names as ElementDefinition["name"][]
+            );
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
@@ -754,8 +760,12 @@ export const Lore: React.FC = () => {
             const key = comboKey(names);
             const special = specialQuads[key];
             const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(names as ElementDefinition["name"][]);
-            const header = `${names.join(" + ")} — ${faction.type}: ${faction.name} (${ideology})`;
+            const faction = getFactionForCombo(
+              names as ElementDefinition["name"][]
+            );
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
@@ -773,8 +783,12 @@ export const Lore: React.FC = () => {
             const key = comboKey(names);
             const special = specialQuints[key];
             const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(names as ElementDefinition["name"][]);
-            const header = `${names.join(" + ")} — ${faction.type}: ${faction.name} (${ideology})`;
+            const faction = getFactionForCombo(
+              names as ElementDefinition["name"][]
+            );
+            const header = `${names.join(" + ")} — ${faction.type}: ${
+              faction.name
+            } (${ideology})`;
             const description = buildCohesiveParagraph(combo, ideology);
             return (
               <div key={key} className={s.virtueCard}>
