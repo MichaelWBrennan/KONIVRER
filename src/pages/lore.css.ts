@@ -198,6 +198,8 @@ export const virtueCard = style({
   borderRadius: "8px",
   padding: "12px",
   boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+  position: "relative",
+  overflow: "hidden",
 });
 
 export const virtueTitle = style({
@@ -233,4 +235,16 @@ export const traitChip = style({
   color: "#1b5fa8",
   border: "1px solid #a8d0ff",
   fontSize: "0.9rem",
+});
+
+// Watermark emblem overlay for faction symbols
+export const watermark = style({
+  position: "absolute",
+  inset: 0,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  backgroundSize: "70% 70%",
+  opacity: 0.06,
+  pointerEvents: "none",
+  filter: "grayscale(100%) contrast(120%)",
 });
