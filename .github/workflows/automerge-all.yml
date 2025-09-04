@@ -78,17 +78,23 @@ jobs:
         id: merge-rules
         run: |
           echo "Loading merge rules configuration..."
-          python -c "
-          import yaml
+          python - << 'PY'
+          import yaml, os
           with open('.github/merge-rules.yaml', 'r') as f:
-              rules = yaml.safe_load(f)
-          print(f'::set-output name=merge-method::{rules[\"policy\"][\"merge_method\"]}')
-          print(f'::set-output name=fallback-method::{rules[\"policy\"][\"fallback_merge_method\"]}')
-          print(f'::set-output name=max-retries::{rules[\"policy\"][\"retries\"]}')
-          print(f'::set-output name=backoff-minutes::{rules[\"policy\"][\"backoff_minutes\"]}')
-          print(f'::set-output name=deny-labels::{",".join(rules[\"policy\"][\"deny_labels\"])}')
-          print(f'::set-output name=deny-paths::{",".join(rules[\"policy\"][\"deny_paths\"])}')
-          "
+              rules = yaml.safe_load(f) or {}
+          policy = rules.get('policy', {})
+          outputs = {
+              'merge-method': str(policy.get('merge_method', 'squash')),
+              'fallback-method': str(policy.get('fallback_merge_method', 'merge')),
+              'max-retries': str(policy.get('retries', 3)),
+              'backoff-minutes': ",".join(str(x) for x in policy.get('backoff_minutes', [5, 15, 45])),
+              'deny-labels': ",".join(policy.get('deny_labels', [])),
+              'deny-paths': ",".join(policy.get('deny_paths', [])),
+          }
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as gh_out:
+              for key, value in outputs.items():
+                  gh_out.write(f"{key}={value}\n")
+          PY
           
       - name: 🚫 Check Safety Guards
         id: safety-check
@@ -99,18 +105,18 @@ jobs:
           if [[ "${{ github.event.sender.login }}" == "github-actions[bot]" ]] && \
              [[ "${{ github.event.head_commit.message }}" == *"[auto-merge]"* ]]; then
             echo "::warning::Detected automation loop, exiting safely"
-            echo "::set-output name=should-exit::true"
+            echo "should-exit=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           
           # Check for skip flag
           if [[ "${{ github.event.head_commit.message }}" == *"[skip-auto]"* ]]; then
             echo "::info::Skipping automation due to [skip-auto] flag"
-            echo "::set-output name=should-exit::true"
+            echo "should-exit=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           
-          echo "::set-output name=should-exit::false"
+          echo "should-exit=false" >> "$GITHUB_OUTPUT"
           
       - name: 🔄 Autonomous Merge Orchestrator
         if: steps.safety-check.outputs.should-exit != 'true'
