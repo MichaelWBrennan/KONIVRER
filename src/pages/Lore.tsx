@@ -24,7 +24,7 @@ export const Lore: React.FC = () => {
         "/assets/lore/alchemy.txt",
         "/assets/lore/language.txt",
         "/assets/lore/ethics.txt",
-        "/assets/lore/laws_history.txt"
+        "/assets/lore/laws_history.txt",
       ],
     },
     {
@@ -38,7 +38,7 @@ export const Lore: React.FC = () => {
         "/assets/lore/infernal.txt",
         "/assets/lore/human.txt",
         "/assets/lore/species.txt",
-        "/assets/lore/origin.txt"
+        "/assets/lore/origin.txt",
       ],
     },
     {
@@ -55,7 +55,7 @@ export const Lore: React.FC = () => {
         "/assets/lore/wildfolkism.txt",
         "/assets/lore/hellenism.txt",
         "/assets/lore/taoism.txt",
-        "/assets/lore/items_east.txt"
+        "/assets/lore/items_east.txt",
       ],
     },
   ];
@@ -121,7 +121,9 @@ export const Lore: React.FC = () => {
             try {
               const res = await fetch(src);
               if (!res.ok) {
-                return `Content not found for ${labelForSrc[src] ?? src}. Ensure file exists at ${src}.`;
+                return `Content not found for ${
+                  labelForSrc[src] ?? src
+                }. Ensure file exists at ${src}.`;
               }
               return await res.text();
             } catch (e) {
