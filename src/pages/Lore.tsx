@@ -347,7 +347,7 @@ export const Lore: React.FC = () => {
     [pairKey("Aether", "Air")]: {
       title: "Pragmatism",
       description:
-        "Aether supplies ethical clarity and decisive right action; Air brings flexible, teach-and-adapt methods. Together they drive pragmatic change anchored in principle.",
+        "Air educates and adapts; Aether improvises with moral clarity. Together they enact practical, principle-anchored change.",
     },
     [pairKey("Aether", "Fire")]: {
       title: "Idealism",
@@ -362,7 +362,7 @@ export const Lore: React.FC = () => {
     [pairKey("Aether", "Water")]: {
       title: "Universalism",
       description:
-        "Aether sets the moral horizon; Water connects people and ideas to include what could be. Together they seek inclusive, harmonious universals that unify.",
+        "Aether expedites right action; Water assembles people and pieces. Together they build inclusive systems that unify in practice.",
     },
     [pairKey("Aether", "Nether")]: {
       title: "Teleocracy",
@@ -374,7 +374,7 @@ export const Lore: React.FC = () => {
     [pairKey("Air", "Fire")]: {
       title: "Vanguardism",
       description:
-        "Air teaches and adapts to changing contexts; Fire inspires and rallies to protect. Together they catalyze movements that learn fast and lead boldly.",
+        "Air guides; Fire protects. Together they lead at the front, safeguarding while steering.",
     },
     [pairKey("Air", "Earth")]: {
       title: "Gradualism",
@@ -406,19 +406,19 @@ export const Lore: React.FC = () => {
     [pairKey("Fire", "Nether")]: {
       title: "Activism",
       description:
-        "Fire mobilizes for change and defense; Nether crafts plans and logistics. Together they run directed campaigns with actionable roadmaps.",
+        "Nether designs capabilities; Fire provides energy and drive. Together they mobilize designed efforts that deliver.",
     },
 
     // Earth pairs
     [pairKey("Earth", "Water")]: {
       title: "Conservationism",
       description:
-        "Earth sets limits, fairness, and verification; Water nurtures growth and renewal. Together they steward resources to regenerate and endure.",
+        "Water imposes limits; Earth supervises standards. Together they steward resources with firm guardrails and steady oversight.",
     },
     [pairKey("Earth", "Nether")]: {
       title: "Institutionalism",
       description:
-        "Earth demands standards and oversight; Nether operationalizes plans and capabilities. Together they deliver accountable programs with measurable outcomes.",
+        "Earth inspects; Nether plans. Together they construct accountable institutions with verifiable steps.",
     },
 
     // Water pairs
