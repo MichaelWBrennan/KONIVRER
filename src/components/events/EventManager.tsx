@@ -24,7 +24,6 @@ import {
   Download,
   Bell,
 } from "lucide-react";
-import { io } from "socket.io-client";
 
 interface Event {
   id: string;
@@ -103,49 +102,64 @@ const EventManager: React.FC<EventManagerProps> = ({
   useEffect(() => {
     fetchEventData();
 
-    // Initialize WebSocket connection
-    const wsSocket = io("/events", {
-      auth: {
-        token: localStorage.getItem("authToken"),
-      },
-    });
+    let wsSocket: any = null;
+    let isMounted = true;
 
-    wsSocket.on("connect", () => {
-      console.log("Connected to event updates");
-      wsSocket.emit("subscribeToEvent", { eventId });
-    });
+    const connect = async () => {
+      try {
+        const { io } = await import("socket.io-client");
+        if (!isMounted) return;
+        wsSocket = io("/events", {
+          auth: {
+            token: localStorage.getItem("authToken"),
+          },
+        });
 
-    wsSocket.on("pairingsPublished", (data) => {
-      if (data.eventId === eventId) {
-        fetchPairings();
-        showNotification("New pairings published!", "success");
+        wsSocket.on("connect", () => {
+          console.log("Connected to event updates");
+          wsSocket.emit("subscribeToEvent", { eventId });
+        });
+
+        wsSocket.on("pairingsPublished", (data: any) => {
+          if (data.eventId === eventId) {
+            fetchPairings();
+            showNotification("New pairings published!", "success");
+          }
+        });
+
+        wsSocket.on("matchResult", (data: any) => {
+          if (data.eventId === eventId) {
+            fetchMatches();
+            fetchStandings();
+            showNotification("Match result reported", "info");
+          }
+        });
+
+        wsSocket.on("roundCompleted", (data: any) => {
+          if (data.eventId === eventId) {
+            fetchEventData();
+            showNotification(`Round ${data.round} completed!`, "success");
+          }
+        });
+
+        wsSocket.on("eventCompleted", (data: any) => {
+          if (data.eventId === eventId) {
+            fetchEventData();
+            showNotification("Event completed!", "success");
+          }
+        });
+      } catch (e) {
+        console.warn("Socket.io client failed to load", e);
       }
-    });
+    };
 
-    wsSocket.on("matchResult", (data) => {
-      if (data.eventId === eventId) {
-        fetchMatches();
-        fetchStandings();
-        showNotification("Match result reported", "info");
-      }
-    });
-
-    wsSocket.on("roundCompleted", (data) => {
-      if (data.eventId === eventId) {
-        fetchEventData();
-        showNotification(`Round ${data.round} completed!`, "success");
-      }
-    });
-
-    wsSocket.on("eventCompleted", (data) => {
-      if (data.eventId === eventId) {
-        fetchEventData();
-        showNotification("Event completed!", "success");
-      }
-    });
+    connect();
 
     return () => {
-      wsSocket.disconnect();
+      isMounted = false;
+      if (wsSocket) {
+        wsSocket.disconnect();
+      }
     };
   }, [eventId]);
 
