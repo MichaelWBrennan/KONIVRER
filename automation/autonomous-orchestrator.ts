@@ -162,59 +162,59 @@ class AutonomousOrchestrator extends EventEmitter {
     // Security events
     this.engines.security.on(
       "threat-detected",
-      this.handleThreatDetection.bind(this)
+      this.handleThreatDetection.bind(this),
     );
     this.engines.security.on(
       "vulnerability-found",
-      this.handleVulnerability.bind(this)
+      this.handleVulnerability.bind(this),
     );
     this.engines.security.on(
       "compliance-issue",
-      this.handleComplianceIssue.bind(this)
+      this.handleComplianceIssue.bind(this),
     );
 
     // Trend events
     this.engines.trends.on(
       "trend-identified",
-      this.handleTrendIdentification.bind(this)
+      this.handleTrendIdentification.bind(this),
     );
     this.engines.trends.on(
       "update-available",
-      this.handleUpdateAvailable.bind(this)
+      this.handleUpdateAvailable.bind(this),
     );
     this.engines.trends.on(
       "deprecation-warning",
-      this.handleDeprecationWarning.bind(this)
+      this.handleDeprecationWarning.bind(this),
     );
 
     // Code evolution events
     this.engines.codeEvolution.on(
       "evolution-complete",
-      this.handleEvolutionComplete.bind(this)
+      this.handleEvolutionComplete.bind(this),
     );
     this.engines.codeEvolution.on(
       "optimization-found",
-      this.handleOptimizationFound.bind(this)
+      this.handleOptimizationFound.bind(this),
     );
 
     // Self-healing events
     this.engines.selfHealing.on(
       "issue-detected",
-      this.handleIssueDetection.bind(this)
+      this.handleIssueDetection.bind(this),
     );
     this.engines.selfHealing.on(
       "healing-complete",
-      this.handleHealingComplete.bind(this)
+      this.handleHealingComplete.bind(this),
     );
 
     // Dependency events
     this.engines.dependencies.on(
       "update-required",
-      this.handleDependencyUpdate.bind(this)
+      this.handleDependencyUpdate.bind(this),
     );
     this.engines.dependencies.on(
       "conflict-detected",
-      this.handleDependencyConflict.bind(this)
+      this.handleDependencyConflict.bind(this),
     );
   }
 
@@ -398,7 +398,7 @@ class AutonomousOrchestrator extends EventEmitter {
 
       this.log(
         `✅ Decision executed successfully: ${decision.action}`,
-        "success"
+        "success",
       );
     } catch (error) {
       this.log(`❌ Decision execution failed: ${decision.action}`, "error");
@@ -444,7 +444,7 @@ class AutonomousOrchestrator extends EventEmitter {
   private async initiateEmergencyProtocols(): Promise<void> {
     this.log(
       "🚨 Initiating emergency protocols due to low system health",
-      "warning"
+      "warning",
     );
 
     // Emergency actions
@@ -488,7 +488,7 @@ class AutonomousOrchestrator extends EventEmitter {
   private async handleEvolutionComplete(evolution: any): Promise<void> {
     this.log(
       `🧬 Code evolution completed: ${evolution.description}`,
-      "success"
+      "success",
     );
   }
 
@@ -522,7 +522,7 @@ class AutonomousOrchestrator extends EventEmitter {
 
   private log(
     message: string,
-    level: "info" | "success" | "warning" | "error"
+    level: "info" | "success" | "warning" | "error",
   ): void {
     if (!this.config.silentMode) {
       const timestamp = new Date().toISOString();
@@ -569,7 +569,7 @@ class AutonomousOrchestrator extends EventEmitter {
   }
 
   public async updateConfig(
-    newConfig: Partial<AutonomousConfig>
+    newConfig: Partial<AutonomousConfig>,
   ): Promise<void> {
     this.config = { ...this.config, ...newConfig };
 

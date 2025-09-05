@@ -197,7 +197,7 @@ export const useGameState = () => {
         validDropZones,
       });
     },
-    []
+    [],
   );
 
   const endDrag = useCallback(() => {
@@ -219,7 +219,7 @@ export const useGameState = () => {
       }
       return undefined;
     },
-    [gameState]
+    [gameState],
   );
 
   const moveCard = useCallback(
@@ -270,7 +270,7 @@ export const useGameState = () => {
             isTapped: targetZoneId === "field" ? sourceCard.isTapped : false,
           };
           newState.players[playerIndex].zones[targetZoneId].cards.push(
-            resetCard
+            resetCard,
           );
         }
 
@@ -284,7 +284,7 @@ export const useGameState = () => {
         draggedCard: undefined,
       }));
     },
-    []
+    [],
   );
 
   const handleZoneDrop = useCallback(
@@ -293,7 +293,7 @@ export const useGameState = () => {
         moveCard(dragState.draggedCard.id, zoneId);
       }
     },
-    [dragState.draggedCard, moveCard]
+    [dragState.draggedCard, moveCard],
   );
 
   const nextTurn = useCallback(() => {

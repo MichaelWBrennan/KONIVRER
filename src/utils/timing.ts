@@ -1,9 +1,9 @@
 /**
  * Debounce function to limit how often a function can be called
  */
-export function debounce<T extends (...args: any[]) => any>(
+export function debounce<T extends (...args: any[] = []) => any>(
   func: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let timeoutId: ReturnType<typeof setTimeout>;
 
@@ -16,9 +16,9 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle function to limit how often a function can be called
  */
-export function throttle<T extends (...args: any[]) => any>(
+export function throttle<T extends (...args: any[] = []) => any>(
   func: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let lastCall = 0;
 

@@ -380,7 +380,7 @@ const pairingResult = await matchmakingService.generatePairings({
 
 console.log(`Generated ${pairingResult.pairings.length} pairings`);
 console.log(
-  `Average match quality: ${pairingResult.overallQuality.toFixed(2)}`
+  `Average match quality: ${pairingResult.overallQuality.toFixed(2)}`,
 );
 ```
 
@@ -398,7 +398,7 @@ const updatedRatings = await matchmakingService.updateRatings({
 });
 
 console.log(
-  `Winner rating change: ${updatedRatings[0].conservativeRating - oldRating}`
+  `Winner rating change: ${updatedRatings[0].conservativeRating - oldRating}`,
 );
 ```
 

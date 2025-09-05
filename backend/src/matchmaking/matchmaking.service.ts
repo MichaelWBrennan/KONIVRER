@@ -33,7 +33,7 @@ export class MatchmakingService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly bayesianService: BayesianMatchmakingService,
-    private readonly telemetryService: TelemetryService
+    private readonly telemetryService: TelemetryService,
   ) {}
 
   /**
@@ -41,7 +41,7 @@ export class MatchmakingService {
    */
   async getOrCreatePlayerRating(
     userId: string,
-    format: string
+    format: string,
   ): Promise<PlayerRating> {
     let rating = await this.ratingRepository.findOne({
       where: { userId, format },
@@ -83,14 +83,14 @@ export class MatchmakingService {
    * Update player ratings based on match results
    */
   async updateRatings(
-    updateDto: UpdateRatingsDto
+    updateDto: UpdateRatingsDto,
   ): Promise<PlayerRatingResponseDto[]> {
     const { format, outcomes } = updateDto;
 
     // Get all player ratings
     const playerIds = outcomes.map((o) => o.playerId);
     const ratings = await Promise.all(
-      playerIds.map((id) => this.getOrCreatePlayerRating(id, format))
+      playerIds.map((id) => this.getOrCreatePlayerRating(id, format)),
     );
 
     // Convert to Bayesian rating format
@@ -113,7 +113,7 @@ export class MatchmakingService {
     // Update ratings using Bayesian algorithm
     const updatedBayesianRatings = this.bayesianService.updateRatings(
       bayesianRatings,
-      bayesianOutcomes
+      bayesianOutcomes,
     );
 
     // Apply updates to database entities
@@ -146,12 +146,12 @@ export class MatchmakingService {
           outcome.rank === 1
             ? "win"
             : outcome.rank === outcomes.length
-            ? "loss"
-            : "draw"
+              ? "loss"
+              : "draw",
         );
 
         return await this.ratingRepository.save(rating);
-      })
+      }),
     );
 
     // Update percentile ranks for all players in this format
@@ -167,7 +167,7 @@ export class MatchmakingService {
    * Generate optimal pairings using Bayesian matchmaking
    */
   async generatePairings(
-    generateDto: GeneratePairingsDto
+    generateDto: GeneratePairingsDto,
   ): Promise<GeneratePairingsResponseDto> {
     const {
       playerIds,
@@ -183,7 +183,7 @@ export class MatchmakingService {
 
     // Get all player ratings
     const ratings = await Promise.all(
-      playerIds.map((id) => this.getOrCreatePlayerRating(id, format))
+      playerIds.map((id) => this.getOrCreatePlayerRating(id, format)),
     );
 
     // Convert to map for Bayesian service
@@ -202,7 +202,7 @@ export class MatchmakingService {
     // Generate pairings using Bayesian algorithm
     const { pairings, qualities } = this.bayesianService.generateSwissPairings(
       ratingMap,
-      previousPairings
+      previousPairings,
     );
 
     // Convert to response format
@@ -223,7 +223,7 @@ export class MatchmakingService {
           priority: Math.round(quality.quality * 10),
           expectedDuration: this.estimateMatchDuration(quality),
         };
-      }
+      },
     );
 
     // Calculate overall quality metrics
@@ -253,7 +253,7 @@ export class MatchmakingService {
   async calculateMatchQuality(
     player1Id: string,
     player2Id: string,
-    format: string
+    format: string,
   ): Promise<MatchQualityResponseDto> {
     const [rating1, rating2] = await Promise.all([
       this.getOrCreatePlayerRating(player1Id, format),
@@ -294,7 +294,7 @@ export class MatchmakingService {
    * Simulate match outcome based on player ratings
    */
   async simulateMatch(
-    simulateDto: SimulateMatchDto
+    simulateDto: SimulateMatchDto,
   ): Promise<SimulationResultDto> {
     const {
       player1Id,
@@ -307,7 +307,7 @@ export class MatchmakingService {
     const matchQuality = await this.calculateMatchQuality(
       player1Id,
       player2Id,
-      format
+      format,
     );
     const [winProb1, winProb2] = matchQuality.winProbabilities;
 
@@ -380,7 +380,7 @@ export class MatchmakingService {
    */
   async getLeaderboard(
     format: string,
-    limit: number = 50
+    limit: number = 50,
   ): Promise<PlayerRatingResponseDto[]> {
     const ratings = await this.ratingRepository.find({
       where: { format },
@@ -397,7 +397,7 @@ export class MatchmakingService {
    */
   async getPlayerRating(
     userId: string,
-    format: string
+    format: string,
   ): Promise<PlayerRatingResponseDto> {
     const rating = await this.getOrCreatePlayerRating(userId, format);
     return this.toResponseDto(rating);
@@ -407,7 +407,7 @@ export class MatchmakingService {
   private updateMatchOutcomeStats(
     rating: PlayerRating,
     rank: number,
-    totalPlayers: number
+    totalPlayers: number,
   ): void {
     const isWin = rank === 1;
     const isLoss = rank === totalPlayers;
@@ -441,7 +441,7 @@ export class MatchmakingService {
 
   private updateRatingHistory(
     rating: PlayerRating,
-    outcome: "win" | "loss" | "draw"
+    outcome: "win" | "loss" | "draw",
   ): void {
     if (!rating.ratingHistory) {
       rating.ratingHistory = [];
@@ -474,7 +474,7 @@ export class MatchmakingService {
   }
 
   private getBalanceCategory(
-    quality: number
+    quality: number,
   ): "excellent" | "good" | "fair" | "poor" {
     if (quality >= 0.8) return "excellent";
     if (quality >= 0.6) return "good";
@@ -512,7 +512,7 @@ export class MatchmakingService {
 
   private async recordMatchTelemetry(
     updateDto: UpdateRatingsDto,
-    ratings: PlayerRating[]
+    ratings: PlayerRating[],
   ): Promise<void> {
     try {
       await this.telemetryService.recordMatchResult({
@@ -535,7 +535,7 @@ export class MatchmakingService {
   }
 
   private async recordPairingTelemetry(
-    response: GeneratePairingsResponseDto
+    response: GeneratePairingsResponseDto,
   ): Promise<void> {
     try {
       await this.telemetryService.recordPairingGeneration({

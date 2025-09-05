@@ -45,7 +45,7 @@ import { ProgressionModule } from "./progression/progression.module";
       useFactory: (configService: ConfigService) => ({
         type: "postgres",
         url: `postgresql://gu2mbj:${configService.get(
-          "XATA_API_KEY"
+          "XATA_API_KEY",
         )}@us-east-1.sql.xata.sh/KONIVRER:main?sslmode=require`,
         entities: [__dirname + "/**/*.entity{.ts,.js}"],
         synchronize: configService.get("NODE_ENV") !== "production",

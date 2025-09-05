@@ -206,7 +206,7 @@ export const useKonivrverGameState = () => {
         // Remove card from source zone
         const sourceZoneCards = player.zones[sourceZone].cards;
         const cardIndex = sourceZoneCards.findIndex(
-          (c) => c.id === draggedCard.id
+          (c) => c.id === draggedCard.id,
         );
         if (cardIndex >= 0) {
           sourceZoneCards.splice(cardIndex, 1);
@@ -220,7 +220,7 @@ export const useKonivrverGameState = () => {
 
       endDrag();
     },
-    [dragState, endDrag]
+    [dragState, endDrag],
   );
 
   // Advance to next phase
@@ -303,7 +303,7 @@ export const useKonivrverGameState = () => {
 
         // Remove card from hand
         const handIndex = player.zones.hand.cards.findIndex(
-          (c) => c.id === card.id
+          (c) => c.id === card.id,
         );
         if (handIndex >= 0) {
           player.zones.hand.cards.splice(handIndex, 1);
@@ -324,7 +324,7 @@ export const useKonivrverGameState = () => {
         return newState;
       });
     },
-    [gameState]
+    [gameState],
   );
 
   return {

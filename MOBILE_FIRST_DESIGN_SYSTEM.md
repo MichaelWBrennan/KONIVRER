@@ -492,7 +492,6 @@ await abTestingService.sendResults();
 ### Monitoring Mobile Performance
 
 1. **Core Web Vitals Targets**
-
    - FCP: < 1.8s
    - LCP: < 2.5s
    - CLS: < 0.1
@@ -500,7 +499,6 @@ await abTestingService.sendResults();
    - INP: < 200ms
 
 2. **Touch Interaction Standards**
-
    - Response time: < 100ms
    - Touch accuracy: > 0.85
    - Target size: ≥ 44px × 44px

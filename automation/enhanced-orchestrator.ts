@@ -196,7 +196,7 @@ class EnhancedOrchestrator {
   }
 
   private async generateInitialInsights(
-    systemStatus: any
+    systemStatus: any,
   ): Promise<PredictiveInsight[]> {
     const insights: PredictiveInsight[] = [];
 
@@ -280,7 +280,7 @@ class EnhancedOrchestrator {
     const predictionAccuracy = this.calculatePredictionAccuracy();
     return Math.min(
       100,
-      baseIntelligence + insightBonus + predictionAccuracy * 20
+      baseIntelligence + insightBonus + predictionAccuracy * 20,
     );
   }
 
@@ -290,7 +290,7 @@ class EnhancedOrchestrator {
 
     const totalAccuracy = accuracyData.reduce(
       (sum: number, acc: number) => sum + acc,
-      0
+      0,
     );
     return totalAccuracy / accuracyData.length;
   }
@@ -384,7 +384,7 @@ class EnhancedOrchestrator {
   }
 
   private async generateInsightFromIntelligence(
-    intel: any
+    intel: any,
   ): Promise<PredictiveInsight | null> {
     // Generate actionable insights from intelligence
     switch (intel.type) {
@@ -479,7 +479,7 @@ class EnhancedOrchestrator {
   }
 
   private async createPredictionFromPattern(
-    pattern: any
+    pattern: any,
   ): Promise<PredictiveInsight | null> {
     // Create predictions from identified patterns
     switch (pattern.type) {
@@ -502,10 +502,10 @@ class EnhancedOrchestrator {
   }
 
   private async implementPreventiveMeasures(
-    prediction: PredictiveInsight
+    prediction: PredictiveInsight,
   ): Promise<void> {
     console.log(
-      `🛡️ Implementing preventive measures for: ${prediction.prediction}`
+      `🛡️ Implementing preventive measures for: ${prediction.prediction}`,
     );
 
     // Implement preventive actions based on prediction
@@ -516,7 +516,7 @@ class EnhancedOrchestrator {
 
   private async executePreventiveAction(
     action: string,
-    prediction: PredictiveInsight
+    prediction: PredictiveInsight,
   ): Promise<void> {
     console.log(`🔧 Executing preventive action: ${action}`);
 
@@ -595,7 +595,7 @@ class EnhancedOrchestrator {
 
   private async applyCrossSystemOptimization(optimization: any): Promise<void> {
     console.log(
-      `🔧 Applying cross-system optimization: ${optimization.description}`
+      `🔧 Applying cross-system optimization: ${optimization.description}`,
     );
 
     // Apply specific optimizations
@@ -750,7 +750,7 @@ class EnhancedOrchestrator {
   }
 
   public async updateEnhancedConfig(
-    newConfig: Partial<EnhancedConfig>
+    newConfig: Partial<EnhancedConfig>,
   ): Promise<void> {
     this.config = { ...this.config, ...newConfig };
 

@@ -176,7 +176,7 @@ export const KonivrverSimulator: React.FC = () => {
     // If card is in hand and it's main phase, try to play it
     if (gameState.phase === "main") {
       const isInHand = currentPlayer.zones.hand.cards.some(
-        (c) => c.id === card.id
+        (c) => c.id === card.id,
       );
       if (isInHand) {
         playCard(card);
@@ -244,7 +244,7 @@ export const KonivrverSimulator: React.FC = () => {
               <div key={element} style={{ fontSize: "12px" }}>
                 {element}: {amount}
               </div>
-            )
+            ),
         )}
       </div>
     </div>
@@ -333,7 +333,7 @@ export const KonivrverSimulator: React.FC = () => {
           onCardDrag={handleCardDrag}
           onZoneDrop={handleZoneDropProxy}
           isDragTarget={dragState.validDropZones.includes(
-            zoneType as KonivrverZoneType
+            zoneType as KonivrverZoneType,
           )}
         />
       ))}

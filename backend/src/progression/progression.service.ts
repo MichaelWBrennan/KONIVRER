@@ -15,7 +15,7 @@ export class ProgressionService {
     @InjectRepository(TournamentProfile)
     private readonly profileRepo: Repository<TournamentProfile>,
     @InjectRepository(PointHistory)
-    private readonly historyRepo: Repository<PointHistory>
+    private readonly historyRepo: Repository<PointHistory>,
   ) {}
 
   async getOrCreateProfile(userId: string): Promise<TournamentProfile> {
@@ -33,7 +33,7 @@ export class ProgressionService {
   }
 
   async updatePreferences(
-    dto: UpdateTournamentPreferencesDto
+    dto: UpdateTournamentPreferencesDto,
   ): Promise<TournamentProfileResponseDto> {
     const profile = await this.getOrCreateProfile(dto.userId);
     profile.preferences = {
@@ -46,7 +46,7 @@ export class ProgressionService {
   }
 
   async applyPointUpdate(
-    dto: PointUpdateDto
+    dto: PointUpdateDto,
   ): Promise<TournamentProfileResponseDto> {
     const profile = await this.getOrCreateProfile(dto.userId);
 

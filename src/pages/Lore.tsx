@@ -26,7 +26,8 @@ export const Lore: React.FC = () => {
         const baselinePx = firstChip
           ? parseFloat(window.getComputedStyle(firstChip).fontSize || "14")
           : parseFloat(
-              window.getComputedStyle(document.documentElement).fontSize || "16"
+              window.getComputedStyle(document.documentElement).fontSize ||
+                "16",
             ) * 0.9;
 
         const available = containerEl.clientWidth;
@@ -39,7 +40,7 @@ export const Lore: React.FC = () => {
         const minPx = 8; // readability floor
         let nextPx = Math.max(
           minPx,
-          Math.floor(baselinePx * (available / needed) * 100) / 100
+          Math.floor(baselinePx * (available / needed) * 100) / 100,
         );
         containerEl.style.setProperty("--trait-font-size", `${nextPx}px`);
 
@@ -229,7 +230,7 @@ export const Lore: React.FC = () => {
               if ((e as any)?.name === "AbortError") return "";
               return `Failed to load content from ${src}: ${String(e)}`;
             }
-          })
+          }),
         );
 
         const combined = sources
@@ -267,7 +268,7 @@ export const Lore: React.FC = () => {
     if (!q) return text;
     try {
       const parts = text.split(
-        new RegExp(`(${q.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&")})`, "gi")
+        new RegExp(`(${q.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&")})`, "gi"),
       );
       return parts.map((part, i) =>
         part.toLowerCase() === q.toLowerCase() ? (
@@ -276,7 +277,7 @@ export const Lore: React.FC = () => {
           </mark>
         ) : (
           <React.Fragment key={i}>{part}</React.Fragment>
-        )
+        ),
       );
     } catch {
       return text;
@@ -478,7 +479,7 @@ export const Lore: React.FC = () => {
   }
 
   function getFactionForCombo(
-    names: ElementDefinition["name"][]
+    names: ElementDefinition["name"][],
   ): FactionEntry {
     const key = comboKey(names);
     const size = names.length;
@@ -594,7 +595,7 @@ export const Lore: React.FC = () => {
         `<defs><radialGradient id='g' cx='50%' cy='50%'><stop offset='0%' stop-color='#ffffff'/><stop offset='100%' stop-color='#e6eef7'/></radialGradient></defs>` +
         `<rect width='100%' height='100%' fill='url(#g)'/>` +
         `<text x='50%' y='54%' text-anchor='middle' font-size='72' font-family='serif' fill='#2c3e50' opacity='0.35'>${initials}</text>` +
-        `</svg>`
+        `</svg>`,
     );
     return `url("data:image/svg+xml;utf8,${svg}")`;
   }
@@ -642,7 +643,7 @@ export const Lore: React.FC = () => {
 
   function collectTraits(combo: ElementDefinition[]): string[] {
     return uniqueCaseInsensitive(
-      combo.flatMap((e) => [e.traitX, e.traitY]).filter(Boolean)
+      combo.flatMap((e) => [e.traitX, e.traitY]).filter(Boolean),
     );
   }
 
@@ -777,7 +778,7 @@ export const Lore: React.FC = () => {
   function buildNarrativeParagraph(
     combo: ElementDefinition[],
     ideologyTitle: string,
-    faction: FactionEntry
+    faction: FactionEntry,
   ): string {
     const traits = collectTraits(combo);
     const gerunds = traits.map(toGerund);
@@ -786,7 +787,7 @@ export const Lore: React.FC = () => {
     const joinedThemes = joinOxford(themes);
     const first = `${ideologyTitle} emerges from ${mechanism}, turning ${joinedThemes} into coordinated practice.`;
     const second = `Historically, ${faction.name} ${getFactionBlurb(
-      faction.name
+      faction.name,
     )}`;
     const bridge =
       gerunds.length >= 2
@@ -800,7 +801,7 @@ export const Lore: React.FC = () => {
   function buildFactionIdeologyLine(
     faction: FactionEntry,
     ideology: string,
-    combo: ElementDefinition[]
+    combo: ElementDefinition[],
   ): string {
     const traits = collectTraits(combo).map((t) => t.toLowerCase());
     const listed = joinOxford(traits.slice(0, 4));
@@ -1092,12 +1093,12 @@ export const Lore: React.FC = () => {
             const description = buildNarrativeParagraph(
               combo,
               ideology,
-              faction
+              faction,
             );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              combo
+              combo,
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -1105,7 +1106,7 @@ export const Lore: React.FC = () => {
                   className={s.watermark}
                   style={{
                     backgroundImage: buildFactionWatermarkBackground(
-                      faction.name
+                      faction.name,
                     ),
                   }}
                 />
@@ -1127,7 +1128,7 @@ export const Lore: React.FC = () => {
             const special = specialTriples[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(
-              names as ElementDefinition["name"][]
+              names as ElementDefinition["name"][],
             );
             const header = `${names.join(" + ")} — ${
               faction.name
@@ -1135,12 +1136,12 @@ export const Lore: React.FC = () => {
             const description = buildNarrativeParagraph(
               combo,
               ideology,
-              faction
+              faction,
             );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              combo
+              combo,
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -1148,7 +1149,7 @@ export const Lore: React.FC = () => {
                   className={s.watermark}
                   style={{
                     backgroundImage: buildFactionWatermarkBackground(
-                      faction.name
+                      faction.name,
                     ),
                   }}
                 />
@@ -1170,7 +1171,7 @@ export const Lore: React.FC = () => {
             const special = specialQuads[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(
-              names as ElementDefinition["name"][]
+              names as ElementDefinition["name"][],
             );
             const header = `${names.join(" + ")} — ${
               faction.name
@@ -1178,12 +1179,12 @@ export const Lore: React.FC = () => {
             const description = buildNarrativeParagraph(
               combo,
               ideology,
-              faction
+              faction,
             );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              combo
+              combo,
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -1191,7 +1192,7 @@ export const Lore: React.FC = () => {
                   className={s.watermark}
                   style={{
                     backgroundImage: buildFactionWatermarkBackground(
-                      faction.name
+                      faction.name,
                     ),
                   }}
                 />
@@ -1213,7 +1214,7 @@ export const Lore: React.FC = () => {
             const special = specialQuints[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(
-              names as ElementDefinition["name"][]
+              names as ElementDefinition["name"][],
             );
             const header = `${names.join(" + ")} — ${
               faction.name
@@ -1221,12 +1222,12 @@ export const Lore: React.FC = () => {
             const description = buildNarrativeParagraph(
               combo,
               ideology,
-              faction
+              faction,
             );
             const ideologyLine = buildFactionIdeologyLine(
               faction,
               ideology,
-              combo
+              combo,
             );
             return (
               <div key={key} className={s.virtueCard}>
@@ -1234,7 +1235,7 @@ export const Lore: React.FC = () => {
                   className={s.watermark}
                   style={{
                     backgroundImage: buildFactionWatermarkBackground(
-                      faction.name
+                      faction.name,
                     ),
                   }}
                 />
@@ -1250,7 +1251,7 @@ export const Lore: React.FC = () => {
         </div>
       </section>
     ),
-    [combinations2, combinations3, combinations4, combinations5]
+    [combinations2, combinations3, combinations4, combinations5],
   );
 
   const renderActive = () => {

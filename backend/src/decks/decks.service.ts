@@ -35,7 +35,7 @@ export class DecksService {
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async create(createDeckDto: CreateDeckDto, userId: string): Promise<Deck> {
@@ -50,13 +50,13 @@ export class DecksService {
     // Validate deck construction rules
     await this.validateDeckConstruction(
       createDeckDto.mainboard,
-      createDeckDto.format
+      createDeckDto.format,
     );
 
     // Calculate analytics
     const analytics = await this.calculateDeckAnalytics(
       createDeckDto.mainboard,
-      cards
+      cards,
     );
     const archetype = this.detectArchetype(createDeckDto.mainboard, cards);
     const colors = this.extractColors(cards);
@@ -71,7 +71,7 @@ export class DecksService {
       competitivenessScore: this.calculateCompetitivenessScore(cards),
       isLegal: await this.checkLegality(
         createDeckDto.mainboard,
-        createDeckDto.format
+        createDeckDto.format,
       ),
     });
 
@@ -81,7 +81,7 @@ export class DecksService {
 
   async findAll(
     filters: DeckSearchFilters,
-    userId?: string
+    userId?: string,
   ): Promise<{ decks: Deck[]; total: number; page: number; limit: number }> {
     const {
       page = 1,
@@ -110,7 +110,7 @@ export class DecksService {
         {
           private: DeckVisibility.PRIVATE,
           userId,
-        }
+        },
       );
     } else {
       queryBuilder.andWhere("deck.visibility = :public", {
@@ -149,7 +149,7 @@ export class DecksService {
     if (search) {
       queryBuilder.andWhere(
         "(deck.name ILIKE :search OR deck.description ILIKE :search OR deck.tags::text ILIKE :search)",
-        { search: `%${search}%` }
+        { search: `%${search}%` },
       );
     }
 
@@ -203,7 +203,7 @@ export class DecksService {
   async update(
     id: string,
     updateDeckDto: UpdateDeckDto,
-    userId: string
+    userId: string,
   ): Promise<Deck> {
     const deck = await this.deckRepository.findOne({ where: { id } });
 
@@ -228,7 +228,7 @@ export class DecksService {
 
       const analytics = await this.calculateDeckAnalytics(
         updateDeckDto.mainboard,
-        cards
+        cards,
       );
       const archetype = this.detectArchetype(updateDeckDto.mainboard, cards);
       const colors = this.extractColors(cards);
@@ -297,7 +297,7 @@ export class DecksService {
 
   async like(
     id: string,
-    userId: string
+    userId: string,
   ): Promise<{ liked: boolean; likes: number }> {
     const deck = await this.deckRepository.findOne({ where: { id } });
 
@@ -361,14 +361,14 @@ export class DecksService {
         visibility: DeckVisibility.PRIVATE,
         ...parsedDeck,
       },
-      userId
+      userId,
     );
   }
 
   async getTopDecks(
     format?: DeckFormat,
     archetype?: DeckArchetype,
-    limit: number = 10
+    limit: number = 10,
   ): Promise<Deck[]> {
     const query = this.deckRepository
       .createQueryBuilder("deck")
@@ -444,7 +444,7 @@ export class DecksService {
 
   private async validateDeckConstruction(
     mainboard: any[],
-    format: DeckFormat
+    format: DeckFormat,
   ): Promise<void> {
     const cardCounts = mainboard.reduce((counts, card) => {
       counts[card.cardId] = (counts[card.cardId] || 0) + card.quantity;
@@ -454,13 +454,13 @@ export class DecksService {
     // Check deck size
     const totalCards = mainboard.reduce(
       (total, card) => total + card.quantity,
-      0
+      0,
     );
     const minSize = format === DeckFormat.COMMANDER ? 100 : 60;
 
     if (totalCards < minSize) {
       throw new BadRequestException(
-        `Deck must have at least ${minSize} cards for ${format} format`
+        `Deck must have at least ${minSize} cards for ${format} format`,
       );
     }
 
@@ -474,7 +474,7 @@ export class DecksService {
         // TODO: Check if it's a basic land or has special rules
         if (!card?.keywords?.includes("Basic")) {
           throw new BadRequestException(
-            `Cannot have more than 4 copies of ${card?.name || "card"}`
+            `Cannot have more than 4 copies of ${card?.name || "card"}`,
           );
         }
       }
@@ -483,7 +483,7 @@ export class DecksService {
 
   private async calculateDeckAnalytics(
     mainboard: any[],
-    cards: Card[]
+    cards: Card[],
   ): Promise<any> {
     const cardMap = new Map(cards.map((card) => [card.id, card]));
 
@@ -527,7 +527,7 @@ export class DecksService {
         element,
         count: count as number,
         percentage: Math.round(((count as number) / totalCards) * 100),
-      })
+      }),
     );
 
     const typeDistribution = Object.entries(typeCounts).map(
@@ -535,7 +535,7 @@ export class DecksService {
         type,
         count: count as number,
         percentage: Math.round(((count as number) / totalCards) * 100),
-      })
+      }),
     );
 
     const rarityDistribution = Object.entries(rarityCounts).map(
@@ -543,7 +543,7 @@ export class DecksService {
         rarity,
         count: count as number,
         percentage: Math.round(((count as number) / totalCards) * 100),
-      })
+      }),
     );
 
     return {
@@ -562,14 +562,14 @@ export class DecksService {
 
   private detectArchetype(
     mainboard: any[],
-    cards: Card[]
+    cards: Card[],
   ): DeckArchetype | null {
     // Simple archetype detection based on card types and mana curve
     const creatureCount = cards.filter(
-      (card) => card.type === CardType.CREATURE
+      (card) => card.type === CardType.CREATURE,
     ).length;
     const spellCount = cards.filter(
-      (card) => card.type === CardType.SPELL
+      (card) => card.type === CardType.SPELL,
     ).length;
     const avgManaCost =
       cards.reduce((sum, card) => sum + card.cost, 0) / cards.length;
@@ -631,7 +631,7 @@ export class DecksService {
 
   private async checkLegality(
     mainboard: any[],
-    format: DeckFormat
+    format: DeckFormat,
   ): Promise<boolean> {
     // TODO: Implement format-specific legality checks
     return true;
@@ -663,7 +663,7 @@ export class DecksService {
 
   private async findSimilarDecks(
     deckId: string,
-    limit: number
+    limit: number,
   ): Promise<Deck[]> {
     // TODO: Implement similarity algorithm
     return [];

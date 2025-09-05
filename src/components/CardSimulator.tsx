@@ -281,7 +281,7 @@ export const CardSimulator: React.FC = () => {
       }}
     >
       {Object.entries(
-        currentPlayer.manaPool || currentPlayer.azothPool || {}
+        currentPlayer.manaPool || currentPlayer.azothPool || {},
       ).map(([color, amount]) => (
         <div
           key={color}

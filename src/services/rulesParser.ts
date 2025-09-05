@@ -226,7 +226,7 @@ export function searchRules(
     exactMatch?: boolean;
     caseSensitive?: boolean;
     searchKeywords?: boolean;
-  }
+  },
 ): KonivrverRule[] {
   const {
     exactMatch = false,
@@ -239,7 +239,7 @@ export function searchRules(
     const content = caseSensitive ? rule.content : rule.content.toLowerCase();
     const title = caseSensitive ? rule.title : rule.title.toLowerCase();
     const keywords = rule.keywords.map((k) =>
-      caseSensitive ? k : k.toLowerCase()
+      caseSensitive ? k : k.toLowerCase(),
     );
 
     if (exactMatch) {
@@ -316,7 +316,7 @@ export function searchWithSynonyms(query: string): KonivrverRule[] {
       values.some((v) => v.includes(queryLower))
     ) {
       const synonymResults = [key, ...values].flatMap((term) =>
-        searchRules(term)
+        searchRules(term),
       );
       results = [...results, ...synonymResults];
     }

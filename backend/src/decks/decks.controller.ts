@@ -136,7 +136,7 @@ export class DecksController {
   async getTopDecks(
     @Query("format") format?: DeckFormat,
     @Query("archetype") archetype?: DeckArchetype,
-    @Query("limit") limit?: number
+    @Query("limit") limit?: number,
   ) {
     return this.decksService.getTopDecks(format, archetype, limit);
   }
@@ -203,7 +203,7 @@ export class DecksController {
   async update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() updateDeckDto: UpdateDeckDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.decksService.update(id, updateDeckDto, req.user.id);
   }
@@ -231,7 +231,7 @@ export class DecksController {
   async cloneDeck(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() cloneDto: CloneDeckDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.decksService.clone(id, req.user.id, cloneDto.name);
   }
@@ -244,7 +244,7 @@ export class DecksController {
   async assignDeck(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() body: { userId?: string },
-    @Request() req
+    @Request() req,
   ) {
     const userId = body.userId || req.user.id;
     return this.decksService.assignToUser(id, userId);
@@ -271,7 +271,7 @@ export class DecksController {
   @ApiResponse({ status: 403, description: "Access denied (private deck)" })
   async getDeckAnalytics(
     @Param("id", ParseUUIDPipe) id: string,
-    @Request() req
+    @Request() req,
   ) {
     const userId = req.user?.id;
     return this.decksService.getAnalytics(id, userId);
@@ -290,7 +290,7 @@ export class DecksController {
   async exportDeck(
     @Param("id", ParseUUIDPipe) id: string,
     @Query("format") format: string = "text",
-    @Request() req
+    @Request() req,
   ) {
     const userId = req.user?.id;
     const deck = await this.decksService.findOne(id, userId);
@@ -318,7 +318,7 @@ export class DecksController {
   async getSimilarDecks(
     @Param("id", ParseUUIDPipe) id: string,
     @Query("limit") limit: number = 10,
-    @Request() req
+    @Request() req,
   ) {
     const userId = req.user?.id;
     // TODO: Implement similarity search
@@ -355,7 +355,7 @@ export class DecksController {
   })
   async getPriceHistory(
     @Param("id", ParseUUIDPipe) id: string,
-    @Request() req
+    @Request() req,
   ) {
     const userId = req.user?.id;
     // TODO: Implement price tracking
@@ -391,7 +391,7 @@ export class DecksController {
   })
   async getStatistics(
     @Param("id", ParseUUIDPipe) id: string,
-    @Request() req
+    @Request() req,
   ): Promise<any> {
     const userId = req.user?.id;
     const deck = await this.decksService.findOne(id, userId);

@@ -109,7 +109,7 @@ export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
           }}
           onClick={() =>
             setSelectedSection(
-              selectedSection === rule.section ? "" : rule.section
+              selectedSection === rule.section ? "" : rule.section,
             )
           }
         >

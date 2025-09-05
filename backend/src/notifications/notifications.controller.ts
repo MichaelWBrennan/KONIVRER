@@ -48,7 +48,7 @@ export class NotificationsController {
   @UseGuards(RolesGuard)
   @Roles(UserRole.ADMIN, UserRole.TOURNAMENT_ORGANIZER)
   async create(
-    @Body() createNotificationDto: CreateNotificationDto
+    @Body() createNotificationDto: CreateNotificationDto,
   ): Promise<Notification> {
     return this.notificationsService.create(createNotificationDto);
   }
@@ -77,10 +77,10 @@ export class NotificationsController {
     description: "User notifications grouped by event retrieved successfully",
   })
   async getMyNotificationsByEvent(
-    @Request() req
+    @Request() req,
   ): Promise<Record<string, Notification[]>> {
     return this.notificationsService.getUserNotificationsByEvent(
-      req.user.userId
+      req.user.userId,
     );
   }
 
@@ -96,12 +96,12 @@ export class NotificationsController {
   async getMyEventNotifications(
     @Request() req,
     @Param("eventId", ParseUUIDPipe) eventId: string,
-    @Query("unreadOnly") unreadOnly: string = "false"
+    @Query("unreadOnly") unreadOnly: string = "false",
   ): Promise<Notification[]> {
     return this.notificationsService.getUserEventNotifications(
       req.user.userId,
       eventId,
-      unreadOnly === "true"
+      unreadOnly === "true",
     );
   }
 
@@ -114,11 +114,11 @@ export class NotificationsController {
   })
   async getMyNotifications(
     @Request() req,
-    @Query("unreadOnly") unreadOnly: string = "false"
+    @Query("unreadOnly") unreadOnly: string = "false",
   ): Promise<Notification[]> {
     return this.notificationsService.getUserNotifications(
       req.user.userId,
-      unreadOnly === "true"
+      unreadOnly === "true",
     );
   }
 
@@ -146,7 +146,7 @@ export class NotificationsController {
   @Roles(UserRole.ADMIN, UserRole.TOURNAMENT_ORGANIZER)
   async updateStatus(
     @Param("id", ParseUUIDPipe) id: string,
-    @Body() updateStatusDto: UpdateNotificationStatusDto
+    @Body() updateStatusDto: UpdateNotificationStatusDto,
   ): Promise<Notification> {
     return this.notificationsService.updateStatus(id, updateStatusDto);
   }
@@ -160,7 +160,7 @@ export class NotificationsController {
   })
   @ApiResponse({ status: 404, description: "Notification not found" })
   async markAsRead(
-    @Param("id", ParseUUIDPipe) id: string
+    @Param("id", ParseUUIDPipe) id: string,
   ): Promise<Notification> {
     return this.notificationsService.markAsRead(id);
   }

@@ -18,7 +18,7 @@ import { User } from "../users/entities/user.entity";
 export class PhysicalSimulationController {
   constructor(
     private readonly simulationService: PhysicalGameSimulationService,
-    private readonly judgeToolkitService: JudgeToolkitService
+    private readonly judgeToolkitService: JudgeToolkitService,
   ) {}
 
   /**
@@ -35,12 +35,12 @@ export class PhysicalSimulationController {
       deck2: string;
       iterations?: number;
       scenarioId?: string;
-    }
+    },
   ) {
     return this.simulationService.simulatePhysicalGame(
       body.deck1,
       body.deck2,
-      body.iterations || 1000
+      body.iterations || 1000,
     );
   }
 
@@ -59,7 +59,7 @@ export class PhysicalSimulationController {
       player2Deck: string;
       customGameState?: any;
       expectedOutcomes: string[];
-    }
+    },
   ) {
     return this.simulationService.createScenario(scenarioData);
   }
@@ -76,12 +76,12 @@ export class PhysicalSimulationController {
       testDecks: string[];
       metaDecks: string[];
       iterations?: number;
-    }
+    },
   ) {
     return this.simulationService.runBatchDeckTesting(
       body.testDecks,
       body.metaDecks,
-      body.iterations || 1000000
+      body.iterations || 1000000,
     );
   }
 
@@ -96,7 +96,7 @@ export class PhysicalSimulationController {
       keywords: string[];
       scenario?: string;
       cardNames?: string[];
-    }
+    },
   ) {
     return this.judgeToolkitService.searchRules(query);
   }
@@ -125,11 +125,11 @@ export class PhysicalSimulationController {
         intent?: "accidental" | "negligent" | "intentional";
         impact?: "none" | "minor" | "significant" | "severe";
       };
-    }
+    },
   ) {
     return this.judgeToolkitService.calculatePenalty(
       body.infraction,
-      body.context
+      body.context,
     );
   }
 
@@ -139,11 +139,11 @@ export class PhysicalSimulationController {
    */
   @Post("judge/resolve-conflict")
   async resolveRulesConflict(
-    @Body() body: { conflictDescription: string; involvedRules: string[] }
+    @Body() body: { conflictDescription: string; involvedRules: string[] },
   ) {
     return this.judgeToolkitService.resolveRulesConflict(
       body.conflictDescription,
-      body.involvedRules
+      body.involvedRules,
     );
   }
 
@@ -160,13 +160,13 @@ export class PhysicalSimulationController {
       gameState: any;
       question: string;
       tags?: string[];
-    }
+    },
   ) {
     return this.judgeToolkitService.createCustomScenario(
       body.title,
       body.gameState,
       body.question,
-      body.tags
+      body.tags,
     );
   }
 
@@ -187,13 +187,13 @@ export class PhysicalSimulationController {
   async getDeckAnalytics(
     @Param("deckId") deckId: string,
     @Query("format") format?: string,
-    @Query("iterations") iterations?: number
+    @Query("iterations") iterations?: number,
   ) {
     // Run quick analytics simulation
     const testResult = await this.simulationService.simulatePhysicalGame(
       deckId,
       "meta_baseline_deck", // Would need a baseline meta deck
-      parseInt(iterations as any) || 10000
+      parseInt(iterations as any) || 10000,
     );
 
     return {

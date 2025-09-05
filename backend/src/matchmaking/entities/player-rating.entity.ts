@@ -172,7 +172,7 @@ export class PlayerRating {
     const totalUncertainty = Math.sqrt(
       this.uncertainty * this.uncertainty +
         opponentRating.uncertainty * opponentRating.uncertainty +
-        2 * Math.pow(25.0 / 6.0, 2) // Beta squared
+        2 * Math.pow(25.0 / 6.0, 2), // Beta squared
     );
 
     // Normal CDF approximation

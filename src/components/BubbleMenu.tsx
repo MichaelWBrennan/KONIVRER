@@ -25,7 +25,7 @@ interface BubbleMenuProps {
       | "events"
       | "my-decks"
       | "rules"
-      | "judge"
+      | "judge",
   ) => void;
   onSearch?: (query: string) => void;
 }
@@ -72,7 +72,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
 
   const handleAccessibilityChange = (
     setting: string,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     switch (setting) {
       case "fontSize":
@@ -80,7 +80,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
         localStorage.setItem("fontSize", value as string);
         document.documentElement.setAttribute(
           "data-font-size",
-          value as string
+          value as string,
         );
         break;
       case "contrast":
