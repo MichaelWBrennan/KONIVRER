@@ -6,15 +6,14 @@
     "@types/react-router-dom",
     "@xata.io/client",
     "react-qr-code",
-    "react-router-dom"
+    "react-router-dom",
+    "sharp",
+    "tesseract.js"
   ],
   "devDependencies": ["@xata.io/cli"],
   "missing": {
     "@nestjs/core": [
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/scripts/populate-db-from-images.ts"
-    ],
-    "pdfjs-lib": [
-      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/public/pdfjs/web/debugger.mjs"
     ]
   },
   "using": {
@@ -41,6 +40,13 @@
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/eslint.config.js",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/package.json"
     ],
+    "prettier": [
+      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/package.json"
+    ],
+    "tsx": [
+      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/package.json",
+      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/vite.config.ts"
+    ],
     "vite": [
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/package.json",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/vite.config.ts"
@@ -61,6 +67,7 @@
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/MyDecks.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Offline.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/PdfViewer.tsx",
+      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Profile.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Rules.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Settings.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/TournamentHub.tsx",
@@ -115,6 +122,7 @@
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/MyDecks.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Offline.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/PdfViewer.tsx",
+      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Profile.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Rules.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/Settings.tsx",
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/src/pages/TournamentHub.tsx",
@@ -220,9 +228,6 @@
     ],
     "@nestjs/core": [
       "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/scripts/populate-db-from-images.ts"
-    ],
-    "pdfjs-lib": [
-      "/home/runner/work/KONIVRER-deck-database/KONIVRER-deck-database/public/pdfjs/web/debugger.mjs"
     ]
   },
   "invalidFiles": {
