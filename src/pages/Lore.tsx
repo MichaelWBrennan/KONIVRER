@@ -798,6 +798,30 @@ export const Lore: React.FC = () => {
     return `${first} ${second} ${bridge}`;
   }
 
+  // New: split narrative into two explicit paragraphs for standardized layout
+  function buildIdeologyParagraph(
+    combo: ElementDefinition[],
+    ideologyTitle: string,
+  ): string {
+    const traits = collectTraits(combo);
+    const gerunds = traits.map(toGerund);
+    const themes = combo.map((e) => summarize(e.definition).toLowerCase());
+    const mechanism = joinOxford(gerunds.slice(0, 5));
+    const joinedThemes = joinOxford(themes);
+    return `${ideologyTitle} emerges from ${mechanism}, turning ${joinedThemes} into coordinated practice.`;
+  }
+
+  function buildFactionParagraph(
+    faction: FactionEntry,
+    ideologyTitle: string,
+    combo: ElementDefinition[],
+  ): string {
+    const blurb = getFactionBlurb(faction.name);
+    const line = buildFactionIdeologyLine(faction, ideologyTitle, combo);
+    // Keep it as two sentences joined, focusing on embodiment of the ideology
+    return `Historically, ${faction.name} ${blurb} ${line}`;
+  }
+
   function buildFactionIdeologyLine(
     faction: FactionEntry,
     ideology: string,
@@ -1087,15 +1111,9 @@ export const Lore: React.FC = () => {
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(names);
-            const header = `${names.join(" + ")} — ${
-              faction.name
-            } (${ideology})`;
-            const description = buildNarrativeParagraph(
-              combo,
-              ideology,
-              faction,
-            );
-            const ideologyLine = buildFactionIdeologyLine(
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+            const factionParagraph = buildFactionParagraph(
               faction,
               ideology,
               combo,
@@ -1111,10 +1129,14 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>{description}</p>
                 <p className={s.virtueText}>
-                  <em>{ideologyLine}</em>
+                  <strong>Ideology:</strong> {ideology}
                 </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
+                <p className={s.virtueText}>{ideologyParagraph}</p>
+                <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
               </div>
             );
@@ -1130,15 +1152,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][],
             );
-            const header = `${names.join(" + ")} — ${
-              faction.name
-            } (${ideology})`;
-            const description = buildNarrativeParagraph(
-              combo,
-              ideology,
-              faction,
-            );
-            const ideologyLine = buildFactionIdeologyLine(
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+            const factionParagraph = buildFactionParagraph(
               faction,
               ideology,
               combo,
@@ -1154,10 +1170,14 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>{description}</p>
                 <p className={s.virtueText}>
-                  <em>{ideologyLine}</em>
+                  <strong>Ideology:</strong> {ideology}
                 </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
+                <p className={s.virtueText}>{ideologyParagraph}</p>
+                <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
               </div>
             );
@@ -1173,15 +1193,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][],
             );
-            const header = `${names.join(" + ")} — ${
-              faction.name
-            } (${ideology})`;
-            const description = buildNarrativeParagraph(
-              combo,
-              ideology,
-              faction,
-            );
-            const ideologyLine = buildFactionIdeologyLine(
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+            const factionParagraph = buildFactionParagraph(
               faction,
               ideology,
               combo,
@@ -1197,10 +1211,14 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>{description}</p>
                 <p className={s.virtueText}>
-                  <em>{ideologyLine}</em>
+                  <strong>Ideology:</strong> {ideology}
                 </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
+                <p className={s.virtueText}>{ideologyParagraph}</p>
+                <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
               </div>
             );
@@ -1216,15 +1234,9 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][],
             );
-            const header = `${names.join(" + ")} — ${
-              faction.name
-            } (${ideology})`;
-            const description = buildNarrativeParagraph(
-              combo,
-              ideology,
-              faction,
-            );
-            const ideologyLine = buildFactionIdeologyLine(
+            const header = `${names.join(" + ")}: ${ideology}`;
+            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+            const factionParagraph = buildFactionParagraph(
               faction,
               ideology,
               combo,
@@ -1240,10 +1252,14 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>{description}</p>
                 <p className={s.virtueText}>
-                  <em>{ideologyLine}</em>
+                  <strong>Ideology:</strong> {ideology}
                 </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
+                <p className={s.virtueText}>{ideologyParagraph}</p>
+                <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
               </div>
             );
