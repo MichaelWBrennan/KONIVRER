@@ -71,6 +71,7 @@ export {};
 export {};
 export {};
 export {};
+export {};
 // Re-export all types from various type definition files
 export * from "./game";
 
@@ -133,6 +134,9 @@ export interface Card {
   color?: string;
   text?: string;
 }
+declare module "*.css";
+declare module "*.svg";
+declare module "*.png";
 declare module "*.css";
 declare module "*.svg";
 declare module "*.png";
