@@ -81,7 +81,7 @@ exports.handler = async (event) => {
 
       // Add progression tracking
       const category = Object.keys(milestoneCategories).find((cat) =>
-        milestoneCategories[cat].includes(record.milestoneType)
+        milestoneCategories[cat].includes(record.milestoneType),
       );
 
       if (category) {
@@ -89,7 +89,7 @@ exports.handler = async (event) => {
         onboardingEvent.metadata.categoryProgress = calculateCategoryProgress(
           record.userId,
           category,
-          milestoneCategories[category]
+          milestoneCategories[category],
         );
       }
 
@@ -161,14 +161,14 @@ async function calculateCategoryProgress(userId, category, milestones) {
     const result = await dynamodb.scan(params).promise();
 
     const completedMilestones = result.Items.map(
-      (item) => item.data.milestoneType
+      (item) => item.data.milestoneType,
     ).filter((milestone) => milestones.includes(milestone));
 
     return {
       completed: completedMilestones.length,
       total: milestones.length,
       percentage: Math.round(
-        (completedMilestones.length / milestones.length) * 100
+        (completedMilestones.length / milestones.length) * 100,
       ),
       remaining: milestones.filter((m) => !completedMilestones.includes(m)),
     };
@@ -221,7 +221,7 @@ async function updateUserJourney(userId, onboardingEvent) {
 
     // Update current stage based on milestones
     journeyData.currentStage = determineCurrentStage(
-      journeyData.completedMilestones
+      journeyData.completedMilestones,
     );
 
     // Update DynamoDB

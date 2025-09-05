@@ -39,7 +39,7 @@ export class SimulatorController {
   @ApiResponse({ status: 401, description: "Unauthorized" })
   async runSimulation(
     @Body() config: SimulationConfigDto,
-    @Request() req
+    @Request() req,
   ): Promise<SimulationResponseDto> {
     return this.simulatorService.runSimulation(config, req.user.id);
   }
@@ -54,7 +54,7 @@ export class SimulatorController {
   @ApiResponse({ status: 404, description: "Simulation not found" })
   async getSimulation(
     @Param("simId", ParseUUIDPipe) simId: string,
-    @Request() req
+    @Request() req,
   ): Promise<SimulationResponseDto> {
     return this.simulatorService.getSimulation(simId, req.user.id);
   }

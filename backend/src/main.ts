@@ -19,7 +19,7 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-    })
+    }),
   );
 
   // Global prefix for API routes
@@ -29,7 +29,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle("KONIVRER Enterprise Platform API")
     .setDescription(
-      "Enterprise-grade TCG platform with card database, deck management, tournaments, and game simulation"
+      "Enterprise-grade TCG platform with card database, deck management, tournaments, and game simulation",
     )
     .setVersion("1.0")
     .addBearerAuth()

@@ -38,18 +38,18 @@ export class AiDeckbuildingService {
   // Bayesian rating integration for skill-based recommendations
   async generateDeckSuggestions(
     userId: string,
-    format: string
+    format: string,
   ): Promise<DeckSuggestionDto[]>;
 
   // Comprehensive meta analysis with personalized insights
   async generateMetaAnalysis(
     userId: string,
-    format: string
+    format: string,
   ): Promise<MetaAnalysisDto>;
 
   // Intelligent deck optimization with performance prediction
   async optimizeDeck(
-    request: DeckOptimizationRequest
+    request: DeckOptimizationRequest,
   ): Promise<OptimizationResult>;
 }
 ```
@@ -416,7 +416,7 @@ describe("AiDeckbuildingService", () => {
 const suggestions = await aiDeckbuildingService.generateDeckSuggestions(
   userId,
   "Standard",
-  { playstyle: "control" }
+  { playstyle: "control" },
 );
 
 // Optimize existing deck
@@ -435,7 +435,7 @@ const optimization = await aiDeckbuildingService.optimizeDeck({
 const batchResults = await simulationService.runBatchDeckTesting(
   testDecks,
   metaDecks,
-  1000000 // One million iterations
+  1000000, // One million iterations
 );
 
 // Create custom testing scenario

@@ -45,7 +45,7 @@ export const Events: React.FC = () => {
     "browse" | "my-events" | "create" | "admin"
   >("browse");
   const [viewMode, setViewMode] = useState<"upcoming" | "live" | "past">(
-    "upcoming"
+    "upcoming",
   );
   const [events] = useState<Event[]>([]);
   const [currentUser, setCurrentUser] = useState<User>({
@@ -106,7 +106,7 @@ export const Events: React.FC = () => {
             "Notifications Enabled",
             "You'll receive notifications about tournament updates and round starts.",
             {},
-            eventId
+            eventId,
           );
         } else {
           console.log("User declined notification permission");

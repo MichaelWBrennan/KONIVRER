@@ -15,5 +15,5 @@ export const Provenance = createParamDecorator(
       modelVersion: request.headers["x-provenance-model-version"],
       promptHash: request.headers["x-provenance-prompt-hash"],
     };
-  }
+  },
 );

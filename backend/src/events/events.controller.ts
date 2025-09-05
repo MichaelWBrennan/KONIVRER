@@ -62,7 +62,7 @@ import {
 export class EventsController {
   constructor(
     private readonly eventsService: EventsService,
-    private readonly eventEmitter: EventEmitter2
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   // Event Management Endpoints
@@ -79,7 +79,7 @@ export class EventsController {
   @Roles(UserRole.TOURNAMENT_ORGANIZER, UserRole.ADMIN)
   async create(
     @Body() createEventDto: CreateEventDto,
-    @Request() req
+    @Request() req,
   ): Promise<Event> {
     return this.eventsService.create(createEventDto, req.user.userId);
   }
@@ -94,7 +94,7 @@ export class EventsController {
   @ApiQuery({ name: "search", required: false })
   async findAll(
     @Query() filters: EventSearchFiltersDto,
-    @Request() req
+    @Request() req,
   ): Promise<{
     events: Event[];
     total: number;
@@ -114,7 +114,7 @@ export class EventsController {
   @ApiResponse({ status: 404, description: "Event not found" })
   async findOne(
     @Param("id", ParseUUIDPipe) id: string,
-    @Request() req
+    @Request() req,
   ): Promise<Event> {
     return this.eventsService.findOne(id, req.user?.userId);
   }
@@ -131,7 +131,7 @@ export class EventsController {
   async update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() updateEventDto: UpdateEventDto,
-    @Request() req
+    @Request() req,
   ): Promise<Event> {
     return this.eventsService.update(id, updateEventDto, req.user.userId);
   }
@@ -144,7 +144,7 @@ export class EventsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async remove(
     @Param("id", ParseUUIDPipe) id: string,
-    @Request() req
+    @Request() req,
   ): Promise<void> {
     await this.eventsService.remove(id, req.user.userId);
   }
@@ -166,7 +166,7 @@ export class EventsController {
   async register(
     @Param("id", ParseUUIDPipe) eventId: string,
     @Body() registerDto: RegisterForEventDto,
-    @Request() req
+    @Request() req,
   ): Promise<EventRegistration> {
     return this.eventsService.register(eventId, req.user.userId, registerDto);
   }
@@ -179,7 +179,7 @@ export class EventsController {
   @HttpCode(HttpStatus.NO_CONTENT)
   async unregister(
     @Param("id", ParseUUIDPipe) eventId: string,
-    @Request() req
+    @Request() req,
   ): Promise<void> {
     await this.eventsService.unregister(eventId, req.user.userId);
   }
@@ -202,12 +202,12 @@ export class EventsController {
     UserRole.JUDGE_L1,
     UserRole.JUDGE_L2,
     UserRole.JUDGE_L3,
-    UserRole.ADMIN
+    UserRole.ADMIN,
   )
   async checkIn(
     @Param("id", ParseUUIDPipe) eventId: string,
     @Body() checkInDto: CheckInPlayerDto,
-    @Request() req
+    @Request() req,
   ): Promise<EventRegistration> {
     return this.eventsService.checkIn(eventId, checkInDto, req.user.userId);
   }
@@ -223,7 +223,7 @@ export class EventsController {
   @ApiQuery({ name: "round", required: false, type: Number })
   async getPairings(
     @Param("id", ParseUUIDPipe) eventId: string,
-    @Query("round", new ParseIntPipe({ optional: true })) round?: number
+    @Query("round", new ParseIntPipe({ optional: true })) round?: number,
   ): Promise<Pairing[]> {
     return this.eventsService.getPairings(eventId, round);
   }
@@ -242,13 +242,13 @@ export class EventsController {
     UserRole.JUDGE_L1,
     UserRole.JUDGE_L2,
     UserRole.JUDGE_L3,
-    UserRole.ADMIN
+    UserRole.ADMIN,
   )
   async generatePairings(
     @Param("id", ParseUUIDPipe) eventId: string,
     @Body() generateDto: GeneratePairingsDto,
     @Request() req,
-    @Provenance() provenance: ProvenanceData
+    @Provenance() provenance: ProvenanceData,
   ): Promise<any> {
     // Set event context
     generateDto.eventId = eventId;
@@ -257,7 +257,7 @@ export class EventsController {
       eventId,
       generateDto,
       req.user.userId,
-      provenance
+      provenance,
     );
   }
 
@@ -274,7 +274,7 @@ export class EventsController {
   async publishPairings(
     @Param("id", ParseUUIDPipe) eventId: string,
     @Query("round", ParseIntPipe) round: number,
-    @Request() req
+    @Request() req,
   ): Promise<{ success: boolean; message: string }> {
     await this.eventsService.publishPairings(eventId, round, req.user.userId);
     return { success: true, message: "Pairings published successfully" };
@@ -291,7 +291,7 @@ export class EventsController {
   @ApiQuery({ name: "round", required: false, type: Number })
   async getMatches(
     @Param("id", ParseUUIDPipe) eventId: string,
-    @Query("round", new ParseIntPipe({ optional: true })) round?: number
+    @Query("round", new ParseIntPipe({ optional: true })) round?: number,
   ): Promise<Match[]> {
     const pairings = await this.eventsService.getPairings(eventId, round);
     const matches: Match[] = [];
@@ -320,7 +320,7 @@ export class EventsController {
   async reportResult(
     @Param("pairingId", ParseUUIDPipe) pairingId: string,
     @Body() resultDto: ReportMatchResultDto,
-    @Request() req
+    @Request() req,
   ): Promise<Match> {
     // Find the match for this pairing
     const matches = await this.getMatchesForPairing(pairingId);
@@ -332,7 +332,7 @@ export class EventsController {
     return this.eventsService.reportResult(
       match.id,
       resultDto,
-      req.user.userId
+      req.user.userId,
     );
   }
 
@@ -350,12 +350,12 @@ export class EventsController {
     UserRole.JUDGE_L2,
     UserRole.JUDGE_L3,
     UserRole.TOURNAMENT_ORGANIZER,
-    UserRole.ADMIN
+    UserRole.ADMIN,
   )
   async confirmResult(
     @Param("matchId", ParseUUIDPipe) matchId: string,
     @Body() confirmDto: ConfirmMatchResultDto,
-    @Request() req
+    @Request() req,
   ): Promise<Match> {
     confirmDto.matchId = matchId;
     return this.eventsService.confirmResult(confirmDto, req.user.userId);
@@ -370,7 +370,7 @@ export class EventsController {
   @ApiResponse({ status: 400, description: "Cannot simulate this match" })
   async simulateMatch(
     @Param("matchId", ParseUUIDPipe) matchId: string,
-    @Request() req
+    @Request() req,
   ): Promise<any> {
     return this.eventsService.simulateMatch(matchId, req.user.userId);
   }
@@ -390,12 +390,12 @@ export class EventsController {
     UserRole.JUDGE_L2,
     UserRole.JUDGE_L3,
     UserRole.TOURNAMENT_ORGANIZER,
-    UserRole.ADMIN
+    UserRole.ADMIN,
   )
   async applyRuling(
     @Param("matchId", ParseUUIDPipe) matchId: string,
     @Body() rulingDto: ApplyRulingDto,
-    @Request() req
+    @Request() req,
   ): Promise<Judging> {
     rulingDto.matchId = matchId;
     return this.eventsService.applyRuling(rulingDto, req.user.userId);
@@ -406,7 +406,7 @@ export class EventsController {
   @ApiOperation({ summary: "Get event standings" })
   @ApiResponse({ status: 200, description: "Standings retrieved successfully" })
   async getStandings(
-    @Param("id", ParseUUIDPipe) eventId: string
+    @Param("id", ParseUUIDPipe) eventId: string,
   ): Promise<any[]> {
     return this.eventsService.getStandings(eventId);
   }
@@ -418,7 +418,7 @@ export class EventsController {
     description: "Statistics retrieved successfully",
   })
   async getStatistics(
-    @Param("id", ParseUUIDPipe) eventId: string
+    @Param("id", ParseUUIDPipe) eventId: string,
   ): Promise<any> {
     const event = await this.eventsService.findOne(eventId);
     const standings = await this.eventsService.getStandings(eventId);
@@ -437,7 +437,8 @@ export class EventsController {
       topStandings: standings.slice(0, 8),
       eventDuration: event.endAt
         ? Math.round(
-            (event.endAt.getTime() - event.startAt.getTime()) / (1000 * 60 * 60)
+            (event.endAt.getTime() - event.startAt.getTime()) /
+              (1000 * 60 * 60),
           ) + " hours"
         : "In progress",
     };
@@ -459,7 +460,7 @@ export class EventsController {
     @Query("format") format: "csv" | "json" = "json",
     @Query("data")
     data: "participants" | "pairings" | "results" | "standings" | "all" = "all",
-    @Query("round", new ParseIntPipe({ optional: true })) round?: number
+    @Query("round", new ParseIntPipe({ optional: true })) round?: number,
   ): Promise<any> {
     const exportDto: EventExportDto = {
       format,
@@ -478,7 +479,7 @@ export class EventsController {
   @ApiResponse({ status: 200, description: "Updates retrieved successfully" })
   async getUpdates(
     @Param("id", ParseUUIDPipe) eventId: string,
-    @Param("lastUpdate") lastUpdateTimestamp: string
+    @Param("lastUpdate") lastUpdateTimestamp: string,
   ): Promise<any> {
     const lastUpdate = new Date(lastUpdateTimestamp);
 
@@ -492,7 +493,7 @@ export class EventsController {
       updates: {
         event: event.updatedAt > lastUpdate ? event : null,
         pairings: recentPairings.filter(
-          (p) => p.publishedAt && p.publishedAt > lastUpdate
+          (p) => p.publishedAt && p.publishedAt > lastUpdate,
         ),
         standings:
           event.updatedAt > lastUpdate
@@ -510,7 +511,7 @@ export class EventsController {
   async dropPlayer(
     @Param("id", ParseUUIDPipe) eventId: string,
     @Query("playerId", ParseUUIDPipe) playerId: string,
-    @Request() req
+    @Request() req,
   ): Promise<{ success: boolean; message: string }> {
     // This would need to be implemented in the service
     // For now, return a placeholder

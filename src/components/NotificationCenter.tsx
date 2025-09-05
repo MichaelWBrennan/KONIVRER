@@ -19,7 +19,7 @@ const NotificationCenter: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showPermissionPrompt, setShowPermissionPrompt] = useState(false);
   const [selectedEventFilter, setSelectedEventFilter] = useState<string | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -97,14 +97,17 @@ const NotificationCenter: React.FC = () => {
   };
 
   // Group notifications by event for filtering
-  const eventGroups = notifications.reduce((acc, notification) => {
-    const eventId = notification.eventId || "general";
-    if (!acc[eventId]) {
-      acc[eventId] = [];
-    }
-    acc[eventId].push(notification);
-    return acc;
-  }, {} as Record<string, typeof notifications>);
+  const eventGroups = notifications.reduce(
+    (acc, notification) => {
+      const eventId = notification.eventId || "general";
+      if (!acc[eventId]) {
+        acc[eventId] = [];
+      }
+      acc[eventId].push(notification);
+      return acc;
+    },
+    {} as Record<string, typeof notifications>,
+  );
 
   const filteredNotifications = selectedEventFilter
     ? getNotificationsByEvent(selectedEventFilter)
@@ -314,7 +317,7 @@ const NotificationCenter: React.FC = () => {
                   {Object.entries(eventGroups).map(
                     ([eventId, notifications]) => {
                       const eventUnread = getUnreadCountByEvent(
-                        eventId === "general" ? undefined : eventId
+                        eventId === "general" ? undefined : eventId,
                       );
                       const eventName =
                         eventId === "general"
@@ -327,7 +330,7 @@ const NotificationCenter: React.FC = () => {
                           key={eventId}
                           onClick={() =>
                             setSelectedEventFilter(
-                              eventId === "general" ? null : eventId
+                              eventId === "general" ? null : eventId,
                             )
                           }
                           style={{
@@ -351,7 +354,7 @@ const NotificationCenter: React.FC = () => {
                           {eventName} ({eventUnread})
                         </button>
                       );
-                    }
+                    },
                   )}
                 </div>
               )}
@@ -479,7 +482,7 @@ const NotificationCenter: React.FC = () => {
                           !selectedEventFilter &&
                           getEventBadge(
                             notification.eventId,
-                            notification.data
+                            notification.data,
                           )}
 
                         {/* Additional Event Details */}

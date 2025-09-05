@@ -123,7 +123,7 @@ export class CircuitBreaker extends EventEmitter {
       // Execute the operation with timeout
       const result = await this.withTimeout(
         operation(...args),
-        this.options.timeout
+        this.options.timeout,
       );
 
       // Record success
@@ -157,7 +157,7 @@ export class CircuitBreaker extends EventEmitter {
    */
   private async withTimeout<T>(
     promise: Promise<T>,
-    timeout: number
+    timeout: number,
   ): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const timer = setTimeout(() => {
@@ -394,7 +394,7 @@ export class CircuitBreakerFactory {
    * Create a circuit breaker for HTTP requests
    */
   static createHttpBreaker(
-    options: Partial<CircuitBreakerOptions> = {}
+    options: Partial<CircuitBreakerOptions> = {},
   ): CircuitBreaker {
     return new CircuitBreaker({
       failureThreshold: 5,
@@ -419,7 +419,7 @@ export class CircuitBreakerFactory {
    * Create a circuit breaker for database operations
    */
   static createDatabaseBreaker(
-    options: Partial<CircuitBreakerOptions> = {}
+    options: Partial<CircuitBreakerOptions> = {},
   ): CircuitBreaker {
     return new CircuitBreaker({
       failureThreshold: 3,
@@ -445,7 +445,7 @@ export class CircuitBreakerFactory {
    * Create a circuit breaker for external API calls
    */
   static createApiBreaker(
-    options: Partial<CircuitBreakerOptions> = {}
+    options: Partial<CircuitBreakerOptions> = {},
   ): CircuitBreaker {
     return new CircuitBreaker({
       failureThreshold: 10,

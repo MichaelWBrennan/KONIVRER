@@ -301,7 +301,7 @@ export class User {
   @Field(() => Boolean)
   get isJudge(): boolean {
     return [UserRole.JUDGE_L1, UserRole.JUDGE_L2, UserRole.JUDGE_L3].includes(
-      this.role
+      this.role,
     );
   }
 

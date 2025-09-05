@@ -70,13 +70,13 @@ export class EventsService {
     private readonly matchmakingService: MatchmakingService,
     private readonly gameSimulatorService: GameSimulatorService,
     private readonly eventEmitter: EventEmitter2,
-    private readonly auditService: AuditService
+    private readonly auditService: AuditService,
   ) {}
 
   // Event Management
   async create(
     createEventDto: CreateEventDto,
-    organizerId: string
+    organizerId: string,
   ): Promise<Event> {
     // Validate organizer permissions
     const organizer = await this.userRepository.findOne({
@@ -90,14 +90,14 @@ export class EventsService {
       ![UserRole.TOURNAMENT_ORGANIZER, UserRole.ADMIN].includes(organizer.role)
     ) {
       throw new ForbiddenException(
-        "User does not have permission to organize events"
+        "User does not have permission to organize events",
       );
     }
 
     // Calculate total rounds based on pairing type and max players
     const totalRounds = this.calculateTotalRounds(
       createEventDto.pairingType,
-      createEventDto.settings.maxPlayers
+      createEventDto.settings.maxPlayers,
     );
 
     const event = this.eventRepository.create({
@@ -135,7 +135,7 @@ export class EventsService {
 
   async findAll(
     filters: EventSearchFiltersDto,
-    userId?: string
+    userId?: string,
   ): Promise<{ events: Event[]; total: number; page: number; limit: number }> {
     const {
       page = 1,
@@ -190,14 +190,14 @@ export class EventsService {
     if (location) {
       queryBuilder.andWhere(
         "(event.venue->>'location' ILIKE :location OR event.venue->>'address' ILIKE :location)",
-        { location: `%${location}%` }
+        { location: `%${location}%` },
       );
     }
 
     if (search) {
       queryBuilder.andWhere(
         "(event.name ILIKE :search OR event.description ILIKE :search)",
-        { search: `%${search}%` }
+        { search: `%${search}%` },
       );
     }
 
@@ -237,7 +237,7 @@ export class EventsService {
   async update(
     id: string,
     updateEventDto: UpdateEventDto,
-    userId: string
+    userId: string,
   ): Promise<Event> {
     const event = await this.eventRepository.findOne({ where: { id } });
 
@@ -247,14 +247,14 @@ export class EventsService {
 
     if (event.organizerId !== userId) {
       throw new ForbiddenException(
-        "Only the event organizer can update this event"
+        "Only the event organizer can update this event",
       );
     }
 
     // Prevent certain updates once event has started
     if (event.status === EventStatus.IN_PROGRESS && updateEventDto.settings) {
       throw new BadRequestException(
-        "Cannot modify settings while event is in progress"
+        "Cannot modify settings while event is in progress",
       );
     }
 
@@ -285,7 +285,7 @@ export class EventsService {
 
     if (event.organizerId !== userId) {
       throw new ForbiddenException(
-        "Only the event organizer can delete this event"
+        "Only the event organizer can delete this event",
       );
     }
 
@@ -310,7 +310,7 @@ export class EventsService {
   async register(
     eventId: string,
     userId: string,
-    registerDto: RegisterForEventDto
+    registerDto: RegisterForEventDto,
   ): Promise<EventRegistration> {
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
@@ -368,9 +368,8 @@ export class EventsService {
       seedValue: await this.calculateSeedValue(userId, event.format.toString()),
     });
 
-    const savedRegistration = await this.registrationRepository.save(
-      registration
-    );
+    const savedRegistration =
+      await this.registrationRepository.save(registration);
 
     // Log audit event
     await this.logAuditEvent({
@@ -427,7 +426,7 @@ export class EventsService {
     });
     if (event.status === EventStatus.IN_PROGRESS) {
       throw new BadRequestException(
-        "Cannot unregister while event is in progress. Use drop instead."
+        "Cannot unregister while event is in progress. Use drop instead.",
       );
     }
 
@@ -451,7 +450,7 @@ export class EventsService {
   async checkIn(
     eventId: string,
     checkInDto: CheckInPlayerDto,
-    actorId: string
+    actorId: string,
   ): Promise<EventRegistration> {
     const registration = await this.registrationRepository.findOne({
       where: { eventId, userId: checkInDto.userId },
@@ -467,7 +466,7 @@ export class EventsService {
       registration.event.status !== EventStatus.IN_PROGRESS
     ) {
       throw new BadRequestException(
-        "Check-in not available for this event status"
+        "Check-in not available for this event status",
       );
     }
 
@@ -484,9 +483,8 @@ export class EventsService {
       registration.seedValue = checkInDto.seedValue;
     }
 
-    const savedRegistration = await this.registrationRepository.save(
-      registration
-    );
+    const savedRegistration =
+      await this.registrationRepository.save(registration);
 
     await this.logAuditEvent({
       entityType: "EventRegistration",
@@ -511,7 +509,7 @@ export class EventsService {
     eventId: string,
     generateDto: GeneratePairingsDto,
     actorId: string,
-    provenance?: any
+    provenance?: any,
   ): Promise<GeneratePairingsResponseDto> {
     const event = await this.eventRepository.findOne({
       where: { id: eventId },
@@ -524,7 +522,7 @@ export class EventsService {
 
     if (event.organizerId !== actorId && !event.judges?.includes(actorId)) {
       throw new ForbiddenException(
-        "Only event organizers and judges can generate pairings"
+        "Only event organizers and judges can generate pairings",
       );
     }
 
@@ -536,7 +534,7 @@ export class EventsService {
 
     if (checkedInPlayers.length < 2) {
       throw new BadRequestException(
-        "Need at least 2 checked-in players to generate pairings"
+        "Need at least 2 checked-in players to generate pairings",
       );
     }
 
@@ -576,7 +574,7 @@ export class EventsService {
       console.warn("Bayesian pairing failed, using fallback:", error);
       pairingsResponse = await this.generateFallbackPairings(
         checkedInPlayers,
-        generateDto.previousPairings || []
+        generateDto.previousPairings || [],
       );
       pairingsResponse.computationTimeMs = Date.now() - startTime;
     }
@@ -585,7 +583,7 @@ export class EventsService {
     await this.savePairings(
       eventId,
       event.currentRound + 1,
-      pairingsResponse.pairings
+      pairingsResponse.pairings,
     );
 
     // Log audit event
@@ -608,7 +606,7 @@ export class EventsService {
   async publishPairings(
     eventId: string,
     round: number,
-    actorId: string
+    actorId: string,
   ): Promise<void> {
     const pairings = await this.pairingRepository.find({
       where: { eventId, roundNumber: round },
@@ -693,7 +691,7 @@ export class EventsService {
             opponent:
               event.registrations?.find((r) => r.userId === p.playerAId)
                 ?.user || null,
-          }))
+          })),
         )
         .filter((a) => a.playerId); // Remove null players from byes
 
@@ -725,7 +723,7 @@ export class EventsService {
   async reportResult(
     matchId: string,
     resultDto: ReportMatchResultDto,
-    reporterId: string
+    reporterId: string,
   ): Promise<Match> {
     const match = await this.matchRepository.findOne({
       where: { id: matchId },
@@ -745,7 +743,7 @@ export class EventsService {
 
     if (!canReport) {
       throw new ForbiddenException(
-        "Not authorized to report result for this match"
+        "Not authorized to report result for this match",
       );
     }
 
@@ -775,8 +773,8 @@ export class EventsService {
               resultDto.playerAResult === MatchResult.WIN
                 ? 1
                 : resultDto.playerAResult === MatchResult.DRAW
-                ? 1
-                : 2,
+                  ? 1
+                  : 2,
           },
           {
             playerId: match.pairing.playerBId,
@@ -784,8 +782,8 @@ export class EventsService {
               match.playerBResult === MatchResult.WIN
                 ? 1
                 : match.playerBResult === MatchResult.DRAW
-                ? 1
-                : 2,
+                  ? 1
+                  : 2,
           },
         ];
 
@@ -826,7 +824,7 @@ export class EventsService {
 
   async confirmResult(
     confirmDto: ConfirmMatchResultDto,
-    judgeId: string
+    judgeId: string,
   ): Promise<Match> {
     const match = await this.matchRepository.findOne({
       where: { id: confirmDto.matchId },
@@ -843,7 +841,7 @@ export class EventsService {
       match.event.organizerId !== judgeId
     ) {
       throw new ForbiddenException(
-        "Only judges and organizers can confirm results"
+        "Only judges and organizers can confirm results",
       );
     }
 
@@ -872,7 +870,7 @@ export class EventsService {
 
   async applyRuling(
     rulingDto: ApplyRulingDto,
-    judgeId: string
+    judgeId: string,
   ): Promise<Judging> {
     const match = await this.matchRepository.findOne({
       where: { id: rulingDto.matchId },
@@ -976,7 +974,7 @@ export class EventsService {
       };
     } catch (error) {
       throw new BadRequestException(
-        "Simulation failed: " + ((error as Error).message || "Unknown error")
+        "Simulation failed: " + ((error as Error).message || "Unknown error"),
       );
     }
   }
@@ -1040,7 +1038,7 @@ export class EventsService {
 
     // Sort by match points
     const sortedStandings = Array.from(standings.values()).sort(
-      (a, b) => b.matchPoints - a.matchPoints
+      (a, b) => b.matchPoints - a.matchPoints,
     );
 
     // Update positions
@@ -1053,7 +1051,7 @@ export class EventsService {
 
   async exportEventData(
     eventId: string,
-    exportDto: EventExportDto
+    exportDto: EventExportDto,
   ): Promise<any> {
     const event = await this.findOneWithRelations(eventId);
 
@@ -1152,7 +1150,7 @@ export class EventsService {
 
   private calculateTotalRounds(
     pairingType: PairingType,
-    maxPlayers: number
+    maxPlayers: number,
   ): number {
     switch (pairingType) {
       case PairingType.SWISS:
@@ -1170,12 +1168,12 @@ export class EventsService {
 
   private async calculateSeedValue(
     userId: string,
-    format: string
+    format: string,
   ): Promise<number> {
     try {
       const rating = await this.matchmakingService.getPlayerRating(
         userId,
-        format
+        format,
       );
       return rating.conservativeRating;
     } catch (error) {
@@ -1216,7 +1214,7 @@ export class EventsService {
 
   private async generateFallbackPairings(
     playerIds: string[],
-    previousPairings: string[][]
+    previousPairings: string[][],
   ): Promise<GeneratePairingsResponseDto> {
     const shuffledPlayers = [...playerIds].sort(() => Math.random() - 0.5);
     const pairings: any[] = [];
@@ -1250,7 +1248,7 @@ export class EventsService {
   private async savePairings(
     eventId: string,
     round: number,
-    pairings: any[]
+    pairings: any[],
   ): Promise<void> {
     for (const pairingData of pairings) {
       const pairing = this.pairingRepository.create({
@@ -1285,14 +1283,14 @@ export class EventsService {
 
   private async checkRoundComplete(
     eventId: string,
-    round: number
+    round: number,
   ): Promise<void> {
     const roundMatches = await this.matchRepository.find({
       where: { eventId, round },
     });
 
     const allComplete = roundMatches.every(
-      (m) => m.status === MatchStatus.COMPLETED
+      (m) => m.status === MatchStatus.COMPLETED,
     );
 
     if (allComplete) {
@@ -1331,7 +1329,7 @@ export class EventsService {
         JSON.stringify({
           ...auditData,
           timestamp: new Date().toISOString(),
-        })
+        }),
       )
       .digest("hex");
 
@@ -1349,7 +1347,7 @@ export class EventsService {
     if (Array.isArray(data.participants)) {
       const headers = Object.keys(data.participants[0] || {});
       const rows = data.participants.map((p: any) =>
-        headers.map((h) => p[h]).join(",")
+        headers.map((h) => p[h]).join(","),
       );
       return [headers.join(","), ...rows].join("\n");
     }

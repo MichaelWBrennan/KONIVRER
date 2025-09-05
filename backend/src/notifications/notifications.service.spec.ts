@@ -85,7 +85,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
         getMany: jest.fn().mockResolvedValue(mockParticipants),
       };
       mockEventRegistrationRepo.createQueryBuilder.mockReturnValue(
-        mockQueryBuilder
+        mockQueryBuilder,
       );
 
       // Mock user lookup
@@ -107,7 +107,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
         getOne: jest.fn().mockResolvedValue(null),
       };
       mockNotificationRepo.createQueryBuilder.mockReturnValue(
-        mockNotifQueryBuilder
+        mockNotifQueryBuilder,
       );
 
       const eventData = {
@@ -123,7 +123,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
       // Verify participants were fetched for correct event
       expect(mockQueryBuilder.where).toHaveBeenCalledWith(
         "registration.eventId = :eventId",
-        { eventId: "event-123" }
+        { eventId: "event-123" },
       );
 
       // Verify notification was created with event-specific details
@@ -140,7 +140,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
             eventFormat: "Standard",
             eventLocation: "Test Location",
           }),
-        })
+        }),
       );
     });
 
@@ -154,7 +154,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
         getMany: jest.fn().mockResolvedValue(mockParticipants),
       };
       mockEventRegistrationRepo.createQueryBuilder.mockReturnValue(
-        mockParticipantsQueryBuilder
+        mockParticipantsQueryBuilder,
       );
 
       // Mock existing notification (duplicate)
@@ -165,7 +165,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
         getOne: jest.fn().mockResolvedValue({ id: "existing-notif" }),
       };
       mockNotificationRepo.createQueryBuilder.mockReturnValue(
-        mockNotifQueryBuilder
+        mockNotifQueryBuilder,
       );
 
       const eventData = {
@@ -192,7 +192,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
         getMany: jest.fn().mockResolvedValue(mockParticipants),
       };
       mockEventRegistrationRepo.createQueryBuilder.mockReturnValue(
-        mockParticipantsQueryBuilder
+        mockParticipantsQueryBuilder,
       );
 
       mockUserRepo.findOne.mockResolvedValue({
@@ -210,7 +210,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
         getOne: jest.fn().mockResolvedValue(null),
       };
       mockNotificationRepo.createQueryBuilder.mockReturnValue(
-        mockNotifQueryBuilder
+        mockNotifQueryBuilder,
       );
 
       const eventData = {
@@ -244,7 +244,7 @@ describe("NotificationsService - Event-Specific Notifications", () => {
             eventFormat: "Modern",
             estimatedStartTime: expect.any(Date),
           }),
-        })
+        }),
       );
     });
   });
@@ -267,12 +267,12 @@ describe("NotificationsService - Event-Specific Notifications", () => {
       const result = await service.getUserEventNotifications(
         "user-1",
         "event-123",
-        false
+        false,
       );
 
       expect(mockQueryBuilder.andWhere).toHaveBeenCalledWith(
         "notification.eventId = :eventId",
-        { eventId: "event-123" }
+        { eventId: "event-123" },
       );
     });
 

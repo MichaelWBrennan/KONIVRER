@@ -43,7 +43,7 @@ export class AiDeckbuildingService {
     private readonly deckRepository: Repository<Deck>,
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
-    private readonly matchmakingService: MatchmakingService
+    private readonly matchmakingService: MatchmakingService,
   ) {}
 
   /**
@@ -52,12 +52,12 @@ export class AiDeckbuildingService {
   async generateDeckSuggestions(
     userId: string,
     format: string,
-    options: Partial<DeckOptimizationRequest> = {}
+    options: Partial<DeckOptimizationRequest> = {},
   ): Promise<DeckSuggestionDto[]> {
     // Get player's Bayesian rating and skill level
     const playerRating = await this.matchmakingService.getPlayerRating(
       userId,
-      format
+      format,
     );
     const playerDecks = await this.getUserDeckHistory(userId, format);
     const metaData = await this.getMetaSnapshot(format);
@@ -65,7 +65,7 @@ export class AiDeckbuildingService {
     // Analyze player's historical performance with different archetypes
     const archetypePerformance = await this.analyzeArchetypePerformance(
       playerDecks,
-      playerRating
+      playerRating,
     );
 
     // Generate skill-tier appropriate suggestions
@@ -74,7 +74,7 @@ export class AiDeckbuildingService {
       skillTier,
       archetypePerformance,
       metaData,
-      options.playstyle
+      options.playstyle,
     );
 
     return suggestions.map((suggestion) => ({
@@ -82,7 +82,7 @@ export class AiDeckbuildingService {
       confidenceScore: this.calculateConfidenceScore(
         suggestion,
         playerRating,
-        metaData
+        metaData,
       ),
     }));
   }
@@ -92,11 +92,11 @@ export class AiDeckbuildingService {
    */
   async generateMetaAnalysis(
     userId: string,
-    format: string
+    format: string,
   ): Promise<MetaAnalysisDto> {
     const playerRating = await this.matchmakingService.getPlayerRating(
       userId,
-      format
+      format,
     );
     const metaSnapshot = await this.getMetaSnapshot(format);
     const skillDistribution = await this.getFormatSkillDistribution(format);
@@ -104,7 +104,7 @@ export class AiDeckbuildingService {
     // Analyze meta based on skill tiers using Bayesian data
     const skillBasedMeta = await this.analyzeSkillBasedMeta(
       format,
-      skillDistribution
+      skillDistribution,
     );
     const emergingCards = await this.identifyEmergingCards(format);
 
@@ -112,7 +112,7 @@ export class AiDeckbuildingService {
       await this.generatePersonalizedRecommendations(
         userId,
         playerRating,
-        skillBasedMeta
+        skillBasedMeta,
       );
 
     return {
@@ -124,11 +124,11 @@ export class AiDeckbuildingService {
         playerSkillTier: this.getSkillTier(playerRating.conservativeRating),
         recommendedArchetypes: await this.getRecommendedArchetypes(
           playerRating,
-          skillBasedMeta
+          skillBasedMeta,
         ),
         improvementSuggestions: await this.generateImprovementSuggestions(
           userId,
-          playerRating
+          playerRating,
         ),
       },
     };
@@ -149,29 +149,29 @@ export class AiDeckbuildingService {
   }> {
     const playerRating = await this.matchmakingService.getPlayerRating(
       request.userId,
-      request.format
+      request.format,
     );
     const deckAnalysis = await this.analyzeDeckComposition(
       request.currentDeckList,
-      request.format
+      request.format,
     );
 
     // Use Bayesian rating to determine optimization strategy
     const optimizationStrategy = this.getOptimizationStrategy(
       playerRating,
-      request.playstyle
+      request.playstyle,
     );
     const suggestions = await this.generateOptimizationSuggestions(
       request.currentDeckList,
       deckAnalysis,
       optimizationStrategy,
-      request.targetWinRate
+      request.targetWinRate,
     );
 
     const expectedImprovement = await this.calculateExpectedImprovement(
       suggestions,
       playerRating,
-      request.format
+      request.format,
     );
 
     return {
@@ -192,7 +192,7 @@ export class AiDeckbuildingService {
   private async generatePersonalizedRecommendations(
     userId: string,
     playerRating: any,
-    skillBasedMeta: any
+    skillBasedMeta: any,
   ): Promise<DeckSuggestionDto[]> {
     const playerSkillTier = this.getSkillTier(playerRating.conservativeRating);
     const recentMatches = await this.getRecentMatchData(userId);
@@ -211,7 +211,7 @@ export class AiDeckbuildingService {
 
   private async getUserDeckHistory(
     userId: string,
-    format: string
+    format: string,
   ): Promise<Deck[]> {
     return this.deckRepository.find({
       where: {
@@ -251,10 +251,10 @@ export class AiDeckbuildingService {
     return {
       novice: ratings.filter((r) => r.conservativeRating < 10),
       intermediate: ratings.filter(
-        (r) => r.conservativeRating >= 10 && r.conservativeRating < 20
+        (r) => r.conservativeRating >= 10 && r.conservativeRating < 20,
       ),
       advanced: ratings.filter(
-        (r) => r.conservativeRating >= 20 && r.conservativeRating < 30
+        (r) => r.conservativeRating >= 20 && r.conservativeRating < 30,
       ),
       expert: ratings.filter((r) => r.conservativeRating >= 30),
     };
@@ -269,7 +269,7 @@ export class AiDeckbuildingService {
 
   private async analyzeArchetypePerformance(
     decks: Deck[],
-    playerRating: any
+    playerRating: any,
   ): Promise<any> {
     // Analyze which archetypes the player performs well with
     const archetypeStats = {};
@@ -290,7 +290,7 @@ export class AiDeckbuildingService {
     skillTier: string,
     archetypePerformance: any,
     metaData: any,
-    playstyle?: string
+    playstyle?: string,
   ): Promise<any[]> {
     // Generate suggestions appropriate for player's skill level
     const suggestions = [];
@@ -323,7 +323,7 @@ export class AiDeckbuildingService {
   private calculateConfidenceScore(
     suggestion: any,
     playerRating: any,
-    metaData: any
+    metaData: any,
   ): number {
     // Calculate confidence based on:
     // - Player's historical performance with similar cards
@@ -345,7 +345,7 @@ export class AiDeckbuildingService {
 
   private async analyzeSkillBasedMeta(
     format: string,
-    skillDistribution: any
+    skillDistribution: any,
   ): Promise<any> {
     // Analyze what strategies work at different skill levels
     return {
@@ -426,7 +426,7 @@ export class AiDeckbuildingService {
 
   private async getRecommendedArchetypes(
     playerRating: any,
-    skillBasedMeta: any
+    skillBasedMeta: any,
   ): Promise<string[]> {
     const skillTier = this.getSkillTier(playerRating.conservativeRating);
     const tierMeta = skillBasedMeta[skillTier] || [];
@@ -438,7 +438,7 @@ export class AiDeckbuildingService {
 
   private async generateImprovementSuggestions(
     userId: string,
-    playerRating: any
+    playerRating: any,
   ): Promise<string[]> {
     const suggestions = [];
 
@@ -452,7 +452,7 @@ export class AiDeckbuildingService {
 
     if (playerRating.conservativeRating < 15) {
       suggestions.push(
-        "Master fundamental strategies before trying complex combos"
+        "Master fundamental strategies before trying complex combos",
       );
     }
 
@@ -461,7 +461,7 @@ export class AiDeckbuildingService {
 
   private async analyzeDeckComposition(
     deckList: string[],
-    format: string
+    format: string,
   ): Promise<any> {
     // Analyze deck composition for optimization opportunities
     return {
@@ -486,7 +486,7 @@ export class AiDeckbuildingService {
 
   private async identifyWeaknesses(
     deckList: string[],
-    format: string
+    format: string,
   ): Promise<string[]> {
     // Identify potential weaknesses against current meta
     return ["Vulnerable to fast aggro decks"];
@@ -494,7 +494,7 @@ export class AiDeckbuildingService {
 
   private getOptimizationStrategy(
     playerRating: any,
-    playstyle?: string
+    playstyle?: string,
   ): string {
     const skillTier = this.getSkillTier(playerRating.conservativeRating);
 
@@ -508,7 +508,7 @@ export class AiDeckbuildingService {
     currentDeck: string[],
     deckAnalysis: any,
     strategy: string,
-    targetWinRate?: number
+    targetWinRate?: number,
   ): Promise<any> {
     // Generate specific optimization suggestions
     return {
@@ -522,7 +522,7 @@ export class AiDeckbuildingService {
   private async calculateExpectedImprovement(
     suggestions: any,
     playerRating: any,
-    format: string
+    format: string,
   ): Promise<number> {
     // Calculate expected win rate improvement
     // This would use statistical analysis of similar optimizations

@@ -192,19 +192,19 @@ const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
         ? rarity === "rare"
           ? 3
           : rarity === "uncommon"
-          ? 2
-          : 1
+            ? 2
+            : 1
         : undefined,
     toughness:
       lesserType === "Familiar"
         ? rarity === "rare"
           ? 3
           : rarity === "uncommon"
-          ? 2
-          : 1
+            ? 2
+            : 1
         : undefined,
     rulesText: `A ${elements.join(
-      "/"
+      "/",
     )} ${lesserType} from the KONIVRER Azoth TCG.`,
     flavorText: `"In the world of KONIVRER, even the smallest spark can ignite great change."`,
     abilities,
@@ -220,7 +220,7 @@ const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
     color: elements[0]?.toLowerCase(),
     text: `A ${elements.join("/")} ${lesserType} from the KONIVRER Azoth TCG.`,
     description: `A ${elements.join(
-      "/"
+      "/",
     )} ${lesserType} from the KONIVRER Azoth TCG.`,
   };
 });

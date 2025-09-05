@@ -8,7 +8,7 @@ import { AuditQueryDto } from "./dto/audit.dto";
 export class AuditService {
   constructor(
     @InjectRepository(AuditLog)
-    private auditRepository: Repository<AuditLog>
+    private auditRepository: Repository<AuditLog>,
   ) {}
 
   async log(
@@ -22,7 +22,7 @@ export class AuditService {
       agentId?: string;
       modelVersion?: string;
       promptHash?: string;
-    }
+    },
   ): Promise<AuditLog> {
     const auditLog = this.auditRepository.create({
       actorId,
@@ -71,21 +71,21 @@ export class AuditService {
     if (query["agent-id"]) {
       queryBuilder = queryBuilder.andWhere(
         "audit.provenance->>'agentId' = :agentId",
-        { agentId: query["agent-id"] }
+        { agentId: query["agent-id"] },
       );
     }
 
     if (query["model-version"]) {
       queryBuilder = queryBuilder.andWhere(
         "audit.provenance->>'modelVersion' = :modelVersion",
-        { modelVersion: query["model-version"] }
+        { modelVersion: query["model-version"] },
       );
     }
 
     if (query["prompt-hash"]) {
       queryBuilder = queryBuilder.andWhere(
         "audit.provenance->>'promptHash' = :promptHash",
-        { promptHash: query["prompt-hash"] }
+        { promptHash: query["prompt-hash"] },
       );
     }
 

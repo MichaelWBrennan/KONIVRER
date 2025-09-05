@@ -326,7 +326,7 @@ export class Tournament {
   @Field(() => Boolean)
   get hasStarted(): boolean {
     return [TournamentStatus.IN_PROGRESS, TournamentStatus.COMPLETED].includes(
-      this.status
+      this.status,
     );
   }
 
@@ -495,7 +495,7 @@ export class TournamentMatch {
   get durationMinutes(): number {
     if (!this.startTime || !this.endTime) return 0;
     return Math.floor(
-      (this.endTime.getTime() - this.startTime.getTime()) / (1000 * 60)
+      (this.endTime.getTime() - this.startTime.getTime()) / (1000 * 60),
     );
   }
 }

@@ -53,7 +53,7 @@ async function main() {
     }
   }
   log(
-    `📊 Summary: deleted=${deleted}, errors=${errors}, kept=${KEEP_BRANCHES.length}`
+    `📊 Summary: deleted=${deleted}, errors=${errors}, kept=${KEEP_BRANCHES.length}`,
   );
 }
 

@@ -4,13 +4,14 @@ import * as s from "./settings.css.ts";
 
 export const Settings: React.FC = () => {
   const [theme, setTheme] = useState<"dark" | "light">(
-    () => (document.documentElement.getAttribute("data-theme") as any) || "dark"
+    () =>
+      (document.documentElement.getAttribute("data-theme") as any) || "dark",
   );
   const [contrast, setContrast] = useState<string>(
-    () => document.documentElement.getAttribute("data-contrast") || "normal"
+    () => document.documentElement.getAttribute("data-contrast") || "normal",
   );
   const [fontSize, setFontSize] = useState<string>(
-    () => document.documentElement.getAttribute("data-font-size") || "medium"
+    () => document.documentElement.getAttribute("data-font-size") || "medium",
   );
 
   useEffect(() => {
