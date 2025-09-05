@@ -810,20 +810,6 @@ export const Lore: React.FC = () => {
   }
 
   // ------------------ Cohesive descriptions and trait rendering ------------------
-  function buildCohesiveParagraph(
-    combo: ElementDefinition[],
-    ideologyTitle: string
-  ): string {
-    const names = combo.map((e) => e.name);
-    const epithets = combo.map((e) => e.epithet.toLowerCase());
-    const stances = combo.map((e) => summarize(e.definition).toLowerCase());
-    const joinedNames = names.join(", ").replace(/, ([^,]*)$/, ", and $1");
-    const joinedEpithets = epithets
-      .join(", ")
-      .replace(/, ([^,]*)$/, ", and $1");
-    const joinedStances = stances.join(", ").replace(/, ([^,]*)$/, ", and $1");
-    return `${ideologyTitle} weaves ${joinedEpithets} through ${joinedNames}, turning ${joinedStances} into one coordinated practice.`;
-  }
 
   function renderTraitRows(combo: ElementDefinition[]): React.ReactNode {
     return <TraitFooterAutoFit traits={combo.map((e) => e.traitX)} />;
