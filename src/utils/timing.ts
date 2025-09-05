@@ -3,7 +3,7 @@
  */
 export function debounce<Args extends unknown[], Result>(
   func: (...receivedArguments: Args) => Result,
-  delay: number
+  delay: number,
 ): (...receivedArguments: Args) => void {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
@@ -22,7 +22,7 @@ export function debounce<Args extends unknown[], Result>(
  */
 export function throttle<Args extends unknown[], Result>(
   func: (...receivedArguments: Args) => Result,
-  delay: number
+  delay: number,
 ): (...receivedArguments: Args) => void {
   let lastInvocationTimestamp = 0;
 
