@@ -137,6 +137,27 @@ jobs:
             jscpd-security.json
           retention-days: 30
 
+  # CodeQL security analysis
+  codeql-security:
+    name: CodeQL Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
   # Infrastructure security
   infrastructure-security:
     name: Infrastructure Security
@@ -171,7 +192,7 @@ jobs:
   security-reporting:
     name: Security Reporting
     runs-on: ubuntu-latest
-    needs: [dependency-security, code-security, infrastructure-security]
+    needs: [dependency-security, code-security, codeql-security, infrastructure-security]
     if: always()
 
     steps:
