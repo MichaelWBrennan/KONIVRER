@@ -33,7 +33,7 @@ export class OcrService {
 
     if (lines.length < 3) {
       throw new BadRequestException(
-        "Could not parse card data from image. OCR result was too short."
+        "Could not parse card data from image. OCR result was too short.",
       );
     }
 
@@ -47,7 +47,7 @@ export class OcrService {
     const abilities: string[] = [];
 
     const setLineIndex = lines.findIndex((line) =>
-      setAndNumberRegex.test(line)
+      setAndNumberRegex.test(line),
     );
     if (setLineIndex !== -1) {
       const match = lines[setLineIndex].match(setAndNumberRegex);
@@ -58,7 +58,7 @@ export class OcrService {
     }
 
     const flavorTextStartIndex = lines.findIndex(
-      (line) => line.includes("~") || line.startsWith("“")
+      (line) => line.includes("~") || line.startsWith("“"),
     );
     if (flavorTextStartIndex !== -1) {
       const endOfFlavor = setLineIndex !== -1 ? setLineIndex : lines.length;
@@ -73,15 +73,15 @@ export class OcrService {
       flavorTextStartIndex !== -1
         ? flavorTextStartIndex
         : setLineIndex !== -1
-        ? setLineIndex
-        : lines.length;
+          ? setLineIndex
+          : lines.length;
 
     for (let i = abilitiesStartIndex; i < abilitiesEndIndex; i++) {
       abilities.push(
         ...lines[i]
           .split(/, |\. /)
           .map((s) => s.trim())
-          .filter(Boolean)
+          .filter(Boolean),
       );
     }
 

@@ -15,7 +15,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { searchFilters, setSearchFilters } = useAppStore();
   const [localSearchTerm, setLocalSearchTerm] = useState(
-    searchFilters.search || ""
+    searchFilters.search || "",
   );
 
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
@@ -24,7 +24,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
     debounce((term: string) => {
       setSearchFilters({ search: term, page: 1 });
     }, 500),
-    [setSearchFilters]
+    [setSearchFilters],
   );
 
   const { data: cardsData, isLoading, error } = useCards(searchFilters);
@@ -156,7 +156,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
           Showing {(pagination.currentPage - 1) * searchFilters.limit! + 1}-
           {Math.min(
             pagination.currentPage * searchFilters.limit!,
-            pagination.total
+            pagination.total,
           )}{" "}
           of {pagination.total} cards
         </div>

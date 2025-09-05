@@ -9,6 +9,6 @@
 
 export const getXataClient = () => {
   throw new Error(
-    "Xata client has not been generated. Please run `npx xata pull main` to generate it."
+    "Xata client has not been generated. Please run `npx xata pull main` to generate it.",
   );
 };

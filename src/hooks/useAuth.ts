@@ -165,14 +165,14 @@ export function useAuth(): AuthState & AuthActions {
     (role: UserRole) => {
       return authService.hasRole(role);
     },
-    [state.user]
+    [state.user],
   );
 
   const hasAnyRole = useCallback(
     (roles: UserRole[]) => {
       return authService.hasAnyRole(roles);
     },
-    [state.user]
+    [state.user],
   );
 
   const isJudge = useCallback(() => {

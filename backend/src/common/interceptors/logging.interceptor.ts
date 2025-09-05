@@ -25,7 +25,7 @@ export class LoggingInterceptor implements NestInterceptor {
     this.logger.log(
       `${method} ${url} - User: ${userId || "anonymous"}${
         provenance?.agentId ? ` - Agent: ${provenance.agentId}` : ""
-      }`
+      }`,
     );
 
     return next.handle().pipe(
@@ -34,7 +34,7 @@ export class LoggingInterceptor implements NestInterceptor {
         this.logger.log(
           `${method} ${url} - ${duration}ms - Success${
             provenance?.agentId ? ` - Agent: ${provenance.agentId}` : ""
-          }`
+          }`,
         );
       }),
       catchError((error) => {
@@ -42,10 +42,10 @@ export class LoggingInterceptor implements NestInterceptor {
         this.logger.error(
           `${method} ${url} - ${duration}ms - Error: ${error.message}${
             provenance?.agentId ? ` - Agent: ${provenance.agentId}` : ""
-          }`
+          }`,
         );
         return throwError(() => error);
-      })
+      }),
     );
   }
 }

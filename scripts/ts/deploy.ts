@@ -27,7 +27,7 @@ async function main() {
 
   const AWS_ACCOUNT_ID =
     (await runShell(
-      "bash -lc 'aws sts get-caller-identity --query Account --output text'"
+      "bash -lc 'aws sts get-caller-identity --query Account --output text'",
     )) || "";
   const AWS_REGION =
     (await runShell("bash -lc 'aws configure get region'")) || "";
@@ -35,16 +35,16 @@ async function main() {
   // Terraform
   await runShell('bash -lc "cd infrastructure/terraform && terraform init"');
   await runShell(
-    `bash -lc "cd infrastructure/terraform && terraform plan -var=environment=${ENVIRONMENT}"`
+    `bash -lc "cd infrastructure/terraform && terraform plan -var=environment=${ENVIRONMENT}"`,
   );
   await runShell(
-    `bash -lc "cd infrastructure/terraform && terraform apply -var=environment=${ENVIRONMENT} -auto-approve"`
+    `bash -lc "cd infrastructure/terraform && terraform apply -var=environment=${ENVIRONMENT} -auto-approve"`,
   );
 
   // SAM
   await runShell('bash -lc "cd infrastructure/aws-sam && sam build"');
   await runShell(
-    'bash -lc "cd infrastructure/aws-sam && sam deploy --no-confirm-changeset --no-fail-on-empty-changeset"'
+    'bash -lc "cd infrastructure/aws-sam && sam deploy --no-confirm-changeset --no-fail-on-empty-changeset"',
   );
 
   // Backend

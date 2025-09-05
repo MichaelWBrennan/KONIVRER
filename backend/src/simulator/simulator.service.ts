@@ -17,12 +17,12 @@ export class SimulatorService {
     private simulationRepository: Repository<Simulation>,
     private decksService: DecksService,
     private gameSimulator: GameSimulatorService,
-    private eventEmitter: EventEmitter2
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async runSimulation(
     config: SimulationConfigDto,
-    userId: string
+    userId: string,
   ): Promise<SimulationResponseDto> {
     // Validate decks exist
     await this.decksService.findOne(config.deckA.deckId, userId);
@@ -48,7 +48,7 @@ export class SimulatorService {
 
   async getSimulation(
     simId: string,
-    userId: string
+    userId: string,
   ): Promise<SimulationResponseDto> {
     const simulation = await this.simulationRepository.findOne({
       where: { id: simId, userId },

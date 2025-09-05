@@ -310,7 +310,7 @@ export class Game {
     if (!this.startedAt) return 0;
     const endTime = this.endedAt || new Date();
     return Math.floor(
-      (endTime.getTime() - this.startedAt.getTime()) / (1000 * 60)
+      (endTime.getTime() - this.startedAt.getTime()) / (1000 * 60),
     );
   }
 

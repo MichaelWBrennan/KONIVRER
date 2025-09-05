@@ -31,7 +31,7 @@ export class CardsResolver {
   @Mutation(() => Card)
   async updateCard(
     @Args("id", { type: () => ID }) id: string,
-    @Args("input") updateCardDto: UpdateCardDto
+    @Args("input") updateCardDto: UpdateCardDto,
   ) {
     return this.cardsService.update(id, updateCardDto);
   }

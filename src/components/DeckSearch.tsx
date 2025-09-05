@@ -20,7 +20,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   // Get unique values for filters
   const elements = useMemo(
     () => [...new Set(availableDecks.map((deck) => deck.mainElement))].sort(),
-    [availableDecks]
+    [availableDecks],
   );
   // Removed formats list as format filter is no longer used
 
@@ -50,7 +50,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const handleAddToMyAccount = (deck: Deck) => {
     console.log("Adding deck to my account:", deck.name);
     alert(
-      `"${deck.name}" will be imported to your account... (Feature coming soon)`
+      `"${deck.name}" will be imported to your account... (Feature coming soon)`,
     );
   };
 

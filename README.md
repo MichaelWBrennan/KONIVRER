@@ -96,7 +96,6 @@ New APIs (selected):
 - Tournaments
   - GET `/api/v1/tournaments/discover`
 - Matchmaking
-
   - POST `/matchmaking/tournament-prep`
   - POST `/matchmaking/qualification-prep`
 

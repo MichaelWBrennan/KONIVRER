@@ -42,7 +42,7 @@ export function useLocalCards(filters: CardSearchFilters): {
             card.elements[0].toLowerCase().includes(searchTerm)) ||
           (card.description &&
             card.description.toLowerCase().includes(searchTerm)) ||
-          (card.rulesText && card.rulesText.toLowerCase().includes(searchTerm))
+          (card.rulesText && card.rulesText.toLowerCase().includes(searchTerm)),
       );
     }
 
@@ -70,7 +70,7 @@ export function useLocalCards(filters: CardSearchFilters): {
     // Rarity filter
     if (filters.rarity) {
       filteredCards = filteredCards.filter(
-        (card) => card.rarity.toLowerCase() === filters.rarity?.toLowerCase()
+        (card) => card.rarity.toLowerCase() === filters.rarity?.toLowerCase(),
       );
     }
 
@@ -221,24 +221,33 @@ export function useLocalCardStatistics(): {
 
     return {
       totalCards: cards.length,
-      byElement: cards.reduce((acc, card) => {
-        const element = card.element || card.elements?.[0];
-        if (element) {
-          acc[element] = (acc[element] || 0) + 1;
-        }
-        return acc;
-      }, {} as Record<string, number>),
-      byType: cards.reduce((acc, card) => {
-        const type = card.type || card.lesserType;
-        if (type) {
-          acc[type] = (acc[type] || 0) + 1;
-        }
-        return acc;
-      }, {} as Record<string, number>),
-      byRarity: cards.reduce((acc, card) => {
-        acc[card.rarity] = (acc[card.rarity] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      byElement: cards.reduce(
+        (acc, card) => {
+          const element = card.element || card.elements?.[0];
+          if (element) {
+            acc[element] = (acc[element] || 0) + 1;
+          }
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
+      byType: cards.reduce(
+        (acc, card) => {
+          const type = card.type || card.lesserType;
+          if (type) {
+            acc[type] = (acc[type] || 0) + 1;
+          }
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
+      byRarity: cards.reduce(
+        (acc, card) => {
+          acc[card.rarity] = (acc[card.rarity] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
     };
   }, []);
 

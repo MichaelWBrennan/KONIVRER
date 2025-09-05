@@ -3,7 +3,7 @@ import * as s from "./offline.css.ts";
 
 export function Offline(): any {
   const [isOnline, setIsOnline] = useState<boolean>(
-    typeof navigator !== "undefined" ? navigator.onLine : false
+    typeof navigator !== "undefined" ? navigator.onLine : false,
   );
 
   const updateConnectionStatus = useCallback(() => {

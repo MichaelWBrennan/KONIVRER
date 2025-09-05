@@ -59,7 +59,7 @@ export class EventWebSocketGateway
 
       this.connectedClients.set(client.id, client);
       this.logger.log(
-        `Client connected: ${client.id} (User: ${client.userId})`
+        `Client connected: ${client.id} (User: ${client.userId})`,
       );
 
       // Send initial connection confirmation
@@ -72,7 +72,7 @@ export class EventWebSocketGateway
       this.logger.warn(
         `Authentication failed for client ${client.id}: ${
           (error as Error).message || "Unknown error"
-        }`
+        }`,
       );
       client.disconnect();
     }
@@ -86,7 +86,7 @@ export class EventWebSocketGateway
   @SubscribeMessage("subscribeToUser")
   handleUserSubscription(
     @MessageBody() data: { userId: string },
-    @ConnectedSocket() client: AuthenticatedSocket
+    @ConnectedSocket() client: AuthenticatedSocket,
   ) {
     // Only allow users to subscribe to their own notifications
     if (client.userId !== data.userId) {
@@ -108,7 +108,7 @@ export class EventWebSocketGateway
   @SubscribeMessage("subscribeToSim")
   handleSimSubscription(
     @MessageBody() data: { simId: string },
-    @ConnectedSocket() client: AuthenticatedSocket
+    @ConnectedSocket() client: AuthenticatedSocket,
   ) {
     if (!data.simId) {
       client.emit("error", { message: "Simulation ID is required" });
@@ -122,14 +122,14 @@ export class EventWebSocketGateway
     });
 
     this.logger.log(
-      `Client ${client.id} subscribed to simulation ${data.simId}`
+      `Client ${client.id} subscribed to simulation ${data.simId}`,
     );
   }
 
   @SubscribeMessage("subscribeToAuditLogs")
   handleAuditSubscription(
     @MessageBody() data: {},
-    @ConnectedSocket() client: AuthenticatedSocket
+    @ConnectedSocket() client: AuthenticatedSocket,
   ) {
     // Would need to verify admin permissions here
     client.join("agent:audits");
@@ -144,7 +144,7 @@ export class EventWebSocketGateway
   @SubscribeMessage("subscribeToEvent")
   handleEventSubscription(
     @MessageBody() data: { eventId: string },
-    @ConnectedSocket() client: AuthenticatedSocket
+    @ConnectedSocket() client: AuthenticatedSocket,
   ) {
     if (!data.eventId) {
       client.emit("error", { message: "Event ID is required" });
@@ -166,7 +166,7 @@ export class EventWebSocketGateway
   @SubscribeMessage("unsubscribeFromEvent")
   handleEventUnsubscription(
     @MessageBody() data: { eventId: string },
-    @ConnectedSocket() client: AuthenticatedSocket
+    @ConnectedSocket() client: AuthenticatedSocket,
   ) {
     if (!data.eventId) {
       client.emit("error", { message: "Event ID is required" });
@@ -182,7 +182,7 @@ export class EventWebSocketGateway
     });
 
     this.logger.log(
-      `Client ${client.id} unsubscribed from event ${data.eventId}`
+      `Client ${client.id} unsubscribed from event ${data.eventId}`,
     );
   }
 
@@ -351,7 +351,7 @@ export class EventWebSocketGateway
   private notifyUser(userId: string, event: string, data: any) {
     // Find all sockets for this user
     const userSockets = Array.from(this.connectedClients.values()).filter(
-      (socket) => socket.userId === userId
+      (socket) => socket.userId === userId,
     );
 
     userSockets.forEach((socket) => {
@@ -363,7 +363,7 @@ export class EventWebSocketGateway
   @SubscribeMessage("adminBroadcast")
   handleAdminBroadcast(
     @MessageBody() data: { eventId?: string; message: string; type: string },
-    @ConnectedSocket() client: AuthenticatedSocket
+    @ConnectedSocket() client: AuthenticatedSocket,
   ) {
     // Would need to verify admin permissions here
     const broadcastData = {
@@ -389,7 +389,7 @@ export class EventWebSocketGateway
       client.eventSubscriptions?.forEach((eventId) => {
         eventSubscriptions.set(
           eventId,
-          (eventSubscriptions.get(eventId) || 0) + 1
+          (eventSubscriptions.get(eventId) || 0) + 1,
         );
       });
     });

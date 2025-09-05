@@ -259,7 +259,7 @@ class AllInOneAutomationSystem {
     ];
 
     protocols.forEach((protocol) =>
-      this.emergencyProtocols.set(protocol.id, protocol)
+      this.emergencyProtocols.set(protocol.id, protocol),
     );
   }
 
@@ -474,8 +474,8 @@ class AllInOneAutomationSystem {
       0,
       Math.min(
         100,
-        baseReliability + emergencyBonus + autoRecoveryBonus + learningPenalty
-      )
+        baseReliability + emergencyBonus + autoRecoveryBonus + learningPenalty,
+      ),
     );
   }
 
@@ -488,12 +488,12 @@ class AllInOneAutomationSystem {
       this.config.autonomyLevel === "maximum"
         ? 15
         : this.config.autonomyLevel === "advanced"
-        ? 10
-        : 5;
+          ? 10
+          : 5;
 
     return Math.min(
       100,
-      trendAdoption + learningBonus + predictiveBonus + autonomyBonus
+      trendAdoption + learningBonus + predictiveBonus + autonomyBonus,
     );
   }
 
@@ -583,8 +583,8 @@ class AllInOneAutomationSystem {
         issues: !status.running
           ? ["Not running"]
           : status.health.overall <= 80
-          ? ["Low health score"]
-          : [],
+            ? ["Low health score"]
+            : [],
       };
     } catch (error) {
       return {
@@ -618,7 +618,7 @@ class AllInOneAutomationSystem {
 
   private async handleUnhealthyComponent(
     component: string,
-    health: any
+    health: any,
   ): Promise<void> {
     console.log(`⚠️ Unhealthy component detected: ${component}`);
     console.log(`Issues: ${health.issues.join(", ")}`);
@@ -630,7 +630,7 @@ class AllInOneAutomationSystem {
 
   private async attemptComponentRecovery(
     component: string,
-    health: any
+    health: any,
   ): Promise<void> {
     console.log(`🔧 Attempting recovery for component: ${component}`);
 
@@ -850,13 +850,13 @@ class AllInOneAutomationSystem {
         console.log(`✅ Emergency protocol executed: ${protocol.name}`);
       } else {
         console.log(
-          `⏸️ Emergency protocol requires manual approval: ${protocol.name}`
+          `⏸️ Emergency protocol requires manual approval: ${protocol.name}`,
         );
       }
     } catch (error) {
       console.error(
         `❌ Error executing emergency protocol: ${protocol.name}`,
-        error
+        error,
       );
 
       // Execute rollback plan
@@ -874,7 +874,7 @@ class AllInOneAutomationSystem {
 
   private async executeEmergencyAction(
     action: string,
-    protocol: EmergencyProtocol
+    protocol: EmergencyProtocol,
   ): Promise<void> {
     console.log(`🔧 Executing emergency action: ${action}`);
 
@@ -965,7 +965,7 @@ class AllInOneAutomationSystem {
       this.status.activeComponents = ["SecurityEngine"];
 
       console.log(
-        "✅ Graceful degradation successful - running with reduced functionality"
+        "✅ Graceful degradation successful - running with reduced functionality",
       );
     } catch (error) {
       console.error("❌ Graceful degradation failed:", error);
@@ -1016,7 +1016,7 @@ class AllInOneAutomationSystem {
   }
 
   public async updateConfiguration(
-    newConfig: Partial<AllInOneConfig>
+    newConfig: Partial<AllInOneConfig>,
   ): Promise<void> {
     console.log("⚙️ Updating system configuration...");
 

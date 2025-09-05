@@ -39,11 +39,11 @@ export const RealTimeAnalytics: React.FC = () => {
   const [data, setData] = useState<AnalyticsData[]>([]);
   const [isCollecting, setIsCollecting] = useState(true);
   const [dashboardData, setDashboardData] = useState<DashboardMetrics | null>(
-    null
+    null,
   );
   const [loading, setLoading] = useState(true);
   const [view, setView] = useState<"realtime" | "dashboard" | "anomalies">(
-    "realtime"
+    "realtime",
   );
 
   useEffect(() => {
@@ -327,8 +327,8 @@ export const RealTimeAnalytics: React.FC = () => {
                           (event.count /
                             Math.max(
                               ...dashboardData.eventBreakdown.map(
-                                (e) => e.count
-                              )
+                                (e) => e.count,
+                              ),
                             )) *
                           100
                         }%`,
@@ -352,8 +352,8 @@ export const RealTimeAnalytics: React.FC = () => {
                           (day.uniqueUsers /
                             Math.max(
                               ...dashboardData.trends.userGrowth.map(
-                                (d) => d.uniqueUsers
-                              )
+                                (d) => d.uniqueUsers,
+                              ),
                             )) *
                           100
                         }%`,

@@ -50,7 +50,7 @@ export class TelemetryService {
   }
 
   async recordPairingGeneration(
-    data: PairingGenerationTelemetry
+    data: PairingGenerationTelemetry,
   ): Promise<void> {
     this.addToBuffer("pairing_generation", data);
   }
@@ -92,11 +92,14 @@ export class TelemetryService {
       console.log(`Flushing ${this.telemetryBuffer.length} telemetry events`);
 
       // Group by type for batch processing
-      const grouped = this.telemetryBuffer.reduce((acc, event) => {
-        if (!acc[event.type]) acc[event.type] = [];
-        acc[event.type].push(event);
-        return acc;
-      }, {} as Record<string, any[]>);
+      const grouped = this.telemetryBuffer.reduce(
+        (acc, event) => {
+          if (!acc[event.type]) acc[event.type] = [];
+          acc[event.type].push(event);
+          return acc;
+        },
+        {} as Record<string, any[]>,
+      );
 
       // Process each type
       for (const [type, events] of Object.entries(grouped)) {
@@ -112,7 +115,7 @@ export class TelemetryService {
 
   private async processTelemetryBatch(
     type: string,
-    events: any[]
+    events: any[],
   ): Promise<void> {
     switch (type) {
       case "match_result":
@@ -136,10 +139,13 @@ export class TelemetryService {
     // Aggregate match result statistics
     const stats = {
       totalMatches: events.length,
-      formatDistribution: events.reduce((acc, e) => {
-        acc[e.data.format] = (acc[e.data.format] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      formatDistribution: events.reduce(
+        (acc, e) => {
+          acc[e.data.format] = (acc[e.data.format] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
       averageSkillLevel:
         events.reduce((sum, e) => sum + e.data.averageSkill, 0) / events.length,
       averageUncertainty:
@@ -157,10 +163,13 @@ export class TelemetryService {
       averageQuality:
         events.reduce((sum, e) => sum + e.data.overallQuality, 0) /
         events.length,
-      algorithmUsage: events.reduce((acc, e) => {
-        acc[e.data.algorithm] = (acc[e.data.algorithm] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      algorithmUsage: events.reduce(
+        (acc, e) => {
+          acc[e.data.algorithm] = (acc[e.data.algorithm] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
       qualityDistribution: this.calculateQualityDistribution(events),
     };
 
@@ -173,12 +182,16 @@ export class TelemetryService {
       totalSimulations: events.length,
       averageAccuracy:
         events.reduce((sum, e) => sum + e.data.accuracy, 0) / events.length,
-      formatAccuracy: events.reduce((acc, e) => {
-        if (!acc[e.data.format]) acc[e.data.format] = { total: 0, accuracy: 0 };
-        acc[e.data.format].total++;
-        acc[e.data.format].accuracy += e.data.accuracy;
-        return acc;
-      }, {} as Record<string, { total: number; accuracy: number }>),
+      formatAccuracy: events.reduce(
+        (acc, e) => {
+          if (!acc[e.data.format])
+            acc[e.data.format] = { total: 0, accuracy: 0 };
+          acc[e.data.format].total++;
+          acc[e.data.format].accuracy += e.data.accuracy;
+          return acc;
+        },
+        {} as Record<string, { total: number; accuracy: number }>,
+      ),
     };
 
     // Calculate format-specific accuracy averages
@@ -198,10 +211,13 @@ export class TelemetryService {
         events.reduce((sum, e) => {
           return sum + Math.abs(e.data.newRating - e.data.oldRating);
         }, 0) / events.length,
-      outcomeDistribution: events.reduce((acc, e) => {
-        acc[e.data.outcome] = (acc[e.data.outcome] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
+      outcomeDistribution: events.reduce(
+        (acc, e) => {
+          acc[e.data.outcome] = (acc[e.data.outcome] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      ),
       uncertaintyReduction:
         events.reduce((sum, e) => {
           return sum + (e.data.oldUncertainty - e.data.newUncertainty);
@@ -226,7 +242,7 @@ export class TelemetryService {
       const avgQuality =
         event.data.qualityDistribution.reduce(
           (sum: number, q: number) => sum + q,
-          0
+          0,
         ) / event.data.qualityDistribution.length;
 
       if (avgQuality >= 0.8) excellent++;

@@ -43,7 +43,7 @@ export class MatchmakingController {
     type: [PlayerRatingResponseDto],
   })
   async updateRatings(
-    @Body(ValidationPipe) updateDto: UpdateRatingsDto
+    @Body(ValidationPipe) updateDto: UpdateRatingsDto,
   ): Promise<PlayerRatingResponseDto[]> {
     return this.matchmakingService.updateRatings(updateDto);
   }
@@ -58,7 +58,7 @@ export class MatchmakingController {
     },
   })
   async tournamentPrep(
-    @Body(ValidationPipe) body: { userId: string; format: string }
+    @Body(ValidationPipe) body: { userId: string; format: string },
   ): Promise<any> {
     // For now, reuse generatePairings with a single user to get suggested opponents in pool
     // A real implementation would query active players and filter by tournament goals
@@ -77,7 +77,12 @@ export class MatchmakingController {
     },
   })
   async qualificationPrep(
-    @Body(ValidationPipe) body: { userId: string; goal: string; format: string }
+    @Body(ValidationPipe)
+    body: {
+      userId: string;
+      goal: string;
+      format: string;
+    },
   ): Promise<any> {
     // Placeholder returning top players in format; can refine by goal alignment
     return this.matchmakingService.getLeaderboard(body.format, 20);
@@ -93,7 +98,7 @@ export class MatchmakingController {
     type: GeneratePairingsResponseDto,
   })
   async generatePairings(
-    @Body(ValidationPipe) generateDto: GeneratePairingsDto
+    @Body(ValidationPipe) generateDto: GeneratePairingsDto,
   ): Promise<GeneratePairingsResponseDto> {
     return this.matchmakingService.generatePairings(generateDto);
   }
@@ -112,7 +117,7 @@ export class MatchmakingController {
   })
   async getPlayerRating(
     @Param("userId") userId: string,
-    @Param("format") format: string
+    @Param("format") format: string,
   ): Promise<PlayerRatingResponseDto> {
     return this.matchmakingService.getPlayerRating(userId, format);
   }
@@ -130,12 +135,12 @@ export class MatchmakingController {
   async calculateMatchQuality(
     @Param("player1Id") player1Id: string,
     @Param("player2Id") player2Id: string,
-    @Param("format") format: string
+    @Param("format") format: string,
   ): Promise<MatchQualityResponseDto> {
     return this.matchmakingService.calculateMatchQuality(
       player1Id,
       player2Id,
-      format
+      format,
     );
   }
 
@@ -147,7 +152,7 @@ export class MatchmakingController {
     type: SimulationResultDto,
   })
   async simulateMatch(
-    @Body(ValidationPipe) simulateDto: SimulateMatchDto
+    @Body(ValidationPipe) simulateDto: SimulateMatchDto,
   ): Promise<SimulationResultDto> {
     return this.matchmakingService.simulateMatch(simulateDto);
   }
@@ -167,7 +172,7 @@ export class MatchmakingController {
   })
   async getLeaderboard(
     @Param("format") format: string,
-    @Query("limit") limit: number = 50
+    @Query("limit") limit: number = 50,
   ): Promise<PlayerRatingResponseDto[]> {
     return this.matchmakingService.getLeaderboard(format, limit);
   }

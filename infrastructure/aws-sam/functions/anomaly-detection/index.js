@@ -7,7 +7,7 @@ const sns = new AWS.SNS();
 exports.handler = async (event) => {
   console.log(
     "Anomaly detection function triggered:",
-    JSON.stringify(event, null, 2)
+    JSON.stringify(event, null, 2),
   );
 
   try {
@@ -32,7 +32,7 @@ exports.handler = async (event) => {
       for (const record of event.Records) {
         try {
           const data = JSON.parse(
-            Buffer.from(record.kinesis.data, "base64").toString()
+            Buffer.from(record.kinesis.data, "base64").toString(),
           );
           await processKinesisRecord(data);
           processedRecords++;
@@ -43,7 +43,7 @@ exports.handler = async (event) => {
     }
 
     console.log(
-      `Anomaly detection completed. Processed: ${processedRecords}, Detected: ${detectedAnomalies}`
+      `Anomaly detection completed. Processed: ${processedRecords}, Detected: ${detectedAnomalies}`,
     );
 
     return {
@@ -135,7 +135,7 @@ async function detectMetricAnomaly(metric, startTime, endTime) {
       description: `${
         metric.name
       } ${anomalyType} detected: ${currentValue.toFixed(
-        2
+        2,
       )} vs expected ${baseline.mean.toFixed(2)}`,
     };
   }
@@ -192,7 +192,7 @@ async function processKinesisRecord(data) {
   // Real-time anomaly detection on streaming data
   console.log(
     "Processing Kinesis record for real-time anomaly detection:",
-    data.eventType
+    data.eventType,
   );
 
   // Check for immediate anomalies (e.g., multiple failures from same user)

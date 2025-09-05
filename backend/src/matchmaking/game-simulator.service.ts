@@ -86,7 +86,7 @@ export interface SimulationInsights {
 export class GameSimulatorService {
   constructor(
     private readonly matchmakingService: MatchmakingService,
-    private readonly telemetryService: TelemetryService
+    private readonly telemetryService: TelemetryService,
   ) {}
 
   /**
@@ -95,14 +95,14 @@ export class GameSimulatorService {
   async simulateGame(
     player1: SimulationPlayer,
     player2: SimulationPlayer,
-    gameNumber: number = 1
+    gameNumber: number = 1,
   ): Promise<GameSimulationResult> {
     // Calculate win probability based on skill difference
     const skillDiff = player1.skill - player2.skill;
     const totalUncertainty = Math.sqrt(
       player1.uncertainty * player1.uncertainty +
         player2.uncertainty * player2.uncertainty +
-        2 * Math.pow(25.0 / 6.0, 2) // Beta squared
+        2 * Math.pow(25.0 / 6.0, 2), // Beta squared
     );
 
     const winProbabilityP1 =
@@ -131,7 +131,7 @@ export class GameSimulatorService {
     const baseDuration = 8 + Math.floor(Math.random() * 25); // 8-33 minutes
     const duration = Math.max(
       3,
-      baseDuration - (randomFactors.manaScrew ? 5 : 0)
+      baseDuration - (randomFactors.manaScrew ? 5 : 0),
     );
 
     const winMethod = this.determineWinMethod(turns, randomFactors);
@@ -172,7 +172,7 @@ export class GameSimulatorService {
         const updatedRatings = await this.updateSimulatedRatings(
           [player1, player2],
           gameResult,
-          parameters.format
+          parameters.format,
         );
 
         currentRatings[0] = updatedRatings[0];
@@ -192,14 +192,14 @@ export class GameSimulatorService {
           newUncertainty: current.uncertainty,
           matchesPlayed: parameters.numberOfGames,
         };
-      }
+      },
     );
 
     // Generate insights
     const insights = this.generateMatchInsights(
       games,
       parameters.players,
-      finalRatings
+      finalRatings,
     );
 
     // Record telemetry
@@ -212,7 +212,7 @@ export class GameSimulatorService {
    * Simulate a full Swiss tournament
    */
   async simulateTournament(
-    parameters: SimulationParameters
+    parameters: SimulationParameters,
   ): Promise<TournamentSimulationResult> {
     if (!parameters.tournamentMode || !parameters.rounds) {
       throw new Error("Tournament mode requires rounds to be specified");
@@ -227,7 +227,7 @@ export class GameSimulatorService {
       const roundResult = await this.simulateSwissRound(
         currentPlayers,
         round,
-        parameters.format
+        parameters.format,
       );
 
       rounds.push(roundResult);
@@ -236,7 +236,7 @@ export class GameSimulatorService {
       const ratingUpdates = await this.updateTournamentRatings(
         currentPlayers,
         roundResult.results,
-        parameters.format
+        parameters.format,
       );
 
       currentPlayers = ratingUpdates.players;
@@ -259,7 +259,7 @@ export class GameSimulatorService {
   private async simulateSwissRound(
     players: SimulationPlayer[],
     roundNumber: number,
-    format: string
+    format: string,
   ): Promise<RoundResult> {
     // Generate pairings using Bayesian matchmaking
     const playerRatings = new Map();
@@ -274,9 +274,10 @@ export class GameSimulatorService {
       });
     });
 
-    const { pairings, qualities } = await this.matchmakingService[
-      "bayesianService"
-    ].generateSwissPairings(playerRatings);
+    const { pairings, qualities } =
+      await this.matchmakingService["bayesianService"].generateSwissPairings(
+        playerRatings,
+      );
 
     const roundPairings = pairings.map((pairing, index) => ({
       player1: pairing[0],
@@ -304,7 +305,7 @@ export class GameSimulatorService {
   private async updateSimulatedRatings(
     players: SimulationPlayer[],
     gameResult: GameSimulationResult,
-    format: string
+    format: string,
   ): Promise<SimulationPlayer[]> {
     try {
       const outcomes = [
@@ -344,7 +345,7 @@ export class GameSimulatorService {
   private async updateTournamentRatings(
     players: SimulationPlayer[],
     roundResults: GameSimulationResult[],
-    format: string
+    format: string,
   ): Promise<{ players: SimulationPlayer[]; changes: RatingChange[] }> {
     const originalPlayers = [...players];
     let updatedPlayers = [...players];
@@ -404,7 +405,7 @@ export class GameSimulatorService {
 
   private determineWinMethod(
     turns: number,
-    factors: any
+    factors: any,
   ): GameSimulationResult["winMethod"] {
     if (factors.manaScrew) return "damage"; // Quick games due to mana issues
     if (turns > 20) return Math.random() < 0.3 ? "mill" : "alternate";
@@ -451,14 +452,14 @@ export class GameSimulatorService {
     });
 
     return Array.from(standings.values()).sort(
-      (a, b) => b.matchPoints - a.matchPoints
+      (a, b) => b.matchPoints - a.matchPoints,
     );
   }
 
   private generateMatchInsights(
     games: GameSimulationResult[],
     players: SimulationPlayer[],
-    ratings: RatingChange[]
+    ratings: RatingChange[],
   ): SimulationInsights {
     const totalGames = games.length;
     const upsets = games.filter((game) => {
@@ -486,7 +487,7 @@ export class GameSimulatorService {
         averageUncertaintyReduction:
           ratings.reduce(
             (sum, r) => sum + (r.oldUncertainty - r.newUncertainty),
-            0
+            0,
           ) / ratings.length,
       },
     };
@@ -494,7 +495,7 @@ export class GameSimulatorService {
 
   private generateTournamentInsights(
     rounds: RoundResult[],
-    changes: RatingChange[]
+    changes: RatingChange[],
   ): SimulationInsights {
     const allGames = rounds.flatMap((r) => r.results);
     return this.generateMatchInsights(allGames, [], changes);
@@ -503,7 +504,7 @@ export class GameSimulatorService {
   private async recordSimulationTelemetry(
     parameters: SimulationParameters,
     games: GameSimulationResult[],
-    insights: SimulationInsights
+    insights: SimulationInsights,
   ): Promise<void> {
     try {
       await this.telemetryService.recordSimulation({

@@ -199,7 +199,7 @@ export class CardsController {
   @ApiResponse({ status: 400, description: "Invalid update data" })
   async update(
     @Param("id") id: string,
-    @Body() updateCardDto: UpdateCardDto
+    @Body() updateCardDto: UpdateCardDto,
   ): Promise<Card> {
     return this.cardsService.update(id, updateCardDto);
   }
