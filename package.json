@@ -11,6 +11,8 @@
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "db:populate-from-images": "ts-node --project backend/tsconfig.json scripts/populate-db-from-images.ts",
     "build:ts": "ts-node scripts/ts/build.ts",
     "docker:continuous": "ts-node scripts/ts/start-continuous-docker.ts",
@@ -52,6 +54,7 @@
     "eslint": "^9.34.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
+    "prettier": "^3.3.3",
     "typescript": "^5.9.2",
     "vite": "^7.1.3"
   },
