@@ -46,6 +46,9 @@ temp/
 # Node modules (if any helper scripts use Node)
 node_modules/
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # Build artifacts
 *.o
@@ -115,3 +118,22 @@ Pasted-*.txt
 *.temp.html
 accessibility-test.html
 performance-test.html
+bundle-analysis.json
+coverage.json
+automation-report.html
+weekly_report.json
+*.coverage
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+tmp/
+temp/
+tmp_xy*
+.cache/
+.pytest_cache/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.tox/
