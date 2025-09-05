@@ -45,8 +45,8 @@ cd ..
 ### 2. Start Development Services
 
 ```bash
-# Start PostgreSQL and Redis
-docker-compose -f docker-compose.dev.yml up -d
+# Start PostgreSQL and Redis (dev)
+docker-compose --profile dev up -d postgres redis
 
 # Start backend (in one terminal)
 cd backend
