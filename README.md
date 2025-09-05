@@ -7,16 +7,6 @@ Minimal, fast, and focused. Everything you need to run and build the game and re
 ```bash
 git clone https://github.com/MichaelWBrennan/KONIVRER-deck-database.git
 cd KONIVRER-deck-database
-
-# Open in Godot 4
-# File → Import Project → select project.godot, then press F5
-```
-
-## Build (Web/HTML5)
-
-```bash
-# In Godot Editor
-Project → Export → Add HTML5 preset → Export to build/
 ```
 
 ## Scripts (frontend tooling)
@@ -31,7 +21,6 @@ npm run start     # preview
 ## Docs
 
 - See `docs/` for detailed guides and system design.
-- Game rules: `docs/README_GODOT.md` and `docs/README_ENTERPRISE.md` (moved for clarity).
 
 ## License
 

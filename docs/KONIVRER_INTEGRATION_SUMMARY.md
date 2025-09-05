@@ -232,26 +232,7 @@ async getQuickReference(scenario: string): Promise<KonivrRule[]>
 async exploreRule(ruleId: string): Promise<RuleExploration>
 ```
 
-### 5. Godot Script Updates
-
-#### Game State (`scripts/game_state.gd`)
-
-Complete overhaul for KONIVRER mechanics:
-
-- Updated zone enums for 7 KONIVRER zones
-- Modified player data for Life Cards and Azoth pools
-- Implemented 5-phase turn system
-- Added KONIVRER-specific card play methods
-- Life Card damage system with Burst ability checking
-
-Key functions:
-
-```gdscript
-func deal_life_card_damage(player: int, damage: int)
-func play_card_as_summon(card_id: String, azoth_paid: Dictionary) -> bool
-func play_card_as_spell(card_id: String) -> bool
-func play_card_as_azoth(card_id: String) -> bool
-```
+<!-- Removed Godot Script Updates section -->
 
 ## Testing & Validation
 
@@ -286,7 +267,7 @@ The KONIVRER system has been fully integrated and validated with all core game m
 
 ### Frontend Files
 
-- `scripts/game_state.gd` - Complete KONIVRER game state system
+<!-- Removed Godot-specific frontend file references -->
 
 ### Total Integration
 
