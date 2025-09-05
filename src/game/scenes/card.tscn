@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=4]
-
-[ext_resource path="res://scripts/card.gd" type="Script" id=1]
-
-[node name="Card" type="Panel"]
-custom_minimum_size = Vector2(80, 110)
-script = ExtResource("1")
