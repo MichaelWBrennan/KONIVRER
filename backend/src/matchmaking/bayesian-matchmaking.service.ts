@@ -50,7 +50,7 @@ export class BayesianMatchmakingService {
     private readonly defaultUncertainty: number = 25.0 / 3.0,
     private readonly beta: number = 25.0 / 6.0,
     private readonly tau: number = 25.0 / 300.0,
-    private readonly drawProbability: number = 0.1
+    private readonly drawProbability: number = 0.1,
   ) {}
 
   /**
@@ -76,7 +76,7 @@ export class BayesianMatchmakingService {
   calculateMatchQuality(ratings: BayesianRating[]): MatchQuality {
     if (ratings.length !== 2) {
       throw new Error(
-        "Match quality calculation currently supports only 2 players"
+        "Match quality calculation currently supports only 2 players",
       );
     }
 
@@ -89,17 +89,17 @@ export class BayesianMatchmakingService {
     const totalUncertainty = Math.sqrt(
       rating1.uncertainty * rating1.uncertainty +
         rating2.uncertainty * rating2.uncertainty +
-        2 * this.beta * this.beta
+        2 * this.beta * this.beta,
     );
 
     // Match quality based on skill difference and uncertainty
     const quality = Math.exp(
-      -(skillDiff * skillDiff) / (2 * totalUncertainty * totalUncertainty)
+      -(skillDiff * skillDiff) / (2 * totalUncertainty * totalUncertainty),
     );
 
     // Calculate win probabilities using normal CDF approximation
     const winProb1 = this.normalCDF(
-      (rating1.skill - rating2.skill) / totalUncertainty
+      (rating1.skill - rating2.skill) / totalUncertainty,
     );
     const winProb2 = 1 - winProb1;
 
@@ -116,7 +116,7 @@ export class BayesianMatchmakingService {
    */
   updateRatings(
     ratings: BayesianRating[],
-    outcomes: MatchOutcome[]
+    outcomes: MatchOutcome[],
   ): BayesianRating[] {
     if (ratings.length !== outcomes.length) {
       throw new Error("Ratings and outcomes arrays must have same length");
@@ -136,7 +136,7 @@ export class BayesianMatchmakingService {
    */
   generateSwissPairings(
     playerRatings: Map<string, BayesianRating>,
-    previousPairings: string[][] = []
+    previousPairings: string[][] = [],
   ): { pairings: string[][]; qualities: MatchQuality[] } {
     const playerIds = Array.from(playerRatings.keys());
     const n = playerIds.length;
@@ -170,7 +170,7 @@ export class BayesianMatchmakingService {
         const hasPlayedBefore = previousPairings.some(
           (pairing) =>
             (pairing[0] === playerIds[i] && pairing[1] === playerIds[j]) ||
-            (pairing[0] === playerIds[j] && pairing[1] === playerIds[i])
+            (pairing[0] === playerIds[j] && pairing[1] === playerIds[i]),
         );
 
         if (hasPlayedBefore) continue;
@@ -197,7 +197,7 @@ export class BayesianMatchmakingService {
           this.calculateMatchQuality([
             playerRatings.get(playerIds[i])!,
             playerRatings.get(bestOpponent)!,
-          ])
+          ]),
         );
       }
     }
@@ -210,11 +210,11 @@ export class BayesianMatchmakingService {
    */
   getPlayerPercentile(
     rating: BayesianRating,
-    allRatings: BayesianRating[]
+    allRatings: BayesianRating[],
   ): number {
     const playerRating = rating.conservativeRating;
     const belowCount = allRatings.filter(
-      (r) => r.conservativeRating < playerRating
+      (r) => r.conservativeRating < playerRating,
     ).length;
     return (belowCount / allRatings.length) * 100;
   }
@@ -222,7 +222,7 @@ export class BayesianMatchmakingService {
   // Private helper methods
   private updateTwoPlayerRatings(
     ratings: BayesianRating[],
-    outcomes: MatchOutcome[]
+    outcomes: MatchOutcome[],
   ): BayesianRating[] {
     const [rating1, rating2] = ratings;
     const [outcome1, outcome2] = outcomes;
@@ -236,7 +236,7 @@ export class BayesianMatchmakingService {
     const c = Math.sqrt(
       rating1.uncertainty * rating1.uncertainty +
         rating2.uncertainty * rating2.uncertainty +
-        2 * this.beta * this.beta
+        2 * this.beta * this.beta,
     );
 
     let v: number, w: number;
@@ -258,8 +258,8 @@ export class BayesianMatchmakingService {
         rating1.uncertainty *
         Math.max(
           1 - (w * rating1.uncertainty * rating1.uncertainty) / (c * c),
-          0.0001
-        )
+          0.0001,
+        ),
     );
 
     const skillUpdate1 = ((rating1.uncertainty * rating1.uncertainty) / c) * v;
@@ -268,7 +268,7 @@ export class BayesianMatchmakingService {
 
     // Add dynamics uncertainty
     const finalUncertainty1 = Math.sqrt(
-      newUncertainty1 * newUncertainty1 + this.tau * this.tau
+      newUncertainty1 * newUncertainty1 + this.tau * this.tau,
     );
 
     // Update player 2
@@ -277,8 +277,8 @@ export class BayesianMatchmakingService {
         rating2.uncertainty *
         Math.max(
           1 - (w * rating2.uncertainty * rating2.uncertainty) / (c * c),
-          0.0001
-        )
+          0.0001,
+        ),
     );
 
     const skillUpdate2 = ((rating2.uncertainty * rating2.uncertainty) / c) * v;
@@ -286,7 +286,7 @@ export class BayesianMatchmakingService {
       rating2.skill + (!player1Won || isDraw ? skillUpdate2 : -skillUpdate2);
 
     const finalUncertainty2 = Math.sqrt(
-      newUncertainty2 * newUncertainty2 + this.tau * this.tau
+      newUncertainty2 * newUncertainty2 + this.tau * this.tau,
     );
 
     return [

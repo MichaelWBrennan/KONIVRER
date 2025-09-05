@@ -46,8 +46,8 @@ export const Card: React.FC<CardProps> = ({
         ? { width: 65, height: 91 }
         : { width: 85, height: 119 }
       : isInHand
-      ? { width: 100, height: 140 }
-      : { width: 120, height: 168 });
+        ? { width: 100, height: 140 }
+        : { width: 120, height: 168 });
 
   // KONIVRER Arena color schemes
   const colorMap = {
@@ -184,8 +184,8 @@ export const Card: React.FC<CardProps> = ({
       boxShadow: card.isSelected
         ? "0 0 20px rgba(0, 191, 255, 0.5)"
         : isHovered
-        ? "0 4px 15px rgba(0, 0, 0, 0.3)"
-        : "0 2px 8px rgba(0, 0, 0, 0.2)",
+          ? "0 4px 15px rgba(0, 0, 0, 0.3)"
+          : "0 2px 8px rgba(0, 0, 0, 0.2)",
       userSelect: "none",
       touchAction: "none",
     };

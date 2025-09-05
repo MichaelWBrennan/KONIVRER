@@ -171,7 +171,7 @@ class TelemetryService {
     const centerY = rect.top + rect.height / 2;
     const distance = Math.sqrt(
       Math.pow(touch.clientX - centerX, 2) +
-        Math.pow(touch.clientY - centerY, 2)
+        Math.pow(touch.clientY - centerY, 2),
     );
     return Math.max(0, 1 - distance / (Math.max(rect.width, rect.height) / 2));
   }
@@ -241,7 +241,7 @@ class TelemetryService {
 
       // For now, store in localStorage for debugging
       const existingMetrics = JSON.parse(
-        localStorage.getItem("mobile-ux-metrics") || "[]"
+        localStorage.getItem("mobile-ux-metrics") || "[]",
       );
       existingMetrics.push({
         timestamp: Date.now(),
@@ -249,7 +249,7 @@ class TelemetryService {
       });
       localStorage.setItem(
         "mobile-ux-metrics",
-        JSON.stringify(existingMetrics.slice(-10))
+        JSON.stringify(existingMetrics.slice(-10)),
       ); // Keep last 10 sessions
 
       // Reset metrics for next collection
@@ -292,8 +292,8 @@ class TelemetryService {
         100 -
           perf.largestContentfulPaint / 25 -
           perf.firstInputDelay / 10 -
-          perf.cumulativeLayoutShift * 1000
-      )
+          perf.cumulativeLayoutShift * 1000,
+      ),
     );
 
     return {

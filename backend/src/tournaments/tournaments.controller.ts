@@ -64,7 +64,7 @@ export class TournamentsController {
   @ApiResponse({ status: 403, description: "Insufficient permissions" })
   async create(
     @Body() createTournamentDto: CreateTournamentDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.tournamentsService.create(createTournamentDto, req.user.id);
   }
@@ -190,7 +190,7 @@ export class TournamentsController {
   })
   async getMyTournaments(
     @Query() filters: TournamentSearchFilters,
-    @Request() req
+    @Request() req,
   ) {
     // TODO: Add organizerId filter to service
     return this.tournamentsService.findAll(filters, req.user.id);
@@ -204,7 +204,7 @@ export class TournamentsController {
   })
   async getMyRegistrations(
     @Query() filters: TournamentSearchFilters,
-    @Request() req
+    @Request() req,
   ) {
     // TODO: Add participantId filter to service
     return this.tournamentsService.findAll(filters, req.user.id);
@@ -242,7 +242,7 @@ export class TournamentsController {
   async update(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() updateTournamentDto: UpdateTournamentDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.tournamentsService.update(id, updateTournamentDto, req.user.id);
   }
@@ -268,7 +268,7 @@ export class TournamentsController {
   async register(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() registerDto: RegisterForTournamentDto,
-    @Request() req
+    @Request() req,
   ) {
     await this.tournamentsService.register(id, req.user.id, registerDto);
     return { message: "Successfully registered for tournament" };
@@ -316,7 +316,7 @@ export class TournamentsController {
   async generatePairings(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() pairingDto: PairingRequestDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.tournamentsService.generatePairings(id, pairingDto.round);
   }
@@ -351,7 +351,7 @@ export class TournamentsController {
   })
   async getMatches(
     @Param("id", ParseUUIDPipe) id: string,
-    @Query("round") round?: number
+    @Query("round") round?: number,
   ) {
     return this.tournamentsService.getMatches(id, round);
   }
@@ -371,12 +371,12 @@ export class TournamentsController {
     @Param("id", ParseUUIDPipe) tournamentId: string,
     @Param("matchId", ParseUUIDPipe) matchId: string,
     @Body() resultDto: SubmitMatchResultDto,
-    @Request() req
+    @Request() req,
   ) {
     return this.tournamentsService.submitMatchResult(
       matchId,
       resultDto,
-      req.user.id
+      req.user.id,
     );
   }
 
@@ -404,7 +404,7 @@ export class TournamentsController {
   async dropPlayer(
     @Param("id", ParseUUIDPipe) id: string,
     @Param("playerId", ParseUUIDPipe) playerId: string,
-    @Request() req
+    @Request() req,
   ) {
     await this.tournamentsService.dropPlayer(id, playerId, req.user.id);
     return { message: "Player dropped successfully" };
@@ -435,15 +435,14 @@ export class TournamentsController {
   async exportTournament(
     @Param("id", ParseUUIDPipe) id: string,
     @Query("format") format: string = "json",
-    @Request() req
+    @Request() req,
   ) {
     const userId = req.user?.id;
     const tournament = await this.tournamentsService.findOne(id, userId);
     const standings = await this.tournamentsService.getStandings(id);
     const matches = await this.tournamentsService.getMatches(id);
-    const statistics = await this.tournamentsService.getTournamentStatistics(
-      id
-    );
+    const statistics =
+      await this.tournamentsService.getTournamentStatistics(id);
 
     // TODO: Implement actual export format conversion
     return {
@@ -503,7 +502,7 @@ export class TournamentsController {
   async updateStream(
     @Param("id", ParseUUIDPipe) id: string,
     @Body() streamData: { streamUrl?: string; isLive?: boolean },
-    @Request() req
+    @Request() req,
   ) {
     const updateDto: UpdateTournamentDto = {
       streamUrl: streamData.streamUrl,
@@ -512,7 +511,7 @@ export class TournamentsController {
     const tournament = await this.tournamentsService.update(
       id,
       updateDto,
-      req.user.id
+      req.user.id,
     );
 
     return {

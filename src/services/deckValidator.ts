@@ -30,41 +30,41 @@ export class KonivrverDeckValidator {
     // Check total card count (must be exactly 40)
     if (cardCounts.total !== 40) {
       errors.push(
-        `Deck must contain exactly 40 cards, but has ${cardCounts.total}`
+        `Deck must contain exactly 40 cards, but has ${cardCounts.total}`,
       );
     }
 
     // Check rarity distribution
     if (cardCounts.common !== 25) {
       errors.push(
-        `Deck must contain exactly 25 Common (🜠) cards, but has ${cardCounts.common}`
+        `Deck must contain exactly 25 Common (🜠) cards, but has ${cardCounts.common}`,
       );
     }
 
     if (cardCounts.uncommon !== 13) {
       errors.push(
-        `Deck must contain exactly 13 Uncommon (☽) cards, but has ${cardCounts.uncommon}`
+        `Deck must contain exactly 13 Uncommon (☽) cards, but has ${cardCounts.uncommon}`,
       );
     }
 
     if (cardCounts.rare !== 2) {
       errors.push(
-        `Deck must contain exactly 2 Rare (☉) cards, but has ${cardCounts.rare}`
+        `Deck must contain exactly 2 Rare (☉) cards, but has ${cardCounts.rare}`,
       );
     }
 
     // Check for duplicate cards (max 1 copy per card)
     const cardNames = cards.map((c) => c.name);
     const duplicates = cardNames.filter(
-      (name, index) => cardNames.indexOf(name) !== index
+      (name, index) => cardNames.indexOf(name) !== index,
     );
     const uniqueDuplicates = [...new Set(duplicates)];
 
     if (uniqueDuplicates.length > 0) {
       errors.push(
         `Deck contains duplicate cards (max 1 copy per card): ${uniqueDuplicates.join(
-          ", "
-        )}`
+          ", ",
+        )}`,
       );
     }
 
@@ -75,13 +75,13 @@ export class KonivrverDeckValidator {
 
       // Warn if deck contains elements not supported by flag
       const unsupportedElements = [...deckElements].filter(
-        (e) => !flagElements.includes(e)
+        (e) => !flagElements.includes(e),
       );
       if (unsupportedElements.length > 0) {
         warnings.push(
           `Deck contains elements not supported by flag: ${unsupportedElements.join(
-            ", "
-          )}`
+            ", ",
+          )}`,
         );
       }
     }
@@ -133,7 +133,7 @@ export class KonivrverDeckValidator {
       suggestions.push(
         diff > 0
           ? `Add ${diff} more cards to reach 40`
-          : `Remove ${-diff} cards to reach 40`
+          : `Remove ${-diff} cards to reach 40`,
       );
     }
 
@@ -142,7 +142,7 @@ export class KonivrverDeckValidator {
       suggestions.push(
         diff > 0
           ? `Add ${diff} more Common cards`
-          : `Replace ${-diff} Common cards with other rarities`
+          : `Replace ${-diff} Common cards with other rarities`,
       );
     }
 
@@ -151,7 +151,7 @@ export class KonivrverDeckValidator {
       suggestions.push(
         diff > 0
           ? `Add ${diff} more Uncommon cards`
-          : `Replace ${-diff} Uncommon cards with other rarities`
+          : `Replace ${-diff} Uncommon cards with other rarities`,
       );
     }
 
@@ -160,13 +160,13 @@ export class KonivrverDeckValidator {
       suggestions.push(
         diff > 0
           ? `Add ${diff} more Rare cards`
-          : `Replace ${-diff} Rare cards with other rarities`
+          : `Replace ${-diff} Rare cards with other rarities`,
       );
     }
 
     if (validation.duplicateCards.length > 0) {
       suggestions.push(
-        `Remove duplicate copies of: ${validation.duplicateCards.join(", ")}`
+        `Remove duplicate copies of: ${validation.duplicateCards.join(", ")}`,
       );
     }
 

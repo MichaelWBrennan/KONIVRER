@@ -20,7 +20,7 @@ function parseArgs(): Args {
   }
   if (!args.prNumber || !args.repository || !args.githubToken) {
     console.error(
-      "Usage: conflict_resolver.ts --pr-number <num> --repository <owner/repo> --github-token <token>"
+      "Usage: conflict_resolver.ts --pr-number <num> --repository <owner/repo> --github-token <token>",
     );
     process.exit(1);
   }
@@ -50,7 +50,7 @@ async function main() {
 
   await runShell('git config user.name "github-actions[bot]"');
   await runShell(
-    'git config user.email "41898282+github-actions[bot]@users.noreply.github.com"'
+    'git config user.email "41898282+github-actions[bot]@users.noreply.github.com"',
   );
   await runShell("git config pull.rebase true");
   await runShell("git config merge.renamelimit 9999");
@@ -59,13 +59,13 @@ async function main() {
   const { headRef, baseRef, headSha } = await getPrInfo(
     repository,
     prNumber,
-    githubToken
+    githubToken,
   );
   log(`Head: ${headRef} Base: ${baseRef}`);
 
   // checkout
   const hasRemote = await runShell(
-    `git show-ref --verify --quiet refs/remotes/origin/${headRef}`
+    `git show-ref --verify --quiet refs/remotes/origin/${headRef}`,
   )
     .then(() => true)
     .catch(() => false);

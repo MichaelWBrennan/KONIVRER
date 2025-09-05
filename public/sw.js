@@ -21,7 +21,7 @@ self.addEventListener("install", (event) => {
       caches.open(STATIC_CACHE).then((cache) => {
         console.log("Caching critical mobile assets");
         return cache.addAll(
-          STATIC_ASSETS.filter((asset) => asset !== undefined)
+          STATIC_ASSETS.filter((asset) => asset !== undefined),
         );
       }),
       // Pre-warm the image cache
@@ -32,7 +32,7 @@ self.addEventListener("install", (event) => {
     ]).then(() => {
       console.log("Mobile-first caches initialized");
       return self.skipWaiting();
-    })
+    }),
   );
 });
 
@@ -52,12 +52,12 @@ self.addEventListener("activate", (event) => {
               console.log("Deleting old cache:", cacheName);
               return caches.delete(cacheName);
             }
-          })
+          }),
         );
       }),
       // Claim clients
       self.clients.claim(),
-    ])
+    ]),
   );
 });
 
@@ -116,7 +116,7 @@ async function networkFirstStrategy(request) {
         status: 503,
         statusText: "Service Unavailable",
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
   }
 }
@@ -145,7 +145,7 @@ async function cacheFirstStrategy(request) {
     if (request.destination === "image") {
       return new Response(
         '<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="100" y="100" text-anchor="middle" fill="#9ca3af">Image Unavailable</text></svg>',
-        { headers: { "Content-Type": "image/svg+xml" } }
+        { headers: { "Content-Type": "image/svg+xml" } },
       );
     }
 
@@ -285,7 +285,7 @@ self.addEventListener("notificationclick", (event) => {
       if (self.clients.openWindow) {
         return self.clients.openWindow(url);
       }
-    })
+    }),
   );
 });
 

@@ -33,7 +33,7 @@ export class ProgressionController {
   @ApiOperation({ summary: "Get tournament profile for user" })
   @ApiResponse({ status: 200, type: TournamentProfileResponseDto })
   async getProfile(
-    @Param("userId") userId: string
+    @Param("userId") userId: string,
   ): Promise<TournamentProfileResponseDto> {
     return this.progressionService.getProfile(userId);
   }
@@ -43,7 +43,7 @@ export class ProgressionController {
   @ApiResponse({ status: 200, type: TournamentProfileResponseDto })
   async updatePreferences(
     @Param("userId") userId: string,
-    @Body(ValidationPipe) body: { preferences: Record<string, any> }
+    @Body(ValidationPipe) body: { preferences: Record<string, any> },
   ): Promise<TournamentProfileResponseDto> {
     return this.progressionService.updatePreferences({
       userId,
@@ -55,7 +55,7 @@ export class ProgressionController {
   @ApiOperation({ summary: "Apply point update for a user" })
   @ApiResponse({ status: 200, type: TournamentProfileResponseDto })
   async updatePoints(
-    @Body(ValidationPipe) dto: PointUpdateDto
+    @Body(ValidationPipe) dto: PointUpdateDto,
   ): Promise<TournamentProfileResponseDto> {
     return this.progressionService.applyPointUpdate(dto);
   }

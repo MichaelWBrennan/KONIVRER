@@ -18,7 +18,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -31,7 +31,7 @@ export class AuthService {
 
     if (existingUser) {
       throw new ConflictException(
-        "User with this email or username already exists"
+        "User with this email or username already exists",
       );
     }
 

@@ -263,7 +263,7 @@ export class Event {
   @Field(() => Boolean)
   get hasStarted(): boolean {
     return [EventStatus.IN_PROGRESS, EventStatus.COMPLETED].includes(
-      this.status
+      this.status,
     );
   }
 

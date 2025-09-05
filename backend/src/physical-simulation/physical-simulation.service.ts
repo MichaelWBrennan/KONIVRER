@@ -74,7 +74,7 @@ export class PhysicalGameSimulationService {
     @InjectRepository(Card)
     private readonly cardRepository: Repository<Card>,
     @InjectRepository(Deck)
-    private readonly deckRepository: Repository<Deck>
+    private readonly deckRepository: Repository<Deck>,
   ) {}
 
   /**
@@ -85,7 +85,7 @@ export class PhysicalGameSimulationService {
     deck1: string,
     deck2: string,
     iterations: number = 1000,
-    scenario?: SimulationScenario
+    scenario?: SimulationScenario,
   ): Promise<TestResult> {
     const deck1Cards = await this.loadDeckCards(deck1);
     const deck2Cards = await this.loadDeckCards(deck2);
@@ -105,7 +105,7 @@ export class PhysicalGameSimulationService {
       const gameResult = await this.runSingleGame(
         deck1Cards,
         deck2Cards,
-        scenario?.initialGameState
+        scenario?.initialGameState,
       );
 
       this.aggregateResults(results, gameResult);
@@ -131,7 +131,7 @@ export class PhysicalGameSimulationService {
     const initialState = await this.createInitialGameState(
       player1Cards,
       player2Cards,
-      scenarioData.customGameState
+      scenarioData.customGameState,
     );
 
     const scenario: SimulationScenario = {
@@ -153,7 +153,7 @@ export class PhysicalGameSimulationService {
   async runBatchDeckTesting(
     testDecks: string[],
     metaDecks: string[],
-    iterations: number = 1000000
+    iterations: number = 1000000,
   ): Promise<{
     winRates: { [deckId: string]: number };
     matchupMatrix: { [deck1: string]: { [deck2: string]: number } };
@@ -177,7 +177,7 @@ export class PhysicalGameSimulationService {
         const matchupResult = await this.simulatePhysicalGame(
           testDeck,
           metaDeck,
-          Math.floor(iterations / (testDecks.length * metaDecks.length))
+          Math.floor(iterations / (testDecks.length * metaDecks.length)),
         );
 
         const winRate = matchupResult.statistics.winRates["player1"] || 0;
@@ -186,14 +186,13 @@ export class PhysicalGameSimulationService {
       }
 
       // Analyze card synergies within the deck
-      results.synergyAnalysis[testDeck] = await this.analyzeDeckSynergies(
-        testDeck
-      );
+      results.synergyAnalysis[testDeck] =
+        await this.analyzeDeckSynergies(testDeck);
 
       // Calculate meta impact score
       results.metaImpact[testDeck] = this.calculateMetaImpact(
         results.matchupMatrix[testDeck],
-        metaDecks
+        metaDecks,
       );
     }
 
@@ -202,7 +201,7 @@ export class PhysicalGameSimulationService {
       detailedStats: await this.generateDetailedStats(
         results,
         testDecks,
-        metaDecks
+        metaDecks,
       ),
     };
   }
@@ -221,17 +220,17 @@ export class PhysicalGameSimulationService {
   private async runSingleGame(
     deck1: Card[],
     deck2: Card[],
-    initialState?: Partial<GameState>
+    initialState?: Partial<GameState>,
   ): Promise<any> {
     // Create seeded random for reproducible results
     const random = this.createSeededRandom(
-      Date.now() + Math.random() * 1000000
+      Date.now() + Math.random() * 1000000,
     );
 
     const gameState: GameState = initialState
       ? this.mergeGameStates(
           await this.createInitialGameState(deck1, deck2),
-          initialState
+          initialState,
         )
       : await this.createInitialGameState(deck1, deck2);
 
@@ -257,7 +256,7 @@ export class PhysicalGameSimulationService {
   private async createInitialGameState(
     deck1: Card[],
     deck2: Card[],
-    overrides?: Partial<GameState>
+    overrides?: Partial<GameState>,
   ): Promise<GameState> {
     // KONIVRER: Separate life cards from main deck
     const shuffledDeck1 = this.shuffleDeck([...deck1]);
@@ -328,7 +327,7 @@ export class PhysicalGameSimulationService {
 
   private async playTurn(
     gameState: GameState,
-    random: () => number
+    random: () => number,
   ): Promise<void> {
     const currentPlayer = gameState.players[gameState.currentPlayer];
 
@@ -391,7 +390,7 @@ export class PhysicalGameSimulationService {
 
   private async executePostCombatMainPhase(
     gameState: GameState,
-    random: () => number
+    random: () => number,
   ): Promise<void> {
     gameState.phase = GamePhase.POST_COMBAT_MAIN;
     const currentPlayer = gameState.players[gameState.currentPlayer];
@@ -421,14 +420,14 @@ export class PhysicalGameSimulationService {
     this.logEvent(gameState, currentPlayer.id, "refresh_phase", {
       azothGenerated: Object.values(currentPlayer.azothPool).reduce(
         (a, b) => a + b,
-        0
+        0,
       ),
     });
   }
 
   private async executeMainPhase(
     gameState: GameState,
-    random: () => number
+    random: () => number,
   ): Promise<void> {
     gameState.phase = GamePhase.MAIN;
     const currentPlayer = gameState.players[gameState.currentPlayer];
@@ -442,7 +441,7 @@ export class PhysicalGameSimulationService {
     this.logEvent(gameState, currentPlayer.id, "main_phase", {
       azothAvailable: Object.values(currentPlayer.azothPool).reduce(
         (a, b) => a + b,
-        0
+        0,
       ),
       handSize: currentPlayer.hand.length,
     });
@@ -450,7 +449,7 @@ export class PhysicalGameSimulationService {
 
   private async executeCombatPhase(
     gameState: GameState,
-    random: () => number
+    random: () => number,
   ): Promise<void> {
     gameState.phase = GamePhase.COMBAT;
     const currentPlayer = gameState.players[gameState.currentPlayer];
@@ -462,7 +461,7 @@ export class PhysicalGameSimulationService {
       ...currentPlayer.combatRow,
     ].filter(
       (card) =>
-        this.canAttack(card) && this.shouldAttack(card, gameState, random)
+        this.canAttack(card) && this.shouldAttack(card, gameState, random),
     );
 
     if (attackers.length > 0) {
@@ -484,13 +483,13 @@ export class PhysicalGameSimulationService {
 
   private async makePlayerDecisions(
     gameState: GameState,
-    random: () => number
+    random: () => number,
   ): Promise<void> {
     const currentPlayer = gameState.players[gameState.currentPlayer];
 
     // KONIVRER: Play cards using Azoth cost system
     const playableCards = currentPlayer.hand.filter((card) =>
-      this.canAffordCard(card, currentPlayer.azothPool)
+      this.canAffordCard(card, currentPlayer.azothPool),
     );
 
     for (const card of playableCards) {
@@ -551,7 +550,7 @@ export class PhysicalGameSimulationService {
   private choosePlayMode(
     card: Card,
     player: PhysicalPlayer,
-    randomValue: number
+    randomValue: number,
   ): string {
     // KONIVRER: AI chooses between Summon, Spell, or Azoth modes
     if (card.type === "Familiar") {
@@ -565,7 +564,7 @@ export class PhysicalGameSimulationService {
   private playSummon(
     player: PhysicalPlayer,
     card: Card,
-    cost: Record<string, number>
+    cost: Record<string, number>,
   ): void {
     // Remove from hand and pay cost
     player.hand = player.hand.filter((c) => c.id !== card.id);
@@ -578,7 +577,7 @@ export class PhysicalGameSimulationService {
   private playSpell(
     player: PhysicalPlayer,
     card: Card,
-    cost: Record<string, number>
+    cost: Record<string, number>,
   ): void {
     // Remove from hand and pay cost
     player.hand = player.hand.filter((c) => c.id !== card.id);
@@ -606,7 +605,7 @@ export class PhysicalGameSimulationService {
 
   private canAffordCard(
     card: Card,
-    azothPool: Record<string, number>
+    azothPool: Record<string, number>,
   ): boolean {
     const cost = this.getCardAzothCost(card);
 
@@ -628,13 +627,13 @@ export class PhysicalGameSimulationService {
 
   private payAzothCost(
     player: PhysicalPlayer,
-    cost: Record<string, number>
+    cost: Record<string, number>,
   ): void {
     for (const [element, amount] of Object.entries(cost)) {
       if (player.azothPool[element] !== undefined) {
         player.azothPool[element] = Math.max(
           0,
-          player.azothPool[element] - amount
+          player.azothPool[element] - amount,
         );
       }
     }
@@ -661,7 +660,7 @@ export class PhysicalGameSimulationService {
     gameState: GameState,
     playerId: string,
     action: string,
-    details: any
+    details: any,
   ): void {
     gameState.gameLog.push({
       timestamp: new Date(),
@@ -687,7 +686,7 @@ export class PhysicalGameSimulationService {
 
   private mergeGameStates(
     base: GameState,
-    overrides: Partial<GameState>
+    overrides: Partial<GameState>,
   ): GameState {
     return { ...base, ...overrides };
   }
@@ -700,7 +699,7 @@ export class PhysicalGameSimulationService {
   private shouldAttack(
     card: Card,
     gameState: GameState,
-    random: () => number
+    random: () => number,
   ): boolean {
     // AI decision for attacking
     return random() > 0.3; // 70% chance to attack with available creatures
@@ -746,7 +745,7 @@ export class PhysicalGameSimulationService {
   private processResults(
     results: any,
     iterations: number,
-    scenarioId?: string
+    scenarioId?: string,
   ): TestResult {
     return {
       scenarioId: scenarioId || "default",
@@ -799,7 +798,7 @@ export class PhysicalGameSimulationService {
 
   private calculateMetaImpact(
     matchupMatrix: { [deck: string]: number },
-    metaDecks: string[]
+    metaDecks: string[],
   ): number {
     // Calculate how much this deck would impact the meta
     const averageWinRate =
@@ -815,16 +814,16 @@ export class PhysicalGameSimulationService {
   private async generateDetailedStats(
     results: any,
     testDecks: string[],
-    metaDecks: string[]
+    metaDecks: string[],
   ): Promise<any> {
     return {
       totalSimulations: testDecks.length * metaDecks.length,
       bestPerformingDeck: Object.keys(results.winRates).reduce((a, b) =>
-        results.winRates[a] > results.winRates[b] ? a : b
+        results.winRates[a] > results.winRates[b] ? a : b,
       ),
       metaShakeup: Object.values(results.metaImpact).reduce(
         (a: number, b: number) => a + b,
-        0
+        0,
       ),
       generatedAt: new Date().toISOString(),
     };

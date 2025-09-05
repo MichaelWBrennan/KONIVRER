@@ -30,12 +30,12 @@ export class AiDeckbuildingController {
       format: string;
       playstyle?: "aggressive" | "midrange" | "control" | "combo";
       targetWinRate?: number;
-    }
+    },
   ) {
     return this.aiDeckbuildingService.generateDeckSuggestions(
       body.userId || "default-user",
       body.format,
-      body
+      body,
     );
   }
 
@@ -47,11 +47,11 @@ export class AiDeckbuildingController {
   async getMetaAnalysis(
     // @CurrentUser() user: User,
     @Param("format") format: string,
-    @Query("userId") userId?: string
+    @Query("userId") userId?: string,
   ) {
     return this.aiDeckbuildingService.generateMetaAnalysis(
       userId || "default-user",
-      format
+      format,
     );
   }
 
@@ -68,7 +68,7 @@ export class AiDeckbuildingController {
       currentDeckList: string[];
       targetWinRate?: number;
       playstyle?: "aggressive" | "midrange" | "control" | "combo";
-    }
+    },
   ) {
     return this.aiDeckbuildingService.optimizeDeck({
       userId: user.id,
@@ -87,13 +87,13 @@ export class AiDeckbuildingController {
   async getSkillBasedRecommendations(
     @CurrentUser() user: User,
     @Param("format") format: string,
-    @Query("playstyle") playstyle?: string
+    @Query("playstyle") playstyle?: string,
   ) {
     const suggestions =
       await this.aiDeckbuildingService.generateDeckSuggestions(
         user.id,
         format,
-        { playstyle: playstyle as any }
+        { playstyle: playstyle as any },
       );
 
     return {
@@ -112,7 +112,7 @@ export class AiDeckbuildingController {
   async getFormatMetaSnapshot(@Param("format") format: string) {
     const analysis = await this.aiDeckbuildingService.generateMetaAnalysis(
       "system", // Use system user for public meta data
-      format
+      format,
     );
 
     return {

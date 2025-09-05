@@ -367,7 +367,7 @@ The system provides built-in analytics:
 // Memory usage monitoring
 const stats = arena.getMemoryStats();
 console.log(
-  `Memory: ${stats.used}MB / ${stats.limit}MB (${stats.percentage}%)`
+  `Memory: ${stats.used}MB / ${stats.limit}MB (${stats.percentage}%)`,
 );
 
 // Performance tracking

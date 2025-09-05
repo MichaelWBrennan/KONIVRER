@@ -3,46 +3,46 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { BubbleMenu } from './components/BubbleMenu';
 
 const LazyCardSearch = lazy(() =>
-  import("./components/CardSearch").then((m) => ({ default: m.CardSearch }))
+  import("./components/CardSearch").then((m) => ({ default: m.CardSearch })),
 );
 const LazyDeckSearch = lazy(() =>
-  import("./components/DeckSearch").then((m) => ({ default: m.DeckSearch }))
+  import("./components/DeckSearch").then((m) => ({ default: m.DeckSearch })),
 );
 const LazyKonivrverSimulator = lazy(() =>
   import("./components/KonivrverSimulator").then((m) => ({
     default: m.KonivrverSimulator,
-  }))
+  })),
 );
 const LazyJudgePortal = lazy(() =>
-  import("./components/JudgePortal").then((m) => ({ default: m.JudgePortal }))
+  import("./components/JudgePortal").then((m) => ({ default: m.JudgePortal })),
 );
 const LazyNotificationCenter = lazy(
-  () => import("./components/NotificationCenter")
+  () => import("./components/NotificationCenter"),
 );
 // Deckbuilder is accessed from Decks page; keep import only where used directly
 
 const LazyAnalytics = lazy(() =>
-  import("./pages/Analytics").then((m) => ({ default: m.Analytics }))
+  import("./pages/Analytics").then((m) => ({ default: m.Analytics })),
 );
 const LazyEvents = lazy(() =>
-  import("./pages/Events").then((m) => ({ default: m.Events }))
+  import("./pages/Events").then((m) => ({ default: m.Events })),
 );
 const LazyTournamentHub = lazy(() =>
-  import("./pages/TournamentHub").then((m) => ({ default: m.TournamentHub }))
+  import("./pages/TournamentHub").then((m) => ({ default: m.TournamentHub })),
 );
 import { Home } from "./pages/Home";
 const LazyMyDecks = lazy(() =>
-  import("./pages/MyDecks").then((m) => ({ default: m.MyDecks }))
+  import("./pages/MyDecks").then((m) => ({ default: m.MyDecks })),
 );
 const LazyRules = lazy(() =>
-  import("./pages/Rules").then((m) => ({ default: m.Rules }))
+  import("./pages/Rules").then((m) => ({ default: m.Rules })),
 );
 const LazySettings = lazy(() =>
-  import("./pages/Settings").then((m) => ({ default: m.Settings }))
+  import("./pages/Settings").then((m) => ({ default: m.Settings })),
 );
 import { Offline } from "./pages/Offline";
 const LazyLore = lazy(() =>
-  import("./pages/Lore").then((m) => ({ default: m.Lore }))
+  import("./pages/Lore").then((m) => ({ default: m.Lore })),
 );
 import { useAppStore } from "./stores/appStore";
 import { useAuth } from "./hooks/useAuth";
@@ -60,7 +60,7 @@ const Devtools = import.meta.env.DEV
   ? lazy(() =>
       import("@tanstack/react-query-devtools").then((m) => ({
         default: m.ReactQueryDevtools,
-      }))
+      })),
     )
   : null;
 
@@ -97,7 +97,7 @@ function AppContent(): any {
   const { selectedCard, setSelectedCard, setSearchFilters } = useAppStore();
   const { canAccessJudgePortal, isAuthenticated } = useAuth();
   const [isOnline, setIsOnline] = useState<boolean>(
-    typeof navigator !== "undefined" ? navigator.onLine : true
+    typeof navigator !== "undefined" ? navigator.onLine : true,
   );
   const [loginOpen, setLoginOpen] = useState(false);
 

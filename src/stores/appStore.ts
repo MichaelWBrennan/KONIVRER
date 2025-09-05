@@ -69,7 +69,7 @@ export const useAppStore = create<AppState>()(
               searchFilters: { ...state.searchFilters, ...filters },
             }),
             false,
-            "setSearchFilters"
+            "setSearchFilters",
           ),
 
         setLoading: (loading) =>
@@ -89,10 +89,10 @@ export const useAppStore = create<AppState>()(
         partialize: (state) => ({
           searchFilters: state.searchFilters,
         }),
-      }
+      },
     ),
     {
       name: "konivrer-store",
-    }
-  )
+    },
+  ),
 );

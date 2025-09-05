@@ -83,15 +83,15 @@ const interval = setInterval(() => {
     console.log("\n📊 Security Scan Summary:");
     console.log(`  Total checks: ${securityChecks.length}`);
     console.log(
-      `  Passed: ${securityChecks.filter((c) => c.status === "passed").length}`
+      `  Passed: ${securityChecks.filter((c) => c.status === "passed").length}`,
     );
     console.log(
-      `  Failed: ${securityChecks.filter((c) => c.status === "failed").length}`
+      `  Failed: ${securityChecks.filter((c) => c.status === "failed").length}`,
     );
     console.log(
       `  Warnings: ${
         securityChecks.filter((c) => c.status === "warning").length
-      }`
+      }`,
     );
 
     console.log("\n✅ Security scan completed successfully!");

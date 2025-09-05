@@ -29,11 +29,11 @@ export class UpscalingController {
   async upscaleImage(
     @Query("imageUrl") imageUrl: string,
     @Query("level") level: "level1" | "level2" | "level3" = "level1",
-    @Res() res: Response
+    @Res() res: Response,
   ) {
     const imageBuffer = await this.upscalingService.upscaleImage(
       imageUrl,
-      level
+      level,
     );
     res.setHeader("Content-Type", "image/png");
     res.send(imageBuffer);

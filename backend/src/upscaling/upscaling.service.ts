@@ -27,7 +27,7 @@ export class UpscalingService {
 
   async upscaleImage(
     imageUrl: string,
-    level: "level1" | "level2" | "level3"
+    level: "level1" | "level2" | "level3",
   ): Promise<Buffer> {
     if (!imageUrl) {
       throw new BadRequestException("Image URL is required.");

@@ -150,7 +150,7 @@ const EventList: React.FC = () => {
             "Registration Successful!",
             `You've successfully registered for ${event.name}. You'll receive notifications about tournament updates.`,
             { eventName: event.name },
-            event.id
+            event.id,
           );
         } else {
           // Still show success even if notifications aren't enabled

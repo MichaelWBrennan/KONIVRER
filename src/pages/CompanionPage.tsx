@@ -6,7 +6,7 @@ export interface CompanionPageProps {
 
 export const CompanionPage: React.FC<CompanionPageProps> = () => {
   const [activeTab, setActiveTab] = useState<"events" | "create" | "history">(
-    "events"
+    "events",
   );
 
   // TODO: Implement actual user authentication and role management

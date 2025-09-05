@@ -36,7 +36,7 @@ export class RatingsController {
   })
   @ApiResponse({ status: 404, description: "Player rating not found" })
   async getPlayerRating(
-    @Param("userId", ParseUUIDPipe) userId: string
+    @Param("userId", ParseUUIDPipe) userId: string,
   ): Promise<RatingResponseDto> {
     return this.ratingsService.getPlayerRating(userId);
   }
@@ -51,7 +51,7 @@ export class RatingsController {
     UserRole.JUDGE_L1,
     UserRole.JUDGE_L2,
     UserRole.JUDGE_L3,
-    UserRole.ADMIN
+    UserRole.ADMIN,
   )
   async updateRatings(@Body() updateDto: UpdateRatingsDto): Promise<any> {
     return this.ratingsService.updateRatings(updateDto);

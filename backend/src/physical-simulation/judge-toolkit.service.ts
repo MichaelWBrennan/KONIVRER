@@ -138,11 +138,11 @@ export class JudgeToolkitService {
       tournamentLevel?: "regular" | "competitive" | "professional";
       intent?: "accidental" | "negligent" | "intentional";
       impact?: "none" | "minor" | "significant" | "severe";
-    }
+    },
   ): Promise<PenaltyCalculation> {
     const baseInfractions = this.getBaseInfractions();
     const matchingInfraction = baseInfractions.find((inf) =>
-      inf.name.toLowerCase().includes(infraction.toLowerCase())
+      inf.name.toLowerCase().includes(infraction.toLowerCase()),
     );
 
     if (!matchingInfraction) {
@@ -188,7 +188,7 @@ export class JudgeToolkitService {
    */
   async resolveRulesConflict(
     conflictDescription: string,
-    involvedRules: string[]
+    involvedRules: string[],
   ): Promise<{
     resolution: string;
     priority: string;
@@ -260,7 +260,7 @@ export class JudgeToolkitService {
     title: string,
     gameState: any,
     question: string,
-    tags: string[] = []
+    tags: string[] = [],
   ): Promise<JudgeScenario> {
     const scenarioId = `custom_${Date.now()}`;
 
@@ -751,7 +751,7 @@ export class JudgeToolkitService {
   private assessDifficulty(
     gameState: any,
     question: string,
-    tags: string[]
+    tags: string[],
   ): "beginner" | "intermediate" | "advanced" | "expert" {
     let complexityScore = 0;
 

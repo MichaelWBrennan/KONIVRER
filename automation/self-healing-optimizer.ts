@@ -300,7 +300,7 @@ class SelfHealingOptimizer {
 
   private calculateOverallHealth(
     allInOneMetrics: any,
-    enhancedMetrics: any
+    enhancedMetrics: any,
   ): number {
     const weights = {
       uptime: 0.2,
@@ -327,12 +327,12 @@ class SelfHealingOptimizer {
   }
 
   private getComponentStatus(
-    metrics: any
+    metrics: any,
   ): "healthy" | "degraded" | "critical" | "offline" {
     const avgScore =
       Object.values(metrics).reduce(
         (sum: number, val: number) => sum + val,
-        0
+        0,
       ) / Object.keys(metrics).length;
 
     if (avgScore >= 90) return "healthy";
@@ -345,7 +345,7 @@ class SelfHealingOptimizer {
     return (
       Object.values(metrics).reduce(
         (sum: number, val: number) => sum + val,
-        0
+        0,
       ) / Object.keys(metrics).length
     );
   }
@@ -366,13 +366,13 @@ class SelfHealingOptimizer {
     try {
       // Collect system performance metrics
       const { stdout: cpuInfo } = await execAsync(
-        "top -bn1 | grep \"Cpu(s)\" | awk '{print $2}' | awk -F'%' '{print $1}'"
+        "top -bn1 | grep \"Cpu(s)\" | awk '{print $2}' | awk -F'%' '{print $1}'",
       ).catch(() => ({ stdout: "0" }));
       const { stdout: memInfo } = await execAsync(
-        "free | grep Mem | awk '{printf \"%.2f\", $3/$2 * 100.0}'"
+        "free | grep Mem | awk '{printf \"%.2f\", $3/$2 * 100.0}'",
       ).catch(() => ({ stdout: "0" }));
       const { stdout: diskInfo } = await execAsync(
-        "df / | tail -1 | awk '{print $5}' | sed 's/%//'"
+        "df / | tail -1 | awk '{print $5}' | sed 's/%//'",
       ).catch(() => ({ stdout: "0" }));
 
       return {
@@ -563,13 +563,13 @@ class SelfHealingOptimizer {
   }
 
   private async queueOptimization(
-    optimization: OptimizationAction
+    optimization: OptimizationAction,
   ): Promise<void> {
     // Check if similar optimization already exists
     const exists = this.optimizationQueue.some(
       (opt) =>
         opt.type === optimization.type &&
-        opt.description === optimization.description
+        opt.description === optimization.description,
     );
 
     if (!exists) {
@@ -595,7 +595,7 @@ class SelfHealingOptimizer {
   }
 
   private async executeOptimization(
-    optimization: OptimizationAction
+    optimization: OptimizationAction,
   ): Promise<void> {
     console.log(`🔧 Executing optimization: ${optimization.description}`);
 
@@ -606,13 +606,13 @@ class SelfHealingOptimizer {
         console.log(`✅ Optimization completed: ${optimization.description}`);
       } else {
         console.log(
-          `⏸️ Optimization skipped due to risk/level: ${optimization.description}`
+          `⏸️ Optimization skipped due to risk/level: ${optimization.description}`,
         );
       }
     } catch (error) {
       console.error(
         `❌ Optimization failed: ${optimization.description}`,
-        error
+        error,
       );
 
       // Attempt rollback
@@ -622,7 +622,7 @@ class SelfHealingOptimizer {
       } catch (rollbackError) {
         console.error(
           `❌ Rollback failed for: ${optimization.description}`,
-          rollbackError
+          rollbackError,
         );
       }
     }
@@ -694,7 +694,7 @@ class SelfHealingOptimizer {
 
       // Clean logs
       await execAsync('find /var/log -name "*.log" -size +100M -delete').catch(
-        () => {}
+        () => {},
       );
 
       // Clean npm cache
@@ -729,7 +729,7 @@ class SelfHealingOptimizer {
 
     // Check component health
     for (const [component, health] of Object.entries(
-      this.systemHealth.components
+      this.systemHealth.components,
     )) {
       if (health.status === "critical" || health.status === "degraded") {
         issues.push({
@@ -879,7 +879,7 @@ class SelfHealingOptimizer {
           break;
         default:
           console.log(
-            `⚠️ Unknown preventive action: ${prediction.preventiveAction}`
+            `⚠️ Unknown preventive action: ${prediction.preventiveAction}`,
           );
       }
     } catch (error) {
@@ -1107,7 +1107,7 @@ class SelfHealingOptimizer {
     try {
       const baselinePath = path.join(
         process.cwd(),
-        "performance-baseline.json"
+        "performance-baseline.json",
       );
       await fs.writeFile(baselinePath, JSON.stringify(baseline, null, 2));
     } catch (error) {
