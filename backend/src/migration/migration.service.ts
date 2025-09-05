@@ -29,7 +29,7 @@ export class MigrationService {
    * Migrate legacy card data from the existing React frontend format
    */
   async migrateLegacyCards(
-    legacyCards: LegacyCard[]
+    legacyCards: LegacyCard[],
   ): Promise<{ success: number; errors: string[] }> {
     const errors: string[] = [];
     let successCount = 0;
@@ -43,7 +43,7 @@ export class MigrationService {
         errors.push(
           `Failed to migrate card "${legacyCard.name}": ${
             error instanceof Error ? error.message : String(error)
-          }`
+          }`,
         );
       }
     }
@@ -223,9 +223,9 @@ export class MigrationService {
           ? Math.floor(Math.random() * 8) + 1
           : undefined,
       description: `A powerful ${this.inferCardElement(
-        name
+        name,
       ).toLowerCase()} ${this.inferCardType(
-        name
+        name,
       ).toLowerCase()} from the KONIVRER Azoth TCG.`,
       imageUrl: `/assets/cards/${name}.png`,
       webpUrl: `/assets/cards/${name}.webp`,

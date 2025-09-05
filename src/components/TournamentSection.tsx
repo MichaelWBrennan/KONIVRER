@@ -11,7 +11,7 @@ interface Props {
 
 export const TournamentSection: React.FC<Props> = ({ userId }) => {
   const [profile, setProfile] = React.useState<TournamentProfileDto | null>(
-    null
+    null,
   );
   const [loading, setLoading] = React.useState(true);
 

@@ -51,7 +51,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       message = exception.message;
       this.logger.error(
         `Unexpected error: ${exception.message}`,
-        exception.stack
+        exception.stack,
       );
     }
 
@@ -73,7 +73,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         ip: request.ip,
         userId: (request as any).user?.id,
         provenance: (request as any).provenance,
-      })
+      }),
     );
 
     response.status(status).json(errorResponse);

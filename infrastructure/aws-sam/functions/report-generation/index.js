@@ -8,7 +8,7 @@ const quicksight = new AWS.QuickSight();
 exports.handler = async (event) => {
   console.log(
     "Report generation function triggered:",
-    JSON.stringify(event, null, 2)
+    JSON.stringify(event, null, 2),
   );
 
   try {
@@ -79,13 +79,13 @@ async function generateAnalyticsReport(reportType, params = {}) {
     case "weekly":
       startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
       title = `Weekly Analytics Report - ${formatDate(
-        startDate
+        startDate,
       )} to ${formatDate(endDate)}`;
       break;
     case "monthly":
       startDate = new Date(endDate.getTime() - 30 * 24 * 60 * 60 * 1000);
       title = `Monthly Analytics Report - ${formatDate(
-        startDate
+        startDate,
       )} to ${formatDate(endDate)}`;
       break;
     case "custom":
@@ -96,13 +96,13 @@ async function generateAnalyticsReport(reportType, params = {}) {
       title =
         params.title ||
         `Custom Analytics Report - ${formatDate(startDate)} to ${formatDate(
-          endDate
+          endDate,
         )}`;
       break;
     default:
       startDate = new Date(endDate.getTime() - 7 * 24 * 60 * 60 * 1000);
       title = `Analytics Report - ${formatDate(startDate)} to ${formatDate(
-        endDate
+        endDate,
       )}`;
   }
 
@@ -171,7 +171,7 @@ async function getUserMetrics(startDate, endDate) {
     return {
       newUsers: installs.length,
       uniqueUsers: new Set(
-        installs.map((item) => item.data.userId).filter(Boolean)
+        installs.map((item) => item.data.userId).filter(Boolean),
       ).size,
       platforms: countBy(installs, (item) => item.data.platform || "unknown"),
       sources: countBy(installs, (item) => item.data.source || "direct"),
@@ -262,7 +262,7 @@ async function getBillingMetrics(startDate, endDate) {
       .reduce((sum, item) => sum + (parseFloat(item.data.amount) || 0), 0);
 
     const failures = billingEvents.filter(
-      (item) => item.data.metadata.status === "failed"
+      (item) => item.data.metadata.status === "failed",
     ).length;
 
     return {
@@ -324,7 +324,7 @@ async function getAnomalies(startDate, endDate) {
 
     const result = await dynamodb.scan(params).promise();
     return result.Items.map((item) => item.data).sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
     );
   } catch (error) {
     console.error("Error getting anomalies:", error);
@@ -390,7 +390,7 @@ BILLING METRICS
 PERFORMANCE METRICS
 ===================
 • Average Response Time: ${report.data.performanceMetrics.avgResponseTime.toFixed(
-    0
+    0,
   )}ms
 • Error Rate: ${report.data.performanceMetrics.errorRate.toFixed(2)}%
 • Uptime: ${report.data.performanceMetrics.uptime.toFixed(2)}%
@@ -509,7 +509,7 @@ async function sendSlackNotification(report, s3Url) {
           {
             title: "Period",
             value: `${formatDate(new Date(report.startDate))} - ${formatDate(
-              new Date(report.endDate)
+              new Date(report.endDate),
             )}`,
             short: true,
           },
@@ -580,7 +580,7 @@ function getMostActiveHour(events) {
   return Object.keys(hourCounts).reduce(
     (maxHour, hour) =>
       hourCounts[hour] > (hourCounts[maxHour] || 0) ? hour : maxHour,
-    "12"
+    "12",
   );
 }
 
@@ -592,7 +592,7 @@ function getEventTrend(events, startDate, endDate) {
   events.forEach((event) => {
     const eventDate = new Date(event.timestamp || event.data.timestamp);
     const dayIndex = Math.floor(
-      (eventDate - startDate) / (24 * 60 * 60 * 1000)
+      (eventDate - startDate) / (24 * 60 * 60 * 1000),
     );
     if (dayIndex >= 0 && dayIndex < dayCount) {
       trend[dayIndex]++;
@@ -616,15 +616,15 @@ async function getSubscriptionMetrics(billingEvents) {
   const subscriptions = billingEvents.filter(
     (event) =>
       event.data.billingEventType &&
-      event.data.billingEventType.includes("subscription")
+      event.data.billingEventType.includes("subscription"),
   );
 
   return {
     newSubscriptions: subscriptions.filter(
-      (e) => e.data.billingEventType === "subscription_created"
+      (e) => e.data.billingEventType === "subscription_created",
     ).length,
     cancelledSubscriptions: subscriptions.filter(
-      (e) => e.data.billingEventType === "subscription_cancelled"
+      (e) => e.data.billingEventType === "subscription_cancelled",
     ).length,
     activeSubscriptions: Math.max(0, subscriptions.length * 0.8), // Estimate
   };
@@ -642,7 +642,7 @@ function generateSummary(userMetrics, eventMetrics, billingMetrics) {
       billingMetrics.successRate > 95 && userMetrics.growthRate > 0
         ? "Excellent"
         : billingMetrics.successRate > 90 && userMetrics.growthRate >= 0
-        ? "Good"
-        : "Needs Attention",
+          ? "Good"
+          : "Needs Attention",
   };
 }

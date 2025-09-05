@@ -49,7 +49,7 @@ export const useEventStore = create<EventState>()((set, get) => ({
     const { pairings, myPlayerId } = get();
     if (!myPlayerId) return;
     const mine = pairings.find(
-      (x: any) => x.playerA.id === myPlayerId || x.playerB.id === myPlayerId
+      (x: any) => x.playerA.id === myPlayerId || x.playerB.id === myPlayerId,
     );
     if (mine) set({ myTable: mine.tableNumber });
   },

@@ -47,12 +47,12 @@ export class TournamentsService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Deck)
     private readonly deckRepository: Repository<Deck>,
-    private readonly matchmakingService: MatchmakingService
+    private readonly matchmakingService: MatchmakingService,
   ) {}
 
   async create(
     createTournamentDto: CreateTournamentDto,
-    organizerId: string
+    organizerId: string,
   ): Promise<Tournament> {
     // Validate organizer has proper permissions
     const organizer = await this.userRepository.findOne({
@@ -66,14 +66,14 @@ export class TournamentsService {
       ![UserRole.TOURNAMENT_ORGANIZER, UserRole.ADMIN].includes(organizer.role)
     ) {
       throw new ForbiddenException(
-        "User does not have permission to organize tournaments"
+        "User does not have permission to organize tournaments",
       );
     }
 
     // Calculate total rounds based on tournament type and player count
     const totalRounds = this.calculateTotalRounds(
       createTournamentDto.type,
-      createTournamentDto.settings.maxPlayers
+      createTournamentDto.settings.maxPlayers,
     );
 
     const tournament = this.tournamentRepository.create({
@@ -89,7 +89,7 @@ export class TournamentsService {
 
   async findAll(
     filters: TournamentSearchFilters,
-    userId?: string
+    userId?: string,
   ): Promise<{
     tournaments: Tournament[];
     total: number;
@@ -122,7 +122,7 @@ export class TournamentsService {
     if (userId) {
       queryBuilder.andWhere(
         "(tournament.visibility = :public OR tournament.organizerId = :userId OR participants.id = :userId)",
-        { public: TournamentVisibility.PUBLIC, userId }
+        { public: TournamentVisibility.PUBLIC, userId },
       );
     } else {
       queryBuilder.andWhere("tournament.visibility = :public", {
@@ -172,7 +172,7 @@ export class TournamentsService {
     if (search) {
       queryBuilder.andWhere(
         "(tournament.name ILIKE :search OR tournament.description ILIKE :search)",
-        { search: `%${search}%` }
+        { search: `%${search}%` },
       );
     }
 
@@ -229,7 +229,7 @@ export class TournamentsService {
   async update(
     id: string,
     updateTournamentDto: UpdateTournamentDto,
-    userId: string
+    userId: string,
   ): Promise<Tournament> {
     const tournament = await this.tournamentRepository.findOne({
       where: { id },
@@ -241,7 +241,7 @@ export class TournamentsService {
 
     if (tournament.organizerId !== userId) {
       throw new ForbiddenException(
-        "Only the tournament organizer can update this tournament"
+        "Only the tournament organizer can update this tournament",
       );
     }
 
@@ -251,7 +251,7 @@ export class TournamentsService {
       updateTournamentDto.settings
     ) {
       throw new BadRequestException(
-        "Cannot modify settings while tournament is in progress"
+        "Cannot modify settings while tournament is in progress",
       );
     }
 
@@ -270,13 +270,13 @@ export class TournamentsService {
 
     if (tournament.organizerId !== userId) {
       throw new ForbiddenException(
-        "Only the tournament organizer can delete this tournament"
+        "Only the tournament organizer can delete this tournament",
       );
     }
 
     if (tournament.status === TournamentStatus.IN_PROGRESS) {
       throw new BadRequestException(
-        "Cannot delete tournament while in progress"
+        "Cannot delete tournament while in progress",
       );
     }
 
@@ -286,7 +286,7 @@ export class TournamentsService {
   async register(
     tournamentId: string,
     userId: string,
-    registerDto: RegisterForTournamentDto
+    registerDto: RegisterForTournamentDto,
   ): Promise<void> {
     const tournament = await this.tournamentRepository.findOne({
       where: { id: tournamentId },
@@ -299,7 +299,7 @@ export class TournamentsService {
 
     if (tournament.status !== TournamentStatus.REGISTRATION_OPEN) {
       throw new BadRequestException(
-        "Registration is not open for this tournament"
+        "Registration is not open for this tournament",
       );
     }
 
@@ -326,7 +326,7 @@ export class TournamentsService {
       // Validate deck format matches tournament
       if (deck.format.toString() !== tournament.format.toString()) {
         throw new BadRequestException(
-          `Deck format must be ${tournament.format}`
+          `Deck format must be ${tournament.format}`,
         );
       }
 
@@ -368,7 +368,7 @@ export class TournamentsService {
 
     if (tournament.status === TournamentStatus.IN_PROGRESS) {
       throw new BadRequestException(
-        "Cannot unregister while tournament is in progress. Use drop instead."
+        "Cannot unregister while tournament is in progress. Use drop instead.",
       );
     }
 
@@ -378,7 +378,7 @@ export class TournamentsService {
 
     // Remove user from participants
     tournament.participants = tournament.participants.filter(
-      (p) => p.id !== userId
+      (p) => p.id !== userId,
     );
     await this.tournamentRepository.save(tournament);
 
@@ -398,13 +398,13 @@ export class TournamentsService {
 
     if (tournament.organizerId !== userId) {
       throw new ForbiddenException(
-        "Only the tournament organizer can start this tournament"
+        "Only the tournament organizer can start this tournament",
       );
     }
 
     if (tournament.status !== TournamentStatus.REGISTRATION_CLOSED) {
       throw new BadRequestException(
-        "Tournament must be in registration closed state to start"
+        "Tournament must be in registration closed state to start",
       );
     }
 
@@ -413,7 +413,7 @@ export class TournamentsService {
       tournament.participants.length < tournament.settings.minPlayers
     ) {
       throw new BadRequestException(
-        `Need at least ${tournament.settings.minPlayers} players to start`
+        `Need at least ${tournament.settings.minPlayers} players to start`,
       );
     }
 
@@ -430,7 +430,7 @@ export class TournamentsService {
 
   async generatePairings(
     tournamentId: string,
-    round: number
+    round: number,
   ): Promise<TournamentMatch[]> {
     const tournament = await this.tournamentRepository.findOne({
       where: { id: tournamentId },
@@ -450,26 +450,26 @@ export class TournamentsService {
           tournamentId,
           round,
           participants,
-          tournament.standings || []
+          tournament.standings || [],
         );
         break;
       case TournamentType.SINGLE_ELIMINATION:
         pairings = await this.generateEliminationPairings(
           tournamentId,
           round,
-          participants
+          participants,
         );
         break;
       case TournamentType.ROUND_ROBIN:
         pairings = await this.generateRoundRobinPairings(
           tournamentId,
           round,
-          participants
+          participants,
         );
         break;
       default:
         throw new BadRequestException(
-          "Unsupported tournament type for pairing generation"
+          "Unsupported tournament type for pairing generation",
         );
     }
 
@@ -479,7 +479,7 @@ export class TournamentsService {
   async submitMatchResult(
     matchId: string,
     result: SubmitMatchResultDto,
-    userId: string
+    userId: string,
   ): Promise<TournamentMatch> {
     const match = await this.matchRepository.findOne({
       where: { id: matchId },
@@ -499,7 +499,7 @@ export class TournamentsService {
 
     if (!canSubmit) {
       throw new ForbiddenException(
-        "Not authorized to submit result for this match"
+        "Not authorized to submit result for this match",
       );
     }
 
@@ -536,8 +536,8 @@ export class TournamentsService {
               match.result === "player1"
                 ? 1
                 : match.result === "player2"
-                ? 2
-                : 1, // Ties both get rank 1
+                  ? 2
+                  : 1, // Ties both get rank 1
           },
           {
             playerId: match.player2Id,
@@ -545,8 +545,8 @@ export class TournamentsService {
               match.result === "player2"
                 ? 1
                 : match.result === "player1"
-                ? 2
-                : 1, // Ties both get rank 1
+                  ? 2
+                  : 1, // Ties both get rank 1
           },
         ];
 
@@ -581,7 +581,7 @@ export class TournamentsService {
 
   async getMatches(
     tournamentId: string,
-    round?: number
+    round?: number,
   ): Promise<TournamentMatch[]> {
     const where: any = { tournamentId };
     if (round) {
@@ -598,7 +598,7 @@ export class TournamentsService {
   async dropPlayer(
     tournamentId: string,
     playerId: string,
-    userId: string
+    userId: string,
   ): Promise<void> {
     const tournament = await this.tournamentRepository.findOne({
       where: { id: tournamentId },
@@ -671,7 +671,7 @@ export class TournamentsService {
 
   private calculateTotalRounds(
     type: TournamentType,
-    maxPlayers: number
+    maxPlayers: number,
   ): number {
     switch (type) {
       case TournamentType.SWISS:
@@ -692,7 +692,7 @@ export class TournamentsService {
     tournamentId: string,
     round: number,
     participants: User[],
-    standings: TournamentStanding[]
+    standings: TournamentStanding[],
   ): Promise<TournamentMatch[]> {
     // Get tournament to determine format
     const tournament = await this.tournamentRepository.findOne({
@@ -742,7 +742,7 @@ export class TournamentsService {
             notes: `Match Quality: ${pairing.quality.quality.toFixed(3)} (${
               pairing.quality.balanceCategory
             })`,
-          })
+          }),
         );
       }
 
@@ -754,18 +754,18 @@ export class TournamentsService {
             userId: p.id,
             rating: await this.matchmakingService.getPlayerRating(
               p.id,
-              tournament.format.toString()
+              tournament.format.toString(),
             ),
-          }))
+          })),
         );
 
         const pairedPlayerIds = new Set(
-          pairings.flatMap((p) => [p.player1Id, p.player2Id])
+          pairings.flatMap((p) => [p.player1Id, p.player2Id]),
         );
         const unpairedPlayer = playerRatings
           .filter((p) => !pairedPlayerIds.has(p.userId))
           .sort(
-            (a, b) => a.rating.conservativeRating - b.rating.conservativeRating
+            (a, b) => a.rating.conservativeRating - b.rating.conservativeRating,
           )[0];
 
         if (unpairedPlayer) {
@@ -779,7 +779,7 @@ export class TournamentsService {
               result: "bye",
               isComplete: true,
               notes: "Bye round",
-            })
+            }),
           );
         }
       }
@@ -788,7 +788,7 @@ export class TournamentsService {
     } catch (error) {
       console.warn(
         "Bayesian pairing failed, falling back to traditional Swiss:",
-        error
+        error,
       );
 
       // Fallback to traditional Swiss pairing
@@ -796,7 +796,7 @@ export class TournamentsService {
         tournamentId,
         round,
         participants,
-        standings
+        standings,
       );
     }
   }
@@ -805,7 +805,7 @@ export class TournamentsService {
     tournamentId: string,
     round: number,
     participants: User[],
-    standings: TournamentStanding[]
+    standings: TournamentStanding[],
   ): Promise<TournamentMatch[]> {
     // Sort players by standings for Swiss pairing
     const sortedPlayers = [...participants].sort((a, b) => {
@@ -845,7 +845,7 @@ export class TournamentsService {
             matchNumber: matchNumber++,
             player1Id: sortedPlayers[i].id,
             player2Id: opponent.id,
-          })
+          }),
         );
       } else {
         // Bye for odd number of players
@@ -858,7 +858,7 @@ export class TournamentsService {
             player2Id: null,
             result: "bye",
             isComplete: true,
-          })
+          }),
         );
       }
     }
@@ -869,7 +869,7 @@ export class TournamentsService {
   private async generateEliminationPairings(
     tournamentId: string,
     round: number,
-    participants: User[]
+    participants: User[],
   ): Promise<TournamentMatch[]> {
     // TODO: Implement elimination bracket logic
     return [];
@@ -878,7 +878,7 @@ export class TournamentsService {
   private async generateRoundRobinPairings(
     tournamentId: string,
     round: number,
-    participants: User[]
+    participants: User[],
   ): Promise<TournamentMatch[]> {
     // TODO: Implement round robin logic
     return [];
@@ -897,7 +897,8 @@ export class TournamentsService {
     for (const standing of standings) {
       const playerMatches = matches.filter(
         (m) =>
-          m.player1Id === standing.playerId || m.player2Id === standing.playerId
+          m.player1Id === standing.playerId ||
+          m.player2Id === standing.playerId,
       );
 
       let wins = 0,
@@ -971,7 +972,7 @@ export class TournamentsService {
 
   private async checkRoundComplete(
     tournamentId: string,
-    round: number
+    round: number,
   ): Promise<void> {
     const roundMatches = await this.matchRepository.find({
       where: { tournamentId, round },

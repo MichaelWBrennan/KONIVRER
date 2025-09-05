@@ -15,7 +15,7 @@ export class RatingsService {
     @InjectRepository(RatingHistory)
     private historyRepository: Repository<RatingHistory>,
     private bayesianService: BayesianMatchmakingService,
-    private eventEmitter: EventEmitter2
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async getPlayerRating(userId: string): Promise<RatingResponseDto> {

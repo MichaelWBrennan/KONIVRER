@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 async function main() {
   const LOG_FILE = "docker-continuous.log";
   log(
-    "🚀 Starting KONIVRER Continuous Automation Service (24/7/365) using Docker"
+    "🚀 Starting KONIVRER Continuous Automation Service (24/7/365) using Docker",
   );
 
   const hasDocker = await runShell("command -v docker")
@@ -21,21 +21,21 @@ async function main() {
     .catch(() => false);
   if (!hasCompose) {
     log(
-      "⚠️ Docker Compose is not installed. Please install Docker Compose first."
+      "⚠️ Docker Compose is not installed. Please install Docker Compose first.",
     );
     process.exit(1);
   }
 
   log("🔄 Stopping any existing containers...");
   await runShell(
-    "docker-compose -f docker-compose.continuous.yml down || true"
+    "docker-compose -f docker-compose.continuous.yml down || true",
   );
 
   log("🚀 Starting containers...");
   await runShell("docker-compose -f docker-compose.continuous.yml up -d");
 
   const isRunning = await runShell(
-    "bash -lc 'docker ps | grep -q konivrer-automation-24-7-365'"
+    "bash -lc 'docker ps | grep -q konivrer-automation-24-7-365'",
   )
     .then(() => true)
     .catch(() => false);
@@ -55,7 +55,7 @@ async function main() {
     const pwd = process.cwd();
     const cron = `*/1 * * * * docker ps | grep -q konivrer-automation-24-7-365 || (cd ${pwd} && docker-compose -f docker-compose.continuous.yml up -d)`;
     await runShell(
-      `bash -lc '(crontab -l 2>/dev/null | grep -v "konivrer-automation"; echo "${cron}") | crontab -'`
+      `bash -lc '(crontab -l 2>/dev/null | grep -v "konivrer-automation"; echo "${cron}") | crontab -'`,
     );
     log("✅ Cron job set up successfully");
   }

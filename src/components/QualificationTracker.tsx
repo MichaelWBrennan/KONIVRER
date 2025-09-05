@@ -12,7 +12,7 @@ export const QualificationTracker: React.FC<Props> = ({
 }) => {
   const percent = Math.min(
     100,
-    Math.round((currentPoints / targetPoints) * 100)
+    Math.round((currentPoints / targetPoints) * 100),
   );
   return (
     <Card className="border-0 bg-light mb-3">

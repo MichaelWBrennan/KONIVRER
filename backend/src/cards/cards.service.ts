@@ -20,7 +20,7 @@ export interface PaginatedResult<T> {
 export class CardsService {
   constructor(
     @InjectRepository(Card)
-    private cardsRepository: Repository<Card>
+    private cardsRepository: Repository<Card>,
   ) {}
 
   async create(createCardDto: CreateCardDto): Promise<Card> {
@@ -31,7 +31,7 @@ export class CardsService {
 
     if (existingCard) {
       throw new BadRequestException(
-        `Card with name "${createCardDto.name}" already exists`
+        `Card with name "${createCardDto.name}" already exists`,
       );
     }
 
@@ -63,7 +63,7 @@ export class CardsService {
           "LOWER(card.description) LIKE LOWER(:search) OR " +
           "LOWER(card.keywords) LIKE LOWER(:search) OR " +
           "LOWER(card.rawOcrText) LIKE LOWER(:search))",
-        { search: `%${search}%` }
+        { search: `%${search}%` },
       );
     }
 
@@ -153,7 +153,7 @@ export class CardsService {
 
       if (existingCard) {
         throw new BadRequestException(
-          `Card with name "${updateCardDto.name}" already exists`
+          `Card with name "${updateCardDto.name}" already exists`,
         );
       }
     }
@@ -179,7 +179,7 @@ export class CardsService {
         console.warn(
           `Failed to create card "${cardDto.name}": ${
             error instanceof Error ? error.message : String(error)
-          }`
+          }`,
         );
       }
     }
@@ -224,7 +224,7 @@ export class CardsService {
           .groupBy("card.cost")
           .orderBy("card.cost", "ASC")
           .getRawMany(),
-      ]
+      ],
     );
 
     return {

@@ -39,14 +39,14 @@ export class NotificationsService {
     private userRepository: Repository<User>,
     @InjectRepository(EventRegistration)
     private eventRegistrationRepository: Repository<EventRegistration>,
-    private eventEmitter: EventEmitter2
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async create(
-    createNotificationDto: CreateNotificationDto
+    createNotificationDto: CreateNotificationDto,
   ): Promise<Notification> {
     const notification = this.notificationRepository.create(
-      createNotificationDto
+      createNotificationDto,
     );
     const saved = await this.notificationRepository.save(notification);
 
@@ -103,7 +103,7 @@ export class NotificationsService {
 
   async updateStatus(
     id: string,
-    updateDto: UpdateNotificationStatusDto
+    updateDto: UpdateNotificationStatusDto,
   ): Promise<Notification> {
     await this.notificationRepository.update(id, {
       status: updateDto.status as NotificationStatus,
@@ -122,13 +122,13 @@ export class NotificationsService {
   async markAllAsRead(userId: string): Promise<void> {
     await this.notificationRepository.update(
       { userId, status: NotificationStatus.SENT },
-      { status: NotificationStatus.READ, readAt: new Date() }
+      { status: NotificationStatus.READ, readAt: new Date() },
     );
   }
 
   async getUserNotifications(
     userId: string,
-    unreadOnly: boolean = false
+    unreadOnly: boolean = false,
   ): Promise<Notification[]> {
     const query = this.notificationRepository
       .createQueryBuilder("notification")
@@ -151,7 +151,7 @@ export class NotificationsService {
 
     // Get verified registered and checked-in players for this specific event
     const registeredPlayers = await this.getEventParticipants(
-      eventData.eventId
+      eventData.eventId,
     );
 
     for (const playerId of registeredPlayers) {
@@ -161,7 +161,7 @@ export class NotificationsService {
           playerId,
           NotificationType.ROUND_START,
           eventData.eventId,
-          eventData.round
+          eventData.round,
         )
       ) {
         continue;
@@ -197,7 +197,7 @@ export class NotificationsService {
   @OnEvent("event.registration.accepted")
   async handleRegistrationAccepted(eventData: any) {
     this.logger.log(
-      `Registration accepted for user ${eventData.userId} in event ${eventData.eventId}`
+      `Registration accepted for user ${eventData.userId} in event ${eventData.eventId}`,
     );
 
     // Prevent duplicate registration notifications
@@ -205,7 +205,7 @@ export class NotificationsService {
       await this.hasPendingNotification(
         eventData.userId,
         NotificationType.REGISTRATION_ACCEPTED,
-        eventData.eventId
+        eventData.eventId,
       )
     ) {
       return;
@@ -249,7 +249,7 @@ export class NotificationsService {
           assignment.playerId,
           NotificationType.SEATING_ASSIGNMENT,
           eventData.eventId,
-          eventData.round
+          eventData.round,
         )
       ) {
         continue;
@@ -322,7 +322,7 @@ export class NotificationsService {
       } catch (error) {
         this.logger.error(
           `Failed to send notification ${notification.id}:`,
-          error
+          error,
         );
         await this.updateStatus(notification.id, {
           status: "failed",
@@ -335,7 +335,7 @@ export class NotificationsService {
   // Simulate sending push notification (in real implementation, would use service like Firebase)
   private async sendNotification(notification: Notification): Promise<void> {
     this.logger.log(
-      `Sending ${notification.channel} notification to user ${notification.userId}: ${notification.title}`
+      `Sending ${notification.channel} notification to user ${notification.userId}: ${notification.title}`,
     );
 
     // Emit real-time event for WebSocket delivery
@@ -402,7 +402,7 @@ export class NotificationsService {
     userId: string,
     type: NotificationType,
     eventId: string,
-    round?: number
+    round?: number,
   ): Promise<boolean> {
     const query = this.notificationRepository
       .createQueryBuilder("notification")
@@ -431,7 +431,7 @@ export class NotificationsService {
   async getUserEventNotifications(
     userId: string,
     eventId?: string,
-    unreadOnly: boolean = false
+    unreadOnly: boolean = false,
   ): Promise<Notification[]> {
     const query = this.notificationRepository
       .createQueryBuilder("notification")
@@ -453,17 +453,20 @@ export class NotificationsService {
 
   // Method to get notifications grouped by event
   async getUserNotificationsByEvent(
-    userId: string
+    userId: string,
   ): Promise<Record<string, Notification[]>> {
     const notifications = await this.getUserNotifications(userId);
 
-    return notifications.reduce((acc, notification) => {
-      const eventId = notification.eventId || "general";
-      if (!acc[eventId]) {
-        acc[eventId] = [];
-      }
-      acc[eventId].push(notification);
-      return acc;
-    }, {} as Record<string, Notification[]>);
+    return notifications.reduce(
+      (acc, notification) => {
+        const eventId = notification.eventId || "general";
+        if (!acc[eventId]) {
+          acc[eventId] = [];
+        }
+        acc[eventId].push(notification);
+        return acc;
+      },
+      {} as Record<string, Notification[]>,
+    );
   }
 }

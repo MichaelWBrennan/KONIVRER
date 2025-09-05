@@ -256,7 +256,7 @@ const EventManager: React.FC<EventManagerProps> = ({
         `Generated ${
           result.pairings.length
         } pairings with ${result.overallQuality.toFixed(2)} average quality`,
-        "success"
+        "success",
       );
 
       setShowGeneratePairings(false);
@@ -264,7 +264,7 @@ const EventManager: React.FC<EventManagerProps> = ({
     } catch (err) {
       showNotification(
         "Failed to generate pairings: " + (err as Error).message,
-        "error"
+        "error",
       );
     } finally {
       setGeneratingPairings(false);
@@ -280,7 +280,7 @@ const EventManager: React.FC<EventManagerProps> = ({
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },
-        }
+        },
       );
 
       if (!response.ok) throw new Error("Failed to publish pairings");
@@ -290,14 +290,14 @@ const EventManager: React.FC<EventManagerProps> = ({
     } catch (err) {
       showNotification(
         "Failed to publish pairings: " + (err as Error).message,
-        "error"
+        "error",
       );
     }
   };
 
   const showNotification = (
     message: string,
-    type: "success" | "error" | "info"
+    type: "success" | "error" | "info",
   ) => {
     // Implementation would depend on your notification system
     console.log(`${type.toUpperCase()}: ${message}`);
@@ -316,7 +316,7 @@ const EventManager: React.FC<EventManagerProps> = ({
     if (currentMatches.length === 0) return 0;
 
     const completed = currentMatches.filter(
-      (m) => m.status === "completed"
+      (m) => m.status === "completed",
     ).length;
     return (completed / currentMatches.length) * 100;
   };
@@ -392,7 +392,7 @@ const EventManager: React.FC<EventManagerProps> = ({
                   <div className="h6 mb-0">
                     {
                       getCurrentRoundMatches().filter(
-                        (m) => m.status === "completed"
+                        (m) => m.status === "completed",
                       ).length
                     }
                   </div>

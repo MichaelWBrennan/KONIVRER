@@ -55,7 +55,7 @@ class AutomationHealthChecker {
       } else {
         this.log(
           `Found ${audit.metadata.vulnerabilities.total} security vulnerabilities`,
-          "error"
+          "error",
         );
         this.results.failed++;
         this.results.issues.push({
@@ -186,7 +186,7 @@ class AutomationHealthChecker {
       try {
         const content = fs.readFileSync(
           path.join(workflowDir, workflow),
-          "utf8"
+          "utf8",
         );
 
         // Check for common issues
@@ -198,7 +198,7 @@ class AutomationHealthChecker {
         if (content.includes("npm audit fix --force")) {
           this.log(
             `Workflow ${workflow} uses aggressive audit fixes`,
-            "warning"
+            "warning",
           );
           this.results.warnings++;
         }
@@ -218,13 +218,13 @@ class AutomationHealthChecker {
     console.log("=".repeat(60));
 
     console.log(
-      `\n${colors.green}✅ Passed: ${this.results.passed}${colors.reset}`
+      `\n${colors.green}✅ Passed: ${this.results.passed}${colors.reset}`,
     );
     console.log(
-      `${colors.red}❌ Failed: ${this.results.failed}${colors.reset}`
+      `${colors.red}❌ Failed: ${this.results.failed}${colors.reset}`,
     );
     console.log(
-      `${colors.yellow}⚠️  Warnings: ${this.results.warnings}${colors.reset}`
+      `${colors.yellow}⚠️  Warnings: ${this.results.warnings}${colors.reset}`,
     );
 
     if (this.results.issues.length > 0) {
@@ -233,7 +233,7 @@ class AutomationHealthChecker {
         console.log(
           `\n${index + 1}. ${colors.yellow}${issue.type.toUpperCase()}${
             colors.reset
-          }`
+          }`,
         );
         console.log(`   Problem: ${issue.message}`);
         console.log(`   Fix: ${colors.blue}${issue.fix}${colors.reset}`);
@@ -247,20 +247,20 @@ class AutomationHealthChecker {
       total > 0 ? Math.round((this.results.passed / total) * 100) : 0;
 
     console.log(
-      `\n${colors.bold}📊 OVERALL HEALTH SCORE: ${score}%${colors.reset}`
+      `\n${colors.bold}📊 OVERALL HEALTH SCORE: ${score}%${colors.reset}`,
     );
 
     if (score >= 80) {
       console.log(
-        `${colors.green}🎉 Automation system is healthy!${colors.reset}`
+        `${colors.green}🎉 Automation system is healthy!${colors.reset}`,
       );
     } else if (score >= 60) {
       console.log(
-        `${colors.yellow}⚠️  Automation system needs attention${colors.reset}`
+        `${colors.yellow}⚠️  Automation system needs attention${colors.reset}`,
       );
     } else {
       console.log(
-        `${colors.red}🚨 Automation system requires immediate fixes${colors.reset}`
+        `${colors.red}🚨 Automation system requires immediate fixes${colors.reset}`,
       );
     }
 
@@ -269,7 +269,7 @@ class AutomationHealthChecker {
 
   async run() {
     console.log(
-      `${colors.bold}🤖 Starting KONIVRER Automation Health Check...${colors.reset}\n`
+      `${colors.bold}🤖 Starting KONIVRER Automation Health Check...${colors.reset}\n`,
     );
 
     await this.checkDependencies();

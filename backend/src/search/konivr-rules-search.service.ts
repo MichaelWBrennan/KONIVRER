@@ -41,7 +41,7 @@ export class KonivrRulesSearchService {
   async searchRules(
     query: string,
     filters?: SearchFilters,
-    limit: number = 10
+    limit: number = 10,
   ): Promise<SearchResult[]> {
     const searchTerms = this.parseQuery(query);
     const results: SearchResult[] = [];
@@ -390,7 +390,7 @@ export class KonivrRulesSearchService {
       // Element matches (special case)
       if (
         rule.elements.some(
-          (e) => e.includes(term) || e.toLowerCase().includes(term)
+          (e) => e.includes(term) || e.toLowerCase().includes(term),
         )
       ) {
         score += 7;
@@ -428,14 +428,14 @@ export class KonivrRulesSearchService {
 
     if (filters.keywords) {
       const hasMatchingKeyword = filters.keywords.some((k) =>
-        rule.keywords.some((rk) => rk.toLowerCase().includes(k.toLowerCase()))
+        rule.keywords.some((rk) => rk.toLowerCase().includes(k.toLowerCase())),
       );
       if (!hasMatchingKeyword) return false;
     }
 
     if (filters.elements) {
       const hasMatchingElement = filters.elements.some((e) =>
-        rule.elements.some((re) => re.includes(e))
+        rule.elements.some((re) => re.includes(e)),
       );
       if (!hasMatchingElement) return false;
     }
@@ -449,12 +449,12 @@ export class KonivrRulesSearchService {
     // Find keyword interactions
     if (rule.keywords.includes("brilliance")) {
       interactions.push(
-        "Interacts with Aether (⭘) costs and Life Cards placement"
+        "Interacts with Aether (⭘) costs and Life Cards placement",
       );
     }
     if (rule.keywords.includes("gust")) {
       interactions.push(
-        "Interacts with Air (🜁) costs and returns cards to hand"
+        "Interacts with Air (🜁) costs and returns cards to hand",
       );
     }
     if (rule.keywords.includes("amalgam")) {

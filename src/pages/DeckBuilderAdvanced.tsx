@@ -94,8 +94,8 @@ export const DeckBuilderAdvanced: React.FC = () => {
                     setSelectedDeck(updatedDeck);
                     setDecks(
                       decks.map((d) =>
-                        d.id === selectedDeck.id ? updatedDeck : d
-                      )
+                        d.id === selectedDeck.id ? updatedDeck : d,
+                      ),
                     );
                   }}
                   className={s.deckNameInput}

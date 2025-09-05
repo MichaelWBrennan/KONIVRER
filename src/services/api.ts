@@ -31,7 +31,7 @@ api.interceptors.response.use(
       // optional: route to login
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // Card API endpoints
@@ -60,7 +60,8 @@ export const cardApi = {
       [] =
       [] =
       [] =
-        [])
+      [] =
+        []),
   ) => api.post("/cards/bulk", data),
   getStatistics: () => api.get("/cards/statistics"),
 };

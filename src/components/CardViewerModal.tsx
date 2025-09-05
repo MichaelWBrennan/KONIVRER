@@ -30,8 +30,8 @@ export const CardViewerModal: React.FC<CardViewerModalProps> = ({
       // Fetch the upscaled image as a blob
       fetch(
         `/api/images/upscale?imageUrl=${encodeURIComponent(
-          imageUrlToUpscale
-        )}&level=level2`
+          imageUrlToUpscale,
+        )}&level=level2`,
       )
         .then((res) => {
           if (!res.ok) {

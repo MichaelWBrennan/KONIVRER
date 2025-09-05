@@ -24,7 +24,7 @@ export const AiDeckbuildingAssistant: React.FC<
   // Type-safe filter function
   const filterCompatibleCards = (cards: Card[]) => {
     return cards.filter(
-      (c: Card) => c.type && (c.manaCost ?? c.azothCost ?? 0) <= 10
+      (c: Card) => c.type && (c.manaCost ?? c.azothCost ?? 0) <= 10,
     );
   };
 
@@ -92,7 +92,7 @@ export const AiDeckbuildingAssistant: React.FC<
             Build Deck (
             {
               suggestions.filter(
-                (card: Card, index: number) => card.name && index < 30
+                (card: Card, index: number) => card.name && index < 30,
               ).length
             }{" "}
             cards)

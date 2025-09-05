@@ -43,12 +43,12 @@ export class GameService {
     @InjectRepository(Deck)
     private readonly deckRepository: Repository<Deck>,
     @InjectRepository(Card)
-    private readonly cardRepository: Repository<Card>
+    private readonly cardRepository: Repository<Card>,
   ) {}
 
   async createGame(
     createGameDto: CreateGameDto,
-    player1Id: string
+    player1Id: string,
   ): Promise<Game> {
     // Validate player 1 deck
     const player1Deck = await this.deckRepository.findOne({
@@ -86,14 +86,14 @@ export class GameService {
       zones: {
         [player1Id]: {
           deck: this.shuffleDeck(
-            player1Deck.mainboard.map((c) => c.cardId)
+            player1Deck.mainboard.map((c) => c.cardId),
           ).slice(4), // Remove 4 life cards
           hand: [],
           field: [],
           combatRow: [],
           azothRow: [],
           lifeCards: this.shuffleDeck(
-            player1Deck.mainboard.map((c) => c.cardId)
+            player1Deck.mainboard.map((c) => c.cardId),
           ).slice(0, 4), // First 4 as life cards
           flag: player1Deck.commanderId || "", // Flag card (deck identity)
           removedFromPlay: [],
@@ -102,14 +102,14 @@ export class GameService {
           ? {
               [createGameDto.player2Id]: {
                 deck: this.shuffleDeck(
-                  player2Deck.mainboard.map((c) => c.cardId)
+                  player2Deck.mainboard.map((c) => c.cardId),
                 ).slice(4),
                 hand: [],
                 field: [],
                 combatRow: [],
                 azothRow: [],
                 lifeCards: this.shuffleDeck(
-                  player2Deck.mainboard.map((c) => c.cardId)
+                  player2Deck.mainboard.map((c) => c.cardId),
                 ).slice(0, 4),
                 flag: player2Deck.commanderId || "",
                 removedFromPlay: [],
@@ -185,7 +185,7 @@ export class GameService {
   async joinGame(
     gameId: string,
     userId: string,
-    joinDto: JoinGameDto
+    joinDto: JoinGameDto,
   ): Promise<Game> {
     const game = await this.gameRepository.findOne({ where: { id: gameId } });
 
@@ -228,7 +228,7 @@ export class GameService {
       azothRow: [],
       lifeCards: this.shuffleDeck(deck.mainboard.map((c) => c.cardId)).slice(
         0,
-        4
+        4,
       ),
       flag: deck.commanderId || "",
       removedFromPlay: [],
@@ -259,7 +259,7 @@ export class GameService {
 
   async findAll(
     filters: GameSearchFilters,
-    userId?: string
+    userId?: string,
   ): Promise<{ games: Game[]; total: number; page: number; limit: number }> {
     const {
       page = 1,
@@ -290,7 +290,7 @@ export class GameService {
     if (playerId) {
       queryBuilder.andWhere(
         "(game.player1Id = :playerId OR game.player2Id = :playerId)",
-        { playerId }
+        { playerId },
       );
     }
 
@@ -343,7 +343,7 @@ export class GameService {
   async performAction(
     gameId: string,
     userId: string,
-    actionDto: GameActionDto
+    actionDto: GameActionDto,
   ): Promise<Game> {
     const game = await this.gameRepository.findOne({ where: { id: gameId } });
 
@@ -372,7 +372,7 @@ export class GameService {
     const updatedGameState = await this.processGameAction(
       game,
       userId,
-      actionDto
+      actionDto,
     );
     game.gameState = updatedGameState;
 
@@ -393,7 +393,7 @@ export class GameService {
   async submitMulliganDecision(
     gameId: string,
     userId: string,
-    decision: MulliganDecisionDto
+    decision: MulliganDecisionDto,
   ): Promise<Game> {
     const game = await this.gameRepository.findOne({ where: { id: gameId } });
 
@@ -604,14 +604,14 @@ export class GameService {
       playerId,
       "start_turn",
       {},
-      `${playerId} starts turn ${game.gameState.currentTurn}`
+      `${playerId} starts turn ${game.gameState.currentTurn}`,
     );
   }
 
   private async processGameAction(
     game: Game,
     playerId: string,
-    action: GameActionDto
+    action: GameActionDto,
   ): Promise<GameState> {
     const newState = { ...game.gameState };
 
@@ -634,7 +634,7 @@ export class GameService {
   private processPlayCard(
     gameState: GameState,
     playerId: string,
-    action: GameActionDto
+    action: GameActionDto,
   ): GameState {
     // TODO: Implement card playing logic
     // - Validate card is in hand
@@ -648,14 +648,14 @@ export class GameService {
       playerId,
       "play_card",
       action.data,
-      `Played ${action.cardId}`
+      `Played ${action.cardId}`,
     );
     return gameState;
   }
 
   private processPassPriority(
     gameState: GameState,
-    playerId: string
+    playerId: string,
   ): GameState {
     // TODO: Implement priority passing logic
     // - Pass priority to next player
@@ -667,7 +667,7 @@ export class GameService {
       playerId,
       "pass_priority",
       {},
-      "Passed priority"
+      "Passed priority",
     );
     return gameState;
   }
@@ -675,7 +675,7 @@ export class GameService {
   private processActivateAbility(
     gameState: GameState,
     playerId: string,
-    action: GameActionDto
+    action: GameActionDto,
   ): GameState {
     // TODO: Implement ability activation
     this.addGameActionToState(
@@ -683,7 +683,7 @@ export class GameService {
       playerId,
       "activate_ability",
       action.data,
-      "Activated ability"
+      "Activated ability",
     );
     return gameState;
   }
@@ -691,7 +691,7 @@ export class GameService {
   private processDeclareAttackers(
     gameState: GameState,
     playerId: string,
-    action: GameActionDto
+    action: GameActionDto,
   ): GameState {
     // TODO: Implement attacker declaration
     this.addGameActionToState(
@@ -699,7 +699,7 @@ export class GameService {
       playerId,
       "declare_attackers",
       action.data,
-      "Declared attackers"
+      "Declared attackers",
     );
     return gameState;
   }
@@ -707,7 +707,7 @@ export class GameService {
   private processDeclareBlockers(
     gameState: GameState,
     playerId: string,
-    action: GameActionDto
+    action: GameActionDto,
   ): GameState {
     // TODO: Implement blocker declaration
     this.addGameActionToState(
@@ -715,14 +715,14 @@ export class GameService {
       playerId,
       "declare_blockers",
       action.data,
-      "Declared blockers"
+      "Declared blockers",
     );
     return gameState;
   }
 
   private canPerformActionOutOfTurn(
     actionType: string,
-    gameState: GameState
+    gameState: GameState,
   ): boolean {
     // Certain actions like instant spells or abilities can be performed at any time
     const instantActions = [
@@ -734,11 +734,11 @@ export class GameService {
   }
 
   private checkWinConditions(
-    game: Game
+    game: Game,
   ): { playerId: string; condition: string } | null {
     // Check various win conditions
     for (const [playerId, playerState] of Object.entries(
-      game.gameState.players
+      game.gameState.players,
     )) {
       // KONIVRER: Life Cards instead of life total
       if (playerState.lifeCardsRemaining <= 0) {
@@ -764,7 +764,7 @@ export class GameService {
     playerId: string,
     type: string,
     data: any,
-    description: string
+    description: string,
   ): void {
     const action: GameAction = {
       id: `action_${Date.now()}_${Math.random()}`,
@@ -783,7 +783,7 @@ export class GameService {
     playerId: string,
     type: string,
     data: any,
-    description: string
+    description: string,
   ): void {
     const action: GameAction = {
       id: `action_${Date.now()}_${Math.random()}`,

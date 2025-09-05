@@ -34,8 +34,8 @@ export const TournamentHub: React.FC = () => {
       tab === "archive"
         ? "event-archive"
         : tab === "standings"
-        ? "event-standings"
-        : "events";
+          ? "event-standings"
+          : "events";
     window.dispatchEvent(new CustomEvent("search-context", { detail: ctx }));
   }, [tab]);
 
@@ -45,19 +45,19 @@ export const TournamentHub: React.FC = () => {
         setLoading(true);
         const data = await EventService.fetchPairings(
           currentEventId || "demo",
-          roundNumber || 1
+          roundNumber || 1,
         );
         setPairings(data);
         setMyTableFromPairings();
         const mine = data.find(
-          (d) => d.tableNumber === (useEventStore.getState().myTable || 0)
+          (d) => d.tableNumber === (useEventStore.getState().myTable || 0),
         );
         if (mine) {
           NotificationService.getInstance().sendSeatingAssignmentNotification(
             mine.tableNumber,
             mine.playerA.name,
             currentEventId || "demo",
-            roundNumber || 1
+            roundNumber || 1,
           );
         }
       } catch (e) {
@@ -82,7 +82,7 @@ export const TournamentHub: React.FC = () => {
       (p) =>
         `${p.tableNumber}`.includes(q) ||
         p.playerA.name.toLowerCase().includes(q) ||
-        p.playerB.name.toLowerCase().includes(q)
+        p.playerB.name.toLowerCase().includes(q),
     );
   }, [pairings, query]);
 
@@ -111,16 +111,16 @@ export const TournamentHub: React.FC = () => {
       { name: "City Championship - June", date: "2025-06-12", players: 128 },
       { name: "Regional Open - May", date: "2025-05-03", players: 256 },
     ],
-    []
+    [],
   );
   const archivedFiltered = useMemo(
     () =>
       archived.filter(
         (a) =>
           a.name.toLowerCase().includes(query.toLowerCase()) ||
-          a.date.includes(query)
+          a.date.includes(query),
       ),
-    [archived, query]
+    [archived, query],
   );
 
   return (
@@ -244,7 +244,7 @@ const Standings: React.FC<{ query: string }> = ({ query }) => {
   const list = demo.filter(
     (r) =>
       r.player.toLowerCase().includes(query.toLowerCase()) ||
-      String(r.rank) === query.trim()
+      String(r.rank) === query.trim(),
   );
   return (
     <div>

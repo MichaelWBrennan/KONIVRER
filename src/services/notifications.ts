@@ -40,7 +40,7 @@ interface NotificationState {
 
   // Actions
   addNotification: (
-    notification: Omit<PushNotification, "id" | "timestamp" | "read">
+    notification: Omit<PushNotification, "id" | "timestamp" | "read">,
   ) => void;
   markAsRead: (id: string) => void;
   markAllAsRead: () => void;
@@ -90,12 +90,12 @@ export const useNotificationStore = create<NotificationState>()(
       markAsRead: (id) => {
         set((state) => ({
           notifications: state.notifications.map((n) =>
-            n.id === id ? { ...n, read: true } : n
+            n.id === id ? { ...n, read: true } : n,
           ),
           unreadCount: Math.max(
             0,
             state.unreadCount -
-              (state.notifications.find((n) => n.id === id && !n.read) ? 1 : 0)
+              (state.notifications.find((n) => n.id === id && !n.read) ? 1 : 0),
           ),
         }));
       },
@@ -110,13 +110,13 @@ export const useNotificationStore = create<NotificationState>()(
       markEventAsRead: (eventId) => {
         set((state) => {
           const eventNotifications = state.notifications.filter(
-            (n) => n.eventId === eventId && !n.read
+            (n) => n.eventId === eventId && !n.read,
           );
           const unreadReduction = eventNotifications.length;
 
           return {
             notifications: state.notifications.map((n) =>
-              n.eventId === eventId ? { ...n, read: true } : n
+              n.eventId === eventId ? { ...n, read: true } : n,
             ),
             unreadCount: Math.max(0, state.unreadCount - unreadReduction),
           };
@@ -139,15 +139,15 @@ export const useNotificationStore = create<NotificationState>()(
       clearEvent: (eventId) => {
         set((state) => {
           const eventNotifications = state.notifications.filter(
-            (n) => n.eventId === eventId
+            (n) => n.eventId === eventId,
           );
           const unreadReduction = eventNotifications.filter(
-            (n) => !n.read
+            (n) => !n.read,
           ).length;
 
           return {
             notifications: state.notifications.filter(
-              (n) => n.eventId !== eventId
+              (n) => n.eventId !== eventId,
             ),
             unreadCount: Math.max(0, state.unreadCount - unreadReduction),
           };
@@ -248,7 +248,7 @@ export const useNotificationStore = create<NotificationState>()(
             .length;
         }
         return state.notifications.filter(
-          (n) => n.eventId === eventId && !n.read
+          (n) => n.eventId === eventId && !n.read,
         ).length;
       },
     }),
@@ -259,8 +259,8 @@ export const useNotificationStore = create<NotificationState>()(
         unreadCount: state.unreadCount,
         isPermissionGranted: state.isPermissionGranted,
       }),
-    }
-  )
+    },
+  ),
 );
 
 // Notification service for managing push notifications
@@ -282,7 +282,7 @@ export class NotificationService {
     if (store.isSupported && Notification.permission === "default") {
       // Don't automatically request permission, let user trigger it
       console.log(
-        "Notification permission not granted. User can enable in settings."
+        "Notification permission not granted. User can enable in settings.",
       );
     }
   }
@@ -297,7 +297,7 @@ export class NotificationService {
     title: string,
     message: string,
     data?: any,
-    eventId?: string
+    eventId?: string,
   ): void {
     const store = useNotificationStore.getState();
     store.addNotification({
@@ -313,28 +313,28 @@ export class NotificationService {
   public sendRoundStartNotification(
     eventName: string,
     round: number,
-    eventId: string
+    eventId: string,
   ): void {
     this.sendNotification(
       "round_start",
       "Round Started",
       `Round ${round} has started for ${eventName}`,
       { round },
-      eventId
+      eventId,
     );
   }
 
   public sendRegistrationAcceptedNotification(
     eventName: string,
     eventId: string,
-    startTime?: Date
+    startTime?: Date,
   ): void {
     this.sendNotification(
       "registration_accepted",
       "Registration Accepted",
       `Your registration for ${eventName} has been accepted!`,
       { startTime },
-      eventId
+      eventId,
     );
   }
 
@@ -342,14 +342,14 @@ export class NotificationService {
     table: number,
     opponentName: string,
     eventId: string,
-    round: number
+    round: number,
   ): void {
     this.sendNotification(
       "seating_assignment",
       "Seating Assignment",
       `Table ${table}: You're paired against ${opponentName}`,
       { table, opponentName, round },
-      eventId
+      eventId,
     );
   }
 
@@ -361,7 +361,7 @@ export class NotificationService {
         data.title,
         data.message,
         data.data,
-        data.eventId
+        data.eventId,
       );
     });
 
@@ -377,7 +377,7 @@ export class NotificationService {
           eventFormat: data.format,
           venue: data.venue,
         },
-        data.eventId
+        data.eventId,
       );
     });
 
@@ -392,17 +392,17 @@ export class NotificationService {
           startTime: data.startTime,
           venue: data.venue,
         },
-        data.eventId
+        data.eventId,
       );
     });
 
     socket.on("event.seating.assigned", (data: any) => {
       // This will be called for each player, so check if it's for current user
       const currentUser = JSON.parse(
-        localStorage.getItem("currentUser") || "{}"
+        localStorage.getItem("currentUser") || "{}",
       );
       const assignment = data.assignments?.find(
-        (a: any) => a.playerId === currentUser.id
+        (a: any) => a.playerId === currentUser.id,
       );
 
       if (assignment) {
@@ -419,7 +419,7 @@ export class NotificationService {
             eventFormat: data.format,
             estimatedStartTime: assignment.estimatedStartTime,
           },
-          data.eventId
+          data.eventId,
         );
       }
     });
@@ -431,7 +431,7 @@ export class NotificationService {
     title: string,
     message: string,
     data?: any,
-    eventId?: string
+    eventId?: string,
   ): void {
     // Check if user is actually registered for this event
     if (eventId && !this.isUserRegisteredForEvent(eventId)) {
@@ -459,7 +459,7 @@ export class NotificationService {
   // Check for duplicate notifications in the last few minutes
   private hasDuplicateNotification(
     type: PushNotification["type"],
-    eventId?: string
+    eventId?: string,
   ): boolean {
     const store = useNotificationStore.getState();
     const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
@@ -469,7 +469,7 @@ export class NotificationService {
         notification.type === type &&
         notification.eventId === eventId &&
         notification.timestamp > fiveMinutesAgo &&
-        !notification.read
+        !notification.read,
     );
   }
 
