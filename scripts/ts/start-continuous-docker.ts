@@ -28,11 +28,13 @@ async function main() {
 
   log("🔄 Stopping any existing containers...");
   await runShell(
-    "docker-compose -f docker-compose.continuous.yml down || true",
+    "docker-compose -f docker-compose.yml rm -sf konivrer-automation automation-monitor || true",
   );
 
   log("🚀 Starting containers...");
-  await runShell("docker-compose -f docker-compose.continuous.yml up -d");
+  await runShell(
+    "docker-compose -f docker-compose.yml up -d konivrer-automation automation-monitor",
+  );
 
   const isRunning = await runShell(
     "bash -lc 'docker ps | grep -q konivrer-automation-24-7-365'",
@@ -53,7 +55,7 @@ async function main() {
   if (hasCrontab) {
     log("🔄 Setting up cron job to ensure container is always running...");
     const pwd = process.cwd();
-    const cron = `*/1 * * * * docker ps | grep -q konivrer-automation-24-7-365 || (cd ${pwd} && docker-compose -f docker-compose.continuous.yml up -d)`;
+    const cron = `*/1 * * * * docker ps | grep -q konivrer-automation-24-7-365 || (cd ${pwd} && docker-compose -f docker-compose.yml up -d konivrer-automation automation-monitor)`;
     await runShell(
       `bash -lc '(crontab -l 2>/dev/null | grep -v "konivrer-automation"; echo "${cron}") | crontab -'`,
     );
