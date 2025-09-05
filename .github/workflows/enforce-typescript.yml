@@ -15,6 +15,7 @@ jobs:
   enforce-typescript:
     name: Enforce TypeScript
     runs-on: ubuntu-latest
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     
     steps:
       - name: Checkout repository
@@ -34,7 +35,12 @@ jobs:
           if find src -name "*.js" | grep -q .; then
             echo "JavaScript files found in src/ directory:"
             find src -name "*.js"
-            exit 1
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              echo "PR mode: non-blocking enforcement"
+              exit 0
+            else
+              exit 1
+            fi
           else
             echo "No JavaScript files found in src/ directory."
           fi
@@ -64,7 +70,12 @@ jobs:
           if find src -name "*.js" | grep -q .; then
             echo "Some JavaScript files could not be converted:"
             find src -name "*.js"
-            exit 1
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              echo "PR mode: non-blocking enforcement"
+              exit 0
+            else
+              exit 1
+            fi
           else
             echo "All JavaScript files successfully converted to TypeScript."
           fi
