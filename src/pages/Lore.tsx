@@ -1129,8 +1129,12 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}><strong>Ideology:</strong> {ideology}</p>
-                <p className={s.virtueText}><strong>Faction:</strong> {faction.name}</p>
+                <p className={s.virtueText}>
+                  <strong>Ideology:</strong> {ideology}
+                </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
                 <p className={s.virtueText}>{ideologyParagraph}</p>
                 <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
@@ -1166,8 +1170,12 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}><strong>Ideology:</strong> {ideology}</p>
-                <p className={s.virtueText}><strong>Faction:</strong> {faction.name}</p>
+                <p className={s.virtueText}>
+                  <strong>Ideology:</strong> {ideology}
+                </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
                 <p className={s.virtueText}>{ideologyParagraph}</p>
                 <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
@@ -1203,8 +1211,12 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}><strong>Ideology:</strong> {ideology}</p>
-                <p className={s.virtueText}><strong>Faction:</strong> {faction.name}</p>
+                <p className={s.virtueText}>
+                  <strong>Ideology:</strong> {ideology}
+                </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
                 <p className={s.virtueText}>{ideologyParagraph}</p>
                 <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
@@ -1240,8 +1252,12 @@ export const Lore: React.FC = () => {
                   }}
                 />
                 <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}><strong>Ideology:</strong> {ideology}</p>
-                <p className={s.virtueText}><strong>Faction:</strong> {faction.name}</p>
+                <p className={s.virtueText}>
+                  <strong>Ideology:</strong> {ideology}
+                </p>
+                <p className={s.virtueText}>
+                  <strong>Faction:</strong> {faction.name}
+                </p>
                 <p className={s.virtueText}>{ideologyParagraph}</p>
                 <p className={s.virtueText}>{factionParagraph}</p>
                 {renderTraitRows(combo)}
