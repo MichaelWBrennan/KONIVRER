@@ -268,3 +268,14 @@ export const watermark = style({
   filter: "grayscale(100%) contrast(120%)",
   mixBlendMode: "multiply",
 });
+
+// Inline emblem/logo shown next to ideology text
+export const emblemInline = style({
+  display: "inline-block",
+  width: "18px",
+  height: "18px",
+  marginLeft: "6px",
+  verticalAlign: "text-bottom",
+  filter: "grayscale(100%) contrast(120%)",
+  opacity: 0.9,
+});
