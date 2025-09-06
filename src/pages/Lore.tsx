@@ -775,8 +775,6 @@ export const Lore: React.FC = () => {
     );
   }
 
-  
-
   // New: split narrative into two explicit paragraphs for standardized layout
   function buildIdeologyParagraph(
     combo: ElementDefinition[],
