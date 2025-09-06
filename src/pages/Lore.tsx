@@ -775,29 +775,6 @@ export const Lore: React.FC = () => {
     );
   }
 
-  function buildNarrativeParagraph(
-    combo: ElementDefinition[],
-    ideologyTitle: string,
-    faction: FactionEntry,
-  ): string {
-    const traits = collectTraits(combo);
-    const gerunds = traits.map(toGerund);
-    const themes = combo.map((e) => summarize(e.definition).toLowerCase());
-    const mechanism = joinOxford(gerunds.slice(0, 5));
-    const joinedThemes = joinOxford(themes);
-    const first = `${ideologyTitle} emerges from ${mechanism}, turning ${joinedThemes} into coordinated practice.`;
-    const second = `Historically, ${faction.name} ${getFactionBlurb(
-      faction.name,
-    )}`;
-    const bridge =
-      gerunds.length >= 2
-        ? `Together these patterns embody ${ideologyTitle.toLowerCase()} by aligning ${
-            gerunds[0]
-          } with ${gerunds[1]} to deliver accountable results.`
-        : `Together these patterns embody ${ideologyTitle.toLowerCase()} in concrete, accountable work.`;
-    return `${first} ${second} ${bridge}`;
-  }
-
   // New: split narrative into two explicit paragraphs for standardized layout
   function buildIdeologyParagraph(
     combo: ElementDefinition[],
