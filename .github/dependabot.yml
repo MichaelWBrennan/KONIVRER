@@ -1,3 +1,122 @@
+version: 2
+updates:
+  # Root npm
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  # Backend npm
+  - package-ecosystem: npm
+    directory: "/backend"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  # Lambda npm functions
+  - package-ecosystem: npm
+    directory: "/infrastructure/aws-sam/functions/anomaly-detection"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: npm
+    directory: "/infrastructure/aws-sam/functions/billing-tracking"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: npm
+    directory: "/infrastructure/aws-sam/functions/install-tracking"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: npm
+    directory: "/infrastructure/aws-sam/functions/merge-tracking"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: npm
+    directory: "/infrastructure/aws-sam/functions/onboarding-tracking"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+  - package-ecosystem: npm
+    directory: "/infrastructure/aws-sam/functions/report-generation"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+    groups:
+      all-minor-patch:
+        applies-to: version-updates
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Dockerfiles
+  - package-ecosystem: docker
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+  - package-ecosystem: docker
+    directory: "/backend"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+
+  # Terraform
+  - package-ecosystem: terraform
+    directory: "/infrastructure/terraform"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
+
+  # GitHub Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+    open-pull-requests-limit: 1
 
 version: 2
 updates:
