@@ -2,6 +2,10 @@
 
 Minimal, fast, and focused. Everything you need to run and build the game and related tooling—nothing more.
 
+## Maintainer
+
+This project is solely maintained by Michael Brennan. All contributions are attributed accordingly.
+
 ## Quick Start
 
 ```bash
