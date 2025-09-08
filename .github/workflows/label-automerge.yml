@@ -1,0 +1,44 @@
+name: Label-based Auto Merge
+
+on:
+  pull_request_target:
+    types: [labeled, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+
+jobs:
+  label-automerge:
+    name: Auto-merge when labeled and green
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'automerge') || contains(github.event.pull_request.labels.*.name, 'merge-when-green')
+
+    steps:
+      - name: Wait for status checks
+        id: wait-for-checks
+        uses: lewagon/wait-on-check-action@v1.3.4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 20
+          running-timeout-minutes: 30
+          allowed-conclusions: success,skipped
+          check-regexp: '(build|test|lint|ci|security).*'
+
+      - name: Enable auto-merge (squash)
+        if: steps.wait-for-checks.outputs.conclusion == 'success'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
+
+      - name: Comment when checks failed
+        if: steps.wait-for-checks.outputs.conclusion != 'success'
+        run: |
+          gh pr comment "${{ github.event.pull_request.number }}" --body "❌ Status checks did not pass. Auto-merge is paused until checks succeed."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

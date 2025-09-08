@@ -1,0 +1,36 @@
+
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "MichaelWBrennan"
+    assignees:
+      - "MichaelWBrennan"
+    commit-message:
+      prefix: "🔄"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    allow:
+      - dependency-type: "all"
+    # Major updates will be auto-merged if tests pass
+    # Remove ignore block to enable major version auto-merge
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    commit-message:
+      prefix: "🔄"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "automated"

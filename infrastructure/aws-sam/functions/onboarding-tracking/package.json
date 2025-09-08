@@ -1,0 +1,9 @@
+{
+  "name": "onboarding-tracking",
+  "version": "1.0.0",
+  "description": "Lambda function to track user onboarding progress and milestones",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.1490.0"
+  }
+}

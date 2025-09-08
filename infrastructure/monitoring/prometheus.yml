@@ -1,0 +1,246 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'konivrer-production'
+    environment: 'production'
+
+rule_files:
+  - "rules/*.yml"
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+scrape_configs:
+  # Self-healing system metrics
+  - job_name: 'self-healing-system'
+    static_configs:
+      - targets: ['localhost:8080']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'self-healing'
+
+  # Security system metrics
+  - job_name: 'security-system'
+    static_configs:
+      - targets: ['localhost:8081']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'security'
+
+  # Application metrics
+  - job_name: 'konivrer-app'
+    static_configs:
+      - targets: ['localhost:3000']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'konivrer-app'
+
+  # Node.js metrics
+  - job_name: 'nodejs'
+    static_configs:
+      - targets: ['localhost:9229']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'nodejs'
+
+  # Docker metrics
+  - job_name: 'docker'
+    static_configs:
+      - targets: ['localhost:9323']
+    metrics_path: '/metrics'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'docker'
+
+  # Kubernetes metrics (if running in K8s)
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?:(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+
+  # Blackbox monitoring for external endpoints
+  - job_name: 'blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://konivrer.example.com
+        - https://api.konivrer.example.com
+        - https://health.konivrer.example.com
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox:9115
+
+  # Self-healing health checks
+  - job_name: 'self-healing-health'
+    static_configs:
+      - targets: ['localhost:8082']
+    metrics_path: '/health/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 15s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'self-healing-health'
+
+  # Circuit breaker metrics
+  - job_name: 'circuit-breaker'
+    static_configs:
+      - targets: ['localhost:8083']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'circuit-breaker'
+
+  # Chaos engineering metrics
+  - job_name: 'chaos-engineering'
+    static_configs:
+      - targets: ['localhost:8084']
+    metrics_path: '/metrics'
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'chaos-engineering'
+
+  # Security scanning metrics
+  - job_name: 'security-scanning'
+    static_configs:
+      - targets: ['localhost:8085']
+    metrics_path: '/metrics'
+    scrape_interval: 300s  # 5 minutes for security scans
+    scrape_timeout: 60s
+    honor_labels: true
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(?::\d+)?'
+        replacement: '${1}'
+      - source_labels: [__address__]
+        target_label: service
+        regex: '([^:]+)(?::\d+)?'
+        replacement: 'security-scanning'
+
+# Storage configuration
+storage:
+  tsdb:
+    path: /prometheus
+    retention.time: 30d
+    retention.size: 50GB
+    min-block-duration: 2h
+    max-block-duration: 24h
+
+# Remote write configuration for long-term storage
+remote_write:
+  - url: "http://remote-storage:9201/write"
+    remote_timeout: 30s
+    write_relabel_configs:
+      - source_labels: [__name__]
+        regex: '.*'
+        action: keep
+
+# Remote read configuration
+remote_read:
+  - url: "http://remote-storage:9201/read"
+    read_timeout: 30s
+    read_recent: true
