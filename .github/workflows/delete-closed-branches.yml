@@ -1,0 +1,182 @@
+name: 🗑️ Delete Closed PR Branches
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_deletion:
+        description: 'Type "DELETE" to confirm branch deletion'
+        required: true
+        default: ''
+      dry_run:
+        description: 'Perform dry run (show what would be deleted without actually deleting)'
+        type: boolean
+        default: true
+
+jobs:
+  cleanup-branches:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate confirmation
+        if: ${{ !inputs.dry_run && inputs.confirm_deletion != 'DELETE' }}
+        run: |
+          echo "❌ ERROR: To proceed with actual deletion, you must type 'DELETE' in the confirmation field"
+          exit 1
+
+      - name: Setup Git configuration
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Analyze branches
+        id: analyze
+        run: |
+          echo "🔍 Analyzing repository branches..."
+          
+          # Branches to keep (open PRs or main)
+          KEEP_BRANCHES=(
+            "main"
+            "copilot/fix-9ebb10ce-ffa1-4649-b662-2937a08c5867"  # PR #851
+            "copilot/fix-3894c120-0c57-4128-814f-b09b11abe594"  # PR #837
+            "copilot/fix-4f3310e6-5582-40df-826f-db3a106e33d2"  # PR #835
+            "copilot/fix-e7eb9f0e-1fe2-40f8-b886-778e67247d32"  # PR #816
+          )
+          
+          # Branches to delete (closed PRs)
+          DELETE_BRANCHES=(
+            "copilot/fix-5cef6195-a423-4b63-9ef6-c04bc555d7b4"
+            "copilot/fix-9a8050a5-9f7f-4d93-b3ea-0d176b98bc1d"
+            "copilot/fix-74c899c1-33f3-46ae-9116-5c2e78fdba70"
+            "copilot/fix-560b0654-1f87-4505-812d-923905679271"
+            "copilot/fix-874ed1f5-8131-409e-8d48-0d45a5346b82"
+            "copilot/fix-b06e2c7d-386b-4c77-bd85-f084fee2d5c3"
+            "copilot/fix-b9f9e005-0a8a-4e9c-80b9-eccd5fb2b924"
+            "copilot/fix-b170fd51-1c1f-43d9-9f00-77a58e43b3c6"
+            "copilot/fix-dd40ab33-6740-4256-81e3-db063b14d23e"
+            "copilot/fix-e465f4cc-3f2b-4e96-bbbf-f75e7464230e"
+          )
+          
+          echo "📊 Analysis Results:"
+          echo "Branches to keep: ${#KEEP_BRANCHES[@]}"
+          echo "Branches to delete: ${#DELETE_BRANCHES[@]}"
+          
+          # Check which branches exist
+          echo "existing_branches=" > $GITHUB_OUTPUT
+          echo "delete_count=0" >> $GITHUB_OUTPUT
+          
+          for branch in "${DELETE_BRANCHES[@]}"; do
+            if git ls-remote --heads origin "$branch" | grep -q "$branch"; then
+              echo "🗑️ $branch (exists - will be deleted)"
+              echo "$branch" >> branches_to_delete.txt
+            else
+              echo "ℹ️ $branch (already deleted or not found)"
+            fi
+          done
+          
+          if [ -f branches_to_delete.txt ]; then
+            DELETE_COUNT=$(wc -l < branches_to_delete.txt)
+            echo "delete_count=$DELETE_COUNT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Dry run - Show what would be deleted
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo "🧪 DRY RUN MODE - No branches will actually be deleted"
+          echo "================================================="
+          
+          if [ -f branches_to_delete.txt ]; then
+            echo "📋 Branches that WOULD be deleted:"
+            while IFS= read -r branch; do
+              echo "  🗑️ $branch"
+            done < branches_to_delete.txt
+            
+            echo ""
+            echo "💡 To actually delete these branches:"
+            echo "1. Run this workflow again"
+            echo "2. Set 'Perform dry run' to false"
+            echo "3. Type 'DELETE' in the confirmation field"
+          else
+            echo "✅ No branches need to be deleted!"
+          fi
+
+      - name: Delete closed PR branches
+        if: ${{ !inputs.dry_run && inputs.confirm_deletion == 'DELETE' }}
+        run: |
+          echo "🚀 Starting branch deletion..."
+          
+          if [ ! -f branches_to_delete.txt ]; then
+            echo "✅ No branches to delete!"
+            exit 0
+          fi
+          
+          deleted_count=0
+          error_count=0
+          
+          while IFS= read -r branch; do
+            echo "Deleting: $branch"
+            if git push origin --delete "$branch"; then
+              echo "  ✅ Successfully deleted $branch"
+              ((deleted_count++))
+            else
+              echo "  ❌ Failed to delete $branch"
+              ((error_count++))
+            fi
+          done < branches_to_delete.txt
+          
+          echo ""
+          echo "📊 Cleanup Summary:"
+          echo "  Successfully deleted: $deleted_count branches"
+          echo "  Failed to delete: $error_count branches"
+          
+          if [ $error_count -eq 0 ]; then
+            echo "🎉 All branch cleanup completed successfully!"
+          else
+            echo "⚠️ Some branches could not be deleted"
+            exit 1
+          fi
+
+      - name: Create cleanup report
+        if: ${{ !inputs.dry_run && inputs.confirm_deletion == 'DELETE' }}
+        run: |
+          echo "📄 Creating cleanup report..."
+          
+          cat > branch_cleanup_results.md << EOF
+          # Branch Cleanup Results
+          
+          **Date**: $(date)
+          **Action**: Delete closed PR branches
+          **Status**: $([ $error_count -eq 0 ] && echo "✅ Success" || echo "❌ Partial failure")
+          
+          ## Summary
+          - Branches deleted: $deleted_count
+          - Errors: $error_count
+          - Remaining branches: 5 (main + 4 open PR branches)
+          
+          ## Deleted Branches
+          $(while IFS= read -r branch; do echo "- $branch"; done < branches_to_delete.txt)
+          
+          ## Remaining Active Branches
+          - main
+          - copilot/fix-9ebb10ce-ffa1-4649-b662-2937a08c5867 (PR #851)
+          - copilot/fix-3894c120-0c57-4128-814f-b09b11abe594 (PR #837)
+          - copilot/fix-4f3310e6-5582-40df-826f-db3a106e33d2 (PR #835)
+          - copilot/fix-e7eb9f0e-1fe2-40f8-b886-778e67247d32 (PR #816)
+          EOF
+          
+          echo "Report created: branch_cleanup_results.md"
+
+      - name: Upload cleanup report
+        if: ${{ !inputs.dry_run && inputs.confirm_deletion == 'DELETE' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: branch-cleanup-report
+          path: branch_cleanup_results.md

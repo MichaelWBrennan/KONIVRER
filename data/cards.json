@@ -1,0 +1,21 @@
+[
+  {
+    "id": "card_1",
+    "name": "Abiss",
+    "type": "Spell",
+    "element": "Neutral",
+    "rarity": "Common",
+    "cost": 1,
+    "description": "A neutral spell from the KONIVRER Azoth TCG.",
+    "imageUrl": "/assets/cards/ABISS.png",
+    "webpUrl": "/assets/cards/ABISS.webp",
+    "ocrExtractedName": "ABISS",
+    "ocrCost": "1",
+    "ocrTypeLine": "Instant Spell",
+    "ocrRulesText": "Deal 2 damage to target creature or player.",
+    "ocrStats": "",
+    "ocrSetCode": "KON",
+    "ocrRawText": "ABISS\n1\nInstant Spell\nDeal 2 damage to target creature or player.\nKON 001/150",
+    "lastOcrUpdate": 1704067200000
+  }
+]
