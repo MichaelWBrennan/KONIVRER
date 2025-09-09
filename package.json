@@ -68,14 +68,14 @@
     "@vanilla-extract/css": "^1.17.4",
     "@vanilla-extract/vite-plugin": "^5.1.1",
     "@vitejs/plugin-react": "^5.0.2",
-    "@xata.io/cli": "^0.12.7",
+    "@xata.io/cli": "^0.16.12",
     "eslint": "^9.34.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "prettier": "^3.3.3",
     "tsx": "^4.19.2",
     "typescript": "^5.9.2",
-    "vite": "^7.1.3"
+    "vite": "^7.1.5"
   },
   "overrides": {
     "simple-swizzle": "0.2.2"
