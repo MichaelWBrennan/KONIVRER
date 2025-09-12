@@ -612,13 +612,7 @@ export const Lore: React.FC = () => {
     return urls.join(", ");
   }
 
-  function toGerund(verb: string): string {
-    const v = verb.toLowerCase();
-    if (v === "plan") return "planning";
-    if (v.endsWith("e") && !v.endsWith("ee")) return `${v.slice(0, -1)}ing`;
-    if (v.endsWith("ic")) return `${v}king`;
-    return `${v}ing`;
-  }
+  
 
   function joinOxford(items: string[]): string {
     const list = items.filter(Boolean);
@@ -802,6 +796,7 @@ export const Lore: React.FC = () => {
     ideology: string,
     combo: ElementDefinition[],
   ): string {
+    void faction;
     const traits = collectTraits(combo).map((t) => t.toLowerCase());
     const listed = joinOxford(traits.slice(0, 4));
     return `It reflects ${ideology.toLowerCase()} by bringing together ${listed}.`;
