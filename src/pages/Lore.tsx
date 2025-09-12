@@ -780,12 +780,11 @@ export const Lore: React.FC = () => {
     combo: ElementDefinition[],
     ideologyTitle: string,
   ): string {
-    const traits = collectTraits(combo);
-    const gerunds = traits.map(toGerund);
+    const traits = collectTraits(combo).map((t) => t.toLowerCase());
     const themes = combo.map((e) => summarize(e.definition).toLowerCase());
-    const mechanism = joinOxford(gerunds.slice(0, 5));
-    const joinedThemes = joinOxford(themes);
-    return `${ideologyTitle} emerges from ${mechanism}, turning ${joinedThemes} into coordinated practice.`;
+    const themeLine = joinOxford(themes);
+    const traitLine = joinOxford(traits.slice(0, 4));
+    return `${ideologyTitle} is a blend of ${themeLine}. In practice, it leans on ${traitLine}.`;
   }
 
   function buildFactionParagraph(
@@ -795,8 +794,7 @@ export const Lore: React.FC = () => {
   ): string {
     const blurb = getFactionBlurb(faction.name);
     const line = buildFactionIdeologyLine(faction, ideologyTitle, combo);
-    // Keep it as two sentences joined, focusing on embodiment of the ideology
-    return `Historically, ${faction.name} ${blurb} ${line}`;
+    return `${faction.name} ${blurb} ${line}`;
   }
 
   function buildFactionIdeologyLine(
@@ -806,9 +804,7 @@ export const Lore: React.FC = () => {
   ): string {
     const traits = collectTraits(combo).map((t) => t.toLowerCase());
     const listed = joinOxford(traits.slice(0, 4));
-    return `${
-      faction.name
-    } embodies ${ideology.toLowerCase()} by coordinating ${listed}.`;
+    return `It reflects ${ideology.toLowerCase()} by bringing together ${listed}.`;
   }
 
   // ------------------ Cohesive descriptions and trait rendering ------------------
