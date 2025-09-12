@@ -612,8 +612,6 @@ export const Lore: React.FC = () => {
     return urls.join(", ");
   }
 
-  
-
   function joinOxford(items: string[]): string {
     const list = items.filter(Boolean);
     if (list.length === 0) return "";
