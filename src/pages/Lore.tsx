@@ -987,10 +987,10 @@ export const Lore: React.FC = () => {
             loading="lazy"
             onError={(e) => {
               (e.target as HTMLImageElement).src =
-                "/assets/lore/six-divine-elements.png";
+                "/assets/lore/six-divine-elements.webp";
               (e.target as HTMLImageElement).onerror = () => {
                 (e.target as HTMLImageElement).src =
-                  "/assets/card-back-new.png";
+                  "/assets/card-back-new.webp";
               };
             }}
           />
