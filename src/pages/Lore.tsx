@@ -72,7 +72,9 @@ export const Lore: React.FC = () => {
         cancelAnimationFrame(rafId);
         try {
           ro.disconnect();
-        } catch {}
+        } catch (err) {
+          // ignore disconnect errors
+        }
       };
     }, [traits.join("|")]);
 

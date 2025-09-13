@@ -79,7 +79,7 @@ export class CardDataGenerator {
       "XAOS",
     ];
 
-    return cardNames.map((name) => `/assets/cards/${name}.png`);
+    return cardNames.map((name) => `/assets/cards/${name}.webp`);
   }
 
   /**
@@ -154,7 +154,7 @@ export class CardDataGenerator {
 
     // Generate card data for each image using pattern-based fallbacks
     imagePaths.forEach((imagePath, index) => {
-      const cardName = imagePath.split("/").pop()?.replace(".png", "") || "";
+      const cardName = imagePath.split("/").pop()?.replace(".webp", "") || "";
 
       // Use pattern-based data generation
       const displayName =
@@ -178,7 +178,7 @@ export class CardDataGenerator {
         setNumber: index + 1,
         rarity,
         rulesText: `A ${element.toLowerCase()} ${type.toLowerCase()} from the KONIVRER Azoth TCG.`,
-        imageUrl: `/assets/cards/${cardName}.png`,
+        imageUrl: `/assets/cards/${cardName}.webp`,
         webpUrl: `/assets/cards/${cardName}.webp`,
         // Legacy compatibility fields
         type,
