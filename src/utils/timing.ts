@@ -1,7 +1,7 @@
 /**
  * Minimal debounce helper.
  */
-export function debounce<T extends (...args: any[]) => unknown>(
+export function debounce<T extends (...args: any[] = []) => unknown>(
   fn: T,
   delayMs: number,
 ): (...args: Parameters<T>) => void {
