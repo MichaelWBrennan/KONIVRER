@@ -982,15 +982,13 @@ export const Lore: React.FC = () => {
         <div className={s.diagramContainer}>
           <img
             className={s.diagramImage}
-            src="https://drive.google.com/uc?export=view&id=1Xt7ECRN6yNh2yefyRDAnzS6DPwbaFgNj"
+            src="/assets/lore/six-divine-elements.webp"
             alt="Six Divine Elements wheel showing Aether, Air, Fire, Earth, Water, and Nether"
             loading="lazy"
             onError={(e) => {
-              (e.target as HTMLImageElement).src =
-                "/assets/lore/six-divine-elements.webp";
+              (e.target as HTMLImageElement).src = "/assets/lore/six-divine-elements.png";
               (e.target as HTMLImageElement).onerror = () => {
-                (e.target as HTMLImageElement).src =
-                  "/assets/card-back-new.webp";
+                (e.target as HTMLImageElement).src = "/assets/card-back-new.webp";
               };
             }}
           />
@@ -1079,7 +1077,7 @@ export const Lore: React.FC = () => {
             const special = specialPairs[key];
             const ideology = special ? special.title : "Synthesis";
             const faction = getFactionForCombo(names);
-            const header = `${names.join(" + ")}: ${ideology}`;
+            const header = names.join(" + ");
             const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
             const factionParagraph = buildFactionParagraph(
               faction,
@@ -1120,7 +1118,7 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][],
             );
-            const header = `${names.join(" + ")}: ${ideology}`;
+            const header = names.join(" + ");
             const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
             const factionParagraph = buildFactionParagraph(
               faction,
@@ -1161,7 +1159,7 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][],
             );
-            const header = `${names.join(" + ")}: ${ideology}`;
+            const header = names.join(" + ");
             const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
             const factionParagraph = buildFactionParagraph(
               faction,
@@ -1202,7 +1200,7 @@ export const Lore: React.FC = () => {
             const faction = getFactionForCombo(
               names as ElementDefinition["name"][],
             );
-            const header = `${names.join(" + ")}: ${ideology}`;
+            const header = names.join(" + ");
             const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
             const factionParagraph = buildFactionParagraph(
               faction,
