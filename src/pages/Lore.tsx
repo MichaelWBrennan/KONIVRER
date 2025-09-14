@@ -986,9 +986,11 @@ export const Lore: React.FC = () => {
             alt="Six Divine Elements wheel showing Aether, Air, Fire, Earth, Water, and Nether"
             loading="lazy"
             onError={(e) => {
-              (e.target as HTMLImageElement).src = "/assets/lore/six-divine-elements.png";
+              (e.target as HTMLImageElement).src =
+                "/assets/lore/six-divine-elements.png";
               (e.target as HTMLImageElement).onerror = () => {
-                (e.target as HTMLImageElement).src = "/assets/card-back-new.webp";
+                (e.target as HTMLImageElement).src =
+                  "/assets/card-back-new.webp";
               };
             }}
           />
