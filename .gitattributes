@@ -3,11 +3,9 @@
 *.tsx linguist-language=TypeScript
 *.js linguist-language=TypeScript linguist-detectable=false
 *.jsx linguist-language=TypeScript linguist-detectable=false
-
 # Auto-start scripts - ensure they are executable
 auto-init.sh text eol=lf
 setup-hooks.js text eol=lf
-
 # Exclude vendor and generated files from language stats
 node_modules/* linguist-vendored
 dist/* linguist-generated
@@ -16,24 +14,21 @@ public/pdfjs/* linguist-vendored
 *.min.js linguist-generated
 *.bundle.js linguist-generated
 package-lock.json linguist-generated
-
 # Exclude PDF.js and other vendor files
 public/pdfjs/**/* linguist-vendored
 *.ftl linguist-vendored
 *.fluent linguist-vendored
-
 # Force TypeScript detection for all source files
 src/**/* linguist-language=TypeScript
 server/**/* linguist-language=TypeScript
 scripts/**/* linguist-language=TypeScript
 *.config.ts linguist-language=TypeScript
-
 # Exclude non-code files from language detection
 *.md linguist-documentation
 *.json linguist-data
 *.css linguist-language=CSS
 *.html linguist-language=HTML
-*.pdf linguist-vendored
+*.pdf filter=lfs diff=lfs merge=lfs -text
 *.png linguist-vendored
 *.jpg linguist-vendored
 *.svg linguist-vendored
@@ -42,7 +37,6 @@ scripts/**/* linguist-language=TypeScript
 *.woff2 linguist-vendored
 *.ttf linguist-vendored
 *.eot linguist-vendored
-
 # Exclude configuration and build files
 *.lock linguist-generated
 *.log linguist-generated
@@ -50,9 +44,9 @@ scripts/**/* linguist-language=TypeScript
 *.config.js linguist-vendored
 *.config.cjs linguist-vendored
 .eslintrc.cjs linguist-vendored
-
 # Force all remaining files to be TypeScript
 **/*.js linguist-language=TypeScript linguist-detectable=false
 **/*.jsx linguist-language=TypeScript linguist-detectable=false
 **/*.ts linguist-language=TypeScript
 **/*.tsx linguist-language=TypeScript
+*.webp filter=lfs diff=lfs merge=lfs -text

@@ -1,32 +1,22 @@
 import { globalStyle, globalFontFace } from "@vanilla-extract/css";
 
 globalFontFace("OpenDyslexic", {
-  src: 'url(/fonts/OpenDyslexic-Regular.woff2) format("woff2"), url(/fonts/opendyslexic/OpenDyslexic-Regular.otf) format("opentype")',
+  src: 'url(/fonts/OpenDyslexic-Regular.woff2) format("woff2")',
   fontWeight: "normal",
   fontStyle: "normal",
   fontDisplay: "swap",
 });
 
 globalFontFace("OpenDyslexic", {
-  src: 'url(/fonts/OpenDyslexic-Bold.woff2) format("woff2"), url(/fonts/opendyslexic/OpenDyslexic-Bold.otf) format("opentype")',
+  src: 'url(/fonts/OpenDyslexic-Bold.woff2) format("woff2")',
   fontWeight: "bold",
   fontStyle: "normal",
   fontDisplay: "swap",
 });
 
-globalFontFace("OpenDyslexic", {
-  src: 'url(/fonts/opendyslexic/OpenDyslexic-Italic.otf) format("opentype")',
-  fontWeight: "normal",
-  fontStyle: "italic",
-  fontDisplay: "swap",
-});
+// Italic weight not provided in woff2; fallback to normal style
 
-globalFontFace("OpenDyslexic", {
-  src: 'url(/fonts/opendyslexic/OpenDyslexic-BoldItalic.otf) format("opentype")',
-  fontWeight: "bold",
-  fontStyle: "italic",
-  fontDisplay: "swap",
-});
+// BoldItalic weight not provided in woff2; fallback to bold normal
 
 globalStyle(":root", {
   vars: {

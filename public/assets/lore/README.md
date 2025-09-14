@@ -1,4 +1,4 @@
-Place the Six Divine Elements diagram here as six-divine-elements.png
+Place the Six Divine Elements diagram here as six-divine-elements.webp
 Add plaintext lore content files referenced by the Lore page tabs, for example:
 
 - societies.txt

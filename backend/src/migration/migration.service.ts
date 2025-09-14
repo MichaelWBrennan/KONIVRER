@@ -227,7 +227,7 @@ export class MigrationService {
       ).toLowerCase()} ${this.inferCardType(
         name,
       ).toLowerCase()} from the KONIVRER Azoth TCG.`,
-      imageUrl: `/assets/cards/${name}.png`,
+      imageUrl: `/assets/cards/${name}.webp`,
       webpUrl: `/assets/cards/${name}.webp`,
       isLegal: true,
     }));

@@ -210,7 +210,7 @@ const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
     abilities,
     setCode: "KNR",
     setNumber: index + 1,
-    imageUrl: `/assets/cards/${name}.png`,
+    imageUrl: `/assets/cards/${name}.webp`,
     webpUrl: `/assets/cards/${name}.webp`,
     // Legacy compatibility
     type: lesserType,

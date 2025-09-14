@@ -213,9 +213,11 @@ export const Card: React.FC<CardProps> = ({
       <div
         className={cs.artLayer}
         style={{
-          backgroundImage: card.imageUrl
-            ? `url(${card.imageUrl})`
-            : "linear-gradient(135deg, #333, #555)",
+          backgroundImage: card.webpUrl
+            ? `url(${card.webpUrl})`
+            : card.imageUrl
+              ? `url(${card.imageUrl})`
+              : "linear-gradient(135deg, #333, #555)",
         }}
       />
 
