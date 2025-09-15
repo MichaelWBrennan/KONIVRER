@@ -1386,6 +1386,20 @@ export const Lore: React.FC = () => {
     return (
       <section className={s.section}>
         <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
+        <details className={s.tocMobile}>
+          <summary className={s.tocMobileSummary}>On this page</summary>
+          <div className={s.tocMobileBody}>
+            <ul className={s.tocList}>
+              {tocItems.map((t) => (
+                <li key={t.id}>
+                  <a className={s.tocLink} href={`#${t.id}`}>
+                    {t.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
         <nav className={s.toc} aria-label="Cosmology Table of Contents">
           <div className={s.tocTitle}>On this page</div>
           <ul className={s.tocList}>
@@ -1516,6 +1530,7 @@ export const Lore: React.FC = () => {
               )}
             </p>
             <div className={s.diagramCard}>
+              <div className={s.tableScroll}>
               <table className={s.matrix}>
                 <thead>
                   <tr>
@@ -1612,6 +1627,7 @@ export const Lore: React.FC = () => {
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
             <Disclosure title={h("Aether Magic System (full text)")}>
               <pre id={anchorId("Aether Magic System")} className={s.pre}>
