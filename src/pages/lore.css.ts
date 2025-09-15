@@ -1,4 +1,4 @@
-import { style } from "@vanilla-extract/css";
+import { style, globalStyle } from "@vanilla-extract/css";
 
 export const container = style({
   padding: "12px",
@@ -542,13 +542,12 @@ export const matrixTd = style({
   verticalAlign: "top",
   wordBreak: "break-word",
   whiteSpace: "normal",
-  selectors: {
-    "& a": { color: "#000" },
-    "& a:visited": { color: "#000" },
-    "& a:hover": { color: "#000" },
-    "& a:active": { color: "#000" },
-  },
 });
+
+globalStyle(`${matrixTd} a`, { color: "#000" });
+globalStyle(`${matrixTd} a:visited`, { color: "#000" });
+globalStyle(`${matrixTd} a:hover`, { color: "#000" });
+globalStyle(`${matrixTd} a:active`, { color: "#000" });
 
 export const quickRef = style({
   backgroundColor: "#fbfdfc",
