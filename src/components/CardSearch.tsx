@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { useCards } from "../hooks/useCards";
 import { useAppStore } from "../stores/appStore";
-import { debounce } from "../utils/timing";
 import { Card } from "../data/cards"; // Use our local Card type
 import * as cs from "./cardSearch.css.ts";
 import { CardViewerModal } from "./CardViewerModal";
@@ -20,12 +19,17 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
 
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
   // Debounced search - update filters when user stops typing
-  const updateSearch = useCallback(
-    debounce((term: string) => {
-      setSearchFilters({ search: term, page: 1 });
-    }, 500),
-    [setSearchFilters],
-  );
+  const updateSearch = useCallback(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    return (term: string) => {
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        setSearchFilters({ search: term, page: 1 });
+      }, 500);
+    };
+  }, [setSearchFilters])();
 
   const { data: cardsData, isLoading, error } = useCards(searchFilters);
 
