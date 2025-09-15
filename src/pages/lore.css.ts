@@ -5,6 +5,7 @@ export const container = style({
   maxWidth: "100%",
   margin: "0 auto",
   lineHeight: "1.6",
+  color: "#000",
   "@media": {
     "screen and (min-width: 640px)": {
       padding: "16px",
@@ -32,7 +33,7 @@ export const header = style({
 export const title = style({
   fontSize: "1.75rem",
   margin: "0 0 10px 0",
-  color: "#2c3e50",
+  color: "#000",
   "@media": {
     "screen and (min-width: 640px)": {
       fontSize: "2rem",
@@ -45,7 +46,7 @@ export const title = style({
 
 export const subtitle = style({
   fontSize: "1rem",
-  color: "#7f8c8d",
+  color: "#000",
   margin: 0,
   "@media": {
     "screen and (min-width: 640px)": { fontSize: "1.1rem" },
@@ -87,6 +88,7 @@ export const tabButton = style({
   cursor: "pointer",
   flex: "0 0 auto",
   scrollSnapAlign: "start",
+  color: "#000",
   selectors: {
     "&:hover": { backgroundColor: "#e8ecef" },
   },
@@ -102,7 +104,7 @@ export const pre = style({
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
   fontSize: "1rem",
-  color: "#2c3e50",
+  color: "#000",
   margin: 0,
   "@media": {
     "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
@@ -119,6 +121,7 @@ export const section = style({
   backgroundColor: "#f8f9fa",
   borderRadius: "8px",
   border: "1px solid #e9ecef",
+  overflowX: "hidden",
   "@media": {
     "screen and (min-width: 768px)": { padding: "20px" },
   },
@@ -127,7 +130,7 @@ export const section = style({
 export const sectionTitle = style({
   fontSize: "1.25rem",
   margin: "0 0 15px 0",
-  color: "#34495e",
+  color: "#000",
   borderBottom: "2px solid #3498db",
   paddingBottom: "10px",
   "@media": {
@@ -139,7 +142,7 @@ export const sectionTitle = style({
 export const text = style({
   fontSize: "1rem",
   margin: "0 0 15px 0",
-  color: "#2c3e50",
+  color: "#000",
 });
 
 export const realmCard = style({
@@ -154,13 +157,13 @@ export const realmCard = style({
 export const realmTitle = style({
   fontSize: "1.4rem",
   margin: "0 0 10px 0",
-  color: "#2980b9",
+  color: "#000",
 });
 
 export const realmDescription = style({
   fontSize: "1rem",
   margin: 0,
-  color: "#2c3e50",
+  color: "#000",
 });
 
 // Diagram section styles
@@ -181,7 +184,7 @@ export const diagramImage = style({
 
 export const caption = style({
   fontSize: "0.95rem",
-  color: "#6c757d",
+  color: "#000",
   textAlign: "center",
 });
 
@@ -206,7 +209,7 @@ export const virtueCard = style({
 export const virtueTitle = style({
   margin: "0 0 6px 0",
   fontSize: "1rem",
-  color: "#2c3e50",
+  color: "#000",
   "@media": {
     "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
   },
@@ -215,7 +218,7 @@ export const virtueTitle = style({
 export const virtueText = style({
   margin: 0,
   fontSize: "1rem",
-  color: "#2c3e50",
+  color: "#000",
   "@media": {
     "screen and (min-width: 1024px)": { fontSize: "1.05rem" },
   },
@@ -354,7 +357,7 @@ export const tocMobileBody = style({
 export const tocTitle = style({
   margin: "0 0 8px 0",
   fontSize: "0.95rem",
-  color: "#2c3e50",
+  color: "#000",
 });
 
 export const tocList = style({
@@ -390,7 +393,7 @@ export const sectionGroup = style({
 export const sectionHeader = style({
   margin: "0 0 8px 0",
   fontSize: "1.05rem",
-  color: "#2c3e50",
+  color: "#000",
   "@media": {
     "screen and (min-width: 768px)": { fontSize: "1.15rem" },
   },
@@ -398,7 +401,7 @@ export const sectionHeader = style({
 
 export const microSummary = style({
   margin: "0 0 10px 0",
-  color: "#34495e",
+  color: "#000",
   fontSize: "0.95rem",
   "@media": {
     "screen and (min-width: 640px)": { fontSize: "1rem" },
@@ -434,13 +437,13 @@ export const badge = style({
   borderRadius: "9999px",
   fontSize: "0.75rem",
   border: "1px solid #d9dde1",
-  color: "#3b4b5b",
+  color: "#000",
   backgroundColor: "#f2f4f6",
 });
 
 export const badgeCanon = style({
   backgroundColor: "#e8f7ed",
-  color: "#0f7b3e",
+  color: "#000",
   borderColor: "#bfe5cc",
 });
 
@@ -452,7 +455,7 @@ export const badgeBelief = style({
 
 export const badgeApocrypha = style({
   backgroundColor: "#f9e8ee",
-  color: "#8a2042",
+  color: "#000",
   borderColor: "#f5c1d1",
 });
 
@@ -514,28 +517,37 @@ export const diagramCard = style({
 
 export const tableScroll = style({
   width: "100%",
-  overflowX: "auto",
-  WebkitOverflowScrolling: "touch",
+  overflowX: "hidden",
 });
 
 export const matrix = style({
   width: "100%",
   borderCollapse: "collapse",
   fontSize: "0.95rem",
-  minWidth: "580px",
+  tableLayout: "fixed",
 });
 
 export const matrixTh = style({
   textAlign: "left",
   padding: "8px",
   borderBottom: "2px solid #e9ecef",
-  color: "#2c3e50",
+  color: "#000",
+  wordBreak: "break-word",
+  whiteSpace: "normal",
 });
 
 export const matrixTd = style({
   padding: "8px",
   borderBottom: "1px solid #eef2f6",
   verticalAlign: "top",
+  wordBreak: "break-word",
+  whiteSpace: "normal",
+  selectors: {
+    "& a": { color: "#000" },
+    "& a:visited": { color: "#000" },
+    "& a:hover": { color: "#000" },
+    "& a:active": { color: "#000" },
+  },
 });
 
 export const quickRef = style({
