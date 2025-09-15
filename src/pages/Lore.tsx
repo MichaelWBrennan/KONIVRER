@@ -1386,6 +1386,20 @@ export const Lore: React.FC = () => {
     return (
       <section className={s.section}>
         <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
+        <details className={s.tocMobile}>
+          <summary className={s.tocMobileSummary}>On this page</summary>
+          <div className={s.tocMobileBody}>
+            <ul className={s.tocList}>
+              {tocItems.map((t) => (
+                <li key={t.id}>
+                  <a className={s.tocLink} href={`#${t.id}`}>
+                    {t.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </details>
         <nav className={s.toc} aria-label="Cosmology Table of Contents">
           <div className={s.tocTitle}>On this page</div>
           <ul className={s.tocList}>
@@ -1516,102 +1530,106 @@ export const Lore: React.FC = () => {
               )}
             </p>
             <div className={s.diagramCard}>
-              <table className={s.matrix}>
-                <thead>
-                  <tr>
-                    <th className={s.matrixTh}>Source</th>
-                    <th className={s.matrixTh}>How it’s accessed</th>
-                    <th className={s.matrixTh}>Costs</th>
-                    <th className={s.matrixTh}>Risks</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className={s.matrixTd}>
-                      <a href={`#${anchorId("Aether Magic System")}`}>
-                        {h("Aether")}
-                      </a>
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Vows, knots (seals), weaves (rites), counterseals")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Memory or reputation; receipts left by workings")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Ignorant bargains; the counterseal of Forgetting")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={s.matrixTd}>
-                      <a href={`#${anchorId("Summoning")}`}>{h("Summoning")}</a>
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Courtesy, precision, naming correctly then gently")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h(
-                        "Closing doors; payment with something expected to keep",
-                      )}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Hunger, false candles, wind that knows your name")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={s.matrixTd}>
-                      <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
-                        {h("Alchemy")}
-                      </a>
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Seven operations that refine motive into change")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Self-change; adequacy over gold")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Moral heat; unspoken—impatience and pride")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={s.matrixTd}>
-                      <a href={`#${anchorId("Elements (Eastern Flavor)")}`}>
-                        {h("Elements: East/West")}
-                      </a>
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h(
-                        "Working with generative and restraining cycles; mixtures",
-                      )}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Offering the right token, rhythm, or mixture")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Mismatched cycles; doctrine cooled into dogma")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={s.matrixTd}>
-                      <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
-                        {h("Language")}
-                      </a>
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h(
-                        "Kind, precise speech; oaths said thrice, written once",
-                      )}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Debt to meanings marked; names bind the speaker")}
-                    </td>
-                    <td className={s.matrixTd}>
-                      {h("Ambiguity; words that roll back if wrong")}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <div className={s.tableScroll}>
+                <table className={s.matrix}>
+                  <thead>
+                    <tr>
+                      <th className={s.matrixTh}>Source</th>
+                      <th className={s.matrixTh}>How it’s accessed</th>
+                      <th className={s.matrixTh}>Costs</th>
+                      <th className={s.matrixTh}>Risks</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td className={s.matrixTd}>
+                        <a href={`#${anchorId("Aether Magic System")}`}>
+                          {h("Aether")}
+                        </a>
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Vows, knots (seals), weaves (rites), counterseals")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Memory or reputation; receipts left by workings")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Ignorant bargains; the counterseal of Forgetting")}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={s.matrixTd}>
+                        <a href={`#${anchorId("Summoning")}`}>
+                          {h("Summoning")}
+                        </a>
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Courtesy, precision, naming correctly then gently")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h(
+                          "Closing doors; payment with something expected to keep",
+                        )}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Hunger, false candles, wind that knows your name")}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={s.matrixTd}>
+                        <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
+                          {h("Alchemy")}
+                        </a>
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Seven operations that refine motive into change")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Self-change; adequacy over gold")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Moral heat; unspoken—impatience and pride")}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={s.matrixTd}>
+                        <a href={`#${anchorId("Elements (Eastern Flavor)")}`}>
+                          {h("Elements: East/West")}
+                        </a>
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h(
+                          "Working with generative and restraining cycles; mixtures",
+                        )}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Offering the right token, rhythm, or mixture")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Mismatched cycles; doctrine cooled into dogma")}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={s.matrixTd}>
+                        <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
+                          {h("Language")}
+                        </a>
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h(
+                          "Kind, precise speech; oaths said thrice, written once",
+                        )}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Debt to meanings marked; names bind the speaker")}
+                      </td>
+                      <td className={s.matrixTd}>
+                        {h("Ambiguity; words that roll back if wrong")}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
             <Disclosure title={h("Aether Magic System (full text)")}>
               <pre id={anchorId("Aether Magic System")} className={s.pre}>

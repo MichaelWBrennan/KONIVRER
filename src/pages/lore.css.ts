@@ -293,6 +293,7 @@ export const cosmologyGrid = style({
 });
 
 export const toc = style({
+  display: "none",
   position: "sticky",
   top: "calc(env(safe-area-inset-top, 0px) + 8px)",
   backgroundColor: "#ffffff",
@@ -300,6 +301,40 @@ export const toc = style({
   borderRadius: "8px",
   padding: "10px",
   boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+  "@media": {
+    "screen and (min-width: 1024px)": { display: "block" },
+  },
+});
+
+export const tocMobile = style({
+  position: "sticky",
+  top: "calc(env(safe-area-inset-top, 0px) + 8px)",
+  backgroundColor: "#ffffff",
+  border: "1px solid #e9ecef",
+  borderRadius: "8px",
+  overflow: "hidden",
+  boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+  zIndex: 11,
+  "@media": {
+    "screen and (min-width: 1024px)": { display: "none" },
+  },
+});
+
+export const tocMobileSummary = style({
+  padding: "10px 12px",
+  cursor: "pointer",
+  userSelect: "none",
+  backgroundColor: "#f6faff",
+  borderBottom: "1px solid #eef2f6",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: "8px",
+  fontWeight: 600,
+});
+
+export const tocMobileBody = style({
+  padding: "10px 12px",
 });
 
 export const tocTitle = style({
@@ -335,18 +370,25 @@ export const sectionGroup = style({
   borderRadius: "8px",
   padding: "12px",
   boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+  scrollMarginTop: "calc(env(safe-area-inset-top, 0px) + 64px)",
 });
 
 export const sectionHeader = style({
   margin: "0 0 8px 0",
   fontSize: "1.05rem",
   color: "#2c3e50",
+  "@media": {
+    "screen and (min-width: 768px)": { fontSize: "1.15rem" },
+  },
 });
 
 export const microSummary = style({
   margin: "0 0 10px 0",
   color: "#34495e",
-  fontSize: "0.98rem",
+  fontSize: "0.95rem",
+  "@media": {
+    "screen and (min-width: 640px)": { fontSize: "1rem" },
+  },
 });
 
 export const disclosure = style({
@@ -454,10 +496,17 @@ export const diagramCard = style({
   padding: "12px",
 });
 
+export const tableScroll = style({
+  width: "100%",
+  overflowX: "auto",
+  WebkitOverflowScrolling: "touch",
+});
+
 export const matrix = style({
   width: "100%",
   borderCollapse: "collapse",
   fontSize: "0.95rem",
+  minWidth: "580px",
 });
 
 export const matrixTh = style({
