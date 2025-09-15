@@ -33,34 +33,34 @@
     "automation:report": "tsx automation/cli.ts report --output automation-report.html"
   },
   "dependencies": {
-    "@eslint/js": "^9.34.0",
-    "@tanstack/react-query": "^5.85.9",
-    "@tanstack/react-query-devtools": "^5.85.6",
-    "axios": "^1.11.0",
-    "lucide-react": "^0.542.0",
+    "@eslint/js": "^9.35.0",
+    "@tanstack/react-query": "^5.87.4",
+    "@tanstack/react-query-devtools": "^5.87.4",
+    "axios": "^1.12.2",
+    "lucide-react": "^0.544.0",
     "pdfjs-dist": "^5.4.149",
     "react": "^19.1.1",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.1.1",
-    "react-router-dom": "^7.8.2",
+    "react-router-dom": "^7.9.1",
     "socket.io-client": "^4.8.1",
     "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "@types/react": "^19.1.12",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
-    "@typescript-eslint/eslint-plugin": "^8.41.0",
-    "@typescript-eslint/parser": "^8.41.0",
+    "@typescript-eslint/eslint-plugin": "^8.43.0",
+    "@typescript-eslint/parser": "^8.43.0",
     "@vanilla-extract/css": "^1.17.4",
     "@vanilla-extract/vite-plugin": "^5.1.1",
     "@vitejs/plugin-react": "^5.0.2",
-    "eslint": "^9.34.0",
+    "eslint": "^9.35.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
-    "prettier": "^3.3.3",
-    "tsx": "^4.19.2",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
-    "vite": "^7.1.3"
+    "vite": "^7.1.5"
   },
   "overrides": {
     "simple-swizzle": "0.2.2"
