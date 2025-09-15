@@ -279,3 +279,218 @@ export const emblemInline = style({
   filter: "grayscale(100%) contrast(120%)",
   opacity: 0.9,
 });
+
+// Cosmology & Magic structured UI
+export const cosmologyGrid = style({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: "16px",
+  "@media": {
+    "screen and (min-width: 1024px)": {
+      gridTemplateColumns: "minmax(0, 1fr)",
+    },
+  },
+});
+
+export const toc = style({
+  position: "sticky",
+  top: "calc(env(safe-area-inset-top, 0px) + 8px)",
+  backgroundColor: "#ffffff",
+  border: "1px solid #e9ecef",
+  borderRadius: "8px",
+  padding: "10px",
+  boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+});
+
+export const tocTitle = style({
+  margin: "0 0 8px 0",
+  fontSize: "0.95rem",
+  color: "#2c3e50",
+});
+
+export const tocList = style({
+  listStyle: "none",
+  padding: 0,
+  margin: 0,
+  display: "grid",
+  gap: "6px",
+});
+
+export const tocLink = style({
+  display: "block",
+  textDecoration: "none",
+  color: "#1b5fa8",
+  padding: "6px 8px",
+  borderRadius: "6px",
+  backgroundColor: "#f2f8ff",
+  border: "1px solid #d6e8ff",
+  selectors: {
+    "&:hover": { backgroundColor: "#e8f4ff" },
+  },
+});
+
+export const sectionGroup = style({
+  backgroundColor: "white",
+  border: "1px solid #e9ecef",
+  borderRadius: "8px",
+  padding: "12px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+});
+
+export const sectionHeader = style({
+  margin: "0 0 8px 0",
+  fontSize: "1.05rem",
+  color: "#2c3e50",
+});
+
+export const microSummary = style({
+  margin: "0 0 10px 0",
+  color: "#34495e",
+  fontSize: "0.98rem",
+});
+
+export const disclosure = style({
+  border: "1px solid #eef2f6",
+  borderRadius: "6px",
+  backgroundColor: "#fbfdff",
+  overflow: "hidden",
+});
+
+export const disclosureSummary = style({
+  padding: "10px 12px",
+  cursor: "pointer",
+  userSelect: "none",
+  backgroundColor: "#f6faff",
+  borderBottom: "1px solid #eef2f6",
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  fontWeight: 600,
+});
+
+export const disclosureBody = style({
+  padding: "10px 12px",
+});
+
+export const badge = style({
+  display: "inline-block",
+  padding: "2px 8px",
+  borderRadius: "9999px",
+  fontSize: "0.75rem",
+  border: "1px solid #d9dde1",
+  color: "#3b4b5b",
+  backgroundColor: "#f2f4f6",
+});
+
+export const badgeCanon = style({
+  backgroundColor: "#e8f7ed",
+  color: "#0f7b3e",
+  borderColor: "#bfe5cc",
+});
+
+export const badgeBelief = style({
+  backgroundColor: "#fff7e6",
+  color: "#9a6b00",
+  borderColor: "#ffe0a3",
+});
+
+export const badgeApocrypha = style({
+  backgroundColor: "#f9e8ee",
+  color: "#8a2042",
+  borderColor: "#f5c1d1",
+});
+
+export const callouts = style({
+  display: "grid",
+  gap: "8px",
+  margin: "8px 0",
+});
+
+export const callout = style({
+  border: "1px solid #e9ecef",
+  borderLeftWidth: "4px",
+  borderRadius: "6px",
+  padding: "8px 10px",
+  backgroundColor: "#ffffff",
+});
+
+export const calloutInfo = style({
+  borderLeftColor: "#3498db",
+  backgroundColor: "#f0f7ff",
+});
+
+export const calloutWarn = style({
+  borderLeftColor: "#e67e22",
+  backgroundColor: "#fff7ef",
+});
+
+export const calloutDanger = style({
+  borderLeftColor: "#c0392b",
+  backgroundColor: "#fff1f0",
+});
+
+export const chips = style({
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "6px",
+  marginTop: "8px",
+});
+
+export const chip = style({
+  display: "inline-block",
+  padding: "4px 10px",
+  borderRadius: "9999px",
+  fontSize: "0.85rem",
+  backgroundColor: "#eef6ff",
+  border: "1px solid #d6e8ff",
+  color: "#1b5fa8",
+  textDecoration: "none",
+});
+
+export const diagramCard = style({
+  backgroundColor: "white",
+  border: "1px solid #e9ecef",
+  borderRadius: "8px",
+  padding: "12px",
+});
+
+export const matrix = style({
+  width: "100%",
+  borderCollapse: "collapse",
+  fontSize: "0.95rem",
+});
+
+export const matrixTh = style({
+  textAlign: "left",
+  padding: "8px",
+  borderBottom: "2px solid #e9ecef",
+  color: "#2c3e50",
+});
+
+export const matrixTd = style({
+  padding: "8px",
+  borderBottom: "1px solid #eef2f6",
+  verticalAlign: "top",
+});
+
+export const quickRef = style({
+  backgroundColor: "#fbfdfc",
+  border: "1px solid #e9f5ef",
+  borderRadius: "8px",
+  padding: "12px",
+});
+
+export const glossary = style({
+  backgroundColor: "white",
+  border: "1px solid #e9ecef",
+  borderRadius: "8px",
+  padding: "12px",
+});
+
+export const glossaryList = style({
+  listStyle: "none",
+  padding: 0,
+  margin: 0,
+  display: "grid",
+  gap: "6px",
+});
