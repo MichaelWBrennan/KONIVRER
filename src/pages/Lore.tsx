@@ -152,6 +152,28 @@ export const Lore: React.FC = () => {
   const [loadedText, setLoadedText] = useState<string>("");
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
   const requestIdRef = useRef(0);
+  const tocMobileRef = useRef<HTMLDetailsElement | null>(null);
+
+  useEffect(() => {
+    try {
+      if (typeof navigator !== "undefined") {
+        const ua = navigator.userAgent || "";
+        const isMobileUA =
+          /Mobi|Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(
+            ua,
+          );
+        if (isMobileUA) {
+          const el = tocMobileRef.current;
+          if (el && !el.hasAttribute("data-initialized")) {
+            el.open = true;
+            el.setAttribute("data-initialized", "1");
+          }
+        }
+      }
+    } catch {
+      // ignore UA detection errors
+    }
+  }, []);
 
   const labelForSrc: Record<string, string> = {
     "/assets/lore/societies.txt": "Societies & Eras",
@@ -1386,7 +1408,7 @@ export const Lore: React.FC = () => {
     return (
       <section className={s.section}>
         <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
-        <details className={s.tocMobile}>
+        <details className={s.tocMobile} ref={tocMobileRef}>
           <summary className={s.tocMobileSummary}>On this page</summary>
           <div className={s.tocMobileBody}>
             <ul className={s.tocList}>
@@ -1400,501 +1422,525 @@ export const Lore: React.FC = () => {
             </ul>
           </div>
         </details>
-        <nav className={s.toc} aria-label="Cosmology Table of Contents">
-          <div className={s.tocTitle}>On this page</div>
-          <ul className={s.tocList}>
-            {tocItems.map((t) => (
-              <li key={t.id}>
-                <a className={s.tocLink} href={`#${t.id}`}>
-                  {t.label}
+        <div className={s.cosmologyLayout}>
+          <nav className={s.toc} aria-label="Cosmology Table of Contents">
+            <div className={s.tocTitle}>On this page</div>
+            <ul className={s.tocList}>
+              {tocItems.map((t) => (
+                <li key={t.id}>
+                  <a className={s.tocLink} href={`#${t.id}`}>
+                    {t.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className={s.cosmologyGrid}>
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Cosmology at a Glance")}
+            >
+              <h3 className={s.sectionHeader}>
+                Cosmology at a Glance <Badge kind="canon">overview</Badge>
+              </h3>
+              <p className={s.microSummary}>
+                {h("What the world is made of and why it matters for magic.")}
+              </p>
+              <div className={s.callouts}>
+                <div className={`${s.callout} ${s.calloutInfo}`}>
+                  {h(
+                    "The valley sits where ladders of worlds lean together; the Veil cracked; elements behave as habits; magic is bound by oaths, costs, and courtesy.",
+                  )}
+                </div>
+              </div>
+              <Disclosure title={h("Highlights from summaries")}>
+                <ul>
+                  {[
+                    ...worldsS.bullets,
+                    ...veilS.bullets,
+                    ...elementsEastS.bullets,
+                    ...elementsWestS.bullets,
+                  ]
+                    .slice(0, 8)
+                    .map((b, i) => (
+                      <li key={i}>{h(b)}</li>
+                    ))}
+                </ul>
+              </Disclosure>
+              <div className={s.chips}>
+                <a
+                  className={s.chip}
+                  href={`#${anchorId("The Layered World")}`}
+                >
+                  Worlds & Veil
                 </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-
-        <div className={s.cosmologyGrid}>
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Cosmology at a Glance")}
-          >
-            <h3 className={s.sectionHeader}>
-              Cosmology at a Glance <Badge kind="canon">overview</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h("What the world is made of and why it matters for magic.")}
-            </p>
-            <div className={s.callouts}>
-              <div className={`${s.callout} ${s.calloutInfo}`}>
-                {h(
-                  "The valley sits where ladders of worlds lean together; the Veil cracked; elements behave as habits; magic is bound by oaths, costs, and courtesy.",
-                )}
+                <a
+                  className={s.chip}
+                  href={`#${anchorId("Where Magic Comes From")}`}
+                >
+                  Sources of magic
+                </a>
+                <a
+                  className={s.chip}
+                  href={`#${anchorId("Laws, Limits, and Costs")}`}
+                >
+                  Costs & risks
+                </a>
               </div>
             </div>
-            <Disclosure title={h("Highlights from summaries")}>
-              <ul>
-                {[
-                  ...worldsS.bullets,
-                  ...veilS.bullets,
-                  ...elementsEastS.bullets,
-                  ...elementsWestS.bullets,
-                ]
-                  .slice(0, 8)
-                  .map((b, i) => (
-                    <li key={i}>{h(b)}</li>
-                  ))}
-              </ul>
-            </Disclosure>
-            <div className={s.chips}>
-              <a className={s.chip} href={`#${anchorId("The Layered World")}`}>
-                Worlds & Veil
-              </a>
-              <a
-                className={s.chip}
-                href={`#${anchorId("Where Magic Comes From")}`}
-              >
-                Sources of magic
-              </a>
-              <a
-                className={s.chip}
-                href={`#${anchorId("Laws, Limits, and Costs")}`}
-              >
-                Costs & risks
-              </a>
-            </div>
-          </div>
 
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Origins and First Principles")}
-          >
-            <h3 className={s.sectionHeader}>
-              Origins and First Principles <Badge kind="canon">canon</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h(
-                "Before written law, debts were counted in bone and clay; later, the Veil covenant separated breath from breathless.",
-              )}
-            </p>
-            <Disclosure title={h("Laws & Pre-History (full text)")}>
-              <pre className={s.pre}>{h(laws)}</pre>
-            </Disclosure>
-            <div className={s.callouts}>
-              <div className={`${s.callout} ${s.calloutInfo}`}>
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Origins and First Principles")}
+            >
+              <h3 className={s.sectionHeader}>
+                Origins and First Principles <Badge kind="canon">canon</Badge>
+              </h3>
+              <p className={s.microSummary}>
                 {h(
-                  "Ethical stances anchor practice: Principle, Adaptation, Aspiration, Integrity, Potential, Capability.",
-                )}
-              </div>
-              <div className={`${s.callout} ${s.calloutWarn}`}>
-                {h(
-                  "Language makes oaths round; precision and kindness make speech binding.",
-                )}
-              </div>
-            </div>
-            <Disclosure title={h("Ethics Systems (full text)")}>
-              <pre className={s.pre}>{h(ethics)}</pre>
-            </Disclosure>
-            <Disclosure title={h("Basik AnglΣ (full text)")}>
-              <pre className={s.pre}>{h(language)}</pre>
-            </Disclosure>
-          </div>
-
-          <div className={s.sectionGroup} id={anchorId("The Layered World")}>
-            <h3 className={s.sectionHeader}>
-              The Layered World: Planes, Veil, Crossings{" "}
-              <Badge kind="belief">widely believed</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h(
-                "Overworld, Midworld, and Underworld touch; crossings open at debts and forgiveness; the Veilstone wound shapes the valley.",
-              )}
-            </p>
-            <Disclosure title={h("Worlds & Lokas (full text)")}>
-              <pre className={s.pre}>{h(worlds)}</pre>
-            </Disclosure>
-            <Disclosure title={h("The Shattered Veil (full text)")}>
-              <pre className={s.pre}>{h(veil)}</pre>
-            </Disclosure>
-          </div>
-
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Where Magic Comes From")}
-          >
-            <h3 className={s.sectionHeader}>
-              Where Magic Comes From <Badge kind="canon">mapped</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h(
-                "Practices draw from vow-bound Aether, elemental habits, precise summoning, alchemical repentance, and binding speech.",
-              )}
-            </p>
-            <div className={s.diagramCard}>
-              <div className={s.tableScroll}>
-                <table className={s.matrix}>
-                  <thead>
-                    <tr>
-                      <th className={s.matrixTh}>Source</th>
-                      <th className={s.matrixTh}>How it’s accessed</th>
-                      <th className={s.matrixTh}>Costs</th>
-                      <th className={s.matrixTh}>Risks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className={s.matrixTd}>
-                        <a href={`#${anchorId("Aether Magic System")}`}>
-                          {h("Aether")}
-                        </a>
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Vows, knots (seals), weaves (rites), counterseals")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Memory or reputation; receipts left by workings")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Ignorant bargains; the counterseal of Forgetting")}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className={s.matrixTd}>
-                        <a href={`#${anchorId("Summoning")}`}>
-                          {h("Summoning")}
-                        </a>
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Courtesy, precision, naming correctly then gently")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h(
-                          "Closing doors; payment with something expected to keep",
-                        )}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Hunger, false candles, wind that knows your name")}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className={s.matrixTd}>
-                        <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
-                          {h("Alchemy")}
-                        </a>
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Seven operations that refine motive into change")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Self-change; adequacy over gold")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Moral heat; unspoken—impatience and pride")}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className={s.matrixTd}>
-                        <a href={`#${anchorId("Elements (Eastern Flavor)")}`}>
-                          {h("Elements: East/West")}
-                        </a>
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h(
-                          "Working with generative and restraining cycles; mixtures",
-                        )}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Offering the right token, rhythm, or mixture")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Mismatched cycles; doctrine cooled into dogma")}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className={s.matrixTd}>
-                        <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
-                          {h("Language")}
-                        </a>
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h(
-                          "Kind, precise speech; oaths said thrice, written once",
-                        )}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Debt to meanings marked; names bind the speaker")}
-                      </td>
-                      <td className={s.matrixTd}>
-                        {h("Ambiguity; words that roll back if wrong")}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <Disclosure title={h("Aether Magic System (full text)")}>
-              <pre id={anchorId("Aether Magic System")} className={s.pre}>
-                {h(aether)}
-              </pre>
-            </Disclosure>
-            <Disclosure title={h("Elements (Eastern) (full text)")}>
-              <pre id={anchorId("Elements (Eastern Flavor)")} className={s.pre}>
-                {h(elementsEast)}
-              </pre>
-            </Disclosure>
-            <Disclosure title={h("Elements (Western) (full text)")}>
-              <pre id={anchorId("Elements (Western Flavor)")} className={s.pre}>
-                {h(elementsWest)}
-              </pre>
-            </Disclosure>
-            <Disclosure title={h("Summoning (full text)")}>
-              <pre id={anchorId("Summoning")} className={s.pre}>
-                {h(summoning)}
-              </pre>
-            </Disclosure>
-            <Disclosure title={h("Alchemy (full text)")}>
-              <pre id={anchorId("Alxemi (Alchemy)")} className={s.pre}>
-                {h(alchemy)}
-              </pre>
-            </Disclosure>
-            <Disclosure title={h("Language (full text)")}>
-              <pre id={anchorId("Basik AnglΣ (Language)")} className={s.pre}>
-                {h(language)}
-              </pre>
-            </Disclosure>
-          </div>
-
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Laws, Limits, and Costs")}
-          >
-            <h3 className={s.sectionHeader}>
-              Laws, Limits, and Costs <Badge kind="canon">constraints</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h(
-                "Cosmic and social law conserve debts; the cosmos demands prices in memory, reputation, courtesy, and time.",
-              )}
-            </p>
-            <div className={s.callouts}>
-              <div className={`${s.callout} ${s.calloutWarn}`}>
-                {h(
-                  "Because power is borrowed from stabilizing forces, the cosmos demands a price.",
-                )}
-              </div>
-              <div className={`${s.callout} ${s.calloutInfo}`}>
-                {h(
-                  "When stances conflict, protect the smallest voice; later, repair the neglected stance.",
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Traditions and Schools")}
-          >
-            <h3 className={s.sectionHeader}>
-              Traditions and Schools <Badge kind="belief">mapped</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h(
-                "Knots and Weaves, Courtesy Summoners, Repentant Alchemists, and Precise Tongues each optimize different trade-offs.",
-              )}
-            </p>
-            <ul>
-              <li>
-                {h("Threadworkers (Aether): vows, knots, weaves, counterseals")}
-              </li>
-              <li>
-                {h(
-                  "Courtesy Summoners: circles flawed on purpose, true names softened, paid closings",
-                )}
-              </li>
-              <li>
-                {h(
-                  "Alxemi: seven operations refining motive; the self is transmuted",
-                )}
-              </li>
-              <li>
-                {h("Basik AnglΣ Speakers: kind precision and triune oaths")}
-              </li>
-            </ul>
-          </div>
-
-          <div
-            className={s.sectionGroup}
-            id={anchorId("A History Written in Conjunctions")}
-          >
-            <h3 className={s.sectionHeader}>
-              A History Written in Conjunctions{" "}
-              <Badge kind="canon">timeline</Badge>
-            </h3>
-            <div className={s.diagramCard}>
-              <ul>
-                <li>
-                  {h(
-                    "Pre-Law: Bone Laws—hunters tally seasons; mercy regulates taking.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Clay Laws: merchants stamp debt into clay; fire bakes it into truth.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "The Covenant of the Veilstone separates breath and breathless.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Night of Saints: the Veilstone cracks; dead remember their names.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Modernities: parliaments legislate hauntings; monasteries notarize apologies; engineers draw polite bridges for the dead.",
-                  )}
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className={s.sectionGroup} id={anchorId("Places and Phenomena")}>
-            <h3 className={s.sectionHeader}>
-              Places, Phenomena, and Anomalies{" "}
-              <Badge kind="canon">field notes</Badge>
-            </h3>
-            <p className={s.microSummary}>
-              {h(
-                "Valea Căpcănești, Castle Bran, the Carpathian Forest, Saint Ilie’s, and the Abyss of the Veilstone anchor crossings and debts.",
-              )}
-            </p>
-            <Disclosure title={h("Key Places (from The Shattered Veil)")}>
-              <pre className={s.pre}>
-                {h(
-                  veilS.rest
-                    .split("\n\n")
-                    .filter(Boolean)
-                    .filter(
-                      (p) => p.startsWith("Key Places") || p.startsWith("- "),
-                    )
-                    .join("\n\n") || veil,
-                )}
-              </pre>
-            </Disclosure>
-            <Disclosure title={h("On Crossings (from Worlds & Lokas)")}>
-              <pre className={s.pre}>
-                {h(
-                  worldsS.rest
-                    .split("\n\n")
-                    .filter(Boolean)
-                    .filter(
-                      (p) =>
-                        p.includes("Crossings") ||
-                        p.includes("Veilstone Shards"),
-                    )
-                    .join("\n\n") || worlds,
-                )}
-              </pre>
-            </Disclosure>
-          </div>
-
-          <div
-            className={s.sectionGroup}
-            id={anchorId("People and Institutions")}
-          >
-            <h3 className={s.sectionHeader}>
-              People and Institutions <Badge kind="belief">actors</Badge>
-            </h3>
-            <ul>
-              <li>
-                {h(
-                  "Figures: Mircea of Bran; Freya of the Forest; the Gatekeeper.",
-                )}
-              </li>
-              <li>
-                {h(
-                  "Institutions: monasteries that notarize apologies; parliaments and engineers that adapt to the Shattering.",
-                )}
-              </li>
-            </ul>
-          </div>
-
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Entities and Artifacts")}
-          >
-            <h3 className={s.sectionHeader}>
-              Entities and Artifacts <Badge kind="canon">attunements</Badge>
-            </h3>
-            <ul>
-              <li>
-                {h("Relics: Veilstone Shard; Raven Button; Ossuary Ring.")}
-              </li>
-            </ul>
-            <Disclosure title={h("Relics and Their Burdens (full text)")}>
-              <pre className={s.pre}>
-                {h(
-                  veilS.rest
-                    .split("\n\n")
-                    .filter(Boolean)
-                    .filter((p) => p.startsWith("Relics"))
-                    .join("\n\n") || veil,
-                )}
-              </pre>
-            </Disclosure>
-          </div>
-
-          <div className={s.sectionGroup} id={anchorId("Quick Reference")}>
-            <h3 className={s.sectionHeader}>
-              Quick Reference <Badge kind="canon">practical</Badge>
-            </h3>
-            <div className={s.quickRef}>
-              <p>
-                {h(
-                  "If you have 1 minute: Remember courtesy and cost. Speak kindly, precisely. Leave a button.",
+                  "Before written law, debts were counted in bone and clay; later, the Veil covenant separated breath from breathless.",
                 )}
               </p>
-              <p>
+              <Disclosure title={h("Laws & Pre-History (full text)")}>
+                <pre className={s.pre}>{h(laws)}</pre>
+              </Disclosure>
+              <div className={s.callouts}>
+                <div className={`${s.callout} ${s.calloutInfo}`}>
+                  {h(
+                    "Ethical stances anchor practice: Principle, Adaptation, Aspiration, Integrity, Potential, Capability.",
+                  )}
+                </div>
+                <div className={`${s.callout} ${s.calloutWarn}`}>
+                  {h(
+                    "Language makes oaths round; precision and kindness make speech binding.",
+                  )}
+                </div>
+              </div>
+              <Disclosure title={h("Ethics Systems (full text)")}>
+                <pre className={s.pre}>{h(ethics)}</pre>
+              </Disclosure>
+              <Disclosure title={h("Basik AnglΣ (full text)")}>
+                <pre className={s.pre}>{h(language)}</pre>
+              </Disclosure>
+            </div>
+
+            <div className={s.sectionGroup} id={anchorId("The Layered World")}>
+              <h3 className={s.sectionHeader}>
+                The Layered World: Planes, Veil, Crossings{" "}
+                <Badge kind="belief">widely believed</Badge>
+              </h3>
+              <p className={s.microSummary}>
                 {h(
-                  "If you have 5 minutes: Mark a vow; prepare a counterseal; check cycles; never bargain hungry; open a window if candles lie.",
+                  "Overworld, Midworld, and Underworld touch; crossings open at debts and forgiveness; the Veilstone wound shapes the valley.",
                 )}
               </p>
-              <ul>
-                <li>
-                  {h(
-                    "Safe casting: vow → knot → weave; pre-decide payment; write a receipt.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Summoning: draw circle slightly wrong; true name then gentler title; pay with something kept.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Alchemy: choose an operation; let it change you before metals.",
-                  )}
-                </li>
-              </ul>
+              <Disclosure title={h("Worlds & Lokas (full text)")}>
+                <pre className={s.pre}>{h(worlds)}</pre>
+              </Disclosure>
+              <Disclosure title={h("The Shattered Veil (full text)")}>
+                <pre className={s.pre}>{h(veil)}</pre>
+              </Disclosure>
             </div>
-          </div>
 
-          <div
-            className={s.sectionGroup}
-            id={anchorId("Appendices: Source Texts")}
-          >
-            <h3 className={s.sectionHeader}>
-              Appendices: Source Texts <Badge kind="canon">full detail</Badge>
-            </h3>
-            {Object.entries(sections).map(([label, body]) => (
-              <Disclosure key={label} title={h(label)}>
-                <pre className={s.pre} id={anchorId(label)}>
-                  {h(body)}
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Where Magic Comes From")}
+            >
+              <h3 className={s.sectionHeader}>
+                Where Magic Comes From <Badge kind="canon">mapped</Badge>
+              </h3>
+              <p className={s.microSummary}>
+                {h(
+                  "Practices draw from vow-bound Aether, elemental habits, precise summoning, alchemical repentance, and binding speech.",
+                )}
+              </p>
+              <div className={s.diagramCard}>
+                <div className={s.tableScroll}>
+                  <table className={s.matrix}>
+                    <thead>
+                      <tr>
+                        <th className={s.matrixTh}>Source</th>
+                        <th className={s.matrixTh}>How it’s accessed</th>
+                        <th className={s.matrixTh}>Costs</th>
+                        <th className={s.matrixTh}>Risks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className={s.matrixTd}>
+                          <a href={`#${anchorId("Aether Magic System")}`}>
+                            {h("Aether")}
+                          </a>
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Vows, knots (seals), weaves (rites), counterseals",
+                          )}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Memory or reputation; receipts left by workings")}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Ignorant bargains; the counterseal of Forgetting",
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={s.matrixTd}>
+                          <a href={`#${anchorId("Summoning")}`}>
+                            {h("Summoning")}
+                          </a>
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Courtesy, precision, naming correctly then gently",
+                          )}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Closing doors; payment with something expected to keep",
+                          )}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Hunger, false candles, wind that knows your name",
+                          )}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={s.matrixTd}>
+                          <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
+                            {h("Alchemy")}
+                          </a>
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Seven operations that refine motive into change")}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Self-change; adequacy over gold")}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Moral heat; unspoken—impatience and pride")}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={s.matrixTd}>
+                          <a href={`#${anchorId("Elements (Eastern Flavor)")}`}>
+                            {h("Elements: East/West")}
+                          </a>
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Working with generative and restraining cycles; mixtures",
+                          )}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Offering the right token, rhythm, or mixture")}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Mismatched cycles; doctrine cooled into dogma")}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className={s.matrixTd}>
+                          <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
+                            {h("Language")}
+                          </a>
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h(
+                            "Kind, precise speech; oaths said thrice, written once",
+                          )}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Debt to meanings marked; names bind the speaker")}
+                        </td>
+                        <td className={s.matrixTd}>
+                          {h("Ambiguity; words that roll back if wrong")}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <Disclosure title={h("Aether Magic System (full text)")}>
+                <pre id={anchorId("Aether Magic System")} className={s.pre}>
+                  {h(aether)}
                 </pre>
               </Disclosure>
-            ))}
+              <Disclosure title={h("Elements (Eastern) (full text)")}>
+                <pre
+                  id={anchorId("Elements (Eastern Flavor)")}
+                  className={s.pre}
+                >
+                  {h(elementsEast)}
+                </pre>
+              </Disclosure>
+              <Disclosure title={h("Elements (Western) (full text)")}>
+                <pre
+                  id={anchorId("Elements (Western Flavor)")}
+                  className={s.pre}
+                >
+                  {h(elementsWest)}
+                </pre>
+              </Disclosure>
+              <Disclosure title={h("Summoning (full text)")}>
+                <pre id={anchorId("Summoning")} className={s.pre}>
+                  {h(summoning)}
+                </pre>
+              </Disclosure>
+              <Disclosure title={h("Alchemy (full text)")}>
+                <pre id={anchorId("Alxemi (Alchemy)")} className={s.pre}>
+                  {h(alchemy)}
+                </pre>
+              </Disclosure>
+              <Disclosure title={h("Language (full text)")}>
+                <pre id={anchorId("Basik AnglΣ (Language)")} className={s.pre}>
+                  {h(language)}
+                </pre>
+              </Disclosure>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Laws, Limits, and Costs")}
+            >
+              <h3 className={s.sectionHeader}>
+                Laws, Limits, and Costs <Badge kind="canon">constraints</Badge>
+              </h3>
+              <p className={s.microSummary}>
+                {h(
+                  "Cosmic and social law conserve debts; the cosmos demands prices in memory, reputation, courtesy, and time.",
+                )}
+              </p>
+              <div className={s.callouts}>
+                <div className={`${s.callout} ${s.calloutWarn}`}>
+                  {h(
+                    "Because power is borrowed from stabilizing forces, the cosmos demands a price.",
+                  )}
+                </div>
+                <div className={`${s.callout} ${s.calloutInfo}`}>
+                  {h(
+                    "When stances conflict, protect the smallest voice; later, repair the neglected stance.",
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Traditions and Schools")}
+            >
+              <h3 className={s.sectionHeader}>
+                Traditions and Schools <Badge kind="belief">mapped</Badge>
+              </h3>
+              <p className={s.microSummary}>
+                {h(
+                  "Knots and Weaves, Courtesy Summoners, Repentant Alchemists, and Precise Tongues each optimize different trade-offs.",
+                )}
+              </p>
+              <ul>
+                <li>
+                  {h(
+                    "Threadworkers (Aether): vows, knots, weaves, counterseals",
+                  )}
+                </li>
+                <li>
+                  {h(
+                    "Courtesy Summoners: circles flawed on purpose, true names softened, paid closings",
+                  )}
+                </li>
+                <li>
+                  {h(
+                    "Alxemi: seven operations refining motive; the self is transmuted",
+                  )}
+                </li>
+                <li>
+                  {h("Basik AnglΣ Speakers: kind precision and triune oaths")}
+                </li>
+              </ul>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("A History Written in Conjunctions")}
+            >
+              <h3 className={s.sectionHeader}>
+                A History Written in Conjunctions{" "}
+                <Badge kind="canon">timeline</Badge>
+              </h3>
+              <div className={s.diagramCard}>
+                <ul>
+                  <li>
+                    {h(
+                      "Pre-Law: Bone Laws—hunters tally seasons; mercy regulates taking.",
+                    )}
+                  </li>
+                  <li>
+                    {h(
+                      "Clay Laws: merchants stamp debt into clay; fire bakes it into truth.",
+                    )}
+                  </li>
+                  <li>
+                    {h(
+                      "The Covenant of the Veilstone separates breath and breathless.",
+                    )}
+                  </li>
+                  <li>
+                    {h(
+                      "Night of Saints: the Veilstone cracks; dead remember their names.",
+                    )}
+                  </li>
+                  <li>
+                    {h(
+                      "Modernities: parliaments legislate hauntings; monasteries notarize apologies; engineers draw polite bridges for the dead.",
+                    )}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Places and Phenomena")}
+            >
+              <h3 className={s.sectionHeader}>
+                Places, Phenomena, and Anomalies{" "}
+                <Badge kind="canon">field notes</Badge>
+              </h3>
+              <p className={s.microSummary}>
+                {h(
+                  "Valea Căpcănești, Castle Bran, the Carpathian Forest, Saint Ilie’s, and the Abyss of the Veilstone anchor crossings and debts.",
+                )}
+              </p>
+              <Disclosure title={h("Key Places (from The Shattered Veil)")}>
+                <pre className={s.pre}>
+                  {h(
+                    veilS.rest
+                      .split("\n\n")
+                      .filter(Boolean)
+                      .filter(
+                        (p) => p.startsWith("Key Places") || p.startsWith("- "),
+                      )
+                      .join("\n\n") || veil,
+                  )}
+                </pre>
+              </Disclosure>
+              <Disclosure title={h("On Crossings (from Worlds & Lokas)")}>
+                <pre className={s.pre}>
+                  {h(
+                    worldsS.rest
+                      .split("\n\n")
+                      .filter(Boolean)
+                      .filter(
+                        (p) =>
+                          p.includes("Crossings") ||
+                          p.includes("Veilstone Shards"),
+                      )
+                      .join("\n\n") || worlds,
+                  )}
+                </pre>
+              </Disclosure>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("People and Institutions")}
+            >
+              <h3 className={s.sectionHeader}>
+                People and Institutions <Badge kind="belief">actors</Badge>
+              </h3>
+              <ul>
+                <li>
+                  {h(
+                    "Figures: Mircea of Bran; Freya of the Forest; the Gatekeeper.",
+                  )}
+                </li>
+                <li>
+                  {h(
+                    "Institutions: monasteries that notarize apologies; parliaments and engineers that adapt to the Shattering.",
+                  )}
+                </li>
+              </ul>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Entities and Artifacts")}
+            >
+              <h3 className={s.sectionHeader}>
+                Entities and Artifacts <Badge kind="canon">attunements</Badge>
+              </h3>
+              <ul>
+                <li>
+                  {h("Relics: Veilstone Shard; Raven Button; Ossuary Ring.")}
+                </li>
+              </ul>
+              <Disclosure title={h("Relics and Their Burdens (full text)")}>
+                <pre className={s.pre}>
+                  {h(
+                    veilS.rest
+                      .split("\n\n")
+                      .filter(Boolean)
+                      .filter((p) => p.startsWith("Relics"))
+                      .join("\n\n") || veil,
+                  )}
+                </pre>
+              </Disclosure>
+            </div>
+
+            <div className={s.sectionGroup} id={anchorId("Quick Reference")}>
+              <h3 className={s.sectionHeader}>
+                Quick Reference <Badge kind="canon">practical</Badge>
+              </h3>
+              <div className={s.quickRef}>
+                <p>
+                  {h(
+                    "If you have 1 minute: Remember courtesy and cost. Speak kindly, precisely. Leave a button.",
+                  )}
+                </p>
+                <p>
+                  {h(
+                    "If you have 5 minutes: Mark a vow; prepare a counterseal; check cycles; never bargain hungry; open a window if candles lie.",
+                  )}
+                </p>
+                <ul>
+                  <li>
+                    {h(
+                      "Safe casting: vow → knot → weave; pre-decide payment; write a receipt.",
+                    )}
+                  </li>
+                  <li>
+                    {h(
+                      "Summoning: draw circle slightly wrong; true name then gentler title; pay with something kept.",
+                    )}
+                  </li>
+                  <li>
+                    {h(
+                      "Alchemy: choose an operation; let it change you before metals.",
+                    )}
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Appendices: Source Texts")}
+            >
+              <h3 className={s.sectionHeader}>
+                Appendices: Source Texts <Badge kind="canon">full detail</Badge>
+              </h3>
+              {Object.entries(sections).map(([label, body]) => (
+                <Disclosure key={label} title={h(label)}>
+                  <pre className={s.pre} id={anchorId(label)}>
+                    {h(body)}
+                  </pre>
+                </Disclosure>
+              ))}
+            </div>
           </div>
         </div>
       </section>
