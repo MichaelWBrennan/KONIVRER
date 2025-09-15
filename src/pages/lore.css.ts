@@ -95,7 +95,7 @@ export const tabButton = style({
 export const tabActive = style({
   backgroundColor: "#e8f4ff",
   borderColor: "#a8d0ff",
-  color: "#1b5fa8",
+  color: "#000",
 });
 
 export const pre = style({
@@ -233,7 +233,7 @@ export const traitChip = style({
   padding: "2px 10px",
   borderRadius: "9999px",
   backgroundColor: "#e8f4ff",
-  color: "#1b5fa8",
+  color: "#000",
   border: "1px solid #a8d0ff",
   fontSize: "var(--trait-font-size, 0.9rem)",
 });
@@ -292,6 +292,19 @@ export const cosmologyGrid = style({
   },
 });
 
+// Two-column layout (TOC + content) on wide screens; single column otherwise
+export const cosmologyLayout = style({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: "16px",
+  "@media": {
+    "screen and (min-width: 1280px)": {
+      gridTemplateColumns: "280px minmax(0, 1fr)",
+      alignItems: "start",
+    },
+  },
+});
+
 export const toc = style({
   display: "none",
   position: "sticky",
@@ -331,6 +344,7 @@ export const tocMobileSummary = style({
   justifyContent: "space-between",
   gap: "8px",
   fontWeight: 600,
+  color: "#000",
 });
 
 export const tocMobileBody = style({
@@ -354,7 +368,7 @@ export const tocList = style({
 export const tocLink = style({
   display: "block",
   textDecoration: "none",
-  color: "#1b5fa8",
+  color: "#000",
   padding: "6px 8px",
   borderRadius: "6px",
   backgroundColor: "#f2f8ff",
@@ -432,7 +446,7 @@ export const badgeCanon = style({
 
 export const badgeBelief = style({
   backgroundColor: "#fff7e6",
-  color: "#9a6b00",
+  color: "#000",
   borderColor: "#ffe0a3",
 });
 
@@ -459,11 +473,13 @@ export const callout = style({
 export const calloutInfo = style({
   borderLeftColor: "#3498db",
   backgroundColor: "#f0f7ff",
+  color: "#000",
 });
 
 export const calloutWarn = style({
   borderLeftColor: "#e67e22",
   backgroundColor: "#fff7ef",
+  color: "#000",
 });
 
 export const calloutDanger = style({
@@ -485,7 +501,7 @@ export const chip = style({
   fontSize: "0.85rem",
   backgroundColor: "#eef6ff",
   border: "1px solid #d6e8ff",
-  color: "#1b5fa8",
+  color: "#000",
   textDecoration: "none",
 });
 

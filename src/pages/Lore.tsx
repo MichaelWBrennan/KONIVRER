@@ -152,6 +152,27 @@ export const Lore: React.FC = () => {
   const [loadedText, setLoadedText] = useState<string>("");
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
   const requestIdRef = useRef(0);
+  const tocMobileRef = useRef<HTMLDetailsElement | null>(null);
+
+  useEffect(() => {
+    try {
+      if (typeof navigator !== "undefined") {
+        const ua = navigator.userAgent || "";
+        const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(
+          ua,
+        );
+        if (isMobileUA) {
+          const el = tocMobileRef.current;
+          if (el && !el.hasAttribute("data-initialized")) {
+            el.open = true;
+            el.setAttribute("data-initialized", "1");
+          }
+        }
+      }
+    } catch {
+      // ignore UA detection errors
+    }
+  }, []);
 
   const labelForSrc: Record<string, string> = {
     "/assets/lore/societies.txt": "Societies & Eras",
@@ -1386,7 +1407,7 @@ export const Lore: React.FC = () => {
     return (
       <section className={s.section}>
         <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
-        <details className={s.tocMobile}>
+        <details className={s.tocMobile} ref={tocMobileRef}>
           <summary className={s.tocMobileSummary}>On this page</summary>
           <div className={s.tocMobileBody}>
             <ul className={s.tocList}>
@@ -1400,20 +1421,21 @@ export const Lore: React.FC = () => {
             </ul>
           </div>
         </details>
-        <nav className={s.toc} aria-label="Cosmology Table of Contents">
-          <div className={s.tocTitle}>On this page</div>
-          <ul className={s.tocList}>
-            {tocItems.map((t) => (
-              <li key={t.id}>
-                <a className={s.tocLink} href={`#${t.id}`}>
-                  {t.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <div className={s.cosmologyLayout}>
+          <nav className={s.toc} aria-label="Cosmology Table of Contents">
+            <div className={s.tocTitle}>On this page</div>
+            <ul className={s.tocList}>
+              {tocItems.map((t) => (
+                <li key={t.id}>
+                  <a className={s.tocLink} href={`#${t.id}`}>
+                    {t.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-        <div className={s.cosmologyGrid}>
+          <div className={s.cosmologyGrid}>
           <div
             className={s.sectionGroup}
             id={anchorId("Cosmology at a Glance")}
@@ -1895,6 +1917,7 @@ export const Lore: React.FC = () => {
                 </pre>
               </Disclosure>
             ))}
+          </div>
           </div>
         </div>
       </section>
