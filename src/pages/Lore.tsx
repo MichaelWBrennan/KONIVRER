@@ -1337,16 +1337,10 @@ export const Lore: React.FC = () => {
     const ethics = sections["Ethics Systems"] || "";
     const laws = sections["Laws & Pre-History"] || "";
 
-    const aetherS = parseSummary(aether);
     const elementsEastS = parseSummary(elementsEast);
     const elementsWestS = parseSummary(elementsWest);
     const worldsS = parseSummary(worlds);
-    const summoningS = parseSummary(summoning);
     const veilS = parseSummary(veil);
-    const alchemyS = parseSummary(alchemy);
-    const languageS = parseSummary(language);
-    const ethicsS = parseSummary(ethics);
-    const lawsS = parseSummary(laws);
 
     const tocItems = [
       { id: anchorId("Cosmology at a Glance"), label: "Cosmology at a Glance" },
