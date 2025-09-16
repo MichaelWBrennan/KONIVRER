@@ -101,13 +101,7 @@ export const Lore: React.FC = () => {
     { id: "elements", label: "Six Elements", isStatic: true },
     {
       id: "aether",
-      label: "Aether",
-      sources: [
-        "/assets/lore/aether.txt",
-        "/assets/lore/alchemy.txt",
-        "/assets/lore/language.txt",
-        "/assets/lore/ethics.txt",
-      ],
+      label: "Aether Treatise",
     },
     {
       id: "cosmology",
@@ -1972,121 +1966,250 @@ export const Lore: React.FC = () => {
     );
   }
 
-  function renderAetherFolio(display: string): React.ReactNode {
-    const sections = parseCombinedSections(display);
-    const aether = sections["Aether Magic System"] || "";
-    const alchemy = sections["Alxemi (Alchemy)"] || sections["Alchemy"] || "";
-    const language =
-      sections["Basik AnglΣ (Language)"] || sections["Language"] || "";
-    const ethics = sections["Ethics Systems"] || "";
+  function renderAetherTreatise(): React.ReactNode {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
     const introParts: string[] = [
-      "Aether is the common medium by which a spoken promise acts upon the world. Treat it as a living regimen: the vow is expressed as thread, secured with a ligature (knot), arranged as a suture pattern (weave), and, when indicated, released by a counterseal—the remedy that resolves the work without harm.",
-      "As in a physician’s folio, keep clear tables for costs and courtesies. Set the fee before you begin, use precise and gentle speech, and leave a receipt that another practitioner can audit.",
-      "Failures present as familiar disorders: bargains made in ignorance, workings attempted in hunger or agitation, and misuse of Forgetting as if it were cautery. First care is conservative: correct the words, restore the pledged token, and only then employ any stronger measure.",
+      "Canon Aetheris Medicus, compiled in the year fifteen‑hundred after the shattering of the Veil, gathers the safe doctrine of breath and flow from monasteries and bazaars between the Pillars and the Sunrise. What follows is a physician’s book, not a conjurer’s: it treats the coursing of Aether in the body, the gates by which it gathers and loosens, and the lawful means to set it right.",
+      "Names differ yet the matter is one. Abrahamites name it breath and grace (ruach, pneuma); Dharmists call it prāṇa and bind it in nāḍīs and cakras; Taoists speak of qì moving along meridians as the two balance; Hellenes teach pneûma through humors and the temperaments; sages of the great belt of Africa teach a vital force that runs in lineage, called àṣẹ or nyama; Wildfolk speak of living wind in root and antler. We call all these Aether when it concerns flesh.",
+      "Aether is examined by sight, pulse, and pressure; corrected by breath, touch, needle, heat, unguent, food, posture, prayer, and song. The art is conservative: prefer what loosens gently before what burns. Hunger, grief newly kindled, and crowds seeking marvels are bad times to work."
     ];
     const intro = introParts.join("\n\n");
 
+    const doctrineRows: Array<[string, string, string, string]> = [
+      [
+        "Abrahamism",
+        "Breath/Grace (ruach, pneuma)",
+        "Gates of heart and throat; right hand for covenant, left for memory",
+        "Prayer, confession, anointing oils; pilgrimage fasts",
+      ],
+      [
+        "Dharmism",
+        "Prāṇa",
+        "Nāḍīs (iḍā, piṅgalā, suṣumṇā); seven lamps (cakras)",
+        "Breath‑disciplines, seats and locks; herbs warm or cool the doṣas",
+      ],
+      [
+        "Taoism",
+        "Qì",
+        "Meridians; source, well, river, stream, and sea points",
+        "Acupressure/needling; moxa; seasonal diet; quiet standing",
+      ],
+      [
+        "Hellenism",
+        "Pneûma",
+        "Organs as furnaces; humors carry heat and motion",
+        "Balancing hot/cold, dry/moist; pulse, baths, simples",
+      ],
+      [
+        "African Lore",
+        "Vital force (àṣẹ, nyama)",
+        "Lines of kin and place; crown, palms, soles as bright gates",
+        "Invocation, rhythm, palm‑oils, smoke; elders’ blessing",
+      ],
+      [
+        "Wildfolkism",
+        "Field‑breath",
+        "Hollows where wind pools: nape, kidneys, knee crooks",
+        "Offerings, bone‑charms, slow songs to unbind fright",
+      ],
+    ];
+
+    const lamps: Array<[string, string, string, string]> = [
+      [
+        "Crown (Lamp of Kings)",
+        "Fontanelle, midline",
+        "Suṣumṇā/DU meets REN; ancestral line joins",
+        "Brightening; wastes if grief is sealed",
+      ],
+      [
+        "Brow (Lamp of Counsel)",
+        "Between the eyes",
+        "Idā/Piṅgalā braid; Yin/Yang cross",
+        "Clarity; scatters with excessive vigil or false lights",
+      ],
+      [
+        "Throat (Lamp of Oaths)",
+        "Above the notch",
+        "Sea of qì; gate of covenant breath",
+        "Gives voice; tightens with swallowed words",
+      ],
+      [
+        "Heart (Lamp of Mercy)",
+        "Sternum’s center",
+        "Great meeting of channels; seat of intention",
+        "Warms limbs; chills with resentment",
+      ],
+      [
+        "Solar (Lamp of Resolve)",
+        "Below xiphoid",
+        "Middle burner; river of food‑fire",
+        "Digests worries; flares with pride, sinks with shame",
+      ],
+      [
+        "Navel (Lamp of Stewardship)",
+        "At the umbilicus",
+        "Sea of blood; srotas distribute",
+        "Stores strength; leaks with over‑giving",
+      ],
+      [
+        "Root (Lamp of Keeping)",
+        "Perineal gate",
+        "Gate of essence; ming‑men behind",
+        "Holds life; freezes with fear, bleeds with excess heat",
+      ],
+    ];
+
+    const complaints: Array<[string, string, string, string]> = [
+      [
+        "Head wind (scatter‑thought, moving pain)",
+        "Qì ascends unruly; iḍā/piṅgalā unpaced",
+        "Press brow gate; warm feet; lengthen exhale; avoid bitter at night",
+        "Do not needle crown in grief’s first three days",
+      ],
+      [
+        "Chest tightness (unshed speech)",
+        "Throat/heart gates bound by withheld word",
+        "Rub sesame with thyme over sternum; sing psalm or mantra; open windows",
+        "No sharp heat if tongue is dry and red",
+      ],
+      [
+        "Cold hands, quick anger",
+        "Fire trapped at solar; earth drained at navel",
+        "Ginger decoction; knead the thenar well; walk until sweat pearls",
+        "Avoid strong purges in winter",
+      ],
+      [
+        "Night‑terrors (fright wind)",
+        "Root gate startled; essence scattering",
+        "Warm milk with nutmeg; bind an iron button at ankle gate; ancestor prayer",
+        "Leave children un-needled save for gentle touch",
+      ],
+    ];
+
+    const glossary: string[] = [
+      "Gate — a place on the body where Aether pools and can be persuaded",
+      "Lamp — a deep basin along the spine that governs many gates",
+      "Burners — upper, middle, lower hearths that cook breath into blood",
+      "Tonify — to invite Aether in; Sedate — to cool an excess",
+    ];
+
     return (
       <section className={`${s.section} ${s.folioPage}`}>
-        <h2 className={s.folioHeader}>Aether: A Physician’s Manual</h2>
+        <h2 className={s.folioHeader}>Canon Aetheris Medicus (c. 1500)</h2>
         <p className={s.folioSubhead}>
           {h(
-            "Plain methods and cautions for vows, ligatures (knots), suture patterns (weaves), and counterseals (remedies)",
+            "A cross‑Eurasian manual on the flow of Aether in flesh: breath, channels, lamps, and lawful remedies",
           )}
         </p>
         <div className={s.folioColumns}>
           <div className={s.folioText}>{h(intro)}</div>
         </div>
         <div className={s.folioRule} />
+
         <div className={s.diagramCard}>
           <div className={s.tableScroll}>
             <table className={s.matrix}>
               <thead>
                 <tr>
-                  <th className={s.matrixTh}>Part</th>
-                  <th className={s.matrixTh}>Clinical description</th>
-                  <th className={s.matrixTh}>Common risk</th>
+                  <th className={s.matrixTh}>Tradition</th>
+                  <th className={s.matrixTh}>Name for Aether</th>
+                  <th className={s.matrixTh}>Channels and Gates</th>
+                  <th className={s.matrixTh}>Balancings</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td className={s.matrixTd}>Thread</td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Initial bolus of intent from a spoken vow; fee set in advance; keep a sober regimen",
-                    )}
-                  </td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Unclear aim; no fee agreed; poor preparation (fatigue, fasting, anger)",
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className={s.matrixTd}>Knot (Seal)</td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Ligature that holds the effect in place; choose the simplest knot that serves",
-                    )}
-                  </td>
-                  <td className={s.matrixTd}>
-                    {h("Overtight ligature; adhesion; no prepared release")}
-                  </td>
-                </tr>
-                <tr>
-                  <td className={s.matrixTd}>Weave (Rite)</td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Suture pattern built from knots; set the field: hospitality, witnesses, and penance",
-                    )}
-                  </td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Show over preparation; foul water; unclean instruments",
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td className={s.matrixTd}>Counterseal</td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Indicated remedy that loosens the ligature and resolves the working",
-                    )}
-                  </td>
-                  <td className={s.matrixTd}>
-                    {h(
-                      "Using Forgetting as cautery—erasing tissue instead of relieving pressure",
-                    )}
-                  </td>
-                </tr>
+                {doctrineRows.map((row, i) => (
+                  <tr key={i}>
+                    {row.map((cell, j) => (
+                      <td key={`${i}-${j}`} className={s.matrixTd}>
+                        {h(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         </div>
+
         <div className={s.folioMarginNote}>
-          <strong>{h("Clinical reminders:")}</strong>
+          <strong>{h("Maxims:")}</strong>
           <ul>
-            <li>{h("Decide cost in advance; write it down.")}</li>
-            <li>{h("Speak kindly and precisely; names bind speakers.")}</li>
             <li>
-              {h("Leave receipts: loops, knots, and notes peers can audit.")}
+              {h(
+                "Begin with breath and posture; next with touch and food; only then with needle or fire.",
+              )}
+            </li>
+            <li>{h("Do not treat during rage, fasting, or fresh mourning.")}</li>
+            <li>
+              {h(
+                "Where traditions differ in word, reconcile in the patient: follow what steadies their breath.",
+              )}
             </li>
           </ul>
         </div>
-        <Disclosure title={h("Aether Magic System (full text)")}>
-          <pre className={s.pre}>{h(aether)}</pre>
-        </Disclosure>
-        <Disclosure title={h("Alxemi (Alchemy) (full text)")}>
-          <pre className={s.pre}>{h(alchemy)}</pre>
-        </Disclosure>
-        <Disclosure title={h("Basik AnglΣ (Language) (full text)")}>
-          <pre className={s.pre}>{h(language)}</pre>
-        </Disclosure>
-        <Disclosure title={h("Ethics Systems (full text)")}>
-          <pre className={s.pre}>{h(ethics)}</pre>
-        </Disclosure>
+
+        <div className={s.diagramCard}>
+          <div className={s.tableScroll}>
+            <table className={s.matrix}>
+              <thead>
+                <tr>
+                  <th className={s.matrixTh}>Seven Lamps</th>
+                  <th className={s.matrixTh}>Seat</th>
+                  <th className={s.matrixTh}>Crossings</th>
+                  <th className={s.matrixTh}>Clinical Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {lamps.map((row, i) => (
+                  <tr key={i}>
+                    {row.map((cell, j) => (
+                      <td key={`${i}-${j}`} className={s.matrixTd}>
+                        {h(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className={s.diagramCard}>
+          <div className={s.tableScroll}>
+            <table className={s.matrix}>
+              <thead>
+                <tr>
+                  <th className={s.matrixTh}>Common Complaint</th>
+                  <th className={s.matrixTh}>Reading</th>
+                  <th className={s.matrixTh}>Gentle Treatment</th>
+                  <th className={s.matrixTh}>Caution</th>
+                </tr>
+              </thead>
+              <tbody>
+                {complaints.map((row, i) => (
+                  <tr key={i}>
+                    {row.map((cell, j) => (
+                      <td key={`${i}-${j}`} className={s.matrixTd}>
+                        {h(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className={s.folioMarginNote}>
+          <strong>{h("Glossary:")}</strong>
+          <ul>
+            {glossary.map((g, i) => (
+              <li key={i}>{h(g)}</li>
+            ))}
+          </ul>
+        </div>
       </section>
     );
   }
@@ -2101,8 +2224,8 @@ export const Lore: React.FC = () => {
     if (tab.id === "cosmology" && display) {
       return renderCosmologyStructured(display);
     }
-    if (tab.id === "aether" && display) {
-      return renderAetherFolio(display);
+    if (tab.id === "aether") {
+      return renderAetherTreatise();
     }
     const content = query ? highlight(display, query) : display;
     return (
