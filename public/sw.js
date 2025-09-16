@@ -82,7 +82,8 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(cacheFirstStrategy(request));
   } else if (
     request.url.includes("/assets/lore/") &&
-    (request.url.endsWith(".txt") || request.headers.get("Accept")?.includes("text/plain"))
+    (request.url.endsWith(".txt") ||
+      request.headers.get("Accept")?.includes("text/plain"))
   ) {
     // Lore text files - Network First to reflect edits immediately
     event.respondWith(networkFirstStrategy(request));
