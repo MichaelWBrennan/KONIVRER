@@ -551,7 +551,12 @@ export const matrixTd = style({
   whiteSpace: "normal",
 });
 
-globalStyle(`${matrixTd} a`, { color: "#000", wordBreak: "normal", overflowWrap: "normal", hyphens: "manual" });
+globalStyle(`${matrixTd} a`, {
+  color: "#000",
+  wordBreak: "normal",
+  overflowWrap: "normal",
+  hyphens: "manual",
+});
 globalStyle(`${matrixTd} a:visited`, { color: "#000" });
 globalStyle(`${matrixTd} a:hover`, { color: "#000" });
 globalStyle(`${matrixTd} a:active`, { color: "#000" });
