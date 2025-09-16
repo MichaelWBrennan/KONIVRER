@@ -1,7 +1,7 @@
 // Enhanced Service Worker for KONIVRER PWA - Mobile-First
-const STATIC_CACHE = "konivrer-static-v1.1.0";
-const DYNAMIC_CACHE = "konivrer-dynamic-v1.1.0";
-const IMAGE_CACHE = "konivrer-images-v1.1.0";
+const STATIC_CACHE = "konivrer-static-v1.1.1";
+const DYNAMIC_CACHE = "konivrer-dynamic-v1.1.1";
+const IMAGE_CACHE = "konivrer-images-v1.1.1";
 
 // Critical assets to cache immediately for mobile-first experience
 const STATIC_ASSETS = [
@@ -80,6 +80,12 @@ self.addEventListener("fetch", (event) => {
   } else if (request.url.includes("/static/")) {
     // Static assets - Cache First
     event.respondWith(cacheFirstStrategy(request));
+  } else if (
+    request.url.includes("/assets/lore/") &&
+    (request.url.endsWith(".txt") || request.headers.get("Accept")?.includes("text/plain"))
+  ) {
+    // Lore text files - Network First to reflect edits immediately
+    event.respondWith(networkFirstStrategy(request));
   } else {
     // HTML pages - Stale While Revalidate
     event.respondWith(staleWhileRevalidateStrategy(request));

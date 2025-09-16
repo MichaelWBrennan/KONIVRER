@@ -30,7 +30,17 @@ window.addEventListener("orientationchange", () => {
 
 // Service worker registration for PWA features
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js").catch(console.error);
+  if (import.meta.env.PROD) {
+    navigator.serviceWorker.register("/sw.js").catch(console.error);
+  } else {
+    // In dev: unregister existing SW and clear caches to avoid stale content
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      regs.forEach((reg) => reg.unregister());
+    });
+    if ("caches" in window) {
+      caches.keys().then((names) => names.forEach((n) => caches.delete(n)));
+    }
+  }
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
