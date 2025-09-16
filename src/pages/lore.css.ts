@@ -570,3 +570,107 @@ export const glossaryList = style({
   display: "grid",
   gap: "6px",
 });
+
+// 1500 CE medical folio aesthetics (Aether)
+export const folioPage = style({
+  background: "linear-gradient(0deg, #f6f1e2, #f6f1e2)",
+  border: "1px solid #e2d7b8",
+  borderRadius: "10px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+  padding: "14px",
+});
+
+export const folioHeader = style({
+  fontVariant: "small-caps",
+  letterSpacing: "0.06em",
+  color: "#3a2f18",
+  margin: "0 0 8px 0",
+});
+
+export const folioSubhead = style({
+  color: "#4a3b1e",
+  margin: "0 0 10px 0",
+  fontSize: "0.95rem",
+});
+
+export const folioColumns = style({
+  columnCount: 1,
+  columnGap: "18px",
+  columnRule: "1px solid #e2d7b8",
+  "@media": {
+    "screen and (min-width: 1024px)": {
+      columnCount: 2,
+    },
+  },
+});
+
+export const folioText = style({
+  whiteSpace: "pre-wrap",
+  wordBreak: "break-word",
+  color: "#2d2413",
+  lineHeight: 1.7,
+});
+
+export const folioMarginNote = style({
+  fontSize: "0.85rem",
+  color: "#5a4a2a",
+  borderLeft: "3px solid #d9caa0",
+  backgroundColor: "#faf6ea",
+  padding: "8px 10px",
+  borderRadius: "6px",
+});
+
+export const folioRule = style({
+  height: 1,
+  background: "linear-gradient(90deg, #d9caa0, #e9dcc0)",
+  margin: "8px 0 12px",
+});
+
+// 1500 CE astronomy page aesthetics (Cosmology)
+export const astronomyPage = style({
+  background: "linear-gradient(0deg, #f7f5ea, #f7f5ea)",
+  border: "1px solid #e4dfc7",
+  borderRadius: "10px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+  padding: "14px",
+});
+
+export const astronomyHeader = style({
+  fontVariant: "small-caps",
+  letterSpacing: "0.08em",
+  color: "#213547",
+  margin: "0 0 10px 0",
+});
+
+export const astroGrid = style({
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  gap: "12px",
+  "@media": {
+    "screen and (min-width: 1024px)": {
+      gridTemplateColumns: "minmax(0,1fr)",
+    },
+  },
+});
+
+export const starChartFigure = style({
+  display: "block",
+  margin: "6px 0 10px",
+  textAlign: "center",
+});
+
+export const starChartImg = style({
+  width: "100%",
+  maxWidth: "620px",
+  height: "auto",
+  borderRadius: "8px",
+  border: "1px solid #e9ecef",
+  filter: "grayscale(100%) sepia(40%) contrast(110%) brightness(95%)",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+});
+
+export const astroCaption = style({
+  fontSize: "0.85rem",
+  color: "#334155",
+  marginTop: "6px",
+});

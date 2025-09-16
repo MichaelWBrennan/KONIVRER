@@ -100,18 +100,24 @@ export const Lore: React.FC = () => {
   }[] = [
     { id: "elements", label: "Six Elements", isStatic: true },
     {
-      id: "cosmology_magic",
-      label: "Cosmology & Aether",
+      id: "aether",
+      label: "Aether",
       sources: [
         "/assets/lore/aether.txt",
-        "/assets/lore/elements_east.txt",
-        "/assets/lore/elements_west.txt",
-        "/assets/lore/worlds.txt",
-        "/assets/lore/summoning.txt",
-        "/assets/lore/veil.txt",
         "/assets/lore/alchemy.txt",
         "/assets/lore/language.txt",
         "/assets/lore/ethics.txt",
+      ],
+    },
+    {
+      id: "cosmology",
+      label: "Cosmology",
+      sources: [
+        "/assets/lore/worlds.txt",
+        "/assets/lore/veil.txt",
+        "/assets/lore/elements_east.txt",
+        "/assets/lore/elements_west.txt",
+        "/assets/lore/summoning.txt",
         "/assets/lore/laws_history.txt",
       ],
     },
@@ -1346,55 +1352,6 @@ export const Lore: React.FC = () => {
   }
 
   function renderCosmologyStructured(display: string): React.ReactNode {
-    // Unified narrative override (streamlined)
-    {
-      const sectionsUnified = parseCombinedSections(display);
-      const h = (text: string) => (query ? highlight(text, query) : text);
-      const narrativeParts: string[] = [
-        "Magic has existed since the first measures of time—the life force that animates every creature, river, stone, and star. For ages it was practiced intuitively through oath, gift, and courtesy rather than measured in laboratories.",
-        "It did not become a formal science until the rise of medical sciences. As anatomy, hospitals, instruments, and statistical methods matured, scholars recognized that the same living processes they studied—repair, exchange, memory, and immunity—governed magical outcomes. From that convergence came a disciplined life‑science of magic: biothaumics.",
-        "Cosmology gives its setting. Reality is layered—Overworld, Midworld, and Underworld—divided yet permeable by a semi‑permeable boundary called the Veil. Where ladders of worlds lean together, crossings appear. The Veil’s Shattering left wounds—shards in matter, echoes in memory, and currents that researchers map like geologists chart fault lines.",
-        "Matter and motive display stable habits. Classical models describe six universal stances—Aether, Air, Fire, Earth, Water, Nether—not as raw elements but as repeatable tendencies in systems: principle, adaptation, aspiration, integrity, potential, capability. Eastern and Western schools offer complementary formalisms (generative/controlling cycles; discrete balances). Like wave/particle duality, both are used for fitness to purpose.",
-        "Aether is the general field that binds promises to outcomes. Practitioners formalize work through vows, knots (seals), and weaves (rites), closed by counterseals that restore equilibrium. Properly instrumented workings leave receipts: measurable changes in reputation, memory burden, or ledgered obligation—observable and auditable by peers.",
-        "Summoning is interplanar protocol, not coercion. Names are precise addresses; courtesy sets boundary conditions. Circles are drawn intentionally imperfect to ensure exits, and payment is offered in things one is expected to keep. Failures are classified as protocol errors: hunger in the field, false candles, winds that learn the researcher’s name.",
-        "Alxemi (alchemy) is transformation under moral heat. Its seven operations take motive as reagent: the self is refined before the metals. The best laboratories publish adequacy metrics over gold yields, because repeatable transmutation starts in character and ends in matter.",
-        "Language is calibrated instrumentation. Basik AnglΣ favors kindness and precision; oaths are said thrice and written once so their topology is round. In this grammar, names bind speakers to meanings, making statements measurable and falsifiable.",
-        "The first laws were counted in bone and clay. Hunters tallied seasons and debts; merchants baked truth into tablets. Later, the Covenant of the Veilstone separated breath from breathless. The Night of Saints cracked that covenant; the dead remembered their names. In response, modernities arrived: parliaments legislated hauntings, monasteries notarized apologies, engineers drew polite bridges across crossings. Institutions matured around the science as academies once rose around anatomy.",
-        "Core constraints match any clinical science. Power is borrowed from stabilizing forces, so the cosmos demands a price. Debts conserve; payments clear ledgers. Safe practice keeps three pillars: decide cost in advance, show courtesy at every boundary, and leave receipts the community can read.",
-        "Thus, magic is the world’s life force studied with rigor. It is lawful interaction with a layered universe whose habits can be modeled, predicted, reproduced, and peer‑reviewed. We inherit a world where principles have memory. To work within it is to do science with manners.",
-      ];
-      const narrative = narrativeParts.join("\n\n");
-      return (
-        <section className={s.section}>
-          <h2 className={s.sectionTitle}>Cosmology & Aether</h2>
-          <div className={s.cosmologyGrid}>
-            <div className={s.sectionGroup}>
-              <p className={s.microSummary}>
-                {h(
-                  "Aether is the world’s life force; formalized as science with medicine.",
-                )}
-              </p>
-              <pre className={s.pre}>{h(narrative)}</pre>
-            </div>
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Appendices: Source Texts")}
-            >
-              <h3 className={s.sectionHeader}>
-                Appendices: Source Texts <Badge kind="canon">full detail</Badge>
-              </h3>
-              {Object.entries(sectionsUnified).map(([label, body]) => (
-                <Disclosure key={label} title={h(label)}>
-                  <pre className={s.pre} id={anchorId(label)}>
-                    {h(body)}
-                  </pre>
-                </Disclosure>
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    }
     const sections = parseCombinedSections(display);
 
     const aether = sections["Aether Magic System"] || "";
@@ -1455,8 +1412,25 @@ export const Lore: React.FC = () => {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
     return (
-      <section className={s.section}>
-        <h2 className={s.sectionTitle}>Cosmology & Aether</h2>
+      <section className={`${s.section} ${s.astronomyPage}`}>
+        <h2 className={`${s.sectionTitle} ${s.astronomyHeader}`}>Cosmology</h2>
+        <figure className={s.starChartFigure}>
+          <img
+            className={s.starChartImg}
+            src="/assets/lore/six-divine-elements.webp"
+            alt="Cosmological diagram of the six stances"
+            loading="lazy"
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+              const img = e.currentTarget;
+              img.src = "/assets/lore/six-divine-elements.png";
+            }}
+          />
+          <figcaption className={s.astroCaption}>
+            {h(
+              "Figure: The six stances as regular habits in matter and motive",
+            )}
+          </figcaption>
+        </figure>
         <details className={s.tocMobile} ref={tocMobileRef}>
           <summary className={s.tocMobileSummary}>On this page</summary>
           <div className={s.tocMobileBody}>
@@ -1983,15 +1957,124 @@ export const Lore: React.FC = () => {
                 Appendices: Source Texts <Badge kind="canon">full detail</Badge>
               </h3>
               {Object.entries(sections).map(([label, body]) => (
-                <Disclosure key={label} title={h(label)}>
-                  <pre className={s.pre} id={anchorId(label)}>
-                    {h(body)}
-                  </pre>
-                </Disclosure>
+                <div key={label}>
+                  <Disclosure title={h(label)}>
+                    <pre className={s.pre} id={anchorId(label)}>
+                      {h(body)}
+                    </pre>
+                  </Disclosure>
+                </div>
               ))}
             </div>
           </div>
         </div>
+      </section>
+    );
+  }
+
+  function renderAetherFolio(display: string): React.ReactNode {
+    const sections = parseCombinedSections(display);
+    const aether = sections["Aether Magic System"] || "";
+    const alchemy = sections["Alxemi (Alchemy)"] || sections["Alchemy"] || "";
+    const language =
+      sections["Basik AnglΣ (Language)"] || sections["Language"] || "";
+    const ethics = sections["Ethics Systems"] || "";
+    const h = (text: string) => (query ? highlight(text, query) : text);
+
+    const introParts: string[] = [
+      "Aether is the vital medium by which promises touch the world. In clinical practice it is handled as living process: intention is spun into thread, stabilized by knots, patterned into weaves, and released by counterseals.",
+      "Like anatomy charts of vessels and nerves, good manuals map costs and courtesies. Decide the price in advance, speak with precision and kindness, and leave a receipt your peers can read.",
+      "Biothaumics regards failure modes as pathologies: ignorant bargains, hungry workings, and the counterseal of Forgetting misapplied. Treatment protocols begin with repair of speech and the restoration of owed tokens.",
+    ];
+    const intro = introParts.join("\n\n");
+
+    return (
+      <section className={`${s.section} ${s.folioPage}`}>
+        <h2 className={s.folioHeader}>Aether: A Physician’s Manual</h2>
+        <p className={s.folioSubhead}>
+          {h(
+            "Methods and cautions for working with vows, knots, weaves, and counterseals",
+          )}
+        </p>
+        <div className={s.folioColumns}>
+          <div className={s.folioText}>{h(intro)}</div>
+        </div>
+        <div className={s.folioRule} />
+        <div className={s.diagramCard}>
+          <div className={s.tableScroll}>
+            <table className={s.matrix}>
+              <thead>
+                <tr>
+                  <th className={s.matrixTh}>Part</th>
+                  <th className={s.matrixTh}>Clinical description</th>
+                  <th className={s.matrixTh}>Common risk</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className={s.matrixTd}>Thread</td>
+                  <td className={s.matrixTd}>
+                    {h(
+                      "Intention spun from a spoken vow; paid by chosen inconvenience",
+                    )}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Vague aims; no prior price decided")}
+                  </td>
+                </tr>
+                <tr>
+                  <td className={s.matrixTd}>Knot (Seal)</td>
+                  <td className={s.matrixTd}>
+                    {h("Fixes a truth in place; form follows function")}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Seals that cannot be cleanly unbound")}
+                  </td>
+                </tr>
+                <tr>
+                  <td className={s.matrixTd}>Weave (Rite)</td>
+                  <td className={s.matrixTd}>
+                    {h("Pattern of knots; hospitality, witness, penance")}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Flourish over preparation; dirty water; cold bread")}
+                  </td>
+                </tr>
+                <tr>
+                  <td className={s.matrixTd}>Counterseal</td>
+                  <td className={s.matrixTd}>
+                    {h("Designed twin that releases the working")}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Forgetting used to erase, not to rescue")}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className={s.folioMarginNote}>
+          <strong>{h("Clinical reminders:")}</strong>
+          <ul>
+            <li>{h("Decide cost in advance; write it down.")}</li>
+            <li>{h("Speak kindly and precisely; names bind speakers.")}</li>
+            <li>
+              {h("Leave receipts: loops, knots, and notes peers can audit.")}
+            </li>
+          </ul>
+        </div>
+        <Disclosure title={h("Aether Magic System (full text)")}>
+          <pre className={s.pre}>{h(aether)}</pre>
+        </Disclosure>
+        <Disclosure title={h("Alxemi (Alchemy) (full text)")}>
+          <pre className={s.pre}>{h(alchemy)}</pre>
+        </Disclosure>
+        <Disclosure title={h("Basik AnglΣ (Language) (full text)")}>
+          <pre className={s.pre}>{h(language)}</pre>
+        </Disclosure>
+        <Disclosure title={h("Ethics Systems (full text)")}>
+          <pre className={s.pre}>{h(ethics)}</pre>
+        </Disclosure>
       </section>
     );
   }
@@ -2003,8 +2086,11 @@ export const Lore: React.FC = () => {
       return <>{StaticElements}</>;
     }
     const display = loadedText || "";
-    if (tab.id === "cosmology_magic" && display) {
+    if (tab.id === "cosmology" && display) {
       return renderCosmologyStructured(display);
+    }
+    if (tab.id === "aether" && display) {
+      return renderAetherFolio(display);
     }
     const content = query ? highlight(display, query) : display;
     return (
