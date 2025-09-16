@@ -66,15 +66,15 @@ export const content = style({
 export const tabsBar = style({
   display: "flex",
   gap: "8px",
-  overflowX: "auto",
+  overflowX: "hidden",
+  flexWrap: "wrap",
   padding: "8px 0",
   borderBottom: "1px solid #e0e0e0",
   position: "sticky",
   top: "env(safe-area-inset-top, 0px)",
   backgroundColor: "#fff",
   zIndex: 10,
-  scrollSnapType: "x mandatory",
-  WebkitOverflowScrolling: "touch",
+  scrollSnapType: "none",
 });
 
 export const tabButton = style({
@@ -517,17 +517,17 @@ export const diagramCard = style({
 
 export const tableScroll = style({
   width: "100%",
-  overflowX: "auto",
+  overflowX: "hidden",
   overflowY: "hidden",
   WebkitOverflowScrolling: "touch",
 });
 
 export const matrix = style({
   minWidth: "100%",
-  width: "max-content",
+  width: "100%",
   borderCollapse: "collapse",
   fontSize: "0.95rem",
-  tableLayout: "auto",
+  tableLayout: "fixed",
 });
 
 export const matrixTh = style({

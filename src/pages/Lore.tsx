@@ -2240,13 +2240,6 @@ export const Lore: React.FC = () => {
 
   return (
     <div className={s.container}>
-      <div className={s.header}>
-        <h1 className={s.title}>KONIVRER Lore</h1>
-        <p className={s.subtitle}>
-          Discover the rich history and mythology behind the cards
-        </p>
-      </div>
-
       <div className={s.tabsBar}>
         {tabs.map((t) => (
           <button
