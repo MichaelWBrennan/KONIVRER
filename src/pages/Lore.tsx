@@ -1361,7 +1361,7 @@ export const Lore: React.FC = () => {
         "Language is calibrated instrumentation. Basik AnglΣ favors kindness and precision; oaths are said thrice and written once so their topology is round. In this grammar, names bind speakers to meanings, making statements measurable and falsifiable.",
         "The first laws were counted in bone and clay. Hunters tallied seasons and debts; merchants baked truth into tablets. Later, the Covenant of the Veilstone separated breath from breathless. The Night of Saints cracked that covenant; the dead remembered their names. In response, modernities arrived: parliaments legislated hauntings, monasteries notarized apologies, engineers drew polite bridges across crossings. Institutions matured around the science as academies once rose around anatomy.",
         "Core constraints match any clinical science. Power is borrowed from stabilizing forces, so the cosmos demands a price. Debts conserve; payments clear ledgers. Safe practice keeps three pillars: decide cost in advance, show courtesy at every boundary, and leave receipts the community can read.",
-        "Thus, magic is the world’s life force studied with rigor. It is lawful interaction with a layered universe whose habits can be modeled, predicted, reproduced, and peer‑reviewed. We inherit a world where principles have memory. To work within it is to do science with manners."
+        "Thus, magic is the world’s life force studied with rigor. It is lawful interaction with a layered universe whose habits can be modeled, predicted, reproduced, and peer‑reviewed. We inherit a world where principles have memory. To work within it is to do science with manners.",
       ];
       const narrative = narrativeParts.join("\n\n");
       return (
@@ -1370,11 +1370,16 @@ export const Lore: React.FC = () => {
           <div className={s.cosmologyGrid}>
             <div className={s.sectionGroup}>
               <p className={s.microSummary}>
-                {h("Magic is the world’s life force; formalized as science with medicine.")}
+                {h(
+                  "Magic is the world’s life force; formalized as science with medicine.",
+                )}
               </p>
               <pre className={s.pre}>{h(narrative)}</pre>
             </div>
-            <div className={s.sectionGroup} id={anchorId("Appendices: Source Texts")}> 
+            <div
+              className={s.sectionGroup}
+              id={anchorId("Appendices: Source Texts")}
+            >
               <h3 className={s.sectionHeader}>
                 Appendices: Source Texts <Badge kind="canon">full detail</Badge>
               </h3>
