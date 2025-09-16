@@ -101,7 +101,7 @@ export const Lore: React.FC = () => {
     { id: "elements", label: "Six Elements", isStatic: true },
     {
       id: "cosmology_magic",
-      label: "Cosmology & Magic",
+      label: "Cosmology & Aether",
       sources: [
         "/assets/lore/aether.txt",
         "/assets/lore/elements_east.txt",
@@ -1366,12 +1366,12 @@ export const Lore: React.FC = () => {
       const narrative = narrativeParts.join("\n\n");
       return (
         <section className={s.section}>
-          <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
+          <h2 className={s.sectionTitle}>Cosmology & Aether</h2>
           <div className={s.cosmologyGrid}>
             <div className={s.sectionGroup}>
               <p className={s.microSummary}>
                 {h(
-                  "Magic is the world’s life force; formalized as science with medicine.",
+                  "Aether is the world’s life force; formalized as science with medicine.",
                 )}
               </p>
               <pre className={s.pre}>{h(narrative)}</pre>
@@ -1456,7 +1456,7 @@ export const Lore: React.FC = () => {
 
     return (
       <section className={s.section}>
-        <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
+        <h2 className={s.sectionTitle}>Cosmology & Aether</h2>
         <details className={s.tocMobile} ref={tocMobileRef}>
           <summary className={s.tocMobileSummary}>On this page</summary>
           <div className={s.tocMobileBody}>
