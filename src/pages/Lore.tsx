@@ -147,7 +147,7 @@ export const Lore: React.FC = () => {
       ],
     },
   ];
-  const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
+  const [activeTab] = useState<string>("aether");
   const [query, setQuery] = useState<string>("");
   const [loadedText, setLoadedText] = useState<string>("");
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
@@ -2240,27 +2240,6 @@ export const Lore: React.FC = () => {
 
   return (
     <div className={s.container}>
-      <div className={s.header}>
-        <h1 className={s.title}>KONIVRER Lore</h1>
-        <p className={s.subtitle}>
-          Discover the rich history and mythology behind the cards
-        </p>
-      </div>
-
-      <div className={s.tabsBar}>
-        {tabs.map((t) => (
-          <button
-            key={t.id}
-            className={`${s.tabButton} ${
-              activeTab === t.id ? s.tabActive : ""
-            }`}
-            onClick={() => setActiveTab(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
-
       <div className={s.content}>{renderActive()}</div>
     </div>
   );

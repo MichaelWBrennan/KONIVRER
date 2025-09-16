@@ -517,17 +517,17 @@ export const diagramCard = style({
 
 export const tableScroll = style({
   width: "100%",
-  overflowX: "auto",
+  overflowX: "hidden",
   overflowY: "hidden",
   WebkitOverflowScrolling: "touch",
 });
 
 export const matrix = style({
   minWidth: "100%",
-  width: "max-content",
+  width: "100%",
   borderCollapse: "collapse",
   fontSize: "0.95rem",
-  tableLayout: "auto",
+  tableLayout: "fixed",
 });
 
 export const matrixTh = style({
@@ -535,9 +535,9 @@ export const matrixTh = style({
   padding: "8px",
   borderBottom: "2px solid #e9ecef",
   color: "#000",
-  wordBreak: "normal",
-  overflowWrap: "normal",
-  hyphens: "manual",
+  wordBreak: "break-word",
+  overflowWrap: "anywhere",
+  hyphens: "auto",
   whiteSpace: "normal",
 });
 
@@ -545,9 +545,9 @@ export const matrixTd = style({
   padding: "8px",
   borderBottom: "1px solid #eef2f6",
   verticalAlign: "top",
-  wordBreak: "normal",
-  overflowWrap: "normal",
-  hyphens: "manual",
+  wordBreak: "break-word",
+  overflowWrap: "anywhere",
+  hyphens: "auto",
   whiteSpace: "normal",
 });
 
