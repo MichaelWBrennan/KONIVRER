@@ -1982,9 +1982,9 @@ export const Lore: React.FC = () => {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
     const introParts: string[] = [
-      "Aether is the vital medium by which promises touch the world. In clinical practice it is handled as living process: intention is spun into thread, stabilized by knots, patterned into weaves, and released by counterseals.",
-      "Like anatomy charts of vessels and nerves, good manuals map costs and courtesies. Decide the price in advance, speak with precision and kindness, and leave a receipt your peers can read.",
-      "Biothaumics regards failure modes as pathologies: ignorant bargains, hungry workings, and the counterseal of Forgetting misapplied. Treatment protocols begin with repair of speech and the restoration of owed tokens.",
+      "Aether is the common medium by which a spoken promise acts upon the world. Treat it as a living regimen: the vow is expressed as thread, secured with a ligature (knot), arranged as a suture pattern (weave), and, when indicated, released by a counterseal—the remedy that resolves the work without harm.",
+      "As in a physician’s folio, keep clear tables for costs and courtesies. Set the fee before you begin, use precise and gentle speech, and leave a receipt that another practitioner can audit.",
+      "Failures present as familiar disorders: bargains made in ignorance, workings attempted in hunger or agitation, and misuse of Forgetting as if it were cautery. First care is conservative: correct the words, restore the pledged token, and only then employ any stronger measure.",
     ];
     const intro = introParts.join("\n\n");
 
@@ -1993,7 +1993,7 @@ export const Lore: React.FC = () => {
         <h2 className={s.folioHeader}>Aether: A Physician’s Manual</h2>
         <p className={s.folioSubhead}>
           {h(
-            "Methods and cautions for working with vows, knots, weaves, and counterseals",
+            "Plain methods and cautions for vows, ligatures (knots), suture patterns (weaves), and counterseals (remedies)",
           )}
         </p>
         <div className={s.folioColumns}>
@@ -2015,38 +2015,50 @@ export const Lore: React.FC = () => {
                   <td className={s.matrixTd}>Thread</td>
                   <td className={s.matrixTd}>
                     {h(
-                      "Intention spun from a spoken vow; paid by chosen inconvenience",
+                      "Initial bolus of intent from a spoken vow; fee set in advance; keep a sober regimen",
                     )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Vague aims; no prior price decided")}
+                    {h(
+                      "Unclear aim; no fee agreed; poor preparation (fatigue, fasting, anger)",
+                    )}
                   </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Knot (Seal)</td>
                   <td className={s.matrixTd}>
-                    {h("Fixes a truth in place; form follows function")}
+                    {h(
+                      "Ligature that holds the effect in place; choose the simplest knot that serves",
+                    )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Seals that cannot be cleanly unbound")}
+                    {h("Overtight ligature; adhesion; no prepared release")}
                   </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Weave (Rite)</td>
                   <td className={s.matrixTd}>
-                    {h("Pattern of knots; hospitality, witness, penance")}
+                    {h(
+                      "Suture pattern built from knots; set the field: hospitality, witnesses, and penance",
+                    )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Flourish over preparation; dirty water; cold bread")}
+                    {h(
+                      "Show over preparation; foul water; unclean instruments",
+                    )}
                   </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Counterseal</td>
                   <td className={s.matrixTd}>
-                    {h("Designed twin that releases the working")}
+                    {h(
+                      "Indicated remedy that loosens the ligature and resolves the working",
+                    )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Forgetting used to erase, not to rescue")}
+                    {h(
+                      "Using Forgetting as cautery—erasing tissue instead of relieving pressure",
+                    )}
                   </td>
                 </tr>
               </tbody>
