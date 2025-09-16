@@ -15,7 +15,9 @@ export const Lore: React.FC = () => {
       const hint = hintRef.current;
       if (!wrap || !left || !right) return;
 
-      const scroller = wrap.querySelector(`.${s.tableScroll}`) as HTMLElement | null;
+      const scroller = wrap.querySelector(
+        `.${s.tableScroll}`,
+      ) as HTMLElement | null;
       if (!scroller) return;
 
       const update = () => {
@@ -39,14 +41,19 @@ export const Lore: React.FC = () => {
       ro.observe(scroller);
       return () => {
         scroller.removeEventListener("scroll", onScroll);
-        try { ro.disconnect(); } catch {}
+        try {
+          ro.disconnect();
+        } catch {}
       };
     }, []);
 
     return (
       <div ref={wrapRef} className={s.tableScrollWrap}>
         <div ref={leftRef} className={`${s.scrollEdge} ${s.scrollEdgeLeft}`} />
-        <div ref={rightRef} className={`${s.scrollEdge} ${s.scrollEdgeRight}`} />
+        <div
+          ref={rightRef}
+          className={`${s.scrollEdge} ${s.scrollEdgeRight}`}
+        />
         {children}
         <div ref={hintRef} className={s.scrollHint} aria-hidden="true">
           ← drag →
@@ -1626,114 +1633,122 @@ export const Lore: React.FC = () => {
               </p>
               <div className={s.diagramCard}>
                 <ScrollShadow>
-                <div className={s.tableScroll}>
-                  <table className={s.matrix}>
-                    <thead>
-                      <tr>
-                        <th className={s.matrixTh}>Source</th>
-                        <th className={s.matrixTh}>How it’s accessed</th>
-                        <th className={s.matrixTh}>Costs</th>
-                        <th className={s.matrixTh}>Risks</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td className={s.matrixTd}>
-                          <a href={`#${anchorId("Aether Magic System")}`}>
-                            {h("Aether")}
-                          </a>
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Vows, knots (seals), weaves (rites), counterseals",
-                          )}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Memory or reputation; receipts left by workings")}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Ignorant bargains; the counterseal of Forgetting",
-                          )}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className={s.matrixTd}>
-                          <a href={`#${anchorId("Summoning")}`}>
-                            {h("Summoning")}
-                          </a>
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Courtesy, precision, naming correctly then gently",
-                          )}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Closing doors; payment with something expected to keep",
-                          )}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Hunger, false candles, wind that knows your name",
-                          )}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className={s.matrixTd}>
-                          <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
-                            {h("Alchemy")}
-                          </a>
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Seven operations that refine motive into change")}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Self-change; adequacy over gold")}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Moral heat; unspoken—impatience and pride")}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className={s.matrixTd}>
-                          <a href={`#${anchorId("Elements (Eastern Flavor)")}`}>
-                            {h("Elements: East/West")}
-                          </a>
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Working with generative and restraining cycles; mixtures",
-                          )}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Offering the right token, rhythm, or mixture")}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Mismatched cycles; doctrine cooled into dogma")}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className={s.matrixTd}>
-                          <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
-                            {h("Language")}
-                          </a>
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h(
-                            "Kind, precise speech; oaths said thrice, written once",
-                          )}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Debt to meanings marked; names bind the speaker")}
-                        </td>
-                        <td className={s.matrixTd}>
-                          {h("Ambiguity; words that roll back if wrong")}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+                  <div className={s.tableScroll}>
+                    <table className={s.matrix}>
+                      <thead>
+                        <tr>
+                          <th className={s.matrixTh}>Source</th>
+                          <th className={s.matrixTh}>How it’s accessed</th>
+                          <th className={s.matrixTh}>Costs</th>
+                          <th className={s.matrixTh}>Risks</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className={s.matrixTd}>
+                            <a href={`#${anchorId("Aether Magic System")}`}>
+                              {h("Aether")}
+                            </a>
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Vows, knots (seals), weaves (rites), counterseals",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Memory or reputation; receipts left by workings",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Ignorant bargains; the counterseal of Forgetting",
+                            )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className={s.matrixTd}>
+                            <a href={`#${anchorId("Summoning")}`}>
+                              {h("Summoning")}
+                            </a>
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Courtesy, precision, naming correctly then gently",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Closing doors; payment with something expected to keep",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Hunger, false candles, wind that knows your name",
+                            )}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className={s.matrixTd}>
+                            <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
+                              {h("Alchemy")}
+                            </a>
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Seven operations that refine motive into change",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h("Self-change; adequacy over gold")}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h("Moral heat; unspoken—impatience and pride")}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className={s.matrixTd}>
+                            <a
+                              href={`#${anchorId("Elements (Eastern Flavor)")}`}
+                            >
+                              {h("Elements: East/West")}
+                            </a>
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Working with generative and restraining cycles; mixtures",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h("Offering the right token, rhythm, or mixture")}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h("Mismatched cycles; doctrine cooled into dogma")}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className={s.matrixTd}>
+                            <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
+                              {h("Language")}
+                            </a>
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Kind, precise speech; oaths said thrice, written once",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h(
+                              "Debt to meanings marked; names bind the speaker",
+                            )}
+                          </td>
+                          <td className={s.matrixTd}>
+                            {h("Ambiguity; words that roll back if wrong")}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </ScrollShadow>
               </div>
               <Disclosure title={h("Aether Magic System (full text)")}>
@@ -2163,29 +2178,29 @@ export const Lore: React.FC = () => {
 
         <div className={s.diagramCard}>
           <ScrollShadow>
-          <div className={s.tableScroll}>
-            <table className={s.matrix}>
-              <thead>
-                <tr>
-                  <th className={s.matrixTh}>Tradition</th>
-                  <th className={s.matrixTh}>Name for Aether</th>
-                  <th className={s.matrixTh}>Channels and Gates</th>
-                  <th className={s.matrixTh}>Balancings</th>
-                </tr>
-              </thead>
-              <tbody>
-                {doctrineRows.map((row, i) => (
-                  <tr key={i}>
-                    {row.map((cell, j) => (
-                      <td key={`${i}-${j}`} className={s.matrixTd}>
-                        {h(cell)}
-                      </td>
-                    ))}
+            <div className={s.tableScroll}>
+              <table className={s.matrix}>
+                <thead>
+                  <tr>
+                    <th className={s.matrixTh}>Tradition</th>
+                    <th className={s.matrixTh}>Name for Aether</th>
+                    <th className={s.matrixTh}>Channels and Gates</th>
+                    <th className={s.matrixTh}>Balancings</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {doctrineRows.map((row, i) => (
+                    <tr key={i}>
+                      {row.map((cell, j) => (
+                        <td key={`${i}-${j}`} className={s.matrixTd}>
+                          {h(cell)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </ScrollShadow>
         </div>
 
@@ -2210,29 +2225,29 @@ export const Lore: React.FC = () => {
 
         <div className={s.diagramCard}>
           <ScrollShadow>
-          <div className={s.tableScroll}>
-            <table className={s.matrix}>
-              <thead>
-                <tr>
-                  <th className={s.matrixTh}>Seven Lamps</th>
-                  <th className={s.matrixTh}>Seat</th>
-                  <th className={s.matrixTh}>Crossings</th>
-                  <th className={s.matrixTh}>Clinical Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {lamps.map((row, i) => (
-                  <tr key={i}>
-                    {row.map((cell, j) => (
-                      <td key={`${i}-${j}`} className={s.matrixTd}>
-                        {h(cell)}
-                      </td>
-                    ))}
+            <div className={s.tableScroll}>
+              <table className={s.matrix}>
+                <thead>
+                  <tr>
+                    <th className={s.matrixTh}>Seven Lamps</th>
+                    <th className={s.matrixTh}>Seat</th>
+                    <th className={s.matrixTh}>Crossings</th>
+                    <th className={s.matrixTh}>Clinical Notes</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {lamps.map((row, i) => (
+                    <tr key={i}>
+                      {row.map((cell, j) => (
+                        <td key={`${i}-${j}`} className={s.matrixTd}>
+                          {h(cell)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </ScrollShadow>
         </div>
 
