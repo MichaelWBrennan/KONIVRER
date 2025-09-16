@@ -2019,13 +2019,17 @@ export const Lore: React.FC = () => {
                     )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Unclear aim; no fee agreed; poor preparation (fatigue, fasting, anger)")}
+                    {h(
+                      "Unclear aim; no fee agreed; poor preparation (fatigue, fasting, anger)",
+                    )}
                   </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Knot (Seal)</td>
                   <td className={s.matrixTd}>
-                    {h("Ligature that holds the effect in place; choose the simplest knot that serves")}
+                    {h(
+                      "Ligature that holds the effect in place; choose the simplest knot that serves",
+                    )}
                   </td>
                   <td className={s.matrixTd}>
                     {h("Overtight ligature; adhesion; no prepared release")}
@@ -2034,19 +2038,27 @@ export const Lore: React.FC = () => {
                 <tr>
                   <td className={s.matrixTd}>Weave (Rite)</td>
                   <td className={s.matrixTd}>
-                    {h("Suture pattern built from knots; set the field: hospitality, witnesses, and penance")}
+                    {h(
+                      "Suture pattern built from knots; set the field: hospitality, witnesses, and penance",
+                    )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Show over preparation; foul water; unclean instruments")}
+                    {h(
+                      "Show over preparation; foul water; unclean instruments",
+                    )}
                   </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Counterseal</td>
                   <td className={s.matrixTd}>
-                    {h("Indicated remedy that loosens the ligature and resolves the working")}
+                    {h(
+                      "Indicated remedy that loosens the ligature and resolves the working",
+                    )}
                   </td>
                   <td className={s.matrixTd}>
-                    {h("Using Forgetting as cautery—erasing tissue instead of relieving pressure")}
+                    {h(
+                      "Using Forgetting as cautery—erasing tissue instead of relieving pressure",
+                    )}
                   </td>
                 </tr>
               </tbody>
