@@ -1346,6 +1346,50 @@ export const Lore: React.FC = () => {
   }
 
   function renderCosmologyStructured(display: string): React.ReactNode {
+    // Unified narrative override (streamlined)
+    {
+      const sectionsUnified = parseCombinedSections(display);
+      const h = (text: string) => (query ? highlight(text, query) : text);
+      const narrativeParts: string[] = [
+        "Magic has existed since the first measures of time—the life force that animates every creature, river, stone, and star. For ages it was practiced intuitively through oath, gift, and courtesy rather than measured in laboratories.",
+        "It did not become a formal science until the rise of medical sciences. As anatomy, hospitals, instruments, and statistical methods matured, scholars recognized that the same living processes they studied—repair, exchange, memory, and immunity—governed magical outcomes. From that convergence came a disciplined life‑science of magic: biothaumics.",
+        "Cosmology gives its setting. Reality is layered—Overworld, Midworld, and Underworld—divided yet permeable by a semi‑permeable boundary called the Veil. Where ladders of worlds lean together, crossings appear. The Veil’s Shattering left wounds—shards in matter, echoes in memory, and currents that researchers map like geologists chart fault lines.",
+        "Matter and motive display stable habits. Classical models describe six universal stances—Aether, Air, Fire, Earth, Water, Nether—not as raw elements but as repeatable tendencies in systems: principle, adaptation, aspiration, integrity, potential, capability. Eastern and Western schools offer complementary formalisms (generative/controlling cycles; discrete balances). Like wave/particle duality, both are used for fitness to purpose.",
+        "Aether is the general field that binds promises to outcomes. Practitioners formalize work through vows, knots (seals), and weaves (rites), closed by counterseals that restore equilibrium. Properly instrumented workings leave receipts: measurable changes in reputation, memory burden, or ledgered obligation—observable and auditable by peers.",
+        "Summoning is interplanar protocol, not coercion. Names are precise addresses; courtesy sets boundary conditions. Circles are drawn intentionally imperfect to ensure exits, and payment is offered in things one is expected to keep. Failures are classified as protocol errors: hunger in the field, false candles, winds that learn the researcher’s name.",
+        "Alxemi (alchemy) is transformation under moral heat. Its seven operations take motive as reagent: the self is refined before the metals. The best laboratories publish adequacy metrics over gold yields, because repeatable transmutation starts in character and ends in matter.",
+        "Language is calibrated instrumentation. Basik AnglΣ favors kindness and precision; oaths are said thrice and written once so their topology is round. In this grammar, names bind speakers to meanings, making statements measurable and falsifiable.",
+        "The first laws were counted in bone and clay. Hunters tallied seasons and debts; merchants baked truth into tablets. Later, the Covenant of the Veilstone separated breath from breathless. The Night of Saints cracked that covenant; the dead remembered their names. In response, modernities arrived: parliaments legislated hauntings, monasteries notarized apologies, engineers drew polite bridges across crossings. Institutions matured around the science as academies once rose around anatomy.",
+        "Core constraints match any clinical science. Power is borrowed from stabilizing forces, so the cosmos demands a price. Debts conserve; payments clear ledgers. Safe practice keeps three pillars: decide cost in advance, show courtesy at every boundary, and leave receipts the community can read.",
+        "Thus, magic is the world’s life force studied with rigor. It is lawful interaction with a layered universe whose habits can be modeled, predicted, reproduced, and peer‑reviewed. We inherit a world where principles have memory. To work within it is to do science with manners."
+      ];
+      const narrative = narrativeParts.join("\n\n");
+      return (
+        <section className={s.section}>
+          <h2 className={s.sectionTitle}>Cosmology & Magic</h2>
+          <div className={s.cosmologyGrid}>
+            <div className={s.sectionGroup}>
+              <p className={s.microSummary}>
+                {h("Magic is the world’s life force; formalized as science with medicine.")}
+              </p>
+              <pre className={s.pre}>{h(narrative)}</pre>
+            </div>
+            <div className={s.sectionGroup} id={anchorId("Appendices: Source Texts")}> 
+              <h3 className={s.sectionHeader}>
+                Appendices: Source Texts <Badge kind="canon">full detail</Badge>
+              </h3>
+              {Object.entries(sectionsUnified).map(([label, body]) => (
+                <Disclosure key={label} title={h(label)}>
+                  <pre className={s.pre} id={anchorId(label)}>
+                    {h(body)}
+                  </pre>
+                </Disclosure>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
     const sections = parseCombinedSections(display);
 
     const aether = sections["Aether Magic System"] || "";
