@@ -517,14 +517,17 @@ export const diagramCard = style({
 
 export const tableScroll = style({
   width: "100%",
-  overflowX: "hidden",
+  overflowX: "auto",
+  overflowY: "hidden",
+  WebkitOverflowScrolling: "touch",
 });
 
 export const matrix = style({
-  width: "100%",
+  minWidth: "100%",
+  width: "max-content",
   borderCollapse: "collapse",
   fontSize: "0.95rem",
-  tableLayout: "fixed",
+  tableLayout: "auto",
 });
 
 export const matrixTh = style({
@@ -532,7 +535,9 @@ export const matrixTh = style({
   padding: "8px",
   borderBottom: "2px solid #e9ecef",
   color: "#000",
-  wordBreak: "break-word",
+  wordBreak: "normal",
+  overflowWrap: "normal",
+  hyphens: "manual",
   whiteSpace: "normal",
 });
 
@@ -540,11 +545,18 @@ export const matrixTd = style({
   padding: "8px",
   borderBottom: "1px solid #eef2f6",
   verticalAlign: "top",
-  wordBreak: "break-word",
+  wordBreak: "normal",
+  overflowWrap: "normal",
+  hyphens: "manual",
   whiteSpace: "normal",
 });
 
-globalStyle(`${matrixTd} a`, { color: "#000" });
+globalStyle(`${matrixTd} a`, {
+  color: "#000",
+  wordBreak: "normal",
+  overflowWrap: "normal",
+  hyphens: "manual",
+});
 globalStyle(`${matrixTd} a:visited`, { color: "#000" });
 globalStyle(`${matrixTd} a:hover`, { color: "#000" });
 globalStyle(`${matrixTd} a:active`, { color: "#000" });
