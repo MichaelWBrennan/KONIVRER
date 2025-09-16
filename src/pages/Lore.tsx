@@ -1426,7 +1426,9 @@ export const Lore: React.FC = () => {
             }}
           />
           <figcaption className={s.astroCaption}>
-            {h("Figure: The six stances as regular habits in matter and motive")}
+            {h(
+              "Figure: The six stances as regular habits in matter and motive",
+            )}
           </figcaption>
         </figure>
         <details className={s.tocMobile} ref={tocMobileRef}>
@@ -1974,7 +1976,8 @@ export const Lore: React.FC = () => {
     const sections = parseCombinedSections(display);
     const aether = sections["Aether Magic System"] || "";
     const alchemy = sections["Alxemi (Alchemy)"] || sections["Alchemy"] || "";
-    const language = sections["Basik AnglΣ (Language)"] || sections["Language"] || "";
+    const language =
+      sections["Basik AnglΣ (Language)"] || sections["Language"] || "";
     const ethics = sections["Ethics Systems"] || "";
     const h = (text: string) => (query ? highlight(text, query) : text);
 
@@ -1989,7 +1992,9 @@ export const Lore: React.FC = () => {
       <section className={`${s.section} ${s.folioPage}`}>
         <h2 className={s.folioHeader}>Aether: A Physician’s Manual</h2>
         <p className={s.folioSubhead}>
-          {h("Methods and cautions for working with vows, knots, weaves, and counterseals")}
+          {h(
+            "Methods and cautions for working with vows, knots, weaves, and counterseals",
+          )}
         </p>
         <div className={s.folioColumns}>
           <div className={s.folioText}>{h(intro)}</div>
@@ -2008,23 +2013,41 @@ export const Lore: React.FC = () => {
               <tbody>
                 <tr>
                   <td className={s.matrixTd}>Thread</td>
-                  <td className={s.matrixTd}>{h("Intention spun from a spoken vow; paid by chosen inconvenience")}</td>
-                  <td className={s.matrixTd}>{h("Vague aims; no prior price decided")}</td>
+                  <td className={s.matrixTd}>
+                    {h(
+                      "Intention spun from a spoken vow; paid by chosen inconvenience",
+                    )}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Vague aims; no prior price decided")}
+                  </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Knot (Seal)</td>
-                  <td className={s.matrixTd}>{h("Fixes a truth in place; form follows function")}</td>
-                  <td className={s.matrixTd}>{h("Seals that cannot be cleanly unbound")}</td>
+                  <td className={s.matrixTd}>
+                    {h("Fixes a truth in place; form follows function")}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Seals that cannot be cleanly unbound")}
+                  </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Weave (Rite)</td>
-                  <td className={s.matrixTd}>{h("Pattern of knots; hospitality, witness, penance")}</td>
-                  <td className={s.matrixTd}>{h("Flourish over preparation; dirty water; cold bread")}</td>
+                  <td className={s.matrixTd}>
+                    {h("Pattern of knots; hospitality, witness, penance")}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Flourish over preparation; dirty water; cold bread")}
+                  </td>
                 </tr>
                 <tr>
                   <td className={s.matrixTd}>Counterseal</td>
-                  <td className={s.matrixTd}>{h("Designed twin that releases the working")}</td>
-                  <td className={s.matrixTd}>{h("Forgetting used to erase, not to rescue")}</td>
+                  <td className={s.matrixTd}>
+                    {h("Designed twin that releases the working")}
+                  </td>
+                  <td className={s.matrixTd}>
+                    {h("Forgetting used to erase, not to rescue")}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -2035,7 +2058,9 @@ export const Lore: React.FC = () => {
           <ul>
             <li>{h("Decide cost in advance; write it down.")}</li>
             <li>{h("Speak kindly and precisely; names bind speakers.")}</li>
-            <li>{h("Leave receipts: loops, knots, and notes peers can audit.")}</li>
+            <li>
+              {h("Leave receipts: loops, knots, and notes peers can audit.")}
+            </li>
           </ul>
         </div>
         <Disclosure title={h("Aether Magic System (full text)")}>
