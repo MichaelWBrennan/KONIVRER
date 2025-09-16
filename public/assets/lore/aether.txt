@@ -1,24 +1,95 @@
 Aether Magic System
 Summary
-• Aether binds by consent. Clear words act like a ligature: they hold what you intend.
-• A working has four parts: thread (vow), knot (ligature), weave (suture pattern), counterseal (release).
-• Every working leaves a receipt or mark; keep it so others may read your practice.
-• Set the fee first. Payment is in memory or reputation; never work in ignorance.
+• Aether is the common medium whereby vowed intent is conveyed into matter.
+• The art has four parts: Filum (thread, vow), Ligatura (seal, knot), Sutura (weave, rite), Antisigillum (counterseal, remedy).
+• Power binds by consent; kind and exact words give shape; the fee is set beforehand.
+• Payment is owed in memory or good name; never work upon ignorance.
+• Every working leaves a receipt for the guild: knot, token, or written note.
+• Forgetting is cautery, not panacea; reserve it for rescue when gentler means fail.
+• Regimen of the practitioner: sobriety, hands washed, warm water, witnesses honest.
 
-Threadwork
-Form the thread from a spoken vow in a clear voice. As apothecaries weigh by drachm and scruple, set the fee beforehand. Keep a steady regimen: do not work fasting, drunk, or in anger. A clean thread is made from a simple promise paid with a small, chosen inconvenience.
+De Materia Aetheris (Of the Aether’s Substance)
+Aether is not air nor spirit but the consent that runs between persons and world, as the thread through cloth. It takes hold where speech is plain and heart is steady, and it slips where bargains are cloudy, or cruelty stains the hand. In old books it is called the Medium of Promise; in towns it is named simply Good Faith.
 
-Knots (Seals)
-Knots are ligatures that fix the effect in place. Use the simplest ligature that serves the purpose, and prepare a gentle release. A gatekeeper’s ligature opens only outward; a marriage ligature does not take the flame; a liar’s ligature fails under witness.
+As physicians infuse simples into wine to carry a remedy, so the practitioner infuses an intent into Aether by a vow. All instruments thereafter are but good order to keep what has been said.
 
-Weaves (Rites)
-A weave is a suture pattern made from knots. Set the field as surgeons do: clean water, warm bread, decent hospitality, honest witness, and penance for wrongs. Prefer cleanliness and order to show and flourish.
+De Regimine Practici (On the Practitioner’s Regimen)
+Keep a steady life. Do not work fasting, drunk, or in anger. Break the fast with bread and warm water; wash the hands; lay out tools in decent order. Choose an hour when neither haste nor sadness clouds the mind. Before any working, declare the fee and the receipt. Let there be witnesses, or at least a written mark, so the practice may be read afterwards.
 
-Counterseals
-Every ligature admits a remedy. Mercy loosens punishment; apology reduces the swelling of pride. The sharp counterseal is Forgetting: treat it as cautery, used only to rescue when all gentler means fail—not to erase a rightful debt.
+Ordo Operandi (The Ordinary Method)
+I. Filum — the Thread (Vow)
+Speak the vow in a clear voice, naming the end and the fee. A small, chosen inconvenience is good payment: a day of service, a public apology, a relinquished pastime. The vow should be single and entire, not compounded with many conditions. A thread frayed by clauses will not carry.
 
-Costs and Risks
-Payment is in memory or good name. Aether rejects bargains made in ignorance and takes its fee in advance by making you kinder than you planned. Common mishaps: adhesion (a seal that will not release), a cold rite (no hospitality), false witness, and misuse of Forgetting that leaves scar in place of cure.
+II. Ligatura — the Seal (Knot)
+Fix the intent with the simplest knot that serves. Each ligature has its virtue and its release. Always prepare the release before you draw tight. A seal over-tight becomes adhesion; a seal without release becomes a noose.
 
-Practice
-Carry twine. Tie a loose loop before you speak, cinch it when you are believed, and cut it only after you have done what you promised. Leave a receipt: a small knot, a line in the book, or a token, so any colleague can read what was done.
+III. Sutura — the Weave (Rite)
+Arrange knots into a pattern suited to the case. Set the field as surgeons set a table: clean water, warm bread, decent hospitality, honest witness, and penance for wrongs that lie near to the matter. Prefer order to show, and clarity to flourish.
+
+IV. Antisigillum — the Counterseal (Remedy)
+To every ligature a remedy is appointed. Mercy loosens punishment; apology reduces the swelling of pride; restitution cools anger. The sharp counterseal is Forgetting: treat it as cautery, not as balm. Use only to rescue when all gentler means have been tried and failed, never to erase a rightful debt.
+
+Tabula Ligaturarum (A Table of Common Ligatures)
+• Custodis (Gatekeeper’s) — Opens outward but not in; wards a place or promise against return harm. Release: key named in vow.
+• Coniugalis (Marriage) — Joins two obligations so that one answers to the other; does not take flame. Release: mutual consent or duly witnessed dissolution.
+• Mendacii (Liar’s) — Fails under witness; binds only while words are true. Release: confession in presence of those harmed.
+• Hospitii (Hospitality) — Holds a guest safe while bread and salt endure. Release: breaking bread thrice, or dawn.
+• Testis (Witness) — Strengthens a vow by a named reader; weakens falsehoods in its circle. Release: the reader’s seal.
+• Vasorum (Vessel) — Contains a working to a token, bottle, or ring. Release: token returned or name spoken three times.
+• Mercatoris (Market) — Keeps fair dealing: price declared, measure honest. Release: accounts settled and receipt left.
+• Sacculi (Purse) — Sets apart the fee in memory or reputation, preventing misplacement. Release: fee rendered and counted.
+
+Instrumenta (Instruments and Appurtenances)
+Twine of hemp or flax, wax or pitch for seal, a small knife, clean basin, a token suitable to the matter (button, bead, coin), paper and ink for the receipt, bread and salt for hospitality, warm water for washing. Some add rosemary, not for force but for remembrance.
+
+De Pretio et Fide (On Fee and Trust)
+Set the fee before you begin, lest the Aether take its price in advance by making you kinder than you planned. Good fees are those you can keep and others can read: time given to the poor, a public correction, maintenance of a way or well. Bad fees are hidden or cruel. If the other party understands not, do not work; bargains made upon ignorance are void and dangerous.
+
+Signa et Prognosis (Signs and Prognosis)
+Healthy workings present with warmth of regard, clear breath, and a small brightness at the token. Receipts are tidy; witnesses remember the words without quarrel. Ill‑favored workings present with adhesion (a seal that will not release), with a cold rite (no hospitality, sour bread), with false witness, or with the burn of Forgetting where a scar stands in place of cure. Where adhesion is found, soften with mercy and time; where cold rite, restore bread and water; where false witness, confess and re‑weave; where cautery, do not scrape the scar—teach the use of it.
+
+Indicia et Contraindicia (When to Work, When to Abstain)
+Indications: disputes where apology is possible; crossings where hospitality may be given; household matters of stewardship; small healings of custom.
+Contraindications: hunger, grief newly kindled, crowds restless for spectacle, names that are not yours to speak, or any price demanded that would make a man less than he ought to be.
+
+Formulae (Useful Forms of Words)
+• Vow (simple): “I bind myself to do right by N., at the cost of [fee], before [witness], by this thread.”
+• Release (gentle): “As I bound, so I now unbind, the work accomplished, the fee rendered, the receipt left.”
+• Remedy (mercy): “The knot of punishment is too tight; I loosen it with restitution and apology.”
+• Cautery (last resort): “What harms and cannot heal I seal with Forgetting, that no more flesh be burned.”
+
+Observationes (Cases for Instruction)
+I. Adhesio Post‑Nuptias — After a Coniugalis ligature, the parties kept silence about the fee. The bond drew tight until speech failed between them. Treatment: public declaration of fee (shared service to the poor), witness added, release prepared; adhesion softened within a week.
+
+II. Ritus Frigidus — A ward set over a cottage failed to comfort. No bread nor salt had been offered at the rite; the basin was foul. Treatment: rite re‑set with washing, bread, salt, and neighbor witness; warmth returned, dogs ceased their howling.
+
+III. Testis Falsus — A market knot failed when a clerk lied of measure. Treatment: clerk confessed before buyers, measure corrected, fee paid in a day’s free bread; the knot thereafter held of its own accord.
+
+IV. Cauterium Oblivionis — A master cut away remembrance of his anger and of the wrong that birthed it. Scar remained, charity absent. Treatment: none by cautery; instruction given in mercy and restitution; later a new thread was laid with apology; the scar no longer governed the hand.
+
+Tabella Curationum (Table of Common Disorders and Remedies)
+• Adhesio — Over‑tight seal, no release. Remedy: prepare release; apply mercy; give time.
+• Ritus Frigidus — Ceremony without hospitality. Remedy: bread, water, witness, penance.
+• Testis Falsus — Witness unreliable. Remedy: confession; re‑weave before honest reader.
+• Cauterium Nimis — Overuse of Forgetting. Remedy: stop; treat by restitution and teaching.
+• Pretium Obscurum — Hidden or cruel fee. Remedy: replace with a clean, public fee.
+
+De Schedis et Receptis (On Notes and Receipts)
+Leave a receipt wherever you work: a small knot on a cord, a line written and signed, or a token traded from hand to hand. Write who bound, for whom, to what end, with what fee, and how release shall be made. Receipts make the art legible and save young practitioners from repeating harms.
+
+Consilia Brevia (Brief Counsels)
+• Speak kindly and precisely; names bind the speaker first.
+• Decide the fee in advance; write it down; show it to the witness.
+• Tie before you speak; tighten when believed; cut only when finished.
+• Prefer the gentlest effective remedy; keep cautery for last.
+• When stances conflict, protect the smallest voice and repair the neglected later.
+
+Glossarium Parvum (A Small Glossary)
+Filum — the thread, the vow itself.
+Ligatura — the seal or knot that fixes the effect.
+Sutura — the weave or rite that arranges many knots to one purpose.
+Antisigillum — the counterseal or remedy appointed for release.
+Receipt — the token or written account by which a working is legible to others.
+
+Canon Practici (A Rule to End With)
+Do no work you cannot explain to a fair‑minded neighbor; take no fee you would blush to declare; leave every place with clearer words than you found it.
