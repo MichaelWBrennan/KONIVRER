@@ -1972,7 +1972,7 @@ export const Lore: React.FC = () => {
     const introParts: string[] = [
       "Canon Aetheris Medicus, compiled in the year fifteen‑hundred after the shattering of the Veil, gathers the safe doctrine of breath and flow from monasteries and bazaars between the Pillars and the Sunrise. What follows is a physician’s book, not a conjurer’s: it treats the coursing of Aether in the body, the gates by which it gathers and loosens, and the lawful means to set it right.",
       "Names differ yet the matter is one. Abrahamites name it breath and grace (ruach, pneuma); Dharmists call it prāṇa and bind it in nāḍīs and cakras; Taoists speak of qì moving along meridians as the two balance; Hellenes teach pneûma through humors and the temperaments; sages of the great belt of Africa teach a vital force that runs in lineage, called àṣẹ or nyama; Wildfolk speak of living wind in root and antler. We call all these Aether when it concerns flesh.",
-      "Aether is examined by sight, pulse, and pressure; corrected by breath, touch, needle, heat, unguent, food, posture, prayer, and song. The art is conservative: prefer what loosens gently before what burns. Hunger, grief newly kindled, and crowds seeking marvels are bad times to work."
+      "Aether is examined by sight, pulse, and pressure; corrected by breath, touch, needle, heat, unguent, food, posture, prayer, and song. The art is conservative: prefer what loosens gently before what burns. Hunger, grief newly kindled, and crowds seeking marvels are bad times to work.",
     ];
     const intro = introParts.join("\n\n");
 
@@ -2141,7 +2141,9 @@ export const Lore: React.FC = () => {
                 "Begin with breath and posture; next with touch and food; only then with needle or fire.",
               )}
             </li>
-            <li>{h("Do not treat during rage, fasting, or fresh mourning.")}</li>
+            <li>
+              {h("Do not treat during rage, fasting, or fresh mourning.")}
+            </li>
             <li>
               {h(
                 "Where traditions differ in word, reconcile in the patient: follow what steadies their breath.",
