@@ -522,6 +522,55 @@ export const tableScroll = style({
   WebkitOverflowScrolling: "touch",
 });
 
+// Wrapper that provides visual scroll indicators for horizontally scrollable content
+export const tableScrollWrap = style({
+  position: "relative",
+});
+
+// Edge gradients indicating there is more content to scroll
+export const scrollEdge = style({
+  position: "absolute",
+  top: 0,
+  bottom: 0,
+  width: "16px",
+  pointerEvents: "none",
+  opacity: 0,
+  transition: "opacity 180ms ease-in-out",
+  zIndex: 2,
+});
+
+export const scrollEdgeLeft = style({
+  left: 0,
+  background: "linear-gradient(to right, rgba(0,0,0,0.10), rgba(0,0,0,0))",
+});
+
+export const scrollEdgeRight = style({
+  right: 0,
+  background: "linear-gradient(to left, rgba(0,0,0,0.10), rgba(0,0,0,0))",
+});
+
+export const scrollEdgeVisible = style({
+  opacity: 1,
+});
+
+// Small unobtrusive hint that content scrolls horizontally
+export const scrollHint = style({
+  position: "absolute",
+  bottom: "6px",
+  right: "10px",
+  padding: "2px 8px",
+  fontSize: "0.75rem",
+  borderRadius: "9999px",
+  backgroundColor: "rgba(255,255,255,0.85)",
+  border: "1px solid #e2e8f0",
+  color: "#000",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  boxShadow: "0 1px 2px rgba(0,0,0,0.06)",
+  zIndex: 3,
+});
+
 export const matrix = style({
   minWidth: "720px",
   width: "100%",

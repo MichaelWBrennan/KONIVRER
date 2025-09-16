@@ -2,6 +2,58 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as s from "./lore.css.ts";
 
 export const Lore: React.FC = () => {
+  function ScrollShadow({ children }: { children: React.ReactNode }) {
+    const wrapRef = useRef<HTMLDivElement | null>(null);
+    const leftRef = useRef<HTMLDivElement | null>(null);
+    const rightRef = useRef<HTMLDivElement | null>(null);
+    const hintRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+      const wrap = wrapRef.current;
+      const left = leftRef.current;
+      const right = rightRef.current;
+      const hint = hintRef.current;
+      if (!wrap || !left || !right) return;
+
+      const scroller = wrap.querySelector(`.${s.tableScroll}`) as HTMLElement | null;
+      if (!scroller) return;
+
+      const update = () => {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        const x = scroller.scrollLeft;
+        const atStart = x <= 0;
+        const atEnd = x >= maxScroll - 1;
+        left.classList.toggle(s.scrollEdgeVisible, !atStart);
+        right.classList.toggle(s.scrollEdgeVisible, !atEnd);
+        if (hint) hint.style.display = maxScroll > 0 ? "inline-flex" : "none";
+      };
+
+      const onScroll = () => {
+        update();
+        if (hint) hint.style.display = "none";
+      };
+
+      update();
+      scroller.addEventListener("scroll", onScroll, { passive: true });
+      const ro = new ResizeObserver(update);
+      ro.observe(scroller);
+      return () => {
+        scroller.removeEventListener("scroll", onScroll);
+        try { ro.disconnect(); } catch {}
+      };
+    }, []);
+
+    return (
+      <div ref={wrapRef} className={s.tableScrollWrap}>
+        <div ref={leftRef} className={`${s.scrollEdge} ${s.scrollEdgeLeft}`} />
+        <div ref={rightRef} className={`${s.scrollEdge} ${s.scrollEdgeRight}`} />
+        {children}
+        <div ref={hintRef} className={s.scrollHint} aria-hidden="true">
+          ← drag →
+        </div>
+      </div>
+    );
+  }
   function TraitFooterAutoFit({ traits }: { traits: string[] }) {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const innerRef = useRef<HTMLDivElement | null>(null);
@@ -1573,6 +1625,7 @@ export const Lore: React.FC = () => {
                 )}
               </p>
               <div className={s.diagramCard}>
+                <ScrollShadow>
                 <div className={s.tableScroll}>
                   <table className={s.matrix}>
                     <thead>
@@ -1681,6 +1734,7 @@ export const Lore: React.FC = () => {
                     </tbody>
                   </table>
                 </div>
+                </ScrollShadow>
               </div>
               <Disclosure title={h("Aether Magic System (full text)")}>
                 <pre id={anchorId("Aether Magic System")} className={s.pre}>
@@ -2108,6 +2162,7 @@ export const Lore: React.FC = () => {
         <div className={s.folioRule} />
 
         <div className={s.diagramCard}>
+          <ScrollShadow>
           <div className={s.tableScroll}>
             <table className={s.matrix}>
               <thead>
@@ -2131,6 +2186,7 @@ export const Lore: React.FC = () => {
               </tbody>
             </table>
           </div>
+          </ScrollShadow>
         </div>
 
         <div className={s.folioMarginNote}>
@@ -2153,6 +2209,7 @@ export const Lore: React.FC = () => {
         </div>
 
         <div className={s.diagramCard}>
+          <ScrollShadow>
           <div className={s.tableScroll}>
             <table className={s.matrix}>
               <thead>
@@ -2176,6 +2233,7 @@ export const Lore: React.FC = () => {
               </tbody>
             </table>
           </div>
+          </ScrollShadow>
         </div>
 
         <div className={s.diagramCard}>
