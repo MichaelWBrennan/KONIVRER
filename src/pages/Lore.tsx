@@ -2039,48 +2039,54 @@ export const Lore: React.FC = () => {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
     const introParts: string[] = [
-      "Canon Aetheris Medicus, compiled in the year fifteen‑hundred after the shattering of the Veil, gathers the safe doctrine of breath and flow from monasteries and bazaars between the Pillars and the Sunrise. What follows is a physician’s book, not a conjurer’s: it treats the coursing of Aether in the body, the gates by which it gathers and loosens, and the lawful means to set it right.",
-      "Names differ yet the matter is one. Abrahamites name it breath and grace (ruach, pneuma); Dharmists call it prāṇa and bind it in nāḍīs and cakras; Taoists speak of qì moving along meridians as the two balance; Hellenes teach pneûma through humors and the temperaments; sages of the great belt of Africa teach a vital force that runs in lineage, called àṣẹ or nyama; Wildfolk speak of living wind in root and antler. We call all these Aether when it concerns flesh.",
+      "Canon Aetheris Medicus, compiled in the year fifteen‑hundred after the shattering of the Veil, gathers the safe doctrine of breath and flow from monasteries and bazaars between the Pillars and the Sunrise. What follows is a physician’s book, not a conjurer’s: it treats the coursing of Aether in the body, the gates by which it gathers and loosens, and the lawful means to set it right. The compilers write in a world without conquering Rome or imperial churches; traditions stand side by side rather than being folded into one another.",
+      "Names differ yet the matter is one. Levantine sages speak of ruach and neshamah; Dharmic lineages call it prāṇa bound in nāḍīs and cakras; Daoist physicians speak of qì along the meridians as yin and yang balance; Hellenic asklepiads teach pneûma through humors and temperaments; along Kemet’s river it is sekhem and ka; in the Northlands and isles, awen and önd; across the great belt of Africa, àṣẹ or nyama. We call all these Aether when it concerns flesh.",
       "Aether is examined by sight, pulse, and pressure; corrected by breath, touch, needle, heat, unguent, food, posture, prayer, and song. The art is conservative: prefer what loosens gently before what burns. Hunger, grief newly kindled, and crowds seeking marvels are bad times to work.",
     ];
     const intro = introParts.join("\n\n");
 
     const doctrineRows: Array<[string, string, string, string]> = [
       [
-        "Abrahamism",
-        "Breath/Grace (ruach, pneuma)",
+        "Levantine Temple Ways",
+        "Ruach/Neshamah",
         "Gates of heart and throat; right hand for covenant, left for memory",
-        "Prayer, confession, anointing oils; pilgrimage fasts",
+        "Prayer and psalmody; anointing oils; calendar fasts",
       ],
       [
-        "Dharmism",
+        "Dharmic Lineages",
         "Prāṇa",
         "Nāḍīs (iḍā, piṅgalā, suṣumṇā); seven lamps (cakras)",
         "Breath‑disciplines, seats and locks; herbs warm or cool the doṣas",
       ],
       [
-        "Taoism",
+        "Dao Traditions",
         "Qì",
         "Meridians; source, well, river, stream, and sea points",
         "Acupressure/needling; moxa; seasonal diet; quiet standing",
       ],
       [
-        "Hellenism",
+        "Hellenic Asklepeion",
         "Pneûma",
         "Organs as furnaces; humors carry heat and motion",
         "Balancing hot/cold, dry/moist; pulse, baths, simples",
       ],
       [
-        "African Lore",
+        "Kemetic Houses",
+        "Sekhem/Ka",
+        "Djed pillar along the spine; bright gates at crown, collarbones, wrists",
+        "Perfumed unguents, natron washes; hymns and measured breath",
+      ],
+      [
+        "West African Lineages",
         "Vital force (àṣẹ, nyama)",
         "Lines of kin and place; crown, palms, soles as bright gates",
         "Invocation, rhythm, palm‑oils, smoke; elders’ blessing",
       ],
       [
-        "Wildfolkism",
-        "Field‑breath",
-        "Hollows where wind pools: nape, kidneys, knee crooks",
-        "Offerings, bone‑charms, slow songs to unbind fright",
+        "Celto‑Germanic Ways",
+        "Awen/Önd",
+        "Hollows where wind pools: nape, kidneys, knee crooks; tongue and tooth placements guide breath",
+        "Offerings, bone‑charms, seiðr song; walking rites",
       ],
     ];
 
