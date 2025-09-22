@@ -33,7 +33,7 @@
     "automation:report": "tsx automation/cli.ts report --output automation-report.html"
   },
   "dependencies": {
-    "@eslint/js": "^9.35.0",
+    "@eslint/js": "^9.36.0",
     "@tanstack/react-query": "^5.87.4",
     "@tanstack/react-query-devtools": "^5.87.4",
     "axios": "^1.12.2",
