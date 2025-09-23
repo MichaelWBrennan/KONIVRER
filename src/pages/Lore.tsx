@@ -168,9 +168,6 @@ export const Lore: React.FC = () => {
       sources: [
         "/assets/lore/worlds.txt",
         "/assets/lore/veil.txt",
-        "/assets/lore/elements_east.txt",
-        "/assets/lore/elements_west.txt",
-        "/assets/lore/summoning.txt",
         "/assets/lore/laws_history.txt",
       ],
     },
@@ -740,19 +737,19 @@ export const Lore: React.FC = () => {
     "Kalmar Union":
       "linked Denmark, Norway, and Sweden under one monarch; common fleets and councils were balanced by local estates bargaining over taxation, law, and succession.",
     "Arte della Lana (Florence)":
-      "supervised quality, labor, and exports in Florence’s textile economy; ordinances, seals of approval, and contracted workshops scaled production while policing standards.",
+      "supervised quality, labor, and exports in Florence's textile economy; ordinances, seals of approval, and contracted workshops scaled production while policing standards.",
     "Arte della Calimala (Florence)":
       "imported and finished luxury textiles; account books, quality marks, and patronage networks underwrote long‑distance trade and civic projects.",
     "Worshipful Company of Mercers":
-      "was a London livery company dealing in fine textiles; charters, ward governance, and wardens’ courts regulated members while financing civic works.",
+      "was a London livery company dealing in fine textiles; charters, ward governance, and wardens' courts regulated members while financing civic works.",
     "Worshipful Company of Goldsmiths":
-      "set assay and hallmarking standards for precious metals; testing and hallmarks at Goldsmiths’ Hall safeguarded trust in coin and plate.",
+      "set assay and hallmarking standards for precious metals; testing and hallmarks at Goldsmiths' Hall safeguarded trust in coin and plate.",
     "Brotherhood of Blackheads":
       "united unmarried merchants in Livonian cities such as Riga and Tallinn; arsenals, credit, and processions entwined commerce with urban defense and ceremony.",
     "Company of Merchant Adventurers":
       "organized the English cloth export trade to the Low Countries; staples, membership rules, and consular courts lowered transaction costs abroad.",
     "League of the Public Weal":
-      "was a coalition of great nobles in France that forced concessions from Louis XI; compacts, fortified holdings, and shifting alliances bargained with the crown.",
+      "was a coalition of great nobles in France that forced concessions from Louis XI; compacts, fortified holdings, and shifting alliances bargained with the crown.",
     "Rhenish League of Towns":
       "mounted joint measures along the Rhine against robber barons and disorder; toll agreements and armed escorts made riverine commerce safer.",
     "Amalfi–Pisa Maritime Pact":
@@ -770,7 +767,7 @@ export const Lore: React.FC = () => {
     "House of Capet":
       "grew royal authority from an Île‑de‑France base via church alliances, consistent justice, and the steady enlargement of the demesne.",
     "House of Valois":
-      "reformed fiscal and military institutions during the Hundred Years’ War—standing companies and the taille—helping the crown recover and centralize.",
+      "reformed fiscal and military institutions during the Hundred Years' War—standing companies and the taille—helping the crown recover and centralize.",
     "House of Trastámara":
       "leveraged frontier war and union of crowns; councils, military orders, and new fiscal tools advanced Iberian consolidation.",
     "House of Lancaster":
@@ -803,11 +800,11 @@ export const Lore: React.FC = () => {
     "Crown of Aragon":
       "was a Mediterranean composite monarchy whose merchants, consulates, and naval escorts structured trade from Barcelona to Sicily; the Consolat de Mar codified maritime practice.",
     "Crown of Castile":
-      "mobilized the Mesta’s sheep‑walks, municipal fueros, and cortes taxation; frontier settlement and law shaped a continental domain.",
+      "mobilized the Mesta's sheep‑walks, municipal fueros, and cortes taxation; frontier settlement and law shaped a continental domain.",
     "Polish–Lithuanian Union":
       "bound nobles in personal unions; regional diets and negotiated privileges created a shared political nation across vast territories.",
     "Grand Duchy of Lithuania":
-      "administered Europe’s largest state with Ruthenian chancery practice, layered vassalage, and later comprehensive Lithuanian Statutes.",
+      "administered Europe's largest state with Ruthenian chancery practice, layered vassalage, and later comprehensive Lithuanian Statutes.",
     "Novgorod Republic":
       "relied on veche assemblies, elected posadniks, and treaty‑backed trade with the north until annexation by Muscovy.",
     "Monastic State of the Teutonic Order":
@@ -817,7 +814,7 @@ export const Lore: React.FC = () => {
     "Delhi Sultanate":
       "held the Indo‑Gangetic plain with land‑revenue reform, fortified capitals, and active market and coinage management.",
     "Sultanate of Malacca":
-      "ran a bustling entrepôt with harbor masters, tariffs, and legal codes ordering multiethnic trade; diplomacy linked the straits to Asia’s monsoon routes.",
+      "ran a bustling entrepôt with harbor masters, tariffs, and legal codes ordering multiethnic trade; diplomacy linked the straits to Asia's monsoon routes.",
     "Golden Horde":
       "leveraged yarlik charters, tribute from Rus principalities, and river routes; coinage tied the khanate into Eurasian commerce.",
     "Timurid State":
@@ -841,7 +838,7 @@ export const Lore: React.FC = () => {
     "Aztec Empire":
       "structured the Triple Alliance around tribute, markets, and ritual warfare; imperial oversight of pochteca and provinces sustained expansion.",
     "Inca Empire":
-      "integrated highland and coast via the Qhapaq Ñan road, mit’a labor drafts, and quipu accounting under a centrally directed commonwealth.",
+      "integrated highland and coast via the Qhapaq Ñan road, mit'a labor drafts, and quipu accounting under a centrally directed commonwealth.",
     "Songhai Empire":
       "projected power from Gao and Timbuktu with river fleets and customs houses; Islamic scholarship and trans‑Saharan trade funded authority.",
   };
@@ -1407,19 +1404,10 @@ export const Lore: React.FC = () => {
   function renderCosmologyStructured(display: string): React.ReactNode {
     const sections = parseCombinedSections(display);
 
-    const aether = sections["Aether Magic System"] || "";
-    const elementsEast = sections["Elements (Eastern Flavor)"] || "";
-    const elementsWest = sections["Elements (Western Flavor)"] || "";
     const worlds = sections["Worlds & Lokas"] || "";
-    const summoning = sections["Summoning"] || "";
     const veil = sections["The Shattered Veil"] || "";
-    const alchemy = sections["Alxemi (Alchemy)"] || "";
-    const language = sections["Basik AnglΣ (Language)"] || "";
-    const ethics = sections["Ethics Systems"] || "";
     const laws = sections["Laws & Pre-History"] || "";
 
-    const elementsEastS = parseSummary(elementsEast);
-    const elementsWestS = parseSummary(elementsWest);
     const worldsS = parseSummary(worlds);
     const veilS = parseSummary(veil);
 
@@ -1431,31 +1419,14 @@ export const Lore: React.FC = () => {
       },
       { id: anchorId("The Layered World"), label: "The Layered World" },
       {
-        id: anchorId("Where Magic Comes From"),
-        label: "Where Magic Comes From",
-      },
-      {
         id: anchorId("Laws, Limits, and Costs"),
         label: "Laws, Limits, and Costs",
-      },
-      {
-        id: anchorId("Traditions and Schools"),
-        label: "Traditions and Schools",
       },
       {
         id: anchorId("A History Written in Conjunctions"),
         label: "A History Written in Conjunctions",
       },
       { id: anchorId("Places and Phenomena"), label: "Places and Phenomena" },
-      {
-        id: anchorId("People and Institutions"),
-        label: "People and Institutions",
-      },
-      {
-        id: anchorId("Entities and Artifacts"),
-        label: "Entities and Artifacts",
-      },
-      { id: anchorId("Quick Reference"), label: "Quick Reference" },
       {
         id: anchorId("Appendices: Source Texts"),
         label: "Appendices: Source Texts",
@@ -1535,8 +1506,6 @@ export const Lore: React.FC = () => {
                   {[
                     ...worldsS.bullets,
                     ...veilS.bullets,
-                    ...elementsEastS.bullets,
-                    ...elementsWestS.bullets,
                   ]
                     .slice(0, 8)
                     .map((b, i) => (
@@ -1550,12 +1519,6 @@ export const Lore: React.FC = () => {
                   href={`#${anchorId("The Layered World")}`}
                 >
                   Worlds & Veil
-                </a>
-                <a
-                  className={s.chip}
-                  href={`#${anchorId("Where Magic Comes From")}`}
-                >
-                  Sources of magic
                 </a>
                 <a
                   className={s.chip}
@@ -1581,24 +1544,6 @@ export const Lore: React.FC = () => {
               <Disclosure title={h("Laws & Pre-History (full text)")}>
                 <pre className={s.pre}>{h(laws)}</pre>
               </Disclosure>
-              <div className={s.callouts}>
-                <div className={`${s.callout} ${s.calloutInfo}`}>
-                  {h(
-                    "Ethical stances anchor practice: Principle, Adaptation, Aspiration, Integrity, Potential, Capability.",
-                  )}
-                </div>
-                <div className={`${s.callout} ${s.calloutWarn}`}>
-                  {h(
-                    "Language makes oaths round; precision and kindness make speech binding.",
-                  )}
-                </div>
-              </div>
-              <Disclosure title={h("Ethics Systems (full text)")}>
-                <pre className={s.pre}>{h(ethics)}</pre>
-              </Disclosure>
-              <Disclosure title={h("Basik AnglΣ (full text)")}>
-                <pre className={s.pre}>{h(language)}</pre>
-              </Disclosure>
             </div>
 
             <div className={s.sectionGroup} id={anchorId("The Layered World")}>
@@ -1618,176 +1563,7 @@ export const Lore: React.FC = () => {
                 <pre className={s.pre}>{h(veil)}</pre>
               </Disclosure>
             </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Where Magic Comes From")}
-            >
-              <h3 className={s.sectionHeader}>
-                Where Magic Comes From <Badge kind="canon">mapped</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h(
-                  "Practices draw from vow-bound Aether, elemental habits, precise summoning, alchemical repentance, and binding speech.",
-                )}
-              </p>
-              <div className={s.diagramCard}>
-                <ScrollShadow>
-                  <div className={s.tableScroll}>
-                    <table className={s.matrix}>
-                      <thead>
-                        <tr>
-                          <th className={s.matrixTh}>Source</th>
-                          <th className={s.matrixTh}>How it’s accessed</th>
-                          <th className={s.matrixTh}>Costs</th>
-                          <th className={s.matrixTh}>Risks</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className={s.matrixTd}>
-                            <a href={`#${anchorId("Aether Magic System")}`}>
-                              {h("Aether")}
-                            </a>
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Vows, knots (seals), weaves (rites), counterseals",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Memory or reputation; receipts left by workings",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Ignorant bargains; the counterseal of Forgetting",
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={s.matrixTd}>
-                            <a href={`#${anchorId("Summoning")}`}>
-                              {h("Summoning")}
-                            </a>
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Courtesy, precision, naming correctly then gently",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Closing doors; payment with something expected to keep",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Hunger, false candles, wind that knows your name",
-                            )}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={s.matrixTd}>
-                            <a href={`#${anchorId("Alxemi (Alchemy)")}`}>
-                              {h("Alchemy")}
-                            </a>
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Seven operations that refine motive into change",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h("Self-change; adequacy over gold")}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h("Moral heat; unspoken—impatience and pride")}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={s.matrixTd}>
-                            <a
-                              href={`#${anchorId("Elements (Eastern Flavor)")}`}
-                            >
-                              {h("Elements: East/West")}
-                            </a>
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Working with generative and restraining cycles; mixtures",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h("Offering the right token, rhythm, or mixture")}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h("Mismatched cycles; doctrine cooled into dogma")}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className={s.matrixTd}>
-                            <a href={`#${anchorId("Basik AnglΣ (Language)")}`}>
-                              {h("Language")}
-                            </a>
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Kind, precise speech; oaths said thrice, written once",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h(
-                              "Debt to meanings marked; names bind the speaker",
-                            )}
-                          </td>
-                          <td className={s.matrixTd}>
-                            {h("Ambiguity; words that roll back if wrong")}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </ScrollShadow>
-              </div>
-              <Disclosure title={h("Aether Magic System (full text)")}>
-                <pre id={anchorId("Aether Magic System")} className={s.pre}>
-                  {h(aether)}
-                </pre>
-              </Disclosure>
-              <Disclosure title={h("Elements (Eastern) (full text)")}>
-                <pre
-                  id={anchorId("Elements (Eastern Flavor)")}
-                  className={s.pre}
-                >
-                  {h(elementsEast)}
-                </pre>
-              </Disclosure>
-              <Disclosure title={h("Elements (Western) (full text)")}>
-                <pre
-                  id={anchorId("Elements (Western Flavor)")}
-                  className={s.pre}
-                >
-                  {h(elementsWest)}
-                </pre>
-              </Disclosure>
-              <Disclosure title={h("Summoning (full text)")}>
-                <pre id={anchorId("Summoning")} className={s.pre}>
-                  {h(summoning)}
-                </pre>
-              </Disclosure>
-              <Disclosure title={h("Alchemy (full text)")}>
-                <pre id={anchorId("Alxemi (Alchemy)")} className={s.pre}>
-                  {h(alchemy)}
-                </pre>
-              </Disclosure>
-              <Disclosure title={h("Language (full text)")}>
-                <pre id={anchorId("Basik AnglΣ (Language)")} className={s.pre}>
-                  {h(language)}
-                </pre>
-              </Disclosure>
-            </div>
+            
 
             <div
               className={s.sectionGroup}
@@ -1815,39 +1591,7 @@ export const Lore: React.FC = () => {
               </div>
             </div>
 
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Traditions and Schools")}
-            >
-              <h3 className={s.sectionHeader}>
-                Traditions and Schools <Badge kind="belief">mapped</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h(
-                  "Knots and Weaves, Courtesy Summoners, Repentant Alchemists, and Precise Tongues each optimize different trade-offs.",
-                )}
-              </p>
-              <ul>
-                <li>
-                  {h(
-                    "Threadworkers (Aether): vows, knots, weaves, counterseals",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Courtesy Summoners: circles flawed on purpose, true names softened, paid closings",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Alxemi: seven operations refining motive; the self is transmuted",
-                  )}
-                </li>
-                <li>
-                  {h("Basik AnglΣ Speakers: kind precision and triune oaths")}
-                </li>
-              </ul>
-            </div>
+            
 
             <div
               className={s.sectionGroup}
@@ -1898,7 +1642,7 @@ export const Lore: React.FC = () => {
               </h3>
               <p className={s.microSummary}>
                 {h(
-                  "Valea Căpcănești, Castle Bran, the Carpathian Forest, Saint Ilie’s, and the Abyss of the Veilstone anchor crossings and debts.",
+                  "Valea Căpcănești, Castle Bran, the Carpathian Forest, Saint Ilie's, and the Abyss of the Veilstone anchor crossings and debts.",
                 )}
               </p>
               <Disclosure title={h("Key Places (from The Shattered Veil)")}>
@@ -1931,86 +1675,7 @@ export const Lore: React.FC = () => {
               </Disclosure>
             </div>
 
-            <div
-              className={s.sectionGroup}
-              id={anchorId("People and Institutions")}
-            >
-              <h3 className={s.sectionHeader}>
-                People and Institutions <Badge kind="belief">actors</Badge>
-              </h3>
-              <ul>
-                <li>
-                  {h(
-                    "Figures: Mircea of Bran; Freya of the Forest; the Gatekeeper.",
-                  )}
-                </li>
-                <li>
-                  {h(
-                    "Institutions: monasteries that notarize apologies; parliaments and engineers that adapt to the Shattering.",
-                  )}
-                </li>
-              </ul>
-            </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Entities and Artifacts")}
-            >
-              <h3 className={s.sectionHeader}>
-                Entities and Artifacts <Badge kind="canon">attunements</Badge>
-              </h3>
-              <ul>
-                <li>
-                  {h("Relics: Veilstone Shard; Raven Button; Ossuary Ring.")}
-                </li>
-              </ul>
-              <Disclosure title={h("Relics and Their Burdens (full text)")}>
-                <pre className={s.pre}>
-                  {h(
-                    veilS.rest
-                      .split("\n\n")
-                      .filter(Boolean)
-                      .filter((p) => p.startsWith("Relics"))
-                      .join("\n\n") || veil,
-                  )}
-                </pre>
-              </Disclosure>
-            </div>
-
-            <div className={s.sectionGroup} id={anchorId("Quick Reference")}>
-              <h3 className={s.sectionHeader}>
-                Quick Reference <Badge kind="canon">practical</Badge>
-              </h3>
-              <div className={s.quickRef}>
-                <p>
-                  {h(
-                    "If you have 1 minute: Remember courtesy and cost. Speak kindly, precisely. Leave a button.",
-                  )}
-                </p>
-                <p>
-                  {h(
-                    "If you have 5 minutes: Mark a vow; prepare a counterseal; check cycles; never bargain hungry; open a window if candles lie.",
-                  )}
-                </p>
-                <ul>
-                  <li>
-                    {h(
-                      "Safe casting: vow → knot → weave; pre-decide payment; write a receipt.",
-                    )}
-                  </li>
-                  <li>
-                    {h(
-                      "Summoning: draw circle slightly wrong; true name then gentler title; pay with something kept.",
-                    )}
-                  </li>
-                  <li>
-                    {h(
-                      "Alchemy: choose an operation; let it change you before metals.",
-                    )}
-                  </li>
-                </ul>
-              </div>
-            </div>
+            
 
             <div
               className={s.sectionGroup}
@@ -2019,15 +1684,23 @@ export const Lore: React.FC = () => {
               <h3 className={s.sectionHeader}>
                 Appendices: Source Texts <Badge kind="canon">full detail</Badge>
               </h3>
-              {Object.entries(sections).map(([label, body]) => (
-                <div key={label}>
-                  <Disclosure title={h(label)}>
-                    <pre className={s.pre} id={anchorId(label)}>
-                      {h(body)}
-                    </pre>
-                  </Disclosure>
-                </div>
-              ))}
+              {Object.entries(sections)
+                .filter(([label]) =>
+                  [
+                    "Worlds & Lokas",
+                    "The Shattered Veil",
+                    "Laws & Pre-History",
+                  ].includes(label),
+                )
+                .map(([label, body]) => (
+                  <div key={label}>
+                    <Disclosure title={h(label)}>
+                      <pre className={s.pre} id={anchorId(label)}>
+                        {h(body)}
+                      </pre>
+                    </Disclosure>
+                  </div>
+                ))}
             </div>
           </div>
         </div>
@@ -2039,8 +1712,8 @@ export const Lore: React.FC = () => {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
     const introParts: string[] = [
-      "Canon Aetheris Medicus, compiled in the year fifteen‑hundred after the shattering of the Veil, gathers the safe doctrine of breath and flow from monasteries and bazaars between the Pillars and the Sunrise. What follows is a physician’s book, not a conjurer’s: it treats the coursing of Aether in the body, the gates by which it gathers and loosens, and the lawful means to set it right. The compilers write in a world without conquering Rome or imperial churches; traditions stand side by side rather than being folded into one another.",
-      "Names differ yet the matter is one. Levantine sages speak of ruach and neshamah; Dharmic lineages call it prāṇa bound in nāḍīs and cakras; Daoist physicians speak of qì along the meridians as yin and yang balance; Hellenic asklepiads teach pneûma through humors and temperaments; along Kemet’s river it is sekhem and ka; in the Northlands and isles, awen and önd; across the great belt of Africa, àṣẹ or nyama. We call all these Aether when it concerns flesh.",
+      "Canon Aetheris Medicus, compiled in the year fifteen‑hundred after the shattering of the Veil, gathers the safe doctrine of breath and flow from monasteries and bazaars between the Pillars and the Sunrise. What follows is a physician's book, not a conjurer's: it treats the coursing of Aether in the body, the gates by which it gathers and loosens, and the lawful means to set it right. The compilers write in a world without conquering Rome or imperial churches; traditions stand side by side rather than being folded into one another.",
+      "Names differ yet the matter is one. Levantine sages speak of ruach and neshamah; Dharmic lineages call it prāṇa bound in nāḍīs and cakras; Daoist physicians speak of qì along the meridians as yin and yang balance; Hellenic asklepiads teach pneûma through humors and temperaments; along Kemet's river it is sekhem and ka; in the Northlands and isles, awen and önd; across the great belt of Africa, àṣẹ or nyama. We call all these Aether when it concerns flesh.",
       "Aether is examined by sight, pulse, and pressure; corrected by breath, touch, needle, heat, unguent, food, posture, prayer, and song. The art is conservative: prefer what loosens gently before what burns. Hunger, grief newly kindled, and crowds seeking marvels are bad times to work.",
     ];
     const intro = introParts.join("\n\n");
@@ -2080,7 +1753,7 @@ export const Lore: React.FC = () => {
         "West African Lineages",
         "Vital force (àṣẹ, nyama)",
         "Lines of kin and place; crown, palms, soles as bright gates",
-        "Invocation, rhythm, palm‑oils, smoke; elders’ blessing",
+        "Invocation, rhythm, palm‑oils, smoke; elders' blessing",
       ],
       [
         "Celto‑Germanic Ways",
@@ -2111,7 +1784,7 @@ export const Lore: React.FC = () => {
       ],
       [
         "Heart (Lamp of Mercy)",
-        "Sternum’s center",
+        "Sternum's center",
         "Great meeting of channels; seat of intention",
         "Warms limbs; chills with resentment",
       ],
@@ -2140,7 +1813,7 @@ export const Lore: React.FC = () => {
         "Head wind (scatter‑thought, moving pain)",
         "Qì ascends unruly; iḍā/piṅgalā unpaced",
         "Press brow gate; warm feet; lengthen exhale; avoid bitter at night",
-        "Do not needle crown in grief’s first three days",
+        "Do not needle crown in grief's first three days",
       ],
       [
         "Chest tightness (unshed speech)",
