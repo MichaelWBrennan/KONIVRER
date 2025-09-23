@@ -165,10 +165,7 @@ export const Lore: React.FC = () => {
     {
       id: "cosmology",
       label: "Cosmology",
-      sources: [
-        "/assets/lore/worlds.txt",
-        "/assets/lore/veil.txt",
-      ],
+      sources: ["/assets/lore/worlds.txt", "/assets/lore/veil.txt"],
     },
     {
       id: "pantheons_species",
