@@ -209,8 +209,6 @@ export const Lore: React.FC = () => {
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
   const requestIdRef = useRef(0);
 
-  
-
   const labelForSrc: Record<string, string> = {
     "/assets/lore/societies.txt": "Societies & Eras",
     "/assets/lore/ars_goetia.txt": "Ars Goetia",
@@ -1342,8 +1340,6 @@ export const Lore: React.FC = () => {
     return { bullets, rest };
   }
 
-  
-
   function renderCosmologyStructured(display: string): React.ReactNode {
     const sections = parseCombinedSections(display);
     const worlds = sections["Worlds & Lokas"] || "";
@@ -1366,7 +1362,10 @@ export const Lore: React.FC = () => {
       "Because all such workings are borrowed, the cosmos demands a price. Some prices are light—time, patience, a good name kept. Others are heavy—memory spent like coin, a courtesy owed in perpetuity. Where the stances quarrel, keep this maxim and live: protect the smallest voice; when the quarrel is stilled, repair the stance you neglected.",
       "Crossings open where accounts come due. In the Overworld’s clear air I have watched them flare at the hour of apology; in the green Midworld they gather where promises are kept; in the Underworld they follow the old ways of return, meeting us at the measure of our keeping. The Veil’s wound does not make the world lawless; it makes law visible.",
       "I have set instruments at the anchors of our country. In Valea Căpcănești the air tastes of iron when the moon declines. Castle Bran throws a second shadow eastward at Matins on Saint Ilie’s day. The Carpathian Forest hums like a psaltery when the mountain winds cross, and at the Abyss of the Veilstone the compass sulks and will not hold north. Each place keeps an account with the sky, and on clear nights one may read the ledger.",
-      "What the old summaries teach, boiled down for travelers, is this: " + (distilled ? distilled + "." : "the valley sits where worlds lean together; elements behave as habits; magic is bound by oaths, costs, and courtesy."),
+      "What the old summaries teach, boiled down for travelers, is this: " +
+        (distilled
+          ? distilled + "."
+          : "the valley sits where worlds lean together; elements behave as habits; magic is bound by oaths, costs, and courtesy."),
       "The historian says that our ages are written in conjunctions. Pre‑Law, when bone and mercy kept the count. Clay Law, when seals and kilns made promises hard. The Covenant, when breath and breathless learned new borders. And our present, under the cracked stone, when the dead stand closer and we are pressed to be precise. In years to come—if God grants such years—parliaments may sit to legislate hauntings; monasteries will notarize apologies; engineers will draw polite bridges for the dead. I do not prophesy; I only extend the line of our measures and see where it would meet the horizon.",
       "As for method: I keep the stars, take witnesses, and write what repeats. Two sightings are a rumor; three is a rule. When Mars and the lantern of Capella stand in friendly aspect, oaths hold sweetly. When Saturn drags low with Antares, reckon the costs twice. None of this compels; it constrains, as a riverbank does water.",
       "The elements do not play at caprice. Aether chooses the right and cuts through confusion; Air tries, learns, and teaches; Fire builds and defends toward betterment; Earth keeps standards and will not lie; Water sees what could be and gathers scattered pieces; Nether draws plans and equips hands to carry them out. Where a working fails, a missing stance is usually the cause, not ill will from the sky.",
