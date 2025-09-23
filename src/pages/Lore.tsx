@@ -208,28 +208,6 @@ export const Lore: React.FC = () => {
   const [loadedText, setLoadedText] = useState<string>("");
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
   const requestIdRef = useRef(0);
-  const tocMobileRef = useRef<HTMLDetailsElement | null>(null);
-
-  useEffect(() => {
-    try {
-      if (typeof navigator !== "undefined") {
-        const ua = navigator.userAgent || "";
-        const isMobileUA =
-          /Mobi|Android|iPhone|iPad|iPod|Mobile|BlackBerry|IEMobile|Opera Mini/i.test(
-            ua,
-          );
-        if (isMobileUA) {
-          const el = tocMobileRef.current;
-          if (el && !el.hasAttribute("data-initialized")) {
-            el.open = true;
-            el.setAttribute("data-initialized", "1");
-          }
-        }
-      }
-    } catch {
-      // ignore UA detection errors
-    }
-  }, []);
 
   const labelForSrc: Record<string, string> = {
     "/assets/lore/societies.txt": "Societies & Eras",
@@ -1362,340 +1340,47 @@ export const Lore: React.FC = () => {
     return { bullets, rest };
   }
 
-  function anchorId(label: string): string {
-    return label
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "");
-  }
-
-  function Badge({
-    kind,
-    children,
-  }: {
-    kind: "canon" | "belief" | "apoc";
-    children: React.ReactNode;
-  }) {
-    const base = s.badge;
-    const cls =
-      kind === "canon"
-        ? s.badgeCanon
-        : kind === "belief"
-          ? s.badgeBelief
-          : s.badgeApocrypha;
-    return <span className={`${base} ${cls}`}>{children}</span>;
-  }
-
-  function Disclosure({
-    title,
-    children,
-  }: {
-    title: React.ReactNode;
-    children: React.ReactNode;
-  }) {
-    return (
-      <details className={s.disclosure}>
-        <summary className={s.disclosureSummary}>{title}</summary>
-        <div className={s.disclosureBody}>{children}</div>
-      </details>
-    );
-  }
-
   function renderCosmologyStructured(display: string): React.ReactNode {
     const sections = parseCombinedSections(display);
-
     const worlds = sections["Worlds & Lokas"] || "";
     const veil = sections["The Shattered Veil"] || "";
-    const laws = sections["Laws & Pre-History"] || "";
-
     const worldsS = parseSummary(worlds);
     const veilS = parseSummary(veil);
 
-    const tocItems = [
-      { id: anchorId("Cosmology at a Glance"), label: "Cosmology at a Glance" },
-      {
-        id: anchorId("Origins and First Principles"),
-        label: "Origins and First Principles",
-      },
-      { id: anchorId("The Layered World"), label: "The Layered World" },
-      {
-        id: anchorId("Laws, Limits, and Costs"),
-        label: "Laws, Limits, and Costs",
-      },
-      {
-        id: anchorId("A History Written in Conjunctions"),
-        label: "A History Written in Conjunctions",
-      },
-      { id: anchorId("Places and Phenomena"), label: "Places and Phenomena" },
-      {
-        id: anchorId("Appendices: Source Texts"),
-        label: "Appendices: Source Texts",
-      },
-    ];
-
     const h = (text: string) => (query ? highlight(text, query) : text);
+
+    const distilled = (() => {
+      const bullets = [...worldsS.bullets, ...veilS.bullets].slice(0, 6);
+      return bullets.length > 0 ? bullets.join("; ") : "";
+    })();
+
+    const paragraphs: string[] = [
+      "I set down these notes by lamplight in the year fifteen‑hundred after the cracking of the Veilstone, with the night cold on the dome and the ink slow in the well. My instruments are plain: a quadrant, a water clock, a table of stars, and the habit of comparing what is seen with what is owed. The heavens turn and, with them, the six stances by which matter keeps its regular habits: Principle, Adaptation, Aspiration, Integrity, Potential, Capability.",
+      "We dwell in a layered world. Overworld, Midworld, and Underworld touch like leaves pressed in the same book, their edges kissing where the paper rises. Between them stands the Veil, not a wall but an oath—courtesy that keeps the breath of the living from the stillness of the breathless. In elder days a covenant was struck to separate what helps from what harms, that the markets of grain and of graves should not trade on the same street.",
+      "But the Veil bears a wound. On the Night of Saints the Veilstone cracked, and the dead remembered their names. Since then the ladders of worlds lean closer in our valley; crossings open where debts are tallied truly and where forgiveness is spoken aloud. In some places the crack is a whisper, in others a bell—always it answers to measure and to mercy.",
+      "Our laws grew alongside these measures. Before clay, hunters kept the Bone Laws, tallying seasons and taking by mercy. Then came the Clay Laws, when merchants baked debt into truth with the seal of fire. After, jurists and abbots wrote the Covenant of the Veilstone, to part breath from breathless by rule and rite. Thus was set down what every apprentice learns first: that power borrowed from stabilizing forces must be repaid.",
+      "Because all such workings are borrowed, the cosmos demands a price. Some prices are light—time, patience, a good name kept. Others are heavy—memory spent like coin, a courtesy owed in perpetuity. Where the stances quarrel, keep this maxim and live: protect the smallest voice; when the quarrel is stilled, repair the stance you neglected.",
+      "Crossings open where accounts come due. In the Overworld’s clear air I have watched them flare at the hour of apology; in the green Midworld they gather where promises are kept; in the Underworld they follow the old ways of return, meeting us at the measure of our keeping. The Veil’s wound does not make the world lawless; it makes law visible.",
+      "I have set instruments at the anchors of our country. In Valea Căpcănești the air tastes of iron when the moon declines. Castle Bran throws a second shadow eastward at Matins on Saint Ilie’s day. The Carpathian Forest hums like a psaltery when the mountain winds cross, and at the Abyss of the Veilstone the compass sulks and will not hold north. Each place keeps an account with the sky, and on clear nights one may read the ledger.",
+      "What the old summaries teach, boiled down for travelers, is this: " +
+        (distilled
+          ? distilled + "."
+          : "the valley sits where worlds lean together; elements behave as habits; magic is bound by oaths, costs, and courtesy."),
+      "The historian says that our ages are written in conjunctions. Pre‑Law, when bone and mercy kept the count. Clay Law, when seals and kilns made promises hard. The Covenant, when breath and breathless learned new borders. And our present, under the cracked stone, when the dead stand closer and we are pressed to be precise. In years to come—if God grants such years—parliaments may sit to legislate hauntings; monasteries will notarize apologies; engineers will draw polite bridges for the dead. I do not prophesy; I only extend the line of our measures and see where it would meet the horizon.",
+      "As for method: I keep the stars, take witnesses, and write what repeats. Two sightings are a rumor; three is a rule. When Mars and the lantern of Capella stand in friendly aspect, oaths hold sweetly. When Saturn drags low with Antares, reckon the costs twice. None of this compels; it constrains, as a riverbank does water.",
+      "The elements do not play at caprice. Aether chooses the right and cuts through confusion; Air tries, learns, and teaches; Fire builds and defends toward betterment; Earth keeps standards and will not lie; Water sees what could be and gathers scattered pieces; Nether draws plans and equips hands to carry them out. Where a working fails, a missing stance is usually the cause, not ill will from the sky.",
+      "Therefore I counsel novices: begin with courtesy. Announce your name. State your need plainly. Offer bread, salt, and time. If you must take, leave measure behind. Do not work in fresh rage, in fasting, or in raw grief. Keep your promises small and your notes exact.",
+      "Lastly, a word for the road. The world is not a puzzle to be solved once; it is a ledger that balances nightly. Our valley stands where the ladders of worlds lean together. If you would walk safely, learn the measure of your steps, and mind the price of your light. The heavens will meet you halfway when you do your part on earth.",
+    ];
 
     return (
       <section className={`${s.section} ${s.astronomyPage}`}>
         <h2 className={`${s.sectionTitle} ${s.astronomyHeader}`}>Cosmology</h2>
-        <figure className={s.starChartFigure}>
-          <img
-            className={s.starChartImg}
-            src="/assets/lore/six-divine-elements.webp"
-            alt="Cosmological diagram of the six stances"
-            loading="lazy"
-            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-              const img = e.currentTarget;
-              img.src = "/assets/lore/six-divine-elements.png";
-            }}
-          />
-          <figcaption className={s.astroCaption}>
-            {h(
-              "Figure: The six stances as regular habits in matter and motive",
-            )}
-          </figcaption>
-        </figure>
-        <details className={s.tocMobile} ref={tocMobileRef}>
-          <summary className={s.tocMobileSummary}>On this page</summary>
-          <div className={s.tocMobileBody}>
-            <ul className={s.tocList}>
-              {tocItems.map((t) => (
-                <li key={t.id}>
-                  <a className={s.tocLink} href={`#${t.id}`}>
-                    {t.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </details>
-        <div className={s.cosmologyLayout}>
-          <nav className={s.toc} aria-label="Cosmology Table of Contents">
-            <div className={s.tocTitle}>On this page</div>
-            <ul className={s.tocList}>
-              {tocItems.map((t) => (
-                <li key={t.id}>
-                  <a className={s.tocLink} href={`#${t.id}`}>
-                    {t.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className={s.cosmologyGrid}>
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Cosmology at a Glance")}
-            >
-              <h3 className={s.sectionHeader}>
-                Cosmology at a Glance <Badge kind="canon">overview</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h("What the world is made of and why it matters for magic.")}
-              </p>
-              <div className={s.callouts}>
-                <div className={`${s.callout} ${s.calloutInfo}`}>
-                  {h(
-                    "The valley sits where ladders of worlds lean together; the Veil cracked; elements behave as habits; magic is bound by oaths, costs, and courtesy.",
-                  )}
-                </div>
-              </div>
-              <Disclosure title={h("Highlights from summaries")}>
-                <ul>
-                  {[...worldsS.bullets, ...veilS.bullets]
-                    .slice(0, 8)
-                    .map((b, i) => (
-                      <li key={i}>{h(b)}</li>
-                    ))}
-                </ul>
-              </Disclosure>
-              <div className={s.chips}>
-                <a
-                  className={s.chip}
-                  href={`#${anchorId("The Layered World")}`}
-                >
-                  Worlds & Veil
-                </a>
-                <a
-                  className={s.chip}
-                  href={`#${anchorId("Laws, Limits, and Costs")}`}
-                >
-                  Costs & risks
-                </a>
-              </div>
-            </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Origins and First Principles")}
-            >
-              <h3 className={s.sectionHeader}>
-                Origins and First Principles <Badge kind="canon">canon</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h(
-                  "Before written law, debts were counted in bone and clay; later, the Veil covenant separated breath from breathless.",
-                )}
-              </p>
-              <Disclosure title={h("Laws & Pre-History (full text)")}>
-                <pre className={s.pre}>{h(laws)}</pre>
-              </Disclosure>
-            </div>
-
-            <div className={s.sectionGroup} id={anchorId("The Layered World")}>
-              <h3 className={s.sectionHeader}>
-                The Layered World: Planes, Veil, Crossings{" "}
-                <Badge kind="belief">widely believed</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h(
-                  "Overworld, Midworld, and Underworld touch; crossings open at debts and forgiveness; the Veilstone wound shapes the valley.",
-                )}
-              </p>
-              <Disclosure title={h("Worlds & Lokas (full text)")}>
-                <pre className={s.pre}>{h(worlds)}</pre>
-              </Disclosure>
-              <Disclosure title={h("The Shattered Veil (full text)")}>
-                <pre className={s.pre}>{h(veil)}</pre>
-              </Disclosure>
-            </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Laws, Limits, and Costs")}
-            >
-              <h3 className={s.sectionHeader}>
-                Laws, Limits, and Costs <Badge kind="canon">constraints</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h(
-                  "Cosmic and social law conserve debts; the cosmos demands prices in memory, reputation, courtesy, and time.",
-                )}
-              </p>
-              <div className={s.callouts}>
-                <div className={`${s.callout} ${s.calloutWarn}`}>
-                  {h(
-                    "Because power is borrowed from stabilizing forces, the cosmos demands a price.",
-                  )}
-                </div>
-                <div className={`${s.callout} ${s.calloutInfo}`}>
-                  {h(
-                    "When stances conflict, protect the smallest voice; later, repair the neglected stance.",
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("A History Written in Conjunctions")}
-            >
-              <h3 className={s.sectionHeader}>
-                A History Written in Conjunctions{" "}
-                <Badge kind="canon">timeline</Badge>
-              </h3>
-              <div className={s.diagramCard}>
-                <ul>
-                  <li>
-                    {h(
-                      "Pre-Law: Bone Laws—hunters tally seasons; mercy regulates taking.",
-                    )}
-                  </li>
-                  <li>
-                    {h(
-                      "Clay Laws: merchants stamp debt into clay; fire bakes it into truth.",
-                    )}
-                  </li>
-                  <li>
-                    {h(
-                      "The Covenant of the Veilstone separates breath and breathless.",
-                    )}
-                  </li>
-                  <li>
-                    {h(
-                      "Night of Saints: the Veilstone cracks; dead remember their names.",
-                    )}
-                  </li>
-                  <li>
-                    {h(
-                      "Modernities: parliaments legislate hauntings; monasteries notarize apologies; engineers draw polite bridges for the dead.",
-                    )}
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Places and Phenomena")}
-            >
-              <h3 className={s.sectionHeader}>
-                Places, Phenomena, and Anomalies{" "}
-                <Badge kind="canon">field notes</Badge>
-              </h3>
-              <p className={s.microSummary}>
-                {h(
-                  "Valea Căpcănești, Castle Bran, the Carpathian Forest, Saint Ilie's, and the Abyss of the Veilstone anchor crossings and debts.",
-                )}
-              </p>
-              <Disclosure title={h("Key Places (from The Shattered Veil)")}>
-                <pre className={s.pre}>
-                  {h(
-                    veilS.rest
-                      .split("\n\n")
-                      .filter(Boolean)
-                      .filter(
-                        (p) => p.startsWith("Key Places") || p.startsWith("- "),
-                      )
-                      .join("\n\n") || veil,
-                  )}
-                </pre>
-              </Disclosure>
-              <Disclosure title={h("On Crossings (from Worlds & Lokas)")}>
-                <pre className={s.pre}>
-                  {h(
-                    worldsS.rest
-                      .split("\n\n")
-                      .filter(Boolean)
-                      .filter(
-                        (p) =>
-                          p.includes("Crossings") ||
-                          p.includes("Veilstone Shards"),
-                      )
-                      .join("\n\n") || worlds,
-                  )}
-                </pre>
-              </Disclosure>
-            </div>
-
-            <div
-              className={s.sectionGroup}
-              id={anchorId("Appendices: Source Texts")}
-            >
-              <h3 className={s.sectionHeader}>
-                Appendices: Source Texts <Badge kind="canon">full detail</Badge>
-              </h3>
-              {Object.entries(sections)
-                .filter(([label]) =>
-                  [
-                    "Worlds & Lokas",
-                    "The Shattered Veil",
-                    "Laws & Pre-History",
-                  ].includes(label),
-                )
-                .map(([label, body]) => (
-                  <div key={label}>
-                    <Disclosure title={h(label)}>
-                      <pre className={s.pre} id={anchorId(label)}>
-                        {h(body)}
-                      </pre>
-                    </Disclosure>
-                  </div>
-                ))}
-            </div>
-          </div>
-        </div>
+        {paragraphs.map((p, i) => (
+          <p key={i} className={s.text}>
+            {h(p)}
+          </p>
+        ))}
       </section>
     );
   }
