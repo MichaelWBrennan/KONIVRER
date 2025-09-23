@@ -1700,8 +1700,6 @@ export const Lore: React.FC = () => {
     );
   }
 
-  
-
   function renderAetherTreatise(): React.ReactNode {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
