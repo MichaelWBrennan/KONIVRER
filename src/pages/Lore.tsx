@@ -1503,10 +1503,7 @@ export const Lore: React.FC = () => {
               </div>
               <Disclosure title={h("Highlights from summaries")}>
                 <ul>
-                  {[
-                    ...worldsS.bullets,
-                    ...veilS.bullets,
-                  ]
+                  {[...worldsS.bullets, ...veilS.bullets]
                     .slice(0, 8)
                     .map((b, i) => (
                       <li key={i}>{h(b)}</li>
@@ -1563,7 +1560,6 @@ export const Lore: React.FC = () => {
                 <pre className={s.pre}>{h(veil)}</pre>
               </Disclosure>
             </div>
-            
 
             <div
               className={s.sectionGroup}
@@ -1590,8 +1586,6 @@ export const Lore: React.FC = () => {
                 </div>
               </div>
             </div>
-
-            
 
             <div
               className={s.sectionGroup}
@@ -1674,8 +1668,6 @@ export const Lore: React.FC = () => {
                 </pre>
               </Disclosure>
             </div>
-
-            
 
             <div
               className={s.sectionGroup}
