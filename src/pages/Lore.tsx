@@ -1700,46 +1700,6 @@ export const Lore: React.FC = () => {
     );
   }
 
-  function renderCosmologyCohesive(display: string): React.ReactNode {
-    const sections = parseCombinedSections(display);
-
-    const laws = sections["Laws & Pre-History"] || "";
-    const worlds = sections["Worlds & Lokas"] || "";
-    const veil = sections["The Shattered Veil"] || "";
-
-    // From the ground up: begin with first principles, then the layered world, then the Veil
-    const combined = [laws, worlds, veil].filter(Boolean).join("\n\n");
-
-    const h = (text: string) => (query ? highlight(text, query) : text);
-    const content = query ? highlight(combined, query) : combined;
-
-    return (
-      <section className={`${s.section} ${s.astronomyPage}`}>
-        <h2 className={`${s.sectionTitle} ${s.astronomyHeader}`}>Cosmology</h2>
-        <figure className={s.starChartFigure}>
-          <img
-            className={s.starChartImg}
-            src="/assets/lore/six-divine-elements.webp"
-            alt="Cosmological diagram of the six stances"
-            loading="lazy"
-            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-              const img = e.currentTarget;
-              img.src = "/assets/lore/six-divine-elements.png";
-            }}
-          />
-          <figcaption className={s.astroCaption}>
-            {h(
-              "Figure: The six stances as regular habits in matter and motive",
-            )}
-          </figcaption>
-        </figure>
-        <div className={s.cosmologyGrid}>
-          <pre className={s.pre}>{content}</pre>
-        </div>
-      </section>
-    );
-  }
-
   function renderAetherTreatise(): React.ReactNode {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
@@ -2008,7 +1968,7 @@ export const Lore: React.FC = () => {
     }
     const display = loadedText || "";
     if (tab.id === "cosmology" && display) {
-      return renderCosmologyCohesive(display);
+      return renderCosmologyStructured(display);
     }
     if (tab.id === "aether") {
       return renderAetherTreatise();
