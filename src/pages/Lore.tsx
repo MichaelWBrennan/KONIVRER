@@ -168,7 +168,6 @@ export const Lore: React.FC = () => {
       sources: [
         "/assets/lore/worlds.txt",
         "/assets/lore/veil.txt",
-        "/assets/lore/laws_history.txt",
       ],
     },
     {
@@ -1355,22 +1354,16 @@ export const Lore: React.FC = () => {
     })();
 
     const paragraphs: string[] = [
-      "I set down these notes by lamplight in the year fifteen‑hundred after the cracking of the Veilstone, with the night cold on the dome and the ink slow in the well. My instruments are plain: a quadrant, a water clock, a table of stars, and the habit of comparing what is seen with what is owed. The heavens turn and, with them, the six stances by which matter keeps its regular habits: Principle, Adaptation, Aspiration, Integrity, Potential, Capability.",
-      "We dwell in a layered world. Overworld, Midworld, and Underworld touch like leaves pressed in the same book, their edges kissing where the paper rises. Between them stands the Veil, not a wall but an oath—courtesy that keeps the breath of the living from the stillness of the breathless. In elder days a covenant was struck to separate what helps from what harms, that the markets of grain and of graves should not trade on the same street.",
-      "But the Veil bears a wound. On the Night of Saints the Veilstone cracked, and the dead remembered their names. Since then the ladders of worlds lean closer in our valley; crossings open where debts are tallied truly and where forgiveness is spoken aloud. In some places the crack is a whisper, in others a bell—always it answers to measure and to mercy.",
-      "Our laws grew alongside these measures. Before clay, hunters kept the Bone Laws, tallying seasons and taking by mercy. Then came the Clay Laws, when merchants baked debt into truth with the seal of fire. After, jurists and abbots wrote the Covenant of the Veilstone, to part breath from breathless by rule and rite. Thus was set down what every apprentice learns first: that power borrowed from stabilizing forces must be repaid.",
-      "Because all such workings are borrowed, the cosmos demands a price. Some prices are light—time, patience, a good name kept. Others are heavy—memory spent like coin, a courtesy owed in perpetuity. Where the stances quarrel, keep this maxim and live: protect the smallest voice; when the quarrel is stilled, repair the stance you neglected.",
-      "Crossings open where accounts come due. In the Overworld’s clear air I have watched them flare at the hour of apology; in the green Midworld they gather where promises are kept; in the Underworld they follow the old ways of return, meeting us at the measure of our keeping. The Veil’s wound does not make the world lawless; it makes law visible.",
-      "I have set instruments at the anchors of our country. In Valea Căpcănești the air tastes of iron when the moon declines. Castle Bran throws a second shadow eastward at Matins on Saint Ilie’s day. The Carpathian Forest hums like a psaltery when the mountain winds cross, and at the Abyss of the Veilstone the compass sulks and will not hold north. Each place keeps an account with the sky, and on clear nights one may read the ledger.",
-      "What the old summaries teach, boiled down for travelers, is this: " +
-        (distilled
-          ? distilled + "."
-          : "the valley sits where worlds lean together; elements behave as habits; magic is bound by oaths, costs, and courtesy."),
-      "The historian says that our ages are written in conjunctions. Pre‑Law, when bone and mercy kept the count. Clay Law, when seals and kilns made promises hard. The Covenant, when breath and breathless learned new borders. And our present, under the cracked stone, when the dead stand closer and we are pressed to be precise. In years to come—if God grants such years—parliaments may sit to legislate hauntings; monasteries will notarize apologies; engineers will draw polite bridges for the dead. I do not prophesy; I only extend the line of our measures and see where it would meet the horizon.",
-      "As for method: I keep the stars, take witnesses, and write what repeats. Two sightings are a rumor; three is a rule. When Mars and the lantern of Capella stand in friendly aspect, oaths hold sweetly. When Saturn drags low with Antares, reckon the costs twice. None of this compels; it constrains, as a riverbank does water.",
-      "The elements do not play at caprice. Aether chooses the right and cuts through confusion; Air tries, learns, and teaches; Fire builds and defends toward betterment; Earth keeps standards and will not lie; Water sees what could be and gathers scattered pieces; Nether draws plans and equips hands to carry them out. Where a working fails, a missing stance is usually the cause, not ill will from the sky.",
-      "Therefore I counsel novices: begin with courtesy. Announce your name. State your need plainly. Offer bread, salt, and time. If you must take, leave measure behind. Do not work in fresh rage, in fasting, or in raw grief. Keep your promises small and your notes exact.",
-      "Lastly, a word for the road. The world is not a puzzle to be solved once; it is a ledger that balances nightly. Our valley stands where the ladders of worlds lean together. If you would walk safely, learn the measure of your steps, and mind the price of your light. The heavens will meet you halfway when you do your part on earth.",
+      "This is a straight‑forward look at how the world is built and how it behaves.",
+      "There are three layers: Overworld (clear and elevated), Midworld (everyday life), and Underworld (quiet and reflective). They stack like pages in one book and occasionally touch at the edges.",
+      "The Veil is the boundary between layers. Think of it less as a wall and more as a safety protocol that keeps regular life and the dead from overlapping by default.",
+      "What changed: on the Night of Saints, the Veilstone cracked. Since then, thin places—called crossings—are more common and a little easier to notice.",
+      "Crossings appear where meaning is heavy: where apologies are made, promises are kept, old rites are observed, and records are accurate. The crack didn’t remove rules; it made the rules visible.",
+      "Sky patterns correlate with stability. Certain alignments tend to steady crossings; others make them noisy. None of this forces outcomes, but it does shape the odds—more like tides than commands.",
+      "Practical rule of thumb: if you are studying a crossing, measure and log repeats. Two observations suggest a pattern; three give you a rule.",
+      "Local examples: in Valea Căpcănești the air tastes metallic near the new moon; Castle Bran throws a faint second shadow at dawn in midsummer; the Carpathian Forest hums when mountain winds intersect; at the Veilstone Abyss, compasses drift and never fully settle.",
+      "Quick safety notes for observers: introduce yourself, state your purpose, keep your promises small, and record what you do. Strong emotion and exhaustion distort readings; show up rested and precise.",
+      "If you remember nothing else: three layered worlds, one Veil, occasional crossings. The Break made the edges easier to see, not easier to exploit.",
     ];
 
     return (
@@ -1378,13 +1371,19 @@ export const Lore: React.FC = () => {
         <h2 className={`${s.sectionTitle} ${s.journalHeader}`}>Cosmology</h2>
         <div className={s.journalRule} />
         {(() => {
-          const bullets = [...worldsS.bullets, ...veilS.bullets].slice(0, 6);
-          if (bullets.length === 0) return null;
+          const quickFacts: string[] = [
+            "Three layers: Overworld, Midworld, Underworld.",
+            "The Veil is a boundary; the Break made crossings more visible, not lawless.",
+            "Crossings cluster where apologies are made, promises kept, rites observed, and records are accurate.",
+            "Sky alignments change stability—think tides, not commands.",
+            "Method: log repeats. Two observations suggest a pattern; three make a rule.",
+            "Safety: introduce yourself, state purpose, keep promises small, write everything down.",
+          ];
           return (
             <div className={s.journalMarginNote}>
-              <strong>{h("Notes for the apprentice:")}</strong>
+              <strong>{h("Quick facts:")}</strong>
               <ul>
-                {bullets.map((b, i) => (
+                {quickFacts.map((b, i) => (
                   <li key={i}>{h(b)}</li>
                 ))}
               </ul>
