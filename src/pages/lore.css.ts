@@ -737,3 +737,65 @@ export const astroCaption = style({
   color: "#334155",
   marginTop: "6px",
 });
+
+// 1500 CE journal parchment aesthetics (Cosmology Journal)
+export const journalPage = style({
+  background: "#f3efe2",
+  backgroundImage:
+    "radial-gradient(1200px 800px at 30% 20%, rgba(255,255,255,0.25), rgba(0,0,0,0) 60%), radial-gradient(800px 600px at 80% 10%, rgba(255,255,255,0.15), rgba(0,0,0,0) 70%), radial-gradient(1000px 900px at 50% 100%, rgba(0,0,0,0.06), rgba(0,0,0,0) 70%)",
+  border: "1px solid #e0d6b8",
+  borderRadius: "10px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.06)",
+  padding: "14px",
+});
+
+export const journalHeader = style({
+  fontVariant: "small-caps",
+  letterSpacing: "0.08em",
+  color: "#3d3420",
+  margin: "0 0 10px 0",
+});
+
+export const journalColumns = style({
+  columnCount: 1,
+  columnGap: "20px",
+  columnRule: "1px solid #e3dac0",
+  "@media": {
+    "screen and (min-width: 1024px)": {
+      columnCount: 2,
+    },
+  },
+});
+
+export const journalText = style({
+  whiteSpace: "pre-wrap",
+  wordBreak: "break-word",
+  color: "#2f2716",
+  lineHeight: 1.8,
+  textRendering: "optimizeLegibility",
+});
+
+export const journalDropcap = style({
+  float: "left",
+  fontFamily: "serif",
+  fontSize: "3.25rem",
+  lineHeight: 1,
+  margin: "0 8px 0 0",
+  color: "#3d3420",
+});
+
+export const journalRule = style({
+  height: 1,
+  background: "linear-gradient(90deg, #d6caa3, #efe6c8)",
+  margin: "8px 0 12px",
+});
+
+export const journalMarginNote = style({
+  fontSize: "0.9rem",
+  color: "#5a4a2a",
+  borderLeft: "3px solid #d6caa3",
+  backgroundColor: "#faf6ea",
+  padding: "8px 10px",
+  borderRadius: "6px",
+  margin: "8px 0",
+});
