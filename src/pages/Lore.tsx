@@ -1374,13 +1374,42 @@ export const Lore: React.FC = () => {
     ];
 
     return (
-      <section className={`${s.section} ${s.astronomyPage}`}>
-        <h2 className={`${s.sectionTitle} ${s.astronomyHeader}`}>Cosmology</h2>
-        {paragraphs.map((p, i) => (
-          <p key={i} className={s.text}>
-            {h(p)}
-          </p>
-        ))}
+      <section className={`${s.section} ${s.journalPage}`}>
+        <h2 className={`${s.sectionTitle} ${s.journalHeader}`}>Cosmology</h2>
+        <div className={s.journalRule} />
+        {(() => {
+          const bullets = [...worldsS.bullets, ...veilS.bullets].slice(0, 6);
+          if (bullets.length === 0) return null;
+          return (
+            <div className={s.journalMarginNote}>
+              <strong>{h("Notes for the apprentice:")}</strong>
+              <ul>
+                {bullets.map((b, i) => (
+                  <li key={i}>{h(b)}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        })()}
+        <div className={s.journalColumns}>
+          {paragraphs.map((p, i) => {
+            if (i === 0 && typeof p === "string" && p.length > 0) {
+              const first = p.charAt(0);
+              const rest = p.slice(1);
+              return (
+                <p key={i} className={s.journalText}>
+                  <span className={s.journalDropcap}>{h(first as string)}</span>
+                  {h(rest)}
+                </p>
+              );
+            }
+            return (
+              <p key={i} className={s.journalText}>
+                {h(p)}
+              </p>
+            );
+          })}
+        </div>
       </section>
     );
   }
