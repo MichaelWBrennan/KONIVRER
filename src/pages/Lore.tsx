@@ -1728,7 +1728,9 @@ export const Lore: React.FC = () => {
             }}
           />
           <figcaption className={s.astroCaption}>
-            {h("Figure: The six stances as regular habits in matter and motive")}
+            {h(
+              "Figure: The six stances as regular habits in matter and motive",
+            )}
           </figcaption>
         </figure>
         <div className={s.cosmologyGrid}>
