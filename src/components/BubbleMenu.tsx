@@ -129,8 +129,8 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     currentPage === "events" || currentPage === "event-archive";
 
   const menuItems = [
-    // Only show Blog when not on home page
-    ...(currentPage !== "home" ? [{ id: "home" as const, label: "Blog" }] : []),
+    // Only show Home when not on home page
+    ...(currentPage !== "home" ? [{ id: "home" as const, label: "Home" }] : []),
     { id: "cards" as const, label: "Card Search" },
     { id: "decks" as const, label: "Deck Search" },
     // Only show My Decks when logged in
@@ -143,7 +143,7 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     ...(canAccessJudgePortal()
       ? [{ id: "judge" as const, label: "Judge Portal" }]
       : []),
-    // Replace Events with Blog on Events pages
+    // Replace Events with Home on Events pages
     ...(!isOnEventsPage ? [{ id: "events" as const, label: "Events" }] : []),
     // Combined tournaments and companion functionality into unified Events
   ];
