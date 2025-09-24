@@ -1345,11 +1345,6 @@ export const Lore: React.FC = () => {
 
     const h = (text: string) => (query ? highlight(text, query) : text);
 
-    const distilled = (() => {
-      const bullets = [...worldsS.bullets, ...veilS.bullets].slice(0, 6);
-      return bullets.length > 0 ? bullets.join("; ") : "";
-    })();
-
     const paragraphs: string[] = [
       "This is a straight‑forward look at how the world is built and how it behaves.",
       "There are three layers: Overworld (clear and elevated), Midworld (everyday life), and Underworld (quiet and reflective). They stack like pages in one book and occasionally touch at the edges.",
