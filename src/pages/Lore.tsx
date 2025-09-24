@@ -1345,7 +1345,6 @@ export const Lore: React.FC = () => {
 
     const h = (text: string) => (query ? highlight(text, query) : text);
 
-
     const paragraphs: string[] = [
       "This is a straight‑forward look at how the world is built and how it behaves.",
       "There are three layers: Overworld (clear and elevated), Midworld (everyday life), and Underworld (quiet and reflective). They stack like pages in one book and occasionally touch at the edges.",
