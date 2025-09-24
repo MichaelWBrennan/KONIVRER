@@ -17,9 +17,7 @@ export const Home: React.FC = () => {
           <div className={h.divider}></div>
         </header>
 
-        <main className={h.content}>
-          {/* Blog content has been cleared */}
-        </main>
+        <main className={h.content}>{/* Blog content has been cleared */}</main>
       </div>
     </div>
   );
