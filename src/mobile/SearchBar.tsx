@@ -26,7 +26,7 @@ export const SearchBar: React.FC<Props> = ({ current, onSearch }) => {
         if (ctx === "event-standings") return "Search standings...";
         return "Search pairings (name or table)...";
       case "home":
-        return "Search posts...";
+        return "Search...";
       case "lore":
         return "Search lore...";
       default:

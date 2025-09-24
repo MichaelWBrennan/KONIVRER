@@ -40,7 +40,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
               current === "events" || current === "event-archive";
             const idToReplace = isOnEvents ? "events" : current;
             tabsToRender = mainTabs.map((t) =>
-              t.id === idToReplace ? { id: "home", label: "Blog" } : t,
+              t.id === idToReplace ? { id: "home", label: "Home" } : t,
             );
           }
 
@@ -57,7 +57,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
         })()}
         {(() => {
           const isRules = current === "rules";
-          const label = isRules ? "Blog" : "Rules";
+          const label = isRules ? "Home" : "Rules";
           const target = isRules ? "home" : "rules";
           return (
             <button
