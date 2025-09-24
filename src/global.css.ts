@@ -399,24 +399,24 @@ globalStyle(".btn-secondary", {
 });
 
 // Pressed/clicked state - inverted colors, no transparency
-globalStyle(".btn:active", { 
-  background: "#000", 
+globalStyle(".btn:active", {
+  background: "#000",
   color: "#fff",
   opacity: 1,
-  transform: "scale(0.98)"
+  transform: "scale(0.98)",
 });
 globalStyle(".btn-primary:active", {
   background: "#fff",
   color: "#000",
   border: "1px solid #000",
   opacity: 1,
-  transform: "scale(0.98)"
+  transform: "scale(0.98)",
 });
-globalStyle(".btn-secondary:active", { 
-  background: "#000", 
+globalStyle(".btn-secondary:active", {
+  background: "#000",
   color: "#fff",
   opacity: 1,
-  transform: "scale(0.98)"
+  transform: "scale(0.98)",
 });
 
 // Generic tab buttons used in some pages
@@ -431,47 +431,47 @@ globalStyle(".tab", {
   lineHeight: 1,
   opacity: 1,
 });
-globalStyle(".tab.active", { 
-  background: "#000", 
+globalStyle(".tab.active", {
+  background: "#000",
   color: "#fff",
-  opacity: 1
+  opacity: 1,
 });
-globalStyle(".tab:not(.active)", { 
-  background: "#fff", 
+globalStyle(".tab:not(.active)", {
+  background: "#fff",
   color: "#000",
-  opacity: 1
+  opacity: 1,
 });
 globalStyle(".tab:active", {
   background: "#000",
   color: "#fff",
   opacity: 1,
-  transform: "scale(0.98)"
+  transform: "scale(0.98)",
 });
 
-globalStyle(".btn-danger", { 
-  background: "#ef4444", 
+globalStyle(".btn-danger", {
+  background: "#ef4444",
   color: "#fff",
-  opacity: 1
+  opacity: 1,
 });
 globalStyle(".btn-danger:active", {
   background: "#fff",
   color: "#ef4444",
   border: "1px solid #ef4444",
   opacity: 1,
-  transform: "scale(0.98)"
+  transform: "scale(0.98)",
 });
 
-globalStyle(".btn-success", { 
-  background: "#10b981", 
+globalStyle(".btn-success", {
+  background: "#10b981",
   color: "#fff",
-  opacity: 1
+  opacity: 1,
 });
 globalStyle(".btn-success:active", {
   background: "#fff",
   color: "#10b981",
   border: "1px solid #10b981",
   opacity: 1,
-  transform: "scale(0.98)"
+  transform: "scale(0.98)",
 });
 
 // Feedback
@@ -524,11 +524,11 @@ globalStyle(".btn-touch", {
   opacity: 1,
 });
 
-globalStyle(".btn-touch:active", { 
+globalStyle(".btn-touch:active", {
   transform: "scale(0.95)",
   background: "#000",
   color: "#fff",
-  opacity: 1
+  opacity: 1,
 });
 
 // Simple utility classes
