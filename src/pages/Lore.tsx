@@ -1293,56 +1293,7 @@ export const Lore: React.FC = () => {
   );
 
   // ------------------ Cosmology & Magic structured rendering ------------------
-  function parseCombinedSections(text: string): Record<string, string> {
-    const out: Record<string, string> = {};
-    const lines = (text || "").split("\n");
-    let current: string | null = null;
-    let buffer: string[] = [];
-    const flush = () => {
-      if (current) out[current] = buffer.join("\n").trim();
-      buffer = [];
-    };
-    for (const line of lines) {
-      const m = line.match(/^===\s+(.+?)\s+===\s*$/);
-      if (m) {
-        flush();
-        current = m[1];
-      } else {
-        buffer.push(line);
-      }
-    }
-    flush();
-    return out;
-  }
-
-  function parseSummary(body: string): { bullets: string[]; rest: string } {
-    const lines = (body || "").split("\n");
-    const idx = lines.findIndex((l) => l.trim().toLowerCase() === "summary");
-    if (idx === -1) return { bullets: [], rest: body?.trim() || "" };
-    const bullets: string[] = [];
-    let j = idx + 1;
-    while (j < lines.length) {
-      const t = lines[j].trim();
-      if (t.startsWith("• ") || t.startsWith("- ")) {
-        bullets.push(t.replace(/^[-•]\s*/, "").trim());
-        j++;
-      } else if (t === "") {
-        j++;
-      } else {
-        break;
-      }
-    }
-    const rest = lines.slice(j).join("\n").trim();
-    return { bullets, rest };
-  }
-
-  function renderCosmologyStructured(display: string): React.ReactNode {
-    const sections = parseCombinedSections(display);
-    const worlds = sections["Worlds & Lokas"] || "";
-    const veil = sections["The Shattered Veil"] || "";
-    const worldsS = parseSummary(worlds);
-    const veilS = parseSummary(veil);
-
+  function renderCosmologyStructured(): React.ReactNode {
     const h = (text: string) => (query ? highlight(text, query) : text);
 
     const paragraphs: string[] = [
@@ -1673,7 +1624,7 @@ export const Lore: React.FC = () => {
     }
     const display = loadedText || "";
     if (tab.id === "cosmology" && display) {
-      return renderCosmologyStructured(display);
+      return renderCosmologyStructured();
     }
     if (tab.id === "aether") {
       return renderAetherTreatise();
