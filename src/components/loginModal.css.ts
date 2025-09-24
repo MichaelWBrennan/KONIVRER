@@ -45,6 +45,14 @@ export const close = style({
   padding: 8,
   borderRadius: "50%",
   zIndex: 1,
+  opacity: 1,
+  transition: "all 0.2s ease",
+  ":active": {
+    background: "#d4af37",
+    color: "#000",
+    transform: "scale(0.9)",
+    opacity: 1,
+  },
 });
 export const header = style({
   textAlign: "center",
@@ -76,6 +84,14 @@ export const passwordToggle = style({
   cursor: "pointer",
   padding: 8,
   borderRadius: 6,
+  opacity: 1,
+  transition: "all 0.2s ease",
+  ":active": {
+    background: "#d4af37",
+    color: "#000",
+    transform: "translateY(-50%) scale(0.95)",
+    opacity: 1,
+  },
 });
 export const loginBtn = style({
   width: "100%",
@@ -91,6 +107,14 @@ export const loginBtn = style({
   letterSpacing: 1,
   marginTop: 10,
   boxShadow: "0 4px 15px rgba(212,175,55,0.3)",
+  opacity: 1,
+  transition: "all 0.2s ease",
+  ":active": {
+    background: "linear-gradient(135deg, #000 0%, #111 100%)",
+    color: "#d4af37",
+    transform: "scale(0.98)",
+    opacity: 1,
+  },
 });
 export const divider = style({
   textAlign: "center",
@@ -124,6 +148,14 @@ export const socialBtn = style({
   fontWeight: 500,
   cursor: "pointer",
   textAlign: "left",
+  opacity: 1,
+  transition: "all 0.2s ease",
+  ":active": {
+    background: "rgba(212,175,55,0.2)",
+    color: "#000",
+    transform: "scale(0.98)",
+    opacity: 1,
+  },
 });
 export const socialIcon = style({
   fontSize: 20,
@@ -156,6 +188,14 @@ export const biometricBtn = style({
   textAlign: "center",
   textTransform: "uppercase",
   letterSpacing: 0.5,
+  opacity: 1,
+  transition: "all 0.2s ease",
+  ":active": {
+    background: "rgba(0,0,0,0.8)",
+    color: "#d4af37",
+    transform: "scale(0.98)",
+    opacity: 1,
+  },
 });
 export const biometricIcon = style({ fontSize: 24 });
 export const biometricTip = style({
