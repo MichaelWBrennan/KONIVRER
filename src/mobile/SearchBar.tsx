@@ -52,6 +52,13 @@ export const SearchBar: React.FC<Props> = ({
     dateRange: { start: string; end: string };
     sortBy: string;
     sortOrder: "asc" | "desc";
+    element?: string;
+    type?: string;
+    rarity?: string;
+    legalOnly?: boolean;
+    category?: string;
+    timeRange?: string;
+    metric?: string;
   }>({
     format: "",
     status: "",
@@ -60,6 +67,13 @@ export const SearchBar: React.FC<Props> = ({
     dateRange: { start: "", end: "" },
     sortBy: "startAt",
     sortOrder: "asc",
+    element: "",
+    type: "",
+    rarity: "",
+    legalOnly: false,
+    category: "",
+    timeRange: "",
+    metric: "",
   });
 
   useEffect(() => {
@@ -158,7 +172,7 @@ export const SearchBar: React.FC<Props> = ({
                     onChange={(e) =>
                       setSearchFilters((prev) => ({
                         ...prev,
-                        element: e.target.value || undefined,
+                        element: e.target.value || "",
                       }))
                     }
                   >
@@ -180,7 +194,7 @@ export const SearchBar: React.FC<Props> = ({
                     onChange={(e) =>
                       setSearchFilters((prev) => ({
                         ...prev,
-                        type: e.target.value || undefined,
+                        type: e.target.value || "",
                       }))
                     }
                   >
@@ -200,7 +214,7 @@ export const SearchBar: React.FC<Props> = ({
                     onChange={(e) =>
                       setSearchFilters((prev) => ({
                         ...prev,
-                        rarity: e.target.value || undefined,
+                        rarity: e.target.value || "",
                       }))
                     }
                   >
@@ -221,7 +235,7 @@ export const SearchBar: React.FC<Props> = ({
                       onChange={(e) =>
                         setSearchFilters((prev) => ({
                           ...prev,
-                          legalOnly: e.target.checked || undefined,
+                          legalOnly: e.target.checked,
                         }))
                       }
                     />
@@ -246,7 +260,7 @@ export const SearchBar: React.FC<Props> = ({
                     onChange={(e) =>
                       setSearchFilters((prev) => ({
                         ...prev,
-                        format: e.target.value || undefined,
+                        format: e.target.value || "",
                       }))
                     }
                   >
@@ -269,7 +283,7 @@ export const SearchBar: React.FC<Props> = ({
                     onChange={(e) =>
                       setSearchFilters((prev) => ({
                         ...prev,
-                        element: e.target.value || undefined,
+                        element: e.target.value || "",
                       }))
                     }
                   >
@@ -567,7 +581,7 @@ export const SearchBar: React.FC<Props> = ({
                     onChange={(e) =>
                       setSearchFilters((prev) => ({
                         ...prev,
-                        category: e.target.value || undefined,
+                        category: e.target.value || "",
                       }))
                     }
                   >
