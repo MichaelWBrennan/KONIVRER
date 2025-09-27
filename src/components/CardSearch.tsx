@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo } from "react";
 import { useCards } from "../hooks/useCards";
 import { useAppStore } from "../stores/appStore";
 import { Card } from "../data/cards"; // Use our local Card type
@@ -13,31 +13,9 @@ interface CardSearchProps {
 export const CardSearch: React.FC<CardSearchProps> = () => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { searchFilters, setSearchFilters } = useAppStore();
-  const [localSearchTerm, setLocalSearchTerm] = useState(
-    searchFilters.search || "",
-  );
 
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
-  // Debounced search - update filters when user stops typing
-  const updateSearch = useCallback(() => {
-    let timeoutId: ReturnType<typeof setTimeout> | undefined;
-    return (term: string) => {
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-      }
-      timeoutId = setTimeout(() => {
-        setSearchFilters({ search: term, page: 1 });
-      }, 500);
-    };
-  }, [setSearchFilters])();
-
   const { data: cardsData, isLoading, error } = useCards(searchFilters);
-
-  // Update search term locally and trigger debounced update
-  const handleSearchChange = (term: string) => {
-    setLocalSearchTerm(term);
-    updateSearch(term);
-  };
 
   const handleFilterChange = (key: string, value: any) => {
     setSearchFilters({ [key]: value, page: 1 });
@@ -85,14 +63,6 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
     <div>
       <div className="search-container">
         <h1 className={nav.navTitle}>Card Search</h1>
-
-        <input
-          type="text"
-          placeholder="Search cards by name, description, or keywords..."
-          value={localSearchTerm}
-          onChange={(e) => handleSearchChange(e.target.value)}
-          className="search-input"
-        />
 
         <div className="filters">
           <select

@@ -154,9 +154,25 @@ function AppContent(): any {
   };
 
   const handleAdvancedSearch = (filters: any) => {
+    // Apply advanced search filters based on current page
     if (currentPage === "events" || currentPage === "event-archive") {
       const ev = new CustomEvent("advanced-search", { detail: filters });
       window.dispatchEvent(ev);
+    } else if (currentPage === "cards") {
+      // Apply card-specific filters
+      setSearchFilters(filters.searchFilters);
+    } else if (currentPage === "decks" || currentPage === "my-decks") {
+      // Apply deck-specific filters
+      setSearchFilters(filters.searchFilters);
+    } else if (currentPage === "lore" || currentPage === "rules") {
+      // Apply content-specific filters
+      setSearchFilters(filters.searchFilters);
+    } else if (currentPage === "analytics") {
+      // Apply analytics-specific filters
+      setSearchFilters(filters.searchFilters);
+    } else {
+      // Apply general filters for other pages
+      setSearchFilters(filters.searchFilters);
     }
   };
 
