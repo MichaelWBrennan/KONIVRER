@@ -24,7 +24,9 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
       const matchesSearch =
         !searchFilters.search ||
         deck.name.toLowerCase().includes(searchFilters.search.toLowerCase()) ||
-        deck.description.toLowerCase().includes(searchFilters.search.toLowerCase());
+        deck.description
+          .toLowerCase()
+          .includes(searchFilters.search.toLowerCase());
 
       const matchesElement =
         !searchFilters.element || deck.mainElement === searchFilters.element;

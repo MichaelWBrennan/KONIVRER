@@ -25,7 +25,9 @@ export const MyDecks: React.FC = () => {
       const matchesSearch =
         !searchFilters.search ||
         deck.name.toLowerCase().includes(searchFilters.search.toLowerCase()) ||
-        deck.description.toLowerCase().includes(searchFilters.search.toLowerCase());
+        deck.description
+          .toLowerCase()
+          .includes(searchFilters.search.toLowerCase());
 
       const matchesVisibility =
         filterBy === "all" ||

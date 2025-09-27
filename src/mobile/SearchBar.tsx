@@ -334,7 +334,9 @@ export const SearchBar: React.FC<Props> = ({
                     id="startDate"
                     type="date"
                     value={timeFrame.start}
-                    onChange={(e) => handleTimeFrameChange("start", e.target.value)}
+                    onChange={(e) =>
+                      handleTimeFrameChange("start", e.target.value)
+                    }
                   />
                 </div>
                 <div className={s.timeFrameInput}>
@@ -343,7 +345,9 @@ export const SearchBar: React.FC<Props> = ({
                     id="endDate"
                     type="date"
                     value={timeFrame.end}
-                    onChange={(e) => handleTimeFrameChange("end", e.target.value)}
+                    onChange={(e) =>
+                      handleTimeFrameChange("end", e.target.value)
+                    }
                   />
                 </div>
               </div>
@@ -446,7 +450,9 @@ export const SearchBar: React.FC<Props> = ({
                       }
                     >
                       <option value="">All Status</option>
-                      <option value="Registration Open">Registration Open</option>
+                      <option value="Registration Open">
+                        Registration Open
+                      </option>
                       <option value="In Progress">In Progress</option>
                       <option value="Completed">Completed</option>
                       <option value="Cancelled">Cancelled</option>
