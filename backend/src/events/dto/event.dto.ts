@@ -136,6 +136,52 @@ export class EventSettingsDto {
 }
 
 @InputType()
+export class StoreInfoDto {
+  @Field()
+  @ApiProperty({ description: "Store ID" })
+  @IsString()
+  id: string;
+
+  @Field()
+  @ApiProperty({ description: "Store name" })
+  @IsString()
+  name: string;
+
+  @Field()
+  @ApiProperty({ description: "Store address" })
+  @IsString()
+  address: string;
+
+  @Field()
+  @ApiProperty({ description: "Store latitude" })
+  @IsNumber()
+  lat: number;
+
+  @Field()
+  @ApiProperty({ description: "Store longitude" })
+  @IsNumber()
+  lng: number;
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "Store phone number" })
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "Store website" })
+  @IsOptional()
+  @IsString()
+  website?: string;
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "Store hours" })
+  @IsOptional()
+  @IsString()
+  hours?: string;
+}
+
+@InputType()
 export class VenueInfoDto {
   @Field()
   @ApiProperty({ enum: VenueType, description: "Venue type" })
@@ -191,6 +237,13 @@ export class VenueInfoDto {
   @IsArray()
   @IsString({ each: true })
   amenities?: string[];
+
+  @Field(() => StoreInfoDto, { nullable: true })
+  @ApiPropertyOptional({ description: "Store information" })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => StoreInfoDto)
+  store?: StoreInfoDto;
 }
 
 @InputType()
@@ -547,6 +600,31 @@ export class EventSearchFiltersDto {
   @IsOptional()
   @IsString()
   sortOrder?: "ASC" | "DESC" = "ASC";
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "User latitude for distance search" })
+  @IsOptional()
+  @IsNumber()
+  userLat?: number;
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "User longitude for distance search" })
+  @IsOptional()
+  @IsNumber()
+  userLng?: number;
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "Maximum distance in miles" })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  maxDistance?: number;
+
+  @Field({ nullable: true })
+  @ApiPropertyOptional({ description: "Store ID to filter by" })
+  @IsOptional()
+  @IsString()
+  storeId?: string;
 }
 
 // Response DTOs

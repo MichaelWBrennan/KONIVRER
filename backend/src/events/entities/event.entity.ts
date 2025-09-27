@@ -78,6 +78,15 @@ interface VenueInfo {
   streamUrl?: string;
   capacity?: number;
   amenities?: string[];
+  store?: {
+    id: string;
+    name: string;
+    address: string;
+    coordinates: { lat: number; lng: number };
+    phone?: string;
+    website?: string;
+    hours?: string;
+  };
 }
 
 @Entity("events")

@@ -218,3 +218,257 @@ globalStyle(`${eventCard}:hover`, {
   background: "var(--hover-bg, rgba(255,255,255,0.05))",
   borderColor: "var(--accent-color, #007bff)",
 });
+
+// Geolocation and Store Search Styles
+export const geolocationSection = style({
+  marginBottom: "1rem",
+  padding: "1rem",
+  background: "var(--primary-bg)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+});
+
+export const geolocationInputs = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.75rem",
+});
+
+export const geolocationInput = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+  minWidth: "200px",
+});
+
+export const geolocationStatus = style({
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+  flexWrap: "wrap",
+});
+
+export const locationFound = style({
+  color: "var(--success-color, #28a745)",
+  fontSize: "0.85rem",
+  fontWeight: "500",
+});
+
+export const locationNotFound = style({
+  color: "var(--warning-color, #ffc107)",
+  fontSize: "0.85rem",
+  fontWeight: "500",
+});
+
+export const refreshLocationButton = style({
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 4,
+  padding: "0.25rem 0.5rem",
+  cursor: "pointer",
+  fontSize: "0.8rem",
+  transition: "all 0.2s ease",
+});
+
+globalStyle(`${refreshLocationButton}:hover`, {
+  background: "var(--border-color)",
+});
+
+export const storeSection = style({
+  marginBottom: "1rem",
+  padding: "1rem",
+  background: "var(--primary-bg)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+});
+
+export const storeInput = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+  minWidth: "200px",
+});
+
+globalStyle(`${storeInput} select`, {
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 4,
+  padding: "0.5rem",
+  fontSize: "0.9rem",
+  cursor: "pointer",
+});
+
+globalStyle(`${geolocationSection} h4, ${storeSection} h4`, {
+  margin: "0 0 0.75rem 0",
+  color: "var(--text-primary)",
+  fontSize: "1rem",
+  fontWeight: "600",
+});
+
+globalStyle(`${geolocationInput} label, ${storeInput} label`, {
+  fontSize: "0.85rem",
+  color: "var(--text-secondary)",
+  fontWeight: "500",
+});
+
+globalStyle(`${geolocationInput} input`, {
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 4,
+  padding: "0.5rem",
+  fontSize: "0.9rem",
+});
+
+// Advanced Filters Styles
+export const advancedFiltersSection = style({
+  marginBottom: "1rem",
+  padding: "1rem",
+  background: "var(--primary-bg)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+});
+
+export const filtersGrid = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+  gap: "1rem",
+  marginBottom: "1rem",
+});
+
+export const filterGroup = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+});
+
+globalStyle(`${filterGroup} label`, {
+  fontSize: "0.85rem",
+  color: "var(--text-secondary)",
+  fontWeight: "500",
+});
+
+globalStyle(`${filterGroup} select`, {
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 4,
+  padding: "0.5rem",
+  fontSize: "0.9rem",
+  cursor: "pointer",
+});
+
+export const priceRangeSection = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.5rem",
+});
+
+export const priceRangeInputs = style({
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+});
+
+globalStyle(`${priceRangeInputs} input`, {
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 4,
+  padding: "0.5rem",
+  fontSize: "0.9rem",
+  width: "100px",
+});
+
+globalStyle(`${priceRangeInputs} span`, {
+  color: "var(--text-secondary)",
+  fontSize: "0.9rem",
+});
+
+globalStyle(`${advancedFiltersSection} h4`, {
+  margin: "0 0 0.75rem 0",
+  color: "var(--text-primary)",
+  fontSize: "1rem",
+  fontWeight: "600",
+});
+
+// Quick Search Styles
+export const quickSearchSection = style({
+  marginTop: "1.5rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+});
+
+export const quickSearchBar = style({
+  display: "flex",
+  gap: "0.5rem",
+  maxWidth: "600px",
+  margin: "0 auto",
+});
+
+export const quickSearchInput = style({
+  flex: 1,
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  padding: "0.75rem 1rem",
+  fontSize: "1rem",
+  outline: "none",
+  transition: "all 0.2s ease",
+});
+
+globalStyle(`${quickSearchInput}:focus`, {
+  borderColor: "var(--accent-color, #007bff)",
+  boxShadow: "0 0 0 2px rgba(0, 123, 255, 0.25)",
+});
+
+export const quickSearchButton = style({
+  background: "var(--accent-color, #007bff)",
+  color: "white",
+  border: "none",
+  borderRadius: 8,
+  padding: "0.75rem 1.5rem",
+  fontSize: "1rem",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+  fontWeight: "500",
+});
+
+globalStyle(`${quickSearchButton}:hover`, {
+  background: "var(--accent-hover, #0056b3)",
+  transform: "translateY(-1px)",
+});
+
+export const quickFilters = style({
+  display: "flex",
+  gap: "0.5rem",
+  justifyContent: "center",
+  flexWrap: "wrap",
+});
+
+export const quickFilterButton = style({
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 20,
+  padding: "0.5rem 1rem",
+  fontSize: "0.85rem",
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+  fontWeight: "500",
+});
+
+globalStyle(`${quickFilterButton}:hover`, {
+  background: "var(--accent-color, #007bff)",
+  color: "white",
+  borderColor: "var(--accent-color, #007bff)",
+  transform: "translateY(-1px)",
+});
+
+globalStyle(`${quickFilterButton}:active`, {
+  transform: "translateY(0)",
+});
