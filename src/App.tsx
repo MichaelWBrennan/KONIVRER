@@ -153,6 +153,13 @@ function AppContent(): any {
     }
   };
 
+  const handleAdvancedSearch = (filters: any) => {
+    if (currentPage === "events" || currentPage === "event-archive") {
+      const ev = new CustomEvent("advanced-search", { detail: filters });
+      window.dispatchEvent(ev);
+    }
+  };
+
   if (!isOnline) {
     return <Offline />;
   }
@@ -166,7 +173,11 @@ function AppContent(): any {
       </div>
 
       {!(currentPage === "settings" || currentPage === "simulator") && (
-        <SearchBar current={currentPage} onSearch={handleGlobalSearch} />
+        <SearchBar 
+          current={currentPage} 
+          onSearch={handleGlobalSearch} 
+          onAdvancedSearch={handleAdvancedSearch}
+        />
       )}
 
       <MobileShell
