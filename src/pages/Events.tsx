@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as s from "./events.css.ts";
 import { NotificationService } from "../services/notifications";
+import { useAuth } from "../hooks/useAuth";
 
 // Types
 interface Event {
@@ -42,42 +43,46 @@ interface User {
 
 export const Events: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
-    "browse" | "my-events" | "create" | "admin"
-  >("browse");
+    "my-events" | "create" | "admin"
+  >("my-events");
   const [viewMode, setViewMode] = useState<"upcoming" | "live" | "past">(
     "upcoming",
   );
-  const [events] = useState<Event[]>([]);
-  const [currentUser, setCurrentUser] = useState<User>({
-    id: "",
-    username: "",
-    role: "player",
-    isAuthenticated: false,
+  const [events, setEvents] = useState<Event[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
+  const [timeFrame, setTimeFrame] = useState<{
+    start: string;
+    end: string;
+  }>({
+    start: "",
+    end: "",
   });
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
-    checkAuthenticationStatus();
     loadEvents();
   }, []);
 
-  const checkAuthenticationStatus = () => {
-    const token = localStorage.getItem("authToken");
-    const userData = localStorage.getItem("userData");
-
-    if (token && userData) {
-      try {
-        const user = JSON.parse(userData);
-        setCurrentUser({
-          ...user,
-          isAuthenticated: true,
-        });
-      } catch (error) {
-        console.error("Failed to parse user data:", error);
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("userData");
+  // Listen for search events from the global search bar
+  useEffect(() => {
+    const handlePairingsSearch = (e: CustomEvent) => {
+      if (selectedEvent) {
+        // If an event is selected, search within that event's pairings
+        searchPairings(e.detail);
+      } else {
+        // Otherwise, search events
+        setSearchQuery(e.detail);
+        searchEvents(e.detail);
       }
-    }
-  };
+    };
+
+    window.addEventListener("pairings-search", handlePairingsSearch as EventListener);
+    return () => {
+      window.removeEventListener("pairings-search", handlePairingsSearch as EventListener);
+    };
+  }, [selectedEvent]);
 
   const loadEvents = async () => {
     // Load events from API
@@ -88,6 +93,45 @@ export const Events: React.FC = () => {
     } catch (error) {
       console.error("Failed to load events:", error);
     }
+  };
+
+  const searchEvents = (query: string) => {
+    // Filter events based on search query
+    // This would typically make an API call with search parameters
+    console.log("Searching events with query:", query);
+    // For now, we'll just log the search - in a real implementation,
+    // this would filter the events state or make an API call
+  };
+
+  const searchPairings = (query: string) => {
+    // Search within selected event's pairings
+    console.log("Searching pairings for event", selectedEvent?.id, "with query:", query);
+    // This would typically make an API call to search pairings within the selected event
+  };
+
+  const handleEventClick = (event: Event) => {
+    setSelectedEvent(event);
+    // Update search context to indicate we're now searching within this event
+    window.dispatchEvent(new CustomEvent("search-context", { detail: "event-standings" }));
+  };
+
+  const handleBackToEvents = () => {
+    setSelectedEvent(null);
+    // Reset search context to events
+    window.dispatchEvent(new CustomEvent("search-context", { detail: "events" }));
+  };
+
+  const handleTimeFrameChange = (field: "start" | "end", value: string) => {
+    setTimeFrame(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const applyAdvancedSearch = () => {
+    // Apply time frame filters and search query
+    console.log("Applying advanced search with time frame:", timeFrame, "and query:", searchQuery);
+    // This would typically make an API call with all the search parameters
   };
 
   const handleEventRegister = async (eventId: string) => {
@@ -141,7 +185,7 @@ export const Events: React.FC = () => {
   };
 
   const renderEventCard = (event: Event) => (
-    <div key={event.id} className={s.eventCard}>
+    <div key={event.id} className={s.eventCard} onClick={() => handleEventClick(event)}>
       <div className={s.eventHeader}>
         <h3 className={s.eventName}>{event.name}</h3>
         <div className={s.eventStatus}>{event.status}</div>
@@ -162,8 +206,14 @@ export const Events: React.FC = () => {
         <p>{event.description}</p>
       </div>
       <div className={s.actions}>
-        <button onClick={() => handleEventRegister(event.id)}>Register</button>
-        <button onClick={() => handleEventUnregister(event.id)}>
+        <button onClick={(e) => {
+          e.stopPropagation();
+          handleEventRegister(event.id);
+        }}>Register</button>
+        <button onClick={(e) => {
+          e.stopPropagation();
+          handleEventClick(event);
+        }}>
           View Details
         </button>
       </div>
@@ -177,22 +227,70 @@ export const Events: React.FC = () => {
         <p>Discover and participate in competitive KONIVRER tournaments</p>
       </div>
 
+      {/* Time Frame Dropdown - attached to search bar */}
+      <div className={s.timeFrameDropdown}>
+        <select 
+          value={viewMode} 
+          onChange={(e) => setViewMode(e.target.value as "upcoming" | "live" | "past")}
+          className={s.timeFrameSelect}
+        >
+          <option value="upcoming">Upcoming</option>
+          <option value="live">Live</option>
+          <option value="past">Past Events</option>
+        </select>
+      </div>
+
+      {/* Advanced Search Toggle */}
+      <div className={s.advancedSearchToggle}>
+        <button 
+          onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+          className={s.advancedSearchButton}
+        >
+          {showAdvancedSearch ? "Hide" : "Show"} Advanced Search
+        </button>
+      </div>
+
+      {/* Advanced Search Panel */}
+      {showAdvancedSearch && (
+        <div className={s.advancedSearchPanel}>
+          <div className={s.timeFrameInputs}>
+            <div className={s.timeFrameInput}>
+              <label htmlFor="startDate">Start Date:</label>
+              <input
+                id="startDate"
+                type="date"
+                value={timeFrame.start}
+                onChange={(e) => handleTimeFrameChange("start", e.target.value)}
+              />
+            </div>
+            <div className={s.timeFrameInput}>
+              <label htmlFor="endDate">End Date:</label>
+              <input
+                id="endDate"
+                type="date"
+                value={timeFrame.end}
+                onChange={(e) => handleTimeFrameChange("end", e.target.value)}
+              />
+            </div>
+          </div>
+          <button onClick={applyAdvancedSearch} className={s.applySearchButton}>
+            Apply Search
+          </button>
+        </div>
+      )}
+
       <div className={s.nav}>
         <div className={s.navTabs}>
-          <button
-            className={activeTab === "browse" ? "active" : ""}
-            onClick={() => setActiveTab("browse")}
-          >
-            Browse Events
-          </button>
-          <button
-            className={activeTab === "my-events" ? "active" : ""}
-            onClick={() => setActiveTab("my-events")}
-          >
-            My Events
-          </button>
-          {currentUser.role === "tournament_organizer" ||
-          currentUser.role === "admin" ? (
+          {/* Only show My Events if user is authenticated */}
+          {isAuthenticated && (
+            <button
+              className={activeTab === "my-events" ? "active" : ""}
+              onClick={() => setActiveTab("my-events")}
+            >
+              My Events
+            </button>
+          )}
+          {user?.role === "tournament_organizer" || user?.role === "admin" ? (
             <button
               className={activeTab === "create" ? "active" : ""}
               onClick={() => setActiveTab("create")}
@@ -200,7 +298,7 @@ export const Events: React.FC = () => {
               Create Event
             </button>
           ) : null}
-          {currentUser.role === "admin" ? (
+          {user?.role === "admin" ? (
             <button
               className={activeTab === "admin" ? "active" : ""}
               onClick={() => setActiveTab("admin")}
@@ -209,33 +307,11 @@ export const Events: React.FC = () => {
             </button>
           ) : null}
         </div>
-
-        {activeTab === "browse" && (
-          <div className={s.viewSelector}>
-            <button
-              className={viewMode === "upcoming" ? "active" : ""}
-              onClick={() => setViewMode("upcoming")}
-            >
-              Upcoming
-            </button>
-            <button
-              className={viewMode === "live" ? "active" : ""}
-              onClick={() => setViewMode("live")}
-            >
-              Live
-            </button>
-            <button
-              className={viewMode === "past" ? "active" : ""}
-              onClick={() => setViewMode("past")}
-            >
-              Past Events
-            </button>
-          </div>
-        )}
       </div>
 
       <div className={s.content}>
-        {activeTab === "browse" && (
+        {/* Event List View */}
+        {!selectedEvent && (
           <div className={s.list}>
             {events.length === 0 ? (
               <div className={s.empty}>
@@ -248,10 +324,26 @@ export const Events: React.FC = () => {
           </div>
         )}
 
+        {/* Selected Event View - for searching pairings */}
+        {selectedEvent && (
+          <div className={s.selectedEventView}>
+            <div className={s.selectedEventHeader}>
+              <button onClick={handleBackToEvents} className={s.backButton}>
+                ← Back to Events
+              </button>
+              <h2>{selectedEvent.name}</h2>
+            </div>
+            <div className={s.eventPairings}>
+              <p>Search pairings within this event using the search bar above.</p>
+              {/* Pairings would be displayed here based on search results */}
+            </div>
+          </div>
+        )}
+
         {activeTab === "my-events" && (
           <div className="my-events">
             <h2>My Registered Events</h2>
-            {currentUser.isAuthenticated ? (
+            {isAuthenticated ? (
               <p>You haven't registered for any events yet.</p>
             ) : (
               <p>Please log in to view your registered events.</p>
