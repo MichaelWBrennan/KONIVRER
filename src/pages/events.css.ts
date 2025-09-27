@@ -394,22 +394,23 @@ globalStyle(`${advancedFiltersSection} h4`, {
   fontWeight: "600",
 });
 
-// Quick Search Styles
-export const quickSearchSection = style({
+// Main Search Styles
+export const mainSearchSection = style({
   marginTop: "1.5rem",
   display: "flex",
   flexDirection: "column",
   gap: "1rem",
+  alignItems: "center",
 });
 
-export const quickSearchBar = style({
+export const mainSearchBar = style({
   display: "flex",
   gap: "0.5rem",
   maxWidth: "600px",
-  margin: "0 auto",
+  width: "100%",
 });
 
-export const quickSearchInput = style({
+export const mainSearchInput = style({
   flex: 1,
   background: "var(--secondary-bg)",
   color: "var(--text-primary)",
@@ -421,12 +422,12 @@ export const quickSearchInput = style({
   transition: "all 0.2s ease",
 });
 
-globalStyle(`${quickSearchInput}:focus`, {
+globalStyle(`${mainSearchInput}:focus`, {
   borderColor: "var(--accent-color, #007bff)",
   boxShadow: "0 0 0 2px rgba(0, 123, 255, 0.25)",
 });
 
-export const quickSearchButton = style({
+export const mainSearchButton = style({
   background: "var(--accent-color, #007bff)",
   color: "white",
   border: "none",
@@ -438,37 +439,35 @@ export const quickSearchButton = style({
   fontWeight: "500",
 });
 
-globalStyle(`${quickSearchButton}:hover`, {
+globalStyle(`${mainSearchButton}:hover`, {
   background: "var(--accent-hover, #0056b3)",
   transform: "translateY(-1px)",
 });
 
-export const quickFilters = style({
+export const advancedSearchToggle = style({
   display: "flex",
-  gap: "0.5rem",
   justifyContent: "center",
-  flexWrap: "wrap",
 });
 
-export const quickFilterButton = style({
+export const advancedSearchToggleButton = style({
   background: "var(--secondary-bg)",
   color: "var(--text-primary)",
   border: "1px solid var(--border-color)",
-  borderRadius: 20,
+  borderRadius: 8,
   padding: "0.5rem 1rem",
-  fontSize: "0.85rem",
   cursor: "pointer",
+  fontSize: "0.9rem",
   transition: "all 0.2s ease",
-  fontWeight: "500",
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
 });
 
-globalStyle(`${quickFilterButton}:hover`, {
-  background: "var(--accent-color, #007bff)",
-  color: "white",
-  borderColor: "var(--accent-color, #007bff)",
-  transform: "translateY(-1px)",
+globalStyle(`${advancedSearchToggleButton}:hover`, {
+  background: "var(--border-color)",
 });
 
-globalStyle(`${quickFilterButton}:active`, {
-  transform: "translateY(0)",
+export const dropdownArrow = style({
+  fontSize: "0.8rem",
+  transition: "transform 0.2s ease",
 });
