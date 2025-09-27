@@ -42,9 +42,9 @@ interface User {
 }
 
 export const Events: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<
-    "my-events" | "create" | "admin"
-  >("my-events");
+  const [activeTab, setActiveTab] = useState<"my-events" | "create" | "admin">(
+    "my-events",
+  );
   const [viewMode, setViewMode] = useState<"upcoming" | "live" | "past">(
     "upcoming",
   );
@@ -78,9 +78,15 @@ export const Events: React.FC = () => {
       }
     };
 
-    window.addEventListener("pairings-search", handlePairingsSearch as EventListener);
+    window.addEventListener(
+      "pairings-search",
+      handlePairingsSearch as EventListener,
+    );
     return () => {
-      window.removeEventListener("pairings-search", handlePairingsSearch as EventListener);
+      window.removeEventListener(
+        "pairings-search",
+        handlePairingsSearch as EventListener,
+      );
     };
   }, [selectedEvent]);
 
@@ -105,32 +111,46 @@ export const Events: React.FC = () => {
 
   const searchPairings = (query: string) => {
     // Search within selected event's pairings
-    console.log("Searching pairings for event", selectedEvent?.id, "with query:", query);
+    console.log(
+      "Searching pairings for event",
+      selectedEvent?.id,
+      "with query:",
+      query,
+    );
     // This would typically make an API call to search pairings within the selected event
   };
 
   const handleEventClick = (event: Event) => {
     setSelectedEvent(event);
     // Update search context to indicate we're now searching within this event
-    window.dispatchEvent(new CustomEvent("search-context", { detail: "event-standings" }));
+    window.dispatchEvent(
+      new CustomEvent("search-context", { detail: "event-standings" }),
+    );
   };
 
   const handleBackToEvents = () => {
     setSelectedEvent(null);
     // Reset search context to events
-    window.dispatchEvent(new CustomEvent("search-context", { detail: "events" }));
+    window.dispatchEvent(
+      new CustomEvent("search-context", { detail: "events" }),
+    );
   };
 
   const handleTimeFrameChange = (field: "start" | "end", value: string) => {
-    setTimeFrame(prev => ({
+    setTimeFrame((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const applyAdvancedSearch = () => {
     // Apply time frame filters and search query
-    console.log("Applying advanced search with time frame:", timeFrame, "and query:", searchQuery);
+    console.log(
+      "Applying advanced search with time frame:",
+      timeFrame,
+      "and query:",
+      searchQuery,
+    );
     // This would typically make an API call with all the search parameters
   };
 
@@ -185,7 +205,11 @@ export const Events: React.FC = () => {
   };
 
   const renderEventCard = (event: Event) => (
-    <div key={event.id} className={s.eventCard} onClick={() => handleEventClick(event)}>
+    <div
+      key={event.id}
+      className={s.eventCard}
+      onClick={() => handleEventClick(event)}
+    >
       <div className={s.eventHeader}>
         <h3 className={s.eventName}>{event.name}</h3>
         <div className={s.eventStatus}>{event.status}</div>
@@ -206,14 +230,20 @@ export const Events: React.FC = () => {
         <p>{event.description}</p>
       </div>
       <div className={s.actions}>
-        <button onClick={(e) => {
-          e.stopPropagation();
-          handleEventRegister(event.id);
-        }}>Register</button>
-        <button onClick={(e) => {
-          e.stopPropagation();
-          handleEventClick(event);
-        }}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEventRegister(event.id);
+          }}
+        >
+          Register
+        </button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleEventClick(event);
+          }}
+        >
           View Details
         </button>
       </div>
@@ -229,9 +259,11 @@ export const Events: React.FC = () => {
 
       {/* Time Frame Dropdown - attached to search bar */}
       <div className={s.timeFrameDropdown}>
-        <select 
-          value={viewMode} 
-          onChange={(e) => setViewMode(e.target.value as "upcoming" | "live" | "past")}
+        <select
+          value={viewMode}
+          onChange={(e) =>
+            setViewMode(e.target.value as "upcoming" | "live" | "past")
+          }
           className={s.timeFrameSelect}
         >
           <option value="upcoming">Upcoming</option>
@@ -242,7 +274,7 @@ export const Events: React.FC = () => {
 
       {/* Advanced Search Toggle */}
       <div className={s.advancedSearchToggle}>
-        <button 
+        <button
           onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
           className={s.advancedSearchButton}
         >
@@ -334,7 +366,9 @@ export const Events: React.FC = () => {
               <h2>{selectedEvent.name}</h2>
             </div>
             <div className={s.eventPairings}>
-              <p>Search pairings within this event using the search bar above.</p>
+              <p>
+                Search pairings within this event using the search bar above.
+              </p>
               {/* Pairings would be displayed here based on search results */}
             </div>
           </div>
