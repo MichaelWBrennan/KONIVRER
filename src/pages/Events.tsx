@@ -34,65 +34,12 @@ export const Events: React.FC = () => {
   );
   const [events] = useState<Event[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
-  const [timeFrame, setTimeFrame] = useState<{
-    start: string;
-    end: string;
-  }>({
-    start: "",
-    end: "",
-  });
-  const [geolocation, setGeolocation] = useState<{
-    lat: number | null;
-    lng: number | null;
-    maxDistance: number;
-  }>({
-    lat: null,
-    lng: null,
-    maxDistance: 50,
-  });
-  const [selectedStore, setSelectedStore] = useState<string>("");
-  const [searchFilters, setSearchFilters] = useState<{
-    format: string;
-    status: string;
-    venueType: string;
-    priceRange: { min: number; max: number };
-    dateRange: { start: string; end: string };
-    sortBy: string;
-    sortOrder: "asc" | "desc";
-  }>({
-    format: "",
-    status: "",
-    venueType: "",
-    priceRange: { min: 0, max: 1000 },
-    dateRange: { start: "", end: "" },
-    sortBy: "startAt",
-    sortOrder: "asc",
-  });
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     loadEvents();
-    getCurrentLocation();
   }, []);
-
-  const getCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setGeolocation((prev) => ({
-            ...prev,
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          }));
-        },
-        (error) => {
-          console.warn("Geolocation error:", error);
-        },
-      );
-    }
-  };
 
   // Listen for search events from the global search bar
   useEffect(() => {
@@ -107,14 +54,29 @@ export const Events: React.FC = () => {
       }
     };
 
+    const handleAdvancedSearch = (e: CustomEvent) => {
+      const filters = e.detail;
+      console.log("Advanced search filters received:", filters);
+      // Apply advanced search filters
+      applyAdvancedSearchWithFilters(filters);
+    };
+
     window.addEventListener(
       "pairings-search",
       handlePairingsSearch as EventListener,
+    );
+    window.addEventListener(
+      "advanced-search",
+      handleAdvancedSearch as EventListener,
     );
     return () => {
       window.removeEventListener(
         "pairings-search",
         handlePairingsSearch as EventListener,
+      );
+      window.removeEventListener(
+        "advanced-search",
+        handleAdvancedSearch as EventListener,
       );
     };
   }, [selectedEvent]);
@@ -165,24 +127,9 @@ export const Events: React.FC = () => {
     );
   };
 
-  const handleTimeFrameChange = (field: "start" | "end", value: string) => {
-    setTimeFrame((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
-  const applyAdvancedSearch = () => {
-    // Apply all filters including time frame, geolocation, store filter, and advanced filters
-    const searchParams = {
-      timeFrame,
-      geolocation,
-      selectedStore,
-      searchQuery,
-      searchFilters,
-    };
-
-    console.log("Applying advanced search with:", searchParams);
+  const applyAdvancedSearchWithFilters = (filters: any) => {
+    // Apply advanced search filters received from the persistent search bar
+    console.log("Applying advanced search with filters:", filters);
 
     // This would typically make an API call with all the search parameters
     // The API call would include:
@@ -292,267 +239,7 @@ export const Events: React.FC = () => {
       <div className={s.header}>
         <h1>Tournament Events</h1>
         <p>Discover and participate in competitive KONIVRER tournaments</p>
-
-        {/* Main Search Bar with Advanced Search Dropdown */}
-        <div className={s.mainSearchSection}>
-          <div className={s.mainSearchBar}>
-            <input
-              type="text"
-              placeholder="Search events by name, format, or location..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={s.mainSearchInput}
-            />
-            <button
-              onClick={() => searchEvents(searchQuery)}
-              className={s.mainSearchButton}
-            >
-              Search
-            </button>
-          </div>
-          <div className={s.advancedSearchToggle}>
-            <button
-              onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-              className={s.advancedSearchToggleButton}
-            >
-              <span>Advanced Search</span>
-              <span className={s.dropdownArrow}>
-                {showAdvancedSearch ? "▲" : "▼"}
-              </span>
-            </button>
-          </div>
-        </div>
       </div>
-
-      {/* Advanced Search Panel */}
-      {showAdvancedSearch && (
-        <div className={s.advancedSearchPanel}>
-          <div className={s.timeFrameInputs}>
-            <div className={s.timeFrameInput}>
-              <label htmlFor="startDate">Start Date:</label>
-              <input
-                id="startDate"
-                type="date"
-                value={timeFrame.start}
-                onChange={(e) => handleTimeFrameChange("start", e.target.value)}
-              />
-            </div>
-            <div className={s.timeFrameInput}>
-              <label htmlFor="endDate">End Date:</label>
-              <input
-                id="endDate"
-                type="date"
-                value={timeFrame.end}
-                onChange={(e) => handleTimeFrameChange("end", e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* Geolocation Search */}
-          <div className={s.geolocationSection}>
-            <h4>Location Search</h4>
-            <div className={s.geolocationInputs}>
-              <div className={s.geolocationInput}>
-                <label htmlFor="maxDistance">Max Distance (miles):</label>
-                <input
-                  id="maxDistance"
-                  type="number"
-                  min="1"
-                  max="500"
-                  value={geolocation.maxDistance}
-                  onChange={(e) =>
-                    setGeolocation((prev) => ({
-                      ...prev,
-                      maxDistance: parseInt(e.target.value) || 50,
-                    }))
-                  }
-                />
-              </div>
-              <div className={s.geolocationStatus}>
-                {geolocation.lat && geolocation.lng ? (
-                  <span className={s.locationFound}>
-                    📍 Location found: {geolocation.lat.toFixed(4)},{" "}
-                    {geolocation.lng.toFixed(4)}
-                  </span>
-                ) : (
-                  <span className={s.locationNotFound}>
-                    📍 Location not available
-                  </span>
-                )}
-                <button
-                  type="button"
-                  onClick={getCurrentLocation}
-                  className={s.refreshLocationButton}
-                >
-                  Refresh Location
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Store Filter */}
-          <div className={s.storeSection}>
-            <h4>Store Filter</h4>
-            <div className={s.storeInput}>
-              <label htmlFor="storeSelect">Filter by Store:</label>
-              <select
-                id="storeSelect"
-                value={selectedStore}
-                onChange={(e) => setSelectedStore(e.target.value)}
-              >
-                <option value="">All Stores</option>
-                <option value="store1">Game Haven</option>
-                <option value="store2">Card Castle</option>
-                <option value="store3">Magic Emporium</option>
-                <option value="store4">Dragon's Den</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Advanced Filters */}
-          <div className={s.advancedFiltersSection}>
-            <h4>Advanced Filters</h4>
-            <div className={s.filtersGrid}>
-              <div className={s.filterGroup}>
-                <label htmlFor="formatFilter">Format:</label>
-                <select
-                  id="formatFilter"
-                  value={searchFilters.format}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      format: e.target.value,
-                    }))
-                  }
-                >
-                  <option value="">All Formats</option>
-                  <option value="Standard">Standard</option>
-                  <option value="Draft">Draft</option>
-                  <option value="Sealed">Sealed</option>
-                  <option value="Commander">Commander</option>
-                  <option value="Pauper">Pauper</option>
-                  <option value="Legacy">Legacy</option>
-                  <option value="Modern">Modern</option>
-                </select>
-              </div>
-
-              <div className={s.filterGroup}>
-                <label htmlFor="statusFilter">Status:</label>
-                <select
-                  id="statusFilter"
-                  value={searchFilters.status}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      status: e.target.value,
-                    }))
-                  }
-                >
-                  <option value="">All Status</option>
-                  <option value="Registration Open">Registration Open</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Cancelled">Cancelled</option>
-                </select>
-              </div>
-
-              <div className={s.filterGroup}>
-                <label htmlFor="venueTypeFilter">Venue Type:</label>
-                <select
-                  id="venueTypeFilter"
-                  value={searchFilters.venueType}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      venueType: e.target.value,
-                    }))
-                  }
-                >
-                  <option value="">All Venues</option>
-                  <option value="online">Online</option>
-                  <option value="offline">In-Person</option>
-                  <option value="hybrid">Hybrid</option>
-                </select>
-              </div>
-
-              <div className={s.filterGroup}>
-                <label htmlFor="sortByFilter">Sort By:</label>
-                <select
-                  id="sortByFilter"
-                  value={searchFilters.sortBy}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      sortBy: e.target.value,
-                    }))
-                  }
-                >
-                  <option value="startAt">Start Date</option>
-                  <option value="name">Event Name</option>
-                  <option value="registeredPlayers">Participants</option>
-                  <option value="createdAt">Created Date</option>
-                </select>
-              </div>
-
-              <div className={s.filterGroup}>
-                <label htmlFor="sortOrderFilter">Sort Order:</label>
-                <select
-                  id="sortOrderFilter"
-                  value={searchFilters.sortOrder}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      sortOrder: e.target.value as "asc" | "desc",
-                    }))
-                  }
-                >
-                  <option value="asc">Ascending</option>
-                  <option value="desc">Descending</option>
-                </select>
-              </div>
-            </div>
-
-            <div className={s.priceRangeSection}>
-              <label>Entry Fee Range:</label>
-              <div className={s.priceRangeInputs}>
-                <input
-                  type="number"
-                  placeholder="Min"
-                  value={searchFilters.priceRange.min}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      priceRange: {
-                        ...prev.priceRange,
-                        min: parseInt(e.target.value) || 0,
-                      },
-                    }))
-                  }
-                />
-                <span>to</span>
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={searchFilters.priceRange.max}
-                  onChange={(e) =>
-                    setSearchFilters((prev) => ({
-                      ...prev,
-                      priceRange: {
-                        ...prev.priceRange,
-                        max: parseInt(e.target.value) || 1000,
-                      },
-                    }))
-                  }
-                />
-              </div>
-            </div>
-          </div>
-
-          <button onClick={applyAdvancedSearch} className={s.applySearchButton}>
-            Apply Search
-          </button>
-        </div>
-      )}
 
       <div className={s.nav}>
         <div className={s.navTabs}>

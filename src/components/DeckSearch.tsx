@@ -1,8 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import * as nav from "../nav.css.ts";
 import * as ds from "./deckSearch.css.ts";
 import { Deck, cardDatabase } from "../data/cards";
 import { DeckBuilderAdvanced } from "../pages/DeckBuilderAdvanced";
+import { useAppStore } from "../stores/appStore";
 
 interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
@@ -10,7 +11,10 @@ interface DeckSearchProps {
 
 export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [showBuilder, setShowBuilder] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const { searchFilters, setSearchFilters } = useAppStore();
+  const [localSearchTerm, setLocalSearchTerm] = useState(
+    searchFilters.search || "",
+  );
   const [elementFilter, setElementFilter] = useState("");
   // Removed format filter dropdown and logic
 
@@ -24,20 +28,25 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   );
   // Removed formats list as format filter is no longer used
 
+  // Sync with global search filters
+  useEffect(() => {
+    setLocalSearchTerm(searchFilters.search || "");
+  }, [searchFilters.search]);
+
   // Filter decks based on search criteria
   const filteredDecks = useMemo(() => {
     return availableDecks.filter((deck) => {
       const matchesSearch =
-        searchTerm === "" ||
-        deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        deck.description.toLowerCase().includes(searchTerm.toLowerCase());
+        localSearchTerm === "" ||
+        deck.name.toLowerCase().includes(localSearchTerm.toLowerCase()) ||
+        deck.description.toLowerCase().includes(localSearchTerm.toLowerCase());
 
       const matchesElement =
         elementFilter === "" || deck.mainElement === elementFilter;
 
       return matchesSearch && matchesElement;
     });
-  }, [searchTerm, elementFilter, availableDecks]);
+  }, [localSearchTerm, elementFilter, availableDecks]);
 
   const getDeckPreviewCards = (deck: Deck) => {
     // Get first 3 cards from deck for preview
@@ -85,8 +94,11 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
           <input
             type="text"
             placeholder="Search decks by name or description..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={localSearchTerm}
+            onChange={(e) => {
+              setLocalSearchTerm(e.target.value);
+              setSearchFilters({ search: e.target.value, page: 1 });
+            }}
             className="search-input"
           />
         )}
