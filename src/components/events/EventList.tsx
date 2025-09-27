@@ -225,7 +225,7 @@ const EventList: React.FC = () => {
   };
 
   const groupEventsByStore = (events: Event[]) => {
-    const grouped: { [key: string]: { store: any = {}; events: Event[] } } = {};
+    const grouped: { [key: string]: { store: any; events: Event[] } } = {};
     const onlineEvents: Event[] = [];
 
     events.forEach((event) => {

@@ -444,11 +444,6 @@ globalStyle(`${mainSearchButton}:hover`, {
   transform: "translateY(-1px)",
 });
 
-export const advancedSearchToggle = style({
-  display: "flex",
-  justifyContent: "center",
-});
-
 export const advancedSearchToggleButton = style({
   background: "var(--secondary-bg)",
   color: "var(--text-primary)",
