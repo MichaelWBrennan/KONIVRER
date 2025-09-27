@@ -324,7 +324,6 @@ export const Events: React.FC = () => {
         </div>
       </div>
 
-
       {/* Advanced Search Panel */}
       {showAdvancedSearch && (
         <div className={s.advancedSearchPanel}>
