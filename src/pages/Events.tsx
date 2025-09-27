@@ -32,9 +32,6 @@ export const Events: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"my-events" | "create" | "admin">(
     "my-events",
   );
-  const [viewMode, setViewMode] = useState<"upcoming" | "live" | "past">(
-    "upcoming",
-  );
   const [events] = useState<Event[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
