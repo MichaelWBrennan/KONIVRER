@@ -83,3 +83,134 @@ globalStyle(`${viewSelector} > button.active`, {
   background: "#000",
   color: "#fff",
 });
+
+// New styles for the reworked UI
+export const timeFrameDropdown = style({
+  marginBottom: "1rem",
+  display: "flex",
+  justifyContent: "center",
+});
+
+export const timeFrameSelect = style({
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  fontSize: "0.9rem",
+  cursor: "pointer",
+  minWidth: "150px",
+});
+
+export const advancedSearchToggle = style({
+  marginBottom: "1rem",
+  display: "flex",
+  justifyContent: "center",
+});
+
+export const advancedSearchButton = style({
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  fontSize: "0.9rem",
+  transition: "all 0.2s ease",
+  ":hover": {
+    background: "var(--border-color)",
+  },
+});
+
+export const advancedSearchPanel = style({
+  background: "var(--secondary-bg)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  padding: "1rem",
+  marginBottom: "1rem",
+});
+
+export const timeFrameInputs = style({
+  display: "flex",
+  gap: "1rem",
+  marginBottom: "1rem",
+  flexWrap: "wrap",
+});
+
+export const timeFrameInput = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+  minWidth: "150px",
+});
+
+globalStyle(`${timeFrameInput} label`, {
+  fontSize: "0.85rem",
+  color: "var(--text-secondary)",
+});
+
+globalStyle(`${timeFrameInput} input`, {
+  background: "var(--primary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 4,
+  padding: "0.5rem",
+  fontSize: "0.9rem",
+});
+
+export const applySearchButton = style({
+  background: "var(--accent-color, #007bff)",
+  color: "white",
+  border: "none",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  fontSize: "0.9rem",
+  transition: "all 0.2s ease",
+  ":hover": {
+    background: "var(--accent-hover, #0056b3)",
+  },
+});
+
+export const selectedEventView = style({
+  background: "var(--secondary-bg)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  padding: "1rem",
+});
+
+export const selectedEventHeader = style({
+  display: "flex",
+  alignItems: "center",
+  gap: "1rem",
+  marginBottom: "1rem",
+});
+
+export const backButton = style({
+  background: "var(--secondary-bg)",
+  color: "var(--text-primary)",
+  border: "1px solid var(--border-color)",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  fontSize: "0.9rem",
+  transition: "all 0.2s ease",
+  ":hover": {
+    background: "var(--border-color)",
+  },
+});
+
+export const eventPairings = style({
+  color: "var(--text-secondary)",
+  fontStyle: "italic",
+});
+
+// Make event cards clickable
+globalStyle(`${eventCard}`, {
+  cursor: "pointer",
+  transition: "all 0.2s ease",
+  ":hover": {
+    background: "var(--hover-bg, rgba(255,255,255,0.05))",
+    borderColor: "var(--accent-color, #007bff)",
+  },
+});
