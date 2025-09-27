@@ -150,6 +150,7 @@ export const cardApi = {
       [] =
       [] =
       [] =
+      [] =
         []),
   ) => api.post("/cards/bulk", data),
   getStatistics: () => api.get("/cards/statistics"),

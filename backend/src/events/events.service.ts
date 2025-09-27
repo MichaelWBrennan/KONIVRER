@@ -206,7 +206,9 @@ export class EventsService {
     }
 
     if (storeId) {
-      queryBuilder.andWhere("event.venue->>'store'->>'id' = :storeId", { storeId });
+      queryBuilder.andWhere("event.venue->>'store'->>'id' = :storeId", {
+        storeId,
+      });
     }
 
     // Geolocation search using Haversine formula

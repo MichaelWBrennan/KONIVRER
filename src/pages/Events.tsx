@@ -84,7 +84,7 @@ export const Events: React.FC = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setGeolocation(prev => ({
+          setGeolocation((prev) => ({
             ...prev,
             lat: position.coords.latitude,
             lng: position.coords.longitude,
@@ -92,7 +92,7 @@ export const Events: React.FC = () => {
         },
         (error) => {
           console.warn("Geolocation error:", error);
-        }
+        },
       );
     }
   };
@@ -184,9 +184,9 @@ export const Events: React.FC = () => {
       searchQuery,
       searchFilters,
     };
-    
+
     console.log("Applying advanced search with:", searchParams);
-    
+
     // This would typically make an API call with all the search parameters
     // The API call would include:
     // - userLat, userLng, maxDistance for geolocation
@@ -195,7 +195,7 @@ export const Events: React.FC = () => {
     // - priceRange for entry fee filtering
     // - sortBy, sortOrder for sorting
     // - startDateFrom, startDateTo for date filtering
-    
+
     searchEvents(searchQuery);
   };
 
@@ -295,7 +295,7 @@ export const Events: React.FC = () => {
       <div className={s.header}>
         <h1>Tournament Events</h1>
         <p>Discover and participate in competitive KONIVRER tournaments</p>
-        
+
         {/* Quick Search Bar */}
         <div className={s.quickSearchSection}>
           <div className={s.quickSearchBar}>
@@ -306,7 +306,7 @@ export const Events: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className={s.quickSearchInput}
             />
-            <button 
+            <button
               onClick={() => searchEvents(searchQuery)}
               className={s.quickSearchButton}
             >
@@ -314,34 +314,44 @@ export const Events: React.FC = () => {
             </button>
           </div>
           <div className={s.quickFilters}>
-            <button 
+            <button
               className={s.quickFilterButton}
-              onClick={() => setSearchFilters(prev => ({ ...prev, status: "Registration Open" }))}
+              onClick={() =>
+                setSearchFilters((prev) => ({
+                  ...prev,
+                  status: "Registration Open",
+                }))
+              }
             >
               Open Registration
             </button>
-            <button 
+            <button
               className={s.quickFilterButton}
-              onClick={() => setSearchFilters(prev => ({ ...prev, venueType: "offline" }))}
+              onClick={() =>
+                setSearchFilters((prev) => ({ ...prev, venueType: "offline" }))
+              }
             >
               In-Person
             </button>
-            <button 
+            <button
               className={s.quickFilterButton}
-              onClick={() => setSearchFilters(prev => ({ ...prev, venueType: "online" }))}
+              onClick={() =>
+                setSearchFilters((prev) => ({ ...prev, venueType: "online" }))
+              }
             >
               Online
             </button>
-            <button 
+            <button
               className={s.quickFilterButton}
-              onClick={() => setSearchFilters(prev => ({ ...prev, format: "Commander" }))}
+              onClick={() =>
+                setSearchFilters((prev) => ({ ...prev, format: "Commander" }))
+              }
             >
               Commander
             </button>
           </div>
         </div>
       </div>
-
 
       {/* Advanced Search Toggle */}
       <div className={s.advancedSearchToggle}>
@@ -376,7 +386,7 @@ export const Events: React.FC = () => {
               />
             </div>
           </div>
-          
+
           {/* Geolocation Search */}
           <div className={s.geolocationSection}>
             <h4>Location Search</h4>
@@ -389,24 +399,27 @@ export const Events: React.FC = () => {
                   min="1"
                   max="500"
                   value={geolocation.maxDistance}
-                  onChange={(e) => setGeolocation(prev => ({
-                    ...prev,
-                    maxDistance: parseInt(e.target.value) || 50
-                  }))}
+                  onChange={(e) =>
+                    setGeolocation((prev) => ({
+                      ...prev,
+                      maxDistance: parseInt(e.target.value) || 50,
+                    }))
+                  }
                 />
               </div>
               <div className={s.geolocationStatus}>
                 {geolocation.lat && geolocation.lng ? (
                   <span className={s.locationFound}>
-                    📍 Location found: {geolocation.lat.toFixed(4)}, {geolocation.lng.toFixed(4)}
+                    📍 Location found: {geolocation.lat.toFixed(4)},{" "}
+                    {geolocation.lng.toFixed(4)}
                   </span>
                 ) : (
                   <span className={s.locationNotFound}>
                     📍 Location not available
                   </span>
                 )}
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   onClick={getCurrentLocation}
                   className={s.refreshLocationButton}
                 >
@@ -444,7 +457,12 @@ export const Events: React.FC = () => {
                 <select
                   id="formatFilter"
                   value={searchFilters.format}
-                  onChange={(e) => setSearchFilters(prev => ({ ...prev, format: e.target.value }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      format: e.target.value,
+                    }))
+                  }
                 >
                   <option value="">All Formats</option>
                   <option value="Standard">Standard</option>
@@ -462,7 +480,12 @@ export const Events: React.FC = () => {
                 <select
                   id="statusFilter"
                   value={searchFilters.status}
-                  onChange={(e) => setSearchFilters(prev => ({ ...prev, status: e.target.value }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      status: e.target.value,
+                    }))
+                  }
                 >
                   <option value="">All Status</option>
                   <option value="Registration Open">Registration Open</option>
@@ -477,7 +500,12 @@ export const Events: React.FC = () => {
                 <select
                   id="venueTypeFilter"
                   value={searchFilters.venueType}
-                  onChange={(e) => setSearchFilters(prev => ({ ...prev, venueType: e.target.value }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      venueType: e.target.value,
+                    }))
+                  }
                 >
                   <option value="">All Venues</option>
                   <option value="online">Online</option>
@@ -491,7 +519,12 @@ export const Events: React.FC = () => {
                 <select
                   id="sortByFilter"
                   value={searchFilters.sortBy}
-                  onChange={(e) => setSearchFilters(prev => ({ ...prev, sortBy: e.target.value }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      sortBy: e.target.value,
+                    }))
+                  }
                 >
                   <option value="startAt">Start Date</option>
                   <option value="name">Event Name</option>
@@ -505,7 +538,12 @@ export const Events: React.FC = () => {
                 <select
                   id="sortOrderFilter"
                   value={searchFilters.sortOrder}
-                  onChange={(e) => setSearchFilters(prev => ({ ...prev, sortOrder: e.target.value as "asc" | "desc" }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      sortOrder: e.target.value as "asc" | "desc",
+                    }))
+                  }
                 >
                   <option value="asc">Ascending</option>
                   <option value="desc">Descending</option>
@@ -520,20 +558,30 @@ export const Events: React.FC = () => {
                   type="number"
                   placeholder="Min"
                   value={searchFilters.priceRange.min}
-                  onChange={(e) => setSearchFilters(prev => ({
-                    ...prev,
-                    priceRange: { ...prev.priceRange, min: parseInt(e.target.value) || 0 }
-                  }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      priceRange: {
+                        ...prev.priceRange,
+                        min: parseInt(e.target.value) || 0,
+                      },
+                    }))
+                  }
                 />
                 <span>to</span>
                 <input
                   type="number"
                   placeholder="Max"
                   value={searchFilters.priceRange.max}
-                  onChange={(e) => setSearchFilters(prev => ({
-                    ...prev,
-                    priceRange: { ...prev.priceRange, max: parseInt(e.target.value) || 1000 }
-                  }))}
+                  onChange={(e) =>
+                    setSearchFilters((prev) => ({
+                      ...prev,
+                      priceRange: {
+                        ...prev.priceRange,
+                        max: parseInt(e.target.value) || 1000,
+                      },
+                    }))
+                  }
                 />
               </div>
             </div>

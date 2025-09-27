@@ -225,10 +225,10 @@ const EventList: React.FC = () => {
   };
 
   const groupEventsByStore = (events: Event[]) => {
-    const grouped: { [key: string]: { store: any; events: Event[] } } = {};
+    const grouped: { [key: string]: { store: any = {}; events: Event[] } } = {};
     const onlineEvents: Event[] = [];
 
-    events.forEach(event => {
+    events.forEach((event) => {
       if (event.venue.type === "online" || !event.venue.store) {
         onlineEvents.push(event);
       } else {
@@ -236,7 +236,7 @@ const EventList: React.FC = () => {
         if (!grouped[storeId]) {
           grouped[storeId] = {
             store: event.venue.store,
-            events: []
+            events: [],
           };
         }
         grouped[storeId].events.push(event);
@@ -370,7 +370,7 @@ const EventList: React.FC = () => {
           {(() => {
             const { grouped, onlineEvents } = groupEventsByStore(events);
             const storeGroups = Object.values(grouped);
-            
+
             return (
               <>
                 {/* Store Events */}
@@ -380,7 +380,8 @@ const EventList: React.FC = () => {
                       <MapPin size={20} className="text-primary me-2" />
                       <h4 className="mb-0">{store.name}</h4>
                       <Badge bg="light" text="dark" className="ms-2">
-                        {storeEvents.length} event{storeEvents.length !== 1 ? 's' : ''}
+                        {storeEvents.length} event
+                        {storeEvents.length !== 1 ? "s" : ""}
                       </Badge>
                     </div>
                     <div className="mb-3">
@@ -398,10 +399,16 @@ const EventList: React.FC = () => {
                               <div className="d-flex justify-content-between align-items-start">
                                 <div className="d-flex align-items-center">
                                   {event.isFeatured && (
-                                    <Star size={16} className="text-warning me-1" />
+                                    <Star
+                                      size={16}
+                                      className="text-warning me-1"
+                                    />
                                   )}
                                   {event.isSanctioned && (
-                                    <Trophy size={16} className="text-info me-1" />
+                                    <Trophy
+                                      size={16}
+                                      className="text-info me-1"
+                                    />
                                   )}
                                 </div>
                                 <Badge bg={getStatusBadgeVariant(event.status)}>
@@ -431,7 +438,10 @@ const EventList: React.FC = () => {
 
                               <div className="mb-3">
                                 <div className="d-flex align-items-center mb-1">
-                                  <Calendar size={14} className="text-muted me-2" />
+                                  <Calendar
+                                    size={14}
+                                    className="text-muted me-2"
+                                  />
                                   <small className="text-muted">
                                     {formatDate(event.startAt)}
                                   </small>
@@ -445,10 +455,13 @@ const EventList: React.FC = () => {
                                 </div>
 
                                 <div className="d-flex align-items-center mb-1">
-                                  <Users size={14} className="text-muted me-2" />
+                                  <Users
+                                    size={14}
+                                    className="text-muted me-2"
+                                  />
                                   <small className="text-muted">
-                                    {event.registeredPlayers}/{event.settings.maxPlayers}{" "}
-                                    players
+                                    {event.registeredPlayers}/
+                                    {event.settings.maxPlayers} players
                                     {event.waitlistedPlayers > 0 &&
                                       ` (+${event.waitlistedPlayers} waitlisted)`}
                                   </small>
@@ -494,7 +507,9 @@ const EventList: React.FC = () => {
                                       : null
                                   }
                                 >
-                                  {event.isRegistrationOpen ? "Register" : "View Details"}
+                                  {event.isRegistrationOpen
+                                    ? "Register"
+                                    : "View Details"}
                                 </Button>
                               </div>
                             </Card.Footer>
@@ -512,7 +527,8 @@ const EventList: React.FC = () => {
                       <Wifi size={20} className="text-primary me-2" />
                       <h4 className="mb-0">Online Events</h4>
                       <Badge bg="light" text="dark" className="ms-2">
-                        {onlineEvents.length} event{onlineEvents.length !== 1 ? 's' : ''}
+                        {onlineEvents.length} event
+                        {onlineEvents.length !== 1 ? "s" : ""}
                       </Badge>
                     </div>
                     <Row className="g-3">
@@ -523,10 +539,16 @@ const EventList: React.FC = () => {
                               <div className="d-flex justify-content-between align-items-start">
                                 <div className="d-flex align-items-center">
                                   {event.isFeatured && (
-                                    <Star size={16} className="text-warning me-1" />
+                                    <Star
+                                      size={16}
+                                      className="text-warning me-1"
+                                    />
                                   )}
                                   {event.isSanctioned && (
-                                    <Trophy size={16} className="text-info me-1" />
+                                    <Trophy
+                                      size={16}
+                                      className="text-info me-1"
+                                    />
                                   )}
                                 </div>
                                 <Badge bg={getStatusBadgeVariant(event.status)}>
@@ -556,7 +578,10 @@ const EventList: React.FC = () => {
 
                               <div className="mb-3">
                                 <div className="d-flex align-items-center mb-1">
-                                  <Calendar size={14} className="text-muted me-2" />
+                                  <Calendar
+                                    size={14}
+                                    className="text-muted me-2"
+                                  />
                                   <small className="text-muted">
                                     {formatDate(event.startAt)}
                                   </small>
@@ -570,10 +595,13 @@ const EventList: React.FC = () => {
                                 </div>
 
                                 <div className="d-flex align-items-center mb-1">
-                                  <Users size={14} className="text-muted me-2" />
+                                  <Users
+                                    size={14}
+                                    className="text-muted me-2"
+                                  />
                                   <small className="text-muted">
-                                    {event.registeredPlayers}/{event.settings.maxPlayers}{" "}
-                                    players
+                                    {event.registeredPlayers}/
+                                    {event.settings.maxPlayers} players
                                     {event.waitlistedPlayers > 0 &&
                                       ` (+${event.waitlistedPlayers} waitlisted)`}
                                   </small>
@@ -619,7 +647,9 @@ const EventList: React.FC = () => {
                                       : null
                                   }
                                 >
-                                  {event.isRegistrationOpen ? "Register" : "View Details"}
+                                  {event.isRegistrationOpen
+                                    ? "Register"
+                                    : "View Details"}
                                 </Button>
                               </div>
                             </Card.Footer>
