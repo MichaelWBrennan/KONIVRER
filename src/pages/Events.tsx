@@ -41,7 +41,6 @@ export const Events: React.FC = () => {
     loadEvents();
   }, []);
 
-
   // Listen for search events from the global search bar
   useEffect(() => {
     const handlePairingsSearch = (e: CustomEvent) => {
@@ -240,9 +239,7 @@ export const Events: React.FC = () => {
       <div className={s.header}>
         <h1>Tournament Events</h1>
         <p>Discover and participate in competitive KONIVRER tournaments</p>
-
       </div>
-
 
       <div className={s.nav}>
         <div className={s.navTabs}>

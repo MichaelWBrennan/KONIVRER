@@ -173,9 +173,9 @@ function AppContent(): any {
       </div>
 
       {!(currentPage === "settings" || currentPage === "simulator") && (
-        <SearchBar 
-          current={currentPage} 
-          onSearch={handleGlobalSearch} 
+        <SearchBar
+          current={currentPage}
+          onSearch={handleGlobalSearch}
           onAdvancedSearch={handleAdvancedSearch}
         />
       )}

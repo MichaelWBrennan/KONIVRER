@@ -22,7 +22,11 @@ interface AdvancedSearchFilters {
   };
 }
 
-export const SearchBar: React.FC<Props> = ({ current, onSearch, onAdvancedSearch }) => {
+export const SearchBar: React.FC<Props> = ({
+  current,
+  onSearch,
+  onAdvancedSearch,
+}) => {
   const [q, setQ] = useState("");
   const [contextOverride, setContextOverride] = useState<string | null>(null);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
@@ -378,14 +382,11 @@ export const SearchBar: React.FC<Props> = ({ current, onSearch, onAdvancedSearch
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <button
-          className={s.searchButton}
-          onClick={() => onSearch(q)}
-        >
+        <button className={s.searchButton} onClick={() => onSearch(q)}>
           Search
         </button>
       </div>
-      
+
       {/* Advanced Search Toggle - only show for events */}
       {(current === "events" || current === "event-archive") && (
         <div className={s.advancedSearchToggle}>
