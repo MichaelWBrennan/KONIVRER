@@ -293,71 +293,35 @@ export const Events: React.FC = () => {
         <h1>Tournament Events</h1>
         <p>Discover and participate in competitive KONIVRER tournaments</p>
 
-        {/* Quick Search Bar */}
-        <div className={s.quickSearchSection}>
-          <div className={s.quickSearchBar}>
+        {/* Main Search Bar with Advanced Search Dropdown */}
+        <div className={s.mainSearchSection}>
+          <div className={s.mainSearchBar}>
             <input
               type="text"
               placeholder="Search events by name, format, or location..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className={s.quickSearchInput}
+              className={s.mainSearchInput}
             />
             <button
               onClick={() => searchEvents(searchQuery)}
-              className={s.quickSearchButton}
+              className={s.mainSearchButton}
             >
               Search
             </button>
           </div>
-          <div className={s.quickFilters}>
+          <div className={s.advancedSearchToggle}>
             <button
-              className={s.quickFilterButton}
-              onClick={() =>
-                setSearchFilters((prev) => ({
-                  ...prev,
-                  status: "Registration Open",
-                }))
-              }
+              onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
+              className={s.advancedSearchToggleButton}
             >
-              Open Registration
-            </button>
-            <button
-              className={s.quickFilterButton}
-              onClick={() =>
-                setSearchFilters((prev) => ({ ...prev, venueType: "offline" }))
-              }
-            >
-              In-Person
-            </button>
-            <button
-              className={s.quickFilterButton}
-              onClick={() =>
-                setSearchFilters((prev) => ({ ...prev, venueType: "online" }))
-              }
-            >
-              Online
-            </button>
-            <button
-              className={s.quickFilterButton}
-              onClick={() =>
-                setSearchFilters((prev) => ({ ...prev, format: "Commander" }))
-              }
-            >
-              Commander
+              <span>Advanced Search</span>
+              <span className={s.dropdownArrow}>
+                {showAdvancedSearch ? "▲" : "▼"}
+              </span>
             </button>
           </div>
         </div>
-      </div>
-
-      {/* Advanced Search Toggle */}
-      <div className={s.advancedSearchToggle}>
-        <button
-          onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
-          className={s.advancedSearchButton}
-        >
-          {showAdvancedSearch ? "Hide" : "Show"} Advanced Search
-        </button>
       </div>
 
       {/* Advanced Search Panel */}
