@@ -117,9 +117,10 @@ export const advancedSearchButton = style({
   cursor: "pointer",
   fontSize: "0.9rem",
   transition: "all 0.2s ease",
-  ":hover": {
-    background: "var(--border-color)",
-  },
+});
+
+globalStyle(`${advancedSearchButton}:hover`, {
+  background: "var(--border-color)",
 });
 
 export const advancedSearchPanel = style({
@@ -167,9 +168,10 @@ export const applySearchButton = style({
   cursor: "pointer",
   fontSize: "0.9rem",
   transition: "all 0.2s ease",
-  ":hover": {
-    background: "var(--accent-hover, #0056b3)",
-  },
+});
+
+globalStyle(`${applySearchButton}:hover`, {
+  background: "var(--accent-hover, #0056b3)",
 });
 
 export const selectedEventView = style({
@@ -195,9 +197,10 @@ export const backButton = style({
   cursor: "pointer",
   fontSize: "0.9rem",
   transition: "all 0.2s ease",
-  ":hover": {
-    background: "var(--border-color)",
-  },
+});
+
+globalStyle(`${backButton}:hover`, {
+  background: "var(--border-color)",
 });
 
 export const eventPairings = style({
@@ -209,8 +212,9 @@ export const eventPairings = style({
 globalStyle(`${eventCard}`, {
   cursor: "pointer",
   transition: "all 0.2s ease",
-  ":hover": {
-    background: "var(--hover-bg, rgba(255,255,255,0.05))",
-    borderColor: "var(--accent-color, #007bff)",
-  },
+});
+
+globalStyle(`${eventCard}:hover`, {
+  background: "var(--hover-bg, rgba(255,255,255,0.05))",
+  borderColor: "var(--accent-color, #007bff)",
 });

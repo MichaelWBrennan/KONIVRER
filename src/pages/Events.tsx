@@ -28,18 +28,6 @@ interface Event {
   registrationDeadline?: string;
 }
 
-interface User {
-  id: string;
-  username: string;
-  role:
-    | "player"
-    | "judge_l1"
-    | "judge_l2"
-    | "judge_l3"
-    | "tournament_organizer"
-    | "admin";
-  isAuthenticated?: boolean;
-}
 
 export const Events: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"my-events" | "create" | "admin">(
@@ -48,7 +36,7 @@ export const Events: React.FC = () => {
   const [viewMode, setViewMode] = useState<"upcoming" | "live" | "past">(
     "upcoming",
   );
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events] = useState<Event[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
   const [timeFrame, setTimeFrame] = useState<{
@@ -199,10 +187,6 @@ export const Events: React.FC = () => {
     }
   };
 
-  const handleEventUnregister = (eventId: string) => {
-    // Unregister from event
-    console.log("Unregister from event:", eventId);
-  };
 
   const renderEventCard = (event: Event) => (
     <div
