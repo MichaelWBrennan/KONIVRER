@@ -150,6 +150,10 @@ export class EventsService {
       search,
       sortBy = "startAt",
       sortOrder = "ASC",
+      userLat,
+      userLng,
+      maxDistance,
+      storeId,
     } = filters;
 
     const queryBuilder = this.eventRepository
@@ -199,6 +203,25 @@ export class EventsService {
         "(event.name ILIKE :search OR event.description ILIKE :search)",
         { search: `%${search}%` },
       );
+    }
+
+    if (storeId) {
+      queryBuilder.andWhere("event.venue->>'store'->>'id' = :storeId", { storeId });
+    }
+
+    // Geolocation search using Haversine formula
+    if (userLat && userLng && maxDistance) {
+      const earthRadiusMiles = 3959; // Earth's radius in miles
+      const distanceQuery = `
+        (${earthRadiusMiles} * acos(
+          cos(radians(:userLat)) * 
+          cos(radians((event.venue->>'coordinates'->>'lat')::float)) * 
+          cos(radians((event.venue->>'coordinates'->>'lng')::float) - radians(:userLng)) + 
+          sin(radians(:userLat)) * 
+          sin(radians((event.venue->>'coordinates'->>'lat')::float))
+        )) <= :maxDistance
+      `;
+      queryBuilder.andWhere(distanceQuery, { userLat, userLng, maxDistance });
     }
 
     // Apply sorting

@@ -38,6 +38,15 @@ interface Event {
     type: "online" | "offline" | "hybrid";
     location?: string;
     onlineUrl?: string;
+    store?: {
+      id: string;
+      name: string;
+      address: string;
+      coordinates: { lat: number; lng: number };
+      phone?: string;
+      website?: string;
+      hours?: string;
+    };
   };
   settings: {
     maxPlayers: number;
@@ -65,6 +74,10 @@ interface EventSearchFilters {
   startDateTo?: string;
   page?: number;
   limit?: number;
+  userLat?: number;
+  userLng?: number;
+  maxDistance?: number;
+  storeId?: string;
 }
 
 const EventList: React.FC = () => {
@@ -211,6 +224,28 @@ const EventList: React.FC = () => {
     }
   };
 
+  const groupEventsByStore = (events: Event[]) => {
+    const grouped: { [key: string]: { store: any; events: Event[] } } = {};
+    const onlineEvents: Event[] = [];
+
+    events.forEach(event => {
+      if (event.venue.type === "online" || !event.venue.store) {
+        onlineEvents.push(event);
+      } else {
+        const storeId = event.venue.store.id;
+        if (!grouped[storeId]) {
+          grouped[storeId] = {
+            store: event.venue.store,
+            events: []
+          };
+        }
+        grouped[storeId].events.push(event);
+      }
+    });
+
+    return { grouped, onlineEvents };
+  };
+
   return (
     <Container fluid className="px-2 py-3">
       {/* Mobile-First Header */}
@@ -332,120 +367,271 @@ const EventList: React.FC = () => {
       {/* Event List */}
       {!loading && !error && (
         <>
-          <Row className="g-3">
-            {events.map((event) => (
-              <Col xs={12} md={6} lg={4} key={event.id}>
-                <Card className="h-100 shadow-sm border-0">
-                  <Card.Header className="border-0 bg-white pb-0">
-                    <div className="d-flex justify-content-between align-items-start">
-                      <div className="d-flex align-items-center">
-                        {event.isFeatured && (
-                          <Star size={16} className="text-warning me-1" />
-                        )}
-                        {event.isSanctioned && (
-                          <Trophy size={16} className="text-info me-1" />
-                        )}
-                      </div>
-                      <Badge bg={getStatusBadgeVariant(event.status)}>
-                        {event.status}
+          {(() => {
+            const { grouped, onlineEvents } = groupEventsByStore(events);
+            const storeGroups = Object.values(grouped);
+            
+            return (
+              <>
+                {/* Store Events */}
+                {storeGroups.map(({ store, events: storeEvents }) => (
+                  <div key={store.id} className="mb-4">
+                    <div className="d-flex align-items-center mb-3">
+                      <MapPin size={20} className="text-primary me-2" />
+                      <h4 className="mb-0">{store.name}</h4>
+                      <Badge bg="light" text="dark" className="ms-2">
+                        {storeEvents.length} event{storeEvents.length !== 1 ? 's' : ''}
                       </Badge>
                     </div>
-                  </Card.Header>
-
-                  <Card.Body className="pt-0">
-                    <h5 className="card-title mb-2 text-truncate">
-                      {event.name}
-                    </h5>
-
-                    {event.description && (
-                      <p
-                        className="text-muted small mb-3"
-                        style={{
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {event.description}
-                      </p>
-                    )}
-
                     <div className="mb-3">
-                      <div className="d-flex align-items-center mb-1">
-                        <Calendar size={14} className="text-muted me-2" />
-                        <small className="text-muted">
-                          {formatDate(event.startAt)}
-                        </small>
-                      </div>
-
-                      <div className="d-flex align-items-center mb-1">
-                        {getVenueIcon(event.venue.type)}
-                        <small className="text-muted">
-                          {event.venue.type === "online"
-                            ? "Online Event"
-                            : event.venue.location || "TBD"}
-                        </small>
-                      </div>
-
-                      <div className="d-flex align-items-center mb-1">
-                        <Users size={14} className="text-muted me-2" />
-                        <small className="text-muted">
-                          {event.registeredPlayers}/{event.settings.maxPlayers}{" "}
-                          players
-                          {event.waitlistedPlayers > 0 &&
-                            ` (+${event.waitlistedPlayers} waitlisted)`}
-                        </small>
-                      </div>
+                      <small className="text-muted">
+                        📍 {store.address}
+                        {store.phone && ` • 📞 ${store.phone}`}
+                        {store.website && ` • 🌐 ${store.website}`}
+                      </small>
                     </div>
+                    <Row className="g-3">
+                      {storeEvents.map((event) => (
+                        <Col xs={12} md={6} lg={4} key={event.id}>
+                          <Card className="h-100 shadow-sm border-0">
+                            <Card.Header className="border-0 bg-white pb-0">
+                              <div className="d-flex justify-content-between align-items-start">
+                                <div className="d-flex align-items-center">
+                                  {event.isFeatured && (
+                                    <Star size={16} className="text-warning me-1" />
+                                  )}
+                                  {event.isSanctioned && (
+                                    <Trophy size={16} className="text-info me-1" />
+                                  )}
+                                </div>
+                                <Badge bg={getStatusBadgeVariant(event.status)}>
+                                  {event.status}
+                                </Badge>
+                              </div>
+                            </Card.Header>
 
-                    <div className="d-flex justify-content-between align-items-center mb-2">
-                      <Badge bg="light" text="dark" className="me-2">
-                        {event.format}
+                            <Card.Body className="pt-0">
+                              <h5 className="card-title mb-2 text-truncate">
+                                {event.name}
+                              </h5>
+
+                              {event.description && (
+                                <p
+                                  className="text-muted small mb-3"
+                                  style={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {event.description}
+                                </p>
+                              )}
+
+                              <div className="mb-3">
+                                <div className="d-flex align-items-center mb-1">
+                                  <Calendar size={14} className="text-muted me-2" />
+                                  <small className="text-muted">
+                                    {formatDate(event.startAt)}
+                                  </small>
+                                </div>
+
+                                <div className="d-flex align-items-center mb-1">
+                                  {getVenueIcon(event.venue.type)}
+                                  <small className="text-muted">
+                                    {event.venue.location || store.name}
+                                  </small>
+                                </div>
+
+                                <div className="d-flex align-items-center mb-1">
+                                  <Users size={14} className="text-muted me-2" />
+                                  <small className="text-muted">
+                                    {event.registeredPlayers}/{event.settings.maxPlayers}{" "}
+                                    players
+                                    {event.waitlistedPlayers > 0 &&
+                                      ` (+${event.waitlistedPlayers} waitlisted)`}
+                                  </small>
+                                </div>
+                              </div>
+
+                              <div className="d-flex justify-content-between align-items-center mb-2">
+                                <Badge bg="light" text="dark" className="me-2">
+                                  {event.format}
+                                </Badge>
+                                <Badge bg="light" text="dark">
+                                  {event.pairingType}
+                                </Badge>
+                              </div>
+
+                              {event.settings.buyIn && (
+                                <div className="mb-2">
+                                  <small className="text-muted">
+                                    Entry Fee: {event.settings.currency || "$"}
+                                    {event.settings.buyIn}
+                                  </small>
+                                </div>
+                              )}
+
+                              <small className="text-muted">
+                                Organized by {event.organizer.displayName}
+                              </small>
+                            </Card.Body>
+
+                            <Card.Footer className="border-0 bg-white pt-0">
+                              <div className="d-grid gap-2">
+                                <Button
+                                  variant={
+                                    event.isRegistrationOpen
+                                      ? "primary"
+                                      : "outline-secondary"
+                                  }
+                                  size="sm"
+                                  disabled={!event.isRegistrationOpen}
+                                  onClick={() =>
+                                    event.isRegistrationOpen
+                                      ? handleEventRegister(event)
+                                      : null
+                                  }
+                                >
+                                  {event.isRegistrationOpen ? "Register" : "View Details"}
+                                </Button>
+                              </div>
+                            </Card.Footer>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+                  </div>
+                ))}
+
+                {/* Online Events */}
+                {onlineEvents.length > 0 && (
+                  <div className="mb-4">
+                    <div className="d-flex align-items-center mb-3">
+                      <Wifi size={20} className="text-primary me-2" />
+                      <h4 className="mb-0">Online Events</h4>
+                      <Badge bg="light" text="dark" className="ms-2">
+                        {onlineEvents.length} event{onlineEvents.length !== 1 ? 's' : ''}
                       </Badge>
-                      <Badge bg="light" text="dark">
-                        {event.pairingType}
-                      </Badge>
                     </div>
+                    <Row className="g-3">
+                      {onlineEvents.map((event) => (
+                        <Col xs={12} md={6} lg={4} key={event.id}>
+                          <Card className="h-100 shadow-sm border-0">
+                            <Card.Header className="border-0 bg-white pb-0">
+                              <div className="d-flex justify-content-between align-items-start">
+                                <div className="d-flex align-items-center">
+                                  {event.isFeatured && (
+                                    <Star size={16} className="text-warning me-1" />
+                                  )}
+                                  {event.isSanctioned && (
+                                    <Trophy size={16} className="text-info me-1" />
+                                  )}
+                                </div>
+                                <Badge bg={getStatusBadgeVariant(event.status)}>
+                                  {event.status}
+                                </Badge>
+                              </div>
+                            </Card.Header>
 
-                    {event.settings.buyIn && (
-                      <div className="mb-2">
-                        <small className="text-muted">
-                          Entry Fee: {event.settings.currency || "$"}
-                          {event.settings.buyIn}
-                        </small>
-                      </div>
-                    )}
+                            <Card.Body className="pt-0">
+                              <h5 className="card-title mb-2 text-truncate">
+                                {event.name}
+                              </h5>
 
-                    <small className="text-muted">
-                      Organized by {event.organizer.displayName}
-                    </small>
-                  </Card.Body>
+                              {event.description && (
+                                <p
+                                  className="text-muted small mb-3"
+                                  style={{
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  {event.description}
+                                </p>
+                              )}
 
-                  <Card.Footer className="border-0 bg-white pt-0">
-                    <div className="d-grid gap-2">
-                      <Button
-                        variant={
-                          event.isRegistrationOpen
-                            ? "primary"
-                            : "outline-secondary"
-                        }
-                        size="sm"
-                        disabled={!event.isRegistrationOpen}
-                        onClick={() =>
-                          event.isRegistrationOpen
-                            ? handleEventRegister(event)
-                            : null
-                        }
-                      >
-                        {event.isRegistrationOpen ? "Register" : "View Details"}
-                      </Button>
-                    </div>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+                              <div className="mb-3">
+                                <div className="d-flex align-items-center mb-1">
+                                  <Calendar size={14} className="text-muted me-2" />
+                                  <small className="text-muted">
+                                    {formatDate(event.startAt)}
+                                  </small>
+                                </div>
+
+                                <div className="d-flex align-items-center mb-1">
+                                  {getVenueIcon(event.venue.type)}
+                                  <small className="text-muted">
+                                    Online Event
+                                  </small>
+                                </div>
+
+                                <div className="d-flex align-items-center mb-1">
+                                  <Users size={14} className="text-muted me-2" />
+                                  <small className="text-muted">
+                                    {event.registeredPlayers}/{event.settings.maxPlayers}{" "}
+                                    players
+                                    {event.waitlistedPlayers > 0 &&
+                                      ` (+${event.waitlistedPlayers} waitlisted)`}
+                                  </small>
+                                </div>
+                              </div>
+
+                              <div className="d-flex justify-content-between align-items-center mb-2">
+                                <Badge bg="light" text="dark" className="me-2">
+                                  {event.format}
+                                </Badge>
+                                <Badge bg="light" text="dark">
+                                  {event.pairingType}
+                                </Badge>
+                              </div>
+
+                              {event.settings.buyIn && (
+                                <div className="mb-2">
+                                  <small className="text-muted">
+                                    Entry Fee: {event.settings.currency || "$"}
+                                    {event.settings.buyIn}
+                                  </small>
+                                </div>
+                              )}
+
+                              <small className="text-muted">
+                                Organized by {event.organizer.displayName}
+                              </small>
+                            </Card.Body>
+
+                            <Card.Footer className="border-0 bg-white pt-0">
+                              <div className="d-grid gap-2">
+                                <Button
+                                  variant={
+                                    event.isRegistrationOpen
+                                      ? "primary"
+                                      : "outline-secondary"
+                                  }
+                                  size="sm"
+                                  disabled={!event.isRegistrationOpen}
+                                  onClick={() =>
+                                    event.isRegistrationOpen
+                                      ? handleEventRegister(event)
+                                      : null
+                                  }
+                                >
+                                  {event.isRegistrationOpen ? "Register" : "View Details"}
+                                </Button>
+                              </div>
+                            </Card.Footer>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+                  </div>
+                )}
+              </>
+            );
+          })()}
 
           {/* Pagination */}
           {total > filters.limit! && (
