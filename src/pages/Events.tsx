@@ -28,7 +28,6 @@ interface Event {
   registrationDeadline?: string;
 }
 
-
 export const Events: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"my-events" | "create" | "admin">(
     "my-events",
@@ -186,7 +185,6 @@ export const Events: React.FC = () => {
       alert("Failed to register for event. Please try again.");
     }
   };
-
 
   const renderEventCard = (event: Event) => (
     <div
