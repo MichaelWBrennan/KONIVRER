@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import type { Deck } from "../data/cards";
 import * as s from "./myDecks.css.ts";
+import { useAppStore } from "../stores/appStore";
 
 interface DeckWithActions extends Deck {
   isPublic: boolean;
@@ -12,7 +13,7 @@ interface DeckWithActions extends Deck {
 const mockUserDecks: DeckWithActions[] = [];
 
 export const MyDecks: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const { searchFilters } = useAppStore();
   const [sortBy, setSortBy] = useState<
     "name" | "created" | "lastPlayed" | "winRate"
   >("lastPlayed");
@@ -22,9 +23,9 @@ export const MyDecks: React.FC = () => {
   const filteredDecks = useMemo(() => {
     let decks = mockUserDecks.filter((deck) => {
       const matchesSearch =
-        searchTerm === "" ||
-        deck.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        deck.description.toLowerCase().includes(searchTerm.toLowerCase());
+        !searchFilters.search ||
+        deck.name.toLowerCase().includes(searchFilters.search.toLowerCase()) ||
+        deck.description.toLowerCase().includes(searchFilters.search.toLowerCase());
 
       const matchesVisibility =
         filterBy === "all" ||
@@ -54,7 +55,7 @@ export const MyDecks: React.FC = () => {
     });
 
     return decks;
-  }, [searchTerm, sortBy, filterBy]);
+  }, [searchFilters.search, sortBy, filterBy]);
 
   const handlePlayInSimulator = (deck: Deck) => {
     // Navigate to simulator with this deck loaded
@@ -90,16 +91,6 @@ export const MyDecks: React.FC = () => {
       </div>
 
       <div className={s.controls}>
-        <div className={s.searchSection}>
-          <input
-            type="text"
-            placeholder="Search my decks..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className={s.searchInput}
-          />
-        </div>
-
         <div className={s.filterSection}>
           <select
             value={sortBy}
@@ -212,8 +203,8 @@ export const MyDecks: React.FC = () => {
         <div className={s.emptyState}>
           <h3>No decks found</h3>
           <p>
-            {searchTerm
-              ? "Try adjusting your search or filters"
+            {searchFilters.search
+              ? "Try adjusting your search or filters using the search bar above"
               : "Create your first deck to get started!"}
           </p>
         </div>
