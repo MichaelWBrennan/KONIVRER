@@ -241,7 +241,7 @@ export const JudgePortal: React.FC<JudgePortalProps> = ({ className }) => {
               fontSize: "1rem",
               fontWeight: activeTab === tab.key ? "bold" : "normal",
             }}
-            onClick={() => setActiveTab(tab.key as any)}
+            onClick={() => setActiveTab(tab.key as "search" | "sections" | "keywords" | "phases")}
           >
             {tab.label}
           </button>

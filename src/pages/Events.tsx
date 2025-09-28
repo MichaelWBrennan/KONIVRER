@@ -127,7 +127,7 @@ export const Events: React.FC = () => {
     );
   };
 
-  const applyAdvancedSearchWithFilters = (filters: any) => {
+  const applyAdvancedSearchWithFilters = (filters: Record<string, unknown>) => {
     // Apply advanced search filters received from the persistent search bar
     console.log("Applying advanced search with filters:", filters);
 

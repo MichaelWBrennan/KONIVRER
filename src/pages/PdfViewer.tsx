@@ -3,12 +3,12 @@ import * as s from "./pdfViewer.css.ts";
 
 // Worker source will be configured after dynamic import
 
-export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): any {
+export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): React.JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
-    let pdfDoc: any = null;
+    let pdfDoc: unknown = null;
 
     (async () => {
       const pdfjs = await import("pdfjs-dist");
@@ -18,7 +18,7 @@ export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): any {
       if (isCancelled) return;
 
       // Render first page for simple viewer parity
-      const page = await pdfDoc.getPage(1);
+      const page = await (pdfDoc as { getPage: (pageNumber: number) => Promise<{ getViewport: (options: { scale: number }) => { width: number; height: number }; render: (options: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => { promise: Promise<void> } }> }).getPage(1);
       const viewport = page.getViewport({ scale: 1.5 });
       const canvas = canvasRef.current;
       if (!canvas) return;
@@ -30,7 +30,6 @@ export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): any {
       await page.render({
         canvasContext: context,
         viewport: viewport,
-        canvas: canvasRef.current,
       }).promise;
     })();
 

@@ -108,7 +108,7 @@ class TelemetryService {
         for (const entry of entryList.getEntries()) {
           const fidEntry = entry; // Type assertion for FID entry
           this.metrics.performanceMetrics.firstInputDelay =
-            (fidEntry as any).processingStart - fidEntry.startTime;
+            (fidEntry as unknown as { processingStart: number }).processingStart - fidEntry.startTime;
         }
       }).observe({ type: "first-input", buffered: true });
 
@@ -123,9 +123,9 @@ class TelemetryService {
       // Cumulative Layout Shift
       new PerformanceObserver((entryList) => {
         for (const entry of entryList.getEntries()) {
-          if (!(entry as any).hadRecentInput) {
+          if (!(entry as unknown as { hadRecentInput: boolean }).hadRecentInput) {
             this.metrics.performanceMetrics.cumulativeLayoutShift += (
-              entry as any
+              entry as unknown as { value: number }
             ).value;
           }
         }

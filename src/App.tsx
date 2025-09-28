@@ -60,12 +60,12 @@ function AppContent() {
     window.addEventListener("online", handleOnline);
     window.addEventListener("offline", handleOffline);
     const openLogin = () => setLoginOpen(true);
-    window.addEventListener("open-login", openLogin as any);
+    window.addEventListener("open-login", openLogin as EventListener);
 
     return () => {
       window.removeEventListener("online", handleOnline);
       window.removeEventListener("offline", handleOffline);
-      window.removeEventListener("open-login", openLogin as any);
+      window.removeEventListener("open-login", openLogin as EventListener);
     };
   }, []);
 
@@ -96,7 +96,7 @@ function AppContent() {
   );
 }
 
-function App(): any {
+function App(): React.JSX.Element {
   return (
     <QueryClientProvider client={queryClient}>
       <AppContent />

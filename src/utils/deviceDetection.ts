@@ -87,7 +87,7 @@ interface ZoneConfig {
 /**
  * Get MTG Arena-specific layout configuration based on device
  */
-export function getMTGArenaLayoutConfig(device: DeviceInfo): any {
+export function getMTGArenaLayoutConfig(device: DeviceInfo): Record<string, unknown> {
   if (device.isMobile) {
     // MTG Arena Mobile layout configuration
     return {

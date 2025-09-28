@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import * as s from "./offline.css.ts";
 
-export function Offline(): any {
+export function Offline(): React.JSX.Element {
   const [isOnline, setIsOnline] = useState<boolean>(
     typeof navigator !== "undefined" ? navigator.onLine : false,
   );

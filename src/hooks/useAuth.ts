@@ -75,8 +75,8 @@ export function useAuth(): AuthState & AuthActions {
         isLoading: false,
         error: null,
       }));
-    } catch (error: any) {
-      const errorMessage = error?.message || "Login failed. Please try again.";
+    } catch (error: unknown) {
+      const errorMessage = (error as Error)?.message || "Login failed. Please try again.";
       setState((prev) => ({
         ...prev,
         isAuthenticated: false,
@@ -99,8 +99,8 @@ export function useAuth(): AuthState & AuthActions {
         isLoading: false,
         error: null,
       }));
-    } catch (error: any) {
-      const errorMessage = error?.message || "Registration failed. Please try again.";
+    } catch (error: unknown) {
+      const errorMessage = (error as Error)?.message || "Registration failed. Please try again.";
       setState((prev) => ({
         ...prev,
         isAuthenticated: false,
@@ -141,12 +141,12 @@ export function useAuth(): AuthState & AuthActions {
         user,
         isLoading: false,
       }));
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Failed to refresh profile:", error);
       setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: error?.message || "Failed to refresh profile",
+        error: (error as Error)?.message || "Failed to refresh profile",
       }));
     }
   }, []);

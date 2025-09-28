@@ -5,9 +5,9 @@ export interface TournamentProfileDto {
   regionalPoints: number;
   globalPoints: number;
   formatSpecificPoints?: Record<string, number>;
-  qualificationStatus?: Record<string, any>;
+  qualificationStatus?: Record<string, unknown>;
   lastPointUpdate: string;
-  preferences?: Record<string, any>;
+  preferences?: Record<string, unknown>;
 }
 
 export const ProgressionService = {
@@ -18,7 +18,7 @@ export const ProgressionService = {
     if (!res.ok) throw new Error("Failed to load tournament profile");
     return res.json();
   },
-  async updatePreferences(userId: string, preferences: Record<string, any>) {
+  async updatePreferences(userId: string, preferences: Record<string, unknown>) {
     const res = await fetch(`/api/v1/progression/${userId}/preferences`, {
       method: "PUT",
       headers: {

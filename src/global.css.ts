@@ -27,7 +27,7 @@ globalStyle(":root", {
     "--text-secondary": "#b0b0b0",
     "--accent-color": "#4a90e2",
     "--border-color": "#2a2d34",
-  } as any,
+  },
 });
 
 // Light theme variables
@@ -39,7 +39,7 @@ globalStyle('[data-theme="light"]', {
     "--text-secondary": "#4b5563",
     "--accent-color": "#2563eb",
     "--border-color": "#e5e7eb",
-  } as any,
+  },
 });
 
 globalStyle("*", {
@@ -95,7 +95,7 @@ globalStyle("*:focus-visible", {
 globalStyle("a", {
   color: "var(--accent-color)",
   textDecoration: "underline",
-  fontWeight: 600 as any,
+  fontWeight: 600,
 });
 
 globalStyle("a:hover", {
@@ -183,7 +183,7 @@ globalStyle(".card-info", { padding: "1rem" });
 
 globalStyle(".card-name", {
   fontSize: "1.1rem",
-  fontWeight: 600 as any,
+  fontWeight: 600,
   marginBottom: "0.5rem",
   color: "var(--text-primary)",
 });
@@ -250,7 +250,7 @@ globalStyle(".metric-card", {
 
 globalStyle(".metric-card h4", { marginBottom: "0.5rem" });
 
-globalStyle(".metric-value", { fontSize: "1.25rem", fontWeight: 700 as any });
+globalStyle(".metric-value", { fontSize: "1.25rem", fontWeight: 700 });
 
 globalStyle(".metric-change", { marginTop: "0.25rem", fontSize: "0.9rem" });
 
@@ -289,7 +289,7 @@ globalStyle(".stat-label", {
   fontSize: "0.85rem",
 });
 
-globalStyle(".stat-value", { fontSize: "1.1rem", fontWeight: 700 as any });
+globalStyle(".stat-value", { fontSize: "1.1rem", fontWeight: 700 });
 
 globalStyle(".stat-indicator", { marginLeft: "0.5rem" });
 
@@ -513,7 +513,7 @@ globalStyle(".btn-touch", {
   justifyContent: "center",
   gap: "0.5rem",
   borderRadius: "0.5rem",
-  fontWeight: 500 as any,
+  fontWeight: 500,
   transition: "all 0.2s ease",
   cursor: "pointer",
   border: "1px solid #000",
@@ -548,7 +548,7 @@ globalStyle(".text-lg", { fontSize: "1.125rem", lineHeight: "1.75rem" });
 
 globalStyle(".text-sm", { fontSize: "0.875rem", lineHeight: "1.25rem" });
 
-globalStyle(".font-semibold", { fontWeight: 600 as any });
+globalStyle(".font-semibold", { fontWeight: 600 });
 
 globalStyle(".text-secondary", { color: "var(--text-secondary)" });
 
@@ -560,15 +560,15 @@ globalStyle("*", {
     "(prefers-reduced-motion: reduce)": {
       animation: "none !important",
       transition: "none !important",
-      scrollBehavior: "auto !important",
+      scrollBehavior: "auto",
     },
-  } as any,
-} as any);
+  },
+});
 // Larger tap area is opt-in via .btn-touch; .btn should size to its text
 globalStyle(".btn", { lineHeight: 1 });
 // High contrast mode tweaks
 globalStyle('[data-contrast="high"]', {
-  vars: { "--border-color": "#888" } as any,
+  vars: { "--border-color": "#888" },
 });
 globalStyle('[data-contrast="high"] .btn', {
   boxShadow: "0 0 0 2px var(--border-color) inset",

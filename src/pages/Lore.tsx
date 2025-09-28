@@ -133,7 +133,7 @@ export const Lore: React.FC = () => {
         cancelAnimationFrame(rafId);
         try {
           ro.disconnect();
-        } catch (err) {
+        } catch {
           // ignore disconnect errors
         }
       };
@@ -240,7 +240,7 @@ export const Lore: React.FC = () => {
   };
 
   useEffect(() => {
-    const handler = (e: any) => setQuery(e.detail || "");
+    const handler = (e: Event) => setQuery((e as CustomEvent).detail || "");
     window.addEventListener("lore-search", handler);
     return () => window.removeEventListener("lore-search", handler);
   }, []);
@@ -283,7 +283,7 @@ export const Lore: React.FC = () => {
               }
               return await res.text();
             } catch (e) {
-              if ((e as any)?.name === "AbortError") return "";
+              if ((e as Error)?.name === "AbortError") return "";
               return `Failed to load content from ${src}: ${String(e)}`;
             }
           }),
@@ -410,7 +410,7 @@ export const Lore: React.FC = () => {
 
   function generateCombinations<T>(items: T[], size: number): T[][] {
     const results: T[][] = [];
-    function helper(startIndex: number, combo: T[]): any {
+    function helper(startIndex: number, combo: T[]): void {
       if (combo.length === size) {
         results.push([...combo]);
         return;

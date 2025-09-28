@@ -17,7 +17,7 @@ export const bubbleContainer = style({
   position: "absolute",
   pointerEvents: "auto",
   contain: "layout style",
-  order: "initial" as any,
+  order: "initial",
   willChange: "auto",
 });
 
@@ -148,28 +148,28 @@ globalStyle(`${root}.mobile .accessibility-bubble`, {
   bottom: 70,
   left: 0,
   position: "absolute",
-  order: 1 as any,
+  order: 1,
   pointerEvents: "auto",
 });
 globalStyle(`${root}.mobile .search-bubble`, {
   bottom: 70,
   right: 0,
   position: "absolute",
-  order: 2 as any,
+  order: 2,
   pointerEvents: "auto",
 });
 globalStyle(`${root}.mobile .login-bubble`, {
   bottom: 0,
   left: 0,
   position: "absolute",
-  order: 3 as any,
+  order: 3,
   pointerEvents: "auto",
 });
 globalStyle(`${root}.mobile .menu-bubble`, {
   bottom: 0,
   right: 0,
   position: "absolute",
-  order: 4 as any,
+  order: 4,
   pointerEvents: "auto",
 });
 
@@ -177,27 +177,27 @@ globalStyle(`${root}.desktop .accessibility-bubble`, {
   top: 0,
   right: 0,
   position: "absolute",
-  order: 1 as any,
+  order: 1,
   pointerEvents: "auto",
 });
 globalStyle(`${root}.desktop .search-bubble`, {
   top: 70,
   right: 0,
   position: "absolute",
-  order: 2 as any,
+  order: 2,
   pointerEvents: "auto",
 });
 globalStyle(`${root}.desktop .login-bubble`, {
   top: 140,
   right: 0,
   position: "absolute",
-  order: 3 as any,
+  order: 3,
   pointerEvents: "auto",
 });
 globalStyle(`${root}.desktop .menu-bubble`, {
   top: 210,
   right: 0,
   position: "absolute",
-  order: 4 as any,
+  order: 4,
   pointerEvents: "auto",
 });

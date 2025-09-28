@@ -296,7 +296,7 @@ export class NotificationService {
     type: PushNotification["type"],
     title: string,
     message: string,
-    data?: any,
+    data?: Record<string, unknown>,
     eventId?: string,
   ): void {
     const store = useNotificationStore.getState();
@@ -304,7 +304,7 @@ export class NotificationService {
       type,
       title,
       message,
-      data,
+      data: data || {},
       eventId,
     });
   }
@@ -354,55 +354,65 @@ export class NotificationService {
   }
 
   // Listen to WebSocket events for real-time notifications
-  public setupWebSocketNotifications(socket: any): void {
-    socket.on("notification.push", (data: any) => {
+  public setupWebSocketNotifications(socket: { on: (event: string, callback: (data: unknown) => void) => void }): void {
+    socket.on("notification.push", (data: unknown) => {
+      const notificationData = data as { type: string; title: string; message: string; data?: Record<string, unknown>; eventId?: string };
       this.sendNotification(
-        data.type,
-        data.title,
-        data.message,
-        data.data,
-        data.eventId,
+        notificationData.type as PushNotification["type"],
+        notificationData.title,
+        notificationData.message,
+        notificationData.data,
+        notificationData.eventId,
       );
     });
 
-    socket.on("event.round.started", (data: any) => {
+    socket.on("event.round.started", (data: unknown) => {
+      const eventData = data as { round: number; eventName: string; format: string; venue: string; eventId: string };
       // Only show notification if this user is actually registered for this event
       this.sendEventSpecificNotification(
         "round_start",
         "Round Started",
-        `Round ${data.round} has started for ${data.eventName}`,
+        `Round ${eventData.round} has started for ${eventData.eventName}`,
         {
-          round: data.round,
-          eventName: data.eventName,
-          eventFormat: data.format,
-          venue: data.venue,
+          round: eventData.round,
+          eventName: eventData.eventName,
+          eventFormat: eventData.format,
+          venue: eventData.venue,
         },
-        data.eventId,
+        eventData.eventId,
       );
     });
 
-    socket.on("event.registration.accepted", (data: any) => {
+    socket.on("event.registration.accepted", (data: unknown) => {
+      const regData = data as { eventName: string; format: string; startTime: string; venue: string; eventId: string };
       this.sendEventSpecificNotification(
         "registration_accepted",
         "Registration Accepted",
-        `Your registration for ${data.eventName} has been accepted!`,
+        `Your registration for ${regData.eventName} has been accepted!`,
         {
-          eventName: data.eventName,
-          eventFormat: data.format,
-          startTime: data.startTime,
-          venue: data.venue,
+          eventName: regData.eventName,
+          eventFormat: regData.format,
+          startTime: regData.startTime,
+          venue: regData.venue,
         },
-        data.eventId,
+        regData.eventId,
       );
     });
 
-    socket.on("event.seating.assigned", (data: any) => {
+    socket.on("event.seating.assigned", (data: unknown) => {
+      const seatingData = data as { 
+        assignments: Array<{ playerId: string; table: number; opponent?: { username: string }; estimatedStartTime?: string }>; 
+        round: number; 
+        eventName: string; 
+        format: string; 
+        eventId: string 
+      };
       // This will be called for each player, so check if it's for current user
       const currentUser = JSON.parse(
         localStorage.getItem("currentUser") || "{}",
       );
-      const assignment = data.assignments?.find(
-        (a: any) => a.playerId === currentUser.id,
+      const assignment = seatingData.assignments?.find(
+        (a: { playerId: string }) => a.playerId === currentUser.id,
       );
 
       if (assignment) {
@@ -410,16 +420,16 @@ export class NotificationService {
         this.sendEventSpecificNotification(
           "seating_assignment",
           "Seating Assignment",
-          `Table ${assignment.table}: You're paired against ${opponentName} in ${data.eventName}`,
+          `Table ${assignment.table}: You're paired against ${opponentName} in ${seatingData.eventName}`,
           {
             table: assignment.table,
             opponentName,
-            round: data.round,
-            eventName: data.eventName,
-            eventFormat: data.format,
+            round: seatingData.round,
+            eventName: seatingData.eventName,
+            eventFormat: seatingData.format,
             estimatedStartTime: assignment.estimatedStartTime,
           },
-          data.eventId,
+          seatingData.eventId,
         );
       }
     });
@@ -430,7 +440,7 @@ export class NotificationService {
     type: PushNotification["type"],
     title: string,
     message: string,
-    data?: any,
+    data?: Record<string, unknown>,
     eventId?: string,
   ): void {
     // Check if user is actually registered for this event

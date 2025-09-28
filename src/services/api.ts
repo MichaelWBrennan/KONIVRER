@@ -1,10 +1,18 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import type { Card } from "../types";
+import type { 
+  Card, 
+  DeckApiResponse, 
+  UserApiResponse, 
+  EventApiResponse, 
+  CardStatistics, 
+  SearchFilters,
+  PaginatedResponse
+} from "../types";
 
 // API Configuration
 const API_BASE_URL =
-  (import.meta as any).env.VITE_API_BASE_URL ||
-  (import.meta as any).env.VITE_API_URL ||
+  (import.meta as ImportMeta).env.VITE_API_BASE_URL ||
+  (import.meta as ImportMeta).env.VITE_API_URL ||
   "/api/v1";
 
 // Create axios instance with proper configuration
@@ -53,8 +61,8 @@ api.interceptors.response.use(
 
 // Card API endpoints with proper typing
 export const cardApi = {
-  getAll: (params?: Record<string, any>) => 
-    api.get<{ cards: Card[]; total: number; page: number; limit: number }>("/cards", { params }),
+  getAll: (params?: Record<string, unknown>) => 
+    api.get<PaginatedResponse<Card>>("/cards", { params }),
   
   getById: (id: string) => 
     api.get<Card>(`/cards/${id}`),
@@ -75,14 +83,9 @@ export const cardApi = {
     api.post<{ created: number; errors: string[] }>("/cards/bulk", { cards: data }),
   
   getStatistics: () => 
-    api.get<{
-      totalCards: number;
-      byRarity: Record<string, number>;
-      byElement: Record<string, number>;
-      byType: Record<string, number>;
-    }>("/cards/statistics"),
+    api.get<CardStatistics>("/cards/statistics"),
   
-  search: (query: string, filters?: Record<string, any>) =>
+  search: (query: string, filters?: SearchFilters) =>
     api.get<{ cards: Card[]; total: number }>("/cards/search", {
       params: { q: query, ...filters }
     }),
@@ -90,22 +93,22 @@ export const cardApi = {
 
 // Deck API endpoints
 export const deckApi = {
-  getAll: (params?: Record<string, any>) =>
-    api.get<{ decks: any[]; total: number }>("/decks", { params }),
+  getAll: (params?: Record<string, unknown>) =>
+    api.get<PaginatedResponse<DeckApiResponse>>("/decks", { params }),
   
   getById: (id: string) =>
-    api.get<any>(`/decks/${id}`),
+    api.get<DeckApiResponse>(`/decks/${id}`),
   
-  create: (data: any) =>
-    api.post<any>("/decks", data),
+  create: (data: Partial<DeckApiResponse>) =>
+    api.post<DeckApiResponse>("/decks", data),
   
-  update: (id: string, data: any) =>
-    api.put<any>(`/decks/${id}`, data),
+  update: (id: string, data: Partial<DeckApiResponse>) =>
+    api.put<DeckApiResponse>(`/decks/${id}`, data),
   
   delete: (id: string) =>
     api.delete<void>(`/decks/${id}`),
   
-  validate: (deckData: any) =>
+  validate: (deckData: Partial<DeckApiResponse>) =>
     api.post<{ isValid: boolean; errors: string[] }>("/decks/validate", deckData),
 };
 
@@ -124,28 +127,28 @@ export const migrationApi = {
 // User API endpoints
 export const userApi = {
   getProfile: () =>
-    api.get<any>("/users/profile"),
+    api.get<UserApiResponse>("/users/profile"),
   
-  updateProfile: (data: any) =>
-    api.put<any>("/users/profile", data),
+  updateProfile: (data: Partial<UserApiResponse>) =>
+    api.put<UserApiResponse>("/users/profile", data),
   
   getDecks: (userId: string) =>
-    api.get<any[]>(`/users/${userId}/decks`),
+    api.get<DeckApiResponse[]>(`/users/${userId}/decks`),
 };
 
 // Event API endpoints
 export const eventApi = {
-  getAll: (params?: Record<string, any>) =>
-    api.get<{ events: any[]; total: number }>("/events", { params }),
+  getAll: (params?: Record<string, unknown>) =>
+    api.get<PaginatedResponse<EventApiResponse>>("/events", { params }),
   
   getById: (id: string) =>
-    api.get<any>(`/events/${id}`),
+    api.get<EventApiResponse>(`/events/${id}`),
   
-  create: (data: any) =>
-    api.post<any>("/events", data),
+  create: (data: Partial<EventApiResponse>) =>
+    api.post<EventApiResponse>("/events", data),
   
-  update: (id: string, data: any) =>
-    api.put<any>(`/events/${id}`, data),
+  update: (id: string, data: Partial<EventApiResponse>) =>
+    api.put<EventApiResponse>(`/events/${id}`, data),
   
   delete: (id: string) =>
     api.delete<void>(`/events/${id}`),

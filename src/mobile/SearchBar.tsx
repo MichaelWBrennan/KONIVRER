@@ -79,7 +79,7 @@ export const SearchBar: React.FC<Props> = ({
   });
 
   useEffect(() => {
-    const handler = (e: any) => setContextOverride(e.detail);
+    const handler = (e: Event) => setContextOverride((e as CustomEvent).detail);
     window.addEventListener("search-context", handler);
     return () => window.removeEventListener("search-context", handler);
   }, []);
