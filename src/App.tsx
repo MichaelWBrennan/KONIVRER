@@ -176,6 +176,11 @@ function AppContent(): any {
     }
   };
 
+  const handleBuildDeck = () => {
+    // This will be handled by the DeckSearch component
+    window.dispatchEvent(new CustomEvent("build-deck"));
+  };
+
   if (!isOnline) {
     return <Offline />;
   }
@@ -193,6 +198,7 @@ function AppContent(): any {
           current={currentPage}
           onSearch={handleGlobalSearch}
           onAdvancedSearch={handleAdvancedSearch}
+          onBuildDeck={handleBuildDeck}
         />
       )}
 

@@ -103,11 +103,9 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             className="filter-select"
           >
             <option value="">All Rarities</option>
-            {filterOptions.rarities.map((rarity) => (
-              <option key={rarity} value={rarity}>
-                {rarity}
-              </option>
-            ))}
+            <option value="Common">Common</option>
+            <option value="Uncommon">Uncommon</option>
+            <option value="Rare">Rare</option>
           </select>
 
           <label className={cs.filtersRow}>

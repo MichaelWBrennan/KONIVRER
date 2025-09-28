@@ -5,6 +5,7 @@ interface Props {
   current: string;
   onSearch: (query: string) => void;
   onAdvancedSearch?: (filters: AdvancedSearchFilters) => void;
+  onBuildDeck?: () => void;
 }
 
 interface AdvancedSearchFilters {
@@ -26,6 +27,7 @@ export const SearchBar: React.FC<Props> = ({
   current,
   onSearch,
   onAdvancedSearch,
+  onBuildDeck,
 }) => {
   const [q, setQ] = useState("");
   const [contextOverride, setContextOverride] = useState<string | null>(null);
@@ -82,9 +84,12 @@ export const SearchBar: React.FC<Props> = ({
     return () => window.removeEventListener("search-context", handler);
   }, []);
 
+  // Only get location when advanced search is opened on events page
   useEffect(() => {
-    getCurrentLocation();
-  }, []);
+    if (showAdvancedSearch && (current === "events" || current === "event-archive")) {
+      getCurrentLocation();
+    }
+  }, [showAdvancedSearch, current]);
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -134,6 +139,12 @@ export const SearchBar: React.FC<Props> = ({
     const h = setTimeout(() => onSearch(q), 300);
     return () => clearTimeout(h);
   }, [q]);
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onSearch(q);
+    }
+  };
 
   const handleAdvancedSearch = () => {
     if (onAdvancedSearch) {
@@ -222,7 +233,6 @@ export const SearchBar: React.FC<Props> = ({
                     <option value="Common">Common</option>
                     <option value="Uncommon">Uncommon</option>
                     <option value="Rare">Rare</option>
-                    <option value="Mythic">Mythic</option>
                   </select>
                 </div>
 
@@ -727,13 +737,11 @@ export const SearchBar: React.FC<Props> = ({
           placeholder={placeholder}
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
-        <button className={s.searchButton} onClick={() => onSearch(q)}>
-          Search
-        </button>
       </div>
 
-      {/* Advanced Search Toggle - show on all pages */}
+      {/* Advanced Search Toggle and Build Deck Button */}
       <div className={s.advancedSearchToggle}>
         <button
           onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
@@ -744,6 +752,14 @@ export const SearchBar: React.FC<Props> = ({
             {showAdvancedSearch ? "▲" : "▼"}
           </span>
         </button>
+        {(current === "decks" || current === "my-decks") && onBuildDeck && (
+          <button
+            onClick={onBuildDeck}
+            className={s.buildDeckButton}
+          >
+            Build Deck
+          </button>
+        )}
       </div>
 
       {renderAdvancedSearch()}
