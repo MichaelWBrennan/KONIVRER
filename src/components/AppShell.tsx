@@ -8,6 +8,21 @@ import type { Card } from "../types";
 import * as appStyles from "../app.css.ts";
 import * as overlay from "../appOverlay.css.ts";
 
+interface AdvancedSearchFilters {
+  timeFrame: { start: string; end: string };
+  geolocation: { lat: number | null; lng: number | null; maxDistance: number };
+  selectedStore: string;
+  searchFilters: {
+    format: string;
+    status: string;
+    venueType: string;
+    priceRange: { min: number; max: number };
+    dateRange: { start: string; end: string };
+    sortBy: string;
+    sortOrder: "asc" | "desc";
+  };
+}
+
 // Lazy load notification center
 const LazyNotificationCenter = lazy(() => import("./NotificationCenter"));
 
@@ -16,7 +31,7 @@ interface AppShellProps {
   onPageChange: (page: Page) => void;
   onCardSelect: (card: Card | null) => void;
   onGlobalSearch: (query: string) => void;
-  onAdvancedSearch: (filters: any) => void;
+  onAdvancedSearch: (filters: AdvancedSearchFilters) => void;
   onBuildDeck: () => void;
   selectedCard: Card | null;
   isOnline: boolean;

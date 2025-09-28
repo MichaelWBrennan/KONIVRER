@@ -17,12 +17,12 @@ function readQueue(): ReportPayload[] {
   }
 }
 
-function writeQueue(items: ReportPayload[]): any {
+function writeQueue(items: ReportPayload[]): void {
   localStorage.setItem(REPORT_QUEUE_KEY, JSON.stringify(items));
 }
 
 export const EventService = {
-  async fetchPairings(_eventId: string, _round: number) {
+  async fetchPairings() {
     // TODO: integrate real API; for now return mock data
     await new Promise((r) => setTimeout(r, 300));
     return [
@@ -52,7 +52,7 @@ export const EventService = {
     await new Promise((r) => setTimeout(r, 300));
     return { ok: true } as const;
   },
-  async callJudge(_eventId: string, _table: number, _message?: string) {
+  async callJudge() {
     await new Promise((r) => setTimeout(r, 200));
     return { ok: true, ticketId: Math.random().toString(36).slice(2) };
   },

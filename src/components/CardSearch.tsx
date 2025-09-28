@@ -17,7 +17,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
   const { cards, total, isLoading, error } = useCards(searchFilters);
 
-  const handleFilterChange = (key: string, value: any) => {
+  const handleFilterChange = (key: string, value: unknown) => {
     setSearchFilters({ [key]: value, page: 1 });
   };
 
@@ -27,15 +27,16 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
 
   // Get unique values for filters from current results
   const filterOptions = useMemo(() => {
+    const cardsArray = Array.isArray(cards) ? cards : cards?.data || [];
     return {
       elements: [
-        ...new Set(cards.map((card: Card) => card.element)),
+        ...new Set(cardsArray.map((card: Card) => card.element)),
       ].sort() as string[],
       types: [
-        ...new Set(cards.map((card: Card) => card.type)),
+        ...new Set(cardsArray.map((card: Card) => card.type)),
       ].sort() as string[],
       rarities: [
-        ...new Set(cards.map((card: Card) => card.rarity)),
+        ...new Set(cardsArray.map((card: Card) => card.rarity)),
       ].sort() as string[],
     };
   }, [cards]);
@@ -133,7 +134,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
       )}
 
       <div className={cs.cardsGrid}>
-        {cards.map((card: Card) => (
+        {(Array.isArray(cards) ? cards : cards?.data || []).map((card: Card) => (
           <div
             key={card.id}
             className={`card-item ${cs.cardItem}`}
@@ -178,7 +179,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
         </div>
       )}
 
-      {cards.length === 0 && !isLoading && (
+      {(Array.isArray(cards) ? cards : cards?.data || []).length === 0 && !isLoading && (
         <div className={`no-results ${cs.noResults}`}>
           <p>No cards found matching your search criteria.</p>
         </div>

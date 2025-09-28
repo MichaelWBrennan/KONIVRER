@@ -5,7 +5,7 @@ import * as s from "./settings.css.ts";
 export const Settings: React.FC = () => {
   const [theme, setTheme] = useState<"dark" | "light">(
     () =>
-      (document.documentElement.getAttribute("data-theme") as any) || "dark",
+      (document.documentElement.getAttribute("data-theme") as "dark" | "light") || "dark",
   );
   const [contrast, setContrast] = useState<string>(
     () => document.documentElement.getAttribute("data-contrast") || "normal",
@@ -47,7 +47,7 @@ export const Settings: React.FC = () => {
             <select
               className="filter-select"
               value={theme}
-              onChange={(e) => setTheme(e.target.value as any)}
+              onChange={(e) => setTheme(e.target.value as "dark" | "light")}
             >
               <option value="dark">Dark</option>
               <option value="light">Light</option>

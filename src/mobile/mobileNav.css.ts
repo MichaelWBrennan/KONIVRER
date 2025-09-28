@@ -54,7 +54,7 @@ export const label = style({
   marginTop: 4,
   fontFamily:
     "OpenDyslexic, Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-  fontWeight: 500 as any,
+  fontWeight: 500,
 });
 
 export const moreOverlay = style({

@@ -11,7 +11,7 @@ import {
 
 // TODO: Load actual card data from the card database instead of demo cards
 
-const createInitialZones = (): Record<string, GameZone> => ({
+const createInitialZones = (): Record<KonivrverZoneType, GameZone> => ({
   hand: {
     id: "hand",
     name: "Hand",
@@ -20,33 +20,57 @@ const createInitialZones = (): Record<string, GameZone> => ({
     allowDrop: true,
     layout: "fan",
   },
-  battlefield: {
-    id: "battlefield",
-    name: "Battlefield",
+  field: {
+    id: "field",
+    name: "Field",
     cards: [],
     isVisible: true,
     allowDrop: true,
     layout: "grid",
   },
-  library: {
-    id: "library",
-    name: "Library",
+  combatRow: {
+    id: "combatRow",
+    name: "Combat Row",
+    cards: [],
+    isVisible: true,
+    allowDrop: true,
+    layout: "row",
+  },
+  azothRow: {
+    id: "azothRow",
+    name: "Azoth Row",
+    cards: [],
+    isVisible: true,
+    allowDrop: true,
+    layout: "row",
+  },
+  deck: {
+    id: "deck",
+    name: "Deck",
     cards: [], // TODO: Initialize with player's deck cards
     isVisible: false,
     allowDrop: false,
     layout: "stack",
   },
-  graveyard: {
-    id: "graveyard",
-    name: "Graveyard",
+  lifeCards: {
+    id: "lifeCards",
+    name: "Life Cards",
     cards: [],
     isVisible: true,
     allowDrop: true,
     layout: "stack",
   },
-  exile: {
-    id: "exile",
-    name: "Exile",
+  flag: {
+    id: "flag",
+    name: "Flag",
+    cards: [],
+    isVisible: true,
+    allowDrop: true,
+    layout: "stack",
+  },
+  removedFromPlay: {
+    id: "removedFromPlay",
+    name: "Removed From Play",
     cards: [],
     isVisible: true,
     allowDrop: true,
@@ -74,7 +98,7 @@ const createInitialPlayer = (id: string, name: string): PlayerState => ({
     dark: 0,
     neutral: 0,
   },
-  zones: createInitialZones() as any, // Type cast to avoid zone type mismatch for now
+  zones: createInitialZones(),
   flag: undefined,
   // Legacy compatibility
   life: 20,

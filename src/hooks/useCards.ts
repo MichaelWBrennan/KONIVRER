@@ -5,7 +5,7 @@ import type { Card } from "../types";
 
 export interface UseCardsOptions {
   search?: string;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
   enabled?: boolean;
 }
 
@@ -55,7 +55,7 @@ export function useCards(options: UseCardsOptions = {}) {
   });
 
   return {
-    cards: cardsData?.data?.cards || [],
+    cards: cardsData?.data || [],
     total: cardsData?.data?.total || 0,
     isLoading,
     error: error?.message || null,
@@ -112,7 +112,7 @@ export function useCard(id: string, enabled: boolean = true) {
 
 export function useCardSearch() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<Record<string, any>>({});
+  const [filters, setFilters] = useState<Record<string, unknown>>({});
 
   const { cards, total, isLoading, error } = useCards({
     search: searchQuery,
@@ -123,7 +123,7 @@ export function useCardSearch() {
     setSearchQuery(query);
   }, []);
 
-  const updateFilters = useCallback((newFilters: Record<string, any>) => {
+  const updateFilters = useCallback((newFilters: Record<string, unknown>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
   }, []);
 

@@ -24,7 +24,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   }, []);
 
   // Available decks will be loaded from backend
-  const availableDecks: Deck[] = [];
+  const availableDecks: Deck[] = useMemo(() => [], []);
 
   // Get unique values for filters (now handled by global search)
 

@@ -23,9 +23,9 @@ export const TournamentHub: React.FC = () => {
   } = useEventStore();
 
   useEffect(() => {
-    const handler = (e: any) => setQuery(e.detail || "");
-    window.addEventListener("pairings-search", handler as any);
-    return () => window.removeEventListener("pairings-search", handler as any);
+    const handler = (e: CustomEvent) => setQuery(e.detail || "");
+    window.addEventListener("pairings-search", handler as EventListener);
+    return () => window.removeEventListener("pairings-search", handler as EventListener);
   }, []);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const TournamentHub: React.FC = () => {
             roundNumber || 1,
           );
         }
-      } catch (e) {
+      } catch {
         setError("Failed to load pairings");
       } finally {
         setLoading(false);

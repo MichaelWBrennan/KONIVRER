@@ -497,7 +497,7 @@ const EventManager: React.FC<EventManagerProps> = ({
             currentUserId={currentUserId}
             isOrganizer={isOrganizer}
             isJudge={isJudge}
-            onReportResult={(_matchId: string) => {
+            onReportResult={() => {
               setShowMatchResult(true);
             }}
           />
