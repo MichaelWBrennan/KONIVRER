@@ -75,6 +75,7 @@ const createInitialPlayer = (id: string, name: string): PlayerState => ({
     neutral: 0,
   },
   zones: createInitialZones() as any, // Type cast to avoid zone type mismatch for now
+  flag: undefined,
   // Legacy compatibility
   life: 20,
   manaPool: { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 },
@@ -105,6 +106,7 @@ export const useGameState = () => {
   const [selectedCards, setSelectedCards] = useState<Card[]>([]);
   const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
+    draggedCard: undefined,
     dragOffset: { x: 0, y: 0 },
     validDropZones: [],
   });
@@ -267,7 +269,7 @@ export const useGameState = () => {
           const resetCard = {
             ...sourceCard,
             isSelected: false,
-            isTapped: targetZoneId === "field" ? sourceCard.isTapped : false,
+            isTapped: targetZoneId === "field" ? sourceCard.isTapped : undefined,
           };
           newState.players[playerIndex].zones[targetZoneId].cards.push(
             resetCard,

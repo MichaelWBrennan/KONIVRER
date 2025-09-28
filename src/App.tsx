@@ -69,7 +69,7 @@ function AppContent() {
     };
   }, []);
 
-  const handleCardSelect = (card: Card) => {
+  const handleCardSelect = (card: Card | null) => {
     setSelectedCard(card);
   };
 

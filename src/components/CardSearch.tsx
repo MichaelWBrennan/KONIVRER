@@ -15,7 +15,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
   const { searchFilters, setSearchFilters } = useAppStore();
 
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
-  const { data: cardsData, isLoading, error } = useCards(searchFilters);
+  const { cards, total, isLoading, error } = useCards(searchFilters);
 
   const handleFilterChange = (key: string, value: any) => {
     setSearchFilters({ [key]: value, page: 1 });
@@ -27,7 +27,6 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
 
   // Get unique values for filters from current results
   const filterOptions = useMemo(() => {
-    const cards = cardsData?.cards || [];
     return {
       elements: [
         ...new Set(cards.map((card: Card) => card.element)),
@@ -39,25 +38,22 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
         ...new Set(cards.map((card: Card) => card.rarity)),
       ].sort() as string[],
     };
-  }, [cardsData]);
+  }, [cards]);
 
   if (error) {
     return (
       <div className="error-container">
         <h1>Card Search</h1>
-        <div className="error">Error loading cards: {error.message}</div>
+        <div className="error">Error loading cards: {error}</div>
       </div>
     );
   }
 
-  const cards = cardsData?.cards || [];
-  const pagination = cardsData
-    ? {
-        currentPage: cardsData.page,
-        totalPages: Math.ceil(cardsData.total / (cardsData.pageSize || 20)),
-        total: cardsData.total,
-      }
-    : null;
+  const pagination = {
+    currentPage: searchFilters.page || 1,
+    totalPages: Math.ceil(total / 20),
+    total: total,
+  };
 
   return (
     <div>
