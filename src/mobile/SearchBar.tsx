@@ -209,7 +209,6 @@ export const SearchBar: React.FC<Props> = ({
                       }))
                     }
                   >
-                    <option value="">All Types</option>
                     <option value="Familiar">Familiar</option>
                   </select>
                 </div>

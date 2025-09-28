@@ -87,7 +87,6 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             }
             className="filter-select"
           >
-            <option value="">All Types</option>
             <option value="Familiar">Familiar</option>
           </select>
 
