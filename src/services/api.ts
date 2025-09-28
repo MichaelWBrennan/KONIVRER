@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 import type { Card } from "../types";
 
 // API Configuration
@@ -18,7 +18,7 @@ export const api: AxiosInstance = axios.create({
 
 // Request interceptor for authentication
 api.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("authToken");
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;

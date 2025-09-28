@@ -143,6 +143,7 @@ export const useKonivrverGameState = () => {
 
   const [dragState, setDragState] = useState<DragState>({
     isDragging: false,
+    draggedCard: undefined,
     dragOffset: { x: 0, y: 0 },
     validDropZones: [],
   });
@@ -186,6 +187,7 @@ export const useKonivrverGameState = () => {
   const endDrag = useCallback(() => {
     setDragState({
       isDragging: false,
+      draggedCard: undefined,
       dragOffset: { x: 0, y: 0 },
       validDropZones: [],
     });

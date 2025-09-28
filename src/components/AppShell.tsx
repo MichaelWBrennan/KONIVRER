@@ -14,7 +14,7 @@ const LazyNotificationCenter = lazy(() => import("./NotificationCenter"));
 interface AppShellProps {
   currentPage: Page;
   onPageChange: (page: Page) => void;
-  onCardSelect: (card: Card) => void;
+  onCardSelect: (card: Card | null) => void;
   onGlobalSearch: (query: string) => void;
   onAdvancedSearch: (filters: any) => void;
   onBuildDeck: () => void;

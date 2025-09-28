@@ -8,21 +8,27 @@ export interface Card {
   elements: string[]; // KONIVRER supports multiple elements per card
   rarity: "common" | "uncommon" | "rare"; // ☽, ☉, 🜠 symbols
   azothCost: number; // KONIVRER uses Azoth instead of mana
-  power?: number;
-  toughness?: number;
-  rulesText?: string;
-  flavorText?: string;
-  abilities?: string[]; // Keyword abilities
+  power: number | undefined;
+  toughness: number | undefined;
+  rulesText: string | undefined;
+  flavorText: string | undefined;
+  abilities: string[] | undefined; // Keyword abilities
   setCode: string;
   setNumber: number;
   imageUrl: string;
-  webpUrl: string;
-  imageHash?: string; // For caching
+  webpUrl: string | undefined;
+  imageHash: string | undefined; // For caching
+  isTapped: boolean | undefined;
+  isSelected: boolean | undefined;
+  counters: Record<string, number> | undefined;
   // Legacy compatibility fields
-  type?: string;
-  element?: string;
-  cost?: number;
-  description?: string;
+  type: string | undefined;
+  element: string | undefined;
+  cost: number | undefined;
+  description: string | undefined;
+  manaCost: number | undefined;
+  color: string | undefined;
+  text: string | undefined;
 }
 
 // Generate card data from existing assets (fallback method)
@@ -207,11 +213,15 @@ const fallbackCardDatabase: Card[] = cardNames.map((name, index) => {
       "/",
     )} ${lesserType} from the KONIVRER Azoth TCG.`,
     flavorText: `"In the world of KONIVRER, even the smallest spark can ignite great change."`,
-    abilities,
+    abilities: abilities.length > 0 ? abilities : undefined,
     setCode: "KNR",
     setNumber: index + 1,
     imageUrl: `/assets/cards/${name}.webp`,
     webpUrl: `/assets/cards/${name}.webp`,
+    imageHash: undefined,
+    isTapped: undefined,
+    isSelected: undefined,
+    counters: undefined,
     // Legacy compatibility
     type: lesserType,
     element: elements[0],

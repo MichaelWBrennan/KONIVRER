@@ -28,7 +28,7 @@ export interface PushNotification {
   data?: NotificationData;
   timestamp: Date;
   read: boolean;
-  eventId?: string;
+  eventId: string | undefined;
 }
 
 interface NotificationState {

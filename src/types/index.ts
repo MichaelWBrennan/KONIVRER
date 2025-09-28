@@ -37,28 +37,29 @@ export interface Card {
   name: string;
   elements: string[]; // KONIVRER supports multiple elements per card
   lesserType: string; // KONIVRER-specific card type system
-  abilities?: string[]; // Keyword and other abilities
+  abilities: string[] | undefined; // Keyword and other abilities
   azothCost: number; // KONIVRER uses Azoth instead of mana
-  power?: number;
-  toughness?: number;
-  rulesText?: string;
-  flavorText?: string;
+  power: number | undefined;
+  toughness: number | undefined;
+  rulesText: string | undefined;
+  flavorText: string | undefined;
   rarity: "common" | "uncommon" | "rare"; // KONIVRER uses ☽, ☉, 🜠 symbols
   setCode: string;
   setNumber: number;
-  imageUrl?: string;
-  webpUrl?: string;
-  isTapped?: boolean;
-  isSelected?: boolean;
-  counters?: Record<string, number>;
+  imageUrl: string;
+  webpUrl: string | undefined;
+  imageHash: string | undefined; // For caching
+  isTapped: boolean | undefined;
+  isSelected: boolean | undefined;
+  counters: Record<string, number> | undefined;
   // Legacy fields for backward compatibility
-  type?: string;
-  element?: string;
-  cost?: number;
-  description?: string;
-  manaCost?: number;
-  color?: string;
-  text?: string;
+  type: string | undefined;
+  element: string | undefined;
+  cost: number | undefined;
+  description: string | undefined;
+  manaCost: number | undefined;
+  color: string | undefined;
+  text: string | undefined;
 }
 
 // Asset module declarations

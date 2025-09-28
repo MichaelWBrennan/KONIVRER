@@ -7,28 +7,29 @@ export interface Card {
   name: string;
   elements: string[]; // KONIVRER supports multiple elements per card
   lesserType: string; // KONIVRER-specific card type system
-  abilities?: string[]; // Keyword and other abilities
+  abilities: string[] | undefined; // Keyword and other abilities
   azothCost: number; // KONIVRER uses Azoth instead of mana
-  power?: number;
-  toughness?: number;
-  rulesText?: string;
-  flavorText?: string;
+  power: number | undefined;
+  toughness: number | undefined;
+  rulesText: string | undefined;
+  flavorText: string | undefined;
   rarity: "common" | "uncommon" | "rare"; // KONIVRER uses ☽, ☉, 🜠 symbols
   setCode: string;
   setNumber: number;
-  imageUrl?: string;
-  webpUrl?: string;
-  isTapped?: boolean;
-  isSelected?: boolean;
-  counters?: Record<string, number>;
+  imageUrl: string;
+  webpUrl: string | undefined;
+  imageHash: string | undefined; // For caching
+  isTapped: boolean | undefined;
+  isSelected: boolean | undefined;
+  counters: Record<string, number> | undefined;
   // Legacy fields for backward compatibility
-  type?: string;
-  element?: string;
-  cost?: number;
-  description?: string;
-  manaCost?: number;
-  color?: string;
-  text?: string;
+  type: string | undefined;
+  element: string | undefined;
+  cost: number | undefined;
+  description: string | undefined;
+  manaCost: number | undefined;
+  color: string | undefined;
+  text: string | undefined;
 }
 
 export interface GameZone {
@@ -59,7 +60,7 @@ export interface PlayerState {
   name: string;
   azothPool: Record<string, number>; // KONIVRER uses Azoth instead of mana
   zones: Record<KonivrverZoneType, GameZone>;
-  flag?: Card; // KONIVRER has a Flag card that anchors deck identity
+  flag: Card | undefined; // KONIVRER has a Flag card that anchors deck identity
   // Legacy compatibility
   life?: number; // For backward compatibility with existing UI
   manaPool?: Record<string, number>; // For backward compatibility
@@ -96,7 +97,7 @@ export interface GameState {
 
 export interface DragState {
   isDragging: boolean;
-  draggedCard?: Card;
+  draggedCard: Card | undefined;
   dragOffset: { x: number; y: number };
   sourceZone?: KonivrverZoneType;
   validDropZones: KonivrverZoneType[];

@@ -10,23 +10,23 @@ export type Pairing = {
 };
 
 export type EventState = {
-  currentEventId?: string;
-  currentEventName?: string;
+  currentEventId: string | undefined;
+  currentEventName: string | undefined;
   roundNumber: number;
-  roundEndsAt?: number; // epoch ms
+  roundEndsAt: number | undefined; // epoch ms
   pairings: Pairing[];
-  myPlayerId?: string;
-  myTable?: number;
+  myPlayerId: string | undefined;
+  myTable: number | undefined;
   isLoading: boolean;
-  error?: string;
+  error: string | undefined;
   // actions
   setEvent: (id: string, name: string) => void;
   setMyPlayerId: (id: string) => void;
-  setRoundInfo: (round: number, endsAt?: number) => void;
+  setRoundInfo: (round: number, endsAt: number | undefined) => void;
   setPairings: (p: Pairing[]) => void;
   setMyTableFromPairings: () => void;
   setLoading: (v: boolean) => void;
-  setError: (e?: string) => void;
+  setError: (e: string | undefined) => void;
 };
 
 export const useEventStore = create<EventState>()((set, get) => ({

@@ -43,7 +43,9 @@ export const Lore: React.FC = () => {
         scroller.removeEventListener("scroll", onScroll);
         try {
           ro.disconnect();
-        } catch {}
+        } catch (error) {
+          console.warn('Error disconnecting ResizeObserver:', error);
+        }
       };
     }, []);
 

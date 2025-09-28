@@ -167,7 +167,7 @@ export function useLocalCards(filters: CardSearchFilters): {
  * Use local card by ID
  */
 export function useLocalCard(id: string): {
-  data?: Card;
+  data: Card | undefined;
   isLoading: boolean;
   error: null;
 } {
@@ -187,7 +187,7 @@ export function useLocalCard(id: string): {
  * Use local card by name
  */
 export function useLocalCardByName(name: string): {
-  data?: Card;
+  data: Card | undefined;
   isLoading: boolean;
   error: null;
 } {
