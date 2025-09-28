@@ -86,7 +86,10 @@ export const SearchBar: React.FC<Props> = ({
 
   // Only get location when advanced search is opened on events page
   useEffect(() => {
-    if (showAdvancedSearch && (current === "events" || current === "event-archive")) {
+    if (
+      showAdvancedSearch &&
+      (current === "events" || current === "event-archive")
+    ) {
       getCurrentLocation();
     }
   }, [showAdvancedSearch, current]);
@@ -141,7 +144,7 @@ export const SearchBar: React.FC<Props> = ({
   }, [q]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       onSearch(q);
     }
   };
@@ -756,10 +759,7 @@ export const SearchBar: React.FC<Props> = ({
           </span>
         </button>
         {(current === "decks" || current === "my-decks") && onBuildDeck && (
-          <button
-            onClick={onBuildDeck}
-            className={s.buildDeckButton}
-          >
+          <button onClick={onBuildDeck} className={s.buildDeckButton}>
             Build Deck
           </button>
         )}
