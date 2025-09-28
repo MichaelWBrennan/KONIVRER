@@ -89,8 +89,8 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
           >
             <option value="">Select Type</option>
             <option value="Familiar">Familiar</option>
-            <option 
-              value="Elemental" 
+            <option
+              value="Elemental"
               disabled={searchFilters.type !== "Familiar"}
             >
               Elemental
