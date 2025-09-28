@@ -88,11 +88,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             className="filter-select"
           >
             <option value="">All Types</option>
-            {filterOptions.types.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
+            <option value="Familiar">Familiar</option>
           </select>
 
           <select

@@ -210,10 +210,7 @@ export const SearchBar: React.FC<Props> = ({
                     }
                   >
                     <option value="">All Types</option>
-                    <option value="Creature">Creature</option>
-                    <option value="Spell">Spell</option>
-                    <option value="Artifact">Artifact</option>
-                    <option value="Enchantment">Enchantment</option>
+                    <option value="Familiar">Familiar</option>
                   </select>
                 </div>
 
