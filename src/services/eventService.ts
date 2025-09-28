@@ -22,8 +22,10 @@ function writeQueue(items: ReportPayload[]): void {
 }
 
 export const EventService = {
-  async fetchPairings() {
+  async fetchPairings(eventId: string, roundNumber: number) {
     // TODO: integrate real API; for now return mock data
+    // Parameters will be used when implementing real API
+    console.log(`Fetching pairings for event ${eventId}, round ${roundNumber}`);
     await new Promise((r) => setTimeout(r, 300));
     return [
       {
