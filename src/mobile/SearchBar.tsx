@@ -209,7 +209,14 @@ export const SearchBar: React.FC<Props> = ({
                       }))
                     }
                   >
+                    <option value="">Select Type</option>
                     <option value="Familiar">Familiar</option>
+                    <option 
+                      value="Elemental" 
+                      disabled={searchFilters.type !== "Familiar"}
+                    >
+                      Elemental
+                    </option>
                   </select>
                 </div>
 
