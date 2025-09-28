@@ -40,17 +40,18 @@ export function useAuth(): AuthState & AuthActions {
   useEffect(() => {
     const checkAuth = async () => {
       if (authService.isAuthenticated && !authService.currentUser) {
-        setState((prev: any) => ({ ...prev, isLoading: true }));
+        setState((prev) => ({ ...prev, isLoading: true }));
         try {
           const user = await authService.getProfile();
-          setState((prev: any) => ({
+          setState((prev) => ({
             ...prev,
             isAuthenticated: !!user,
             user,
             isLoading: false,
           }));
         } catch (error) {
-          setState((prev: any) => ({
+          console.error("Failed to refresh user profile:", error);
+          setState((prev) => ({
             ...prev,
             isAuthenticated: false,
             user: null,
@@ -64,10 +65,10 @@ export function useAuth(): AuthState & AuthActions {
   }, []);
 
   const login = useCallback(async (credentials: LoginCredentials) => {
-    setState((prev: any) => ({ ...prev, isLoading: true, error: null }));
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
       const authData = await authService.login(credentials);
-      setState((prev: any) => ({
+      setState((prev) => ({
         ...prev,
         isAuthenticated: true,
         user: authData.user,
@@ -75,22 +76,23 @@ export function useAuth(): AuthState & AuthActions {
         error: null,
       }));
     } catch (error: any) {
-      setState((prev: any) => ({
+      const errorMessage = error?.message || "Login failed. Please try again.";
+      setState((prev) => ({
         ...prev,
         isAuthenticated: false,
         user: null,
         isLoading: false,
-        error: error.message,
+        error: errorMessage,
       }));
       throw error;
     }
   }, []);
 
   const register = useCallback(async (data: RegisterData) => {
-    setState((prev: any) => ({ ...prev, isLoading: true, error: null }));
+    setState((prev) => ({ ...prev, isLoading: true, error: null }));
     try {
       const authData = await authService.register(data);
-      setState((prev: any) => ({
+      setState((prev) => ({
         ...prev,
         isAuthenticated: true,
         user: authData.user,
@@ -98,31 +100,27 @@ export function useAuth(): AuthState & AuthActions {
         error: null,
       }));
     } catch (error: any) {
-      setState((prev: any) => ({
+      const errorMessage = error?.message || "Registration failed. Please try again.";
+      setState((prev) => ({
         ...prev,
         isAuthenticated: false,
         user: null,
         isLoading: false,
-        error: error.message,
+        error: errorMessage,
       }));
       throw error;
     }
   }, []);
 
   const logout = useCallback(async () => {
-    setState((prev: any) => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
     try {
       await authService.logout();
-      setState((prev: any) => ({
-        ...prev,
-        isAuthenticated: false,
-        user: null,
-        isLoading: false,
-        error: null,
-      }));
-    } catch (error: any) {
-      // Even if logout fails on server, clear local state
-      setState((prev: any) => ({
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      // Always clear local state, even if server logout fails
+      setState((prev) => ({
         ...prev,
         isAuthenticated: false,
         user: null,
@@ -135,25 +133,26 @@ export function useAuth(): AuthState & AuthActions {
   const refreshProfile = useCallback(async () => {
     if (!authService.isAuthenticated) return;
 
-    setState((prev: any) => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
     try {
       const user = await authService.getProfile();
-      setState((prev: any) => ({
+      setState((prev) => ({
         ...prev,
         user,
         isLoading: false,
       }));
     } catch (error: any) {
-      setState((prev: any) => ({
+      console.error("Failed to refresh profile:", error);
+      setState((prev) => ({
         ...prev,
         isLoading: false,
-        error: error.message,
+        error: error?.message || "Failed to refresh profile",
       }));
     }
   }, []);
 
   const clearError = useCallback(() => {
-    setState((prev: any) => ({ ...prev, error: null }));
+    setState((prev) => ({ ...prev, error: null }));
   }, []);
 
   // Role-based access control functions
