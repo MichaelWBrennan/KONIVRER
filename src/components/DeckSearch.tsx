@@ -13,6 +13,16 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [showBuilder, setShowBuilder] = useState(false);
   const { searchFilters } = useAppStore();
 
+  // Listen for build deck event from search bar
+  React.useEffect(() => {
+    const handleBuildDeck = () => {
+      setShowBuilder(true);
+    };
+
+    window.addEventListener("build-deck", handleBuildDeck);
+    return () => window.removeEventListener("build-deck", handleBuildDeck);
+  }, []);
+
   // Available decks will be loaded from backend
   const availableDecks: Deck[] = [];
 
@@ -58,34 +68,10 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   return (
     <div>
       <div className="search-container">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <h1 className={nav.navTitle} style={{ margin: 0 }}>
-            Decks
-          </h1>
-          <button
-            className={`btn ${showBuilder ? "btn-secondary" : "btn-primary"}`}
-            onClick={() => setShowBuilder((v) => !v)}
-            aria-pressed={showBuilder}
-          >
-            {showBuilder ? "Back to Decks" : "Build Deck"}
-          </button>
-        </div>
+        <h1 className={nav.navTitle}>Decks</h1>
         {!showBuilder && (
           <div className="filters">
             {/* Filters are now handled by the global advanced search */}
-          </div>
-        )}
-
-        {!showBuilder && (
-          <div className="results-count">
-            {filteredDecks.length} decks found
           </div>
         )}
       </div>

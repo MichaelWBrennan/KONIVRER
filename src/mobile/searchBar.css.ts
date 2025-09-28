@@ -44,6 +44,8 @@ export const searchButton = style({
 export const advancedSearchToggle = style({
   display: "flex",
   justifyContent: "center",
+  alignItems: "center",
+  gap: "0.5rem",
   marginBottom: "0.5rem",
 });
 
@@ -185,6 +187,18 @@ export const priceRangeInputs = style({
   display: "flex",
   alignItems: "center",
   gap: "0.5rem",
+});
+
+export const buildDeckButton = style({
+  background: "var(--accent-color, #007bff)",
+  color: "white",
+  border: "none",
+  borderRadius: 8,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  fontSize: 14,
+  transition: "all 0.2s ease",
+  fontWeight: "500",
 });
 
 export const applySearchButton = style({

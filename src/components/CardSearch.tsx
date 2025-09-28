@@ -87,12 +87,14 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             }
             className="filter-select"
           >
-            <option value="">All Types</option>
-            {filterOptions.types.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
+            <option value="">Select Type</option>
+            <option value="Familiar">Familiar</option>
+            <option
+              value="Elemental"
+              disabled={searchFilters.type !== "Familiar"}
+            >
+              Elemental
+            </option>
           </select>
 
           <select
@@ -103,11 +105,9 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             className="filter-select"
           >
             <option value="">All Rarities</option>
-            {filterOptions.rarities.map((rarity) => (
-              <option key={rarity} value={rarity}>
-                {rarity}
-              </option>
-            ))}
+            <option value="Common">Common</option>
+            <option value="Uncommon">Uncommon</option>
+            <option value="Rare">Rare</option>
           </select>
 
           <label className={cs.filtersRow}>
