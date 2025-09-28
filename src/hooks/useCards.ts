@@ -1,145 +1,146 @@
+import { useState, useEffect, useCallback } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { cardApi, migrationApi } from "../services/api";
-import { Card, CardSearchFilters } from "../stores/appStore";
+import { cardApi } from "../services/api";
+import type { Card } from "../types";
 
-export const CARD_QUERY_KEYS = {
-  all: ["cards"] as const,
-  lists: () => [...CARD_QUERY_KEYS.all, "list"] as const,
-  list: (filters: CardSearchFilters) =>
-    [...CARD_QUERY_KEYS.lists(), filters] as const,
-  details: () => [...CARD_QUERY_KEYS.all, "detail"] as const,
-  detail: (id: string) => [...CARD_QUERY_KEYS.details(), id] as const,
-  statistics: () => [...CARD_QUERY_KEYS.all, "statistics"] as const,
-};
-
-// Get paginated cards with filters
-export function useCards(filters: CardSearchFilters): any {
-  return useQuery({
-    queryKey: CARD_QUERY_KEYS.list(filters),
-    queryFn: async () => {
-      const response = await cardApi.getAll(filters);
-      return response.data;
-    },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
-  });
+export interface UseCardsOptions {
+  search?: string;
+  filters?: Record<string, any>;
+  enabled?: boolean;
 }
 
-// Get single card by ID
-export function useCard(id: string): any {
-  return useQuery({
-    queryKey: CARD_QUERY_KEYS.detail(id),
-    queryFn: async () => {
-      const response = await cardApi.getById(id);
-      return response.data;
-    },
-    enabled: !!id,
-    staleTime: 10 * 60 * 1000, // 10 minutes
-  });
-}
-
-// Get card by name
-export function useCardByName(name: string): any {
-  return useQuery({
-    queryKey: [...CARD_QUERY_KEYS.details(), "name", name],
-    queryFn: async () => {
-      const response = await cardApi.getByName(name);
-      return response.data;
-    },
-    enabled: !!name,
-    staleTime: 10 * 60 * 1000,
-  });
-}
-
-// Get card statistics
-export function useCardStatistics(): any {
-  return useQuery({
-    queryKey: CARD_QUERY_KEYS.statistics(),
-    queryFn: async () => {
-      const response = await cardApi.getStatistics();
-      return response.data;
-    },
-    staleTime: 30 * 60 * 1000, // 30 minutes
-  });
-}
-
-// Create card mutation
-export function useCreateCard(): any {
+export function useCards(options: UseCardsOptions = {}) {
+  const { search, filters, enabled = true } = options;
   const queryClient = useQueryClient();
 
-  return useMutation({
+  const {
+    data: cardsData,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["cards", search, filters],
+    queryFn: () => cardApi.getAll({ search, ...filters }),
+    enabled,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+
+  const createCardMutation = useMutation({
     mutationFn: cardApi.create,
     onSuccess: () => {
-      // Invalidate and refetch card lists
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.lists(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.statistics(),
-      });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
-}
 
-// Update card mutation
-export function useUpdateCard(): any {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  const updateCardMutation = useMutation({
     mutationFn: ({ id, data }: { id: string; data: Partial<Card> }) =>
       cardApi.update(id, data),
-    onSuccess: (_, { id }) => {
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.lists(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.detail(id),
-      });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
-}
 
-// Delete card mutation
-export function useDeleteCard(): any {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  const deleteCardMutation = useMutation({
     mutationFn: cardApi.delete,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.lists(),
-      });
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.statistics(),
-      });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
-}
 
-// Bulk create cards mutation
-export function useBulkCreateCards(): any {
-  const queryClient = useQueryClient();
-
-  return useMutation({
+  const bulkCreateMutation = useMutation({
     mutationFn: cardApi.bulkCreate,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.all,
-      });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
+
+  return {
+    cards: cardsData?.data?.cards || [],
+    total: cardsData?.data?.total || 0,
+    isLoading,
+    error: error?.message || null,
+    refetch,
+    createCard: createCardMutation.mutateAsync,
+    updateCard: updateCardMutation.mutateAsync,
+    deleteCard: deleteCardMutation.mutateAsync,
+    bulkCreateCards: bulkCreateMutation.mutateAsync,
+    isCreating: createCardMutation.isPending,
+    isUpdating: updateCardMutation.isPending,
+    isDeleting: deleteCardMutation.isPending,
+    isBulkCreating: bulkCreateMutation.isPending,
+  };
 }
 
-// Seed KONIVRER cards mutation
-export function useSeedKonivrrerCards(): any {
+export function useCard(id: string, enabled: boolean = true) {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: migrationApi.seedKonivrrerCards,
+  const {
+    data: card,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["card", id],
+    queryFn: () => cardApi.getById(id),
+    enabled: enabled && !!id,
+  });
+
+  const updateCardMutation = useMutation({
+    mutationFn: (data: Partial<Card>) => cardApi.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: CARD_QUERY_KEYS.all,
-      });
+      queryClient.invalidateQueries({ queryKey: ["card", id] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
   });
+
+  const deleteCardMutation = useMutation({
+    mutationFn: () => cardApi.delete(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
+    },
+  });
+
+  return {
+    card: card?.data,
+    isLoading,
+    error: error?.message || null,
+    updateCard: updateCardMutation.mutateAsync,
+    deleteCard: deleteCardMutation.mutateAsync,
+    isUpdating: updateCardMutation.isPending,
+    isDeleting: deleteCardMutation.isPending,
+  };
+}
+
+export function useCardSearch() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState<Record<string, any>>({});
+
+  const { cards, total, isLoading, error } = useCards({
+    search: searchQuery,
+    filters,
+  });
+
+  const search = useCallback((query: string) => {
+    setSearchQuery(query);
+  }, []);
+
+  const updateFilters = useCallback((newFilters: Record<string, any>) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }));
+  }, []);
+
+  const clearFilters = useCallback(() => {
+    setFilters({});
+    setSearchQuery("");
+  }, []);
+
+  return {
+    cards,
+    total,
+    isLoading,
+    error,
+    searchQuery,
+    filters,
+    search,
+    updateFilters,
+    clearFilters,
+  };
 }
