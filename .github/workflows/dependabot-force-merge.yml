@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to force merge'
+        description: "PR number to force merge"
         required: true
         type: string
 
@@ -24,7 +24,7 @@ jobs:
     name: "Force merge dependabot PRs with conflict resolution"
     runs-on: ubuntu-latest
     timeout-minutes: 45
-    
+
     steps:
       - name: "📥 Checkout repository"
         uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
           else
             PR_NUMBER="${{ github.event.pull_request.number }}"
           fi
-          
+
           echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
           echo "is_dependabot=${{ github.actor == 'dependabot[bot]' }}" >> $GITHUB_OUTPUT
           echo "pr_title=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
@@ -57,10 +57,10 @@ jobs:
         id: pr_details
         run: |
           PR_NUMBER="${{ steps.pr_info.outputs.pr_number }}"
-          
+
           # Get PR details using GitHub CLI
           gh pr view $PR_NUMBER --json title,headRefName,baseRefName,author,mergeable,mergeStateStatus,isDraft,labels > pr_details.json
-          
+
           TITLE=$(jq -r '.title' pr_details.json)
           HEAD_REF=$(jq -r '.headRefName' pr_details.json)
           BASE_REF=$(jq -r '.baseRefName' pr_details.json)
@@ -69,7 +69,7 @@ jobs:
           MERGE_STATE=$(jq -r '.mergeStateStatus' pr_details.json)
           IS_DRAFT=$(jq -r '.isDraft' pr_details.json)
           LABELS=$(jq -r '.labels[].name' pr_details.json | tr '\n' ',' | sed 's/,$//')
-          
+
           echo "title=$TITLE" >> $GITHUB_OUTPUT
           echo "head_ref=$HEAD_REF" >> $GITHUB_OUTPUT
           echo "base_ref=$BASE_REF" >> $GITHUB_OUTPUT
@@ -78,7 +78,7 @@ jobs:
           echo "merge_state=$MERGE_STATE" >> $GITHUB_OUTPUT
           echo "is_draft=$IS_DRAFT" >> $GITHUB_OUTPUT
           echo "labels=$LABELS" >> $GITHUB_OUTPUT
-          
+
           echo "PR Details:"
           echo "  Title: $TITLE"
           echo "  Head: $HEAD_REF"
@@ -117,9 +117,9 @@ jobs:
         run: |
           PR_HEAD="${{ steps.pr_details.outputs.head_ref }}"
           BASE_REF="${{ steps.pr_details.outputs.base_ref }}"
-          
+
           echo "Merging $PR_HEAD into $BASE_REF with conflict resolution..."
-          
+
           # Try to merge with conflict resolution
           if git merge "origin/$PR_HEAD" --no-ff --no-commit; then
             echo "✅ Merge successful without conflicts"
@@ -170,25 +170,25 @@ jobs:
         run: |
           PR_NUMBER="${{ steps.pr_info.outputs.pr_number }}"
           echo "Closing original PR #$PR_NUMBER..."
-          
+
           gh pr comment "$PR_NUMBER" --body "## ✅ **Force merged successfully**
-          
+
           This dependabot PR has been force merged with automatic conflict resolution.
-          
+
           ### Details:
           - **Merged by:** Dependabot Force Merge workflow
           - **Merge method:** Automatic conflict resolution (accepted dependabot changes)
           - **Target branch:** ${{ steps.pr_details.outputs.base_ref }}
           - **Source branch:** ${{ steps.pr_details.outputs.head_ref }}
-          
+
           ### What happened:
           1. ✅ Automatically merged the PR into the target branch
           2. 🔧 Resolved any conflicts by accepting dependabot's changes
           3. 🚀 Pushed the merged changes to the target branch
           4. 🗑️ This PR will be closed automatically
-          
+
           The dependency update is now live in the target branch!"
-          
+
           # Close the PR
           gh pr close "$PR_NUMBER" --delete-branch
           echo "✅ PR closed and source branch deleted"

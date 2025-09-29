@@ -11,11 +11,11 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to force merge'
+        description: "PR number to force merge"
         required: false
         type: string
       branch_name:
-        description: 'Branch name to process'
+        description: "Branch name to process"
         required: false
         type: string
 
@@ -33,7 +33,7 @@ jobs:
     name: "Force merge all PRs and branches (no conditions)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    
+
     steps:
       - name: "📥 Checkout repository"
         uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
             echo "process_type=pr" >> $GITHUB_OUTPUT
             echo "target_id=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
           fi
-          
+
           echo "Event: ${{ github.event_name }}"
           echo "Process Type: $(echo $process_type)"
           echo "Target ID: $(echo $target_id)"
@@ -72,7 +72,7 @@ jobs:
         run: |
           PR_NUMBER="${{ steps.process_info.outputs.target_id }}"
           echo "🚀 Force merging PR #$PR_NUMBER immediately (no conditions)"
-          
+
           # Get PR details
           PR_DETAILS=$(gh pr view "$PR_NUMBER" --json title,headRefName,baseRefName,user,state,isDraft,mergeable,mergeStateStatus)
           PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
@@ -82,7 +82,7 @@ jobs:
           PR_STATE=$(echo "$PR_DETAILS" | jq -r '.state')
           PR_DRAFT=$(echo "$PR_DETAILS" | jq -r '.isDraft')
           PR_MERGEABLE=$(echo "$PR_DETAILS" | jq -r '.mergeable')
-          
+
           echo "PR Details:"
           echo "  Title: $PR_TITLE"
           echo "  Author: $PR_AUTHOR"
@@ -91,7 +91,7 @@ jobs:
           echo "  Is Draft: $PR_DRAFT"
           echo "  Mergeable: $PR_MERGEABLE"
           echo "Proceeding with force merge regardless of status..."
-          
+
           # Approve the PR
           gh pr review --approve "$PR_NUMBER" --body "🚀 Force approved and merging immediately (no conditions required)
 
@@ -105,7 +105,7 @@ jobs:
           - **Mergeable:** $PR_MERGEABLE
 
           This PR is being force merged without any checks, validations, or conditions."
-          
+
           # Merge the PR
           gh pr merge --squash "$PR_NUMBER" --delete-branch
           echo "✅ PR #$PR_NUMBER force merged successfully"
@@ -115,7 +115,7 @@ jobs:
         run: |
           BRANCH_NAME="${{ steps.process_info.outputs.target_id }}"
           echo "🚀 Processing branch: $BRANCH_NAME"
-          
+
           # Check if branch exists
           if git show-ref --verify --quiet "refs/remotes/origin/$BRANCH_NAME"; then
             echo "Branch $BRANCH_NAME exists, checking for existing PR..."
@@ -164,20 +164,20 @@ jobs:
         if: steps.process_info.outputs.process_type == 'all_prs'
         run: |
           echo "🚀 Force merging ALL open PRs immediately (no conditions)"
-          
+
           # Get all open PRs
           OPEN_PRS=$(gh pr list --state open --json number,title,headRefName,baseRefName,user --jq '.[] | "\(.number)|\(.title)|\(.headRefName)|\(.baseRefName)|\(.user.login)"')
-          
+
           if [ -z "$OPEN_PRS" ]; then
             echo "No open PRs found"
             exit 0
           fi
-          
+
           echo "Found open PRs:"
           echo "$OPEN_PRS" | while IFS='|' read -r number title head base author; do
             echo "  #$number: $title ($head -> $base) by $author"
           done
-          
+
           # Force merge all PRs
           echo "$OPEN_PRS" | while IFS='|' read -r number title head base author; do
             echo "🚀 Force merging PR #$number: $title"
@@ -188,7 +188,7 @@ jobs:
             
             echo "✅ PR #$number processed"
           done
-          
+
           echo "✅ All open PRs processed"
 
       - name: "📊 Summary"
