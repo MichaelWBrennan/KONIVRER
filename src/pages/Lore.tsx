@@ -1590,14 +1590,6 @@ export const Lore: React.FC = () => {
             </option>
           ))}
         </select>
-        <select className={s.categoryDropdown}>
-          <option value="">All Categories</option>
-          <option value="elements">Elements</option>
-          <option value="cosmology">Cosmology</option>
-          <option value="pantheons">Pantheons & Species</option>
-          <option value="societies">Societies & Eras</option>
-          <option value="aether">Aether Treatise</option>
-        </select>
       </div>
 
       <div className={s.content}>{renderActive()}</div>
