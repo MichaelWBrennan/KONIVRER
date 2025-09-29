@@ -44,15 +44,14 @@ print_status $GREEN "✅ Prerequisites check passed"
 
 # Function to create a test dependabot branch
 create_test_branch() {
-    local branch_name="dependabot/test-$(date +%s)"
     local package_name="test-package"
     local old_version="1.0.0"
     local new_version="1.0.1"
     
-    print_status $BLUE "🔧 Creating test dependabot branch: $branch_name"
+    print_status $BLUE "🔧 Creating test dependabot branch"
     
     # Create and checkout new branch
-    git checkout -b "$branch_name"
+    git checkout -b "dependabot/test-$(date +%s)"
     
     # Create a fake package.json change to simulate dependabot
     if [ -f "package.json" ]; then
@@ -78,13 +77,12 @@ create_test_branch() {
           update-type: version-update:semver-patch
         ..."
         
-        print_status $GREEN "✅ Test branch created: $branch_name"
-        echo "Branch: $branch_name"
+        print_status $GREEN "✅ Test branch created"
         echo "Commit: $(git rev-parse HEAD)"
         echo "Message: $(git log -1 --pretty=format:'%s')"
         
         # Push the branch
-        git push origin "$branch_name"
+        git push origin "dependabot/test-$(date +%s)"
         print_status $GREEN "✅ Test branch pushed to remote"
         
         # Return to main branch
@@ -95,7 +93,6 @@ create_test_branch() {
         
         echo ""
         print_status $YELLOW "🧪 Test branch created successfully!"
-        print_status $YELLOW "   Branch: $branch_name"
         print_status $YELLOW "   This should trigger the dependabot-branch-auto-process workflow"
         echo ""
         
@@ -136,11 +133,11 @@ list_dependabot_prs() {
         --author "dependabot[bot]" \
         --state all \
         --limit 10 \
-        --json number,title,state,headRefName,createdAt \
-        --jq '.[] | "\(.number) | \(.state) | \(.headRefName) | \(.title) | \(.createdAt)"' | \
-    while IFS='|' read -r number state branch title created; do
-        printf "%-6s | %-8s | %-30s | %-50s | %s\n" \
-            "$number" "$state" "${branch:0:30}" "${title:0:50}" "${created:0:10}"
+        --json number,title,state,createdAt \
+        --jq '.[] | "\(.number) | \(.state) | \(.title) | \(.createdAt)"' | \
+    while IFS='|' read -r number state title created; do
+        printf "%-6s | %-8s | %-50s | %s\n" \
+            "$number" "$state" "${title:0:50}" "${created:0:10}"
     done
 }
 
@@ -152,22 +149,22 @@ show_workflow_status() {
     gh run list \
         --workflow "dependabot-force-merge.yml" \
         --limit 5 \
-        --json databaseId,status,conclusion,createdAt,headBranch \
-        --jq '.[] | "\(.databaseId) | \(.status) | \(.conclusion // "N/A") | \(.headBranch) | \(.createdAt)"' | \
-    while IFS='|' read -r id status conclusion branch created; do
-        printf "%-10s | %-10s | %-10s | %-30s | %s\n" \
-            "$id" "$status" "$conclusion" "${branch:0:30}" "${created:0:10}"
+        --json databaseId,status,conclusion,createdAt \
+        --jq '.[] | "\(.databaseId) | \(.status) | \(.conclusion // "N/A") | \(.createdAt)"' | \
+    while IFS='|' read -r id status conclusion created; do
+        printf "%-10s | %-10s | %-10s | %s\n" \
+            "$id" "$status" "$conclusion" "${created:0:10}"
     done
     
     echo ""
     gh run list \
         --workflow "dependabot-branch-auto-process.yml" \
         --limit 5 \
-        --json databaseId,status,conclusion,createdAt,headBranch \
-        --jq '.[] | "\(.databaseId) | \(.status) | \(.conclusion // "N/A") | \(.headBranch) | \(.createdAt)"' | \
-    while IFS='|' read -r id status conclusion branch created; do
-        printf "%-10s | %-10s | %-10s | %-30s | %s\n" \
-            "$id" "$status" "$conclusion" "${branch:0:30}" "${created:0:10}"
+        --json databaseId,status,conclusion,createdAt \
+        --jq '.[] | "\(.databaseId) | \(.status) | \(.conclusion // "N/A") | \(.createdAt)"' | \
+    while IFS='|' read -r id status conclusion created; do
+        printf "%-10s | %-10s | %-10s | %s\n" \
+            "$id" "$status" "$conclusion" "${created:0:10}"
     done
 }
 

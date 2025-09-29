@@ -48,7 +48,6 @@ exports.handler = async (event) => {
         mergeType: record.mergeType || "unknown", // 'pull_request', 'direct_push', 'merge_queue'
         metadata: {
           pullRequestId: record.pullRequestId,
-          branchName: record.branchName,
           commitSha: record.commitSha,
           commitCount: record.commitCount || 1,
           linesAdded: record.linesAdded || 0,
@@ -119,7 +118,6 @@ function transformGitHubEvent(body, eventType) {
             repositoryId: body.repository.id.toString(),
             mergeType: "pull_request",
             pullRequestId: body.pull_request.id.toString(),
-            branchName: body.pull_request.head.ref,
             commitSha: body.pull_request.merge_commit_sha,
             commitCount: body.pull_request.commits,
             linesAdded: body.pull_request.additions,
@@ -136,7 +134,6 @@ function transformGitHubEvent(body, eventType) {
           userId: body.pusher.name,
           repositoryId: body.repository.id.toString(),
           mergeType: "direct_push",
-          branchName: body.ref.replace("refs/heads/", ""),
           commitSha: body.head_commit?.id,
           commitCount: body.commits.length,
           mergeStrategy: "push",
@@ -147,7 +144,6 @@ function transformGitHubEvent(body, eventType) {
           userId: body.merge_group.head_commit.author.login,
           repositoryId: body.repository.id.toString(),
           mergeType: "merge_queue",
-          branchName: body.merge_group.base_ref,
           commitSha: body.merge_group.head_sha,
           automatedMerge: true,
         };

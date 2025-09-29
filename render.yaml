@@ -2,7 +2,6 @@ services:
   - type: web
     name: konivrer-deck-db
     env: node
-    branch: main
     region: oregon
     plan: free
     buildCommand: npm install && npm run build
