@@ -1579,17 +1579,17 @@ export const Lore: React.FC = () => {
   return (
     <div className={s.container}>
       <div className={s.tabsBar}>
-        {tabs.map((t) => (
-          <button
-            key={t.id}
-            className={`${s.tabButton} ${
-              activeTab === t.id ? s.tabActive : ""
-            }`}
-            onClick={() => setActiveTab(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value)}
+          className={s.tabDropdown}
+        >
+          {tabs.map((t) => (
+            <option key={t.id} value={t.id}>
+              {t.label}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className={s.content}>{renderActive()}</div>

@@ -68,7 +68,6 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   return (
     <div>
       <div className="search-container">
-        <h1 className={nav.navTitle}>Decks</h1>
         {!showBuilder && (
           <div className="filters">
             {/* Filters are now handled by the global advanced search */}

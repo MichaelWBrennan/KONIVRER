@@ -66,7 +66,6 @@ interface Event {
 }
 
 interface EventSearchFilters {
-  format?: string;
   status?: string;
   venueType?: string;
   search?: string;
@@ -297,21 +296,6 @@ const EventList: React.FC = () => {
             <Card className="border-0 bg-light">
               <Card.Body className="py-2">
                 <Row className="g-2">
-                  <Col xs={6} sm={3}>
-                    <Form.Select
-                      size="sm"
-                      value={filters.format || ""}
-                      onChange={(e) =>
-                        handleFilterChange("format", e.target.value)
-                      }
-                    >
-                      <option value="">All Formats</option>
-                      <option value="Standard">Standard</option>
-                      <option value="Draft">Draft</option>
-                      <option value="Sealed">Sealed</option>
-                      <option value="Commander">Commander</option>
-                    </Form.Select>
-                  </Col>
                   <Col xs={6} sm={3}>
                     <Form.Select
                       size="sm"

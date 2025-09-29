@@ -29,7 +29,6 @@ export interface Event {
 export interface EventSearchFilters {
   query?: string;
   status?: string;
-  format?: string;
   dateRange?: {
     start: string;
     end: string;
@@ -71,10 +70,6 @@ export function searchEvents(
       return false;
     }
 
-    // Format filter
-    if (filters.format && event.format !== filters.format) {
-      return false;
-    }
 
     // Date range filter
     if (filters.dateRange) {

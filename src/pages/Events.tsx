@@ -368,14 +368,10 @@ export const Events: React.FC = () => {
           </div>
         )}
 
-        {activeTab === "my-events" && (
+        {activeTab === "my-events" && isAuthenticated && (
           <div className="my-events">
             <h2>My Registered Events</h2>
-            {isAuthenticated ? (
-              <p>You haven't registered for any events yet.</p>
-            ) : (
-              <p>You haven't registered for any events yet.</p>
-            )}
+            <p>You haven't registered for any events yet.</p>
           </div>
         )}
 

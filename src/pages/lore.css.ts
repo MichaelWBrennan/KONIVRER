@@ -100,6 +100,32 @@ export const tabActive = style({
   color: "#000",
 });
 
+export const tabDropdown = style({
+  padding: "10px 12px",
+  minHeight: "44px",
+  fontSize: "0.95rem",
+  backgroundColor: "#f2f4f6",
+  border: "1px solid #d9dde1",
+  borderRadius: "6px",
+  color: "#000",
+  cursor: "pointer",
+  width: "100%",
+  maxWidth: "300px",
+  selectors: {
+    "&:hover": { backgroundColor: "#e8ecef" },
+    "&:focus": { 
+      outline: "none",
+      borderColor: "#a8d0ff",
+      backgroundColor: "#e8f4ff"
+    },
+    "&:active": {
+      backgroundColor: "#000",
+      color: "#fff",
+      transform: "scale(0.98)",
+    },
+  },
+});
+
 export const pre = style({
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
