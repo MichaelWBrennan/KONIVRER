@@ -16,16 +16,19 @@ The automation consists of multiple comprehensive workflows:
 ## 🔧 How It Works
 
 ### 1. Universal Force Merge
+
 - **`force-merge-all-branches.yml`** triggers on ALL PR events
 - Processes every PR immediately without any conditions
 - No restrictions based on author, labels, status, or any other criteria
 
 ### 2. Multiple Trigger Points
+
 - **PR Events**: `opened`, `synchronize`, `reopened`, `ready_for_review`, `labeled`, `unlabeled`
 - **Manual Dispatch**: Can be triggered manually for specific PRs
 - **Scheduled**: Runs on schedule to process all open PRs
 
 ### 3. Zero Blocking Conditions
+
 - No status checks required
 - No CI waiting
 - No label requirements
@@ -39,10 +42,12 @@ The automation consists of multiple comprehensive workflows:
 ### Dependabot Branch Auto-Process Workflow
 
 **Triggers:**
+
 - `create` event on branches matching `dependabot/**`
 - Manual dispatch
 
 **What it does:**
+
 1. ✅ Detects dependabot branch creation
 2. 📝 Immediately creates a PR
 3. 🚀 Triggers the force merge workflow
@@ -51,10 +56,12 @@ The automation consists of multiple comprehensive workflows:
 ### Dependabot Force Merge Workflow
 
 **Triggers:**
+
 - `pull_request_target` events (opened, synchronize, reopened, ready_for_review)
 - Manual dispatch with PR number input
 
 **What it does:**
+
 1. ✅ Validates the PR is from Dependabot
 2. 🔍 Checks for blocking labels (skips if found)
 3. 🔄 Switches to the PR branch
@@ -65,18 +72,22 @@ The automation consists of multiple comprehensive workflows:
 ## 🛡️ Safety Features
 
 ### No Blocking Conditions
+
 The automation has been configured to process ALL dependabot PRs without any blocking conditions:
+
 - ✅ No status check waiting
 - ✅ No label blocking
 - ✅ No draft PR skipping
 - ✅ No merge conflict checking
 
 ### Conflict Resolution
+
 - Automatically resolves conflicts by accepting Dependabot's changes
 - This ensures dependency updates are always applied
 - Maintains a clean git history with descriptive commit messages
 
 ### Force Merge Behavior
+
 - **No checks required**: All dependabot PRs are merged immediately
 - **No waiting**: No status checks, CI, or other validations
 - **No blocking**: No labels, draft status, or merge conflicts will block merging
@@ -85,7 +96,9 @@ The automation has been configured to process ALL dependabot PRs without any blo
 ## 🔧 Configuration
 
 ### Dependabot Configuration
+
 The `.github/dependabot.yml` file is configured with:
+
 - **Open PR limit**: 10 (increased from 1)
 - **Labels**: `dependencies`, `automated`, `dependabot`
 - **Commit message prefix**: `🔄`
@@ -93,7 +106,9 @@ The `.github/dependabot.yml` file is configured with:
 - **Allow all dependency types**: Yes
 
 ### Workflow Permissions
+
 Both workflows have the following permissions:
+
 - `contents: write` - To push changes
 - `pull-requests: write` - To create/close PRs
 - `checks: read` - To check status
@@ -102,6 +117,7 @@ Both workflows have the following permissions:
 ## 🧪 Testing
 
 ### Test Script
+
 Use the provided test script to test the automation:
 
 ```bash
@@ -122,7 +138,9 @@ Use the provided test script to test the automation:
 ```
 
 ### Manual Testing
+
 1. Create a test dependabot branch:
+
    ```bash
    git checkout -b dependabot/test-branch
    # Make some changes
@@ -139,18 +157,24 @@ Use the provided test script to test the automation:
 ## 📊 Monitoring
 
 ### GitHub Actions
+
 Monitor the workflows in the Actions tab:
+
 - `dependabot-branch-auto-process.yml`
 - `dependabot-force-merge.yml`
 
 ### PR Comments
+
 Each processed PR will have detailed comments explaining:
+
 - What was done
 - How conflicts were resolved
 - Final status
 
 ### Logs
+
 Comprehensive logging is available in the workflow runs, including:
+
 - Branch details
 - Conflict resolution steps
 - Merge status
@@ -211,6 +235,7 @@ Closes PR and deletes source branch
 ## 🆘 Support
 
 If you encounter issues:
+
 1. Check the workflow logs
 2. Use the test script to debug
 3. Verify the configuration files

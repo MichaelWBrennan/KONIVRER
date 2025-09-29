@@ -15,10 +15,10 @@ jobs:
           echo "PR Title: ${{ github.event.pull_request.title }}"
           echo "Author: ${{ github.event.pull_request.user.login }}"
           echo "Branch: ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }}"
-          
+
           # Approve the PR
           gh pr review --approve "${{ github.event.pull_request.number }}" --body "🚀 Force approved and merging immediately (no checks required)"
-          
+
           # Merge the PR
           gh pr merge --squash "${{ github.event.pull_request.number }}" --delete-branch
         env:
