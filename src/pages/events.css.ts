@@ -466,3 +466,54 @@ export const dropdownArrow = style({
   fontSize: "0.8rem",
   transition: "transform 0.2s ease",
 });
+
+// Error and Loading States
+export const error = style({
+  background: "var(--error-bg, #f8d7da)",
+  color: "var(--error-text, #721c24)",
+  border: "1px solid var(--error-border, #f5c6cb)",
+  borderRadius: 8,
+  padding: "1rem",
+  marginBottom: "1rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.5rem",
+});
+
+globalStyle(`${error} h3`, {
+  margin: 0,
+  fontSize: "1rem",
+  fontWeight: "600",
+});
+
+globalStyle(`${error} p`, {
+  margin: 0,
+  fontSize: "0.9rem",
+});
+
+globalStyle(`${error} button`, {
+  background: "var(--error-text, #721c24)",
+  color: "white",
+  border: "none",
+  borderRadius: 4,
+  padding: "0.5rem 1rem",
+  cursor: "pointer",
+  fontSize: "0.9rem",
+  alignSelf: "flex-start",
+  transition: "all 0.2s ease",
+});
+
+globalStyle(`${error} button:hover`, {
+  background: "var(--error-hover, #5a1a1f)",
+});
+
+export const loading = style({
+  textAlign: "center",
+  padding: "2rem",
+  color: "var(--text-secondary)",
+  fontSize: "1rem",
+});
+
+globalStyle(`${loading} p`, {
+  margin: 0,
+});

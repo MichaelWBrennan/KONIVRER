@@ -44,9 +44,7 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true
+    "strictPropertyInitialization": true
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "build"],

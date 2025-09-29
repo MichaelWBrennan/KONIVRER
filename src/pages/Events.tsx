@@ -1,48 +1,42 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import * as s from "./events.css.ts";
 import { NotificationService } from "../services/notifications";
 import { useAuth } from "../hooks/useAuth";
-
-// Types
-interface Event {
-  id: string;
-  name: string;
-  date: string;
-  time: string;
-  format: string;
-  status:
-    | "upcoming"
-    | "live"
-    | "completed"
-    | "registration-open"
-    | "registration-closed";
-  prizePool: string;
-  participants: string;
-  maxParticipants?: number;
-  description: string;
-  currentRound?: number;
-  totalRounds?: number;
-  viewers?: number;
-  topPlayers?: string[];
-  winner?: string;
-  registrationDeadline?: string;
-}
+import {
+  type Event,
+  type EventSearchFilters,
+  searchEvents,
+  getEventStatusText,
+  canRegisterForEvent,
+  formatEventDate,
+  sortEvents,
+} from "../utils/eventUtils";
 
 export const Events: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"my-events" | "create" | "admin">(
     "my-events",
   );
-  const [events] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [searchFilters, setSearchFilters] = useState<EventSearchFilters>({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { isAuthenticated, user } = useAuth();
 
-  const searchEvents = useCallback((query: string) => {
-    // Filter events based on search query
-    // This would typically make an API call with search parameters
+  // Memoized filtered events
+  const filteredEvents = useMemo(() => {
+    const filters: EventSearchFilters = {
+      query: searchQuery,
+      ...searchFilters,
+    };
+    const filtered = searchEvents(events, filters);
+    return sortEvents(filtered);
+  }, [events, searchQuery, searchFilters]);
+
+  const handleSearch = useCallback((query: string) => {
+    setSearchQuery(query);
     console.log("Searching events with query:", query);
-    // For now, we'll just log the search - in a real implementation,
-    // this would filter the events state or make an API call
   }, []);
 
   const searchPairings = useCallback(
@@ -63,19 +57,9 @@ export const Events: React.FC = () => {
     (filters: Record<string, unknown>) => {
       // Apply advanced search filters received from the persistent search bar
       console.log("Applying advanced search with filters:", filters);
-
-      // This would typically make an API call with all the search parameters
-      // The API call would include:
-      // - userLat, userLng, maxDistance for geolocation
-      // - storeId for store filtering
-      // - format, status, venueType for advanced filters
-      // - priceRange for entry fee filtering
-      // - sortBy, sortOrder for sorting
-      // - startDateFrom, startDateTo for date filtering
-
-      searchEvents(searchQuery);
+      setSearchFilters(filters as EventSearchFilters);
     },
-    [searchQuery, searchEvents],
+    [],
   );
 
   useEffect(() => {
@@ -90,8 +74,7 @@ export const Events: React.FC = () => {
         searchPairings(e.detail);
       } else {
         // Otherwise, search events
-        setSearchQuery(e.detail);
-        searchEvents(e.detail);
+        handleSearch(e.detail);
       }
     };
 
@@ -124,17 +107,61 @@ export const Events: React.FC = () => {
     selectedEvent,
     applyAdvancedSearchWithFilters,
     searchPairings,
-    searchEvents,
+    handleSearch,
   ]);
 
   const loadEvents = async () => {
-    // Load events from API
+    setIsLoading(true);
+    setError(null);
+
     try {
-      // const response  = await fetch('/api/events');
-      // const eventsData  = await response.json();
+      // TODO: Replace with actual API call
+      // const response = await fetch('/api/events');
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! status: ${response.status}`);
+      // }
+      // const eventsData = await response.json();
       // setEvents(eventsData);
+
+      // Mock data for now
+      const mockEvents: Event[] = [
+        {
+          id: "1",
+          name: "KONIVRER Championship 2024",
+          date: "2024-12-15",
+          time: "10:00",
+          format: "Standard",
+          status: "upcoming",
+          prizePool: "$10,000",
+          participants: "0/64",
+          maxParticipants: 64,
+          description:
+            "The ultimate KONIVRER tournament featuring the best players from around the world.",
+          registrationDeadline: "2024-12-10",
+        },
+        {
+          id: "2",
+          name: "Weekly Casual Tournament",
+          date: "2024-10-05",
+          time: "19:00",
+          format: "Casual",
+          status: "registration-open",
+          prizePool: "$500",
+          participants: "12/32",
+          maxParticipants: 32,
+          description:
+            "A fun, relaxed tournament for players of all skill levels.",
+        },
+      ];
+
+      setEvents(mockEvents);
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to load events";
+      setError(errorMessage);
       console.error("Failed to load events:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -156,7 +183,7 @@ export const Events: React.FC = () => {
 
   const handleEventRegister = async (eventId: string) => {
     try {
-      // Register for event first
+      setIsLoading(true);
       console.log("Register for event:", eventId);
 
       // After successful registration, request notification permission if not already granted
@@ -178,7 +205,7 @@ export const Events: React.FC = () => {
       }
 
       // TODO: Implement actual event registration API call
-      // const response  = await fetch(`/api/events/${eventId}/register`, {
+      // const response = await fetch(`/api/events/${eventId}/register`, {
       //   method: 'POST',
       //   headers: {
       //     'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
@@ -191,11 +218,14 @@ export const Events: React.FC = () => {
       // }
 
       // Refresh events list to update registration status
-      loadEvents();
+      await loadEvents();
     } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to register for event";
+      setError(errorMessage);
       console.error("Failed to register for event:", error);
-      // Show error notification
-      alert("Failed to register for event. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -207,11 +237,11 @@ export const Events: React.FC = () => {
     >
       <div className={s.eventHeader}>
         <h3 className={s.eventName}>{event.name}</h3>
-        <div className={s.eventStatus}>{event.status}</div>
+        <div className={s.eventStatus}>{getEventStatusText(event.status)}</div>
       </div>
       <div className={s.eventDetails}>
         <p>
-          <strong>Date:</strong> {event.date} at {event.time}
+          <strong>Date:</strong> {formatEventDate(event.date, event.time)}
         </p>
         <p>
           <strong>Format:</strong> {event.format}
@@ -225,14 +255,17 @@ export const Events: React.FC = () => {
         <p>{event.description}</p>
       </div>
       <div className={s.actions}>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleEventRegister(event.id);
-          }}
-        >
-          Register
-        </button>
+        {canRegisterForEvent(event) && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEventRegister(event.id);
+            }}
+            disabled={isLoading}
+          >
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+        )}
         <button
           onClick={(e) => {
             e.stopPropagation();
@@ -283,16 +316,36 @@ export const Events: React.FC = () => {
       </div>
 
       <div className={s.content}>
+        {/* Error Display */}
+        {error && (
+          <div className={s.error}>
+            <h3>Error</h3>
+            <p>{error}</p>
+            <button onClick={() => setError(null)}>Dismiss</button>
+          </div>
+        )}
+
+        {/* Loading State */}
+        {isLoading && (
+          <div className={s.loading}>
+            <p>Loading events...</p>
+          </div>
+        )}
+
         {/* Event List View */}
-        {!selectedEvent && (
+        {!selectedEvent && !isLoading && (
           <div className={s.list}>
-            {events.length === 0 ? (
+            {filteredEvents.length === 0 ? (
               <div className={s.empty}>
                 <h3>No Events Available</h3>
-                <p>Check back later for upcoming tournaments and events.</p>
+                <p>
+                  {searchQuery || Object.keys(searchFilters).length > 0
+                    ? "No events match your search criteria. Try adjusting your filters."
+                    : "Check back later for upcoming tournaments and events."}
+                </p>
               </div>
             ) : (
-              events.map(renderEventCard)
+              filteredEvents.map(renderEventCard)
             )}
           </div>
         )}

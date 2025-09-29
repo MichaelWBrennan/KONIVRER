@@ -59,7 +59,7 @@ export type Page =
 
 interface PageRouterProps {
   currentPage: Page;
-  onCardSelect: (card: Card) => void;
+  onCardSelect: (card: Card | null) => void;
   isOnline: boolean;
 }
 

@@ -2,6 +2,9 @@ export {};
 // Re-export all types from various type definition files
 export * from "./game";
 
+// Import types from data/cards.ts to maintain consistency
+export type { Card, Deck } from "../data/cards";
+
 // Additional common types that might be referenced from components
 export interface User {
   id: string;
@@ -11,56 +14,6 @@ export interface User {
   level?: number;
   experience?: number;
   lastActive?: Date;
-}
-
-// Import DeckValidationResult from game.ts
-import type { DeckValidationResult } from "./game";
-
-export interface Deck {
-  id: string;
-  name: string;
-  description?: string;
-  cards: Card[];
-  flag?: Card; // KONIVRER requires a Flag card
-  ownerId: string;
-  isPublic: boolean;
-  format?: string;
-  createdAt: Date;
-  updatedAt: Date;
-  // KONIVRER-specific fields
-  azothIdentity?: string[]; // Elements supported by the deck's flag
-  validationResult?: DeckValidationResult;
-}
-
-// Re-export Card type with KONIVRER extensions
-export interface Card {
-  id: string;
-  name: string;
-  elements: string[]; // KONIVRER supports multiple elements per card
-  lesserType: string; // KONIVRER-specific card type system
-  abilities: string[] | undefined; // Keyword and other abilities
-  azothCost: number; // KONIVRER uses Azoth instead of mana
-  power: number | undefined;
-  toughness: number | undefined;
-  rulesText: string | undefined;
-  flavorText: string | undefined;
-  rarity: "common" | "uncommon" | "rare"; // KONIVRER uses ☽, ☉, 🜠 symbols
-  setCode: string;
-  setNumber: number;
-  imageUrl: string;
-  webpUrl: string | undefined;
-  imageHash: string | undefined; // For caching
-  isTapped: boolean | undefined;
-  isSelected: boolean | undefined;
-  counters: Record<string, number> | undefined;
-  // Legacy fields for backward compatibility
-  type: string | undefined;
-  element: string | undefined;
-  cost: number | undefined;
-  description: string | undefined;
-  manaCost: number | undefined;
-  color: string | undefined;
-  text: string | undefined;
 }
 
 // API Response Types
@@ -76,6 +29,9 @@ export interface PaginatedResponse<T> {
   page: number;
   limit: number;
 }
+
+// Import types for API responses
+import type { Card, DeckValidationResult } from "./game";
 
 export interface DeckApiResponse {
   id: string;
@@ -140,6 +96,3 @@ export interface SearchFilters {
 declare module "*.css";
 declare module "*.svg";
 declare module "*.png";
-declare module '*.css';
-declare module '*.svg';
-declare module '*.png';
