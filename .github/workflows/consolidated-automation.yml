@@ -23,13 +23,13 @@ on:
     types: [opened, edited, labeled]
   schedule:
     # Run automation daily at 6 AM UTC
-    - cron: '0 6 * * *'
+    - cron: "0 6 * * *"
   workflow_dispatch:
     inputs:
       automation_scope:
-        description: 'Automation scope'
+        description: "Automation scope"
         required: true
-        default: 'standard'
+        default: "standard"
         type: choice
         options:
           - minimal
@@ -48,7 +48,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
   AUTOMATION_SCOPE: ${{ github.event.inputs.automation_scope || 'standard' }}
 
 jobs:
@@ -208,7 +208,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -259,7 +259,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -290,8 +290,8 @@ jobs:
         continue-on-error: true
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: '📦 Automated dependency updates'
-          title: '📦 Automated Dependency Updates'
+          commit-message: "📦 Automated dependency updates"
+          title: "📦 Automated Dependency Updates"
           body: |
             ## 📦 Automated Dependency Updates
 

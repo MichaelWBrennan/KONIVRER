@@ -134,25 +134,27 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
       )}
 
       <div className={cs.cardsGrid}>
-        {(Array.isArray(cards) ? cards : cards?.data || []).map((card: Card) => (
-          <div
-            key={card.id}
-            className={`card-item ${cs.cardItem}`}
-            onClick={() => setSelectedCard(card)}
-          >
-            <img
-              src={card.webpUrl || card.imageUrl || "/placeholder-card.png"}
-              alt={card.name}
-              className={cs.cardImg}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                if (target.src !== "/placeholder-card.png") {
-                  target.src = card.imageUrl || "/placeholder-card.png";
-                }
-              }}
-            />
-          </div>
-        ))}
+        {(Array.isArray(cards) ? cards : cards?.data || []).map(
+          (card: Card) => (
+            <div
+              key={card.id}
+              className={`card-item ${cs.cardItem}`}
+              onClick={() => setSelectedCard(card)}
+            >
+              <img
+                src={card.webpUrl || card.imageUrl || "/placeholder-card.png"}
+                alt={card.name}
+                className={cs.cardImg}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (target.src !== "/placeholder-card.png") {
+                    target.src = card.imageUrl || "/placeholder-card.png";
+                  }
+                }}
+              />
+            </div>
+          ),
+        )}
       </div>
 
       {pagination && pagination.totalPages > 1 && (
@@ -179,11 +181,12 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
         </div>
       )}
 
-      {(Array.isArray(cards) ? cards : cards?.data || []).length === 0 && !isLoading && (
-        <div className={`no-results ${cs.noResults}`}>
-          <p>No cards found matching your search criteria.</p>
-        </div>
-      )}
+      {(Array.isArray(cards) ? cards : cards?.data || []).length === 0 &&
+        !isLoading && (
+          <div className={`no-results ${cs.noResults}`}>
+            <p>No cards found matching your search criteria.</p>
+          </div>
+        )}
 
       <CardViewerModal
         card={selectedCard}

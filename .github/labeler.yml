@@ -6,69 +6,69 @@
 
 # Frontend changes
 frontend:
-  - 'src/**'
-  - 'public/**'
-  - 'index.html'
-  - 'vite.config.js'
+  - "src/**"
+  - "public/**"
+  - "index.html"
+  - "vite.config.js"
 
 # Backend changes
 backend:
-  - 'Backend/**'
-  - 'api/**'
-  - 'server/**'
+  - "Backend/**"
+  - "api/**"
+  - "server/**"
 
 # Documentation changes
 documentation:
-  - '*.md'
-  - 'docs/**'
-  - '.github/**/*.md'
+  - "*.md"
+  - "docs/**"
+  - ".github/**/*.md"
 
 # Configuration changes
 configuration:
-  - '*.json'
-  - '*.yml'
-  - '*.yaml'
-  - '*.toml'
-  - '.github/workflows/**'
-  - 'vercel.json'
+  - "*.json"
+  - "*.yml"
+  - "*.yaml"
+  - "*.toml"
+  - ".github/workflows/**"
+  - "vercel.json"
 
 # Dependencies
 dependencies:
-  - 'package*.json'
-  - 'Backend/package*.json'
-  - 'yarn.lock'
-  - 'pnpm-lock.yaml'
+  - "package*.json"
+  - "Backend/package*.json"
+  - "yarn.lock"
+  - "pnpm-lock.yaml"
 
 # Security related
 security:
-  - '**/*security*'
-  - '**/*auth*'
-  - '.github/workflows/*security*'
+  - "**/*security*"
+  - "**/*auth*"
+  - ".github/workflows/*security*"
 
 # Testing
 testing:
-  - '**/*.test.*'
-  - '**/*.spec.*'
-  - 'test/**'
-  - 'tests/**'
-  - '__tests__/**'
+  - "**/*.test.*"
+  - "**/*.spec.*"
+  - "test/**"
+  - "tests/**"
+  - "__tests__/**"
 
 # Styling
 css:
-  - '**/*.css'
-  - '**/*.scss'
-  - '**/*.sass'
-  - '**/*.less'
+  - "**/*.css"
+  - "**/*.scss"
+  - "**/*.sass"
+  - "**/*.less"
 
 # JavaScript/TypeScript
 javascript:
-  - '**/*.js'
-  - '**/*.jsx'
-  - '**/*.ts'
-  - '**/*.tsx'
+  - "**/*.js"
+  - "**/*.jsx"
+  - "**/*.ts"
+  - "**/*.tsx"
 
 # CI/CD
 ci/cd:
-  - '.github/workflows/**'
-  - '.github/actions/**'
-  - 'scripts/**'
+  - ".github/workflows/**"
+  - ".github/actions/**"
+  - "scripts/**"

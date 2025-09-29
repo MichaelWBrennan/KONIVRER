@@ -76,7 +76,8 @@ export function useAuth(): AuthState & AuthActions {
         error: null,
       }));
     } catch (error: unknown) {
-      const errorMessage = (error as Error)?.message || "Login failed. Please try again.";
+      const errorMessage =
+        (error as Error)?.message || "Login failed. Please try again.";
       setState((prev) => ({
         ...prev,
         isAuthenticated: false,
@@ -100,7 +101,8 @@ export function useAuth(): AuthState & AuthActions {
         error: null,
       }));
     } catch (error: unknown) {
-      const errorMessage = (error as Error)?.message || "Registration failed. Please try again.";
+      const errorMessage =
+        (error as Error)?.message || "Registration failed. Please try again.";
       setState((prev) => ({
         ...prev,
         isAuthenticated: false,
@@ -160,19 +162,13 @@ export function useAuth(): AuthState & AuthActions {
     return authService.canAccessJudgePortal();
   }, []);
 
-  const hasRole = useCallback(
-    (role: UserRole) => {
-      return authService.hasRole(role);
-    },
-    [],
-  );
+  const hasRole = useCallback((role: UserRole) => {
+    return authService.hasRole(role);
+  }, []);
 
-  const hasAnyRole = useCallback(
-    (roles: UserRole[]) => {
-      return authService.hasAnyRole(roles);
-    },
-    [],
-  );
+  const hasAnyRole = useCallback((roles: UserRole[]) => {
+    return authService.hasAnyRole(roles);
+  }, []);
 
   const isJudge = useCallback(() => {
     return authService.isJudge();

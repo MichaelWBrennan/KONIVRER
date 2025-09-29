@@ -354,9 +354,17 @@ export class NotificationService {
   }
 
   // Listen to WebSocket events for real-time notifications
-  public setupWebSocketNotifications(socket: { on: (event: string, callback: (data: unknown) => void) => void }): void {
+  public setupWebSocketNotifications(socket: {
+    on: (event: string, callback: (data: unknown) => void) => void;
+  }): void {
     socket.on("notification.push", (data: unknown) => {
-      const notificationData = data as { type: string; title: string; message: string; data?: Record<string, unknown>; eventId?: string };
+      const notificationData = data as {
+        type: string;
+        title: string;
+        message: string;
+        data?: Record<string, unknown>;
+        eventId?: string;
+      };
       this.sendNotification(
         notificationData.type as PushNotification["type"],
         notificationData.title,
@@ -367,7 +375,13 @@ export class NotificationService {
     });
 
     socket.on("event.round.started", (data: unknown) => {
-      const eventData = data as { round: number; eventName: string; format: string; venue: string; eventId: string };
+      const eventData = data as {
+        round: number;
+        eventName: string;
+        format: string;
+        venue: string;
+        eventId: string;
+      };
       // Only show notification if this user is actually registered for this event
       this.sendEventSpecificNotification(
         "round_start",
@@ -384,7 +398,13 @@ export class NotificationService {
     });
 
     socket.on("event.registration.accepted", (data: unknown) => {
-      const regData = data as { eventName: string; format: string; startTime: string; venue: string; eventId: string };
+      const regData = data as {
+        eventName: string;
+        format: string;
+        startTime: string;
+        venue: string;
+        eventId: string;
+      };
       this.sendEventSpecificNotification(
         "registration_accepted",
         "Registration Accepted",
@@ -400,12 +420,17 @@ export class NotificationService {
     });
 
     socket.on("event.seating.assigned", (data: unknown) => {
-      const seatingData = data as { 
-        assignments: Array<{ playerId: string; table: number; opponent?: { username: string }; estimatedStartTime?: string }>; 
-        round: number; 
-        eventName: string; 
-        format: string; 
-        eventId: string 
+      const seatingData = data as {
+        assignments: Array<{
+          playerId: string;
+          table: number;
+          opponent?: { username: string };
+          estimatedStartTime?: string;
+        }>;
+        round: number;
+        eventName: string;
+        format: string;
+        eventId: string;
       };
       // This will be called for each player, so check if it's for current user
       const currentUser = JSON.parse(

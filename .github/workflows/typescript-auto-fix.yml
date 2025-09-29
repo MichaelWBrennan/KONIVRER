@@ -3,28 +3,28 @@ name: TypeScript Auto-Fix
 on:
   # Run on schedule (every day at midnight)
   schedule:
-    - cron: '0 0 * * *'
-  
+    - cron: "0 0 * * *"
+
   # Run on push to main branch
   push:
     branches:
       - main
     paths:
-      - '**.ts'
-      - '**.tsx'
-      - 'tsconfig.json'
-      - 'package.json'
-  
+      - "**.ts"
+      - "**.tsx"
+      - "tsconfig.json"
+      - "package.json"
+
   # Run on pull request to main branch
   pull_request:
     branches:
       - main
     paths:
-      - '**.ts'
-      - '**.tsx'
-      - 'tsconfig.json'
-      - 'package.json'
-  
+      - "**.ts"
+      - "**.tsx"
+      - "tsconfig.json"
+      - "package.json"
+
   # Allow manual triggering
   workflow_dispatch:
 
@@ -32,22 +32,22 @@ jobs:
   typescript-auto-fix:
     name: TypeScript Auto-Fix
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
-      
+          node-version: "18"
+          cache: "npm"
+
       - name: Install dependencies
         run: npm ci
-      
+
       - name: Check for TypeScript errors
         id: ts-check
         run: |
@@ -59,20 +59,20 @@ jobs:
           else
             echo "No TypeScript errors found"
           fi
-      
+
       - name: Set up Git
         if: steps.ts-check.outputs.error_count > 0
         run: |
           git config --local user.name "TypeScript Auto-Fix Bot"
           git config --local user.email "typescript-bot@all-hands.dev"
-      
+
       - name: Create auto-fix branch
         if: steps.ts-check.outputs.error_count > 0
         run: |
           BRANCH_NAME="auto-fix-typescript-$(date +%Y%m%d%H%M%S)"
           git checkout -b $BRANCH_NAME
           echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
-      
+
       - name: Run TypeScript Auto-Fix
         if: steps.ts-check.outputs.error_count > 0
         run: |
@@ -270,7 +270,7 @@ jobs:
           REMAINING_ERRORS=$(npx tsc --noEmit 2>&1 | grep -o "error TS" | wc -l)
           echo "Remaining TypeScript errors: $REMAINING_ERRORS"
           echo "REMAINING_ERRORS=$REMAINING_ERRORS" >> $GITHUB_ENV
-      
+
       - name: Commit changes
         if: steps.ts-check.outputs.error_count > 0 && env.REMAINING_ERRORS < steps.ts-check.outputs.error_count
         run: |
@@ -278,7 +278,7 @@ jobs:
           git add .
           git commit -m "Auto-fix TypeScript errors ($FIXED_COUNT errors fixed, $REMAINING_ERRORS remaining)"
           git push origin $BRANCH_NAME
-      
+
       - name: Create Pull Request
         if: steps.ts-check.outputs.error_count > 0 && env.REMAINING_ERRORS < steps.ts-check.outputs.error_count
         uses: peter-evans/create-pull-request@v5
@@ -288,16 +288,16 @@ jobs:
           title: "Auto-fix TypeScript errors"
           body: |
             This PR was automatically created by the TypeScript Auto-Fix workflow.
-            
+
             - Fixed ${{ steps.ts-check.outputs.error_count - env.REMAINING_ERRORS }} TypeScript errors
             - ${{ env.REMAINING_ERRORS }} errors still remain
-            
+
             The changes were made automatically to fix TypeScript type errors.
             Please review the changes carefully before merging.
           branch: ${{ env.BRANCH_NAME }}
           base: main
           labels: typescript, automated-pr, self-healing
-      
+
       - name: Create Issue if errors remain
         if: steps.ts-check.outputs.error_count > 0 && env.REMAINING_ERRORS > 0
         uses: peter-evans/create-issue@v4
@@ -306,11 +306,11 @@ jobs:
           title: "TypeScript errors need manual attention"
           body: |
             The TypeScript Auto-Fix workflow has attempted to fix TypeScript errors, but some errors still remain.
-            
+
             - Fixed ${{ steps.ts-check.outputs.error_count - env.REMAINING_ERRORS }} TypeScript errors
             - ${{ env.REMAINING_ERRORS }} errors still remain
-            
+
             Please review the remaining errors and fix them manually.
-            
+
             A PR with the automated fixes has been created: #${{ github.event.number }}
           labels: typescript, needs-attention, self-healing

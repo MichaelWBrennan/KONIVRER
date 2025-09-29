@@ -204,12 +204,15 @@ const EventManager: React.FC<EventManagerProps> = ({
           }
         });
 
-        wsSocket.on("roundCompleted", (data: { eventId: string; round: number }) => {
-          if (data.eventId === eventId) {
-            fetchEventData();
-            showNotification(`Round ${data.round} completed!`, "success");
-          }
-        });
+        wsSocket.on(
+          "roundCompleted",
+          (data: { eventId: string; round: number }) => {
+            if (data.eventId === eventId) {
+              fetchEventData();
+              showNotification(`Round ${data.round} completed!`, "success");
+            }
+          },
+        );
 
         wsSocket.on("eventCompleted", (data: { eventId: string }) => {
           if (data.eventId === eventId) {
@@ -573,7 +576,10 @@ const EventManager: React.FC<EventManagerProps> = ({
 };
 
 // Placeholder components - would need full implementations
-const PairingsTab: React.FC<{ pairings: Pairing[]; onReportResult: (pairingId: string) => void }> = ({ pairings, onReportResult }) => (
+const PairingsTab: React.FC<{
+  pairings: Pairing[];
+  onReportResult: (pairingId: string) => void;
+}> = ({ pairings, onReportResult }) => (
   <div>
     <ListGroup>
       {pairings.map((pairing: Pairing) => (

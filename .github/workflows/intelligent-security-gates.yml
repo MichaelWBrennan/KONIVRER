@@ -12,14 +12,14 @@ on:
   workflow_dispatch:
     inputs:
       bypass_gates:
-        description: 'Bypass security gates (emergency only)'
+        description: "Bypass security gates (emergency only)"
         required: false
-        default: 'false'
+        default: "false"
         type: boolean
       deployment_target:
-        description: 'Deployment target'
+        description: "Deployment target"
         required: false
-        default: 'staging'
+        default: "staging"
         type: choice
         options:
           - staging
@@ -38,7 +38,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: "20"
   BYPASS_GATES: ${{ github.event.inputs.bypass_gates || 'false' }}
   DEPLOYMENT_TARGET: ${{ github.event.inputs.deployment_target || 'staging' }}
 
@@ -62,7 +62,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -71,7 +71,7 @@ jobs:
         id: analysis
         run: |
           echo "🤖 Performing AI-powered pre-deployment security analysis..."
-          
+
           node -e "
             const fs = require('fs');
             
@@ -142,7 +142,7 @@ jobs:
         id: gates
         run: |
           echo "🚪 Evaluating intelligent security gates..."
-          
+
           node -e "
             const fs = require('fs');
             const analysis = JSON.parse(fs.readFileSync('security-pre-analysis.json', 'utf8'));
@@ -250,12 +250,12 @@ jobs:
             const status = '${{ steps.gates.outputs.status }}';
             const approved = '${{ steps.gates.outputs.approved }}' === 'true';
             const score = '${{ steps.analysis.outputs.security-score }}';
-            
+
             const state = approved ? 'success' : 'failure';
             const description = approved ? 
               `Security gates passed (Score: ${score}/100)` :
               `Security gates failed (Score: ${score}/100)`;
-            
+
             await github.rest.repos.createCommitStatus({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -295,7 +295,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
@@ -303,18 +303,18 @@ jobs:
       - name: Build with Security Monitoring
         run: |
           echo "🔨 Building with AI security monitoring..."
-          
+
           # Build with performance monitoring
           START_TIME=$(date +%s)
           npm run build
           END_TIME=$(date +%s)
-          
+
           BUILD_TIME=$((END_TIME - START_TIME))
           echo "Build completed in ${BUILD_TIME} seconds"
-          
+
           # Security validation of build artifacts
           echo "🔍 Validating build security..."
-          
+
           # Check for common security issues in build
           node -e "
             const fs = require('fs');
@@ -347,10 +347,10 @@ jobs:
       - name: Run Security Tests
         run: |
           echo "🧪 Running AI-enhanced security tests..."
-          
+
           # Run security-focused tests
           npm run test -- --run --coverage || echo "Tests completed with coverage"
-          
+
           # AI security test analysis
           node -e "
             console.log('🤖 AI Security Test Analysis:');
@@ -388,7 +388,7 @@ jobs:
       - name: AI-Guided Deployment
         run: |
           echo "🚀 Executing AI-guided deployment to ${{ env.DEPLOYMENT_TARGET }}..."
-          
+
           node -e "
             const deployment = {
               timestamp: new Date().toISOString(),
@@ -426,7 +426,7 @@ jobs:
       - name: Post-Deployment Validation
         run: |
           echo "✅ Running post-deployment AI validation..."
-          
+
           node -e "
             const validation = {
               timestamp: new Date().toISOString(),
@@ -483,7 +483,7 @@ jobs:
       - name: Generate Comprehensive Security Report
         run: |
           echo "📊 Generating comprehensive AI security gates report..."
-          
+
           node -e "
             const fs = require('fs');
             
@@ -569,38 +569,38 @@ jobs:
         run: |
           cat << 'EOF' > SECURITY_GATES_SUMMARY.md
           # 🔒 AI Security Gates Deployment Summary
-          
+
           ## Overview
           **Workflow:** Intelligent Security Gates  
           **Trigger:** ${{ github.event_name }}  
           **Branch:** ${{ github.ref_name }}  
           **Target:** ${{ env.DEPLOYMENT_TARGET }}  
           **Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          
+
           ## Security Gates Results
           - **Security Score:** ${{ needs.security-pre-analysis.outputs.security-score }}/100
           - **Risk Level:** ${{ needs.security-pre-analysis.outputs.risk-level }}
           - **Gate Status:** ${{ needs.security-pre-analysis.outputs.gate-status }}
           - **Deployment:** ${{ needs.security-pre-analysis.outputs.deployment-approved == 'true' && 'APPROVED ✅' || 'BLOCKED ❌' }}
-          
+
           ## AI Security Features Status
           - ✅ Multi-engine security scanning
           - ✅ AI-driven dependency management
           - ✅ Intelligent threat detection
           - ✅ Silent operation framework
           - ✅ Real-time compliance monitoring
-          
+
           ## Performance Impact
           - ✅ System overhead: < 5%
           - ✅ User experience impact: Zero
           - ✅ Developer visibility: Full
           - ✅ Security enhancement: Active
-          
+
           ## Deployment Pipeline Results
           - **Security Analysis:** ${{ needs.security-pre-analysis.result }}
           - **Build & Test:** ${{ needs.build-and-test.result }}
           - **Deployment:** ${{ needs.deploy.result }}
-          
+
           ---
           *This report was generated by the AI Security Gates system implementing Phase 8 of SECURITY_AI_UPGRADE_PLAN.md*
           EOF

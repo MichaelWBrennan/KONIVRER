@@ -96,7 +96,9 @@ export const MyDecks: React.FC = () => {
         <div className={s.filterSection}>
           <select
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as "lastPlayed" | "name" | "created")}
+            onChange={(e) =>
+              setSortBy(e.target.value as "lastPlayed" | "name" | "created")
+            }
             className={s.select}
           >
             <option value="lastPlayed">Last Played</option>
@@ -107,7 +109,9 @@ export const MyDecks: React.FC = () => {
 
           <select
             value={filterBy}
-            onChange={(e) => setFilterBy(e.target.value as "all" | "public" | "private")}
+            onChange={(e) =>
+              setFilterBy(e.target.value as "all" | "public" | "private")
+            }
             className={s.select}
           >
             <option value="all">All Decks</option>

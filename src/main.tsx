@@ -7,7 +7,11 @@ import "./global.css.ts";
 if (typeof window !== "undefined") {
   const idleInit = () => import("./services/telemetry").catch(() => {});
   if ("requestIdleCallback" in window) {
-    (window as Window & { requestIdleCallback?: (callback: () => void) => void }).requestIdleCallback?.(idleInit);
+    (
+      window as Window & {
+        requestIdleCallback?: (callback: () => void) => void;
+      }
+    ).requestIdleCallback?.(idleInit);
   } else {
     setTimeout(idleInit, 2000);
   }

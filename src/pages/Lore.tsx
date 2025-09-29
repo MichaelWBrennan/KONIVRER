@@ -58,8 +58,7 @@ const elementDefinitions: ElementDefinition[] = [
   {
     name: "Nether",
     epithet: "Capability",
-    definition:
-      "Plan how things can work; design steps that make ideas real.",
+    definition: "Plan how things can work; design steps that make ideas real.",
     stance: "You build skills and plans that help everyone do more.",
     traitX: "Plan",
     traitY: "Design",
@@ -193,7 +192,7 @@ export const Lore: React.FC = () => {
         try {
           ro.disconnect();
         } catch (error) {
-          console.warn('Error disconnecting ResizeObserver:', error);
+          console.warn("Error disconnecting ResizeObserver:", error);
         }
       };
     }, []);
@@ -1059,7 +1058,9 @@ export const Lore: React.FC = () => {
       <div className={s.virtuesGrid}>
         {elementDefinitions.map((element) => (
           <div key={element.name} className={s.virtueCard}>
-            <h3 className={s.virtueTitle}>{element.name} — {element.epithet}</h3>
+            <h3 className={s.virtueTitle}>
+              {element.name} — {element.epithet}
+            </h3>
             <p className={s.virtueText}>
               <em>
                 {element.definition} {element.stance}

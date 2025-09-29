@@ -1,12 +1,16 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import type { 
-  Card, 
-  DeckApiResponse, 
-  UserApiResponse, 
-  EventApiResponse, 
-  CardStatistics, 
+import axios, {
+  AxiosInstance,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
+import type {
+  Card,
+  DeckApiResponse,
+  UserApiResponse,
+  EventApiResponse,
+  CardStatistics,
   SearchFilters,
-  PaginatedResponse
+  PaginatedResponse,
 } from "../types";
 
 // API Configuration
@@ -35,7 +39,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor for error handling
@@ -47,47 +51,45 @@ api.interceptors.response.use(
       // Dispatch custom event for auth state change
       window.dispatchEvent(new CustomEvent("auth:logout"));
     }
-    
+
     // Log error for debugging
     console.error("API Error:", {
       status: error.response?.status,
       message: error.message,
       url: error.config?.url,
     });
-    
+
     return Promise.reject(error);
-  }
+  },
 );
 
 // Card API endpoints with proper typing
 export const cardApi = {
-  getAll: (params?: Record<string, unknown>) => 
+  getAll: (params?: Record<string, unknown>) =>
     api.get<PaginatedResponse<Card>>("/cards", { params }),
-  
-  getById: (id: string) => 
-    api.get<Card>(`/cards/${id}`),
-  
-  getByName: (name: string) => 
+
+  getById: (id: string) => api.get<Card>(`/cards/${id}`),
+
+  getByName: (name: string) =>
     api.get<Card>(`/cards/name/${encodeURIComponent(name)}`),
-  
-  create: (data: Partial<Card>) => 
-    api.post<Card>("/cards", data),
-  
-  update: (id: string, data: Partial<Card>) => 
+
+  create: (data: Partial<Card>) => api.post<Card>("/cards", data),
+
+  update: (id: string, data: Partial<Card>) =>
     api.put<Card>(`/cards/${id}`, data),
-  
-  delete: (id: string) => 
-    api.delete<void>(`/cards/${id}`),
-  
-  bulkCreate: (data: Partial<Card>[]) => 
-    api.post<{ created: number; errors: string[] }>("/cards/bulk", { cards: data }),
-  
-  getStatistics: () => 
-    api.get<CardStatistics>("/cards/statistics"),
-  
+
+  delete: (id: string) => api.delete<void>(`/cards/${id}`),
+
+  bulkCreate: (data: Partial<Card>[]) =>
+    api.post<{ created: number; errors: string[] }>("/cards/bulk", {
+      cards: data,
+    }),
+
+  getStatistics: () => api.get<CardStatistics>("/cards/statistics"),
+
   search: (query: string, filters?: SearchFilters) =>
     api.get<{ cards: Card[]; total: number }>("/cards/search", {
-      params: { q: query, ...filters }
+      params: { q: query, ...filters },
     }),
 };
 
@@ -95,43 +97,44 @@ export const cardApi = {
 export const deckApi = {
   getAll: (params?: Record<string, unknown>) =>
     api.get<PaginatedResponse<DeckApiResponse>>("/decks", { params }),
-  
-  getById: (id: string) =>
-    api.get<DeckApiResponse>(`/decks/${id}`),
-  
+
+  getById: (id: string) => api.get<DeckApiResponse>(`/decks/${id}`),
+
   create: (data: Partial<DeckApiResponse>) =>
     api.post<DeckApiResponse>("/decks", data),
-  
+
   update: (id: string, data: Partial<DeckApiResponse>) =>
     api.put<DeckApiResponse>(`/decks/${id}`, data),
-  
-  delete: (id: string) =>
-    api.delete<void>(`/decks/${id}`),
-  
+
+  delete: (id: string) => api.delete<void>(`/decks/${id}`),
+
   validate: (deckData: Partial<DeckApiResponse>) =>
-    api.post<{ isValid: boolean; errors: string[] }>("/decks/validate", deckData),
+    api.post<{ isValid: boolean; errors: string[] }>(
+      "/decks/validate",
+      deckData,
+    ),
 };
 
 // Migration API endpoints
 export const migrationApi = {
-  seedKonivrrerCards: () => 
-    api.post<{ message: string; cardsCreated: number }>("/migration/seed-konivrer-cards"),
-  
-  resetDatabase: () =>
-    api.post<{ message: string }>("/migration/reset"),
-  
+  seedKonivrrerCards: () =>
+    api.post<{ message: string; cardsCreated: number }>(
+      "/migration/seed-konivrer-cards",
+    ),
+
+  resetDatabase: () => api.post<{ message: string }>("/migration/reset"),
+
   getStatus: () =>
     api.get<{ status: string; lastMigration?: string }>("/migration/status"),
 };
 
 // User API endpoints
 export const userApi = {
-  getProfile: () =>
-    api.get<UserApiResponse>("/users/profile"),
-  
+  getProfile: () => api.get<UserApiResponse>("/users/profile"),
+
   updateProfile: (data: Partial<UserApiResponse>) =>
     api.put<UserApiResponse>("/users/profile", data),
-  
+
   getDecks: (userId: string) =>
     api.get<DeckApiResponse[]>(`/users/${userId}/decks`),
 };
@@ -140,22 +143,20 @@ export const userApi = {
 export const eventApi = {
   getAll: (params?: Record<string, unknown>) =>
     api.get<PaginatedResponse<EventApiResponse>>("/events", { params }),
-  
-  getById: (id: string) =>
-    api.get<EventApiResponse>(`/events/${id}`),
-  
+
+  getById: (id: string) => api.get<EventApiResponse>(`/events/${id}`),
+
   create: (data: Partial<EventApiResponse>) =>
     api.post<EventApiResponse>("/events", data),
-  
+
   update: (id: string, data: Partial<EventApiResponse>) =>
     api.put<EventApiResponse>(`/events/${id}`, data),
-  
-  delete: (id: string) =>
-    api.delete<void>(`/events/${id}`),
-  
+
+  delete: (id: string) => api.delete<void>(`/events/${id}`),
+
   join: (eventId: string) =>
     api.post<{ message: string }>(`/events/${eventId}/join`),
-  
+
   leave: (eventId: string) =>
     api.post<{ message: string }>(`/events/${eventId}/leave`),
 };

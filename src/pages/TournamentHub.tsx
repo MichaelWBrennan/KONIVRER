@@ -25,7 +25,8 @@ export const TournamentHub: React.FC = () => {
   useEffect(() => {
     const handler = (e: CustomEvent) => setQuery(e.detail || "");
     window.addEventListener("pairings-search", handler as EventListener);
-    return () => window.removeEventListener("pairings-search", handler as EventListener);
+    return () =>
+      window.removeEventListener("pairings-search", handler as EventListener);
   }, []);
 
   useEffect(() => {

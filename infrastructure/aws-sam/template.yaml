@@ -1,6 +1,6 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: 'Automerge-Pro Analytics Platform - Serverless Functions and Data Pipeline'
+Description: "Automerge-Pro Analytics Platform - Serverless Functions and Data Pipeline"
 
 Parameters:
   Environment:
@@ -8,17 +8,17 @@ Parameters:
     Default: dev
     AllowedValues: [dev, staging, prod]
     Description: Environment name
-  
+
   KinesisShardCount:
     Type: Number
     Default: 2
     Description: Number of shards for Kinesis stream
-    
+
   SlackWebhookUrl:
     Type: String
     Description: Slack webhook URL for alerts
     NoEcho: true
-    
+
   EmailSNSTopic:
     Type: String
     Description: SNS Topic ARN for email alerts
@@ -40,9 +40,9 @@ Resources:
   AnalyticsStream:
     Type: AWS::Kinesis::Stream
     Properties:
-      Name: !Sub 'automerge-analytics-${Environment}'
+      Name: !Sub "automerge-analytics-${Environment}"
       ShardCount: !Ref KinesisShardCount
-      RetentionPeriodHours: 168  # 7 days
+      RetentionPeriodHours: 168 # 7 days
       Tags:
         - Key: Environment
           Value: !Ref Environment
@@ -53,7 +53,7 @@ Resources:
   AnalyticsConfigTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: !Sub 'automerge-analytics-config-${Environment}'
+      TableName: !Sub "automerge-analytics-config-${Environment}"
       AttributeDefinitions:
         - AttributeName: configKey
           AttributeType: S
@@ -78,7 +78,7 @@ Resources:
     Properties:
       CodeUri: functions/install-tracking/
       Handler: index.handler
-      Description: 'Tracks application installation events'
+      Description: "Tracks application installation events"
       Environment:
         Variables:
           TABLE_NAME: !Ref AnalyticsConfigTable
@@ -105,7 +105,7 @@ Resources:
     Properties:
       CodeUri: functions/merge-tracking/
       Handler: index.handler
-      Description: 'Tracks code merge and collaboration events'
+      Description: "Tracks code merge and collaboration events"
       Environment:
         Variables:
           TABLE_NAME: !Ref AnalyticsConfigTable
@@ -132,7 +132,7 @@ Resources:
     Properties:
       CodeUri: functions/billing-tracking/
       Handler: index.handler
-      Description: 'Tracks billing events, subscriptions, and revenue'
+      Description: "Tracks billing events, subscriptions, and revenue"
       Environment:
         Variables:
           TABLE_NAME: !Ref AnalyticsConfigTable
@@ -159,7 +159,7 @@ Resources:
     Properties:
       CodeUri: functions/onboarding-tracking/
       Handler: index.handler
-      Description: 'Tracks user onboarding progress and milestones'
+      Description: "Tracks user onboarding progress and milestones"
       Environment:
         Variables:
           TABLE_NAME: !Ref AnalyticsConfigTable
@@ -181,7 +181,7 @@ Resources:
     Properties:
       CodeUri: functions/anomaly-detection/
       Handler: index.handler
-      Description: 'Detects anomalies in key performance indicators'
+      Description: "Detects anomalies in key performance indicators"
       Timeout: 300
       MemorySize: 512
       Environment:
@@ -192,7 +192,7 @@ Resources:
         Schedule:
           Type: Schedule
           Properties:
-            Schedule: 'rate(5 minutes)'  # Run every 5 minutes
+            Schedule: "rate(5 minutes)" # Run every 5 minutes
         KinesisStream:
           Type: Kinesis
           Properties:
@@ -218,8 +218,8 @@ Resources:
     Properties:
       CodeUri: functions/report-generation/
       Handler: index.handler
-      Description: 'Generates and distributes PDF reports'
-      Timeout: 900  # 15 minutes
+      Description: "Generates and distributes PDF reports"
+      Timeout: 900 # 15 minutes
       MemorySize: 1024
       Environment:
         Variables:
@@ -230,7 +230,7 @@ Resources:
         WeeklySchedule:
           Type: Schedule
           Properties:
-            Schedule: 'cron(0 9 ? * MON *)'  # Every Monday at 9 AM
+            Schedule: "cron(0 9 ? * MON *)" # Every Monday at 9 AM
         ManualTrigger:
           Type: HttpApi
           Properties:
@@ -243,20 +243,20 @@ Resources:
             BucketName: !Ref AnalyticsDataBucket
         - SNSPublishMessagePolicy:
             TopicName: !GetAtt ReportTopic.TopicName
-        - Version: '2012-10-17'
+        - Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Action:
                 - quicksight:*
-              Resource: '*'
+              Resource: "*"
 
   # SQS Queue for install events buffering
   InstallEventQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: !Sub 'automerge-install-events-${Environment}'
+      QueueName: !Sub "automerge-install-events-${Environment}"
       VisibilityTimeoutSeconds: 180
-      MessageRetentionPeriod: 1209600  # 14 days
+      MessageRetentionPeriod: 1209600 # 14 days
       RedrivePolicy:
         deadLetterTargetArn: !GetAtt InstallEventDLQ.Arn
         maxReceiveCount: 3
@@ -265,13 +265,13 @@ Resources:
   InstallEventDLQ:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: !Sub 'automerge-install-events-dlq-${Environment}'
+      QueueName: !Sub "automerge-install-events-dlq-${Environment}"
 
   # S3 bucket for storing analytics data and reports
   AnalyticsDataBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub 'automerge-analytics-data-${Environment}-${AWS::AccountId}'
+      BucketName: !Sub "automerge-analytics-data-${Environment}-${AWS::AccountId}"
       VersioningConfiguration:
         Status: Enabled
       LifecycleConfiguration:
@@ -293,92 +293,92 @@ Resources:
   AlertTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: !Sub 'automerge-alerts-${Environment}'
-      DisplayName: 'Automerge Analytics Alerts'
+      TopicName: !Sub "automerge-alerts-${Environment}"
+      DisplayName: "Automerge Analytics Alerts"
 
   # SNS topic for report distribution
   ReportTopic:
     Type: AWS::SNS::Topic
     Properties:
-      TopicName: !Sub 'automerge-reports-${Environment}'
-      DisplayName: 'Automerge Analytics Reports'
+      TopicName: !Sub "automerge-reports-${Environment}"
+      DisplayName: "Automerge Analytics Reports"
 
   # CloudWatch Log Groups
   InstallTrackingLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${InstallTrackingFunction}'
+      LogGroupName: !Sub "/aws/lambda/${InstallTrackingFunction}"
       RetentionInDays: 30
 
   MergeTrackingLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${MergeTrackingFunction}'
+      LogGroupName: !Sub "/aws/lambda/${MergeTrackingFunction}"
       RetentionInDays: 30
 
   BillingTrackingLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${BillingTrackingFunction}'
+      LogGroupName: !Sub "/aws/lambda/${BillingTrackingFunction}"
       RetentionInDays: 30
 
   OnboardingTrackingLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${OnboardingTrackingFunction}'
+      LogGroupName: !Sub "/aws/lambda/${OnboardingTrackingFunction}"
       RetentionInDays: 30
 
   AnomalyDetectionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${AnomalyDetectionFunction}'
+      LogGroupName: !Sub "/aws/lambda/${AnomalyDetectionFunction}"
       RetentionInDays: 30
 
   ReportGenerationLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub '/aws/lambda/${ReportGenerationFunction}'
+      LogGroupName: !Sub "/aws/lambda/${ReportGenerationFunction}"
       RetentionInDays: 30
 
 Outputs:
   AnalyticsStreamName:
-    Description: 'Name of the Kinesis Analytics Stream'
+    Description: "Name of the Kinesis Analytics Stream"
     Value: !Ref AnalyticsStream
     Export:
-      Name: !Sub '${AWS::StackName}-AnalyticsStream'
+      Name: !Sub "${AWS::StackName}-AnalyticsStream"
 
   AnalyticsStreamArn:
-    Description: 'ARN of the Kinesis Analytics Stream'
+    Description: "ARN of the Kinesis Analytics Stream"
     Value: !GetAtt AnalyticsStream.Arn
     Export:
-      Name: !Sub '${AWS::StackName}-AnalyticsStreamArn'
+      Name: !Sub "${AWS::StackName}-AnalyticsStreamArn"
 
   AnalyticsDataBucketName:
-    Description: 'Name of the S3 Analytics Data Bucket'
+    Description: "Name of the S3 Analytics Data Bucket"
     Value: !Ref AnalyticsDataBucket
     Export:
-      Name: !Sub '${AWS::StackName}-AnalyticsDataBucket'
+      Name: !Sub "${AWS::StackName}-AnalyticsDataBucket"
 
   InstallTrackingEndpoint:
-    Description: 'API endpoint for install tracking'
-    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/install'
+    Description: "API endpoint for install tracking"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/install"
     Export:
-      Name: !Sub '${AWS::StackName}-InstallTrackingEndpoint'
+      Name: !Sub "${AWS::StackName}-InstallTrackingEndpoint"
 
   MergeTrackingEndpoint:
-    Description: 'API endpoint for merge tracking'
-    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/merge'
+    Description: "API endpoint for merge tracking"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/merge"
     Export:
-      Name: !Sub '${AWS::StackName}-MergeTrackingEndpoint'
+      Name: !Sub "${AWS::StackName}-MergeTrackingEndpoint"
 
   BillingTrackingEndpoint:
-    Description: 'API endpoint for billing tracking'
-    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/billing'
+    Description: "API endpoint for billing tracking"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/billing"
     Export:
-      Name: !Sub '${AWS::StackName}-BillingTrackingEndpoint'
+      Name: !Sub "${AWS::StackName}-BillingTrackingEndpoint"
 
   OnboardingTrackingEndpoint:
-    Description: 'API endpoint for onboarding tracking'
-    Value: !Sub 'https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/onboarding'
+    Description: "API endpoint for onboarding tracking"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/track/onboarding"
     Export:
-      Name: !Sub '${AWS::StackName}-OnboardingTrackingEndpoint'
+      Name: !Sub "${AWS::StackName}-OnboardingTrackingEndpoint"

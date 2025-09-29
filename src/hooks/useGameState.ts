@@ -220,7 +220,8 @@ export const useGameState = () => {
           const resetCard = {
             ...sourceCard,
             isSelected: false,
-            isTapped: targetZoneId === "field" ? sourceCard.isTapped : undefined,
+            isTapped:
+              targetZoneId === "field" ? sourceCard.isTapped : undefined,
           };
           newState.players[playerIndex].zones[targetZoneId].cards.push(
             resetCard,
@@ -240,21 +241,24 @@ export const useGameState = () => {
     [],
   );
 
-  const doubleClickCard = useCallback((card: Card) => {
-    // Auto-play logic: move to appropriate zone
-    const cardType = card.type || card.lesserType;
-    if (cardType && cardType.toLowerCase().includes("land")) {
-      moveCard(card.id, "field");
-    } else if (
-      cardType &&
-      (cardType.toLowerCase().includes("creature") ||
-        cardType.toLowerCase().includes("familiar"))
-    ) {
-      moveCard(card.id, "field");
-    } else {
-      moveCard(card.id, "stack");
-    }
-  }, [moveCard]);
+  const doubleClickCard = useCallback(
+    (card: Card) => {
+      // Auto-play logic: move to appropriate zone
+      const cardType = card.type || card.lesserType;
+      if (cardType && cardType.toLowerCase().includes("land")) {
+        moveCard(card.id, "field");
+      } else if (
+        cardType &&
+        (cardType.toLowerCase().includes("creature") ||
+          cardType.toLowerCase().includes("familiar"))
+      ) {
+        moveCard(card.id, "field");
+      } else {
+        moveCard(card.id, "stack");
+      }
+    },
+    [moveCard],
+  );
 
   const rightClickCard = useCallback((card: Card) => {
     // Toggle tap state for mobile long-press or desktop right-click

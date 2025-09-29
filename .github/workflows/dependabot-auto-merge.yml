@@ -19,7 +19,7 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Wait for status checks
         id: wait-for-checks
@@ -30,7 +30,7 @@ jobs:
           wait-interval: 20
           running-timeout-minutes: 30
           allowed-conclusions: success,skipped
-          check-regexp: '(build|test|lint|ci|security).*'
+          check-regexp: "(build|test|lint|ci|security).*"
 
       - name: Auto-approve and merge all Dependabot updates
         if: steps.wait-for-checks.outputs.conclusion == 'success'
@@ -38,21 +38,21 @@ jobs:
           echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
           echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
           echo "Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
-          
+
           # Get update details for better messaging
           UPDATE_TYPE="${{ steps.metadata.outputs.update-type }}"
           DEPENDENCY="${{ steps.metadata.outputs.dependency-names }}"
           FROM_VERSION="${{ steps.metadata.outputs.previous-version }}"
           TO_VERSION="${{ steps.metadata.outputs.new-version }}"
-          
+
           # Create a more descriptive approval message
           APPROVAL_MESSAGE="✅ Auto-approved by Dependabot workflow
-          
+
           **Update Details:**
           - Package: ${DEPENDENCY}
           - Update type: ${UPDATE_TYPE}
           - Version change: ${FROM_VERSION} → ${TO_VERSION}
-          
+
           All tests are passing, so this update is being automatically merged."
 
           # Approve the PR
@@ -96,7 +96,7 @@ jobs:
           - **Package:** ${{ steps.metadata.outputs.dependency-names }}
           - **Update type:** ${{ steps.metadata.outputs.update-type }}
           - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
-          
+
           ### Next Steps:
           1. Review the failed checks in the GitHub Actions tab
           2. Fix any issues or add the 'no-auto-merge' label if this PR requires manual review

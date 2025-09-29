@@ -40,7 +40,7 @@ function AppContent() {
   );
   const [loginOpen, setLoginOpen] = useState(false);
 
-  const { handleGlobalSearch, handleAdvancedSearch, handleBuildDeck } = 
+  const { handleGlobalSearch, handleAdvancedSearch, handleBuildDeck } =
     useSearchHandler(currentPage);
 
   // Initialize notifications on app start

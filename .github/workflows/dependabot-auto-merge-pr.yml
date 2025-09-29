@@ -2,7 +2,7 @@ name: Dependabot Auto-Merge PR
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 permissions:
   contents: write
@@ -13,14 +13,14 @@ jobs:
   dependabot-auto-merge:
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' && !contains(github.event.pull_request.labels.*.name, 'no-auto-merge') }}
-    
+
     steps:
       - name: Dependabot metadata
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
-      
+
       - name: Wait for CI to succeed
         id: wait-for-ci
         uses: lewagon/wait-on-check-action@v1.3.4
@@ -30,23 +30,23 @@ jobs:
           wait-interval: 20
           running-timeout-minutes: 15
           allowed-conclusions: success,skipped
-          check-regexp: '(build|test|lint|ci).*'
-      
+          check-regexp: "(build|test|lint|ci).*"
+
       - name: Auto-merge Dependabot PRs
         if: ${{ steps.wait-for-ci.outputs.conclusion == 'success' }}
         run: |
           echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
           echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
           echo "Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
-          
+
           # Approve the PR
           gh pr review --approve "${{ github.event.pull_request.number }}" --body "✅ Auto-approved by Dependabot workflow - ${{ steps.metadata.outputs.update-type }} update for ${{ steps.metadata.outputs.dependency-names }}"
-          
+
           # Enable auto-merge
           gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Comment on major version updates
         if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-major' && steps.wait-for-ci.outputs.conclusion == 'success' }}
         run: |
@@ -62,7 +62,7 @@ jobs:
           If you encounter any issues after this merge, please review the changelog/release notes for breaking changes."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: Handle failed checks
         if: ${{ steps.wait-for-ci.outputs.conclusion != 'success' }}
         run: |

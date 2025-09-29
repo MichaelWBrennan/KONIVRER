@@ -72,7 +72,10 @@ const NotificationCenter: React.FC = () => {
     }
   };
 
-  const getEventBadge = (eventId?: string, eventData?: { eventName?: string; eventFormat?: string }) => {
+  const getEventBadge = (
+    eventId?: string,
+    eventData?: { eventName?: string; eventFormat?: string },
+  ) => {
     if (!eventId) return null;
 
     const eventName = eventData?.eventName || "Event";

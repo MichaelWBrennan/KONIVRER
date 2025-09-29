@@ -3,7 +3,11 @@ import * as s from "./pdfViewer.css.ts";
 
 // Worker source will be configured after dynamic import
 
-export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): React.JSX.Element {
+export function PdfViewer({
+  url = "/sample.pdf",
+}: {
+  url?: string;
+}): React.JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -18,7 +22,20 @@ export function PdfViewer({ url = "/sample.pdf" }: { url?: string }): React.JSX.
       if (isCancelled) return;
 
       // Render first page for simple viewer parity
-      const page = await (pdfDoc as { getPage: (pageNumber: number) => Promise<{ getViewport: (options: { scale: number }) => { width: number; height: number }; render: (options: { canvasContext: CanvasRenderingContext2D; viewport: { width: number; height: number } }) => { promise: Promise<void> } }> }).getPage(1);
+      const page = await (
+        pdfDoc as {
+          getPage: (pageNumber: number) => Promise<{
+            getViewport: (options: { scale: number }) => {
+              width: number;
+              height: number;
+            };
+            render: (options: {
+              canvasContext: CanvasRenderingContext2D;
+              viewport: { width: number; height: number };
+            }) => { promise: Promise<void> };
+          }>;
+        }
+      ).getPage(1);
       const viewport = page.getViewport({ scale: 1.5 });
       const canvas = canvasRef.current;
       if (!canvas) return;

@@ -22,11 +22,28 @@ export function useSearchHandler(currentPage: Page) {
         window.dispatchEvent(ev);
       }
     },
-    [currentPage, setSearchFilters]
+    [currentPage, setSearchFilters],
   );
 
   const handleAdvancedSearch = useCallback(
-    (filters: { timeFrame: { start: string; end: string }; geolocation: { lat: number | null; lng: number | null; maxDistance: number }; selectedStore: string; searchFilters: { format: string; status: string; venueType: string; priceRange: { min: number; max: number }; dateRange: { start: string; end: string }; sortBy: string; sortOrder: "asc" | "desc" } }) => {
+    (filters: {
+      timeFrame: { start: string; end: string };
+      geolocation: {
+        lat: number | null;
+        lng: number | null;
+        maxDistance: number;
+      };
+      selectedStore: string;
+      searchFilters: {
+        format: string;
+        status: string;
+        venueType: string;
+        priceRange: { min: number; max: number };
+        dateRange: { start: string; end: string };
+        sortBy: string;
+        sortOrder: "asc" | "desc";
+      };
+    }) => {
       // Apply advanced search filters based on current page
       if (currentPage === "events" || currentPage === "event-archive") {
         const ev = new CustomEvent("advanced-search", { detail: filters });
@@ -35,35 +52,45 @@ export function useSearchHandler(currentPage: Page) {
         // Apply card-specific filters
         setSearchFilters({
           ...filters.searchFilters,
-          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as "ASC" | "DESC"
+          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as
+            | "ASC"
+            | "DESC",
         } as CardSearchFilters);
       } else if (currentPage === "decks" || currentPage === "my-decks") {
         // Apply deck-specific filters
         setSearchFilters({
           ...filters.searchFilters,
-          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as "ASC" | "DESC"
+          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as
+            | "ASC"
+            | "DESC",
         } as CardSearchFilters);
       } else if (currentPage === "lore" || currentPage === "rules") {
         // Apply content-specific filters
         setSearchFilters({
           ...filters.searchFilters,
-          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as "ASC" | "DESC"
+          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as
+            | "ASC"
+            | "DESC",
         } as CardSearchFilters);
       } else if (currentPage === "analytics") {
         // Apply analytics-specific filters
         setSearchFilters({
           ...filters.searchFilters,
-          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as "ASC" | "DESC"
+          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as
+            | "ASC"
+            | "DESC",
         } as CardSearchFilters);
       } else {
         // Apply general filters for other pages
         setSearchFilters({
           ...filters.searchFilters,
-          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as "ASC" | "DESC"
+          sortOrder: filters.searchFilters.sortOrder?.toUpperCase() as
+            | "ASC"
+            | "DESC",
         } as CardSearchFilters);
       }
     },
-    [currentPage, setSearchFilters]
+    [currentPage, setSearchFilters],
   );
 
   const handleBuildDeck = useCallback(() => {

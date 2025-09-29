@@ -51,7 +51,18 @@ export const GameZone: React.FC<GameZoneProps> = ({
   screenSize,
 }) => {
   const config = getMTGArenaLayoutConfig(device);
-  const zoneConfig = (config.zones as Record<string, { position: { x: number; y: number }; size: { width: number; height: number }; cardSpacing?: number; overlap?: number; maxRows?: number }>)[zone.id];
+  const zoneConfig = (
+    config.zones as Record<
+      string,
+      {
+        position: { x: number; y: number };
+        size: { width: number; height: number };
+        cardSpacing?: number;
+        overlap?: number;
+        maxRows?: number;
+      }
+    >
+  )[zone.id];
 
   if (!zoneConfig) return null;
 

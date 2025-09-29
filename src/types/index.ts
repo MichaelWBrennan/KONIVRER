@@ -110,7 +110,7 @@ export interface EventApiResponse {
   format: string;
   maxParticipants?: number;
   currentParticipants: number;
-  status: 'upcoming' | 'active' | 'completed' | 'cancelled';
+  status: "upcoming" | "active" | "completed" | "cancelled";
   organizerId: string;
   location?: string;
   entryFee?: number;

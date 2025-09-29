@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Dev automation service (default)
@@ -74,7 +74,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 512M
       restart_policy:
         condition: any
@@ -105,7 +105,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.10'
+          cpus: "0.10"
           memory: 64M
     command: >
       sh -c "apk add --no-cache docker-cli && 
@@ -170,7 +170,8 @@ services:
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -255,11 +256,12 @@ services:
     depends_on:
       postgres-keycloak:
         condition: service_healthy
-    command: 
+    command:
       - start-dev
       - --import-realm
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ready || exit 1"]
+      test:
+        ["CMD-SHELL", "curl -f http://localhost:8080/health/ready || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5

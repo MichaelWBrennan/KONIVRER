@@ -122,7 +122,10 @@ const EventList: React.FC = () => {
     fetchEvents();
   }, [fetchEvents]);
 
-  const handleFilterChange = (key: keyof EventSearchFilters, value: string | number | undefined) => {
+  const handleFilterChange = (
+    key: keyof EventSearchFilters,
+    value: string | number | undefined,
+  ) => {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
@@ -225,7 +228,12 @@ const EventList: React.FC = () => {
   };
 
   const groupEventsByStore = (events: Event[]) => {
-    const grouped: { [key: string]: { store: NonNullable<Event['venue']['store']>; events: Event[] } } = {};
+    const grouped: {
+      [key: string]: {
+        store: NonNullable<Event["venue"]["store"]>;
+        events: Event[];
+      };
+    } = {};
     const onlineEvents: Event[] = [];
 
     events.forEach((event) => {

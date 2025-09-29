@@ -87,7 +87,10 @@ class AuthService {
       this.setAuthData(authData);
       return authData;
     } catch (error: unknown) {
-      throw new Error((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Login failed");
+      throw new Error(
+        (error as { response?: { data?: { message?: string } } })?.response
+          ?.data?.message || "Login failed",
+      );
     }
   }
 
@@ -99,7 +102,10 @@ class AuthService {
       this.setAuthData(authData);
       return authData;
     } catch (error: unknown) {
-      throw new Error((error as { response?: { data?: { message?: string } } })?.response?.data?.message || "Registration failed");
+      throw new Error(
+        (error as { response?: { data?: { message?: string } } })?.response
+          ?.data?.message || "Registration failed",
+      );
     }
   }
 

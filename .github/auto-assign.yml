@@ -37,17 +37,17 @@ assignees:
 
 # Review assignment based on file changes
 fileAssignees:
-  '**/*.js':
+  "**/*.js":
     - MichaelWBrennan
-  '**/*.jsx':
+  "**/*.jsx":
     - MichaelWBrennan
-  '**/*.ts':
+  "**/*.ts":
     - MichaelWBrennan
-  '**/*.tsx':
+  "**/*.tsx":
     - MichaelWBrennan
-  '.github/workflows/**':
+  ".github/workflows/**":
     - MichaelWBrennan
-  'Backend/**':
+  "Backend/**":
     - MichaelWBrennan
-  '**/*security*':
+  "**/*security*":
     - MichaelWBrennan

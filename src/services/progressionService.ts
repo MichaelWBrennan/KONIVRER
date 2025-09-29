@@ -18,7 +18,10 @@ export const ProgressionService = {
     if (!res.ok) throw new Error("Failed to load tournament profile");
     return res.json();
   },
-  async updatePreferences(userId: string, preferences: Record<string, unknown>) {
+  async updatePreferences(
+    userId: string,
+    preferences: Record<string, unknown>,
+  ) {
     const res = await fetch(`/api/v1/progression/${userId}/preferences`, {
       method: "PUT",
       headers: {

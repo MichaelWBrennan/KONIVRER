@@ -63,7 +63,11 @@ interface PageRouterProps {
   isOnline: boolean;
 }
 
-export function PageRouter({ currentPage, onCardSelect, isOnline }: PageRouterProps) {
+export function PageRouter({
+  currentPage,
+  onCardSelect,
+  isOnline,
+}: PageRouterProps) {
   const { canAccessJudgePortal, isAuthenticated } = useAuth();
 
   if (!isOnline) {
@@ -74,49 +78,49 @@ export function PageRouter({ currentPage, onCardSelect, isOnline }: PageRouterPr
     switch (currentPage) {
       case "home":
         return <Home />;
-      
+
       case "simulator":
         return (
           <Suspense fallback={<div>Loading Simulator...</div>}>
             <LazyKonivrverSimulator />
           </Suspense>
         );
-      
+
       case "cards":
         return (
           <Suspense fallback={<div>Loading Cards...</div>}>
             <LazyCardSearch onCardSelect={onCardSelect} />
           </Suspense>
         );
-      
+
       case "decks":
         return (
           <Suspense fallback={<div>Loading Decks...</div>}>
             <LazyDeckSearch onDeckSelect={() => {}} />
           </Suspense>
         );
-      
+
       case "my-decks":
         return (
           <Suspense fallback={<div>Loading My Decks...</div>}>
             <LazyMyDecks />
           </Suspense>
         );
-      
+
       case "rules":
         return (
           <Suspense fallback={<div>Loading Rules...</div>}>
             <LazyRules />
           </Suspense>
         );
-      
+
       case "lore":
         return (
           <Suspense fallback={<div>Loading Lore...</div>}>
             <LazyLore />
           </Suspense>
         );
-      
+
       case "judge":
         if (!canAccessJudgePortal()) {
           return (
@@ -145,35 +149,35 @@ export function PageRouter({ currentPage, onCardSelect, isOnline }: PageRouterPr
             <LazyJudgePortal />
           </Suspense>
         );
-      
+
       case "events":
         return (
           <Suspense fallback={<div>Loading Events...</div>}>
             <LazyEvents />
           </Suspense>
         );
-      
+
       case "event-archive":
         return (
           <Suspense fallback={<div>Loading Tournament Hub...</div>}>
             <LazyTournamentHub />
           </Suspense>
         );
-      
+
       case "analytics":
         return (
           <Suspense fallback={<div>Loading Analytics...</div>}>
             <LazyAnalytics />
           </Suspense>
         );
-      
+
       case "settings":
         return (
           <Suspense fallback={<div>Loading Settings...</div>}>
             <LazySettings />
           </Suspense>
         );
-      
+
       default:
         return <Home />;
     }

@@ -25,7 +25,7 @@ jobs:
           wait-interval: 20
           running-timeout-minutes: 30
           allowed-conclusions: success,skipped
-          check-regexp: '(build|test|lint|ci|security).*'
+          check-regexp: "(build|test|lint|ci|security).*"
 
       - name: Enable auto-merge (squash)
         if: steps.wait-for-checks.outputs.conclusion == 'success'
@@ -41,4 +41,3 @@ jobs:
           gh pr comment "${{ github.event.pull_request.number }}" --body "❌ Status checks did not pass. Auto-merge is paused until checks succeed."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

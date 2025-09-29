@@ -3,23 +3,23 @@
 
 policy:
   # Merge strategy configuration
-  merge_method: squash  # Default merge method (squash, merge, rebase)
-  fallback_merge_method: merge  # Fallback if squash fails
-  
+  merge_method: squash # Default merge method (squash, merge, rebase)
+  fallback_merge_method: merge # Fallback if squash fails
+
   # Retry and backoff settings
   retries: 3
   backoff_minutes: [5, 15, 45]
-  
+
   # Labels that prevent automation
-  deny_labels: 
+  deny_labels:
     - "no-auto"
     - "wip"
     - "do-not-merge"
     - "manual-review"
-  
+
   # Paths that should never be auto-merged (empty for full autonomy)
   deny_paths: []
-  
+
   # Critical paths that require special handling
   critical_paths:
     - ".github/workflows/*"
@@ -27,7 +27,7 @@ policy:
     - ".env*"
     - "secrets.yaml"
     - "config/production.*"
-  
+
   # Lockfile regeneration settings
   lockfile_regenerate: true
   regenerate_commands:
@@ -38,7 +38,7 @@ policy:
     - "poetry install && poetry run build || true"
     - "go mod tidy || true"
     - "cargo build || true"
-  
+
   # Auto-generated asset patterns
   generated_assets:
     - "**/dist/**"
@@ -57,7 +57,7 @@ policy:
     - "**/*.snap"
     - "**/openapi/**"
     - "**/protobuf/**"
-  
+
   # Formatting and linting commands
   formatting_commands:
     - "npm run format || true"
@@ -70,7 +70,7 @@ policy:
     - "black . || true"
     - "gofmt -w . || true"
     - "cargo fmt || true"
-  
+
   # Build and test commands
   build_commands:
     - "npm run build || true"
@@ -85,7 +85,7 @@ policy:
     - "go test ./... || true"
     - "cargo build || true"
     - "cargo test || true"
-  
+
   # Conflict resolution strategy
   conflict_resolution:
     # Priority order for conflict resolution
@@ -95,7 +95,7 @@ policy:
       - "merge_patience"
       - "merge_theirs"
       - "merge_ours"
-    
+
     # Heuristic rules for specific file types
     heuristics:
       lockfiles:
@@ -110,7 +110,7 @@ policy:
       documentation:
         action: "theirs"
         prefer: "incoming"
-  
+
   # Post-merge actions
   post_merge:
     delete_source_branch: true
@@ -118,28 +118,28 @@ policy:
     backport_labels:
       - "backport:release-*"
       - "backport:hotfix"
-    
+
   # Safety and monitoring
   safety:
     secret_scanning: true
     dependency_scanning: true
     infinite_loop_prevention: true
     max_workflow_duration_minutes: 60
-    
+
   # Reporting and audit
   reporting:
     comment_on_merge: true
     weekly_reports: true
     issue_escalation: true
     log_all_decisions: true
-    
+
   # CI/CD integration
   ci_integration:
     required_status_checks: true
     auto_rerun_failed: true
     max_rerun_attempts: 1
     status_check_timeout_minutes: 30
-    
+
   # Branch protection compatibility
   branch_protection:
     respect_existing_rules: true

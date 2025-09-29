@@ -34,7 +34,8 @@ export function CardModal({ card, onClose }: CardModalProps) {
             <strong>Type:</strong> {card.type || card.lesserType}
           </p>
           <p>
-            <strong>Element:</strong> {card.element || card.elements?.join(", ")}
+            <strong>Element:</strong>{" "}
+            {card.element || card.elements?.join(", ")}
           </p>
           <p>
             <strong>Rarity:</strong> {card.rarity}
