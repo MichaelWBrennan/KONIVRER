@@ -137,7 +137,7 @@ export const Lore: React.FC = () => {
           // ignore disconnect errors
         }
       };
-    }, [traits.join("|")]);
+    }, [traits]);
 
     return (
       <div ref={containerRef} className={s.traitFooter}>
@@ -158,7 +158,7 @@ export const Lore: React.FC = () => {
     src?: string;
     sources?: string[];
     isStatic?: boolean;
-  }[] = [
+  }[] = useMemo(() => [
     { id: "elements", label: "Six Elements", isStatic: true },
     {
       id: "aether",
@@ -200,14 +200,14 @@ export const Lore: React.FC = () => {
         "/assets/lore/items_east.txt",
       ],
     },
-  ];
+  ], []);
   const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
   const [query, setQuery] = useState<string>("");
   const [loadedText, setLoadedText] = useState<string>("");
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
   const requestIdRef = useRef(0);
 
-  const labelForSrc: Record<string, string> = {
+  const labelForSrc: Record<string, string> = useMemo(() => ({
     "/assets/lore/societies.txt": "Societies & Eras",
     "/assets/lore/ars_goetia.txt": "Ars Goetia",
     "/assets/lore/mesopotamian.txt": "Hidden Mesopotamian Pantheon",
@@ -237,7 +237,7 @@ export const Lore: React.FC = () => {
     "/assets/lore/prehistory.txt": "Pre-History",
     "/assets/lore/three_ages.txt": "Three Ages",
     "/assets/lore/classical.txt": "Classical Era",
-  };
+  }), []);
 
   useEffect(() => {
     const handler = (e: Event) => setQuery((e as CustomEvent).detail || "");
@@ -1291,7 +1291,8 @@ export const Lore: React.FC = () => {
         </div>
       </section>
     ),
-    [combinations2, combinations3, combinations4, combinations5],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
 
   // ------------------ Cosmology & Magic structured rendering ------------------
