@@ -96,19 +96,71 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         </div>
         <div className={st.socialSection}>
           <button className={st.socialBtn} disabled aria-disabled>
-            <span className={st.socialIcon}>G</span>
+            <img 
+              src="https://developers.google.com/identity/images/g-logo.png" 
+              alt="Google" 
+              className={st.socialIcon}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const fallback = e.currentTarget.nextSibling as HTMLElement;
+                if (fallback) {
+                  fallback.style.display = 'block';
+                  fallback.textContent = 'G';
+                }
+              }}
+            />
+            <span className={st.socialFallback}>G</span>
             Sign in with Google
           </button>
           <button className={st.socialBtn} disabled aria-disabled>
-            <span className={st.socialIcon}>⚡</span>
+            <img 
+              src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" 
+              alt="GitHub" 
+              className={st.socialIcon}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const fallback = e.currentTarget.nextSibling as HTMLElement;
+                if (fallback) {
+                  fallback.style.display = 'block';
+                  fallback.textContent = '⚡';
+                }
+              }}
+            />
+            <span className={st.socialFallback}>⚡</span>
             Sign in with GitHub
           </button>
           <button className={st.socialBtn} disabled aria-disabled>
-            <span className={st.socialIcon}>M</span>
+            <img 
+              src="https://img.icons8.com/color/48/000000/microsoft.png" 
+              alt="Microsoft" 
+              className={st.socialIcon}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const fallback = e.currentTarget.nextSibling as HTMLElement;
+                if (fallback) {
+                  fallback.style.display = 'block';
+                  fallback.textContent = 'M';
+                }
+              }}
+            />
+            <span className={st.socialFallback}>M</span>
             Sign in with Microsoft
           </button>
           <button className={st.socialBtn} disabled aria-disabled>
-            <span className={st.socialIcon}>D</span>
+            <img 
+              src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" 
+              alt="Discord" 
+              className={st.socialIcon}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const fallback = e.currentTarget.nextSibling as HTMLElement;
+                if (fallback) {
+                  fallback.style.display = 'block';
+                  fallback.textContent = 'D';
+                }
+              }}
+            />
+            <span className={st.socialFallback}>D</span>
             Sign in with Discord
           </button>
         </div>

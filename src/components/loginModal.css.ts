@@ -160,17 +160,27 @@ export const socialBtn = style({
   },
 });
 export const socialIcon = style({
-  fontSize: 18,
-  width: 24,
-  height: 24,
-  textAlign: "center",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  width: 20,
+  height: 20,
+  objectFit: "contain",
+  borderRadius: "2px",
+});
+export const socialFallback = style({
+  display: "none",
+  width: 20,
+  height: 20,
+  fontSize: 14,
   fontWeight: "bold",
-  borderRadius: "4px",
+  textAlign: "center",
+  lineHeight: "20px",
+  borderRadius: "2px",
   background: "rgba(255,255,255,0.1)",
   color: "#fff",
+  selectors: {
+    "&.show": {
+      display: "block",
+    },
+  },
 });
 export const biometricSection = style({
   padding: "20px 40px 30px 40px",
