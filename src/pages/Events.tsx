@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as s from "./events.css.ts";
 import { NotificationService } from "../services/notifications";
 import { useAuth } from "../hooks/useAuth";
@@ -36,6 +36,41 @@ export const Events: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { isAuthenticated, user } = useAuth();
+
+  const searchEvents = useCallback((query: string) => {
+    // Filter events based on search query
+    // This would typically make an API call with search parameters
+    console.log("Searching events with query:", query);
+    // For now, we'll just log the search - in a real implementation,
+    // this would filter the events state or make an API call
+  }, []);
+
+  const searchPairings = useCallback((query: string) => {
+    // Search within selected event's pairings
+    console.log(
+      "Searching pairings for event",
+      selectedEvent?.id,
+      "with query:",
+      query,
+    );
+    // This would typically make an API call to search pairings within the selected event
+  }, [selectedEvent?.id]);
+
+  const applyAdvancedSearchWithFilters = useCallback((filters: Record<string, unknown>) => {
+    // Apply advanced search filters received from the persistent search bar
+    console.log("Applying advanced search with filters:", filters);
+
+    // This would typically make an API call with all the search parameters
+    // The API call would include:
+    // - userLat, userLng, maxDistance for geolocation
+    // - storeId for store filtering
+    // - format, status, venueType for advanced filters
+    // - priceRange for entry fee filtering
+    // - sortBy, sortOrder for sorting
+    // - startDateFrom, startDateTo for date filtering
+
+    searchEvents(searchQuery);
+  }, [searchQuery, searchEvents]);
 
   useEffect(() => {
     loadEvents();
@@ -79,7 +114,7 @@ export const Events: React.FC = () => {
         handleAdvancedSearch as EventListener,
       );
     };
-  }, [selectedEvent]);
+  }, [selectedEvent, applyAdvancedSearchWithFilters, searchPairings, searchEvents]);
 
   const loadEvents = async () => {
     // Load events from API
@@ -90,25 +125,6 @@ export const Events: React.FC = () => {
     } catch (error) {
       console.error("Failed to load events:", error);
     }
-  };
-
-  const searchEvents = (query: string) => {
-    // Filter events based on search query
-    // This would typically make an API call with search parameters
-    console.log("Searching events with query:", query);
-    // For now, we'll just log the search - in a real implementation,
-    // this would filter the events state or make an API call
-  };
-
-  const searchPairings = (query: string) => {
-    // Search within selected event's pairings
-    console.log(
-      "Searching pairings for event",
-      selectedEvent?.id,
-      "with query:",
-      query,
-    );
-    // This would typically make an API call to search pairings within the selected event
   };
 
   const handleEventClick = (event: Event) => {
@@ -125,22 +141,6 @@ export const Events: React.FC = () => {
     window.dispatchEvent(
       new CustomEvent("search-context", { detail: "events" }),
     );
-  };
-
-  const applyAdvancedSearchWithFilters = (filters: Record<string, unknown>) => {
-    // Apply advanced search filters received from the persistent search bar
-    console.log("Applying advanced search with filters:", filters);
-
-    // This would typically make an API call with all the search parameters
-    // The API call would include:
-    // - userLat, userLng, maxDistance for geolocation
-    // - storeId for store filtering
-    // - format, status, venueType for advanced filters
-    // - priceRange for entry fee filtering
-    // - sortBy, sortOrder for sorting
-    // - startDateFrom, startDateTo for date filtering
-
-    searchEvents(searchQuery);
   };
 
   const handleEventRegister = async (eventId: string) => {

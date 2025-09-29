@@ -321,7 +321,7 @@ export const Lore: React.FC = () => {
     return () => {
       controller.abort();
     };
-  }, [activeTab, contentByTab]);
+  }, [activeTab, contentByTab, labelForSrc, tabs]);
 
   const highlight = (text: string, q: string): React.ReactNode => {
     if (!q) return text;
