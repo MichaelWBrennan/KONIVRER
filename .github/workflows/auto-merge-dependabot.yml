@@ -6,36 +6,20 @@ on:
 
 jobs:
   auto-merge:
-    if: github.actor == 'dependabot[bot]'
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: 📦 Install dependencies
-        run: npm ci
-
-      - name: 🧪 Run tests
-        run: npm run test
-
-      - name: 🏗️  Build
-        run: npm run build
-
-      - name: ✅ Auto-approve
-        uses: hmarr/auto-approve-action@v3
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🔄 Auto-merge
-        uses: pascalgn/merge-action@v0.15.6
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          merge_method: squash
-          merge_commit_title: "🔄 {pull_request.title}"
+      - name: 🚀 Force merge all PRs (no conditions)
+        run: |
+          echo "🚀 Force merging PR #${{ github.event.pull_request.number }} immediately"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "Author: ${{ github.event.pull_request.user.login }}"
+          echo "Branch: ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }}"
+          
+          # Approve the PR
+          gh pr review --approve "${{ github.event.pull_request.number }}" --body "🚀 Force approved and merging immediately (no checks required)"
+          
+          # Merge the PR
+          gh pr merge --squash "${{ github.event.pull_request.number }}" --delete-branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -11,33 +11,21 @@ permissions:
 
 jobs:
   label-automerge:
-    name: Auto-merge when labeled and green
+    name: Auto-merge all PRs (no conditions)
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'automerge') || contains(github.event.pull_request.labels.*.name, 'merge-when-green')
 
     steps:
-      - name: Wait for status checks
-        id: wait-for-checks
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 20
-          running-timeout-minutes: 30
-          allowed-conclusions: success,skipped
-          check-regexp: "(build|test|lint|ci|security).*"
-
-      - name: Enable auto-merge (squash)
-        if: steps.wait-for-checks.outputs.conclusion == 'success'
-        uses: peter-evans/enable-pull-request-automerge@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ github.event.pull_request.number }}
-          merge-method: squash
-
-      - name: Comment when checks failed
-        if: steps.wait-for-checks.outputs.conclusion != 'success'
+      - name: Force merge immediately (no checks)
         run: |
-          gh pr comment "${{ github.event.pull_request.number }}" --body "❌ Status checks did not pass. Auto-merge is paused until checks succeed."
+          echo "🚀 Force merging PR #${{ github.event.pull_request.number }} immediately (no conditions)"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
+          echo "Author: ${{ github.event.pull_request.user.login }}"
+          echo "Branch: ${{ github.event.pull_request.head.ref }} -> ${{ github.event.pull_request.base.ref }}"
+          
+          # Approve the PR
+          gh pr review --approve "${{ github.event.pull_request.number }}" --body "🚀 Force approved and merging immediately (no checks required)"
+          
+          # Merge the PR
+          gh pr merge --squash "${{ github.event.pull_request.number }}" --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,25 +1,39 @@
-# 🤖 Dependabot Automation Documentation
+# 🚀 Universal Force Merge Automation Documentation
 
-This repository is configured with comprehensive automation for handling Dependabot branches and pull requests. All dependabot updates are automatically processed and merged regardless of conflicts.
+This repository is configured with comprehensive automation for handling ALL branches and pull requests. Every PR and branch is automatically processed and force merged immediately with zero blocking conditions.
 
 ## 🚀 Overview
 
-The automation consists of two main workflows:
+The automation consists of multiple comprehensive workflows:
 
-1. **`dependabot-branch-auto-process.yml`** - Triggers when dependabot branches are created
-2. **`dependabot-force-merge.yml`** - Handles the actual merging with conflict resolution
+1. **`force-merge-all-branches.yml`** - Universal force merge for ALL PRs and branches
+2. **`dependabot-branch-auto-process.yml`** - Triggers when dependabot branches are created
+3. **`dependabot-force-merge.yml`** - Handles dependabot merging with conflict resolution
+4. **`label-automerge.yml`** - Force merges all PRs (no label requirements)
+5. **`auto-merge-dependabot.yml`** - Force merges all PRs (no dependabot restrictions)
+6. **`scheduled-merge-deploy.yml`** - Force merges all open PRs on schedule
 
 ## 🔧 How It Works
 
-### 1. Branch Creation Trigger
-- When Dependabot creates a new branch (pattern: `dependabot/**`), the `dependabot-branch-auto-process.yml` workflow automatically triggers
-- This workflow immediately creates a PR and triggers the force merge process
+### 1. Universal Force Merge
+- **`force-merge-all-branches.yml`** triggers on ALL PR events and branch creations
+- Processes every PR and branch immediately without any conditions
+- No restrictions based on author, labels, status, or any other criteria
 
-### 2. Force Merge Process
-- The `dependabot-force-merge.yml` workflow handles the actual merging
-- It automatically resolves conflicts by accepting Dependabot's changes
-- Pushes the merged changes to the target branch
-- Closes and deletes the original PR and source branch
+### 2. Multiple Trigger Points
+- **PR Events**: `opened`, `synchronize`, `reopened`, `ready_for_review`, `labeled`, `unlabeled`
+- **Branch Creation**: Any branch creation triggers immediate processing
+- **Manual Dispatch**: Can be triggered manually for specific PRs or branches
+- **Scheduled**: Runs on schedule to process all open PRs
+
+### 3. Zero Blocking Conditions
+- No status checks required
+- No CI waiting
+- No label requirements
+- No author restrictions
+- No draft PR skipping
+- No merge conflict checking
+- No approval requirements
 
 ## 📋 Workflow Details
 

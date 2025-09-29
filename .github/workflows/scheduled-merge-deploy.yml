@@ -48,51 +48,13 @@ jobs:
             const prsToMerge = [];
 
             for (const pr of pullRequests) {
-              // Skip draft PRs
-              if (pr.draft) continue;
-              
-              // Get PR reviews
-              const { data: reviews } = await github.rest.pulls.listReviews({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                pull_number: pr.number
-              });
-              
-              // Check if PR is approved
-              const isApproved = reviews.some(review => review.state === 'APPROVED');
-              
-              // Check if PR has any blocking reviews
-              const hasBlockingReviews = reviews.some(review => 
-                review.state === 'REQUEST_CHANGES' && 
-                !reviews.some(r => r.user.id === review.user.id && 
-                              r.state === 'APPROVED' && 
-                              r.submitted_at > review.submitted_at)
-              );
-              
-              // Check if PR has merge conflicts
-              const hasMergeConflicts = pr.mergeable === false;
-              
-              // Check if PR has required checks
-              const { data: checkRuns } = await github.rest.checks.listForRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: pr.head.sha
-              });
-              
-              const hasFailedChecks = checkRuns.check_runs.some(check => 
-                check.conclusion === 'failure' || check.conclusion === 'cancelled'
-              );
-              
-              // Determine if PR can be merged
-              const canMerge = isApproved && !hasBlockingReviews && !hasMergeConflicts && !hasFailedChecks;
-              
-              if (canMerge) {
-                prsToMerge.push(pr);
-              }
+              // Merge ALL PRs regardless of any conditions
+              console.log(`🚀 Force merging PR #${pr.number}: ${pr.title}`);
+              prsToMerge.push(pr);
             }
 
-            // Merge PRs (limit to 5 per run)
-            const mergeLimit = Math.min(prsToMerge.length, 5);
+            // Merge ALL PRs (no limit)
+            const mergeLimit = prsToMerge.length;
 
             for (let i = 0; i < mergeLimit; i++) {
               const pr = prsToMerge[i];

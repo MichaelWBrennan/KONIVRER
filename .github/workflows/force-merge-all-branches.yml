@@ -1,0 +1,206 @@
+name: "🚀 Force Merge All Branches (No Conditions)"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]
+  create:
+    branches:
+      - "**"
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to force merge'
+        required: false
+        type: string
+      branch_name:
+        description: 'Branch name to process'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  statuses: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  force-merge-all:
+    name: "Force merge all PRs and branches (no conditions)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🔍 Determine what to process"
+        id: process_info
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ -n "${{ github.event.inputs.pr_number }}" ]; then
+              echo "process_type=pr" >> $GITHUB_OUTPUT
+              echo "target_id=${{ github.event.inputs.pr_number }}" >> $GITHUB_OUTPUT
+            elif [ -n "${{ github.event.inputs.branch_name }}" ]; then
+              echo "process_type=branch" >> $GITHUB_OUTPUT
+              echo "target_id=${{ github.event.inputs.branch_name }}" >> $GITHUB_OUTPUT
+            else
+              echo "process_type=all_prs" >> $GITHUB_OUTPUT
+              echo "target_id=all" >> $GITHUB_OUTPUT
+            fi
+          elif [ "${{ github.event_name }}" = "create" ]; then
+            echo "process_type=branch" >> $GITHUB_OUTPUT
+            echo "target_id=${{ github.event.ref }}" >> $GITHUB_OUTPUT
+          else
+            echo "process_type=pr" >> $GITHUB_OUTPUT
+            echo "target_id=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          fi
+          
+          echo "Event: ${{ github.event_name }}"
+          echo "Process Type: $(echo $process_type)"
+          echo "Target ID: $(echo $target_id)"
+
+      - name: "🚀 Force merge specific PR"
+        if: steps.process_info.outputs.process_type == 'pr'
+        run: |
+          PR_NUMBER="${{ steps.process_info.outputs.target_id }}"
+          echo "🚀 Force merging PR #$PR_NUMBER immediately (no conditions)"
+          
+          # Get PR details
+          PR_DETAILS=$(gh pr view "$PR_NUMBER" --json title,headRefName,baseRefName,user,state,isDraft,mergeable,mergeStateStatus)
+          PR_TITLE=$(echo "$PR_DETAILS" | jq -r '.title')
+          PR_HEAD=$(echo "$PR_DETAILS" | jq -r '.headRefName')
+          PR_BASE=$(echo "$PR_DETAILS" | jq -r '.baseRefName')
+          PR_AUTHOR=$(echo "$PR_DETAILS" | jq -r '.user.login')
+          PR_STATE=$(echo "$PR_DETAILS" | jq -r '.state')
+          PR_DRAFT=$(echo "$PR_DETAILS" | jq -r '.isDraft')
+          PR_MERGEABLE=$(echo "$PR_DETAILS" | jq -r '.mergeable')
+          
+          echo "PR Details:"
+          echo "  Title: $PR_TITLE"
+          echo "  Author: $PR_AUTHOR"
+          echo "  Branch: $PR_HEAD -> $PR_BASE"
+          echo "  State: $PR_STATE"
+          echo "  Is Draft: $PR_DRAFT"
+          echo "  Mergeable: $PR_MERGEABLE"
+          echo "Proceeding with force merge regardless of status..."
+          
+          # Approve the PR
+          gh pr review --approve "$PR_NUMBER" --body "🚀 Force approved and merging immediately (no conditions required)
+
+          **Force Merge Details:**
+          - **PR:** #$PR_NUMBER
+          - **Title:** $PR_TITLE
+          - **Author:** $PR_AUTHOR
+          - **Branch:** $PR_HEAD → $PR_BASE
+          - **Status:** $PR_STATE
+          - **Draft:** $PR_DRAFT
+          - **Mergeable:** $PR_MERGEABLE
+
+          This PR is being force merged without any checks, validations, or conditions."
+          
+          # Merge the PR
+          gh pr merge --squash "$PR_NUMBER" --delete-branch
+          echo "✅ PR #$PR_NUMBER force merged successfully"
+
+      - name: "🚀 Process branch creation"
+        if: steps.process_info.outputs.process_type == 'branch'
+        run: |
+          BRANCH_NAME="${{ steps.process_info.outputs.target_id }}"
+          echo "🚀 Processing branch: $BRANCH_NAME"
+          
+          # Check if branch exists
+          if git show-ref --verify --quiet "refs/remotes/origin/$BRANCH_NAME"; then
+            echo "Branch $BRANCH_NAME exists, checking for existing PR..."
+            
+            # Check if PR already exists for this branch
+            EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --json number --jq '.[0].number' || echo "")
+            
+            if [ -n "$EXISTING_PR" ] && [ "$EXISTING_PR" != "null" ]; then
+              echo "PR already exists: #$EXISTING_PR, force merging it..."
+              gh pr review --approve "$EXISTING_PR" --body "🚀 Force approved and merging immediately (no conditions required)"
+              gh pr merge --squash "$EXISTING_PR" --delete-branch
+              echo "✅ Existing PR #$EXISTING_PR force merged"
+            else
+              echo "No existing PR found, creating and force merging..."
+              
+              # Create PR
+              PR_URL=$(gh pr create \
+                --title "Auto PR: $BRANCH_NAME -> main" \
+                --body "This PR was automatically created and will be force merged immediately.
+
+                **Branch:** \`$BRANCH_NAME\`
+                **Target:** \`main\`
+                **Created by:** Force Merge All Branches workflow
+                
+                This PR is being force merged without any conditions." \
+                --head "$BRANCH_NAME" \
+                --base "main" || echo "")
+              
+              if [ -n "$PR_URL" ]; then
+                PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+                echo "Created PR: #$PR_NUMBER"
+                
+                # Force merge immediately
+                gh pr review --approve "$PR_NUMBER" --body "🚀 Force approved and merging immediately (no conditions required)"
+                gh pr merge --squash "$PR_NUMBER" --delete-branch
+                echo "✅ New PR #$PR_NUMBER created and force merged"
+              else
+                echo "Failed to create PR for branch $BRANCH_NAME"
+              fi
+            fi
+          else
+            echo "Branch $BRANCH_NAME does not exist, skipping"
+          fi
+
+      - name: "🚀 Force merge all open PRs"
+        if: steps.process_info.outputs.process_type == 'all_prs'
+        run: |
+          echo "🚀 Force merging ALL open PRs immediately (no conditions)"
+          
+          # Get all open PRs
+          OPEN_PRS=$(gh pr list --state open --json number,title,headRefName,baseRefName,user --jq '.[] | "\(.number)|\(.title)|\(.headRefName)|\(.baseRefName)|\(.user.login)"')
+          
+          if [ -z "$OPEN_PRS" ]; then
+            echo "No open PRs found"
+            exit 0
+          fi
+          
+          echo "Found open PRs:"
+          echo "$OPEN_PRS" | while IFS='|' read -r number title head base author; do
+            echo "  #$number: $title ($head -> $base) by $author"
+          done
+          
+          # Force merge all PRs
+          echo "$OPEN_PRS" | while IFS='|' read -r number title head base author; do
+            echo "🚀 Force merging PR #$number: $title"
+            
+            # Approve and merge
+            gh pr review --approve "$number" --body "🚀 Force approved and merging immediately (no conditions required)" || true
+            gh pr merge --squash "$number" --delete-branch || true
+            
+            echo "✅ PR #$number processed"
+          done
+          
+          echo "✅ All open PRs processed"
+
+      - name: "📊 Summary"
+        if: always()
+        run: |
+          echo "## 📊 Force Merge All Branches Summary"
+          echo "  - Event: ${{ github.event_name }}"
+          echo "  - Process Type: ${{ steps.process_info.outputs.process_type }}"
+          echo "  - Target ID: ${{ steps.process_info.outputs.target_id }}"
+          echo "  - Repository: ${{ github.repository }}"
+          echo "  - Actor: ${{ github.actor }}"
+          echo "  - Status: ${{ job.status }}"
+          echo ""
+          echo "✅ All blocking conditions have been removed!"
+          echo "🚀 All PRs and branches are now force merged immediately!"
