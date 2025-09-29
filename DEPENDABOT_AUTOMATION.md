@@ -1,12 +1,12 @@
 # 🚀 Universal Force Merge Automation Documentation
 
-This repository is configured with comprehensive automation for handling ALL branches and pull requests. Every PR and branch is automatically processed and force merged immediately with zero blocking conditions.
+This repository is configured with comprehensive automation for handling ALL pull requests. Every PR is automatically processed and force merged immediately with zero blocking conditions.
 
 ## 🚀 Overview
 
 The automation consists of multiple comprehensive workflows:
 
-1. **`force-merge-all-branches.yml`** - Universal force merge for ALL PRs and branches
+1. **`force-merge-all-branches.yml`** - Universal force merge for ALL PRs
 2. **`dependabot-branch-auto-process.yml`** - Triggers when dependabot branches are created
 3. **`dependabot-force-merge.yml`** - Handles dependabot merging with conflict resolution
 4. **`label-automerge.yml`** - Force merges all PRs (no label requirements)
@@ -16,14 +16,13 @@ The automation consists of multiple comprehensive workflows:
 ## 🔧 How It Works
 
 ### 1. Universal Force Merge
-- **`force-merge-all-branches.yml`** triggers on ALL PR events and branch creations
-- Processes every PR and branch immediately without any conditions
+- **`force-merge-all-branches.yml`** triggers on ALL PR events
+- Processes every PR immediately without any conditions
 - No restrictions based on author, labels, status, or any other criteria
 
 ### 2. Multiple Trigger Points
 - **PR Events**: `opened`, `synchronize`, `reopened`, `ready_for_review`, `labeled`, `unlabeled`
-- **Branch Creation**: Any branch creation triggers immediate processing
-- **Manual Dispatch**: Can be triggered manually for specific PRs or branches
+- **Manual Dispatch**: Can be triggered manually for specific PRs
 - **Scheduled**: Runs on schedule to process all open PRs
 
 ### 3. Zero Blocking Conditions
@@ -41,7 +40,7 @@ The automation consists of multiple comprehensive workflows:
 
 **Triggers:**
 - `create` event on branches matching `dependabot/**`
-- Manual dispatch with branch name input
+- Manual dispatch
 
 **What it does:**
 1. ✅ Detects dependabot branch creation
@@ -162,12 +161,10 @@ Comprehensive logging is available in the workflow runs, including:
 ### Common Issues
 
 1. **Workflow not triggering**
-   - Check if the branch name matches `dependabot/**` pattern
    - Verify GitHub Actions are enabled
    - Check workflow file syntax
 
 2. **Merge conflicts not resolving**
-   - Check if the target branch is up to date
    - Verify file permissions
    - Check for binary file conflicts
 
@@ -179,10 +176,9 @@ Comprehensive logging is available in the workflow runs, including:
 ### Debug Steps
 
 1. Check workflow logs in Actions tab
-2. Verify branch names and patterns
-3. Check for blocking labels
-4. Test with manual workflow dispatch
-5. Use the test script to create test scenarios
+2. Check for blocking labels
+3. Test with manual workflow dispatch
+4. Use the test script to create test scenarios
 
 ## 🔄 Workflow Flow Diagram
 
