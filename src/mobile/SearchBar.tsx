@@ -58,7 +58,6 @@ export const SearchBar: React.FC<Props> = ({
     type?: string;
     rarity?: string;
     legalOnly?: boolean;
-    category?: string;
     timeRange?: string;
     metric?: string;
   }>({
@@ -73,7 +72,6 @@ export const SearchBar: React.FC<Props> = ({
     type: "",
     rarity: "",
     legalOnly: false,
-    category: "",
     timeRange: "",
     metric: "",
   });
@@ -589,26 +587,6 @@ export const SearchBar: React.FC<Props> = ({
             <div className={s.advancedFiltersSection}>
               <h4>Content Filters</h4>
               <div className={s.filtersGrid}>
-                <div className={s.filterGroup}>
-                  <label htmlFor="categoryFilter">Category:</label>
-                  <select
-                    id="categoryFilter"
-                    value={searchFilters.category || ""}
-                    onChange={(e) =>
-                      setSearchFilters((prev) => ({
-                        ...prev,
-                        category: e.target.value || "",
-                      }))
-                    }
-                  >
-                    <option value="">All Categories</option>
-                    <option value="history">History</option>
-                    <option value="characters">Characters</option>
-                    <option value="locations">Locations</option>
-                    <option value="events">Events</option>
-                    <option value="rules">Rules</option>
-                  </select>
-                </div>
 
                 <div className={s.filterGroup}>
                   <label htmlFor="sortByFilter">Sort By:</label>

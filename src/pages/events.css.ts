@@ -33,6 +33,11 @@ globalStyle(`${navTabs} > button.active`, {
   background: "#000",
   color: "#fff",
 });
+globalStyle(`${navTabs} > button:active`, {
+  background: "#000",
+  color: "#fff",
+  transform: "scale(0.98)",
+});
 export const content = style({});
 export const list = style({ display: "grid", gap: "1rem" });
 export const empty = style({
@@ -83,6 +88,11 @@ globalStyle(`${viewSelector} > button.active`, {
   background: "#000",
   color: "#fff",
 });
+globalStyle(`${viewSelector} > button:active`, {
+  background: "#000",
+  color: "#fff",
+  transform: "scale(0.98)",
+});
 
 // New styles for the reworked UI
 export const timeFrameDropdown = style({
@@ -121,6 +131,11 @@ export const advancedSearchButton = style({
 
 globalStyle(`${advancedSearchButton}:hover`, {
   background: "var(--border-color)",
+});
+globalStyle(`${advancedSearchButton}:active`, {
+  background: "#000",
+  color: "#fff",
+  transform: "scale(0.98)",
 });
 
 export const advancedSearchPanel = style({
@@ -173,6 +188,12 @@ export const applySearchButton = style({
 globalStyle(`${applySearchButton}:hover`, {
   background: "var(--accent-hover, #0056b3)",
 });
+globalStyle(`${applySearchButton}:active`, {
+  background: "#fff",
+  color: "var(--accent-color, #007bff)",
+  border: "1px solid var(--accent-color, #007bff)",
+  transform: "scale(0.98)",
+});
 
 export const selectedEventView = style({
   background: "var(--secondary-bg)",
@@ -201,6 +222,11 @@ export const backButton = style({
 
 globalStyle(`${backButton}:hover`, {
   background: "var(--border-color)",
+});
+globalStyle(`${backButton}:active`, {
+  background: "#000",
+  color: "#fff",
+  transform: "scale(0.98)",
 });
 
 export const eventPairings = style({
@@ -273,6 +299,11 @@ export const refreshLocationButton = style({
 
 globalStyle(`${refreshLocationButton}:hover`, {
   background: "var(--border-color)",
+});
+globalStyle(`${refreshLocationButton}:active`, {
+  background: "#000",
+  color: "#fff",
+  transform: "scale(0.98)",
 });
 
 export const storeSection = style({
@@ -443,6 +474,12 @@ globalStyle(`${mainSearchButton}:hover`, {
   background: "var(--accent-hover, #0056b3)",
   transform: "translateY(-1px)",
 });
+globalStyle(`${mainSearchButton}:active`, {
+  background: "#fff",
+  color: "var(--accent-color, #007bff)",
+  border: "1px solid var(--accent-color, #007bff)",
+  transform: "scale(0.98)",
+});
 
 export const advancedSearchToggleButton = style({
   background: "var(--secondary-bg)",
@@ -460,6 +497,11 @@ export const advancedSearchToggleButton = style({
 
 globalStyle(`${advancedSearchToggleButton}:hover`, {
   background: "var(--border-color)",
+});
+globalStyle(`${advancedSearchToggleButton}:active`, {
+  background: "#000",
+  color: "#fff",
+  transform: "scale(0.98)",
 });
 
 export const dropdownArrow = style({
@@ -505,6 +547,12 @@ globalStyle(`${error} button`, {
 
 globalStyle(`${error} button:hover`, {
   background: "var(--error-hover, #5a1a1f)",
+});
+globalStyle(`${error} button:active`, {
+  background: "#fff",
+  color: "var(--error-text, #721c24)",
+  border: "1px solid var(--error-text, #721c24)",
+  transform: "scale(0.98)",
 });
 
 export const loading = style({
