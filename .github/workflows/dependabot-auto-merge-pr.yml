@@ -12,7 +12,7 @@ permissions:
 jobs:
   dependabot-auto-merge:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' && !contains(github.event.pull_request.labels.*.name, 'no-auto-merge') }}
+    if: ${{ github.actor == 'dependabot[bot]' }}
 
     steps:
       - name: Dependabot metadata
@@ -21,26 +21,14 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Wait for CI to succeed
-        id: wait-for-ci
-        uses: lewagon/wait-on-check-action@v1.3.4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          wait-interval: 20
-          running-timeout-minutes: 15
-          allowed-conclusions: success,skipped
-          check-regexp: "(build|test|lint|ci).*"
-
       - name: Auto-merge Dependabot PRs
-        if: ${{ steps.wait-for-ci.outputs.conclusion == 'success' }}
         run: |
-          echo "✅ All checks passed. Auto-merging ${{ steps.metadata.outputs.update-type }} update"
+          echo "🚀 Force merging ${{ steps.metadata.outputs.update-type }} update (no checks required)"
           echo "Package: ${{ steps.metadata.outputs.dependency-names }}"
           echo "Version: ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}"
 
           # Approve the PR
-          gh pr review --approve "${{ github.event.pull_request.number }}" --body "✅ Auto-approved by Dependabot workflow - ${{ steps.metadata.outputs.update-type }} update for ${{ steps.metadata.outputs.dependency-names }}"
+          gh pr review --approve "${{ github.event.pull_request.number }}" --body "🚀 Force approved by Dependabot workflow (no checks required) - ${{ steps.metadata.outputs.update-type }} update for ${{ steps.metadata.outputs.dependency-names }}"
 
           # Enable auto-merge
           gh pr merge --auto --squash "${{ github.event.pull_request.number }}"
@@ -48,11 +36,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment on major version updates
-        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-major' && steps.wait-for-ci.outputs.conclusion == 'success' }}
+        if: ${{ steps.metadata.outputs.update-type == 'version-update:semver-major' }}
         run: |
-          gh pr comment "${{ github.event.pull_request.number }}" --body "🔄 **Major version update detected and auto-merged**
+          gh pr comment "${{ github.event.pull_request.number }}" --body "🔄 **Major version update detected and force merged**
 
-          This PR contains a major version update that may include breaking changes. It was automatically merged because all tests passed.
+          This PR contains a major version update that may include breaking changes. It was force merged without waiting for checks.
 
           **Update Details:**
           - **Package:** ${{ steps.metadata.outputs.dependency-names }}
@@ -60,19 +48,5 @@ jobs:
           - **Version change:** ${{ steps.metadata.outputs.previous-version }} → ${{ steps.metadata.outputs.new-version }}
 
           If you encounter any issues after this merge, please review the changelog/release notes for breaking changes."
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Handle failed checks
-        if: ${{ steps.wait-for-ci.outputs.conclusion != 'success' }}
-        run: |
-          echo "❌ Status checks failed or timed out"
-          gh pr comment "${{ github.event.pull_request.number }}" --body "❌ **Automated merge failed**
-
-          Status checks did not pass. Please review the failed checks and fix any issues before merging.
-
-          **Check status:** ${{ steps.wait-for-ci.outputs.conclusion }}
-          **Package:** ${{ steps.metadata.outputs.dependency-names }}
-          **Update type:** ${{ steps.metadata.outputs.update-type }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

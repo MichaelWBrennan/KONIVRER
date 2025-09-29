@@ -51,21 +51,23 @@ The automation consists of two main workflows:
 
 ## 🛡️ Safety Features
 
-### Blocking Labels
-The automation respects these labels and will skip processing:
-- `no-auto-merge`
-- `do-not-merge`
-- `manual-review`
+### No Blocking Conditions
+The automation has been configured to process ALL dependabot PRs without any blocking conditions:
+- ✅ No status check waiting
+- ✅ No label blocking
+- ✅ No draft PR skipping
+- ✅ No merge conflict checking
 
 ### Conflict Resolution
 - Automatically resolves conflicts by accepting Dependabot's changes
 - This ensures dependency updates are always applied
 - Maintains a clean git history with descriptive commit messages
 
-### Error Handling
-- Comprehensive error logging and status reporting
-- Graceful handling of edge cases
-- Detailed PR comments explaining what happened
+### Force Merge Behavior
+- **No checks required**: All dependabot PRs are merged immediately
+- **No waiting**: No status checks, CI, or other validations
+- **No blocking**: No labels, draft status, or merge conflicts will block merging
+- **Immediate processing**: PRs are processed as soon as they're created
 
 ## 🔧 Configuration
 

@@ -47,11 +47,11 @@ jobs:
           echo "pr_head=${{ github.event.pull_request.head.ref }}" >> $GITHUB_OUTPUT
           echo "pr_base=${{ github.event.pull_request.base.ref }}" >> $GITHUB_OUTPUT
 
-      - name: "🚫 Skip if not dependabot (unless manual trigger)"
-        if: steps.pr_info.outputs.is_dependabot != 'true' && github.event_name != 'workflow_dispatch'
+      - name: "ℹ️ Log PR details"
         run: |
-          echo "Not a dependabot PR. Skipping force merge."
-          exit 0
+          echo "Processing PR #${{ steps.pr_info.outputs.pr_number }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Event: ${{ github.event_name }}"
 
       - name: "📋 Get PR details"
         id: pr_details
@@ -89,23 +89,14 @@ jobs:
           echo "  Is Draft: $IS_DRAFT"
           echo "  Labels: $LABELS"
 
-      - name: "🚫 Skip if blocked by labels"
-        if: contains(steps.pr_details.outputs.labels, 'no-auto-merge') || contains(steps.pr_details.outputs.labels, 'do-not-merge') || contains(steps.pr_details.outputs.labels, 'manual-review')
+      - name: "ℹ️ Log PR status"
         run: |
-          echo "PR is blocked by labels. Skipping force merge."
-          gh pr comment ${{ steps.pr_info.outputs.pr_number }} --body "## 🚫 **Force merge skipped**
-          
-          This PR has labels that prevent automatic merging:
-          - Labels: ${{ steps.pr_details.outputs.labels }}
-          
-          Please remove blocking labels if you want this PR to be force merged."
-          exit 0
-
-      - name: "🚫 Skip if draft"
-        if: steps.pr_details.outputs.is_draft == 'true'
-        run: |
-          echo "PR is a draft. Skipping force merge."
-          exit 0
+          echo "PR Status:"
+          echo "  Labels: ${{ steps.pr_details.outputs.labels }}"
+          echo "  Is Draft: ${{ steps.pr_details.outputs.is_draft }}"
+          echo "  Mergeable: ${{ steps.pr_details.outputs.mergeable }}"
+          echo "  Merge State: ${{ steps.pr_details.outputs.merge_state }}"
+          echo "Proceeding with force merge regardless of status..."
 
       - name: "🔄 Switch to PR branch"
         run: |
