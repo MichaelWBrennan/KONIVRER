@@ -119,9 +119,11 @@ export const loginBtn = style({
 export const divider = style({
   textAlign: "center",
   position: "relative",
-  margin: "30px 40px",
+  margin: "20px 40px",
   color: "#888",
   fontSize: 14,
+  height: "1px",
+  background: "rgba(212,175,55,0.2)",
 });
 export const dividerSpan = style({
   background: "linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)",
@@ -158,9 +160,17 @@ export const socialBtn = style({
   },
 });
 export const socialIcon = style({
-  fontSize: 20,
+  fontSize: 18,
   width: 24,
+  height: 24,
   textAlign: "center",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontWeight: "bold",
+  borderRadius: "4px",
+  background: "rgba(255,255,255,0.1)",
+  color: "#fff",
 });
 export const biometricSection = style({
   padding: "20px 40px 30px 40px",

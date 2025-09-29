@@ -93,20 +93,23 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
           </button>
         </form>
         <div className={st.divider}>
-          <span className={st.dividerSpan}>or continue with</span>
         </div>
         <div className={st.socialSection}>
           <button className={st.socialBtn} disabled aria-disabled>
-            Continue with Google
+            <span className={st.socialIcon}>G</span>
+            Sign in with Google
           </button>
           <button className={st.socialBtn} disabled aria-disabled>
-            Continue with GitHub
+            <span className={st.socialIcon}>⚡</span>
+            Sign in with GitHub
           </button>
           <button className={st.socialBtn} disabled aria-disabled>
-            Continue with Microsoft
+            <span className={st.socialIcon}>M</span>
+            Sign in with Microsoft
           </button>
           <button className={st.socialBtn} disabled aria-disabled>
-            Continue with Discord
+            <span className={st.socialIcon}>D</span>
+            Sign in with Discord
           </button>
         </div>
         <div className={st.biometricSection}>
