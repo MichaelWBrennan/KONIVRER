@@ -18,8 +18,7 @@
     "bundle:analyze": "npm run build:analyze",
     "clean": "rm -rf dist node_modules/.vite",
     "clean:all": "rm -rf dist node_modules/.vite .turbo",
-    "dev:full": "npm run dev",
-    "automation:report": "tsx automation/cli.ts report --output automation-report.html"
+    "dev:full": "npm run dev"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.89.0",
