@@ -4,8 +4,10 @@
 rules:
   - id: konivrer-ai-xss-prevention
     pattern-either:
-      - pattern: dangerouslySetInnerHTML={{ __html: $X }}
-      - pattern: innerHTML = $X
+      - pattern: |
+          dangerouslySetInnerHTML={{ __html: $X }}
+      - pattern: |
+          innerHTML = $X
     message: Potential XSS vulnerability detected by AI analysis
     languages: [typescript, javascript]
     severity: WARNING
