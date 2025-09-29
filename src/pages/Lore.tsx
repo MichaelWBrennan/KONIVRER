@@ -1,5 +1,154 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as s from "./lore.css.ts";
+
+// Move static data outside component to prevent re-creation
+type ElementDefinition = {
+  name: "Aether" | "Air" | "Fire" | "Earth" | "Water" | "Nether";
+  epithet: string;
+  definition: string;
+  stance: string;
+  traitX: string;
+  traitY: string;
+};
+
+const elementDefinitions: ElementDefinition[] = [
+  {
+    name: "Aether",
+    epithet: "Principle",
+    definition:
+      "Do what is right; act clearly and quickly when things are confusing.",
+    stance: "You care about what is right and take clear action.",
+    traitX: "Improvise",
+    traitY: "Expedite",
+  },
+  {
+    name: "Air",
+    epithet: "Adaptation",
+    definition: "Do what works; help and teach while things change.",
+    stance: "You like trying, learning, and guiding others.",
+    traitX: "Educate",
+    traitY: "Guide",
+  },
+  {
+    name: "Fire",
+    epithet: "Aspiration",
+    definition:
+      "Work toward a better world; care for and defend others as you build.",
+    stance: "You dream big and protect people while moving forward.",
+    traitX: "Provide",
+    traitY: "Protect",
+  },
+  {
+    name: "Earth",
+    epithet: "Integrity",
+    definition:
+      "Do what is fair; set clear rules and check that things are done well.",
+    stance: "You keep order and make sure standards are met.",
+    traitX: "Supervise",
+    traitY: "Inspect",
+  },
+  {
+    name: "Water",
+    epithet: "Potential",
+    definition: "See what could be; bring pieces together to open new paths.",
+    stance: "You connect ideas and people to discover new possibilities.",
+    traitX: "Assemble",
+    traitY: "Impose",
+  },
+  {
+    name: "Nether",
+    epithet: "Capability",
+    definition:
+      "Plan how things can work; design steps that make ideas real.",
+    stance: "You build skills and plans that help everyone do more.",
+    traitX: "Plan",
+    traitY: "Design",
+  },
+];
+
+type Tab = {
+  id: string;
+  label: string;
+  src?: string;
+  sources?: string[];
+  isStatic?: boolean;
+};
+
+const tabs: Tab[] = [
+  { id: "elements", label: "Six Elements", isStatic: true },
+  {
+    id: "aether",
+    label: "Aether Treatise",
+  },
+  {
+    id: "cosmology",
+    label: "Cosmology",
+    sources: ["/assets/lore/worlds.txt", "/assets/lore/veil.txt"],
+  },
+  {
+    id: "pantheons_species",
+    label: "Pantheons & Species",
+    sources: [
+      "/assets/lore/ars_goetia.txt",
+      "/assets/lore/mesopotamian.txt",
+      "/assets/lore/shem.txt",
+      "/assets/lore/remaining.txt",
+      "/assets/lore/infernal.txt",
+      "/assets/lore/human.txt",
+      "/assets/lore/species.txt",
+      "/assets/lore/origin.txt",
+    ],
+  },
+  {
+    id: "societies_eras",
+    label: "Societies & Eras",
+    sources: [
+      "/assets/lore/societies.txt",
+      "/assets/lore/prehistory.txt",
+      "/assets/lore/three_ages.txt",
+      "/assets/lore/classical.txt",
+      "/assets/lore/abrahamism.txt",
+      "/assets/lore/dharmism.txt",
+      "/assets/lore/african.txt",
+      "/assets/lore/wildfolkism.txt",
+      "/assets/lore/hellenism.txt",
+      "/assets/lore/taoism.txt",
+      "/assets/lore/items_east.txt",
+    ],
+  },
+];
+
+const labelForSrc: Record<string, string> = {
+  "/assets/lore/societies.txt": "Societies & Eras",
+  "/assets/lore/ars_goetia.txt": "Ars Goetia",
+  "/assets/lore/mesopotamian.txt": "Hidden Mesopotamian Pantheon",
+  "/assets/lore/shem.txt": "Shem HaMephoras (72 Angels)",
+  "/assets/lore/remaining.txt": "Remaining (Archangels, etc.)",
+  "/assets/lore/origin.txt": "Origin of Species: Mythological Clades",
+  "/assets/lore/summoning.txt": "Summoning",
+  "/assets/lore/elements_east.txt": "Elements (Eastern Flavor)",
+  "/assets/lore/veil.txt": "The Shattered Veil",
+  "/assets/lore/elements_west.txt": "Elements (Western Flavor)",
+  "/assets/lore/worlds.txt": "Worlds & Lokas",
+  "/assets/lore/aether.txt": "Aether Magic System",
+  "/assets/lore/laws_history.txt": "Laws & Pre-History",
+  "/assets/lore/ethics.txt": "Ethics Systems",
+  "/assets/lore/taoism.txt": "Taoism (AIFNW)",
+  "/assets/lore/items_east.txt": "Items (Eastern)",
+  "/assets/lore/abrahamism.txt": "Abrahamism (IFNEW)",
+  "/assets/lore/dharmism.txt": "Dharmism (AINEW)",
+  "/assets/lore/african.txt": "African (IFNEW)",
+  "/assets/lore/wildfolkism.txt": "Wildfolkism (AIFNE)",
+  "/assets/lore/hellenism.txt": "Hellenism (AIFEW)",
+  "/assets/lore/human.txt": "Human & Celestials",
+  "/assets/lore/infernal.txt": "Infernal & Mythological",
+  "/assets/lore/species.txt": "Species (Ogre, Dvergr, etc.)",
+  "/assets/lore/language.txt": "Basik AnglΣ (Language)",
+  "/assets/lore/alchemy.txt": "Alxemi (Alchemy)",
+  "/assets/lore/prehistory.txt": "Pre-History",
+  "/assets/lore/three_ages.txt": "Three Ages",
+  "/assets/lore/classical.txt": "Classical Era",
+};
 
 export const Lore: React.FC = () => {
   function ScrollShadow({ children }: { children: React.ReactNode }) {
@@ -137,7 +286,7 @@ export const Lore: React.FC = () => {
           // ignore disconnect errors
         }
       };
-    }, [traits.join("|")]);
+    }, [traits]);
 
     return (
       <div ref={containerRef} className={s.traitFooter}>
@@ -151,93 +300,11 @@ export const Lore: React.FC = () => {
       </div>
     );
   }
-  // Tabs configuration: first tab is existing static content
-  const tabs: {
-    id: string;
-    label: string;
-    src?: string;
-    sources?: string[];
-    isStatic?: boolean;
-  }[] = [
-    { id: "elements", label: "Six Elements", isStatic: true },
-    {
-      id: "aether",
-      label: "Aether Treatise",
-    },
-    {
-      id: "cosmology",
-      label: "Cosmology",
-      sources: ["/assets/lore/worlds.txt", "/assets/lore/veil.txt"],
-    },
-    {
-      id: "pantheons_species",
-      label: "Pantheons & Species",
-      sources: [
-        "/assets/lore/ars_goetia.txt",
-        "/assets/lore/mesopotamian.txt",
-        "/assets/lore/shem.txt",
-        "/assets/lore/remaining.txt",
-        "/assets/lore/infernal.txt",
-        "/assets/lore/human.txt",
-        "/assets/lore/species.txt",
-        "/assets/lore/origin.txt",
-      ],
-    },
-    {
-      id: "societies_eras",
-      label: "Societies & Eras",
-      sources: [
-        "/assets/lore/societies.txt",
-        "/assets/lore/prehistory.txt",
-        "/assets/lore/three_ages.txt",
-        "/assets/lore/classical.txt",
-        "/assets/lore/abrahamism.txt",
-        "/assets/lore/dharmism.txt",
-        "/assets/lore/african.txt",
-        "/assets/lore/wildfolkism.txt",
-        "/assets/lore/hellenism.txt",
-        "/assets/lore/taoism.txt",
-        "/assets/lore/items_east.txt",
-      ],
-    },
-  ];
   const [activeTab, setActiveTab] = useState<string>(tabs[0].id);
   const [query, setQuery] = useState<string>("");
   const [loadedText, setLoadedText] = useState<string>("");
   const [contentByTab, setContentByTab] = useState<Record<string, string>>({});
   const requestIdRef = useRef(0);
-
-  const labelForSrc: Record<string, string> = {
-    "/assets/lore/societies.txt": "Societies & Eras",
-    "/assets/lore/ars_goetia.txt": "Ars Goetia",
-    "/assets/lore/mesopotamian.txt": "Hidden Mesopotamian Pantheon",
-    "/assets/lore/shem.txt": "Shem HaMephoras (72 Angels)",
-    "/assets/lore/remaining.txt": "Remaining (Archangels, etc.)",
-    "/assets/lore/origin.txt": "Origin of Species: Mythological Clades",
-    "/assets/lore/summoning.txt": "Summoning",
-    "/assets/lore/elements_east.txt": "Elements (Eastern Flavor)",
-    "/assets/lore/veil.txt": "The Shattered Veil",
-    "/assets/lore/elements_west.txt": "Elements (Western Flavor)",
-    "/assets/lore/worlds.txt": "Worlds & Lokas",
-    "/assets/lore/aether.txt": "Aether Magic System",
-    "/assets/lore/laws_history.txt": "Laws & Pre-History",
-    "/assets/lore/ethics.txt": "Ethics Systems",
-    "/assets/lore/taoism.txt": "Taoism (AIFNW)",
-    "/assets/lore/items_east.txt": "Items (Eastern)",
-    "/assets/lore/abrahamism.txt": "Abrahamism (IFNEW)",
-    "/assets/lore/dharmism.txt": "Dharmism (AINEW)",
-    "/assets/lore/african.txt": "African (IFNEW)",
-    "/assets/lore/wildfolkism.txt": "Wildfolkism (AIFNE)",
-    "/assets/lore/hellenism.txt": "Hellenism (AIFEW)",
-    "/assets/lore/human.txt": "Human & Celestials",
-    "/assets/lore/infernal.txt": "Infernal & Mythological",
-    "/assets/lore/species.txt": "Species (Ogre, Dvergr, etc.)",
-    "/assets/lore/language.txt": "Basik AnglΣ (Language)",
-    "/assets/lore/alchemy.txt": "Alxemi (Alchemy)",
-    "/assets/lore/prehistory.txt": "Pre-History",
-    "/assets/lore/three_ages.txt": "Three Ages",
-    "/assets/lore/classical.txt": "Classical Era",
-  };
 
   useEffect(() => {
     const handler = (e: Event) => setQuery((e as CustomEvent).detail || "");
@@ -321,7 +388,7 @@ export const Lore: React.FC = () => {
     return () => {
       controller.abort();
     };
-  }, [activeTab, contentByTab, labelForSrc, tabs]);
+  }, [activeTab, contentByTab]);
 
   const highlight = (text: string, q: string): React.ReactNode => {
     if (!q) return text;
@@ -344,69 +411,6 @@ export const Lore: React.FC = () => {
   };
 
   // ------------------ Existing content (static) ------------------
-  type ElementDefinition = {
-    name: "Aether" | "Air" | "Fire" | "Earth" | "Water" | "Nether";
-    epithet: string;
-    definition: string;
-    stance: string;
-    traitX: string; // first operative trait from the diagram
-    traitY: string; // second operative trait from the diagram
-  };
-
-  const elementDefinitions: ElementDefinition[] = [
-    {
-      name: "Aether",
-      epithet: "Principle",
-      definition:
-        "Do what is right; act clearly and quickly when things are confusing.",
-      stance: "You care about what is right and take clear action.",
-      traitX: "Improvise",
-      traitY: "Expedite",
-    },
-    {
-      name: "Air",
-      epithet: "Adaptation",
-      definition: "Do what works; help and teach while things change.",
-      stance: "You like trying, learning, and guiding others.",
-      traitX: "Educate",
-      traitY: "Guide",
-    },
-    {
-      name: "Fire",
-      epithet: "Aspiration",
-      definition:
-        "Work toward a better world; care for and defend others as you build.",
-      stance: "You dream big and protect people while moving forward.",
-      traitX: "Provide",
-      traitY: "Protect",
-    },
-    {
-      name: "Earth",
-      epithet: "Integrity",
-      definition:
-        "Do what is fair; set clear rules and check that things are done well.",
-      stance: "You keep order and make sure standards are met.",
-      traitX: "Supervise",
-      traitY: "Inspect",
-    },
-    {
-      name: "Water",
-      epithet: "Potential",
-      definition: "See what could be; bring pieces together to open new paths.",
-      stance: "You connect ideas and people to discover new possibilities.",
-      traitX: "Assemble",
-      traitY: "Impose",
-    },
-    {
-      name: "Nether",
-      epithet: "Capability",
-      definition:
-        "Plan how things can work; design steps that make ideas real.",
-      stance: "You build skills and plans that help everyone do more.",
-      traitX: "Plan",
-      traitY: "Design",
-    },
-  ];
 
   function generateCombinations<T>(items: T[], size: number): T[][] {
     const results: T[][] = [];
@@ -1028,270 +1032,201 @@ export const Lore: React.FC = () => {
   // Deprecated helper retained for reference; not used after cohesive rewrite
   // function buildContributionExplanation(combo: ElementDefinition[]): React.ReactNode { /* replaced by buildCohesiveParagraph */ }
 
+  // Generate combinations once
   const combinations2 = generateCombinations(elementDefinitions, 2);
   const combinations3 = generateCombinations(elementDefinitions, 3);
   const combinations4 = generateCombinations(elementDefinitions, 4);
   const combinations5 = generateCombinations(elementDefinitions, 5);
 
-  const StaticElements = useMemo(
-    () => (
-      <section className={s.section}>
-        <div className={s.diagramContainer}>
-          <img
-            className={s.diagramImage}
-            src="/assets/lore/six-divine-elements.webp"
-            alt="Six Divine Elements wheel showing Aether, Air, Fire, Earth, Water, and Nether"
-            loading="lazy"
-            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-              const img = e.currentTarget;
-              img.src = "/assets/lore/six-divine-elements.png";
-              img.onerror = () => {
-                img.src = "/assets/card-back-new.webp";
-              };
-            }}
-          />
-        </div>
-        {(() => {
-          const aether = elementDefinitions.find((e) => e.name === "Aether")!;
-          const air = elementDefinitions.find((e) => e.name === "Air")!;
-          const fire = elementDefinitions.find((e) => e.name === "Fire")!;
-          const earth = elementDefinitions.find((e) => e.name === "Earth")!;
-          const water = elementDefinitions.find((e) => e.name === "Water")!;
-          const nether = elementDefinitions.find((e) => e.name === "Nether")!;
+  // Simple static elements component
+  const StaticElements = () => (
+    <section className={s.section}>
+      <div className={s.diagramContainer}>
+        <img
+          className={s.diagramImage}
+          src="/assets/lore/six-divine-elements.webp"
+          alt="Six Divine Elements wheel showing Aether, Air, Fire, Earth, Water, and Nether"
+          loading="lazy"
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            const img = e.currentTarget;
+            img.src = "/assets/lore/six-divine-elements.png";
+            img.onerror = () => {
+              img.src = "/assets/card-back-new.webp";
+            };
+          }}
+        />
+      </div>
+      <div className={s.virtuesGrid}>
+        {elementDefinitions.map((element) => (
+          <div key={element.name} className={s.virtueCard}>
+            <h3 className={s.virtueTitle}>{element.name} — {element.epithet}</h3>
+            <p className={s.virtueText}>
+              <em>
+                {element.definition} {element.stance}
+              </em>
+            </p>
+            <TraitFooterAutoFit traits={[element.traitX, element.traitY]} />
+          </div>
+        ))}
+      </div>
+      {/* Element combinations */}
+      <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+        {combinations2.map((combo) => {
+          const [e1, e2] = combo;
+          const names = [e1.name, e2.name];
+          const key = pairKey(names[0], names[1]);
+          const special = specialPairs[key];
+          const ideology = special ? special.title : "Synthesis";
+          const faction = getFactionForCombo(names);
+          const header = names.join(" + ");
+          const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+          const factionParagraph = buildFactionParagraph(
+            faction,
+            ideology,
+            combo,
+          );
           return (
-            <div className={s.virtuesGrid}>
-              <div className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>Aether — Principle</h3>
-                <p className={s.virtueText}>
-                  <em>
-                    Do what is right; act clearly and quickly when things are
-                    confusing. You care about what is right and take clear
-                    action.
-                  </em>
-                </p>
-                <TraitFooterAutoFit traits={[aether.traitX, aether.traitY]} />
-              </div>
-              <div className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>Air — Adaptation</h3>
-                <p className={s.virtueText}>
-                  <em>
-                    Do what works; help and teach while things change. You like
-                    trying, learning, and guiding others.
-                  </em>
-                </p>
-                <TraitFooterAutoFit traits={[air.traitX, air.traitY]} />
-              </div>
-              <div className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>Fire — Aspiration</h3>
-                <p className={s.virtueText}>
-                  <em>
-                    Work toward a better world; care for and defend others as
-                    you build. You dream big and protect people while moving
-                    forward.
-                  </em>
-                </p>
-                <TraitFooterAutoFit traits={[fire.traitX, fire.traitY]} />
-              </div>
-              <div className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>Earth — Integrity</h3>
-                <p className={s.virtueText}>
-                  <em>
-                    Do what is fair; set clear rules and check that things are
-                    done well. You keep order and make sure standards are met.
-                  </em>
-                </p>
-                <TraitFooterAutoFit traits={[earth.traitX, earth.traitY]} />
-              </div>
-              <div className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>Water — Potential</h3>
-                <p className={s.virtueText}>
-                  <em>
-                    See what could be; bring pieces together to open new paths.
-                    You connect ideas and people to discover new possibilities.
-                  </em>
-                </p>
-                <TraitFooterAutoFit traits={[water.traitX, water.traitY]} />
-              </div>
-              <div className={s.virtueCard}>
-                <h3 className={s.virtueTitle}>Nether — Capability</h3>
-                <p className={s.virtueText}>
-                  <em>
-                    Plan how things can work; design steps that make ideas real.
-                    You build skills and plans that help everyone do more.
-                  </em>
-                </p>
-                <TraitFooterAutoFit traits={[nether.traitX, nether.traitY]} />
-              </div>
+            <div key={key} className={s.virtueCard}>
+              <div
+                className={s.watermark}
+                style={{
+                  backgroundImage: buildFactionWatermarkBackground(
+                    faction.name,
+                  ),
+                }}
+              />
+              <h3 className={s.virtueTitle}>{header}</h3>
+              <p className={s.virtueText}>
+                <strong>Ideology:</strong> {ideology}
+              </p>
+              <p className={s.virtueText}>
+                <strong>Faction:</strong> {faction.name}
+              </p>
+              <p className={s.virtueText}>{ideologyParagraph}</p>
+              <p className={s.virtueText}>{factionParagraph}</p>
+              {renderTraitRows(combo)}
             </div>
           );
-        })()}
-        {/* end single-element cards */}
+        })}
+      </div>
 
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          {combinations2.map((combo) => {
-            const [e1, e2] = combo;
-            const names = [e1.name, e2.name] as ElementDefinition["name"][];
-            const key = pairKey(names[0], names[1]);
-            const special = specialPairs[key];
-            const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(names);
-            const header = names.join(" + ");
-            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
-            const factionParagraph = buildFactionParagraph(
-              faction,
-              ideology,
-              combo,
-            );
-            return (
-              <div key={key} className={s.virtueCard}>
-                <div
-                  className={s.watermark}
-                  style={{
-                    backgroundImage: buildFactionWatermarkBackground(
-                      faction.name,
-                    ),
-                  }}
-                />
-                <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>
-                  <strong>Ideology:</strong> {ideology}
-                </p>
-                <p className={s.virtueText}>
-                  <strong>Faction:</strong> {faction.name}
-                </p>
-                <p className={s.virtueText}>{ideologyParagraph}</p>
-                <p className={s.virtueText}>{factionParagraph}</p>
-                {renderTraitRows(combo)}
-              </div>
-            );
-          })}
-        </div>
+      <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+        {combinations3.map((combo) => {
+          const names = combo.map((e) => e.name);
+          const key = comboKey(names);
+          const special = specialTriples[key];
+          const ideology = special ? special.title : "Synthesis";
+          const faction = getFactionForCombo(names);
+          const header = names.join(" + ");
+          const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+          const factionParagraph = buildFactionParagraph(
+            faction,
+            ideology,
+            combo,
+          );
+          return (
+            <div key={key} className={s.virtueCard}>
+              <div
+                className={s.watermark}
+                style={{
+                  backgroundImage: buildFactionWatermarkBackground(
+                    faction.name,
+                  ),
+                }}
+              />
+              <h3 className={s.virtueTitle}>{header}</h3>
+              <p className={s.virtueText}>
+                <strong>Ideology:</strong> {ideology}
+              </p>
+              <p className={s.virtueText}>
+                <strong>Faction:</strong> {faction.name}
+              </p>
+              <p className={s.virtueText}>{ideologyParagraph}</p>
+              <p className={s.virtueText}>{factionParagraph}</p>
+              {renderTraitRows(combo)}
+            </div>
+          );
+        })}
+      </div>
 
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          {combinations3.map((combo) => {
-            const names = combo.map((e) => e.name);
-            const key = comboKey(names);
-            const special = specialTriples[key];
-            const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(
-              names as ElementDefinition["name"][],
-            );
-            const header = names.join(" + ");
-            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
-            const factionParagraph = buildFactionParagraph(
-              faction,
-              ideology,
-              combo,
-            );
-            return (
-              <div key={key} className={s.virtueCard}>
-                <div
-                  className={s.watermark}
-                  style={{
-                    backgroundImage: buildFactionWatermarkBackground(
-                      faction.name,
-                    ),
-                  }}
-                />
-                <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>
-                  <strong>Ideology:</strong> {ideology}
-                </p>
-                <p className={s.virtueText}>
-                  <strong>Faction:</strong> {faction.name}
-                </p>
-                <p className={s.virtueText}>{ideologyParagraph}</p>
-                <p className={s.virtueText}>{factionParagraph}</p>
-                {renderTraitRows(combo)}
-              </div>
-            );
-          })}
-        </div>
+      <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+        {combinations4.map((combo) => {
+          const names = combo.map((e) => e.name);
+          const key = comboKey(names);
+          const special = specialQuads[key];
+          const ideology = special ? special.title : "Synthesis";
+          const faction = getFactionForCombo(names);
+          const header = names.join(" + ");
+          const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+          const factionParagraph = buildFactionParagraph(
+            faction,
+            ideology,
+            combo,
+          );
+          return (
+            <div key={key} className={s.virtueCard}>
+              <div
+                className={s.watermark}
+                style={{
+                  backgroundImage: buildFactionWatermarkBackground(
+                    faction.name,
+                  ),
+                }}
+              />
+              <h3 className={s.virtueTitle}>{header}</h3>
+              <p className={s.virtueText}>
+                <strong>Ideology:</strong> {ideology}
+              </p>
+              <p className={s.virtueText}>
+                <strong>Faction:</strong> {faction.name}
+              </p>
+              <p className={s.virtueText}>{ideologyParagraph}</p>
+              <p className={s.virtueText}>{factionParagraph}</p>
+              {renderTraitRows(combo)}
+            </div>
+          );
+        })}
+      </div>
 
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          {combinations4.map((combo) => {
-            const names = combo.map((e) => e.name);
-            const key = comboKey(names);
-            const special = specialQuads[key];
-            const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(
-              names as ElementDefinition["name"][],
-            );
-            const header = names.join(" + ");
-            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
-            const factionParagraph = buildFactionParagraph(
-              faction,
-              ideology,
-              combo,
-            );
-            return (
-              <div key={key} className={s.virtueCard}>
-                <div
-                  className={s.watermark}
-                  style={{
-                    backgroundImage: buildFactionWatermarkBackground(
-                      faction.name,
-                    ),
-                  }}
-                />
-                <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>
-                  <strong>Ideology:</strong> {ideology}
-                </p>
-                <p className={s.virtueText}>
-                  <strong>Faction:</strong> {faction.name}
-                </p>
-                <p className={s.virtueText}>{ideologyParagraph}</p>
-                <p className={s.virtueText}>{factionParagraph}</p>
-                {renderTraitRows(combo)}
-              </div>
-            );
-          })}
-        </div>
-
-        <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
-          {combinations5.map((combo) => {
-            const names = combo.map((e) => e.name);
-            const key = comboKey(names);
-            const special = specialQuints[key];
-            const ideology = special ? special.title : "Synthesis";
-            const faction = getFactionForCombo(
-              names as ElementDefinition["name"][],
-            );
-            const header = names.join(" + ");
-            const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
-            const factionParagraph = buildFactionParagraph(
-              faction,
-              ideology,
-              combo,
-            );
-            return (
-              <div key={key} className={s.virtueCard}>
-                <div
-                  className={s.watermark}
-                  style={{
-                    backgroundImage: buildFactionWatermarkBackground(
-                      faction.name,
-                    ),
-                  }}
-                />
-                <h3 className={s.virtueTitle}>{header}</h3>
-                <p className={s.virtueText}>
-                  <strong>Ideology:</strong> {ideology}
-                </p>
-                <p className={s.virtueText}>
-                  <strong>Faction:</strong> {faction.name}
-                </p>
-                <p className={s.virtueText}>{ideologyParagraph}</p>
-                <p className={s.virtueText}>{factionParagraph}</p>
-                {renderTraitRows(combo)}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-    ),
-    [combinations2, combinations3, combinations4, combinations5],
+      <div className={s.virtuesGrid} style={{ marginTop: 16 }}>
+        {combinations5.map((combo) => {
+          const names = combo.map((e) => e.name);
+          const key = comboKey(names);
+          const special = specialQuints[key];
+          const ideology = special ? special.title : "Synthesis";
+          const faction = getFactionForCombo(names);
+          const header = names.join(" + ");
+          const ideologyParagraph = buildIdeologyParagraph(combo, ideology);
+          const factionParagraph = buildFactionParagraph(
+            faction,
+            ideology,
+            combo,
+          );
+          return (
+            <div key={key} className={s.virtueCard}>
+              <div
+                className={s.watermark}
+                style={{
+                  backgroundImage: buildFactionWatermarkBackground(
+                    faction.name,
+                  ),
+                }}
+              />
+              <h3 className={s.virtueTitle}>{header}</h3>
+              <p className={s.virtueText}>
+                <strong>Ideology:</strong> {ideology}
+              </p>
+              <p className={s.virtueText}>
+                <strong>Faction:</strong> {faction.name}
+              </p>
+              <p className={s.virtueText}>{ideologyParagraph}</p>
+              <p className={s.virtueText}>{factionParagraph}</p>
+              {renderTraitRows(combo)}
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 
   // ------------------ Cosmology & Magic structured rendering ------------------
@@ -1622,7 +1557,7 @@ export const Lore: React.FC = () => {
     const tab = tabs.find((t) => t.id === activeTab);
     if (!tab) return null;
     if (tab.isStatic) {
-      return <>{StaticElements}</>;
+      return <StaticElements />;
     }
     const display = loadedText || "";
     if (tab.id === "cosmology" && display) {
