@@ -158,33 +158,33 @@ export function useAuth(): AuthState & AuthActions {
   // Role-based access control functions
   const canAccessJudgePortal = useCallback(() => {
     return authService.canAccessJudgePortal();
-  }, [state.user]);
+  }, []);
 
   const hasRole = useCallback(
     (role: UserRole) => {
       return authService.hasRole(role);
     },
-    [state.user],
+    [],
   );
 
   const hasAnyRole = useCallback(
     (roles: UserRole[]) => {
       return authService.hasAnyRole(roles);
     },
-    [state.user],
+    [],
   );
 
   const isJudge = useCallback(() => {
     return authService.isJudge();
-  }, [state.user]);
+  }, []);
 
   const isAdmin = useCallback(() => {
     return authService.isAdmin();
-  }, [state.user]);
+  }, []);
 
   const getJudgeLevel = useCallback(() => {
     return authService.getJudgeLevel();
-  }, [state.user]);
+  }, []);
 
   return {
     ...state,

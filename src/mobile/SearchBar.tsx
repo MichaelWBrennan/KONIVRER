@@ -141,7 +141,7 @@ export const SearchBar: React.FC<Props> = ({
   useEffect(() => {
     const h = setTimeout(() => onSearch(q), 300);
     return () => clearTimeout(h);
-  }, [q]);
+  }, [q, onSearch]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {

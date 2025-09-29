@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Container,
   Row,
@@ -91,11 +91,7 @@ const EventList: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
-    fetchEvents();
-  }, [filters]);
-
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       setLoading(true);
       const queryParams = new URLSearchParams();
@@ -120,13 +116,17 @@ const EventList: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
-  const handleFilterChange = (key: keyof EventSearchFilters, value: any) => {
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
+
+  const handleFilterChange = (key: keyof EventSearchFilters, value: string | number | undefined) => {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
-      page: key !== "page" ? 1 : value, // Reset page when other filters change
+      page: key !== "page" ? 1 : (value as number) || 1, // Reset page when other filters change
     }));
   };
 
@@ -225,7 +225,7 @@ const EventList: React.FC = () => {
   };
 
   const groupEventsByStore = (events: Event[]) => {
-    const grouped: { [key: string]: { store: any; events: Event[] } } = {};
+    const grouped: { [key: string]: { store: NonNullable<Event['venue']['store']>; events: Event[] } } = {};
     const onlineEvents: Event[] = [];
 
     events.forEach((event) => {

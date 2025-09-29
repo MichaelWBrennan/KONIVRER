@@ -1,6 +1,7 @@
 import * as s from "./automationDashboard.css.ts";
+import React from "react";
 
-export function AutomationDashboard(): any {
+export function AutomationDashboard(): React.JSX.Element {
   return (
     <div>
       <header className={s.header}>

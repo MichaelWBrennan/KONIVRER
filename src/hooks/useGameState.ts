@@ -161,79 +161,6 @@ export const useGameState = () => {
     });
   }, []);
 
-  const doubleClickCard = useCallback((card: Card) => {
-    // Auto-play logic: move to appropriate zone
-    const cardType = card.type || card.lesserType;
-    if (cardType && cardType.toLowerCase().includes("land")) {
-      moveCard(card.id, "field");
-    } else if (
-      cardType &&
-      (cardType.toLowerCase().includes("creature") ||
-        cardType.toLowerCase().includes("familiar"))
-    ) {
-      moveCard(card.id, "field");
-    } else {
-      moveCard(card.id, "stack");
-    }
-  }, []);
-
-  const rightClickCard = useCallback((card: Card) => {
-    // Toggle tap state for mobile long-press or desktop right-click
-    setGameState((prev) => {
-      const newState = { ...prev };
-      for (const player of newState.players) {
-        for (const zone of Object.values(player.zones)) {
-          const cardIndex = zone.cards.findIndex((c) => c.id === card.id);
-          if (cardIndex !== -1) {
-            zone.cards[cardIndex] = {
-              ...zone.cards[cardIndex],
-              isTapped: !zone.cards[cardIndex].isTapped,
-            };
-            break;
-          }
-        }
-      }
-      return newState;
-    });
-  }, []);
-
-  const startDrag = useCallback(
-    (card: Card, position: { x: number; y: number }) => {
-      // Determine valid drop zones based on card type and current zone
-      const validDropZones: KonivrverZoneType[] = [
-        "field",
-        "removedFromPlay",
-        "hand",
-      ];
-      const cardType = card.type || card.lesserType;
-      if (
-        cardType &&
-        (cardType.toLowerCase().includes("instant") ||
-          cardType.toLowerCase().includes("sorcery"))
-      ) {
-        validDropZones.push("stack");
-      }
-
-      const sourceZone = findCardZone(card.id);
-      setDragState({
-        isDragging: true,
-        draggedCard: card,
-        dragOffset: position,
-        sourceZone: sourceZone as KonivrverZoneType,
-        validDropZones,
-      });
-    },
-    [],
-  );
-
-  const endDrag = useCallback(() => {
-    setDragState((prev) => ({
-      ...prev,
-      isDragging: false,
-      draggedCard: undefined,
-    }));
-  }, []);
-
   const findCardZone = useCallback(
     (cardId: string): string | undefined => {
       for (const player of gameState.players) {
@@ -312,6 +239,79 @@ export const useGameState = () => {
     },
     [],
   );
+
+  const doubleClickCard = useCallback((card: Card) => {
+    // Auto-play logic: move to appropriate zone
+    const cardType = card.type || card.lesserType;
+    if (cardType && cardType.toLowerCase().includes("land")) {
+      moveCard(card.id, "field");
+    } else if (
+      cardType &&
+      (cardType.toLowerCase().includes("creature") ||
+        cardType.toLowerCase().includes("familiar"))
+    ) {
+      moveCard(card.id, "field");
+    } else {
+      moveCard(card.id, "stack");
+    }
+  }, [moveCard]);
+
+  const rightClickCard = useCallback((card: Card) => {
+    // Toggle tap state for mobile long-press or desktop right-click
+    setGameState((prev) => {
+      const newState = { ...prev };
+      for (const player of newState.players) {
+        for (const zone of Object.values(player.zones)) {
+          const cardIndex = zone.cards.findIndex((c) => c.id === card.id);
+          if (cardIndex !== -1) {
+            zone.cards[cardIndex] = {
+              ...zone.cards[cardIndex],
+              isTapped: !zone.cards[cardIndex].isTapped,
+            };
+            break;
+          }
+        }
+      }
+      return newState;
+    });
+  }, []);
+
+  const startDrag = useCallback(
+    (card: Card, position: { x: number; y: number }) => {
+      // Determine valid drop zones based on card type and current zone
+      const validDropZones: KonivrverZoneType[] = [
+        "field",
+        "removedFromPlay",
+        "hand",
+      ];
+      const cardType = card.type || card.lesserType;
+      if (
+        cardType &&
+        (cardType.toLowerCase().includes("instant") ||
+          cardType.toLowerCase().includes("sorcery"))
+      ) {
+        validDropZones.push("stack");
+      }
+
+      const sourceZone = findCardZone(card.id);
+      setDragState({
+        isDragging: true,
+        draggedCard: card,
+        dragOffset: position,
+        sourceZone: sourceZone as KonivrverZoneType,
+        validDropZones,
+      });
+    },
+    [findCardZone],
+  );
+
+  const endDrag = useCallback(() => {
+    setDragState((prev) => ({
+      ...prev,
+      isDragging: false,
+      draggedCard: undefined,
+    }));
+  }, []);
 
   const handleZoneDrop = useCallback(
     (zoneId: string) => {

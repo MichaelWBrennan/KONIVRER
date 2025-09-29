@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Container,
   Row,
@@ -82,7 +82,6 @@ interface EventManagerProps {
 
 const EventManager: React.FC<EventManagerProps> = ({
   eventId,
-  currentUserId,
   isOrganizer,
   isJudge,
 }) => {
@@ -99,71 +98,55 @@ const EventManager: React.FC<EventManagerProps> = ({
   const [showMatchResult, setShowMatchResult] = useState(false);
   const [generatingPairings, setGeneratingPairings] = useState(false);
 
-  useEffect(() => {
-    fetchEventData();
-
-    let wsSocket: any = null;
-    let isMounted = true;
-
-    const connect = async () => {
-      try {
-        const { io } = await import("socket.io-client");
-        if (!isMounted) return;
-        wsSocket = io("/events", {
-          auth: {
-            token: localStorage.getItem("authToken"),
-          },
-        });
-
-        wsSocket.on("connect", () => {
-          console.log("Connected to event updates");
-          wsSocket.emit("subscribeToEvent", { eventId });
-        });
-
-        wsSocket.on("pairingsPublished", (data: any) => {
-          if (data.eventId === eventId) {
-            fetchPairings();
-            showNotification("New pairings published!", "success");
-          }
-        });
-
-        wsSocket.on("matchResult", (data: any) => {
-          if (data.eventId === eventId) {
-            fetchMatches();
-            fetchStandings();
-            showNotification("Match result reported", "info");
-          }
-        });
-
-        wsSocket.on("roundCompleted", (data: any) => {
-          if (data.eventId === eventId) {
-            fetchEventData();
-            showNotification(`Round ${data.round} completed!`, "success");
-          }
-        });
-
-        wsSocket.on("eventCompleted", (data: any) => {
-          if (data.eventId === eventId) {
-            fetchEventData();
-            showNotification("Event completed!", "success");
-          }
-        });
-      } catch (e) {
-        console.warn("Socket.io client failed to load", e);
+  const fetchPairings = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/events/${eventId}/pairings`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setPairings(data);
       }
-    };
-
-    connect();
-
-    return () => {
-      isMounted = false;
-      if (wsSocket) {
-        wsSocket.disconnect();
-      }
-    };
+    } catch (err) {
+      console.error("Failed to fetch pairings:", err);
+    }
   }, [eventId]);
 
-  const fetchEventData = async () => {
+  const fetchMatches = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/events/${eventId}/matches`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setMatches(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch matches:", err);
+    }
+  }, [eventId]);
+
+  const fetchStandings = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/events/${eventId}/standings`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setStandings(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch standings:", err);
+    }
+  }, [eventId]);
+
+  const fetchEventData = useCallback(async () => {
     try {
       const response = await fetch(`/api/events/${eventId}`, {
         headers: {
@@ -183,55 +166,71 @@ const EventManager: React.FC<EventManagerProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [eventId, fetchPairings, fetchMatches, fetchStandings]);
 
-  const fetchPairings = async () => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/pairings`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setPairings(data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch pairings:", err);
-    }
-  };
+  useEffect(() => {
+    fetchEventData();
 
-  const fetchMatches = async () => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/matches`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setMatches(data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch matches:", err);
-    }
-  };
+    let wsSocket: any = null; // eslint-disable-line @typescript-eslint/no-explicit-any
+    let isMounted = true;
 
-  const fetchStandings = async () => {
-    try {
-      const response = await fetch(`/api/events/${eventId}/standings`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setStandings(data);
+    const connect = async () => {
+      try {
+        const { io } = await import("socket.io-client");
+        if (!isMounted) return;
+        wsSocket = io("/events", {
+          auth: {
+            token: localStorage.getItem("authToken"),
+          },
+        });
+
+        wsSocket.on("connect", () => {
+          console.log("Connected to event updates");
+          wsSocket.emit("subscribeToEvent", { eventId });
+        });
+
+        wsSocket.on("pairingsPublished", (data: { eventId: string }) => {
+          if (data.eventId === eventId) {
+            fetchPairings();
+            showNotification("New pairings published!", "success");
+          }
+        });
+
+        wsSocket.on("matchResult", (data: { eventId: string }) => {
+          if (data.eventId === eventId) {
+            fetchMatches();
+            fetchStandings();
+            showNotification("Match result reported", "info");
+          }
+        });
+
+        wsSocket.on("roundCompleted", (data: { eventId: string; round: number }) => {
+          if (data.eventId === eventId) {
+            fetchEventData();
+            showNotification(`Round ${data.round} completed!`, "success");
+          }
+        });
+
+        wsSocket.on("eventCompleted", (data: { eventId: string }) => {
+          if (data.eventId === eventId) {
+            fetchEventData();
+            showNotification("Event completed!", "success");
+          }
+        });
+      } catch (e) {
+        console.warn("Socket.io client failed to load", e);
       }
-    } catch (err) {
-      console.error("Failed to fetch standings:", err);
-    }
-  };
+    };
+
+    connect();
+
+    return () => {
+      isMounted = false;
+      if (wsSocket) {
+        wsSocket.disconnect();
+      }
+    };
+  }, [eventId, fetchEventData, fetchPairings, fetchMatches, fetchStandings]);
 
   const generatePairings = async () => {
     try {
@@ -494,9 +493,6 @@ const EventManager: React.FC<EventManagerProps> = ({
         <Tab eventKey="pairings" title="Pairings">
           <PairingsTab
             pairings={getCurrentRoundPairings()}
-            currentUserId={currentUserId}
-            isOrganizer={isOrganizer}
-            isJudge={isJudge}
             onReportResult={() => {
               setShowMatchResult(true);
             }}
@@ -508,7 +504,7 @@ const EventManager: React.FC<EventManagerProps> = ({
         </Tab>
 
         <Tab eventKey="matches" title="Matches">
-          <MatchesTab matches={getCurrentRoundMatches()} isJudge={isJudge} />
+          <MatchesTab matches={getCurrentRoundMatches()} />
         </Tab>
 
         {(isOrganizer || isJudge) && (
@@ -577,7 +573,7 @@ const EventManager: React.FC<EventManagerProps> = ({
 };
 
 // Placeholder components - would need full implementations
-const PairingsTab: React.FC<any> = ({ pairings, onReportResult }) => (
+const PairingsTab: React.FC<{ pairings: Pairing[]; onReportResult: (pairingId: string) => void }> = ({ pairings, onReportResult }) => (
   <div>
     <ListGroup>
       {pairings.map((pairing: Pairing) => (
@@ -607,7 +603,7 @@ const PairingsTab: React.FC<any> = ({ pairings, onReportResult }) => (
   </div>
 );
 
-const StandingsTab: React.FC<any> = ({ standings }) => (
+const StandingsTab: React.FC<{ standings: Standing[] }> = ({ standings }) => (
   <div>
     <ListGroup>
       {standings.map((standing: Standing) => (
@@ -633,7 +629,7 @@ const StandingsTab: React.FC<any> = ({ standings }) => (
   </div>
 );
 
-const MatchesTab: React.FC<any> = ({ matches }) => (
+const MatchesTab: React.FC<{ matches: Match[] }> = ({ matches }) => (
   <div>
     <ListGroup>
       {matches.map((match: Match) => (
@@ -650,7 +646,7 @@ const MatchesTab: React.FC<any> = ({ matches }) => (
   </div>
 );
 
-const AdminTab: React.FC<any> = () => (
+const AdminTab: React.FC = () => (
   <div>
     <Card>
       <Card.Body>
@@ -661,7 +657,7 @@ const AdminTab: React.FC<any> = () => (
   </div>
 );
 
-const MatchResultForm: React.FC<any> = ({ onSubmit }) => {
+const MatchResultForm: React.FC<{ onSubmit: () => void }> = ({ onSubmit }) => {
   const [result, setResult] = useState("win");
 
   return (
