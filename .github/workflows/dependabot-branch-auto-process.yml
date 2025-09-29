@@ -1,0 +1,179 @@
+name: "🚀 Dependabot Branch Auto-Process"
+
+on:
+  create:
+    branches:
+      - "dependabot/**"
+  workflow_dispatch:
+    inputs:
+      branch_name:
+        description: 'Dependabot branch name to process'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  statuses: write
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  process-dependabot-branch:
+    name: "Process dependabot branch immediately"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    steps:
+      - name: "📥 Checkout repository"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "🔍 Determine branch details"
+        id: branch_info
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BRANCH_NAME="${{ github.event.inputs.branch_name }}"
+          else
+            BRANCH_NAME="${{ github.event.ref }}"
+          fi
+          
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "is_dependabot=${{ contains(github.event.ref, 'dependabot/') || contains(github.event.inputs.branch_name, 'dependabot/') }}" >> $GITHUB_OUTPUT
+          echo "ref_type=${{ github.event.ref_type }}" >> $GITHUB_OUTPUT
+
+      - name: "🚫 Skip if not dependabot branch"
+        if: steps.branch_info.outputs.is_dependabot != 'true'
+        run: |
+          echo "Not a dependabot branch. Skipping processing."
+          exit 0
+
+      - name: "🚫 Skip if not a branch"
+        if: steps.branch_info.outputs.ref_type != 'branch'
+        run: |
+          echo "Not a branch creation event. Skipping."
+          exit 0
+
+      - name: "📋 Get branch details"
+        id: branch_details
+        run: |
+          BRANCH_NAME="${{ steps.branch_info.outputs.branch_name }}"
+          
+          # Get the latest commit on the branch
+          git checkout "$BRANCH_NAME"
+          LATEST_COMMIT=$(git rev-parse HEAD)
+          COMMIT_MESSAGE=$(git log -1 --pretty=format:"%s")
+          COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an")
+          
+          echo "latest_commit=$LATEST_COMMIT" >> $GITHUB_OUTPUT
+          echo "commit_message=$COMMIT_MESSAGE" >> $GITHUB_OUTPUT
+          echo "commit_author=$COMMIT_AUTHOR" >> $GITHUB_OUTPUT
+          
+          echo "Branch Details:"
+          echo "  Branch: $BRANCH_NAME"
+          echo "  Latest Commit: $LATEST_COMMIT"
+          echo "  Commit Message: $COMMIT_MESSAGE"
+          echo "  Commit Author: $COMMIT_AUTHOR"
+
+      - name: "📝 Create PR immediately"
+        id: create_pr
+        run: |
+          BRANCH_NAME="${{ steps.branch_info.outputs.branch_name }}"
+          BASE_BRANCH="main"
+          
+          # Create PR title from commit message
+          COMMIT_MSG="${{ steps.branch_details.outputs.commit_message }}"
+          PR_TITLE="🤖 $COMMIT_MSG"
+          
+          # Create PR body
+          PR_BODY="## 🤖 **Dependabot Auto-Processed PR**
+
+          This PR was automatically created and will be force merged immediately.
+
+          ### Details:
+          - **Branch:** \`$BRANCH_NAME\`
+          - **Base:** \`$BASE_BRANCH\`
+          - **Commit:** \`${{ steps.branch_details.outputs.latest_commit }}\`
+          - **Author:** ${{ steps.branch_details.outputs.commit_author }}
+          - **Message:** $COMMIT_MSG
+
+          ### What happens next:
+          1. ✅ This PR will be automatically approved
+          2. 🔄 Any conflicts will be resolved automatically
+          3. 🚀 The PR will be force merged into the base branch
+          4. 🗑️ The source branch will be deleted
+
+          This ensures all dependabot updates are applied immediately regardless of conflicts."
+          
+          # Check if PR already exists
+          EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --base "$BASE_BRANCH" --json number --jq '.[0].number' || echo "")
+          
+          if [ -n "$EXISTING_PR" ] && [ "$EXISTING_PR" != "null" ]; then
+            echo "PR already exists: #$EXISTING_PR"
+            echo "pr_number=$EXISTING_PR" >> $GITHUB_OUTPUT
+          else
+            # Create new PR
+            PR_URL=$(gh pr create \
+              --title "$PR_TITLE" \
+              --body "$PR_BODY" \
+              --head "$BRANCH_NAME" \
+              --base "$BASE_BRANCH" \
+              --label "dependabot,auto-merge" || echo "")
+            
+            if [ -n "$PR_URL" ]; then
+              PR_NUMBER=$(echo "$PR_URL" | grep -oE '[0-9]+$')
+              echo "Created PR: #$PR_NUMBER"
+              echo "pr_number=$PR_NUMBER" >> $GITHUB_OUTPUT
+            else
+              echo "Failed to create PR"
+              exit 1
+            fi
+          fi
+
+      - name: "⏱️ Wait for PR to be ready"
+        run: |
+          PR_NUMBER="${{ steps.create_pr.outputs.pr_number }}"
+          echo "Waiting for PR #$PR_NUMBER to be ready..."
+          
+          # Wait up to 2 minutes for PR to be ready
+          for i in {1..24}; do
+            PR_STATE=$(gh pr view "$PR_NUMBER" --json state,isDraft --jq '.state + "," + (.isDraft | tostring)')
+            echo "PR state: $PR_STATE (attempt $i/24)"
+            
+            if [[ "$PR_STATE" == "OPEN,false" ]]; then
+              echo "✅ PR is ready"
+              break
+            fi
+            
+            if [ $i -eq 24 ]; then
+              echo "⚠️ PR not ready after 2 minutes, proceeding anyway"
+            fi
+            
+            sleep 5
+          done
+
+      - name: "🚀 Trigger force merge workflow"
+        run: |
+          PR_NUMBER="${{ steps.create_pr.outputs.pr_number }}"
+          echo "Triggering force merge for PR #$PR_NUMBER..."
+          
+          # Trigger the dependabot force merge workflow
+          gh workflow run "dependabot-force-merge.yml" \
+            --ref main \
+            -f pr_number="$PR_NUMBER"
+          
+          echo "✅ Force merge workflow triggered"
+
+      - name: "📊 Summary"
+        if: always()
+        run: |
+          echo "## 📊 Dependabot Branch Auto-Process Summary"
+          echo "  - Branch: ${{ steps.branch_info.outputs.branch_name }}"
+          echo "  - PR Number: ${{ steps.create_pr.outputs.pr_number }}"
+          echo "  - Commit: ${{ steps.branch_details.outputs.latest_commit }}"
+          echo "  - Author: ${{ steps.branch_details.outputs.commit_author }}"
+          echo "  - Status: ${{ job.status }}"
