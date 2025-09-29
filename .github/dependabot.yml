@@ -118,8 +118,7 @@ updates:
       interval: daily
     open-pull-requests-limit: 1
 
-version: 2
-updates:
+  # Additional npm configuration
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
