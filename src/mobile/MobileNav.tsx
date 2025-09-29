@@ -47,7 +47,13 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           return tabsToRender.map(({ id, label }) => (
             <button
               key={id}
-              className={`${s.tab} ${active(id as Tab)}`}
+              className={`${s.tab} ${
+                current === id 
+                  ? id === "home" 
+                    ? s.tabHomeActive 
+                    : s.tabActive 
+                  : ""
+              }`}
               aria-current={current === id}
               onClick={() => onNavigate(id)}
             >
@@ -61,7 +67,13 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
           const target = isRules ? "home" : "rules";
           return (
             <button
-              className={`${s.tab} ${!isRules ? active("rules") : ""}`}
+              className={`${s.tab} ${
+                !isRules 
+                  ? active("rules") 
+                  : current === "home" 
+                    ? s.tabHomeActive 
+                    : ""
+              }`}
               aria-current={!isRules && current === "rules"}
               onClick={() => onNavigate(target)}
             >

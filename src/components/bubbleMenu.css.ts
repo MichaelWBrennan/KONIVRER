@@ -122,6 +122,14 @@ export const menuItemActive = style({
   borderColor: "transparent",
   boxShadow: "0 6px 20px rgba(74,144,226,0.35)",
 });
+
+// Special styling for Home button when active
+export const menuItemHomeActive = style({
+  background: "white",
+  color: "black",
+  borderColor: "black",
+  boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
+});
 export const menuLabel = style({ fontWeight: 500 });
 
 // User panel styles

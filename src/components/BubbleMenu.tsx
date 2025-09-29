@@ -359,7 +359,11 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
                 <button
                   key={item.id}
                   className={`${bm.menuItem} ${
-                    currentPage === item.id ? bm.menuItemActive : ""
+                    currentPage === item.id 
+                      ? item.id === "home" 
+                        ? bm.menuItemHomeActive 
+                        : bm.menuItemActive 
+                      : ""
                   }`}
                   onClick={() => {
                     onPageChange(item.id);

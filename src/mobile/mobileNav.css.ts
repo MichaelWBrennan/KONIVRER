@@ -49,6 +49,13 @@ export const tabActive = style({
   background: "#000",
 });
 
+// Special styling for Home button when active
+export const tabHomeActive = style({
+  color: "#000",
+  background: "#fff",
+  border: "1px solid #000",
+});
+
 export const label = style({
   fontSize: 11,
   marginTop: 4,
