@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { useCards } from "../hooks/useCards";
+import { useLocalCards } from "../hooks/useLocalCards";
 import { useAppStore } from "../stores/appStore";
 import { Card } from "../data/cards"; // Use our local Card type
 import * as cs from "./cardSearch.css.ts";
@@ -15,7 +16,27 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
   const { searchFilters, setSearchFilters } = useAppStore();
 
   // Using the existing useCards hook from src/hooks/useCards.ts to fetch data from the backend API.
-  const { cards, total, isLoading, error } = useCards(searchFilters);
+  const { search: searchQuery, ...restFilters } = (searchFilters || {}) as {
+    search?: string;
+    [key: string]: unknown;
+  };
+  const {
+    cards: remoteCards,
+    total: remoteTotal,
+    isLoading: remoteLoading,
+    error: remoteError,
+  } = useCards({ search: searchQuery, filters: restFilters });
+
+  // Local fallback using generated/static data
+  const { data: localData } = useLocalCards(searchFilters);
+  const localCards = localData?.data ?? [];
+  const localTotal = localData?.pagination.totalItems ?? localCards.length;
+
+  const usingFallback = Boolean(remoteError);
+  const cards = usingFallback ? localCards : remoteCards;
+  const total = usingFallback ? localTotal : remoteTotal;
+  const isLoading = remoteLoading;
+  const error = remoteError;
 
   const handleFilterChange = (key: string, value: unknown) => {
     setSearchFilters({ [key]: value, page: 1 });
@@ -41,14 +62,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
     };
   }, [cards]);
 
-  if (error) {
-    return (
-      <div className="error-container">
-        <h1>Card Search</h1>
-        <div className="error">Error loading cards: {error}</div>
-      </div>
-    );
-  }
+  // Do not hard-stop UI on error; we fall back to local data instead.
 
   const pagination = {
     currentPage: searchFilters.page || 1,

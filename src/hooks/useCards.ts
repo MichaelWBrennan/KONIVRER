@@ -10,7 +10,7 @@ export interface UseCardsOptions {
 }
 
 export function useCards(options: UseCardsOptions = {}) {
-  const { search, filters, enabled = true } = options;
+  const { search, filters = {}, enabled = true } = options;
   const queryClient = useQueryClient();
 
   const {
@@ -55,7 +55,7 @@ export function useCards(options: UseCardsOptions = {}) {
   });
 
   return {
-    cards: cardsData?.data || [],
+    cards: cardsData?.data?.data || [],
     total: cardsData?.data?.total || 0,
     isLoading,
     error: error?.message || null,
