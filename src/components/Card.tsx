@@ -210,16 +210,34 @@ export const Card: React.FC<CardProps> = ({
       data-card-id={card.id}
     >
       {/* Card background/art */}
-      <div
-        className={cs.artLayer}
-        style={{
-          backgroundImage: card.webpUrl
-            ? `url(${card.webpUrl})`
-            : card.imageUrl
-              ? `url(${card.imageUrl})`
-              : "linear-gradient(135deg, #333, #555)",
-        }}
-      />
+      <div className={cs.artLayer} style={{ overflow: "hidden" }}>
+        {/* Prefer WebP when supported; fall back to PNG card back */}
+        <picture>
+          {card.webpUrl || card.imageUrl ? (
+            <source srcSet={card.webpUrl || card.imageUrl} type="image/webp" />
+          ) : null}
+          <img
+            src="/assets/card-back-new.png"
+            alt={card.name}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              borderRadius: "inherit",
+              pointerEvents: "none",
+            }}
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement;
+              if (!img.src.endsWith("/assets/card-back-new.png")) {
+                img.src = "/assets/card-back-new.png";
+              }
+            }}
+          />
+        </picture>
+      </div>
 
       {/* Card frame overlay */}
       <div

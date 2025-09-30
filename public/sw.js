@@ -148,8 +148,21 @@ async function cacheFirstStrategy(request) {
   } catch (error) {
     console.log("Failed to fetch:", request.url);
 
-    // Return placeholder for failed image requests
+    // Return PNG placeholder for failed image requests
     if (request.destination === "image") {
+      try {
+        const fallbackResponse = await caches.match("/assets/card-back-new.png");
+        if (fallbackResponse) return fallbackResponse;
+        // Attempt network fetch of fallback and cache it
+        const png = await fetch("/assets/card-back-new.png");
+        if (png.ok) {
+          const cache = await caches.open(IMAGE_CACHE);
+          cache.put("/assets/card-back-new.png", png.clone());
+          return png;
+        }
+      } catch (e) {
+        // ignore and fall through to SVG placeholder
+      }
       return new Response(
         '<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="200" height="200" fill="#f3f4f6"/><text x="100" y="100" text-anchor="middle" fill="#9ca3af">Image Unavailable</text></svg>',
         { headers: { "Content-Type": "image/svg+xml" } },

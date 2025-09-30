@@ -74,17 +74,22 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
               className={`card-item ${cs.cardItem}`}
               onClick={() => setSelectedCard(card)}
             >
-              <img
-                src={card.webpUrl || card.imageUrl || "/assets/card-back-new.webp"}
-                alt={card.name}
-                className={cs.cardImg}
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  if (!target.src.endsWith("/assets/card-back-new.webp")) {
-                    target.src = card.imageUrl || "/assets/card-back-new.webp";
-                  }
-                }}
-              />
+              <picture>
+                {card.webpUrl ? (
+                  <source srcSet={card.webpUrl} type="image/webp" />
+                ) : null}
+                <img
+                  src={card.imageUrl || "/assets/card-back-new.png"}
+                  alt={card.name}
+                  className={cs.cardImg}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (!target.src.endsWith("/assets/card-back-new.png")) {
+                      target.src = "/assets/card-back-new.png";
+                    }
+                  }}
+                />
+              </picture>
             </div>
           ),
         )}

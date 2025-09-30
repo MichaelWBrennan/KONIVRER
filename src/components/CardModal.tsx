@@ -1,3 +1,4 @@
+import React from "react";
 import type { Card } from "../types";
 import * as overlay from "../appOverlay.css.ts";
 
@@ -20,15 +21,22 @@ export function CardModal({ card, onClose }: CardModalProps) {
           ✕
         </button>
         <h2>{card.name}</h2>
-        <img
-          src={card.webpUrl || card.imageUrl || "/assets/card-back-new.webp"}
-          alt={card.name}
-          className={overlay.modalImg}
-          onError={(e) => {
-            (e.target as HTMLImageElement).src =
-              card.imageUrl || "/assets/card-back-new.webp";
-          }}
-        />
+        <picture>
+          {card.webpUrl ? (
+            <source srcSet={card.webpUrl} type="image/webp" />
+          ) : null}
+          <img
+            src={card.imageUrl || "/assets/card-back-new.png"}
+            alt={card.name}
+            className={overlay.modalImg}
+            onError={(e) => {
+              const img = e.currentTarget as HTMLImageElement;
+              if (!img.src.endsWith("/assets/card-back-new.png")) {
+                img.src = "/assets/card-back-new.png";
+              }
+            }}
+          />
+        </picture>
         <div className={overlay.modalBody}>
           <p>
             <strong>Type:</strong> {card.type || card.lesserType}
