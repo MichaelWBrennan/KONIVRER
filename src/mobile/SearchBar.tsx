@@ -736,6 +736,28 @@ export const SearchBar: React.FC<Props> = ({
             {showAdvancedSearch ? "▲" : "▼"}
           </span>
         </button>
+        {current === "lore" && (
+          <select
+            className={s.loreCategorySelect}
+            aria-label="Lore category"
+            onChange={(e) => {
+              const tabId = e.target.value;
+              window.dispatchEvent(
+                new CustomEvent("lore-tab-change", { detail: tabId }),
+              );
+            }}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Category
+            </option>
+            <option value="elements">Six Elements</option>
+            <option value="aether">Aether Treatise</option>
+            <option value="cosmology">Cosmology</option>
+            <option value="pantheons_species">Pantheons & Species</option>
+            <option value="societies_eras">Societies & Eras</option>
+          </select>
+        )}
         {(current === "decks" || current === "my-decks") && onBuildDeck && (
           <button onClick={onBuildDeck} className={s.buildDeckButton}>
             Build Deck
