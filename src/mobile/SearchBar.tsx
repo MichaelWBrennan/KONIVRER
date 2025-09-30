@@ -725,7 +725,7 @@ export const SearchBar: React.FC<Props> = ({
         />
       </div>
 
-      {/* Advanced Search Toggle and Build Deck Button */}
+      {/* Advanced Search Toggle */}
       <div className={s.advancedSearchToggle}>
         <button
           onClick={() => setShowAdvancedSearch(!showAdvancedSearch)}
@@ -757,11 +757,6 @@ export const SearchBar: React.FC<Props> = ({
             <option value="pantheons_species">Pantheons & Species</option>
             <option value="societies_eras">Societies & Eras</option>
           </select>
-        )}
-        {(current === "decks" || current === "my-decks") && onBuildDeck && (
-          <button onClick={onBuildDeck} className={s.buildDeckButton}>
-            Build Deck
-          </button>
         )}
       </div>
 
