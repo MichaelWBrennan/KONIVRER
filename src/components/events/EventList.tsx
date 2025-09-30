@@ -96,12 +96,16 @@ const EventList: React.FC = () => {
       const queryParams = new URLSearchParams();
 
       Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== "") {
+        if (value !== undefined && value !== null && value !== "") {
           queryParams.append(key, value.toString());
         }
       });
 
-      const response = await fetch(`/api/events?${queryParams}`);
+      const response = await fetch(`/api/events?${queryParams}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to fetch events");
