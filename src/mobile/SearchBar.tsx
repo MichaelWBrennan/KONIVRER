@@ -736,6 +736,16 @@ export const SearchBar: React.FC<Props> = ({
             {showAdvancedSearch ? "▲" : "▼"}
           </span>
         </button>
+        {current === "decks" && (
+          <button
+            onClick={() => onBuildDeck?.()}
+            className={s.buildDeckButton}
+            aria-label="Build Deck"
+            title="Build Deck"
+          >
+            Build Deck
+          </button>
+        )}
         {current === "lore" && (
           <select
             className={s.loreCategorySelect}
