@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { UserRole } from "../services/authService";
 
 export interface CompanionPageProps {
   userId?: string;
@@ -10,6 +12,9 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
   );
 
   // TODO: Implement actual user authentication and role management
+
+  const { hasRole } = useAuth();
+  const isOrganizer = hasRole(UserRole.TOURNAMENT_ORGANIZER);
 
   // Mock event data - in real app this would come from API
   const activeEvents = [
@@ -318,12 +323,14 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
         >
           📅 Active Events
         </button>
-        <button
-          className={`tab-button ${activeTab === "create" ? "active" : ""}`}
-          onClick={() => setActiveTab("create")}
-        >
-          ➕ Create Event
-        </button>
+        {isOrganizer && (
+          <button
+            className={`tab-button ${activeTab === "create" ? "active" : ""}`}
+            onClick={() => setActiveTab("create")}
+          >
+            ➕ Create Event
+          </button>
+        )}
         <button
           className={`tab-button ${activeTab === "history" ? "active" : ""}`}
           onClick={() => setActiveTab("history")}
@@ -390,7 +397,7 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
           </div>
         )}
 
-        {activeTab === "create" && (
+        {isOrganizer && activeTab === "create" && (
           <div>
             <h2>Create New Event</h2>
             <p>
