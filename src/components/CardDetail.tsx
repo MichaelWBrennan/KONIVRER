@@ -18,15 +18,22 @@ export const CardDetail: React.FC<CardDetailProps> = ({ card, onClose }) => {
         <div className={st.content}>
           <div className={st.imageSection}>
             <h2>{card.name}</h2>
-            <img
-              src={card.webpUrl}
-              alt={card.name}
-              className={st.cardImage}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = card.imageUrl;
-              }}
-            />
+            <picture>
+              {card.webpUrl ? (
+                <source srcSet={card.webpUrl} type="image/webp" />
+              ) : null}
+              <img
+                src={card.imageUrl || "/assets/card-back-new.png"}
+                alt={card.name}
+                className={st.cardImage}
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.endsWith("/assets/card-back-new.png")) {
+                    target.src = "/assets/card-back-new.png";
+                  }
+                }}
+              />
+            </picture>
           </div>
 
           <div className={st.infoSection}>
