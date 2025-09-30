@@ -81,7 +81,7 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             </button>
           );
         })()}
-        {/* Swapped: show Lore before Sim */}
+        {/* Swapped: show Lore before Sim; when on Lore or Sim, that slot becomes Home */}
         {(
           [
             ...(isAuthenticated ? [["my-decks", "My Decks"] as const] : []),
@@ -89,16 +89,23 @@ export const MobileNav: React.FC<Props> = ({ current, onNavigate }) => {
             ["simulator", "Sim"] as const,
             ...(canAccessJudgePortal() ? [["judge", "Judge"] as const] : []),
           ] as const
-        ).map(([page, label]) => (
-          <button
-            key={page}
-            className={`${s.tab} ${active(page as Tab)}`}
-            aria-current={current === page}
-            onClick={() => onNavigate(page)}
-          >
-            <span className={s.label}>{label}</span>
-          </button>
-        ))}
+        ).map(([page, defaultLabel]) => {
+          const isLoreOrSim = page === "lore" || page === "simulator";
+          const isCurrent = current === page;
+          const isReplacedByHome = isLoreOrSim && isCurrent;
+          const label = isReplacedByHome ? "Home" : defaultLabel;
+          const target = isReplacedByHome ? "home" : page;
+          return (
+            <button
+              key={page}
+              className={`${s.tab} ${isReplacedByHome ? s.tabHome : active(page as Tab)}`}
+              aria-current={!isReplacedByHome && current === page}
+              onClick={() => onNavigate(target)}
+            >
+              <span className={s.label}>{label}</span>
+            </button>
+          );
+        })}
         {/* Login button moved after Lore */}
         <button
           className={`${s.tab}`}
