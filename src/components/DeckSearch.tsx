@@ -68,13 +68,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
 
   return (
     <div>
-      <div className="search-container">
-        {!showBuilder && (
-          <div className="filters">
-            {/* Filters are now handled by the global advanced search */}
-          </div>
-        )}
-      </div>
+      {/* Removed empty local search container; filters are handled by the global Advanced Search */}
 
       {!showBuilder ? (
         <div className="card-grid">
