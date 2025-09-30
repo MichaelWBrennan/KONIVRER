@@ -150,7 +150,7 @@ const labelForSrc: Record<string, string> = {
 };
 
 export const Lore: React.FC = () => {
-  function ScrollShadow({ children }: { children: React.ReactNode }) {
+  function ScrollShadow({ children }: { children?: React.ReactNode }) {
     const wrapRef = useRef<HTMLDivElement | null>(null);
     const leftRef = useRef<HTMLDivElement | null>(null);
     const rightRef = useRef<HTMLDivElement | null>(null);
@@ -309,6 +309,17 @@ export const Lore: React.FC = () => {
     const handler = (e: Event) => setQuery((e as CustomEvent).detail || "");
     window.addEventListener("lore-search", handler);
     return () => window.removeEventListener("lore-search", handler);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const tabId = (e as CustomEvent).detail as string;
+      if (typeof tabId === "string") {
+        setActiveTab(tabId);
+      }
+    };
+    window.addEventListener("lore-tab-change", handler);
+    return () => window.removeEventListener("lore-tab-change", handler);
   }, []);
 
   useEffect(() => {
@@ -1578,20 +1589,6 @@ export const Lore: React.FC = () => {
 
   return (
     <div className={s.container}>
-      <div className={s.tabsBar}>
-        <select
-          value={activeTab}
-          onChange={(e) => setActiveTab(e.target.value)}
-          className={s.tabDropdown}
-        >
-          {tabs.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.label}
-            </option>
-          ))}
-        </select>
-      </div>
-
       <div className={s.content}>{renderActive()}</div>
     </div>
   );
