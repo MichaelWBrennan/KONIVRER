@@ -91,7 +91,10 @@ export const panelCloseBtn = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  selectors: { "&:hover": { background: "rgba(255,255,255,0.06)" } },
+  selectors: {
+    "&:hover": { background: "rgba(255,255,255,0.06)" },
+    "&:active": { background: "#fff", color: "#000" },
+  },
 });
 
 export const settingGroup = style({ marginBottom: 16 });

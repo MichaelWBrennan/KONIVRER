@@ -28,4 +28,10 @@ export const iconBtn = style({
   background: "transparent",
   color: "var(--text-primary)",
   cursor: "pointer",
+  selectors: {
+    "&:active": {
+      background: "#fff",
+      color: "#000",
+    },
+  },
 });

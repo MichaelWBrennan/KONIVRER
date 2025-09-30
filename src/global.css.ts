@@ -398,10 +398,15 @@ globalStyle(".btn-secondary", {
   opacity: 1,
 });
 
+// Native buttons pressed state - keep full opacity
+globalStyle("button:active", {
+  opacity: 1,
+});
+
 // Pressed/clicked state - inverted colors, no transparency
 globalStyle(".btn:active", {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   opacity: 1,
   transform: "scale(0.98)",
 });
@@ -413,8 +418,8 @@ globalStyle(".btn-primary:active", {
   transform: "scale(0.98)",
 });
 globalStyle(".btn-secondary:active", {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   opacity: 1,
   transform: "scale(0.98)",
 });
@@ -442,8 +447,8 @@ globalStyle(".tab:not(.active)", {
   opacity: 1,
 });
 globalStyle(".tab:active", {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   opacity: 1,
   transform: "scale(0.98)",
 });
@@ -526,8 +531,8 @@ globalStyle(".btn-touch", {
 
 globalStyle(".btn-touch:active", {
   transform: "scale(0.95)",
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   opacity: 1,
 });
 

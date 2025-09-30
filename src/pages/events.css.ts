@@ -34,8 +34,8 @@ globalStyle(`${navTabs} > button.active`, {
   color: "#fff",
 });
 globalStyle(`${navTabs} > button:active`, {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   transform: "scale(0.98)",
 });
 export const content = style({});
@@ -89,8 +89,8 @@ globalStyle(`${viewSelector} > button.active`, {
   color: "#fff",
 });
 globalStyle(`${viewSelector} > button:active`, {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   transform: "scale(0.98)",
 });
 
@@ -133,8 +133,8 @@ globalStyle(`${advancedSearchButton}:hover`, {
   background: "var(--border-color)",
 });
 globalStyle(`${advancedSearchButton}:active`, {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   transform: "scale(0.98)",
 });
 
@@ -224,8 +224,8 @@ globalStyle(`${backButton}:hover`, {
   background: "var(--border-color)",
 });
 globalStyle(`${backButton}:active`, {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   transform: "scale(0.98)",
 });
 
@@ -301,8 +301,8 @@ globalStyle(`${refreshLocationButton}:hover`, {
   background: "var(--border-color)",
 });
 globalStyle(`${refreshLocationButton}:active`, {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   transform: "scale(0.98)",
 });
 
@@ -499,8 +499,8 @@ globalStyle(`${advancedSearchToggleButton}:hover`, {
   background: "var(--border-color)",
 });
 globalStyle(`${advancedSearchToggleButton}:active`, {
-  background: "#000",
-  color: "#fff",
+  background: "#fff",
+  color: "#000",
   transform: "scale(0.98)",
 });
 

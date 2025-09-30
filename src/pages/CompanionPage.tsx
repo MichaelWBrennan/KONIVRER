@@ -92,6 +92,11 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
             background: rgba(255,255,255,0.1);
             transform: translateY(-1px);
           }
+          .tab-button:active {
+            background: #fff;
+            color: #000;
+            transform: translateY(0);
+          }
           
           .tab-button.active {
             background: #000;
@@ -229,8 +234,9 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
             transform: translateY(-1px);
           }
           .btn-secondary:active {
-            background: #000;
-            color: #fff;
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
           }
           
           .companion-features {
