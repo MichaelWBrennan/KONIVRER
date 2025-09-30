@@ -5,6 +5,7 @@ import { useAppStore } from "../stores/appStore";
 import { Card } from "../data/cards"; // Use our local Card type
 import * as cs from "./cardSearch.css.ts";
 import { CardViewerModal } from "./CardViewerModal";
+import { resolveCardImageUrls } from "../utils/cardImages";
 // nav header removed along with redundant filters
 
 interface CardSearchProps {
@@ -75,11 +76,12 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
               onClick={() => setSelectedCard(card)}
             >
               <picture>
-                {card.webpUrl ? (
-                  <source srcSet={card.webpUrl} type="image/webp" />
-                ) : null}
+                {(() => {
+                  const { webpSrc } = resolveCardImageUrls(card);
+                  return <source srcSet={webpSrc} type="image/webp" />;
+                })()}
                 <img
-                  src={card.imageUrl || "/assets/card-back-new.png"}
+                  src={(() => resolveCardImageUrls(card).imgSrc)()}
                   alt={card.name}
                   className={cs.cardImg}
                   onError={(e) => {
