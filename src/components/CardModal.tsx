@@ -21,12 +21,12 @@ export function CardModal({ card, onClose }: CardModalProps) {
         </button>
         <h2>{card.name}</h2>
         <img
-          src={card.webpUrl}
+          src={card.webpUrl || card.imageUrl || "/assets/card-back-new.webp"}
           alt={card.name}
           className={overlay.modalImg}
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              card.imageUrl || "/placeholder-card.png";
+              card.imageUrl || "/assets/card-back-new.webp";
           }}
         />
         <div className={overlay.modalBody}>
