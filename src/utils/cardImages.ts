@@ -11,17 +11,25 @@ function extractBaseFromPath(path: string): string | null {
   }
 }
 
+function sanitizeDisplayName(name: string): string {
+  return name.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
+}
+
 function deriveBaseNameFromCard(card: Pick<Card, "name"> & Partial<Card>): string {
+  // Prefer deriving from the human-readable display name to match local asset naming
+  const fromName = sanitizeDisplayName(card.name);
+  if (fromName) return fromName;
+
+  // Fallback: try to extract from provided URLs (backend may return mismatched paths)
   const candidates: Array<string | undefined> = [card.webpUrl, card.imageUrl];
   for (const c of candidates) {
     if (!c) continue;
     const base = extractBaseFromPath(c);
-    if (base) return base.toUpperCase();
+    if (base) return sanitizeDisplayName(base);
   }
 
-  // Fallback: derive from display name by stripping non-alphanumerics and uppercasing
-  const normalized = card.name.replace(/[^A-Za-z0-9]/g, "").toUpperCase();
-  return normalized;
+  // Final fallback
+  return "";
 }
 
 export function resolveCardImageUrls(card: Card): { webpSrc: string; imgSrc: string } {

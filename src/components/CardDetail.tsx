@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "../data/cards";
 import * as st from "./cardDetail.css.ts";
+import { resolveCardImageUrls } from "../utils/cardImages";
 
 interface CardDetailProps {
   card: Card;
@@ -19,11 +20,12 @@ export const CardDetail: React.FC<CardDetailProps> = ({ card, onClose }) => {
           <div className={st.imageSection}>
             <h2>{card.name}</h2>
             <picture>
-              {card.webpUrl ? (
-                <source srcSet={card.webpUrl} type="image/webp" />
-              ) : null}
+              {(() => {
+                const { webpSrc } = resolveCardImageUrls(card);
+                return <source srcSet={webpSrc} type="image/webp" />;
+              })()}
               <img
-                src={card.imageUrl || "/assets/card-back-new.png"}
+                src={(() => resolveCardImageUrls(card).imgSrc)()}
                 alt={card.name}
                 className={st.cardImage}
                 onError={(e) => {
