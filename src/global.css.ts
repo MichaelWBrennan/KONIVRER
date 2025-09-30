@@ -398,6 +398,11 @@ globalStyle(".btn-secondary", {
   opacity: 1,
 });
 
+// Native buttons pressed state - keep full opacity
+globalStyle("button:active", {
+  opacity: 1,
+});
+
 // Pressed/clicked state - inverted colors, no transparency
 globalStyle(".btn:active", {
   background: "#000",

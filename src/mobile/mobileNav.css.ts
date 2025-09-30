@@ -40,6 +40,10 @@ export const tab = style({
     "&:hover": {
       background: "rgba(0,0,0,0.08)",
     },
+    "&:active": {
+      background: "#000",
+      color: "#fff",
+    },
   },
 });
 
