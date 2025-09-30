@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from "react";
 import * as nav from "../nav.css.ts";
 import * as ds from "./deckSearch.css.ts";
-import { Deck, cardDatabase } from "../data/cards";
+import { Deck, cardDatabase, type Card } from "../data/cards";
 import { DeckBuilderAdvanced } from "../pages/DeckBuilderAdvanced";
 import { useAppStore } from "../stores/appStore";
+import { resolveCardImageUrls } from "../utils/cardImages";
 
 interface DeckSearchProps {
   onDeckSelect?: (deck: Deck) => void;
@@ -50,7 +51,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
     return deck.cards
       .slice(0, 3)
       .map((cardId) => cardDatabase.find((card) => card.id === cardId))
-      .filter(Boolean);
+      .filter((c): c is Card => Boolean(c));
   };
 
   const handleAddToMyAccount = (deck: Deck) => {
@@ -86,7 +87,7 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                   {previewCards.map((card, index) => (
                     <img
                       key={card?.id}
-                      src={card?.webpUrl}
+                      src={card ? resolveCardImageUrls(card).imgSrc : undefined}
                       alt={card?.name}
                       style={{
                         width: `${100 / previewCards.length}%`,
@@ -96,9 +97,10 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                       }}
                       className={ds.previewImg}
                       onError={(e) => {
-                        // Fallback to PNG if WebP fails
-                        if (card) {
-                          (e.target as HTMLImageElement).src = card.imageUrl;
+                        if (!card) return;
+                        const img = e.target as HTMLImageElement;
+                        if (!img.src.endsWith("/assets/card-back-new.png")) {
+                          img.src = "/assets/card-back-new.png";
                         }
                       }}
                     />

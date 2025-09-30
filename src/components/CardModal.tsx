@@ -1,6 +1,7 @@
 import React from "react";
 import type { Card } from "../types";
 import * as overlay from "../appOverlay.css.ts";
+import { resolveCardImageUrls } from "../utils/cardImages";
 
 interface CardModalProps {
   card: Card | null;
@@ -22,11 +23,12 @@ export function CardModal({ card, onClose }: CardModalProps) {
         </button>
         <h2>{card.name}</h2>
         <picture>
-          {card.webpUrl ? (
-            <source srcSet={card.webpUrl} type="image/webp" />
-          ) : null}
+          {(() => {
+            const { webpSrc } = resolveCardImageUrls(card);
+            return <source srcSet={webpSrc} type="image/webp" />;
+          })()}
           <img
-            src={card.imageUrl || "/assets/card-back-new.png"}
+            src={(() => resolveCardImageUrls(card).imgSrc)()}
             alt={card.name}
             className={overlay.modalImg}
             onError={(e) => {
