@@ -234,8 +234,9 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
             transform: translateY(-1px);
           }
           .btn-secondary:active {
-            background: #000;
-            color: #fff;
+            background: #fff;
+            color: #000;
+            border: 1px solid #000;
           }
           
           .companion-features {
