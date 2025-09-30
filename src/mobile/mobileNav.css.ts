@@ -59,6 +59,22 @@ export const tabHomeActive = style({
   border: "1px solid #000",
 });
 
+// Styling for Home button when used as a replacement in other slots
+export const tabHome = style({
+  color: "#000",
+  background: "#fff",
+  selectors: {
+    "&:hover": {
+      background: "#fff",
+      color: "#000",
+    },
+    "&:active": {
+      background: "#fff",
+      color: "#000",
+    },
+  },
+});
+
 export const label = style({
   fontSize: 11,
   marginTop: 4,
