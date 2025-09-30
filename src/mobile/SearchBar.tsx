@@ -137,11 +137,13 @@ export const SearchBar: React.FC<Props> = ({
   })();
 
   useEffect(() => {
+    if (current === "cards") return;
     const h = setTimeout(() => onSearch(q), 300);
     return () => clearTimeout(h);
-  }, [q, onSearch]);
+  }, [q, onSearch, current]);
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (current === "cards") return;
     if (e.key === "Enter") {
       onSearch(q);
     }
@@ -715,15 +717,17 @@ export const SearchBar: React.FC<Props> = ({
 
   return (
     <div className={s.wrap}>
-      <div className={s.mainSearchBar}>
-        <input
-          className={s.input}
-          placeholder={placeholder}
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          onKeyPress={handleKeyPress}
-        />
-      </div>
+      {current !== "cards" && (
+        <div className={s.mainSearchBar}>
+          <input
+            className={s.input}
+            placeholder={placeholder}
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            onKeyPress={handleKeyPress}
+          />
+        </div>
+      )}
 
       {/* Advanced Search Toggle and Build Deck Button */}
       <div className={s.advancedSearchToggle}>

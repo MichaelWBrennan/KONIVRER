@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { useCards } from "../hooks/useCards";
 import { useLocalCards } from "../hooks/useLocalCards";
 import { useAppStore } from "../stores/appStore";
 import { Card } from "../data/cards"; // Use our local Card type
 import * as cs from "./cardSearch.css.ts";
 import { CardViewerModal } from "./CardViewerModal";
-import * as nav from "../nav.css.ts";
+// nav header removed along with redundant filters
 
 interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
@@ -38,30 +38,9 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
   const isLoading = remoteLoading;
   const error = remoteError;
 
-  const handleFilterChange = (key: string, value: unknown) => {
-    setSearchFilters({ [key]: value, page: 1 });
-  };
-
   const handlePageChange = (page: number) => {
     setSearchFilters({ page });
   };
-
-  // Get unique values for filters from current results
-  const filterOptions = useMemo(() => {
-    const cardsArray = Array.isArray(cards) ? cards : cards?.data || [];
-    return {
-      elements: [
-        ...new Set(cardsArray.map((card: Card) => card.element)),
-      ].sort() as string[],
-      types: [
-        ...new Set(cardsArray.map((card: Card) => card.type)),
-      ].sort() as string[],
-      rarities: [
-        ...new Set(cardsArray.map((card: Card) => card.rarity)),
-      ].sort() as string[],
-    };
-  }, [cards]);
-
   // Do not hard-stop UI on error; we fall back to local data instead.
 
   const pagination = {
@@ -72,67 +51,7 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
 
   return (
     <div>
-      <div className="search-container">
-        <h1 className={nav.navTitle}>Card Search</h1>
-
-        <div className="filters">
-          <select
-            value={searchFilters.element || ""}
-            onChange={(e) =>
-              handleFilterChange("element", e.target.value || undefined)
-            }
-            className="filter-select"
-          >
-            <option value="">All Elements</option>
-            {filterOptions.elements.map((element) => (
-              <option key={element} value={element}>
-                {element}
-              </option>
-            ))}
-          </select>
-
-          <select
-            value={searchFilters.type || ""}
-            onChange={(e) =>
-              handleFilterChange("type", e.target.value || undefined)
-            }
-            className="filter-select"
-          >
-            <option value="">Select Type</option>
-            <option value="Familiar">Familiar</option>
-            <option
-              value="Elemental"
-              disabled={searchFilters.type !== "Familiar"}
-            >
-              Elemental
-            </option>
-          </select>
-
-          <select
-            value={searchFilters.rarity || ""}
-            onChange={(e) =>
-              handleFilterChange("rarity", e.target.value || undefined)
-            }
-            className="filter-select"
-          >
-            <option value="">All Rarities</option>
-            <option value="Common">Common</option>
-            <option value="Uncommon">Uncommon</option>
-            <option value="Rare">Rare</option>
-          </select>
-
-          <label className={cs.filtersRow}>
-            <input
-              type="checkbox"
-              checked={searchFilters.legalOnly || false}
-              onChange={(e) =>
-                handleFilterChange("legalOnly", e.target.checked || undefined)
-              }
-            />
-            Tournament Legal Only
-          </label>
-        </div>
-      </div>
+      {/* The global Advanced Search handles all filtering and headings for cards. */}
 
       {isLoading && <div className="loading">Loading cards...</div>}
 
