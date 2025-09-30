@@ -58,9 +58,7 @@ export function PdfViewer({
 
   return (
     <div className={s.viewerWrap}>
-      <div className={s.toolbar}>
-        <h3 className={s.title}>PDF Viewer</h3>
-      </div>
+      <div className={s.toolbar}></div>
       <div className={s.canvasWrap}>
         <canvas ref={canvasRef} className={s.canvas} />
       </div>
