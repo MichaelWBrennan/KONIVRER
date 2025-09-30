@@ -37,7 +37,6 @@ export const tab = style({
   cursor: "pointer",
   borderRight: "1px solid var(--border-color)",
   selectors: {
-    "&:active": { opacity: 0.8 },
     "&:hover": {
       background: "rgba(0,0,0,0.08)",
     },
