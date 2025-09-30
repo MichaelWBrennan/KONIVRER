@@ -93,7 +93,7 @@ export const panelCloseBtn = style({
   justifyContent: "center",
   selectors: {
     "&:hover": { background: "rgba(255,255,255,0.06)" },
-    "&:active": { background: "#000", color: "#fff" },
+    "&:active": { background: "#fff", color: "#000" },
   },
 });
 

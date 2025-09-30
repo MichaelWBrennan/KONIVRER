@@ -125,8 +125,8 @@ export const tabDropdown = style({
       backgroundColor: "#e8f4ff"
     },
     "&:active": {
-      backgroundColor: "#000",
-      color: "#fff",
+      backgroundColor: "#fff",
+      color: "#000",
       transform: "scale(0.98)",
     },
   },
@@ -152,8 +152,8 @@ export const categoryDropdown = style({
       backgroundColor: "#e8f4ff"
     },
     "&:active": {
-      backgroundColor: "#000",
-      color: "#fff",
+      backgroundColor: "#fff",
+      color: "#000",
       transform: "scale(0.98)",
     },
   },

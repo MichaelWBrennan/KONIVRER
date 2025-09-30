@@ -93,8 +93,8 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
             transform: translateY(-1px);
           }
           .tab-button:active {
-            background: #000;
-            color: #fff;
+            background: #fff;
+            color: #000;
             transform: translateY(0);
           }
           

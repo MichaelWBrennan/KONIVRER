@@ -41,15 +41,15 @@ export const tab = style({
       background: "rgba(0,0,0,0.08)",
     },
     "&:active": {
-      background: "#000",
-      color: "#fff",
+      background: "#fff",
+      color: "#000",
     },
   },
 });
 
 export const tabActive = style({
-  color: "#fff",
-  background: "#000",
+  color: "#000",
+  background: "#fff",
 });
 
 // Special styling for Home button when active

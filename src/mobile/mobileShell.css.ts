@@ -30,8 +30,8 @@ export const iconBtn = style({
   cursor: "pointer",
   selectors: {
     "&:active": {
-      background: "#000",
-      color: "#fff",
+      background: "#fff",
+      color: "#000",
     },
   },
 });
