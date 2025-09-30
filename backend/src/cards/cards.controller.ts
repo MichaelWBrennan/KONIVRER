@@ -21,7 +21,7 @@ import { CreateCardDto, UpdateCardDto, CardFilterDto } from "./dto/card.dto";
 import { Card } from "./entities/card.entity";
 
 @ApiTags("cards")
-@Controller("api/cards")
+@Controller("cards")
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
@@ -142,27 +142,27 @@ export class CardsController {
 
     const result = await this.cardsService.findAll(internalFilters);
 
-    // Return in API spec format
+    // Return in PaginatedResponse shape expected by frontend
     return {
-      total: result.total,
-      page: result.page,
-      pageSize: result.limit,
-      cards: (result.items || []).map((card) => ({
+      data: (result.items || []).map((card) => ({
         id: card.id,
         name: card.name,
         type: card.type,
         cost: card.cost,
-        faction: card.element, // Map element to faction (legacy)
-        element: card.element, // Include element for modern clients
+        faction: card.element,
+        element: card.element,
         rarity: card.rarity,
         text: card.description,
         imageUrl: card.imageUrl,
         webpUrl: card.webpUrl,
         metadata: {
           rarity: card.rarity,
-          set: filters.set || "S1", // Default set
+          set: filters.set || "S1",
         },
       })),
+      total: result.total,
+      page: result.page,
+      limit: result.limit,
     };
   }
 
