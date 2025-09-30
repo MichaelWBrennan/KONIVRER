@@ -75,13 +75,13 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
               onClick={() => setSelectedCard(card)}
             >
               <img
-                src={card.webpUrl || card.imageUrl || "/placeholder-card.png"}
+                src={card.webpUrl || card.imageUrl || "/assets/card-back-new.webp"}
                 alt={card.name}
                 className={cs.cardImg}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (target.src !== "/placeholder-card.png") {
-                    target.src = card.imageUrl || "/placeholder-card.png";
+                  if (!target.src.endsWith("/assets/card-back-new.webp")) {
+                    target.src = card.imageUrl || "/assets/card-back-new.webp";
                   }
                 }}
               />

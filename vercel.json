@@ -3,5 +3,14 @@
   "installCommand": "npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/assets/(.*)", "destination": "/assets/$1" },
+    { "source": "/icons/(.*)", "destination": "/icons/$1" },
+    { "source": "/fonts/(.*)", "destination": "/fonts/$1" },
+    { "source": "/favicon.svg", "destination": "/favicon.svg" },
+    { "source": "/manifest.json", "destination": "/manifest.json" },
+    { "source": "/sw.js", "destination": "/sw.js" },
+    { "source": "/((?!api/|assets/|icons/|fonts/|favicon\\.svg|manifest\\.json|sw\\.js).*)", "destination": "/index.html" }
+  ]
 }
