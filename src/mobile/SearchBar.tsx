@@ -34,9 +34,20 @@ export const SearchBar: React.FC<Props> = ({
   onAdvancedSearch,
   onBuildDeck,
 }) => {
+  const rulesDocuments = useMemo(
+    () => [
+      { label: "Rules", value: "/assets/konivrer-rules.pdf" },
+      { label: "Tournament Rules", value: "/assets/konivrer-tournament-rules.pdf" },
+      { label: "Code of Conduct", value: "/assets/konivrer-code-of-conduct.pdf" },
+    ],
+    [],
+  );
   const [q, setQ] = useState("");
   const [contextOverride, setContextOverride] = useState<string | null>(null);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
+  const [selectedRulesDoc, setSelectedRulesDoc] = useState<string>(
+    "/assets/konivrer-rules.pdf",
+  );
   const [timeFrame, setTimeFrame] = useState<{ start: string; end: string }>({
     start: "",
     end: "",
@@ -137,6 +148,15 @@ export const SearchBar: React.FC<Props> = ({
     window.addEventListener("search-context", handler);
     return () => window.removeEventListener("search-context", handler);
   }, []);
+
+  // Keep Rules page PDF viewer in sync when user navigates to Rules
+  useEffect(() => {
+    if (current === "rules") {
+      window.dispatchEvent(
+        new CustomEvent("rules-doc-change", { detail: selectedRulesDoc }),
+      );
+    }
+  }, [current]);
 
   // Collapse advanced panel on pagination page changes from results views
   useEffect(() => {
@@ -825,6 +845,26 @@ export const SearchBar: React.FC<Props> = ({
             <option value="cosmology">Cosmology</option>
             <option value="pantheons_species">Pantheons & Species</option>
             <option value="societies_eras">Societies & Eras</option>
+          </select>
+        )}
+        {current === "rules" && (
+          <select
+            className={s.rulesDocSelect}
+            aria-label="Rules document"
+            value={selectedRulesDoc}
+            onChange={(e) => {
+              const url = e.target.value;
+              setSelectedRulesDoc(url);
+              window.dispatchEvent(
+                new CustomEvent("rules-doc-change", { detail: url }),
+              );
+            }}
+          >
+            {rulesDocuments.map((doc) => (
+              <option key={doc.value} value={doc.value}>
+                {doc.label}
+              </option>
+            ))}
           </select>
         )}
       </div>

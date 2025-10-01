@@ -225,3 +225,14 @@ export const loreCategorySelect = style({
   minHeight: 36,
   cursor: "pointer",
 });
+
+export const rulesDocSelect = style({
+  background: "var(--secondary-bg, rgba(255,255,255,0.1))",
+  color: "var(--text-primary)",
+  border: "1px solid rgba(255,255,255,0.12)",
+  borderRadius: 8,
+  padding: "0.5rem 0.75rem",
+  fontSize: 14,
+  minHeight: 36,
+  cursor: "pointer",
+});
