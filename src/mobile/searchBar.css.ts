@@ -74,6 +74,8 @@ export const advancedSearchPanel = style({
   borderRadius: 8,
   padding: "1rem",
   marginTop: "0.5rem",
+  // Ensure it can scroll when constrained by inline maxHeight
+  overflowY: "auto",
 });
 
 export const timeFrameInputs = style({
