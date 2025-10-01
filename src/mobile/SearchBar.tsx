@@ -36,7 +36,7 @@ export const SearchBar: React.FC<Props> = ({
 }) => {
   const rulesDocuments = useMemo(
     () => [
-      { label: "Rules", value: "/assets/konivrer-rules.pdf" },
+      { label: "Basic Rules", value: "/assets/konivrer-rules.pdf" },
       { label: "Tournament Rules", value: "/assets/konivrer-tournament-rules.pdf" },
       { label: "Code of Conduct", value: "/assets/konivrer-code-of-conduct.pdf" },
     ],
