@@ -1,5 +1,5 @@
 import React from "react";
-import * as ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./global.css.ts";
 import { getBasePath } from "./utils/basePath";
@@ -51,19 +51,8 @@ if ("serviceWorker" in navigator) {
   }
 }
 
-const rootEl = document.getElementById("root")!;
-const anyReactDOM = ReactDOM as any;
-if (typeof anyReactDOM.createRoot === "function") {
-  anyReactDOM.createRoot(rootEl).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
-} else if (typeof anyReactDOM.render === "function") {
-  anyReactDOM.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-    rootEl,
-  );
-}
+createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+);
