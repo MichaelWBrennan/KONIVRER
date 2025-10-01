@@ -90,6 +90,7 @@ const EventList: React.FC = () => {
 
   const fetchEvents = useCallback(async () => {
     try {
+      setError(null);
       setLoading(true);
       const queryParams = new URLSearchParams();
 
@@ -105,13 +106,23 @@ const EventList: React.FC = () => {
         },
       });
 
+      if (response.status === 404 || response.status === 204) {
+        setEvents([]);
+        setTotal(0);
+        setError(null);
+        return;
+      }
+
       if (!response.ok) {
         throw new Error("Failed to fetch events");
       }
 
-      const data = await response.json();
-      setEvents(data.events);
-      setTotal(data.total);
+      const data = await response.json().catch(() => null);
+      const eventsData = Array.isArray(data?.events) ? data.events : [];
+      const totalCount =
+        typeof data?.total === "number" ? data.total : eventsData.length;
+      setEvents(eventsData);
+      setTotal(totalCount);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -281,7 +292,7 @@ const EventList: React.FC = () => {
 
       {/* Error State */}
       {error && (
-        <Alert variant="danger" dismissible onClose={() => setError(null)}>
+        <Alert variant="danger">
           {error}
         </Alert>
       )}
