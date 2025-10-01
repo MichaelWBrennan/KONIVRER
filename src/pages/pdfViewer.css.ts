@@ -24,3 +24,11 @@ export const canvas = style({
   height: "auto",
   display: "block",
 });
+
+// Iframe-based PDF viewer frame styling
+export const frame = style({
+  width: "100%",
+  height: "80vh",
+  border: "none",
+  display: "block",
+});
