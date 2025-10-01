@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useLayoutEffect, useRef, useCallback } from "react";
 import * as s from "./searchBar.css.ts";
 import {
   detectCurrencyCode,
@@ -89,6 +89,48 @@ export const SearchBar: React.FC<Props> = ({
     timeRange: "",
     metric: "",
   });
+
+  // Advanced panel sizing so it never overlaps the bottom nav
+  const advancedPanelRef = useRef<HTMLDivElement | null>(null);
+  const [advancedPanelMaxHeight, setAdvancedPanelMaxHeight] = useState<number | undefined>(undefined);
+
+  const recalcAdvancedPanelMaxHeight = useCallback(() => {
+    if (!showAdvancedSearch) return;
+    const panelEl = advancedPanelRef.current;
+    if (!panelEl) return;
+
+    const rect = panelEl.getBoundingClientRect();
+    const viewportHeight = window.visualViewport?.height || window.innerHeight;
+    const navEl = document.querySelector('nav[aria-label="Primary"]') as HTMLElement | null;
+    // Fallback to 56px which matches paddingBottom used in MobileShell
+    const navHeight = navEl?.offsetHeight || 56;
+    const marginPadding = 8; // small breathing room above the nav
+
+    const available = Math.max(120, Math.floor(viewportHeight - rect.top - navHeight - marginPadding));
+    setAdvancedPanelMaxHeight(available);
+  }, [showAdvancedSearch]);
+
+  useLayoutEffect(() => {
+    if (!showAdvancedSearch) return;
+
+    // Recalculate on open and on viewport changes
+    const rAF = requestAnimationFrame(recalcAdvancedPanelMaxHeight);
+    const onResize = () => recalcAdvancedPanelMaxHeight();
+    const onScroll = () => recalcAdvancedPanelMaxHeight();
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    window.addEventListener("scroll", onScroll, true);
+    const vv = window.visualViewport;
+    vv?.addEventListener("resize", onResize);
+
+    return () => {
+      cancelAnimationFrame(rAF);
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+      window.removeEventListener("scroll", onScroll, true);
+      vv?.removeEventListener("resize", onResize);
+    };
+  }, [showAdvancedSearch, recalcAdvancedPanelMaxHeight]);
 
   useEffect(() => {
     const handler = (e: Event) => setContextOverride((e as CustomEvent).detail);
@@ -702,7 +744,11 @@ export const SearchBar: React.FC<Props> = ({
     };
 
     return (
-      <div className={s.advancedSearchPanel}>
+      <div
+        className={s.advancedSearchPanel}
+        ref={advancedPanelRef}
+        style={advancedPanelMaxHeight ? { maxHeight: advancedPanelMaxHeight, overflowY: "auto" } : undefined}
+      >
         {renderContextSpecificFilters()}
         <button onClick={handleAdvancedSearch} className={s.applySearchButton}>
           Apply Advanced Search
