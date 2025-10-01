@@ -74,6 +74,9 @@ self.addEventListener("fetch", (event) => {
   if (request.url.includes("/api/")) {
     // API requests - Network First with Cache Fallback
     event.respondWith(networkFirstStrategy(request));
+  } else if (isPdfRequest(request)) {
+    // PDFs - Network First with Cache Fallback (avoid HTML SW strategy)
+    event.respondWith(pdfNetworkFirstStrategy(request));
   } else if (request.destination === "image") {
     // Images - Cache First with Network Fallback
     event.respondWith(cacheFirstStrategy(request));
@@ -204,6 +207,41 @@ async function staleWhileRevalidateStrategy(request) {
 
   // Return cached version immediately if available, otherwise wait for network
   return cachedResponse || fetchPromise;
+}
+
+// Detect PDF requests reliably across browsers
+function isPdfRequest(request) {
+  try {
+    const urlLower = request.url.toLowerCase();
+    if (urlLower.endsWith(".pdf")) return true;
+    const accept = request.headers.get("Accept")?.toLowerCase() || "";
+    if (accept.includes("application/pdf")) return true;
+  } catch (_) {
+    // no-op
+  }
+  return false;
+}
+
+// Network First strategy tailored for PDFs
+async function pdfNetworkFirstStrategy(request) {
+  try {
+    const networkResponse = await fetch(request, { cache: "no-store" });
+    if (networkResponse && networkResponse.ok) {
+      const cache = await caches.open(DYNAMIC_CACHE);
+      cache.put(request, networkResponse.clone());
+    }
+    return networkResponse;
+  } catch (error) {
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      return cachedResponse;
+    }
+    return new Response("PDF unavailable offline", {
+      status: 503,
+      statusText: "Service Unavailable",
+      headers: { "Content-Type": "text/plain" },
+    });
+  }
 }
 
 // Push notifications
