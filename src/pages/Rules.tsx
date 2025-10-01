@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { PdfViewer } from "./PdfViewer";
+import { withBase } from "../utils/basePath";
 
 export const Rules: React.FC = () => {
   const documents = useMemo(
     () =>
       [
-        { label: "Basic Rules", value: "/assets/konivrer-rules.pdf" },
-        { label: "Tournament Rules", value: "/assets/konivrer-tournament-rules.pdf" },
-        { label: "Code of Conduct", value: "/assets/konivrer-code-of-conduct.pdf" },
+        { label: "Basic Rules", value: withBase("assets/konivrer-rules.pdf") },
+        { label: "Tournament Rules", value: withBase("assets/konivrer-tournament-rules.pdf") },
+        { label: "Code of Conduct", value: withBase("assets/konivrer-code-of-conduct.pdf") },
       ],
     [],
   );

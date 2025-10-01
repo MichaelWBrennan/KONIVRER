@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, useLayoutEffect, useRef, useCallback } from "react";
 import * as s from "./searchBar.css.ts";
+import { withBase } from "../utils/basePath";
 import {
   detectCurrencyCode,
   getCurrencySymbol,
@@ -36,9 +37,9 @@ export const SearchBar: React.FC<Props> = ({
 }) => {
   const rulesDocuments = useMemo(
     () => [
-      { label: "Basic Rules", value: "/assets/konivrer-rules.pdf" },
-      { label: "Tournament Rules", value: "/assets/konivrer-tournament-rules.pdf" },
-      { label: "Code of Conduct", value: "/assets/konivrer-code-of-conduct.pdf" },
+      { label: "Basic Rules", value: withBase("assets/konivrer-rules.pdf") },
+      { label: "Tournament Rules", value: withBase("assets/konivrer-tournament-rules.pdf") },
+      { label: "Code of Conduct", value: withBase("assets/konivrer-code-of-conduct.pdf") },
     ],
     [],
   );
@@ -46,7 +47,7 @@ export const SearchBar: React.FC<Props> = ({
   const [contextOverride, setContextOverride] = useState<string | null>(null);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState<boolean>(false);
   const [selectedRulesDoc, setSelectedRulesDoc] = useState<string>(
-    "/assets/konivrer-rules.pdf",
+    withBase("assets/konivrer-rules.pdf"),
   );
   const [timeFrame, setTimeFrame] = useState<{ start: string; end: string }>({
     start: "",
