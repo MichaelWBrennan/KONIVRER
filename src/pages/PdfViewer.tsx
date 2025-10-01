@@ -1,168 +1,141 @@
 import React, { type JSX, useEffect, useMemo, useRef, useState } from "react";
 import * as s from "./pdfViewer.css.ts";
-import * as pdfjsLib from "pdfjs-dist";
-// Use Vite's ?url to get worker file URL and set workerSrc for cross-browser support
-// This avoids relying on browser PDF plugins and ensures consistent rendering
-// across Chrome, Firefox, Safari, and Edge.
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - Vite will resolve this at build time
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
-
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker as unknown as string;
 
 type PdfViewerProps = {
   url?: string;
 };
 
-export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [containerWidth, setContainerWidth] = useState<number>(0);
-  const pdfRef = useRef<pdfjsLib.PDFDocumentProxy | null>(null);
-  const [numPages, setNumPages] = useState<number>(0);
-  const canvasRefs = useRef<Map<number, HTMLCanvasElement>>(new Map());
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [loadErrored, setLoadErrored] = useState<boolean>(false);
-  const [useEmbedFallback, setUseEmbedFallback] = useState<boolean>(false);
 
-  // Observe container size to keep pages responsive
-  useEffect(() => {
-    if (!containerRef.current) return;
-    const element = containerRef.current;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        const width = entry.contentRect.width;
-        if (width > 0) setContainerWidth(width);
-      }
-    });
-    observer.observe(element);
-    // Initialize with current width
-    setContainerWidth(element.clientWidth);
-    return () => observer.disconnect();
+const ADOBE_SDK_URL = "https://acrobatservices.adobe.com/view-sdk/viewer.js";
+
+function loadAdobeSdk(): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.AdobeDC) return Promise.resolve();
+  if ((window as any).__ADOBE_EMBED_SDK_PROMISE__) return (window as any).__ADOBE_EMBED_SDK_PROMISE__;
+
+  (window as any).__ADOBE_EMBED_SDK_PROMISE__ = new Promise<void>((resolve, reject) => {
+    const existing = document.getElementById("adobe-dc-view-sdk");
+    if (existing) {
+      if (window.AdobeDC) resolve();
+      existing.addEventListener("load", () => resolve());
+      existing.addEventListener("error", () => reject(new Error("Failed to load Adobe SDK")));
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "adobe-dc-view-sdk";
+    script.src = ADOBE_SDK_URL;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Adobe SDK"));
+    document.head.appendChild(script);
+  });
+
+  return (window as any).__ADOBE_EMBED_SDK_PROMISE__;
+}
+
+function deriveFileNameFromUrl(url: string): string {
+  try {
+    const withoutQuery = url.split("?")[0];
+    const last = withoutQuery.split("/").pop();
+    return last && last.trim().length > 0 ? last : "document.pdf";
+  } catch {
+    return "document.pdf";
+  }
+}
+
+export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element {
+  const containerIdRef = useRef<string>(`adobe-dc-view-${Math.random().toString(36).slice(2)}`);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [fallback, setFallback] = useState<boolean>(false);
+  const clientId = useMemo<string | undefined>(() => {
+    // Prefer Vite env; allow overriding via global for runtime configs if needed
+    const fromEnv = (import.meta as any)?.env?.VITE_ADOBE_DC_CLIENT_ID as string | undefined;
+    const fromGlobal = (window as any)?.__ADOBE_CLIENT_ID as string | undefined;
+    return fromEnv ?? fromGlobal;
   }, []);
 
-  // Load PDF when URL changes
   useEffect(() => {
-    let cancelled = false;
-    let loadingTask: pdfjsLib.PDFDocumentLoadingTask | null = null;
+    let isCancelled = false;
+    async function init() {
+      setIsLoading(true);
+      setFallback(false);
 
-    async function load() {
+      if (!url) {
+        setIsLoading(false);
+        setFallback(true);
+        return;
+      }
+
+      if (!clientId) {
+        setIsLoading(false);
+        setFallback(true);
+        return;
+      }
+
       try {
-        setIsLoading(true);
-        setLoadErrored(false);
-        setUseEmbedFallback(false);
-        if (!url) return;
-        // Destroy any existing instance
-        if (pdfRef.current) {
-          try {
-            await pdfRef.current.destroy();
-          } catch {}
-          pdfRef.current = null;
-        }
-        // Start loading task
-        loadingTask = pdfjsLib.getDocument({ url, withCredentials: false });
-        const pdf = await loadingTask.promise;
-        if (cancelled) {
-          try {
-            await pdf.destroy();
-          } catch {}
+        await loadAdobeSdk();
+        if (isCancelled) return;
+
+        if (!window.AdobeDC) {
+          setFallback(true);
+          setIsLoading(false);
           return;
         }
-        pdfRef.current = pdf;
-        setNumPages(pdf.numPages);
+
+        const container = document.getElementById(containerIdRef.current);
+        if (container) container.innerHTML = "";
+
+        const adobeDCView = new window.AdobeDC.View({
+          clientId,
+          divId: containerIdRef.current,
+        });
+
+        const fileName = deriveFileNameFromUrl(url);
+        await adobeDCView.previewFile(
+          {
+            content: { location: { url } },
+            metaData: { fileName },
+          },
+          {
+            embedMode: "SIZED_CONTAINER",
+            defaultViewMode: "FIT_WIDTH",
+            showAnnotationTools: false,
+            showLeftHandPanel: true,
+            enableDownload: true,
+          },
+        );
+
         setIsLoading(false);
-      } catch (error) {
+      } catch (err) {
         // eslint-disable-next-line no-console
-        console.error("Failed to load PDF:", error);
-        setNumPages(0);
-        setIsLoading(false);
-        setLoadErrored(true);
-        setUseEmbedFallback(true);
-      }
-    }
-    load();
-
-    return () => {
-      cancelled = true;
-      if (loadingTask) {
-        try {
-          loadingTask.destroy();
-        } catch {}
-      }
-    };
-  }, [url]);
-
-  // Render pages whenever size or document changes
-  useEffect(() => {
-    const pdf = pdfRef.current;
-    if (!pdf || !containerWidth || numPages === 0) return;
-
-    let cancelled = false;
-
-    async function renderAllPages() {
-      for (let pageNumber = 1; pageNumber <= numPages; pageNumber++) {
-        if (cancelled) return;
-        try {
-          const page = await pdf.getPage(pageNumber);
-          const unscaledViewport = page.getViewport({ scale: 1 });
-          const scale = Math.max(0.1, Math.min(5, containerWidth / unscaledViewport.width));
-          const viewport = page.getViewport({ scale });
-
-          const canvas = canvasRefs.current.get(pageNumber);
-          if (!canvas) continue;
-          const context = canvas.getContext("2d");
-          if (!context) continue;
-
-          canvas.width = Math.ceil(viewport.width);
-          canvas.height = Math.ceil(viewport.height);
-
-          // Clear before rendering to avoid artifacts on resize
-          context.clearRect(0, 0, canvas.width, canvas.height);
-
-          await page.render({ canvasContext: context, viewport }).promise;
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.error(`Failed to render page ${pageNumber}:`, error);
+        console.error("Adobe viewer failed; falling back to iframe:", err);
+        if (!isCancelled) {
+          setFallback(true);
+          setIsLoading(false);
         }
       }
     }
+    init();
 
-    renderAllPages();
     return () => {
-      cancelled = true;
+      isCancelled = true;
     };
-  }, [containerWidth, numPages]);
-
-  const pageNumbers = useMemo(() => Array.from({ length: numPages }, (_, i) => i + 1), [numPages]);
+  }, [url, clientId]);
 
   return (
     <div className={s.viewerWrap}>
       <div className={s.toolbar}></div>
-      <div ref={containerRef} className={s.canvasWrap}>
-        {useEmbedFallback && url ? (
-          <>
-            <iframe className={s.frame} src={url} title="PDF document" />
-            <p>
-              If the PDF does not load, <a href={url} target="_blank" rel="noreferrer noopener">open it in a new tab</a>.
-            </p>
-          </>
-        ) : numPages === 0 ? (
-          <p>{isLoading ? "Loading PDF…" : loadErrored ? "Unable to display PDF." : ""}</p>
-        ) : null}
-        {pageNumbers.map((pageNumber) => (
-          <canvas
-            key={pageNumber}
-            ref={(el) => {
-              if (el) {
-                canvasRefs.current.set(pageNumber, el);
-              } else {
-                canvasRefs.current.delete(pageNumber);
-              }
-            }}
-            className={s.canvas}
-            aria-label={`PDF page ${pageNumber}`}
-          />
-        ))}
-      </div>
+      {fallback ? (
+        <div>
+          <iframe className={s.frame} src={url} title="PDF document" />
+          <p>
+            If the PDF does not load, <a href={url} target="_blank" rel="noreferrer noopener">open it in a new tab</a>.
+          </p>
+        </div>
+      ) : (
+        <div id={containerIdRef.current} className={s.embedContainer} aria-label="Adobe PDF viewer" />
+      )}
+      {isLoading && !fallback ? <p>Loading PDF…</p> : null}
     </div>
   );
 }
