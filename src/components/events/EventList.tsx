@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useAuth } from "../../hooks/useAuth";
 import { formatCurrency } from "../../utils/currency";
 import {
   Container,
@@ -16,7 +17,6 @@ import {
   Calendar,
   Users,
   MapPin,
-  Filter,
   Plus,
   Search,
   Wifi,
@@ -81,6 +81,7 @@ interface EventSearchFilters {
 }
 
 const EventList: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -88,7 +89,6 @@ const EventList: React.FC = () => {
     page: 1,
     limit: 10,
   });
-  const [showFilters, setShowFilters] = useState(false);
   const [total, setTotal] = useState(0);
 
   const fetchEvents = useCallback(async () => {
@@ -264,17 +264,12 @@ const EventList: React.FC = () => {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h2 className="h4 mb-0">Events</h2>
             <div className="d-flex gap-2">
-              <Button
-                variant="outline-secondary"
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <Filter size={16} />
-              </Button>
-              <Button variant="primary" size="sm">
-                <Plus size={16} className="me-1" />
-                Create
-              </Button>
+              {isAuthenticated && (
+                <Button variant="primary" size="sm">
+                  <Plus size={16} className="me-1" />
+                  Create
+                </Button>
+              )}
             </div>
           </div>
 
@@ -292,57 +287,7 @@ const EventList: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Collapsible Filters */}
-      {showFilters && (
-        <Row className="mb-3">
-          <Col>
-            <Card className="border-0 bg-light">
-              <Card.Body className="py-2">
-                <Row className="g-2">
-                  <Col xs={6} sm={3}>
-                    <Form.Select
-                      size="sm"
-                      value={filters.status || ""}
-                      onChange={(e) =>
-                        handleFilterChange("status", e.target.value)
-                      }
-                    >
-                      <option value="">All Status</option>
-                      <option value="Registration Open">Open</option>
-                      <option value="In Progress">Running</option>
-                      <option value="Completed">Finished</option>
-                    </Form.Select>
-                  </Col>
-                  <Col xs={6} sm={3}>
-                    <Form.Select
-                      size="sm"
-                      value={filters.venueType || ""}
-                      onChange={(e) =>
-                        handleFilterChange("venueType", e.target.value)
-                      }
-                    >
-                      <option value="">All Venues</option>
-                      <option value="online">Online</option>
-                      <option value="offline">In-Person</option>
-                      <option value="hybrid">Hybrid</option>
-                    </Form.Select>
-                  </Col>
-                  <Col xs={6} sm={3}>
-                    <Button
-                      variant="outline-secondary"
-                      size="sm"
-                      className="w-100"
-                      onClick={() => setFilters({ page: 1, limit: 10 })}
-                    >
-                      Clear
-                    </Button>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      )}
+      {/* Collapsible Filters removed */}
 
       {/* Loading State */}
       {loading && (
