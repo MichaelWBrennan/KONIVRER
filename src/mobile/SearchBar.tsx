@@ -138,6 +138,14 @@ export const SearchBar: React.FC<Props> = ({
     return () => window.removeEventListener("search-context", handler);
   }, []);
 
+  // Collapse advanced panel on pagination page changes from results views
+  useEffect(() => {
+    const collapseOnPageChange = () => setShowAdvancedSearch(false);
+    window.addEventListener("search-page-change", collapseOnPageChange);
+    return () =>
+      window.removeEventListener("search-page-change", collapseOnPageChange);
+  }, []);
+
   // Only get location when advanced search is opened on events page
   useEffect(() => {
     if (
@@ -147,6 +155,11 @@ export const SearchBar: React.FC<Props> = ({
       getCurrentLocation();
     }
   }, [showAdvancedSearch, current]);
+
+  // Collapse advanced search when page changes
+  useEffect(() => {
+    setShowAdvancedSearch(false);
+  }, [current]);
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -200,6 +213,7 @@ export const SearchBar: React.FC<Props> = ({
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       onSearch(q);
+      if (showAdvancedSearch) setShowAdvancedSearch(false);
     }
   };
 
@@ -213,6 +227,7 @@ export const SearchBar: React.FC<Props> = ({
       };
       onAdvancedSearch(filters);
     }
+    if (showAdvancedSearch) setShowAdvancedSearch(false);
   };
 
   const handleTimeFrameChange = (field: "start" | "end", value: string) => {
