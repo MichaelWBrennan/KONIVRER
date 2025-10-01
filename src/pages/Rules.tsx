@@ -17,7 +17,7 @@ export const Rules: React.FC = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        
+
         <select
           id="rules-doc-select"
           aria-label="Select rules document"
@@ -30,9 +30,6 @@ export const Rules: React.FC = () => {
             </option>
           ))}
         </select>
-        <a href={selectedUrl} target="_blank" rel="noopener noreferrer">
-          Open in new tab
-        </a>
       </div>
       <PdfViewer url={selectedUrl} />
     </div>
