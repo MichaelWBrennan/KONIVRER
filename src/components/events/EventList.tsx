@@ -7,18 +7,15 @@ import {
   Col,
   Card,
   Button,
-  Form,
   Badge,
   Spinner,
   Alert,
-  InputGroup,
 } from "react-bootstrap";
 import {
   Calendar,
   Users,
   MapPin,
   Plus,
-  Search,
   Wifi,
   WifiOff,
   Trophy,
@@ -137,9 +134,7 @@ const EventList: React.FC = () => {
     }));
   };
 
-  const handleSearch = (searchTerm: string) => {
-    handleFilterChange("search", searchTerm);
-  };
+  
 
   const handleEventRegister = async (event: Event) => {
     try {
@@ -261,8 +256,7 @@ const EventList: React.FC = () => {
       {/* Mobile-First Header */}
       <Row className="mb-3">
         <Col>
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h2 className="h4 mb-0">Events</h2>
+          <div className="d-flex justify-content-end align-items-center mb-3">
             <div className="d-flex gap-2">
               {isAuthenticated && (
                 <Button variant="primary" size="sm">
@@ -272,18 +266,6 @@ const EventList: React.FC = () => {
               )}
             </div>
           </div>
-
-          {/* Search Bar */}
-          <InputGroup className="mb-3">
-            <Form.Control
-              placeholder="Search events..."
-              value={filters.search || ""}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-            <Button variant="outline-secondary">
-              <Search size={16} />
-            </Button>
-          </InputGroup>
         </Col>
       </Row>
 
