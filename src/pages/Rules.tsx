@@ -17,9 +17,7 @@ export const Rules: React.FC = () => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <label htmlFor="rules-doc-select" style={{ fontWeight: 600 }}>
-          Document
-        </label>
+        
         <select
           id="rules-doc-select"
           aria-label="Select rules document"

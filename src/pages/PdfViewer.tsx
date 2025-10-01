@@ -10,12 +10,18 @@ export function PdfViewer({
     <div className={s.viewerWrap}>
       <div className={s.toolbar}></div>
       <div className={s.canvasWrap}>
-        <iframe
-          src={url}
-          title="Embedded PDF"
+        <object
+          data={url}
+          type="application/pdf"
           className={s.frame}
-          loading="lazy"
-        />
+          aria-label="PDF document"
+        >
+          <embed src={url} type="application/pdf" className={s.frame} />
+          <p>
+            Unable to display PDF.
+            <a href={url} target="_blank" rel="noopener noreferrer"> Open in a new tab</a>.
+          </p>
+        </object>
       </div>
     </div>
   );
