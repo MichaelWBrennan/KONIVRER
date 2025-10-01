@@ -1,7 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import * as ReactDOM from "react-dom";
 import App from "./App.tsx";
 import "./global.css.ts";
+import { getBasePath } from "./utils/basePath";
 
 // Defer telemetry initialization to idle time
 if (typeof window !== "undefined") {
@@ -34,8 +35,11 @@ window.addEventListener("orientationchange", () => {
 
 // Service worker registration for PWA features
 if ("serviceWorker" in navigator) {
-  if (import.meta.env.PROD) {
-    navigator.serviceWorker.register("/sw.js").catch(console.error);
+  if ((import.meta as any).env?.PROD) {
+    const base = getBasePath();
+    const normalizedBase = base.endsWith("/") ? base : base + "/";
+    const swUrl = `${normalizedBase}sw.js`;
+    navigator.serviceWorker.register(swUrl, { scope: normalizedBase }).catch(console.error);
   } else {
     // In dev: unregister existing SW and clear caches to avoid stale content
     navigator.serviceWorker.getRegistrations().then((regs) => {
@@ -47,8 +51,19 @@ if ("serviceWorker" in navigator) {
   }
 }
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+const rootEl = document.getElementById("root")!;
+const anyReactDOM = ReactDOM as any;
+if (typeof anyReactDOM.createRoot === "function") {
+  anyReactDOM.createRoot(rootEl).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  );
+} else if (typeof anyReactDOM.render === "function") {
+  anyReactDOM.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+    rootEl,
+  );
+}

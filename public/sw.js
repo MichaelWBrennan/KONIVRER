@@ -1,14 +1,17 @@
 // Enhanced Service Worker for KONIVRER PWA - Mobile-First
-const STATIC_CACHE = "konivrer-static-v1.1.1";
-const DYNAMIC_CACHE = "konivrer-dynamic-v1.1.1";
-const IMAGE_CACHE = "konivrer-images-v1.1.1";
+const STATIC_CACHE = "konivrer-static-v1.2.0";
+const DYNAMIC_CACHE = "konivrer-dynamic-v1.2.0";
+const IMAGE_CACHE = "konivrer-images-v1.2.0";
+
+// Base path derived from SW registration scope (supports subpath deployments)
+const BASE_PATH = new URL(self.registration.scope).pathname.replace(/\/+$/, "/");
 
 // Critical assets to cache immediately for mobile-first experience
 const STATIC_ASSETS = [
-  "/",
-  "/manifest.json",
-  "/icons/pwa-192x192.png",
-  "/icons/pwa-512x512.png",
+  BASE_PATH,
+  `${BASE_PATH}manifest.json`,
+  `${BASE_PATH}icons/pwa-192x192.png`,
+  `${BASE_PATH}icons/pwa-512x512.png`,
 ];
 
 // Install event - optimized for mobile performance
@@ -27,7 +30,7 @@ self.addEventListener("install", (event) => {
       // Pre-warm the image cache
       caches.open(IMAGE_CACHE).then((cache) => {
         console.log("Pre-warming image cache");
-        return cache.add("/icons/pwa-192x192.png");
+        return cache.add(`${BASE_PATH}icons/pwa-192x192.png`);
       }),
     ]).then(() => {
       console.log("Mobile-first caches initialized");
@@ -154,13 +157,13 @@ async function cacheFirstStrategy(request) {
     // Return PNG placeholder for failed image requests
     if (request.destination === "image") {
       try {
-        const fallbackResponse = await caches.match("/assets/card-back-new.png");
+        const fallbackResponse = await caches.match(`${BASE_PATH}assets/card-back-new.png`);
         if (fallbackResponse) return fallbackResponse;
         // Attempt network fetch of fallback and cache it
-        const png = await fetch("/assets/card-back-new.png");
+        const png = await fetch(`${BASE_PATH}assets/card-back-new.png`);
         if (png.ok) {
           const cache = await caches.open(IMAGE_CACHE);
-          cache.put("/assets/card-back-new.png", png.clone());
+          cache.put(`${BASE_PATH}assets/card-back-new.png`, png.clone());
           return png;
         }
       } catch (e) {
@@ -194,7 +197,7 @@ async function staleWhileRevalidateStrategy(request) {
         return cachedResponse;
       }
       // SPA fallback to cached index when available
-      const indexFallback = await cache.match("/");
+      const indexFallback = await cache.match(BASE_PATH);
       if (indexFallback) {
         return indexFallback;
       }
@@ -266,11 +269,11 @@ self.addEventListener("push", (event) => {
   // Default notification options
   const options = {
     body: notificationData.body || "You have new activity in KONIVRER!",
-    icon: notificationData.icon || "/icons/pwa-192x192.png",
-    badge: notificationData.badge || "/icons/pwa-192x192.png",
+    icon: notificationData.icon || `${BASE_PATH}icons/pwa-192x192.png`,
+    badge: notificationData.badge || `${BASE_PATH}icons/pwa-192x192.png`,
     vibrate: [200, 100, 200],
     data: {
-      url: notificationData.data?.url || "/",
+      url: notificationData.data?.url || BASE_PATH,
       ...notificationData.data,
     },
     tag: notificationData.tag || "konivrer-notification",
@@ -280,12 +283,12 @@ self.addEventListener("push", (event) => {
       {
         action: "open",
         title: "Open App",
-        icon: "/icons/pwa-192x192.png",
+        icon: `${BASE_PATH}icons/pwa-192x192.png`,
       },
       {
         action: "close",
         title: "Close",
-        icon: "/icons/pwa-192x192.png",
+        icon: `${BASE_PATH}icons/pwa-192x192.png`,
       },
     ],
   };

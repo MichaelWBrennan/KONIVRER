@@ -1,5 +1,6 @@
 import React, { type JSX, useEffect, useMemo, useRef, useState } from "react";
 import * as s from "./pdfViewer.css.ts";
+import { getBasePath } from "../utils/basePath";
 
 type PdfViewerProps = {
   url?: string;
@@ -10,13 +11,13 @@ const ADOBE_SDK_URL = "https://acrobatservices.adobe.com/view-sdk/viewer.js";
 
 function loadAdobeSdk(): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
-  if (window.AdobeDC) return Promise.resolve();
+  if ((window as any).AdobeDC) return Promise.resolve();
   if ((window as any).__ADOBE_EMBED_SDK_PROMISE__) return (window as any).__ADOBE_EMBED_SDK_PROMISE__;
 
   (window as any).__ADOBE_EMBED_SDK_PROMISE__ = new Promise<void>((resolve, reject) => {
     const existing = document.getElementById("adobe-dc-view-sdk");
     if (existing) {
-      if (window.AdobeDC) resolve();
+      if ((window as any).AdobeDC) resolve();
       existing.addEventListener("load", () => resolve());
       existing.addEventListener("error", () => reject(new Error("Failed to load Adobe SDK")));
       return;
@@ -54,6 +55,24 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
     return fromEnv ?? fromGlobal;
   }, []);
 
+  const resolveUrl = (input: string): string => {
+    try {
+      if (!input) return input;
+      const absolutePattern = /^https?:\/\//i;
+      if (absolutePattern.test(input)) return input;
+      // Root-relative path: respect as-is (already includes base)
+      if (input.startsWith("/")) {
+        return new URL(input, window.location.origin).href;
+      }
+      const base = getBasePath();
+      const normalizedBase = base.endsWith("/") ? base : base + "/";
+      const trimmed = input.replace(/^\/+/, "");
+      return new URL(normalizedBase + trimmed, window.location.origin).href;
+    } catch {
+      return input;
+    }
+  };
+
   useEffect(() => {
     let isCancelled = false;
     async function init() {
@@ -76,7 +95,7 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
         await loadAdobeSdk();
         if (isCancelled) return;
 
-        if (!window.AdobeDC) {
+        if (!(window as any).AdobeDC) {
           setFallback(true);
           setIsLoading(false);
           return;
@@ -85,15 +104,16 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
         const container = document.getElementById(containerIdRef.current);
         if (container) container.innerHTML = "";
 
-        const adobeDCView = new window.AdobeDC.View({
+        const adobeDCView = new (window as any).AdobeDC.View({
           clientId,
           divId: containerIdRef.current,
         });
 
-        const fileName = deriveFileNameFromUrl(url);
+        const effectiveUrl = resolveUrl(url);
+        const fileName = deriveFileNameFromUrl(effectiveUrl);
         await adobeDCView.previewFile(
           {
-            content: { location: { url } },
+            content: { location: { url: effectiveUrl } },
             metaData: { fileName },
           },
           {
@@ -127,9 +147,9 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
       <div className={s.toolbar}></div>
       {fallback ? (
         <div>
-          <iframe className={s.frame} src={url} title="PDF document" />
+          <iframe className={s.frame} src={resolveUrl(url)} title="PDF document" />
           <p>
-            If the PDF does not load, <a href={url} target="_blank" rel="noreferrer noopener">open it in a new tab</a>.
+            If the PDF does not load, <a href={resolveUrl(url)} target="_blank" rel="noreferrer noopener">open it in a new tab</a>.
           </p>
         </div>
       ) : (

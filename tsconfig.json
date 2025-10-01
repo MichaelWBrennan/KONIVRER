@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["vite/client", "react", "react-dom"],
+    "baseUrl": ".",
+    "paths": {
+      "react-dom/client": ["src/types/react-dom-client"],
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src", "src/types/**/*.d.ts", "vite.config.ts"],
+  "exclude": ["node_modules", "dist"]
+}
