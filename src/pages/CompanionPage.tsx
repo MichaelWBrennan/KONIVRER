@@ -13,8 +13,8 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
 
   // TODO: Implement actual user authentication and role management
 
-  const { hasRole } = useAuth();
-  const isOrganizer = hasRole(UserRole.TOURNAMENT_ORGANIZER);
+  const { hasRole, isAuthenticated } = useAuth();
+  const isOrganizer = isAuthenticated && hasRole(UserRole.TOURNAMENT_ORGANIZER);
 
   // Mock event data - in real app this would come from API
   const activeEvents = [
