@@ -32,3 +32,12 @@ export const frame = style({
   border: "none",
   display: "block",
 });
+
+// Adobe PDF Embed container styling
+export const embedContainer = style({
+  width: "100%",
+  height: "80vh",
+  border: "none",
+  display: "block",
+  background: "#1a1a1a",
+});
