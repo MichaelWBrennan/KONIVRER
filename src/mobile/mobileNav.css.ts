@@ -62,7 +62,8 @@ export const tabHome = style({
   background: "#fff",
   selectors: {
     "&:hover": { background: "#fff", color: "#000" },
-    "&:active": { background: "#fff", color: "#000" },
+		"&:active": { background: "#fff", color: "#000" },
+		"&:hover:active": { background: "#fff", color: "#000" },
   },
 });
 
