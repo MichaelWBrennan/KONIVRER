@@ -136,6 +136,12 @@ export const menuItemHomeActive = style({
   borderColor: "black",
   boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
 });
+// Prevent visual change on press for the Home menu item
+export const menuItemHome = style({
+  selectors: {
+    "&:active": { background: "rgba(255,255,255,0.02)", color: "var(--text-primary)" },
+  },
+});
 export const menuLabel = style({ fontWeight: 500 });
 
 // User panel styles
