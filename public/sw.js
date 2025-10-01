@@ -73,6 +73,17 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // Bypass Service Worker for PDFs and Range requests to preserve native streaming/viewers
+  try {
+    const isRange = request.headers.get("Range") != null;
+    if (isPdfRequest(request) || isRange) {
+      event.respondWith(fetch(request));
+      return;
+    }
+  } catch (_) {
+    // no-op
+  }
+
   // Handle different types of requests
   if (request.url.includes("/api/")) {
     // API requests - Network First with Cache Fallback
