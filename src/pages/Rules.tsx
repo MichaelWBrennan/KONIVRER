@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { PdfViewer } from "./PdfViewer";
 
 export const Rules: React.FC = () => {
@@ -14,23 +14,18 @@ export const Rules: React.FC = () => {
 
   const [selectedUrl, setSelectedUrl] = useState<string>(documents[0].value);
 
+  // Listen for selection changes from the global SearchBar dropdown
+  useEffect(() => {
+    const onRulesDocChange = (e: Event) => {
+      const url = (e as CustomEvent<string>).detail;
+      if (typeof url === "string") setSelectedUrl(url);
+    };
+    window.addEventListener("rules-doc-change", onRulesDocChange);
+    return () => window.removeEventListener("rules-doc-change", onRulesDocChange);
+  }, []);
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-
-        <select
-          id="rules-doc-select"
-          aria-label="Select rules document"
-          value={selectedUrl}
-          onChange={(e) => setSelectedUrl(e.target.value)}
-        >
-          {documents.map((doc) => (
-            <option key={doc.value} value={doc.value}>
-              {doc.label}
-            </option>
-          ))}
-        </select>
-      </div>
       <PdfViewer url={selectedUrl} />
     </div>
   );
