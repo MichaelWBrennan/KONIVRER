@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import * as s from "./searchBar.css.ts";
+import {
+  detectCurrencyCode,
+  getCurrencySymbol,
+  getDefaultPriceRangeForCurrency,
+} from "../utils/currency";
 
 interface Props {
   current: string;
@@ -46,6 +51,15 @@ export const SearchBar: React.FC<Props> = ({
     maxDistance: 50,
   });
   const [selectedStore, setSelectedStore] = useState<string>("");
+  const detectedCurrencyCode = useMemo(() => detectCurrencyCode(), []);
+  const defaultPriceRange = useMemo(
+    () => getDefaultPriceRangeForCurrency(detectedCurrencyCode),
+    [detectedCurrencyCode],
+  );
+  const currencySymbol = useMemo(
+    () => getCurrencySymbol(detectedCurrencyCode),
+    [detectedCurrencyCode],
+  );
   const [searchFilters, setSearchFilters] = useState<{
     format: string;
     status: string;
@@ -64,7 +78,7 @@ export const SearchBar: React.FC<Props> = ({
     format: "",
     status: "",
     venueType: "",
-    priceRange: { min: 0, max: 1000 },
+    priceRange: { min: defaultPriceRange.min, max: defaultPriceRange.max },
     dateRange: { start: "", end: "" },
     sortBy: "startAt",
     sortOrder: "asc",
@@ -120,7 +134,7 @@ export const SearchBar: React.FC<Props> = ({
         if (ctx === "event-archive") return "Search past events...";
         if (ctx === "event-standings")
           return "Search pairings (name or table)...";
-        return "Search events by name, format, or location...";
+        return "Search events by name or location...";
       case "home":
         return "Search everything...";
       case "lore":
@@ -443,29 +457,6 @@ export const SearchBar: React.FC<Props> = ({
                 <h4>Event Filters</h4>
                 <div className={s.filtersGrid}>
                   <div className={s.filterGroup}>
-                    <label htmlFor="formatFilter">Format:</label>
-                    <select
-                      id="formatFilter"
-                      value={searchFilters.format}
-                      onChange={(e) =>
-                        setSearchFilters((prev) => ({
-                          ...prev,
-                          format: e.target.value,
-                        }))
-                      }
-                    >
-                      <option value="">All Formats</option>
-                      <option value="Standard">Standard</option>
-                      <option value="Draft">Draft</option>
-                      <option value="Sealed">Sealed</option>
-                      <option value="Commander">Commander</option>
-                      <option value="Pauper">Pauper</option>
-                      <option value="Legacy">Legacy</option>
-                      <option value="Modern">Modern</option>
-                    </select>
-                  </div>
-
-                  <div className={s.filterGroup}>
                     <label htmlFor="statusFilter">Status:</label>
                     <select
                       id="statusFilter"
@@ -483,7 +474,6 @@ export const SearchBar: React.FC<Props> = ({
                       </option>
                       <option value="In Progress">In Progress</option>
                       <option value="Completed">Completed</option>
-                      <option value="Cancelled">Cancelled</option>
                     </select>
                   </div>
 
@@ -546,8 +536,10 @@ export const SearchBar: React.FC<Props> = ({
                 <div className={s.priceRangeSection}>
                   <label>Entry Fee Range:</label>
                   <div className={s.priceRangeInputs}>
+                    <span>{currencySymbol}</span>
                     <input
                       type="number"
+                      step={defaultPriceRange.step}
                       placeholder="Min"
                       value={searchFilters.priceRange.min}
                       onChange={(e) =>
@@ -555,14 +547,18 @@ export const SearchBar: React.FC<Props> = ({
                           ...prev,
                           priceRange: {
                             ...prev.priceRange,
-                            min: parseInt(e.target.value) || 0,
+                            min: isNaN(parseFloat(e.target.value))
+                              ? 0
+                              : parseFloat(e.target.value),
                           },
                         }))
                       }
                     />
                     <span>to</span>
+                    <span>{currencySymbol}</span>
                     <input
                       type="number"
+                      step={defaultPriceRange.step}
                       placeholder="Max"
                       value={searchFilters.priceRange.max}
                       onChange={(e) =>
@@ -570,7 +566,9 @@ export const SearchBar: React.FC<Props> = ({
                           ...prev,
                           priceRange: {
                             ...prev.priceRange,
-                            max: parseInt(e.target.value) || 1000,
+                            max: isNaN(parseFloat(e.target.value))
+                              ? defaultPriceRange.max
+                              : parseFloat(e.target.value),
                           },
                         }))
                       }
