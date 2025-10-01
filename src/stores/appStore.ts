@@ -62,9 +62,21 @@ export const useAppStore = create<AppState>()(
 
         setSearchFilters: (filters) =>
           set(
-            (state) => ({
-              searchFilters: { ...state.searchFilters, ...filters },
-            }),
+            (state) => {
+              const previousPage = state.searchFilters.page;
+              const nextFilters = { ...state.searchFilters, ...filters };
+              const nextPage = nextFilters.page;
+              if (
+                typeof window !== "undefined" &&
+                previousPage !== nextPage &&
+                nextPage !== undefined
+              ) {
+                try {
+                  window.dispatchEvent(new Event("search-page-change"));
+                } catch {}
+              }
+              return { searchFilters: nextFilters };
+            },
             false,
             "setSearchFilters",
           ),
