@@ -40,10 +40,7 @@ export const tab = style({
     "&:hover": {
       background: "rgba(0,0,0,0.08)",
     },
-    "&:active": {
-      background: "#fff",
-      color: "#000",
-    },
+    "&:active": { background: "#fff", color: "#000" },
   },
 });
 
@@ -64,14 +61,8 @@ export const tabHome = style({
   color: "#000",
   background: "#fff",
   selectors: {
-    "&:hover": {
-      background: "#fff",
-      color: "#000",
-    },
-    "&:active": {
-      background: "#fff",
-      color: "#000",
-    },
+    "&:hover": { background: "#fff", color: "#000" },
+    "&:active": { background: "#fff", color: "#000" },
   },
 });
 

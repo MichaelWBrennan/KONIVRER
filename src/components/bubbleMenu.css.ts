@@ -117,7 +117,10 @@ export const menuItem = style({
   transition: "all 0.2s ease",
   fontSize: 16,
   width: "100%",
-  selectors: { "&:hover": { background: "rgba(255,255,255,0.05)" } },
+  selectors: {
+    "&:hover": { background: "rgba(255,255,255,0.05)" },
+    "&:active": { background: "#fff", color: "#000" },
+  },
 });
 export const menuItemActive = style({
   background: "var(--accent-color)",
