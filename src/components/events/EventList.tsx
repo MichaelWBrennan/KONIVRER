@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { formatCurrency } from "../../utils/currency";
 import {
   Container,
   Row,
@@ -205,8 +206,6 @@ const EventList: React.FC = () => {
         return "primary";
       case "Completed":
         return "secondary";
-      case "Cancelled":
-        return "danger";
       default:
         return "light";
     }
@@ -407,9 +406,11 @@ const EventList: React.FC = () => {
                                     />
                                   )}
                                 </div>
-                                <Badge bg={getStatusBadgeVariant(event.status)}>
-                                  {event.status}
-                                </Badge>
+                                {event.status !== "Cancelled" && (
+                                  <Badge bg={getStatusBadgeVariant(event.status)}>
+                                    {event.status}
+                                  </Badge>
+                                )}
                               </div>
                             </Card.Header>
 
@@ -476,8 +477,10 @@ const EventList: React.FC = () => {
                               {event.settings.buyIn && (
                                 <div className="mb-2">
                                   <small className="text-muted">
-                                    Entry Fee: {event.settings.currency || "$"}
-                                    {event.settings.buyIn}
+                                    Entry Fee: {formatCurrency(
+                                      event.settings.buyIn,
+                                      event.settings.currency,
+                                    )}
                                   </small>
                                 </div>
                               )}
@@ -547,9 +550,11 @@ const EventList: React.FC = () => {
                                     />
                                   )}
                                 </div>
-                                <Badge bg={getStatusBadgeVariant(event.status)}>
-                                  {event.status}
-                                </Badge>
+                                {event.status !== "Cancelled" && (
+                                  <Badge bg={getStatusBadgeVariant(event.status)}>
+                                    {event.status}
+                                  </Badge>
+                                )}
                               </div>
                             </Card.Header>
 
@@ -616,8 +621,10 @@ const EventList: React.FC = () => {
                               {event.settings.buyIn && (
                                 <div className="mb-2">
                                   <small className="text-muted">
-                                    Entry Fee: {event.settings.currency || "$"}
-                                    {event.settings.buyIn}
+                                    Entry Fee: {formatCurrency(
+                                      event.settings.buyIn,
+                                      event.settings.currency,
+                                    )}
                                   </small>
                                 </div>
                               )}
