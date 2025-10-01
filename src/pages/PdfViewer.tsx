@@ -20,6 +20,9 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
   const pdfRef = useRef<pdfjsLib.PDFDocumentProxy | null>(null);
   const [numPages, setNumPages] = useState<number>(0);
   const canvasRefs = useRef<Map<number, HTMLCanvasElement>>(new Map());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loadErrored, setLoadErrored] = useState<boolean>(false);
+  const [useEmbedFallback, setUseEmbedFallback] = useState<boolean>(false);
 
   // Observe container size to keep pages responsive
   useEffect(() => {
@@ -44,6 +47,9 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
 
     async function load() {
       try {
+        setIsLoading(true);
+        setLoadErrored(false);
+        setUseEmbedFallback(false);
         if (!url) return;
         // Destroy any existing instance
         if (pdfRef.current) {
@@ -63,10 +69,14 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
         }
         pdfRef.current = pdf;
         setNumPages(pdf.numPages);
+        setIsLoading(false);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error("Failed to load PDF:", error);
         setNumPages(0);
+        setIsLoading(false);
+        setLoadErrored(true);
+        setUseEmbedFallback(true);
       }
     }
     load();
@@ -128,9 +138,16 @@ export function PdfViewer({ url = "/sample.pdf" }: PdfViewerProps): JSX.Element 
     <div className={s.viewerWrap}>
       <div className={s.toolbar}></div>
       <div ref={containerRef} className={s.canvasWrap}>
-        {numPages === 0 && (
-          <p>Unable to display PDF.</p>
-        )}
+        {useEmbedFallback && url ? (
+          <>
+            <iframe className={s.frame} src={url} title="PDF document" />
+            <p>
+              If the PDF does not load, <a href={url} target="_blank" rel="noreferrer noopener">open it in a new tab</a>.
+            </p>
+          </>
+        ) : numPages === 0 ? (
+          <p>{isLoading ? "Loading PDF…" : loadErrored ? "Unable to display PDF." : ""}</p>
+        ) : null}
         {pageNumbers.map((pageNumber) => (
           <canvas
             key={pageNumber}
