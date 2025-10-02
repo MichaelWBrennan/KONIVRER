@@ -8,7 +8,8 @@ export const tabs = style({
   marginBottom: 12,
 });
 export const tab = style({
-  padding: "8px 6px",
+  // Remove vertical padding so height matches text
+  padding: "0 6px",
   textAlign: "center",
   border: "1px solid rgba(255,255,255,0.08)",
   borderRadius: 8,

@@ -82,7 +82,8 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
           
           .tab-button {
             flex: 1;
-            padding: 1rem;
+            /* Remove vertical padding to size to text */
+            padding: 0 1rem;
             background: #fff;
             border: none;
             color: #000;
@@ -91,6 +92,7 @@ export const CompanionPage: React.FC<CompanionPageProps> = () => {
             font-weight: 500;
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
+            line-height: 1;
           }
           
           .tab-button:hover {

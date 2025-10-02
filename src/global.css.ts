@@ -571,6 +571,17 @@ globalStyle("*", {
 });
 // Larger tap area is opt-in via .btn-touch; .btn should size to its text
 globalStyle(".btn", { lineHeight: 1 });
+// Ensure all native buttons have no vertical padding so height equals text height
+globalStyle("button", {
+  paddingTop: "0 !important",
+  paddingBottom: "0 !important",
+  lineHeight: 1,
+});
+// Preserve larger tap targets for .btn-touch
+globalStyle(".btn-touch", {
+  paddingTop: "0.75rem !important",
+  paddingBottom: "0.75rem !important",
+});
 // High contrast mode tweaks
 globalStyle('[data-contrast="high"]', {
   vars: { "--border-color": "#888" },

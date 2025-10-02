@@ -27,7 +27,8 @@ export const navInner = style({
 });
 
 export const tab = style({
-  padding: "10px 0 8px",
+  // Horizontal padding only to size to text
+  padding: "0 0",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

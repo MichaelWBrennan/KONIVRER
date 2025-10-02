@@ -25,9 +25,11 @@ globalStyle(`${navTabs} > button`, {
   color: "#000",
   border: "1px solid #000",
   borderRadius: 8,
-  padding: "0.5rem 1rem",
+  // Horizontal padding only so height equals text height
+  padding: "0 1rem",
   cursor: "pointer",
   transition: "all 0.2s ease",
+  lineHeight: 1,
 });
 globalStyle(`${navTabs} > button.active`, {
   background: "#000",
@@ -80,9 +82,10 @@ globalStyle(`${viewSelector} > button`, {
   color: "#000",
   border: "1px solid #000",
   borderRadius: 8,
-  padding: "0.5rem 1rem",
+  padding: "0 1rem",
   cursor: "pointer",
   transition: "all 0.2s ease",
+  lineHeight: 1,
 });
 globalStyle(`${viewSelector} > button.active`, {
   background: "#000",
