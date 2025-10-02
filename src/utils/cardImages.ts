@@ -42,13 +42,22 @@ export function resolveCardImageUrls(
 
   const fallback = `${normalizedBaseUrl}assets/card-back-new.webp`;
 
-  if (!base) {
-    return { webpSrc: fallback, imgSrc: fallback };
+  // Prefer explicit webpUrl if provided
+  if (card.webpUrl && typeof card.webpUrl === "string") {
+    // If it is a root-relative asset, prefix BASE_URL
+    if (card.webpUrl.startsWith("/assets/")) {
+      const webpSrc = `${normalizedBaseUrl}${card.webpUrl.replace(/^\/+/, "")}`;
+      return { webpSrc, imgSrc: webpSrc };
+    }
+    // If it is an absolute URL or another path, use as-is
+    return { webpSrc: card.webpUrl, imgSrc: card.webpUrl };
   }
 
-  const webpSrc = `${normalizedBaseUrl}assets/cards/${base}.webp`;
-  // Prefer WebP for both <source> and <img> to avoid non-webp fallbacks
-  const imgSrc = webpSrc;
-  return { webpSrc, imgSrc };
+  if (base) {
+    const webpSrc = `${normalizedBaseUrl}assets/cards/${base}.webp`;
+    return { webpSrc, imgSrc: webpSrc };
+  }
+
+  return { webpSrc: fallback, imgSrc: fallback };
 }
 
