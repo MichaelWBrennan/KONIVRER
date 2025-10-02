@@ -30,8 +30,11 @@ export const CardDetail: React.FC<CardDetailProps> = ({ card, onClose }) => {
                 className={st.cardImage}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  if (!target.src.endsWith("/assets/card-back-new.png")) {
-                    target.src = "/assets/card-back-new.png";
+                  const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+                  const normalized = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+                  const fallback = `${normalized}assets/card-back-new.webp`;
+                  if (target.src !== fallback) {
+                    target.src = fallback;
                   }
                 }}
               />

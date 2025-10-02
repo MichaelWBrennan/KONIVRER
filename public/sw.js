@@ -168,14 +168,14 @@ async function cacheFirstStrategy(request) {
     // Return PNG placeholder for failed image requests
     if (request.destination === "image") {
       try {
-        const fallbackResponse = await caches.match(`${BASE_PATH}assets/card-back-new.png`);
+        const fallbackResponse = await caches.match(`${BASE_PATH}assets/card-back-new.webp`);
         if (fallbackResponse) return fallbackResponse;
         // Attempt network fetch of fallback and cache it
-        const png = await fetch(`${BASE_PATH}assets/card-back-new.png`);
-        if (png.ok) {
+        const webp = await fetch(`${BASE_PATH}assets/card-back-new.webp`);
+        if (webp.ok) {
           const cache = await caches.open(IMAGE_CACHE);
-          cache.put(`${BASE_PATH}assets/card-back-new.png`, png.clone());
-          return png;
+          cache.put(`${BASE_PATH}assets/card-back-new.webp`, webp.clone());
+          return webp;
         }
       } catch (e) {
         // ignore and fall through to SVG placeholder

@@ -32,10 +32,22 @@ function deriveBaseNameFromCard(card: Pick<Card, "name"> & Partial<Card>): strin
   return "";
 }
 
-export function resolveCardImageUrls(card: Card): { webpSrc: string; imgSrc: string } {
+export function resolveCardImageUrls(
+  card: Pick<Card, "name"> & Partial<Card>,
+): { webpSrc: string; imgSrc: string } {
   const base = deriveBaseNameFromCard(card);
-  const webpSrc = `/assets/cards/${base}.webp`;
-  // Prefer WebP for both <source> and <img> to avoid broken PNG references
+
+  const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+  const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+
+  const fallback = `${normalizedBaseUrl}assets/card-back-new.webp`;
+
+  if (!base) {
+    return { webpSrc: fallback, imgSrc: fallback };
+  }
+
+  const webpSrc = `${normalizedBaseUrl}assets/cards/${base}.webp`;
+  // Prefer WebP for both <source> and <img> to avoid non-webp fallbacks
   const imgSrc = webpSrc;
   return { webpSrc, imgSrc };
 }

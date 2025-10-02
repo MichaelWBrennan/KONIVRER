@@ -86,8 +86,11 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
                   className={cs.cardImg}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    if (!target.src.endsWith("/assets/card-back-new.png")) {
-                      target.src = "/assets/card-back-new.png";
+                    const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+                    const normalized = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+                    const fallback = `${normalized}assets/card-back-new.webp`;
+                    if (target.src !== fallback) {
+                      target.src = fallback;
                     }
                   }}
                 />

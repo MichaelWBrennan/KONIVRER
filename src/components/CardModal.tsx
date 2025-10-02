@@ -33,8 +33,11 @@ export function CardModal({ card, onClose }: CardModalProps) {
             className={overlay.modalImg}
             onError={(e) => {
               const img = e.currentTarget as HTMLImageElement;
-              if (!img.src.endsWith("/assets/card-back-new.png")) {
-                img.src = "/assets/card-back-new.png";
+              const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+              const normalized = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+              const fallback = `${normalized}assets/card-back-new.webp`;
+              if (img.src !== fallback) {
+                img.src = fallback;
               }
             }}
           />
