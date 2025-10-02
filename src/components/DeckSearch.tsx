@@ -93,8 +93,11 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
                       onError={(e) => {
                         if (!card) return;
                         const img = e.target as HTMLImageElement;
-                        if (!img.src.endsWith("/assets/card-back-new.png")) {
-                          img.src = "/assets/card-back-new.png";
+                        const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+                        const normalized = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+                        const fallback = `${normalized}assets/card-back-new.webp`;
+                        if (img.src !== fallback) {
+                          img.src = fallback;
                         }
                       }}
                     />

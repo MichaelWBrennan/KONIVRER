@@ -32,11 +32,32 @@ function deriveBaseNameFromCard(card: Pick<Card, "name"> & Partial<Card>): strin
   return "";
 }
 
-export function resolveCardImageUrls(card: Card): { webpSrc: string; imgSrc: string } {
+export function resolveCardImageUrls(
+  card: Pick<Card, "name"> & Partial<Card>,
+): { webpSrc: string; imgSrc: string } {
   const base = deriveBaseNameFromCard(card);
-  const webpSrc = `/assets/cards/${base}.webp`;
-  // Prefer WebP for both <source> and <img> to avoid broken PNG references
-  const imgSrc = webpSrc;
-  return { webpSrc, imgSrc };
+
+  const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+  const normalizedBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+
+  const fallback = `${normalizedBaseUrl}assets/card-back-new.webp`;
+
+  // Prefer explicit webpUrl if provided
+  if (card.webpUrl && typeof card.webpUrl === "string") {
+    // If it is a root-relative asset, prefix BASE_URL
+    if (card.webpUrl.startsWith("/assets/")) {
+      const webpSrc = `${normalizedBaseUrl}${card.webpUrl.replace(/^\/+/, "")}`;
+      return { webpSrc, imgSrc: webpSrc };
+    }
+    // If it is an absolute URL or another path, use as-is
+    return { webpSrc: card.webpUrl, imgSrc: card.webpUrl };
+  }
+
+  if (base) {
+    const webpSrc = `${normalizedBaseUrl}assets/cards/${base}.webp`;
+    return { webpSrc, imgSrc: webpSrc };
+  }
+
+  return { webpSrc: fallback, imgSrc: fallback };
 }
 

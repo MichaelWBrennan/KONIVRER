@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import * as cs from "./card.css.ts";
 import { Card as CardType, DragState, TouchState } from "../types/game";
 import { DeviceInfo } from "../utils/deviceDetection";
+import { resolveCardImageUrls } from "../utils/cardImages";
 
 interface CardProps {
   card: CardType;
@@ -211,13 +212,13 @@ export const Card: React.FC<CardProps> = ({
     >
       {/* Card background/art */}
       <div className={cs.artLayer} style={{ overflow: "hidden" }}>
-        {/* Prefer WebP when supported; fall back to PNG card back */}
         <picture>
-          {card.webpUrl || card.imageUrl ? (
-            <source srcSet={card.webpUrl || card.imageUrl} type="image/webp" />
-          ) : null}
+          {(() => {
+            const { webpSrc } = resolveCardImageUrls(card as any);
+            return <source srcSet={webpSrc} type="image/webp" />;
+          })()}
           <img
-            src="/assets/card-back-new.png"
+            src={(() => resolveCardImageUrls(card as any).imgSrc)()}
             alt={card.name}
             style={{
               position: "absolute",
@@ -231,8 +232,11 @@ export const Card: React.FC<CardProps> = ({
             }}
             onError={(e) => {
               const img = e.currentTarget as HTMLImageElement;
-              if (!img.src.endsWith("/assets/card-back-new.png")) {
-                img.src = "/assets/card-back-new.png";
+              const baseUrl = (import.meta as any)?.env?.BASE_URL ?? "/";
+              const normalized = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+              const fallback = `${normalized}assets/card-back-new.webp`;
+              if (img.src !== fallback) {
+                img.src = fallback;
               }
             }}
           />
