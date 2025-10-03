@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import * as nav from "../nav.css.ts";
 import * as ds from "./deckSearch.css.ts";
 import { Deck, cardDatabase, type Card } from "../data/cards";
+import { useKonivrverGameState } from "../hooks/useKonivrverGameState";
 import { DeckBuilderAdvanced } from "../pages/DeckBuilderAdvanced";
 import { useAppStore } from "../stores/appStore";
 import { resolveCardImageUrls } from "../utils/cardImages";
@@ -13,6 +14,7 @@ interface DeckSearchProps {
 export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [showBuilder, setShowBuilder] = useState(false);
   const { searchFilters } = useAppStore();
+  const { replaceZone, resetScenario } = useKonivrverGameState();
 
   // Listen for build deck event from search bar
   React.useEffect(() => {
@@ -62,8 +64,19 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   };
 
   const handlePlayInSimulator = (deck: Deck) => {
-    console.log("Loading deck in simulator:", deck.name);
-    alert(`Loading "${deck.name}" in simulator... (Feature coming soon)`);
+    try {
+      // Open a new tab at simulator route
+      const url = `${window.location.origin}${(import.meta as any).env?.BASE_URL || "/"}#simulator`;
+      const win = window.open(url, "_blank");
+      // Stash the deck in localStorage for the new tab to consume
+      localStorage.setItem("konivrer-sim-load-deck", JSON.stringify(deck));
+      // Inform the user if popups are blocked
+      if (!win || win.closed) {
+        alert("Please allow popups to open the simulator in a new tab.");
+      }
+    } catch (e) {
+      console.warn(e);
+    }
   };
 
   return (

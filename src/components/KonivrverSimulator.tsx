@@ -25,6 +25,50 @@ export const KonivrverSimulator: React.FC = () => {
   useEffect(() => {
     const deviceInfo = detectDevice();
     setDevice(deviceInfo);
+    // Auto-load deck if provided via localStorage (from DeckSearch "Play" action)
+    try {
+      const raw = localStorage.getItem("konivrer-sim-load-deck");
+      if (raw) {
+        const deck = JSON.parse(raw);
+        // Clear after reading so refresh doesn't reapply
+        localStorage.removeItem("konivrer-sim-load-deck");
+        // Place cards into current player's deck zone
+        const cards = (deck.cards || [])
+          .map((id: string) => ({
+            id,
+            name: id,
+            elements: ["Neutral"],
+            lesserType: "Resource",
+            abilities: undefined,
+            azothCost: 1,
+            power: undefined,
+            toughness: undefined,
+            rulesText: "",
+            flavorText: undefined,
+            rarity: "common",
+            setCode: "KNR",
+            setNumber: 0,
+            imageUrl: "",
+            webpUrl: undefined,
+            imageHash: undefined,
+            isTapped: undefined,
+            isSelected: undefined,
+            counters: undefined,
+            type: "Resource",
+            element: "Neutral",
+            cost: 1,
+            description: "",
+            manaCost: 1,
+            color: "neutral",
+            text: "",
+          })) as any;
+        // naive: overwrite deck zone
+        // NOTE: using loadScenario would be more robust if decklist includes full card objects
+        // For now, just fill player's deck zone with placeholders; real integration can map IDs to cardDatabase.
+        // @ts-ignore access internal via window event to hook
+        window.dispatchEvent(new CustomEvent("konivrer-load-deck", { detail: { cards } }));
+      }
+    } catch {}
   }, []);
 
   if (!device) {

@@ -148,6 +148,25 @@ export const useKonivrverGameState = () => {
     validDropZones: [],
   });
 
+  // Listen for external deck load events (from simulator window open)
+  // This keeps the hook decoupled while allowing DeckSearch to handoff via localStorage + event.
+  useEffect(() => {
+    const onLoad = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { cards: Card[] } | undefined;
+      if (!detail) return;
+      setGameState((prev) => {
+        const next = { ...prev };
+        next.players[next.currentPlayer].zones.deck.cards = detail.cards as any;
+        // Move to practice start state
+        next.turn = 1;
+        next.phase = "preGame" as KonivrverPhase;
+        return next;
+      });
+    };
+    window.addEventListener("konivrer-load-deck", onLoad as EventListener);
+    return () => window.removeEventListener("konivrer-load-deck", onLoad as EventListener);
+  }, []);
+
   // Get current player's life total from life cards
   const getCurrentPlayerLife = useCallback(() => {
     const currentPlayer = gameState.players[gameState.currentPlayer];
