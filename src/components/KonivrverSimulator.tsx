@@ -1,134 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { detectDevice, DeviceInfo } from "../utils/deviceDetection";
 import { useKonivrverGameState } from "../hooks/useKonivrverGameState";
-import type { Card, GameZone, KonivrverZoneType } from "../types/game";
+import type { Card } from "../types/game";
+import { Board3D } from "./three/Board3D";
 
-interface KonivrverZoneProps {
-  zone: GameZone;
-  zoneType: KonivrverZoneType;
-  onCardClick: (card: Card) => void;
-  onCardDrag: (card: Card, zoneType: KonivrverZoneType) => void;
-  onZoneDrop: (zoneType: KonivrverZoneType) => void;
-  isDragTarget: boolean;
-}
-
-const KonivrverZone: React.FC<KonivrverZoneProps> = ({
-  zone,
-  zoneType,
-  onCardClick,
-  onCardDrag,
-  onZoneDrop,
-  isDragTarget,
-}) => {
-  const handleDragOver = (e: React.DragEvent) => {
-    if (isDragTarget) {
-      e.preventDefault();
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    if (isDragTarget) {
-      e.preventDefault();
-      onZoneDrop(zoneType);
-    }
-  };
-
-  const zoneStyle: React.CSSProperties = {
-    position: "absolute",
-    left: zone.position?.x || 0,
-    top: zone.position?.y || 0,
-    width: zone.position?.width || 100,
-    height: zone.position?.height || 100,
-    border: isDragTarget ? "3px solid #00ff00" : "2px solid #666",
-    borderRadius: "8px",
-    backgroundColor: isDragTarget
-      ? "rgba(0, 255, 0, 0.1)"
-      : "rgba(139, 69, 19, 0.2)",
-    padding: "4px",
-    overflow: "hidden",
-    display: "flex",
-    flexWrap: "wrap",
-    alignItems: "flex-start",
-    alignContent: "flex-start",
-  };
-
-  const cardStyle: React.CSSProperties = {
-    width: "60px",
-    height: "84px",
-    backgroundColor: "#f4f4f4",
-    border: "1px solid #333",
-    borderRadius: "4px",
-    margin: "2px",
-    padding: "2px",
-    fontSize: "10px",
-    cursor: "pointer",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  };
-
-  return (
-    <div
-      style={zoneStyle}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      title={zone.name}
-    >
-      <div
-        style={{
-          position: "absolute",
-          top: "-20px",
-          left: "0",
-          fontSize: "12px",
-          fontWeight: "bold",
-          color: "#333",
-          backgroundColor: "rgba(255, 255, 255, 0.8)",
-          padding: "2px 6px",
-          borderRadius: "4px",
-        }}
-      >
-        {zone.name} ({zone.cards.length})
-      </div>
-
-      {zone.cards.map((card, index) => (
-        <div
-          key={`${card.id}-${index}`}
-          style={cardStyle}
-          draggable
-          onClick={() => onCardClick(card)}
-          onDragStart={() => onCardDrag(card, zoneType)}
-          title={card.name}
-        >
-          <div
-            style={{ fontSize: "8px", fontWeight: "bold", textAlign: "center" }}
-          >
-            {card.name}
-          </div>
-          <div style={{ fontSize: "7px", textAlign: "center" }}>
-            {card.lesserType}
-          </div>
-          <div style={{ fontSize: "7px", textAlign: "center" }}>
-            {card.elements.join("/")}
-          </div>
-          <div style={{ fontSize: "7px", textAlign: "center" }}>
-            ⚡{card.azothCost}
-          </div>
-          {card.power && card.toughness && (
-            <div
-              style={{
-                fontSize: "7px",
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
-            >
-              {card.power}/{card.toughness}
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
-  );
-};
+// Legacy 2D zone UI removed in favor of 3D renderer. Drop logic stays in hooks.
 
 export const KonivrverSimulator: React.FC = () => {
   const [device, setDevice] = useState<DeviceInfo | null>(null);
@@ -185,12 +61,14 @@ export const KonivrverSimulator: React.FC = () => {
     }
   };
 
-  const handleCardDrag = (card: Card, zoneType: KonivrverZoneType) => {
-    startDrag(card, zoneType);
-  };
-
-  const handleZoneDropProxy = (zoneType: KonivrverZoneType) => {
-    handleZoneDrop(zoneType);
+  // Minimal drag start integration for 3D (source zone inferred from current player zones)
+  const handleStartDrag = (card: Card) => {
+    const from = (Object.entries(currentPlayer.zones).find(([, z]) =>
+      z.cards.some((c) => c.id === card.id),
+    )?.[0] || "hand") as any;
+    // startDrag expects KonivrverZoneType
+    // @ts-ignore safe at runtime due to type union
+    startDrag(card as any, from);
   };
 
   // Render phase indicator
@@ -304,39 +182,23 @@ export const KonivrverSimulator: React.FC = () => {
         userSelect: "none",
       }}
     >
-      {/* Game board background */}
-      <div
-        style={{
-          position: "absolute",
-          top: "5%",
-          left: "5%",
-          right: "5%",
-          bottom: "5%",
-          backgroundColor: "rgba(139, 69, 19, 0.3)",
-          borderRadius: "20px",
-          border: "4px solid #8B4513",
-        }}
-      />
+      {/* 3D Board */}
+      <div style={{ position: "absolute", inset: 0 }}>
+        <Board3D
+          gameState={gameState}
+          dragState={dragState}
+          device={device}
+          onCardClick={handleCardClick}
+          onCardContext={() => {}}
+          onStartDrag={(c) => handleStartDrag(c)}
+          onZoneDrop={(z) => handleZoneDrop(z as any)}
+        />
+      </div>
 
       {/* UI Overlays */}
       {renderPhaseIndicator()}
       {renderPlayerInfo()}
       {renderControls()}
-
-      {/* Game Zones */}
-      {Object.entries(currentPlayer.zones).map(([zoneType, zone]) => (
-        <KonivrverZone
-          key={zoneType}
-          zone={zone}
-          zoneType={zoneType as KonivrverZoneType}
-          onCardClick={handleCardClick}
-          onCardDrag={handleCardDrag}
-          onZoneDrop={handleZoneDropProxy}
-          isDragTarget={dragState.validDropZones.includes(
-            zoneType as KonivrverZoneType,
-          )}
-        />
-      ))}
 
       {/* Selected Card Details */}
       {selectedCard && (
