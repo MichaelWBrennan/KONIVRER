@@ -1,7 +1,7 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, useTexture } from "@react-three/drei";
-import { RepeatWrapping } from "three";
+import { OrbitControls, Environment, useTexture, useGLTF, Html } from "@react-three/drei";
+import { RepeatWrapping, Color, EquirectangularReflectionMapping, sRGBEncoding } from "three";
 import type { GameState, DragState, Card as CardType, KonivrverZoneType } from "../../types/game";
 import type { DeviceInfo } from "../../utils/deviceDetection";
 import { Zones3D } from "./Zones3D";
@@ -34,15 +34,21 @@ export const Board3D: React.FC<Board3DProps> = ({
   groundTex.wrapS = groundTex.wrapT = RepeatWrapping;
   groundTex.repeat.set(6, 6);
 
+  // Esoteric props: CC0 models from Poly Haven (pre-downloaded)
+  const chandelier = useGLTF("/assets/3d/models/Chandelier_03_1k.gltf");
+  const lantern = useGLTF("/assets/3d/models/wooden_lantern_01_1k.gltf");
+  const chair = useGLTF("/assets/3d/models/ArmChair_01_1k.gltf");
+
   return (
     <Canvas shadows camera={{ position: [0, 6, 8], fov: 45 }}>
       <color attach="background" args={[0.07, 0.07, 0.09]} />
 
       {/* Lighting */}
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={0.35} />
       <directionalLight
-        position={[5, 10, 5]}
-        intensity={1.2}
+        position={[5, 8, 3]}
+        intensity={0.9}
+        color={new Color('#ffd9a3')}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
@@ -60,6 +66,20 @@ export const Board3D: React.FC<Board3DProps> = ({
         <meshStandardMaterial map={boardTex} />
       </mesh>
 
+      {/* Esoteric props */}
+      <group position={[0, 3.2, 0]}>
+        <primitive object={chandelier.scene} scale={0.7} />
+      </group>
+      <group position={[-5.2, 0, -3.2]}>
+        <primitive object={chair.scene} scale={0.02} rotation={[0, Math.PI/6, 0]} />
+      </group>
+      <group position={[5.2, 0, -3.2]}>
+        <primitive object={chair.scene.clone()} scale={0.02} rotation={[0, -Math.PI/6, 0]} />
+      </group>
+      <group position={[ -3.5, 0.02, 3.2 ]}>
+        <primitive object={lantern.scene} scale={0.004} />
+      </group>
+
       {/* Zones and cards */}
       <Zones3D
         zones={currentPlayer.zones}
@@ -72,7 +92,8 @@ export const Board3D: React.FC<Board3DProps> = ({
       />
 
       {/* Helpers */}
-      <Environment preset="city" />
+      {/* Night HDRI for mood (2K) */}
+      <Environment files="/assets/3d/hdr/zwinger_night_2k.hdr" background />
       <OrbitControls enablePan enableZoom enableRotate />
     </Canvas>
   );
