@@ -3,6 +3,7 @@ import { detectDevice, DeviceInfo } from "../utils/deviceDetection";
 import { useKonivrverGameState } from "../hooks/useKonivrverGameState";
 import type { Card } from "../types/game";
 import { Board3D } from "./three/Board3D";
+import { SimulatorOverlay } from "./SimulatorOverlay";
 
 // Legacy 2D zone UI removed in favor of 3D renderer. Drop logic stays in hooks.
 
@@ -199,6 +200,7 @@ export const KonivrverSimulator: React.FC = () => {
       {renderPhaseIndicator()}
       {renderPlayerInfo()}
       {renderControls()}
+      <SimulatorOverlay />
 
       {/* Selected Card Details */}
       {selectedCard && (

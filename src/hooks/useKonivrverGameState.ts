@@ -329,6 +329,31 @@ export const useKonivrverGameState = () => {
     [gameState],
   );
 
+  // Scenario helpers for simulator overlay
+  const exportScenario = useCallback(() => {
+    return JSON.parse(JSON.stringify(gameState)) as GameState;
+  }, [gameState]);
+
+  const loadScenario = useCallback((state: GameState) => {
+    setGameState(JSON.parse(JSON.stringify(state)) as GameState);
+  }, []);
+
+  const resetScenario = useCallback(() => {
+    setGameState((prev) => ({
+      ...prev,
+      turn: 1,
+      phase: "preGame",
+      // clear zones for both players but preserve azoth pools
+      players: prev.players.map((p) => ({
+        ...p,
+        zones: Object.fromEntries(
+          Object.entries(p.zones).map(([k, z]) => [k, { ...z, cards: [] }]),
+        ) as any,
+      })) as any,
+      stack: [],
+    }));
+  }, []);
+
   return {
     gameState,
     dragState,
@@ -339,5 +364,8 @@ export const useKonivrverGameState = () => {
     nextPhase,
     drawCard,
     playCard,
+    exportScenario,
+    loadScenario,
+    resetScenario,
   };
 };
