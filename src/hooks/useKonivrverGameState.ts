@@ -270,6 +270,37 @@ export const useKonivrverGameState = () => {
     });
   }, []);
 
+  // Draw N cards for the current player
+  const drawNCards = useCallback((n: number) => {
+    setGameState((prev) => {
+      const newState = { ...prev };
+      const player = newState.players[newState.currentPlayer];
+      for (let i = 0; i < n; i++) {
+        const deck = player.zones.deck;
+        const hand = player.zones.hand;
+        if (deck.cards.length > 0) {
+          const c = deck.cards.pop()!;
+          hand.cards.push(c);
+        }
+      }
+      return newState;
+    });
+  }, []);
+
+  // Replace a whole zone's cards
+  const replaceZone = useCallback(
+    (playerIndex: number, zoneId: KonivrverZoneType, cards: Card[]) => {
+      setGameState((prev) => {
+        const next = { ...prev };
+        if (next.players[playerIndex]?.zones?.[zoneId]) {
+          next.players[playerIndex].zones[zoneId].cards = cards;
+        }
+        return next;
+      });
+    },
+    [],
+  );
+
   // Play a card from hand
   const playCard = useCallback(
     (card: Card) => {
@@ -367,5 +398,7 @@ export const useKonivrverGameState = () => {
     exportScenario,
     loadScenario,
     resetScenario,
+    drawNCards,
+    replaceZone,
   };
 };

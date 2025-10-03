@@ -1,9 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useSimStore } from "../stores/simStore";
+import { useSimStore, SimPanel } from "../stores/simStore";
 import { useKonivrverGameState } from "../hooks/useKonivrverGameState";
 import type { GameState } from "../types/game";
 import KonivrverDeckValidator from "../services/deckValidator";
 import { EventService } from "../services/eventService";
+import { SideboardPanel } from "./panels/SideboardPanel";
+import { JudgeToolsPanel } from "./panels/JudgeToolsPanel";
+import { EventRehearsalPanel } from "./panels/EventRehearsalPanel";
+import { ScenarioIOPanel } from "./panels/ScenarioIOPanel";
+import { MatchupMatrixPanel } from "./panels/MatchupMatrixPanel";
 
 export const SimulatorOverlay: React.FC = () => {
   const {
@@ -21,6 +26,8 @@ export const SimulatorOverlay: React.FC = () => {
     setActiveScenario,
     stats,
     setStats,
+    activePanel,
+    setActivePanel,
   } = useSimStore();
 
   const {
@@ -132,8 +139,15 @@ export const SimulatorOverlay: React.FC = () => {
       </div>
 
       {/* Right panel: scenarios and tools */}
-      <div style={{ position: "absolute", top: 10, right: 10, width: 360, maxHeight: "90%", overflow: "auto", background: "rgba(0,0,0,0.6)", color: "#fff", padding: 12, borderRadius: 10, pointerEvents: "auto" }}>
-        <h3 style={{ marginTop: 0 }}>Simulator Lab</h3>
+      <div style={{ position: "absolute", top: 10, right: 10, width: 420, maxHeight: "90%", overflow: "auto", background: "rgba(0,0,0,0.7)", color: "#fff", padding: 12, borderRadius: 10, pointerEvents: "auto" }}>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
+          {(["lab","sideboard","judge","event","scenario","matchup"] as SimPanel[]).map((p) => (
+            <button key={p} style={{ background: activePanel===p?"#2b6cb0":"#444", color: "#fff", border: 0, padding: "6px 10px", borderRadius: 6 }} onClick={() => setActivePanel(p)}>
+              {p}
+            </button>
+          ))}
+        </div>
+        <h3 style={{ marginTop: 0, textTransform: "capitalize" }}>{activePanel}</h3>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           <button onClick={handleSaveScenario}>Save Scenario</button>
           <button onClick={resetScenario}>Reset Scenario</button>
@@ -144,6 +158,13 @@ export const SimulatorOverlay: React.FC = () => {
           <button onClick={handleExportDeck}>Export Decklist</button>
         </div>
 
+        {activePanel === "sideboard" && <SideboardPanel />}
+        {activePanel === "judge" && <JudgeToolsPanel />}
+        {activePanel === "event" && <EventRehearsalPanel />}
+        {activePanel === "scenario" && <ScenarioIOPanel />}
+        {activePanel === "matchup" && <MatchupMatrixPanel />}
+
+        {activePanel === "lab" && (
         <div style={{ marginTop: 12 }}>
           <strong>Saved Scenarios</strong>
           <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
@@ -161,8 +182,9 @@ export const SimulatorOverlay: React.FC = () => {
               ))}
           </ul>
         </div>
+        )}
 
-        {stats && (
+        {activePanel === "lab" && stats && (
           <div style={{ marginTop: 12 }}>
             <strong>Opening Hand Stats</strong>
             <div>Iterations: {stats.iterations}</div>
@@ -172,11 +194,13 @@ export const SimulatorOverlay: React.FC = () => {
           </div>
         )}
 
+        {activePanel === "lab" && (
         <div style={{ marginTop: 12 }}>
           <strong>Paper Event</strong>
           <div style={{ fontSize: 12, opacity: 0.8, marginBottom: 6 }}>Practice for paper—then register to play IRL.</div>
           <button onClick={() => alert("Event finder coming soon. This button will deep-link to paper events.")}>Find Paper Events</button>
         </div>
+        )}
 
         <div style={{ marginTop: 12, opacity: 0.7, fontSize: 12 }}>
           Testing Only – Not a tournament client. Play in paper.

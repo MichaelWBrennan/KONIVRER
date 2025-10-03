@@ -3,6 +3,7 @@ import { persist, devtools } from "zustand/middleware";
 import type { GameState, Card } from "../types/game";
 
 export type SimMode = "practice" | "scrim" | "rehearsal";
+export type SimPanel = "lab" | "sideboard" | "judge" | "event" | "scenario" | "matchup";
 
 export interface ScenarioState {
   id: string;
@@ -31,17 +32,39 @@ interface SimState {
   savedScenarios: ScenarioState[];
   activeScenarioId: string | null;
   stats: MonteCarloSummary | null;
+  activePanel: SimPanel;
+
+  // Sideboard timer controls
+  sideboardRunning: boolean;
+  lastSideboardTickAt?: number;
+
+  // Event rehearsal state
+  eventId?: string;
+  roundNumber?: number;
+  pairings?: Array<{ tableNumber: number; playerA: { id: string; name: string }; playerB: { id: string; name: string }; status: string }>;
+
+  // Judge state
+  lastJudgeTicketId?: string;
 
   setMode: (m: SimMode) => void;
+  setActivePanel: (p: SimPanel) => void;
   startClock: () => void;
   pauseClock: () => void;
   resetClock: () => void;
   tick: () => void;
+  startSideboard: () => void;
+  pauseSideboard: () => void;
+  resetSideboard: () => void;
+  tickSideboard: () => void;
 
   saveScenario: (s: ScenarioState) => void;
   deleteScenario: (id: string) => void;
   setActiveScenario: (id: string | null) => void;
   setStats: (s: MonteCarloSummary | null) => void;
+
+  setEventInfo: (id: string, round: number) => void;
+  setPairings: (list: SimState["pairings"]) => void;
+  setLastJudgeTicketId: (id: string) => void;
 }
 
 export const useSimStore = create<SimState>()(
@@ -53,8 +76,11 @@ export const useSimStore = create<SimState>()(
         savedScenarios: [],
         activeScenarioId: null,
         stats: null,
+        activePanel: "lab",
+        sideboardRunning: false,
 
         setMode: (m) => set({ mode: m }, false, "setMode"),
+        setActivePanel: (p) => set({ activePanel: p }, false, "setActivePanel"),
 
         startClock: () =>
           set((state) => ({
@@ -81,6 +107,22 @@ export const useSimStore = create<SimState>()(
             };
           }, false, "tick"),
 
+        startSideboard: () =>
+          set((state) => ({ sideboardRunning: true, lastSideboardTickAt: Date.now() }), false, "startSideboard"),
+        pauseSideboard: () =>
+          set({ sideboardRunning: false, lastSideboardTickAt: undefined }, false, "pauseSideboard"),
+        resetSideboard: () =>
+          set((state) => ({ clock: { ...state.clock, sideboardSeconds: 15 * 60 }, sideboardRunning: false, lastSideboardTickAt: undefined }), false, "resetSideboard"),
+        tickSideboard: () =>
+          set((state) => {
+            if (!state.sideboardRunning || !state.lastSideboardTickAt) return state;
+            const now = Date.now();
+            const delta = Math.floor((now - state.lastSideboardTickAt) / 1000);
+            if (delta <= 0) return state;
+            const next = Math.max(0, state.clock.sideboardSeconds - delta);
+            return { clock: { ...state.clock, sideboardSeconds: next }, lastSideboardTickAt: now } as any;
+          }, false, "tickSideboard"),
+
         saveScenario: (s) =>
           set((state) => {
             const existing = state.savedScenarios.filter((x) => x.id !== s.id);
@@ -96,6 +138,10 @@ export const useSimStore = create<SimState>()(
         setActiveScenario: (id) => set({ activeScenarioId: id }, false, "setActiveScenario"),
 
         setStats: (s) => set({ stats: s }, false, "setStats"),
+
+        setEventInfo: (id, round) => set({ eventId: id, roundNumber: round }, false, "setEventInfo"),
+        setPairings: (list) => set({ pairings: list || [] }, false, "setPairings"),
+        setLastJudgeTicketId: (id) => set({ lastJudgeTicketId: id }, false, "setLastJudgeTicketId"),
       }),
       { name: "konivrer-sim-store" },
     ),
