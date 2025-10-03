@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import * as nav from "../nav.css.ts";
 import * as ds from "./deckSearch.css.ts";
 import { Deck, cardDatabase, type Card } from "../data/cards";
-import { useKonivrverGameState } from "../hooks/useKonivrverGameState";
+import { useSimStore } from "../stores/simStore";
 import { DeckBuilderAdvanced } from "../pages/DeckBuilderAdvanced";
 import { useAppStore } from "../stores/appStore";
 import { resolveCardImageUrls } from "../utils/cardImages";
@@ -14,7 +14,7 @@ interface DeckSearchProps {
 export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   const [showBuilder, setShowBuilder] = useState(false);
   const { searchFilters } = useAppStore();
-  const { replaceZone, resetScenario } = useKonivrverGameState();
+  const { setActivePanel } = useSimStore();
 
   // Listen for build deck event from search bar
   React.useEffect(() => {
@@ -64,19 +64,10 @@ export const DeckSearch: React.FC<DeckSearchProps> = ({ onDeckSelect }) => {
   };
 
   const handlePlayInSimulator = (deck: Deck) => {
-    try {
-      // Open a new tab at simulator route
-      const url = `${window.location.origin}${(import.meta as any).env?.BASE_URL || "/"}#simulator`;
-      const win = window.open(url, "_blank");
-      // Stash the deck in localStorage for the new tab to consume
-      localStorage.setItem("konivrer-sim-load-deck", JSON.stringify(deck));
-      // Inform the user if popups are blocked
-      if (!win || win.closed) {
-        alert("Please allow popups to open the simulator in a new tab.");
-      }
-    } catch (e) {
-      console.warn(e);
-    }
+    // In-engine: stash and switch overlay to Lab or Builder
+    localStorage.setItem("konivrer-sim-load-deck", JSON.stringify(deck));
+    setActivePanel("lab");
+    // Simulator overlay will auto-load on next render cycle via existing logic
   };
 
   return (

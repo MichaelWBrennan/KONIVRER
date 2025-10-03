@@ -146,7 +146,7 @@ export const SimulatorOverlay: React.FC = () => {
       {/* Right panel: scenarios and tools */}
       <div style={{ position: "absolute", top: 10, right: 10, width: 460, maxHeight: "90%", overflow: "auto", background: "rgba(10,12,20,0.8)", color: "#fff", padding: 14, borderRadius: 14, pointerEvents: "auto", boxShadow: "0 10px 30px rgba(0,0,0,0.45)", backdropFilter: "blur(6px)" }}>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
-          {(["lab","sideboard","judge","event","scenario","matchup"] as SimPanel[]).map((p) => (
+          {(["lab","builder","sideboard","judge","event","scenario","matchup"] as SimPanel[]).map((p) => (
             <button key={p} style={{ background: activePanel===p?"linear-gradient(135deg,#2b6cb0,#3aa2ff)":"#2a2f3a", color: "#fff", border: activePanel===p?"0":"1px solid #3a3f4a", padding: "8px 12px", borderRadius: 8, transition: "all .2s" }} onClick={() => setActivePanel(p)}>
               {p}
             </button>
@@ -173,6 +173,12 @@ export const SimulatorOverlay: React.FC = () => {
             <div style={{ maxHeight: 200, overflow: "auto", background: "rgba(0,0,0,0.3)", padding: 6, borderRadius: 6 }}>
               <DeckSearch onDeckSelect={() => {}} />
             </div>
+          </div>
+        )}
+
+        {activePanel === "builder" && (
+          <div style={{ marginTop: 12 }}>
+            <DeckSearch onDeckSelect={() => {}} />
           </div>
         )}
 

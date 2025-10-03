@@ -3,7 +3,7 @@ import { persist, devtools } from "zustand/middleware";
 import type { GameState, Card } from "../types/game";
 
 export type SimMode = "practice" | "scrim" | "rehearsal";
-export type SimPanel = "lab" | "sideboard" | "judge" | "event" | "scenario" | "matchup";
+export type SimPanel = "lab" | "builder" | "sideboard" | "judge" | "event" | "scenario" | "matchup";
 
 export interface ScenarioState {
   id: string;

@@ -25,7 +25,7 @@ export const KonivrverSimulator: React.FC = () => {
   useEffect(() => {
     const deviceInfo = detectDevice();
     setDevice(deviceInfo);
-    // Auto-load deck if provided via localStorage (from DeckSearch "Play" action)
+    // Auto-load deck if provided via localStorage (from DeckSearch Play action, in-engine)
     try {
       const raw = localStorage.getItem("konivrer-sim-load-deck");
       if (raw) {
