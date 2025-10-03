@@ -1,7 +1,8 @@
 import React from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Environment, useTexture, useGLTF, Html } from "@react-three/drei";
-import { RepeatWrapping, Color, EquirectangularReflectionMapping, sRGBEncoding } from "three";
+import { OrbitControls, Environment, useTexture, useGLTF, Html, SoftShadows } from "@react-three/drei";
+import { RepeatWrapping, Color, ACESFilmicToneMapping, SRGBColorSpace } from "three";
+import { EffectComposer, Bloom, Vignette, SMAA } from "@react-three/postprocessing";
 import type { GameState, DragState, Card as CardType, KonivrverZoneType } from "../../types/game";
 import type { DeviceInfo } from "../../utils/deviceDetection";
 import { Zones3D } from "./Zones3D";
@@ -40,10 +41,19 @@ export const Board3D: React.FC<Board3DProps> = ({
   const chair = useGLTF("/assets/3d/models/ArmChair_01_1k.gltf");
 
   return (
-    <Canvas shadows camera={{ position: [0, 6, 8], fov: 45 }}>
+    <Canvas
+      shadows
+      camera={{ position: [0, 6, 8], fov: 45 }}
+      gl={(gl) => {
+        (gl as any).outputColorSpace = SRGBColorSpace as any;
+        gl.toneMapping = ACESFilmicToneMapping as any;
+        (gl as any).physicallyCorrectLights = true;
+      }}
+    >
       <color attach="background" args={[0.07, 0.07, 0.09]} />
 
       {/* Lighting */}
+      <SoftShadows size={20} samples={16} focus={0.7} />
       <ambientLight intensity={0.35} />
       <directionalLight
         position={[5, 8, 3]}
@@ -94,7 +104,12 @@ export const Board3D: React.FC<Board3DProps> = ({
       {/* Helpers */}
       {/* Night HDRI for mood (2K) */}
       <Environment files="/assets/3d/hdr/zwinger_night_2k.hdr" background />
-      <OrbitControls enablePan enableZoom enableRotate />
+      <EffectComposer multisampling={0} disableNormalPass>
+        <SMAA />
+        <Bloom luminanceThreshold={0.8} luminanceSmoothing={0.1} intensity={0.3} />
+        <Vignette eskil={false} offset={0.2} darkness={0.8} />
+      </EffectComposer>
+      <OrbitControls enablePan enableZoom enableRotate makeDefault dampingFactor={0.08} enableDamping minDistance={6} maxDistance={14} />
     </Canvas>
   );
 };

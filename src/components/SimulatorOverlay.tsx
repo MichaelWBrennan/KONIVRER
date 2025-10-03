@@ -144,15 +144,15 @@ export const SimulatorOverlay: React.FC = () => {
       </div>
 
       {/* Right panel: scenarios and tools */}
-      <div style={{ position: "absolute", top: 10, right: 10, width: 420, maxHeight: "90%", overflow: "auto", background: "rgba(0,0,0,0.7)", color: "#fff", padding: 12, borderRadius: 10, pointerEvents: "auto" }}>
+      <div style={{ position: "absolute", top: 10, right: 10, width: 460, maxHeight: "90%", overflow: "auto", background: "rgba(10,12,20,0.8)", color: "#fff", padding: 14, borderRadius: 14, pointerEvents: "auto", boxShadow: "0 10px 30px rgba(0,0,0,0.45)", backdropFilter: "blur(6px)" }}>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 8 }}>
           {(["lab","sideboard","judge","event","scenario","matchup"] as SimPanel[]).map((p) => (
-            <button key={p} style={{ background: activePanel===p?"#2b6cb0":"#444", color: "#fff", border: 0, padding: "6px 10px", borderRadius: 6 }} onClick={() => setActivePanel(p)}>
+            <button key={p} style={{ background: activePanel===p?"linear-gradient(135deg,#2b6cb0,#3aa2ff)":"#2a2f3a", color: "#fff", border: activePanel===p?"0":"1px solid #3a3f4a", padding: "8px 12px", borderRadius: 8, transition: "all .2s" }} onClick={() => setActivePanel(p)}>
               {p}
             </button>
           ))}
         </div>
-        <h3 style={{ marginTop: 0, textTransform: "capitalize" }}>{activePanel}</h3>
+        <h3 style={{ marginTop: 0, textTransform: "capitalize", letterSpacing: ".5px" }}>{activePanel}</h3>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           <button onClick={handleSaveScenario}>Save Scenario</button>
           <button onClick={resetScenario}>Reset Scenario</button>

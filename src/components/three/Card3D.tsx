@@ -1,5 +1,5 @@
 import React, { useMemo, useRef } from "react";
-import { Mesh, TextureLoader, DoubleSide } from "three";
+import { Mesh, TextureLoader, DoubleSide, MeshStandardMaterial } from "three";
 import { useLoader } from "@react-three/fiber";
 import type { Card as CardType, DragState } from "../../types/game";
 import { DeviceInfo } from "../../utils/deviceDetection";
@@ -69,7 +69,7 @@ export const Card3D: React.FC<Card3DProps> = ({
       receiveShadow
     >
       <planeGeometry args={[planeW, planeH]} />
-      <meshStandardMaterial map={texture} side={DoubleSide} />
+      <meshStandardMaterial map={texture} side={DoubleSide} roughness={0.6} metalness={0.05} />
     </mesh>
   );
 };
