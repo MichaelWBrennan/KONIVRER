@@ -9,6 +9,9 @@ import { JudgeToolsPanel } from "./panels/JudgeToolsPanel";
 import { EventRehearsalPanel } from "./panels/EventRehearsalPanel";
 import { ScenarioIOPanel } from "./panels/ScenarioIOPanel";
 import { MatchupMatrixPanel } from "./panels/MatchupMatrixPanel";
+import { CardSearch } from "./CardSearch";
+import { DeckSearch } from "./DeckSearch";
+import { useAppStore } from "../stores/appStore";
 
 export const SimulatorOverlay: React.FC = () => {
   const {
@@ -38,6 +41,8 @@ export const SimulatorOverlay: React.FC = () => {
     nextPhase,
     drawCard,
   } = useKonivrverGameState();
+
+  const { setSelectedCard } = useAppStore();
 
   // clock ticking
   useEffect(() => {
@@ -157,6 +162,19 @@ export const SimulatorOverlay: React.FC = () => {
           <button onClick={() => drawCard()}>Draw</button>
           <button onClick={handleExportDeck}>Export Decklist</button>
         </div>
+
+        {activePanel === "lab" && (
+          <div style={{ marginTop: 12 }}>
+            <strong>Cards</strong>
+            <div style={{ maxHeight: 240, overflow: "auto", background: "rgba(0,0,0,0.3)", padding: 6, borderRadius: 6 }}>
+              <CardSearch onCardSelect={(c) => setSelectedCard(c as any)} />
+            </div>
+            <strong style={{ display: "block", marginTop: 10 }}>Decks</strong>
+            <div style={{ maxHeight: 200, overflow: "auto", background: "rgba(0,0,0,0.3)", padding: 6, borderRadius: 6 }}>
+              <DeckSearch onDeckSelect={() => {}} />
+            </div>
+          </div>
+        )}
 
         {activePanel === "sideboard" && <SideboardPanel />}
         {activePanel === "judge" && <JudgeToolsPanel />}
