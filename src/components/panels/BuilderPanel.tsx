@@ -3,6 +3,7 @@ import { useSimStore } from "../../stores/simStore";
 import { CardSearch } from "../CardSearch";
 import { resolveCardImageUrls } from "../../utils/cardImages";
 import type { Card } from "../../types/game";
+import { useKonivrverGameState } from "../../hooks/useKonivrverGameState";
 
 export const BuilderPanel: React.FC = () => {
   const {
@@ -17,6 +18,7 @@ export const BuilderPanel: React.FC = () => {
     loadSavedDeck,
     deleteSavedDeck,
   } = useSimStore();
+  const { resetScenario, replaceZone } = useKonivrverGameState();
 
   const counts = useMemo(() => ({ total: builderDeck.length }), [builderDeck]);
 
@@ -28,6 +30,41 @@ export const BuilderPanel: React.FC = () => {
         <button onClick={() => saveCurrentDeck()}>Save</button>
         <button onClick={() => clearBuilder()}>Clear</button>
         <span style={{ opacity: 0.8, fontSize: 12 }}>Cards: {counts.total}</span>
+        <button
+          onClick={() => {
+            // Export plain-text list for paper deck submission
+            const text = builderDeck.map((c) => c.name).join("\n");
+            const blob = new Blob([text], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${builderName || "deck"}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+          }}
+        >
+          Export decklist
+        </button>
+        <button
+          onClick={() => {
+            // In-engine: reset to preGame and load deck into player's library
+            resetScenario();
+            // small defer to ensure reset applied before replace
+            setTimeout(() => {
+              // Ensure objects match sim card type; reuse existing fields
+              const cards: Card[] = builderDeck.map((c) => ({
+                ...c,
+                isSelected: false,
+                isTapped: false,
+              }));
+              replaceZone(0, "deck", cards);
+            }, 0);
+          }}
+        >
+          Load to simulator
+        </button>
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
