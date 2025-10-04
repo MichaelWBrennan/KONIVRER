@@ -26,6 +26,13 @@ export interface MonteCarloSummary {
   landSpellBalance: { mean: number; stdev: number };
 }
 
+export interface SavedDeck {
+  id: string;
+  name: string;
+  cards: Card[];
+  updatedAt: number;
+}
+
 interface SimState {
   mode: SimMode;
   clock: ClockState;
@@ -46,6 +53,11 @@ interface SimState {
   // Judge state
   lastJudgeTicketId?: string;
 
+  // Builder state
+  builderDeck: Card[];
+  builderName: string;
+  savedDecks: SavedDeck[];
+
   setMode: (m: SimMode) => void;
   setActivePanel: (p: SimPanel) => void;
   startClock: () => void;
@@ -65,6 +77,15 @@ interface SimState {
   setEventInfo: (id: string, round: number) => void;
   setPairings: (list: SimState["pairings"]) => void;
   setLastJudgeTicketId: (id: string) => void;
+
+  // Builder actions
+  setBuilderName: (name: string) => void;
+  addToBuilder: (card: Card) => void;
+  removeFromBuilder: (cardId: string) => void;
+  clearBuilder: () => void;
+  saveCurrentDeck: (name?: string) => void;
+  loadSavedDeck: (id: string) => void;
+  deleteSavedDeck: (id: string) => void;
 }
 
 export const useSimStore = create<SimState>()(
@@ -78,6 +99,10 @@ export const useSimStore = create<SimState>()(
         stats: null,
         activePanel: "lab",
         sideboardRunning: false,
+
+        builderDeck: [],
+        builderName: "New Deck",
+        savedDecks: [],
 
         setMode: (m) => set({ mode: m }, false, "setMode"),
         setActivePanel: (p) => set({ activePanel: p }, false, "setActivePanel"),
@@ -142,6 +167,36 @@ export const useSimStore = create<SimState>()(
         setEventInfo: (id, round) => set({ eventId: id, roundNumber: round }, false, "setEventInfo"),
         setPairings: (list) => set({ pairings: list || [] }, false, "setPairings"),
         setLastJudgeTicketId: (id) => set({ lastJudgeTicketId: id }, false, "setLastJudgeTicketId"),
+
+        setBuilderName: (name) => set({ builderName: name }, false, "setBuilderName"),
+        addToBuilder: (card) =>
+          set((state) => {
+            // Enforce max one copy per card
+            if (state.builderDeck.some((c) => c.id === card.id)) return state;
+            return { builderDeck: [...state.builderDeck, card] };
+          }, false, "addToBuilder"),
+        removeFromBuilder: (cardId) =>
+          set((state) => ({ builderDeck: state.builderDeck.filter((c) => c.id !== cardId) }), false, "removeFromBuilder"),
+        clearBuilder: () => set({ builderDeck: [] }, false, "clearBuilder"),
+        saveCurrentDeck: (name) =>
+          set((state) => {
+            const id = crypto.randomUUID();
+            const deck: SavedDeck = {
+              id,
+              name: name || state.builderName || "Deck",
+              cards: state.builderDeck,
+              updatedAt: Date.now(),
+            };
+            return { savedDecks: [...state.savedDecks.filter((d) => d.name !== deck.name), deck], builderName: deck.name };
+          }, false, "saveCurrentDeck"),
+        loadSavedDeck: (id) =>
+          set((state) => {
+            const deck = state.savedDecks.find((d) => d.id === id);
+            if (!deck) return state;
+            return { builderDeck: deck.cards, builderName: deck.name };
+          }, false, "loadSavedDeck"),
+        deleteSavedDeck: (id) =>
+          set((state) => ({ savedDecks: state.savedDecks.filter((d) => d.id !== id) }), false, "deleteSavedDeck"),
       }),
       { name: "konivrer-sim-store" },
     ),

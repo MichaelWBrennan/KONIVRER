@@ -12,6 +12,7 @@ import { MatchupMatrixPanel } from "./panels/MatchupMatrixPanel";
 import { CardSearch } from "./CardSearch";
 import { DeckSearch } from "./DeckSearch";
 import { useAppStore } from "../stores/appStore";
+import { BuilderPanel } from "./panels/BuilderPanel";
 
 export const SimulatorOverlay: React.FC = () => {
   const {
@@ -178,7 +179,7 @@ export const SimulatorOverlay: React.FC = () => {
 
         {activePanel === "builder" && (
           <div style={{ marginTop: 12 }}>
-            <DeckSearch onDeckSelect={() => {}} />
+            <BuilderPanel />
           </div>
         )}
 
