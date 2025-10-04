@@ -148,6 +148,25 @@ export const useKonivrverGameState = () => {
     validDropZones: [],
   });
 
+  // Listen for external deck load events (from simulator window open)
+  // This keeps the hook decoupled while allowing DeckSearch to handoff via localStorage + event.
+  useEffect(() => {
+    const onLoad = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { cards: Card[] } | undefined;
+      if (!detail) return;
+      setGameState((prev) => {
+        const next = { ...prev };
+        next.players[next.currentPlayer].zones.deck.cards = detail.cards as any;
+        // Move to practice start state
+        next.turn = 1;
+        next.phase = "preGame" as KonivrverPhase;
+        return next;
+      });
+    };
+    window.addEventListener("konivrer-load-deck", onLoad as EventListener);
+    return () => window.removeEventListener("konivrer-load-deck", onLoad as EventListener);
+  }, []);
+
   // Get current player's life total from life cards
   const getCurrentPlayerLife = useCallback(() => {
     const currentPlayer = gameState.players[gameState.currentPlayer];
@@ -270,6 +289,37 @@ export const useKonivrverGameState = () => {
     });
   }, []);
 
+  // Draw N cards for the current player
+  const drawNCards = useCallback((n: number) => {
+    setGameState((prev) => {
+      const newState = { ...prev };
+      const player = newState.players[newState.currentPlayer];
+      for (let i = 0; i < n; i++) {
+        const deck = player.zones.deck;
+        const hand = player.zones.hand;
+        if (deck.cards.length > 0) {
+          const c = deck.cards.pop()!;
+          hand.cards.push(c);
+        }
+      }
+      return newState;
+    });
+  }, []);
+
+  // Replace a whole zone's cards
+  const replaceZone = useCallback(
+    (playerIndex: number, zoneId: KonivrverZoneType, cards: Card[]) => {
+      setGameState((prev) => {
+        const next = { ...prev };
+        if (next.players[playerIndex]?.zones?.[zoneId]) {
+          next.players[playerIndex].zones[zoneId].cards = cards;
+        }
+        return next;
+      });
+    },
+    [],
+  );
+
   // Play a card from hand
   const playCard = useCallback(
     (card: Card) => {
@@ -329,6 +379,31 @@ export const useKonivrverGameState = () => {
     [gameState],
   );
 
+  // Scenario helpers for simulator overlay
+  const exportScenario = useCallback(() => {
+    return JSON.parse(JSON.stringify(gameState)) as GameState;
+  }, [gameState]);
+
+  const loadScenario = useCallback((state: GameState) => {
+    setGameState(JSON.parse(JSON.stringify(state)) as GameState);
+  }, []);
+
+  const resetScenario = useCallback(() => {
+    setGameState((prev) => ({
+      ...prev,
+      turn: 1,
+      phase: "preGame",
+      // clear zones for both players but preserve azoth pools
+      players: prev.players.map((p) => ({
+        ...p,
+        zones: Object.fromEntries(
+          Object.entries(p.zones).map(([k, z]) => [k, { ...z, cards: [] }]),
+        ) as any,
+      })) as any,
+      stack: [],
+    }));
+  }, []);
+
   return {
     gameState,
     dragState,
@@ -339,5 +414,10 @@ export const useKonivrverGameState = () => {
     nextPhase,
     drawCard,
     playCard,
+    exportScenario,
+    loadScenario,
+    resetScenario,
+    drawNCards,
+    replaceZone,
   };
 };

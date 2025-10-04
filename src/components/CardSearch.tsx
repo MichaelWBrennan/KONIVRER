@@ -12,7 +12,7 @@ interface CardSearchProps {
   onCardSelect?: (card: Card) => void;
 }
 
-export const CardSearch: React.FC<CardSearchProps> = () => {
+export const CardSearch: React.FC<CardSearchProps> = ({ onCardSelect }) => {
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { searchFilters, setSearchFilters } = useAppStore();
 
@@ -73,7 +73,10 @@ export const CardSearch: React.FC<CardSearchProps> = () => {
             <div
               key={card.id}
               className={`card-item ${cs.cardItem}`}
-              onClick={() => setSelectedCard(card)}
+              onClick={() => {
+                onCardSelect?.(card);
+                setSelectedCard(card);
+              }}
             >
               <picture>
                 {(() => {

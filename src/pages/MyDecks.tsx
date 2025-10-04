@@ -9,8 +9,28 @@ interface DeckWithActions extends Deck {
   created: Date;
 }
 
-// User decks will be loaded from backend
-const mockUserDecks: DeckWithActions[] = [];
+// User decks local storage fallback
+function loadUserDecks(): DeckWithActions[] {
+  try {
+    const decksRaw = localStorage.getItem("konivrer-user-decks") || "[]";
+    const decks = JSON.parse(decksRaw) as Array<{ id: string; name: string; cards: any[]; description?: string; createdAt?: number; updatedAt?: number }>;
+    return decks.map((d) => ({
+      id: d.id,
+      name: d.name,
+      description: d.description || "",
+      cards: d.cards,
+      azothIdentity: [],
+      format: "KNR",
+      createdAt: new Date(d.createdAt || Date.now()),
+      updatedAt: new Date(d.updatedAt || Date.now()),
+      winRate: 0,
+      isPublic: false,
+      created: new Date(d.createdAt || Date.now()),
+    }));
+  } catch {
+    return [];
+  }
+}
 
 export const MyDecks: React.FC = () => {
   const { searchFilters } = useAppStore();
@@ -21,7 +41,7 @@ export const MyDecks: React.FC = () => {
 
   // Filter and sort user decks
   const filteredDecks = useMemo(() => {
-    let decks = mockUserDecks.filter((deck) => {
+    let decks = loadUserDecks().filter((deck) => {
       const matchesSearch =
         !searchFilters.search ||
         deck.name.toLowerCase().includes(searchFilters.search.toLowerCase()) ||
