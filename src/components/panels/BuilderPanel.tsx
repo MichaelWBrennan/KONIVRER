@@ -27,7 +27,27 @@ export const BuilderPanel: React.FC = () => {
       <h4>Deck Builder</h4>
       <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 8 }}>
         <input value={builderName} onChange={(e) => setBuilderName(e.target.value)} placeholder="Deck name" />
-        <button onClick={() => saveCurrentDeck()}>Save</button>
+        <button
+          onClick={() => {
+            saveCurrentDeck();
+            try {
+              const decksRaw = localStorage.getItem("konivrer-user-decks") || "[]";
+              const decks = JSON.parse(decksRaw) as Array<{ id: string; name: string; cards: any[]; description?: string; createdAt?: number; updatedAt?: number }>;
+              const newDeck = {
+                id: crypto.randomUUID(),
+                name: builderName || "Deck",
+                description: "Saved from Simulator Builder",
+                cards: builderDeck.map((c) => c.id),
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+              };
+              const deduped = [newDeck, ...decks.filter((d) => d.name !== newDeck.name)];
+              localStorage.setItem("konivrer-user-decks", JSON.stringify(deduped));
+            } catch {}
+          }}
+        >
+          Save
+        </button>
         <button onClick={() => clearBuilder()}>Clear</button>
         <span style={{ opacity: 0.8, fontSize: 12 }}>Cards: {counts.total}</span>
         <button
