@@ -3,7 +3,7 @@ import { persist, devtools } from "zustand/middleware";
 import type { GameState, Card } from "../types/game";
 
 export type SimMode = "practice" | "scrim" | "rehearsal";
-export type SimPanel = "lab" | "builder" | "sideboard" | "judge" | "event" | "scenario" | "matchup";
+export type SimPanel = "lab" | "builder" | "judge" | "event" | "scenario" | "matchup";
 
 export interface ScenarioState {
   id: string;
@@ -14,7 +14,6 @@ export interface ScenarioState {
 
 export interface ClockState {
   roundSeconds: number;
-  sideboardSeconds: number;
   running: boolean;
   lastTickAt?: number;
 }
@@ -41,10 +40,6 @@ interface SimState {
   stats: MonteCarloSummary | null;
   activePanel: SimPanel;
 
-  // Sideboard timer controls
-  sideboardRunning: boolean;
-  lastSideboardTickAt?: number;
-
   // Event rehearsal state
   eventId?: string;
   roundNumber?: number;
@@ -64,10 +59,6 @@ interface SimState {
   pauseClock: () => void;
   resetClock: () => void;
   tick: () => void;
-  startSideboard: () => void;
-  pauseSideboard: () => void;
-  resetSideboard: () => void;
-  tickSideboard: () => void;
 
   saveScenario: (s: ScenarioState) => void;
   deleteScenario: (id: string) => void;
@@ -93,12 +84,11 @@ export const useSimStore = create<SimState>()(
     persist(
       (set, get) => ({
         mode: "practice",
-        clock: { roundSeconds: 45 * 60, sideboardSeconds: 10 * 60, running: false },
+        clock: { roundSeconds: 45 * 60, running: false },
         savedScenarios: [],
         activeScenarioId: null,
         stats: null,
         activePanel: "lab",
-        sideboardRunning: false,
 
         builderDeck: [],
         builderName: "New Deck",
@@ -118,7 +108,7 @@ export const useSimStore = create<SimState>()(
           }), false, "pauseClock"),
 
         resetClock: () =>
-          set({ clock: { roundSeconds: 45 * 60, sideboardSeconds: 10 * 60, running: false } }, false, "resetClock"),
+          set({ clock: { roundSeconds: 45 * 60, running: false } }, false, "resetClock"),
 
         tick: () =>
           set((state) => {
@@ -132,21 +122,6 @@ export const useSimStore = create<SimState>()(
             };
           }, false, "tick"),
 
-        startSideboard: () =>
-          set((state) => ({ sideboardRunning: true, lastSideboardTickAt: Date.now() }), false, "startSideboard"),
-        pauseSideboard: () =>
-          set({ sideboardRunning: false, lastSideboardTickAt: undefined }, false, "pauseSideboard"),
-        resetSideboard: () =>
-          set((state) => ({ clock: { ...state.clock, sideboardSeconds: 15 * 60 }, sideboardRunning: false, lastSideboardTickAt: undefined }), false, "resetSideboard"),
-        tickSideboard: () =>
-          set((state) => {
-            if (!state.sideboardRunning || !state.lastSideboardTickAt) return state;
-            const now = Date.now();
-            const delta = Math.floor((now - state.lastSideboardTickAt) / 1000);
-            if (delta <= 0) return state;
-            const next = Math.max(0, state.clock.sideboardSeconds - delta);
-            return { clock: { ...state.clock, sideboardSeconds: next }, lastSideboardTickAt: now } as any;
-          }, false, "tickSideboard"),
 
         saveScenario: (s) =>
           set((state) => {
