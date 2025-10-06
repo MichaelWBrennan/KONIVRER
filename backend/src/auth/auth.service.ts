@@ -12,6 +12,7 @@ import * as crypto from "crypto";
 import { User } from "../users/entities/user.entity";
 import { LoginDto, RegisterDto } from "./dto/auth.dto";
 import { UserRole } from "../users/entities/user.entity";
+import { EmailService } from "../email/email.service";
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly emailService: EmailService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -73,8 +75,8 @@ export class AuthService {
     // Generate tokens
     const tokens = await this.generateTokens(savedUser);
 
-    // TODO: Send verification email
-    // await this.emailService.sendVerificationEmail(email, emailVerificationToken);
+    // Send verification email
+    await this.emailService.sendVerificationEmail(email, username, emailVerificationToken);
 
     return {
       message:
@@ -202,8 +204,8 @@ export class AuthService {
     user.passwordResetExpiry = resetTokenExpiry;
     await this.userRepository.save(user);
 
-    // TODO: Send password reset email
-    // await this.emailService.sendPasswordResetEmail(email, resetToken);
+    // Send password reset email
+    await this.emailService.sendPasswordResetEmail(email, user.username, resetToken);
 
     return {
       message:
@@ -254,6 +256,9 @@ export class AuthService {
     user.emailVerificationToken = null;
     await this.userRepository.save(user);
 
+    // Send welcome email
+    await this.emailService.sendWelcomeEmail(email, user.username);
+
     return { message: "Email verified successfully" };
   }
 
@@ -276,8 +281,8 @@ export class AuthService {
     user.emailVerificationToken = emailVerificationToken;
     await this.userRepository.save(user);
 
-    // TODO: Send verification email
-    // await this.emailService.sendVerificationEmail(email, emailVerificationToken);
+    // Send verification email
+    await this.emailService.sendVerificationEmail(email, user.username, emailVerificationToken);
 
     return {
       message:
