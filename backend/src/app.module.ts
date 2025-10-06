@@ -32,6 +32,7 @@ import { ProgressionModule } from "./progression/progression.module";
 import { EmailModule } from "./email/email.module";
 import { SocialMediaModule } from "./social-media/social-media.module";
 import { MarketplaceModule } from "./marketplace/marketplace.module";
+import { AiOpponentModule } from "./ai-opponent/ai-opponent.module";
 
 @Module({
   imports: [
@@ -111,6 +112,7 @@ import { MarketplaceModule } from "./marketplace/marketplace.module";
     EmailModule,
     SocialMediaModule,
     MarketplaceModule,
+    AiOpponentModule,
   ],
   controllers: [],
   providers: [
