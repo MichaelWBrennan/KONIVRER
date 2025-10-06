@@ -33,6 +33,7 @@ import { EmailModule } from "./email/email.module";
 import { SocialMediaModule } from "./social-media/social-media.module";
 import { MarketplaceModule } from "./marketplace/marketplace.module";
 import { AiOpponentModule } from "./ai-opponent/ai-opponent.module";
+import { GuildsModule } from "./guilds/guilds.module";
 
 @Module({
   imports: [
@@ -113,6 +114,7 @@ import { AiOpponentModule } from "./ai-opponent/ai-opponent.module";
     SocialMediaModule,
     MarketplaceModule,
     AiOpponentModule,
+    GuildsModule,
   ],
   controllers: [],
   providers: [
