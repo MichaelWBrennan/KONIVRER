@@ -22,6 +22,9 @@ export class Guild {
   @Column({ nullable: true })
   logo: string;
 
+  @Column({ nullable: true })
+  storeId: string; // Link to store for store teams
+
   @Column({ type: 'json', default: '{}' })
   settings: {
     isPublic: boolean;

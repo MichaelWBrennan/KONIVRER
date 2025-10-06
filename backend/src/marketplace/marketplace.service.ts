@@ -6,7 +6,6 @@ import { Deck } from '../decks/entities/deck.entity';
 import { PriceHistory } from './entities/price-history.entity';
 import { MarketplaceCard } from './entities/marketplace-card.entity';
 import { TCGPlayerService } from './services/tcgplayer.service';
-import { ScryfallService } from './services/scryfall.service';
 import { PriceTrackingService } from './services/price-tracking.service';
 
 interface CardSearchResult {
@@ -91,7 +90,6 @@ export class MarketplaceService {
     @InjectRepository(MarketplaceCard)
     private readonly marketplaceCardRepository: Repository<MarketplaceCard>,
     private readonly tcgPlayerService: TCGPlayerService,
-    private readonly scryfallService: ScryfallService,
     private readonly priceTrackingService: PriceTrackingService,
   ) {}
 
