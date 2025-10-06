@@ -29,6 +29,7 @@ import { AnalyticsModule } from "./analytics/analytics.module";
 import { OcrModule } from "./ocr/ocr.module";
 import { UpscalingModule } from "./upscaling/upscaling.module";
 import { ProgressionModule } from "./progression/progression.module";
+import { EmailModule } from "./email/email.module";
 
 @Module({
   imports: [
@@ -105,6 +106,7 @@ import { ProgressionModule } from "./progression/progression.module";
     OcrModule,
     UpscalingModule,
     ProgressionModule,
+    EmailModule,
   ],
   controllers: [],
   providers: [

@@ -10,6 +10,7 @@ import { User } from "../users/entities/user.entity";
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { RolesGuard } from "./guards/roles.guard";
+import { EmailModule } from "../email/email.module";
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { RolesGuard } from "./guards/roles.guard";
         },
       }),
     }),
+    EmailModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy, JwtAuthGuard, RolesGuard],
