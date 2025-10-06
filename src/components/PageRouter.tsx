@@ -37,6 +37,9 @@ const LazySettings = lazy(() =>
 const LazyLore = lazy(() =>
   import("../pages/Lore").then((m) => ({ default: m.Lore })),
 );
+const LazySocial = lazy(() =>
+  import("../pages/SocialPage").then((m) => ({ default: m.SocialPage })),
+);
 
 import { Home } from "../pages/Home";
 import { Offline } from "../pages/Offline";
@@ -55,7 +58,8 @@ export type Page =
   | "rules"
   | "judge"
   | "settings"
-  | "lore";
+  | "lore"
+  | "social";
 
 interface PageRouterProps {
   currentPage: Page;
@@ -175,6 +179,13 @@ export function PageRouter({
         return (
           <Suspense fallback={<div>Loading Settings...</div>}>
             <LazySettings />
+          </Suspense>
+        );
+
+      case "social":
+        return (
+          <Suspense fallback={<div>Loading Social Media...</div>}>
+            <LazySocial />
           </Suspense>
         );
 

@@ -25,7 +25,8 @@ interface BubbleMenuProps {
       | "events"
       | "my-decks"
       | "rules"
-      | "judge",
+      | "judge"
+      | "social",
   ) => void;
   onSearch?: (query: string) => void;
 }
@@ -139,6 +140,10 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
       : []),
     { id: "simulator" as const, label: "Sim" },
     { id: "rules" as const, label: "Rules" },
+    // Only show Social Media when logged in
+    ...(isAuthenticated
+      ? [{ id: "social" as const, label: "Social" }]
+      : []),
     // Only show Judge Portal to authenticated judges and admins
     ...(canAccessJudgePortal()
       ? [{ id: "judge" as const, label: "Judge Portal" }]

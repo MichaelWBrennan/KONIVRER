@@ -30,6 +30,7 @@ import { OcrModule } from "./ocr/ocr.module";
 import { UpscalingModule } from "./upscaling/upscaling.module";
 import { ProgressionModule } from "./progression/progression.module";
 import { EmailModule } from "./email/email.module";
+import { SocialMediaModule } from "./social-media/social-media.module";
 
 @Module({
   imports: [
@@ -107,6 +108,7 @@ import { EmailModule } from "./email/email.module";
     UpscalingModule,
     ProgressionModule,
     EmailModule,
+    SocialMediaModule,
   ],
   controllers: [],
   providers: [
