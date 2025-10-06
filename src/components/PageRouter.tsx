@@ -40,6 +40,12 @@ const LazyLore = lazy(() =>
 const LazySocial = lazy(() =>
   import("../pages/SocialPage").then((m) => ({ default: m.SocialPage })),
 );
+const LazyMarketplace = lazy(() =>
+  import("../pages/Marketplace").then((m) => ({ default: m.Marketplace })),
+);
+const LazyProfile = lazy(() =>
+  import("../pages/Profile").then((m) => ({ default: m.Profile })),
+);
 
 import { Home } from "../pages/Home";
 import { Offline } from "../pages/Offline";
@@ -59,7 +65,9 @@ export type Page =
   | "judge"
   | "settings"
   | "lore"
-  | "social";
+  | "social"
+  | "marketplace"
+  | "profile";
 
 interface PageRouterProps {
   currentPage: Page;
@@ -186,6 +194,20 @@ export function PageRouter({
         return (
           <Suspense fallback={<div>Loading Social Media...</div>}>
             <LazySocial />
+          </Suspense>
+        );
+
+      case "marketplace":
+        return (
+          <Suspense fallback={<div>Loading Marketplace...</div>}>
+            <LazyMarketplace />
+          </Suspense>
+        );
+
+      case "profile":
+        return (
+          <Suspense fallback={<div>Loading Profile...</div>}>
+            <LazyProfile />
           </Suspense>
         );
 

@@ -31,6 +31,7 @@ import { UpscalingModule } from "./upscaling/upscaling.module";
 import { ProgressionModule } from "./progression/progression.module";
 import { EmailModule } from "./email/email.module";
 import { SocialMediaModule } from "./social-media/social-media.module";
+import { MarketplaceModule } from "./marketplace/marketplace.module";
 
 @Module({
   imports: [
@@ -109,6 +110,7 @@ import { SocialMediaModule } from "./social-media/social-media.module";
     ProgressionModule,
     EmailModule,
     SocialMediaModule,
+    MarketplaceModule,
   ],
   controllers: [],
   providers: [

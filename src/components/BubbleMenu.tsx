@@ -26,7 +26,9 @@ interface BubbleMenuProps {
       | "my-decks"
       | "rules"
       | "judge"
-      | "social",
+      | "social"
+      | "marketplace"
+      | "profile",
   ) => void;
   onSearch?: (query: string) => void;
 }
@@ -143,6 +145,14 @@ export const BubbleMenu: React.FC<BubbleMenuProps> = ({
     // Only show Social Media when logged in
     ...(isAuthenticated
       ? [{ id: "social" as const, label: "Social" }]
+      : []),
+    // Only show Marketplace when logged in
+    ...(isAuthenticated
+      ? [{ id: "marketplace" as const, label: "Marketplace" }]
+      : []),
+    // Only show Profile when logged in
+    ...(isAuthenticated
+      ? [{ id: "profile" as const, label: "Profile" }]
       : []),
     // Only show Judge Portal to authenticated judges and admins
     ...(canAccessJudgePortal()

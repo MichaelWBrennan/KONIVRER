@@ -1,50 +1,24 @@
-import React, { useEffect, useState } from "react";
-import * as s from "./settings.css.ts";
-import { useAuth } from "../hooks/useAuth";
-import { TournamentSection } from "../components/TournamentSection";
-import { QualificationTracker } from "../components/QualificationTracker";
-import {
-  ProgressionService,
-  TournamentProfileDto,
-} from "../services/progressionService";
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
+import { UserProfile } from '../components/profile/UserProfile';
 
 export const Profile: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
-  const [profile, setProfile] = useState<TournamentProfileDto | null>(null);
+  const { user } = useAuth();
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isAuthenticated && user?.id) {
-      ProgressionService.getProfile(user.id)
-        .then(setProfile)
-        .catch(() => setProfile(null));
+    if (user?.id) {
+      setCurrentUserId(user.id);
     }
-  }, [isAuthenticated, user?.id]);
+  }, [user]);
 
-  if (!isAuthenticated) {
+  if (!currentUserId) {
     return (
-      <div className={s.root}>
-        <section className={s.section}>
-          <div className={s.sectionTitle}>Profile</div>
-          <p>Please log in to view your profile.</p>
-        </section>
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <p>Please log in to view your profile.</p>
       </div>
     );
   }
 
-  return (
-    <div className={s.root}>
-      <section className={s.section}>
-        <div className={s.sectionTitle}>Profile</div>
-        <div className="small text-muted">
-          {user?.displayName || user?.username}
-        </div>
-      </section>
-
-      <section className={s.section}>
-        <div className={s.sectionTitle}>Tournament Points</div>
-        <TournamentSection userId={user?.id || ""} />
-        <QualificationTracker currentPoints={profile?.currentPoints || 0} />
-      </section>
-    </div>
-  );
+  return <UserProfile userId={currentUserId} />;
 };
