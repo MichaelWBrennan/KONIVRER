@@ -30,6 +30,14 @@ import { OcrModule } from "./ocr/ocr.module";
 import { UpscalingModule } from "./upscaling/upscaling.module";
 import { ProgressionModule } from "./progression/progression.module";
 import { EmailModule } from "./email/email.module";
+import { SocialMediaModule } from "./social-media/social-media.module";
+import { MarketplaceModule } from "./marketplace/marketplace.module";
+import { AiOpponentModule } from "./ai-opponent/ai-opponent.module";
+import { GuildsModule } from "./guilds/guilds.module";
+import { AchievementsModule } from "./achievements/achievements.module";
+import { TournamentOrganizerModule } from "./tournament-organizers/tournament-organizers.module";
+import { RealTimeModule } from "./real-time/real-time.module";
+import { AdvancedTournamentsModule } from "./advanced-tournaments/advanced-tournaments.module";
 
 @Module({
   imports: [
@@ -107,6 +115,14 @@ import { EmailModule } from "./email/email.module";
     UpscalingModule,
     ProgressionModule,
     EmailModule,
+    SocialMediaModule,
+    MarketplaceModule,
+    AiOpponentModule,
+    GuildsModule,
+    AchievementsModule,
+    TournamentOrganizerModule,
+    RealTimeModule,
+    AdvancedTournamentsModule,
   ],
   controllers: [],
   providers: [
